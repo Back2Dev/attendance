@@ -1,0 +1,28 @@
+{
+  "name": "b2b-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "ajv": "^6.4.0",
+    "apollo-client-preset": "^1.0.8",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.8.0",
+    "postcss": "^6.0.21",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-apollo": "^2.1.1",
+    "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "redux": "^3.7.2",
+    "semantic-ui-react": "^0.79.0",
+    "sugar": "^2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
