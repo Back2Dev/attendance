@@ -1,0 +1,391 @@
+{
+	"output_files": [
+		{
+			"path": "client/views/router.js",
+			"checksum": "9412919027b6fc716310cb9a41bf541788bfa66d"
+		},
+		{
+			"path": "server/controllers/router.js",
+			"checksum": "f9d076cc64b65aa4ce85d9ca7272d8cfefc46694"
+		},
+		{
+			"path": "client/client.js",
+			"checksum": "9ad1d4d4daa59ba008076b36831565acd66487bf"
+		},
+		{
+			"path": "server/server.js",
+			"checksum": "7b4c8818056ab66d500036660ed2b41a944290b2"
+		},
+		{
+			"path": "client/views/not_found/not_found.html",
+			"checksum": "df91b51c0a4787a26c4a7ea8ad72ca8310f72b41"
+		},
+		{
+			"path": "client/views/not_found/not_found.js",
+			"checksum": "b399a9a22e2f99c058a00b68bf264a244f09deaf"
+		},
+		{
+			"path": "client/views/loading/loading.html",
+			"checksum": "99e97ba60ddf18b9ed3977aa1f73b1fe3494922a"
+		},
+		{
+			"path": "client/views/loading/loading.js",
+			"checksum": "bd568a6b49a113afe91fedda35a96125c9731a87"
+		},
+		{
+			"path": "client/styles/styles/styles.less",
+			"checksum": "9caef562b0c56a0154ad32d00a82048a4d0f727d"
+		},
+		{
+			"path": "client/views/layout/layout.html",
+			"checksum": "095d479805871375364b0001350902a1c7acbdb0"
+		},
+		{
+			"path": "client/views/layout/layout.js",
+			"checksum": "aeeceb0cddb7e64c8bd8a659b4b6c08e65a602d9"
+		},
+		{
+			"path": "client/views/home/home.html",
+			"checksum": "25b97b20d3d4b82e33ef371c48f5aeb45159831c"
+		},
+		{
+			"path": "client/views/home/home.js",
+			"checksum": "053d257d3dcd3ed66bea71ce1320899e9223331e"
+		},
+		{
+			"path": "client/views/home/home_controller.js",
+			"checksum": "af1cb186b44f3a9a91dff51b73d24184d9fde2b7"
+		},
+		{
+			"path": "client/views/people/people.html",
+			"checksum": "4ad4ba6dfb03df79bce47d7f1b5cf8dd80c0f6cf"
+		},
+		{
+			"path": "client/views/people/people.js",
+			"checksum": "3b42efd087b73eec9161108e6e509f887b3b5413"
+		},
+		{
+			"path": "client/views/people/people_controller.js",
+			"checksum": "e1ae09db1c7ea06d8516fcc906da028fdd2ad0a4"
+		},
+		{
+			"path": "client/views/people/insert/insert.html",
+			"checksum": "522c0448f1be303b8a6ea81a2786e0d39d52b824"
+		},
+		{
+			"path": "client/views/people/insert/insert.js",
+			"checksum": "5141ce5f4d04746434ae642f1771d74077556b1e"
+		},
+		{
+			"path": "client/views/people/insert/insert_controller.js",
+			"checksum": "a9adf553f26e827e174b6607d9ba9582c8690609"
+		},
+		{
+			"path": "client/views/people/edit/edit.html",
+			"checksum": "2973c78915d89f693e656696f85509a5e1636f88"
+		},
+		{
+			"path": "client/views/people/edit/edit.js",
+			"checksum": "cb08e877e86735d1d8b0b88042c0f6bbf6721f09"
+		},
+		{
+			"path": "client/views/people/edit/edit_controller.js",
+			"checksum": "fbec3f249e8c62a9bf69da5be152cdd4dc4e3508"
+		},
+		{
+			"path": "client/views/roles/roles.html",
+			"checksum": "1b94142a019487cbe7fb7713b342cbcfbe93b945"
+		},
+		{
+			"path": "client/views/roles/roles.js",
+			"checksum": "7cea0cb16cc95c1036bf026b0af50406f1a51357"
+		},
+		{
+			"path": "client/views/roles/roles_controller.js",
+			"checksum": "69ff38e93b581627e842f7bbaa88db06610a20d6"
+		},
+		{
+			"path": "client/views/roles/insert/insert.html",
+			"checksum": "b45e9396c4c40f32e63f82ffa8adc8d47480b283"
+		},
+		{
+			"path": "client/views/roles/insert/insert.js",
+			"checksum": "8c47d21ed668accc4dba4e46fb10fc5b07d687eb"
+		},
+		{
+			"path": "client/views/roles/insert/insert_controller.js",
+			"checksum": "9931732b96714288c0a13559bef1d518e1906ca2"
+		},
+		{
+			"path": "client/views/roles/edit/edit.html",
+			"checksum": "daa7b92c122a8724c936f7920fdad33cad7b99c3"
+		},
+		{
+			"path": "client/views/roles/edit/edit.js",
+			"checksum": "0d7d5494bdb8dbfe8b662cd49d17116a4f6fb4a7"
+		},
+		{
+			"path": "client/views/roles/edit/edit_controller.js",
+			"checksum": "9ddf5dd0aaed85931996c35451f1012e283f34fb"
+		},
+		{
+			"path": "client/views/profiles/profiles.html",
+			"checksum": "fbad33c899aea66cc7f8056e22c37fb21316aea7"
+		},
+		{
+			"path": "client/views/profiles/profiles.js",
+			"checksum": "65a534bb4462332f7e40283f9551dfc29bdbf2c9"
+		},
+		{
+			"path": "client/views/profiles/profiles_controller.js",
+			"checksum": "a3b1eecaa1680adf1352fe7dbd47d8528314aec1"
+		},
+		{
+			"path": "client/views/profiles/insert/insert.html",
+			"checksum": "f77f54a66111a69d8bf2543bb468abbeaed298d2"
+		},
+		{
+			"path": "client/views/profiles/insert/insert.js",
+			"checksum": "4efaec9f623d40923e4569be4acb804106e5dc8e"
+		},
+		{
+			"path": "client/views/profiles/insert/insert_controller.js",
+			"checksum": "2313d904546a274eb207f219f0d8cd1ff605ae83"
+		},
+		{
+			"path": "client/views/profiles/edit/edit.html",
+			"checksum": "78fe4c91b1fec5dc577ef6e70f07cff48e710c5f"
+		},
+		{
+			"path": "client/views/profiles/edit/edit.js",
+			"checksum": "612358ab6d425364d7a8ddbba359459a39631f68"
+		},
+		{
+			"path": "client/views/profiles/edit/edit_controller.js",
+			"checksum": "50a4f3d49d4e6176ae034e2c9117a663d6db2add"
+		},
+		{
+			"path": "both/collections/people.js",
+			"checksum": "8664409dd4eb7295d2787e7e3b4fdfdb9957214c"
+		},
+		{
+			"path": "server/methods/people.js",
+			"checksum": "c9ee646a4d5ccbe5e4b7e4349ce8ca9fcb1ad694"
+		},
+		{
+			"path": "server/collections/people.js",
+			"checksum": "4c575331c4754191c66ccd804f1168865629fff7"
+		},
+		{
+			"path": "server/publish/people.js",
+			"checksum": "06538641851a589fba9d3ba83dccc85cd4dab987"
+		},
+		{
+			"path": "both/collections/roles.js",
+			"checksum": "fee722e3f9af10468683fca6046e56d441f70904"
+		},
+		{
+			"path": "server/methods/roles.js",
+			"checksum": "d9793e64680b16a85d7b31bf9152f7ac8589bb7e"
+		},
+		{
+			"path": "server/collections/roles.js",
+			"checksum": "ba2d3a9c7540443cf188ea04d913768a82a82f98"
+		},
+		{
+			"path": "server/publish/roles.js",
+			"checksum": "86b83f077b882b5da7206a112148cce9769f0fb4"
+		},
+		{
+			"path": "both/collections/profiles.js",
+			"checksum": "ef877a473d769a6c3a174a32512f5f4b2395a4c5"
+		},
+		{
+			"path": "server/methods/profiles.js",
+			"checksum": "4ab39c59dae6a24e164452fd9b508aa09ff459ec"
+		},
+		{
+			"path": "server/collections/profiles.js",
+			"checksum": "3082774a36b1471b13389b69b836a89b9b286ca9"
+		},
+		{
+			"path": "server/publish/profiles.js",
+			"checksum": "d1c7310ed84d41990690837c6c015a018ae6661d"
+		},
+		{
+			"path": "lib/string_utils.js",
+			"checksum": "6bf8f64bf32bd7aff71cbeeba23df9fb8282a12c"
+		},
+		{
+			"path": "lib/object_utils.js",
+			"checksum": "0660e53aff2c1841d88a344b80af744fb8c9b15c"
+		},
+		{
+			"path": "client/lib/http_utils.js",
+			"checksum": "740095219b687a460a789da9ab9ef4d64a111b9c"
+		},
+		{
+			"path": "client/lib/router_utils.js",
+			"checksum": "6c525b829661ff9a2e4de74a669127f24db4e6ce"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3/custom.bootstrap.import.less",
+			"checksum": "8007cd69773c1c62284460f7c0fd8310e7f60094"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3/custom.bootstrap.json",
+			"checksum": "59c3803dde72dfd34e95a52dc4f5cae65018ec38"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3/custom.bootstrap.less",
+			"checksum": "a114a65d406f228e4137a3fb7b33047c40a5cd68"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3/custom.bootstrap.mixins.import.less",
+			"checksum": "b53332a4c7dffc57aefda1db82b4e09258dad07a"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput.css",
+			"checksum": "30ba45c948bcb125cf0cb550b4a9d2f13ffcc710"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput.js",
+			"checksum": "b6c83cb478c232284b8b6cae90d0ec2840d93332"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_cz.js",
+			"checksum": "146a2a2bd0e89b62b775eee929907970e875ddf6"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_de.js",
+			"checksum": "fcad7c9406cb7ab1959ee5a62825a62b905f34a2"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_el.js",
+			"checksum": "d00eebe17389c41dbdfdd5611573ba52169f16eb"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_es.js",
+			"checksum": "6eb5775359ee3e6199962d05fb6a2ddf79426766"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_fr.js",
+			"checksum": "aea834881f99fe187153560b32011c2af7f56092"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_hu.js",
+			"checksum": "500bfd774110b73e07e9f4e23a4cbf9c896fbcea"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_it.js",
+			"checksum": "09d41c11dadf15f197bd443f5ad01a68e3408bde"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_LANG.js",
+			"checksum": "e80901eda8d09ee66e3375ddd6d7f7a53dbfcda8"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_nl.js",
+			"checksum": "106dfa775832df6830675c8927603a813063986c"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_pl.js",
+			"checksum": "77ce969c9532dc4cda50d57bad7c8e8c9e792386"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_pt-BR.js",
+			"checksum": "8caeab2c4b40a90eba4412eb5a31c76405e5a04a"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_pt.js",
+			"checksum": "f1d3b0c83a6a10b6e1cd7b8f523a98a7a51720ac"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_ro.js",
+			"checksum": "7fcbd870c67fbd4646b6b53c4e07f84ebaf6ebd1"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_ru.js",
+			"checksum": "4939e4b72d235b9a68602aba3501bd72bde77611"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_sk.js",
+			"checksum": "1dc9d65243156006cf762ed85cdf36501c27f38a"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_sr.js",
+			"checksum": "50ac58590814ab9959e34d94a4b2bb8cf9be35b9"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_th.js",
+			"checksum": "05fec04f2b334bd579126eeb54321fbec516470f"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_tr.js",
+			"checksum": "25e2ea3f23c594180a3496f814ae907343de1add"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_uk.js",
+			"checksum": "f5f6b5052a111fa87a5da8608a5d137d4116e6c5"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/fileinput_locale_zh.js",
+			"checksum": "f477aede4974871fc0ba71d3ed4f90d8b9f1a74e"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-tagsinput/bootstrap-tagsinput.css",
+			"checksum": "49937990ee001ae632d23d1e9bb71dc4460ac7c1"
+		},
+		{
+			"path": "client/styles/framework/bootstrap3-plugins/bootstrap-tagsinput/bootstrap-tagsinput.js",
+			"checksum": "6f25a97cb1bb9b8edcf0cb297eabfc9f94f1a80d"
+		},
+		{
+			"path": "client/lib/form_utils.js",
+			"checksum": "ac523c7384145b2d294b67946bf07b63c69cfe4e"
+		}
+	],
+	"output_directories": [
+		"client/",
+		"client/lib/",
+		"client/components/",
+		"client/styles/",
+		"client/styles/framework/",
+		"client/styles/styles/",
+		"client/styles/styles/theme/",
+		"client/views/",
+		"client/views/not_found/",
+		"client/views/loading/",
+		"client/views/layout/",
+		"lib/",
+		"settings/",
+		"packages/",
+		"both/",
+		"both/lib/",
+		"both/collections/",
+		"both/joins/",
+		"public/",
+		"public/images/",
+		"public/fonts/",
+		"private/",
+		"server/",
+		"server/lib/",
+		"server/collections/",
+		"server/publish/",
+		"server/controllers/",
+		"server/methods/",
+		"client/views/home/",
+		"client/views/people/",
+		"client/views/people/insert/",
+		"client/views/people/edit/",
+		"client/views/roles/",
+		"client/views/roles/insert/",
+		"client/views/roles/edit/",
+		"client/views/profiles/",
+		"client/views/profiles/insert/",
+		"client/views/profiles/edit/",
+		"client/styles/framework/bootstrap3/",
+		"client/styles/framework/bootstrap3-plugins/bootstrap-fileinput/",
+		"client/styles/framework/bootstrap3-plugins/bootstrap-tagsinput/"
+	]
+}

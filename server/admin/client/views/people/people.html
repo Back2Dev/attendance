@@ -1,0 +1,129 @@
+<template name="People">
+	<div class="page-container container" id="content">
+		<div class="row" id="title_row">
+			<div class="col-md-12">
+				<h2 id="page_title" class="pull-left">
+					People
+				</h2>
+				<div id="page_menu" class="pull-right">
+				</div>
+			</div>
+		</div>
+		{{> PeopleList}}
+	</div>
+</template>
+
+<template name="PeopleList">
+	<div id="people-list" class="">
+		<form id="dataview-controls" class="form-inline">
+			<div id="dataview-controls-insert" class="form-group ">
+				<button type="submit" id="dataview-insert-button" class="btn btn-success">
+					<span class="fa fa-plus">
+					</span>
+					Add new
+				</button>
+			</div>
+			<div id="dataview-controls-search">
+				<div id="dataview-controls-search-group" class="form-group">
+					<label class="sr-only" for="search">
+						Search
+					</label>
+					<input type="text" class="form-control" id="dataview-search-input" placeholder="Search" name="search" value="{{searchString}}" autofocus="autofocus">
+					<button type="button" id="dataview-search-button" class="btn btn-primary">
+						<span class="fa fa-search">
+						</span>
+					</button>
+				</div>
+			</div>
+		</form>
+		{{#if isNotEmpty}}
+			{{#if isNotFound}}
+		<div class="alert alert-warning">
+			"{{searchString}}" not found.
+		</div>
+		{{else}}
+		<div id="dataview-data">
+			{{#if viewAsTable}} {{> PeopleListTable}} {{/if}}
+		</div>
+		{{/if}}
+		{{else}}
+		<div class="alert alert-info">
+			Empty.
+		</div>
+		{{/if}}
+	</div>
+</template>
+
+<template name="PeopleListTable">
+	<table id="dataview-table" class="table table-striped">
+		<thead id="dataview-table-header">
+			<tr id="dataview-table-header-row">
+				<th class="th-sortable" data-sort="pplName">
+					Name
+				</th>
+				<th class="th-sortable" data-sort="pplSurname">
+					surname
+				</th>
+				<th class="th-sortable" data-sort="ppLastAtn">
+					last attended
+				</th>
+				<th class="th-sortable" data-sort="pplAvatar">
+					avatar
+				</th>
+				<th class="th-sortable" data-sort="pplisVol">
+					is volunteer
+				</th>
+				<th class="th-sortable" data-sort="pplisSuper">
+					is supervisor
+				</th>
+				<th class="th-sortable" data-sort="pplisAdmin">
+					is admin
+				</th>
+				<th>
+					&nbsp;
+				</th>
+				<th>
+					&nbsp;
+				</th>
+			</tr>
+		</thead>
+		<tbody id="dataview-table-items">
+			{{#each tableItems}} {{> PeopleListTableItems}} {{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="PeopleListTableItems">
+	<tr id="dataview-table-items-row">
+		<td>
+			{{pplName}}
+		</td>
+		<td>
+			{{pplSurname}}
+		</td>
+		<td>
+			{{pplLastAtn}}
+		</td>
+		<td>
+			{{pplAvatar}}
+		</td>
+		<td>
+			{{pplIsVol}}
+		</td>
+		<td>
+			{{pplIsSuper}}
+		</td>
+		<td>
+			{{pplIsAdmin}}
+		</td>
+		<td class="td-icon">
+			<span id="edit-button" class="fa fa-pencil " title="Edit">
+			</span>
+		</td>
+		<td class="td-icon">
+			<span id="delete-button" class="fa fa-trash-o " title="Delete">
+			</span>
+		</td>
+	</tr>
+</template>
+
