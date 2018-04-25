@@ -4,7 +4,7 @@
   "description": "The Back to Bikes attendance GQL api",
   "main": "index.js",
   "scripts": {
-    "start": "micro ./server/server.js"
+    "start": "micro -l tcp://0.0.0.0:${PORT-3300} ./server/server.js"
   },
   "repository": {
     "type": "git",
