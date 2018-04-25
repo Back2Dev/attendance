@@ -1,0 +1,2 @@
+# attendance
+Workshop attendance app
