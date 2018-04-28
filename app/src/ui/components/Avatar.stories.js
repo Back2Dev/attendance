@@ -17,30 +17,28 @@ storiesOf('Components', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Avatar - checked out', withInfo('Checked out')(() => ( 
-    <div><p>Use Knobs to show checked in/out status</p>
-      <Avatar 
-        _id="aab45bb"
-        firstName="Ed"
-        lastName="Sheeran"
-        fileName="3.jpg"
-        isCheckedIn={boolean('Checked in', false)}
-      />
-    </div>
-  )))
-
+  .add('Avatar - checked out', withInfo('Checked out')(() => {
+    const story = (
+      <div><p>Use Knobs to show checked in/out status</p>
+        <Avatar 
+          _id="aab45bb"
+          firstName="Ed"
+          lastName="Sheeran"
+          fileName="3.jpg"
+          isCheckedIn={boolean('Checked in', false)}
+        />
+      </div>
+    )
     // specs(() =>
-    //   describe('<Avatar />', () => {
-    //     const wrapper = mount(story);
-    //     it('it present and exists', () => {
-    //       expect(Avatar).to.have.length(1);
-    //     });
-    //     it('it renders default image url', () => {
-    //       expect(wrapper.find('img').props().src).to.contain(FALLBACK_IMAGE);
-    //     });
-
-    //     it('it renders default image Alt name', () => {
-    //       expect(wrapper.find('img').props().alt).to.contain('User Avatar');
+    //   describe('<Avatar avatar={avatar} />', () => {
+    //     it('displays an avatar', () => {
+    //       const wrapper = mount(story);
+    //       expect(wrapper.find('img')).to.have.length(1);
+    //       expect(wrapper.find('img').props().src).to.contain(avatar.url);
     //     });
     //   })
+    // );
+    return story;
+  }))
+
      

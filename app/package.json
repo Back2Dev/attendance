@@ -44,7 +44,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-root-slash-import": "^1.1.0",
-    "enzyme": "^2.5.1",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-import-resolver-meteor": "^0.3.3",
