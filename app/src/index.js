@@ -5,6 +5,7 @@ import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter } from 'react-router-dom'
+import 'semantic-ui-css/semantic.min.css'
 
 // import Routes from './router'
 import App from './ui/components/App'
