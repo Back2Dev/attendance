@@ -5,6 +5,8 @@ import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import StoryRouter from 'storybook-router'
+import { withInfo } from '@storybook/addon-info'
+import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
@@ -13,22 +15,32 @@ import Avatar from './Avatar'
 
 storiesOf('Components', module)
   .addDecorator(StoryRouter())
-  // .add('AddVolunteer', () => ( <AddVolunteer /> ))
-  .add('Avatar - checked out', () => ( 
-    <Avatar 
-      _id="aab45bb"
-      firstName="Ed"
-      lastName="Sheeran"
-      fileName="3.jpg"
-      isCheckedIn={false}
-    /> ))
+  .addDecorator(withKnobs)
 
-  .add('Avatar - checked in', () => ( 
-    <Avatar 
-      _id="aab45bb"
-      firstName="Ed"
-      lastName="Sheeran"
-      fileName="2.jpg"
-      isCheckedIn={true}
-    /> ))
+  .add('Avatar - checked out', withInfo('Checked out')(() => ( 
+    <div><p>Use Knobs to show checked in/out status</p>
+      <Avatar 
+        _id="aab45bb"
+        firstName="Ed"
+        lastName="Sheeran"
+        fileName="3.jpg"
+        isCheckedIn={boolean('Checked in', false)}
+      />
+    </div>
+  )))
 
+    // specs(() =>
+    //   describe('<Avatar />', () => {
+    //     const wrapper = mount(story);
+    //     it('it present and exists', () => {
+    //       expect(Avatar).to.have.length(1);
+    //     });
+    //     it('it renders default image url', () => {
+    //       expect(wrapper.find('img').props().src).to.contain(FALLBACK_IMAGE);
+    //     });
+
+    //     it('it renders default image Alt name', () => {
+    //       expect(wrapper.find('img').props().alt).to.contain('User Avatar');
+    //     });
+    //   })
+     

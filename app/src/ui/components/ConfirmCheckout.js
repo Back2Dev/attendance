@@ -29,7 +29,7 @@ const handleCancel = () => props.history.goBack()
         _id={id}
         firstName={name}
         lastName={surname}
-        isCheckedin={isCheckedIn}
+        isCheckedIn={isCheckedIn}
         fileName={avatar}
       />
 

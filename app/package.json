@@ -31,8 +31,10 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.12",
+    "@storybook/addon-info": "^3.4.3",
     "@storybook/addon-knobs": "^3.4.3",
     "@storybook/addon-links": "^3.3.12",
+    "@storybook/addon-storysource": "^3.4.3",
     "@storybook/react": "^3.3.12",
     "autoprefixer": "^6.5.0",
     "babel-eslint": "^6.1.2",
