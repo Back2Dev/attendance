@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import query from '../../gql/queries/notCheckedInList'
-import SearchablePeople from './SearchablePeople'
+import SearchablePeople from './searchable-people'
 import { withRouter } from 'react-router-dom'
 
 const CheckedInList = (props) => {

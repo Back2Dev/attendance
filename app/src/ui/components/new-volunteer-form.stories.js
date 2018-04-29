@@ -11,13 +11,13 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import NewVolunteerForm from './NewVolunteerForm'
+import NewVolunteerForm from './new-volunteer-form'
 
 storiesOf('Components', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('NewVolunteerForm', withInfo('New voluntere form')(() => {
+  .add('NewVolunteerForm', withInfo('New volunteer form')(() => {
     const story = (
       <NewVolunteerForm 
       />

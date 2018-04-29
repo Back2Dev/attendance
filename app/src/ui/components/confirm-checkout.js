@@ -5,7 +5,7 @@ import nextQuery from '../../gql/queries/CheckedInList'
 import otherQuery from '../../gql/queries/notCheckedInList'
 import { CheckOut } from '../../gql/mutations/CheckInOut'
 import { Button, Loader, Segment } from 'semantic-ui-react'
-import Avatar from './Avatar'
+import Avatar from './avatar'
 
 const ConfirmCheckout = (props) => {
 

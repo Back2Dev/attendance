@@ -1,6 +1,6 @@
 import { createContainer } from 'meteor/react-meteor-data';
 import { insert } from '/imports/collections/mcPeople';
-import AddVolunteer from '../components/AddVolunteer';
+import AddVolunteer from '../components/add-volunteer';
 
 function handleSubmit ({ pplName, pplSurname, pplPhone, pplEmail, pplAvatar }) {
   console.log("Container handleSubmit method");

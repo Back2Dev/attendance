@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
 import Header from './Header'
-import SearchablePeople from './SearchablePeople'
-import CheckedInList from './CheckedInList'
-import CheckinList from './CheckinList'
-import ConfirmCheckin from './ConfirmCheckin'
-import ConfirmCheckout from './ConfirmCheckout'
-import AttendanceApp from '../layouts/AttendanceApp'
+import SearchablePeople from './searchable-people'
+import CheckedInList from './checked-in-list'
+import CheckinList from './checkin-list'
+import ConfirmCheckin from './confirm-checkin'
+import ConfirmCheckout from './confirm-checkout'
+import AttendanceApp from '../layouts/attendance-app'
 
 import { Container } from 'semantic-ui-react'
 

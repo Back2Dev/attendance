@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import query from '../../gql/queries/PeopleList'
 import { List, Loader } from 'semantic-ui-react'
-import Avatar from '../components/Avatar'
+import Avatar from '../components/avatar'
 
 const PeopleList = (props) => {
 

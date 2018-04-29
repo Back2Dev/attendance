@@ -4,7 +4,7 @@ import query from '../../gql/queries/personFetch'
 import nextQuery from '../../gql/queries/CheckedInList'
 import otherQuery from '../../gql/queries/notCheckedInList'
 import { CheckIn } from '../../gql/mutations/CheckInOut'
-import Avatar from './Avatar'
+import Avatar from './avatar'
 import { Button, Segment, Loader } from 'semantic-ui-react'
 
 const ConfirmCheckin = (props) => {

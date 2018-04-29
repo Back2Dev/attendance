@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
 
 // import Routes from './router'
-import App from './ui/components/App'
+import App from './ui/components/app'
 import { getSetting } from './utils/settings'
 
 const db_uri = getSetting('REACT_APP_API_URL')
