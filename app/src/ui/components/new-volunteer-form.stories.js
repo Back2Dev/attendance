@@ -11,23 +11,16 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import Avatar from './Avatar'
+import NewVolunteerForm from './NewVolunteerForm'
 
 storiesOf('Components', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Avatar - checked out', withInfo('Checked out')(() => {
+  .add('NewVolunteerForm', withInfo('New voluntere form')(() => {
     const story = (
-      <div><p>Use Knobs to show checked in/out status</p>
-        <Avatar 
-          _id="aab45bb"
-          firstName="Ed"
-          lastName="Sheeran"
-          fileName="3.jpg"
-          isCheckedIn={boolean('Checked in', false)}
-        />
-      </div>
+      <NewVolunteerForm 
+      />
     )
     // specs(() =>
     //   describe('<Avatar avatar={avatar} />', () => {

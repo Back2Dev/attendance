@@ -11,7 +11,6 @@ const Avatar = (props) => {
   } = props
 
   let borderColour = isCheckedIn ? 'LimeGreen' : 'grey'
-  console.log('bc '+borderColour)
   return (
     <div className="avcontainer raised item" key={_id} >
       <img
