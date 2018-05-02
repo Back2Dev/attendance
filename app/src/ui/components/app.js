@@ -5,7 +5,7 @@ import Header from './Header'
 import SearchablePeople from './searchable-people'
 import CheckedInList from './checked-in-list'
 import CheckinList from './checkin-list'
-import ConfirmCheckin from './confirm-checkin'
+import ConfirmCheckin from './confirm-checkin-wrapper'
 import ConfirmCheckout from './confirm-checkout'
 import AttendanceApp from '../layouts/attendance-app'
 

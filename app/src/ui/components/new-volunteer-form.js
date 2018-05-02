@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
@@ -13,8 +14,8 @@ class NewVolunteerForm extends React.Component {
           <h1>New Volunteer Signup Form</h1>
           <h2>Your Details</h2>
           <form onSubmit={this.handleSubmit} className="commentForm">
-            <input type="text" id="pplName" placeholder="First name" />
-            <input type="text" id="pplSurname" placeholder="Surname" />
+            <input type="text" id="firstname" placeholder="First name" />
+            <input type="text" id="surname" placeholder="Surname" />
             <input type="text" placeholder="Your email" />
             <input type="text" placeholder="Address" />
             <input type="text" placeholder="Suburb" />

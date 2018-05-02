@@ -9,6 +9,8 @@ const PeopleList = (props) => {
   const renderItems = (people) => {
     return (people || []).map( ({ id, name, surname, isCheckedIn, avatar }) => {
  
+ // TODO: Why does this emit the same code in both cases?
+ 
       return <List.Item key={id} onClick={() => props.onTapAction(id)}>
         {props.onTapAction !== null &&
           <Avatar

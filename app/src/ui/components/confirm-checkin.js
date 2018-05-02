@@ -1,27 +1,14 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
-import query from '../../gql/queries/personFetch'
-import nextQuery from '../../gql/queries/CheckedInList'
-import otherQuery from '../../gql/queries/notCheckedInList'
-import { CheckIn } from '../../gql/mutations/CheckInOut'
+import PropTypes from 'prop-types'
 import Avatar from './avatar'
 import { Button, Segment, Loader } from 'semantic-ui-react'
 
 const ConfirmCheckin = (props) => {
 
-  const handleCancel = () => props.history.goBack()
+  if (props.loading) {return <Loader active inline='centered'/>}
 
-  const handleCheckin = (id) => {
-    props.mutate({
-      variables: {id},
-      refetchQueries: [{ query: nextQuery }, { query: otherQuery }]
-    })  
-    .then(props.history.goBack())
-  }
-
-  if (props.data.loading) {return <Loader active inline='centered'/>}
-
-  let { id, name, surname, isCheckedIn, avatar } = props.data.person
+  const { id, name, surname, avatar } = props.person
+  const isCheckedIn = props.isCheckedIn
 
   return (
     <Segment style={{ marginTop: '7em' }}>
@@ -33,10 +20,10 @@ const ConfirmCheckin = (props) => {
           fileName={avatar}
         />    
         <Button.Group>
-          <Button onClick={ () => handleCancel() }>Cancel</Button>
+          <Button onClick={ () => props.cancel() }>Cancel</Button>
           <Button.Or />
           <Button positive
-            onClick={ () => handleCheckin(id) }> Check In
+            onClick={ () => props.checkin(id) }> Check In
           </Button>
         </Button.Group>      
     </Segment>
@@ -44,9 +31,13 @@ const ConfirmCheckin = (props) => {
 
 }
 
-export default graphql(query, 
-  {
-    options: (props) => { return {variables: {id: props.match.params.id} }}
-  })
-  (graphql(CheckIn)(ConfirmCheckin)
-)
+ConfirmCheckin.Proptypes = {
+  person: PropTypes.object.isRequired,
+  isCheckedIn: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  cancel: PropTypes.func,
+  checkin: PropTypes.func,
+}
+
+export default ConfirmCheckin;
+
