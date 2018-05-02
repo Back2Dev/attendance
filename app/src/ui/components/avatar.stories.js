@@ -13,7 +13,7 @@ import { Grid, Container, Segment } from 'semantic-ui-react'
 
 import Avatar from './avatar'
 
-storiesOf('Components', module)
+storiesOf('Components | Avatar', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 

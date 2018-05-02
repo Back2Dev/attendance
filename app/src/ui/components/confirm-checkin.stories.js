@@ -27,7 +27,7 @@ const person = {
 	avatar: '2.jpg',
 }
 
-storiesOf('Components', module)
+storiesOf('Components | Confirm checkin', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 

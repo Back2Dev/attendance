@@ -20,10 +20,13 @@ const ConfirmCheckin = (props) => {
           fileName={avatar}
         />    
         <Button.Group>
-          <Button onClick={ () => props.cancel() }>Cancel</Button>
+          <Button onClick={ () => props.cancel() }>
+            Cancel
+          </Button>
           <Button.Or />
           <Button positive
-            onClick={ () => props.checkin(id) }> Check In
+            onClick={ () => props.checkin(id) }> 
+            Check In
           </Button>
         </Button.Group>      
     </Segment>
@@ -35,8 +38,8 @@ ConfirmCheckin.Proptypes = {
   person: PropTypes.object.isRequired,
   isCheckedIn: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  cancel: PropTypes.func,
-  checkin: PropTypes.func,
+  cancel: PropTypes.func.isRequired,
+  checkin: PropTypes.func.isRequired,
 }
 
 export default ConfirmCheckin;
