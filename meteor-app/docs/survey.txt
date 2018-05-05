@@ -1,0 +1,65 @@
+
+Section: About you
+  +flow=inline
+
+Q name
+  +prompt=My name is
+  +var=name
+  +type=string
+  +placeholder=Name and surname
+  +minWords=2
+
+Q email
+  +prompt=and my email is  
+	+type=email
+
+Q location
+  +prompt=working in
+  +match=office
+  A New York
+    +value=NY
+  A London
+    +value=LON
+  A Paris, France
+    +value=PAR
+
+Q duration
+  +prompt=I've been working in the industry for",
+  +placeholder=Choose duration
+	A 1-3 years
+	A 3-5 years
+	A 5+ years
+
+Q gender
+  +prompt=I am a
+  +placeholder=Choose gender
+  A Male
+  A Female
+  A Non binary
+  A Prefer not to say
+
+Q Paris Office
+  +prompt=Which Paris office?
+  +if=location=PAR
+  A Gare du Lyon
+  A Bastille
+  A Sacre Coeur
+
+Q London Office
+  +prompt=Which London office?
+  +if=location=LON
+  +multi=false
+  A Paddington
+  A Knightsbridge
+  A Notting Hill
+
+Section: About mentoring
+
+Q role
+  +prompt=I am 
+  A often asked for advice (I am a mentor)
+  	+value=mentor
+  A keen to further my career (I am a mentee)
+  	+value=mentee
+  A Interested in both giving advice and furthering my career
+  	+value=either
