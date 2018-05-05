@@ -1,0 +1,82 @@
+# sample-survey.txt
+#
+# This is a sample survey file
+#
+
+List: manufacturers
+  A Mercedes
+  A BMW
+  A Ford
+  A Honda
+
+List: bmw_cars
+  A X1
+  A X3
+  A X5
+  A 635 M
+  +value=M635
+	
+Section: About you
+  +flow=inline
+  +info=Welcome to the Muggle's mentoring program. Please provide some information to help us match you with a suitable mentor/mentee
+
+Q name
+  +prompt=My name is
+  +type=string
+  +placeholder=Name and surname
+  +minWords=2
+
+Q email
+  +prompt=and my email is  
+	+type=email
+
+Q location
+  +prompt=working in
+  +match=office
+  A New York
+    +value=NY
+  A London
+    +value=LON
+  A Paris, France
+    +value=PAR
+
+Q duration
+  +prompt=I've been working in the industry for
+  +placeholder=Choose duration
+	A 1-3 years
+	A 3-5 years
+	A 5+ years
+
+Q gender
+  +prompt=I am a
+  +placeholder=Choose gender
+  A Male
+  A Female
+  A Non binary
+  A Prefer not to say
+
+Q Paris Office
+  +prompt=Which Paris office?
+  +if=location=PAR
+  A Gare du Lyon
+  A Bastille
+  A Sacre Coeur
+
+Q London Office
+  +prompt=Which London office?
+  +if=location=LON
+  +multi=false
+  A Paddington
+  A Knightsbridge
+  A Notting Hill
+
+Section: About mentoring
+
+Q role
+  +prompt=I am 
+  A often asked for advice (I am a mentor)
+  	+value=mentor
+  A keen to further my career (I am a mentee)
+  	+value=mentee
+  A Interested in both giving advice and furthering my career
+  	+value=either

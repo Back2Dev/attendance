@@ -1,0 +1,93 @@
+#- - - - - - - - - - - - - -
+Section: 1
+
+Q name
+  +label=Name
+  +prompt=My name is
+  +type=text
+
+#- - - - - - - - - - - - - -
+Section: 2
+
+Q personalAttributes
+  +label=Personal Attributes
+  +prompt=Hi there, I am a
+  +type=multi
+  A Student
+  A Employee
+  A Manager
+  A Employer
+  A Investor
+  A Entrepreneur
+  A Freelancer
+  A Consultant
+  A Retiree
+
+Q qualities
+  +label=Qualities
+  +prompt=I'd describe myself as:
+  +type=multi
+  A Accepting
+  A Adaptable
+  A Bold
+  A Brave
+  A Calm
+  A Caring
+  A Cheerful
+  A Confident
+  A Dependable
+  A Energetic
+  A Extroverted
+  A Helpful
+  A Idealistic
+  A Independent
+  A Introverted
+  A Logical
+  A Observant
+  A Organised
+  A Patient
+  A Reflective
+  A Responsive
+  A Self-assertive
+  A Self-conscious
+  A Sympathetic
+  A Trustworthy
+
+Q bio
+  +label=Bio
+  +prompt=Please provide a short bio introducing yourself
+  +type=text
+
+#- - - - - - - - - - - - - -
+Section: 3
+
+Q role
+  +label=Role (Mentor/Mentee Choice)
+  +prompt=I
+  +type=select
+  A am often asked for advice on (I'm a mentor)
+    +value=mentor
+  A want to develop skills in (I'm a mentee)
+    +value=mentee
+  A could be a mentor or mentee, depending on the relationship (I'm 
+    +value=either
+
+Q skills
+  +label=Skills
+  +prompt=what skills do you have to offer/would like to develop
+  +type=multi
+  A Project Management
+
+  A Finance
+  A Marketing
+  A Negotiation
+  A People & Team Management
+  A Strategic Planning
+  A Communications
+  A Stakeholder Management
+  A Business Development
+
+Q cv
+  +label=Attached CV
+  +prompt=Please submit your current CV here
+  +type=filestack
