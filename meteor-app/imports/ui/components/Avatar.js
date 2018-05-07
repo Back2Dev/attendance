@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Header, Image } from 'semantic-ui-react';
+import './Avatar.css';
 
 function Avatar(props) {
   const {
@@ -8,19 +9,20 @@ function Avatar(props) {
     firstName,
     lastName,
     fileName,
-    isCheckedin
+    isCheckedin,
   } = props;
 
   return (
-    <Container className="avcontainer" key={_id} textAlign='center'>
+    <Container className="avatar-wrapper" key={_id} textAlign='center'>
       <Image
         size='small'
-        style={{ border: '5px solid ' + isCheckedin ? 'limegreen' : 'grey' }}
+        className={isCheckedin ? 'checkedInTrue' : 'checkedInFalse'}
         src={"/images/avatars/" + fileName}
         circular
         centered
+        avatar
       />
-      <Header textAlign='center'>
+      <Header as='h3' textAlign='center'>
         {firstName} {lastName}
       </Header>
     </Container>
