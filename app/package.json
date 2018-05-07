@@ -18,7 +18,6 @@
     "redux": "^3.7.2",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0",
-    "storybook-addon-specifications": "^2.1.2",
     "sugar": "^2.0.4"
   },
   "scripts": {
@@ -55,6 +54,7 @@
     "meteor-node-stubs": "^0.2.4",
     "react-addons-test-utils": "^15.3.2",
     "react-test-renderer": "^16.3.2",
+    "storybook-addon-specifications": "^2.1.2",
     "storybook": "^1.0.0",
     "storybook-router": "^0.3.2"
   }
