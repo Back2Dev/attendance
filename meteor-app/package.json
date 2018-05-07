@@ -5,7 +5,7 @@
   "scripts": {
     "start": "meteor run",
     "lint": "eslint .",
-    "ui-test": "start-storybook -p 6006",
+    "ui-test": "start-storybook -s public -p 6006",
     "build-ui-test": "BABEL_ENV=ui-test build-storybook",
     "app-test": "meteor test --once --port 3040 --driver-package meteortesting:mocha",
     "app-test:watch": "TEST_WATCH=1 meteor test --port 3040 --driver-package meteortesting:mocha",

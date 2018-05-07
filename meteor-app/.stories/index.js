@@ -11,9 +11,10 @@ import { Grid, Container, Segment } from 'semantic-ui-react'
 import '/client/semantic.css'
 
 import Search from '/imports/ui/components/Search'
-// import AddVolunteer from '/imports/ui/components/AddVolunteer'
-import NewVolunteer from '/imports/ui/components/add-volunteer'
-import Steps from '/imports/ui/components/2-steps'
+// TODO: This isn't pure, there are meteor references there
+//import AddVolunteer from '/imports/ui/components/AddVolunteer'
+// TODO: Take the react-json-semantic repo and publish it ourselves
+//import NewVolunteer from '/imports/ui/components/add-volunteer'
 import Avatar from '/imports/ui/components/Avatar'
 import CheckInList from '/imports/ui/components/CheckInList'
 import CheckedInList from '/imports/ui/components/CheckedInList'
@@ -84,7 +85,5 @@ storiesOf('Components', module)
   .add('NewVolunteerForm', () => ( <NewVolunteerForm /> ))
 
   .add('NewVolunteer', () => ( <NewVolunteer /> ))
-
-  .add('Steps', () => ( <Steps /> ))
 
   .add('Search', () => ( <Search /> ))
