@@ -6,6 +6,7 @@ require('rc-slider/assets/index.css')
 
 import Avatar from './Avatar'
 import Search from './Search'
+import SubMenu from './SubMenu'
 import Slider from 'rc-slider'
 import { Button, Grid, Header, Menu, Segment } from 'semantic-ui-react'
 
@@ -108,12 +109,7 @@ class CheckInList extends React.Component {
 
     return (
       <Grid.Column width={12}>
-        <Menu>
-          <Menu.Item as={Link} to="/addvolunteer" name='Add New Volunter' />
-          <Menu.Item position='right'>
-            <Search />
-          </Menu.Item>
-        </Menu>
+        <SubMenu />
         <Header
           as='h2'
           content='Ready for Check In'
