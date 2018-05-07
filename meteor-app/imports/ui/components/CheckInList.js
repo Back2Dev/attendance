@@ -7,7 +7,7 @@ require('rc-slider/assets/index.css')
 import Avatar from './Avatar'
 import Search from './Search'
 import Slider from 'rc-slider'
-import { Button, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Grid, Header, Menu, Segment } from 'semantic-ui-react'
 
 //============================================================================//
 // A word about react-modal
@@ -108,9 +108,12 @@ class CheckInList extends React.Component {
 
     return (
       <Grid.Column width={12}>
-        <Link className={'ui button'} to="/addvolunteer">
-          Add new volunteer
-        </Link>
+        <Menu>
+          <Menu.Item as={Link} to="/addvolunteer" name='Add New Volunter' />
+          <Menu.Item position='right'>
+            <Search />
+          </Menu.Item>
+        </Menu>
         <Header
           as='h2'
           content='Ready for Check In'
