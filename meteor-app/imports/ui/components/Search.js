@@ -22,7 +22,6 @@ export default class Search extends React.Component {
       <div>
         <SemanticUiSearch
           placeholder='Type name to search'
-          icon='inverted circular search'
           onKeyUp={this.searchVolunteers.bind(this)} 
           ref="search"
         />
