@@ -18,7 +18,7 @@ import Avatar from '/imports/ui/components/Avatar'
 import CheckInList from '/imports/ui/components/CheckInList'
 import CheckedInList from '/imports/ui/components/CheckedInList'
 import NewVolunteerForm from '/imports/ui/components/NewVolunteerForm'
-
+import SubMenu from '/imports/ui/components/SubMenu'
 
 
 storiesOf('Welcome', module)
@@ -88,3 +88,5 @@ storiesOf('Components', module)
   .add('NewVolunteer', () => ( <NewVolunteer /> ))
 
   .add('Search', () => ( <Search /> ))
+
+  .add('SubMenu', () => ( <SubMenu /> ))
