@@ -1,53 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from './Avatar';
+import { Grid, Header } from 'semantic-ui-react'
 
+function CheckedInList(props) {
+  const { loading, ppl } = props;
+
+  return (
+    <Grid.Column width={4} style={{ backgroundColor: 'WhiteSmoke' }}>
+      <Header
+        as='h2'
+        textAlign='center'
+        content='Whos here:' />
+
+      {
+        loading &&
+        <p>Loading...</p>
+      }
+      {
+        ppl.length === 0 &&
+        <p>No one has checked in yet!</p>
+      }
+      {
+        ppl.length > 1 &&
+          ppl.map(({ _id, firstname, surname, avatar, isCheckedIn }) => (
+              <Avatar
+                _id={_id}
+                firstName={firstname}
+                lastName={surname}
+                isCheckedIn={isCheckedIn}
+                fileName={avatar}
+              />
+          ))
+      }
+    </Grid.Column>
+  );
+}
 
 CheckedInList.propTypes = {
   loading: PropTypes.bool.isRequired,
-  ppl: PropTypes.array.isRequired, 
+  ppl: PropTypes.array.isRequired,
 };
-
-function CheckedInList(props) {
-  const {
-    loading,
-    ppl,
-  } = props;
-
-  if (loading) {
-    return (
-      <p>Loading...</p>
-    );
-  }
-
-  if (ppl.length === 0) {
-    return (
-      <p>No one has checked in yet!</p>
-    );
-  }
-
-  // const isCheckedIn = true;
-  return (
-    <div 
-      className={'three wide column'}
-      style={{backgroundColor: 'WhiteSmoke'}} 
-    >
-      <h2>Checked In Today</h2>
-      <div className={'ui relaxed list flow'}        >
-        {ppl.map(({ _id, firstname, surname, avatar, isCheckedIn}) => (
-          <div key={_id}>
-            <Avatar
-              _id={_id}
-              firstName={firstname}
-              lastName={surname}
-              isCheckedIn={isCheckedIn}
-              fileName={avatar}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default CheckedInList;

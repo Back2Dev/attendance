@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
 require('rc-slider/assets/index.css')
 
 import Avatar from './Avatar'
-// import Search from './Search'
+import Search from './Search'
 import Slider from 'rc-slider'
-import { Button, Grid, Header, Search, Segment } from 'semantic-ui-react'
+import { Button, Grid, Header, Segment } from 'semantic-ui-react'
 
 //============================================================================//
 // A word about react-modal
@@ -104,56 +103,54 @@ class CheckInList extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return (
-        <p>Loading...</p>
-      )
-    }
-
-    if (this.props.ppl.length === 0) {
-      return (
-        <div>
-          <p>No one to check in!</p>
-          <Link className={'ui button'} to="/addvolunteer">Add new volunteer </Link>
-        </div>
-      )
-    }
-
     const isCheckedIn = false
+    const { loading, ppl } = this.props;
 
     return (
-      <Grid.Column width={13}>
+      <Grid.Column width={12}>
         <Link className={'ui button'} to="/addvolunteer">
           Add new volunteer
         </Link>
         <Header
           as='h2'
           content='Ready for Check In'
+          textAlign='center'
         />
-        <Search
-          placeholder='Type name to search'
-          icon='inverted circular search'
-        />
-        <Grid stackable columns={4}>
-          {this.props.ppl.map(({ _id, firstname, surname, avatar }) => (
-            <Grid.Column
-              mobile={16}
-              tablet={8}
-              computer={4}
-              key={_id}
-              onClick={() => this.openModal(_id, firstname, surname, avatar)}
-            >
-              <Avatar
-                _id={_id}
-                firstName={firstname}
-                lastName={surname}
-                isCheckedIn={isCheckedIn}
-                fileName={avatar}
-              />
-            </Grid.Column>
-          ))}
-        </Grid>
 
+        <Grid stackable columns={4}>
+          {
+            loading &&
+            <div>
+              <p>Loading</p>
+            </div>
+          }
+          {
+            ppl.length === 0 &&
+            <div>
+              <p>No one to check in!</p>
+              <Link className={'ui button'} to="/addvolunteer">Add new volunteer </Link>
+            </div>
+          }
+          {
+            ppl.length > 1 && ppl
+              .map(({ _id, firstname, surname, avatar }) => (
+                <Grid.Column
+                  mobile={16}
+                  tablet={8}
+                  computer={4}
+                  key={_id}
+                  onClick={() => this.openModal(_id, firstname, surname, avatar)}
+                >
+                  <Avatar
+                    _id={_id}
+                    firstName={firstname}
+                    lastName={surname}
+                    isCheckedIn={isCheckedIn}
+                    fileName={avatar}
+                  />
+                </Grid.Column>
+              ))}
+        </Grid>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -165,6 +162,7 @@ class CheckInList extends React.Component {
               divided
               as='h2'
               content='Checkin'
+              textAlign='center'
             />
             <Avatar
               _id={this.state._id}
@@ -190,7 +188,7 @@ class CheckInList extends React.Component {
                 Not Me!
               </Button>
               <Button
-                color='green' 
+                color='green'
                 onClick={() => this.clickConfirm(this.state._id, this.state.hours)}
               >
                 Sign In

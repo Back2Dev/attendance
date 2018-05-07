@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import { Container, Header, Image } from 'semantic-ui-react';
 
 Avatar.propTypes = {
   _id: PropTypes.string.isRequired,
@@ -19,20 +19,19 @@ function Avatar(props) {
     isCheckedin
   } = props;
 
-  let borderColour = isCheckedin ? 'LimeGreen' : 'grey';
   return (
-    <div className="avcontainer raised item" key={_id} >
-      <img
-          className={'ui avatar image small'}         
-          src={"/images/avatars/" + fileName}
-          style={{border: '5px solid ' + borderColour }} 
-          >
-      </img>
-      <div className={'middle aligned content'}>
-        <b className={'header'}>{firstName} {lastName}</b>
-      </div>
-      <br/>   
-    </div>
+    <Container className="avcontainer" key={_id} textAlign='center'>
+      <Image
+        size='small'
+        style={{ border: '5px solid ' + isCheckedin ? 'limegreen' : 'grey' }}
+        src={"/images/avatars/" + fileName}
+        circular
+        centered
+      />
+      <Header textAlign='center'>
+        {firstName} {lastName}
+      </Header>
+    </Container>
   );
 }
 
