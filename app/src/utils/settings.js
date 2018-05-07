@@ -6,7 +6,7 @@
 //  eg. REACT_APP_API_URL=http://apiserver.com:8080/ npm start
 //
 const default_settings = {
-  'REACT_APP_API_URL':  'http://localhost:3000/',
+  'REACT_APP_API_URL':  'http://localhost:3300/',
 }
 
 

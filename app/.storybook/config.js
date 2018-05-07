@@ -17,7 +17,7 @@ import 'semantic-ui-css/semantic.min.css'
   // END OF SPECIFIC MOCHA CONF
 
 // stories live in the codebase as {component-name}.stories.js
-const req = require.context('../imports/ui', true, /.stories.js$/);
+const req = require.context('../src/ui', true, /.stories.js$/);
 
 const loadStories = () => req.keys().forEach(filename => req(filename));
 

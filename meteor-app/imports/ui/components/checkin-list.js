@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
 require('rc-slider/assets/index.css')
 
-import Avatar from './Avatar'
+import Avatar from './avatar'
 import Search from './Search'
 import Slider from 'rc-slider'
 // import { Input } from 'semantic-ui-react'

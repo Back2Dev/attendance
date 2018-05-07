@@ -1,6 +1,6 @@
 import React from 'react'
-import CheckinList from '../components/CheckinList'
-import CheckedInList from '../components/CheckedInList'
+import CheckinList from '../components/checkin-list'
+import CheckedInList from '../components/checked-in-list'
 
 import { Grid } from 'semantic-ui-react'
 

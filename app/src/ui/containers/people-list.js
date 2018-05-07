@@ -2,12 +2,14 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import query from '../../gql/queries/PeopleList'
 import { List, Loader } from 'semantic-ui-react'
-import Avatar from '../components/Avatar'
+import Avatar from '../components/avatar'
 
 const PeopleList = (props) => {
 
   const renderItems = (people) => {
     return (people || []).map( ({ id, name, surname, isCheckedIn, avatar }) => {
+ 
+ // TODO: Why does this emit the same code in both cases?
  
       return <List.Item key={id} onClick={() => props.onTapAction(id)}>
         {props.onTapAction !== null &&
@@ -15,7 +17,7 @@ const PeopleList = (props) => {
             _id={id}
             firstName={name}
             lastName={surname}
-            isCheckedin={isCheckedIn}
+            isCheckedIn={isCheckedIn}
             fileName={avatar}
           />
         }            
@@ -24,7 +26,7 @@ const PeopleList = (props) => {
             _id={id}
             firstName={name}
             lastName={surname}
-            isCheckedin={isCheckedIn}
+            isCheckedIn={isCheckedIn}
             fileName={avatar}
           />
         }  

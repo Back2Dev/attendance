@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Input, Icon } from 'semantic-ui-react'
-import PeopleList from '../containers/PeopleList'
+import PeopleList from '../containers/people-list'
 
 export default class SearchablePeople extends React.PureComponent {
   constructor(props, context) {

@@ -1,25 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-Avatar.propTypes = {
-  _id: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  fileName: PropTypes.string.isRequired,
-  isCheckedin: PropTypes.bool.isRequired
-};
-
-function Avatar(props) {
+const Avatar = (props) => {
   const {
     _id,
     firstName,
     lastName,
     fileName,
-    isCheckedin
-  } = props;
+    isCheckedIn
+  } = props
 
-  let borderColour = isCheckedin ? 'LimeGreen' : 'grey';
+  let borderColour = isCheckedIn ? 'LimeGreen' : 'grey'
   return (
     <div className="avcontainer raised item" key={_id} >
       <img
@@ -33,7 +24,19 @@ function Avatar(props) {
       </div>
       <br/>   
     </div>
-  );
+  )
 }
 
-export default Avatar;
+Avatar.propTypes = {
+  _id: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  fileName: PropTypes.string.isRequired,
+  isCheckedIn: PropTypes.bool.isRequired
+}
+
+Avatar.defaultProps = {
+  isCheckedIn: true  
+}
+
+export default Avatar

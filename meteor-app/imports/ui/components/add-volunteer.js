@@ -1,49 +1,69 @@
-// add-volunteer.js
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import { Link, Router, browserHistory } from 'react-router-dom';
 
-import Form from "react-jsonschema-form-semanticui"
+// import casual from 'casual';            // casual random data generator
 
-const schema = {
-  title: "Volunteer registration",
-  type: "object",
-  required: ["name","email"],
-  properties: {
-    name: {
-      type: "string",
-      title: "Name"
-    },
-    email: {
-      type: "string",
-      format: "email",
-      title: "Email"},
-    password: {
-      type: "string",
-      "ui:help": "Hint: Make it strong!",
-      "ui:placeholder": "secret"
-    }
-  }
-};
+// import NewVolunteerForm from './NewVolunteerForm';
 
-const log = (type) => console.log.bind(console, type);
+import People from '/imports/collections/People';
 
-class NewVolunteer extends React.Component {
+var transitionTo = Router.transitionTo;
+
+class AddVolunteer extends React.Component {
   constructor(props, context) {
     super(props);
-    // this.handleSubmit=this.handleSubmit.bind(this);
+    this.handleSubmit=this.handleSubmit.bind(this);
   }
 
-	render() {
-		return (
-		  <Form schema={schema}
-		        onChange={log("changed")}
-		        onSubmit={log("submitted")}
-		        onError={log("errors")} />
-    )
-	}
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log("handleSubmit method");
+    this.props.onSubmit({
+      firstname: this.firstname.value,
+      surname: this.surname.value,
+      pplPhone: this.pplPhone.value,
+      pplEmail: this.pplEmail.value,
+      avatar: Math.floor((Math.random() * 10) + 1) + '.jpg',
+    });
+  }
 
-	// NewVolunteer.propTypes = {}
-  // onSubmit: PropTypes.func.isRequired
+  // handleSubmit(event) {
+  //   event.preventDefault();
+  //   console.log("handlesSubmit method");
+  //   this.props.onSubmit({
+  //     newVolunteer: this.newVolunteer.value,
+  //   });
+  // }
+
+  render() {
+    return (
+        <section id="volunteer-signup-form">
+            <h1>New Volunteer Signup Form</h1>
+            <h2>Your Details</h2>
+            <form name="newVolunteer" onSubmit={this.handleSubmit} className="commentForm">
+              <input ref={c => (this.firstname = c)} type="text" id="firstname" placeholder="First name" />
+
+              <input ref={c => (this.surname = c)} type="text" id="surname" placeholder="Surname" />
+
+              <input ref={c => (this.pplPhone = c)} type="text" id="pplPhone" placeholder="Phone" />
+
+              <input ref={c => (this.pplEmail = c)} type="text" id="pplEmail" placeholder="Email" />
+
+              <div className={"submit-cancel"} >
+
+              <input className={"ui button"} type="submit" value="Submit" />
+              <div className={"a-wrap"}><Link className={"ui button"} to="/">Cancel</Link></div>
+              </div>
+            </form>
+        </section>
+    );
+  }
+}
+
+AddVolunteer.propTypes = {
+  onSubmit: PropTypes.func.isRequired
 };
 
-export default NewVolunteer;
+export default AddVolunteer;

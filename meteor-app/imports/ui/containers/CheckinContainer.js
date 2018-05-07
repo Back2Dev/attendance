@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import CheckInList from '../components/CheckInList';
+import CheckInList from '../components/checkin-list';
 import People , {insert, remove} from '/imports/collections/People';
 import Attendances from '/imports/collections/Attendances'
 import * as sg from 'sugar';              // sugar utility
