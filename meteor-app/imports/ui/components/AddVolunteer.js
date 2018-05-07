@@ -3,21 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 
-// import casual from 'casual';            // casual random data generator
+class AddVolunteer extends Component {
 
-// import NewVolunteerForm from './NewVolunteerForm';
-
-import People from '/imports/collections/People';
-
-var transitionTo = Router.transitionTo;
-
-class AddVolunteer extends React.Component {
-  constructor(props, context) {
-    super(props);
-    this.handleSubmit=this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     console.log("handleSubmit method");
     this.props.onSubmit({
