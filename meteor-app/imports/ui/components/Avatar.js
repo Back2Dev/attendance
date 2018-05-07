@@ -2,14 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Header, Image } from 'semantic-ui-react';
 
-Avatar.propTypes = {
-  _id: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  fileName: PropTypes.string.isRequired,
-  isCheckedin: PropTypes.bool.isRequired
-};
-
 function Avatar(props) {
   const {
     _id,
@@ -34,5 +26,13 @@ function Avatar(props) {
     </Container>
   );
 }
+
+Avatar.propTypes = {
+  _id: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  fileName: PropTypes.string.isRequired,
+  isCheckedin: PropTypes.bool.isRequired
+};
 
 export default Avatar;
