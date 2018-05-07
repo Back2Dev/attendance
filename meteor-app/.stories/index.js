@@ -29,6 +29,8 @@ storiesOf('Welcome', module)
 const people = [
   {_id: "1", firstname: "Mike", surname: "King", avatar: "1.jpg"},
   {_id: "2", firstname: "Joe", surname: "Szili", avatar: "2.jpg", isCheckedIn: false},
+  {_id: "3", firstname: "Sarah", surname: "Jane", avatar: "3.jpg", isCheckedIn: false},
+  {_id: "4", firstname: "Molly", surname: "Moo", avatar: "4.jpg", isCheckedIn: false}
 ]
 
 storiesOf('Components', module)
