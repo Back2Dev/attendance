@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { Link, Router, browserHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Form } from 'semantic-ui-react';
 
 // import casual from 'casual';            // casual random data generator
 
