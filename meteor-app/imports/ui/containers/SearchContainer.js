@@ -1,6 +1,6 @@
 
 import { createContainer } from 'meteor/react-meteor-data';
-import Search from '../components/Search';
+import Search from '../components/search';
 
 let searchQuery = new ReactiveVar("");
 let searching = new ReactiveVar(false);
