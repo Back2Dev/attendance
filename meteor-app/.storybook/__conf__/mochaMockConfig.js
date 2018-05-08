@@ -1,4 +1,4 @@
-import { jsdom } from 'jsdom';
+// import { jsdom } from 'jsdom';
 
 // Mocks for mocha CLI test
 const storiesOf = function storiesOf() {
@@ -42,12 +42,18 @@ global.filepicker = {
 /**
  * Mocking browser-like DOM
  */
-global.document = jsdom('<!doctype html><html><body></body></html>', {
-  headers: {
-    'User-Agent':
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7)' +
-    ' AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.71 Safari/534.24'
-  }
-});
-global.window = document.defaultView;
-global.navigator = global.window.navigator;
+// global.document = jsdom('<!doctype html><html><body></body></html>', {
+//   headers: {
+//     'User-Agent':
+//     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7)' +
+//     ' AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.71 Safari/534.24'
+//   }
+// });
+// global.window = document.defaultView;
+// global.navigator = global.window.navigator;
+
+var jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+
+const { document } = (new JSDOM('')).window;
+global.document = document;

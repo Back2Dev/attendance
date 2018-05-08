@@ -1,0 +1,30 @@
+{
+  "name": "testing",
+  "version": "1.0.0",
+  "description": "Tests for Mentorloop app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Mike King",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "newman": "^3.5.2"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "excel-as-json": "^2.0.0",
+    "install": "^0.8.7",
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.6.3",
+    "npm": "^4.4.1",
+    "request": "^2.81.0",
+    "xlsx": "^0.9.3"
+  }
+}
