@@ -104,7 +104,7 @@ class CheckInList extends React.Component {
   }
 
   render() {
-    const isCheckedIn = false
+    const isCheckedin = false
     const { loading, ppl } = this.props;
 
     return (
@@ -144,7 +144,7 @@ class CheckInList extends React.Component {
                     _id={_id}
                     firstName={firstname}
                     lastName={surname}
-                    isCheckedIn={isCheckedIn}
+                    isCheckedin={isCheckedin}
                     fileName={avatar}
                   />
                 </Grid.Column>
@@ -167,7 +167,7 @@ class CheckInList extends React.Component {
               _id={this.state._id}
               firstName={this.state.name}
               lastName={this.state.surname}
-              isCheckedIn={isCheckedIn}
+              isCheckedin={isCheckedin}
               fileName={this.state.avatar}
             />
             <Segment padded='very'>

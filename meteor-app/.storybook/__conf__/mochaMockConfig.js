@@ -54,6 +54,5 @@ global.filepicker = {
 
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-
-const { document } = (new JSDOM('')).window;
-global.document = document;
+const { document, window } = (new JSDOM('<!DOCTYPE html><p>Hello world</p>'));
+// global.document = document;
