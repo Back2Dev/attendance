@@ -1,30 +1,32 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Container, Header, Image } from 'semantic-ui-react';
+import './avatar.css';
 
-const Avatar = (props) => {
+function Avatar(props) {
   const {
     _id,
     firstName,
     lastName,
     fileName,
-    isCheckedIn
-  } = props
+    isCheckedin,
+  } = props;
 
-  let borderColour = isCheckedIn ? 'LimeGreen' : 'grey'
   return (
-    <div className="avcontainer raised item" key={_id} >
-      <img
-          className={'ui avatar image small'}         
-          src={"/images/avatars/" + fileName}
-          style={{border: '5px solid ' + borderColour }} 
-          >
-      </img>
-      <div className={'middle aligned content'}>
-        <b className={'header'}>{firstName} {lastName}</b>
-      </div>
-      <br/>   
-    </div>
-  )
+    <Container className="avatar-wrapper" key={_id} textAlign='center'>
+      <Image
+        size='small'
+        className={isCheckedin ? 'checkedInTrue' : 'checkedInFalse'}
+        src={"/images/avatars/" + fileName}
+        circular
+        centered
+        avatar
+      />
+      <Header as='h3' textAlign='center'>
+        {firstName} {lastName}
+      </Header>
+    </Container>
+  );
 }
 
 Avatar.propTypes = {
@@ -32,11 +34,7 @@ Avatar.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
-  isCheckedIn: PropTypes.bool.isRequired
-}
+  isCheckedin: PropTypes.bool.isRequired
+};
 
-Avatar.defaultProps = {
-  isCheckedIn: true  
-}
-
-export default Avatar
+export default Avatar;
