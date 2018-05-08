@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
 require('rc-slider/assets/index.css')
 
 import Avatar from './avatar'
-import Search from './Search'
+import Search from './search'
+import SubMenu from './sub-menu'
 import Slider from 'rc-slider'
-// import { Input } from 'semantic-ui-react'
+import { Button, Grid, Header, Menu, Segment } from 'semantic-ui-react'
 
 //============================================================================//
 // A word about react-modal
@@ -29,152 +29,149 @@ import Slider from 'rc-slider'
 
 // Custom style for Modal
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
   }
 }
 
-const style = {fontSize: 20}
+const style = { fontSize: 20 }
 
 // Marks for 
 const marks = {
   1: {
-    style: { fontSize: 20},
-    label: <strong>1</strong>, 
+    style: { fontSize: 20 },
+    label: <strong>1</strong>,
   },
   2: {
-    style: { fontSize: 20},
-    label: <strong>2</strong>, 
+    style: { fontSize: 20 },
+    label: <strong>2</strong>,
   },
   3: {
-    style: { fontSize: 20},
-    label: <strong>3</strong>, 
+    style: { fontSize: 20 },
+    label: <strong>3</strong>,
   },
   4: {
-    style: { fontSize: 20},
-    label: <strong>4</strong>, 
+    style: { fontSize: 20 },
+    label: <strong>4</strong>,
   },
   5: {
-    style: { fontSize: 20},
-    label: <strong>5</strong>, 
+    style: { fontSize: 20 },
+    label: <strong>5</strong>,
   },
   6: {
-    style: { fontSize: 20},
+    style: { fontSize: 20 },
     label: <strong>6</strong>
   }
-  
 }
 
 
 class CheckInList extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      modalIsOpen: false,
-      _id: "",
-      name: "",
-      surname: "",
-      avatar: "",
-      hours: 2
-    }
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
-    this.clickConfirm = this.clickConfirm.bind(this)
-    this.handleInput = this.handleInput.bind(this)
+  state = {
+    modalIsOpen: false,
+    _id: "",
+    name: "",
+    surname: "",
+    avatar: "",
+    hours: 2
   }
 
   // Modal handlers
-  openModal(person_id, name, surname, avatar) {
-    this.setState({_id: person_id})
-    this.setState({name: name})
-    this.setState({surname: surname})
-    this.setState({avatar: avatar})
-    this.setState({modalIsOpen: true})
+  openModal = (person_id, name, surname, avatar) => {
+    this.setState({ _id: person_id })
+    this.setState({ name: name })
+    this.setState({ surname: surname })
+    this.setState({ avatar: avatar })
+    this.setState({ modalIsOpen: true })
   }
-  closeModal() {
-    this.setState({modalIsOpen: false})
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false })
   }
-  clickConfirm(person_id, hours) {
+
+  clickConfirm = (person_id, hours) => {
     this.props.recordAttendance(person_id, hours)
     this.closeModal()
   }
 
-  handleInput(v) {
+  handleInput = (v) => {
     console.log(v)
-    this.setState({hours: v})
+    this.setState({ hours: v })
   }
 
-  // Main render with built in Modal
   render() {
-    if (this.props.loading) {
-      return (
-        <p>Loading...</p>
-      )
-    }
-
-    if (this.props.ppl.length === 0) {
-      return (
-        <div>
-          <p>No one to check in!</p>
-          <Link className={'ui button'} to="/addvolunteer">Add new volunteer </Link>
-        </div>
-      )
-    }
-
     const isCheckedIn = false
+    const { loading, ppl } = this.props;
 
     return (
-      <div
-        className={'thirteen wide column'}
-        style={{backgroundColor: 'Snow'}}
-      >
-      <Link className={'ui button'} to="/addvolunteer">Add new volunteer</Link>
+      <Grid.Column width={12}>
+        <SubMenu />
+        <Header
+          as='h2'
+          content='Ready for Check In'
+          textAlign='center'
+        />
 
-        <h2>Ready for Check In</h2>
-        <div className={'ui search'}>
-          <div className={'ui icon input'} >
-            <input className={'prompt'} type='text' placeholder='Type name to search'></input>
-            <i className={'inverted circular search icon'}></i>
-          </div>
-        </div>
-        
-        <div className={'ui relaxed list flow'}>
-          {this.props.ppl.map(({ _id, firstname, surname, avatar }) => (
-            <div key={_id} onClick={() => this.openModal(_id, firstname, surname, avatar)}>
-              <Avatar
-                _id={_id}
-                firstName={firstname}
-                lastName={surname}
-                isCheckedIn={isCheckedIn}
-                fileName={avatar}
-              />
+        <Grid stackable columns={4}>
+          {
+            loading &&
+            <div>
+              <p>Loading</p>
             </div>
-          ))}
-
-          <Modal
-            isOpen={this.state.modalIsOpen}
-            onRequestClose={this.closeModal}
-            style={customStyles} 
-            contentLabel="WTF"
-            >
-            <div >
-              <h2>Checkin</h2>
-              <br></br>
-              <Avatar
-                _id={this.state._id}
-                firstName={this.state.name}
-                lastName={this.state.surname}
-                isCheckedIn={isCheckedIn}
-                fileName={this.state.avatar}
-              />
-              <label>Check In Hours</label>
-              <br/>
-              <br/>
+          }
+          {
+            ppl.length === 0 &&
+            <div>
+              <p>No one to check in!</p>
+              <Link className={'ui button'} to="/addvolunteer">Add new volunteer </Link>
+            </div>
+          }
+          {
+            ppl.length > 1 && ppl
+              .map(({ _id, firstname, surname, avatar }) => (
+                <Grid.Column
+                  mobile={16}
+                  tablet={8}
+                  computer={4}
+                  key={_id}
+                  onClick={() => this.openModal(_id, firstname, surname, avatar)}
+                >
+                  <Avatar
+                    _id={_id}
+                    firstName={firstname}
+                    lastName={surname}
+                    isCheckedIn={isCheckedIn}
+                    fileName={avatar}
+                  />
+                </Grid.Column>
+              ))}
+        </Grid>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="WTF"
+        >
+          <div>
+            <Header
+              divided
+              as='h2'
+              content='Checkin'
+              textAlign='center'
+            />
+            <Avatar
+              _id={this.state._id}
+              firstName={this.state.name}
+              lastName={this.state.surname}
+              isCheckedIn={isCheckedIn}
+              fileName={this.state.avatar}
+            />
+            <Segment padded='very'>
+              <Header divided as='h3' content='How long will you be here for?' />
               <Slider
                 min={1}
                 max={6}
@@ -184,24 +181,22 @@ class CheckInList extends React.Component {
                 onChange={this.handleInput}
                 dots
               />
-              <br/>
-              <br/>
-              <div>
-                <button 
-                  className={'ui button'} 
-                  onClick={this.closeModal}>not me!
-                </button>
-                <button 
-                  className={'ui green button'} 
-                  onClick={() => this.clickConfirm(this.state._id, this.state.hours)}>CONFIRM</button>
-              </div>
+            </Segment>
+            <div>
+              <Button onClick={this.closeModal}>
+                Not Me!
+              </Button>
+              <Button
+                color='green'
+                onClick={() => this.clickConfirm(this.state._id, this.state.hours)}
+              >
+                Sign In
+              </Button>
             </div>
-          </Modal>
-
-        </div>
-
-      </div>
-    )
+          </div>
+        </Modal>
+      </Grid.Column>
+    );
   }
 }
 
