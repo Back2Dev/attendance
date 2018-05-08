@@ -25,7 +25,7 @@ storiesOf('Components', module)
           firstName="Ed"
           lastName="Sheeran"
           fileName="3.jpg"
-          isCheckedIn={boolean('Checked in', false)}
+          isCheckedin={boolean('Checked in', false)}
         />
       </div>
     )
