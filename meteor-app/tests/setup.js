@@ -1,3 +1,4 @@
+var jsdom = require("jsdom/lib/old-api.js").jsdom;
 // import { jsdom } from 'jsdom';
 import proxyquire from 'proxyquire';
 import path from 'path';
@@ -5,12 +6,7 @@ import globalMocks from './mocks';
 
 const exposedProperties = ['window', 'navigator', 'document'];
 
-var jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-
-const { document } = (new JSDOM('')).window;
-// global.document = document;
-// global.document = jsdom('');
+global.document = jsdom('');
 global.window = document.defaultView;
 Object.keys(document.defaultView).forEach((property) => {
   if (typeof global[property] === 'undefined') {
