@@ -164,13 +164,7 @@ class CheckInList extends React.Component {
               <p>Loading</p>
             </div>
           }
-          {
-            ppl.length === 0 &&
-            <div>
-              <p>No one to check in!</p>
-              <Link className={'ui button'} to="/addvolunteer">Add new volunteer </Link>
-            </div>
-          }
+
           {
             ppl.length >= 1 &&
             this.renderPeople()
