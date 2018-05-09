@@ -11,6 +11,7 @@ const ConfirmCheckin = (props) => {
   return (
     <Modal open>
       <h1>Id of selected user: {props.match.params.id}</h1>
+      <Button>Sign In</Button>
       <Button as={Link} to="/people">Close</Button>
     </Modal>
   );
