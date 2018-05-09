@@ -33,7 +33,6 @@
     "faker": "^4.1.0",
     "indexof": "0.0.1",
     "lodash": "^4.15.0",
-    "meteor-node-stubs": "^0.2.11",
     "minimist": "^1.2.0",
     "moment": "^2.18.1",
     "rc-slider": "^8.1.3",
