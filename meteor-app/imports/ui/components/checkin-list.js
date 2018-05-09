@@ -77,7 +77,8 @@ class CheckInList extends React.Component {
     name: "",
     surname: "",
     avatar: "",
-    hours: 2
+    hours: 2,
+    searchQuery: '',
   }
 
   // Modal handlers
@@ -103,13 +104,53 @@ class CheckInList extends React.Component {
     this.setState({ hours: v })
   }
 
+  renderPeople() {
+    let people = this.props.ppl;
+
+    if (this.state.searchQuery != '') {
+      people = people.filter(person => (
+        RegExp(this.state.searchQuery, 'ig')
+          .test(`${person.firstname} ${person.surname}`)
+      ))
+    }
+
+    return people
+      .map(({ _id, firstname, surname, avatar }) => (
+        <Grid.Column
+          mobile={16}
+          tablet={8}
+          computer={4}
+          key={_id}
+          onClick={() => this.openModal(_id, firstname, surname, avatar)}
+        >
+          <Avatar
+            _id={_id}
+            firstName={firstname}
+            lastName={surname}
+            isCheckedIn={this.props.isCheckedIn}
+            fileName={avatar}
+          />
+        </Grid.Column>
+      ));
+  }
+
+  onSearchInput = (e) => {
+    console.log('searching')
+    console.log(e.target.value)
+    this.setState({
+      searchQuery: e.target.value
+    })
+  }
+
   render() {
     const isCheckedIn = false
     const { loading, ppl } = this.props;
 
     return (
       <Grid.Column width={12}>
-        <SubMenu />
+        <SubMenu
+          onSearchInput={this.onSearchInput}
+          searchQuery={this.state.searchQuery} />
         <Header
           as='h2'
           content='Ready for Check In'
@@ -131,24 +172,9 @@ class CheckInList extends React.Component {
             </div>
           }
           {
-            ppl.length > 1 && ppl
-              .map(({ _id, firstname, surname, avatar }) => (
-                <Grid.Column
-                  mobile={16}
-                  tablet={8}
-                  computer={4}
-                  key={_id}
-                  onClick={() => this.openModal(_id, firstname, surname, avatar)}
-                >
-                  <Avatar
-                    _id={_id}
-                    firstName={firstname}
-                    lastName={surname}
-                    isCheckedIn={isCheckedIn}
-                    fileName={avatar}
-                  />
-                </Grid.Column>
-              ))}
+            ppl.length >= 1 &&
+            this.renderPeople()
+          }
         </Grid>
         <Modal
           isOpen={this.state.modalIsOpen}
