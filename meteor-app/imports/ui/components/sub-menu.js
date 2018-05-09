@@ -8,7 +8,10 @@ const SubMenu = (props) => {
         <Menu stackable>
           <Menu.Item as={Link} to="/addvolunteer" name='Add New Volunter' />
           <Menu.Item position='right'>
-            <Search />
+            <Search 
+              onSearchInput={props.onSearchInput} 
+              searchQuery={props.searchQuery}
+            />
           </Menu.Item>
         </Menu>
     )
