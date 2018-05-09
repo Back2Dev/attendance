@@ -11,12 +11,12 @@ global.expect = expect;
 global.mount = mount;
 // global.createConnection = createConnection;
 // global.createMethod = createMethod;
-global.filepicker = {
-  pickAndStore: () => {},
-  remove: () => {},
-  extend: () => {},
-  internal: () => {},
-};
+// global.filepicker = {
+//   pickAndStore: () => {},
+//   remove: () => {},
+//   extend: () => {},
+//   internal: () => {},
+// };
 global.SimpleSchema = () => {};
 
 // const ts = new TestScheduler(assert.deepEqual);
