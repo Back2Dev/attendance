@@ -3,7 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import CheckedInList from '../components/checked-in-list';
 import People , {insert, remove} from '/imports/collections/People';
 import * as sg from 'sugar';              // sugar utility
-
+import { withRouter } from 'react-router-dom'
 
 const CheckedInContainer = createContainer(() => {
   const peopleHandle = Meteor.subscribe('checked.in');
@@ -16,4 +16,4 @@ const CheckedInContainer = createContainer(() => {
   };
 }, CheckedInList);
 
-export default CheckedInContainer;
+export default withRouter(CheckedInContainer);

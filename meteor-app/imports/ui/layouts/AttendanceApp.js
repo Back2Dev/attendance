@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CheckinContainer from '../containers/CheckinContainer';
 import CheckedInContainer from '../containers/CheckedInContainer';
+import { withRouter } from 'react-router'
 
 function AttendanceApp() {
   return (
@@ -15,4 +16,4 @@ function AttendanceApp() {
   );
 }
 
-export default AttendanceApp;
+export default withRouter(AttendanceApp);

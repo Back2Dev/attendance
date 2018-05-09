@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import Modal from 'react-modal'
+import {withRouter} from 'react-router'
+
 require('rc-slider/assets/index.css')
 
 import Avatar from './avatar'
-import Search from './search'
 import SubMenu from './sub-menu'
 import Slider from 'rc-slider'
 import { Button, Grid, Header, Menu, Segment } from 'semantic-ui-react'
-
+import ConfirmContainer from '../containers/ConfirmContainer'
 //============================================================================//
 // A word about react-modal
 //
@@ -121,22 +122,22 @@ class CheckInList extends React.Component {
           tablet={8}
           computer={4}
           key={_id}
-          onClick={() => this.openModal(_id, firstname, surname, avatar)}
+          // onClick={() => this.openModal(_id, firstname, surname, avatar)}
         >
-          <Avatar
-            _id={_id}
-            firstName={firstname}
-            lastName={surname}
-            isCheckedIn={this.props.isCheckedIn}
-            fileName={avatar}
-          />
+        <Link to={`/people/${_id}/checkin`}>
+            <Avatar
+              _id={_id}
+              firstName={firstname}
+              lastName={surname}
+              isCheckedIn={this.props.isCheckedIn}
+              fileName={avatar}
+            />
+          </Link>
         </Grid.Column>
       ));
   }
 
   onSearchInput = (e) => {
-    console.log('searching')
-    console.log(e.target.value)
     this.setState({
       searchQuery: e.target.value
     })
@@ -148,6 +149,9 @@ class CheckInList extends React.Component {
 
     return (
       <Grid.Column width={12}>
+      <Switch>
+          <Route path="/people/:id/checkin" component={ConfirmContainer} />
+        </Switch>
         <SubMenu
           onSearchInput={this.onSearchInput}
           searchQuery={this.state.searchQuery} />
@@ -170,51 +174,8 @@ class CheckInList extends React.Component {
             this.renderPeople()
           }
         </Grid>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="WTF"
-        >
-          <div>
-            <Header
-              divided
-              as='h2'
-              content='Checkin'
-              textAlign='center'
-            />
-            <Avatar
-              _id={this.state._id}
-              firstName={this.state.name}
-              lastName={this.state.surname}
-              isCheckedIn={isCheckedIn}
-              fileName={this.state.avatar}
-            />
-            <Segment padded='very'>
-              <Header divided as='h3' content='How long will you be here for?' />
-              <Slider
-                min={1}
-                max={6}
-                step={1}
-                marks={marks}
-                defaultValue={this.state.hours}
-                onChange={this.handleInput}
-                dots
-              />
-            </Segment>
-            <div>
-              <Button onClick={this.closeModal}>
-                Not Me!
-              </Button>
-              <Button
-                color='green'
-                onClick={() => this.clickConfirm(this.state._id, this.state.hours)}
-              >
-                Sign In
-              </Button>
-            </div>
-          </div>
-        </Modal>
+
+        
       </Grid.Column>
     );
   }
@@ -226,4 +187,4 @@ CheckInList.propTypes = {
   recordAttendance: PropTypes.func.isRequired
 }
 
-export default CheckInList
+export default withRouter(CheckInList)

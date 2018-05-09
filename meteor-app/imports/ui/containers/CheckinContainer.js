@@ -4,6 +4,7 @@ import CheckInList from '../components/checkin-list';
 import People , {insert, remove} from '/imports/collections/People';
 import Attendances from '/imports/collections/Attendances'
 import * as sg from 'sugar';              // sugar utility
+import { withRouter } from 'react-router'
 
 function recordAttendance(person_id, hours) {
 
@@ -38,4 +39,4 @@ const CheckinContainer = createContainer(() => {
   };
 }, CheckInList);
 
-export default CheckinContainer;
+export default withRouter(CheckinContainer)

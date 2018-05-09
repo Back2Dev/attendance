@@ -34,7 +34,7 @@ Avatar.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
-  isCheckedin: PropTypes.bool.isRequired
+  // isCheckedin: PropTypes.bool.isRequired
 };
 
 export default Avatar;
