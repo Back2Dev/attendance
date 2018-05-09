@@ -13,9 +13,9 @@ import AddVolunteer from '/imports/ui/containers/AddVolunteerContainer.js';
 export const renderRoutes = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path="/" component={AttendanceApp}/>
-      <Route exact path="/addvolunteer" component={AddVolunteer} />
-      <Route path="*" component={NotFoundPage}/>
+      <Route path="/addvolunteer" component={AddVolunteer} />
+      <Route path="/" component={AttendanceApp} />
+      <Route component={NotFoundPage}/>
     </Switch>
   </BrowserRouter>
 );
