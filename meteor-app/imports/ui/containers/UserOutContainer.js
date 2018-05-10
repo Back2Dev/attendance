@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import CheckInList from '../components/checkin-list';
+import UserOut from '../components/user-out';
 import People , {insert, remove} from '/imports/collections/People';
 import Attendances from '/imports/collections/Attendances'
 import * as sg from 'sugar';              // sugar utility
@@ -27,7 +27,7 @@ function recordAttendance(person_id, hours) {
 
 }
 
-const CheckinContainer = createContainer(() => {
+const UserOutContainer = createContainer(() => {
   const peopleHandle = Meteor.subscribe('ready.for.checkin');
   const loading = ! peopleHandle.ready();
   const ppl = People.find({lastIn: {$ne: sg.Date.create('today')}}, { sort: { lastIn: 1, surname: -1} }).fetch();
@@ -37,6 +37,6 @@ const CheckinContainer = createContainer(() => {
     ppl,
     recordAttendance,
   };
-}, CheckInList);
+}, UserOut);
 
-export default withRouter(CheckinContainer)
+export default withRouter(UserOutContainer)

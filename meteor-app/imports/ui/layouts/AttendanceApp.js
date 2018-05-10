@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CheckinContainer from '../containers/CheckinContainer';
-import CheckedInContainer from '../containers/CheckedInContainer';
+import UserOutContainer from '../containers/UserOutContainer';
+import UserInContainer from '../containers/UserInContainer';
 import UserContainer from '../containers/UserContainer'
 import { withRouter } from 'react-router'
 import { Route, Switch } from "react-router-dom";
@@ -16,7 +16,7 @@ function AttendanceApp() {
       </Menu>
       <Switch>
         <Route path="/users/checkin/:id" component={UserContainer} />
-        <Route path="/users/" component={CheckinContainer} />
+        <Route path="/users/" component={UserOutContainer} />
       </Switch>
     </div>
   );

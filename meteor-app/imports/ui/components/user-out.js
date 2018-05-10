@@ -11,7 +11,7 @@ import SubMenu from './sub-menu'
 import Slider from 'rc-slider'
 import { Button, Grid, Header, Menu, Segment } from 'semantic-ui-react'
 import UserContainer from '../containers/UserContainer'
-import CheckedInContainer from '../containers/CheckedInContainer'
+import UserInContainer from '../containers/UserInContainer'
 //============================================================================//
 // A word about react-modal
 //
@@ -72,7 +72,7 @@ const marks = {
 }
 
 
-class CheckInList extends React.Component {
+class UserOut extends React.Component {
   state = {
     modalIsOpen: false,
     _id: "",
@@ -219,16 +219,16 @@ class CheckInList extends React.Component {
             </div>
           </Modal>
         </Grid.Column>
-        <CheckedInContainer />
+        <UserInContainer />
       </div>
     );
   }
 }
 
-CheckInList.propTypes = {
+UserOut.propTypes = {
   loading: PropTypes.bool.isRequired,
   ppl: PropTypes.array.isRequired,
   recordAttendance: PropTypes.func.isRequired
 }
 
-export default withRouter(CheckInList)
+export default withRouter(UserOut)

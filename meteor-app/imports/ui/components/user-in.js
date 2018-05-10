@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Avatar from './avatar';
 import { Grid, Header } from 'semantic-ui-react'
 
-function CheckedInList(props) {
+function UserIn(props) {
   const { loading, ppl } = props;
 
   return (
@@ -37,9 +37,9 @@ function CheckedInList(props) {
   );
 }
 
-CheckedInList.propTypes = {
+UserIn.propTypes = {
   loading: PropTypes.bool.isRequired,
   ppl: PropTypes.array.isRequired,
 };
 
-export default CheckedInList;
+export default UserIn;
