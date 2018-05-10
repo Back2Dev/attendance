@@ -25,7 +25,7 @@ const RoleRegister = (props) => {
           {firstname} {lastname}
         </Card.Header>
         <Button.Group>
-          <Button as={Link} to={'/roles'}>Cancel</Button>
+          <Button as={Link} to={'/'}>Cancel</Button>
           <Button.Or />
           <Button
             onClick={updateStatus}

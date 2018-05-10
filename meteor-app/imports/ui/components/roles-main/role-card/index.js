@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const RoleCard = (props) => {
   const { _id, firstname, lastname, avatar } = props
   return (
-    <Link to={'/roles/' + _id}>
+    <Link to={'/' + _id}>
       <Card key={_id}>
         <Image src={"/images/avatars/" + avatar} />
         <Card.Content>
