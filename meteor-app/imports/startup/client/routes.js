@@ -8,7 +8,7 @@ import { BrowserRouter, HashRouter, Route, Switch, Link, Redirect } from 'react-
 import AttendanceApp from '/imports/ui/layouts/AttendanceApp.js';
 import NotFoundPage from '/imports/ui/pages/NotFoundPage.js';
 import HomePage from '/imports/ui/pages/HomePage.js';
-import AddVolunteer from '/imports/ui/containers/AddVolunteerContainer.js';
+import AddVolunteer from '/imports/ui/containers/AddUserContainer.js';
 
 export const renderRoutes = () => (
   <BrowserRouter>

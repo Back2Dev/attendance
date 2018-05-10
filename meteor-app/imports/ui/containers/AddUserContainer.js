@@ -17,10 +17,10 @@ function handleSubmit ({ firstname, surname, pplPhone, pplEmail, avatar }) {
     // TODO: use the router instead of this brute force 'goto page'
     window.location.href = '/';
 }
-const AddVolunteerContainer = createContainer(() => {
+const AddUserContainer = createContainer(() => {
   return {
     onSubmit: handleSubmit,
   };
 }, AddVolunteer);
 
-export default AddVolunteerContainer;
+export default AddUserContainer;

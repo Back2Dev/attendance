@@ -5,58 +5,30 @@ import Avatar from './avatar'
 import { Button, Segment, Loader, Modal } from 'semantic-ui-react'
 import People from '/imports/collections/People'
 import { Link } from 'react-router-dom'
+import { renderRoutes } from '../../startup/client/routes';
 
-const ConfirmCheckin = (props) => {
-<<<<<<< HEAD
-  const person = People.findOne({ "_id": props.match.params.id })
-  return (
-    <Modal open>
-      <h1>Id of selected user: {props.match.params.id}</h1>
-      <Button>Sign In</Button>
-      <Button as={Link} to="/people">Close</Button>
-    </Modal>
-  );
-=======
+const User = props => {
 
-  if (props.loading) {return <Loader active inline='centered'/>}
-
-  const { id, name, surname, avatar } = props.person
-  const isCheckedin = props.isCheckedin
-
-  return (
-    <Segment style={{ marginTop: '7em' }}>
-        <Avatar
-          _id={id}
-          firstName={name}
-          lastName={surname}
-          isCheckedin={isCheckedin}
-          fileName={avatar}
-        />    
-        <Button.Group>
-          <Button onClick={ () => props.cancel() }>
-            Cancel
-          </Button>
-          <Button.Or />
-          <Button positive
-            onClick={ () => props.checkin(id) }> 
-            Check In
-          </Button>
-        </Button.Group>      
-    </Segment>
-  ) 
+    return (
+      <Segment style={{ marginTop: '7em' }}>
+      <h1>User:</h1>
+        {JSON.stringify(props.user)}
+        <Button>Sign In</Button>
+        <Button>Sign Out</Button>
+      </Segment>
+    )
 
 }
 
-ConfirmCheckin.Proptypes = {
-  person: PropTypes.object.isRequired,
-  isCheckedin: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
-  cancel: PropTypes.func.isRequired,
-  checkin: PropTypes.func.isRequired,
->>>>>>> develop
-}
+// User.Proptypes = {
+//   person: PropTypes.object.isRequired,
+//   isCheckedin: PropTypes.bool.isRequired,
+//   loading: PropTypes.bool.isRequired,
+//   cancel: PropTypes.func.isRequired,
+//   checkin: PropTypes.func.isRequired,
+// }
 
-export default withRouter(ConfirmCheckin);
+export default withRouter(User);
 
         // <Modal
         //   isOpen={this.state.modalIsOpen}

@@ -1080,7 +1080,7 @@ exports[`Storyshots Components Avatar 1`] = `
 </div>
 `;
 
-exports[`Storyshots Components ConfirmCheckin 1`] = `
+exports[`Storyshots Components User 1`] = `
 <div>
   <div
     style={
@@ -1258,7 +1258,7 @@ exports[`Storyshots Components ConfirmCheckin 1`] = `
               }
             }
           >
-            ConfirmCheckin
+            User
           </h2>
         </div>
         <div
@@ -1413,7 +1413,7 @@ exports[`Storyshots Components ConfirmCheckin 1`] = `
                     }
                   >
                     &lt;
-                    ConfirmCheckin
+                    User
                   </span>
                   <span>
                     <span>
@@ -1650,7 +1650,7 @@ exports[`Storyshots Components ConfirmCheckin 1`] = `
               }
             >
               "
-              ConfirmCheckin
+              User
               " Component
             </h2>
             <small>

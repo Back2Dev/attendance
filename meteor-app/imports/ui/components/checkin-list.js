@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Link } from 'react-router-dom'
 import Modal from 'react-modal'
-import {withRouter} from 'react-router'
+import { withRouter } from 'react-router'
 
 require('rc-slider/assets/index.css')
 
@@ -10,7 +10,8 @@ import Avatar from './avatar'
 import SubMenu from './sub-menu'
 import Slider from 'rc-slider'
 import { Button, Grid, Header, Menu, Segment } from 'semantic-ui-react'
-import ConfirmContainer from '../containers/ConfirmContainer'
+import UserContainer from '../containers/UserContainer'
+import CheckedInContainer from '../containers/CheckedInContainer'
 //============================================================================//
 // A word about react-modal
 //
@@ -122,9 +123,9 @@ class CheckInList extends React.Component {
           tablet={8}
           computer={4}
           key={_id}
-          // onClick={() => this.openModal(_id, firstname, surname, avatar)}
+        // onClick={() => this.openModal(_id, firstname, surname, avatar)}
         >
-        <Link to={`/people/${_id}/checkin`}>
+          <Link to={`/users/checkin/${_id}`}>
             <Avatar
               _id={_id}
               firstName={firstname}
@@ -148,99 +149,78 @@ class CheckInList extends React.Component {
     const { loading, ppl } = this.props;
 
     return (
-      <Grid.Column width={12}>
-      <Switch>
-          <Route path="/people/:id/checkin" component={ConfirmContainer} />
-        </Switch>
-        <SubMenu
-          onSearchInput={this.onSearchInput}
-          searchQuery={this.state.searchQuery} />
-        <Header
-          as='h2'
-          content='Ready for Check In'
-          textAlign='center'
-        />
+      <div>
 
-        <Grid stackable columns={4}>
-          {
-            loading &&
+        <Grid.Column width={12}>
+          <SubMenu
+            onSearchInput={this.onSearchInput}
+            searchQuery={this.state.searchQuery} />
+          <Header
+            as='h2'
+            content='Ready for Check In'
+            textAlign='center'
+          />
+
+          <Grid stackable columns={4}>
+            {
+              loading &&
+              <div>
+                <p>Loading</p>
+              </div>
+            }
+
+            {
+              ppl.length > 1 && this.renderPeople()
+            }
+          </Grid>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.closeModal}
+            style={customStyles}
+            contentLabel="WTF"
+          >
             <div>
-              <p>Loading</p>
-            </div>
-          }
-
-          {
-            ppl.length > 1 && ppl
-              .map(({ _id, firstname, surname, avatar }) => (
-                <Grid.Column
-                  mobile={16}
-                  tablet={8}
-                  computer={4}
-                  key={_id}
-                  onClick={() => this.openModal(_id, firstname, surname, avatar)}
-                >
-                  <Avatar
-                    _id={_id}
-                    firstName={firstname}
-                    lastName={surname}
-                    isCheckedin={isCheckedin}
-                    fileName={avatar}
-                  />
-                </Grid.Column>
-              ))}
-          }
-        </Grid>
-<<<<<<< HEAD
-
-        
-=======
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="WTF"
-        >
-          <div>
-            <Header
-              divided
-              as='h2'
-              content='Checkin'
-              textAlign='center'
-            />
-            <Avatar
-              _id={this.state._id}
-              firstName={this.state.name}
-              lastName={this.state.surname}
-              isCheckedin={isCheckedin}
-              fileName={this.state.avatar}
-            />
-            <Segment padded='very'>
-              <Header divided as='h3' content='How long will you be here for?' />
-              <Slider
-                min={1}
-                max={6}
-                step={1}
-                marks={marks}
-                defaultValue={this.state.hours}
-                onChange={this.handleInput}
-                dots
+              <Header
+                divided
+                as='h2'
+                content='Checkin'
+                textAlign='center'
               />
-            </Segment>
-            <div>
-              <Button onClick={this.closeModal}>
-                Not Me!
+              <Avatar
+                _id={this.state._id}
+                firstName={this.state.name}
+                lastName={this.state.surname}
+                isCheckedin={isCheckedin}
+                fileName={this.state.avatar}
+              />
+              <Segment padded='very'>
+                <Header divided as='h3' content='How long will you be here for?' />
+                <Slider
+                  min={1}
+                  max={6}
+                  step={1}
+                  marks={marks}
+                  defaultValue={this.state.hours}
+                  onChange={this.handleInput}
+                  dots
+                />
+              </Segment>
+              <div>
+                <Button onClick={this.closeModal}>
+                  Not Me!
               </Button>
-              <Button
-                color='green'
-                onClick={() => this.clickConfirm(this.state._id, this.state.hours)}
-              >
-                Sign In
+                <Button
+                  color='green'
+                  onClick={() => this.clickConfirm(this.state._id, this.state.hours)}
+                >
+                  Sign In
               </Button>
+              </div>
             </div>
-          </div>
-        </Modal>
->>>>>>> develop
-      </Grid.Column>
+          </Modal>
+        </Grid.Column>
+        <CheckedInContainer />
+      </div>
     );
   }
 }
