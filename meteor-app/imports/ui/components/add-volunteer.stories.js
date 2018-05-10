@@ -1,3 +1,4 @@
+// add-volunteer.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -11,23 +12,17 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import Avatar from './avatar'
+import AddVolunteer from './add-volunteer'
 
 storiesOf('Components', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Avatar', withInfo('Checked in/out')(() => {
+  .add('AddVolunteer', withInfo('New volunteer form')(() => {
     const story = (
-      <div><p>Use Knobs to show checked in/out status</p>
-        <Avatar 
-          _id="aab45bb"
-          firstName="Ed"
-          lastName="Sheeran"
-          fileName="3.jpg"
-          isCheckedin={boolean('Checked in', false)}
-        />
-      </div>
+      <AddVolunteer
+      onSubmit={action('onClick')}
+      />
     )
     // specs(() =>
     //   describe('<Avatar avatar={avatar} />', () => {
@@ -41,4 +36,3 @@ storiesOf('Components', module)
     return story;
   }))
 
-     

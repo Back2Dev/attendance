@@ -1,5 +1,5 @@
-import { jsdom } from 'jsdom';
-
+// import { jsdom } from 'jsdom';
+var jsdom = require("jsdom/lib/old-api.js").jsdom;
 // Mocks for mocha CLI test
 const storiesOf = function storiesOf() {
   var api = {};

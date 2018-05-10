@@ -8,7 +8,7 @@ const ConfirmCheckin = (props) => {
   if (props.loading) {return <Loader active inline='centered'/>}
 
   const { id, name, surname, avatar } = props.person
-  const isCheckedIn = props.isCheckedIn
+  const isCheckedin = props.isCheckedin
 
   return (
     <Segment style={{ marginTop: '7em' }}>
@@ -16,7 +16,7 @@ const ConfirmCheckin = (props) => {
           _id={id}
           firstName={name}
           lastName={surname}
-          isCheckedIn={isCheckedIn}
+          isCheckedin={isCheckedin}
           fileName={avatar}
         />    
         <Button.Group>
@@ -36,7 +36,7 @@ const ConfirmCheckin = (props) => {
 
 ConfirmCheckin.Proptypes = {
   person: PropTypes.object.isRequired,
-  isCheckedIn: PropTypes.bool.isRequired,
+  isCheckedin: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   cancel: PropTypes.func.isRequired,
   checkin: PropTypes.func.isRequired,

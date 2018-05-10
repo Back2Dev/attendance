@@ -143,7 +143,7 @@ class CheckInList extends React.Component {
   }
 
   render() {
-    const isCheckedIn = false
+    const isCheckedin = false
     const { loading, ppl } = this.props;
 
     return (
@@ -172,8 +172,24 @@ class CheckInList extends React.Component {
             </div>
           }
           {
-            ppl.length >= 1 &&
-            this.renderPeople()
+            ppl.length > 1 && ppl
+              .map(({ _id, firstname, surname, avatar }) => (
+                <Grid.Column
+                  mobile={16}
+                  tablet={8}
+                  computer={4}
+                  key={_id}
+                  onClick={() => this.openModal(_id, firstname, surname, avatar)}
+                >
+                  <Avatar
+                    _id={_id}
+                    firstName={firstname}
+                    lastName={surname}
+                    isCheckedin={isCheckedin}
+                    fileName={avatar}
+                  />
+                </Grid.Column>
+              ))}
           }
         </Grid>
         <Modal
@@ -193,7 +209,7 @@ class CheckInList extends React.Component {
               _id={this.state._id}
               firstName={this.state.name}
               lastName={this.state.surname}
-              isCheckedIn={isCheckedIn}
+              isCheckedin={isCheckedin}
               fileName={this.state.avatar}
             />
             <Segment padded='very'>

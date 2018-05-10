@@ -1,0 +1,17 @@
+{
+  "env": {
+      "mocha": true
+  },
+  "globals": {
+    "hot": true,
+    "cold": true,
+    "flush": true,
+    "expectObservable": true,
+    "mockImport": true,
+    "mockImportDefault": true,
+    "expect": true,
+    "mount": true,
+    "createConnection": true,
+    "createMethod": true
+  }
+}

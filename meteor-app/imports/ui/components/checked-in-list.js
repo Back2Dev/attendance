@@ -23,12 +23,12 @@ function CheckedInList(props) {
       }
       {
         ppl.length > 1 &&
-          ppl.map(({ _id, firstname, surname, avatar, isCheckedIn }) => (
+          ppl.map(({ _id, firstname, surname, avatar, isCheckedin }) => (
               <Avatar
                 _id={_id}
                 firstName={firstname}
                 lastName={surname}
-                isCheckedIn={isCheckedIn}
+                isCheckedin={isCheckedin}
                 fileName={avatar}
               />
           ))
