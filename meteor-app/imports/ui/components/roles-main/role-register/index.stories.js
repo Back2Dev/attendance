@@ -23,7 +23,7 @@ const match = {
 const person = {
 	id: '123ASD', 
 	name: 'Mickey', 
-	surname: 'Mouse', 
+	lastname: 'Mouse', 
 	avatar: '2.jpg',
 }
 

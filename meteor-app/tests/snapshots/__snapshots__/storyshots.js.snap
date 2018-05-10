@@ -43,7 +43,7 @@ exports[`Storyshots Components AddVolunteer 1`] = `
           </div>
         </div>
         <input
-          id="surname"
+          id="lastname"
           placeholder="Surname"
           type="text"
         />
@@ -1547,7 +1547,7 @@ exports[`Storyshots Components User 1`] = `
                                   }
                                 }
                               >
-                                surname
+                                lastname
                               </span>
                               : 
                               <span
@@ -1693,7 +1693,7 @@ exports[`Storyshots Components NewVolunteerForm 1`] = `
           type="text"
         />
         <input
-          id="surname"
+          id="lastname"
           placeholder="Surname"
           type="text"
         />

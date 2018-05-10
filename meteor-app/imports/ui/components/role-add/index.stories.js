@@ -1,4 +1,4 @@
-// add-volunteer.stories.js
+// role-add.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -12,15 +12,15 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import AddVolunteer from './add-volunteer'
+import RoleAdd from './role-add'
 
 storiesOf('Components', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('AddVolunteer', withInfo('New volunteer form')(() => {
+  .add('RoleAdd', withInfo('New volunteer form')(() => {
     const story = (
-      <AddVolunteer
+      <RoleAdd
       onSubmit={action('onClick')}
       />
     )
