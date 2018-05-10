@@ -36,7 +36,7 @@ storiesOf('Components', module)
       <div><p>Use Knobs to show check in confirmation</p>
         <ConfirmCheckin 
           loading={boolean('Loading', false)}
-					isCheckedIn={boolean('Checked in', false)}
+					isCheckedin={boolean('Checked in', false)}
         	person={person}
         />
       </div>

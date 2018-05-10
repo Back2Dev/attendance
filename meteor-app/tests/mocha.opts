@@ -1,0 +1,6 @@
+--require ignore-styles
+--require tests/setup.js
+tests/globals.js
+tests/enzyme/**/*-test.js
+--compilers js:babel-core/register
+--recursive

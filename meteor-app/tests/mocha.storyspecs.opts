@@ -1,0 +1,8 @@
+
+--require ignore-styles
+--require  ./.storybook/__conf__/mochaMockConfig.js
+
+imports/ui/**/**/*.stories.js
+--compilers js:babel-core/register
+--recursive
+

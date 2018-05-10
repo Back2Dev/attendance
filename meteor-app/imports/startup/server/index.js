@@ -34,7 +34,7 @@ Meteor.startup(() => {
         surname: p.s,
         lastIn: p.lad,
         avatar: p.avatar,
-        isCheckedIn: false,
+        isCheckedin: false,
       });
     }
   };
