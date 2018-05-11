@@ -1,41 +1,35 @@
-//import '/imports/startup/server';
-import Roles from '/imports/api/roles/roles';
-
 import { Meteor } from 'meteor/meteor'; // base
-import sugar from 'sugar';              // sugar utility
+import Roles from '/imports/api/roles/roles';
 import casual from 'casual';            // casual random data generator
 
 Meteor.startup(() => {
 
-  // seed ensures same data is generated
-  casual.seed(1066);
-
   if (Roles.find().count() === 0) {
-    var dftDate = sugar.Date.create('yesterday');
-    var u = [
-      {n: "Joseph",s: "Szili", lad: sugar.Date.create('today'), avatar: "1.jpg", isHere: true},
-      {n: "Mikkel",s: "King", lad: sugar.Date.create('today'), avatar: "2.jpg", isHere: true},
-    ];
 
-    let i = 0;
-    do {
-      let randomInt = casual.integer(1,11)
-      u.push({n: casual.first_name, s: casual.last_name, c: casual.boolean, lad: dftDate, avatar: randomInt+".jpg"})
-      ++i;
-    } while (i<10)
+    casual.define('role', function () {
+      return {
+        firstname: casual.first_name,
+        lastname: casual.last_name,
+        avatar: `${casual.integer(1, 10)}.jpg`,
+      };
+    });
 
-// Commenting in the next line will stop autopopulation of random volunteers
-    // u = [];
+    // number of seeds
+    const ROLES = 10
 
-    for (let p of u) {
-      Roles.insert({
-        firstname: p.n,
-        isHere: p.c,
-        lastname: p.s,
-        lastIn: p.lad,
-        avatar: p.avatar,
-      });
-    }
+    // seed ensures same data is generated
+    casual.seed(123);
+
+    const array_of = function (times, generator) {
+      let result = [];
+      for (let i = 0; i < times; ++i) {
+        result.push(generator());
+      }
+      return result;
+    };
+
+    let rolesArray = array_of(ROLES, () => casual.role);
+
+    rolesArray.forEach(r => Roles.insert(r))
   };
-
 });
