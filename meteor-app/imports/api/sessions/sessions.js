@@ -7,19 +7,24 @@ Sessions.attachSchema(
     roleId: {
       type: String,
       regEx: SimpleSchema.RegEx.Id,
-      label: "Attending Person ID",
+      label: "Session Person ID",
       optional: false
     },
     timeIn: {
-      type: Number,
-      label: "Attendance Check In Time",
+      type: Date,
+      label: "Session check in time",
       optional: false
     },
     timeOut: {
-      type: Number,
-      label: "Attendance Check Out Time",
+      type: Date,
+      label: "Session check out time",
       optional: false
     },
+    duration: {
+      type: Number,
+      label: "Session duration in hours",
+      optional: false
+    }
   })
 );
 
