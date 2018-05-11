@@ -23,7 +23,7 @@ export default withTracker((props) => {
   const loading = ! rolesHandle.ready()
 
   return {
-    rolesIn: Roles.find({checkedin: true}).fetch(),
-    rolesOut: Roles.find({checkedin: false}).fetch(),
+    rolesIn: Roles.find({isHere: true}).fetch(),
+    rolesOut: Roles.find({isHere: false}).fetch(),
   }
 })(RolesMain)

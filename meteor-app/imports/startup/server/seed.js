@@ -13,8 +13,8 @@ Meteor.startup(() => {
   if (Roles.find().count() === 0) {
     var dftDate = sugar.Date.create('yesterday');
     var u = [
-      {n: "Joseph",s: "Szili", lad: sugar.Date.create('today'), avatar: "1.jpg", checkedin: true},
-      {n: "Mikkel",s: "King", lad: sugar.Date.create('today'), avatar: "2.jpg", checkedin: true},
+      {n: "Joseph",s: "Szili", lad: sugar.Date.create('today'), avatar: "1.jpg", isHere: true},
+      {n: "Mikkel",s: "King", lad: sugar.Date.create('today'), avatar: "2.jpg", isHere: true},
     ];
 
     let i = 0;
@@ -30,7 +30,7 @@ Meteor.startup(() => {
     for (let p of u) {
       Roles.insert({
         firstname: p.n,
-        checkedin: p.c,
+        isHere: p.c,
         lastname: p.s,
         lastIn: p.lad,
         avatar: p.avatar,

@@ -5,14 +5,14 @@ Meteor.methods({
     Roles.update({
       _id: id
     }, {
-      $set : {checkedin: true}
+      $set : {isHere: true}
     })
   },
   'role.checkout'(id){
     Roles.update({
       _id: id
     }, {
-      $set : {checkedin: false}
+      $set : {isHere: false}
     })
   }
 })

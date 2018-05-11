@@ -11,7 +11,7 @@ export default withTracker((props) => {
   const role = Roles.findOne({ "_id": id })
   
   function recordAttendance(){
-    if(role.checkedin){
+    if(role.isHere){
       Meteor.call('attendance.signout', id);
       Meteor.call('role.checkout', id)
     } else {

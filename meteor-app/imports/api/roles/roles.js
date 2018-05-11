@@ -20,7 +20,7 @@ Roles.attachSchema(new SimpleSchema({
     label: "Avatar file name",
     optional: true
   },
-  checkedin: {
+  isHere: {
     type: Boolean,
     label: "checked in",
     optional: true

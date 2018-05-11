@@ -9,7 +9,7 @@ const RoleRegister = (props) => {
     )
   }
 
-  const { _id, avatar, firstname, lastname, checkedin } = props.role
+  const { _id, avatar, firstname, lastname, isHere } = props.role
   const { recordAttendance } = props
 
   function updateStatus(){
@@ -31,7 +31,7 @@ const RoleRegister = (props) => {
             onClick={updateStatus}
             positive>
             {
-              checkedin
+              isHere
                 ? 'Sign Out'
                 : 'Sign In'
             }
