@@ -1,9 +1,9 @@
-import Attendances from './attendances'
+import Sessions from './sessions'
 
 Meteor.methods({
   'attendance.signin'(id) {
     // create a new attendance
-    Attendances.insert({
+    Sessions.insert({
       roleId: id,
       timeIn: Date.now(),
       timeOut: Date.now(),
@@ -11,7 +11,7 @@ Meteor.methods({
   },
 
   'attendance.signout'(id) {
-    Attendances.update({
+    Sessions.update({
       roleId: id,
       timeIn: { $gte: Date.now() - 43200000 }
     }, {

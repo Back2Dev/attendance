@@ -1,6 +1,6 @@
 // roles
 import '../../api/roles/methods';
 import '../../api/roles/server/publications';
-// attendances
-import '../../api/attendances/methods';
-import '../../api/attendances/server/publications';
+// sessions
+import '../../api/sessions/methods';
+import '../../api/sessions/server/publications';

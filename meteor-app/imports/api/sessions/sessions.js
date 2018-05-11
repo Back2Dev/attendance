@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 
-const Attendances = new Mongo.Collection('attendances');
+const Sessions = new Mongo.Collection('sessions');
 
-Attendances.attachSchema(
+Sessions.attachSchema(
   new SimpleSchema({
     roleId: {
       type: String,
@@ -23,4 +23,4 @@ Attendances.attachSchema(
   })
 );
 
-export default Attendances;
+export default Sessions;
