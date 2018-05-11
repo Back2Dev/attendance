@@ -1,6 +1,9 @@
+// methods that affect more than one collection:
+import '/imports/api/methods'
+
 // roles
-import '../../api/roles/methods';
-import '../../api/roles/server/publications';
+import '/imports/api/roles/methods'
+import '/imports/api/roles/server/publications'
 // sessions
-import '../../api/sessions/methods';
-import '../../api/sessions/server/publications';
+import '/imports/api/sessions/methods'
+import '/imports/api/sessions/server/publications'
