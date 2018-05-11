@@ -1,11 +1,16 @@
 import React from 'react'
 import { Grid, Icon, Card, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import './style.css'
+
 const RoleCard = (props) => {
-  const { _id, firstname, lastname, avatar } = props
+  const { _id, firstname, lastname, avatar, isHere } = props
   return (
-    <Link to={'/' + _id}>
-      <Card key={_id}>
+      <Card
+        key={_id}
+        href={'/' + _id} 
+        color={isHere ? 'green' : 'grey'} 
+      >
         <Image src={"/images/avatars/" + avatar} />
         <Card.Content>
           <Card.Header>
@@ -13,7 +18,6 @@ const RoleCard = (props) => {
           </Card.Header>
         </Card.Content>
       </Card>
-    </Link>
   )
 }
 
