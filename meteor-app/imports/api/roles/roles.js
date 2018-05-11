@@ -22,8 +22,19 @@ Roles.attachSchema(new SimpleSchema({
   },
   isHere: {
     type: Boolean,
-    label: "checked in",
+    label: "Is signed in",
+    defaultValue: false,
+  },
+  lastIn: {
+    type: Date,
+    label: "Date of last session",
     optional: true
+  },
+  sessions: {
+    type: [String],
+    label: "Array of session ids attended",
+    optional: false,
+    defaultValue: [],
   }
 }));
 
