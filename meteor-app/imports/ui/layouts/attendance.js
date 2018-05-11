@@ -1,16 +1,17 @@
-import React from 'react';
-import { Sidebar, Menu, Icon } from 'semantic-ui-react';
-import { Link, Switch, Route } from 'react-router-dom'
-import NotFound from '../components/not-found'
-import RoleAdd from '../components/role-add'
-import RoleEdit from '../components/role-edit'
-import RolesContainer from '../containers/roles-container'
-import RoleRegisterContainer from '../containers/role-register-container'
-import Dashboard from '../layouts/dashboard'
+import React from 'react'
+import { Sidebar, Menu, Icon } from 'semantic-ui-react'
+import { Switch, Route } from 'react-router-dom'
+import NotFound from '/imports/ui/components/not-found'
+import RoleAdd from '/imports/ui/components/role-add'
+import RoleEdit from '/imports/ui/components/role-edit'
+import RolesContainer from '/imports/ui/containers/roles-container'
+import RoleRegisterContainer from '/imports/ui/containers/role-register-container'
+import Dashboard from '/imports/ui/layouts/dashboard'
+
 const Attendance = () => {
   return (
     <div>
-      <title>Back to Bikes | Attendance</title>
+      <title>Back 2 Bikes | Attendance</title>
       <h1>Back 2 Bikes Attendance App</h1>
       <main>
         <Switch>
