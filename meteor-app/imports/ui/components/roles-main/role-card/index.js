@@ -1,6 +1,6 @@
 import React from 'react'
-import { Grid, Icon, Card, Image, Label } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
+import { Card, Image, Label } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
 import './style.css'
 
@@ -44,14 +44,23 @@ const RoleCard = (props) => {
       <Card.Content extra>
         {
           lastIn &&
-            <div>
-              {isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(lastIn)} ago 
-            </div>
-    }
+          <div>
+            <p>{isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(lastIn)} ago </p>
+          </div>
+        }
       </Card.Content>
     </Card >
   )
 }
 
-export default RoleCard
+RoleCard.propTypes = {
+  _id: PropTypes.string.isRequired,
+  firstname: PropTypes.string.isRequired,
+  lastname: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  isHere: PropTypes.bool.isRequired,
+  sessions: PropTypes.array.isRequired,
+  lastIn: PropTypes.object,
+};
 
+export default RoleCard
