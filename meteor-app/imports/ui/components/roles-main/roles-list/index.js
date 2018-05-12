@@ -1,6 +1,8 @@
 import React from 'react'
-import { Grid, Icon, Card, Image } from 'semantic-ui-react'
+import PropTypes from 'prop-types';
+import { Card } from 'semantic-ui-react'
 import RoleCard from '../role-card'
+
 const RolesList = (props) => {
   const { roles, title, cardsPerRow } = props
   return (
@@ -17,5 +19,11 @@ const RolesList = (props) => {
     </div>
   )
 }
+
+RolesList.propTypes = {
+  roles: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  cardsPerRow: PropTypes.number.isRequired,
+};
 
 export default RolesList

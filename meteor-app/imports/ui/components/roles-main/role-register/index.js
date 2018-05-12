@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Card, Image, Button } from 'semantic-ui-react'
 
@@ -41,6 +42,17 @@ const RoleRegister = (props) => {
     </Card>
   )
 }
+
+RoleRegister.propTypes = {
+  _id: PropTypes.string.isRequired,
+  firstname: PropTypes.string.isRequired,
+  lastname: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  isHere: PropTypes.bool.isRequired,
+  sessions: PropTypes.array.isRequired,
+  lastIn: PropTypes.object,
+  recordAttendance: PropTypes.func.isRequired,
+};
 
 export default RoleRegister
 
