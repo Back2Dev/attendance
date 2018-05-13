@@ -36,8 +36,8 @@ storiesOf('Role', module)
       <div><p>Use Knobs to show check in state</p>
         <Role 
           loading={boolean('Loading', false)}
-					isCheckedin={boolean('Checked   in', false)}
-        	role={member}
+          isCheckedin={boolean('Checked in', false)}
+          role={member}
         />
       </div>
     )
