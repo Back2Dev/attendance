@@ -22,8 +22,7 @@ Meteor.methods({
       })
 
       const session = Sessions.findOne(id);
-      debug("Session record",session)
-      
+
       Members.update(
         memberId, {
           $set: {

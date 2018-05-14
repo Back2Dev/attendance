@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Role Add 1`] = `
+exports[`Storyshots Member Add 1`] = `
 <div>
   <div
     style={
@@ -121,7 +121,7 @@ exports[`Storyshots Role Add 1`] = `
               }
             }
           >
-            Role
+            Member
           </h1>
           <h2
             style={
@@ -189,7 +189,7 @@ exports[`Storyshots Role Add 1`] = `
                   }
                 >
                   &lt;
-                  RoleAdd
+                  MemberAdd
                 </span>
                 <span>
                   <span>
@@ -278,7 +278,7 @@ exports[`Storyshots Role Add 1`] = `
               }
             >
               "
-              RoleAdd
+              MemberAdd
               " Component
             </h2>
             <table
@@ -349,7 +349,7 @@ exports[`Storyshots Role Add 1`] = `
 </div>
 `;
 
-exports[`Storyshots Role Attend 1`] = `
+exports[`Storyshots Member Attend 1`] = `
 <div>
   <div
     style={
@@ -513,7 +513,7 @@ exports[`Storyshots Role Attend 1`] = `
               }
             }
           >
-            Role
+            Member
           </h1>
           <h2
             style={
@@ -545,7 +545,7 @@ exports[`Storyshots Role Attend 1`] = `
               }
             }
           >
-            Checked in/out
+            Here/Absent
           </div>
         </div>
         <div>
@@ -680,11 +680,74 @@ exports[`Storyshots Role Attend 1`] = `
                     }
                   >
                     &lt;
-                    RoleRegister
+                    MemberVisit
                   </span>
                   <span>
                     <span>
-                       
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        firstname
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Harry
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        lastname
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Styles
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
                       <span
                         style={Object {}}
                       >
@@ -712,11 +775,14 @@ exports[`Storyshots Role Attend 1`] = `
                       </span>
                     </span>
                     <span>
-                       
+                      <span>
+                        <br />
+                          
+                      </span>
                       <span
                         style={Object {}}
                       >
-                        isCheckedin
+                        isHere
                       </span>
                       <span>
                         =
@@ -740,11 +806,14 @@ exports[`Storyshots Role Attend 1`] = `
                       </span>
                     </span>
                     <span>
-                       
+                      <span>
+                        <br />
+                          
+                      </span>
                       <span
                         style={Object {}}
                       >
-                        role
+                        member
                       </span>
                       <span>
                         =
@@ -837,7 +906,38 @@ exports[`Storyshots Role Attend 1`] = `
                           </span>
                         </span>
                       </span>
-                       
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        recordVisit
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              record visit()
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                      <br />
                     </span>
                   </span>
                   <span
@@ -917,7 +1017,7 @@ exports[`Storyshots Role Attend 1`] = `
               }
             >
               "
-              RoleRegister
+              MemberVisit
               " Component
             </h2>
             <table
@@ -957,182 +1057,7 @@ exports[`Storyshots Role Attend 1`] = `
                   <td
                     className="css-1ygfcef"
                   >
-                    _id
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    firstname
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    lastname
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    avatar
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    isHere
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    sessions
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    lastIn
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    recordAttendance
+                    recordVisit
                   </td>
                   <td
                     className="css-1ygfcef"
@@ -1163,7 +1088,7 @@ exports[`Storyshots Role Attend 1`] = `
 </div>
 `;
 
-exports[`Storyshots Role Card 1`] = `
+exports[`Storyshots Member Card 1`] = `
 <div>
   <div
     style={
@@ -1192,7 +1117,9 @@ exports[`Storyshots Role Card 1`] = `
           <div
             className="header"
           >
+            Ed
              
+            Sheeran
             <div
               className="content"
             >
@@ -1316,7 +1243,7 @@ exports[`Storyshots Role Card 1`] = `
               }
             }
           >
-            Role
+            Member
           </h1>
           <h2
             style={
@@ -1483,7 +1410,7 @@ exports[`Storyshots Role Card 1`] = `
                     }
                   >
                     &lt;
-                    RoleCard
+                    MemberCard
                   </span>
                   <span>
                     <span>
@@ -1494,7 +1421,7 @@ exports[`Storyshots Role Card 1`] = `
                       <span
                         style={Object {}}
                       >
-                        firstName
+                        firstname
                       </span>
                       <span>
                         =
@@ -1524,7 +1451,7 @@ exports[`Storyshots Role Card 1`] = `
                       <span
                         style={Object {}}
                       >
-                        lastName
+                        lastname
                       </span>
                       <span>
                         =
@@ -1584,7 +1511,7 @@ exports[`Storyshots Role Card 1`] = `
                       <span
                         style={Object {}}
                       >
-                        isCheckedin
+                        isHere
                       </span>
                       <span>
                         =
@@ -1601,6 +1528,38 @@ exports[`Storyshots Role Card 1`] = `
                               }
                             >
                               false
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        sessions
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              [
+                              ]
                             </span>
                             }
                           </span>
@@ -1686,7 +1645,7 @@ exports[`Storyshots Role Card 1`] = `
               }
             >
               "
-              RoleCard
+              MemberCard
               " Component
             </h2>
             <table

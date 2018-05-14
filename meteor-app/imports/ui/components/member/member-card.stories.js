@@ -19,10 +19,11 @@ storiesOf('Member', module)
       <div><p>Use Knobs to show checked in/out status</p>
         <Card 
           _id="aab45bb"
-          firstName="Ed"
-          lastName="Sheeran"
+          firstname="Ed"
+          lastname="Sheeran"
           avatar="3.jpg"
-          isCheckedin={boolean('Checked in', false)}
+          isHere={boolean('Checked in', false)}
+          sessions={[]}
         />
       </div>
     )

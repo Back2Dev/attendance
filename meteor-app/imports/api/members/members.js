@@ -36,7 +36,7 @@ Members.attachSchema(new SimpleSchema({
     optional: false,
     defaultValue: [],
     blackbox: true,
-  }
+  },
 }));
 
 export default Members;
