@@ -4,28 +4,28 @@ const Sessions = new Mongo.Collection('sessions');
 
 Sessions.attachSchema(
   new SimpleSchema({
-    roleId: {
+    memberId: {
       type: String,
       regEx: SimpleSchema.RegEx.Id,
-      label: "Session Person ID",
+      label: "Session Member id",
       optional: false
     },
     timeIn: {
       type: Date,
-      label: "Session check in time",
+      label: "Visit start time",
       optional: false
     },
     timeOut: {
       type: Date,
-      label: "Session check out time",
+      label: "Visit end time",
       optional: false
     },
     duration: {
       type: Number,
-      label: "Session duration in hours",
+      label: "Duration in hours",
       optional: false
-    }
+    },
   })
-);
+)
 
-export default Sessions;
+export default Sessions

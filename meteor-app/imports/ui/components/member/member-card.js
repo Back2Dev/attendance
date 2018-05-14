@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Card, Image, Label } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
-import './style.css'
+import './member-card.css'
 
-const RoleCard = (props) => {
+const MemberCard = (props) => {
   const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
   const sessionsAttended = sessions.length
 
@@ -53,7 +53,7 @@ const RoleCard = (props) => {
   )
 }
 
-RoleCard.propTypes = {
+MemberCard.propTypes = {
   _id: PropTypes.string.isRequired,
   firstname: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
@@ -63,4 +63,4 @@ RoleCard.propTypes = {
   lastIn: PropTypes.object,
 };
 
-export default RoleCard
+export default MemberCard

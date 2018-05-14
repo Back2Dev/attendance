@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Card, Image, Button } from 'semantic-ui-react'
 
-const RoleRegister = (props) => {
+const MemberVisit = (props) => {
   if (props.loading) {
     return (
       <h1>Loading...</h1>
     )
   }
 
-  const { _id, avatar, firstname, lastname, isHere } = props.role
-  const { recordAttendance } = props
+  const { _id, avatar, firstname, lastname, isHere } = props.member
+  const { recordVisit } = props
 
   function updateStatus(){
-    recordAttendance()
+    recordVisit()
     props.history.goBack()
   }
 
@@ -43,16 +43,16 @@ const RoleRegister = (props) => {
   )
 }
 
-RoleRegister.propTypes = {
-  _id: PropTypes.string.isRequired,
-  firstname: PropTypes.string.isRequired,
-  lastname: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  isHere: PropTypes.bool.isRequired,
-  sessions: PropTypes.array.isRequired,
-  lastIn: PropTypes.object,
-  recordAttendance: PropTypes.func.isRequired,
+MemberVisit.propTypes = {
+  // _id: PropTypes.string.isRequired,
+  // firstname: PropTypes.string.isRequired,
+  // lastname: PropTypes.string.isRequired,
+  // avatar: PropTypes.string.isRequired,
+  // isHere: PropTypes.bool.isRequired,
+  // sessions: PropTypes.array.isRequired,
+  // lastIn: PropTypes.object,
+  recordVisit: PropTypes.func.isRequired,
 };
 
-export default RoleRegister
+export default MemberVisit
 

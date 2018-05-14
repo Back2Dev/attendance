@@ -2,8 +2,8 @@
 import '/imports/api/methods'
 
 // roles
-import '/imports/api/roles/methods'
-import '/imports/api/roles/server/publications'
+import '/imports/api/members/methods'
+import '/imports/api/members/server/publications'
 // sessions
 import '/imports/api/sessions/methods'
 import '/imports/api/sessions/server/publications'

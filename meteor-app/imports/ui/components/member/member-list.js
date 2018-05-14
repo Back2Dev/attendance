@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react'
-import RoleCard from '../role-card'
+import MemberCard from './member-card'
 
-const RolesList = (props) => {
-  const { roles, title, cardsPerRow } = props
+const MemberList = (props) => {
+  const { members, title, cardsPerRow } = props
   return (
     //renders list of users signed in OR out
     <div>
       <h1>{title}</h1>
       <Card.Group itemsPerRow={cardsPerRow}>
         {
-          roles.map(role => (
-            <RoleCard key={role._id} {...role} />
+          members.map(member => (
+            <MemberCard key={member._id} {...member} />
           ))
         }
       </Card.Group>
@@ -20,10 +20,10 @@ const RolesList = (props) => {
   )
 }
 
-RolesList.propTypes = {
-  roles: PropTypes.array.isRequired,
+MemberList.propTypes = {
+  members: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   cardsPerRow: PropTypes.number.isRequired,
 };
 
-export default RolesList
+export default MemberList

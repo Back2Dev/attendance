@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor'; // base
-import Roles from '/imports/api/roles/roles';
+import Members from '/imports/api/members/members';
 import casual from 'casual';            // casual random data generator
 
 Meteor.startup(() => {
 
-  if (Roles.find().count() === 0) {
+  if (Members.find().count() === 0) {
 
-    casual.define('role', function () {
+    casual.define('member', function () {
       return {
         firstname: casual.first_name,
         lastname: casual.last_name,
@@ -15,7 +15,7 @@ Meteor.startup(() => {
     });
 
     // number of seeds
-    const ROLES = 10
+    const NUM_MEMBERS = 10
 
     // seed ensures same data is generated
     casual.seed(123);
@@ -28,8 +28,8 @@ Meteor.startup(() => {
       return result;
     };
 
-    let rolesArray = array_of(ROLES, () => casual.role);
+    let membersArray = array_of(NUM_MEMBERS, () => casual.members);
 
-    rolesArray.forEach(r => Roles.insert(r))
+    membersArray.forEach(r => Members.insert(r))
   };
 });

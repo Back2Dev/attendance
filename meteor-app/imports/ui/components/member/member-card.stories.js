@@ -1,28 +1,30 @@
-// role-add.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
-import StoryRouter from 'storybook-router'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
-import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import RoleAdd from './index'
+import Card from './member-card'
 
-storiesOf('Role', module)
-  .addDecorator(StoryRouter())
+storiesOf('Member', module)
   .addDecorator(withKnobs)
 
-  .add('Add', withInfo('New volunteer form')(() => {
+  .add('Card', withInfo('Checked in/out')(() => {
     const story = (
-      <RoleAdd
-      onSubmit={action('onClick')}
-      />
+      <div><p>Use Knobs to show checked in/out status</p>
+        <Card 
+          _id="aab45bb"
+          firstName="Ed"
+          lastName="Sheeran"
+          avatar="3.jpg"
+          isCheckedin={boolean('Checked in', false)}
+        />
+      </div>
     )
     // specs(() =>
     //   describe('<Avatar avatar={avatar} />', () => {
@@ -36,3 +38,4 @@ storiesOf('Role', module)
     return story;
   }))
 
+     
