@@ -6,10 +6,10 @@ const RolesMain = (props) => {
   return (
     <Grid>
       <Grid.Column width={12}>
-        <RolesList title={'Check In:'} roles={props.rolesOut} cardsPerRow={4} />
+        <RolesList title={'Check In:'} roles={props.rolesOut} />
       </Grid.Column>
       <Grid.Column width={4}>
-        <RolesList title={'Who\'s Here:'} roles={props.rolesIn} cardPerRow={1}/>
+        <RolesList title={'Who\'s Here:'} roles={props.rolesIn} />
       </Grid.Column>
     </Grid>
   )
