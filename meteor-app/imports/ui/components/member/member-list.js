@@ -23,7 +23,6 @@ const MemberList = (props) => {
 MemberList.propTypes = {
   members: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
-  cardsPerRow: PropTypes.number.isRequired,
 };
 
 export default MemberList
