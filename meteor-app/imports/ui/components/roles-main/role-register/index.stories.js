@@ -12,32 +12,32 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import User from './user'
+import Role from './index'
 
 const match = {
 	params: {
-		id: '1234'
+		id: '12344'
 	}
 }
 
-const person = {
-	id: '123ASD', 
-	name: 'Mickey', 
+const member = {
+	_id: '123ASD', 
+	firstname: 'Mickey', 
 	lastname: 'Mouse', 
 	avatar: '2.jpg',
 }
 
-storiesOf('Components', module)
+storiesOf('Role', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('User', withInfo('Checked in/out')(() => {
+  .add('Attend', withInfo('Checked in/out')(() => {
     const story = (
-      <div><p>Use Knobs to show check in confirmation</p>
-        <User 
+      <div><p>Use Knobs to show check in state</p>
+        <Role 
           loading={boolean('Loading', false)}
-					isCheckedin={boolean('Checked in', false)}
-        	person={person}
+          isCheckedin={boolean('Checked in', false)}
+          role={member}
         />
       </div>
     )

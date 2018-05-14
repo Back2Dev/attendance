@@ -12,13 +12,13 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import RoleAdd from './role-add'
+import RoleAdd from './index'
 
-storiesOf('Components', module)
+storiesOf('Role', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('RoleAdd', withInfo('New volunteer form')(() => {
+  .add('Add', withInfo('New volunteer form')(() => {
     const story = (
       <RoleAdd
       onSubmit={action('onClick')}
