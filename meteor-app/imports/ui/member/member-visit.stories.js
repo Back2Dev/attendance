@@ -35,8 +35,6 @@ storiesOf('Member', module)
     const story = (
       <div><p>Use Knobs to show check in state</p>
         <Member
-          firstname="Harry"
-          lastname="Styles"
           loading={boolean('Loading', false)}
           isHere={boolean('Present', false)}
           member={member}

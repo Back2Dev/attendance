@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
 
-import Avatar from '/imports/ui/components/avatar';
+import Avatar from '/imports/ui/avatar';
 
 const FALLBACK_IMAGE = '/images/avatar_placeholder.png';
 const avatar = {

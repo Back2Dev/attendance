@@ -691,66 +691,6 @@ exports[`Storyshots Member Attend 1`] = `
                       <span
                         style={Object {}}
                       >
-                        firstname
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            Harry
-                            "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        lastname
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            Styles
-                            "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
                         loading
                       </span>
                       <span>
