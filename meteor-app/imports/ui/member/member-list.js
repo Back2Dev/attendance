@@ -9,7 +9,7 @@ const MemberList = (props) => {
     //renders list of users signed in OR out
     <div>
       <h1>{title}</h1>
-      <Card.Group itemsPerRow={cardsPerRow}>
+      <Card.Group>
         {
           members.map(member => (
             <MemberCard key={member._id} {...member} />

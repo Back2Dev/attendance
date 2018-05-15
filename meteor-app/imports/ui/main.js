@@ -6,10 +6,10 @@ const MemberMain = (props) => {
   return (
     <Grid>
       <Grid.Column width={12}>
-        <MemberList title={'Check In:'} members={props.membersOut} cardsPerRow={4} />
+        <MemberList title={'Check In:'} members={props.membersOut} />
       </Grid.Column>
       <Grid.Column width={4}>
-        <MemberList title={'Who\'s Here:'} members={props.membersIn} cardsPerRow={1}/>
+        <MemberList title={'Who\'s Here:'} members={props.membersIn} />
       </Grid.Column>
     </Grid>
   )
