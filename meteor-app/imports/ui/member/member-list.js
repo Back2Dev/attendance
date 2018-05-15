@@ -7,7 +7,7 @@ const MemberList = (props) => {
   const { members, title } = props
   return (
     //renders list of users signed in OR out
-    <div>
+    <div style={{paddingBottom: '20vh'}}>
       <h1>{title}</h1>
       <Card.Group>
         {

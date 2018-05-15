@@ -1,41 +1,35 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
-import { List, Image } from 'semantic-ui-react'
+import { Button, Icon, List, Image } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
+import './member-card-in.css'
 
-class MemberCardIn extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      displayStatus: true
-    }
-  }
-  showStatus = () => {
-    this.setState({ displayStatus: !this.state.displayStatus })
-  }
+const MemberCardIn = (props) => {
 
-  render() {
-    return (
-      <List.Item
-        style={{height: '50px'}}
-        onClick={this.showStatus}>
-        <Image verticalAlign={'top'} avatar src={"/images/avatars/" + this.props.avatar} />
+  return (
+    <List.Item
+      onClick={() => props.toggleStatus(props._id)}
+    >
+      <Image avatar src={"/images/avatars/" + props.avatar} />
+      <List.Content style={{height: '80px'}}>
         {
-          this.state.displayStatus &&
-          <List.Content verticalAlign={'middle'} style={{
-            transition: 'all 1s ease'
-          }}>
+          props.visibleStatus == props._id &&
+          <div>
             <List.Header>
-              {this.props.firstname} {this.props.lastname}
+              {props.firstname} {props.lastname}
             </List.Header>
             <List.Description>
-              <p>Arrived: {humaniseDate(this.props.lastIn)} ago </p>
+              <p>Arrived: {humaniseDate(props.lastIn)} ago </p>
             </List.Description>
-          </List.Content>
+            <Button onClick={() => props.depart(props._id)} compact icon={'sign out'}>
+              Sign Out
+            </Button>
+          </div>
         }
-      </List.Item >
-    )
-  }
+      </List.Content>
+
+    </List.Item >
+  )
 
 }
 
@@ -47,6 +41,9 @@ MemberCardIn.propTypes = {
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
+  toggleStatus: PropTypes.func.isRequired,
+  visibleStatus: PropTypes.string.isRequired,
+  depart: PropTypes.func.isRequired,
 }
 
 export default MemberCardIn

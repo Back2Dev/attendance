@@ -1,0 +1,17 @@
+.status-enter {
+  border: 5px solid yellow;
+  width: 500px;
+}
+.status-enter-active {
+  background-color: orange;
+}
+.status-leave {
+  border: 5px solid lightblue;
+}
+.status-leave-active {
+  background-color: blue;
+}
+
+.member-in-status {
+  transition: all 1s ease
+}
