@@ -17,6 +17,7 @@ const MemberCard = (props) => {
     <Card
       key={_id}
       onClick={cardClick}
+      style={{maxWidth: '185px'}}
     >
       <Image src={"/images/avatars/" + avatar} />
       <Card.Content>
