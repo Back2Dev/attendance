@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import {withTracker} from 'meteor/react-meteor-data';
-import MemberMain from '/imports/ui/components/main'
+import MemberMain from '/imports/ui/main'
 import Members from '/imports/api/members/members';
 
 // not sure if this is necessary if I search for person by id in user itself

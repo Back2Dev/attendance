@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import MemberVisit from '/imports/ui/components/member/member-visit'
+import MemberVisit from '/imports/ui/member/member-visit'
 import Members from '/imports/api/members/members'
 
 export default withTracker((props) => {

@@ -4,8 +4,8 @@ import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
 import MemberAdd from '/imports/ui/member/member-add'
 import MemberEdit from '/imports/ui/member/member-edit'
-import MemberContainer from '/imports/ui/member-container'
-import MemberVisitContainer from '/imports/ui/member-visit-container'
+import MemberContainer from '/imports/ui/member/member-container'
+import MemberVisitContainer from '/imports/ui/member/member-visit-container'
 import Dashboard from '/imports/ui/layouts/dashboard'
 
 const Attendance = () => {
