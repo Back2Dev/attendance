@@ -32,7 +32,6 @@ toggleStatus = (id) => {
           right: '0',
           height: '20vh',
           padding: '0 20px 10px',
-          border: '1px solid red',
           textAlign: 'center'
         }}
       >
