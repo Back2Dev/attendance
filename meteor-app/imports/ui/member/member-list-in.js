@@ -38,6 +38,7 @@ toggleStatus = (id) => {
         <Header
           as={'h2'}
           content={title}
+          dividing
         />
 
         <List horizontal style={{ margin: '0' }} size={'huge'}>

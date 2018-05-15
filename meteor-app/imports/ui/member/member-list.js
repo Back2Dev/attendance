@@ -9,9 +9,10 @@ const MemberList = (props) => {
     //renders list of users signed in OR out
     <div style={{paddingBottom: '20vh'}}>
       <Header
+        dividing
         as={'h1'}
-       textAlign={'center'}
-       content={title}
+        textAlign={'center'}
+        content={title}
       />
       <Card.Group centered>
         {
