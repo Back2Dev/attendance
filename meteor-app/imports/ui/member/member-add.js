@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from "react-jsonschema-form-semanticui";
+import { Grid, Container } from 'semantic-ui-react'
 
 const MemberAdd = (props) => {
 
@@ -9,7 +10,7 @@ const MemberAdd = (props) => {
     type: "object",
     // required: ["title"],
     properties: {
-      "Your Details": {
+      "details": {
         type: "object",
         properties: {
           firstname: { type: "string", title: "First name" },
@@ -22,7 +23,7 @@ const MemberAdd = (props) => {
           mobile: { type: "string", title: "Mobile number" },
         }
       },
-      "Emergency Contact": {
+      "emergency": {
         type: "object",
         properties: {
           firstname: { type: "string", title: "First name" },
@@ -35,20 +36,20 @@ const MemberAdd = (props) => {
           mobile: { type: "string", title: "Mobile number" },
         },
       },
-      "Other Information": {
+      "other": {
         type: "object",
         properties: {
-          bikesHousehold: { type: "string", title: "How many bikes in your household?", enum: ["one", "two", "three"] },
-          primaryBike: { type: "string", title: "Primary bike", enum: ["one", "two", "three"]  },
-          workStatus: { type: "string", title: "Work status", enum: ["one", "two", "three"]  },
-          reasons: {type: "string", title: "Reasons for volunteering"}
+          bikesHousehold: { type: "number", title: "How many bikes in your household?" },
+          primaryBike: { type: "string", title: "Primary bike", enum: ["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"] },
+          workStatus: { type: "string", title: "Work status", enum: ["Full Time", "Part Time", "Pension/Disability", "Unemployed", "Student", "Retired"] },
+          reasons: { type: "string", title: "Reasons for volunteering" }
         }
       }
     }
   }
 
   const uiSchema = {
-    "Volunteer Details": {
+    "details": {
       firstname: {
         "ui:placeholder": "Enter your first name"
       },
@@ -56,9 +57,9 @@ const MemberAdd = (props) => {
         "ui:placeholder": "Enter your last name"
       }
     },
-    "Other Information":{
+    "other": {
       bikesHousehold: {
-        "ui:widget": "select"
+        "ui:widget": "updown"
       },
       primaryBike: {
         "ui:widget": "select"
@@ -75,14 +76,28 @@ const MemberAdd = (props) => {
   const log = (type) => console.log.bind(console, type)
 
   return (
-    <section id="volunteer-signup-form">
-      <Form
-        schema={schema}
-        uiSchema={uiSchema}
-        onChange={log("changed")}
-        onSubmit={log("submitted")}
-        onError={log("errors")} />
-    </section>
+    <div className='registration-form'>
+      <Grid
+        textAlign='center'
+        style={{ height: '100%' }}
+        verticalAlign='middle'
+      >
+        <Grid.Column style={{ maxWidth: '450px' }}>
+          <Form
+            schema={schema}
+            uiSchema={uiSchema}
+            onChange={log("changed")}
+            onSubmit={log("submitted")}
+            onError={log("errors")}
+          >
+            <div>
+              <button onClick={props.onSubmit} type="submit">Submit</button>
+              <button type="button">Cancel</button>
+            </div>
+          </Form>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 
