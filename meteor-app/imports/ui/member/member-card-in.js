@@ -1,14 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'
+
 import { Button, Icon, List, Image } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
 import './member-card-in.css'
 
 const MemberCardIn = (props) => {
 
+  const signOutClick = () => {
+    props.history.push(`/${props._id}`)
+  }
+
   return (
     <List.Item
       onClick={() => props.toggleStatus(props._id)}
+      style={{textAlign: 'left'}}
     >
       <Image avatar src={"/images/avatars/" + props.avatar} />
       <List.Content style={{height: '80px'}}>
@@ -21,7 +28,7 @@ const MemberCardIn = (props) => {
             <List.Description>
               <p>Arrived: {humaniseDate(props.lastIn)} ago </p>
             </List.Description>
-            <Button onClick={() => props.depart(props._id)} compact icon={'sign out'}>
+            <Button onClick={signOutClick} compact icon={'sign out'}>
               Sign Out
             </Button>
           </div>
@@ -46,4 +53,4 @@ MemberCardIn.propTypes = {
   depart: PropTypes.func.isRequired,
 }
 
-export default MemberCardIn
+export default withRouter(MemberCardIn)
