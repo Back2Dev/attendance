@@ -4,7 +4,7 @@ import { Card } from 'semantic-ui-react'
 import MemberCard from './member-card'
 
 const MemberList = (props) => {
-  const { members, title, cardsPerRow } = props
+  const { members, title } = props
   return (
     //renders list of users signed in OR out
     <div>
