@@ -8,7 +8,6 @@ const MemberMain = (props) => {
       <MemberList title={'Check In:'} members={props.membersOut} />
       <MemberListIn title={'Who\'s Here:'} members={props.membersIn} />
     </div>
-
   )
 }
 

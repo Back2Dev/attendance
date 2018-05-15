@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'
 import { Card, Image, Label } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
 import './member-card.css'
@@ -8,11 +9,14 @@ const MemberCard = (props) => {
   const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
   const sessionsAttended = sessions.length
 
+  const cardClick = () => {
+    props.history.push(`/${props._id}`)
+  }
+
   return (
     <Card
       key={_id}
-      href={'/' + _id}
-      color={isHere ? 'green' : 'grey'}
+      onClick={cardClick}
     >
       <Image src={"/images/avatars/" + avatar} />
       <Card.Content>
@@ -63,4 +67,4 @@ MemberCard.propTypes = {
   lastIn: PropTypes.object,
 };
 
-export default MemberCard
+export default withRouter(MemberCard)
