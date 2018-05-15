@@ -15,7 +15,7 @@ import raven from 'raven';
 import _ from 'lodash';
 import _debug from 'debug';
 
-import { Profiles } from '/imports/api/collections';
+// import { Profiles } from '/imports/api/collections';
 import { version } from '/imports/api/version';
 
 const debug = _debug('mentorloop:log');
@@ -194,14 +194,14 @@ hijackDebug(log);
 
 
 Meteor.methods({
-  triggerSentryError: () => {
-    const userProfile = Profiles.findOne({
-      userIds: Meteor.userId(),
-    });
-    if (!userProfile.admin) return false;
-    log.error('This is a harmless test error');
-    return true;
-  },
+  // triggerSentryError: () => {
+  //   const userProfile = Profiles.findOne({
+  //     userIds: Meteor.userId(),
+  //   });
+  //   if (!userProfile.admin) return false;
+  //   log.error('This is a harmless test error');
+  //   return true;
+  // },
 });
 
 

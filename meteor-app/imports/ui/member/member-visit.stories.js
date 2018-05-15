@@ -1,4 +1,4 @@
-// role-add.stories.js
+// user.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -12,21 +12,39 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import RoleAdd from './index'
+import Member from './member-visit'
 
-storiesOf('Role', module)
+const match = {
+	params: {
+		id: '12344'
+	}
+}
+
+const member = {
+	_id: '123ASD', 
+	firstname: 'Mickey', 
+	lastname: 'Mouse', 
+	avatar: '2.jpg',
+}
+
+storiesOf('Member', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Add', withInfo('New volunteer form')(() => {
+  .add('Attend', withInfo('Here/Absent')(() => {
     const story = (
-      <RoleAdd
-      onSubmit={action('onClick')}
-      />
+      <div><p>Use Knobs to show check in state</p>
+        <Member
+          loading={boolean('Loading', false)}
+          isHere={boolean('Present', false)}
+          member={member}
+          recordVisit={action('record visit')}
+        />
+      </div>
     )
     // specs(() =>
-    //   describe('<Avatar avatar={avatar} />', () => {
-    //     it('displays an avatar', () => {
+    //   describe('<User avatar={avatar} />', () => {
+    //     it('displays an User', () => {
     //       const wrapper = mount(story);
     //       expect(wrapper.find('img')).to.have.length(1);
     //       expect(wrapper.find('img').props().src).to.contain(avatar.url);

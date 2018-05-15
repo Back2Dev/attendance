@@ -1,11 +1,11 @@
 import React from 'react'
 import { Sidebar, Menu, Icon } from 'semantic-ui-react'
 import { Switch, Route } from 'react-router-dom'
-import NotFound from '/imports/ui/components/not-found'
-import RoleAdd from '/imports/ui/components/role-add'
-import RoleEdit from '/imports/ui/components/role-edit'
-import RolesContainer from '/imports/ui/containers/roles-container'
-import RoleRegisterContainer from '/imports/ui/containers/role-register-container'
+import NotFound from '/imports/ui/not-found'
+import MemberAdd from '/imports/ui/member/member-add'
+import MemberEdit from '/imports/ui/member/member-edit'
+import MemberContainer from '/imports/ui/member-container'
+import MemberVisitContainer from '/imports/ui/member-visit-container'
 import Dashboard from '/imports/ui/layouts/dashboard'
 
 const Attendance = () => {
@@ -17,10 +17,10 @@ const Attendance = () => {
         <Switch>
           {/* urls could be dynamically changed depending on what site defines them as [members, clients etc]*/}
           <Route path="/dashboard" component={Dashboard} />
-          <Route path="/:id/edit" component={RoleEdit} />
-          <Route path="/:id" component={RoleRegisterContainer} />
-          <Route path="/add" component={RoleAdd} />
-          <Route path="/" component={RolesContainer} />
+          <Route path="/:id/edit" component={MemberEdit} />
+          <Route path="/:id" component={MemberVisitContainer} />
+          <Route path="/add" component={MemberAdd} />
+          <Route path="/" component={MemberContainer} />
           <Route component={NotFound} />
         </Switch>
       </main>

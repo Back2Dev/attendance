@@ -1,51 +1,56 @@
 // methods that affect both collections
 
-import Roles from '/imports/api/roles/roles'
-import Sessions from '/imports/api/sessions/sessions'
 import moment from 'moment'
 
+import Members from '/imports/api/members/members'
+import Sessions from '/imports/api/sessions/sessions'
+import log from '/imports/lib/server/log'
+const debug = require('debug')('att:server-methods')
+
 Meteor.methods({
-  'signin'(roleId, duration = 6) {
+  'arrive'(memberId, duration = 6) {
 
     const timeIn = new Date()
     const timeOut = moment(timeIn).add(6, 'h').toDate()
 
-    const newSessionId = Sessions
-      .insert({
-        roleId,
+    try {
+      const id = Sessions.insert({
+        memberId,
         timeIn,
         timeOut,
         duration,
       })
 
-    Roles.update({
-      _id: roleId,
-    }, {
-        $set: {
-          isHere: true,
-          lastIn: timeIn,
-        },
-        $push: { sessions: newSessionId }
-      })
+      const session = Sessions.findOne(id);
 
-
+      Members.update(
+        memberId, {
+          $set: {
+            isHere: true,
+            lastIn: timeIn,
+          },
+          $push: { sessions: session },
+        })
+    } catch (error) {
+      log.error({ error })
+    }
   },
 
   // signing out _isnt_ mandatory.
-  // at end of each day every role will be automatically signed out.
-  // if role does sign out early though, lets update timeOut and duration
-  'signout'(id) {
-    Roles.update(
+  // at end of each day every member will be automatically signed out.
+  // if member does sign out early though, lets update timeOut and duration
+  'depart'(id) {
+    Members.update(
       { _id: id },
       { $set: { 
         isHere: false,
         lastIn: new Date(),
        } }
     )
-    // role may have signed in multiple times that day,
+    // member may have signed in multiple times that day,
     // so lets find the LAST session of theirs from 12am TODAY
     const session = Sessions.find({
-      roleId: id,
+      memberId: id,
       timeIn: { $gte: moment().startOf('day').toDate() },
     }).fetch()
       .pop()
@@ -63,11 +68,11 @@ Meteor.methods({
     Sessions.update({
       _id: session._id,
     }, {
-        $set: {
-          // convert timeOut from moment instance to native date object
-          timeOut: timeOut.toDate(),
-          duration,
-        },
-      })
+      $set: {
+        // convert timeOut from moment instance to native date object
+        timeOut: timeOut.toDate(),
+        duration,
+      },
+    })
   },
 })

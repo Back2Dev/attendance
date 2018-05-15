@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import {withTracker} from 'meteor/react-meteor-data';
-import RolesMain from '/imports/ui/components/roles-main'
-import Roles from '/imports/api/roles/roles';
+import MemberMain from '/imports/ui/components/main'
+import Members from '/imports/api/members/members';
 
 // not sure if this is necessary if I search for person by id in user itself
 // const UserContainer = createContainer((props) => {
@@ -19,11 +19,11 @@ import Roles from '/imports/api/roles/roles';
 
 export default withTracker((props) => {
 
-  const rolesHandle = Meteor.subscribe('all.roles')
-  const loading = ! rolesHandle.ready()
+  const membersHandle = Meteor.subscribe('all.members')
+  const loading = ! membersHandle.ready()
 
   return {
-    rolesIn: Roles.find({isHere: true}).fetch(),
-    rolesOut: Roles.find({isHere: false}).fetch(),
+    membersIn: Members.find({isHere: true}).fetch(),
+    membersOut: Members.find({isHere: false}).fetch(),
   }
-})(RolesMain)
+})(MemberMain)

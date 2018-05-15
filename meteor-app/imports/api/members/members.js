@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 
-const Roles = new Mongo.Collection('roles');
+const Members = new Mongo.Collection('members');
 
-Roles.attachSchema(new SimpleSchema({
+Members.attachSchema(new SimpleSchema({
   firstname: {
     type: String,
     label: "Name",
@@ -31,11 +31,12 @@ Roles.attachSchema(new SimpleSchema({
     optional: true
   },
   sessions: {
-    type: [String],
-    label: "Array of session ids attended",
+    type: [Object],
+    label: "Array of sessions attended",
     optional: false,
     defaultValue: [],
-  }
+    blackbox: true,
+  },
 }));
 
-export default Roles;
+export default Members;
