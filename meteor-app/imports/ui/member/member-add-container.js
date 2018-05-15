@@ -5,11 +5,11 @@ import Members from '/imports/api/members/members';
 
 export default withTracker((props) => {
 
-  const membersHandle = Meteor.subscribe('all.members')
-  const loading = !membersHandle.ready()
-
-  const onSubmit = () => {
-    alert('submitted')
+  const onSubmit = ({formData}) => {
+    // proxy event gets sent through first, data follows in second call for some reason.
+    if(formData != undefined){
+      console.log(formData)
+    }
   }
 
   return {
