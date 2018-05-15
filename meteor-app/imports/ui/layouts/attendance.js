@@ -17,9 +17,9 @@ const Attendance = () => {
         <Switch>
           {/* urls could be dynamically changed depending on what site defines them as [members, clients etc]*/}
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/add" component={MemberAdd} />
           <Route path="/:id/edit" component={MemberEdit} />
           <Route path="/:id" component={MemberVisitContainer} />
-          <Route path="/add" component={MemberAdd} />
           <Route path="/" component={MemberContainer} />
           <Route component={NotFound} />
         </Switch>
