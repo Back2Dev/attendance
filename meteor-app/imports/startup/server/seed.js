@@ -28,7 +28,7 @@ Meteor.startup(() => {
       return result;
     };
 
-    let membersArray = array_of(NUM_MEMBERS, () => casual.members);
+    let membersArray = array_of(NUM_MEMBERS, () => casual.member);
 
     membersArray.forEach(r => Members.insert(r))
   };
