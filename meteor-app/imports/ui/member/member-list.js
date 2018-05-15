@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react'
+import { Card, Header } from 'semantic-ui-react'
 import MemberCard from './member-card'
 
 const MemberList = (props) => {
@@ -8,7 +8,11 @@ const MemberList = (props) => {
   return (
     //renders list of users signed in OR out
     <div style={{paddingBottom: '20vh'}}>
-      <h1>{title}</h1>
+      <Header
+        as={'h1'}
+       textAlign={'center'}
+       content={title}
+      />
       <Card.Group centered>
         {
           members.map(member => (
