@@ -28,9 +28,7 @@ const MemberCardIn = (props) => {
             <List.Description>
               <p>Arrived: {humaniseDate(props.lastIn)} ago </p>
             </List.Description>
-            <Button onClick={signOutClick} compact icon={'sign out'}>
-              Sign Out
-            </Button>
+            <Button onClick={signOutClick} compact icon={'sign out'} content='Sign Out' />
           </div>
         }
       </List.Content>
@@ -50,7 +48,6 @@ MemberCardIn.propTypes = {
   lastIn: PropTypes.object,
   toggleStatus: PropTypes.func.isRequired,
   visibleStatus: PropTypes.string.isRequired,
-  depart: PropTypes.func.isRequired,
 }
 
 export default withRouter(MemberCardIn)
