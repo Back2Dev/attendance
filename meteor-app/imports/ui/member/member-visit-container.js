@@ -12,7 +12,7 @@ export default withTracker((props) => {
   function recordVisit({duration}) {
     if (!member.isHere) {
       console.log('record visit', id, duration)
-      Meteor.call('arrive', id)
+      Meteor.call('arrive', id, duration)
     } else {
       Meteor.call('depart', id)
     }

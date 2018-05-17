@@ -8,10 +8,10 @@ import log from '/imports/lib/server/log'
 const debug = require('debug')('att:server-methods')
 
 Meteor.methods({
-  'arrive'(memberId, duration = 6) {
+  'arrive'(memberId, duration) {
 
     const timeIn = new Date()
-    const timeOut = moment(timeIn).add(6, 'h').toDate()
+    const timeOut = moment(timeIn).add(duration, 'h').toDate()
 
     try {
       const id = Sessions.insert({
@@ -20,7 +20,6 @@ Meteor.methods({
         timeOut,
         duration,
       })
-
       const session = Sessions.findOne(id);
 
       Members.update(
@@ -40,13 +39,7 @@ Meteor.methods({
   // at end of each day every member will be automatically signed out.
   // if member does sign out early though, lets update timeOut and duration
   'depart'(id) {
-    Members.update(
-      { _id: id },
-      { $set: { 
-        isHere: false,
-        lastIn: new Date(),
-       } }
-    )
+
     // member may have signed in multiple times that day,
     // so lets find the LAST session of theirs from 12am TODAY
     const session = Sessions.find({
@@ -68,11 +61,34 @@ Meteor.methods({
     Sessions.update({
       _id: session._id,
     }, {
-      $set: {
-        // convert timeOut from moment instance to native date object
-        timeOut: timeOut.toDate(),
-        duration,
+        $set: {
+          // convert timeOut from moment instance to native date object
+          timeOut: timeOut.toDate(),
+          duration,
+        },
+      })
+
+    Members.update(
+      {
+        "_id": id,
+        sessions: {
+          $elemMatch: {
+            "_id": session._id,
+          }
+        }
       },
-    })
+      {
+        $set: {
+          isHere: false,
+          lastIn: new Date(),
+          "sessions.$.duration": duration,
+        }
+      }
+    )
   },
 })
+// PdeR6N4jaywrJkJNB
+
+/* db.members.update({"_id": "bHKf4xZo2zFMdZyqK", sessions: {$elemMatch: {"_id": "PdeR6N4jaywrJkJNB"}}}, {$set: { isHere: false, lastIn: new Date(), "sessions.$.duration": 999  }})
+
+*/

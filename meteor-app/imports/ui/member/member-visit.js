@@ -9,7 +9,7 @@ class MemberVisit extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      duration: 'full'
+      duration: 8
     }
   }
   updateStatus = (data) => {
@@ -47,19 +47,19 @@ class MemberVisit extends React.Component {
                     </Header>
                     <Form.Field>
                       <Checkbox
-                        label='Half Day'
+                        label='Half Day (~4hrs)'
                         name='duration'
-                        value='half'
-                        checked={this.state.duration === 'half'}
+                        value={4}
+                        checked={this.state.duration === 4}
                         onChange={this.setDuration}
                       />
                     </Form.Field>
                     <Form.Field>
                       <Checkbox
-                        label='Full Day'
+                        label='Full Day (~8hrs)'
                         name='duration'
-                        value='full'
-                        checked={this.state.duration === 'full'}
+                        value={8}
+                        checked={this.state.duration === 8}
                         onChange={this.setDuration}
                       />
                     </Form.Field>
