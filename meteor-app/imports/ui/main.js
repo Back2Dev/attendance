@@ -52,37 +52,28 @@ class MemberMain extends React.Component {
           </MemberList>
         </div>
         <MemberList
-          title={'Check In:'}
-          members={props.membersOut}
-          Component={MemberCard}
-          onCardClick={onCardClick}
-          loading={props.loading}
+          style={{
+            position: 'fixed',
+            zIndex: '999',
+            backgroundColor: 'white',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            height: '20vh',
+            padding: '0 20px 10px',
+            textAlign: 'center',
+          }}
+          title={'Who\'s Here:'}
+          members={this.state.membersIn}
+          Component={MemberCardSmall}
+          onCardClick={this.onCardClick}
+          loading={this.props.loading}
           Loader={MemberCardLoading}
-        >
-          <Search />
-        </MemberList>
-      </div>
-      <MemberList
-        style={{
-          position: 'fixed',
-          zIndex: '999',
-          backgroundColor: 'white',
-          bottom: '0',
-          left: '0',
-          right: '0',
-          height: '20vh',
-          padding: '0 20px 10px',
-          textAlign: 'center'
-        }}
-        title={'Who\'s Here:'}
-        members={props.membersIn}
-        Component={MemberCardSmall}
-        onCardClick={onCardClick}
-        loading={props.loading}
-        Loader={MemberCardLoading}
-      />
-    </Fragment>
-  )
+        />
+      </Fragment>
+    )
+  }
 }
+
 
 export default withRouter(MemberMain)

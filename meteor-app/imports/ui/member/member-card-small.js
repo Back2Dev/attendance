@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
-
-import { Button, Icon, List, Image } from 'semantic-ui-react'
-import { humaniseDate } from '/imports/helpers/dates'
+import { List, Image } from 'semantic-ui-react'
 
 const MemberCardSmall = (props) => {
 
@@ -14,21 +12,7 @@ const MemberCardSmall = (props) => {
       style={{ padding: '20px' }}
       onClick={props.onCardClick ? props.onCardClick.bind(null, _id) : null}
     >
-      <Image avatar src={"/images/avatars/" + props.avatar} />
-      <List.Content style={{height: '80px'}}>
-        {
-          props.visibleStatus == props._id &&
-          <div>
-            <List.Header>
-              {props.firstname} {props.lastname}
-            </List.Header>
-            <List.Description>
-              <p>Arrived: {humaniseDate(props.lastIn)} ago </p>
-            </List.Description>
-            <Button compact icon={'sign out'} content={'Sign Out'} />
-          </div>
-        }
-      </List.Content>
+      <Image size='tiny' spaced avatar src={"/images/avatars/" + props.avatar} />
     </List.Item >
   )
 
