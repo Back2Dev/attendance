@@ -86,6 +86,17 @@ const endReasons = function() {
 	}
 }
 
+const extractDate = function(dateString) {
+	email.date = dateString
+}
+
+const clean = function (s) {
+	let newString = s.trim();
+	newString = newString.replace(/^(0\d\d\d)(\d+)$/,`$1 $2`)
+	newString = newString.replace(/^([1-9]\d\d\d)(\d+)$/,`$1 $2`)
+	return newString
+}
+
 const triggers = {
 	header: {
 		regex: /^X-Mozilla-Status: 0001/,
@@ -110,6 +121,10 @@ const triggers = {
 	endreasons: {
 		regex: /^This e-mail was sent from a contact form on Back2Bikes/,
 		action: endReasons,
+	},
+	date: {
+		regex: /^Delivery-date: \w+, (\w+ \w+ \w+)/,
+		action: extractDate,
 	},
 }
 
@@ -152,7 +167,7 @@ fs.readFile(inboxfile, 'utf8', (err, data) => {
 					const match = l.match(new RegExp(`^${key}:\s*(.*)`,))
 					if (match && match[1]) {
 						done = true
-						email[wanted[mode][key]] = match[1]
+						email[wanted[mode][key]] = clean(match[1])
 					} 
 				})
 			}
