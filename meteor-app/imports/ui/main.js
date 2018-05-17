@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import MemberList from './member/member-list'
 import MemberCardSmall from './member/member-card-small'
 import MemberCard from './member/member-card'
 import MemberCardLoading from './member/member-card-loading'
 import Search from './member/member-search'
+import { Menu } from 'semantic-ui-react'
 
 class MemberMain extends React.Component {
   constructor(props) {
@@ -37,7 +38,6 @@ class MemberMain extends React.Component {
     return (
       <Fragment>
         <div style={{ paddingBottom: '20vh' }}>
-        {this.props.searchResults}
           <MemberList
             title={'Check In:'}
             members={this.state.membersOut}
@@ -46,9 +46,16 @@ class MemberMain extends React.Component {
             loading={this.props.loading}
             Loader={MemberCardLoading}
           >
-            <Search
-              onSearchInput={this.onSearchInput}
-            />
+            <Menu>
+              <Menu.Item as={Link} to='/add'>
+                New Volunteer
+            </Menu.Item>
+              <Menu.Item position='right'>
+                <Search
+                  onSearchInput={this.onSearchInput}
+                />
+              </Menu.Item>
+            </Menu>
           </MemberList>
         </div>
         <MemberList
