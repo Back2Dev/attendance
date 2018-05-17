@@ -29,7 +29,7 @@ const MemberList = (props) => {
         {
           (!props.loading && members) &&
           members.map(member => (
-            <Component key={member._id} {...member} onCardClick={onCardClick} />
+            <Component key={member._id} {...member} onCardClick={onCardClick} verticalAlign='middle' />
           ))
         }
       </Card.Group>

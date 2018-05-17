@@ -20,8 +20,8 @@ class MemberMain extends React.Component {
     this.setState({ membersOut, membersIn })
   }
 
-  function onCardClick() {
-    props.history.push(`/${this}`)
+  onCardClick = (id) => {
+    this.props.history.push(`/${id}`)
   }
 
   // onSearchInput = (q) => {

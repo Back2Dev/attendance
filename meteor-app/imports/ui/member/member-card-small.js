@@ -11,8 +11,8 @@ const MemberCardSmall = (props) => {
 
   return (
     <List.Item
-      style={{textAlign: 'left'}}
-      onClick={props.onCardClick ? props.onCardClick.bind(_id) : null}
+      style={{ padding: '20px' }}
+      onClick={props.onCardClick ? props.onCardClick.bind(null, _id) : null}
     >
       <Image avatar src={"/images/avatars/" + props.avatar} />
       <List.Content style={{height: '80px'}}>
