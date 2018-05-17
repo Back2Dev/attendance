@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Card, Header } from 'semantic-ui-react'
-import MemberCard from './member-card'
 
 const MemberList = (props) => {
-  const { members, title } = props
+  const { members, title, Component, style, onCardClick } = props
   return (
     //renders list of users signed in OR out
-    <div style={{paddingBottom: '20vh'}}>
+    <div style={style}>
       <Header
         dividing
         as={'h1'}
@@ -17,7 +16,7 @@ const MemberList = (props) => {
       <Card.Group centered>
         {
           members.map(member => (
-            <MemberCard key={member._id} {...member} />
+            <Component key={member._id} {...member} onCardClick={onCardClick}/>
           ))
         }
       </Card.Group>

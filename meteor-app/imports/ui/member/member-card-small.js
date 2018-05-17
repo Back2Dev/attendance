@@ -4,18 +4,14 @@ import { withRouter } from 'react-router-dom'
 
 import { Button, Icon, List, Image } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
-import './member-card-in.css'
 
-const MemberCardIn = (props) => {
-
-  const signOutClick = () => {
-    props.history.push(`/${props._id}`)
-  }
+const MemberCardSmall = (props) => {
 
   return (
     <List.Item
-      onClick={() => props.toggleStatus(props._id)}
       style={{textAlign: 'left'}}
+      onClick={props.onCardClick.bind(props._id, props._id)}
+      
     >
       <Image avatar src={"/images/avatars/" + props.avatar} />
       <List.Content style={{height: '80px'}}>
@@ -28,7 +24,7 @@ const MemberCardIn = (props) => {
             <List.Description>
               <p>Arrived: {humaniseDate(props.lastIn)} ago </p>
             </List.Description>
-            <Button onClick={signOutClick} compact icon={'sign out'} content={'Sign Out'} />
+            <Button compact icon={'sign out'} content={'Sign Out'} />
           </div>
         }
       </List.Content>
@@ -37,7 +33,7 @@ const MemberCardIn = (props) => {
 
 }
 
-MemberCardIn.propTypes = {
+MemberCardSmall.propTypes = {
   _id: PropTypes.string.isRequired,
   firstname: PropTypes.string.isRequired,
   lastname: PropTypes.string.isRequired,
@@ -45,8 +41,6 @@ MemberCardIn.propTypes = {
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
-  toggleStatus: PropTypes.func.isRequired,
-  visibleStatus: PropTypes.string.isRequired,
 }
 
-export default withRouter(MemberCardIn)
+export default withRouter(MemberCardSmall)
