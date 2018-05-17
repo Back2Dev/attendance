@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Card, Header } from 'semantic-ui-react'
+import * as _ from 'lodash'
 
 const MemberList = (props) => {
-  const { members, title, Component, style, onCardClick } = props
+  const { members, title, Component, Loader, style, onCardClick } = props
+
+
+
   return (
     //renders list of users signed in OR out
     <div style={style}>
@@ -15,8 +19,14 @@ const MemberList = (props) => {
       />
       <Card.Group centered>
         {
+          props.loading &&
+          _.times(15, _.constant(<Loader />))
+        }
+
+        {
+          (!props.loading && members) &&
           members.map(member => (
-            <Component key={member._id} {...member} onCardClick={onCardClick}/>
+            <Component key={member._id} {...member} onCardClick={onCardClick} />
           ))
         }
       </Card.Group>
@@ -25,8 +35,8 @@ const MemberList = (props) => {
 }
 
 MemberList.propTypes = {
-  members: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
+  members: PropTypes.array,
+  title: PropTypes.string,
 };
 
 export default MemberList

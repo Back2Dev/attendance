@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import MemberList from './member/member-list'
 import MemberCardSmall from './member/member-card-small'
 import MemberCard from './member/member-card'
+import MemberCardLoading from './member/member-card-loading'
 
 const MemberMain = (props) => {
 
@@ -18,6 +19,8 @@ const MemberMain = (props) => {
           members={props.membersOut}
           Component={MemberCard}
           onCardClick={onCardClick}
+          loading={props.loading}
+          Loader={MemberCardLoading}
         />
       </div>
       <MemberList
@@ -36,6 +39,8 @@ const MemberMain = (props) => {
         members={props.membersIn}
         Component={MemberCardSmall}
         onCardClick={onCardClick}
+        loading={props.loading}
+        Loader={MemberCardLoading}
       />
     </div>
   )

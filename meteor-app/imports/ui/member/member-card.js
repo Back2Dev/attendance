@@ -8,12 +8,11 @@ const MemberCard = (props) => {
   const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
   const sessionsAttended = sessions.length
 
-
   return (
     <Card
       key={_id}
-      style={{maxWidth: '185px'}}
-      onClick={props.onCardClick.bind(props._id, props._id)}
+      style={{ maxWidth: '185px' }}
+      onClick={props.onCardClick ? props.onCardClick.bind(_id) : null}
     >
       <Image src={"/images/avatars/" + avatar} />
       <Card.Content>
@@ -39,6 +38,9 @@ const MemberCard = (props) => {
                 </Label.Detail>
               </Label>
             }
+
+            {React.Children.map(props.children, (child) => child)}
+
           </Card.Content>
         </Card.Header>
       </Card.Content>

@@ -21,9 +21,9 @@ export default withTracker((props) => {
 
   const membersHandle = Meteor.subscribe('all.members')
   const loading = ! membersHandle.ready()
-
   return {
     membersIn: Members.find({isHere: true}).fetch(),
     membersOut: Members.find({isHere: false}).fetch(),
+    loading
   }
 })(MemberMain)

@@ -7,13 +7,13 @@ import MemberEdit from '/imports/ui/member/member-edit'
 import MemberContainer from '/imports/ui/member/member-container'
 import MemberVisitContainer from '/imports/ui/member/member-visit-container'
 import Dashboard from '/imports/ui/layouts/dashboard'
+import './attendance.css'
 
 const Attendance = () => {
   return (
-    <div>
+    <div className='attendance-wrapper'>
       <title>Back 2 Bikes | Attendance</title>
       <h1>Back 2 Bikes Attendance App</h1>
-      <main>
         <Switch>
           {/* urls could be dynamically changed depending on what site defines them as [members, clients etc]*/}
           <Route path="/dashboard" component={Dashboard} />
@@ -23,7 +23,6 @@ const Attendance = () => {
           <Route path="/" component={MemberContainer} />
           <Route component={NotFound} />
         </Switch>
-      </main>
     </div>
   )
 }

@@ -7,11 +7,12 @@ import { humaniseDate } from '/imports/helpers/dates'
 
 const MemberCardSmall = (props) => {
 
+  const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
+
   return (
     <List.Item
       style={{textAlign: 'left'}}
-      onClick={props.onCardClick.bind(props._id, props._id)}
-      
+      onClick={props.onCardClick ? props.onCardClick.bind(_id) : null}
     >
       <Image avatar src={"/images/avatars/" + props.avatar} />
       <List.Content style={{height: '80px'}}>
