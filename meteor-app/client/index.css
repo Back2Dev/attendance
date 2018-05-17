@@ -1,3 +1,7 @@
+#app {
+    height: 100%;
+}
+
 ul {
   list-style: none;
   padding: 0;
