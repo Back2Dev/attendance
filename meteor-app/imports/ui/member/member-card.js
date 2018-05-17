@@ -8,11 +8,12 @@ const MemberCard = (props) => {
   const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
   const sessionsAttended = sessions.length
 
+
   return (
     <Card
       key={_id}
-      href={'/' + _id}
-      color={isHere ? 'green' : 'grey'}
+      style={{maxWidth: '185px'}}
+      onClick={props.onCardClick.bind(props._id, props._id)}
     >
       <Image src={"/images/avatars/" + avatar} />
       <Card.Content>

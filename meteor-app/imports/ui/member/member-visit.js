@@ -13,8 +13,12 @@ const MemberVisit = (props) => {
   const { _id, avatar, firstname, lastname, isHere } = props.member
   const { recordVisit } = props
 
-  function updateStatus(){
+  const updateStatus = () => {
     recordVisit()
+    props.history.goBack()
+  }
+
+  const cancelClick = () => {
     props.history.goBack()
   }
 
@@ -26,7 +30,7 @@ const MemberVisit = (props) => {
           {firstname} {lastname}
         </Card.Header>
         <Button.Group>
-          <Button as={Link} to={'/'}>Cancel</Button>
+          <Button onClick={cancelClick}>Cancel</Button>
           <Button.Or />
           <Button
             onClick={updateStatus}
