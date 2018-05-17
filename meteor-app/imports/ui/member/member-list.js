@@ -17,6 +17,9 @@ const MemberList = (props) => {
         textAlign={'center'}
         content={title}
       />
+      
+      {React.Children.map(props.children, (child) => child)}
+      
       <Card.Group centered>
         {
           props.loading &&

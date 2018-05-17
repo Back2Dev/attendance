@@ -1,47 +1,101 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import { Card, Grid, Image, Button } from 'semantic-ui-react'
+import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
 import MemberCard from './member-card'
 import MemberCardLoading from './member-card-loading'
 
-const MemberVisit = (props) => {
-  if (props.loading) {
+class MemberVisit extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      duration: 'full'
+    }
+  }
+  updateStatus = (data) => {
+    this.props.recordVisit(data)
+    this.props.history.goBack()
+  }
+
+  cancelClick = () => {
+    this.props.history.goBack()
+  }
+
+  setDuration = (e, { value }) => this.setState({ duration: value })
+
+
+  render() {
     return (
       <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
         <Grid.Column>
           <Card.Group centered>
-            <MemberCardLoading />
+            {
+              this.props.loading &&
+              <MemberCardLoading />
+            }
+            {
+              (!this.props.loading && this.props.member) &&
+              <MemberCard {...this.props.member}>
+                {
+                  this.props.member && !this.props.member.isHere &&
+                  <Form style={{ padding: '20px 0' }}>
+                    <Header as='h4'>
+                      Great to see you!
+                    <Header.Subheader>
+                        How long are you with us for?
+                    </Header.Subheader>
+                    </Header>
+                    <Form.Field>
+                      <Checkbox
+                        label='Half Day'
+                        name='duration'
+                        value='half'
+                        checked={this.state.duration === 'half'}
+                        onChange={this.setDuration}
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <Checkbox
+                        label='Full Day'
+                        name='duration'
+                        value='full'
+                        checked={this.state.duration === 'full'}
+                        onChange={this.setDuration}
+                      />
+                    </Form.Field>
+                  </Form>
+                }
+                {
+                  this.props.member && this.props.member.isHere &&
+                  <Header as='h4'>
+                    See you next time!
+                  </Header>
+                }
+                <Button.Group>
+                  <Button onClick={this.cancelClick}>Cancel</Button>
+                  <Button.Or />
+                  <Button
+                    onClick={this.updateStatus.bind(null, this.state)}
+                    positive
+                    compact
+                  >
+                    {
+                      this.props.member.isHere
+                        ? 'Sign Out'
+                        : 'Sign In'
+                    }
+                  </Button>
+                </Button.Group>
+              </MemberCard>
+            }
           </Card.Group>
         </Grid.Column>
       </Grid>
     )
   }
 
-  const { member, recordVisit } = props
-
-  const updateStatus = () => {
-    recordVisit()
-    props.history.goBack()
-  }
-
-  const cancelClick = () => {
-    props.history.goBack()
-  }
-
-  return (
-    <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
-      <Grid.Column>
-        <Card.Group centered>
-          <MemberCard {...member}>
-            <Button>Half Day</Button>
-            <Button>Full Day</Button>
-          </MemberCard>
-        </Card.Group>
-      </Grid.Column>
-    </Grid>
-  )
 }
+
 
 MemberVisit.propTypes = {
   // _id: PropTypes.string.isRequired,
@@ -55,25 +109,3 @@ MemberVisit.propTypes = {
 };
 
 export default MemberVisit
-
-// <Card key={_id}>
-//         <Image src={"/images/avatars/" + avatar} />
-//         <Card.Content>
-//           <Card.Header>
-//             {firstname} {lastname}
-//           </Card.Header>
-//           <Button.Group>
-//             <Button onClick={cancelClick}>Cancel</Button>
-//             <Button.Or />
-//             <Button
-//               onClick={updateStatus}
-//               positive>
-//               {
-//                 isHere
-//                   ? 'Sign Out'
-//                   : 'Sign In'
-//               }
-//             </Button>
-//           </Button.Group>
-//         </Card.Content>
-//       </Card>

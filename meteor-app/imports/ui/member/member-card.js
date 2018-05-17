@@ -11,7 +11,7 @@ const MemberCard = (props) => {
   return (
     <Card
       key={_id}
-      style={{ maxWidth: '185px' }}
+      style={{ maxWidth: '200px' }}
       onClick={props.onCardClick ? props.onCardClick.bind(_id) : null}
     >
       <Image src={"/images/avatars/" + avatar} />

@@ -9,8 +9,9 @@ export default withTracker((props) => {
   const id = props.match.params.id
   const member = Members.findOne(id)
 
-  function recordVisit() {
+  function recordVisit({duration}) {
     if (!member.isHere) {
+      console.log('record visit', id, duration)
       Meteor.call('arrive', id)
     } else {
       Meteor.call('depart', id)

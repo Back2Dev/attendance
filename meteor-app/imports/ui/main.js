@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import MemberList from './member/member-list'
 import MemberCardSmall from './member/member-card-small'
 import MemberCard from './member/member-card'
 import MemberCardLoading from './member/member-card-loading'
+import Search from './member/member-search'
 
 const MemberMain = (props) => {
 
   function onCardClick() {
     props.history.push(`/${this}`)
-}
+  }
 
   return (
-    <div>
+    <Fragment>
       <div style={{ paddingBottom: '20vh' }}>
         <MemberList
           title={'Check In:'}
@@ -21,7 +22,9 @@ const MemberMain = (props) => {
           onCardClick={onCardClick}
           loading={props.loading}
           Loader={MemberCardLoading}
-        />
+        >
+          <Search />
+        </MemberList>
       </div>
       <MemberList
         style={{
@@ -42,7 +45,7 @@ const MemberMain = (props) => {
         loading={props.loading}
         Loader={MemberCardLoading}
       />
-    </div>
+    </Fragment>
   )
 }
 
