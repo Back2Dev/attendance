@@ -99,6 +99,11 @@ const extractName = function(name) {
 	mode = "volunteer"
 }
 
+const extractEmail = function(emailAddress) {
+	email.email = emailAddress
+	mode = "volunteer"
+}
+
 const clean = function (s) {
 	let newString = s.trim()
 	newString = newString.replace(/^(0\d\d\d)(\d+)$/,`$1 $2`)
@@ -138,6 +143,11 @@ const triggers = {
 	name: {
 		regex: /Subject: (.*?) Volunteer registration/,
 		action: extractName,
+	},
+	email: {
+		regex: /^From: .*?<(.*?)>/,
+		action: extractEmail,
+
 	},
 }
 
