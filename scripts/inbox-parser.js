@@ -1,5 +1,5 @@
 #!/usr/local/bin/node
-// survey-parser.js
+// inbox-parser.js
 'use strict'
 //
 // Survey Parser utility - simple parser to extract the definitions from a survey file
@@ -15,7 +15,6 @@ const outfile = opts._[1] || "registrations/volunteers.js"
 // Modes are idle, header, volunteer, emergency, reasons
 //
 let mode = "idle"
-
 
 const wanted = {
 	volunteer: {
@@ -46,7 +45,7 @@ const wanted = {
 }
 
 
-const inbox = [];
+let inbox = []
 
 const saveLastEmail = function(buf) {
 	debug("Adding ",buf)
@@ -79,19 +78,29 @@ const endEmergency = function() {
 }
 
 const endReasons = function() {
-	if (mode === 'reasons') {
-		email.reasons = email.reasons.replace(/\n--$/,"")
-		mode === 'idle'
-		saveLastEmail(email)
-	}
+	email.reasons = email.reasons.replace(/\n--$/,"")
+	mode = 'idle'
+	saveLastEmail(email)
 }
 
 const extractDate = function(dateString) {
 	email.date = dateString
+	mode = "volunteer"
+}
+
+const extractName = function(name) {
+	const m = name.match(/(\w+) (\w+)/)
+	if (m) {
+		email.firstname = m[1]
+		email.lastname = m[2]
+	} else {
+		email.lastname = name
+	}
+	mode = "volunteer"
 }
 
 const clean = function (s) {
-	let newString = s.trim();
+	let newString = s.trim()
 	newString = newString.replace(/^(0\d\d\d)(\d+)$/,`$1 $2`)
 	newString = newString.replace(/^([1-9]\d\d\d)(\d+)$/,`$1 $2`)
 	return newString
@@ -126,6 +135,10 @@ const triggers = {
 		regex: /^Delivery-date: \w+, (\w+ \w+ \w+)/,
 		action: extractDate,
 	},
+	name: {
+		regex: /Subject: (.*?) Volunteer registration/,
+		action: extractName,
+	},
 }
 
 
@@ -137,7 +150,7 @@ fs.readFile(inboxfile, 'utf8', (err, data) => {
 	if (err) throw err
 
 	const errs = []
-	let mode = ''
+	mode = ''
 	// console.log(data.toString('utf8'))
 	const lines = data.split(/\n/)
 
@@ -145,7 +158,7 @@ fs.readFile(inboxfile, 'utf8', (err, data) => {
 	lines.forEach((line,ix) => {
 		let done = false
 		var l = line.trim()
-		// debug(`${(ix+1)}:`,l)
+		debug(`${(ix+1)} ${mode}:`,l)
 // Look for triggers:
 		Object.keys(triggers).forEach(d => {
 			const trigger = triggers[d]
@@ -162,14 +175,15 @@ fs.readFile(inboxfile, 'utf8', (err, data) => {
 		})		
 		if (!done) {
 			if (wanted[mode]) {
-				Object.keys(wanted[mode]).forEach(key => {
-					// debug("Looking for "+key)
-					const match = l.match(new RegExp(`^${key}:\s*(.*)`,))
-					if (match && match[1]) {
-						done = true
-						email[wanted[mode][key]] = clean(match[1])
-					} 
-				})
+				const m = l.match(/^(.*?):\s*(.*)$/)
+				if (m && wanted[mode][m[1]]) {
+					debug(`${m[1]}: ${m[2]}`)
+					done = true
+					const value = clean(m[2])
+					if (value) {
+						email[wanted[mode][m[1]]] = value
+					}
+				}
 			}
 		}
 		if (!done) {
