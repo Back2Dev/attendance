@@ -2,6 +2,15 @@ import { Mongo } from 'meteor/mongo';
 
 const Members = new Mongo.Collection('members');
 
+Members.search = function(query){
+  console.log('searching method... ', query)
+  return Members.find({
+    firstname: { $regex: RegExp(query), $options: 'i' }
+  }, {
+    limit: 20
+  })
+}
+
 Members.attachSchema(new SimpleSchema({
   firstname: {
     type: String,
@@ -38,5 +47,7 @@ Members.attachSchema(new SimpleSchema({
     blackbox: true,
   },
 }));
+
+
 
 export default Members;

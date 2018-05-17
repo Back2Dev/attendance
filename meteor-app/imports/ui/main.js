@@ -6,15 +6,51 @@ import MemberCard from './member/member-card'
 import MemberCardLoading from './member/member-card-loading'
 import Search from './member/member-search'
 
-const MemberMain = (props) => {
+class MemberMain extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      membersIn: [],
+      membersOut: [],
+      searchQuery: ''
+    }
+  }
+
+  componentWillReceiveProps({ membersIn, membersOut }) {
+    this.setState({ membersOut, membersIn })
+  }
 
   function onCardClick() {
     props.history.push(`/${this}`)
   }
 
-  return (
-    <Fragment>
-      <div style={{ paddingBottom: '20vh' }}>
+  // onSearchInput = (q) => {
+  //   this.setState({
+  //     membersOut: this.props.membersOut.filter(member => (
+  //       RegExp('' + q.target.value, 'ig')
+  //         .test(`${member.firstname} ${member.surname}`)
+  //     ))
+  //   })
+  // }
+
+  render() {
+    return (
+      <Fragment>
+        <div style={{ paddingBottom: '20vh' }}>
+        {this.props.searchResults}
+          <MemberList
+            title={'Check In:'}
+            members={this.state.membersOut}
+            Component={MemberCard}
+            onCardClick={this.onCardClick}
+            loading={this.props.loading}
+            Loader={MemberCardLoading}
+          >
+            <Search
+              onSearchInput={this.props.search}
+            />
+          </MemberList>
+        </div>
         <MemberList
           title={'Check In:'}
           members={props.membersOut}
