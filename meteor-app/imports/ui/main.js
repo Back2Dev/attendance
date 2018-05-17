@@ -24,14 +24,14 @@ class MemberMain extends React.Component {
     this.props.history.push(`/${id}`)
   }
 
-  // onSearchInput = (q) => {
-  //   this.setState({
-  //     membersOut: this.props.membersOut.filter(member => (
-  //       RegExp('' + q.target.value, 'ig')
-  //         .test(`${member.firstname} ${member.surname}`)
-  //     ))
-  //   })
-  // }
+  onSearchInput = (q) => {
+    this.setState({
+      membersOut: this.props.membersOut.filter(member => (
+        RegExp('' + q.target.value, 'ig')
+          .test(`${member.firstname} ${member.surname}`)
+      ))
+    })
+  }
 
   render() {
     return (
@@ -47,7 +47,7 @@ class MemberMain extends React.Component {
             Loader={MemberCardLoading}
           >
             <Search
-              onSearchInput={this.props.search}
+              onSearchInput={this.onSearchInput}
             />
           </MemberList>
         </div>
