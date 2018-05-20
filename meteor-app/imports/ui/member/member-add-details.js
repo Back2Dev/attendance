@@ -65,17 +65,15 @@ const uiSchema = {
   }
 }
 
-class Details extends Component {
-  render() {
-    return (
-        <Form
-          schema={schema}
-          uiSchema={uiSchema}
-        >
-        <div></div>
-        </Form>
-    );
-  }
+const Details = (props) => {
+  return (
+    <Form
+      schema={schema}
+      uiSchema={uiSchema}
+      onSubmit={props.onSubmit}
+      formData={props.formData}
+    />
+  );
 }
 
 export default Details

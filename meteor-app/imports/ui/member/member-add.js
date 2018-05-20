@@ -18,9 +18,13 @@ class MemberAdd extends Component {
   onSubmit = () => {
 
   }
-  
-  nextStep = () => {
+
+  onSubmit = ({formData}) => {
     this.setState({
+      formData: {
+        ...this.state.formData,
+        ...formData,
+      },
       step: this.state.step + 1
     })
   }
@@ -35,13 +39,13 @@ class MemberAdd extends Component {
   renderStep = () => {
     switch (this.state.step) {
       case 1:
-        return <Details />
+        return <Other formData={this.state.formData} onSubmit={this.onSubmit} />
       case 2:
-        return <Emergency />
+        return <Details formData={this.state.formData} onSubmit={this.onSubmit} />
       case 3:
-        return <Other />
+        return <Emergency formData={this.state.formData} onSubmit={this.onSubmit} />
       default:
-        <p>None</p>
+        return <p>Done</p>
         break;
     }
   }
@@ -53,8 +57,8 @@ class MemberAdd extends Component {
           <Step.Group ordered>
             <Step completed={(this.state.step > 1)}>
               <Step.Content>
-                <Step.Title>Your Details</Step.Title>
-                <Step.Description>Contact Details</Step.Description>
+                <Step.Title>Why would you like to join us?</Step.Title>
+                <Step.Description>Tell us a bit more about yourself</Step.Description>
               </Step.Content>
             </Step>
             <Step completed={(this.state.step > 2)}>
@@ -65,8 +69,8 @@ class MemberAdd extends Component {
             </Step>
             <Step completed={(this.state.step > 3)}>
               <Step.Content>
-                <Step.Title>Other Information</Step.Title>
-                <Step.Description>Tell us a bit more about yourself</Step.Description>
+                <Step.Title>Your Details</Step.Title>
+                <Step.Description>Contact Details</Step.Description>
               </Step.Content>
             </Step>
           </Step.Group>

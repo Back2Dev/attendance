@@ -5,30 +5,28 @@ const schema = {
   type: "object",
   title: "Who should we contact in an emergency?",
   properties: {
-    firstname: { type: "string", title: "First name" },
-    lastname: { type: "string", title: "Last name" },
-    address: { type: "string", title: "Street Address" },
-    suburb: { type: "string", title: "Suburb" },
-    state: { type: "string", title: "State" },
-    postcode: { type: "string", title: "Postcode" },
-    phone: { type: "string", title: "Phone number" },
-    mobile: { type: "string", title: "Mobile number" },
+    emergencyContact: { type: "string", title: "First name" },
+    emergencyEmail: { type: "string", title: "Email" },
+    emergencyPhone: { type: "string", title: "Phone number" },
+    emergencyMobile: { type: "string", title: "Mobile number" },
   },
 }
 
 const uiSchema = {
-  firstname: {
-    "ui:placeholder": "Enter your first name",
+  emergencyContact: {
+    "ui:placeholder": "Enter your emergency contacts name",
   },
-  lastname: {
-    "ui:placeholder": "Enter your last name"
+  emergencyEmail: {
+    "ui:placeholder": "Enter your emergency contacts email"
   },
-  phone: {
+  emergencyPhone: {
+    "ui:placeholder": "Enter your emergency contacts phone number",
     "ui:options": {
       inputType: 'tel'
     }
   },
-  mobile: {
+  emergencyMobile: {
+    "ui:placeholder": "Enter your emergency contacts mobile phone number",
     "ui:options": {
       inputType: 'tel'
     }
@@ -36,21 +34,15 @@ const uiSchema = {
 
 }
 
-class Emergency extends Component {
-  render() {
-    return (
-      <Form
-        schema={schema}
-        uiSchema={uiSchema}
-      >
-        <div></div>
-      </Form>
-    );
-  }
+const Emergency = (props) => {
+  return (
+    <Form
+      schema={schema}
+      uiSchema={uiSchema}
+      onSubmit={props.onSubmit}
+      formData={props.formData}
+    />
+  );
 }
 
 export default Emergency;
-// onChange={log("changed")}
-// onSubmit={props.onSubmit}
-// onError={log("errors")}
-// 
