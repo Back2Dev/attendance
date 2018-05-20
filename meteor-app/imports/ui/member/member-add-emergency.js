@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Form from "react-jsonschema-form-semanticui";
+import Control from './member-add-control'
 
 const schema = {
   type: "object",
@@ -41,7 +42,9 @@ const Emergency = (props) => {
       uiSchema={uiSchema}
       onSubmit={props.onSubmit}
       formData={props.formData}
-    />
+    >
+    <Control backStep={props.backStep} step={props.step}/>
+    </Form>
   );
 }
 

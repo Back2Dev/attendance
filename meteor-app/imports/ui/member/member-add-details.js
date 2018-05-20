@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Form from "react-jsonschema-form-semanticui";
+import Control from './member-add-control'
 
 const schema = {
   title: "Details",
@@ -15,28 +16,6 @@ const schema = {
     postcode: { type: "number", title: "Postcode" },
     phone: { type: "string", title: "Phone number" },
     mobile: { type: "string", title: "Mobile number" },
-    pref_contact: {
-      type: "array", title: "Preferred method of contact",
-      items: [
-        {
-          title: "Mobile",
-          type: "boolean",
-          default: false
-        },
-        {
-          title: "Landline",
-          type: "boolean",
-          default: false
-        },
-        {
-          title: "Email",
-          type: "boolean",
-          default: false
-        }
-
-
-      ]
-    },
   }
 }
 
@@ -57,12 +36,6 @@ const uiSchema = {
       inputType: 'tel'
     }
   },
-  pref_contact: {
-    "ui:widget": "checkboxes",
-    "ui:options": {
-      inline: true
-    }
-  }
 }
 
 const Details = (props) => {
@@ -72,7 +45,9 @@ const Details = (props) => {
       uiSchema={uiSchema}
       onSubmit={props.onSubmit}
       formData={props.formData}
-    />
+    >
+    <Control backStep={props.backStep} step={props.step}/>
+    </Form>
   );
 }
 

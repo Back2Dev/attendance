@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Form from "react-jsonschema-form-semanticui";
+import Control from './member-add-control'
 
 const schema = {
   type: "object",
@@ -38,7 +39,7 @@ const uiSchema = {
     "ui:widget": "textarea",
     "ui:placeholder": "Some good starting points:\nWhat makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?",
     "ui:options": {
-      "rows": 20
+      "rows": 12
     }
 
   }
@@ -52,7 +53,10 @@ const Other = (props) => {
       onSubmit={props.onSubmit}
       validate={validate}
       formData={props.formData}
-    />
+    >
+    <Control backStep={props.backStep} step={props.step}/>
+
+    </Form>
   );
 }
 
