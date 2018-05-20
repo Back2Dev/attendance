@@ -10,7 +10,7 @@ var opts = require('minimist')(process.argv.slice(2))
 const debug = require('debug')('inbox:parser')
 
 const inboxfile = opts._[0] || "registrations/INBOX"
-const outfile = opts._[1] || "registrations/volunteers.js"
+const outfile = opts._[1] || "registrations/members.json"
 //
 // Modes are idle, header, volunteer, emergency, reasons
 //
@@ -206,6 +206,6 @@ fs.readFile(inboxfile, 'utf8', (err, data) => {
 		console.log("ok")
 	else
 		console.error(`Errors detected in file:${inboxfile}\n  ${errs.join("\n  ")}`)
-	fs.writeFileSync(outfile,JSON.stringify(inbox,null,2)+';\n')
+	fs.writeFileSync(outfile,JSON.stringify(inbox,null,2))
 })
 
