@@ -17,13 +17,13 @@ const MemberList = (props) => {
         textAlign={'center'}
         content={title}
       />
-      
+
       {React.Children.map(props.children, (child) => child)}
-      
+
       <Card.Group centered>
         {
           props.loading &&
-          _.times(15, _.constant(<Loader />))
+          _.times(15, i => _.constant(<Loader key={i} />)())
         }
 
         {
