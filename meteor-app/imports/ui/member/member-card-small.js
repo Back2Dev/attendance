@@ -10,7 +10,7 @@ const MemberCardSmall = (props) => {
   return (
     <List.Item
       style={{ padding: '20px' }}
-      onClick={props.onCardClick ? props.onCardClick.bind(null, _id) : null}
+      onClick={() => props.onCardClick(_id)}
     >
       <Image size='tiny' spaced avatar src={"/images/avatars/" + props.avatar} />
     </List.Item >
@@ -26,6 +26,7 @@ MemberCardSmall.propTypes = {
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
+  onCardClick: PropTypes.func.isRequired,
 }
 
 export default withRouter(MemberCardSmall)
