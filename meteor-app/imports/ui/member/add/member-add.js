@@ -16,7 +16,6 @@ class MemberAdd extends Component {
   }
 
   onSubmit = ({ formData }) => {
-    console.log(this.state.step)
     this.setState({
       formData: {
         ...this.state.formData,
