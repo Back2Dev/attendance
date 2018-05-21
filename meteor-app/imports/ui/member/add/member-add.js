@@ -24,8 +24,8 @@ class MemberAdd extends Component {
       },
       step: this.state.step + 1
     })
-    console.log('aaaaand after submit....:')
-    console.log(this.state.step)
+    // if on final step
+    // call props.addMember()
   }
 
   onChange = ({ formData }) => {
@@ -77,7 +77,7 @@ class MemberAdd extends Component {
 }
 
 MemberAdd.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  addMember: PropTypes.func.isRequired
 };
 
 export default MemberAdd
