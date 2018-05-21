@@ -53,7 +53,6 @@ const Other = (props) => {
       onSubmit={props.onSubmit}
       validate={validate}
       formData={props.formData}
-      onChange={props.onChange}
     >
     <Control backStep={props.backStep} step={props.step}/>
 

@@ -45,7 +45,6 @@ const Details = (props) => {
       uiSchema={uiSchema}
       onSubmit={props.onSubmit}
       formData={props.formData}
-      onChange={props.onChange}
     >
     <Control backStep={props.backStep} step={props.step}/>
     </Form>
