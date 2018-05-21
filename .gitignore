@@ -1,3 +1,8 @@
+# ignore members data
+private/*
+registrations/*.json
+
+
 # Logs
 logs
 *.log

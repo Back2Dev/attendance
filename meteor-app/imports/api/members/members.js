@@ -1,6 +1,7 @@
-import { Mongo } from 'meteor/mongo';
+import { Mongo } from 'meteor/mongo'
+import { ValidatedMethod } from 'meteor/mdg:validated-method'
 
-const Members = new Mongo.Collection('members');
+const Members = new Mongo.Collection('members')
 
 Members.search = function(query){
   console.log('searching method... ', query)
@@ -16,18 +17,20 @@ Members.attachSchema(new SimpleSchema({
     type: String,
     label: "Name",
     max: 128,
-    optional: false
+    defaultValue: "Firstname",
+    optional: true,
   },
   lastname: {
     type: String,
-    label: "Surname",
+    label: "Lastname",
     max: 128,
-    optional: false
+    defaultValue: "Lastname",
+    optional: true,
   },
   avatar: {
     type: String,
     label: "Avatar file name",
-    optional: true
+    defaultValue: "1.jpg",
   },
   isHere: {
     type: Boolean,
@@ -47,7 +50,5 @@ Members.attachSchema(new SimpleSchema({
     blackbox: true,
   },
 }));
-
-
 
 export default Members;
