@@ -1,33 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
-
-import { Button, Icon, List, Image } from 'semantic-ui-react'
-import { humaniseDate } from '/imports/helpers/dates'
+import { List, Image } from 'semantic-ui-react'
 
 const MemberCardSmall = (props) => {
 
+  const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
+
   return (
     <List.Item
-      style={{textAlign: 'left'}}
-      onClick={props.onCardClick.bind(props._id, props._id)}
-      
+      style={{ padding: '20px' }}
+      onClick={props.onCardClick}
     >
-      <Image avatar src={"/images/avatars/" + props.avatar} />
-      <List.Content style={{height: '80px'}}>
-        {
-          props.visibleStatus == props._id &&
-          <div>
-            <List.Header>
-              {props.firstname} {props.lastname}
-            </List.Header>
-            <List.Description>
-              <p>Arrived: {humaniseDate(props.lastIn)} ago </p>
-            </List.Description>
-            <Button compact icon={'sign out'} content={'Sign Out'} />
-          </div>
-        }
-      </List.Content>
+      <Image size='tiny' spaced avatar src={"/images/avatars/" + props.avatar} />
     </List.Item >
   )
 
@@ -40,7 +25,9 @@ MemberCardSmall.propTypes = {
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
-  lastIn: PropTypes.object,
+  lastIn: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  
 }
 
 export default withRouter(MemberCardSmall)
