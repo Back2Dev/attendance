@@ -1,16 +1,27 @@
 import { Mongo } from 'meteor/mongo'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
+import * as _ from 'lodash'
 
-const Members = new Mongo.Collection('members')
-
-Members.search = function(query){
-  console.log('searching method... ', query)
-  return Members.find({
-    firstname: { $regex: RegExp(query), $options: 'i' }
-  }, {
-    limit: 20
-  })
+class Member {
+  constructor(doc) {
+    _.extend(this, doc)
+    this.name = `${this.firstname} ${this.lastname}`
+  }
 }
+
+const Members = new Mongo.Collection('members', {
+  transform: (doc) => new Member(doc)
+})
+
+// 
+// Members.search = function(query){
+//   console.log('searching method... ', query)
+//   return Members.find({
+//     firstname: { $regex: RegExp(query), $options: 'i' }
+//   }, {
+//     limit: 20
+//   })
+// }
 
 Members.attachSchema(new SimpleSchema({
   firstname: {
