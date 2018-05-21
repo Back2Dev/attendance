@@ -12,7 +12,7 @@ const MemberCard = (props) => {
     <Card
       key={_id}
       style={{ maxWidth: '200px' }}
-      onClick={props.onCardClick ? props.onCardClick.bind(null, _id) : null}
+      onClick={props.onCardClick.bind(null, _id)}
     >
       <Image src={"/images/avatars/" + avatar} />
       <Card.Content>
@@ -63,7 +63,8 @@ MemberCard.propTypes = {
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
-  lastIn: PropTypes.object,
+  lastIn: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default MemberCard
