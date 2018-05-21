@@ -13,14 +13,14 @@ const MemberAddSteps = (props) => {
       </Step>
       <Step completed={(props.step > 2)}>
         <Step.Content>
-          <Step.Title>Your Details</Step.Title>
-          <Step.Description>Contact Details</Step.Description>
+          <Step.Title>Emergency Contact</Step.Title>
+          <Step.Description>Just in case</Step.Description>
         </Step.Content>
       </Step>
       <Step completed={(props.step > 3)}>
         <Step.Content>
-          <Step.Title>Emergency Contact</Step.Title>
-          <Step.Description>Just in case</Step.Description>
+          <Step.Title>Your Details</Step.Title>
+          <Step.Description>Contact Details</Step.Description>
         </Step.Content>
       </Step>
     </Step.Group>
