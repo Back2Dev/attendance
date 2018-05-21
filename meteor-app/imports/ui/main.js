@@ -27,6 +27,7 @@ class MemberMain extends React.Component {
 
   onSearchInput = (q) => {
     this.setState({
+      searchQuery: q.target.value,
       membersOut: this.props.membersOut.filter(member => (
         RegExp('' + q.target.value, 'ig')
           .test(`${member.firstname} ${member.surname}`)
@@ -53,6 +54,7 @@ class MemberMain extends React.Component {
               <Menu.Item position='right'>
                 <Search
                   onSearchInput={this.onSearchInput}
+                  searchQuery={this.state.searchQuery}
                 />
               </Menu.Item>
             </Menu>
