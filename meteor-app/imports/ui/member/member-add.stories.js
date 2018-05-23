@@ -1,4 +1,4 @@
-// member-card.stories.js
+// member-add.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -10,15 +10,15 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import { Grid, Container, Segment } from 'semantic-ui-react'
 
-import Card from './member-card'
+import MemberAdd from './member-add'
 
-storiesOf('Member.Card', module)
+storiesOf('Member.Add', module)
   .addDecorator(withKnobs)
 
-  .add('Card', withInfo('Checked in/out')(() => {
+  .add('MemberAdd', withInfo('Add member')(() => {
     const story = (
       <div><p>Use Knobs to show checked in/out status</p>
-        <Card 
+        <MemberAdd 
           _id="aab45bb"
           firstname="Ed"
           lastname="Sheeran"
@@ -39,3 +39,4 @@ storiesOf('Member.Card', module)
     // );
     return story;
   }))
+

@@ -1,9 +1,10 @@
 import { configure } from '@storybook/react';
-import { storiesOf, action, linkTo } from '@storybook/react';
-import { specs, describe, it } from 'storybook-addon-specifications';
+import { storiesOf, action, linkTo } from '@storybook/react'
+import { setOptions } from '@storybook/addon-options'
+import { specs, describe, it } from 'storybook-addon-specifications'
 import 'semantic-ui-css/semantic.min.css'
 
-// import '/client/stylesheets/newstyle/_style.scss';
+// import '/client/stylesheets/newstyle/_style.scss'
 
 // //THIS IS NEEDED ONLY IF YOU ARE USING MOCHA AS A TEST RUNNER
 
@@ -16,6 +17,10 @@ import 'semantic-ui-css/semantic.min.css'
 
   // END OF SPECIFIC MOCHA CONF
 
+setOptions({
+  hierarchySeparator: /\./,
+  name: ' M e n t o r l o o p '
+});
 // stories live in the codebase as {component-name}.stories.js
 const req = require.context('../imports/ui', true, /.stories.js$/);
 

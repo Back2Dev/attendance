@@ -1,4 +1,4 @@
-// user.stories.js
+// member-visit.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -27,7 +27,7 @@ const member = {
 	avatar: '2.jpg',
 }
 
-storiesOf('Member', module)
+storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
