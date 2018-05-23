@@ -47,11 +47,26 @@ class MemberAdd extends Component {
   renderStep = () => {
     switch (this.state.step) {
       case 1:
-        return <Other formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
+        return <Other
+          formData={this.state.formData}
+          onChange={this.onChange}
+          step={this.state.step}
+          onSubmit={this.onSubmit}
+          backStep={this.backStep} />
       case 2:
-        return <Details formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
+        return <Details
+          formData={this.state.formData}
+          onChange={this.onChange}
+          step={this.state.step}
+          onSubmit={this.onSubmit}
+          backStep={this.backStep} />
       case 3:
-        return <Emergency formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
+        return <Emergency
+          formData={this.state.formData}
+          onChange={this.onChange}
+          step={this.state.step}
+          onSubmit={this.onSubmit}
+          backStep={this.backStep} />
       default:
         return <p>Done</p>
         break
