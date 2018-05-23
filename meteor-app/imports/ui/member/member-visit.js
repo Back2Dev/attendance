@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
-import MemberCard from './member-card'
-import MemberCardLoading from './member-card-loading'
+import MemberCard from '/imports/ui/member/member-card'
+import MemberCardLoading from '/imports/ui/member/member-card-loading'
 
 class MemberVisit extends React.Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class MemberVisit extends React.Component {
             }
             {
               (!this.props.loading && this.props.member) &&
-              <MemberCard {...this.props.member}>
+              <MemberCard {...this.props.member} onCardClick={f => f}>
                 {
                   this.props.member && !this.props.member.isHere &&
                   <Form style={{ padding: '20px 0' }}>
