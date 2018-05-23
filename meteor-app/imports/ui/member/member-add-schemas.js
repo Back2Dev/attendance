@@ -1,5 +1,7 @@
 export default [
   {
+    title: 'Why would you like to join us?',
+    description: 'Tell us a bit more about yourself',
     schema: {
       type: "object",
       title: "Lets get to know each other.",
@@ -33,6 +35,8 @@ export default [
     }
   },
   {
+    title: 'Your Details',
+    description: 'Contact Details',
     schema: {
       title: "Details",
       type: "object",
@@ -65,6 +69,8 @@ export default [
     }
   },
   {
+    title: 'Emergency Contact',
+    description: 'Just in case',
     schema: {
       type: "object",
       title: "Who should we contact in an emergency?",
