@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Form from "react-jsonschema-form-semanticui";
-import Control from './member-add-control'
+import Control from '/imports/ui/member/member-add-control'
 
 const schema = {
   type: "object",

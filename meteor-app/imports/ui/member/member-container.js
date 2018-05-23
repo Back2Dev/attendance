@@ -10,11 +10,6 @@ export default withTracker((props) => {
   const membersIn = Members.find({ isHere: true }).fetch()
   const membersOut = Members.find({ isHere: false }).fetch()
   
-  // const membersSearchHandle = Meteor.subscribe('members.search', 'maude')
-
-  // const search = () => {
-  // }
-
   return {
     membersIn,
     membersOut,

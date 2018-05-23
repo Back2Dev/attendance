@@ -6,8 +6,6 @@ import * as _ from 'lodash'
 const MemberList = (props) => {
   const { members, title, Component, Loader, style, onCardClick } = props
 
-
-
   return (
     //renders list of users signed in OR out
     <div style={style}>

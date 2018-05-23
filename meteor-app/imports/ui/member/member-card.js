@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Card, Image, Label } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
-import './member-card.css'
+import '/imports/ui/member/member-card.css'
 
 const MemberCard = (props) => {
   const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props

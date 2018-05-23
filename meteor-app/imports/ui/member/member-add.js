@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from 'semantic-ui-react'
-import Details from './member-add-details'
-import Emergency from './member-add-emergency'
-import Other from './member-add-other'
-import Steps from './member-add-steps'
+import Details from '/imports/ui/member/member-add-details'
+import Emergency from '/imports/ui/member/member-add-emergency'
+import Other from '/imports/ui/member/member-add-other'
+import Steps from '/imports/ui/member/member-add-steps'
 
 class MemberAdd extends Component {
   constructor(props) {

@@ -2,12 +2,12 @@ import React from 'react'
 import { Sidebar, Menu, Icon } from 'semantic-ui-react'
 import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
-import MemberAddContainer from '/imports/ui/member/add/member-add-container'
+import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberEdit from '/imports/ui/member/member-edit'
 import MemberContainer from '/imports/ui/member/member-container'
 import MemberVisitContainer from '/imports/ui/member/member-visit-container'
 import Dashboard from '/imports/ui/layouts/dashboard'
-import './attendance.css'
+import '/imports/ui/layouts/attendance.css'
 
 const Attendance = () => {
   return (
