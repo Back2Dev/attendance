@@ -13,7 +13,7 @@ import { Grid, Container, Segment } from 'semantic-ui-react'
 import MemberAdd from './member-add'
 
 storiesOf('Member.Add', module)
-  .addDecorator(withKnobs)
+  // .addDecorator(withKnobs)
 
   .add('MemberAdd', withInfo('Add member')(() => {
     const story = (
