@@ -17,7 +17,7 @@ const MemberCard = (props) => {
       <Image src={"/images/avatars/" + avatar} />
       <Card.Content>
         <Card.Header>
-          {firstname} {lastname}
+          {name}
           <Card.Content>
 
             {

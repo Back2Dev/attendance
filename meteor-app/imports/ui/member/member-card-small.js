@@ -5,7 +5,7 @@ import { List, Image } from 'semantic-ui-react'
 
 const MemberCardSmall = (props) => {
 
-  const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
+  const { _id, name, avatar, isHere, sessions = [], lastIn = null } = props
 
   return (
     <List.Item
@@ -25,7 +25,7 @@ MemberCardSmall.propTypes = {
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 }
 
 export default withRouter(MemberCardSmall)
