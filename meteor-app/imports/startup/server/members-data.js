@@ -17,8 +17,7 @@ Meteor.methods({
   'seed.members'() {
     casual.define('member', function () {
       return {
-        firstname: casual.first_name,
-        lastname: casual.last_name,
+        name: casual.first_name + ' ' + casual.last_name,
         avatar: `${casual.integer(1, 10)}.jpg`,
       };
     });

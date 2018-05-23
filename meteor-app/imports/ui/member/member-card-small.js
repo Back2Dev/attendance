@@ -20,8 +20,7 @@ const MemberCardSmall = (props) => {
 
 MemberCardSmall.propTypes = {
   _id: PropTypes.string.isRequired,
-  firstname: PropTypes.string.isRequired,
-  lastname: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,

@@ -5,7 +5,7 @@ import { humaniseDate } from '/imports/helpers/dates'
 import '/imports/ui/member/member-card.css'
 
 const MemberCard = (props) => {
-  const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
+  const { _id, name, avatar, isHere, sessions = [], lastIn = null } = props
   const sessionsAttended = sessions.length
 
   return (
@@ -58,8 +58,7 @@ const MemberCard = (props) => {
 
 MemberCard.propTypes = {
   _id: PropTypes.string.isRequired,
-  firstname: PropTypes.string.isRequired,
-  lastname: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,

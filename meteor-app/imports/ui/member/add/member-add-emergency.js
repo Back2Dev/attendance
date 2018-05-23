@@ -6,7 +6,7 @@ const schema = {
   type: "object",
   title: "Who should we contact in an emergency?",
   properties: {
-    emergencyContact: { type: "string", title: "First name" },
+    emergencyContact: { type: "string", title: "Name" },
     emergencyEmail: { type: "string", title: "Email" },
     emergencyPhone: { type: "string", title: "Phone number" },
     emergencyMobile: { type: "string", title: "Mobile number" },

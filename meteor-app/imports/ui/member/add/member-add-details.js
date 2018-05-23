@@ -5,10 +5,9 @@ import Control from './member-add-control'
 const schema = {
   title: "Details",
   type: "object",
-  required: ["firstname"],
+  required: ["name"],
   properties: {
-    firstname: { type: "string", title: "First name" },
-    lastname: { type: "string", title: "Last name" },
+    name: { type: "string", title: "Name" },
     email: { type: "string", format: "email", title: "Email" },
     address: { type: "string", title: "Street Address" },
     suburb: { type: "string", title: "Suburb" },
@@ -20,11 +19,8 @@ const schema = {
 }
 
 const uiSchema = {
-  firstname: {
-    "ui:placeholder": "Enter your first name",
-  },
-  lastname: {
-    "ui:placeholder": "Enter your last name"
+  name: {
+    "ui:placeholder": "Enter a unique username",
   },
   phone: {
     "ui:options": {

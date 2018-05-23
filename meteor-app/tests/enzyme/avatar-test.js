@@ -17,8 +17,7 @@ const avatar = {
   isWriteable: true,
 
   _id: "9OYh1hblQXaWmsqmwO1D",
-  firstName: "Jerry",
-  lastName: "Lewis",
+  name: "Jerry Lewis",
   fileName: "1.jpg",
   isCheckedin: false,
 };
@@ -29,8 +28,7 @@ describe('<Avatar /> component', () => {
     const wrapper = shallow(
       <Avatar 
         _id="9OYh1hblQXaWmsqmwO1D"
-        firstName="Jerry"
-        lastName="Lewis"
+        name={"Jerry Lewis"},
         fileName="1.jpg"
         isCheckedin= {false}      
       />
