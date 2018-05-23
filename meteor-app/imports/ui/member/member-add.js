@@ -58,7 +58,10 @@ class MemberAdd extends Component {
     return (
       <Grid>
         <Grid.Row centered>
-          <Steps step={this.state.step} />
+          <Steps
+            step={this.state.step}
+            steps={schemas}
+          />
         </Grid.Row>
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '500px' }}>
