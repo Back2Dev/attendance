@@ -49,7 +49,7 @@ class MemberVisit extends React.Component {
                       <Checkbox
                         label='Half Day (~3hrs)'
                         name='duration'
-                        value={4}
+                        value={3}
                         checked={this.state.duration === 3}
                         onChange={this.setDuration}
                       />
@@ -58,7 +58,7 @@ class MemberVisit extends React.Component {
                       <Checkbox
                         label='Full Day (~6hrs)'
                         name='duration'
-                        value={8}
+                        value={6}
                         checked={this.state.duration === 6}
                         onChange={this.setDuration}
                       />
