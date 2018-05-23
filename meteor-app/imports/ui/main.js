@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import MemberList from './member/member-list'
-import MemberCardSmall from './member/member-card-small'
-import MemberCard from './member/member-card'
-import MemberCardLoading from './member/member-card-loading'
-import Search from './member/member-search'
+import MemberList from '/imports/ui/member/member-list'
+import MemberCardSmall from '/imports/ui/member/member-card-small'
+import MemberCard from '/imports/ui/member/member-card'
+import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import Search from '/imports/ui/member/member-search'
 import { Menu } from 'semantic-ui-react'
 
 class MemberMain extends React.Component {
@@ -27,6 +27,7 @@ class MemberMain extends React.Component {
 
   onSearchInput = (q) => {
     this.setState({
+      searchQuery: q.target.value,
       membersOut: this.props.membersOut.filter(member => (
         RegExp('' + q.target.value, 'ig')
           .test(`${member.firstname} ${member.surname}`)
@@ -53,6 +54,7 @@ class MemberMain extends React.Component {
               <Menu.Item position='right'>
                 <Search
                   onSearchInput={this.onSearchInput}
+                  searchQuery={this.state.searchQuery}
                 />
               </Menu.Item>
             </Menu>

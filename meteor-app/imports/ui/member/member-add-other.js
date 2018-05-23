@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Form from "react-jsonschema-form-semanticui";
+import Control from '/imports/ui/member/member-add-control'
 
 const schema = {
   type: "object",
-  title: "Tell us a bit more about yourself",
+  title: "Lets get to know each other.",
   properties: {
     bikesHousehold: { type: "number", title: "How many bikes in your household?" },
     primaryBike: { type: "string", title: "What type of bike do you ride the most?", enum: ["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"] },
@@ -12,34 +13,51 @@ const schema = {
   }
 }
 
+
+function validate(formData, errors) {
+  console.log('validating...')
+  // if (formData.bikesHousehold !== 5) {
+  //   errors.bikesHousehold.addError("You need at least 5 bikes!");
+  // }
+  return errors;
+}
+
 const uiSchema = {
   bikesHousehold: {
-    "ui:widget": "updown"
+    "ui:widget": "updown",
+    "ui:placeholder": "Enter the number of bikes you own",
   },
   primaryBike: {
-    "ui:widget": "select"
+    "ui:widget": "select",
+    "ui:placeholder": "Select a type of bike",
   },
   workStatus: {
-    "ui:widget": "select"
+    "ui:widget": "select",
+    "ui:placeholder": "Select your employment status",
   },
   reasons: {
     "ui:widget": "textarea",
-    "ui:placeholder": "Tell us a bit about why you want to volunteer at Back 2 Bikes"
+    "ui:placeholder": "Some good starting points:\nWhat makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?",
+    "ui:options": {
+      "rows": 12
+    }
 
   }
 }
 
-class Other extends Component {
-  render() {
-    return (
-      <Form
-        schema={schema}
-        uiSchema={uiSchema}
-      >
-        <div></div>
-      </Form>
-    );
-  }
+const Other = (props) => {
+  return (
+    <Form
+      schema={schema}
+      uiSchema={uiSchema}
+      onSubmit={props.onSubmit}
+      validate={validate}
+      formData={props.formData}
+    >
+    <Control backStep={props.backStep} step={props.step}/>
+
+    </Form>
+  );
 }
 
-export default Other;
+export default Other

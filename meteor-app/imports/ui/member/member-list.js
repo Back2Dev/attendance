@@ -6,8 +6,6 @@ import * as _ from 'lodash'
 const MemberList = (props) => {
   const { members, title, Component, Loader, style, onCardClick } = props
 
-
-
   return (
     //renders list of users signed in OR out
     <div style={style}>
@@ -17,13 +15,13 @@ const MemberList = (props) => {
         textAlign={'center'}
         content={title}
       />
-      
+
       {React.Children.map(props.children, (child) => child)}
-      
+
       <Card.Group centered>
         {
           props.loading &&
-          _.times(15, _.constant(<Loader />))
+          _.times(15, i => _.constant(<Loader key={i} />)())
         }
 
         {

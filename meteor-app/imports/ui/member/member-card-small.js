@@ -5,12 +5,12 @@ import { List, Image } from 'semantic-ui-react'
 
 const MemberCardSmall = (props) => {
 
-  const { _id, firstname, lastname, avatar, isHere, sessions = [], lastIn = null } = props
+  const { _id, name, avatar, isHere, sessions = [], lastIn = null } = props
 
   return (
     <List.Item
       style={{ padding: '20px' }}
-      onClick={props.onCardClick}
+      onClick={() => props.onCardClick(_id)}
     >
       <Image size='tiny' spaced avatar src={"/images/avatars/" + props.avatar} />
     </List.Item >
@@ -20,14 +20,12 @@ const MemberCardSmall = (props) => {
 
 MemberCardSmall.propTypes = {
   _id: PropTypes.string.isRequired,
-  firstname: PropTypes.string.isRequired,
-  lastname: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-  
+  onCardClick: PropTypes.func.isRequired,
 }
 
 export default withRouter(MemberCardSmall)

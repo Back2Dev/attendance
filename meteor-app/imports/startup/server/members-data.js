@@ -2,13 +2,22 @@ import { Meteor } from 'meteor/meteor'; // base
 import Members from '/imports/api/members/members';
 import casual from 'casual';            // casual random data generator
 
-Meteor.startup(() => {
-
-  if (Members.find().count() === 0) {
-
+Meteor.methods({
+  'remove.members'() {
+    console.log('removing members....')
+    Members.remove({})
+  },
+  'import.members'() {
+    console.log('importing members....')
+    const membersArray = JSON.parse(Assets.getText('members.json'))
+    membersArray.forEach(member => {
+      Members.insert(member)
+    })
+  },
+  'seed.members'() {
     casual.define('member', function () {
       return {
-        name: casual.first_name + " " + casual.last_name,
+        name: casual.first_name + ' ' + casual.last_name,
         avatar: `${casual.integer(1, 10)}.jpg`,
       };
     });
@@ -30,5 +39,5 @@ Meteor.startup(() => {
     let membersArray = array_of(NUM_MEMBERS, () => casual.member);
 
     membersArray.forEach(r => Members.insert(r))
-  };
-});
+  }
+})

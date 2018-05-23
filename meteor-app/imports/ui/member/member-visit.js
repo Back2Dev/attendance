@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
-import MemberCard from './member-card'
-import MemberCardLoading from './member-card-loading'
+import MemberCard from '/imports/ui/member/member-card'
+import MemberCardLoading from '/imports/ui/member/member-card-loading'
 
 class MemberVisit extends React.Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class MemberVisit extends React.Component {
             }
             {
               (!this.props.loading && this.props.member) &&
-              <MemberCard {...this.props.member}>
+              <MemberCard {...this.props.member} onCardClick={f => f}>
                 {
                   this.props.member && !this.props.member.isHere &&
                   <Form style={{ padding: '20px 0' }}>
@@ -49,7 +49,7 @@ class MemberVisit extends React.Component {
                       <Checkbox
                         label='Half Day (~3hrs)'
                         name='duration'
-                        value={4}
+                        value={3}
                         checked={this.state.duration === 3}
                         onChange={this.setDuration}
                       />
@@ -58,7 +58,7 @@ class MemberVisit extends React.Component {
                       <Checkbox
                         label='Full Day (~6hrs)'
                         name='duration'
-                        value={8}
+                        value={6}
                         checked={this.state.duration === 6}
                         onChange={this.setDuration}
                       />
@@ -99,8 +99,7 @@ class MemberVisit extends React.Component {
 
 MemberVisit.propTypes = {
   // _id: PropTypes.string.isRequired,
-  // firstname: PropTypes.string.isRequired,
-  // lastname: PropTypes.string.isRequired,
+  // name: PropTypes.string.isRequired,
   // avatar: PropTypes.string.isRequired,
   // isHere: PropTypes.bool.isRequired,
   // sessions: PropTypes.array.isRequired,
