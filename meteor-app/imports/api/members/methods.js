@@ -6,7 +6,7 @@ const debug = require('debug')('att:server-methods')
 Meteor.methods({
   'members.insert'(member) {
     try {
-      Members.insert({})
+      Members.insert(member)
     } catch (e) {
       log.error({ e })
     }
