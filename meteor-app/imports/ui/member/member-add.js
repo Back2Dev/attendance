@@ -1,37 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from 'semantic-ui-react'
-import Details from '/imports/ui/member/member-add-details'
-import Emergency from '/imports/ui/member/member-add-emergency'
-import Other from '/imports/ui/member/member-add-other'
+import { Session } from 'meteor/session'
 import Steps from '/imports/ui/member/member-add-steps'
+import Form from "react-jsonschema-form-semanticui";
+import schemas from '/imports/ui/member/member-add-schemas'
+import Control from '/imports/ui/member/member-add-control'
 
 class MemberAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 1,
+      step: 0,
       formData: {}
     }
   }
 
-  onSubmit = ({ formData }) => {
-    this.setState({
-      formData: {
-        ...this.state.formData,
-        ...formData,
-      },
-      step: this.state.step + 1
-    })
-    // if on final step
-    // call props.addMember()
+  componentDidUpdate(prevProps, prevState) {
+    const finalStep = schemas.length == this.state.step
+    if (finalStep) {
+      this.props.addMember(this.state.formData)
+    }
   }
 
-  onChange = ({ formData }) => {
-    this.setState({
-      formData: {
-        ...this.state.formData,
-        ...formData,
+  onSubmit = ({ formData }) => {
+    this.setState((prevState, props) => {
+      return {
+        formData: {
+          ...prevState.formData,
+          ...formData,
+        },
+        step: prevState.step + 1,
       }
     })
   }
@@ -42,22 +41,20 @@ class MemberAdd extends Component {
     })
   }
 
-  // This is some wet code. Am looking at ways to refactor this...
-  renderStep = () => {
-    switch (this.state.step) {
-      case 1:
-        return <Other formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
-      case 2:
-        return <Details formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
-      case 3:
-        return <Emergency formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
-      default:
-        return <p>Done</p>
-        break
-    }
+  renderForm = () => {
+    return <Form
+      schema={schemas[this.state.step].schema}
+      uiSchema={schemas[this.state.step].uiSchema}
+      formData={this.state.formData}
+      onChange={this.onChange}
+      onSubmit={this.onSubmit}
+    >
+      <Control backStep={this.backStep} step={this.state.step} />
+    </Form>
   }
 
   render() {
+    const finalStep = schemas.length == this.state.step
     return (
       <Grid>
         <Grid.Row centered>
@@ -66,11 +63,19 @@ class MemberAdd extends Component {
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '500px' }}>
             {
-              this.renderStep()
+              finalStep &&
+              <div>
+                Confirmation Message:
+                {this.props.errorMessage}
+              </div>
+            }
+            {
+              !finalStep &&
+              this.renderForm()
             }
           </Grid.Column>
         </Grid.Row>
-      </Grid>
+      </Grid >
     )
   }
 }
