@@ -19,24 +19,17 @@ storiesOf('Member.Add', module)
     const story = (
       <div><p>Use Knobs to show checked in/out status</p>
         <MemberAdd 
-          _id="aab45bb"
-          firstname="Ed"
-          lastname="Sheeran"
-          avatar="3.jpg"
-          isHere={boolean('Checked in', false)}
-          sessions={[]}
         />
       </div>
     )
-    // specs(() =>
-    //   describe('<Avatar avatar={avatar} />', () => {
-    //     it('displays an avatar', () => {
-    //       const wrapper = mount(story);
-    //       expect(wrapper.find('img')).to.have.length(1);
-    //       expect(wrapper.find('img').props().src).to.contain(avatar.url);
-    //     });
-    //   })
-    // );
-    return story;
+    specs(() =>
+      describe('<MemberAdd />', () => {
+        it('displays the add member wizard', () => {
+          const wrapper = mount(story)
+          expect(wrapper.find('button')).to.have.length(1)
+          // expect(wrapper.find('button').props().src).to.contain(avatar.url)
+        })
+      })
+    )
+    return story
   }))
-

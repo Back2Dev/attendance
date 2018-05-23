@@ -9,10 +9,11 @@ Meteor.methods({
   },
   'import.members'() {
     console.log('importing members....')
-    const membersArray = JSON.parse(Assets.getText('members.json'))
-    membersArray.forEach(member => {
-      Members.insert(member)
-    })
+    throw new Meteor Error("Members import was moved to a private repo for security reasons")
+    // const membersArray = JSON.parse(Assets.getText('members.json'))
+    // membersArray.forEach(member => {
+    //   Members.insert(member)
+    // })
   },
   'seed.members'() {
     casual.define('member', function () {
