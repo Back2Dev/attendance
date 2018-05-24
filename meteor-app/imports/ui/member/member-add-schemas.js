@@ -1,10 +1,11 @@
 export default [
   {
-    title: 'Why would you like to join us?',
-    description: 'Tell us a bit more about yourself',
+    stepTitle: 'Why would you like to join us?',
+    stepDescription: 'Tell us a bit more about yourself',
     schema: {
       type: "object",
       title: "Lets get to know each other.",
+      required: ["bikesHousehold", "reasons"],
       properties: {
         bikesHousehold: { type: "number", title: "How many bikes in your household?" },
         primaryBike: { type: "string", title: "What type of bike do you ride the most?", enum: ["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"] },
@@ -16,6 +17,7 @@ export default [
       bikesHousehold: {
         "ui:widget": "updown",
         "ui:placeholder": "Enter the number of bikes you own",
+        "ui:autofocus": true,
       },
       primaryBike: {
         "ui:widget": "select",
@@ -35,12 +37,12 @@ export default [
     }
   },
   {
-    title: 'Your Details',
-    description: 'Contact Details',
+    stepTitle: 'Your Details',
+    stepDescription: 'Contact Details',
     schema: {
       title: "Details",
       type: "object",
-      required: ["name"],
+      required: ["name", "email"],
       properties: {
         name: { type: "string", title: "Name" },
         email: { type: "string", format: "email", title: "Email" },
@@ -55,6 +57,7 @@ export default [
     uiSchema: {
       name: {
         "ui:placeholder": "Enter your first name",
+        "ui:autofocus": true,
       },
       phone: {
         "ui:options": {
@@ -69,11 +72,12 @@ export default [
     }
   },
   {
-    title: 'Emergency Contact',
-    description: 'Just in case',
+    stepTitle: 'Emergency Contact',
+    stepDescription: 'Just in case',
     schema: {
       type: "object",
       title: "Who should we contact in an emergency?",
+      required: ["emergencyContact"],
       properties: {
         emergencyContact: { type: "string", title: "First name" },
         emergencyEmail: { type: "string", title: "Email" },
@@ -84,6 +88,7 @@ export default [
     uiSchema: {
       emergencyContact: {
         "ui:placeholder": "Enter your emergency contacts name",
+        "ui:autofocus": true,
       },
       emergencyEmail: {
         "ui:placeholder": "Enter your emergency contacts email"
