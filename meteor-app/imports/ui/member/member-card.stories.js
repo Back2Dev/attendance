@@ -1,3 +1,4 @@
+// member-card.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -11,7 +12,7 @@ import { Grid, Container, Segment } from 'semantic-ui-react'
 
 import Card from './member-card'
 
-storiesOf('Member', module)
+storiesOf('Member.Card', module)
   .addDecorator(withKnobs)
 
   .add('Card', withInfo('Checked in/out')(() => {
@@ -38,5 +39,3 @@ storiesOf('Member', module)
     // );
     return story;
   }))
-
-     
