@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Member Add 1`] = `
+exports[`Storyshots Member.Add MemberAdd 1`] = `
 <div>
   <div
     style={
@@ -10,16 +10,578 @@ exports[`Storyshots Member Add 1`] = `
       }
     }
   >
-    <section
-      id="volunteer-signup-form"
-    >
-      <h1>
-        New Volunteer Signup Form
-      </h1>
-      <h2>
-        Your Details
-      </h2>
-    </section>
+    <div>
+      <p>
+        Use Knobs to show checked in/out status
+      </p>
+      <div
+        className="ui grid"
+      >
+        <div
+          className="centered row"
+        >
+          <div
+            className="ui ordered steps"
+          >
+            <div
+              className="step"
+              href={undefined}
+              onClick={[Function]}
+            >
+              <div
+                className="content"
+              >
+                <div
+                  className="title"
+                >
+                  Why would you like to join us?
+                </div>
+                <div
+                  className="description"
+                >
+                  Tell us a bit more about yourself
+                </div>
+              </div>
+            </div>
+            <div
+              className="step"
+              href={undefined}
+              onClick={[Function]}
+            >
+              <div
+                className="content"
+              >
+                <div
+                  className="title"
+                >
+                  Emergency Contact
+                </div>
+                <div
+                  className="description"
+                >
+                  Just in case
+                </div>
+              </div>
+            </div>
+            <div
+              className="step"
+              href={undefined}
+              onClick={[Function]}
+            >
+              <div
+                className="content"
+              >
+                <div
+                  className="title"
+                >
+                  Your Details
+                </div>
+                <div
+                  className="description"
+                >
+                  Contact Details
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="centered row"
+        >
+          <div
+            className="column"
+            style={
+              Object {
+                "maxWidth": "500px",
+              }
+            }
+          >
+            <form
+              acceptCharset={undefined}
+              action={undefined}
+              autoComplete={undefined}
+              className="ui form"
+              encType={undefined}
+              id={undefined}
+              method={undefined}
+              name={undefined}
+              noValidate={false}
+              onSubmit={[Function]}
+              target={undefined}
+            >
+              <div
+                className="form-group field field-object"
+              >
+                <div>
+                  <div
+                    className="ui header"
+                    id="root__title"
+                  >
+                    Lets get to know each other.
+                  </div>
+                  <div
+                    className="form-group field field-number"
+                  >
+                    <label
+                      className="control-label"
+                      htmlFor="root_bikesHousehold"
+                    >
+                      How many bikes in your household?
+                    </label>
+                    <div />
+                    <div
+                      className="ui input"
+                    >
+                      <input
+                        disabled={false}
+                        id="root_bikesHousehold"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Enter the number of bikes you own"
+                        readOnly={false}
+                        required={false}
+                        tabIndex={undefined}
+                        type="number"
+                        value={undefined}
+                      />
+                    </div>
+                    <div />
+                    <div />
+                  </div>
+                  <div
+                    className="form-group field field-string"
+                  >
+                    <label
+                      className="control-label"
+                      htmlFor="root_primaryBike"
+                    >
+                      What type of bike do you ride the most?
+                    </label>
+                    <div />
+                    <div
+                      aria-busy={undefined}
+                      aria-disabled={false}
+                      aria-expanded={false}
+                      autofocus={false}
+                      className="ui search selection dropdown"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      readonly={false}
+                      required={false}
+                      role="combobox"
+                      tabIndex={undefined}
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        autoComplete="off"
+                        className="search"
+                        onChange={[Function]}
+                        style={
+                          Object {
+                            "width": undefined,
+                          }
+                        }
+                        tabIndex={0}
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        aria-live="polite"
+                        className="default text"
+                        role="alert"
+                      >
+                        Select a type of bike
+                      </div>
+                      <i
+                        aria-hidden="true"
+                        className="dropdown icon"
+                        onClick={[Function]}
+                      />
+                      <div
+                        aria-multiselectable={undefined}
+                        className="menu transition"
+                        role="listbox"
+                      >
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={true}
+                          className="selected item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Road/racer
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Hybrid
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Mountain
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Cruiser
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Ladies
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Gents
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Fixie/Single Speed
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div />
+                    <div />
+                  </div>
+                  <div
+                    className="form-group field field-string"
+                  >
+                    <label
+                      className="control-label"
+                      htmlFor="root_workStatus"
+                    >
+                      Work status
+                    </label>
+                    <div />
+                    <div
+                      aria-busy={undefined}
+                      aria-disabled={false}
+                      aria-expanded={false}
+                      autofocus={false}
+                      className="ui search selection dropdown"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      readonly={false}
+                      required={false}
+                      role="combobox"
+                      tabIndex={undefined}
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        autoComplete="off"
+                        className="search"
+                        onChange={[Function]}
+                        style={
+                          Object {
+                            "width": undefined,
+                          }
+                        }
+                        tabIndex={0}
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        aria-live="polite"
+                        className="default text"
+                        role="alert"
+                      >
+                        Select your employment status
+                      </div>
+                      <i
+                        aria-hidden="true"
+                        className="dropdown icon"
+                        onClick={[Function]}
+                      />
+                      <div
+                        aria-multiselectable={undefined}
+                        className="menu transition"
+                        role="listbox"
+                      >
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={true}
+                          className="selected item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Full Time
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Part Time
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Pension/Disability
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Unemployed
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Student
+                          </span>
+                        </div>
+                        <div
+                          aria-checked={false}
+                          aria-disabled={undefined}
+                          aria-selected={false}
+                          className="item"
+                          onClick={[Function]}
+                          role="option"
+                          style={
+                            Object {
+                              "pointerEvents": "all",
+                            }
+                          }
+                        >
+                          <span
+                            className="text"
+                          >
+                            Retired
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div />
+                    <div />
+                  </div>
+                  <div
+                    className="form-group field field-string"
+                  >
+                    <label
+                      className="control-label"
+                      htmlFor="root_reasons"
+                    >
+                      Reasons for volunteering
+                    </label>
+                    <div />
+                    <div>
+                      <textarea
+                        autoFocus={false}
+                        disabled={false}
+                        id="root_reasons"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        onInput={[Function]}
+                        placeholder="Some good starting points:
+What makes you want to to volunteer at Back2Bikes?
+Have you ever done any other volunteering before?
+Have you worked on bikes or something similar before?"
+                        readOnly={false}
+                        required={false}
+                        rows={12}
+                        style={
+                          Object {
+                            "resize": "",
+                          }
+                        }
+                        value=""
+                      />
+                    </div>
+                    <div />
+                    <div />
+                  </div>
+                </div>
+                <div />
+                <div />
+              </div>
+              <div>
+                <button
+                  className="ui right floated button"
+                  disabled={undefined}
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={undefined}
+                  type="submit"
+                >
+                  Next
+                  <i
+                    aria-hidden="true"
+                    className="arrow right icon"
+                  />
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <button
     onClick={[Function]}
@@ -121,7 +683,7 @@ exports[`Storyshots Member Add 1`] = `
               }
             }
           >
-            Member
+            Member.Add
           </h1>
           <h2
             style={
@@ -133,7 +695,7 @@ exports[`Storyshots Member Add 1`] = `
               }
             }
           >
-            Add
+            MemberAdd
           </h2>
         </div>
         <div
@@ -153,7 +715,7 @@ exports[`Storyshots Member Add 1`] = `
               }
             }
           >
-            New volunteer form
+            Add member
           </div>
         </div>
         <div>
@@ -173,64 +735,154 @@ exports[`Storyshots Member Add 1`] = `
             className="css-4akams"
           >
             <div>
-              <div
-                style={
-                  Object {
-                    "paddingLeft": 18,
-                    "paddingRight": 3,
-                  }
-                }
-              >
-                <span
+              <div>
+                <div
                   style={
                     Object {
-                      "color": "#777",
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
                     }
                   }
                 >
-                  &lt;
-                  MemberAdd
-                </span>
-                <span>
-                  <span>
-                     
-                    <span
-                      style={Object {}}
-                    >
-                      onSubmit
-                    </span>
-                    <span>
-                      =
-                      <span
-                        style={Object {}}
-                      >
-                        <span>
-                          {
-                          <span
-                            style={
-                              Object {
-                                "color": "#170",
-                              }
-                            }
-                          >
-                            onClick()
-                          </span>
-                          }
-                        </span>
-                      </span>
-                    </span>
-                     
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    div
                   </span>
-                </span>
-                <span
+                  <span />
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &gt;
+                  </span>
+                </div>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "paddingLeft": 33,
+                        "paddingRight": 3,
+                      }
+                    }
+                  >
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      &lt;
+                      p
+                    </span>
+                    <span />
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      &gt;
+                    </span>
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "paddingLeft": 48,
+                        "paddingRight": 3,
+                      }
+                    }
+                  >
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      Use Knobs to show checked in/out status
+                    </span>
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "paddingLeft": 33,
+                        "paddingRight": 3,
+                      }
+                    }
+                  >
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      &lt;/
+                      p
+                      &gt;
+                    </span>
+                  </div>
+                </div>
+                <div
                   style={
                     Object {
-                      "color": "#777",
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
                     }
                   }
                 >
-                  /&gt;
-                </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    MemberAdd
+                  </span>
+                  <span />
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    /&gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;/
+                    div
+                    &gt;
+                  </span>
+                </div>
               </div>
             </div>
             <button
@@ -318,7 +970,7 @@ exports[`Storyshots Member Add 1`] = `
                   <td
                     className="css-1ygfcef"
                   >
-                    onSubmit
+                    addMember
                   </td>
                   <td
                     className="css-1ygfcef"
@@ -349,7 +1001,787 @@ exports[`Storyshots Member Add 1`] = `
 </div>
 `;
 
-exports[`Storyshots Member Attend 1`] = `
+exports[`Storyshots Member.Card Card 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "position": "relative",
+        "zIndex": 0,
+      }
+    }
+  >
+    <div>
+      <p>
+        Use Knobs to show checked in/out status
+      </p>
+      <a
+        className="ui card"
+        href={undefined}
+        onClick={[Function]}
+        style={
+          Object {
+            "maxWidth": "200px",
+          }
+        }
+      >
+        <img
+          className="ui image"
+          src="/images/avatars/3.jpg"
+        />
+        <div
+          className="content"
+        >
+          <div
+            className="header"
+          >
+            <div
+              className="content"
+            >
+              <div
+                className="ui label"
+                onClick={[Function]}
+              >
+                Newbie
+                <div
+                  className="detail"
+                >
+                  0
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="extra content"
+        />
+      </a>
+    </div>
+  </div>
+  <button
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "#28c",
+        "border": "none",
+        "borderRadius": "0 0 0 5px",
+        "color": "#fff",
+        "cursor": "pointer",
+        "display": "block",
+        "fontFamily": "sans-serif",
+        "fontSize": "12px",
+        "padding": "5px 15px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+      }
+    }
+    type="button"
+  >
+    Show Info
+  </button>
+  <div
+    style={
+      Object {
+        "background": "white",
+        "bottom": 0,
+        "display": "none",
+        "left": 0,
+        "overflow": "auto",
+        "padding": "0 40px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+        "zIndex": 99999,
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#28c",
+          "border": "none",
+          "borderRadius": "0 0 0 5px",
+          "color": "#fff",
+          "cursor": "pointer",
+          "display": "block",
+          "fontFamily": "sans-serif",
+          "fontSize": "12px",
+          "padding": "5px 15px",
+          "position": "fixed",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      type="button"
+    >
+      ×
+    </button>
+    <div
+      style={undefined}
+    >
+      <div
+        style={
+          Object {
+            "WebkitFontSmoothing": "antialiased",
+            "backgroundColor": "#fff",
+            "border": "1px solid #eee",
+            "borderRadius": "2px",
+            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
+            "color": "#444",
+            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+            "fontSize": "15px",
+            "fontWeight": 300,
+            "lineHeight": 1.45,
+            "marginBottom": "20px",
+            "marginTop": "20px",
+            "padding": "20px 40px 40px",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "borderBottom": "1px solid #eee",
+              "marginBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <h1
+            style={
+              Object {
+                "fontSize": "35px",
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            Member.Card
+          </h1>
+          <h2
+            style={
+              Object {
+                "fontSize": "22px",
+                "fontWeight": 400,
+                "margin": "0 0 10px 0",
+                "padding": 0,
+              }
+            }
+          >
+            Card
+          </h2>
+        </div>
+        <div
+          style={
+            Object {
+              "marginBottom": 0,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "WebkitFontSmoothing": "antialiased",
+                "color": "#444",
+                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+                "fontSize": "15px",
+              }
+            }
+          >
+            Checked in/out
+          </div>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Story Source
+          </h1>
+          <pre
+            className="css-4akams"
+          >
+            <div>
+              <div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    div
+                  </span>
+                  <span />
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &gt;
+                  </span>
+                </div>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "paddingLeft": 33,
+                        "paddingRight": 3,
+                      }
+                    }
+                  >
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      &lt;
+                      p
+                    </span>
+                    <span />
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      &gt;
+                    </span>
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "paddingLeft": 48,
+                        "paddingRight": 3,
+                      }
+                    }
+                  >
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      Use Knobs to show checked in/out status
+                    </span>
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "paddingLeft": 33,
+                        "paddingRight": 3,
+                      }
+                    }
+                  >
+                    <span
+                      style={
+                        Object {
+                          "color": "#777",
+                        }
+                      }
+                    >
+                      &lt;/
+                      p
+                      &gt;
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    MemberCard
+                  </span>
+                  <span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        firstname
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Ed
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        lastname
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Sheeran
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        avatar
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            3.jpg
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        isHere
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
+                                }
+                              }
+                            >
+                              false
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        sessions
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              [
+                              ]
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                      <br />
+                    </span>
+                  </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    /&gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;/
+                    div
+                    &gt;
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              className="css-gydez8"
+              onClick={[Function]}
+            >
+              <div
+                className="css-kv47nt"
+              >
+                <div
+                  style={
+                    Object {
+                      "marginBottom": 6,
+                    }
+                  }
+                >
+                  Copied!
+                </div>
+                <div>
+                  Copy
+                </div>
+              </div>
+            </button>
+          </pre>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Prop Types
+          </h1>
+          <div>
+            <h2
+              style={
+                Object {
+                  "margin": "20px 0 0 0",
+                }
+              }
+            >
+              "
+              MemberCard
+              " Component
+            </h2>
+            <table
+              className="css-1ytzlk7"
+            >
+              <thead>
+                <tr>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    property
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    propType
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    required
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    default
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    _id
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    name
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    avatar
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    isHere
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    sessions
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    lastIn
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    onCardClick
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Member.Session Attend 1`] = `
 <div>
   <div
     style={
@@ -364,50 +1796,161 @@ exports[`Storyshots Member Attend 1`] = `
         Use Knobs to show check in state
       </p>
       <div
-        className="ui card"
-        href={undefined}
-        onClick={[Function]}
+        className="ui centered center aligned middle aligned grid"
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
       >
-        <img
-          className="ui image"
-          src="/images/avatars/2.jpg"
-        />
         <div
-          className="content"
+          className="column"
         >
           <div
-            className="header"
-          >
-            Mickey
-             
-            Mouse
-          </div>
-          <div
-            className="ui buttons"
+            className="ui centered cards"
           >
             <a
-              className="ui button"
-              disabled={undefined}
-              href="/"
+              className="ui card"
+              href={undefined}
               onClick={[Function]}
-              role="button"
-              tabIndex={undefined}
+              style={
+                Object {
+                  "maxWidth": "200px",
+                }
+              }
             >
-              Cancel
+              <img
+                className="ui image"
+                src="/images/avatars/2.jpg"
+              />
+              <div
+                className="content"
+              >
+                <div
+                  className="header"
+                >
+                  <div
+                    className="content"
+                  >
+                    <div
+                      className="ui label"
+                      onClick={[Function]}
+                    >
+                      Newbie
+                      <div
+                        className="detail"
+                      >
+                        0
+                      </div>
+                    </div>
+                    <form
+                      action={undefined}
+                      className="ui form"
+                      onSubmit={[Function]}
+                      style={
+                        Object {
+                          "padding": "20px 0",
+                        }
+                      }
+                    >
+                      <h4
+                        className="ui header"
+                      >
+                        Great to see you!
+                        <div
+                          className="sub header"
+                        >
+                          How long are you with us for?
+                        </div>
+                      </h4>
+                      <div
+                        className="field"
+                      >
+                        <div
+                          className="ui checkbox"
+                          onChange={[Function]}
+                          onClick={[Function]}
+                          onMouseDown={[Function]}
+                        >
+                          <input
+                            checked={false}
+                            className="hidden"
+                            id={undefined}
+                            name="duration"
+                            onClick={[Function]}
+                            readOnly={true}
+                            tabIndex={0}
+                            type="checkbox"
+                            value={3}
+                          />
+                          <label
+                            htmlFor={undefined}
+                          >
+                            Half Day (~3hrs)
+                          </label>
+                        </div>
+                      </div>
+                      <div
+                        className="field"
+                      >
+                        <div
+                          className="ui checked checkbox"
+                          onChange={[Function]}
+                          onClick={[Function]}
+                          onMouseDown={[Function]}
+                        >
+                          <input
+                            checked={true}
+                            className="hidden"
+                            id={undefined}
+                            name="duration"
+                            onClick={[Function]}
+                            readOnly={true}
+                            tabIndex={0}
+                            type="checkbox"
+                            value={6}
+                          />
+                          <label
+                            htmlFor={undefined}
+                          >
+                            Full Day (~6hrs)
+                          </label>
+                        </div>
+                      </div>
+                    </form>
+                    <div
+                      className="ui buttons"
+                    >
+                      <button
+                        className="ui button"
+                        disabled={undefined}
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={undefined}
+                      >
+                        Cancel
+                      </button>
+                      <div
+                        className="or"
+                        data-text={undefined}
+                      />
+                      <button
+                        className="ui compact positive button"
+                        disabled={undefined}
+                        onClick={[Function]}
+                        role="button"
+                        tabIndex={undefined}
+                      >
+                        Sign In
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="extra content"
+              />
             </a>
-            <div
-              className="or"
-              data-text={undefined}
-            />
-            <button
-              className="ui positive button"
-              disabled={undefined}
-              onClick={[Function]}
-              role="button"
-              tabIndex={undefined}
-            >
-              Sign In
-            </button>
           </div>
         </div>
       </div>
@@ -513,7 +2056,7 @@ exports[`Storyshots Member Attend 1`] = `
               }
             }
           >
-            Member
+            Member.Session
           </h1>
           <h2
             style={
@@ -1008,784 +2551,6 @@ exports[`Storyshots Member Attend 1`] = `
                     className="css-d52hbj"
                   >
                     yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Storyshots Member Card 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <div>
-      <p>
-        Use Knobs to show checked in/out status
-      </p>
-      <a
-        className="ui grey card"
-        href="/aab45bb"
-        onClick={[Function]}
-      >
-        <img
-          className="ui image"
-          src="/images/avatars/3.jpg"
-        />
-        <div
-          className="content"
-        >
-          <div
-            className="header"
-          >
-            Ed
-             
-            Sheeran
-            <div
-              className="content"
-            >
-              <div
-                className="ui label"
-                onClick={[Function]}
-              >
-                Newbie
-                <div
-                  className="detail"
-                >
-                  0
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="extra content"
-        />
-      </a>
-    </div>
-  </div>
-  <button
-    onClick={[Function]}
-    style={
-      Object {
-        "background": "#28c",
-        "border": "none",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-      }
-    }
-    type="button"
-  >
-    Show Info
-  </button>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <button
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "#28c",
-          "border": "none",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "top": 0,
-        }
-      }
-      type="button"
-    >
-      ×
-    </button>
-    <div
-      style={undefined}
-    >
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            Member
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            Card
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            Checked in/out
-          </div>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            className="css-4akams"
-          >
-            <div>
-              <div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 18,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;
-                    div
-                  </span>
-                  <span />
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &gt;
-                  </span>
-                </div>
-                <div>
-                  <div
-                    style={
-                      Object {
-                        "paddingLeft": 33,
-                        "paddingRight": 3,
-                      }
-                    }
-                  >
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      &lt;
-                      p
-                    </span>
-                    <span />
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      &gt;
-                    </span>
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "paddingLeft": 48,
-                        "paddingRight": 3,
-                      }
-                    }
-                  >
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      Use Knobs to show checked in/out status
-                    </span>
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "paddingLeft": 33,
-                        "paddingRight": 3,
-                      }
-                    }
-                  >
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      &lt;/
-                      p
-                      &gt;
-                    </span>
-                  </div>
-                </div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 33,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;
-                    MemberCard
-                  </span>
-                  <span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        firstname
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            Ed
-                            "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        lastname
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            Sheeran
-                            "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        avatar
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            3.jpg
-                            "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        isHere
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
-                              }
-                            >
-                              false
-                            </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        sessions
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
-                              }
-                            >
-                              [
-                              ]
-                            </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
-                      <br />
-                    </span>
-                  </span>
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    /&gt;
-                  </span>
-                </div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 18,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;/
-                    div
-                    &gt;
-                  </span>
-                </div>
-              </div>
-            </div>
-            <button
-              className="css-gydez8"
-              onClick={[Function]}
-            >
-              <div
-                className="css-kv47nt"
-              >
-                <div
-                  style={
-                    Object {
-                      "marginBottom": 6,
-                    }
-                  }
-                >
-                  Copied!
-                </div>
-                <div>
-                  Copy
-                </div>
-              </div>
-            </button>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              MemberCard
-              " Component
-            </h2>
-            <table
-              className="css-1ytzlk7"
-            >
-              <thead>
-                <tr>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    property
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    propType
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    required
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    default
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    _id
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    firstname
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    lastname
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    avatar
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    isHere
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    sessions
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    lastIn
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
                   </td>
                   <td
                     className="css-d52hbj"
