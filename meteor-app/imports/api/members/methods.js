@@ -6,9 +6,11 @@ const debug = require('debug')('att:server-methods')
 Meteor.methods({
   'members.insert'(member) {
     try {
-      Members.insert(member)
+      return Members.insert(member)
     } catch (e) {
       log.error({ e })
+      // give the client the error
+      throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   }
 })

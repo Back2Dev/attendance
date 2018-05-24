@@ -6,11 +6,13 @@ import { Session } from 'meteor/session'
 export default withTracker((props) => {
 
   const addMember = (formData) => {
-    Meteor.call('members.insert', formData, (error, result) => {
-      if (error) {
-        Session.set('errorMessage', 'Error inserting new member.')
+    Meteor.call('members.insert', formData, (err, res) => {
+      if (err) {
+        Session.set('errorMessage', err.reason)
       }
-      console.log({error, result})
+      if(!err && res != undefined){
+        Session.set('errorMessage', '')
+      }
     })
   }
 
