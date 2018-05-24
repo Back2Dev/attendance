@@ -6,21 +6,21 @@ const MemberAddControl = (props) => {
   return (
     <div>
       {
-        (props.step > 1) &&
+        (props.step >= 1) &&
         <Button type='button' floated='left' onClick={props.backStep}>
           <Icon name='arrow left' />
           Back
         </Button>
       }
       {
-        (props.step < 3) &&
+        (props.step < props.totalSteps) &&
         <Button type='submit' floated='right' >
           Next
         <Icon name='arrow right' />
         </Button>
       }
-      {
-        (props.step == 3) &&
+      { 
+        (props.step == props.totalSteps) &&
         <Button type='submit' floated='right' positive>
           Submit
           </Button>
@@ -32,6 +32,7 @@ const MemberAddControl = (props) => {
 MemberAddControl.propTypes = {
   step: PropTypes.number.isRequired,
   backStep: PropTypes.func.isRequired,
+  totalSteps: PropTypes.number.isRequired,
 };
 
 export default MemberAddControl
