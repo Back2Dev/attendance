@@ -7,10 +7,10 @@ const MemberAddSteps = (props) => {
   return (
     <Step.Group ordered>
       {props.steps.map((step, i) =>
-        <Step completed={(props.step >= i)}>
+        <Step key={i} completed={(props.step >= i)}>
           <Step.Content>
-            <Step.Title>{step.title}</Step.Title>
-            <Step.Description>{step.description}</Step.Description>
+            <Step.Title>{step.stepTitle}</Step.Title>
+            <Step.Description>{step.stepDescription}</Step.Description>
           </Step.Content>
         </Step>
       )}
