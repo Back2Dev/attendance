@@ -7,12 +7,22 @@ import Form from "react-jsonschema-form-semanticui";
 import schemas from '/imports/ui/member/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
 
+const mapSchemaToState = schema => (
+  schema
+    .reduce((state, step) => {
+      Object.keys(step.schema.properties)
+        .forEach(prop => state[prop] = undefined)
+      return state
+    }, {})
+)
+
 class MemberAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
       step: 0,
-      formData: {}
+      formData: mapSchemaToState(schemas),
+      error: false,
     }
   }
 
@@ -49,7 +59,11 @@ class MemberAdd extends Component {
       onChange={this.onChange}
       onSubmit={this.onSubmit}
     >
-      <Control backStep={this.backStep} step={this.state.step} />
+      <Control
+        backStep={this.backStep}
+        step={this.state.step}
+        totalSteps={schemas.length}
+      />
     </Form>
   }
 
@@ -68,8 +82,7 @@ class MemberAdd extends Component {
             {
               finalStep &&
               <div>
-                Confirmation Message:
-                {this.props.errorMessage}
+                  {this.props.errorMessage}
               </div>
             }
             {
