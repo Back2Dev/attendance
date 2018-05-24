@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { Session } from 'meteor/session'
 import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'
 import MemberCard from '/imports/ui/member/member-card'
@@ -8,31 +9,9 @@ import Search from '/imports/ui/member/member-search'
 import { Menu } from 'semantic-ui-react'
 
 class MemberMain extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      membersIn: [],
-      membersOut: [],
-      searchQuery: ''
-    }
-  }
-
-  componentWillReceiveProps({ membersIn, membersOut }) {
-    this.setState({ membersOut, membersIn })
-  }
-
+  
   onCardClick = (id) => {
     this.props.history.push(`/${id}`)
-  }
-
-  onSearchInput = (q) => {
-    this.setState({
-      searchQuery: q.target.value,
-      membersOut: this.props.membersOut.filter(member => (
-        RegExp('' + q.target.value, 'ig')
-          .test(`${member.firstname} ${member.surname}`)
-      ))
-    })
   }
 
   render() {
@@ -41,7 +20,7 @@ class MemberMain extends React.Component {
         <div style={{ paddingBottom: '20vh' }}>
           <MemberList
             title={'Check In:'}
-            members={this.state.membersOut}
+            members={this.props.membersOut}
             Component={MemberCard}
             onCardClick={this.onCardClick}
             loading={this.props.loading}
@@ -53,8 +32,7 @@ class MemberMain extends React.Component {
             </Menu.Item>
               <Menu.Item position='right'>
                 <Search
-                  onSearchInput={this.onSearchInput}
-                  searchQuery={this.state.searchQuery}
+                  onSearchInput={this.props.onSearchInput}
                 />
               </Menu.Item>
             </Menu>
@@ -73,7 +51,7 @@ class MemberMain extends React.Component {
             textAlign: 'center',
           }}
           title={'Who\'s Here:'}
-          members={this.state.membersIn}
+          members={this.props.membersIn}
           Component={MemberCardSmall}
           onCardClick={this.onCardClick}
           loading={this.props.loading}
