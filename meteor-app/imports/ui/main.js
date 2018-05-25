@@ -6,6 +6,7 @@ import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import MemberCardSmallLoading from '/imports/ui/member/member-card-small-loading'
 import Search from '/imports/ui/member/member-search'
 import { Menu } from 'semantic-ui-react'
 
@@ -49,7 +50,7 @@ class MemberMain extends React.Component {
           Component={MemberCardSmall}
           onCardClick={this.onCardClick}
           loading={this.props.loading}
-          Loader={MemberCardLoading}
+          Loader={MemberCardSmallLoading}
         />
       </Fragment>
     )

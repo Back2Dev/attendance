@@ -4,7 +4,9 @@ import { Card } from 'semantic-ui-react'
 const MemberCardLoading = () => {
 
   return (
-    <Card style={{ width: '200px', height: '300px' }}>
+    <Card
+      style={{ width: '200px' }}
+    >
       <svg width="200px" height="261px" viewBox="0 0 200 261" >
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <rect id="Rectangle-2" fill="#D9D9D9" x="1" y="0" width="200" height="185"></rect>
