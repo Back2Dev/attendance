@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'; // base
 import Members from '/imports/api/members/members';
 import casual from 'casual';            // casual random data generator
+import moment from 'moment'
 
 Meteor.methods({
   'remove.members'() {
@@ -15,16 +16,15 @@ Meteor.methods({
     //   Members.insert(member)
     // })
   },
-  'seed.members'() {
+  'seed.members'(n = 10) {
     casual.define('member', function () {
       return {
         name: casual.first_name + ' ' + casual.last_name,
         avatar: `${casual.integer(1, 10)}.jpg`,
+        sessions: array_of(casual.integer(1, 10), () => ({ memberId: 'randomSession' })),
+        lastIn: moment().subtract(casual.integer(1, 168), 'hours').toDate(),
       };
     });
-
-    // number of seeds
-    const NUM_MEMBERS = 10
 
     // seed ensures same data is generated
     casual.seed(123);
@@ -37,7 +37,7 @@ Meteor.methods({
       return result;
     };
 
-    let membersArray = array_of(NUM_MEMBERS, () => casual.member);
+    let membersArray = array_of(n, () => casual.member);
 
     membersArray.forEach(r => Members.insert(r))
   }
