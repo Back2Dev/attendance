@@ -6,10 +6,11 @@ const Search = props => {
   return (
     <Grid centered>
       <Input
-        placeholder='Type name to search'
+        placeholder='Search for yourself here'
         onChange={(e) => props.onSearchInput(e.target.value)}
         icon={'search'}
-        style={{padding: '20px 0'}}
+        size='huge'
+        style={{padding: '20px 0', width: '400px'}}
       />
     </Grid>
   );

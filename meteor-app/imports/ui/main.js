@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom'
 import { Session } from 'meteor/session'
 import MemberList from '/imports/ui/member/member-list'
@@ -9,7 +10,7 @@ import Search from '/imports/ui/member/member-search'
 import { Menu } from 'semantic-ui-react'
 
 class MemberMain extends React.Component {
-  
+
   onCardClick = (id) => {
     this.props.history.push(`/${id}`)
   }
@@ -17,7 +18,7 @@ class MemberMain extends React.Component {
   render() {
     return (
       <Fragment>
-        <div style={{ paddingBottom: '20vh' }}>
+        <div style={{ margin: '80px 0 150px' }}>
           <MemberList
             title={'Check In:'}
             members={this.props.membersOut}
@@ -26,28 +27,21 @@ class MemberMain extends React.Component {
             loading={this.props.loading}
             Loader={MemberCardLoading}
           >
-            <Menu>
-              <Menu.Item as={Link} to='/add'>
-                New Volunteer
-            </Menu.Item>
-              <Menu.Item position='right'>
-                <Search
-                  onSearchInput={this.props.onSearchInput}
-                />
-              </Menu.Item>
-            </Menu>
+            <Search
+              onSearchInput={this.props.onSearchInput}
+            />
           </MemberList>
         </div>
         <MemberList
           style={{
             position: 'fixed',
             zIndex: '999',
-            backgroundColor: 'white',
+            backgroundColor: '#eee',
             bottom: '0',
             left: '0',
             right: '0',
-            height: '20vh',
-            padding: '0 20px 10px',
+            height: '80px',
+            padding: '0 20px',
             textAlign: 'center',
           }}
           title={'Who\'s Here:'}
@@ -62,5 +56,8 @@ class MemberMain extends React.Component {
   }
 }
 
+
+MemberList.propTypes = {
+};
 
 export default withRouter(MemberMain)
