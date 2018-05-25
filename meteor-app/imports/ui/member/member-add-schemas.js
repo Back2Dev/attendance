@@ -5,7 +5,7 @@ export default [
     schema: {
       type: "object",
       title: "Lets get to know each other.",
-      required: ["bikesHousehold", "reasons"],
+      // required: ["bikesHousehold", "reasons"],
       properties: {
         bikesHousehold: { type: "number", title: "How many bikes in your household?" },
         primaryBike: { type: "string", title: "What type of bike do you ride the most?", enum: ["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"] },
@@ -42,7 +42,7 @@ export default [
     schema: {
       title: "Details",
       type: "object",
-      required: ["name", "email"],
+      required: ["name"],
       properties: {
         name: { type: "string", title: "Name" },
         email: { type: "string", format: "email", title: "Email" },
@@ -56,7 +56,7 @@ export default [
     },
     uiSchema: {
       name: {
-        "ui:placeholder": "Enter your first name",
+        "ui:placeholder": "Enter your name",
         "ui:autofocus": true,
       },
       phone: {
@@ -77,7 +77,7 @@ export default [
     schema: {
       type: "object",
       title: "Who should we contact in an emergency?",
-      required: ["emergencyContact"],
+      // required: ["emergencyContact"],
       properties: {
         emergencyContact: { type: "string", title: "First name" },
         emergencyEmail: { type: "string", title: "Email" },

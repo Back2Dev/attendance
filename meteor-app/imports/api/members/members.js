@@ -11,6 +11,7 @@ Members.attachSchema(new SimpleSchema({
   email: {
     type: String,
     label: "Email Address",
+    optional: true,
   },
   addressStreet: {
     type: String,
@@ -60,7 +61,6 @@ Members.attachSchema(new SimpleSchema({
   sessions: {
     type: [Object],
     label: "Array of sessions attended",
-    optional: false,
     defaultValue: [],
     blackbox: true,
   },
