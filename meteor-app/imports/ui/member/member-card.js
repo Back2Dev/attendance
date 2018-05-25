@@ -1,17 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Card, Image, Label } from 'semantic-ui-react'
+import { Card, Icon, Image, Label } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
 import '/imports/ui/member/member-card.css'
 
 const MemberCard = (props) => {
   const { _id, name, avatar, isHere, sessions = [], lastIn = null } = props
-  const sessionsAttended = sessions.length
+  const sessionsNum = sessions.length
+
+  const newbie = sessionsNum <= 5
 
   return (
     <Card
       key={_id}
-      style={{ maxWidth: '200px' }}
       onClick={() => props.onCardClick(_id)}
     >
       <Image src={"/images/avatars/" + avatar} />
@@ -21,22 +22,16 @@ const MemberCard = (props) => {
           <Card.Content>
 
             {
-              sessionsAttended < 5 &&
-              <Label>
-                Newbie
-                <Label.Detail>
-                  {sessionsAttended}
-                </Label.Detail>
+              newbie &&
+              <div>
+                <Label color='green'>
+                  <Icon name='star' />
+                  {sessionsNum}
+                </Label>
+                <Label color='green'>
+                  Newbie
               </Label>
-            }
-            {
-              sessionsAttended > 50 &&
-              <Label>
-                Veteran
-                <Label.Detail>
-                  {sessionsAttended}
-                </Label.Detail>
-              </Label>
+              </div>
             }
 
             {React.Children.map(props.children, (child) => child)}
