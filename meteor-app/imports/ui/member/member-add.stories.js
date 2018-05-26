@@ -6,22 +6,25 @@ import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
+import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import { Grid, Container, Segment } from 'semantic-ui-react'
 import MemberAdd from './member-add'
 
 storiesOf('Member.Add', module)
-  // .addDecorator(withKnobs)
+  .addDecorator(withKnobs)
   .addDecorator(StoryRouter())
 
   .add('MemberAdd', withInfo('Add member')(() => {
     const story = (
-      <div><p>Use Knobs to show checked in/out status</p>
-        <MemberAdd
-        />
-      </div>
+      <Router>
+        <div><p>Use Knobs to select step</p>
+          <MemberAdd
+          />
+        </div>
+      </Router>
     )
     specs(() =>
       describe('<MemberAdd />', () => {
