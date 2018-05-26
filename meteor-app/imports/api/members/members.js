@@ -53,10 +53,15 @@ Members.attachSchema(new SimpleSchema({
     label: "Is signed in",
     defaultValue: false,
   },
+  joined: {
+    type: Date,
+    label: "Date added to database",
+    defaultValue: new Date(),
+  },
   lastIn: {
     type: Date,
-    label: "Date of last session",
-    optional: true
+    label: "Date of last interaction",
+    defaultValue: new Date(),
   },
   sessions: {
     type: [Object],
