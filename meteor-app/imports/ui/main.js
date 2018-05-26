@@ -30,6 +30,7 @@ class MemberMain extends React.Component {
           >
             <Search
               onSearchInput={this.props.onSearchInput}
+              searchQuery={this.props.searchQuery}
             />
           </MemberList>
         </div>
