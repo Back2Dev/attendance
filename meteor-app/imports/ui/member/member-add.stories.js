@@ -22,6 +22,7 @@ storiesOf('Member.Add', module)
       <Router>
         <div><p>Use Knobs to select step</p>
           <MemberAdd
+            step={select('Step No',["1","2","3","4"],"3")}
           />
         </div>
       </Router>
