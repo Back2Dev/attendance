@@ -33,14 +33,12 @@ storiesOf('Member.Session', module)
 
   .add('Attend', withInfo('Here/Absent')(() => {
     const story = (
-      <div><p>Use Knobs to show check in state</p>
         <Member
           loading={boolean('Loading', false)}
           isHere={boolean('Present', false)}
           member={member}
           recordVisit={action('record visit')}
         />
-      </div>
     )
     // specs(() =>
     //   describe('<User avatar={avatar} />', () => {

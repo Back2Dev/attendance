@@ -7,8 +7,9 @@ import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
+import StoryRouter from 'storybook-router'
 
-import Card from './member-card'
+import MemberCardSmall from './member-card-small'
 
 const member = {
   avatar: '7.jpg',
@@ -36,16 +37,13 @@ const member = {
 }
 
 storiesOf('Member.Card', module)
-  .addDecorator(withKnobs)
-
-  .add('Card', withInfo('Checked in/out')(() => {
+  .addDecorator(StoryRouter())
+  .add('Member Card Small', (() => {
     const story = (
-      <div><p>Use Knobs to show checked in/out status</p>
-        <Card
-          {...member}
-          onCardClick={action('onCardClick')}
-        />
-      </div>
+      <MemberCardSmall
+        {...member}
+        onCardClick={action('onCardClick')}
+      />
     )
     // specs(() =>
     //   describe('<Avatar avatar={avatar} />', () => {
