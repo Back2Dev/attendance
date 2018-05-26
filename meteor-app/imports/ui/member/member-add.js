@@ -78,24 +78,15 @@ class MemberAdd extends Component {
     </Form>
   }
 
-  loadSampleFormData = () => {
-    const formData = { addressPostcode: 3000, addressState: "VIC", addressStreet: "7 Lucky Avenue", addressSuburb: "Pleasantville", bikesHousehold: 5, email: "matt@gmail.com", emergencyContact: "Tiz Notari", emergencyEmail: "tiz@gmail.com", emergencyMobile: "0468734226", emergencyPhone: "0468734226", mobile: "0468734226", name: "Matt Wiseman", phone: "0468734226", primaryBike: "Mountain", reasons: "These are some of my reasons", workStatus: "Part Time", }
-    this.setState({ formData })
-  }
-
   render() {
     const finalStep = schemas.length == this.state.step
     return (
       <Grid>
-
         <Grid.Row centered>
           <Steps
             step={this.state.step}
             steps={schemas}
           />
-          <Button onClick={this.loadSampleFormData}>
-            Load Sample Data
-          </Button>
         </Grid.Row>
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '500px' }}>
