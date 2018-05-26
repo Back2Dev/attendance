@@ -4,8 +4,10 @@ import { Button, Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Steps from '/imports/ui/member/member-add-steps'
 import Form from "react-jsonschema-form-semanticui";
-import schemas from '/imports/ui/member/member-add-schemas'
+import schemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
+import Alert from 'react-s-alert';
+import MemberAddReview from '/imports/ui/member/member-add-review'
 
 const mapSchemaToState = schema => (
   schema
@@ -22,20 +24,26 @@ class MemberAdd extends Component {
     this.state = {
       step: 0,
       formData: mapSchemaToState(schemas),
-      error: false,
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     const finalStep = schemas.length == this.state.step
     if (finalStep && this.props.success) {
-      // flash success message
+      Alert.success(this.props.message);
       this.props.history.push('/')
-      alert('success!')
+    }
+    if (finalStep && this.props.error) {
+      Alert.error(this.props.message);
     }
   }
 
   onSubmit = ({ formData }) => {
+    const finalStep = schemas.length == this.state.step
+    if (finalStep) {
+      this.props.addMember(this.state.formData)
+      return
+    }
     this.setState((prevState, props) => {
       return {
         formData: {
@@ -47,17 +55,11 @@ class MemberAdd extends Component {
     })
   }
 
-  onFinalSubmit = () => {
-    const result = this.props.addMember(this.state.formData)
-    console.log(result)
-  }
-
   backStep = () => {
     this.setState({
       step: this.state.step - 1
     })
   }
-
 
   renderForm = () => {
     return <Form
@@ -71,8 +73,14 @@ class MemberAdd extends Component {
         backStep={this.backStep}
         step={this.state.step}
         totalSteps={schemas.length}
+        onSubmit={f => f}
       />
     </Form>
+  }
+
+  loadSampleFormData = () => {
+    const formData = { addressPostcode: 3000, addressState: "VIC", addressStreet: "7 Lucky Avenue", addressSuburb: "Pleasantville", bikesHousehold: 5, email: "matt@gmail.com", emergencyContact: "Tiz Notari", emergencyEmail: "tiz@gmail.com", emergencyMobile: "0468734226", emergencyPhone: "0468734226", mobile: "0468734226", name: "Matt Wiseman", phone: "0468734226", primaryBike: "Mountain", reasons: "These are some of my reasons", workStatus: "Part Time", }
+    this.setState({ formData })
   }
 
   render() {
@@ -85,19 +93,26 @@ class MemberAdd extends Component {
             step={this.state.step}
             steps={schemas}
           />
-          <div>
-            {JSON.stringify(this.props.success)}
-            {JSON.stringify(this.props.error)}
-          </div>
+          <Button onClick={this.loadSampleFormData}>
+            Load Sample Data
+          </Button>
         </Grid.Row>
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '500px' }}>
             {
               finalStep &&
+              // this needs refactoring
               <div>
-                Review your details:
-                <p>{JSON.stringify(this.state.formData)}</p>
-                <Button onClick={this.onFinalSubmit} content='Submit' />
+                <MemberAddReview
+                  formData={this.state.formData}
+                  steps={schemas}
+                />
+                <Control
+                  backStep={this.backStep}
+                  step={this.state.step}
+                  totalSteps={schemas.length}
+                  onSubmit={this.onSubmit}
+                />
               </div>
             }
             {
@@ -112,7 +127,10 @@ class MemberAdd extends Component {
 }
 
 MemberAdd.propTypes = {
-  addMember: PropTypes.func.isRequired
-};
+  addMember: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
+}
 
 export default withRouter(MemberAdd)

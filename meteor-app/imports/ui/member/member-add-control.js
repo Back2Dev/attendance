@@ -4,7 +4,7 @@ import { Button, Icon } from 'semantic-ui-react'
 
 const MemberAddControl = (props) => {
   return (
-    <div>
+    <div style={{marginTop: '50px'}}>
       {
         (props.step >= 1) &&
         <Button type='button' floated='left' onClick={props.backStep}>
@@ -19,9 +19,9 @@ const MemberAddControl = (props) => {
         <Icon name='arrow right' />
         </Button>
       }
-      { 
+      {
         (props.step == props.totalSteps) &&
-        <Button type='submit' floated='right' positive>
+        <Button onClick={props.onSubmit} floated='right' positive>
           Submit
           </Button>
       }
@@ -32,6 +32,7 @@ const MemberAddControl = (props) => {
 MemberAddControl.propTypes = {
   step: PropTypes.number.isRequired,
   backStep: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   totalSteps: PropTypes.number.isRequired,
 };
 
