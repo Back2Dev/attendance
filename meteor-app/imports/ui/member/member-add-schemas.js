@@ -79,28 +79,21 @@ export default [
       title: "Who should we contact in an emergency?",
       // required: ["emergencyContact"],
       properties: {
-        emergencyContact: { type: "string", title: "First name" },
+        emergencyContact: { type: "string", title: "Full name" },
         emergencyEmail: { type: "string", title: "Email" },
-        emergencyPhone: { type: "string", title: "Phone number" },
-        emergencyMobile: { type: "string", title: "Mobile number" },
+        emergencyPhone: { type: "string", title: "Mobile number" },
       },
     },
     uiSchema: {
       emergencyContact: {
-        "ui:placeholder": "Enter your emergency contacts name",
+        "ui:placeholder": "Enter your emergency contact's full name",
         "ui:autofocus": true,
       },
       emergencyEmail: {
-        "ui:placeholder": "Enter your emergency contacts email"
+        "ui:placeholder": "Enter your emergency contact's email"
       },
       emergencyPhone: {
-        "ui:placeholder": "Enter your emergency contacts phone number",
-        "ui:options": {
-          inputType: 'tel'
-        }
-      },
-      emergencyMobile: {
-        "ui:placeholder": "Enter your emergency contacts mobile phone number",
+        "ui:placeholder": "Enter your emergency contact's mobile or phone number",
         "ui:options": {
           inputType: 'tel'
         }
