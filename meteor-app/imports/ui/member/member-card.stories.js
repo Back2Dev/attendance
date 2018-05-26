@@ -11,6 +11,8 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import Card from './member-card'
 
 const member = {
+  _id: "BXghHGE343iuyMN",
+  isHere: true,
   avatar: '7.jpg',
   sessions:
     [{ memberId: 'randomSession' },

@@ -22,7 +22,11 @@ storiesOf('Member.Add', module)
       <Router>
         <div><p>Use Knobs to select step</p>
           <MemberAdd
-            step={select('Step No',["1","2","3","4"],"3")}
+            step={parseInt(select('Step No',["1","2","3","4"],"3"))}
+            addMember={action("addMember")}
+            error={false}
+            success={true}
+            message="OK"
           />
         </div>
       </Router>
@@ -31,6 +35,7 @@ storiesOf('Member.Add', module)
       describe('<MemberAdd />', () => {
         it('displays the add member wizard', () => {
           const wrapper = mount(story)
+// Something ugly goes on here - first render it's zero, second render it's right
           expect(wrapper.find('button')).to.have.length(1)
           // expect(wrapper.find('button').props().src).to.contain(avatar.url)
         })

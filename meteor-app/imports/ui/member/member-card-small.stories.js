@@ -12,6 +12,7 @@ import StoryRouter from 'storybook-router'
 import MemberCardSmall from './member-card-small'
 
 const member = {
+  _id: "ghHGE343iuyMN",
   avatar: '7.jpg',
   sessions:
     [{ memberId: 'randomSession' },
@@ -33,7 +34,8 @@ const member = {
   phone: '144-467-2060',
   workStatus: 'Student',
   reasons: 'Earum excepturi et laudantium fuga similique sed corporis. Dolores esse soluta et repudiandae. Aut atque dolores voluptatibus ut.',
-  primaryBike: 'Cruiser'
+  primaryBike: 'Cruiser',
+  isHere: false,
 }
 
 storiesOf('Member.Card', module)

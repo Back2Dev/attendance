@@ -22,9 +22,10 @@ const match = {
 
 const member = {
 	_id: '123ASD', 
-	firstname: 'Mickey', 
-	lastname: 'Mouse', 
+	name: 'Mickey Mouse', 
+  isHere: true,
 	avatar: '2.jpg',
+  sessions: [],
 }
 
 storiesOf('Member.Session', module)
