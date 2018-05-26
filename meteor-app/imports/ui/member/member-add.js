@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'semantic-ui-react'
-import { Session } from 'meteor/session'
+import { Button, Grid } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 import Steps from '/imports/ui/member/member-add-steps'
 import Form from "react-jsonschema-form-semanticui";
 import schemas from '/imports/ui/member/member-add-schemas'
@@ -28,8 +28,10 @@ class MemberAdd extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const finalStep = schemas.length == this.state.step
-    if (finalStep) {
-      this.props.addMember(this.state.formData)
+    if (finalStep && this.props.success) {
+      // flash success message
+      this.props.history.push('/')
+      alert('success!')
     }
   }
 
@@ -45,11 +47,17 @@ class MemberAdd extends Component {
     })
   }
 
+  onFinalSubmit = () => {
+    const result = this.props.addMember(this.state.formData)
+    console.log(result)
+  }
+
   backStep = () => {
     this.setState({
       step: this.state.step - 1
     })
   }
+
 
   renderForm = () => {
     return <Form
@@ -71,18 +79,25 @@ class MemberAdd extends Component {
     const finalStep = schemas.length == this.state.step
     return (
       <Grid>
+
         <Grid.Row centered>
           <Steps
             step={this.state.step}
             steps={schemas}
           />
+          <div>
+            {JSON.stringify(this.props.success)}
+            {JSON.stringify(this.props.error)}
+          </div>
         </Grid.Row>
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '500px' }}>
             {
               finalStep &&
               <div>
-                  {this.props.errorMessage}
+                Review your details:
+                <p>{JSON.stringify(this.state.formData)}</p>
+                <Button onClick={this.onFinalSubmit} content='Submit' />
               </div>
             }
             {
@@ -100,4 +115,4 @@ MemberAdd.propTypes = {
   addMember: PropTypes.func.isRequired
 };
 
-export default MemberAdd
+export default withRouter(MemberAdd)
