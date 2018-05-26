@@ -18,7 +18,12 @@ storiesOf('Member.Add', module)
 
   .add('MemberAddControl', (() => {
 // NB Select control only works with strings
-    let step = parseInt(select('Step No',["0","1","2","3"],"3"))
+    let step = number("Step",1)
+//
+// This event handler fires ok, but doesn't update the control
+// I tried looking at the knobs code, but couldn't work out what
+// to call to trigger the update.
+//
     const move = (delta) => {
       try {
         action("move")(delta)
@@ -31,7 +36,6 @@ storiesOf('Member.Add', module)
     const story = (
       <div><p>Use Knobs to select step, currently on step {step}</p>
         <MemberAddControl
-          page={number("Page",1)}
           step={step}
           backStep={() => move(-1)}
           nextStep={() => move(1)}

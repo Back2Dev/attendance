@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react'
+import { withKnobs, number, boolean, select } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -22,7 +22,7 @@ storiesOf('Member.Add', module)
       <Router>
         <div><p>Use Knobs to select step</p>
           <MemberAdd
-            step={parseInt(select('Step No',["1","2","3","4"],"3"))}
+            step={number("Step",3)}
             addMember={action("addMember")}
             error={false}
             success={true}

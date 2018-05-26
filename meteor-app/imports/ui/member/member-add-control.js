@@ -15,7 +15,7 @@ const MemberAddControl = (props) => {
       {
         (props.step < props.totalSteps) &&
         <Button type="submit" floated="right" onClick={props.nextStep}>
-          Next {props.step}
+          Next
           <Icon name="arrow right" />
         </Button>
       }
