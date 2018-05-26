@@ -35,7 +35,7 @@ const MemberCard = (props) => {
               </div>
             }
 
-            {React.Children.map(props.children, (child) => child)}
+            {props.children}
 
           </Card.Content>
         </Card.Header>

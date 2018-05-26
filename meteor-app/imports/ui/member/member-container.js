@@ -6,13 +6,17 @@ import Members from '/imports/api/members/members';
 import { debounce } from 'lodash'
 import { ReactiveVar } from 'meteor/reactive-var'
 
-const query = new ReactiveVar('')
+const query = new ReactiveVar()
 
 export default withTracker((props) => {
-
   const membersHandle = Meteor.subscribe('all.members')
 
-  const onSearchInput = q => query.set(q)
+  if (!membersHandle.ready()) {
+    // prevents search filter from persisting after checkin / out
+    query.set('')
+  }
+
+  const onSearchInput = q => query.set(q.target.value)
 
   const filter = (query) => {
     const searching = query != ''
@@ -30,6 +34,7 @@ export default withTracker((props) => {
     membersIn: Members.find({ isHere: true }).fetch(),
     membersOut: Members.find(filter(query.get())).fetch(),
     loading: !membersHandle.ready(),
-    onSearchInput: debounce(onSearchInput, 300),
+    searchQuery: query.get(),
+    onSearchInput,
   }
 })(MemberMain)

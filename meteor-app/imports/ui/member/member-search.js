@@ -7,7 +7,7 @@ const Search = props => {
     <Grid centered>
       <Input
         placeholder='Search for yourself here'
-        onChange={(e) => props.onSearchInput(e.target.value)}
+        onChange={props.onSearchInput}
         icon={'search'}
         size='huge'
         style={{padding: '20px 0', width: '400px'}}

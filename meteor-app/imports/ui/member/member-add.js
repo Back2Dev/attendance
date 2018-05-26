@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'semantic-ui-react'
-import { Session } from 'meteor/session'
+import { Button, Grid } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 import Steps from '/imports/ui/member/member-add-steps'
 import Form from "react-jsonschema-form-semanticui";
-import schemas from '/imports/ui/member/member-add-schemas'
+import schemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
+import Alert from 'react-s-alert';
+import MemberAddReview from '/imports/ui/member/member-add-review'
+import widgets from '/imports/ui/member/member-add-widgets'
 
 const mapSchemaToState = schema => (
   schema
@@ -22,18 +25,26 @@ class MemberAdd extends Component {
     this.state = {
       step: 0,
       formData: mapSchemaToState(schemas),
-      error: false,
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     const finalStep = schemas.length == this.state.step
-    if (finalStep) {
-      this.props.addMember(this.state.formData)
+    if (finalStep && this.props.success) {
+      Alert.success(this.props.message);
+      this.props.history.push('/')
+    }
+    if (finalStep && this.props.error) {
+      Alert.error(this.props.message);
     }
   }
 
   onSubmit = ({ formData }) => {
+    const finalStep = schemas.length == this.state.step
+    if (finalStep) {
+      this.props.addMember(this.state.formData)
+      return
+    }
     this.setState((prevState, props) => {
       return {
         formData: {
@@ -58,11 +69,13 @@ class MemberAdd extends Component {
       formData={this.state.formData}
       onChange={this.onChange}
       onSubmit={this.onSubmit}
+      widgets={widgets}
     >
       <Control
         backStep={this.backStep}
         step={this.state.step}
         totalSteps={schemas.length}
+        onSubmit={f => f}
       />
     </Form>
   }
@@ -81,8 +94,18 @@ class MemberAdd extends Component {
           <Grid.Column style={{ maxWidth: '500px' }}>
             {
               finalStep &&
+              // this needs refactoring
               <div>
-                  {this.props.errorMessage}
+                <MemberAddReview
+                  formData={this.state.formData}
+                  steps={schemas}
+                />
+                <Control
+                  backStep={this.backStep}
+                  step={this.state.step}
+                  totalSteps={schemas.length}
+                  onSubmit={this.onSubmit}
+                />
               </div>
             }
             {
@@ -97,7 +120,10 @@ class MemberAdd extends Component {
 }
 
 MemberAdd.propTypes = {
-  addMember: PropTypes.func.isRequired
-};
+  addMember: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
+}
 
-export default MemberAdd
+export default withRouter(MemberAdd)

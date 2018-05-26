@@ -17,17 +17,10 @@ Meteor.methods({
     // })
   },
   'seed.members'(n = 10) {
-    casual.define('member', function () {
-      return {
-        name: casual.first_name + ' ' + casual.last_name,
-        avatar: `${casual.integer(1, 10)}.jpg`,
-        sessions: array_of(casual.integer(1, 10), () => ({ memberId: 'randomSession' })),
-        lastIn: moment().subtract(casual.integer(1, 168), 'hours').toDate(),
-      };
-    });
 
     // seed ensures same data is generated
     casual.seed(123);
+
 
     const array_of = function (times, generator) {
       let result = [];
@@ -37,8 +30,38 @@ Meteor.methods({
       return result;
     };
 
-    let membersArray = array_of(n, () => casual.member);
+    casual.define('member', function () {
+      return {
+        avatar: `${casual.integer(1, 10)}.jpg`,
+        sessions: array_of(casual.integer(1, 10), () => ({ memberId: 'randomSession' })),
+        lastIn: moment().subtract(casual.integer(1, 168), 'hours').toDate(),
+        addressPostcode: casual.integer(3000, 4000),
+        addressState: "VIC",
+        addressStreet: casual.address1,
+        addressSuburb: casual.random_element(["Melbourne", "St Kilda", "Middle Park", "South Melbourne"]),
+        bikesHousehold: casual.integer(1, 10),
+        email: casual.email,
+        emergencyContact: casual.full_name,
+        emergencyEmail: casual.email,
+        emergencyMobile: casual.phone,
+        emergencyPhone: casual.phone,
+        mobile: casual.phone,
+        name: casual.full_name,
+        phone: casual.phone,
+        workStatus: casual.random_element(["Full Time", "Part Time", "Pension/Disability", "Unemployed", "Student", "Retired"]),
+        reasons: casual.sentences(3),
+        primaryBike: casual.random_element(["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"]),
+      }
+    })
 
-    membersArray.forEach(r => Members.insert(r))
+    const membersArray =
+      array_of(n, () => casual.member)
+        .forEach(r => Members.insert(r))
   }
 })
+
+Meteor.startup(() => {
+  if (Members.find().count() === 0) {
+    Meteor.call('seed.members')
+  };
+});
