@@ -99,5 +99,27 @@ export default [
         }
       },
     }
+  },
+  {
+    stepTitle: 'Choose your photo',
+    stepDescription: 'Upload one or choose an avatar',
+    schema: {
+      type: "object",
+      title: "Upload one or choose an avatar",
+      // required: ["emergencyContact"],
+      properties: {
+        avatar: {
+          type: "string",
+          title: "Choose an avatar",
+          enum: ["default.jpg", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg"],
+          enumNames: ["default", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"]
+        },
+      },
+    },
+    uiSchema: {
+      avatar: {
+        "ui:widget": "avatarWidget",
+      },
+    }
   }
 ]

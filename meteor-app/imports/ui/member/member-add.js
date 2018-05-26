@@ -8,6 +8,7 @@ import schemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
 import Alert from 'react-s-alert';
 import MemberAddReview from '/imports/ui/member/member-add-review'
+import widgets from '/imports/ui/member/member-add-widgets'
 
 const mapSchemaToState = schema => (
   schema
@@ -68,6 +69,7 @@ class MemberAdd extends Component {
       formData={this.state.formData}
       onChange={this.onChange}
       onSubmit={this.onSubmit}
+      widgets={widgets}
     >
       <Control
         backStep={this.backStep}
