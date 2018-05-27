@@ -1,7 +1,7 @@
 export default [
   {
-    stepTitle: 'Why would you like to join us?',
-    stepDescription: 'Tell us a bit more about yourself',
+    stepTitle: 'About You',
+    stepDescription: '',
     schema: {
       type: "object",
       title: "Lets get to know each other.",
@@ -37,8 +37,8 @@ export default [
     }
   },
   {
-    stepTitle: 'Your Details',
-    stepDescription: 'Contact Details',
+    stepTitle: 'Contact',
+    stepDescription: '',
     schema: {
       title: "Details",
       type: "object",
@@ -93,8 +93,8 @@ export default [
     }
   },
   {
-    stepTitle: 'Emergency Contact',
-    stepDescription: 'Just in case',
+    stepTitle: 'Emergency',
+    stepDescription: '',
     schema: {
       type: "object",
       title: "Who should we contact in an emergency?",
@@ -122,7 +122,7 @@ export default [
     }
   },
   {
-    stepTitle: 'Choose your profile avatar',
+    stepTitle: 'Avatar',
     stepDescription: '',
     schema: {
       type: "object",

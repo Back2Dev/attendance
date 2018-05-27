@@ -7,35 +7,10 @@ import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
+import member from '/imports/test/fake-member'
 
 import Card from './member-card'
 
-const member = {
-  _id: "BXghHGE343iuyMN",
-  isHere: true,
-  avatar: '7.jpg',
-  sessions:
-    [{ memberId: 'randomSession' },
-    { memberId: 'randomSession' }],
-  lastIn: new Date(),
-  joined: new Date(),
-  addressPostcode: 3428,
-  addressState: 'VIC',
-  addressStreet: '199 Henderson Spur',
-  addressSuburb: 'South Melbourne',
-  bikesHousehold: 5,
-  email: 'Jayde_Conn@yahoo.com',
-  emergencyContact: 'Everett Mosciski',
-  emergencyEmail: 'Ibrahim.Flatley@gmail.com',
-  emergencyMobile: '848-220-5422',
-  emergencyPhone: '848-924-0182',
-  mobile: '352-485-4816',
-  name: 'Orie Kautzer',
-  phone: '144-467-2060',
-  workStatus: 'Student',
-  reasons: 'Earum excepturi et laudantium fuga similique sed corporis. Dolores esse soluta et repudiandae. Aut atque dolores voluptatibus ut.',
-  primaryBike: 'Cruiser'
-}
 
 storiesOf('Member.Card', module)
   .addDecorator(withKnobs)

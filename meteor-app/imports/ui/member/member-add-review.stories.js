@@ -8,28 +8,11 @@ import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
+import formData from '/imports/test/fake-member'
 
 import schemas from '/imports/ui/config/member-add-schemas'
 import MemberAddReview from './member-add-review'
-const formData = {
-  avatar: 'default.jpg',
-  addressPostcode: 3000,
-  addressState: "VIC",
-  addressStreet: "7 Lucky Avenue",
-  addressSuburb: "Pleasantville",
-  bikesHousehold: 5,
-  email: "matt@gmail.com",
-  emergencyContact: "Tiz Notari",
-  emergencyEmail: "tiz@gmail.com",
-  emergencyMobile: "0468734226",
-  emergencyPhone: "0468734226",
-  mobile: "0468734226",
-  name: "Matt Wiseman",
-  phone: "0468734226",
-  primaryBike: "Mountain",
-  reasons: "These are some of my reasons",
-  workStatus: "Part Time",
-}
+
 storiesOf('Member.Add', module)
 .addDecorator(StoryRouter())
 

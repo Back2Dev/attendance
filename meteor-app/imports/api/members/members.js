@@ -76,13 +76,28 @@ Members.attachSchema(new SimpleSchema({
   },
   primaryBike: {
     type: String,
-    allowedValues: ["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"],
+    allowedValues: [
+      "Road/racer",
+      "Hybrid",
+      "Mountain",
+      "Cruiser",
+      "Ladies",
+      "Gents",
+      "Fixie/Single Speed"
+    ],
     label: "Primary Bike",
     optional: true,
   },
   workStatus: {
     type: String,
-    allowedValues: ["Full Time", "Part Time", "Pension/Disability", "Unemployed", "Student", "Retired"],
+    allowedValues: [
+      "Full Time",
+      "Part Time",
+      "Pension/Disability",
+      "Unemployed",
+      "Student",
+      "Retired"
+    ],
     label: "Work status",
     optional: true,
   },

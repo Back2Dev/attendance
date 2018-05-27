@@ -11,6 +11,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
+import member from '/imports/test/fake-member'
 
 import Member from './member-visit'
 
@@ -20,13 +21,6 @@ const match = {
 	}
 }
 
-const member = {
-	_id: '123ASD', 
-	name: 'Mickey Mouse', 
-  isHere: true,
-	avatar: '2.jpg',
-  sessions: [],
-}
 
 storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
