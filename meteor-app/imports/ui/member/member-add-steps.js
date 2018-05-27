@@ -7,7 +7,7 @@ const MemberAddSteps = (props) => {
   return (
     <Step.Group ordered>
       {props.steps.map((step, i) =>
-        <Step key={i} completed={(props.step >= i)}>
+        <Step key={i} completed={(props.progress >= i)} onClick={() => props.goToStep(i)}>
           <Step.Content>
             <Step.Title>{step.stepTitle}</Step.Title>
             <Step.Description>{step.stepDescription}</Step.Description>
@@ -20,7 +20,9 @@ const MemberAddSteps = (props) => {
 
 MemberAddSteps.propTypes = {
   step: PropTypes.number.isRequired,
+  progress: PropTypes.number.isRequired,
   steps: PropTypes.array.isRequired,
+  goToStep: PropTypes.func.isRequired,
 };
 
 export default MemberAddSteps

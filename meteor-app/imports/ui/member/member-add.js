@@ -10,6 +10,7 @@ import schemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
+import fields from '/imports/ui/member/member-add-fields'
 
 const mapSchemaToState = schema => (
   schema
@@ -26,10 +27,13 @@ class MemberAdd extends Component {
     this.state = {
       step: (props.step) ? props.step : 0,
       formData: mapSchemaToState(schemas),
+      progress: 0,
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
+    window.scrollTo(0, 0)
+    
     const finalStep = schemas.length == this.state.step
     if (finalStep && this.props.success) {
       Alert.success(this.props.message);
@@ -53,6 +57,7 @@ class MemberAdd extends Component {
           ...formData,
         },
         step: prevState.step + 1,
+        progress: prevState.step + 1,
       }
     })
   }
@@ -61,6 +66,13 @@ class MemberAdd extends Component {
     this.setState({
       step: this.state.step - 1
     })
+  }
+  goToStep = (step) => {
+    if (step <= this.state.progress) {
+      this.setState({
+        step,
+      })
+    }
   }
 
   renderForm = () => {
@@ -71,6 +83,7 @@ class MemberAdd extends Component {
       onChange={this.onChange}
       onSubmit={this.onSubmit}
       widgets={widgets}
+      fields={fields}
     >
       <Control
         backStep={this.backStep}
@@ -89,10 +102,12 @@ class MemberAdd extends Component {
           <Steps
             step={this.state.step}
             steps={schemas}
+            goToStep={this.goToStep}
+            progress={this.state.progress}
           />
         </Grid.Row>
         <Grid.Row centered>
-          <Grid.Column style={{ maxWidth: '500px' }}>
+          <Grid.Column style={{ maxWidth: '600px' }}>
             {
               finalStep &&
               // this needs refactoring
@@ -100,6 +115,7 @@ class MemberAdd extends Component {
                 <MemberAddReview
                   formData={this.state.formData}
                   steps={schemas}
+                  goToStep={this.goToStep}
                 />
                 <Control
                   backStep={this.backStep}
