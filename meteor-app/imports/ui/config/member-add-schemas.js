@@ -59,12 +59,33 @@ export default [
         "ui:placeholder": "Enter your name",
         "ui:autofocus": true,
       },
+      
+      email: {
+        "ui:placeholder": "Enter your email address",
+
+      },
+      addressStreet: {
+        "ui:placeholder": "Enter your street address e.g. 12 Luck Street",
+
+      },
+      addressSuburb: {
+        "ui:placeholder": "Enter your suburb",
+
+      },
+      addressState: {
+        "ui:placeholder": "Enter your state",
+      },
+      addressPostcode: {
+        "ui:placeholder": "Enter your postcode",
+      },
       phone: {
+        "ui:placeholder": "Enter your phone number",
         "ui:options": {
           inputType: 'tel'
         }
       },
       mobile: {
+        "ui:placeholder": "Enter your mobile number",
         "ui:options": {
           inputType: 'tel'
         }
@@ -79,9 +100,9 @@ export default [
       title: "Who should we contact in an emergency?",
       // required: ["emergencyContact"],
       properties: {
-        emergencyContact: { type: "string", title: "Full name" },
-        emergencyEmail: { type: "string", title: "Email" },
-        emergencyPhone: { type: "string", title: "Mobile number" },
+        emergencyContact: { type: "string", title: "Emergency Contact Name" },
+        emergencyEmail: { type: "string", title: "Emergency Contact Email" },
+        emergencyPhone: { type: "string", title: "Emergency Contact Mobile number" },
       },
     },
     uiSchema: {
@@ -101,16 +122,17 @@ export default [
     }
   },
   {
-    stepTitle: 'Choose your photo',
-    stepDescription: 'Upload one or choose an avatar',
+    stepTitle: 'Choose your profile avatar',
+    stepDescription: '',
     schema: {
       type: "object",
-      title: "Upload one or choose an avatar",
+      title: "Choose an avatar",
       // required: ["emergencyContact"],
       properties: {
         avatar: {
           type: "string",
-          title: "Choose an avatar",
+          title: "Avatar",
+          default: "default.jpg",
           enum: ["default.jpg", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg"],
           enumNames: ["default", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"]
         },
@@ -119,6 +141,9 @@ export default [
     uiSchema: {
       avatar: {
         "ui:widget": "avatarWidget",
+        "ui:options": {
+          label: false
+        }
       },
     }
   }
