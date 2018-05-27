@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import Steps from '/imports/ui/member/member-add-steps'
 import Form from "react-jsonschema-form-semanticui";
+import Alert from 'react-s-alert';
+
+import Steps from '/imports/ui/member/member-add-steps'
 import schemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
-import Alert from 'react-s-alert';
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 
@@ -23,7 +24,7 @@ class MemberAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 0,
+      step: (props.step) ? props.step : 0,
       formData: mapSchemaToState(schemas),
     }
   }
