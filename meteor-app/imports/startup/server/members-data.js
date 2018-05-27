@@ -1,22 +1,59 @@
-import { Meteor } from 'meteor/meteor'; // base
-import Members from '/imports/api/members/members';
-import casual from 'casual';            // casual random data generator
+import { Meteor } from 'meteor/meteor' // base
+import Members from '/imports/api/members/members'
+import Rejects from '/imports/api/members/rejects'
+import casual from 'casual'            // casual random data generator
 import moment from 'moment'
+const debug = require('debug')('b2b:members')
+
+// A little deviousness on allowing bulk import of member data
+//
+// 1) The server needs to be run with DEBUG=b2b:members
+// 2) The /private/members.json folder must exist (won't happen in prod)
+// 3) You can do a Meteor.call('import.members','Special member')
+//
+casual.seed(+new Date()) // Just use the current time as a seed
+// const unlock_code = casual.full_name
+const unlock_code='Jayne Rutherford'
+debug(`Special member = ${unlock_code}`)
 
 Meteor.methods({
-  'import.members'() {
-    console.log('importing members....')
-    throw new Meteor.Error("Members import was moved to a private repo for security reasons")
-    // const membersArray = JSON.parse(Assets.getText('members.json'))
-    // membersArray.forEach(member => {
-    //   Members.insert(member)
-    // })
+  'import.members'(secret) {
+    if (secret === unlock_code) {
+//
+// Clean up
+//
+      Rejects.remove({})
+      Members.remove({})
+
+      debug('importing members....')
+      const membersArray = JSON.parse(Assets.getText('members.json'))
+      membersArray.forEach(member => {
+        try {
+          member.name = `${member.firstname} ${member.lastname}`
+          const existing = Members.findOne({ email: member.email})
+          if (existing) {
+            debug(`${member.name} exists already`)
+            member.reason = "Duplicate"
+            Rejects.insert(member)
+          } else {
+            debug("+ "+member.name)
+            Members.insert(member)
+          }
+        } catch(error) {
+          debug(`Error [${error.message}], Failed to import `,member)
+          member.reason = error.message
+          Rejects.insert(member)
+        }
+      })
+    } else {
+      throw new Meteor.Error(`Members import was moved to a private repo 
+        for security reasons (unless you know a secret code)`)
+    }
   },
   'seed.members'() {
     const n = 10
     // seed ensures same data is generated
-    casual.seed(123);
-
+    casual.seed(123)
 
     const array_of = function (times, generator) {
       let result = [];
@@ -31,7 +68,7 @@ Meteor.methods({
         avatar: `${casual.integer(1, 10)}.jpg`,
         sessions: array_of(casual.integer(1, 10), () => ({ memberId: 'randomSession' })),
         lastIn: moment().subtract(casual.integer(1, 168), 'hours').toDate(),
-        addressPostcode: casual.integer(3000, 4000),
+        addressPostcode: casual.integer(3000, 4000).toString(),
         addressState: "VIC",
         addressStreet: casual.address1,
         addressSuburb: casual.random_element(["Melbourne", "St Kilda", "Middle Park", "South Melbourne"]),
@@ -59,5 +96,5 @@ Meteor.methods({
 Meteor.startup(() => {
   if (Members.find().count() === 0) {
     Meteor.call('seed.members')
-  };
-});
+  }
+})

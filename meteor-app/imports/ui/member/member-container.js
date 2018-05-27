@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session'
+import { debounce, escapeRegExp } from 'lodash'
+
 import MemberMain from '/imports/ui/main'
 import Members from '/imports/api/members/members';
-import { debounce } from 'lodash'
 import { ReactiveVar } from 'meteor/reactive-var'
 
 const query = new ReactiveVar()
@@ -22,7 +23,7 @@ export default withTracker((props) => {
     const searching = query != ''
     if (searching) {
       return {
-        name: { $regex: new RegExp(query), $options: 'i' },
+        name: { $regex: new RegExp(escapeRegExp(query)), $options: 'i' },
         isHere: false
       }
     } else {
