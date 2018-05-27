@@ -4,10 +4,6 @@ import casual from 'casual';            // casual random data generator
 import moment from 'moment'
 
 Meteor.methods({
-  'remove.members'() {
-    console.log('removing members....')
-    Members.remove({})
-  },
   'import.members'() {
     console.log('importing members....')
     throw new Meteor.Error("Members import was moved to a private repo for security reasons")
@@ -16,8 +12,8 @@ Meteor.methods({
     //   Members.insert(member)
     // })
   },
-  'seed.members'(n = 10) {
-
+  'seed.members'() {
+    const n = 10
     // seed ensures same data is generated
     casual.seed(123);
 
