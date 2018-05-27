@@ -12,6 +12,7 @@ import StoryRouter from 'storybook-router'
 import schemas from '/imports/ui/config/member-add-schemas'
 import MemberAddReview from './member-add-review'
 const formData = {
+  avatar: 'default.jpg',
   addressPostcode: 3000,
   addressState: "VIC",
   addressStreet: "7 Lucky Avenue",
