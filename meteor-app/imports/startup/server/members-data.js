@@ -12,13 +12,13 @@ const debug = require('debug')('b2b:members')
 // 3) You can do a Meteor.call('import.members','Special member')
 //
 casual.seed(+new Date()) // Just use the current time as a seed
-// const unlock_code = casual.full_name
-const unlock_code='Jayne Rutherford'
-debug(`Special member = ${unlock_code}`)
+const specialMember = casual.full_name
+// const specialMember='Jayne Rutherford'
+debug(`Special member = ${specialMember}`)
 
 Meteor.methods({
   'import.members'(secret) {
-    if (secret === unlock_code) {
+    if (secret === specialMember) {
 //
 // Clean up
 //
