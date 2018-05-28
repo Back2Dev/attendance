@@ -56,11 +56,13 @@ Meteor.methods({
       let timeOut = moment()
 
       // update the anticipated duration with actual visit duration
-      const duration =
+      let duration =
         moment
           .duration(timeOut.diff(timeIn))
           .get('hours')
-
+      if (duration === 0) {
+        duration = 1
+      }
       Sessions.update({
         _id: session._id,
       }, {
