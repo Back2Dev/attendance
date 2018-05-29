@@ -13,6 +13,7 @@ Meteor.methods({
     const timeIn = new Date()
     const timeOut = moment(timeIn).add(duration, 'h').toDate()
 
+    const sessionCount = Sessions.find({ memberId }).count()
     try {
       const id = Sessions.insert({
         memberId,
@@ -27,6 +28,7 @@ Meteor.methods({
           $set: {
             isHere: true,
             lastIn: timeIn,
+            sessionCount,
           },
           $push: { sessions: session },
         })
@@ -35,10 +37,77 @@ Meteor.methods({
     }
   },
 
-  // signing out _isnt_ mandatory.
+  // signing out _isn't_ mandatory.
   // at end of each day every member will be automatically signed out.
   // if member does sign out early though, lets update timeOut and duration
   'depart'(id) {
+
+    //
+    // member may have signed in multiple times that day,
+    // so lets find the LAST session of theirs from 12am TODAY
+    //
+    const session = Sessions.find({
+      memberId: id,
+      timeIn: { $gte: moment().startOf('day').toDate() },
+    }).fetch()
+      .pop()
+
+    if (session) {
+      // lets recalculate the duration of session
+      let timeIn = moment(session.timeIn)
+      let timeOut = moment()
+
+      // update the anticipated duration with actual visit duration
+      let duration =
+        moment
+          .duration(timeOut.diff(timeIn))
+          .get('hours')
+      if (duration === 0) {
+        duration = 1
+      }
+      Sessions.update({
+        _id: session._id,
+      }, {
+          $set: {
+            // convert timeOut from moment instance to native date object
+            timeOut: timeOut.toDate(),
+            duration,
+          },
+        })
+      Members.update(
+        {
+          "_id": id,
+          sessions: {
+            $elemMatch: {
+              "_id": session._id,
+            }
+          }
+        },
+        {
+          $set: {
+            isHere: false,
+            lastIn: new Date(),
+            "sessions.$.duration": duration,
+          }
+        }
+      )
+    } else {
+      Members.update(
+        {
+          "_id": id,
+        },
+        {
+          $set: {
+            isHere: false,
+          }
+        }
+      )
+    }
+
+  },
+
+  // signing out _isn't_ mandatory. This is the one that happens automatically
+  'autoDepart'(id) {
 
     // member may have signed in multiple times that day,
     // so lets find the LAST session of theirs from 12am TODAY
@@ -86,9 +155,6 @@ Meteor.methods({
       }
     )
   },
+
 })
-// PdeR6N4jaywrJkJNB
 
-/* db.members.update({"_id": "bHKf4xZo2zFMdZyqK", sessions: {$elemMatch: {"_id": "PdeR6N4jaywrJkJNB"}}}, {$set: { isHere: false, lastIn: new Date(), "sessions.$.duration": 999  }})
-
-*/

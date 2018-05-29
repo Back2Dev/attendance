@@ -8,24 +8,30 @@ import MemberContainer from '/imports/ui/member/member-container'
 import MemberVisitContainer from '/imports/ui/member/member-visit-container'
 import Dashboard from '/imports/ui/layouts/dashboard'
 import '/imports/ui/layouts/attendance.css'
+import Nav from '/imports/ui/member/member-nav'
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import { alertsConfig } from '/imports/ui/config/alerts'
 
 const Attendance = () => {
-  return (
-    <div className='attendance-wrapper'>
-      <title>Back 2 Bikes | Attendance</title>
-      <h1>Back 2 Bikes Attendance App</h1>
-        <Switch>
-          {/* urls could be dynamically changed depending on what site defines them as [members, clients etc]*/}
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/add" component={MemberAddContainer} />
-          <Route path="/:id/edit" component={MemberEdit} />
-          <Route path="/:id" component={MemberVisitContainer} />
-          <Route path="/" component={MemberContainer} />
-          <Route component={NotFound} />
-        </Switch>
-    </div>
-  )
-}
+    return (
+      <div className='attendance-wrapper'>
+        <title>Back 2 Bikes | Attendance</title>
+        <Alert {...alertsConfig} />
+        <Nav />
+        <div style={{ marginTop: '70px', height: '100%' }}>
+          <Switch>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/add" component={MemberAddContainer} />
+            <Route path="/:id/edit" component={MemberEdit} />
+            <Route path="/:id" component={MemberVisitContainer} />
+            <Route path="/" component={MemberContainer} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </div>
+    )
+  }
 
 export default Attendance
 

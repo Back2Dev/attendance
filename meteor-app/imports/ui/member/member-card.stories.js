@@ -7,10 +7,10 @@ import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
-
-import { Grid, Container, Segment } from 'semantic-ui-react'
+import member from '/imports/test/fake-member'
 
 import Card from './member-card'
+
 
 storiesOf('Member.Card', module)
   .addDecorator(withKnobs)
@@ -18,13 +18,9 @@ storiesOf('Member.Card', module)
   .add('Card', withInfo('Checked in/out')(() => {
     const story = (
       <div><p>Use Knobs to show checked in/out status</p>
-        <Card 
-          _id="aab45bb"
-          firstname="Ed"
-          lastname="Sheeran"
-          avatar="3.jpg"
-          isHere={boolean('Checked in', false)}
-          sessions={[]}
+        <Card
+          {...member}
+          onCardClick={action('onCardClick')}
         />
       </div>
     )

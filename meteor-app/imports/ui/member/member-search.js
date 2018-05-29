@@ -6,11 +6,11 @@ const Search = props => {
   return (
     <Grid centered>
       <Input
-        placeholder='Type name to search'
+        placeholder='Search for yourself here'
         onChange={props.onSearchInput}
-        value={props.searchQuery}
         icon={'search'}
-        style={{padding: '20px 0'}}
+        size='huge'
+        style={{padding: '20px 0', width: '400px'}}
       />
     </Grid>
   );
@@ -18,7 +18,6 @@ const Search = props => {
 
 Search.propTypes = {
   onSearchInput: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string.isRequired,
 }
 
 export default Search

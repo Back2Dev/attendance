@@ -1,43 +1,29 @@
-// member-visit.stories.js
+// member-card.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
-import StoryRouter from 'storybook-router'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
-
-import { Link, Router, browserHistory } from 'react-router-dom'
-import { Grid, Container, Segment } from 'semantic-ui-react'
+import StoryRouter from 'storybook-router'
 import member from '/imports/test/fake-member'
 
-import Member from './member-visit'
+import MemberCardSmall from './member-card-small'
 
-const match = {
-	params: {
-		id: '12344'
-	}
-}
-
-
-storiesOf('Member.Session', module)
+storiesOf('Member.Card', module)
   .addDecorator(StoryRouter())
-  .addDecorator(withKnobs)
-
-  .add('Attend', withInfo('Here/Absent')(() => {
+  .add('Member Card Small', (() => {
     const story = (
-        <Member
-          loading={boolean('Loading', false)}
-          isHere={boolean('Present', false)}
-          member={member}
-          recordVisit={action('record visit')}
-        />
+      <MemberCardSmall
+        {...member}
+        onCardClick={action('onCardClick')}
+      />
     )
     // specs(() =>
-    //   describe('<User avatar={avatar} />', () => {
-    //     it('displays an User', () => {
+    //   describe('<Avatar avatar={avatar} />', () => {
+    //     it('displays an avatar', () => {
     //       const wrapper = mount(story);
     //       expect(wrapper.find('img')).to.have.length(1);
     //       expect(wrapper.find('img').props().src).to.contain(avatar.url);
@@ -46,4 +32,3 @@ storiesOf('Member.Session', module)
     // );
     return story;
   }))
-

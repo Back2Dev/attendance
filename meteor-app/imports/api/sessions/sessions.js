@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { REGEX_ID } from '/imports/api/schema'
 
 const Sessions = new Mongo.Collection('sessions');
 
@@ -6,7 +7,7 @@ Sessions.attachSchema(
   new SimpleSchema({
     memberId: {
       type: String,
-      regEx: SimpleSchema.RegEx.Id,
+      regEx: REGEX_ID,
       label: "Session Member id",
       optional: false
     },

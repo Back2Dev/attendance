@@ -7,18 +7,19 @@ const MemberList = (props) => {
   const { members, title, Component, Loader, style, onCardClick } = props
 
   return (
-    //renders list of users signed in OR out
     <div style={style}>
-      <Header
-        dividing
-        as={'h1'}
-        textAlign={'center'}
-        content={title}
-      />
 
       {React.Children.map(props.children, (child) => child)}
 
-      <Card.Group centered>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          height: '100%',
+          alignContent: 'center',
+          justifyContent: 'center'
+        }}
+      >
         {
           props.loading &&
           _.times(15, i => _.constant(<Loader key={i} />)())
@@ -27,15 +28,18 @@ const MemberList = (props) => {
         {
           (!props.loading && members) &&
           members.map(member => (
-            <Component key={member._id} {...member} onCardClick={onCardClick} verticalAlign='middle' />
+            <Component key={member._id} {...member} onCardClick={onCardClick} style={{ padding: '5px' }} />
           ))
         }
-      </Card.Group>
+      </div>
     </div>
   )
 }
 
 MemberList.propTypes = {
+  Component: PropTypes.func.isRequired,
+  Loader: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired,
   members: PropTypes.array,
   title: PropTypes.string,
 };

@@ -1,88 +1,65 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom'
+import { Session } from 'meteor/session'
 import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import MemberCardSmallLoading from '/imports/ui/member/member-card-small-loading'
 import Search from '/imports/ui/member/member-search'
 import { Menu } from 'semantic-ui-react'
 
 class MemberMain extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      membersIn: [],
-      membersOut: [],
-      searchQuery: ''
-    }
-  }
-
-  componentWillReceiveProps({ membersIn, membersOut }) {
-    this.setState({ membersOut, membersIn })
-  }
 
   onCardClick = (id) => {
     this.props.history.push(`/${id}`)
   }
 
-  onSearchInput = (q) => {
-    this.setState({
-      searchQuery: q.target.value,
-      membersOut: this.props.membersOut.filter(member => (
-        RegExp('' + q.target.value, 'ig')
-          .test(`${member.firstname} ${member.surname}`)
-      ))
-    })
-  }
-
   render() {
     return (
       <Fragment>
-        <div style={{ paddingBottom: '20vh' }}>
+        <div style={{ margin: '80px 0 150px' }}>
           <MemberList
             title={'Check In:'}
-            members={this.state.membersOut}
+            members={this.props.membersOut}
             Component={MemberCard}
             onCardClick={this.onCardClick}
             loading={this.props.loading}
             Loader={MemberCardLoading}
           >
-            <Menu>
-              <Menu.Item as={Link} to='/add'>
-                New Volunteer
-            </Menu.Item>
-              <Menu.Item position='right'>
-                <Search
-                  onSearchInput={this.onSearchInput}
-                  searchQuery={this.state.searchQuery}
-                />
-              </Menu.Item>
-            </Menu>
+            <Search
+              onSearchInput={this.props.onSearchInput}
+              searchQuery={this.props.searchQuery}
+            />
           </MemberList>
         </div>
         <MemberList
           style={{
             position: 'fixed',
             zIndex: '999',
-            backgroundColor: 'white',
+            backgroundColor: '#eee',
             bottom: '0',
             left: '0',
             right: '0',
-            height: '20vh',
-            padding: '0 20px 10px',
+            height: '80px',
+            padding: '0 20px',
             textAlign: 'center',
           }}
           title={'Who\'s Here:'}
-          members={this.state.membersIn}
+          members={this.props.membersIn}
           Component={MemberCardSmall}
           onCardClick={this.onCardClick}
           loading={this.props.loading}
-          Loader={MemberCardLoading}
+          Loader={MemberCardSmallLoading}
         />
       </Fragment>
     )
   }
 }
 
+
+MemberList.propTypes = {
+};
 
 export default withRouter(MemberMain)

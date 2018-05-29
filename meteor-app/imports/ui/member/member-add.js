@@ -1,37 +1,63 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'semantic-ui-react'
-import Details from '/imports/ui/member/member-add-details'
-import Emergency from '/imports/ui/member/member-add-emergency'
-import Other from '/imports/ui/member/member-add-other'
+import { Button, Grid } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
+import Form from "react-jsonschema-form-semanticui";
+import Alert from 'react-s-alert';
+
 import Steps from '/imports/ui/member/member-add-steps'
+import schemas from '/imports/ui/config/member-add-schemas'
+import Control from '/imports/ui/member/member-add-control'
+import MemberAddReview from '/imports/ui/member/member-add-review'
+import widgets from '/imports/ui/member/member-add-widgets'
+import fields from '/imports/ui/member/member-add-fields'
+
+const mapSchemaToState = schema => (
+  schema
+    .reduce((state, step) => {
+      Object.keys(step.schema.properties)
+        .forEach(prop => state[prop] = undefined)
+      return state
+    }, {})
+)
 
 class MemberAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 1,
-      formData: {}
+      step: (props.step) ? props.step : 0,
+      formData: mapSchemaToState(schemas),
+      progress: 0,
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    window.scrollTo(0, 0)
+    
+    const finalStep = schemas.length == this.state.step
+    if (finalStep && this.props.success) {
+      Alert.success(this.props.message);
+      this.props.history.push('/')
+    }
+    if (finalStep && this.props.error) {
+      Alert.error(this.props.message);
     }
   }
 
   onSubmit = ({ formData }) => {
-    this.setState({
-      formData: {
-        ...this.state.formData,
-        ...formData,
-      },
-      step: this.state.step + 1
-    })
-    // if on final step
-    // call props.addMember()
-  }
-
-  onChange = ({ formData }) => {
-    this.setState({
-      formData: {
-        ...this.state.formData,
-        ...formData,
+    const finalStep = schemas.length == this.state.step
+    if (finalStep) {
+      this.props.addMember(this.state.formData)
+      return
+    }
+    this.setState((prevState, props) => {
+      return {
+        formData: {
+          ...prevState.formData,
+          ...formData,
+        },
+        step: prevState.step + 1,
+        progress: prevState.step + 1,
       }
     })
   }
@@ -41,42 +67,80 @@ class MemberAdd extends Component {
       step: this.state.step - 1
     })
   }
-
-  // This is some wet code. Am looking at ways to refactor this...
-  renderStep = () => {
-    switch (this.state.step) {
-      case 1:
-        return <Other formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
-      case 2:
-        return <Details formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
-      case 3:
-        return <Emergency formData={this.state.formData} onChange={this.onChange} step={this.state.step} onSubmit={this.onSubmit} backStep={this.backStep} />
-      default:
-        return <p>Done</p>
-        break
+  goToStep = (step) => {
+    if (step <= this.state.progress) {
+      this.setState({
+        step,
+      })
     }
   }
 
+  renderForm = () => {
+    return <Form
+      schema={schemas[this.state.step].schema}
+      uiSchema={schemas[this.state.step].uiSchema}
+      formData={this.state.formData}
+      onChange={this.onChange}
+      onSubmit={this.onSubmit}
+      widgets={widgets}
+      fields={fields}
+    >
+      <Control
+        backStep={this.backStep}
+        step={this.state.step}
+        totalSteps={schemas.length}
+        onSubmit={f => f}
+      />
+    </Form>
+  }
+
   render() {
+    const finalStep = schemas.length == this.state.step
     return (
       <Grid>
         <Grid.Row centered>
-          <Steps step={this.state.step} />
+          <Steps
+            step={this.state.step}
+            steps={schemas}
+            goToStep={this.goToStep}
+            progress={this.state.progress}
+          />
         </Grid.Row>
         <Grid.Row centered>
-          <Grid.Column style={{ maxWidth: '500px' }}>
+          <Grid.Column style={{ maxWidth: '600px' }}>
             {
-              this.renderStep()
+              finalStep &&
+              // this needs refactoring
+              <div>
+                <MemberAddReview
+                  formData={this.state.formData}
+                  steps={schemas}
+                  goToStep={this.goToStep}
+                />
+                <Control
+                  backStep={this.backStep}
+                  step={this.state.step}
+                  totalSteps={schemas.length}
+                  onSubmit={this.onSubmit}
+                />
+              </div>
+            }
+            {
+              !finalStep &&
+              this.renderForm()
             }
           </Grid.Column>
         </Grid.Row>
-      </Grid>
+      </Grid >
     )
   }
 }
 
 MemberAdd.propTypes = {
-  addMember: PropTypes.func.isRequired
-};
+  addMember: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
+}
 
-export default MemberAdd
+export default withRouter(MemberAdd)

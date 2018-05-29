@@ -1,18 +1,53 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session'
+import { debounce, escapeRegExp } from 'lodash'
+
 import MemberMain from '/imports/ui/main'
 import Members from '/imports/api/members/members';
+import { ReactiveVar } from 'meteor/reactive-var'
 
+const query = new ReactiveVar()
 
 export default withTracker((props) => {
   const membersHandle = Meteor.subscribe('all.members')
-  const loading = !membersHandle.ready()
-  const membersIn = Members.find({ isHere: true }).fetch()
-  const membersOut = Members.find({ isHere: false }).fetch()
-  
+
+  if (!membersHandle.ready()) {
+    // prevents search filter from persisting after checkin / out
+    query.set('')
+  }
+
+  const onSearchInput = q => query.set(q.target.value)
+
+  const filter = (query) => {
+    const searching = query != ''
+    if (searching) {
+      return {
+        name: { $regex: new RegExp(escapeRegExp(query)), $options: 'i' },
+        isHere: false
+      }
+    } else {
+      return { isHere: false }
+    }
+  }
+
   return {
-    membersIn,
-    membersOut,
-    loading,
+    membersIn: Members.find({
+      isHere: true,
+    }, {
+      sort: {
+        sessionCount: -1,
+      },
+    }).fetch(),
+    membersOut: Members.find(
+      filter(query.get()), {
+        sort: {
+          sessionCount: -1,
+        },
+      },
+    ).fetch(),
+    loading: !membersHandle.ready(),
+    searchQuery: query.get(),
+    onSearchInput,
   }
 })(MemberMain)
