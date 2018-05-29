@@ -69,6 +69,10 @@ Members.attachSchema(new SimpleSchema({
     defaultValue: [],
     blackbox: true,
   },
+  sessionCount: {
+    type: Number,
+    defaultValue: 0,
+  },
   bikesHousehold: {
     type: Number,
     label: "Number of bikes in household",

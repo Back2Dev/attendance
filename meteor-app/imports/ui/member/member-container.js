@@ -32,8 +32,20 @@ export default withTracker((props) => {
   }
 
   return {
-    membersIn: Members.find({ isHere: true }).fetch(),
-    membersOut: Members.find(filter(query.get())).fetch(),
+    membersIn: Members.find({
+      isHere: true,
+    }, {
+      sort: {
+        sessionCount: -1,
+      },
+    }).fetch(),
+    membersOut: Members.find(
+      filter(query.get()), {
+        sort: {
+          sessionCount: -1,
+        },
+      },
+    ).fetch(),
     loading: !membersHandle.ready(),
     searchQuery: query.get(),
     onSearchInput,
