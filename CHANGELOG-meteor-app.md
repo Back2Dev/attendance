@@ -11,7 +11,7 @@ Next
 * Added in knobs, specs etc to Storybook
 * Added story for add member
 * Added force-ssl package
-* Import members from json
+* Import members from json and save rejects with reason for rejection
 
 1.0.0
 ------
