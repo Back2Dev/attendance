@@ -33,3 +33,4 @@ dynamic-import
 babel-compiler
 meteortesting:mocha
 force-ssl
+dburles:factory
