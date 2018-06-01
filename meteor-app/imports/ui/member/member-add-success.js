@@ -3,15 +3,6 @@ import PropTypes from 'prop-types';
 import { Card, Grid, Header, Message } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
 
-const member = {
-  _id: 1,
-  name: 'Joe Bloggs',
-  avatar: '1.jpg',
-  isHere: true,
-  sessions: [],
-  lastIn: Date.now(),
-}
-
 const MemberAddSuccess = (props) => {
 
   return (
@@ -27,7 +18,7 @@ const MemberAddSuccess = (props) => {
         </Message>
         <Card.Group centered>
           <MemberCard
-            {...member}
+            {...props.member}
             onCardClick={f => f}
           />
         </Card.Group>

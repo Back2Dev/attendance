@@ -34,11 +34,11 @@ class MemberAdd extends Component {
     window.scrollTo(0, 0)
 
     const finalStep = schemas.length == this.state.step
-    if (finalStep && this.props.success) {
+    if (finalStep && this.props.newId) {
       Alert.success(this.props.message);
       this.props.history.push(
         this.props.isIframe
-          ? '/success'
+          ? `/success/${this.props.newId}`
           : '/'
       )
     }
