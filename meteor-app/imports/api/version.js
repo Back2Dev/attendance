@@ -3,9 +3,9 @@
  */
 
 var versionService = {
-  version:() => {
+  version: function() {
     return "0.2.0"
   }
 }
 
-export default versionService
+module.exports = versionService
