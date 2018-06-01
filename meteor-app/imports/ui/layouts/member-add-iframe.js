@@ -13,8 +13,8 @@ const MemberAddIframe = () => {
     <div style={{ height: '100%' }}>
       <Alert {...alertsConfig} />
       <Switch>
-        <Route exact path="/success" component={MemberAddSuccess} />
-        <Route path="/" component={MemberAddContainer} />
+      <Route path="/success" component={MemberAddSuccess} />
+      <Route path="/" component={MemberAddContainer} />
       </Switch>
     </div>
   )
