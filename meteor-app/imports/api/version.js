@@ -1,13 +1,11 @@
 /**
- * Created by mikkel in May 2018.
+ * Created by mikkel in June 2016.
  */
 
 var versionService = {
-
-  version: function() {
-    return "1.0.0"
+  version:() => {
+    return "0.0.1"
   }
+}
 
-};
-
-module.exports = versionService;
+export default versionService
