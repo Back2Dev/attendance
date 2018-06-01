@@ -5,7 +5,7 @@ import { Step } from 'semantic-ui-react'
 const MemberAddSteps = (props) => {
 
   return (
-    <Step.Group ordered>
+    <Step.Group ordered fluid unstackable>
       {props.steps.map((step, i) =>
         <Step key={i} completed={(props.progress >= i)} onClick={() => props.goToStep(i)}>
           <Step.Content>
