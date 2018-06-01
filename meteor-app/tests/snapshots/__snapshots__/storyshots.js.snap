@@ -1001,6 +1001,462 @@ Have you worked on bikes or something similar before?"
 </div>
 `;
 
+exports[`Storyshots Member.Add MemberAddControl 1`] = `
+<div>
+  <p>
+    Use Knobs to select step, currently on step 
+    1
+  </p>
+  <div
+    style={
+      Object {
+        "marginTop": "50px",
+      }
+    }
+  >
+    <button
+      className="ui left floated button"
+      disabled={undefined}
+      onClick={[Function]}
+      role="button"
+      tabIndex={undefined}
+      type="button"
+    >
+      <i
+        aria-hidden="true"
+        className="arrow left icon"
+      />
+      Back
+    </button>
+    <button
+      className="ui right floated button"
+      disabled={undefined}
+      onClick={[Function]}
+      role="button"
+      tabIndex={undefined}
+      type="submit"
+    >
+      Next
+      <i
+        aria-hidden="true"
+        className="arrow right icon"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Member.Add MemberAddReview 1`] = `
+<div>
+  <p>
+    Use Knobs to show checked in/out status
+  </p>
+  <div
+    className="ui segment"
+    style={
+      Object {
+        "textAlign": "left",
+      }
+    }
+  >
+    <h1
+      className="ui center aligned header"
+    >
+      Review your details:
+    </h1>
+    <img
+      className="ui tiny circular centered image"
+      src="/images/avatars/7.jpg"
+    />
+    <div
+      className="ui very padded segment"
+    >
+      <h2>
+        About You
+        <button
+          className="ui basic circular icon right floated button"
+          disabled={undefined}
+          onClick={[Function]}
+          role="button"
+          tabIndex={undefined}
+        >
+          <i
+            aria-hidden="true"
+            className="pencil icon"
+          />
+        </button>
+      </h2>
+      <div
+        className="ui segments"
+      >
+        <div
+          className="ui segment"
+        >
+          <strong>
+            How many bikes in your household?
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              5
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            What type of bike do you ride the most?
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              Racer
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Work status
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              Student
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Reasons for volunteering
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              My love of bikes started as a child. It was my transport growing up, 
+  	I had no money to pay for repairs, so I had to fix it myself. My best bike 
+  	was a white Sun 10 speed racer. I saved up for months to buy it. I saved
+  	money from my paper round, and my dad threw some money in too.
+  
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ui very padded segment"
+    >
+      <h2>
+        Contact
+        <button
+          className="ui basic circular icon right floated button"
+          disabled={undefined}
+          onClick={[Function]}
+          role="button"
+          tabIndex={undefined}
+        >
+          <i
+            aria-hidden="true"
+            className="pencil icon"
+          />
+        </button>
+      </h2>
+      <div
+        className="ui segments"
+      >
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Name
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              Orie Kautzer
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Email
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              Jelly.Belly@smells.nasty.com
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Street Address
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              199 Henderson Spur
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Suburb
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              South Melbourne
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            State
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              VIC
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Postcode
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              3428
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Phone number
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              144-467-2060
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Mobile number
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              352-485-4816
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ui very padded segment"
+    >
+      <h2>
+        Emergency
+        <button
+          className="ui basic circular icon right floated button"
+          disabled={undefined}
+          onClick={[Function]}
+          role="button"
+          tabIndex={undefined}
+        >
+          <i
+            aria-hidden="true"
+            className="pencil icon"
+          />
+        </button>
+      </h2>
+      <div
+        className="ui segments"
+      >
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Emergency Contact Name
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              Everett Mosciski
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Emergency Contact Email
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              Ibrahim.Flatley@gmail.com
+            </span>
+          </span>
+        </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Emergency Contact Mobile number
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              848-924-0182
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ui very padded segment"
+    >
+      <h2>
+        Avatar
+        <button
+          className="ui basic circular icon right floated button"
+          disabled={undefined}
+          onClick={[Function]}
+          role="button"
+          tabIndex={undefined}
+        >
+          <i
+            aria-hidden="true"
+            className="pencil icon"
+          />
+        </button>
+      </h2>
+      <div
+        className="ui segments"
+      >
+        <div
+          className="ui segment"
+        >
+          <strong>
+            Avatar
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <img
+              className="ui avatar image"
+              src="/images/avatars/7.jpg"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Member.Card Card 1`] = `
 <div>
   <div
@@ -1021,13 +1477,13 @@ exports[`Storyshots Member.Card Card 1`] = `
         onClick={[Function]}
         style={
           Object {
-            "maxWidth": "200px",
+            "width": "200px",
           }
         }
       >
         <img
           className="ui image"
-          src="/images/avatars/3.jpg"
+          src="/images/avatars/7.jpg"
         />
         <div
           className="content"
@@ -1035,18 +1491,26 @@ exports[`Storyshots Member.Card Card 1`] = `
           <div
             className="header"
           >
+            Orie Kautzer
             <div
               className="content"
             >
-              <div
-                className="ui label"
-                onClick={[Function]}
-              >
-                Newbie
+              <div>
                 <div
-                  className="detail"
+                  className="ui green label"
+                  onClick={[Function]}
                 >
-                  0
+                  <i
+                    aria-hidden="true"
+                    className="star icon"
+                  />
+                  2
+                </div>
+                <div
+                  className="ui green label"
+                  onClick={[Function]}
+                >
+                  Newbie
                 </div>
               </div>
             </div>
@@ -1054,7 +1518,16 @@ exports[`Storyshots Member.Card Card 1`] = `
         </div>
         <div
           className="extra content"
-        />
+        >
+          <div>
+            <p>
+              Arrived:
+               
+              a few seconds
+               ago 
+            </p>
+          </div>
+        </div>
       </a>
     </div>
   </div>
@@ -1336,56 +1809,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                       <span
                         style={Object {}}
                       >
-                        firstname
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            Ed
-                            "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        lastname
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span
-                            style={
-                              Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
-                              }
-                            }
-                          >
-                            "
-                            Sheeran
-                            "
-                          </span>
-                        </span>
+                        isHere
                       </span>
                     </span>
                     <span>
@@ -1412,39 +1836,8 @@ exports[`Storyshots Member.Card Card 1`] = `
                             }
                           >
                             "
-                            3.jpg
+                            7.jpg
                             "
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        isHere
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
-                              }
-                            >
-                              false
-                            </span>
-                            }
                           </span>
                         </span>
                       </span>
@@ -1474,7 +1867,656 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             >
                               [
+                              <span>
+                                {
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#666",
+                                      }
+                                    }
+                                  >
+                                    memberId
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    "
+                                    randomSession
+                                    "
+                                  </span>
+                                  }
+                                </span>
+                                }
+                              </span>
+                              , 
+                              <span>
+                                {
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#666",
+                                      }
+                                    }
+                                  >
+                                    memberId
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    "
+                                    randomSession
+                                    "
+                                  </span>
+                                  }
+                                </span>
+                                }
+                              </span>
                               ]
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        lastIn
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              {
+                              }
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        joined
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              {
+                              }
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        addressPostcode
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            3428
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        addressState
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            VIC
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        addressStreet
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            199 Henderson Spur
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        addressSuburb
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            South Melbourne
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        bikesHousehold
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
+                                }
+                              }
+                            >
+                              5
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        email
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Jelly.Belly@smells.nasty.com
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        emergencyContact
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Everett Mosciski
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        emergencyEmail
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Ibrahim.Flatley@gmail.com
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        emergencyMobile
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            848-220-5422
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        emergencyPhone
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            848-924-0182
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        mobile
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            352-485-4816
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        name
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Orie Kautzer
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        phone
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            144-467-2060
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        workStatus
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Student
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        reasons
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            My love of bikes started as a child. It was my tra…
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        primaryBike
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            "
+                            Racer
+                            "
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        onCardClick
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              onCardClick()
                             </span>
                             }
                           </span>
@@ -1781,6 +2823,26 @@ exports[`Storyshots Member.Card Card 1`] = `
 </div>
 `;
 
+exports[`Storyshots Member.Card Member Card Small 1`] = `
+<div
+  className="item"
+  data-value={undefined}
+  onClick={[Function]}
+  role="listitem"
+>
+  <img
+    className="ui tiny avatar spaced image"
+    src="/images/avatars/7.jpg"
+    style={
+      Object {
+        "border": "3px solid white",
+        "width": "50px",
+      }
+    }
+  />
+</div>
+`;
+
 exports[`Storyshots Member.Session Attend 1`] = `
 <div>
   <div
@@ -1791,167 +2853,109 @@ exports[`Storyshots Member.Session Attend 1`] = `
       }
     }
   >
-    <div>
-      <p>
-        Use Knobs to show check in state
-      </p>
-      <div
-        className="ui centered center aligned middle aligned grid"
-        style={
-          Object {
-            "height": "100%",
-          }
+    <div
+      className="ui centered center aligned middle aligned grid"
+      style={
+        Object {
+          "height": "100%",
         }
+      }
+    >
+      <div
+        className="column"
       >
         <div
-          className="column"
+          className="ui centered cards"
         >
-          <div
-            className="ui centered cards"
-          >
-            <a
-              className="ui card"
-              href={undefined}
-              onClick={[Function]}
-              style={
-                Object {
-                  "maxWidth": "200px",
-                }
+          <a
+            className="ui card"
+            href={undefined}
+            onClick={[Function]}
+            style={
+              Object {
+                "width": "200px",
               }
+            }
+          >
+            <img
+              className="ui image"
+              src="/images/avatars/7.jpg"
+            />
+            <div
+              className="content"
             >
-              <img
-                className="ui image"
-                src="/images/avatars/2.jpg"
-              />
               <div
-                className="content"
+                className="header"
               >
+                Orie Kautzer
                 <div
-                  className="header"
+                  className="content"
                 >
-                  <div
-                    className="content"
-                  >
+                  <div>
                     <div
-                      className="ui label"
+                      className="ui green label"
+                      onClick={[Function]}
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="star icon"
+                      />
+                      2
+                    </div>
+                    <div
+                      className="ui green label"
                       onClick={[Function]}
                     >
                       Newbie
-                      <div
-                        className="detail"
-                      >
-                        0
-                      </div>
                     </div>
-                    <form
-                      action={undefined}
-                      className="ui form"
-                      onSubmit={[Function]}
-                      style={
-                        Object {
-                          "padding": "20px 0",
-                        }
-                      }
+                  </div>
+                  <h4
+                    className="ui header"
+                  >
+                    See you next time!
+                  </h4>
+                  <div
+                    className="ui buttons"
+                  >
+                    <button
+                      className="ui button"
+                      disabled={undefined}
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={undefined}
                     >
-                      <h4
-                        className="ui header"
-                      >
-                        Great to see you!
-                        <div
-                          className="sub header"
-                        >
-                          How long are you with us for?
-                        </div>
-                      </h4>
-                      <div
-                        className="field"
-                      >
-                        <div
-                          className="ui checkbox"
-                          onChange={[Function]}
-                          onClick={[Function]}
-                          onMouseDown={[Function]}
-                        >
-                          <input
-                            checked={false}
-                            className="hidden"
-                            id={undefined}
-                            name="duration"
-                            onClick={[Function]}
-                            readOnly={true}
-                            tabIndex={0}
-                            type="checkbox"
-                            value={3}
-                          />
-                          <label
-                            htmlFor={undefined}
-                          >
-                            Half Day (~3hrs)
-                          </label>
-                        </div>
-                      </div>
-                      <div
-                        className="field"
-                      >
-                        <div
-                          className="ui checked checkbox"
-                          onChange={[Function]}
-                          onClick={[Function]}
-                          onMouseDown={[Function]}
-                        >
-                          <input
-                            checked={true}
-                            className="hidden"
-                            id={undefined}
-                            name="duration"
-                            onClick={[Function]}
-                            readOnly={true}
-                            tabIndex={0}
-                            type="checkbox"
-                            value={6}
-                          />
-                          <label
-                            htmlFor={undefined}
-                          >
-                            Full Day (~6hrs)
-                          </label>
-                        </div>
-                      </div>
-                    </form>
+                      Cancel
+                    </button>
                     <div
-                      className="ui buttons"
+                      className="or"
+                      data-text={undefined}
+                    />
+                    <button
+                      className="ui compact positive button"
+                      disabled={undefined}
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={undefined}
                     >
-                      <button
-                        className="ui button"
-                        disabled={undefined}
-                        onClick={[Function]}
-                        role="button"
-                        tabIndex={undefined}
-                      >
-                        Cancel
-                      </button>
-                      <div
-                        className="or"
-                        data-text={undefined}
-                      />
-                      <button
-                        className="ui compact positive button"
-                        disabled={undefined}
-                        onClick={[Function]}
-                        role="button"
-                        tabIndex={undefined}
-                      >
-                        Sign In
-                      </button>
-                    </div>
+                      Sign Out
+                    </button>
                   </div>
                 </div>
               </div>
-              <div
-                className="extra content"
-              />
-            </a>
-          </div>
+            </div>
+            <div
+              className="extra content"
+            >
+              <div>
+                <p>
+                  Arrived:
+                   
+                  a few seconds
+                   ago 
+                </p>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -2108,202 +3112,111 @@ exports[`Storyshots Member.Session Attend 1`] = `
             className="css-4akams"
           >
             <div>
-              <div>
-                <div
+              <div
+                style={
+                  Object {
+                    "paddingLeft": 18,
+                    "paddingRight": 3,
+                  }
+                }
+              >
+                <span
                   style={
                     Object {
-                      "paddingLeft": 18,
-                      "paddingRight": 3,
+                      "color": "#777",
                     }
                   }
                 >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;
-                    div
-                  </span>
-                  <span />
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &gt;
-                  </span>
-                </div>
-                <div>
-                  <div
-                    style={
-                      Object {
-                        "paddingLeft": 33,
-                        "paddingRight": 3,
-                      }
-                    }
-                  >
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      &lt;
-                      p
+                  &lt;
+                  MemberVisit
+                </span>
+                <span>
+                  <span>
+                    <span>
+                      <br />
+                        
                     </span>
-                    <span />
                     <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
+                      style={Object {}}
                     >
-                      &gt;
+                      loading
                     </span>
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "paddingLeft": 48,
-                        "paddingRight": 3,
-                      }
-                    }
-                  >
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      Use Knobs to show check in state
+                    <span>
+                      =
+                      <span
+                        style={Object {}}
+                      >
+                        <span>
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
+                              }
+                            }
+                          >
+                            false
+                          </span>
+                          }
+                        </span>
+                      </span>
                     </span>
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "paddingLeft": 33,
-                        "paddingRight": 3,
-                      }
-                    }
-                  >
-                    <span
-                      style={
-                        Object {
-                          "color": "#777",
-                        }
-                      }
-                    >
-                      &lt;/
-                      p
-                      &gt;
-                    </span>
-                  </div>
-                </div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 33,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;
-                    MemberVisit
                   </span>
                   <span>
                     <span>
-                      <span>
-                        <br />
-                          
-                      </span>
+                      <br />
+                        
+                    </span>
+                    <span
+                      style={Object {}}
+                    >
+                      isHere
+                    </span>
+                    <span>
+                      =
                       <span
                         style={Object {}}
                       >
-                        loading
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                        <span>
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              false
-                            </span>
                             }
+                          >
+                            false
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
+                  </span>
+                  <span>
                     <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        isHere
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
-                              }
-                            >
-                              false
-                            </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
+                      <br />
+                        
+                    </span>
+                    <span
+                      style={Object {}}
+                    >
+                      member
                     </span>
                     <span>
-                      <span>
-                        <br />
-                          
-                      </span>
+                      =
                       <span
                         style={Object {}}
                       >
-                        member
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
+                        <span>
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
+                              }
+                            }
+                          >
                             {
                             <span
                               style={
@@ -2312,147 +3225,119 @@ exports[`Storyshots Member.Session Attend 1`] = `
                                 }
                               }
                             >
+                              _id
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#22a",
+                                  "wordBreak": "break-word",
+                                }
+                              }
+                            >
+                              "
+                              BXghHGE343iuyMN
+                              "
+                            </span>
+                            , 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              isHere
+                            </span>
+                            : 
+                            <span>
                               {
                               <span
                                 style={
                                   Object {
-                                    "color": "#666",
+                                    "color": "#a11",
                                   }
                                 }
                               >
-                                _id
+                                true
                               </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
-                                }
-                              >
-                                "
-                                123ASD
-                                "
-                              </span>
-                              , 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
-                                }
-                              >
-                                firstname
-                              </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
-                                }
-                              >
-                                "
-                                Mickey
-                                "
-                              </span>
-                              , 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
-                                }
-                              >
-                                lastname
-                              </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
-                                }
-                              >
-                                "
-                                Mouse
-                                "
-                              </span>
-                              , 
-                              …
                               }
                             </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <span>
-                        <br />
-                          
-                      </span>
-                      <span
-                        style={Object {}}
-                      >
-                        recordVisit
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
+                            , 
                             <span
                               style={
                                 Object {
-                                  "color": "#170",
+                                  "color": "#666",
                                 }
                               }
                             >
-                              record visit()
+                              avatar
                             </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#22a",
+                                  "wordBreak": "break-word",
+                                }
+                              }
+                            >
+                              "
+                              7.jpg
+                              "
+                            </span>
+                            , 
+                            …
                             }
                           </span>
+                          }
                         </span>
                       </span>
-                      <br />
                     </span>
                   </span>
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    /&gt;
+                  <span>
+                    <span>
+                      <br />
+                        
+                    </span>
+                    <span
+                      style={Object {}}
+                    >
+                      recordVisit
+                    </span>
+                    <span>
+                      =
+                      <span
+                        style={Object {}}
+                      >
+                        <span>
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
+                              }
+                            }
+                          >
+                            record visit()
+                          </span>
+                          }
+                        </span>
+                      </span>
+                    </span>
+                    <br />
                   </span>
-                </div>
-                <div
+                </span>
+                <span
                   style={
                     Object {
-                      "paddingLeft": 18,
-                      "paddingRight": 3,
+                      "color": "#777",
                     }
                   }
                 >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;/
-                    div
-                    &gt;
-                  </span>
-                </div>
+                  /&gt;
+                </span>
               </div>
             </div>
             <button
