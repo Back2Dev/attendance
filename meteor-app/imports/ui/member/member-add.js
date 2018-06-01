@@ -36,9 +36,11 @@ class MemberAdd extends Component {
     const finalStep = schemas.length == this.state.step
     if (finalStep && this.props.success) {
       Alert.success(this.props.message);
-      if (!this.props.isIframe) {
-        this.props.history.push('/')
-      }
+      this.props.history.push(
+        this.props.isIframe
+          ? '/success'
+          : '/'
+      )
     }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message);
