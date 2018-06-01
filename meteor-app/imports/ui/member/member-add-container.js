@@ -2,10 +2,12 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data';
 import MemberAdd from '/imports/ui/member/member-add'
 import { ReactiveVar } from 'meteor/reactive-var'
+import isIframe from '/imports/helpers/isIframe'
 
 const success = new ReactiveVar(false)
 const error = new ReactiveVar(false)
 const msg = new ReactiveVar('')
+
 
 export default withTracker((props) => {
   const addMember = (formData) => {
@@ -29,5 +31,6 @@ export default withTracker((props) => {
     error: error.get(),
     success: success.get(),
     message: msg.get(),
+    isIframe: isIframe(),
   }
 })(MemberAdd)

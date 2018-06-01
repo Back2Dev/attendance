@@ -4,7 +4,6 @@ import { Button, Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
-
 import Steps from '/imports/ui/member/member-add-steps'
 import schemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
@@ -33,11 +32,13 @@ class MemberAdd extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
-    
+
     const finalStep = schemas.length == this.state.step
     if (finalStep && this.props.success) {
       Alert.success(this.props.message);
-      this.props.history.push('/')
+      if (!this.props.isIframe) {
+        this.props.history.push('/')
+      }
     }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message);
@@ -45,6 +46,7 @@ class MemberAdd extends Component {
   }
 
   onSubmit = ({ formData }) => {
+
     const finalStep = schemas.length == this.state.step
     if (finalStep) {
       this.props.addMember(this.state.formData)
