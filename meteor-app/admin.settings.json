@@ -6,7 +6,11 @@
   		"USERNAME": "mikkel",
   		"PASSWORD": "Smsbroadcast.24",
   		"FROM": "Back2bikes"
-	  }
+	  },
+	 "uploadcare": {
+	 	"public_key": "9b206518e18da33d4adb",
+		"secret_key": "a9c18bcff6727973aa97"
+	 }
   },
   "public": {
 
