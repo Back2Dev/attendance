@@ -1,0 +1,14 @@
+{
+  "env": {
+    "environment": "admin",
+    "ROOT_URL": "http://localhost:3020/",
+  	"SMS": {
+  		"USERNAME": "mikkel",
+  		"PASSWORD": "Smsbroadcast.24",
+  		"FROM": "Back2bikes"
+	  }
+  },
+  "public": {
+
+  }
+}
