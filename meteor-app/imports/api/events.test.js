@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 // schema.test.js
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 import { Mongo } from 'meteor/mongo'
 import { expect } from 'chai'
 import sinon from 'sinon'
@@ -16,6 +15,8 @@ const goodOnes = [
     who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: "Something" },
   { description: 'object data',
     who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: { name: "Something" } },
+  { description: 'Data is a number',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: 88 },
 ]
 
 const badOnes = [
@@ -23,11 +24,9 @@ const badOnes = [
     name: 'Mikey Mike', what: 'Did something', where: 'Over here' },
   { description: 'Missing what',
     who: 'Mikey Mike', where: 'Over here', data: "Something" },
-  { description: 'Data is a number',
-    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: 88 },
 ]
 
-describe.only('api/events collection', () => {
+describe('api/events collection', () => {
   beforeEach(resetDatabase)
 
   describe('insertions', () => {

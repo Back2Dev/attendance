@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 // schema.test.js
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from  'simpl-schema'
 import { Mongo } from 'meteor/mongo';
 import { expect } from 'chai';
 import sinon from 'sinon';

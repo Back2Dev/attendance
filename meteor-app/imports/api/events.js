@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo'
+import SimpleSchema from  'simpl-schema'
+
 import { createdAt, updatedAt } from '/imports/api/schema'
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 const Events = new Mongo.Collection('events')
 
@@ -19,10 +20,11 @@ Events.attachSchema(new SimpleSchema({
     optional: true,
   },
   data: {
-    type: Object | String,
+    type: SimpleSchema.oneOf(String, Object),
     label: 'Associated data (if any)',
     optional: true,
     blackbox: true,
+    custom: () => true,
   },
   createdAt,
   updatedAt,
