@@ -10,15 +10,21 @@ import { createdAt, updatedAt, mustEqualOneOf } from '/imports/api/schema'
 import Events from '/imports/api/events'
 
 const goodOnes = [
-  { who: 'Mikey Mike', what: 'Did something', where: 'Over here' },
-  { who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: "Something" },
-  { who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: { name: "Something" } },
+  { description: 'Basic',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here' },
+  { description: 'string data',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: "Something" },
+  { description: 'object data',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: { name: "Something" } },
 ]
 
 const badOnes = [
-  { name: 'Mikey Mike', what: 'Did something', where: 'Over here' },
-  { who: 'Mikey Mike', where: 'Over here', data: "Something" },
-  { who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: 88 },
+  { description: 'Missing who',
+    name: 'Mikey Mike', what: 'Did something', where: 'Over here' },
+  { description: 'Missing what',
+    who: 'Mikey Mike', where: 'Over here', data: "Something" },
+  { description: 'Data is a number',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: 88 },
 ]
 
 describe.only('api/events collection', () => {
@@ -26,8 +32,8 @@ describe.only('api/events collection', () => {
 
   describe('insertions', () => {
 
-    it('Inserts an event', () => {
-      goodOnes.forEach(item => {
+    goodOnes.forEach(item => {
+      it(`Inserts an event [${item.description}]`, () => {
         let id;
         expect(() => id = Events.insert(item)).to.not.throw()
         expect(id).to.be.ok
@@ -37,8 +43,8 @@ describe.only('api/events collection', () => {
       })
     })
 
-    it('Fails to insert an event', () => {
-      badOnes.forEach(item => {
+    badOnes.forEach(item => {
+      it(`Fails to insert an event [${item.description}]`, () => {
         expect(() => Events.insert(item)).to.throw()
       })
     })
