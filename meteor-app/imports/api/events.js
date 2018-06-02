@@ -12,11 +12,11 @@ Events.attachSchema(new SimpleSchema({
   },
   what: {
     type: String,
-    label: 'Who',
+    label: 'What',
   },
   where: {
     type: String,
-    label: 'Who',
+    label: 'Where',
     optional: true,
   },
   data: {
@@ -31,3 +31,7 @@ Events.attachSchema(new SimpleSchema({
 }));
 
 export default Events
+
+export const eventLog = (params) => {
+  Events.insert(params)
+}
