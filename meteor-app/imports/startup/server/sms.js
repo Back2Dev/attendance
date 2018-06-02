@@ -1,6 +1,8 @@
 // sms.js
 import { Meteor } from 'meteor/meteor'
 // import plivo from 'plivo'
+import axios from 'axios'
+import querystring from 'querystring'
 import fetch from 'node-fetch'
 const debug = require('debug')('att:sms')
 
@@ -9,6 +11,9 @@ const DEFAULT_DESTINATION = '0438002921'
 Meteor.methods({
   'sendSmsTest'(message = DEFAULT_MESSAGE, destination = DEFAULT_DESTINATION) {
     debug(`Sending message ${message} to ${destination}`)
+
+    const url = 'https://api.smsbroadcast.com.au/api-adv.php'
+
     try {
       const body = {
         username: 'mikkel',
@@ -17,19 +22,29 @@ Meteor.methods({
         to: destination,
         message: message,
       };
-      const payload = { 
-          method: 'GET',
-          // body:    `username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello`,    //JSON.stringify(body),
-          // body:    JSON.stringify(body),
-          // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      }      
-      fetch('https://api.smsbroadcast.com.au/api-adv.php?username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello',payload)
+      const payload = {
+        method: 'GET',
+        // body:    `username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello`,    //JSON.stringify(body),
+        // body:    JSON.stringify(body),
+        // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      }
+      fetch('https://api.smsbroadcast.com.au/api-adv.php?username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello', payload)
         // .then(res => {debug("Rx",res); return res})
         .then(res => res.text())
-        .then(json => debug("Rx",json))
-        .catch(err => debug("Error from sms gateway",err));
+        .then(json => debug("Rx", json))
+        .catch(err => debug("Error from sms gateway", err));
 
       // const client = new plivo.Client('MAMMEZMJYYZGE2MWEZNZ','YzBhMGM3MDRhZTAyNWU2NDM0ZDNiMzNhMGY0ZTRm')
+
+      // works
+      try {
+        axios
+          .post(url, querystring.stringify(body))
+          .then(res => debug(res.data))
+          .catch(err => debug(err));
+      } catch (error) {
+        debug("Error from sms gateway", error)
+      }
 
       // client.messages.create(
       //   '+61438002921',
@@ -39,9 +54,9 @@ Meteor.methods({
       //   debug(`SMS sent`,msg)
       // })
     } catch (error) {
-      debug("Error from sms gateway",error)
+      debug("Error from sms gateway", error)
     }
-	},
+  },
 })
 
 // https://api.smsbroadcast.com.au/api-adv.php?username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello
