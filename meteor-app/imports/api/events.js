@@ -19,12 +19,11 @@ Events.attachSchema(new SimpleSchema({
     label: 'Where',
     optional: true,
   },
-  data: {
-    type: SimpleSchema.oneOf(String, Object),
+  object: {
+    type: Object,
     label: 'Associated data (if any)',
     optional: true,
     blackbox: true,
-    custom: () => true,
   },
   createdAt,
   updatedAt,

@@ -11,19 +11,19 @@ import Events from '/imports/api/events'
 const goodOnes = [
   { description: 'Basic',
     who: 'Mikey Mike', what: 'Did something', where: 'Over here' },
-  { description: 'string data',
-    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: "Something" },
   { description: 'object data',
-    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: { name: "Something" } },
-  { description: 'Data is a number',
-    who: 'Mikey Mike', what: 'Did something', where: 'Over here', data: 88 },
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', object: { name: "Something" } },
 ]
 
 const badOnes = [
   { description: 'Missing who',
     name: 'Mikey Mike', what: 'Did something', where: 'Over here' },
   { description: 'Missing what',
-    who: 'Mikey Mike', where: 'Over here', data: "Something" },
+    who: 'Mikey Mike', where: 'Over here', object: "Something" },
+  { description: 'string data',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', object: "Something" },
+  { description: 'Data is a number',
+    who: 'Mikey Mike', what: 'Did something', where: 'Over here', object: 88 },
 ]
 
 describe('api/events collection', () => {

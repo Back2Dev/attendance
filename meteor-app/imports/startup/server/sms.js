@@ -6,9 +6,10 @@ import fetch from 'node-fetch'
 const debug = require('debug')('att:sms')
 
 import { eventLog } from '/imports/api/events'
+import log from '/imports/lib/log'
 
-const DEFAULT_MESSAGE = 'Hello from plivo. https://app.back2bikes.com.au/'
-const DEFAULT_DESTINATION = '0438002921'
+const DEFAULT_MESSAGE = 'Hello from back2bikes. https://app.back2bikes.com.au/'
+const DEFAULT_DESTINATION = ''
 
 const smsSettings = { enabled: false }
 
@@ -64,14 +65,23 @@ Meteor.methods({
             eventLog({
               who: destination,
               what: `SMS message: ${message}`,
-              data: {
+              object: {
                 response: data,
               },
             })
           })
-          .catch(err => debug("Error from sms gateway", err));
+          .catch(error => {
+            debug("Error from sms gateway", error)
+            eventLog({
+              who: destination,
+              what: `SMS message: ${message}`,
+              object: {
+                response: error,
+              },
+            })
+          });
       } catch (error) {
-        debug("Error from sms gateway", error)
+        log.error("Error from sms gateway", error)
       }
 
 
