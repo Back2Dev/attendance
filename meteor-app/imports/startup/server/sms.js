@@ -18,14 +18,15 @@ Meteor.methods({
         message: message,
       };
       const payload = { 
-          method: 'POST',
-          body:    JSON.stringify(body),
-          headers: { 'Content-Type': 'application/json' },
+          method: 'GET',
+          // body:    `username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello`,    //JSON.stringify(body),
+          // body:    JSON.stringify(body),
+          // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       }      
-      fetch('https://api.smsbroadcast.com.au/api-adv.php',payload)
-        .then(res => {debug("Rx",res); return res})
-        // .then(res => res.json())
-        // .then(json => debug("Rx",json))
+      fetch('https://api.smsbroadcast.com.au/api-adv.php?username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello',payload)
+        // .then(res => {debug("Rx",res); return res})
+        .then(res => res.text())
+        .then(json => debug("Rx",json))
         .catch(err => debug("Error from sms gateway",err));
 
       // const client = new plivo.Client('MAMMEZMJYYZGE2MWEZNZ','YzBhMGM3MDRhZTAyNWU2NDM0ZDNiMzNhMGY0ZTRm')
@@ -42,3 +43,5 @@ Meteor.methods({
     }
 	},
 })
+
+// https://api.smsbroadcast.com.au/api-adv.php?username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello
