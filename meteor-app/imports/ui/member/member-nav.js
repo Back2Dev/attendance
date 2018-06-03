@@ -17,7 +17,7 @@ const Nav = (props) => {
           icon='add user'
         />
       </Menu.Item>
-      <Menu.Item position='right' onClick={() => { props.history.push('/dashboard') }}>
+      <Menu.Item position='right' onClick={() => { props.history.push('/admin') }}>
         <Button
           content='Admin'
           icon='dashboard'

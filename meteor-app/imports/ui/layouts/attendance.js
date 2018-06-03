@@ -6,7 +6,7 @@ import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberEdit from '/imports/ui/member/member-edit'
 import MemberContainer from '/imports/ui/member/member-container'
 import MemberVisitContainer from '/imports/ui/member/member-visit-container'
-import Dashboard from '/imports/ui/layouts/dashboard'
+import AdminContainer from '/imports/ui/admin-container'
 import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert';
@@ -21,7 +21,7 @@ const Attendance = () => {
         <Nav />
         <div style={{ marginTop: '70px', height: '100%' }}>
           <Switch>
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/admin" component={AdminContainer} />
             <Route path="/add" component={MemberAddContainer} />
             <Route path="/:id/edit" component={MemberEdit} />
             <Route path="/:id" component={MemberVisitContainer} />
