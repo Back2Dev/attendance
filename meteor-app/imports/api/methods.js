@@ -13,7 +13,6 @@ Meteor.methods({
     const timeIn = new Date()
     const timeOut = moment(timeIn).add(duration, 'h').toDate()
 
-    const sessionCount = Sessions.find({ memberId }).count()
     try {
       const id = Sessions.insert({
         memberId,
@@ -22,6 +21,7 @@ Meteor.methods({
         duration,
       })
       const session = Sessions.findOne(id);
+      const sessionCount = Sessions.find({ memberId }).count()
 
       Members.update(
         memberId, {
@@ -52,45 +52,52 @@ Meteor.methods({
     }).fetch()
       .pop()
 
+    debug(`Member ${id} is departing, session:`,session)
+
     if (session) {
       // lets recalculate the duration of session
-      let timeIn = moment(session.timeIn)
-      let timeOut = moment()
+      try {
+        let timeIn = moment(session.timeIn)
+        let timeOut = moment()
 
-      // update the anticipated duration with actual visit duration
-      let duration =
-        moment
-          .duration(timeOut.diff(timeIn))
-          .get('hours')
-      if (duration === 0) {
-        duration = 1
-      }
-      Sessions.update({
-        _id: session._id,
-      }, {
-          $set: {
-            // convert timeOut from moment instance to native date object
-            timeOut: timeOut.toDate(),
-            duration,
+        // update the anticipated duration with actual visit duration
+        let duration =
+          moment
+            .duration(timeOut.diff(timeIn))
+            .get('hours')
+        if (duration === 0) {
+          duration = 1
+        }
+        const m = Sessions.update({
+          _id: session._id,
+        }, {
+            $set: {
+              // convert timeOut from moment instance to native date object
+              timeOut: timeOut.toDate(),
+              duration,
+            },
+          })
+        const n = Members.update(
+          {
+            "_id": id,
+            // sessions: {
+            //   $elemMatch: {
+            //     "_id": session._id,
+            //   }
+            // }
           },
-        })
-      Members.update(
-        {
-          "_id": id,
-          sessions: {
-            $elemMatch: {
-              "_id": session._id,
+          {
+            $set: {
+              isHere: false,
+              lastIn: new Date(),
+              "sessions.$.duration": duration,
             }
           }
-        },
-        {
-          $set: {
-            isHere: false,
-            lastIn: new Date(),
-            "sessions.$.duration": duration,
-          }
-        }
-      )
+        )
+        debug("m="+m+", n="+n)
+      } catch (error) {
+        throw new Meteor.Error(error)
+      }
     } else {
       Members.update(
         {
@@ -142,7 +149,7 @@ Meteor.methods({
         "_id": id,
         sessions: {
           $elemMatch: {
-            "_id": session._id,
+            "_id": session._id, 
           }
         }
       },

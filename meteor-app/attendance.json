@@ -1,0 +1,9 @@
+{
+  "EXPLANATION": "These values are used during the build process to make sure APK's are built with the right values",
+  "localip": true,
+  "ROOT_URL": "http://192.168.1.112:3000",
+  "COM_NAME": "com.back2bikes.attendance.tablet",
+  "APP_NAME": "Back2bikes Attendance app",
+  "SCP_HOST": "mike@159.100.249.43:/home/mike/",
+  "PKG_ID": "Attendance.McDuck"
+}

@@ -19,7 +19,7 @@ const MemberCard = (props) => {
       label={isSuper ? {color: 'yellow', icon: 'star', ribbon: true} : null}
       />
       <Card.Content>
-        <Card.Header dividing>
+        <Card.Header >
           {name}
         </Card.Header>
         <Card.Content>

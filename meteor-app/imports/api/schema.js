@@ -1,5 +1,5 @@
 //schema.js
-export const REGEX_ID = /^[1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{17}$/;
+export const REGEX_ID = /^[01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{17}$/;
 
 /**
  * util-schema.js
