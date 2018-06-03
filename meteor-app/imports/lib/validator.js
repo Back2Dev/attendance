@@ -3,37 +3,26 @@
  * tool for validating the documents in a collection against a schema
  */
 
-import { Meteor } from 'meteor/meteor';
-import _debug from 'debug';
-import { check } from 'meteor/check';
+import { Meteor } from 'meteor/meteor'
+import _debug from 'debug'
+import { check } from 'meteor/check'
 
-// import { Roles, Loops, Programs, Profiles } from '/imports/api/collections';
-// import RolesSchema from '/imports/api/roles/schema';
-// import LoopsSchema from '/imports/api/loops/loops-schema';
-// import ProgramsSchema from '/imports/api/programs/schema';
-// import ProfilesSchema from '/imports/api/profiles/profiles-schema';
-// import { checkSuperAdmin } from '/imports/api/util-auth';
+import Members, { MembersSchema } from '/imports/api/members/members'
+import Sessions, { SessionsSchema } from '/imports/api/sessions/sessions'
+// import { checkSuperAdmin } from '/imports/api/util-auth'
 
-const debug = _debug('attendance:validator');
+const debug = _debug('att:validator')
 
 const collectionSchemaMap = {
-  // loops: {
-  //   collection: Loops,
-  //   schema: LoopsSchema,
-  // },
-  // roles: {
-  //   collection: Roles,
-  //   schema: RolesSchema,
-  // },
-  // programs: {
-  //   collection: Programs,
-  //   schema: ProgramsSchema,
-  // },
-  // profiles: {
-  //   collection: Profiles,
-  //   schema: ProfilesSchema,
-  // },
-};
+  members: {
+    collection: Members,
+    schema: MembersSchema,
+  },
+  sessions: {
+    collection: Sessions,
+    schema: SessionsSchema,
+  },
+}
 
 /**
  * Script that validates all the documents in a Collection
@@ -43,59 +32,59 @@ const collectionSchemaMap = {
  * @return {Object}
  */
 function validateCollection(collection, schema, collectionName) {
-  debug(`validating collection ${collection._name}...`); // eslint-disable-line no-underscore-dangle
+  debug(`validating collection ${collection._name}...`) // eslint-disable-line no-underscore-dangle
 
-  const docs = collection.find();
-  const invalidDocuments = [];
+  const docs = collection.find()
+  const invalidDocuments = []
   docs.forEach((doc) => {
-    // debug(`validating ${collectionName} ${doc._id}`);
-    const context = schema.newContext();
-    const result = context.validate(Object.assign({}, doc));
+    // debug(`validating ${collectionName} ${doc._id}`)
+    const context = schema.newContext()
+    const result = context.validate(Object.assign({}, doc))
     if (!result) {
-      debug(`validation failed for ${collectionName} _id: ${doc._id}`);
+      debug(`validation failed for ${collectionName} _id: ${doc._id}`)
       invalidDocuments.push({
         _id: doc._id,
-        invalidKeys: context.invalidKeys(),
-      });
+        invalidKeys: context.validationErrors(),
+      })
     }
-  });
-  debug(`validated ${docs.count()} ${collectionName} documents...`);
-  debug(`${invalidDocuments.length} invalid ${collectionName} documents found`);
+  })
+  debug(`validated ${docs.count()} ${collectionName} documents...`)
+  debug(`${invalidDocuments.length} invalid ${collectionName} documents found`)
 
-  let summary = {};
+  let summary = {}
   if (invalidDocuments.length) {
     summary = invalidDocuments.reduce((acc, result) => {
-      const { invalidKeys } = result;
+      const { invalidKeys } = result
       invalidKeys.forEach(({ name, type, value }) => {
-        const key = `${name} ${type} ${value}`;
-        acc[key] = acc[key] ? acc[key] + 1 : 1;
-      });
-      return acc;
-    }, {});
-    const legend = "How to read... the object below is like this:\n   '<fieldname> <errortype> <value>': <error-count>\n";
-    debug(legend, summary);
+        const key = `${name} ${type} ${value}`
+        acc[key] = acc[key] ? acc[key] + 1 : 1
+      })
+      return acc
+    }, {})
+    const legend = "How to read... the object below is like this:\n   '<fieldname> <errortype> <value>': <error-count>\n"
+    debug(legend, summary)
   }
 
   return {
     summary,
     invalidDocuments,
-  };
+  }
 }
 
 
 Meteor.methods({
   validateCollection: (collectionName) => {
-    check(collectionName, String);
-    checkSuperAdmin();
+    check(collectionName, String)
+    // checkSuperAdmin()
 
-    const colSchema = collectionSchemaMap[collectionName];
-    if (!colSchema) throw new Meteor.Error(404);
-    const { collection, schema } = colSchema;
+    const colSchema = collectionSchemaMap[collectionName]
+    if (!colSchema) throw new Meteor.Error(404)
+    const { collection, schema } = colSchema
 
-    if (Meteor.isClient) return false;
+    if (Meteor.isClient) return false
 
-    return validateCollection(collection, schema, collectionName);
+    return validateCollection(collection, schema, collectionName)
   },
-});
+})
 
-export default validateCollection;
+export default validateCollection

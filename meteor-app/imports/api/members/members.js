@@ -3,7 +3,7 @@ import SimpleSchema from  'simpl-schema'
 
 const Members = new Mongo.Collection('members')
 
-Members.attachSchema(new SimpleSchema({
+export const MembersSchema = new SimpleSchema({
   name: {
     type: String,
     label: "Name",
@@ -138,6 +138,7 @@ Members.attachSchema(new SimpleSchema({
     optional: true,
   },
 
-}));
+})
+Members.attachSchema(MembersSchema)
 
-export default Members;
+export default Members
