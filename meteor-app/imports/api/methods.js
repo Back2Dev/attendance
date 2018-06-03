@@ -13,7 +13,6 @@ Meteor.methods({
     const timeIn = new Date()
     const timeOut = moment(timeIn).add(duration, 'h').toDate()
 
-    const sessionCount = Sessions.find({ memberId }).count()
     try {
       const id = Sessions.insert({
         memberId,
@@ -22,6 +21,7 @@ Meteor.methods({
         duration,
       })
       const session = Sessions.findOne(id);
+      const sessionCount = Sessions.find({ memberId }).count()
 
       Members.update(
         memberId, {
