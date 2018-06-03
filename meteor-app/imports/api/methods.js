@@ -68,7 +68,7 @@ Meteor.methods({
         if (duration === 0) {
           duration = 1
         }
-        Sessions.update({
+        const m = Sessions.update({
           _id: session._id,
         }, {
             $set: {
@@ -77,14 +77,14 @@ Meteor.methods({
               duration,
             },
           })
-        Members.update(
+        const n = Members.update(
           {
             "_id": id,
-            sessions: {
-              $elemMatch: {
-                "_id": session._id,
-              }
-            }
+            // sessions: {
+            //   $elemMatch: {
+            //     "_id": session._id,
+            //   }
+            // }
           },
           {
             $set: {
@@ -94,6 +94,7 @@ Meteor.methods({
             }
           }
         )
+        debug("m="+m+", n="+n)
       } catch (error) {
         throw new Meteor.Error(error)
       }
