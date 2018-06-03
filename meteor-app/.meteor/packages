@@ -18,8 +18,7 @@ ecmascript@0.8.0              # Enable ECMAScript2015+ syntax in app code
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 static-html@1.1.12
 shell-server@0.2.3
-aldeed:simple-schema
-aldeed:collection2
+aldeed:collection2@3.0.0
 mdg:validated-method
 react-meteor-data
 semantic:ui
