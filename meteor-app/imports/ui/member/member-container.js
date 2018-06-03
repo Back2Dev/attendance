@@ -32,11 +32,7 @@ export default withTracker((props) => {
   return {
     membersIn: Members.find({
       isHere: true,
-    }, {
-      sort: {
-        sessionCount: -1,
-      },
-    }).fetch(),
+    }, { sort: { joined: -1, lastIn: -1, name: 1 } }).fetch(),
     membersOut: Members.find(
       filter(Session.get('query')), {
         sort: {

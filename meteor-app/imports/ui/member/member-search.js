@@ -4,15 +4,14 @@ import { Grid, Input } from 'semantic-ui-react'
 
 const Search = props => {
   return (
-    <Grid centered>
+    <div style={{ width: '300px' }}>
       <Input
         placeholder='Search for yourself here'
         onChange={props.onSearchInput}
         icon={'search'}
-        size='huge'
-        style={{padding: '20px 0', width: '400px'}}
+        fluid
       />
-    </Grid>
+    </div>
   );
 }
 
