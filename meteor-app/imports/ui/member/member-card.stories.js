@@ -20,6 +20,8 @@ storiesOf('Member.Card', module)
       <div><p>Use Knobs to show checked in/out status</p>
         <Card
           {...member}
+          isSuper={boolean('Is Supervisor', false)}
+          sessionCount={number('Session Count', 4)}
           onCardClick={action('onCardClick')}
         />
       </div>

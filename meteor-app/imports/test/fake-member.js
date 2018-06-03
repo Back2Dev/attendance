@@ -2,6 +2,7 @@
 const member = {
   _id: "BXghHGE343iuyMN",
   isHere: true,
+  isSuper: true,
   avatar: '7.jpg',
   sessions:
     [{ memberId: 'randomSession' },
