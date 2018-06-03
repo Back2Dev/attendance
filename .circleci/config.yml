@@ -1,0 +1,190 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+       # node 8.9
+      - image: circleci/node:8.9
+        # fix locale issues that cause mongodb to explode
+        # see https://github.com/meteor/meteor/issues/4019
+        environment:
+          LC_ALL: C.UTF-8
+          LANG: C
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.0
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # greps for bad patterns and trigger a failure.
+      # ie, using describe.only() makes the test suite only run a subset of tests.
+      - run:
+          name: grep for naughty patterns
+          working_diretory: ~/repo/meteor-app
+          command: |
+            set +e
+            grep -r --exclude-dir=node_modules --exclude-dir=.meteor "describe.only" ~/repo/meteor-app
+            test $? -eq 1
+
+      - run:
+          name: install meteor
+          command: curl https://install.meteor.com/ | sh
+
+      # restore npm and meteor package caches
+      - restore_cache:
+          keys:
+          - v1-node-modules-{{ checksum "meteor-app/package.json" }}
+          - v1-node-modules-
+      - restore_cache:
+          keys:
+          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+          - v2-meteor-packages-
+      - restore_cache:
+          keys:
+          - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
+          - v2-meteor-local-
+
+      - run:
+          working_directory: ~/repo/meteor-app
+          command: npm install
+
+
+      # cache npm packages
+      - save_cache:
+          paths:
+            - meteor-app/node_modules
+          key: v1-node-modules-{{ checksum "meteor-app/package.json" }}
+
+      - run:
+          name: create test-results folders
+          command: |
+            mkdir -p /tmp/test-results/lint
+            mkdir -p /tmp/test-results/unit
+            mkdir -p /tmp/test-results/snapshots
+            mkdir -p /tmp/test-results/integration
+
+
+      # won't currently trigger a failure (appended || true to prevent status code 1)
+      - run:
+          name: eslint
+          working_directory: ~/repo/meteor-app
+          command: npm run lint -- --format junit --output-file /tmp/test-results/lint/lint.xml || true
+
+      - run:
+          name: unit tests
+          working_directory: ~/repo/meteor-app
+          command: npm run "test:unit" -- --reporter mocha-junit-reporter --reporter-options mochaFile=/tmp/test-results/unit/unit.xml
+
+      - run:
+          name: snapshot tests
+          working_directory: ~/repo/meteor-app
+          command: TEST_REPORT_PATH=/tmp/test-results/snapshots TEST_REPORT_FILENAME=snapshots.xml npm run "test:snapshots" -- --ci --testResultsProcessor="./node_modules/jest-junit-reporter"
+
+      - run:
+          name: integration tests
+          working_directory: ~/repo/meteor-app
+          command: SERVER_TEST_REPORTER=xunit XUNIT_FILE=/tmp/test-results/integration/integration.xml npm run "test:integration"
+
+      - store_artifacts:
+          path: /tmp/test-results/
+
+      - store_test_results:
+          path: /tmp/test-results/
+
+      # save meteor package caches
+      - save_cache:
+          paths:
+            - meteor-app/.meteor/local
+          key: v2-meteor-local-{{ checksum "meteor-app/.meteor/versions"}}
+      - save_cache:
+          paths:
+            - ~/.meteor/packages
+          key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+
+
+  deploy_staging:
+    docker:
+       # node 8.9
+      - image: circleci/node:8.9
+        # fix locale issues that cause mongodb to explode
+        # see https://github.com/meteor/meteor/issues/4019
+        environment:
+          LC_ALL: C.UTF-8
+          LANG: C
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: post changelog to slack
+          working_directory: ~/repo
+          command: |
+              awk '/---/{a=1;next}/^$/{a&&b=1}a&&!b{print}b{exit}' CHANGELOG.md > ~/changelog
+              curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Tests passed, deploying develop to staging. <${CIRCLE_BUILD_URL}>\n\`\`\`\n$(cat ~/changelog)\n\`\`\`\n \", \"icon_emoji\": \":shipit:\"}" https://hooks.slack.com/services/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
+
+      - run:
+          name: install meteor
+          command: curl https://install.meteor.com/ | sh
+
+      # restore npm and meteor package caches
+      - restore_cache:
+          keys:
+          - v1-node-modules-{{ checksum "meteor-app/package.json" }}
+          - v1-node-modules-
+      - restore_cache:
+          keys:
+          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+          - v2-meteor-packages-
+      - restore_cache:
+          keys:
+          - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
+          - v2-meteor-local-
+
+      - run:
+          working_directory: ~/repo
+          command: npm install
+
+      - run:
+          working_directory: ~/repo/meteor-app
+          command: npm install
+
+      - run:
+          name: mup deploy
+          working_directory: ~/repo/deployment/b2b-staging
+          no_output_timeout: 20m # this might take forever
+          command: npx mup deploy --verbose
+
+      # todo - remove this when we've figured out why staging deploys fail without it
+      - run:
+          name: mup docker restart
+          working_directory: ~/repo/deployment/b2b-staging
+          command: npx mup docker restart
+
+      - run:
+          name: post success message to slack
+          command: |
+            curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Develop has been deployed to staging. <https://staging.back2bikes.com.au>\", \"icon_emoji\": \":sunglasses:\"}" https://hooks.slack.com/services/XXXXT3YHM0C4S/B9H66BJGP/L9ctfGT6VlOirHlpA8YpSXB4
+
+
+
+workflows:
+  version: 2
+  build-and-deploy_staging:
+    jobs:
+      - build
+      - deploy_staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
