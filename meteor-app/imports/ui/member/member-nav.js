@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
 import { Menu, Image, Button } from 'semantic-ui-react'
-import Search from '/imports/ui/member/member-search'
+import Search from '/imports/ui/member/member-search-container'
 
 const Nav = (props) => {
 
   return (
-    <Menu fixed='top'>
+    <Menu fixed='top' stackable>
       <Menu.Item onClick={() => { props.history.push('/') }}>
         <Image src='/images/logo-tiny.jpg' />
       </Menu.Item>
@@ -17,11 +17,14 @@ const Nav = (props) => {
           icon='add user'
         />
       </Menu.Item>
-      <Menu.Item position='right' onClick={() => { props.history.push('/dashboard') }}>
+      <Menu.Item onClick={() => { props.history.push('/dashboard') }}>
         <Button
           content='Admin'
           icon='dashboard'
         />
+      </Menu.Item>
+      <Menu.Item position='right'>
+      <Search />
       </Menu.Item>
     </Menu>
   )

@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo'
+import SimpleSchema from  'simpl-schema'
 
 const Members = new Mongo.Collection('members')
 
@@ -53,6 +54,11 @@ Members.attachSchema(new SimpleSchema({
     label: "Is signed in",
     defaultValue: false,
   },
+  isSuper: {
+    type: Boolean,
+    label: "Is supervisor",
+    defaultValue: false,
+  },
   joined: {
     type: Date,
     label: "Date added to database",
@@ -64,11 +70,12 @@ Members.attachSchema(new SimpleSchema({
     defaultValue: new Date(),
   },
   sessions: {
-    type: [Object],
+    type: Array,
     label: "Array of sessions attended",
     defaultValue: [],
     blackbox: true,
   },
+  'sessions.$': Object,
   sessionCount: {
     type: Number,
     defaultValue: 0,

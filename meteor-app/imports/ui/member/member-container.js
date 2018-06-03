@@ -5,19 +5,17 @@ import { debounce, escapeRegExp } from 'lodash'
 
 import MemberMain from '/imports/ui/main'
 import Members from '/imports/api/members/members';
-import { ReactiveVar } from 'meteor/reactive-var'
+const debug = require('debug')('att:search')
 
-const query = new ReactiveVar()
+Session.set('searchQuery', '')
 
 export default withTracker((props) => {
   const membersHandle = Meteor.subscribe('all.members')
-
+  
+  // prevents search filter from persisting after checkin / out
   if (!membersHandle.ready()) {
-    // prevents search filter from persisting after checkin / out
-    query.set('')
+    Session.set('searchQuery', '')
   }
-
-  const onSearchInput = q => query.set(q.target.value)
 
   const filter = (query) => {
     const searching = query != ''
@@ -34,20 +32,15 @@ export default withTracker((props) => {
   return {
     membersIn: Members.find({
       isHere: true,
-    }, {
-      sort: {
-        sessionCount: -1,
-      },
-    }).fetch(),
+    }, { sort: { joined: -1, lastIn: -1, name: 1 } }).fetch(),
     membersOut: Members.find(
-      filter(query.get()), {
+      filter(Session.get('searchQuery')), {
         sort: {
           sessionCount: -1,
         },
       },
     ).fetch(),
     loading: !membersHandle.ready(),
-    searchQuery: query.get(),
-    onSearchInput,
+    searchQuery: Session.get('searchQuery'),
   }
 })(MemberMain)

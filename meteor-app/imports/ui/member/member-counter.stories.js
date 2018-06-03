@@ -7,24 +7,16 @@ import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
-import member from '/imports/test/fake-member'
+import StoryRouter from 'storybook-router'
 
-import Card from './member-card'
+import MemberCounter from './member-counter'
 
-
-storiesOf('Member.Card', module)
-  .addDecorator(withKnobs)
-
-  .add('Card', withInfo('Checked in/out')(() => {
+storiesOf('Member.List', module)
+  .add('Member Counter', (() => {
     const story = (
-      <div><p>Use Knobs to show checked in/out status</p>
-        <Card
-          {...member}
-          isSuper={boolean('Is Supervisor', false)}
-          sessionCount={number('Session Count', 4)}
-          onCardClick={action('onCardClick')}
-        />
-      </div>
+      <MemberCounter
+        count='12'
+      />
     )
     // specs(() =>
     //   describe('<Avatar avatar={avatar} />', () => {

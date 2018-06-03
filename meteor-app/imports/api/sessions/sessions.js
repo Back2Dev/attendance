@@ -1,4 +1,6 @@
 import { Mongo } from 'meteor/mongo';
+import SimpleSchema from  'simpl-schema'
+
 import { REGEX_ID } from '/imports/api/schema'
 
 const Sessions = new Mongo.Collection('sessions');
