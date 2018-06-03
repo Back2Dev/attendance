@@ -5,10 +5,8 @@ import { humaniseDate } from '/imports/helpers/dates'
 import '/imports/ui/member/member-card.css'
 
 const MemberCard = (props) => {
-  const { _id, name, avatar, isHere, sessions = [], lastIn = null } = props
-  const sessionsNum = sessions.length
-
-  const newbie = sessionsNum <= 5
+  const { _id, name, avatar, isSuper, isHere, sessionCount, sessions = [], lastIn = null } = props
+  const newbie = sessionCount <= 5
 
   return (
     <Card
@@ -16,29 +14,43 @@ const MemberCard = (props) => {
       style={{ width: '200px' }}
       onClick={() => props.onCardClick(_id)}
     >
-      <Image src={"/images/avatars/" + avatar} />
+      <Image 
+      src={"/images/avatars/" + avatar} 
+      label={isSuper ? {color: 'yellow', icon: 'star', ribbon: true} : null}
+      />
       <Card.Content>
-        <Card.Header>
+        <Card.Header >
           {name}
-          <Card.Content>
-
-            {
-              newbie &&
-              <div>
-                <Label color='green'>
+        </Card.Header>
+        <Card.Content>
+          <div style={{
+            padding: '10px 0',
+          }}>
+            {false &&
+              <div style={{
+                padding: '5px 0',
+              }}
+              >
+                <Label color='yellow'>
                   <Icon name='star' />
-                  {sessionsNum}
-                </Label>
-                <Label color='green'>
-                  Newbie
               </Label>
               </div>
             }
+            <Label color={newbie ? 'green' : isSuper ? 'yellow' : 'blue'}>
+              <Icon name='trophy' />
+              {sessionCount}
+            </Label>
+            {
+              newbie &&
+              <Label color='green'>
+                Newbie
+              </Label>
+            }
+          </div>
 
-            {props.children}
+          {props.children}
 
-          </Card.Content>
-        </Card.Header>
+        </Card.Content>
       </Card.Content>
       <Card.Content extra>
         {

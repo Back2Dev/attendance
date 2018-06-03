@@ -19,9 +19,9 @@ debug(`Special member = ${specialMember}`)
 Meteor.methods({
   'import.members'(secret) {
     if (secret === specialMember) {
-//
-// Clean up
-//
+      //
+      // Clean up
+      //
       Rejects.remove({})
       Members.remove({})
 
@@ -30,17 +30,17 @@ Meteor.methods({
       membersArray.forEach(member => {
         try {
           member.name = `${member.firstname} ${member.lastname}`
-          const existing = Members.findOne({ email: member.email})
+          const existing = Members.findOne({ email: member.email })
           if (existing) {
             debug(`${member.name} exists already`)
             member.reason = "Duplicate"
             Rejects.insert(member)
           } else {
-            debug("+ "+member.name)
+            debug("+ " + member.name)
             Members.insert(member)
           }
-        } catch(error) {
-          debug(`Error [${error.message}], Failed to import `,member)
+        } catch (error) {
+          debug(`Error [${error.message}], Failed to import `, member)
           member.reason = error.message
           Rejects.insert(member)
         }
@@ -97,4 +97,17 @@ Meteor.startup(() => {
   if (Members.find().count() === 0) {
     Meteor.call('seed.members')
   }
+
+// Migration script, give all records an isSuper field
+  Members.update(
+    { "isSuper": { $exists: false } },
+    { $set: { isSuper: false } },
+    { multi: true },
+  )
+  
+// Migration script, Set Mark to isSuper
+  Members.update(
+    { name: "Mark Bradley" },
+    { $set: { isSuper: true } },
+  )
 })
