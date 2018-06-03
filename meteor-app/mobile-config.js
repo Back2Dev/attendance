@@ -58,7 +58,7 @@ App.setPreference('HideKeyboardFormAccessoryBar', true);
 // App.setPreference('Orientation', 'landscape', 'ios');
 App.setPreference('Fullscreen', 'true', 'android');
 App.setPreference('Fullscreen', 'true', 'ios');
-App.setPreference('android-targetSdkVersion', '23');
+App.setPreference('android-targetSdkVersion', '25');
 App.setPreference('WebAppStartupTimeout', 60000);
 App.setPreference('AndroidPersistentFileLocation','Compatibility')
 
