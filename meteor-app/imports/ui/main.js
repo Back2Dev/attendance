@@ -7,7 +7,6 @@ import MemberCardSmall from '/imports/ui/member/member-card-small'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberCardSmallLoading from '/imports/ui/member/member-card-small-loading'
-import Search from '/imports/ui/member/member-search'
 import { Menu } from 'semantic-ui-react'
 
 class MemberMain extends React.Component {
@@ -27,12 +26,8 @@ class MemberMain extends React.Component {
             onCardClick={this.onCardClick}
             loading={this.props.loading}
             Loader={MemberCardLoading}
-          >
-            <Search
-              onSearchInput={this.props.onSearchInput}
-              searchQuery={this.props.searchQuery}
-            />
-          </MemberList>
+          />
+          
         </div>
         <MemberList
           style={{
