@@ -54,6 +54,11 @@ Members.attachSchema(new SimpleSchema({
     label: "Is signed in",
     defaultValue: false,
   },
+  isSuper: {
+    type: Boolean,
+    label: "Is supervisor",
+    defaultValue: false,
+  },
   joined: {
     type: Date,
     label: "Date added to database",
