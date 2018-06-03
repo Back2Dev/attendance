@@ -1,11 +1,17 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 
-import { createdAt, updatedAt } from '/imports/api/schema'
+import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
 const Events = new Mongo.Collection('events')
 
-Events.attachSchema(new SimpleSchema({
+export const EventSchema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: REGEX_ID,
+    label: "Unique _id",
+    optional: false
+  },
   who: {
     type: String,
     label: 'Who',
@@ -27,7 +33,9 @@ Events.attachSchema(new SimpleSchema({
   },
   createdAt,
   updatedAt,
-}));
+})
+
+Events.attachSchema(EventSchema);
 
 export default Events
 

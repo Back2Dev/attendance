@@ -9,6 +9,7 @@ import { check } from 'meteor/check'
 
 import Members, { MembersSchema } from '/imports/api/members/members'
 import Sessions, { SessionsSchema } from '/imports/api/sessions/sessions'
+import Events, { EventsSchema } from '/imports/api/events'
 // import { checkSuperAdmin } from '/imports/api/util-auth'
 
 const debug = _debug('att:validator')
@@ -21,6 +22,10 @@ const collectionSchemaMap = {
   sessions: {
     collection: Sessions,
     schema: SessionsSchema,
+  },
+  events: {
+    collection: Events,
+    schema: EventsSchema,
   },
 }
 

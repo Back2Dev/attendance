@@ -98,8 +98,16 @@ Meteor.startup(() => {
     Meteor.call('seed.members')
   }
 
+// Migration script, give all records an isSuper field
   Members.update(
     { "isSuper": { $exists: false } },
+    { $set: { isSuper: false } },
+    { multi: true },
+  )
+  
+// Migration script, Set Mark to isSuper
+  Members.update(
+    { name: "Mark Bradley" },
     { $set: { isSuper: true } },
-    { multi: true })
+  )
 })

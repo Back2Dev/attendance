@@ -1,11 +1,17 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from  'simpl-schema'
 
-import { REGEX_ID } from '/imports/api/schema'
+import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
 const Sessions = new Mongo.Collection('sessions')
 
 export const SessionsSchema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: REGEX_ID,
+    label: "Unique _id",
+    optional: false
+  },
   memberId: {
     type: String,
     regEx: REGEX_ID,
@@ -27,6 +33,8 @@ export const SessionsSchema = new SimpleSchema({
     label: "Duration in hours",
     optional: false
   },
+  createdAt,
+  updatedAt,
 })
 
 Sessions.attachSchema(SessionsSchema)

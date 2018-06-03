@@ -148,7 +148,7 @@ Meteor.methods({
         "_id": id,
         sessions: {
           $elemMatch: {
-            "_id": session._id,
+            "_id": session._id, 
           }
         }
       },
