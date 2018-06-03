@@ -20,7 +20,8 @@
     "test:storyspecs": "mocha --opts tests/mocha.storyspecs.opts",
     "test:storyspecs:watch": "mocha --opts tests/mocha.storyspecs.opts --watch",
     "storyspecs": "mocha --opts tests/mocha.storyspecs.opts --watch",
-    "test": "npm run test:unit && npm run test:snapshots && npm run test:storyspecs && npm run test:integration"
+    "testall": "npm run test:unit && npm run test:snapshots && npm run test:storyspecs && npm run test:integration",
+    "test": "npm run test:integration"
   },
   "description": "Workshop attendance app for back2bikes volunteers.",
   "directories": {

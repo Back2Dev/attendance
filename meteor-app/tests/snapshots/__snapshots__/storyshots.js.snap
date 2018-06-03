@@ -1457,6 +1457,111 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
 </div>
 `;
 
+exports[`Storyshots Member.Add.Iframe Success 1`] = `
+<div
+  className="ui centered center aligned middle aligned grid"
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+>
+  <div
+    className="column"
+  >
+    <div
+      className="ui message"
+    >
+      <div
+        className="header"
+      >
+        You were successfully added to our Volunteer List.
+      </div>
+      <p>
+        When you first visit, say hello to someone on the team. They'll help you find your avatar on the attendance app, where you can sign in.
+      </p>
+      <p>
+        Your avatar card will look like this:
+      </p>
+    </div>
+    <div
+      className="ui centered cards"
+    >
+      <a
+        className="ui card"
+        href={undefined}
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "200px",
+          }
+        }
+      >
+        <div
+          className="ui image"
+          href={undefined}
+        >
+          <div
+            className="ui yellow ribbon label"
+            onClick={[Function]}
+          >
+            <i
+              aria-hidden="true"
+              className="star icon"
+            />
+          </div>
+          <img
+            src="/images/avatars/7.jpg"
+          />
+        </div>
+        <div
+          className="content"
+        >
+          <div
+            className="header"
+          >
+            Orie Kautzer
+          </div>
+          <div
+            className="content"
+          >
+            <div
+              style={
+                Object {
+                  "padding": "10px 0",
+                }
+              }
+            >
+              <div
+                className="ui yellow label"
+                onClick={[Function]}
+              >
+                <i
+                  aria-hidden="true"
+                  className="trophy icon"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="extra content"
+        >
+          <div>
+            <p>
+              Arrived:
+               
+              a few seconds
+               ago 
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Member.Card Card 1`] = `
 <div>
   <div
@@ -1492,26 +1597,32 @@ exports[`Storyshots Member.Card Card 1`] = `
             className="header"
           >
             Orie Kautzer
+          </div>
+          <div
+            className="content"
+          >
             <div
-              className="content"
+              style={
+                Object {
+                  "padding": "10px 0",
+                }
+              }
             >
-              <div>
-                <div
-                  className="ui green label"
-                  onClick={[Function]}
-                >
-                  <i
-                    aria-hidden="true"
-                    className="star icon"
-                  />
-                  2
-                </div>
-                <div
-                  className="ui green label"
-                  onClick={[Function]}
-                >
-                  Newbie
-                </div>
+              <div
+                className="ui green label"
+                onClick={[Function]}
+              >
+                <i
+                  aria-hidden="true"
+                  className="trophy icon"
+                />
+                4
+              </div>
+              <div
+                className="ui green label"
+                onClick={[Function]}
+              >
+                Newbie
               </div>
             </div>
           </div>
@@ -1810,6 +1921,37 @@ exports[`Storyshots Member.Card Card 1`] = `
                         style={Object {}}
                       >
                         isHere
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        isSuper
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
+                                }
+                              }
+                            >
+                              false
+                            </span>
+                            }
+                          </span>
+                        </span>
                       </span>
                     </span>
                     <span>
@@ -2500,6 +2642,37 @@ exports[`Storyshots Member.Card Card 1`] = `
                       <span
                         style={Object {}}
                       >
+                        sessionCount
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
+                                }
+                              }
+                            >
+                              4
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
                         onCardClick
                       </span>
                       <span>
@@ -2829,6 +3002,13 @@ exports[`Storyshots Member.Card Member Card Small 1`] = `
   data-value={undefined}
   onClick={[Function]}
   role="listitem"
+  style={
+    Object {
+      "marginBottom": "10px",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
 >
   <img
     className="ui tiny avatar spaced image"
@@ -2836,10 +3016,39 @@ exports[`Storyshots Member.Card Member Card Small 1`] = `
     style={
       Object {
         "border": "3px solid white",
-        "width": "50px",
       }
     }
   />
+  <div>
+    <div
+      className="ui big label"
+      onClick={[Function]}
+    >
+      Orie K
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Member.List Member Counter 1`] = `
+<div
+  style={
+    Object {
+      "marginBottom": "20px",
+    }
+  }
+>
+  <div
+    className="ui green huge label"
+    onClick={[Function]}
+  >
+    <i
+      aria-hidden="true"
+      className="user icon"
+    />
+     
+    12
+  </div>
 </div>
 `;
 
@@ -2877,10 +3086,23 @@ exports[`Storyshots Member.Session Attend 1`] = `
               }
             }
           >
-            <img
+            <div
               className="ui image"
-              src="/images/avatars/7.jpg"
-            />
+              href={undefined}
+            >
+              <div
+                className="ui yellow ribbon label"
+                onClick={[Function]}
+              >
+                <i
+                  aria-hidden="true"
+                  className="star icon"
+                />
+              </div>
+              <img
+                src="/images/avatars/7.jpg"
+              />
+            </div>
             <div
               className="content"
             >
@@ -2888,58 +3110,57 @@ exports[`Storyshots Member.Session Attend 1`] = `
                 className="header"
               >
                 Orie Kautzer
+              </div>
+              <div
+                className="content"
+              >
                 <div
-                  className="content"
+                  style={
+                    Object {
+                      "padding": "10px 0",
+                    }
+                  }
                 >
-                  <div>
-                    <div
-                      className="ui green label"
-                      onClick={[Function]}
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="star icon"
-                      />
-                      2
-                    </div>
-                    <div
-                      className="ui green label"
-                      onClick={[Function]}
-                    >
-                      Newbie
-                    </div>
-                  </div>
-                  <h4
-                    className="ui header"
-                  >
-                    See you next time!
-                  </h4>
                   <div
-                    className="ui buttons"
+                    className="ui yellow label"
+                    onClick={[Function]}
                   >
-                    <button
-                      className="ui button"
-                      disabled={undefined}
-                      onClick={[Function]}
-                      role="button"
-                      tabIndex={undefined}
-                    >
-                      Cancel
-                    </button>
-                    <div
-                      className="or"
-                      data-text={undefined}
+                    <i
+                      aria-hidden="true"
+                      className="trophy icon"
                     />
-                    <button
-                      className="ui compact positive button"
-                      disabled={undefined}
-                      onClick={[Function]}
-                      role="button"
-                      tabIndex={undefined}
-                    >
-                      Sign Out
-                    </button>
                   </div>
+                </div>
+                <h4
+                  className="ui header"
+                >
+                  See you next time!
+                </h4>
+                <div
+                  className="ui buttons"
+                >
+                  <button
+                    className="ui button"
+                    disabled={undefined}
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={undefined}
+                  >
+                    Cancel
+                  </button>
+                  <div
+                    className="or"
+                    data-text={undefined}
+                  />
+                  <button
+                    className="ui compact positive button"
+                    disabled={undefined}
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={undefined}
+                  >
+                    Sign Out
+                  </button>
                 </div>
               </div>
             </div>
@@ -3272,20 +3493,21 @@ exports[`Storyshots Member.Session Attend 1`] = `
                                 }
                               }
                             >
-                              avatar
+                              isSuper
                             </span>
                             : 
-                            <span
-                              style={
-                                Object {
-                                  "color": "#22a",
-                                  "wordBreak": "break-word",
+                            <span>
+                              {
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#a11",
+                                  }
                                 }
+                              >
+                                true
+                              </span>
                               }
-                            >
-                              "
-                              7.jpg
-                              "
                             </span>
                             , 
                             …
