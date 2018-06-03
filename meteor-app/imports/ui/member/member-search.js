@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Input } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
 
 const Search = props => {
   return (
@@ -8,6 +8,7 @@ const Search = props => {
       <Input
         placeholder='Search for yourself here'
         onChange={props.onSearchInput}
+        value={props.searchQuery}
         icon={'search'}
         fluid
       />
@@ -17,6 +18,7 @@ const Search = props => {
 
 Search.propTypes = {
   onSearchInput: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
 }
 
 export default Search

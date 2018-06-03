@@ -5,9 +5,10 @@ import MemberSearch from '/imports/ui/member/member-search'
 
 export default withTracker((props) => {
 
-  const onSearchInput = q => Session.set('query', q.target.value)
+  const onSearchInput = q => Session.set('searchQuery', q.target.value)
   
   return {
-    onSearchInput
+    onSearchInput,
+    searchQuery: Session.get('searchQuery')
   }
 })(MemberSearch)

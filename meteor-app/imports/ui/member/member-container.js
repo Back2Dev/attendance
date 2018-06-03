@@ -7,14 +7,14 @@ import MemberMain from '/imports/ui/main'
 import Members from '/imports/api/members/members';
 const debug = require('debug')('att:search')
 
-Session.set('query', '')
+Session.set('searchQuery', '')
 
 export default withTracker((props) => {
   const membersHandle = Meteor.subscribe('all.members')
   
   // prevents search filter from persisting after checkin / out
   if (!membersHandle.ready()) {
-    Session.set('query', '')
+    Session.set('searchQuery', '')
   }
 
   const filter = (query) => {
@@ -34,13 +34,13 @@ export default withTracker((props) => {
       isHere: true,
     }, { sort: { joined: -1, lastIn: -1, name: 1 } }).fetch(),
     membersOut: Members.find(
-      filter(Session.get('query')), {
+      filter(Session.get('searchQuery')), {
         sort: {
           sessionCount: -1,
         },
       },
     ).fetch(),
     loading: !membersHandle.ready(),
-    searchQuery: Session.get('query'),
+    searchQuery: Session.get('searchQuery'),
   }
 })(MemberMain)
