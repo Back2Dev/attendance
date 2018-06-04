@@ -1,43 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MemberList from "/imports/ui/member/member-list";
+import { Route, Switch } from 'react-router-dom'
 import MemberCardSmall from "/imports/ui/member/member-card-small";
-import MemberCardSmallLoading from "/imports/ui/member/member-card-small-loading";
-import { Grid, Button, List } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
+import AdminMemberList from '/imports/ui/admin/admin-member-list'
+
+const renderMergedProps = (component, ...rest) => {
+  const finalProps = Object.assign({}, ...rest);
+  return (
+    React.createElement(component, finalProps)
+  );
+}
+
+const PropsRoute = ({ component, ...rest }) => {
+  return (
+    <Route {...rest} render={routeProps => {
+      return renderMergedProps(component, routeProps, rest);
+    }} />
+  );
+}
+
 class Admin extends Component {
   constructor(props) {
     super(props)
   }
 
-  renderList(members) {
-    return (
-      <List divided verticalAlign='middle'>
-        {
-          members.map(member => (
-            <List.Item key={member._id}>
-              <List.Content floated='right'>
-                <Button
-                  onClick={() => this.props.removeMember(member._id)}
-                  content='Remove'
-                />
-              </List.Content>
-              <List.Content>{member.name}</List.Content>
-            </List.Item>
-          ))
-        }
-      </List>
-    )
-  }
-
   render() {
-    const { members } = this.props
     return (
       <Grid centered>
         <Grid.Column width={12}>
           <h1>Admin</h1>
-          {
-            this.renderList(members)
-          }
+          <Switch>
+            <PropsRoute path="/" component={AdminMemberList} {...this.props} />
+          </Switch>
         </Grid.Column>
       </Grid>
     )
@@ -51,11 +46,3 @@ Admin.propTypes = {
 };
 
 export default Admin
-
-// MemberList.propTypes = {
-//   Component: PropTypes.func.isRequired,
-//   Loader: PropTypes.func.isRequired,
-//   onCardClick: PropTypes.func.isRequired,
-//   members: PropTypes.array,
-//   title: PropTypes.string,
-// };

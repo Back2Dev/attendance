@@ -11,38 +11,14 @@ export default withTracker((props) => {
   const members = Members.find({}, { sort: { sessionCount: -1 } }).fetch()
 
   const removeMember = (memberId) => {
-    try {
-      Meteor.call('members.remove', memberId, (err, res) => {
-        debug({ err })
-        debug({ res })
-        if (res != undefined) {
-          Alert.success('successfully removed member');
-
-        }
-      })
-    } catch (err) {
-      alert('error')
-    }
-
+    Meteor.call('members.remove', memberId, (err, res) => {
+      if (err) {
+        Alert.error('error whilst removing member');
+      } else {
+        Alert.success(`successfully removed ${res} member`);
+      }
+    })
   }
-
-  // const addMember = (formData) => {
-  //   return Meteor.call('members.insert', formData, (err, res) => {
-  //     if (err) {
-  //       error.set(true)
-  //       success.set(false)
-  //       msg.set(err.reason)
-  //     }
-  //     if (!err && res != undefined) {
-  //       success.set(true)
-  //       newId.set(res)
-  //       error.set(false)
-  //       msg.set('Successfully added new volunteer')
-  //     }
-  //   })
-  // }
-
-
 
   return {
     loading,
