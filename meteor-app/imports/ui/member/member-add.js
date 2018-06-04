@@ -78,7 +78,15 @@ class MemberAdd extends Component {
       })
     }
   }
-
+  validate = (formData, errors) => {
+    if (formData.pin && formData.pin.length < 4) {
+      errors.pin.addError("PIN number must be at least 4 digits long.");
+    }
+    if (formData.pin !== formData.pinConfirm) {
+      errors.pinConfirm.addError("PIN numbers don't match");
+    }
+    return errors;
+  }
   renderForm = () => {
     return <Form
       schema={schemas[this.state.step].schema}
@@ -86,8 +94,11 @@ class MemberAdd extends Component {
       formData={this.state.formData}
       onChange={this.onChange}
       onSubmit={this.onSubmit}
+      validate={this.validate}
       widgets={widgets}
       fields={fields}
+      showErrorList={false} 
+      liveValidate={true}
     >
       <Control
         backStep={this.backStep}

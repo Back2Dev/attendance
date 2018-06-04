@@ -98,16 +98,22 @@ Meteor.startup(() => {
     Meteor.call('seed.members')
   }
 
-// Migration script, give all records an isSuper field
+  // Migration script, give all records an isSuper field
   Members.update(
     { "isSuper": { $exists: false } },
     { $set: { isSuper: false } },
     { multi: true },
   )
-  
-// Migration script, Set Mark to isSuper
+
+  // Migration script, Set Mark to isSuper
   Members.update(
     { name: "Mark Bradley" },
     { $set: { isSuper: true } },
+  )
+  // Migration script, give all records a default pin
+  Members.update(
+    { "pin": { $exists: false } },
+    { $set: { pin: '1234' } },
+    { multi: true }
   )
 })

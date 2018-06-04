@@ -145,6 +145,10 @@ export const MembersSchema = new SimpleSchema({
     label: "Emergency contact mobile",
     optional: true,
   },
+  pin: {
+    type: String,
+    label: "Pin number",
+  },
   createdAt,
   updatedAt,
 })

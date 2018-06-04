@@ -25,6 +25,9 @@ class MemberVisit extends React.Component {
 
   setDuration = (e, { value }) => this.setState({ duration: value })
 
+  componentWillUnmount(){
+    this.props.clearPin()
+  }
   render() {
     return (
       <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
@@ -41,7 +44,7 @@ class MemberVisit extends React.Component {
                 {
                   !this.props.validPin &&
                   <MemberVisitPin
-                    onPinChange={this.onPinChange}
+                    onPinInput={this.props.onPinInput}
                   />
                 }
                 {
@@ -65,8 +68,9 @@ class MemberVisit extends React.Component {
 
 MemberVisit.propTypes = {
   member: PropTypes.object,
+  clearPin: PropTypes.func.isRequired,
   recordVisit: PropTypes.func.isRequired,
-  onPinChange: PropTypes.func.isRequired,
+  onPinInput: PropTypes.func.isRequired,
   validPin: PropTypes.bool.isRequired,
 };
 

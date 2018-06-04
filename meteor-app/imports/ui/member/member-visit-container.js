@@ -13,12 +13,17 @@ export default withTracker((props) => {
   const id = props.match.params.id
   const member = Members.findOne(id)
 
-  function onPinChange(e){
-    const valid = e.target.value == '123'
+  function onPinInput(e) {
+    const valid = e.target.value == member.pin
     validPin.set(valid)
   }
 
-  function recordVisit({duration}) {
+  function clearPin() {
+    validPin.set(false)
+  }
+
+  function recordVisit({ duration }) {
+    clearPin()
     if (!member.isHere) {
       debug('member arriving', id, duration)
       Meteor.call('arrive', id, duration)
@@ -26,13 +31,15 @@ export default withTracker((props) => {
       debug('member departure', id)
       Meteor.call('depart', id)
     }
+
   }
 
   return {
     recordVisit,
     loading,
     member,
-    onPinChange,
-    validPin: pin.get()
+    clearPin,
+    onPinInput,
+    validPin: validPin.get()
   }
 })(MemberVisit)
