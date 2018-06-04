@@ -5,7 +5,6 @@ import { debounce, escapeRegExp } from 'lodash'
 
 import MemberMain from '/imports/ui/member-main'
 import Members from '/imports/api/members/members';
-const debug = require('debug')('att:search')
 
 Session.set('searchQuery', '')
 
