@@ -72,6 +72,7 @@ MemberCard.propTypes = {
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
   onCardClick: PropTypes.func.isRequired,
+  sessionCount: PropTypes.number.isRequired,
 };
 
 export default MemberCard
