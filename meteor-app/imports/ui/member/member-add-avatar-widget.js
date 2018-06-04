@@ -43,7 +43,6 @@ const AvatarWidget = (props) => {
         }
       </div>
       <input
-        hidden
         type='text'
         value={props.value}
         required={props.required}
