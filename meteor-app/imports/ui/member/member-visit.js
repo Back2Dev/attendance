@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
 
 class MemberVisit extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class MemberVisit extends React.Component {
     }
   }
   updateStatus = (data) => {
-    this.props.recordVisit(data)
+    this.props.recordVisit({duration: this.state.duration})
     this.props.history.goBack()
   }
 
@@ -36,56 +37,16 @@ class MemberVisit extends React.Component {
             {
               (!this.props.loading && this.props.member) &&
               <MemberCard {...this.props.member} onCardClick={f => f}>
-                {
-                  this.props.member && !this.props.member.isHere &&
-                  <Form style={{ padding: '20px 0' }}>
-                    <Header as='h4'>
-                      Great to see you!
-                    <Header.Subheader>
-                        How long are you with us for?
-                    </Header.Subheader>
-                    </Header>
-                    <Form.Field>
-                      <Checkbox
-                        label='Half Day (~3hrs)'
-                        name='duration'
-                        value={3}
-                        checked={this.state.duration === 3}
-                        onChange={this.setDuration}
-                      />
-                    </Form.Field>
-                    <Form.Field>
-                      <Checkbox
-                        label='Full Day (~6hrs)'
-                        name='duration'
-                        value={6}
-                        checked={this.state.duration === 6}
-                        onChange={this.setDuration}
-                      />
-                    </Form.Field>
-                  </Form>
-                }
-                {
-                  this.props.member && this.props.member.isHere &&
-                  <Header as='h4'>
-                    See you next time!
-                  </Header>
-                }
-                <Button.Group>
-                  <Button onClick={this.cancelClick}>Cancel</Button>
-                  <Button.Or />
-                  <Button
-                    onClick={this.updateStatus.bind(null, this.state)}
-                    positive
-                    compact
-                  >
-                    {
-                      this.props.member.isHere
-                        ? 'Sign Out'
-                        : 'Sign In'
-                    }
-                  </Button>
-                </Button.Group>
+
+                <MemberVisitArrive
+                  member={this.props.member}
+                  setDuration={this.setDuration}
+                  updateStatus={this.updateStatus}
+                  cancelClick={this.cancelClick}
+                  duration={this.state.duration}
+                />
+
+
               </MemberCard>
             }
           </Card.Group>
@@ -98,12 +59,7 @@ class MemberVisit extends React.Component {
 
 
 MemberVisit.propTypes = {
-  // _id: PropTypes.string.isRequired,
-  // name: PropTypes.string.isRequired,
-  // avatar: PropTypes.string.isRequired,
-  // isHere: PropTypes.bool.isRequired,
-  // sessions: PropTypes.array.isRequired,
-  // lastIn: PropTypes.object,
+  member: PropTypes.object,
   recordVisit: PropTypes.func.isRequired,
 };
 

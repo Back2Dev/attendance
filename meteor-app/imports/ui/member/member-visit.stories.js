@@ -16,11 +16,19 @@ import member from '/imports/test/fake-member'
 import Member from './member-visit'
 
 const match = {
-	params: {
-		id: '12344'
-	}
+  params: {
+    id: '12344'
+  }
 }
 
+const updateMember = () => {
+  const options = {
+    isHere: boolean('Present', false),
+    isSuper: boolean('Is Supervisor', true),
+    sessionCount: boolean('Is Newbie', true) ? 1 : 25,
+  }
+  return Object.assign(member, options)
+}
 
 storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
@@ -28,12 +36,11 @@ storiesOf('Member.Session', module)
 
   .add('Attend', withInfo('Here/Absent')(() => {
     const story = (
-        <Member
-          loading={boolean('Loading', false)}
-          isHere={boolean('Present', false)}
-          member={member}
-          recordVisit={action('record visit')}
-        />
+      <Member
+        loading={boolean('Loading', false)}
+        member={updateMember()}
+        recordVisit={action('record visit')}
+      />
     )
     // specs(() =>
     //   describe('<User avatar={avatar} />', () => {
