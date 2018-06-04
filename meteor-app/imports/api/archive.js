@@ -13,9 +13,14 @@ export const ArchiveSchema = new SimpleSchema({
   //   label: "Unique _id",
   //   optional: false
   // },
+  type: {
+    type: String,
+    optional: false,
+  },
   data: {
     type: Object,
     label: 'data',
+    blackbox: true,
   },
   createdAt,
   updatedAt,
@@ -25,8 +30,10 @@ Archives.attachSchema(ArchiveSchema);
 
 export default Archives
 
-export const saveToArchive = (data) => {
-  debug('saving to archive')
-  debug(data)
-  Archives.insert({data: {'key':'value'}})
+export const saveToArchive = (type, data) => {
+  debug(`Archiving ${type}:`, data)
+  Archives.insert({
+    type,
+    data
+  })
 }

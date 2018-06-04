@@ -40,7 +40,7 @@ export default withTracker((props) => {
       what: `removed member id: ${id}`,
       object: member
     })
-    saveToArchive(member)
+    saveToArchive("member", member)
     Meteor.call('members.remove', id, (err, res) => {
       if (err) {
         Alert.error('error whilst removing member');

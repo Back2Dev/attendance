@@ -4,4 +4,5 @@ import './register-api.js'
 import './cron-jobs'
 import './sms'
 import '/imports/lib/validator'
+import '/imports/api/archive'
 
