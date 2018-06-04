@@ -5,16 +5,17 @@ import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
+import MemberVisitPin from '/imports/ui/member/member-visit-pin';
 
 class MemberVisit extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      duration: 6
+      duration: 6,
     }
   }
   updateStatus = (data) => {
-    this.props.recordVisit({duration: this.state.duration})
+    this.props.recordVisit({ duration: this.state.duration })
     this.props.history.goBack()
   }
 
@@ -23,7 +24,6 @@ class MemberVisit extends React.Component {
   }
 
   setDuration = (e, { value }) => this.setState({ duration: value })
-
 
   render() {
     return (
@@ -38,15 +38,22 @@ class MemberVisit extends React.Component {
               (!this.props.loading && this.props.member) &&
               <MemberCard {...this.props.member} onCardClick={f => f}>
 
-                <MemberVisitArrive
-                  member={this.props.member}
-                  setDuration={this.setDuration}
-                  updateStatus={this.updateStatus}
-                  cancelClick={this.cancelClick}
-                  duration={this.state.duration}
-                />
-
-
+                {
+                  !this.props.validPin &&
+                  <MemberVisitPin
+                    onPinChange={this.onPinChange}
+                  />
+                }
+                {
+                  this.props.validPin &&
+                  <MemberVisitArrive
+                    member={this.props.member}
+                    setDuration={this.setDuration}
+                    updateStatus={this.updateStatus}
+                    cancelClick={this.cancelClick}
+                    duration={this.state.duration}
+                  />
+                }
               </MemberCard>
             }
           </Card.Group>
@@ -54,13 +61,13 @@ class MemberVisit extends React.Component {
       </Grid>
     )
   }
-
 }
-
 
 MemberVisit.propTypes = {
   member: PropTypes.object,
   recordVisit: PropTypes.func.isRequired,
+  onPinChange: PropTypes.func.isRequired,
+  validPin: PropTypes.bool.isRequired,
 };
 
 export default MemberVisit

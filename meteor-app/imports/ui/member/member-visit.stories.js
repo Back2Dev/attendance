@@ -13,7 +13,7 @@ import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 import member from '/imports/test/fake-member'
 
-import Member from './member-visit'
+import MemberVisit from './member-visit'
 
 const match = {
   params: {
@@ -36,9 +36,10 @@ storiesOf('Member.Session', module)
 
   .add('Attend', withInfo('Here/Absent')(() => {
     const story = (
-      <Member
+      <MemberVisit
         loading={boolean('Loading', false)}
         member={updateMember()}
+        validPin={boolean('valid pin', false)}
         recordVisit={action('record visit')}
       />
     )
