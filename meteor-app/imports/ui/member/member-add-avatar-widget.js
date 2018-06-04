@@ -25,9 +25,7 @@ const AvatarWidget = (props) => {
               <Image
                 circular
                 style={{
-                  // flex: '0 1 20%',
                   height: "80px",
-                  // width: "80px",
                   margin: '5px',
                   boxShadow: '0px 2px 2px 1px rgba(0,0,0,.25)',
                   border: (props.value == option.value) ? '5px solid #00ff8d' : 'none',
@@ -43,6 +41,7 @@ const AvatarWidget = (props) => {
         }
       </div>
       <input
+        hidden
         type='text'
         value={props.value}
         required={props.required}
