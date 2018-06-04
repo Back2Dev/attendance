@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session'
 import { debounce, escapeRegExp } from 'lodash'
 
-import MemberMain from '/imports/ui/main'
+import MemberMain from '/imports/ui/member-main'
 import Members from '/imports/api/members/members';
 import { ReactiveVar } from 'meteor/reactive-var'
 
