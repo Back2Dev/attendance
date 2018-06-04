@@ -66,6 +66,7 @@ Meteor.methods({
     casual.define('member', function () {
       return {
         avatar: `${casual.integer(1, 10)}.jpg`,
+        pin: '1234',
         sessions: array_of(casual.integer(1, 16), () => ({ memberId: 'randomSession' })),
         lastIn: moment().subtract(casual.integer(1, 168), 'hours').toDate(),
         addressPostcode: casual.integer(3000, 4000).toString(),

@@ -6,6 +6,9 @@ import { escapeRegExp } from 'lodash'
 
 import Admin from "/imports/ui/admin/admin";
 import Members from '/imports/api/members/members';
+import {eventLog} from '/imports/api/events'
+import {saveToArchive} from '/imports/api/archive'
+
 export default withTracker((props) => {
   const membersHandle = Meteor.subscribe('all.members')
   const loading = !membersHandle.ready()
@@ -30,8 +33,15 @@ export default withTracker((props) => {
     },
   ).fetch()
 
-  const removeMember = (memberId) => {
-    Meteor.call('members.remove', memberId, (err, res) => {
+  const removeMember = async (id) => {
+    const member =  Members.findOne(id);
+    eventLog({
+      who: 'Admin',
+      what: `removed member id: ${id}`,
+      object: member
+    })
+    saveToArchive(member)
+    Meteor.call('members.remove', id, (err, res) => {
       if (err) {
         Alert.error('error whilst removing member');
       } else {
