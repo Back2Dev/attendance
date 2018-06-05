@@ -12,7 +12,9 @@ export default withTracker((props) => {
   const loading = !membersHandle.ready()
   const id = props.match.params.id
   const member = Members.findOne(id)
-
+  
+  const isDefaultPin = member.pin == '1234'
+  
   function checkPin(pin) {
     const valid = pin == member.pin
     validPin.set(valid)
@@ -47,6 +49,6 @@ export default withTracker((props) => {
     checkPin,
     validPin: validPin.get(),
     cancelClick,
-
+    isDefaultPin,
   }
 })(MemberVisit)

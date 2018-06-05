@@ -21,7 +21,6 @@ class MemberVisit extends React.Component {
     this.props.history.goBack()
   }
 
-
   setDuration = (e, { value }) => this.setState({ duration: value })
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,7 +44,7 @@ class MemberVisit extends React.Component {
 
   render() {
     return (
-      <Grid centered style={{ height: '100%' }} verticalAlign='middle' style={{textAlign: 'center'}}>
+      <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column>
           <Card.Group centered>
             {
@@ -61,26 +60,40 @@ class MemberVisit extends React.Component {
               >
 
                 {
-                  !this.props.validPin &&
-                  <MemberVisitPin
-                    onPinInput={this.onPinInput}
-                    pin={this.state.pin}
-                  />
+                  (!this.props.validPin && !this.props.isDefaultPin) &&
+                  <div>
+                    <MemberVisitPin
+                      onPinInput={this.onPinInput}
+                      pin={this.state.pin}
+                    />
+                    {
+                      !this.props.isDefaultPin &&
+                      <div>Forgotten your PIN?</div>
+                    }
+                  </div>
                 }
+                {
+                  this.props.isDefaultPin &&
+                  <div>
+                    Looks like you havnt set your PIN yet.
+                    <Button>Make one now.</Button>
+                  </div>
+                }
+                
                 {
                   this.props.validPin &&
                   <MemberVisitArrive
                     member={this.props.member}
                     setDuration={this.setDuration}
                     updateStatus={this.updateStatus}
-                    
+
                     duration={this.state.duration}
                   />
                 }
-                <Button 
-                fluid
-                size='large' 
-                onClick={this.props.cancelClick}>Cancel</Button>
+                <Button
+                  fluid
+                  size='large'
+                  onClick={this.props.cancelClick}>Cancel</Button>
               </MemberCard>
             }
           </Card.Group>
@@ -96,6 +109,7 @@ MemberVisit.propTypes = {
   recordVisit: PropTypes.func.isRequired,
   checkPin: PropTypes.func.isRequired,
   validPin: PropTypes.bool.isRequired,
+  isDefaultPin: PropTypes.bool.isRequired,
 };
 
 export default MemberVisit
