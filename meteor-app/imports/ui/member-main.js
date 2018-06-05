@@ -8,6 +8,7 @@ import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberCardSmallLoading from '/imports/ui/member/member-card-small-loading'
 import { Grid } from 'semantic-ui-react'
 import MemberCounter from '/imports/ui/member/member-counter'
+import '/imports/ui/member-main.css'
 
 class MemberMain extends React.Component {
 
@@ -24,6 +25,7 @@ class MemberMain extends React.Component {
               title={'Check In:'}
               members={this.props.membersOut}
               Component={MemberCard}
+              componentClassName='member-card-main'
               onCardClick={this.onCardClick}
               loading={this.props.loading}
               Loader={MemberCardLoading}

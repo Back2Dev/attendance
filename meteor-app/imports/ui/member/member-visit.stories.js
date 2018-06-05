@@ -41,6 +41,7 @@ storiesOf('Member.Session', module)
         member={updateMember()}
         validPin={boolean('valid pin', false)}
         recordVisit={action('record visit')}
+        clearPin={f => f}
       />
     )
     // specs(() =>

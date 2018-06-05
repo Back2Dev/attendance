@@ -6,6 +6,7 @@ import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
 import MemberVisitPin from '/imports/ui/member/member-visit-pin';
+import '/imports/ui/member/member-visit.css'
 
 class MemberVisit extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class MemberVisit extends React.Component {
 
   setDuration = (e, { value }) => this.setState({ duration: value })
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.clearPin()
   }
   render() {
@@ -39,7 +40,10 @@ class MemberVisit extends React.Component {
             }
             {
               (!this.props.loading && this.props.member) &&
-              <MemberCard {...this.props.member} onCardClick={f => f}>
+              <MemberCard
+                className='member-visit-card'
+                {...this.props.member}
+                onCardClick={f => f}>
 
                 {
                   !this.props.validPin &&

@@ -28,7 +28,7 @@ const MemberList = (props) => {
         {
           (!props.loading && members) &&
           members.map(member => (
-            <Component key={member._id} {...member} onCardClick={onCardClick} style={{ padding: '5px' }} />
+            <Component className={props.componentClassName} key={member._id} {...member} onCardClick={onCardClick} style={{ padding: '5px' }} />
           ))
         }
       </div>
@@ -38,6 +38,7 @@ const MemberList = (props) => {
 
 MemberList.propTypes = {
   Component: PropTypes.func.isRequired,
+  componentClassName: PropTypes.string,
   Loader: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
   members: PropTypes.array,

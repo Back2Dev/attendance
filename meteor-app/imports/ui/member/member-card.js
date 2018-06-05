@@ -10,9 +10,10 @@ const MemberCard = (props) => {
 
   return (
     <Card
+      className={ props.className }
       key={_id}
-      style={{ width: '200px' }}
       onClick={() => props.onCardClick(_id)}
+      raised={false}
     >
       <Image
         src={"/images/avatars/" + avatar}
@@ -56,6 +57,7 @@ const MemberCard = (props) => {
 }
 
 MemberCard.propTypes = {
+  className: PropTypes.string,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
