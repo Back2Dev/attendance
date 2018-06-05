@@ -13,8 +13,8 @@ export default withTracker((props) => {
   const id = props.match.params.id
   const member = Members.findOne(id)
 
-  function onPinInput(e) {
-    const valid = e.target.value == member.pin
+  function checkPin(pin) {
+    const valid = pin == member.pin
     validPin.set(valid)
   }
 
@@ -34,12 +34,19 @@ export default withTracker((props) => {
 
   }
 
+  function cancelClick() {
+    props.history.goBack()
+  }
+
+
   return {
     recordVisit,
     loading,
     member,
     clearPin,
-    onPinInput,
-    validPin: validPin.get()
+    checkPin,
+    validPin: validPin.get(),
+    cancelClick,
+
   }
 })(MemberVisit)

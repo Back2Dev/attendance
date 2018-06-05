@@ -1,5 +1,6 @@
 // member-visit.stories.js
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
@@ -30,19 +31,31 @@ const updateMember = () => {
   return Object.assign(member, options)
 }
 
+console.log('running storbyook')
+
+
+
 storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
   .add('Attend', withInfo('Here/Absent')(() => {
     const story = (
-      <MemberVisit
-        loading={boolean('Loading', false)}
-        member={updateMember()}
-        validPin={boolean('valid pin', false)}
-        recordVisit={action('record visit')}
-        clearPin={f => f}
-      />
+      <div>
+      <p>When component is unmounted, the <code>clearPin</code> function should run.</p>
+        {
+          boolean('mounted', true) &&
+          <MemberVisit
+            loading={boolean('Loading', false)}
+            member={updateMember()}
+            validPin={boolean('valid pin', false)}
+            recordVisit={action('record visit')}
+            clearPin={() => alert('clearing pin')}
+            checkPin={(pin) => action('checking PIN: ' + pin)()}
+            cancelClick={action('cancel')}
+          />
+        }
+      </div>
     )
     // specs(() =>
     //   describe('<User avatar={avatar} />', () => {

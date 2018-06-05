@@ -13,6 +13,7 @@ class MemberVisit extends React.Component {
     super(props)
     this.state = {
       duration: 6,
+      pin: '',
     }
   }
   updateStatus = (data) => {
@@ -43,12 +44,14 @@ class MemberVisit extends React.Component {
               <MemberCard
                 className='member-visit-card'
                 {...this.props.member}
-                onCardClick={f => f}>
+                onCardClick={f => f}
+              >
 
                 {
                   !this.props.validPin &&
                   <MemberVisitPin
-                    onPinInput={this.props.onPinInput}
+                    onPinInput={this.onPinInput}
+                    pin={this.state.pin}
                   />
                 }
                 {
@@ -74,7 +77,7 @@ MemberVisit.propTypes = {
   member: PropTypes.object,
   clearPin: PropTypes.func.isRequired,
   recordVisit: PropTypes.func.isRequired,
-  onPinInput: PropTypes.func.isRequired,
+  checkPin: PropTypes.func.isRequired,
   validPin: PropTypes.bool.isRequired,
 };
 
