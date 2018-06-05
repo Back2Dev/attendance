@@ -21,18 +21,31 @@ class MemberVisit extends React.Component {
     this.props.history.goBack()
   }
 
-  cancelClick = () => {
-    this.props.history.goBack()
-  }
 
   setDuration = (e, { value }) => this.setState({ duration: value })
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.pin.length >= 4) {
+      this.props.checkPin(this.state.pin)
+    }
+  }
 
   componentWillUnmount() {
     this.props.clearPin()
   }
+
+  onPinInput = (e) => {
+    const input = e.target.value
+    this.setState((prevState) => {
+      return {
+        pin: input
+      }
+    })
+  }
+
   render() {
     return (
-      <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
+      <Grid centered style={{ height: '100%' }} verticalAlign='middle' style={{textAlign: 'center'}}>
         <Grid.Column>
           <Card.Group centered>
             {
@@ -60,10 +73,14 @@ class MemberVisit extends React.Component {
                     member={this.props.member}
                     setDuration={this.setDuration}
                     updateStatus={this.updateStatus}
-                    cancelClick={this.cancelClick}
+                    
                     duration={this.state.duration}
                   />
                 }
+                <Button 
+                fluid
+                size='large' 
+                onClick={this.props.cancelClick}>Cancel</Button>
               </MemberCard>
             }
           </Card.Group>
