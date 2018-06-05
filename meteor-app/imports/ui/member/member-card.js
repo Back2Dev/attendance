@@ -10,10 +10,9 @@ const MemberCard = (props) => {
 
   return (
     <Card
+      style={{textAlign: 'center'}}
       className={ props.className }
       key={_id}
-      onClick={() => props.onCardClick(_id)}
-      raised={false}
     >
       <Image
         src={"/images/avatars/" + avatar}
@@ -64,7 +63,6 @@ MemberCard.propTypes = {
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
-  onCardClick: PropTypes.func.isRequired,
   sessionCount: PropTypes.number.isRequired,
 };
 
