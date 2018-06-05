@@ -43,13 +43,11 @@ const MemberVisitArrive = (props) => {
           See you next time!
       </Header>
       }
-      <Button.Group>
-        <Button onClick={props.cancelClick}>Cancel</Button>
-        <Button.Or />
         <Button
           onClick={props.updateStatus.bind(null, props)}
           positive
-          compact
+          fluid
+          size='large'
         >
           {
             props.member.isHere
@@ -57,7 +55,6 @@ const MemberVisitArrive = (props) => {
               : 'Sign In'
           }
         </Button>
-      </Button.Group>
     </div>
   )
 }
@@ -67,7 +64,6 @@ MemberVisitArrive.propTypes = {
   duration: PropTypes.number.isRequired,
   setDuration: PropTypes.func.isRequired,
   updateStatus: PropTypes.func.isRequired,
-  cancelClick: PropTypes.func.isRequired,
 };
 
 export default MemberVisitArrive
