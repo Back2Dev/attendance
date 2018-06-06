@@ -48,7 +48,12 @@ class MemberVisitPin extends React.Component {
           >
           </Message>
         }
-        Enter your PIN:
+        {
+          !this.props.setPinSuccess &&
+          <h3>
+            Enter your PIN:
+          </h3>
+        }
         <Input
           placeholder='Enter your PIN'
           error={this.state.pin.length >= 4 && !this.props.validPin}
@@ -57,12 +62,9 @@ class MemberVisitPin extends React.Component {
           {...inputSettings}
           onChange={this.onPinInput}
         />
-        {
-          this.props.setPinSuccess &&
           <Button as={Label} pointing onClick={this.props.forgotPin}>
             Forgotten your PIN? Click here
           </Button>
-        }
       </div>
     )
   }

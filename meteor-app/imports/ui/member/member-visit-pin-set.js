@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Form, Label, Button, Header, Input } from 'semantic-ui-react'
+import { Form, Label, Button, Header, Input, Message } from 'semantic-ui-react'
 import '/imports/ui/member/member-visit-pin.css'
 
 class MemberVisitPinSet extends React.Component {
@@ -46,10 +46,10 @@ class MemberVisitPinSet extends React.Component {
     }
     return (
       <div className='member-visit-pin'>
-        <div>
-          Looks like you havnt set your own PIN.
-        Please set one now.
-          </div>
+        <Message attached='top' warning
+        header='Please set your own PIN number'
+        >
+          </Message>
         <Form.Field>
           <Input
             placeholder='Enter your PIN'
@@ -68,7 +68,7 @@ class MemberVisitPinSet extends React.Component {
           />
           {
             pinsDontMatch &&
-            <Label basic color='red' pointing>
+            <Label color='red' pointing>
               Make sure both PINs match.
               </Label>
           }
