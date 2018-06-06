@@ -48,13 +48,16 @@ class MemberVisit extends React.Component {
 
   onPinInput = (e) => {
     const input = e.target.value
+    // user is setting their own pin.
     if(this.state.showPinSettingInput){
+      // once they've input 4 digit pin, show the second input to confirm.
       if(input.length >= 4){
         this.setState({
           showConfirm: true,
         })
       }
     }
+    // if theyre on second screen,
     this.setState((prevState) => {
       if(this.state.showConfirm){
         return {
@@ -69,7 +72,7 @@ class MemberVisit extends React.Component {
     })
   }
 
-  togglePinSettingInput = () => {
+  onSetPinClick = () => {
     this.setState({
       showPinSettingInput: !this.showPinSettingInput
     })
@@ -113,7 +116,7 @@ class MemberVisit extends React.Component {
                   (this.props.isDefaultPin && !this.state.showPinSettingInput) &&
                   <div>
                     <h3>Looks like you havnt set your PIN yet.</h3>
-                    <Button onClick={this.togglePinSettingInput}>Make one now.</Button>
+                    <Button onClick={this.onSetPinClick}>Make one now.</Button>
                   </div>
                 }
                 {
