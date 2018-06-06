@@ -48,13 +48,13 @@ storiesOf('Member.Session', module)
           <MemberVisit
             loading={boolean('Loading', false)}
             member={updateMember()}
-            validPin={boolean('valid pin', false)}
             recordVisit={action('record visit')}
-            clearPin={() => alert('clearing pin')}
-            checkPin={(pin) => action('checking PIN: ' + pin)()}
             cancelClick={action('cancel')}
-            isDefaultPin={boolean('hasnt set their own pin', false)}
-            setCustomPin={(pin) => action('setting custom pin ', pin)()}
+            memberHasOwnPin={boolean('hasnt set their own pin', false)}
+            setPinSuccess={boolean('successfulyy set pin', false)}
+            // clearPin={() => alert('clearing pin')}
+            // checkPin={(pin) => action('checking PIN: ' + pin)()}
+            onSubmitPin={(pin) => action('setting custom pin ', pin)()}
           />
         }
       </div>
