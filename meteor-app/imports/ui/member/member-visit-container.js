@@ -6,26 +6,17 @@ import MemberVisit from '/imports/ui/member/member-visit'
 import Members from '/imports/api/members/members'
 
 const validPin = new ReactiveVar(false)
-const isDefaultPin = new ReactiveVar(false)
+const setPinSuccess = new ReactiveVar(false)
 
 export default withTracker((props) => {
   const membersHandle = Meteor.subscribe('all.members')
   const loading = !membersHandle.ready()
   const id = props.match.params.id
   const member = Members.findOne(id)
-  isDefaultPin.set(member.pin == '1234')
 
-  function checkPin(pin) {
-    const valid = pin == member.pin
-    validPin.set(valid)
-  }
-
-  function clearPin() {
-    validPin.set(false)
-  }
+  const memberHasOwnPin = (() => member.pin != undefined)()
 
   function recordVisit({ duration }) {
-    clearPin()
     if (!member.isHere) {
       debug('member arriving', id, duration)
       Meteor.call('arrive', id, duration)
@@ -33,29 +24,47 @@ export default withTracker((props) => {
       debug('member departure', id)
       Meteor.call('depart', id)
     }
-
   }
 
   function cancelClick() {
     props.history.goBack()
   }
 
-  function setCustomPin(id, pin) {
-    console.log('setting custom pin: ', pin)
-    isDefaultPin.set(false)
-    console.log('updating isDefaultPin', isDefaultPin.get())
-    Meteor.call('members.setPin', id, pin)
+  function onSubmitPin(pin) {
+    //if they have their own pin
+    // if they dont
+    if (memberHasOwnPin) {
+      const pinValid = member.pin == pin
+      validPin.set(pinValid)
+      return pinValid
+    } else {
+      debug('setting custom pin: ', pin)
+      Meteor.call('members.setPin', member._id, pin)
+      setPinSuccess.set(true)
+
+    }
   }
+
+  function clearPin() {
+    validPin.set(false)
+    setPinSuccess.set(false)
+  }
+
+function forgotPin(){
+  // redirect to forgot PIN screen
+  debug('forgotten pin: ', member._id)
+}
 
   return {
     recordVisit,
     loading,
     member,
-    clearPin,
-    checkPin,
-    validPin: validPin.get(),
     cancelClick,
-    isDefaultPin: isDefaultPin.get(),
-    setCustomPin,
+    memberHasOwnPin,
+    onSubmitPin,
+    validPin: validPin.get(),
+    clearPin,
+    forgotPin,
+    setPinSuccess: setPinSuccess.get()
   }
 })(MemberVisit)
