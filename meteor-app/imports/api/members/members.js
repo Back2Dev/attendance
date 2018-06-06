@@ -148,6 +148,7 @@ export const MembersSchema = new SimpleSchema({
   pin: {
     type: String,
     label: "Pin number",
+    optional: true,
   },
   createdAt,
   updatedAt,
