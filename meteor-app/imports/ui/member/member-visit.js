@@ -14,6 +14,9 @@ class MemberVisit extends React.Component {
     this.state = {
       duration: 6,
       pin: '',
+      pinConfirm: '',
+      showPinSettingInput: false,
+      showConfirm: false,
     }
   }
   updateStatus = (data) => {
@@ -24,7 +27,17 @@ class MemberVisit extends React.Component {
   setDuration = (e, { value }) => this.setState({ duration: value })
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.pin.length >= 4) {
+    if(this.state.pin == this.state.pinConfirm && this.state.showConfirm){
+      this.props.setCustomPin(this.props.member._id,this.state.pin)
+      this.setState({
+        pin: '',
+        pinConfirm: '',
+        showPinSettingInput: false,
+        showConfirm: false,
+      })
+      return
+    }
+    if (this.state.pin.length >= 4 && !this.state.isDefaultPin) {
       this.props.checkPin(this.state.pin)
     }
   }
@@ -35,10 +48,30 @@ class MemberVisit extends React.Component {
 
   onPinInput = (e) => {
     const input = e.target.value
-    this.setState((prevState) => {
-      return {
-        pin: input
+    if(this.state.showPinSettingInput){
+      if(input.length >= 4){
+        this.setState({
+          showConfirm: true,
+        })
       }
+    }
+    this.setState((prevState) => {
+      if(this.state.showConfirm){
+        return {
+          pinConfirm: input
+        }
+      } else {
+        return {
+          pin: input
+        }
+      }
+      
+    })
+  }
+
+  togglePinSettingInput = () => {
+    this.setState({
+      showPinSettingInput: !this.showPinSettingInput
     })
   }
 
@@ -46,13 +79,17 @@ class MemberVisit extends React.Component {
     return (
       <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column>
+        {
+          this.props.isDefaultPin &&
+          <p>Is default pin</p>
+        }
           <Card.Group centered>
             {
               this.props.loading &&
               <MemberCardLoading />
             }
             {
-              (!this.props.loading && this.props.member) &&
+              !this.props.loading &&
               <MemberCard
                 className='member-visit-card'
                 {...this.props.member}
@@ -68,32 +105,57 @@ class MemberVisit extends React.Component {
                     />
                     {
                       !this.props.isDefaultPin &&
-                      <div>Forgotten your PIN?</div>
+                      <Button as='a'>Forgotten your PIN?</Button>
                     }
                   </div>
                 }
                 {
-                  this.props.isDefaultPin &&
+                  (this.props.isDefaultPin && !this.state.showPinSettingInput) &&
                   <div>
-                    Looks like you havnt set your PIN yet.
-                    <Button>Make one now.</Button>
+                    <h3>Looks like you havnt set your PIN yet.</h3>
+                    <Button onClick={this.togglePinSettingInput}>Make one now.</Button>
                   </div>
                 }
-                
+                {
+                  this.state.showPinSettingInput && !this.state.showConfirm &&
+                  <div>
+                    <h3>Set your PIN now:</h3>
+                  <MemberVisitPin
+                      onPinInput={this.onPinInput}
+                      pin={this.state.pin}
+                    />
+
+                  </div>
+                }
+                {
+                  this.state.showConfirm &&
+                  <div>
+                    <h3>Confirm your PIN now:</h3>
+                  <MemberVisitPin
+                      onPinInput={this.onPinInput}
+                      pin={this.state.pinConfirm}
+                    />
+
+                  </div>
+                }
                 {
                   this.props.validPin &&
                   <MemberVisitArrive
                     member={this.props.member}
                     setDuration={this.setDuration}
                     updateStatus={this.updateStatus}
-
                     duration={this.state.duration}
                   />
                 }
+                PIN{this.state.pin}
+                PINCONFIRM:{this.state.pinConfirm}
                 <Button
                   fluid
                   size='large'
-                  onClick={this.props.cancelClick}>Cancel</Button>
+                  onClick={this.props.cancelClick}
+                >
+                  Back
+                </Button>
               </MemberCard>
             }
           </Card.Group>
@@ -110,6 +172,7 @@ MemberVisit.propTypes = {
   checkPin: PropTypes.func.isRequired,
   validPin: PropTypes.bool.isRequired,
   isDefaultPin: PropTypes.bool.isRequired,
+  setCustomPin: PropTypes.func.isRequired,
 };
 
 export default MemberVisit

@@ -54,6 +54,7 @@ storiesOf('Member.Session', module)
             checkPin={(pin) => action('checking PIN: ' + pin)()}
             cancelClick={action('cancel')}
             isDefaultPin={boolean('hasnt set their own pin', false)}
+            setCustomPin={(pin) => action('setting custom pin ', pin)()}
           />
         }
       </div>

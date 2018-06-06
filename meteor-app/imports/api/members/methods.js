@@ -20,5 +20,15 @@ Meteor.methods({
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
+  },
+  'members.setPin'(id, pin) {
+    try {
+      log.info('setting pin: ', id, pin)
+      // return Members.remove({ _id: id })
+      return Members.update({ _id: id }, { $set: { pin: pin } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
   }
 })
