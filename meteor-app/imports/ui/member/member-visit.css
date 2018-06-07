@@ -1,3 +1,7 @@
 .ui.button {
   margin: 5px 0;
 }
+
+.ui.input input {
+  text-align: center
+}

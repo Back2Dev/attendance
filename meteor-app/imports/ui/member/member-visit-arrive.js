@@ -11,7 +11,7 @@ const MemberVisitArrive = (props) => {
       {
         props.member && !props.member.isHere &&
         <Form style={{ padding: '20px 0' }}>
-          <Header as='h4'>
+          <Header as='h3'>
             Great to see you!
         <Header.Subheader>
               How long are you with us for?

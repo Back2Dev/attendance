@@ -13,7 +13,7 @@ class MemberVisitPin extends React.Component {
       pinMatchError: false,
     }
 
-    this.pin1 = React.createRef();
+    this.pinInput = React.createRef();
   }
 
   onPinInput = (e, props) => {
@@ -21,12 +21,13 @@ class MemberVisitPin extends React.Component {
   }
 
   componentDidMount() {
-    this.pin1.current.focus()
+    this.pinInput.current.focus()
   }
 
   componentDidUpdate() {
-    if (this.state.pin.length >= 4) {
-      this.props.onSubmitPin(this.state.pin)
+    const { pin } = this.state
+    if (pin.length >= 4) {
+      this.props.onSubmitPin(pin)
     }
   }
 
@@ -36,7 +37,12 @@ class MemberVisitPin extends React.Component {
       type: "tel",
       pattern: "/[0-9]/",
       inputMode: "numeric",
-      style: { width: '100%', margin: '10px 0' },
+      style: { 
+        width: '80%', 
+        margin: '10px 0', 
+        fontSize: '20px', 
+        textAlign: 'center' 
+      },
     }
     return (
       <div className='member-visit-pin'>
@@ -48,23 +54,25 @@ class MemberVisitPin extends React.Component {
           >
           </Message>
         }
-        {
-          !this.props.setPinSuccess &&
-          <h3>
-            Enter your PIN:
-          </h3>
-        }
-        <Input
-          placeholder='Enter your PIN'
-          error={this.state.pin.length >= 4 && !this.props.validPin}
-          ref={this.pin1}
-          data-input={'pin1'}
-          {...inputSettings}
-          onChange={this.onPinInput}
-        />
-          <Button as={Label} pointing onClick={this.props.forgotPin}>
+        <Form.Field>
+          {
+            !this.props.setPinSuccess &&
+            <label htmlFor='pinInput'>
+              Enter your PIN:
+          </label>
+          }
+          <Input
+            error={this.state.pin.length >= 4 && !this.props.validPin}
+            ref={this.pinInput}
+            name='pinInput'
+            {...inputSettings}  
+            onChange={this.onPinInput}
+          />
+          <Button as={Label} pointing onClick={this.props.toggleForgotPinForm}>
             Forgotten your PIN? Click here
           </Button>
+        </Form.Field>
+
       </div>
     )
   }
@@ -72,10 +80,9 @@ class MemberVisitPin extends React.Component {
 
 MemberVisitPin.propTypes = {
   forgotPin: PropTypes.func.isRequired,
-  onSubmitPin: PropTypes.func.isRequired,
-  memberHasOwnPin: PropTypes.bool.isRequired,
   validPin: PropTypes.bool.isRequired,
-  setPinSuccess: PropTypes.bool.isRequired,
+  onSubmitPin: PropTypes.func.isRequired,
+  toggleForgotPinForm: PropTypes.func.isRequired,
 };
 
 export default MemberVisitPin

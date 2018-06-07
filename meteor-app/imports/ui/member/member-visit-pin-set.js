@@ -18,20 +18,18 @@ class MemberVisitPinSet extends React.Component {
     this.pin2 = React.createRef();
   }
 
-  onPinInput = (e, props) => {
-    this.setState({ [props['data-input']]: e.target.value })
-    if (props['data-input'] == 'pin1' && e.target.value.length >= 4) {
-      this.pin2.current.focus()
-    }
+  onPinInput = (e, { name, value }) => {
+    this.setState({ [name]: value })
   }
 
   componentDidMount() {
     this.pin1.current.focus()
   }
 
-  componentDidUpdate() {
-    if (this.state.pin2.length >= 4 && (this.state.pin1 == this.state.pin2)) {
-      this.props.onSubmitPin(this.state.pin1)
+  handleSetPin = (e, h) => {
+    const { pin1, pin2 } = this.state
+    if (pin2.length >= 4 && (pin1 == pin2)) {
+      this.props.setPin(pin1)
     }
   }
 
@@ -42,46 +40,57 @@ class MemberVisitPinSet extends React.Component {
       type: "tel",
       pattern: "/[0-9]/",
       inputMode: "numeric",
-      style: { width: '100%', margin: '10px 0' },
+      style: { width: '80%', margin: '10px 0', fontSize: '20px', textAlign: 'center' },
     }
     return (
       <div className='member-visit-pin'>
-        <Message attached='top' warning
-        header='Please set your own PIN number'
-        >
-          </Message>
-        <Form.Field>
-          <Input
-            placeholder='Enter your PIN'
-            ref={this.pin1}
-            data-input={'pin1'}
-            {...inputSettings}
-            onChange={this.onPinInput}
-          />
-          <Input
-            placeholder='Confirm your PIN'
-            ref={this.pin2}
-            data-input={'pin2'}
-            error={pinsDontMatch}
-            {...inputSettings}
-            onChange={this.onPinInput}
-          />
-          {
-            pinsDontMatch &&
-            <Label color='red' pointing>
-              Make sure both PINs match.
-              </Label>
-          }
-        </Form.Field>
+        <h3>Set your own PIN:</h3>
+        <Form
+          ref={this.form}
+          onSubmit={this.handleSetPin}>
 
-      </div>
+          <Form.Field>
+            <label htmlFor='pin1'>
+              Enter a 4 digit pin
+          </label>
+            <Input
+              ref={this.pin1}
+              name='pin1'
+              {...inputSettings}
+              onChange={this.onPinInput}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor='pin2'>
+              Confirm Your Pin
+          </label>
+            <Input
+              ref={this.pin2}
+              name='pin2'
+              error={pinsDontMatch}
+              {...inputSettings}
+              onChange={this.onPinInput}
+            />
+            {
+              pinsDontMatch &&
+              <Label color='red' pointing>
+                Make sure both PINs match.
+            </Label>
+            }
+          </Form.Field>
+          <Button
+            type='submit'
+            disabled={this.state.pin2.length < 4 || (this.state.pin1 != this.state.pin2)}>
+            Set Pin
+        </Button>
+        </Form>
+      </div >
     )
   }
 }
 
 MemberVisitPinSet.propTypes = {
-  onSubmitPin: PropTypes.func.isRequired,
-  memberHasOwnPin: PropTypes.bool.isRequired,
+  setPin: PropTypes.func.isRequired,
 };
 
 export default MemberVisitPinSet

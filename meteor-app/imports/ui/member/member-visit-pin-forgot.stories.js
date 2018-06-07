@@ -14,49 +14,18 @@ import { Link, Router, browserHistory } from 'react-router-dom'
 import { Grid, Container, Segment } from 'semantic-ui-react'
 import member from '/imports/test/fake-member'
 
-import MemberVisit from './member-visit'
+import MemberVisitPinForgot from './member-visit-pin-forgot'
 
-const match = {
-  params: {
-    id: '12344'
-  }
-}
-
-const updateMember = () => {
-  const options = {
-    isHere: boolean('Present', false),
-    isSuper: boolean('Is Supervisor', true),
-    sessionCount: boolean('Is Newbie', true) ? 1 : 25,
-  }
-  return Object.assign(member, options)
-}
-
-console.log('running storbyook')
-
-
-
-storiesOf('Member.Session', module)
+storiesOf('Member.Session.ForgotPin', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
   .add('Attend', withInfo('Here/Absent')(() => {
     const story = (
-      <div>
-      <p>When component is unmounted, the <code>clearPin</code> function should run.</p>
-        {
-          boolean('mounted', true) &&
-          <MemberVisit
-            loading={boolean('Loading', false)}
-            member={updateMember()}
-            recordVisit={action('record visit')}
-            cancelClick={action('cancel')}
-            memberHasOwnPin={true}
-            setPinSuccess={boolean('successfully set pin', false)}
-            // clearPin={() => alert('clearing pin')}
-            // checkPin={(pin) => action('checking PIN: ' + pin)()}
-            onSubmitPin={(pin) => action('setting custom pin ', pin)()}
+      <div style={{maxWidth: '280px'}}>
+          <MemberVisitPinForgot
+          onPinReminderSent={boolean('sent PIN reminder', false)}
           />
-        }
       </div>
     )
     // specs(() =>
