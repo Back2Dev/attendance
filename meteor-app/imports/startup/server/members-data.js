@@ -66,6 +66,7 @@ Meteor.methods({
     casual.define('member', function () {
       return {
         avatar: `${casual.integer(1, 10)}.jpg`,
+        sessionCount: casual.integer(1, 10),
         sessions: array_of(casual.integer(1, 16), () => ({ memberId: 'randomSession' })),
         lastIn: moment().subtract(casual.integer(1, 168), 'hours').toDate(),
         addressPostcode: casual.integer(3000, 4000).toString(),
@@ -98,16 +99,22 @@ Meteor.startup(() => {
     Meteor.call('seed.members')
   }
 
-// Migration script, give all records an isSuper field
+  // Migration script, give all records an isSuper field
   Members.update(
     { "isSuper": { $exists: false } },
     { $set: { isSuper: false } },
     { multi: true },
   )
-  
-// Migration script, Set Mark to isSuper
+
+  // Migration script, Set Mark to isSuper
   Members.update(
     { name: "Mark Bradley" },
     { $set: { isSuper: true } },
   )
+  // Migration script, give all records a default pin
+  // Members.update(
+  //   { "pin": { $exists: false } },
+  //   { $set: { pin: '12         34' } },
+  //   { multi: true }
+  // )
 })

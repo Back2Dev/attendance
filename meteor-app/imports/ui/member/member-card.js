@@ -10,13 +10,13 @@ const MemberCard = (props) => {
 
   return (
     <Card
+      style={{textAlign: 'center'}}
+      className={ props.className }
       key={_id}
-      style={{ width: '200px' }}
-      onClick={() => props.onCardClick(_id)}
     >
-      <Image 
-      src={"/images/avatars/" + avatar} 
-      label={isSuper ? {color: 'yellow', icon: 'star', ribbon: true} : null}
+      <Image
+        src={"/images/avatars/" + avatar}
+        label={isSuper ? { color: 'yellow', icon: 'star', ribbon: true } : null}
       />
       <Card.Content>
         <Card.Header >
@@ -26,16 +26,6 @@ const MemberCard = (props) => {
           <div style={{
             padding: '10px 0',
           }}>
-            {false &&
-              <div style={{
-                padding: '5px 0',
-              }}
-              >
-                <Label color='yellow'>
-                  <Icon name='star' />
-              </Label>
-              </div>
-            }
             <Label color={newbie ? 'green' : isSuper ? 'yellow' : 'blue'}>
               <Icon name='trophy' />
               {sessionCount}
@@ -47,8 +37,9 @@ const MemberCard = (props) => {
               </Label>
             }
           </div>
-
-          {props.children}
+          <div>
+            {props.children}
+          </div>
 
         </Card.Content>
       </Card.Content>
@@ -65,13 +56,14 @@ const MemberCard = (props) => {
 }
 
 MemberCard.propTypes = {
+  className: PropTypes.string,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
-  onCardClick: PropTypes.func.isRequired,
+  sessionCount: PropTypes.number.isRequired,
 };
 
 export default MemberCard

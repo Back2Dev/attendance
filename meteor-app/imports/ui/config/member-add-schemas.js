@@ -42,7 +42,7 @@ export default [
     schema: {
       title: "Details",
       type: "object",
-      required: ["name"],
+      required: ["name", "pin"],
       properties: {
         name: { type: "string", title: "Name" },
         email: { type: "string", format: "email", title: "Email" },
@@ -52,6 +52,8 @@ export default [
         addressPostcode: { type: "number", title: "Postcode" },
         phone: { type: "string", title: "Phone number" },
         mobile: { type: "string", title: "Mobile number" },
+        pin: { type: "string", title: "PIN number" },
+        pinConfirm: { type: "string", title: "PIN number" },
       }
     },
     uiSchema: {
@@ -88,6 +90,18 @@ export default [
         "ui:placeholder": "Enter your mobile number",
         "ui:options": {
           inputType: 'tel'
+        }
+      },
+      pin: {
+        "ui:placeholder": "Enter a PIN number for signing in and out.",
+        "ui:options": {
+          inputType: 'password'
+        }
+      },
+      pinConfirm: {
+        "ui:placeholder": "Enter the same PIN number again to confirm.",
+        "ui:options": {
+          inputType: 'password'
         }
       },
     }
