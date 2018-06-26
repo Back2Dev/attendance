@@ -9,11 +9,11 @@ const error = new ReactiveVar(false)
 const msg = new ReactiveVar('')
 const newId = new ReactiveVar('')
 
-
-export default withTracker((props) => {
+export default withTracker(() => {
   const addMember = (formData) => {
     return Meteor.call('members.insert', formData, (err, res) => {
       if (err) {
+        newId.set('')
         error.set(true)
         success.set(false)
         msg.set(err.reason)
@@ -34,5 +34,6 @@ export default withTracker((props) => {
     message: msg.get(),
     isIframe: isIframe(),
     newId: newId.get(),
+    resetId: () => newId.set(''),
   }
 })(MemberAdd)

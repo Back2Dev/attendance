@@ -47,8 +47,12 @@ class MemberAdd extends Component {
     }
   }
 
-  onSubmit = ({ formData }) => {
+  componentWillUnmount() {
+    // prevents id from persisting between adding users
+    this.props.resetId()
+  }
 
+  onSubmit = ({ formData }) => {
     const finalStep = schemas.length == this.state.step
     if (finalStep) {
       this.props.addMember(this.state.formData)
@@ -92,7 +96,6 @@ class MemberAdd extends Component {
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
       formData={this.state.formData}
-      onChange={this.onChange}
       onSubmit={this.onSubmit}
       validate={this.validate}
       widgets={widgets}
@@ -153,6 +156,7 @@ class MemberAdd extends Component {
 
 MemberAdd.propTypes = {
   addMember: PropTypes.func.isRequired,
+  resetId: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
