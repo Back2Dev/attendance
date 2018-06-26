@@ -1,110 +1,165 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
-import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
+import { Button, Card, Icon, Checkbox, Form, Grid, Header, Message, Modal, Segment } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
+import MemberVisitPin from '/imports/ui/member/member-visit-pin';
+import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot';
+import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set';
+import '/imports/ui/member/member-visit.css'
 
 class MemberVisit extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      duration: 6
+      duration: 6,
+      showAlertModal: false,
+      showForgotPinForm: false,
     }
   }
   updateStatus = (data) => {
-    this.props.recordVisit(data)
-    this.props.history.goBack()
-  }
-
-  cancelClick = () => {
+    this.props.recordVisit({ duration: this.state.duration })
     this.props.history.goBack()
   }
 
   setDuration = (e, { value }) => this.setState({ duration: value })
 
+  toggleForgotPinForm = () => this.setState({ showForgotPinForm: !this.state.showForgotPinForm })
+
+  onPinReminderSent = () => {
+    this.toggleForgotPinForm()
+  }
+
+  componentDidMount() {
+    if (!this.props.memberHasOwnPin) {
+      this.toggleModal()
+    }
+  }
+
+  toggleModal = () => {
+    this.setState({
+      showAlertModal: !this.state.showAlertModal
+    })
+  }
+
+  componentWillUnmount() {
+    this.props.clearPin()
+  }
+
+  componentDidMount() {
+    this.setState({
+      showAlertModal: !this.props.memberHasOwnPin
+    })
+  }
+
+  onForgotPin = (method, destination) => {
+    const message = `Hold tight. We've sent your PIN to ${destination}\nCheck your ${method} inbox.`
+    this.props.forgotPin(method, destination)
+    this.toggleForgotPinForm()
+    alert(message)
+  }
 
   render() {
+    this.props.loading && MemberCardLoading
+
+
     return (
-      <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center'>
+      <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column>
+
+          <Modal basic size='small' open={this.state.showAlertModal}>
+            <Header icon='key' content='Looks like you havnt set a PIN yet.' />
+            <Modal.Content>
+              <p>
+                Please set a PIN for managing your profile.
+            </p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button basic color='red' inverted onClick={this.props.cancelClick}>
+                <Icon name='arrow left' /> Cancel
+            </Button>
+              <Button color='green' inverted onClick={this.toggleModal}>
+                <Icon name='arrow right' /> Create PIN
+            </Button>
+            </Modal.Actions>
+          </Modal>
+
           <Card.Group centered>
-            {
-              this.props.loading &&
-              <MemberCardLoading />
-            }
-            {
-              (!this.props.loading && this.props.member) &&
-              <MemberCard {...this.props.member} onCardClick={f => f}>
-                {
-                  this.props.member && !this.props.member.isHere &&
-                  <Form style={{ padding: '20px 0' }}>
-                    <Header as='h4'>
-                      Great to see you!
-                    <Header.Subheader>
-                        How long are you with us for?
-                    </Header.Subheader>
-                    </Header>
-                    <Form.Field>
-                      <Checkbox
-                        label='Half Day (~3hrs)'
-                        name='duration'
-                        value={3}
-                        checked={this.state.duration === 3}
-                        onChange={this.setDuration}
-                      />
-                    </Form.Field>
-                    <Form.Field>
-                      <Checkbox
-                        label='Full Day (~6hrs)'
-                        name='duration'
-                        value={6}
-                        checked={this.state.duration === 6}
-                        onChange={this.setDuration}
-                      />
-                    </Form.Field>
-                  </Form>
-                }
-                {
-                  this.props.member && this.props.member.isHere &&
-                  <Header as='h4'>
-                    See you next time!
-                  </Header>
-                }
-                <Button.Group>
-                  <Button onClick={this.cancelClick}>Cancel</Button>
-                  <Button.Or />
-                  <Button
-                    onClick={this.updateStatus.bind(null, this.state)}
-                    positive
-                    compact
-                  >
-                    {
-                      this.props.member.isHere
-                        ? 'Sign Out'
-                        : 'Sign In'
-                    }
-                  </Button>
-                </Button.Group>
-              </MemberCard>
-            }
+            <MemberCard
+              className='member-visit-card'
+              {...this.props.member}
+              onCardClick={f => f}
+            >
+              {
+                this.state.showForgotPinForm &&
+                <MemberVisitPinForgot
+                  member={this.props.member}
+                  forgotPin={this.onForgotPin}
+                  onPinReminderSent={this.onPinReminderSent}
+                />
+              }
+              {
+                !this.state.showForgotPinForm &&
+                <div style={{ margin: '40px 0' }}>
+                  {
+                    !this.props.validPin &&
+                    <div>
+                      {
+                        this.props.memberHasOwnPin &&
+                        <MemberVisitPin
+                          setPinSuccess={this.props.setPinSuccess}
+                          validPin={this.props.validPin}
+                          onSubmitPin={this.props.onSubmitPin}
+                          forgotPin={this.props.forgotPin}
+                          toggleForgotPinForm={this.toggleForgotPinForm}
+                        />
+                      }
+                      {
+                        !this.props.memberHasOwnPin &&
+                        <MemberVisitPinSet
+                          setPin={this.props.setPin}
+                        />
+                      }
+                    </div>
+                  }
+                  {
+                    this.props.validPin &&
+                    <MemberVisitArrive
+                      member={this.props.member}
+                      duration={this.state.duration}
+                      setDuration={this.setDuration}
+                      updateStatus={this.updateStatus}
+                    />
+                  }
+                </div>
+              }
+              <Button
+                fluid
+                size='large'
+                onClick={this.props.cancelClick}
+              >
+                Back
+                </Button>
+            </MemberCard>
           </Card.Group>
         </Grid.Column>
       </Grid>
     )
   }
-
 }
 
-
 MemberVisit.propTypes = {
-  // _id: PropTypes.string.isRequired,
-  // name: PropTypes.string.isRequired,
-  // avatar: PropTypes.string.isRequired,
-  // isHere: PropTypes.bool.isRequired,
-  // sessions: PropTypes.array.isRequired,
-  // lastIn: PropTypes.object,
+  member: PropTypes.object,
+  cancelClick: PropTypes.func.isRequired,
   recordVisit: PropTypes.func.isRequired,
+  memberHasOwnPin: PropTypes.bool.isRequired,
+  onSubmitPin: PropTypes.func.isRequired,
+  validPin: PropTypes.bool.isRequired,
+  clearPin: PropTypes.func.isRequired,
+  forgotPin: PropTypes.func.isRequired,
+  setPin: PropTypes.func.isRequired,
+  setPinSuccess: PropTypes.bool.isRequired,
 };
 
 export default MemberVisit

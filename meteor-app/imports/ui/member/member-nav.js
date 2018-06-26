@@ -13,12 +13,14 @@ const Nav = (props) => {
       </Menu.Item>
       <Menu.Item onClick={() => { props.history.push('/add') }}>
         <Button
+          color='green'
           content='Add Volunteer'
           icon='add user'
-        />
-      </Menu.Item>
-      <Menu.Item onClick={() => { props.history.push('/dashboard') }}>
-        <Button
+          />
+          </Menu.Item>
+          <Menu.Item onClick={() => { props.history.push('/admin') }}>
+          <Button
+          color='blue'
           content='Admin'
           icon='dashboard'
         />

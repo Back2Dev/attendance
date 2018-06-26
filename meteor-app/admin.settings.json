@@ -1,7 +1,8 @@
 {
   "env": {
     "environment": "admin",
-    "ROOT_URL": "http://localhost:3020/",
+		"ROOT_URL": "http://localhost:3020/",
+		"MAIL_URL": "smtp://mikkel@market-research.com:Nautilus!@secure.emailsrvr.com:587",
   	"SMS": {
   		"USERNAME": "mikkel",
   		"PASSWORD": "Smsbroadcast.24",
@@ -16,3 +17,4 @@
 
   }
 }
+

@@ -14,7 +14,6 @@ const MemberCardSmall = (props) => {
 
   return (
     <List.Item
-      onClick={() => onCardClick(_id)}
       style={{
         textAlign: 'center',
         marginBottom: '10px',
@@ -35,7 +34,6 @@ MemberCardSmall.propTypes = {
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
-  onCardClick: PropTypes.func.isRequired,
 }
 
 export default withRouter(MemberCardSmall)

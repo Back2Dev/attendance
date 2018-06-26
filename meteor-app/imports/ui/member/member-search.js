@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'semantic-ui-react'
+import './member-search.css'
 
 const Search = props => {
   return (
-    <div style={{ width: '300px' }}>
       <Input
-        placeholder='Search for yourself here'
+        className='member-search'
+        placeholder='Search Volunteers'
         onChange={props.onSearchInput}
         value={props.searchQuery}
         icon={'search'}
-        fluid
       />
-    </div>
   );
 }
 
