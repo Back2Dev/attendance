@@ -3,5 +3,6 @@
   ],
   "plugins": [
     "babel-root-slash-import"
+
   ]
 }

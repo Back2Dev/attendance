@@ -31,10 +31,6 @@ const updateMember = () => {
   return Object.assign(member, options)
 }
 
-console.log('running storbyook')
-
-
-
 storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
@@ -52,9 +48,12 @@ storiesOf('Member.Session', module)
             cancelClick={action('cancel')}
             memberHasOwnPin={true}
             setPinSuccess={boolean('successfully set pin', false)}
-            // clearPin={() => alert('clearing pin')}
+            clearPin={action('clear pin')}
             // checkPin={(pin) => action('checking PIN: ' + pin)()}
             onSubmitPin={(pin) => action('setting custom pin ', pin)()}
+            validPin={false}
+            forgotPin={action('forgotPin')}
+            setPin={action('setPin')}
           />
         }
       </div>

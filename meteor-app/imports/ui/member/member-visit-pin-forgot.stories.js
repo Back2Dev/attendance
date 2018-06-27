@@ -24,7 +24,8 @@ storiesOf('Member.Session.ForgotPin', module)
     const story = (
       <div style={{maxWidth: '280px'}}>
           <MemberVisitPinForgot
-          onPinReminderSent={boolean('sent PIN reminder', false)}
+          onPinReminderSent={action('sent PIN reminder')}
+          forgotPin={action('forgotten PIN')}
           />
       </div>
     )

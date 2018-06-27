@@ -27,6 +27,7 @@ storiesOf('Member.Add', module)
             error={false}
             success={true}
             message="OK"
+            resetId={action("resetId")}
           />
         </div>
       </Router>
