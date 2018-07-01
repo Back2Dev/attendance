@@ -21,7 +21,9 @@ class MemberVisitPin extends React.Component {
   }
 
   componentDidMount() {
-    this.pinInput.current.focus()
+    if (this.pinInput && this.pinInput.current) {
+      this.pinInput.current.focus()
+    }
   }
 
   componentDidUpdate() {

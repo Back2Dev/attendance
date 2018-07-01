@@ -23,7 +23,9 @@ class MemberVisitPinSet extends React.Component {
   }
 
   componentDidMount() {
-    this.pin1.current.focus()
+    if (this.pin1 && this.pin1.current) {
+      this.pin1.current.focus()
+    }
   }
 
   handleSetPin = (e, h) => {
@@ -38,7 +40,7 @@ class MemberVisitPinSet extends React.Component {
     const inputSettings = {
       maxLength: '4',
       type: "tel",
-      pattern: "/[0-9]/",
+      pattern: "[0-9]{4}",
       inputMode: "numeric",
       style: { width: '80%', margin: '10px 0', fontSize: '20px', textAlign: 'center' },
     }

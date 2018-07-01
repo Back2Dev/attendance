@@ -22,11 +22,13 @@ storiesOf('Member.Add', module)
         <MemberAddReview
           formData={formData}
           steps={schemas}
+          resetId={action('resetId')}
+          goToStep={action("submit")}
         />
       </div>
     )
     // specs(() =>
-    //   describe('<MemberAdd />', () => {
+    //   describe('<MemberAddReview />', () => {
     //     it('displays the add member wizard', () => {
     //       const wrapper = mount(story)
     //       expect(wrapper.find('button')).to.have.length(1)

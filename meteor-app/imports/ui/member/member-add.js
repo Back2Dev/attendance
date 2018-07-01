@@ -49,7 +49,7 @@ class MemberAdd extends Component {
 
   componentWillUnmount() {
     // prevents id from persisting between adding users
-    this.props.resetId()
+      this.props.resetId()
   }
 
   onSubmit = ({ formData }) => {
