@@ -15,7 +15,8 @@ module.exports = {
           cacheDirectory: findCacheDir({ name: 'storybook' }),
           presets: ["@babel/preset-env", "@babel/preset-react"],
           plugins: [
-            'babel-root-slash-import',
+            ['babel-plugin-root-import',{
+              "paths": [{"rootPathPrefix": "/"}]},],
             '@babel/plugin-proposal-object-rest-spread',
             '@babel/plugin-proposal-class-properties'
           ],

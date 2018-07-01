@@ -1,8 +1,15 @@
 {
-  "presets": [
-  ],
-  "plugins": [
-    "babel-root-slash-import"
-
-  ]
+    "env": {
+    "test": {
+      "presets": [
+        "env",
+        "react",
+        "stage-1"
+      ],
+      "plugins": [
+        ["babel-plugin-root-import",{
+              "paths": [{"rootPathPrefix": "/"}]}]
+      ]
+    }
+  }
 }

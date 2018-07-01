@@ -23,7 +23,9 @@ class MemberVisitPinSet extends React.Component {
   }
 
   componentDidMount() {
-    this.pin1.current.focus()
+    if (this.pin1 && this.pin1.current) {
+      this.pin1.current.focus()
+    }
   }
 
   handleSetPin = (e, h) => {
