@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 const debug = require('debug')('att:visit')
 import { ReactiveVar } from 'meteor/reactive-var'
-import MemberVisit from '/imports/ui/member/member-visit'
+import MemberDash from '/imports/ui/member/member-dash'
 import Members from '/imports/api/members/members'
 
 const validPin = new ReactiveVar(false)
@@ -43,6 +43,11 @@ export default withTracker((props) => {
     setPinSuccess.set(true)
   }
   
+  function changeAvatar(avatar){
+    debug('changing avatar', avatar)
+    Meteor.call('members.changeAvatar', member._id, avatar)
+    // setPinSuccess.set(true)
+  }
   
   function clearPin() {
     debug('clearingPin:')
@@ -67,6 +72,7 @@ export default withTracker((props) => {
     validPin: validPin.get(),
     clearPin,
     forgotPin,
-    setPinSuccess: setPinSuccess.get()
+    setPinSuccess: setPinSuccess.get(),
+    changeAvatar,
   }
-})(MemberVisit)
+})(MemberDash)

@@ -9,7 +9,7 @@ const debug = require('debug')('att:server-methods')
 
 Meteor.methods({
   'arrive'(memberId, duration) {
-
+    
     const timeIn = new Date()
     const timeOut = moment(timeIn).add(duration, 'h').toDate()
 
@@ -32,6 +32,8 @@ Meteor.methods({
           },
           $push: { sessions: session },
         })
+    debug('member arrive update', id, session, sessionCount, memberId, duration)
+
     } catch (error) {
       log.error({ error })
     }

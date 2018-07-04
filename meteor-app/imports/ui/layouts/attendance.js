@@ -23,7 +23,6 @@ const Attendance = () => {
           <Switch>
             <Route path="/admin" component={AdminContainer} />
             <Route path="/add" component={MemberAddContainer} />
-            <Route path="/:id/edit" component={MemberEdit} />
             <Route path="/:id" component={MemberVisitContainer} />
             <Route path="/" component={MemberMainContainer} />
             <Route component={NotFound} />

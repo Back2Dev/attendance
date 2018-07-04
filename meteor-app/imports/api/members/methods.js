@@ -31,6 +31,16 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'members.update'(id, formData) {
+    try {
+      log.info('updating member: ', id, formData)
+      return Members.update({ _id: id }, { $set: { ...formData } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
+  
   'members.forgotPin'(id, method, destination) {
     log.info(`sending pin for member ${id} via ${method} to ${destination}`)
     try {
@@ -51,4 +61,14 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'members.changeAvatar'(id, avatar) {
+    try {
+      debug('changing avatar: ', id, avatar)
+      // return Members.remove({ _id: id })
+      // return Members.update({ _id: id }, { $set: { pin: pin } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  }
 })
