@@ -62,13 +62,13 @@ class MemberVisit extends React.Component {
 
   render() {
     this.props.loading && MemberCardLoading
-
+    // this is a bug in semantic UI 2.3, temp fix:
 
     return (
       <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column>
 
-          <Modal basic size='small' open={this.state.showAlertModal}>
+          <Modal basic open={this.state.showAlertModal}>
             <Header icon='key' content='Looks like you havnt set a PIN yet.' />
             <Modal.Content>
               <p>
