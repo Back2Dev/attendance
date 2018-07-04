@@ -7,9 +7,12 @@ import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
 import MemberVisitPin from '/imports/ui/member/member-visit-pin';
 import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot';
 import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set';
+import MemberEdit from '/imports/ui/member/member-edit';
+import { Switch, Route } from 'react-router-dom'
 import '/imports/ui/member/member-visit.css'
+import MemberVisit from '/imports/ui/member/member-visit'
 
-class MemberVisit extends React.Component {
+class MemberDash extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -62,10 +65,45 @@ class MemberVisit extends React.Component {
 
   render() {
     this.props.loading && MemberCardLoading
-    // this is a bug in semantic UI 2.3, temp fix:
 
     return (
-      <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
+      <div>
+        <Switch>
+          <Route 
+            path={`${this.props.match.url}/edit`} 
+            exact 
+            render={(props) => (<MemberEdit {...this.props} />)} 
+          />
+          <Route 
+            path={`${this.props.match.url}`} 
+            exact 
+            render={(props) => (<MemberVisit {...this.props} />)} 
+          />
+        </Switch>
+      </div>
+    )
+  }
+}
+
+MemberDash.propTypes = {
+  member: PropTypes.object,
+  cancelClick: PropTypes.func.isRequired,
+  recordVisit: PropTypes.func.isRequired,
+  memberHasOwnPin: PropTypes.bool.isRequired,
+  onSubmitPin: PropTypes.func.isRequired,
+  validPin: PropTypes.bool.isRequired,
+  clearPin: PropTypes.func.isRequired,
+  forgotPin: PropTypes.func.isRequired,
+  setPin: PropTypes.func.isRequired,
+  setPinSuccess: PropTypes.bool.isRequired,
+};
+
+export default MemberDash
+
+{
+  /* 
+  
+  <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
         <Grid.Column>
 
           <Modal basic open={this.state.showAlertModal}>
@@ -91,7 +129,6 @@ class MemberVisit extends React.Component {
               {...this.props.member}
               onCardClick={f => f}
             >
-
               {
                 this.state.showForgotPinForm &&
                 <MemberVisitPinForgot
@@ -126,15 +163,12 @@ class MemberVisit extends React.Component {
                   }
                   {
                     this.props.validPin &&
-                    <div>
-                      <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)}>Edit Your Profile</Button>
-                      <MemberVisitArrive
+                    <MemberVisitArrive
                       member={this.props.member}
                       duration={this.state.duration}
                       setDuration={this.setDuration}
                       updateStatus={this.updateStatus}
-                      />
-                    </div>
+                    />
                   }
                 </div>
               }
@@ -149,21 +183,6 @@ class MemberVisit extends React.Component {
           </Card.Group>
         </Grid.Column>
       </Grid>
-    )
-  }
+
+  */
 }
-
-MemberVisit.propTypes = {
-  member: PropTypes.object,
-  cancelClick: PropTypes.func.isRequired,
-  recordVisit: PropTypes.func.isRequired,
-  memberHasOwnPin: PropTypes.bool.isRequired,
-  onSubmitPin: PropTypes.func.isRequired,
-  validPin: PropTypes.bool.isRequired,
-  clearPin: PropTypes.func.isRequired,
-  forgotPin: PropTypes.func.isRequired,
-  setPin: PropTypes.func.isRequired,
-  setPinSuccess: PropTypes.bool.isRequired,
-};
-
-export default MemberVisit
