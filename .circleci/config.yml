@@ -108,7 +108,6 @@ jobs:
             - ~/.meteor/packages
           key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
 
-
   deploy_staging:
     docker:
        # node 8.9
@@ -157,6 +156,9 @@ jobs:
           working_directory: ~/repo/meteor-app
           command: npm install
 
+      - add_ssh_keys:
+          fingerprints:
+            - "f1:ae:87:95:82:15:2f:e0:64:52:9c:b3:97:78:59:b7"
       - run:
           name: mup deploy
           working_directory: ~/repo/deployment/b2b-staging
