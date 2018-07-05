@@ -158,7 +158,8 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "f1:ae:87:95:82:15:2f:e0:64:52:9c:b3:97:78:59:b7"
+            - "10:c0:e2:e3:30:52:bf:95:db:c1:cb:fe:01:ef:eb:cd"
+
       - run:
           name: mup deploy
           working_directory: ~/repo/deployment/b2b-staging
