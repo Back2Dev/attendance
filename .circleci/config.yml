@@ -128,7 +128,7 @@ jobs:
           working_directory: ~/repo
           command: |
               awk '/---/{a=1;next}/^$/{a&&b=1}a&&!b{print}b{exit}' CHANGELOG-meteor-app.md > ~/changelog
-              curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Tests passed, deploying develop to staging. <${CIRCLE_BUILD_URL}>\n\`\`\`\n$(cat ~/changelog)\n\`\`\`\n \", \"icon_emoji\": \":shipit:\"}" https://hooks.slack.com/services/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
+              curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Tests passed, deploying develop to staging. <${CIRCLE_BUILD_URL}>\n\`\`\`\n$(cat ~/changelog)\n\`\`\`\n \", \"icon_emoji\": \":shipit:\"}" https://hooks.slack.com/services/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
 
       - run:
           name: install meteor
@@ -174,7 +174,7 @@ jobs:
       - run:
           name: post success message to slack
           command: |
-            curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Develop has been deployed to staging. <https://staging.back2bikes.com.au>\", \"icon_emoji\": \":sunglasses:\"}" https://hooks.slack.com/services/XXXXT3YHM0C4S/B9H66BJGP/L9ctfGT6VlOirHlpA8YpSXB4
+            curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Develop has been deployed to staging. <https://staging.back2bikes.com.au>\", \"icon_emoji\": \":sunglasses:\"}" https://hooks.slack.com/services/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
 
 
 
