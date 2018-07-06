@@ -1,6 +1,11 @@
 # attendance-app
 Workshop attendance app for back2bikes volunteers.  
 This app's intention is to address this [Problem Statement](http://devblog.back2bikes.com.au:8080/blog/attendance/)
+
+## Pre-requisites
+
+Install Meteor here https://www.meteor.com/install
+
 # Get up and running
 #### Clone this repo  
 `git clone https://github.com/Back2bikes/attendance.git`   
