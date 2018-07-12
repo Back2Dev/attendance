@@ -1,8 +1,7 @@
 {
   "_id": "string",
   "customer-details": {
-    "first-name": "string",
-    "last-name": "string",
+    "name": "string",
     "phone": "string",
     "email": "string"
   },
@@ -36,9 +35,11 @@
   "total-cost": "integer",
   "dropoff-date": "date",
   "pickup-date": "date",
+  "urgent": "boolean",
   "assessor-name": "string",
   "mechanic-name": "string",
   "comment": "string",
   "temporary-bike": "boolean",
-  "repair-status": "string"
+  "repair-status": "string",
+  "search": "string"
 }
