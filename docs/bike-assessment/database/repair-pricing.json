@@ -1,0 +1,11 @@
+{
+  "service-item": [{
+    "name": "string",
+    "description": "string",
+    "price": "integer"
+  }],
+  "parts-item": [{
+    "name": "string",
+    "price": "integer"
+  }]
+}
