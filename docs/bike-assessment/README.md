@@ -247,7 +247,7 @@ See below the database schema that we mocked up using JSON:
 
 ****
 
-![Photo of database schema](assets/db_schema.jpg)
+![Photo of database schema](assets/schema.jpg)
 
 ---
 ## <a id="11"></a>Provide User stories for your App.
