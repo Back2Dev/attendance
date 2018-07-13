@@ -13,4 +13,4 @@ The database will consists of 2 collections:
 ### **API Spec**
 
 See below link to preview the **Bike Assessment API spec**:\
-https://app.swaggerhub.com/apis/ongsterrr/bike-assessment_api/1.0.0
+https://app.swaggerhub.com/apis/ongsterrr/bike-assessment-api/1.0.0
