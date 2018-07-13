@@ -6,11 +6,12 @@
     "version": "1.0.0",
     "contact": {
       "name": "Coder Academy",
-      "url": ""
+      "url": "https://coderacademy.edu.au/"
     }
   },
   "license": {
-
+    "name": "",
+    "url": ""
   },
   "basePath": "/api",
   "schemes": [
@@ -43,7 +44,7 @@
             "description": "Details of bike repair assessment",
             "schema": {
               "type": "object",
-              "$ref": "#/definitions/SubmitForm"
+              "$ref": "#/definitions/SubmitFormRequest"
             }
           }
         ],
@@ -51,7 +52,7 @@
           "201": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/SubmitForm"
+              "$ref": "#/definitions/SubmitFormResponse"
             }
           },
           "422": {
@@ -73,7 +74,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/JobCart"
+              "$ref": "#/definitions/GetJobCart"
             }
           },
           "422": {
@@ -99,7 +100,7 @@
             "description": "Details of job cart",
             "schema": {
               "type": "object",
-              "$ref": "#/definitions/JobCart"
+              "$ref": "#/definitions/UpdateJobCart"
             }
           }
         ],
@@ -107,7 +108,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/JobCart"
+              "$ref": "#/definitions/GetJobCart"
             }
           },
           "422": {
@@ -124,10 +125,7 @@
     "CustomerDetails": {
       "type": "object",
       "properties": {
-        "first-name": {
-          "type": "string"
-        },
-        "last-name": {
+        "name": {
           "type": "string"
         },
         "phone": {
@@ -244,7 +242,75 @@
         "totalPartsCost"
       ]
     },
-    "SubmitForm": {
+    "SubmitFormResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "customerDetails": {
+          "$ref": "#/definitions/CustomerDetails"
+        },
+        "bikeDetails": {
+          "$ref": "#/definitions/BikeDetails"
+        },
+        "serviceTask": {
+          "$ref": "#/definitions/ServiceTask"
+        },
+        "replacementParts": {
+          "$ref": "#/definitions/ReplacementParts"
+        },
+        "additionalFee": {
+          "type": "integer"
+        },
+        "totalCost": {
+          "type": "integer"
+        },
+        "dropoffDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "pickupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "urgent": {
+          "type": "boolean"
+        },
+        "assessorName": {
+          "type": "string"
+        },
+        "mechanicName": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "temporaryBike": {
+          "type": "boolean"
+        },
+        "repairStatus": {
+          "type": "string"
+        },
+        "search": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "customerDetails",
+        "bikeDetails",
+        "serviceTask",
+        "replacementParts",
+        "totalCost",
+        "dropoffDate",
+        "pickupDate",
+        "assessorName",
+        "temporaryBike",
+        "repairStatus",
+        "search"
+      ]
+    },
+    "SubmitFormRequest": {
       "type": "object",
       "properties": {
         "customerDetails": {
@@ -273,6 +339,9 @@
           "type": "string",
           "format": "date"
         },
+        "urgent": {
+          "type": "boolean"
+        },
         "assessorName": {
           "type": "string"
         },
@@ -287,6 +356,9 @@
         },
         "repairStatus": {
           "type": "string"
+        },
+        "search": {
+          "type": "string"
         }
       },
       "required": [
@@ -299,10 +371,60 @@
         "pickupDate",
         "assessorName",
         "temporaryBike",
-        "repairStatus"
+        "repairStatus",
+        "search"
       ]
     },
-    "JobCart": {
+    "GetJobCart": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "bikeDetails": {
+          "$ref": "#/definitions/BikeDetails"
+        },
+        "serviceTask": {
+          "$ref": "#/definitions/ServiceTask"
+        },
+        "replacementParts": {
+          "$ref": "#/definitions/ReplacementParts"
+        },
+        "additionalFee": {
+          "type": "integer"
+        },
+        "totalCost": {
+          "type": "integer"
+        },
+        "pickupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "urgent": {
+          "type": "string"
+        },
+        "mechanicName": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "repairStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bikeDetails",
+        "serviceTask",
+        "replacementParts",
+        "totalCost",
+        "pickupDate",
+        "temporaryBike",
+        "repairStatus",
+        "urgent"
+      ]
+    },
+    "UpdateJobCart": {
       "type": "object",
       "properties": {
         "bikeDetails": {
@@ -324,6 +446,9 @@
           "type": "string",
           "format": "date"
         },
+        "urgent": {
+          "type": "string"
+        },
         "mechanicName": {
           "type": "string"
         },
@@ -333,16 +458,7 @@
         "repairStatus": {
           "type": "string"
         }
-      },
-      "required": [
-        "bikeDetails",
-        "serviceTask",
-        "replacementParts",
-        "totalCost",
-        "pickupDate",
-        "temporaryBike",
-        "repairStatus"
-      ]
+      }
     },
     "GenericErrorModel": {
       "type": "object",

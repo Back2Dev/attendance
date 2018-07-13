@@ -1,10 +1,10 @@
 {
-  "service-item": [{
+  "serviceItem": [{
     "name": "string",
     "description": "string",
     "price": "integer"
   }],
-  "parts-item": [{
+  "partsItem": [{
     "name": "string",
     "price": "integer"
   }]
