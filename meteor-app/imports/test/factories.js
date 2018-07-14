@@ -6,11 +6,12 @@ import { Meteor } from 'meteor/meteor';
 import faker from 'faker';
 import { Factory } from 'meteor/dburles:factory';
 import { Random } from 'meteor/random';
-import _ from 'lodash';
 
+import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
+import Orders from '/imports/api/orders/orders'
 
 
 Factory.define('member', Members, {
@@ -51,6 +52,16 @@ Factory.define('session', Sessions, {
   timeIn: new Date(),
   timeOut: new Date(),
   duration: faker.random.number(6),
+})
+
+Factory.define('order', Orders, {
+  status: CONSTANTS.ORDER_STATUS_NEW,
+  orderedParts: [{
+    part: "700c hybrid Wheel ME, eyeletted",
+    price: 5000,
+    qty: 1,
+  }],
+  totalPrice: 9900,   // This is in cents
 })
 
 export default Factory
