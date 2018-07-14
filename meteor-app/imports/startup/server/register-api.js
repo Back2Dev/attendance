@@ -7,3 +7,7 @@ import '/imports/api/members/server/publications'
 // sessions
 import '/imports/api/sessions/methods'
 import '/imports/api/sessions/server/publications'
+
+//parts
+import '/imports/api/parts/parts'
+import '/imports/api/parts/server/publications'
