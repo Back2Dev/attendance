@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
@@ -12,9 +12,11 @@ export const OrdersSchema = new SimpleSchema({
     label: "Unique _id",
     optional: false,
   },
-  sent: {
+  // 0 = Pending, 1 = Sent
+  status: {
     type: Number,
-    defaultValue: 0
+    defaultValue: 0,
+    label: "Order Status"
   },
   totalPrice: {
     type: Number,
