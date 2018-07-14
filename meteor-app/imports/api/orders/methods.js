@@ -24,7 +24,7 @@ Meteor.methods({
   'orders.update'(id, orderedParts) {
     try {
       log.info('updating order: ', id, orderedParts)
-      return Orders.update({ _id: id }, { $set: { ...orderedParts } })
+      return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedParts } } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
