@@ -6,7 +6,8 @@ Next
 * Added eventLog() method and Events collection
 * Upgraded to npm version of simple-schema and updated collection2 to 3.0
 * Added createdAt and updatedAt schema shortcuts
-
+* Added Parts schema and seeded dummy Parts data, created subsription and publications of Parts
+* Added ordering layout and ordering component that is subscribed to parts  
 0.3.0
 ------
 * Upgraded to proper semantic-ui markup
