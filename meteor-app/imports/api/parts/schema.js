@@ -39,7 +39,7 @@ export const PartsSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Part Status',
     optional: true,
-    defaultValue: 1,
+    defaultValue: 0,
   },
   createdAt,
   updatedAt,
