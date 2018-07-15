@@ -11,13 +11,13 @@ import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
-import Orders from '/imports/api/orders/orders'
+import Orders from '/imports/api/orders/schema'
 
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
-// TODO - the rest of these
+  // TODO - the rest of these
   // isHere: true,
   // avatar: '7.jpg',
   // sessions:

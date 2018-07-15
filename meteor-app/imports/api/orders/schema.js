@@ -42,7 +42,7 @@ export const OrdersSchema = new SimpleSchema({
     label: "Part Number",
   },
   "orderedParts.$": {
-    type: SimpleSchema.Integer, // qty
+    type: SimpleSchema.Integer,
     label: "Quantity",
   },
   "orderedParts.$": {
