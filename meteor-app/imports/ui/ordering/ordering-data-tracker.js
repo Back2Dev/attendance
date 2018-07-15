@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session'
 
-import OrderingMain from '/imports/ui/ordering/ordering-main'
-import Parts from '/imports/api/parts/parts';
+import OrderingLayout from '/imports/ui/ordering/ordering-layout'
+import Parts from '/imports/api/parts/schema';
 
 Session.set('searchQuery', '')
 
@@ -15,4 +15,4 @@ export default withTracker((props) => {
     loading: !partsHandle.ready(),
     searchQuery: Session.get('searchQuery'),
   }
-})(OrderingMain)
+})(OrderingLayout)

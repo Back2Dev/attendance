@@ -1,26 +1,32 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 
-import { createdAt, updatedAt } from '/imports/api/schema'
+import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
 const Parts = new Mongo.Collection('parts')
 
 export const PartsSchema = new SimpleSchema({
+  _id: {
+    type: String,
+    regEx: REGEX_ID,
+    label: 'Unique _id',
+    optional: false,
+  },
   imageUrl: {
     type: String,
     defaultValue: '/public/images/logo-large.jpg',
   },
   retailPrice: {
-    type: Number,
-    label: 'Retail Price',
+    type: SimpleSchema.Integer,
+    label: 'Retail Price in cents',
     optional: false,
   },
   wholesalePrice: {
-    type: Number,
-    label: 'Wholesale price',
+    type: SimpleSchema.Integer,
+    label: 'Wholesale price in cents',
     optional: false,
   },
-  number: {
+  partNo: {
     type: String, 
     label: 'Part Number',
     optional: false,
@@ -34,6 +40,12 @@ export const PartsSchema = new SimpleSchema({
     type: String,
     label: 'Barcode',
     optional: true,
+  },
+  partStatus: {
+    type: SimpleSchema.Integer,
+    label: 'Part Status',
+    optional: true,
+    defaultValue: 1,
   },
   createdAt,
   updatedAt,
