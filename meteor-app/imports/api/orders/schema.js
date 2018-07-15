@@ -23,6 +23,12 @@ export const OrdersSchema = new SimpleSchema({
     part: {
       type: String,
     },
+    partId: {
+      type: String,
+    },
+    partNo: {
+      type: String,
+    },
     price: {
       type: SimpleSchema.Integer,
       label: "Price",
@@ -31,7 +37,12 @@ export const OrdersSchema = new SimpleSchema({
       type: SimpleSchema.Integer,
       label: "quantity",
     },
-  }],
+    userId: {
+      type: String,
+      autoValue: function () {
+        return Meteor.userId()
+      },
+    }],
   totalPrice: {
     type: Number,
     label: "Total Cost",
