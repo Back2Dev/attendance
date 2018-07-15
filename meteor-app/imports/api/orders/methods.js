@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Orders from '/imports/api/orders/orders'
 import log from '/imports/lib/server/log'
-const debug = require('debug')('att:server-methods')
+const debug = require('debug')('b2b:orders')
 
 Meteor.methods({
   'orders.insert'(order) {
