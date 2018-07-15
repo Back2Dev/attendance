@@ -7,9 +7,10 @@
 ### **Schema**
 
 The database will consists of 2 collections:
-- "`assessment`" - it will store all the information for bike assessment
-- "`repair-pricing`" - it will store all the pricing information of the repair services and parts
+- "`assessment`" - it will store all the information for bike assessment (Refer to `assessment.json`)
+- "`repair-pricing`" - it will store all the pricing information of the repair services and parts (Refer to `repair-pricing.json`)
 
-See below the database schema:
+### **API Spec**
 
-![database-schema](schema.png)
+See below link to preview the **Bike Assessment API spec**:\
+https://app.swaggerhub.com/apis/ongsterrr/bike-assessment-api/1.0.0

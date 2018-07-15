@@ -1,44 +1,45 @@
 {
   "_id": "string",
-  "customer-details": {
-    "first-name": "string",
-    "last-name": "string",
+  "customerDetails": {
+    "name": "string",
     "phone": "string",
     "email": "string"
   },
-  "bike-details": {
+  "bikeDetails": {
     "make": "string",
     "model": "string",
     "color": "string",
-    "bike-value": "integer",
-    "sentiment-value": "boolean"
+    "bikeValue": "integer",
+    "sentimentValue": "boolean"
   },
-  "service-task": {
-    "service-item": [
+  "serviceTask": {
+    "serviceItem": [
       {
         "name": "string",
         "description": "string",
         "price": "integer",
-        "required": "boolean"
+        "selection": "boolean"
       }],
-    "total-service-cost": "integer"
+    "totalServiceCost": "integer"
   },
-  "replacement-parts": {
-    "parts-item": [
+  "replacementParts": {
+    "partsItem": [
       {
         "name": "string",
         "price": "integer",
-        "required": "boolean"
+        "selection": "boolean"
       }],
-    "total-parts-cost": "integer"
+    "totalPartsCost": "integer"
   },
-  "additional-fee": "integer",
-  "total-cost": "integer",
-  "dropoff-date": "date",
-  "pickup-date": "date",
-  "assessor-name": "string",
-  "mechanic-name": "string",
+  "additionalFee": "integer",
+  "totalCost": "integer",
+  "dropoffDate": "date",
+  "pickupDate": "date",
+  "urgent": "boolean",
+  "assessor": "string",
+  "mechanic": "string",
   "comment": "string",
-  "temporary-bike": "boolean",
-  "repair-status": "string"
+  "temporaryBike": "boolean",
+  "status": "string",
+  "search": "string"
 }
