@@ -21,7 +21,6 @@ export const OrdersSchema = new SimpleSchema({
   totalPrice: {
     type: Number,
     label: "Total Cost",
-    required: true,
   },
   additionalNotes: {
     type: String,
