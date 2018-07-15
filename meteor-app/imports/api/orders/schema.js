@@ -22,10 +22,16 @@ export const OrdersSchema = new SimpleSchema({
     label: "Notes",
     optional: true,
   },
-  orderedParts: {
+  "orderedParts.$": {
     type: Array,   // array of part objects
-    label: "Parts",
+    label: "Parts Ordered",
     min: 1,
+    autoValue: function () {
+      return Meteor.user()._id;
+    },
+    addedAt: {
+      type: Date,
+    },
   },
   createdAt,
   updatedAt,
