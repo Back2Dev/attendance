@@ -2,16 +2,12 @@ import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
+import { RegExId } from '../schema';
 
 const Parts = new Mongo.Collection('parts')
 
 export const PartsSchema = new SimpleSchema({
-  _id: {
-    type: String,
-    regEx: REGEX_ID,
-    label: 'Unique _id',
-    optional: false,
-  },
+  _id: RegExId,
   imageUrl: {
     type: String,
     defaultValue: '/public/images/logo-large.jpg',
@@ -41,7 +37,7 @@ export const PartsSchema = new SimpleSchema({
     label: 'Barcode',
     optional: true,
   },
-  partStatus: {
+  status: {
     type: SimpleSchema.Integer,
     label: 'Part Status',
     optional: true,
