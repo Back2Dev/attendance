@@ -7,7 +7,7 @@ import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 const Orders = new Mongo.Collection('orders')
 
 export const OrdersSchema = new SimpleSchema({
-  _id: RegExId,
+  _id: REGEX_ID,
   status: {
     type: SimpleSchema.Integer,
     allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE),
