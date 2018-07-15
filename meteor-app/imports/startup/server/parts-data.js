@@ -41,7 +41,7 @@ Meteor.methods({
     }
   })
 
-  const partArray =
+  const partsList =
     arrayOf(n, () => casual.part)
     .forEach(r => Parts.insert(r))
 },

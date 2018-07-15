@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
 
-class OrderingMain extends React.Component {
+class Ordering extends React.Component {
 
   render() {
     return (
@@ -17,4 +17,4 @@ class OrderingMain extends React.Component {
   }
 }
 
-export default withRouter(OrderingMain)
+export default withRouter(Ordering)
