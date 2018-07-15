@@ -22,23 +22,38 @@ export const OrdersSchema = new SimpleSchema({
     label: "Notes",
     optional: true,
   },
-  // "orderedParts.$": {
-  //   type: Array,
-  //   orderedParts: {
-  //     label: "Parts Ordered",
-  //     min: 1,
-  //     autoValue: function () {
-  //       return Meteor.user()._id;
-  //     },
-  //     // addedAt: { type: Date },
-  //   },
-  // },
+  "orderedParts.$": {
+    type: Array,
+  },
+  "orderedParts": {
+    type: String,
+    autoValue: function () {
+      return Meteor.user()._id;
+    },
+  },
+  "orderedParts.$": {
+    type: Array,
+    id: String,
+    label: "Part Id",
+  },
+  "orderedParts.$": {
+    type: Array,
+    no: String,
+    label: "Part Number",
+  },
+  "orderedParts.$": {
+    type: SimpleSchema.Integer, // qty
+    label: "Quantity",
+  },
+  "orderedParts.$": {
+    type: Date,
+    label: "Date Ordered",
+  },
   addedAt: {
     type: Date,
   },
   createdAt,
   updatedAt,
-
 })
 Orders.attachSchema(OrdersSchema)
 
