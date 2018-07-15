@@ -6,12 +6,7 @@ import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 const Orders = new Mongo.Collection('orders')
 
 export const OrdersSchema = new SimpleSchema({
-  _id: {
-    type: String,
-    regEx: REGEX_ID,
-    label: "Unique _id",
-    optional: false,
-  },
+  _id: RegExId,
   // 0 = Pending, 1 = Sent
   status: {
     type: Number,
