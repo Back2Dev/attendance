@@ -13,41 +13,28 @@ export const OrdersSchema = new SimpleSchema({
     allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE),
     label: "Order Status"
   },
-  totalPrice: {
-    type: Number,
-    label: "Total Cost",
-  },
   additionalNotes: {
     type: String,
     label: "Notes",
     optional: true,
   },
-  "orderedParts.$": {
+  "orderedParts.$": [{
     type: Array,
-  },
-  "orderedParts": {
-    type: String,
-    autoValue: function () {
-      return Meteor.user()._id;
+    part: {
+      type: String,
     },
-  },
-  "orderedParts.$": {
-    type: Array,
-    id: String,
-    label: "Part Id",
-  },
-  "orderedParts.$": {
-    type: Array,
-    no: String,
-    label: "Part Number",
-  },
-  "orderedParts.$": {
-    type: SimpleSchema.Integer,
-    label: "Quantity",
-  },
-  "orderedParts.$": {
-    type: Date,
-    label: "Date Ordered",
+    price: {
+      type: SimpleSchema.Integer,
+      label: "Price",
+    },
+    qty: {
+      type: SimpleSchema.Integer,
+      label: "quantity",
+    },
+  }],
+  totalPrice: {
+    type: Number,
+    label: "Total Cost",
   },
   addedAt: {
     type: Date,
