@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Card, Icon, Image, Label } from 'semantic-ui-react'
+import { Container, Divider, Card, Icon, Image, Label } from 'semantic-ui-react'
 
 const PartCard = (props) => {
   const {
@@ -16,15 +16,39 @@ const PartCard = (props) => {
   } = props.part
 
   return (
-    <Card className='part-card' key={_id}>
+    <Card style={{ textAlign: 'center' }}
+      className={props.className}
+      key={_id}
+    >
       <Image src={imageUrl} />
       <Card.Content>
-        Part Num: {partNo}<br />
-        Description: {desc}<br />
-        Price: {retailPrice}
+        <Card.Header>Part # {partNo}</Card.Header>
+        <Card.Meta>
+          <span className='date'>{barcode}</span>
+        </Card.Meta>
+        <Card.Description>{desc}</Card.Description>
       </Card.Content>
+      <Card.Content extra>
+        <a>
+          Price ${retailPrice}
+        </a>
+      </Card.Content>
+
+
+
+      {/* <Image src={imageUrl} />
+      <Card.Content>
+
+        <Divider />
+
+        {desc}
+
+        <Divider />
+
+        Price ${retailPrice}
+      </Card.Content> */}
     </Card>
-  ) 
+  )
 }
 
 // PartsCard.propTypes = {
