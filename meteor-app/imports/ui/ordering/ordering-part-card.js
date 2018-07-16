@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { Card, Icon, Image, Label } from 'semantic-ui-react'
 
 const PartCard = (props) => {
   const {
@@ -12,18 +13,15 @@ const PartCard = (props) => {
     retailPrice,
     status,
     wholesalePrice
-  } = props
+  } = props.part
 
   return (
     <Card className='part-card' key={_id}>
       <Image src={imageUrl} />
-
       <Card.Content>
-        <Card.Header>
-          Part Num: {partNo}
-          Description: {desc}
-          Price: {retailPrice}
-        </Card.Header>
+        Part Num: {partNo}
+        Description: {desc}
+        Price: {retailPrice}
       </Card.Content>
     </Card>
   )
