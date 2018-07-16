@@ -4,6 +4,7 @@
   "private": false,
   "scripts": {
     "start": "meteor run",
+    "debug": "DEBUG=b2b:* meteor --inspect-brk=9229 --port 3030 ",
     "lint": "eslint .",
     "test:ui": "start-storybook -s public -p 6046",
     "storybook": "start-storybook -s public -p 6046",
