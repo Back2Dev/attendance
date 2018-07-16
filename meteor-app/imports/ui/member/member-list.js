@@ -19,11 +19,8 @@ const MemberList = (props) => {
           alignContent: 'center',
           justifyContent: 'center'
         }}
+
       >
-        {
-          props.loading &&
-          _.times(15, i => _.constant(<Loader key={i} />)())
-        }
 
         {
           (!props.loading && members) &&

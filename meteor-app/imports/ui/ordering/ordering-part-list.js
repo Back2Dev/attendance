@@ -1,0 +1,33 @@
+import React from 'react'
+import { Card, Header } from 'semantic-ui-react'
+import * as _ from 'lodash'
+
+const PartList = (props) => {
+  const { parts, Component, Loader } = props
+
+  return (
+    <div>
+      {React.Children.map(props.children, (child) => child)}
+      <div
+      // style={{
+      //   display: 'flex',
+      //   flexWrap: 'wrap',
+      //   height: '100%',
+      //   alignContent: 'center',
+      //   justifyContent: 'center'
+      // }}
+      >
+        {
+          (!props.loading && parts) &&
+          parts.map(part => (
+            <div key={part._id}>
+              <Component className="part-card" style={{ padding: '5px' }} part={part} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  )
+}
+
+export default PartList
