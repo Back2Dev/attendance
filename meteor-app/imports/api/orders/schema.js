@@ -12,7 +12,7 @@ export const OrdersSchema = new SimpleSchema({
   _id: REGEX_ID,
   status: {
     type: SimpleSchema.Integer,
-    allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE),
+    allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE).map(key => parseInt(key, 10)),
     label: "Order Status",
   },
   additionalNotes: {

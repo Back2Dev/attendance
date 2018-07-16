@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { RegExId } from '/imports/api/schema'
+import { REGEX_ID } from '../schema'
 
 export const orderedParts = new SimpleSchema({
     part: {
@@ -28,6 +28,9 @@ export const orderedParts = new SimpleSchema({
         type: SimpleSchema.Integer,
         label: "Quantity",
     },
-    userId: RegExId,
+    userId: {
+        type: String,
+        label: "User Id",
+    },
 })
 
