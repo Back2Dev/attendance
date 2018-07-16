@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
+import orderedParts from '/imports/api/orders/orderedParts'
 import CONSTANTS from '/imports/api/constants.js'
+
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
@@ -11,41 +13,19 @@ export const OrdersSchema = new SimpleSchema({
   status: {
     type: SimpleSchema.Integer,
     allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE),
-    label: "Order Status"
+    label: "Order Status",
   },
   additionalNotes: {
     type: String,
     label: "Notes",
     optional: true,
   },
-  "orderedParts.$": [{
-    type: Array,
-    part: {
-      type: String,
-    },
-    partId: {
-      type: String,
-    },
-    partNo: {
-      type: String,
-    },
-    price: {
-      type: SimpleSchema.Integer,
-      label: "Price",
-    },
-    qty: {
-      type: SimpleSchema.Integer,
-      label: "quantity",
-    },
-    userId: REGEX_ID,
-  }],
   totalPrice: {
     type: Number,
     label: "Total Cost",
   },
-  addedAt: {
-    type: Date,
-  },
+  orderedParts: Array,
+  'orderedParts.$': orderedParts,
   createdAt,
   updatedAt,
 })
