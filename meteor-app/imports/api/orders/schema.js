@@ -27,7 +27,7 @@ export const OrdersSchema = new SimpleSchema({
       type: String,
     },
     partNo: {
-      type: String, 3
+      type: String,
     },
     price: {
       type: SimpleSchema.Integer,
