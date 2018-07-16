@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, Header } from 'semantic-ui-react'
-import * as _ from 'lodash'
 
 const PartList = (props) => {
   const { parts, Component, Loader } = props

@@ -19,12 +19,12 @@ const PartCard = (props) => {
     <Card className='part-card' key={_id}>
       <Image src={imageUrl} />
       <Card.Content>
-        Part Num: {partNo}
-        Description: {desc}
+        Part Num: {partNo}<br />
+        Description: {desc}<br />
         Price: {retailPrice}
       </Card.Content>
     </Card>
-  )
+  ) 
 }
 
 // PartsCard.propTypes = {
