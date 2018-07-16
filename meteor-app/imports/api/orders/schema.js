@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-import orderedParts from '/imports/api/orders/orderedParts'
+import { orderedParts } from '/imports/api/orders/orderedParts'
 import CONSTANTS from '/imports/api/constants.js'
 
 
