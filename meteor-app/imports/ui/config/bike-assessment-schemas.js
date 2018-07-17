@@ -20,34 +20,34 @@ export default [
             bikeModel: { type: "string", title: "Bike Model" },
             bikeColor: { type: "string", title: "Bike Color" },
             approxBikeValue: { type: "integer", title: "Approx. Bike Value"},
-            services: { type: "array", enum: ['test1', 'test2', 'test3']}, 
+            services: { type: "string", title: "Services", enum: ['test1', 'test2', 'test3']}, 
             // TODO: array brought in from DB 
           }
         },
         uiSchema: {
           assessor: {
             "ui:placeholder": "Who is doing the assessment?",
-            "ui:autofocus": true,
+            "ui:autoFocus": true,
           },
           
           bikeMake: {
             "ui:placeholder": "Bike make..",
-            "ui:autofocus": true,
+            "ui:autoFocus": true,
           },
           bikeModel: {
             "ui:placeholder": "Bike model..",
-            "ui:autofocus": true,
+            "ui:autoFocus": true,
           },
           bikeColor: {
             "ui:placeholder": "Bike color..",
-            "ui:autofocus": true,
+            "ui:autoFocus": true,
           },
           approxBikeValue: {
             "ui:placeholder": "$Approx. price",
             "ui:widget": "updown"
           },
           services: {
-              "ui:widget": "checkboxes"
+              "ui:widget": "select"
           },
         }
       },

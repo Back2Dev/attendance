@@ -95,27 +95,27 @@ componentDidMount(){
       })
     }
   }
-  validate = (formData, errors) => {
-    if(this.props.member != null){
-      return true
-    }
-    if (formData.pin && formData.pin.length < 4) {
-      errors.pin.addError("PIN number must be at least 4 digits long.");
-    }
-    if (formData.pin !== formData.pinConfirm) {
-      errors.pinConfirm.addError("PIN numbers don't match");
-    }
-    return errors;
-  }
+  // validate = (formData, errors) => {
+  //   if(this.props.assessment != null){
+  //     return true
+  //   }
+  //   if (formData.pin && formData.pin.length < 4) {
+  //     errors.pin.addError("PIN number must be at least 4 digits long.");
+  //   }
+  //   if (formData.pin !== formData.pinConfirm) {
+  //     errors.pinConfirm.addError("PIN numbers don't match");
+  //   }
+  //   return errors;
+  // }
   renderForm = () => {
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
       formData={this.state.formData}
       onSubmit={this.onSubmit}
-      validate={this.validate}
-      widgets={widgets}
-      fields={fields}
+      /* validate={this.validate} */
+      /* widgets={widgets} */
+      /* fields={fields} */
       showErrorList={false} 
       liveValidate={true}
     >
@@ -131,7 +131,7 @@ componentDidMount(){
   render() {
     const finalStep = schemas.length == this.state.step
     return (
-      <Grid>
+    <Grid>
         <Grid.Row centered>
           <Steps
             step={this.state.step}
@@ -165,13 +165,13 @@ componentDidMount(){
             }
           </Grid.Column>
         </Grid.Row>
-      </Grid >
+    </Grid>
     )
   }
 }
 
 AssessmentAdd.propTypes = {
-  setMember: PropTypes.func.isRequired,
+  setAssessment: PropTypes.func.isRequired,
   resetId: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,

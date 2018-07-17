@@ -63,7 +63,7 @@ export default withTracker(props => {
     error: error.get(),
     success: success.get(),
     message: msg.get(),
-    isIframe: isIframe(),
+    // isIframe: isIframe(),
     newId: newId.get(),
     resetId: () => newId.set(""),
     assessment: props.assessment ? props.assessment : null
