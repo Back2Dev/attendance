@@ -53,7 +53,10 @@ export const OrdersSchema = new SimpleSchema({
     type: Number,
     label: "Total Cost",
   },
-  orderedParts: Array,
+  orderedParts: {
+    type: Array,
+    minCount: 1,
+  },
   'orderedParts.$': orderedParts,
   createdAt,
   updatedAt,

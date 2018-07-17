@@ -21,9 +21,17 @@ const badOrders = [
   {},
   { _id: 1234, orderedParts: '12321312' },
   { totalPrice: '12321312' },
+
+  // no parts
+  {
+    status: 2,
+    orderedParts: [],
+    totalPrice: 4444,   // This is in cents
+  },
 ]
 
 const goodOrders = [
+  // one part
   {
     status: 1,
     orderedParts: [{
@@ -36,6 +44,41 @@ const goodOrders = [
       userId: "sakjd222",
     }],
     totalPrice: 9900,   // This is in cents
+  },
+
+  // many parts
+  {
+    status: 3,
+    orderedParts: [
+      {
+        part: "Handle Bar",
+        price: 3333,
+        qty: 1,
+        partId: "abc123",
+        partNo: "007",
+        addedAt: new Date(),
+        userId: "mr.cool",
+      },
+      {
+        part: "Brake Lever",
+        price: 2144,
+        qty: 10,
+        partId: "l-k343",
+        partNo: "67900",
+        addedAt: new Date(),
+        userId: "user56",
+      },
+      {
+        part: "Braided Line",
+        price: 2322,
+        qty: 3,
+        partId: "991",
+        partNo: "619619",
+        addedAt: new Date(),
+        userId: "mark",
+      },
+    ],
+    totalPrice: 4444,   // This is in cents
   },
 ]
 
