@@ -146,7 +146,7 @@ componentDidMount(){
               finalStep &&
               // this needs refactoring
               <div>
-                <MemberAddReview
+                <AssessmentAddReview
                   formData={this.state.formData}
                   steps={schemas}
                   goToStep={this.goToStep}

@@ -58,7 +58,7 @@ export default [
           type: "object",
           title: "Select Parts",
           properties: {
-            parts: { type: "string", enum: [] }, 
+            parts: { type: "string", enum: ['test1', 'test2'] }, 
             // TODO: array brought in from DB 
             comments: { type: "string", title: "Comments" },
             additionalFee: { type: "integer", title: "Enter additional fee if required (list reason in comments)" },
@@ -70,7 +70,7 @@ export default [
         },
         uiSchema: {
           parts: {
-            "ui:widget": "checkboxes"
+            "ui:widget": "select"
           },
           comments: {
             "ui:widget": "textarea",
