@@ -1,0 +1,25 @@
+/* copied from member-search.css  can be edited for part search? */
+
+.ui.input.ordering-part-search input {
+    border: 3px solid #18BF39;
+    color: #005E12 !important;
+      text-align: left;
+    font-size: 1.5em !important;
+    background: #7FFF98;
+    width: 100%;
+    border-radius: 5px;
+    
+  }
+  
+  .ui.input.ordering-part-search input::placeholder {
+    color: black !important;
+  }
+  .ui.input.ordering-part-search input:focus::placeholder {
+    color: rgb(173, 239, 145) !important;
+  }
+  
+  @media only screen and (min-width: 768px){
+    .ui.input.ordering-part-search input {
+      width: 500px !important;
+    }  
+  }
