@@ -1,35 +1,34 @@
-// // copied from member-add-success - to be updated and changed to order
+// copied from member-add-success.js  -  can use similar file when part added to order?
 
-// import React from 'react'
-// import PropTypes from 'prop-types';
-// import { Card, Grid, Header, Message } from 'semantic-ui-react'
-// import MemberCard from '/imports/ui/member/member-card'
+import React from 'react'
+import PropTypes from 'prop-types';
+import { Card, Grid, Header, Message } from 'semantic-ui-react'
+import PartCard from '/imports/ui/member/ordering-part-card'
 
-// const MemberAddSuccess = (props) => {
+const OrderingAddSuccess = (props) => {
 
-//   return (
-//     <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center' >
-//       <Grid.Column>
-//         <Message>
-//           <Message.Header>
-//             You were successfully added to our Volunteer List.
-//         </Message.Header>
-//           <p>When you first visit, say hello to someone on the team.
-//           They'll help you find your avatar on the attendance app, where you can sign in.</p>
-//           <p>Your avatar card will look like this:</p>
-//         </Message>
-//         <Card.Group centered>
-//           <MemberCard
-//             {...props.member}
-//             onCardClick={f => f}
-//           />
-//         </Card.Group>
-//       </Grid.Column>
-//     </Grid>
-//   )
-// }
+  return (
+    <Grid centered style={{ height: '100%' }} verticalAlign='middle' textAlign='center' >
+      <Grid.Column>
+        <Message>
+          <Message.Header>
+            Part was successfully added to the current order.
+        </Message.Header>
+          <p>To add further parts please search again.</p>
+          <p>Part added to order:</p>
+        </Message>
+        <Card.Group centered>
+          <PartCard
+            {...props.part}
+            onCardClick={f => f}
+          />
+        </Card.Group>
+      </Grid.Column>
+    </Grid>
+  )
+}
 
-// MemberAddSuccess.propTypes = {
-// };
+OrderingAddSuccess.propTypes = {
+};
 
-// export default MemberAddSuccess
+export default OrderingAddSuccess
