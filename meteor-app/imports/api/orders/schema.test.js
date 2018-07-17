@@ -83,6 +83,13 @@ const goodOrders = [
     }],
     totalPrice: 9900,   // This is in cents
   },
+
+  {
+    status: 4,
+    orderedParts: [],
+    totalPrice: 111,   // This is in cents
+  },
+
   {
     status: 2,
     orderedParts: [{
