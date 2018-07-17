@@ -6,13 +6,10 @@ import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
-
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
 
-// import MemberAddReview from '/imports/ui/member/member-add-review'
-// import widgets from '/imports/ui/member/member-add-widgets'
-// import fields from '/imports/ui/member/member-add-fields'
+import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 
 const mapSchemaToState = schema => (
   schema
@@ -37,8 +34,8 @@ componentDidMount(){
   if(this.props.assessment){
     this.setState({
       formData: {...this.props.assessment},
-      step: 5,
-      progress: 5,
+      step: 4,
+      progress: 4,
     })
   }
 }
@@ -61,7 +58,7 @@ componentDidMount(){
   }
 
   componentWillUnmount() {
-    // prevents id from persisting between adding users
+    // prevents id from persisting between adding assessments
       this.props.resetId()
   }
 
@@ -102,27 +99,13 @@ componentDidMount(){
       })
     }
   }
-  // validate = (formData, errors) => {
-  //   if(this.props.assessment != null){
-  //     return true
-  //   }
-  //   if (formData.pin && formData.pin.length < 4) {
-  //     errors.pin.addError("PIN number must be at least 4 digits long.");
-  //   }
-  //   if (formData.pin !== formData.pinConfirm) {
-  //     errors.pinConfirm.addError("PIN numbers don't match");
-  //   }
-  //   return errors;
-  // }
+
   renderForm = () => {
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
       formData={this.state.formData}
       onSubmit={this.onSubmit}
-      /* validate={this.validate} */
-      /* widgets={widgets} */
-      /* fields={fields} */
       showErrorList={false} 
       liveValidate={true}
     >

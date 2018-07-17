@@ -2,10 +2,6 @@ import { withTracker } from "meteor/react-meteor-data";
 import AssessmentAdd from "/imports/ui/assessment/assessment-add";
 import { ReactiveVar } from "meteor/reactive-var";
 
-// Do we need?
-// import isIframe from "/imports/helpers/isIframe";
-// const debug = require('debug')('att:addmember')
-
 import Alert from 'react-s-alert';
 
 const success = new ReactiveVar(false);
@@ -56,7 +52,6 @@ export default withTracker(props => {
 
     }
   }
-
 
   return {
     setAssessment,
