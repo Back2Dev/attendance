@@ -15,6 +15,7 @@ const badParts = [
         barcode: '0001000010102345',
         status: 1,
     },
+
     {
         imageUrl: '/public/images/logo-large.jpg',
         retailPrice: 5070,
@@ -23,6 +24,7 @@ const badParts = [
         barcode: '0102345001000010',
         status: 0,
     },
+
     {
         imageUrl: '/public/images/logo-large.jpg',
         retailPrice: 9690,
@@ -30,6 +32,25 @@ const badParts = [
         desc: 'bmx pegs',
         barcode: '11100011102',
         status: 'sent',
+    },
+
+    {
+        retailPrice: 7865,
+        wholesalePrice: "",
+        partNo: 1010,
+        desc: 'brake line',
+        barcode: '11100011102',
+        status: 'recieved',
+    },
+
+    {
+        imageUrl: '/public/images/logo-large.jpg',
+        retailPrice: "",
+        wholesalePrice: 3000,
+        partNo: '12345',
+        desc: 'golden bell',
+        barcode: '0001000010102345',
+        status: 1,
     },
 ]
 
@@ -43,12 +64,14 @@ const goodParts = [
         barcode: '0001000010102345',
         status: 1,
     },
+
     {
         imageUrl: '/public/images/logo-large.jpg',
         retailPrice: 600.00,
         wholesalePrice: 34000,
         partNo: '12345',
     },
+
     {
         retailPrice: 34500,
         wholesalePrice: 333000,
@@ -57,12 +80,13 @@ const goodParts = [
     },
 ]
 
+goodParts.push(Factory.build('part'))
+
 describe('schema', () => {
 
     goodParts.forEach((good, i) => {
         describe('PartsSchema good parts', () => {
             it(`Succeeds on GOOD Parts insert ${i + 1}`, () => {
-                console.log(good);
                 expect(() => Parts.insert(good)).not.to.throw()
             })
         })
@@ -71,7 +95,6 @@ describe('schema', () => {
     badParts.forEach((bad, i) => {
         describe('PartsSchema bad parts', () => {
             it(`Succeeds on BAD Parts insert ${i + 1}`, () => {
-                console.log(bad);
                 expect(() => Parts.insert(bad)).to.throw()
             })
         })
