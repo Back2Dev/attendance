@@ -8,13 +8,13 @@ const PartList = (props) => {
     <div>
       {React.Children.map(props.children, (child) => child)}
       <div
-      // style={{
-      //   display: 'flex',
-      //   flexWrap: 'wrap',
-      //   height: '100%',
-      //   alignContent: 'center',
-      //   justifyContent: 'center'
-      // }}
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          height: '100%',
+          alignContent: 'center',
+          justifyContent: 'center'
+        }}
       >
         {
           (!props.loading && parts) &&
