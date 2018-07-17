@@ -31,13 +31,13 @@ class AssessmentAdd extends Component {
   }
 
 componentDidMount(){
-  if(this.props.assessment){
-    this.setState({
-      formData: {...this.props.assessment},
-      step: 4,
-      progress: 4,
-    })
-  }
+  // if(this.props.assessment){
+  //   this.setState({
+  //     formData: {...this.props.assessment},
+  //     step: 4,
+  //     progress: 4,
+  //   })
+  // }
 }
 
   componentDidUpdate(prevProps, prevState) {
