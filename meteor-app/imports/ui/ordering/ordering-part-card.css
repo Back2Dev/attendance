@@ -22,3 +22,10 @@
   max-width: 290px;
   margin: 0 auto;
 }
+
+.part-desc {
+  height: 114px;
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+}

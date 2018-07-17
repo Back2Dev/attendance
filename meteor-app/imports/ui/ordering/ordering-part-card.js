@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Container, Divider, Card, Icon, Image, Label } from 'semantic-ui-react'
+import { Container, Divider, Card, Icon, Image, Label, Button } from 'semantic-ui-react'
 import '/imports/ui/ordering/ordering-part-card.css'
 
 const PartCard = (props) => {
@@ -15,6 +15,10 @@ const PartCard = (props) => {
     status,
     wholesalePrice
   } = props.part
+
+  if (!barcode) {
+    barcode = "n/a"
+  }
 
   return (
     <Card className={props.className}
@@ -31,7 +35,7 @@ const PartCard = (props) => {
 
         <Divider />
 
-        <Card.Description>{desc}</Card.Description>
+        <Card.Description className='part-desc'>{desc}</Card.Description>
 
         <Divider />
 
