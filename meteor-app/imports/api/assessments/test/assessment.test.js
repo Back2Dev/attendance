@@ -1,11 +1,3 @@
-
-/**
- * schema test
- * we probably don't need to unit test all the schemas but I put this
- * suite together so i could understand how SimpleSchema.autoValue() actually
- * works and where the holes are.
- */
-
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import faker from 'faker'
