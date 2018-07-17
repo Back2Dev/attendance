@@ -40,38 +40,6 @@ Meteor.methods({
 
     Assessment.update(jobId, { $set: { updatedJob } });
   },
-  'parts.insert'(part) {
-    check(part, Object)
-
-    Parts.insert(part)
-  },
-  'parts.update'(partId, updatedPart) {
-    check(partId, String)
-    check(updatedPart, Object)
-
-    Parts.update(partId, { $set: { updatedPart } })
-  },
-  'parts.remove'(partId) {
-    check(partId, String)
-
-    Parts.remove(partId)
-  },
-  'services.insert'(service) {
-    check(service, Object)
-
-    Services.insert(service)
-  },
-  'services.update'(serviceId, updatedService) {
-    check(serviceId, String)
-    check(updatedService, Object)
-
-    Services.update(serviceId, { $set: { updatedService } })
-  },
-  'services.remove'(serviceId) {
-    check(serviceId, String)
-
-    Services.remove(serviceId)
-  },
   'logger.insert'(log) {
     check(log, Object)
 
