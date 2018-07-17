@@ -41,11 +41,9 @@ const goodOrders = [
 
 goodOrders.push(Factory.build('order'))
 
-describe.only('orders/schema', () => {
 
-  beforeEach(() => {
-    resetDatabase()
-  })
+describe('schema', () => {
+  beforeEach(resetDatabase)
 
   badOrders.forEach((bad, i) => {
     describe('OrdersSchema bad orders', () => {
