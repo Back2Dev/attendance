@@ -7,6 +7,7 @@ import MemberEdit from '/imports/ui/member/member-edit'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberVisitContainer from '/imports/ui/member/member-visit-container'
 import AdminContainer from '/imports/ui/admin/admin-container'
+import AppSelection from '/imports/ui/admin/app-selection'
 import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/member/member-nav'
 
@@ -17,7 +18,7 @@ const Attendance = () => {
         <Nav />
         <div style={{ marginTop: '70px', height: '100%' }}>
           <Switch>
-            <Route path="/admin" component={AdminContainer} />
+            <Route path="/admin" component={AppSelection} />
             <Route path="/add" component={MemberAddContainer} />
             <Route path="/:id" component={MemberVisitContainer} />
             <Route path="/" component={MemberMainContainer} />
