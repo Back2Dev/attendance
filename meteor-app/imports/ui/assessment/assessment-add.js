@@ -33,8 +33,8 @@ componentDidMount(){
   if(this.props.assessment){
     this.setState({
       formData: {...this.props.assessment},
-      step: 5,
-      progress: 5,
+      step: 4,
+      progress: 4,
     })
   }
 }

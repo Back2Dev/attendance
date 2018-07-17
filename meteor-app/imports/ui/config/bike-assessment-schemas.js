@@ -23,7 +23,7 @@ export default [
             services: {type: "array", title: "Services", items: { 
               type: "number", 
               enum: [1, 2, 3], 
-              enumNames:["New York","California","Dallas"]
+              enumNames:["Service 1","Service 2","Service 3"]
           },
           uniqueItems: true
         }, 
@@ -126,11 +126,25 @@ export default [
           type: "object",
           title: "Enter Customer Details",
            properties: {
-    
+            b2bRefurbish: { type: "boolean", title: "Is this bike being refurbished by Back 2 Bikes?" },
+            name: { type: "string", title: "Name" },
+            phone: { type: "string", title: "Phone Number" },
+            email: { type: "string", title: "Email" },
           },
         },
         uiSchema: {
-    
+          b2bRefurbish: {
+
+          },
+          name: {
+
+          },
+          phone: {
+
+          },
+          email: {
+
+          }
           },
       } 
 ]
