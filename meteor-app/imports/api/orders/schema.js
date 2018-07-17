@@ -1,6 +1,9 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 import CONSTANTS from '/imports/api/constants.js'
+import sinon from 'sinon';
+
+
 
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
@@ -20,6 +23,7 @@ export const orderedParts = new SimpleSchema({
   addedAt: {
     type: Date,
     label: "Date Added",
+    optional: true,
   },
   price: {
     type: SimpleSchema.Integer,
@@ -52,6 +56,7 @@ export const OrdersSchema = new SimpleSchema({
   totalPrice: {
     type: Number,
     label: "Total Cost",
+    required: true,
   },
   orderedParts: {
     type: Array,
