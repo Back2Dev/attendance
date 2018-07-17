@@ -12,6 +12,6 @@ export const ServicesSchema = new SimpleSchema({
   updatedAt,
 })
 
-Services.attachSchema('ServicesSchema')
+Services.attachSchema(ServicesSchema)
 
 export default Services

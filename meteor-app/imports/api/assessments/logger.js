@@ -7,12 +7,12 @@ const Logger = new Mongo.Collection('Logger')
 export const LoggerSchema = new SimpleSchema({
   _id: RegExId,
   user: String,
-  requestType: { type: String, label: 'Database operation used' },
-  requestBody: { type: String, label: 'Data inserted, updated or fetched' },
+  requestType: { type: String, label: 'Database operation used i.e. submit form, update job etc.' },
+  requestBody: { type: String, label: 'Data inserted or updated' },
   createdAt,
   updatedAt,
 })
 
-Logger.attachSchema('LoggerSchema');
+Logger.attachSchema(LoggerSchema);
 
 export default Logger

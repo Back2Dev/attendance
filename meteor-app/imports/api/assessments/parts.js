@@ -12,6 +12,6 @@ export const PartsSchema = new SimpleSchema({
   updatedAt,
 })
 
-Parts.attachSchema('PartsSchema')
+Parts.attachSchema(PartsSchema)
 
 export default Parts
