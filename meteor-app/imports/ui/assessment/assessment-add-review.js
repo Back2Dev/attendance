@@ -22,7 +22,7 @@ const AssessmentAddReview = (props) => {
               </h2>
               <Segment.Group>
                 {
-                  Object.keys(step.schema.properties).map((key, iy) => {
+                  Object.keys(step.schema.properties).map((key, value, iy) => {
                     if (props.formData[key]) {
                       return (
                         <Segment key={iy}>

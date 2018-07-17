@@ -21,9 +21,8 @@ export default [
             bikeColor: { type: "string", title: "Bike Color" },
             approxBikeValue: { type: "integer", title: "Approx. Bike Value"},
             services: {type: "array", title: "Services", items: { 
-              type: "number", 
-              enum: [1, 2, 3], 
-              enumNames:[" Service 1"," Service 2"," Service 3"]
+              type: "string", 
+              enum:[" Service 1"," Service 2"," Service 3"]
           },
           uniqueItems: true
         }, 
@@ -65,9 +64,8 @@ export default [
           title: "Select Parts",
           properties: {
             parts: {type: "array", title: "Parts", items: { 
-              type: "number", 
-              enum: [1, 2, 3], 
-              enumNames:[" Bike Part 1"," Bike Part 2"," Bike Part 3"],
+              type: "string", 
+              enum:[" Bike Part 1"," Bike Part 2"," Bike Part 3"],
           },
           uniqueItems: true
         }, 
