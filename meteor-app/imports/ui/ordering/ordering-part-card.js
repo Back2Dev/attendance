@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Container, Divider, Card, Icon, Image, Label } from 'semantic-ui-react'
+import '/imports/ui/ordering/ordering-part-card.css'
 
 const PartCard = (props) => {
   const {
@@ -16,37 +17,26 @@ const PartCard = (props) => {
   } = props.part
 
   return (
-    <Card style={{ textAlign: 'center' }}
-      className={props.className}
+    <Card className={props.className}
       key={_id}
     >
-      <Image src={imageUrl} />
+      <div className='part-img-container'>
+        <Image src={imageUrl} className='part-img' />
+      </div>
       <Card.Content>
         <Card.Header>Part # {partNo}</Card.Header>
         <Card.Meta>
-          <span className='date'>{barcode}</span>
+          <span className='barcode'>{barcode}</span>
         </Card.Meta>
+
+        <Divider />
+
         <Card.Description>{desc}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <a>
-          Price ${retailPrice}
-        </a>
-      </Card.Content>
-
-
-
-      {/* <Image src={imageUrl} />
-      <Card.Content>
 
         <Divider />
 
-        {desc}
-
-        <Divider />
-
-        Price ${retailPrice}
-      </Card.Content> */}
+        <Card.Header>Price ${retailPrice}</Card.Header>
+      </Card.Content>
     </Card>
   )
 }

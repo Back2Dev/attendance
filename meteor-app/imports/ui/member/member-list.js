@@ -19,7 +19,6 @@ const MemberList = (props) => {
           alignContent: 'center',
           justifyContent: 'center'
         }}
-
       >
 
         {
