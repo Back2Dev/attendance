@@ -75,7 +75,7 @@ componentDidMount(){
           ...formData,
         },
         step: prevState.step + 1,
-        progress: prevState.step + 1,
+        progress: prevState.progress + 1,
       }
     })
   }
