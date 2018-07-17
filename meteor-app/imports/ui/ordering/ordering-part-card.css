@@ -29,3 +29,19 @@
   white-space: wrap;
   text-overflow: ellipsis;
 }
+
+/* .part-num-container {
+  flex-direction: row !important;
+  align-content: space-between !important;
+} */
+
+.part-num {
+  float: right;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 22px !important;
+}

@@ -28,18 +28,32 @@ const PartCard = (props) => {
         <Image src={imageUrl} className='part-img' />
       </div>
       <Card.Content>
-        <Card.Header>Part # {partNo}</Card.Header>
+        <Card.Header className='part-num-container'>
+          <span className='part-num-text'>
+            Part #
+          </span>
+
+          <span className='part-num'>
+            {partNo}
+          </span>
+        </Card.Header>
+
+        <Divider fitted />
+
         <Card.Meta>
           <span className='barcode'>{barcode}</span>
         </Card.Meta>
 
-        <Divider />
+        <Divider fitted />
 
         <Card.Description className='part-desc'>{desc}</Card.Description>
 
         <Divider />
 
-        <Card.Header>Price ${retailPrice}</Card.Header>
+        <div className='price-container' >
+          <b>${retailPrice}</b>
+          <Button className='part-add-cart-button' floated='right'>Add To Cart</Button>
+        </div>
       </Card.Content>
     </Card>
   )
