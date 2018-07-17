@@ -3,8 +3,6 @@ import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
 
 import Assessment from './assessment'
-import Parts from './parts'
-import Services from './services'
 import Logger from './logger'
 
 Meteor.methods({
