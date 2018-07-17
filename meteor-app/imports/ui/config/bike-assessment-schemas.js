@@ -20,7 +20,13 @@ export default [
             bikeModel: { type: "string", title: "Bike Model" },
             bikeColor: { type: "string", title: "Bike Color" },
             approxBikeValue: { type: "integer", title: "Approx. Bike Value"},
-            services: { type: "string", title: "Services", enum: ['test1', 'test2', 'test3']}, 
+            services: {type: "array", title: "Services", items: { 
+              type: "number", 
+              enum: [1, 2, 3], 
+              enumNames:["New York","California","Dallas"]
+          },
+          uniqueItems: true
+        }, 
             // TODO: array brought in from DB 
           }
         },
@@ -47,7 +53,7 @@ export default [
             "ui:widget": "updown"
           },
           services: {
-              "ui:widget": "select"
+              "ui:widget": "checkboxes"
           },
         }
       },
@@ -58,19 +64,25 @@ export default [
           type: "object",
           title: "Select Parts",
           properties: {
-            parts: { type: "string", enum: ['test1', 'test2'] }, 
+            parts: {type: "array", title: "Parts", items: { 
+              type: "number", 
+              enum: [1, 2, 3], 
+              enumNames:["Bike Part 1","Bike Part 2","Bike Part 3"]
+          },
+          uniqueItems: true
+        }, 
             // TODO: array brought in from DB 
             comments: { type: "string", title: "Comments" },
             additionalFee: { type: "integer", title: "Enter additional fee if required (list reason in comments)" },
             replacementBike: { type: "boolean", title: "Replacement bike required?" },
             sentimentalValue: { type: "boolean", title: "Does bike have sentimental value?" },
+            requestUrgent: { type: "boolean", title: "Is this request urgent?" },
             pickUpDate: {type: "string", title: "Pick-up Date"},
-            requestUrgent: { type: "string", title: "Is this request urgent?" },
           },
         },
         uiSchema: {
           parts: {
-            "ui:widget": "select"
+            "ui:widget": "checkboxes"
           },
           comments: {
             "ui:widget": "textarea",
@@ -87,12 +99,12 @@ export default [
           },
           sentimentalValue: {
           },
+          requestUrgent: {
+
+          },
           pickUpDate: {
               "ui:widget": "alt-date"
-          },
-          requestUrgent: {
           }
-        
         }
       },
       {
