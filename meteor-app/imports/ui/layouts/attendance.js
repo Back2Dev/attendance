@@ -19,6 +19,7 @@ const Attendance = () => {
         <div style={{ marginTop: '70px', height: '100%' }}>
           <Switch>
             <Route path="/admin" component={AppSelection} />
+            <Route path="/userprofiles" component={AdminContainer} />
             <Route path="/add" component={MemberAddContainer} />
             <Route path="/:id" component={MemberVisitContainer} />
             <Route path="/" component={MemberMainContainer} />
