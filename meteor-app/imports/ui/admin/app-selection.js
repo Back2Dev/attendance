@@ -1,8 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { Button, Container } from 'semantic-ui-react'
-import Alert from 'react-s-alert';
-const debug = require('debug')('att:admin')
+const debug = require('debug')('b2b:admin')
 
 
 class AppSelection extends Component {
