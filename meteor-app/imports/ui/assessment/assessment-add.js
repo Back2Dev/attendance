@@ -6,9 +6,10 @@ import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
-
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
+
+import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 
 const mapSchemaToState = schema => (
   schema
@@ -57,7 +58,7 @@ componentDidMount(){
   }
 
   componentWillUnmount() {
-    // prevents id from persisting between adding users
+    // prevents id from persisting between adding assessments
       this.props.resetId()
   }
 

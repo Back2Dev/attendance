@@ -23,7 +23,7 @@ export default [
             services: {type: "array", title: "Services", items: { 
               type: "number", 
               enum: [1, 2, 3], 
-              enumNames:["Service 1","Service 2","Service 3"]
+              enumNames:[" Service 1"," Service 2"," Service 3"]
           },
           uniqueItems: true
         }, 
@@ -67,7 +67,7 @@ export default [
             parts: {type: "array", title: "Parts", items: { 
               type: "number", 
               enum: [1, 2, 3], 
-              enumNames:["Bike Part 1","Bike Part 2","Bike Part 3"]
+              enumNames:[" Bike Part 1"," Bike Part 2"," Bike Part 3"],
           },
           uniqueItems: true
         }, 
@@ -134,16 +134,12 @@ export default [
         },
         uiSchema: {
           b2bRefurbish: {
-
           },
           name: {
-
           },
           phone: {
-
           },
           email: {
-
           }
           },
       } 
