@@ -10,7 +10,6 @@ const AssessmentAddSteps = (props) => {
           <Step key={i} completed={(props.progress >= i)} onClick={() => props.goToStep(i)}>
             <Step.Content>
               <Step.Title>{step.stepTitle}</Step.Title>
-              <Step.Description>{step.stepDescription}</Step.Description>
             </Step.Content>
           </Step>
         )}

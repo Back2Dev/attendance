@@ -10,10 +10,6 @@ import schemas from '/imports/ui/config/bike-assessment-schemas'
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
 
-// import MemberAddReview from '/imports/ui/member/member-add-review'
-// import widgets from '/imports/ui/member/member-add-widgets'
-// import fields from '/imports/ui/member/member-add-fields'
-
 const mapSchemaToState = schema => (
   schema
     .reduce((state, step) => {
@@ -95,27 +91,13 @@ componentDidMount(){
       })
     }
   }
-  // validate = (formData, errors) => {
-  //   if(this.props.assessment != null){
-  //     return true
-  //   }
-  //   if (formData.pin && formData.pin.length < 4) {
-  //     errors.pin.addError("PIN number must be at least 4 digits long.");
-  //   }
-  //   if (formData.pin !== formData.pinConfirm) {
-  //     errors.pinConfirm.addError("PIN numbers don't match");
-  //   }
-  //   return errors;
-  // }
+
   renderForm = () => {
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
       formData={this.state.formData}
       onSubmit={this.onSubmit}
-      /* validate={this.validate} */
-      /* widgets={widgets} */
-      /* fields={fields} */
       showErrorList={false} 
       liveValidate={true}
     >
