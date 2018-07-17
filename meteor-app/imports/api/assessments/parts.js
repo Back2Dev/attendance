@@ -6,8 +6,8 @@ const Parts = new Mongo.Collection('parts')
 
 export const PartsSchema = new SimpleSchema({
   _id: RegExId,
-  name: String,
-  price: SimpleSchema.Integer,
+  name: { type: String, label: 'Parts description' },
+  price: { type: SimpleSchema.Integer, label: 'Price in cents' },
   createdAt,
   updatedAt,
 })

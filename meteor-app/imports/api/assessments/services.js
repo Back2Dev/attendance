@@ -6,8 +6,8 @@ const Services = new Mongo.Collection('services')
 
 export const ServicesSchema = new SimpleSchema({
   _id: RegExId,
-  name: String,
-  price: SimpleSchema.Integer,
+  name: { type: String, label: 'Service description' },
+  price: { type: SimpleSchema.Integer, label: 'Price in cents' },
   createdAt,
   updatedAt,
 })
