@@ -3,13 +3,9 @@ import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-// import { linkTo } from '@storybook/addon-links'
-// import { Welcome } from '@storybook/react/demo'
-// import { withInfo } from '@storybook/addon-info'
 import { withKnobs, number, boolean, select } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 
-import schemas from '/imports/ui/config/bike-assessment-schemas'
 import AssessmentAddControl from './assessment-add-control'
 
 storiesOf('Assessment.Add', module)
@@ -24,7 +20,6 @@ storiesOf('Assessment.Add', module)
       try {
         action("move")(delta)
         action('step')(step)
-  // Updating the step does cause a refresh, methinks it should
         step = step + delta
       } catch(error) {
         console.log("Error", error)
