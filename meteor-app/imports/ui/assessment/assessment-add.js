@@ -43,8 +43,8 @@ componentDidMount(){
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
 
-    const finalStep = schemas.length == this.state.step
-    if (finalStep && this.props.newId) {
+    const reviewStep = schemas.length == this.state.step
+    if (reviewStep && this.props.newId) {
       Alert.success(this.props.message);
       this.props.history.push(
         this.props.isIframe
@@ -52,7 +52,7 @@ componentDidMount(){
           : '/'
       )
     }
-    if (finalStep && this.props.error) {
+    if (reviewStep && this.props.error) {
       Alert.error(this.props.message);
     }
   }
@@ -63,8 +63,8 @@ componentDidMount(){
   }
 
   onSubmit = ({ formData }) => {
-    const finalStep = schemas.length == this.state.step
-    if (finalStep) {
+    const reviewStep = schemas.length == this.state.step
+    if (reviewStep) {
       this.props.setAssessment(this.state.formData)
       return
     }
@@ -112,7 +112,7 @@ componentDidMount(){
   }
 
   render() {
-    const finalStep = schemas.length == this.state.step
+    const reviewStep = this.state.step == 3
     return (
     <Grid>
         <Grid.Row centered>
@@ -126,7 +126,7 @@ componentDidMount(){
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '600px' }}>
             {
-              finalStep &&
+              reviewStep &&
               // this needs refactoring
               <div>
                 <AssessmentAddReview
@@ -143,7 +143,7 @@ componentDidMount(){
               </div>
             }
             {
-              !finalStep &&
+              !reviewStep &&
               this.renderForm()
             }
           </Grid.Column>
