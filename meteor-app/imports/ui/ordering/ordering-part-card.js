@@ -40,12 +40,6 @@ const PartCard = (props) => {
 
         <Divider fitted />
 
-        <Card.Meta>
-          <span className='barcode'>{barcode}</span>
-        </Card.Meta>
-
-        <Divider fitted />
-
         <Card.Description className='part-desc'>{desc}</Card.Description>
 
         <Divider />
