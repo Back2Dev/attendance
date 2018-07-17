@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 // schema.test.js
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 import { Mongo } from 'meteor/mongo';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -51,10 +51,10 @@ describe('api/schema', () => {
       const upsert = TestCollection.upsert({
         name: 'not-an-existing-name',
       }, {
-        $set: {
-          name: 'new-name',
-        },
-      });
+          $set: {
+            name: 'new-name',
+          },
+        });
       expect(upsert.insertedId).to.be.ok;
       const doc = TestCollection.findOne(upsert.insertedId);
       expect(doc).to.be.an('object');
@@ -75,11 +75,11 @@ describe('api/schema', () => {
       const upsert = TestCollection.upsert({
         name: 'quxly',
       }, {
-        $set: {
-          name: 'foobarqux',
-          createdAt: future,
-        },
-      });
+          $set: {
+            name: 'foobarqux',
+            createdAt: future,
+          },
+        });
       const upsertDoc = TestCollection.findOne(upsert.insertedId);
       expect(upsertDoc.createdAt.valueOf()).not.to.equal(future.valueOf());
     });
@@ -133,11 +133,11 @@ describe('api/schema', () => {
       const upsert = TestCollection.upsert({
         name: 'not-an-existing-name',
       }, {
-        $set: {
-          name: 'a-new-name',
-          updatedAt: new Date(),
-        },
-      });
+          $set: {
+            name: 'a-new-name',
+            updatedAt: new Date(),
+          },
+        });
       const doc = TestCollection.findOne(upsert.insertedId);
       expect(doc.updatedAt).not.to.be.ok;
     });
@@ -169,13 +169,13 @@ describe('api/schema', () => {
       TestCollection.upsert({
         name: 'foobar',
       }, {
-        $set: {
-          name: 'quxly',
-          updatedAt: future,
-        },
-      }, {
-        multi: true,
-      });
+          $set: {
+            name: 'quxly',
+            updatedAt: future,
+          },
+        }, {
+          multi: true,
+        });
 
 
       const numDocs = TestCollection.find().count();
@@ -221,15 +221,15 @@ describe('api/schema', () => {
   });
 
   describe('fixCreatedAt()', () => {
-    it ('fixes missing createdAt,updatedAt and converts numbers to dates', () => {
-// 2 fixes - both missing
+    it('fixes missing createdAt,updatedAt and converts numbers to dates', () => {
+      // 2 fixes - both missing
       TestCollection.insert({
         name: 'test missing stuff',
       }, { bypassCollection2: true });
       let numFixed = fixCreatedAt(TestCollection);
       expect(numFixed).to.be.equal(2);
 
-// 2 fixes - converts createdAt, adds updatedAt
+      // 2 fixes - converts createdAt, adds updatedAt
       TestCollection.insert({
         name: 'test number conversion',
         createdAt: 1481715317425,
@@ -237,7 +237,7 @@ describe('api/schema', () => {
       numFixed = fixCreatedAt(TestCollection);
       expect(numFixed).to.be.equal(2);
 
-// 1 fix - convert updatedAt
+      // 1 fix - convert updatedAt
       TestCollection.insert({
         name: 'test happy day conversion',
         updatedAt: 1481715317425,

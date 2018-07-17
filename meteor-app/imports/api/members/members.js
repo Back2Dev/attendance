@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
