@@ -28,12 +28,17 @@ const PartCard = (props) => {
         <Image src={imageUrl} className='part-img' />
       </div>
       <Card.Content>
-        <Card.Header>Part # {partNo}</Card.Header>
-        <Card.Meta>
-          <span className='barcode'>{barcode}</span>
-        </Card.Meta>
+        <Card.Header className='part-num-container'>
+          <span className='part-num-text'>
+            Part #
+          </span>
 
-        <Divider />
+          <span className='part-num'>
+            {partNo}
+          </span>
+        </Card.Header>
+
+        <Divider fitted />
 
         <Card.Description className='part-desc'>{desc}</Card.Description>
 
