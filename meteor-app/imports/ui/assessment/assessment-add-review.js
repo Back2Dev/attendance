@@ -4,12 +4,10 @@ import { Button, Icon, Image, Header, Segment } from 'semantic-ui-react'
 
 const AssessmentAddReview = (props) => {
   const stepsToDisplay = props.steps.filter(step => {
-    console.log(step)
        if(step.stepTitle != "Review" && step.stepTitle != "Customer Details") {
          return step
        }    
   })
-  console.log(stepsToDisplay)
   return (
     <Segment style={{ textAlign: 'left' }}>
       <Header as='h1' content='Review your details:' textAlign='center' />

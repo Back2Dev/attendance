@@ -43,7 +43,7 @@ componentDidMount(){
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
 
-    const reviewStep = schemas.length == this.state.step
+    const reviewStep = this.state.step == 3
     if (reviewStep && this.props.newId) {
       Alert.success(this.props.message);
       this.props.history.push(
@@ -63,8 +63,8 @@ componentDidMount(){
   }
 
   onSubmit = ({ formData }) => {
-    const reviewStep = schemas.length == this.state.step
-    if (reviewStep) {
+    const lastStep = schemas.length == this.state.step
+    if (lastStep) {
       this.props.setAssessment(this.state.formData)
       return
     }
@@ -119,9 +119,12 @@ componentDidMount(){
   }
 
   render() {
+
     const reviewStep = this.state.step == 3
+    
     return (
     <Grid>
+
         <Grid.Row centered>
           <Steps
             step={this.state.step}
@@ -130,7 +133,9 @@ componentDidMount(){
             progress={this.state.progress}
           />
         </Grid.Row>
+
         <Grid.Row centered>
+          
           <Grid.Column style={{ maxWidth: '600px' }}>
             {
               reviewStep &&
@@ -155,6 +160,7 @@ componentDidMount(){
               this.renderForm()
             }
           </Grid.Column>
+
         </Grid.Row>
     </Grid>
     )
