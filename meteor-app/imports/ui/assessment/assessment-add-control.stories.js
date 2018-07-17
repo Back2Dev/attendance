@@ -19,14 +19,11 @@ storiesOf('Assessment.Add', module)
   .add('AssessmentAddControl', (() => {
 // NB Select control only works with strings
     let step = number("Step",1)
-//
-// This event handler fires ok, but doesn't update the control
-// I tried looking at the knobs code, but couldn't work out what
-// to call to trigger the update.
-//
+
     const move = (delta) => {
       try {
         action("move")(delta)
+        action('step')(step)
   // Updating the step does cause a refresh, methinks it should
         step = step + delta
       } catch(error) {
@@ -38,21 +35,12 @@ storiesOf('Assessment.Add', module)
         <AssessmentAddControl
           step={step}
           backStep={() => move(-1)}
-          nextStep={() => move(1)}
+          forwardStep={() => move(1)}
           onSubmit={action("submit")}
           totalSteps={5}
           resetId={action("resetId")}
         />
       </div>
     )
-    // specs(() =>
-    //   describe('<MemberAddReview />', () => {
-    //     it('displays the add member wizard', () => {
-    //       const wrapper = mount(story)
-    //       expect(wrapper.find('button')).to.have.length(1)
-    //       // expect(wrapper.find('button').props().src).to.contain(avatar.url)
-    //     })
-    //   })
-    // )
     return story
   }))

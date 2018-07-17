@@ -88,6 +88,13 @@ componentDidMount(){
       step: this.state.step - 1
     })
   }
+
+  forwardStep = () => {
+    this.setState({
+      step: this.state.step + 1
+    })
+  }
+
   goToStep = (step) => {
     if (step <= this.state.progress) {
       this.setState({
@@ -153,6 +160,7 @@ componentDidMount(){
                 />
                 <Control
                   backStep={this.backStep}
+                  forwardStep={this.forwardStep}
                   step={this.state.step}
                   totalSteps={schemas.length}
                   onSubmit={this.onSubmit}
