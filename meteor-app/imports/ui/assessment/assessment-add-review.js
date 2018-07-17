@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import { Button, Icon, Image, Header, Segment } from 'semantic-ui-react'
 
 const AssessmentAddReview = (props) => {
+  const stepsToDisplay = props.steps.filter(step => {
+       if(step.stepTitle != "Review" && step.stepTitle != "Customer Details") {
+         return step
+       }    
+  })
   return (
     <Segment style={{ textAlign: 'left' }}>
       <Header as='h1' content='Review your details:' textAlign='center' />
       {
-        props.steps.map((step, ix) => {
+ 
+        stepsToDisplay.map((step, ix) => {
           return (
             <Segment padded='very' key={ix}>
               <h2>
@@ -16,7 +22,7 @@ const AssessmentAddReview = (props) => {
               </h2>
               <Segment.Group>
                 {
-                  Object.keys(step.schema.properties).map((key, iy) => {
+                  Object.keys(step.schema.properties).map((key, value, iy) => {
                     if (props.formData[key]) {
                       return (
                         <Segment key={iy}>
