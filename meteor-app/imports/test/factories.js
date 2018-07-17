@@ -6,17 +6,18 @@ import { Meteor } from 'meteor/meteor';
 import faker from 'faker';
 import { Factory } from 'meteor/dburles:factory';
 import { Random } from 'meteor/random';
-import _ from 'lodash';
 
+import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
-
+import Orders from '/imports/api/orders/schema'
+import { RegExId } from '/imports/api/schema'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
-// TODO - the rest of these
+  // TODO - the rest of these
   // isHere: true,
   // avatar: '7.jpg',
   // sessions:
@@ -51,6 +52,21 @@ Factory.define('session', Sessions, {
   timeIn: new Date(),
   timeOut: new Date(),
   duration: faker.random.number(6),
+})
+
+Factory.define('order', Orders, {
+  status: CONSTANTS.ORDER_STATUS_NEW,
+  orderedParts: [{
+    part: "700c hybrid Wheel ME, eyeletted",
+    price: 5000,
+    qty: 1,
+    partId: "frame",
+    partNo: "sadasd",
+    addedAt: new Date(),
+    userId: "2ueueoaje",
+  }],
+  totalPrice: 9900,   // This is in cents
+
 })
 
 export default Factory
