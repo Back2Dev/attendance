@@ -15,6 +15,7 @@ import { Random } from 'meteor/random'
 
 import Orders from '/imports/api/orders/schema'
 import Factory from '/imports/test/factories'
+import { RegExId } from '../schema';
 
 const badOrders = [
   {},
@@ -23,15 +24,26 @@ const badOrders = [
 ]
 
 const goodOrders = [
-  { status: 2, totalPrice: 10000, orderedParts: [] },
+  {
+    status: 1,
+    orderedParts: [{
+      part: "Frame",
+      price: 6000,
+      qty: 3,
+      partId: "3432n3",
+      partNo: "22999",
+      addedAt: new Date(),
+      userId: "sakjd222",
+    }],
+    totalPrice: 9900,   // This is in cents
+  },
 ]
+
 goodOrders.push(Factory.build('order'))
 
-describe.only('orders/schema', () => {
 
-  beforeEach(() => {
-    resetDatabase()
-  })
+describe('schema', () => {
+  beforeEach(resetDatabase)
 
   badOrders.forEach((bad, i) => {
     describe('OrdersSchema bad orders', () => {
@@ -45,6 +57,8 @@ describe.only('orders/schema', () => {
   goodOrders.forEach((good, i) => {
     describe('OrdersSchema good orders', () => {
       it(`Succeeds on GOOD Orders insert ${i + 1}`, () => {
+        console.log(good)
+        console.log(good.orderedParts.userId)
         // passes, doesn't throw
         expect(() => Orders.insert(good)).not.to.throw()
       })
@@ -60,7 +74,7 @@ describe.only('orders/schema', () => {
       expect(() => Orders.insert(l)).to.throw()
 
       l = Factory.build('order')
-      l.status = "1"
+      l.status = toString(1)
       expect(() => Orders.insert(l)).to.throw()
 
       l = Factory.build('order')
@@ -73,5 +87,4 @@ describe.only('orders/schema', () => {
 
     })
   })
-
 })

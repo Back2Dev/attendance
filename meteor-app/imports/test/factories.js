@@ -12,7 +12,7 @@ import CONSTANTS from '/imports/api/constants'
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
 import Orders from '/imports/api/orders/schema'
-
+import { RegExId } from '/imports/api/schema'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
@@ -60,8 +60,13 @@ Factory.define('order', Orders, {
     part: "700c hybrid Wheel ME, eyeletted",
     price: 5000,
     qty: 1,
+    partId: "frame",
+    partNo: "sadasd",
+    addedAt: new Date(),
+    userId: "2ueueoaje",
   }],
   totalPrice: 9900,   // This is in cents
+
 })
 
 export default Factory
