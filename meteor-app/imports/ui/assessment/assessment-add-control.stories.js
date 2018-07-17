@@ -1,9 +1,8 @@
-// member-add.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { withKnobs, number, boolean, select } from '@storybook/addon-knobs/react'
+import { withKnobs, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 
 import AssessmentAddControl from './assessment-add-control'
@@ -33,7 +32,7 @@ storiesOf('Assessment.Add', module)
           forwardStep={() => move(1)}
           onSubmit={action("submit")}
           totalSteps={5}
-          resetId={action("resetId")}
+          resetId={action("resetId")} 
         />
       </div>
     )
