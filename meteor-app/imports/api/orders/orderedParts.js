@@ -22,7 +22,7 @@ export const orderedParts = new SimpleSchema({
     },
     price: {
         type: SimpleSchema.Integer,
-        label: "Price",
+        label: "Price in cents",
     },
     qty: {
         type: SimpleSchema.Integer,
