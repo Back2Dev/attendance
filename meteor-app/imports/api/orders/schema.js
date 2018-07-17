@@ -55,7 +55,7 @@ export const OrdersSchema = new SimpleSchema({
   },
   totalPrice: {
     type: Number,
-    label: "Total Cost",
+    label: 'Total Cost',
     required: true,
   },
   orderedParts: {

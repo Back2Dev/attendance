@@ -44,13 +44,13 @@ const badOrders = [
     orderedParts: [{
       part: "Limited Edition Frame",
       price: 60.10,
-      qty: 5,
+      qty: 0,
       partId: "3432n3",
       partNo: "22999",
       addedAt: new Date(),
       userId: "user55",
     }],
-    totalPrice: 9900,   // This is in cents
+    totalPrice: 9900.10,   // This is in cents
   },
 
   {
@@ -84,7 +84,7 @@ const goodOrders = [
     totalPrice: 9900,   // This is in cents
   },
   {
-    status: 1,
+    status: 2,
     orderedParts: [{
       part: "Limited Edition Frame",
       price: 60.00,
@@ -94,7 +94,7 @@ const goodOrders = [
       addedAt: new Date(),
       userId: "user55",
     }],
-    totalPrice: 9900,   // This is in cents
+    totalPrice: 8800,
   },
 
   // many parts
@@ -136,7 +136,7 @@ const goodOrders = [
 goodOrders.push(Factory.build('order'))
 
 describe('schema', () => {
-  beforeEach(resetDatabase)
+  // beforeEach(resetDatabase)
 
   badOrders.forEach((bad, i) => {
     describe('OrdersSchema bad orders', () => {
@@ -154,7 +154,13 @@ describe('schema', () => {
         console.log(good)
         // passes, doesn't throw
         expect(() => Orders.insert(good)).not.to.throw()
-        expect()
+      })
+    })
+    describe('query database good records', () => {
+      it('Return database query', () => {
+        expect(Orders.find().fetch()[0].totalPrice).to.equal(9900)
+        expect(Orders.find().fetch()[0].status).to.equal(1)
+        console.log(Orders.find().fetch());
       })
     })
   })
