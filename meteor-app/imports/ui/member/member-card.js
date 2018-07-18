@@ -10,8 +10,8 @@ const MemberCard = (props) => {
 
   return (
     <Card
-      style={{textAlign: 'center'}}
-      className={ props.className }
+      style={{ textAlign: 'center' }}
+      className={props.className}
       key={_id}
     >
       <Image

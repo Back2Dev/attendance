@@ -20,7 +20,7 @@ const PartList = (props) => {
           (!props.loading && parts) &&
           parts.map(part => (
             <div key={part._id}>
-              <Component className="part-card" style={{ padding: '5px' }} part={part} />
+              <Component className="part-card" style={{ padding: '5px' }} {...part} />
             </div>
           ))
         }

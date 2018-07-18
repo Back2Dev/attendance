@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 import { Container, Divider, Card, Icon, Image, Label, Button } from 'semantic-ui-react'
 import '/imports/ui/ordering/ordering-part-card.css'
 
-const PartCard = (props) => {
-  const {
-    _id,
-    barcode,
-    createdAt,
-    desc,
-    imageUrl,
-    partNo,
-    retailPrice,
-    status,
-    wholesalePrice
-  } = props.part
+const PartCard = ({
+  _id,
+  barcode,
+  createdAt,
+  desc,
+  imageUrl,
+  partNo,
+  retailPrice,
+  status,
+  wholesalePrice,
+  className
+}) => {
 
   if (!barcode) {
     barcode = "n/a"
   }
 
   return (
-    <Card className={props.className}
+    <Card className={className}
       key={_id}
     >
       <div className='part-img-container'>
@@ -50,28 +50,16 @@ const PartCard = (props) => {
   )
 }
 
-// PartsCard.propTypes = {
-
-//   // _id:PropTypes.string.isRequired,
-//   // barcode:,
-//   // createdAt:,
-//   // desc:,
-//   // imageUrl:,
-//   // partNo:,
-//   // retailPrice:,
-//   // status:,
-//   // wholesalePrice:
-
-
-
-//   // className: PropTypes.string,
-//   // _id: PropTypes.string.isRequired,
-//   // name: PropTypes.string.isRequired,
-//   // avatar: PropTypes.string.isRequired,
-//   // isHere: PropTypes.bool.isRequired,
-//   // sessions: PropTypes.array.isRequired,
-//   // lastIn: PropTypes.object,
-//   // sessionCount: PropTypes.number.isRequired,
-// };
+PartCard.propTypes = {
+  _id: PropTypes.string.isRequired,
+  barcode: PropTypes.string,
+  createdAt: PropTypes.object.isRequired,
+  desc: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  partNo: PropTypes.string.isRequired,
+  retailPrice: PropTypes.number.isRequired,
+  status: PropTypes.number.isRequired,
+  wholesalePrice: PropTypes.number.isRequired
+};
 
 export default PartCard
