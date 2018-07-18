@@ -3,10 +3,9 @@ import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
 import Layout from '/imports/ui/ordering/layout'
 import '/imports/ui/layouts/attendance.css'
-import Nav from '/imports/ui/ordering/navbar'
+import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert';
 import Cart from '/imports/ui/ordering/cart'
-import '/imports/ui/layouts/ordering.css'
 
 const Ordering = () => {
     return (
