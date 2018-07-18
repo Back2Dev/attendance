@@ -6,39 +6,52 @@ const Assessment = new Mongo.Collection('assessment')
 
 export const STATUS = ['New Job', 'Assigned', 'In Progress', 'Job Completed', 'Bike Picked Up']
 
+export const customerSchema = new SimpleSchema({
+  name: { type: String, optional: true, label: 'Customer name' },
+  phone: { type: String, optional: true, label: 'Customer phone number' },
+  email: { type: String, optional: true, label: 'Customer email' },
+  refurbishment: { type: Boolean, label: 'Stating whether this job is a refurbishment' },
+})
+
+export const bikeSchema = new SimpleSchema({
+  make: { type: String, label: 'Bike make' },
+  model: { type: String, optional: true, label: 'Bike model' },
+  color: { type: String, label: 'Bike color' },
+  bikeValue: { type: SimpleSchema.Integer, label: 'Estimated bike value in cents' },
+  sentimentValue: { type: Boolean, optional: true, label: 'Field to indicate if bike holds sentimental value' }
+})
+
+export const servicesSchema = new SimpleSchema({
+  serviceItem: Array,
+  'serviceItem.$': Object,
+  'serviceItem.$.name': { type: String, label: 'Service description' },
+  'serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single service item in cents' },
+  totalServiceCost: { type: SimpleSchema.Integer, label: 'Price of service in cents' }
+})
+
+export const partsSchema = new SimpleSchema({
+  partsItem: Array,
+  'partsItem.$': Object,
+  'partsItem.$.name': { type: String, label: 'Parts name/description' },
+  'partsItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single parts item in cents' },
+  'partsItem.$.quantity': { type: SimpleSchema.Integer, label: 'Quantity of parts item required' },
+  totalPartsCost: { type: SimpleSchema.Integer, label: 'Price of parts in cents' }
+})
+
 // Note: By default, all keys are required
 export const AssessmentSchema = new SimpleSchema({
   _id: RegExId,
-  customerDetails: Object,
-  'customerDetails.name': { type: String, optional: true },
-  'customerDetails.phone': { type: String, optional: true },
-  'customerDetails.email': { type: String, optional: true },
-  'customerDetails.refurbishment': Boolean,
-  bikeDetails: Object,
-  'bikeDetails.make': String,
-  'bikeDetails.model': { type: String, optional: true },
-  'bikeDetails.color': String,
-  'bikeDetails.bikeValue': { type: SimpleSchema.Integer, label: 'Estimated bike value in cents' },
-  'bikeDetails.sentimentValue': { type: Boolean, optional: true },
-  services: Object,
-  'services.serviceItem': Array,
-  'services.serviceItem.$': Object,
-  'services.serviceItem.$.name': String,
-  'services.serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price of service in cents' },
-  'services.totalServiceCost': SimpleSchema.Integer,
-  parts: Object,
-  'parts.partsItem': Array,
-  'parts.partsItem.$': Object,
-  'parts.partsItem.$.name': String,
-  'parts.partsItem.$.price': { type: SimpleSchema.Integer, label: 'Price of parts in cents' },
-  'parts.totalPartsCost': SimpleSchema.Integer,
+  customerDetails: { type: addressSchema, label: 'Customer details' },
+  bikeDetails: { type: bikeSchema, label: 'Bike details' },
+  services: { type: servicesSchema, label: 'Details of services required' },
+  parts: { type: partsSchema, label: 'Details of parts required' },
   additionalFees: { type: SimpleSchema.Integer, label: 'Additional cost in cents' },
   totalCost: { type: SimpleSchema.Integer, label: 'Total cost in cents' },
-  dropoffDate: Date,
-  pickupDate: Date,
-  urgent: Boolean,
-  assessor: String,
-  mechanic: { type: String, optional: true },
+  dropoffDate: { type: Date, label: 'Bike drop-off date' },
+  pickupDate: { type: Date, label: 'Bike pick-up date' },
+  urgent: { type: Boolean, label: 'Field to indicate if bike repair is urgent' },
+  assessor: { type: String, label: 'Assessor name' },
+  mechanic: { type: String, optional: true, label: 'Mechanic name' },
   comment: { type: String, optional: true, label: 'Field for putting in notes or additional services required' },
   temporaryBike: { type: Boolean, label: 'Field to indicate if a temporary bike was provided' },
   status: { type: String, allowedValues: STATUS, label: 'Status of job' },
