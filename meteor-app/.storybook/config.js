@@ -1,12 +1,4 @@
 import { configure } from '@storybook/react';
-import { storiesOf, action, linkTo } from '@storybook/react'
-import { specs, describe, it } from 'storybook-addon-specifications'
-import { expect } from 'chai';
-import { setOptions } from '@storybook/addon-options'
-import 'semantic-ui-css/semantic.min.css'
-import TestUtils from 'react-dom/test-utils'
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 
 Enzyme.configure({ adapter: new Adapter() });
 

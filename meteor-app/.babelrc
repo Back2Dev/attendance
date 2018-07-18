@@ -1,5 +1,5 @@
 {
-    "env": {
+  "env": {
     "test": {
       "presets": [
         "env",
@@ -7,9 +7,20 @@
         "stage-1"
       ],
       "plugins": [
-        ["babel-plugin-root-import",{
-              "paths": [{"rootPathPrefix": "/"}]}]
+        [
+          "babel-plugin-root-import",
+          {
+            "paths": [
+              {
+                "rootPathPrefix": "/"
+              }
+            ]
+          }
+        ]
       ]
     }
-  }
+  },
+  "plugins": [
+    "babel-root-slash-import"
+  ]
 }
