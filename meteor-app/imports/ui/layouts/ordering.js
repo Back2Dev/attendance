@@ -1,5 +1,4 @@
 import React from 'react'
-import { Sidebar, Menu, Icon } from 'semantic-ui-react'
 import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
 import Layout from '/imports/ui/ordering/layout'
@@ -19,7 +18,6 @@ const Ordering = () => {
           </Switch>
         </div>
       </div>
-    </div>
   )
 }
 
