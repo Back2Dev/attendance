@@ -7,6 +7,7 @@ Next
 * Upgraded to npm version of simple-schema and updated collection2 to 3.0
 * Added createdAt and updatedAt schema shortcuts
 * Added Order Schema and test
+* Added Part Schema tests
 * Added Parts schema, publication
 * Seeded dummy Parts data
 * Added ordering layout and ordering component
