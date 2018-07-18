@@ -6,12 +6,12 @@ import Assessment from './assessment'
 import Logger from './logger'
 
 Meteor.methods({
-  'assessments.insert'(form) {
+  'assessment.insert'(form) {
     check(form, Object)
 
     Assessment.insert(form)
   },
-  'assessments.updateJobDetail'(jobId, updatedJob) {
+  'assessment.updateJobDetail'(jobId, updatedJob) {
     check(jobId, String)
     check(updatedJob, Object)
 

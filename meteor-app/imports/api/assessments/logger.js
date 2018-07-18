@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
-const Logger = new Mongo.Collection('Logger')
+const Logger = new Mongo.Collection('logger')
 
 export const LoggerSchema = new SimpleSchema({
   _id: RegExId,

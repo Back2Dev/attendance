@@ -1,11 +1,9 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
-import faker from 'faker'
 import Factory from '/imports/test/factories'
 
 import Assessment, { STATUS } from '/imports/api/assessments/assessment'
 
-// TODO: More examples of badAssessment form data structure
 const badAssessment = []
 
 badAssessment.push(Factory.build('assessment', { customerDetails: {}}))
