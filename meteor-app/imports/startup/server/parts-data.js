@@ -17,39 +17,39 @@ const imagesUrls = [
 ]
 
 Meteor.methods({
-'seed.parts'() {
-  const n = 10
-// seed ensures same data is generated
-  casual.seed(123)
+  'seed.parts'() {
+    const n = 10
+    // seed ensures same data is generated
+    casual.seed(123)
 
-  const arrayOf = function (times, generator) {
-    let result = [];
-    for (let i = 0; i < times; ++i) {
-      result.push(generator());
-    }
-    return result;
-  };
+    const arrayOf = function (times, generator) {
+      let result = [];
+      for (let i = 0; i < times; ++i) {
+        result.push(generator());
+      }
+      return result;
+    };
 
-  casual.define('part', function () {
-    return {
-      imageUrl: imagesUrls[Math.floor(Math.random() * imagesUrls.length)],
-      wholesalePrice: casual.integer(10, 200000),
-      retailPrice: casual.integer(10, 200000),
-      partNo: casual.integer(600000, 1000000).toString(),
-      desc: casual.short_description,
-      barcode: casual.integer(600000, 1000000),
-    }
-  })
+    casual.define('part', function () {
+      return {
+        imageUrl: imagesUrls[Math.floor(Math.random() * imagesUrls.length)],
+        wholesalePrice: casual.integer(10, 200000),
+        retailPrice: casual.integer(10, 200000),
+        partNo: casual.integer(600000, 1000000).toString(),
+        desc: casual.long_description,
+        barcode: casual.integer(600000, 1000000),
+      }
+    })
 
-  const partsList =
-    arrayOf(n, () => casual.part)
-    .forEach(r => Parts.insert(r))
-},
+    const partsList =
+      arrayOf(n, () => casual.part)
+        .forEach(r => Parts.insert(r))
+  },
 })
 
 Meteor.startup(() => {
-    if (Parts.find().count() === 0) {
-      Meteor.call('seed.parts')
-    }
+  if (Parts.find().count() === 0) {
+    Meteor.call('seed.parts')
+  }
 })
 

@@ -46,7 +46,7 @@ const PartCard = ({
 
         <div className='price-container' >
           <b>${retailPrice}</b>
-          <Button className='part-add-cart-button' floated='right'>Add To Cart</Button>
+          <Button className='part-add-cart-button' floated='right' color='blue'>Add To Cart</Button>
         </div>
       </Card.Content>
     </Card>
