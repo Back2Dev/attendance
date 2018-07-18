@@ -1,11 +1,9 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
-import { JOB_STATUS } from 'imports/api/constants'
+import { JOB_STATUS } from '/imports/api/constants'
 
 const Assessment = new Mongo.Collection('assessment')
-
-export const STATUS = ['New Job', 'Assigned', 'In Progress', 'Job Completed', 'Bike Picked Up']
 
 export const customerSchema = new SimpleSchema({
   name: { type: String, optional: true, label: 'Customer name' },
@@ -35,14 +33,13 @@ export const partsSchema = new SimpleSchema({
   'partsItem.$': Object,
   'partsItem.$.name': { type: String, label: 'Parts name/description' },
   'partsItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single parts item in cents' },
-  'partsItem.$.quantity': { type: SimpleSchema.Integer, label: 'Quantity of parts item required' },
   totalPartsCost: { type: SimpleSchema.Integer, label: 'Price of parts in cents' }
 })
 
 // Note: By default, all keys are required
 export const AssessmentSchema = new SimpleSchema({
   _id: RegExId,
-  customerDetails: { type: addressSchema, label: 'Customer details' },
+  customerDetails: { type: customerSchema, label: 'Customer details' },
   bikeDetails: { type: bikeSchema, label: 'Bike details' },
   services: { type: servicesSchema, label: 'Details of services required' },
   parts: { type: partsSchema, label: 'Details of parts required' },

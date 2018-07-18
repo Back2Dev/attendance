@@ -1,7 +1,7 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import faker from 'faker'
-import { Factory } from '/imports/test/factories'
+import Factory from '/imports/test/factories'
 
 import Parts from '/imports/api/assessments/parts'
 

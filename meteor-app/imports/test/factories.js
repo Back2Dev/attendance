@@ -12,6 +12,11 @@ import _ from 'lodash';
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
 
+import Assessment from '/imports/api/assessments/assessment'
+import Services from '/imports/api/assessments/services'
+import Parts from '/imports/api/assessments/parts'
+import Logger from '/imports/api/assessments/logger'
+
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
@@ -94,7 +99,7 @@ Factory.define('assessment', Assessment, {
   mechanic: faker.name.findName(),
   comment: 'Thorough cleaning of the bike is required',
   temporaryBike: faker.random.boolean(),
-  status: 'New Job',
+  status: 2,
   search: faker.name.findName(),
 })
 
@@ -111,7 +116,8 @@ Factory.define('parts', Parts, {
 
 Factory.define('services', Services, {
   name: faker.commerce.productName(),
-  price: Math.round(faker.commerce.price())
+  price: Math.round(faker.commerce.price()),
+  package: 'Minor'
 })
 
 export default Factory
