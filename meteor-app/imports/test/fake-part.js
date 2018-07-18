@@ -1,6 +1,4 @@
-import { Meteor } from 'meteor/meteor' // base
-import Parts from '/imports/api/parts/schema'
-import casual from 'casual'
+import faker from 'faker'
 
 const imagesUrls = [
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/4f8065b290713ff3dbca44641f3a52b5882c5e21.jpg',
@@ -16,40 +14,14 @@ const imagesUrls = [
   'http://cdn.webninjashops.com/bicycleparts/images/resized/556176e6d76f32931cb7b97b59de8cbd4068b3aa.png',
 ]
 
-Meteor.methods({
-  'seed.parts'() {
-    const n = 10
-    // seed ensures same data is generated
-    casual.seed(123)
+const part = {
+  imageUrl: imagesUrls[Math.floor(Math.random() * imagesUrls.length)],
+  retailPrice: faker.finance.amount(),
+  wholesalePrice: faker.finance.amount(),
+  partNo: faker.finance.amount(),
+  desc: faker.lorem.sentences(),
+  barcode: faker.finance.amount(),
+  status: 1,
+}
 
-    const arrayOf = function (times, generator) {
-      let result = [];
-      for (let i = 0; i < times; ++i) {
-        result.push(generator());
-      }
-      return result;
-    };
-
-    casual.define('part', function () {
-      return {
-        imageUrl: imagesUrls[Math.floor(Math.random() * imagesUrls.length)],
-        wholesalePrice: casual.integer(10, 200000),
-        retailPrice: casual.integer(10, 200000),
-        partNo: casual.integer(600000, 1000000).toString(),
-        desc: casual.long_description,
-        barcode: casual.integer(600000, 1000000),
-      }
-    })
-
-    const partsList =
-      arrayOf(n, () => casual.part)
-        .forEach(r => Parts.insert(r))
-  },
-})
-
-Meteor.startup(() => {
-  if (Parts.find().count() === 0) {
-    Meteor.call('seed.parts')
-  }
-})
-
+export default part
