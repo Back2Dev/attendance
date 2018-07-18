@@ -23,7 +23,7 @@ const Attendance = () => {
             <Route path="/admin" component={AppSelection} />
             <Route path="/userprofiles" component={AdminContainer} />
             <Route path="/add" component={MemberAddContainer} />
-            <Route path="/testing-form" component={AssessmentAddContainer} />
+            <Route path="/assessment" component={AssessmentAddContainer} />
 
             <Route path="/:id" component={MemberVisitContainer} />
             <Route path="/" component={MemberMainContainer} />
