@@ -53,4 +53,65 @@ Factory.define('session', Sessions, {
   duration: faker.random.number(6),
 })
 
+Factory.define('assessment', Assessment, {
+  customerDetails: {
+    name: faker.name.findName(),
+    phone: faker.phone.phoneNumber(),
+    email: faker.internet.email(),
+    refurbishment: faker.random.boolean(),
+  },
+  bikeDetails: {
+    make: faker.commerce.productName(),
+    model: 'TX-1234',
+    color: faker.commerce.color(),
+    bikeValue: Math.round(faker.finance.amount()),
+    sentimentValue: faker.random.boolean(),
+  },
+  services: {
+    serviceItem: [
+      {
+        name: 'Fix tyre',
+        price: 5000,
+      }
+    ],
+    totalServiceCost: 5000,
+  },
+  parts: {
+    partsItem: [
+      {
+        name: 'Handle Bar',
+        price: 2000,
+      }
+    ],
+    totalPartsCost: 2000,
+  },
+  additionalFees: 1500,
+  totalCost: 8500,
+  dropoffDate: faker.date.future(),
+  pickupDate: faker.date.future(),
+  urgent: faker.random.boolean(),
+  assessor: faker.name.findName(),
+  mechanic: faker.name.findName(),
+  comment: 'Thorough cleaning of the bike is required',
+  temporaryBike: faker.random.boolean(),
+  status: 'New Job',
+  search: faker.name.findName(),
+})
+
+Factory.define('logs', Logger, {
+  user: faker.name.findName(),
+  requestType: 'Update form',
+  requestBody: faker.random.words()
+})
+
+Factory.define('parts', Parts, {
+  name: faker.commerce.productName(),
+  price: Math.round(faker.commerce.price()*100) 
+})
+
+Factory.define('services', Services, {
+  name: faker.commerce.productName(),
+  price: Math.round(faker.commerce.price())
+})
+
 export default Factory

@@ -1,31 +1,17 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import faker from 'faker'
-import { Factory } from 'meteor/dburles:factory'
+import { Factory } from '/imports/test/factories'
 
 import Parts from '/imports/api/assessments/parts'
 
-const badParts = [
-  {
-    name: 'Nothing',
-    price: 'abc',
-  },
-  {
-    name: '123',
-    price: 'abc'
-  },
-  {
-    name: '',
-    price: '10000'
-  }
-]
+const badParts = []
+
+badParts.push(Factory.build('parts', { price: 'abc' }))
+badParts.push(Factory.build('parts', { price: '' }))
+badParts.push(Factory.build('parts', { name: '' }))
 
 const goodParts = []
-
-Factory.define('parts', Parts, {
-  name: faker.commerce.productName(),
-  price: Math.round(faker.commerce.price()*100) 
-})
 
 goodParts.push(Factory.build('parts'))
 goodParts.push(Factory.build('parts'))

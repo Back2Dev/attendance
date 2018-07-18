@@ -1,30 +1,16 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import faker from 'faker'
-import { Factory } from 'meteor/dburles:factory'
+import { Factory } from '/imports/test/factories'
 
 import Logger from '/imports/api/assessments/logger'
 
-const badLogs = [
-  {
-    user: '1234',
-    requestType: [],
-    requestBody: ''
-  },
-  {
-    user: '',
-    requestType: 'Submit form',
-    requestBody: 12345678
-  },
-]
+const badLogs = []
+
+badLogs.push(Factory.build('logs', { requestType: [] }))
+badLogs.push(Factory.build('logs', { user: '' }))
 
 const goodLogs = []
-
-Factory.define('logs', Logger, {
-  user: faker.name.findName(),
-  requestType: 'Update form',
-  requestBody: faker.random.words()
-})
 
 goodLogs.push(Factory.build('logs'))
 goodLogs.push(Factory.build('logs'))

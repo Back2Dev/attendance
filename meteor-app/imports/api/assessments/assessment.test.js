@@ -1,101 +1,18 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import faker from 'faker'
-import { Factory } from 'meteor/dburles:factory'
+import { Factory } from '/imports/test/factories'
 
 import Assessment, { STATUS } from '/imports/api/assessments/assessment'
 
 // TODO: More examples of badAssessment form data structure
-const badAssessment = [{
-  customerDetails: {
-    name: 'test',
-    phone: 'test',
-    refurbishment: false,
-  },
-  bikeDetails: {
-    make: 'Dahon',
-    color: 'Red',
-    bikeValue: 'Five',
-  },
-  services: {
-    serviceItem: [
-      {},
-      {
-        name: 'Fix tyre',
-        price: '500',
-      }
-    ],
-    totalServiceCost: '2000',
-  },
-  parts: {
-    partsItem: [
-      {},
-      {
-        name: 'Handle Bar',
-        price: '2000',
-      },
-    ],
-    totalPartsCost: '2000',
-  },
-  additionalFees: '2000',
-  totalCost: '2000',
-  dropoffDate: new Date(),
-  pickupDate: new Date(),
-  urgent: 'true',
-  assessor: 'James',
-  mechanic: 'Mike',
-  comment: '',
-  temporaryBike: 'false',
-  status: 'Completed',
-  search: 'abc'
-}]
+const badAssessment = []
+
+badAssessment.push(Factory.build('assessment', { customerDetails: {}}))
+badAssessment.push(Factory.build('assessment', { temporaryBike: 'false'}))
+badAssessment.push(Factory.build('assessment', { status: 99 }))
 
 const goodAssessment = []
-
-Factory.define('assessment', Assessment, {
-  customerDetails: {
-    name: faker.name.findName(),
-    phone: faker.phone.phoneNumber(),
-    email: faker.internet.email(),
-    refurbishment: faker.random.boolean(),
-  },
-  bikeDetails: {
-    make: faker.commerce.productName(),
-    model: 'TX-1234',
-    color: faker.commerce.color(),
-    bikeValue: Math.round(faker.finance.amount()),
-    sentimentValue: faker.random.boolean(),
-  },
-  services: {
-    serviceItem: [
-      {
-        name: 'Fix tyre',
-        price: 5000,
-      }
-    ],
-    totalServiceCost: 5000,
-  },
-  parts: {
-    partsItem: [
-      {
-        name: 'Handle Bar',
-        price: 2000,
-      }
-    ],
-    totalPartsCost: 2000,
-  },
-  additionalFees: 1500,
-  totalCost: 8500,
-  dropoffDate: faker.date.future(),
-  pickupDate: faker.date.future(),
-  urgent: faker.random.boolean(),
-  assessor: faker.name.findName(),
-  mechanic: faker.name.findName(),
-  comment: 'Thorough cleaning of the bike is required',
-  temporaryBike: faker.random.boolean(),
-  status: 'New Job',
-  search: faker.name.findName(),
-})
 
 goodAssessment.push(Factory.build('assessment'))
 goodAssessment.push(Factory.build('assessment'))
