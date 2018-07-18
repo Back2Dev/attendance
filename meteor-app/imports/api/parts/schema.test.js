@@ -99,4 +99,29 @@ describe('schema', () => {
             })
         })
     })
+
+    describe('Part Status', () => {
+        it('Checks on part status values', () => {
+
+            // fails validation, throws
+            let l = Factory.build('part')
+            l.status = 98
+            expect(() => Parts.insert(l)).to.throw()
+
+            l = Factory.build('part')
+            // l.status = toString(99)
+            l.status = 0
+            expect(() => Parts.insert(l)).to.throw()
+            console.log(l)
+
+            l = Factory.build('part')
+            l.status = toString(0)
+            expect(() => Parts.insert(l)).to.throw()
+
+            l = Factory.build('part')
+            l.status = 1
+            expect(() => Parts.insert(l)).not.to.throw()
+
+        })
+    })
 })

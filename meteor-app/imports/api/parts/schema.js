@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import CONSTANTS from '/imports/api/constants.js'
+
 
 const Parts = new Mongo.Collection('parts')
 
@@ -13,17 +15,14 @@ export const PartsSchema = new SimpleSchema({
   retailPrice: {
     type: SimpleSchema.Integer,
     label: 'Retail Price in cents',
-    optional: false,
   },
   wholesalePrice: {
     type: SimpleSchema.Integer,
     label: 'Wholesale price in cents',
-    optional: false,
   },
   partNo: {
-    type: String, 
+    type: String,
     label: 'Part Number',
-    optional: false,
   },
   desc: {
     type: String,
@@ -38,8 +37,8 @@ export const PartsSchema = new SimpleSchema({
   status: {
     type: SimpleSchema.Integer,
     label: 'Part Status',
+    allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE).map(key => parseInt(key, 10)),
     optional: true,
-    defaultValue: 0,
   },
   createdAt,
   updatedAt,

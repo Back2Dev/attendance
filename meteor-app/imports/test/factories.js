@@ -58,13 +58,13 @@ Factory.define('session', Sessions, {
 Factory.define('order', Orders, {
   status: CONSTANTS.ORDER_STATUS_NEW,
   orderedParts: [{
-    part: "700c hybrid Wheel ME, eyeletted",
+    part: '700c hybrid Wheel ME, eyeletted',
     price: 5000,
     qty: 1,
-    partId: "frame",
-    partNo: "sadasd",
+    partId: 'frame',
+    partNo: 'sadasd',
     addedAt: new Date(),
-    userId: "2ueueoaje",
+    userId: '2ueueoaje',
   }],
   totalPrice: 9900,   // This is in cents
 })
@@ -76,7 +76,7 @@ Factory.define('part', Parts, {
   partNo: 'pt-123',
   desc: 'carbonfibre frame',
   barcode: '22413000022413',
-  status: 1,
+  status: CONSTANTS.ORDER_STATUS_NEW,
 })
 
 export default Factory
