@@ -9,7 +9,7 @@ class Cart extends React.Component {
       <Grid>
         <Grid.Row>  
           <Grid.Column width='13'>
-            <div><h1>CART CASRT CART</h1></div>
+            <div><h1>CART / ORDER FULL OF PARTS LISTED HERE </h1></div>
           </Grid.Column>
         </Grid.Row>
       </Grid>

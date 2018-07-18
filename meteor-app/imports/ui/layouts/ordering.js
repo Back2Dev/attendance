@@ -5,7 +5,7 @@ import Layout from '/imports/ui/ordering/layout'
 import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert';
-import Cart from '/imports/ui/ordering/cart'
+import Cart from '/imports/ui/ordering/cart-layout'
 
 const Ordering = () => {
     return (
