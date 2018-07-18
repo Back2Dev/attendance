@@ -6,23 +6,26 @@ import { Meteor } from 'meteor/meteor';
 import faker from 'faker';
 import { Factory } from 'meteor/dburles:factory';
 import { Random } from 'meteor/random';
-import _ from 'lodash';
 
+import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
 import Orders from '/imports/api/orders/schema'
 import { RegExId } from '/imports/api/schema'
+<<<<<<< HEAD
 
 import Assessment from '/imports/api/assessments/assessment'
 import Services from '/imports/api/assessments/services'
 import Parts from '/imports/api/assessments/parts'
 import Logger from '/imports/api/assessments/logger'
+=======
+>>>>>>> develop
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
-// TODO - the rest of these
+  // TODO - the rest of these
   // isHere: true,
   // avatar: '7.jpg',
   // sessions:
@@ -71,6 +74,7 @@ Factory.define('order', Orders, {
     userId: "2ueueoaje",
   }],
   totalPrice: 9900,   // This is in cents
+<<<<<<< HEAD
   
 })
 
@@ -138,6 +142,9 @@ Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
   package: 'Minor'
+=======
+
+>>>>>>> develop
 })
 
 export default Factory
