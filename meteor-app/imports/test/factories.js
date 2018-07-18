@@ -77,9 +77,13 @@ Factory.define('assessment', Assessment, {
       {
         name: 'Fix tyre',
         price: 5000,
+      },
+      {
+        name: 'Fix handle bar',
+        price: 3000,
       }
     ],
-    totalServiceCost: 5000,
+    totalServiceCost: 8000,
   },
   parts: {
     partsItem: [
@@ -91,7 +95,7 @@ Factory.define('assessment', Assessment, {
     totalPartsCost: 2000,
   },
   additionalFees: 1500,
-  totalCost: 8500,
+  totalCost: 11500,
   dropoffDate: faker.date.future(),
   pickupDate: faker.date.future(),
   urgent: faker.random.boolean(),

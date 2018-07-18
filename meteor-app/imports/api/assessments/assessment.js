@@ -25,7 +25,21 @@ export const servicesSchema = new SimpleSchema({
   'serviceItem.$': Object,
   'serviceItem.$.name': { type: String, label: 'Service description' },
   'serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single service item in cents' },
-  totalServiceCost: { type: SimpleSchema.Integer, label: 'Price of service in cents' }
+  totalServiceCost: {
+    type: SimpleSchema.Integer,
+    label: 'Price of service in cents',
+    custom() {
+      // Validation to ensure that sum of all services costs is equal total service cost
+      const services = this.siblingField('serviceItem').value
+      const calcServicesCost = services.reduce((a, b) => {
+        return a + b.price
+      }, 0)
+      const check = calcServicesCost === this.value
+      if (!check) {
+        return new Meteor.Error('Total service cost not equal the sum of its parts!')
+      }
+    }
+  }
 })
 
 export const partsSchema = new SimpleSchema({
@@ -33,7 +47,21 @@ export const partsSchema = new SimpleSchema({
   'partsItem.$': Object,
   'partsItem.$.name': { type: String, label: 'Parts name/description' },
   'partsItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single parts item in cents' },
-  totalPartsCost: { type: SimpleSchema.Integer, label: 'Price of parts in cents' }
+  totalPartsCost: { 
+    type: SimpleSchema.Integer, 
+    label: 'Price of parts in cents',
+    custom() {
+      // Validation to ensure that sum of all parts costs is equal total parts cost
+      const parts = this.siblingField('partsItem').value
+      const calcPartsCost = parts.reduce((a, b) => {
+        return a + b.price
+      }, 0)
+      const check = calcPartsCost === this.value
+      if (!check) {
+        return new Meteor.Error('Total parts cost not equal the sum of its parts!')
+      }
+    } 
+  }
 })
 
 // Note: By default, all keys are required
@@ -44,7 +72,21 @@ export const AssessmentSchema = new SimpleSchema({
   services: { type: servicesSchema, label: 'Details of services required' },
   parts: { type: partsSchema, label: 'Details of parts required' },
   additionalFees: { type: SimpleSchema.Integer, label: 'Additional cost in cents' },
-  totalCost: { type: SimpleSchema.Integer, label: 'Total cost in cents' },
+  totalCost: { 
+    type: SimpleSchema.Integer, 
+    label: 'Total cost in cents',
+    custom() {
+      // Validation to ensure that sum of all costs is equal total cost
+      const services = this.siblingField('services.totalServiceCost').value
+      const parts = this.siblingField('parts.totalPartsCost').value
+      const additional = this.siblingField('additionalFees').value
+
+      const check = services + parts + additional === this.value
+      if (!check) {
+        return new Meteor.Error('Total repair cost not equal sum of services, parts and additional fees')
+      }
+    } 
+  },
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
   urgent: { type: Boolean, label: 'Field to indicate if bike repair is urgent' },

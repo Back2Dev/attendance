@@ -11,6 +11,9 @@ const badAssessment = []
 badAssessment.push(Factory.build('assessment', { customerDetails: {}}))
 badAssessment.push(Factory.build('assessment', { temporaryBike: 'falsee'}))
 badAssessment.push(Factory.build('assessment', { status: 99 }))
+badAssessment.push(Factory.build('assessment', { services: { totalServiceCost: 4000 } }))
+badAssessment.push(Factory.build('assessment', { parts: { totalPartsCost: 4000 } }))
+badAssessment.push(Factory.build('assessment', { totalCost: 10000 }))
 
 const goodAssessment = []
 
@@ -34,18 +37,8 @@ describe('assessment/schema', () => {
   goodAssessment.forEach((good, i) => {
     describe(`Good assessment form (${i+1})`, () => {
       it('will save to database', () => {
-        const calcTotalCost = good.services.totalServiceCost + good.parts.totalPartsCost + good.additionalFees
-        const calcServiceCost = good.services.serviceItem.reduce((a, b) => {
-          return (a + b['price'])
-        }, 0)
-        const calcPartsCost = good.parts.partsItem.reduce((a, b) => {
-          return (a + b['price'])
-        }, 0)
 
         // Passes, doesn't throw 
-        expect(calcTotalCost).to.equal(good.totalCost)
-        expect(calcServiceCost).to.equal(good.services.totalServiceCost)
-        expect(calcPartsCost).to.equal(good.parts.totalPartsCost)
         expect(() => Assessment.insert(good)).to.not.throw()
       })
     })
