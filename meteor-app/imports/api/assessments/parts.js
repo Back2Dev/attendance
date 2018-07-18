@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
-const Parts = new Mongo.Collection('parts')
+const Parts = new Mongo.Collection('partsData')
 
 export const PartsSchema = new SimpleSchema({
   _id: RegExId,
