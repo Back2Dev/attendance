@@ -11,7 +11,7 @@ import MemberVisitContainer from '/imports/ui/member/member-visit-container'
 import AdminContainer from '/imports/ui/admin/admin-container'
 import AppSelection from '/imports/ui/admin/app-selection'
 import '/imports/ui/layouts/attendance.css'
-import Nav from '/imports/ui/member/member-nav'
+import Nav from '/imports/ui/ordering/navbar'
 
 const Attendance = () => {
     return (
