@@ -6,18 +6,18 @@ import { Card, List, Icon } from 'semantic-ui-react'
 class ServiceCard extends Component {
     
 render(){
-    const { serviceTitle, serviceChoice} = this.props
+    const { serviceTitle, serviceChoice, servicePrice, cardColor } = this.props
     return (
-        <Card>
+        <Card style={{backgroundColor: cardColor, color: "white"}}>
             <Card.Content>
-                <Card.Header >
-                    {serviceTitle}
+                <Card.Header style={{color: "white"}} >
+                    {`${serviceTitle} $${servicePrice}` }
                 </Card.Header>
                 
                 {
                 serviceTitle == "Major Serivce" &&
                 <div> 
-                    <List.Item style={{paddingTop: "10px"}}>
+                    <List.Item style={{paddingTop: "10px", color: "white"}}>
                         <Icon name="star outline"/>
                         Includes everything from a minor service 
                     </List.Item>
@@ -42,7 +42,8 @@ render(){
 }
 ServiceCard.propTypes = {
     serviceTitle: PropTypes.string.isRequired,
-    serviceChoice: PropTypes.array.isRequired
+    serviceChoice: PropTypes.array.isRequired,
+    servicePrice: PropTypes.string.isRequired
 };
 
 export default ServiceCard
