@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import { JOB_STATUS } from 'imports/api/constants'
 
 const Assessment = new Mongo.Collection('assessment')
 
@@ -54,7 +55,7 @@ export const AssessmentSchema = new SimpleSchema({
   mechanic: { type: String, optional: true, label: 'Mechanic name' },
   comment: { type: String, optional: true, label: 'Field for putting in notes or additional services required' },
   temporaryBike: { type: Boolean, label: 'Field to indicate if a temporary bike was provided' },
-  status: { type: String, allowedValues: STATUS, label: 'Status of job' },
+  status: { type: SimpleSchema.Integer, allowedValues: Object.keys(JOB_STATUS).map(key => parseInt(key, 10)), label: 'Status of job in status id or key' },
   search: { type: String, label: 'Concat of customer name, bike make and color for search functionality' },
   createdAt,
   updatedAt,
