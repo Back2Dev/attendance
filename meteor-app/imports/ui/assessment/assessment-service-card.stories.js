@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-// import { action } from '@storybook/addon-actions'
+import { action } from '@storybook/addon-actions'
 // import StoryRouter from 'storybook-router'
 import ServiceCard from './assessment-service-card'
 
@@ -17,6 +17,16 @@ storiesOf('Assessment.ServiceCard', module)
   // .addDecorator(StoryRouter())
 
   .add('Minor Service Card', (() => {
+    const move = (delta) => {
+        try {
+          action("move")(delta)
+    // Updating the step does cause a refresh, methinks it should
+          step = step + delta
+        } catch(error) {
+          console.log("Error", error)
+        }
+      }
+
     const story = (
       <div>
         <ServiceCard
@@ -24,6 +34,7 @@ storiesOf('Assessment.ServiceCard', module)
           serviceTitle= {minorServiceTitle}
           servicePrice= {minorServicePrice}
           cardColor="#00C646"
+          printToConsole={() => move(1)}
         />
       </div>
     )
@@ -37,6 +48,7 @@ storiesOf('Assessment.ServiceCard', module)
         serviceTitle= {majorServiceTitle}
         servicePrice= {majorServicePrice}
         cardColor="#0081D3"
+        printToConsole={action('clicked')}
       />
     </div>
     )

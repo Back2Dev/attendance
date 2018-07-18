@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 import { Card, List, Icon } from 'semantic-ui-react'
 
 class ServiceCard extends Component {
-    
+
+printToConsole = () => {
+    console.log("Hello")
+}
+
 render(){
     const { serviceTitle, serviceChoice, servicePrice, cardColor } = this.props
     return (
-        <Card style={{backgroundColor: cardColor, color: "white"}}>
+        <Card style={{backgroundColor: cardColor, color: "white"}} onClick={this.printToConsole}>
             <Card.Content>
                 <Card.Header style={{color: "white"}} >
                     {`${serviceTitle} $${servicePrice}` }
