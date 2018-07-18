@@ -92,6 +92,14 @@ describe('schema', () => {
         })
     })
 
+    describe('query database good parts', () => {
+        it('Return database query', () => {
+            expect(Parts.find().fetch()[1].partNo).to.equal('12345')
+            expect(Parts.find().fetch()[0].retailPrice).to.equal(5000)
+            expect(Parts.find().fetch()[0].wholesalePrice).to.equal(3000)
+        })
+    })
+
     badParts.forEach((bad, i) => {
         describe('PartsSchema bad parts', () => {
             it(`Succeeds on BAD Parts insert ${i + 1}`, () => {
@@ -109,13 +117,11 @@ describe('schema', () => {
             expect(() => Parts.insert(l)).to.throw()
 
             l = Factory.build('part')
-            // l.status = toString(99)
             l.status = 0
             expect(() => Parts.insert(l)).to.throw()
-            console.log(l)
 
             l = Factory.build('part')
-            l.status = toString(0)
+            l.status = toString(3)
             expect(() => Parts.insert(l)).to.throw()
 
             l = Factory.build('part')
