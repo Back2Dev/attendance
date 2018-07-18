@@ -1,29 +1,28 @@
-// import { expect } from 'chai'
-// import { Meteor } from 'meteor/meteor'
-// import Factory from '/imports/test/factories'
+import { expect } from 'chai'
+import { Meteor } from 'meteor/meteor'
+import Factory from '/imports/test/factories'
+import '/imports/api/assessments/methods'
+import Assessment from '/imports/api/assessments/assessment'
 
-// const goodAssessment = Factory.build('assessment')
-// const goodLogger = Factory.build('logs')
+const goodAssessment = Factory.build('assessment')
+const updatedAssessment = Factory.build('assessment', { customerDetails: { name: 'Test Name' } })
+const goodLogger = Factory.build('logs')
 
-// if (Meteor.isServer) {
-//   describe('API methods for assessment', () => {
+if (Meteor.isServer) {
+  describe('API methods for assessment', () => {
 
-//     it('logger.insert method will work', () => {
-//       // This is not working yet
-//       const insertLog = Meteor.server.method_handlers['logger.insert']
-//       console.log(Meteor.server)
-//       const log = insertLog.apply({}, [goodLogger])
-//       // const log = Meteor.call('logger.insert', goodLogger)
-//       expect(log).to.be.equal(goodLogger)
-//     })
+    it('logger.insert method will work', () => {
+      
+      expect(() => Meteor.call('logger.insert', goodLogger)).to.not.throw()
+    })
   
-//     it('assessment.insert method will work', () => {
-//       // This is not working
-//       const insertLog = Meteor.server.method_handlers['assessment.insert']
-//       console.log(Meteor.server)
-//       const assessment = insertLog.apply({}, [goodAssessment])
-//       // const assessment = Meteor.call('assessment.insert', goodAssessment)
-//       expect(assessment).to.be.equal(goodAssessment)
-//     })
-//   })
-// }
+    it('assessment.insert method will work', () => {
+      expect(() => Meteor.call('assessment.insert', goodAssessment)).to.not.throw()
+    })
+
+    it('assessment.updateJobDetail', () => {
+      const jobId = Assessment.find({}).fetch()[0]._id
+      expect(() => Meteor.call('assessment.updateJobDetail', jobId, updatedAssessment)).to.not.throw()
+    })
+  })
+}
