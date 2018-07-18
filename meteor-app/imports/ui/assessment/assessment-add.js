@@ -30,16 +30,6 @@ class AssessmentAdd extends Component {
     }
   }
 
-componentDidMount(){
-  // if(this.props.assessment){
-  //   this.setState({
-  //     formData: {...this.props.assessment},
-  //     step: 4,
-  //     progress: 4,
-  //   })
-  // }
-}
-
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
 
@@ -136,7 +126,7 @@ componentDidMount(){
 
         <Grid.Row centered>
           
-          <Grid.Column style={{ maxWidth: '600px' }}>
+          <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
             {
               reviewStep &&
               // this needs refactoring
