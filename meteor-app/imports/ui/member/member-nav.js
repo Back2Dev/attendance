@@ -7,7 +7,7 @@ import Search from '/imports/ui/member/member-search-container'
 const Nav = (props) => {
 
   return (
-    <Menu fixed='top' stackable>
+    <Menu fixed='top' unstackable fluid>
       <Menu.Item onClick={() => { props.history.push('/') }}>
         <Image src='/images/logo-tiny.jpg' />
       </Menu.Item>
