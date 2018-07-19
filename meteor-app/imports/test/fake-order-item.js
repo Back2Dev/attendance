@@ -10,4 +10,5 @@ const orderItem = {
   userId: faker.finance.amount(),
 }
 
+
 export default orderItem

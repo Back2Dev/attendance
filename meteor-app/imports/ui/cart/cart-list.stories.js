@@ -8,25 +8,20 @@ import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
-import orderItem from '/imports/test/fake-order-item'
+import order from '/imports/test/fake-order'
 
-import CartListItem from './cart-list-item'
+import CartList from './cart-list'
 
 
-storiesOf('Cart.ListItem', module)
+storiesOf('Cart.List', module)
   .addDecorator(withKnobs)
 
-  .add('Cart List Item', (() => {
+  .add('Cart List', (() => {
     const story = (
       <div>
-        {/* Emulate a table so the Item can be rendered with proper formatting */}
-        <Table size='large' celled compact='very' singleLine>
-          <Table.Body>
-            <CartListItem
-              {...orderItem}
-            />
-          </Table.Body>
-        </Table>
+        <CartList
+          {...order}
+        />
       </div>
     )
     return story;
