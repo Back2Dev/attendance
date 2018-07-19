@@ -3,9 +3,8 @@ import { Header, Grid, Button } from 'semantic-ui-react'
 import ServiceCard from '../assessment/assessment-service-card'
 
 class ServiceList extends Component {
-
     render() {
-        const minorService = ["Check functionality/adjust brakes & gears", "Check hubs for wear/play", "Remove, clean & oil chain", "Clean rear cassette", "Check tyre pressure", "Lube deraileurs", "Check/tighten bolts on cranks, headset, wheels and bottom bracket", "Check/tighten bolts on cranks, headset, wheels and bottom bracket" ]
+        const minorService = ["Check functionality/adjust brakes & gears", "Check hubs for wear/play", "Remove, clean & oil chain", "Clean rear cassette", "Check tyre pressure", "Lube deraileurs", "Check/tighten bolts on cranks, headset, wheels and bottom bracket"]
 
         const majorService = ["Check wheels are true", "Clean and re-grease wheel bearings", "Clean and re-grease headset", "Clean and re-grease bottom bracket", "Clean and re-grease seat post & clamps"]
 
@@ -45,7 +44,6 @@ class ServiceList extends Component {
             </>
         )
     }
-
 }
 
 export default ServiceList
