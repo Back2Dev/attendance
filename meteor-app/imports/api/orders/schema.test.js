@@ -165,7 +165,6 @@ describe('schema', () => {
     describe('query database good records', () => {
       it('Return database query', () => {
 
-
         const orderId = Orders.insert(good)
         const order = Orders.findOne(orderId)
 
