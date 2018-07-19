@@ -2,3 +2,7 @@
     margin: 10px;
     color: blue;
 }
+
+.bimage {
+    background-image: url("/images/fireworks.svg");
+}
