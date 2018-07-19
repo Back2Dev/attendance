@@ -5,6 +5,8 @@ import NotFound from '/imports/ui/not-found'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import AssessmentAddContainer from '/imports/ui/assessment/assessment-add-container'
 
+import JobCard from '/imports/ui/assessment/assessment-job-card'
+
 import MemberEdit from '/imports/ui/member/member-edit'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberVisitContainer from '/imports/ui/member/member-visit-container'
@@ -20,7 +22,7 @@ const Attendance = () => {
         <Nav />
         <div style={{ marginTop: '70px', height: '100%' }}>
           <Switch>
-            <Route path="/admin" component={AppSelection} />
+            <Route path="/admin" component={JobCard} />
             <Route path="/userprofiles" component={AdminContainer} />
             <Route path="/add" component={MemberAddContainer} />
             <Route path="/assessment" component={AssessmentAddContainer} />
