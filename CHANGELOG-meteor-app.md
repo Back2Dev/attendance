@@ -11,7 +11,8 @@ Next
 * Seeded dummy Parts data
 * Added ordering layout and ordering component
 * Added Navbar for Parts assesment and Bike Servicing 
-
+* Added /ordering/cart route 
+* Order subscription and publication
 
 0.3.0
 ------
