@@ -9,7 +9,7 @@ const Assessment = () => (
   <div className="assessment-wrapper">
     <title>Back 2 Bikes | Assessment</title>
     <Nav />
-        <div style={{ marginTop: '70px', height: '100%' }}>
+        <div style={{ height: '100%' }}>
           <Switch>
             <Route path="/" component={AssessmentAddContainer} />
             <Route component={NotFound} />
