@@ -58,7 +58,7 @@ Factory.define('session', Sessions, {
 Factory.define('order', Orders, {
   status: CONSTANTS.ORDER_STATUS_NEW,
   orderedParts: [{
-    part: '700c hybrid Wheel ME, eyeletted',
+    name: '700c hybrid Wheel ME, eyeletted',
     price: 5000,
     qty: 1,
     partId: 'frame',

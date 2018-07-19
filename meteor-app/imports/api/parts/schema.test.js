@@ -11,7 +11,7 @@ const badParts = [
         imageUrl: '/public/images/logo-large.jpg',
         wholesalePrice: 3000, // in cents
         partNo: '12345',
-        desc: 'golden bell',
+        name: 'golden bell',
         barcode: '0001000010102345',
         status: 1,
     },
@@ -20,7 +20,7 @@ const badParts = [
         imageUrl: '/public/images/logo-large.jpg',
         retailPrice: 5070,
         wholesalePrice: 33.40,
-        desc: 'golden bell',
+        name: 'golden bell',
         barcode: '0102345001000010',
         status: 0,
     },
@@ -29,7 +29,7 @@ const badParts = [
         imageUrl: '/public/images/logo-large.jpg',
         retailPrice: 9690,
         partNo: 101,
-        desc: 'bmx pegs',
+        name: 'bmx pegs',
         barcode: '11100011102',
         status: 'sent',
     },
@@ -38,7 +38,7 @@ const badParts = [
         retailPrice: 7865,
         wholesalePrice: "",
         partNo: 1010,
-        desc: 'brake line',
+        name: 'brake line',
         barcode: '11100011102',
         status: 'recieved',
     },
@@ -48,7 +48,7 @@ const badParts = [
         retailPrice: "",
         wholesalePrice: 3000,
         partNo: '12345',
-        desc: 'golden bell',
+        name: 'golden bell',
         barcode: '0001000010102345',
         status: 1,
     },
@@ -60,7 +60,7 @@ const goodParts = [
         retailPrice: 5000,
         wholesalePrice: 3000,
         partNo: '12345',
-        desc: 'golden bell',
+        name: 'golden bell',
         barcode: '0001000010102345',
         status: 1,
     },
@@ -76,7 +76,7 @@ const goodParts = [
         retailPrice: 34500,
         wholesalePrice: 333000,
         partNo: '54321',
-        desc: "pink pedals"
+        name: "pink pedals"
     },
 ]
 
@@ -94,7 +94,7 @@ describe('schema', () => {
 
     describe('query database good parts', () => {
         it('Return database query', () => {
-            expect(Parts.find().fetch()[1].partNo).to.equal('12345')
+            expect(Parts.find().fetch()[0].partNo).to.equal('12345')
             expect(Parts.find().fetch()[0].retailPrice).to.equal(5000)
             expect(Parts.find().fetch()[0].wholesalePrice).to.equal(3000)
         })

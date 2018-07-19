@@ -26,7 +26,7 @@ export const PartsSchema = new SimpleSchema({
   },
   desc: {
     type: String,
-    label: 'Description',
+    label: 'Part Name',
     optional: true,
   },
   barcode: {

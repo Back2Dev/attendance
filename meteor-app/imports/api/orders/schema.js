@@ -5,9 +5,9 @@ import CONSTANTS from '/imports/api/constants.js'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
 export const orderedParts = new SimpleSchema({
-  part: {
+  name: {
     type: String,
-    label: 'Part',
+    label: 'Part Name',
   },
   partId: {
     type: String,
