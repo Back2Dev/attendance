@@ -5,6 +5,8 @@ import Layout from '/imports/ui/ordering/layout'
 import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/ordering/navbar'
 import Alert from 'react-s-alert';
+import Cart from '/imports/ui/ordering/cart'
+import '/imports/ui/layouts/ordering.css'
 
 const Ordering = () => {
     return (
@@ -13,12 +15,13 @@ const Ordering = () => {
         <Nav />
         <div style={{ marginTop: '70px', height: '100%' }}>
           <Switch>
+            <Route path="/ordering/cart" component={Cart} />
             <Route path="/" component={Layout} />
             <Route component={NotFound} />
           </Switch>
         </div>
       </div>
-  )
+    )
 }
 
 export default Ordering
