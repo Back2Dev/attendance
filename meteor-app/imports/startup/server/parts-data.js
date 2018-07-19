@@ -17,6 +17,7 @@ const imagesUrls = [
   'http://cdn.webninjashops.com/bicycleparts/images/resized/556176e6d76f32931cb7b97b59de8cbd4068b3aa.png',
 ]
 
+
 Meteor.methods({
   'seed.parts'() {
     const n = 10
