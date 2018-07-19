@@ -1,0 +1,5 @@
+.ordering-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
