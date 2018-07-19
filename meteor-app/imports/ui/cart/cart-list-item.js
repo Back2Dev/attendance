@@ -11,11 +11,11 @@ const CartListItem = (props) => {
   return (
     <Table.Row>
       <Table.Cell collapsing textAlign='left'>{roundedPartNo}</Table.Cell>
-      <Table.Cell>{part}</Table.Cell>
+      <Table.Cell width='one'>{part}</Table.Cell>
       <Table.Cell collapsing >${roundedPrice}</Table.Cell>
       <Table.Cell collapsing >{roundedQty}</Table.Cell>
       <Table.Cell collapsing >${(roundedPrice * roundedQty)}</Table.Cell>
-      <Table.Cell>
+      <Table.Cell collapsing>
         <Button.Group collapsing>
           <Button positive>Edit</Button>
           <Button.Or />
@@ -27,13 +27,13 @@ const CartListItem = (props) => {
 }
 
 // CardListItem.propTypes = {
-//   className: PropTypes.string,
-//   _id: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   avatar: PropTypes.string.isRequired,
-//   isHere: PropTypes.bool.isRequired,
-//   sessions: PropTypes.array.isRequired,
-//   lastIn: PropTypes.object,
+//   partId: PropTypes.string,
+//   part: PropTypes.string.isRequired,
+//   partNo: PropTypes.string.isRequired,
+//   addedAt: PropTypes.object.isRequired,
+//   price: PropTypes.bool.isRequired,
+//   qty: PropTypes.array.isRequired,
+//   userId: PropTypes.object,
 //   sessionCount: PropTypes.number.isRequired,
 // };
 

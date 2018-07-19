@@ -2,7 +2,7 @@ import faker from 'faker'
 
 const orderItem = {
   partId: faker.finance.amount(),
-  part: faker.lorem.sentence(),
+  part: faker.lorem.sentences(),
   partNo: 91234567,
   addedAt: faker.date.recent(),
   price: (faker.finance.amount() / 10),
