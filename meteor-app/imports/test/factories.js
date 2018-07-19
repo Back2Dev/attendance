@@ -15,6 +15,11 @@ import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
 import { RegExId } from '/imports/api/schema'
 
+import Assessment from '/imports/api/assessments/assessment'
+import Services from '/imports/api/assessments/services'
+import ServiceItems from '/imports/api/assessments/serviceItems'
+import Logger from '/imports/api/assessments/logger'
+
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
@@ -67,6 +72,72 @@ Factory.define('order', Orders, {
     userId: '2ueueoaje',
   }],
   totalPrice: 9900,   // This is in cents
+})
+
+Factory.define('assessment', Assessment, {
+  customerDetails: {
+    name: faker.name.findName(),
+    phone: faker.phone.phoneNumber(),
+    email: faker.internet.email(),
+    refurbishment: faker.random.boolean(),
+  },
+  bikeDetails: {
+    make: faker.commerce.productName(),
+    model: 'TX-1234',
+    color: faker.commerce.color(),
+    bikeValue: Math.round(faker.finance.amount()),
+    sentimentValue: faker.random.boolean(),
+  },
+  services: {
+    serviceItem: [
+      {
+        name: 'Fix tyre',
+        price: 5000,
+      },
+      {
+        name: 'Fix handle bar',
+        price: 3000,
+      }
+    ],
+    totalServiceCost: 8000,
+  },
+  parts: {
+    partsItem: [
+      {
+        name: 'Handle Bar',
+        price: 2000,
+      }
+    ],
+    totalPartsCost: 2000,
+  },
+  additionalFees: 1500,
+  totalCost: 11500,
+  dropoffDate: faker.date.future(),
+  pickupDate: faker.date.future(),
+  urgent: faker.random.boolean(),
+  assessor: faker.name.findName(),
+  mechanic: faker.name.findName(),
+  comment: 'Thorough cleaning of the bike is required',
+  temporaryBike: faker.random.boolean(),
+  status: 2,
+  search: faker.name.findName(),
+})
+
+Factory.define('logs', Logger, {
+  user: faker.name.findName(),
+  requestType: 'Update form',
+  requestBody: faker.random.words()
+})
+
+Factory.define('parts', ServiceItems, {
+  name: faker.commerce.productName(),
+  price: Math.round(faker.commerce.price()*100) 
+})
+
+Factory.define('services', Services, {
+  name: faker.commerce.productName(),
+  price: Math.round(faker.commerce.price()),
+  package: 'Minor'
 })
 
 Factory.define('part', Parts, {
