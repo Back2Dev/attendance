@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import faker from 'faker'
 import Factory from '/imports/test/factories'
 
-import Parts from '/imports/api/assessments/parts'
+import ServiceItems from '/imports/api/assessments/serviceItems'
 
 const badParts = []
 
@@ -25,7 +25,7 @@ describe('parts/schema', () => {
     describe(`Bad parts (${i+1})`, () => {
       it('will not save to database', () => {
         // Fail validation, throw
-        expect(() => Parts.insert(bad)).to.throw()
+        expect(() => ServiceItems.insert(bad)).to.throw()
       })
     })
   })
@@ -34,7 +34,7 @@ describe('parts/schema', () => {
     describe(`Good parts (${i+1})`, () => {
       it('will save to database', () => {
         // Passes, doesn't throw
-        expect(() => Parts.insert(good)).to.not.throw()
+        expect(() => ServiceItems.insert(good)).to.not.throw()
       })
     })
   })

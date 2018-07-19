@@ -17,7 +17,7 @@ import { RegExId } from '/imports/api/schema'
 
 import Assessment from '/imports/api/assessments/assessment'
 import Services from '/imports/api/assessments/services'
-import Parts from '/imports/api/assessments/parts'
+import ServiceItems from '/imports/api/assessments/serviceItems'
 import Logger from '/imports/api/assessments/logger'
 
 Factory.define('member', Members, {
@@ -129,7 +129,7 @@ Factory.define('logs', Logger, {
   requestBody: faker.random.words()
 })
 
-Factory.define('parts', Parts, {
+Factory.define('parts', ServiceItems, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()*100) 
 })

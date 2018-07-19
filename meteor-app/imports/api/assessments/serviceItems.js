@@ -14,4 +14,4 @@ export const PartsSchema = new SimpleSchema({
 
 ServiceItems.attachSchema(PartsSchema)
 
-export default Parts
+export default ServiceItems
