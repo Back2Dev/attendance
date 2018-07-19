@@ -11,6 +11,7 @@ Next
 * Added Parts schema, publication
 * Seeded dummy Parts data
 * Added ordering layout and ordering component
+* Added Navbar for Parts assesment and Bike Servicing 
 
 
 0.3.0

@@ -14,16 +14,16 @@ Enzyme.configure({ adapter: new Adapter() });
 
 // //THIS IS NEEDED ONLY IF YOU ARE USING MOCHA AS A TEST RUNNER
 
-  global.storiesOf = storiesOf;
-  global.action = action;
-  global.linkTo = linkTo;
-  global.specs = specs;
-  global.describe = describe;
-  global.it = it;
-  global.mount = Enzyme.mount
-  global.expect = expect
+global.storiesOf = storiesOf;
+global.action = action;
+global.linkTo = linkTo;
+global.specs = specs;
+global.describe = describe;
+global.it = it;
+global.mount = Enzyme.mount
+global.expect = expect
 
-  // END OF SPECIFIC MOCHA CONF
+// END OF SPECIFIC MOCHA CONF
 
 setOptions({
   hierarchySeparator: /\./,
