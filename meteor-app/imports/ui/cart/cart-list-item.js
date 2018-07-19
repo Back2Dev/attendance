@@ -2,20 +2,28 @@ import React from 'react'
 import { Table, Button } from 'semantic-ui-react'
 
 
-const CardListItem = (props) => {
-  <Table.Row>
-    <Table.Cell>{partNum}</Table.Cell>
-    <Table.Cell>{desc}</Table.Cell>
-    <Table.Cell>{retailPrice}</Table.Cell>
-    <Table.Cell>{qty}</Table.Cell>
-    <Table.Cell>{totalPrice}</Table.Cell>
-    <Table.Cell>
-      <Button.Group>
-        <Button positive>Edit</Button>
-        <Button negative>Delete</Button>
-      </Button.Group>
-    </Table.Cell>
-  </Table.Row>
+const CartListItem = (props) => {
+  const { partId, part, partNo, addedAt, price, qty, userId } = props
+  const roundedPrice = Math.round(price)
+  const roundedQty = Math.round(qty)
+  const roundedPartNo = Math.round(partNo)
+
+  return (
+    <Table.Row>
+      <Table.Cell collapsing textAlign='left'>{roundedPartNo}</Table.Cell>
+      <Table.Cell>{part}</Table.Cell>
+      <Table.Cell collapsing >${roundedPrice}</Table.Cell>
+      <Table.Cell collapsing >{roundedQty}</Table.Cell>
+      <Table.Cell collapsing >${(roundedPrice * roundedQty)}</Table.Cell>
+      <Table.Cell>
+        <Button.Group collapsing>
+          <Button positive>Edit</Button>
+          <Button.Or />
+          <Button negative>Delete</Button>
+        </Button.Group>
+      </Table.Cell>
+    </Table.Row>
+  )
 }
 
 // CardListItem.propTypes = {
@@ -29,4 +37,4 @@ const CardListItem = (props) => {
 //   sessionCount: PropTypes.number.isRequired,
 // };
 
-export default CardListItem
+export default CartListItem
