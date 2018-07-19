@@ -13,8 +13,10 @@ class JobCard extends Component {
             <div>
                 <Card>
                     <Container className="job-card-container" >
+                        <Card.Header style={{ textAlign: "Center" }} >
+                           <h1>Job Status:</h1>
+                        </Card.Header>
                         <Card.Content style={{ textAlign: "Center" }}>
-                            <h1> Status: Completed </h1>
                             <h3> Make: Toyota </h3>
                             <h3> Model: Corolla </h3>
                             <h3> Colour: Blue </h3>
