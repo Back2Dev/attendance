@@ -73,7 +73,6 @@ Factory.define('order', Orders, {
   }],
   totalPrice: 9900,   // This is in cents
 })
-<<<<<<< HEAD
 
 Factory.define('assessment', Assessment, {
   customerDetails: {
@@ -139,7 +138,6 @@ Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
   package: 'Minor'
-=======
 
 Factory.define('part', Parts, {
   imageUrl: '/public/images/logo-large.jpg',
@@ -149,7 +147,6 @@ Factory.define('part', Parts, {
   desc: 'carbonfibre frame',
   barcode: '22413000022413',
   status: CONSTANTS.ORDER_STATUS_NEW,
->>>>>>> develop
 })
 
 export default Factory

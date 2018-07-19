@@ -164,10 +164,6 @@ describe('schema', () => {
 
     describe('query database good records', () => {
       it('Return database query', () => {
-<<<<<<< HEAD
-        expect(Orders.find().fetch()[0].totalPrice).to.equal(9900)
-        expect(Orders.find().fetch()[0].status).to.equal(1)
-=======
 
         const orderId = Orders.insert(good)
         const order = Orders.findOne(orderId)
@@ -187,7 +183,6 @@ describe('schema', () => {
           })
         }
 
->>>>>>> develop
       })
     })
   })
