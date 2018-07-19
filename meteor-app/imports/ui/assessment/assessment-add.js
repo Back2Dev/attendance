@@ -8,6 +8,7 @@ import Alert from 'react-s-alert';
 import schemas from '/imports/ui/config/bike-assessment-schemas'
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
+import ServiceList from '/imports/ui/assessment/assessment-service-list'
 
 import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 
@@ -111,7 +112,7 @@ class AssessmentAdd extends Component {
   render() {
 
     const reviewStep = this.state.step == 3
-    
+    const serviceSelectorStep = this.state.step == 0
     return (
     <Grid>
 
@@ -127,6 +128,15 @@ class AssessmentAdd extends Component {
         <Grid.Row centered>
           
           <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
+
+            {
+              serviceSelectorStep && 
+              <div> 
+                  <ServiceList /> 
+              </div> 
+            }
+
+
             {
               reviewStep &&
               // this needs refactoring
