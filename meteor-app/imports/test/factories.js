@@ -12,6 +12,7 @@ import CONSTANTS from '/imports/api/constants'
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
 import Orders from '/imports/api/orders/schema'
+import Parts from '/imports/api/parts/schema'
 import { RegExId } from '/imports/api/schema'
 
 Factory.define('member', Members, {
@@ -57,16 +58,25 @@ Factory.define('session', Sessions, {
 Factory.define('order', Orders, {
   status: CONSTANTS.ORDER_STATUS_NEW,
   orderedParts: [{
-    part: "700c hybrid Wheel ME, eyeletted",
+    name: '700c hybrid Wheel ME, eyeletted',
     price: 5000,
     qty: 1,
-    partId: "frame",
-    partNo: "sadasd",
+    partId: 'frame',
+    partNo: 'sadasd',
     addedAt: new Date(),
-    userId: "2ueueoaje",
+    userId: '2ueueoaje',
   }],
   totalPrice: 9900,   // This is in cents
+})
 
+Factory.define('part', Parts, {
+  imageUrl: '/public/images/logo-large.jpg',
+  retailPrice: 6666, // This is in cents
+  wholesalePrice: 3333,
+  partNo: 'pt-123',
+  desc: 'carbonfibre frame',
+  barcode: '22413000022413',
+  status: CONSTANTS.ORDER_STATUS_NEW,
 })
 
 export default Factory
