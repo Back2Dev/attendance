@@ -5,9 +5,9 @@ import CONSTANTS from '/imports/api/constants.js'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
 export const orderedParts = new SimpleSchema({
-  part: {
+  name: {
     type: String,
-    label: 'Part',
+    label: 'Part Name',
   },
   partId: {
     type: String,
@@ -50,7 +50,7 @@ export const OrdersSchema = new SimpleSchema({
     optional: true,
   },
   totalPrice: {
-    type: Number,
+    type: SimpleSchema.Integer,
     label: 'Total Cost',
   },
   orderedParts: {
@@ -61,5 +61,4 @@ export const OrdersSchema = new SimpleSchema({
   updatedAt,
 })
 Orders.attachSchema(OrdersSchema)
-
 export default Orders
