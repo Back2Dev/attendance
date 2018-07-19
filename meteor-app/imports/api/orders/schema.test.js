@@ -81,13 +81,13 @@ const goodOrders = [
       addedAt: new Date(),
       userId: 'sds',
     }],
-    totalPrice: 9900,   // This is in cents
+    totalPrice: 1100,   // This is in cents
   },
 
   {
     status: 4,
     orderedParts: [],
-    totalPrice: 111,   // This is in cents
+    totalPrice: 11100,   // This is in cents
   },
 
   {
@@ -101,7 +101,7 @@ const goodOrders = [
       addedAt: new Date(),
       userId: 'user55',
     }],
-    totalPrice: 8800,
+    totalPrice: 8888,
   },
 
   // many parts
@@ -143,7 +143,7 @@ const goodOrders = [
 goodOrders.push(Factory.build('order'))
 
 describe('schema', () => {
-  // beforeEach(resetDatabase)
+  beforeEach(resetDatabase)
 
   badOrders.forEach((bad, i) => {
     describe('OrdersSchema bad orders', () => {
@@ -161,35 +161,52 @@ describe('schema', () => {
         expect(() => Orders.insert(good)).not.to.throw()
       })
     })
+
     describe('query database good records', () => {
       it('Return database query', () => {
-        expect(Orders.findOne().totalPrice).to.equal(9900)
-        expect(Orders.findOne().status).to.equal(1)
+
+        const orderId = Orders.insert(good)
+        const order = Orders.findOne(orderId)
+
+        expect(order._id).to.equal(good._id)
+        expect(order.totalPrice).to.equal(good.totalPrice)
+
+        let ok = true
+        if (good.orderedParts && good.orderedParts.length) {
+          good.orderedParts.forEach((part, i) => {
+            Object.keys(part).forEach(key => {
+              if (part[key] !== good.orderedParts[i][key]) {
+                ok = false
+              }
+              expect(part[key]).to.equal(good.orderedParts[i][key])
+            })
+          })
+        }
       })
     })
   })
 
 
-  // describe('Order Status', () => {
-  //   it('Checks on order status values', () => {
+  describe('Order Status', () => {
+    it('Checks on order status values', () => {
 
-  //     // fails validation, throws
-  //     let l = Factory.build('order')
-  //     l.status = 99
-  //     expect(() => Orders.insert(l)).to.throw()
+      // fails validation, throws
+      let l = Factory.build('order')
+      l.status = 99
+      expect(() => Orders.insert(l)).to.throw()
 
-  //     l = Factory.build('order')
-  //     l.status = toString(1)
-  //     expect(() => Orders.insert(l)).to.throw()
+      l = Factory.build('order')
+      l.status = toString(1)
+      expect(() => Orders.insert(l)).to.throw()
 
-  //     l = Factory.build('order')
-  //     l.status = 0
-  //     expect(() => Orders.insert(l)).to.throw()
+      l = Factory.build('order')
+      l.status = 0
+      expect(() => Orders.insert(l)).to.throw()
 
-  //     l = Factory.build('order')
-  //     l.status = 1
-  //     expect(() => Orders.insert(l)).not.to.throw()
+      l = Factory.build('order')
+      l.status = 1
+      expect(() => Orders.insert(l)).not.to.throw()
 
-  //   })
-  // })
+    })
+  })
 })
