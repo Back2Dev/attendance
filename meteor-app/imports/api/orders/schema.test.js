@@ -148,7 +148,6 @@ describe('schema', () => {
   badOrders.forEach((bad, i) => {
     describe('OrdersSchema bad orders', () => {
       it(`Throws on BAD Orders insert ${i + 1}`, () => {
-        console.log(bad);
         // fails validation, throws
         expect(() => Orders.insert(bad)).to.throw()
       })
@@ -158,7 +157,6 @@ describe('schema', () => {
   goodOrders.forEach((good, i) => {
     describe('OrdersSchema good orders', () => {
       it(`Succeeds on GOOD Orders insert ${i + 1}`, () => {
-        console.log(good)
         // passes, doesn't throw
         expect(() => Orders.insert(good)).not.to.throw()
       })
@@ -167,7 +165,6 @@ describe('schema', () => {
       it('Return database query', () => {
         expect(Orders.find().fetch()[0].totalPrice).to.equal(9900)
         expect(Orders.find().fetch()[0].status).to.equal(1)
-        console.log(Orders.find().fetch());
       })
     })
   })
