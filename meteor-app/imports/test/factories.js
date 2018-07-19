@@ -138,6 +138,7 @@ Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
   package: 'Minor'
+})
 
 Factory.define('part', Parts, {
   imageUrl: '/public/images/logo-large.jpg',
