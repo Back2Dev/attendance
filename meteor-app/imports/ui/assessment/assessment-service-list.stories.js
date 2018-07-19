@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Grid, Button, Image } from 'semantic-ui-react'
+import { Header, Grid, Button } from 'semantic-ui-react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import ServiceList from './assessment-service-list'

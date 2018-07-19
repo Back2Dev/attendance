@@ -1,17 +1,19 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { Card, List, Icon } from 'semantic-ui-react'
+import { Card, List, Icon, Button } from 'semantic-ui-react'
 
 class ServiceCard extends Component {
 
 render(){
     const { serviceTitle, serviceChoice, servicePrice, cardColor } = this.props
     return (
-        <Card style={{backgroundColor: cardColor, color: "white"}}>
-            <Card.Content>
-                <Card.Header style={{color: "white"}} >
-                    {`${serviceTitle} $${servicePrice}` }
+        <Button style={{backgroundColor: "white", minWidth: "100%"}}>
+        <Card style={{backgroundColor: cardColor, color: "white", minWidth: "100%"}}>
+             
+            <Card.Content style={{width: "100%", minHeight: "460px"}} onClick={() => this.props.onClick()}>
+                <Card.Header style={{color: "white", paddingTop: "15px", fontSize: "1.5em"}} >
+                    {`${serviceTitle} $${servicePrice}`}
                 </Card.Header>
                 
                 {
@@ -36,6 +38,7 @@ render(){
                 </List>    
             </Card.Content>
         </Card >
+            </Button>
     )
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid } from 'semantic-ui-react'
+import { Button, Grid, Header } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
@@ -79,7 +79,8 @@ class AssessmentAdd extends Component {
 
   forwardStep = () => {
     this.setState({
-      step: this.state.step + 1
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
     })
   }
 
@@ -114,54 +115,50 @@ class AssessmentAdd extends Component {
     const reviewStep = this.state.step == 3
     const serviceSelectorStep = this.state.step == 0
     return (
-    <Grid>
-
-        <Grid.Row centered>
-          <Steps
-            step={this.state.step}
-            steps={schemas}
-            goToStep={this.goToStep}
-            progress={this.state.progress}
-          />
-        </Grid.Row>
-
-        <Grid.Row centered>
+    <Grid divided='vertically' stackable>
+      <Grid.Row centered>
+        <Steps
+          step={this.state.step}
+          steps={schemas}
+          goToStep={this.goToStep}
+          progress={this.state.progress}
+        />
+      </Grid.Row>
+        {
+          serviceSelectorStep &&
+            <ServiceList 
+            onClick={this.forwardStep}
+            />   
+        }
+        {
+          reviewStep &&
+          // this needs refactoring
+          <Grid.Row centered>
+            <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
+              <AssessmentAddReview
+                formData={this.state.formData}
+                steps={schemas}
+                goToStep={this.goToStep}
+              />
+              <Control
+                backStep={this.backStep}
+                forwardStep={this.forwardStep}
+                step={this.state.step}
+                totalSteps={schemas.length}
+                onSubmit={this.onSubmit}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        }
+        {
           
-          <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
-
-            {
-              serviceSelectorStep && 
-              <div> 
-                  <ServiceList /> 
-              </div> 
-            }
-
-
-            {
-              reviewStep &&
-              // this needs refactoring
-              <div>
-                <AssessmentAddReview
-                  formData={this.state.formData}
-                  steps={schemas}
-                  goToStep={this.goToStep}
-                />
-                <Control
-                  backStep={this.backStep}
-                  forwardStep={this.forwardStep}
-                  step={this.state.step}
-                  totalSteps={schemas.length}
-                  onSubmit={this.onSubmit}
-                />
-              </div>
-            }
-            {
-              !reviewStep &&
-              this.renderForm()
-            }
-          </Grid.Column>
-
-        </Grid.Row>
+          (!reviewStep && !serviceSelectorStep) &&
+          <Grid.Row centered>
+            <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
+              {this.renderForm()}
+            </Grid.Column>
+          </Grid.Row>
+        }
     </Grid>
     )
   }
