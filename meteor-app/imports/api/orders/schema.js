@@ -50,7 +50,7 @@ export const OrdersSchema = new SimpleSchema({
     optional: true,
   },
   totalPrice: {
-    type: Number,
+    type: SimpleSchema.Integer,
     label: 'Total Cost',
   },
   orderedParts: {
@@ -61,5 +61,4 @@ export const OrdersSchema = new SimpleSchema({
   updatedAt,
 })
 Orders.attachSchema(OrdersSchema)
-
 export default Orders

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor' // base
 import Parts from '/imports/api/parts/schema'
+import Orders from '/imports/api/orders/schema'
 import casual from 'casual'
 
 const imagesUrls = [
@@ -36,7 +37,7 @@ Meteor.methods({
         wholesalePrice: casual.integer(10, 200000),
         retailPrice: casual.integer(10, 200000),
         partNo: casual.integer(600000, 1000000).toString(),
-        desc: casual.long_description,
+        desc: casual.string,
         barcode: casual.integer(600000, 1000000),
       }
     })
@@ -45,11 +46,64 @@ Meteor.methods({
       arrayOf(n, () => casual.part)
         .forEach(r => Parts.insert(r))
   },
+  'seed.orders'() {
+    const orderedParts = []
+    const allParts = Parts.find()
+
+    allParts.map(part => {
+      const newPart = {
+        part: part.desc,
+        partId: part._id,
+        partNo: part.partNo,
+        addedAt: new Date(),
+        price: part.retailPrice,
+        qty: 1,
+        userId: 'MarksID',
+      }
+
+      orderedParts.push(newPart)
+    })
+
+    const n = 1
+    // seed ensures same data is generated
+    casual.seed(123)
+
+    const arrayOf = function (times, generator) {
+      const result = [];
+      for (let i = 0; i < times; ++i) {
+        result.push(generator());
+      }
+      return result;
+    };
+
+    casual.define('order', function () {
+      return {
+        status: 1,
+        additionalNotes: casual.description,
+        orderedParts,
+        totalPrice: 0,
+      }
+    })
+
+    const ordersList =
+      arrayOf(n, () => casual.order)
+        .forEach(r => {
+          const parts = r.orderedParts
+          parts.map(part => {
+            r.totalPrice += part.price
+          })
+          Orders.insert(r)
+        }
+      )
+  },
 })
 
 Meteor.startup(() => {
   if (Parts.find().count() === 0) {
     Meteor.call('seed.parts')
+  }
+  if (Orders.find().count() === 0) {
+    Meteor.call('seed.orders')
   }
 })
 
