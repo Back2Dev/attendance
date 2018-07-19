@@ -83,6 +83,7 @@ const goodParts = [
 goodParts.push(Factory.build('part'))
 
 describe('schema', () => {
+    beforeEach(resetDatabase)
 
     goodParts.forEach((good, i) => {
         describe('PartsSchema good parts', () => {
@@ -90,44 +91,50 @@ describe('schema', () => {
                 expect(() => Parts.insert(good)).not.to.throw()
             })
         })
-    })
 
-    describe('query database good parts', () => {
-        it('Return database query', () => {
-            expect(Parts.find().fetch()[0].partNo).to.equal('12345')
-            expect(Parts.find().fetch()[0].retailPrice).to.equal(5000)
-            expect(Parts.find().fetch()[0].wholesalePrice).to.equal(3000)
-        })
-    })
+        describe('query database good parts', () => {
+            it('success if database query matches', () => {
 
-    badParts.forEach((bad, i) => {
-        describe('PartsSchema bad parts', () => {
-            it(`Succeeds on BAD Parts insert ${i + 1}`, () => {
-                expect(() => Parts.insert(bad)).to.throw()
+                const partId = Parts.insert(good)
+                const part = Parts.findOne(partId)
+
+                expect(part._id).to.equal(good._id)
+                expect(part.retailPrice).to.equal(good.retailPrice)
+                expect(part.partNo).to.equal(good.partNo)
+
             })
         })
-    })
 
-    describe('Part Status', () => {
-        it('Checks on part status values', () => {
 
-            // fails validation, throws
-            let l = Factory.build('part')
-            l.status = 98
-            expect(() => Parts.insert(l)).to.throw()
+        badParts.forEach((bad, i) => {
+            describe('PartsSchema bad parts', () => {
+                it(`Succeeds on BAD Parts insert ${i + 1}`, () => {
+                    expect(() => Parts.insert(bad)).to.throw()
+                })
+            })
+        })
 
-            l = Factory.build('part')
-            l.status = 0
-            expect(() => Parts.insert(l)).to.throw()
+        describe('Part Status', () => {
+            it('Checks on part status values', () => {
 
-            l = Factory.build('part')
-            l.status = toString(3)
-            expect(() => Parts.insert(l)).to.throw()
+                // fails validation, throws
+                let l = Factory.build('part')
+                l.status = 98
+                expect(() => Parts.insert(l)).to.throw()
 
-            l = Factory.build('part')
-            l.status = 1
-            expect(() => Parts.insert(l)).not.to.throw()
+                l = Factory.build('part')
+                l.status = 0
+                expect(() => Parts.insert(l)).to.throw()
 
+                l = Factory.build('part')
+                l.status = toString(3)
+                expect(() => Parts.insert(l)).to.throw()
+
+                l = Factory.build('part')
+                l.status = 1
+                expect(() => Parts.insert(l)).not.to.throw()
+
+            })
         })
     })
 })
