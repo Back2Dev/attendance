@@ -21,7 +21,7 @@ class AppSelection extends Component {
                         <h1>User Profiles</h1>
                     </Button>
                     <Button 
-                        onClick={() => { this.props.history.push('/partprices') }}
+                        onClick={() => { this.props.history.push('/ordering') }}
                         style={{ height: "100px", marginTop: '20px', marginBottom: '20px' }} 
                         color="teal">
                         <h1>Part Prices</h1>
