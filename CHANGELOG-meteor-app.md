@@ -14,6 +14,9 @@ Next
 * Added Navbar for Parts assesment and Bike Servicing 
 * Added /ordering/cart route 
 * Order subscription and publication
+* Added Assessment, ServiceItems and Services schema
+* Added Assessment publication
+* Add Assessment, ServiceItems and Services schema tests
 
 0.3.0
 ------
