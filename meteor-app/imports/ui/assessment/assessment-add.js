@@ -21,21 +21,21 @@ const mapSchemaToState = schema => (
     }, {})
 )
 
-const services = withTracker((props) => {
-  const servicesHandle = Meteor.subscribe('all.services')
-  const serviceItemsHandle = Meteor.subscribe('all.serviceItems')
+// const services = withTracker((props) => {
+//   const servicesHandle = Meteor.subscribe('all.services')
+//   const serviceItemsHandle = Meteor.subscribe('all.serviceItems')
 
-  const services = Services.find({}).fetch()
-  const serviceItems = ServiceItems.find({}).fetch()
+//   const services = Services.find({}).fetch()
+//   const serviceItems = ServiceItems.find({}).fetch()
 
-  const loading = !servicesHandle.ready() || !serviceItemsHandle.ready()
+//   const loading = !servicesHandle.ready() || !serviceItemsHandle.ready()
 
-  return {
-    loading,
-    services,
-    serviceItems
-  }
-})(AssessmentAdd)
+//   return {
+//     loading,
+//     services,
+//     serviceItems
+//   }
+// })(AssessmentAdd)
 
 class AssessmentAdd extends Component {
   constructor(props) {
