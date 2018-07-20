@@ -3,8 +3,15 @@ import PropTypes from 'prop-types'
 import { Table, Button } from 'semantic-ui-react'
 
 
-const CartListItem = (props) => {
-  const { partId, name, partNo, addedAt, price, qty, userId } = props
+const CartListItem = ({
+  partId,
+  name,
+  partNo,
+  addedAt,
+  price,
+  qty,
+  userId
+}) => {
 
   const priceInDollars = (price / 100)
   const totalItemPrice = (priceInDollars * qty)
@@ -27,14 +34,14 @@ const CartListItem = (props) => {
   )
 }
 
-CartListItem.propTypes = {
-  partId: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  partNo: PropTypes.string.isRequired,
-  addedAt: PropTypes.object.isRequired,
-  price: PropTypes.number.isRequired,
-  qty: PropTypes.number.isRequired,
-  userId: PropTypes.string,
-};
+// CartListItem.propTypes = {
+//   partId: PropTypes.string,
+//   name: PropTypes.string.isRequired,
+//   partNo: PropTypes.string.isRequired,
+//   addedAt: PropTypes.object.isRequired,
+//   price: PropTypes.number.isRequired,
+//   qty: PropTypes.number.isRequired,
+//   userId: PropTypes.string,
+// };
 
 export default CartListItem

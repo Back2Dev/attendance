@@ -10,7 +10,7 @@ export default withTracker((props) => {
   const ordersHandle = Meteor.subscribe('all.orders')
 
   return {
-    orders: Orders.find({}).fetch(),
+    order: Orders.findOne({ status: 1 }),
     loading: !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
   }

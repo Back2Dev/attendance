@@ -5,8 +5,6 @@ import { Grid } from 'semantic-ui-react'
 import PartCard from '/imports/ui/ordering/ordering-part-card'
 import PartList from '/imports/ui/ordering/ordering-part-list'
 
-import '/imports/ui/ordering/ordering.css'
-
 class Ordering extends React.Component {
   render() {
     return (
