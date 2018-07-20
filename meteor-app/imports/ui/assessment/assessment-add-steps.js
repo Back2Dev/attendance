@@ -5,7 +5,7 @@ import { Step } from 'semantic-ui-react'
 const AssessmentAddSteps = (props) => {
 
     return (
-      <Step.Group ordered fluid stackable widths={5}>
+      <Step.Group ordered fluid widths={5}>
         {props.steps.map((step, i) =>
           <Step key={i} completed={(props.progress >= i)} onClick={() => props.goToStep(i)}>
             <Step.Content>

@@ -4,7 +4,7 @@ export default [
       stepDescription: '',
       schema: {
         type: "object",
-        title: "Select Base Service",
+        title: "",
         properties: {}
       }
     },
