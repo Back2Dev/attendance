@@ -7,7 +7,7 @@ const PartCard = ({
   _id,
   barcode,
   createdAt,
-  name,
+  desc,
   imageUrl,
   partNo,
   retailPrice,
@@ -40,7 +40,7 @@ const PartCard = ({
 
         <Divider fitted />
 
-        <Card.Description className='part-name'>{name}</Card.Description>
+        <Card.Description className='part-desc'>{desc}</Card.Description>
 
         <Divider />
 
@@ -57,7 +57,7 @@ PartCard.propTypes = {
   _id: PropTypes.string.isRequired,
   barcode: PropTypes.string,
   createdAt: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
+  desc: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   partNo: PropTypes.string.isRequired,
   retailPrice: PropTypes.number.isRequired,
