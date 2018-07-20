@@ -9,7 +9,7 @@ Meteor.publish('services.all', () => {
 })
 
 Meteor.publish('serviceItems.all', () => {
-  return ServicesItems.find({})
+  return ServiceItems.find({})
 })
 
 Meteor.publish('assessments.all', () => {
