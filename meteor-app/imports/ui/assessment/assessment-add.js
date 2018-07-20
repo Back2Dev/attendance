@@ -4,8 +4,8 @@ import { Button, Grid, Header } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
-
 import schemas from '/imports/ui/config/bike-assessment-schemas'
+
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
 import ServiceList from '/imports/ui/assessment/assessment-service-list'
@@ -21,12 +21,66 @@ const mapSchemaToState = schema => (
     }, {})
 )
 
+const services = withTracker((props) => {
+  const servicesHandle = Meteor.subscribe('all.services')
+  const serviceItemsHandle = Meteor.subscribe('all.serviceItems')
+
+  const services = Services.find({}).fetch()
+  const serviceItems = ServiceItems.find({}).fetch()
+
+  const loading = !servicesHandle.ready() || !serviceItemsHandle.ready()
+
+  return {
+    loading,
+    services,
+    serviceItems
+  }
+})(AssessmentAdd)
+
 class AssessmentAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
       step: (props.step) ? props.step : 0,
       formData: mapSchemaToState(schemas),
+      formResult:
+      {
+        customerDetails: {
+          name: "",
+          phone: "",
+          email: "",
+          refurbishment: "",
+        },
+        bikeDetails: {
+          make: "",
+          model: "",
+          color: "",
+          bikeValue: "",
+          sentimentValue: "",
+        },
+        services: {
+          serviceItem: [
+            
+          ],
+          totalServiceCost: "",
+        },
+        parts: {
+          partsItem: [
+          ],
+          totalPartsCost: "",
+        },
+        additionalFees: "",
+        totalCost: "",
+        dropoffDate: "",
+        pickupDate: "",
+        urgent: "",
+        assessor: "",
+        mechanic: "",
+        comment: "",
+        temporaryBike: "",
+        status: "",
+        search: "",
+      },
       progress: 0,
     }
   }
