@@ -25,7 +25,7 @@ const AssessmentAddReview = (props) => {
                   Object.keys(step.schema.properties).map((key, value, iy) => {
                     if (props.formData[key]) {
                       return (
-                        <Segment key={iy}>
+                        <Segment key={key}>
                           <strong>{step.schema.properties[key].title}</strong>
                           <span style={{ paddingLeft: '1em' }}>
                     
