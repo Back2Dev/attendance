@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from  'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import './methods'
 
 const Services = new Mongo.Collection('services')
 
