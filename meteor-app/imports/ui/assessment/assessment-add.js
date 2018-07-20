@@ -21,22 +21,6 @@ const mapSchemaToState = schema => (
     }, {})
 )
 
-// const services = withTracker((props) => {
-//   const servicesHandle = Meteor.subscribe('all.services')
-//   const serviceItemsHandle = Meteor.subscribe('all.serviceItems')
-
-//   const services = Services.find({}).fetch()
-//   const serviceItems = ServiceItems.find({}).fetch()
-
-//   const loading = !servicesHandle.ready() || !serviceItemsHandle.ready()
-
-//   return {
-//     loading,
-//     services,
-//     serviceItems
-//   }
-// })(AssessmentAdd)
-
 class AssessmentAdd extends Component {
   constructor(props) {
     super(props)
@@ -110,9 +94,50 @@ class AssessmentAdd extends Component {
   onSubmit = ({ formData }) => {
     const lastStep = schemas.length == this.state.step
     if (lastStep) {
-      this.props.setAssessment(this.state.formData)
+      this.setState({
+      formResult:
+      {
+        customerDetails: {
+          name: formData.name,
+          phone: "",
+          email: "",
+          refurbishment: "",
+        },
+        bikeDetails: {
+          make: "",
+          model: "",
+          color: "",
+          bikeValue: "",
+          sentimentValue: "",
+        },
+        services: {
+          serviceItem: [
+            
+          ],
+          totalServiceCost: "",
+        },
+        parts: {
+          partsItem: [
+          ],
+          totalPartsCost: "",
+        },
+        additionalFees: "",
+        totalCost: "",
+        dropoffDate: "",
+        pickupDate: "",
+        urgent: "",
+        assessor: "",
+        mechanic: "",
+        comment: "",
+        temporaryBike: "",
+        status: "",
+        search: "",
+      },  
+      })
+      this.props.setAssessment(this.state.formResults)
       return
     }
+
     this.setState((prevState, props) => {
       return {
         formData: {
@@ -147,6 +172,9 @@ class AssessmentAdd extends Component {
   }
 
   renderForm = () => {
+    schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
+    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => key.name)
+
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}

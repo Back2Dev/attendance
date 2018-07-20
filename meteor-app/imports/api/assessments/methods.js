@@ -1,9 +1,9 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
-
 import Assessment from './assessment'
 import Logger from './logger'
+import Services from './services'
 
 Meteor.methods({
   'assessment.insert'(form) {
@@ -22,4 +22,9 @@ Meteor.methods({
 
     Logger.insert(log)
   },
+  'services.all'() {
+    const services = Services.find().fetch()
+    console.log(services)
+    Services.find({})
+    }
 })
