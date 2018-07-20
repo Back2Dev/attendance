@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Services from '/imports/api/assessments/services'
-import Parts from '/imports/api/assessments/parts'
+import ServiceItems from '/imports/api/assessments/serviceItems'
 
 Meteor.methods({
   'seed.services'() {
@@ -158,7 +158,7 @@ Meteor.methods({
     ]
 
     for (let i = 0; i < parts.length; i++) {
-      Parts.insert(parts[i])
+      ServiceItems.insert(parts[i])
     }
   }
 })
@@ -168,7 +168,7 @@ Meteor.startup(() => {
     Meteor.call('seed.services')
   }
 
-  if (Parts.find().count() === 0) {
+  if (ServiceItems.find().count() === 0) {
     Meteor.call('seed.repairParts')
   }
 })
