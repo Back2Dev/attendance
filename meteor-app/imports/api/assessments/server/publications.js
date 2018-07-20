@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Assessment from '../assessment'
 import Services from '../services'
+import ServiceItems from '../serviceItems'
 
 // Mainly to get updated changes reflected in job cart
 Meteor.publish('services.all', () => {
@@ -8,7 +9,7 @@ Meteor.publish('services.all', () => {
 })
 
 Meteor.publish('serviceItems.all', () => {
-  return Services.find({})
+  return ServicesItems.find({})
 })
 
 Meteor.publish('assessments.all', () => {
