@@ -1,21 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Table, Button } from 'semantic-ui-react'
 
 
 const CartListItem = (props) => {
-  const { partId, part, partNo, addedAt, price, qty, userId } = props
-  const roundedPrice = Math.round(price)
-  const roundedQty = Math.round(qty)
-  const roundedPartNo = Math.round(partNo)
+  const { partId, name, partNo, addedAt, price, qty, userId } = props
+
+  const priceInDollars = (price / 100)
+  const totalItemPrice = (priceInDollars * qty)
 
   return (
     <Table.Row>
-      <Table.Cell collapsing textAlign='left'>{roundedPartNo}</Table.Cell>
-      <Table.Cell width='one'>{part}</Table.Cell>
-      <Table.Cell collapsing >${roundedPrice}</Table.Cell>
-      <Table.Cell collapsing >{roundedQty}</Table.Cell>
-      <Table.Cell collapsing >${(roundedPrice * roundedQty)}</Table.Cell>
-      <Table.Cell collapsing>
+      <Table.Cell collapsing textAlign='left'>{partNo}</Table.Cell>
+      <Table.Cell className='partDescription'>{name}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>${Math.round(priceInDollars)}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>{Math.round(qty)}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>${Math.round(totalItemPrice)}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>
         <Button.Group collapsing>
           <Button positive>Edit</Button>
           <Button.Or />
@@ -26,15 +27,14 @@ const CartListItem = (props) => {
   )
 }
 
-// CardListItem.propTypes = {
-//   partId: PropTypes.string,
-//   part: PropTypes.string.isRequired,
-//   partNo: PropTypes.string.isRequired,
-//   addedAt: PropTypes.object.isRequired,
-//   price: PropTypes.bool.isRequired,
-//   qty: PropTypes.array.isRequired,
-//   userId: PropTypes.object,
-//   sessionCount: PropTypes.number.isRequired,
-// };
+CartListItem.propTypes = {
+  partId: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  partNo: PropTypes.string.isRequired,
+  addedAt: PropTypes.object.isRequired,
+  price: PropTypes.number.isRequired,
+  qty: PropTypes.number.isRequired,
+  userId: PropTypes.string,
+};
 
 export default CartListItem

@@ -6,6 +6,7 @@ import CartListItem from './cart-list-item'
 
 const CartList = (props) => {
   const { status, additionalNotes, totalPrice, orderedParts } = props
+
   const componentOrderedParts = orderedParts.map(part => {
     return <CartListItem {...part} />
   })
@@ -13,7 +14,7 @@ const CartList = (props) => {
   return (
     <div>
       <Container>
-        <Table striped size='large' celled compact='very' singleLine>
+        <Table striped size='large' celled compact='very'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Part #</Table.HeaderCell>
@@ -39,7 +40,7 @@ const CartList = (props) => {
           Total Price: ${totalPrice}
           <br />
           <Button primary>
-            CONFIRM ORDER
+            CONFIRM <br />ORDER
         </Button>
         </Segment>
       </Container>
