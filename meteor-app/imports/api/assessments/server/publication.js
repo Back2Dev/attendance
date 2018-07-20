@@ -5,8 +5,3 @@ import Assessment from '../assessment'
 Meteor.publish('assessment', () => {
   return Assessment.find({})
 })
-
-
-// Meteor.publish('jobs', () => {
-//   return Assessment.find({ status: 'in progress' || 'incomplete' })
-// })
