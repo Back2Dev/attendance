@@ -38,7 +38,7 @@ Meteor.methods({
         wholesalePrice: casual.integer(10, 200000),
         retailPrice: casual.integer(10, 200000),
         partNo: casual.integer(600000, 1000000).toString(),
-        desc: casual.string,
+        name: casual.string,
         barcode: casual.integer(600000, 1000000),
       }
     })
@@ -53,7 +53,7 @@ Meteor.methods({
 
     allParts.map(part => {
       const newPart = {
-        part: part.name,
+        name: part.name,
         partId: part._id,
         partNo: part.partNo,
         addedAt: new Date(),
@@ -95,7 +95,7 @@ Meteor.methods({
           })
           Orders.insert(r)
         }
-      )
+        )
   },
 })
 
