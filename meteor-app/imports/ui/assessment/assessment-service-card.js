@@ -15,7 +15,7 @@ render(){
                     {`${serviceTitle} $${servicePrice}`}
                 </Card.Header>
                 {
-                serviceTitle == "Major Serivce" &&
+                serviceTitle == "Major Service" &&
                 <div> 
                     <List.Item style={{paddingTop: "10px", color: "white"}}>
                         <Icon name="star outline"/>
