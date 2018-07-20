@@ -6,15 +6,8 @@ import Component from '/imports/ui/ordering/cart-list-item'
 const CartList = (props) => {
   let { order } = props
 
-  // const componentOrderedParts = orders.orderedParts.map(part => {
-  //   return <Component key={part._id} {...part} />
-  // })
-
   return (
-
     <div>
-      {console.log(order)}
-      {React.Children.map(props.children, (child) => child)}
       <div
         style={{
           display: 'flex',
@@ -40,21 +33,20 @@ const CartList = (props) => {
             <Table.Body>
               {
                 (!props.loading && order) &&
-                order.orderedParts.map(part => (
-
-                  <Component key={part._id} className="part-card"{...part} />
+                order.orderedParts.map((part) => (
+                  <Component className='cart-item' key={part.partId} {...part} />
                 ))
               }
             </Table.Body>
           </Table>
         </Container>
 
-        <Divider />
+        <br />
 
         <Container textAlign='center'>
           <Input fluid label='Additional Notes' />
-          <Segment text raised>
-            Total Price: $
+          <Segment raised>
+            {(!props.loading && order) && <div>Total Price: $ {order.totalPrice / 100}</div>}
             <br />
             <Button primary>
               CONFIRM <br />ORDER

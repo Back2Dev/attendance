@@ -20,11 +20,11 @@ const CartListItem = ({
     <Table.Row>
       <Table.Cell collapsing textAlign='left'>{partNo}</Table.Cell>
       <Table.Cell className='partDescription'>{name}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>${Math.round(priceInDollars)}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>{Math.round(qty)}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>${Math.round(totalItemPrice)}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>${Math.round(priceInDollars * 100) / 100}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>{qty}</Table.Cell>
+      <Table.Cell collapsing textAlign='center'>${Math.round(totalItemPrice * 100) / 100}</Table.Cell>
       <Table.Cell collapsing textAlign='center'>
-        <Button.Group collapsing>
+        <Button.Group>
           <Button positive>Edit</Button>
           <Button.Or />
           <Button negative>Delete</Button>
@@ -34,14 +34,14 @@ const CartListItem = ({
   )
 }
 
-// CartListItem.propTypes = {
-//   partId: PropTypes.string,
-//   name: PropTypes.string.isRequired,
-//   partNo: PropTypes.string.isRequired,
-//   addedAt: PropTypes.object.isRequired,
-//   price: PropTypes.number.isRequired,
-//   qty: PropTypes.number.isRequired,
-//   userId: PropTypes.string,
-// };
+CartListItem.propTypes = {
+  partId: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  partNo: PropTypes.string.isRequired,
+  addedAt: PropTypes.object.isRequired,
+  price: PropTypes.number.isRequired,
+  qty: PropTypes.number.isRequired,
+  userId: PropTypes.string,
+};
 
 export default CartListItem

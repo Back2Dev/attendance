@@ -1,4 +1,3 @@
-// member-card.stories.js
 import React from 'react'
 import { Table } from 'semantic-ui-react'
 
@@ -15,7 +14,6 @@ import CartListItem from './cart-list-item'
 
 storiesOf('Cart.ListItem', module)
   .addDecorator(withKnobs)
-
   .add('Cart List Item', (() => {
     const story = (
       <div>
