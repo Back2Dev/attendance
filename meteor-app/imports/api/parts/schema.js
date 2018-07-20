@@ -24,7 +24,7 @@ export const PartsSchema = new SimpleSchema({
     type: String,
     label: 'Part Number',
   },
-  desc: {
+  name: {
     type: String,
     label: 'Part Name',
     optional: true,
