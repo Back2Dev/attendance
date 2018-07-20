@@ -21,13 +21,15 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.update'(id, orderedParts) {
+  'orders.update'(orderedParts) {
     try {
-      log.info('updating order: ', id, orderedParts)
-      return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedParts } } })
+      log.info('updating order: ', orderedParts)
+      return Orders.update({ status: 1 }, { $push: { orderedParts: { ...orderedParts } } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+
+
 })
