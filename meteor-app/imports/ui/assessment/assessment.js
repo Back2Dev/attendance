@@ -1,6 +1,8 @@
 import { withTracker } from "meteor/react-meteor-data";
 import AssessmentAdd from "/imports/ui/assessment/assessment-add";
 import { ReactiveVar } from "meteor/reactive-var";
+import Services from '/imports/api/assessments/services'
+import ServiceItems from '/imports/api/assessments/serviceItems'
 
 import Alert from 'react-s-alert';
 
@@ -10,6 +12,8 @@ const msg = new ReactiveVar("");
 const newId = new ReactiveVar("");
 
 export default withTracker(props => {
+  Meteor.subscribe('services.all')
+  Meteor.subscribe('serviceItems.all')
   // need to do something smarter than this... 
   function setError(e){
     newId.set(null)
@@ -61,6 +65,8 @@ export default withTracker(props => {
     // isIframe: isIframe(),
     newId: newId.get(),
     resetId: () => newId.set(""),
-    assessment: props.assessment ? props.assessment : null
+    assessment: props.assessment ? props.assessment : null,
+    services: Services.find().fetch(),
+    serviceItems: ServiceItems.find().fetch()
   };
 })(AssessmentAdd);

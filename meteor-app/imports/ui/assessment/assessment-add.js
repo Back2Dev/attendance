@@ -4,8 +4,8 @@ import { Button, Grid, Header } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
-
 import schemas from '/imports/ui/config/bike-assessment-schemas'
+
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
 import ServiceList from '/imports/ui/assessment/assessment-service-list'
@@ -27,6 +27,44 @@ class AssessmentAdd extends Component {
     this.state = {
       step: (props.step) ? props.step : 0,
       formData: mapSchemaToState(schemas),
+      formResult:
+      {
+        customerDetails: {
+          name: "",
+          phone: "",
+          email: "",
+          refurbishment: "",
+        },
+        bikeDetails: {
+          make: "",
+          model: "",
+          color: "",
+          bikeValue: "",
+          sentimentValue: "",
+        },
+        services: {
+          serviceItem: [
+            
+          ],
+          totalServiceCost: "",
+        },
+        parts: {
+          partsItem: [
+          ],
+          totalPartsCost: "",
+        },
+        additionalFees: "",
+        totalCost: "",
+        dropoffDate: "",
+        pickupDate: "",
+        urgent: "",
+        assessor: "",
+        mechanic: "",
+        comment: "",
+        temporaryBike: "",
+        status: "",
+        search: "",
+      },
       progress: 0,
     }
   }
@@ -56,9 +94,50 @@ class AssessmentAdd extends Component {
   onSubmit = ({ formData }) => {
     const lastStep = schemas.length == this.state.step
     if (lastStep) {
-      this.props.setAssessment(this.state.formData)
+      this.setState({
+      formResult:
+      {
+        customerDetails: {
+          name: formData.name,
+          phone: "",
+          email: "",
+          refurbishment: "",
+        },
+        bikeDetails: {
+          make: "",
+          model: "",
+          color: "",
+          bikeValue: "",
+          sentimentValue: "",
+        },
+        services: {
+          serviceItem: [
+            
+          ],
+          totalServiceCost: "",
+        },
+        parts: {
+          partsItem: [
+          ],
+          totalPartsCost: "",
+        },
+        additionalFees: "",
+        totalCost: "",
+        dropoffDate: "",
+        pickupDate: "",
+        urgent: "",
+        assessor: "",
+        mechanic: "",
+        comment: "",
+        temporaryBike: "",
+        status: "",
+        search: "",
+      },  
+      })
+      this.props.setAssessment(this.state.formResults)
       return
     }
+
     this.setState((prevState, props) => {
       return {
         formData: {
@@ -93,6 +172,9 @@ class AssessmentAdd extends Component {
   }
 
   renderForm = () => {
+    schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
+    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => key.name)
+
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
