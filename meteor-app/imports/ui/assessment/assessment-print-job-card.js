@@ -3,7 +3,6 @@ import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import { Button } from 'semantic-ui-react'
 
-
 export default class PrintJobCard extends Component {
 
   printDocument() {
