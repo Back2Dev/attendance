@@ -38,7 +38,7 @@ class JobCardList extends Component {
       <Nav />
         <Grid stackable>
           {currentJobs.map(job =>
-            <Grid.Column key={job._id} width={4}>
+            <Grid.Column key={job._id} width={5}>
                 <JobCard
                   currentJob={job}
                 />
