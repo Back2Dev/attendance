@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Header } from 'semantic-ui-react'
+import { Button, Grid, Header, Container } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
@@ -9,6 +9,7 @@ import schemas from '/imports/ui/config/bike-assessment-schemas'
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
 import ServiceList from '/imports/ui/assessment/assessment-service-list'
+import Congratulations from '/imports/ui/assessment/assessment-congratulations'
 
 import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 
@@ -114,6 +115,7 @@ class AssessmentAdd extends Component {
 
     const reviewStep = this.state.step == 3
     const serviceSelectorStep = this.state.step == 0
+    const orderSubmittedStep = this.state.step == 5
     return (
     <Grid divided='vertically' stackable>
       <Grid.Row centered>
@@ -151,8 +153,14 @@ class AssessmentAdd extends Component {
           </Grid.Row>
         }
         {
+          orderSubmittedStep &&
+            <Congratulations
+
+            />
+        }
+        {
           
-          (!reviewStep && !serviceSelectorStep) &&
+          (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
               {this.renderForm()}

@@ -2,3 +2,7 @@
     margin: 10px;
     color: blue;
 }
+
+.background-image {
+    background-image: url("/images/fireworks.svg");
+}
