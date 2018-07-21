@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 3e871eb0dcb42a2c928f49cf1d94cdf1e1f374be
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { Card, List, Icon, Button } from 'semantic-ui-react'
