@@ -42,7 +42,7 @@ const badOrders = [
   {
     status: 1,
     orderedParts: [{
-      part: 'Limited Edition Frame',
+      name: 'Limited Edition Frame',
       price: 60.10,
       qty: 0,
       partId: '3432n3',
@@ -56,7 +56,7 @@ const badOrders = [
   {
     status: -1,
     orderedParts: [{
-      part: 'Blue Bike Bell',
+      name: 'Blue Bike Bell',
       price: 4000,
       qty: 3.5,
       partNo: 2114567788644,
@@ -73,7 +73,7 @@ const goodOrders = [
   {
     status: 1,
     orderedParts: [{
-      part: 'Frame',
+      name: 'Frame',
       price: 6000,
       qty: 3,
       partId: '3432n3',
@@ -81,19 +81,19 @@ const goodOrders = [
       addedAt: new Date(),
       userId: 'sds',
     }],
-    totalPrice: 9900,   // This is in cents
+    totalPrice: 1100,   // This is in cents
   },
 
   {
     status: 4,
     orderedParts: [],
-    totalPrice: 111,   // This is in cents
+    totalPrice: 11100,   // This is in cents
   },
 
   {
     status: 2,
     orderedParts: [{
-      part: 'Limited Edition Frame',
+      name: 'Limited Edition Frame',
       price: 60.00,
       qty: 5,
       partId: '3432n3',
@@ -101,7 +101,7 @@ const goodOrders = [
       addedAt: new Date(),
       userId: 'user55',
     }],
-    totalPrice: 8800,
+    totalPrice: 8888,
   },
 
   // many parts
@@ -109,7 +109,7 @@ const goodOrders = [
     status: 3,
     orderedParts: [
       {
-        part: 'Handle Bar',
+        name: 'Handle Bar',
         price: 3333,
         qty: 1,
         partId: 'abc123',
@@ -118,7 +118,7 @@ const goodOrders = [
         userId: 'mr.cool',
       },
       {
-        part: 'Brake Lever',
+        name: 'Brake Lever',
         price: 2144,
         qty: 10,
         partId: 'l-k343',
@@ -127,7 +127,7 @@ const goodOrders = [
         userId: 'user56',
       },
       {
-        part: 'Braided Line',
+        name: 'Braided Line',
         price: 2,
         qty: 3,
         partId: '991',
@@ -143,12 +143,11 @@ const goodOrders = [
 goodOrders.push(Factory.build('order'))
 
 describe('schema', () => {
-  // beforeEach(resetDatabase)
+  beforeEach(resetDatabase)
 
   badOrders.forEach((bad, i) => {
     describe('OrdersSchema bad orders', () => {
       it(`Throws on BAD Orders insert ${i + 1}`, () => {
-        console.log(bad);
         // fails validation, throws
         expect(() => Orders.insert(bad)).to.throw()
       })
@@ -158,19 +157,36 @@ describe('schema', () => {
   goodOrders.forEach((good, i) => {
     describe('OrdersSchema good orders', () => {
       it(`Succeeds on GOOD Orders insert ${i + 1}`, () => {
-        console.log(good)
         // passes, doesn't throw
         expect(() => Orders.insert(good)).not.to.throw()
       })
     })
+
     describe('query database good records', () => {
       it('Return database query', () => {
-        expect(Orders.find().fetch()[0].totalPrice).to.equal(9900)
-        expect(Orders.find().fetch()[0].status).to.equal(1)
-        console.log(Orders.find().fetch());
+
+        const orderId = Orders.insert(good)
+        const order = Orders.findOne(orderId)
+
+        expect(order._id).to.equal(good._id)
+        expect(order.totalPrice).to.equal(good.totalPrice)
+
+        let ok = true
+        if (good.orderedParts && good.orderedParts.length) {
+          good.orderedParts.forEach((part, i) => {
+            Object.keys(part).forEach(key => {
+              if (part[key] !== good.orderedParts[i][key]) {
+                ok = false
+              }
+              expect(part[key]).to.equal(good.orderedParts[i][key])
+            })
+          })
+        }
+
       })
     })
   })
+
 
   describe('Order Status', () => {
     it('Checks on order status values', () => {

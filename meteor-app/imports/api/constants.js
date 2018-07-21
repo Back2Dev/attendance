@@ -32,4 +32,12 @@ CONSTANTS.ORDER_STATUS_READABLE = {
   6: 'Cancelled',
 }
 
+export const JOB_STATUS = {
+  1: 'New',
+  2: 'Assigned',
+  3: 'In Progress',
+  4: 'Completed',
+  5: 'Bike Picked Up'
+} 
+
 export default CONSTANTS

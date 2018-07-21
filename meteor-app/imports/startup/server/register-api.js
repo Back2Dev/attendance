@@ -11,3 +11,8 @@ import '/imports/api/sessions/server/publications'
 //parts
 import '/imports/api/parts/schema'
 import '/imports/api/parts/server/publications'
+
+//orders 
+
+import '/imports/api/orders/schema'
+import '/imports/api/orders/server/publications'
