@@ -54,9 +54,82 @@ class AssessmentAdd extends Component {
   }
 
   onSubmit = ({ formData }) => {
-    const lastStep = schemas.length == this.state.step
+    const lastStep = this.state.step == 4
+    
     if (lastStep) {
-      this.props.setAssessment(this.state.formData)
+      const totalServiceCost = this.props.services
+        .map(key => {
+          return formData.services.includes(key.name) ? key.price : 0
+        })
+        .reduce((a, b) => a + b) || 0
+      const totalPartsCost = this.props.serviceItems
+        .map(key => {
+          return formData.parts.includes(key.name) ? key.price : 0
+        })
+        .reduce((a, b) => a + b) || 0
+      const totalCost = totalServiceCost + totalPartsCost + (formData.additionalFee || 0)
+
+      const serviceItem = this.props.services
+        .filter(key => {
+          return formData.services.includes(key.name)
+        })
+        .map(key => {
+          return {
+            name: key.name, 
+            price: key.price, 
+            package: key.package
+          }
+        })
+      const partsItem = this.props.serviceItems
+        .filter(key => {
+          return formData.parts.includes(key.name)
+        })
+        .map(key => {
+          return {
+            name: key.name, 
+            price: key.price
+          }
+        })
+      const search = formData.b2bRefurbish ? 
+        'Refurbished Bike' : 
+        (formData.name + formData.email + formData.bikeMake + formData.bikeColor)
+
+      const formResult = {
+        customerDetails: {
+          name: formData.name || '',
+          phone: formData.phone || '',
+          email: formData.email || '',
+          refurbishment: formData.b2bRefurbish || false,
+        },
+        bikeDetails: {
+          make: formData.bikeMake || '',
+          model: formData.bikeModel || '',
+          color: formData.bikeColor || '',
+          bikeValue: formData.approxBikeValue || '',
+          sentimentValue: formData.sentimentalValue || false,
+        },
+        services: {
+          serviceItem: serviceItem || [],
+          totalServiceCost: totalServiceCost || 0,
+        },
+        parts: {
+          partsItem: partsItem || [],
+          totalPartsCost: totalPartsCost || 0,
+        },
+        additionalFees: formData.additionalFee || 0,
+        totalCost: totalCost,
+        dropoffDate: new Date().toLocaleDateString(),
+        pickupDate: new Date(formData.pickUpDate).toLocaleDateString() || '',
+        urgent: formData.requestUrgent || false,
+        assessor: formData.assessor || '',
+        mechanic: '',
+        comment: formData.comment || '',
+        temporaryBike: formData.replacementBike || false,
+        status: 1,
+        search: search,
+      }
+      console.log(formResult)
+      this.props.setAssessment(formResult)
       return
     }
     this.setState((prevState, props) => {
@@ -93,6 +166,9 @@ class AssessmentAdd extends Component {
   }
 
   renderForm = () => {
+    schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
+    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => key.name)
+    console.log(this.state.step)
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
@@ -113,6 +189,7 @@ class AssessmentAdd extends Component {
   render() {
 
     const reviewStep = this.state.step == 3
+    const finalStep = this.state.step == 5
     const serviceSelectorStep = this.state.step == 0
     return (
     <Grid divided='vertically' stackable>
@@ -151,8 +228,13 @@ class AssessmentAdd extends Component {
           </Grid.Row>
         }
         {
-          
-          (!reviewStep && !serviceSelectorStep) &&
+          finalStep &&
+          <div>
+            Submitted
+          </div>
+        }
+        {
+          !finalStep && !reviewStep && !serviceSelectorStep &&
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
               {this.renderForm()}
