@@ -3,15 +3,14 @@
     color: blue;
 }
 
-
-
-
-
-
 .job-card-container{
     background-color: lightgray;
 }
 
 h3 {
     margin: 5px;
+}
+
+.background-image {
+    background-image: url("/images/fireworks.svg");
 }
