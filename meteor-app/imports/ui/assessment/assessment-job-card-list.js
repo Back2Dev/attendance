@@ -4,6 +4,7 @@ import { Card, Button, Grid } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 
 
+
 class JobCardList extends Component {
 
 
