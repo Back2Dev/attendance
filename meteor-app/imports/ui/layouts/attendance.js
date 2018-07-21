@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import AssessmentAddContainer from '/imports/ui/assessment/assessment'
-import Congratulations from '/imports/ui/assessment/assessment-congratulations'
 
 
 import MemberEdit from '/imports/ui/member/member-edit'
@@ -26,7 +25,7 @@ const Attendance = () => {
             <Route path="/userprofiles" component={AdminContainer} />
             <Route path="/add" component={MemberAddContainer} />
             <Route path="/assessment" component={AssessmentAddContainer} />
-            <Route path="/congratulations" component={Congratulations} />
+            
 
             <Route path="/:id" component={MemberVisitContainer} />
             <Route path="/" component={MemberMainContainer} />

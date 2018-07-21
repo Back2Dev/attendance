@@ -1,15 +1,13 @@
 import React from 'react';
 import { Component } from 'react';
 import { Button, Container, Grid} from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 import '/imports/ui/layouts/assessment.css'
 
-
 class Congratulations extends Component {
-    constructor(props) {
-        super(props)
-    }
-
+    
     render() {
+        console.log(this.props)
         return (
             <Grid.Column className="background-image" style={{ minHeight: '800px', width: "100%" }}>
                 <Grid.Row style={{ marginTop: '30px', textAlign: 'center' }}>
@@ -32,4 +30,4 @@ class Congratulations extends Component {
         )}
 }
 
-export default Congratulations
+export default withRouter(Congratulations)

@@ -5,9 +5,6 @@ const debug = require('debug')('b2b:admin')
 
 
 class AppSelection extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         return (
