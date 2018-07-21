@@ -9,10 +9,9 @@ const AssessmentAddReview = (props) => {
        }    
   })
   return (
-    <Segment style={{ textAlign: 'left' }}>
+    <Segment id="toPrint" style={{ textAlign: 'left'}}>
       <Header as='h1' content='Review your details:' textAlign='center' />
       {
- 
         stepsToDisplay.map((step, ix) => {
           return (
             <Segment padded='very' key={ix}>
