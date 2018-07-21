@@ -140,5 +140,6 @@ export default [
           email: {
           }
           },
-      } 
+      },
+      
 ]

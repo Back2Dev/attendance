@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { Button, Container, Image } from 'semantic-ui-react'
+import { Button, Container, Grid} from 'semantic-ui-react'
 import '/imports/ui/layouts/assessment.css'
 
 
@@ -11,13 +11,12 @@ class Congratulations extends Component {
 
     render() {
         return (
-        <div className="bimage" style={{ height: "500px" }}> 
-            <Container style={{ marginTop: '100px' }}>
-                <Container style={{ marginTop: '30px' }}>
-                    <h1> Your job order has been placed and will be completed and ready for pick up by: </h1>
-                </Container>
-                <Container style={{textAlign: 'center'}}>
-                    <Button.Group>
+            <Grid.Column className="background-image" style={{ minHeight: '800px', width: "100%" }}>
+                <Grid.Row style={{ marginTop: '30px', textAlign: 'center' }}>
+                    <h1> Your job order has been placed and be ready for pick up by: </h1>
+                    <h1> 17/08/2018 </h1>
+                </Grid.Row>
+                <Grid.Row style={{textAlign: 'center'}}>
                         <Button 
                             onClick={() => { this.props.history.push('/assessment') }} // This will be a print the job card with all of it's details populated
                             color="green" style={{ marginTop: '60px', marginRight: '20px', marginLeft: '20px' }}> 
@@ -28,10 +27,8 @@ class Congratulations extends Component {
                             color="green" style={{ marginTop: '60px', marginRight: '20px', marginLeft: '20px' }}>
                             <h1>View Current Jobs</h1>
                         </Button>
-                    </Button.Group>
-                </Container>
-            </Container>
-        </div>
+                </Grid.Row>
+            </Grid.Column>
         )}
 }
 
