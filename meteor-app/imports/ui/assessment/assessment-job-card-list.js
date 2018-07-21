@@ -2,6 +2,8 @@ import React from 'react'
 import { Component } from 'react';
 import { Card, Button, Grid } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
+import { withRouter } from 'react-router-dom'
+import Nav from '/imports/ui/ordering/navbar'
 
 
 
@@ -32,7 +34,8 @@ class JobCardList extends Component {
                 }]
 
     return(
-      <div>
+      <>
+      <Nav />
         <Grid stackable>
           {currentJobs.map(job =>
             <Grid.Column key={job._id} width={4}>
@@ -42,10 +45,10 @@ class JobCardList extends Component {
             </Grid.Column>
           )}
         </Grid>
-      </div>
+      </>
     )
   }
 }
 
-export default JobCardList
+export default withRouter(JobCardList)
 
