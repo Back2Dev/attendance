@@ -1,10 +1,20 @@
 export default [{
-    stepTitle: 'Base Price',
+    stepTitle: 'Base Service',
     stepDescription: '',
     schema: {
       type: "object",
       title: "",
-      properties: {}
+      properties: {
+        package: {
+          type: "string",
+          enum: ["Minor Service Package", "Major Service Package"]
+        }
+      }
+    },
+    uiSchema: {
+      package: {
+        "ui:widget": "hidden"
+      }
     }
   },
   {
@@ -45,6 +55,10 @@ export default [{
           },
           uniqueItems: true
         },
+        serviceCost: {
+          type: "integer",
+          title: "Total Service Cost"
+        }
       }
     },
     uiSchema: {
@@ -72,6 +86,9 @@ export default [{
       services: {
         "ui:widget": "checkboxes"
       },
+      serviceCost: {
+        "ui:widget": "hidden"
+      }
     }
   },
   {
@@ -90,6 +107,10 @@ export default [{
             enum: [" Bike Part 1", " Bike Part 2", " Bike Part 3"],
           },
           uniqueItems: true
+        },
+        partsCost: {
+          type: "integer",
+          title: "Total Parts Cost"
         },
         comments: {
           type: "string",
@@ -120,6 +141,9 @@ export default [{
     uiSchema: {
       parts: {
         "ui:widget": "checkboxes"
+      },
+      partsCost: {
+        "ui:widget": "hidden"
       },
       comments: {
         "ui:widget": "textarea",

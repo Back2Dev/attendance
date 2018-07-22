@@ -59,21 +59,22 @@ class AssessmentAdd extends Component {
 
   onSubmit = async ({ formData }) => {
     const lastStep = this.state.step == 4
-    
-    if (lastStep) {
-      const totalServiceCost = this.props.services
-        .map(key => {
-          return formData.services.includes(key.name) ? key.price : 0
-        })
-        .reduce((a, b) => a + b) || 0
-      const totalPartsCost = this.props.serviceItems
-        .map(key => {
-          if (formData.parts === undefined) { return 0 }
-          return formData.parts.includes(key.name) ? key.price : 0
-        })
-        .reduce((a, b) => a + b) || 0
-      const totalCost = totalServiceCost + totalPartsCost + (formData.additionalFee * 100 || 0)
 
+    const totalServiceCost = this.props.services
+      .map(key => {
+        if (!formData) { return 0 }
+        return formData.services.includes(key.name) ? key.price : 0
+      })
+      .reduce((a, b) => a + b) || 0
+    const totalPartsCost = this.props.serviceItems
+      .map(key => {
+        if (!formData) { return 0 }
+        return formData.parts.includes(key.name) ? key.price : 0
+      })
+      .reduce((a, b) => a + b) || 0
+    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 || 0 : 0)
+        
+    if (lastStep) {
       const serviceItem = this.props.services
         .filter(key => {
           return formData.services.includes(key.name)
@@ -98,7 +99,6 @@ class AssessmentAdd extends Component {
       const search = formData.b2bRefurbish ? 
         'Refurbished Bike' : 
         (formData.name + formData.email + formData.bikeMake + formData.bikeColor)
-      
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
@@ -146,6 +146,8 @@ class AssessmentAdd extends Component {
         formData: {
           ...prevState.formData,
           ...formData,
+          serviceCost: totalServiceCost,
+          partsCost: totalPartsCost,
         },
         step: prevState.step + 1,
         progress: prevState.progress + 1,
@@ -167,11 +169,12 @@ class AssessmentAdd extends Component {
   }
 
   selectMinor = () => {
-    const formData = this.state.formData
-
+    const formData = mapSchemaToState(schemas)
     this.setState({
       formData: {
-        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket']
+        ...formData,
+        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket'],
+        package: "Minor Service Package"
       },
       step: this.state.step + 1,
       progress: this.state.progress + 1
@@ -179,11 +182,12 @@ class AssessmentAdd extends Component {
   }
 
   selectMajor = () => {
-    const formData = this.state.formData
-
+    const formData = mapSchemaToState(schemas)
     this.setState({
       formData: {
-        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket', 'Check wheels are true', 'Clean and re-grease wheel bearings', 'Clean and re-grease headset', 'Clean and re-grease bottom bracket', 'Clean and re-grease seat post and clamps']
+        ...formData,
+        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket', 'Check wheels are true', 'Clean and re-grease wheel bearings', 'Clean and re-grease headset', 'Clean and re-grease bottom bracket', 'Clean and re-grease seat post and clamps'],
+        package: "Major Service Package"
       },
       step: this.state.step + 1,
       progress: this.state.progress + 1
@@ -241,6 +245,7 @@ class AssessmentAdd extends Component {
             formData={this.state.formData}
             selectMinor={this.selectMinor}
             selectMajor={this.selectMajor}
+            onClick={this.forwardStep}
             />   
         }
         {

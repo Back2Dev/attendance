@@ -38,7 +38,6 @@ export default withTracker(props => {
       debug('adding assessment', formData)
       const res = await Meteor.callAsync("assessment.insert", formData)
       setSuccess("Successfully added new assessment", res)
-      console.log(success)
       return res
     } catch (e) {
       setError(e)
