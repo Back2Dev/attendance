@@ -57,11 +57,10 @@ PartCard.propTypes = {
   _id: PropTypes.string.isRequired,
   barcode: PropTypes.string,
   createdAt: PropTypes.object.isRequired,
-  desc: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   partNo: PropTypes.string.isRequired,
   retailPrice: PropTypes.number.isRequired,
-  status: PropTypes.number.isRequired,
   wholesalePrice: PropTypes.number.isRequired
 };
 
