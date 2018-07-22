@@ -6,7 +6,7 @@ import Parts from '/imports/api/parts/schema';
 import Orders from '/imports/api/orders/schema';
 import { ReactiveVar } from "meteor/reactive-var";
 import Alert from 'react-s-alert';
-
+import CONSTANTS from '/imports/api/constants'
 
 const success = new ReactiveVar(false);
 const error = new ReactiveVar(false);
@@ -28,23 +28,24 @@ export default withTracker((props) => {
   const partsHandle = Meteor.subscribe('all.parts')
   const ordersHandle = Meteor.subscribe('all.orders')
   const addToCart = async (orderedPart) => {
-    const currentOrder = await Orders.findOne({status: 1}).orderedParts
-    let found = currentOrder.find(function(part) {
+    const currentOrder = await Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW })
+    let orderedParts = currentOrder.orderedParts
+    let found = orderedParts.find(function(part) {
       return part.partId === orderedPart.partId
     });
       if (!found) {
-      const res = await Meteor.callAsync('orders.update', orderedPart)
+      const res = await Meteor.callAsync('orders.addPart', currentOrder._id, orderedPart)
       if(res){
         alert(`Successfully added ${orderedPart.name} to cart`)
       }
       } else {
-      currentOrder.forEach(p => {
+      orderedParts.forEach(p => {
         if (p.partId === orderedPart.partId){
            p.qty += 1
            return p
         }
       })
-      const res = await Meteor.callAsync('orders.qtyUpdate', currentOrder)
+      const res = await Meteor.callAsync('order.updateQty', currentOrder._id, orderedParts)
       if(res){
         alert(`Successfully added ${orderedPart.name} to cart`)
       }
@@ -52,10 +53,10 @@ export default withTracker((props) => {
     }
   
   return {
-    activeOrder: Orders.findOne({status: 1}),
+    activeOrder: Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW }),
     addToCart,
     parts: Parts.find({}).fetch(),
-    loading: !partsHandle.ready() && !ordersHandle.ready(),
+    loading: !partsHandle.ready() || !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
 
   }

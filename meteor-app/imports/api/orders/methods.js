@@ -3,6 +3,7 @@ import Orders from '/imports/api/orders/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:orders')
 
+
 Meteor.methods({
   'orders.insert'(order) {
     try {
@@ -21,19 +22,19 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.update'(orderedPart) {
+  'orders.addPart'(id, orderedPart) {
     try {
       log.info('updating order: ', orderedPart)
-      return Orders.update({ status: 1 }, { $push: { orderedParts: { ...orderedPart } } })
+      return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedPart } } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.qtyUpdate'(orderedParts){
+  'order.updateQty'(id, orderedParts) {
     try {
       log.info('adding quantity to order ')
-      return Orders.update({ status: 1 }, { $set: { orderedParts } })
+      return Orders.update({ _id: id }, { $set: { orderedParts } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)

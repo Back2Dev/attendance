@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Parts from '/imports/api/parts/schema'
 import log from '/imports/lib/server/log'
-import Orders from '/imports/api/orders/schema'
 
 const debug = require('debug')('b2b:parts')
 Meteor.methods({
