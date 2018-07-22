@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Divider, Container, Segment, Table, Button } from 'semantic-ui-react'
+import { Input, Header, Container, Segment, Table, Button } from 'semantic-ui-react'
 import Component from '/imports/ui/ordering/cart-list-item'
 import CartIcon from '/imports/ui/ordering/cart-icon'
 
@@ -20,15 +20,17 @@ const CartList = (props) => {
         }}
       >
       <Container textAlign='center'>
-          <Segment raised>
+          <Segment raised clearing>
 
             {(!props.loading && order) && order.orderedParts.forEach(part =>{
               noOfParts =+ part.qty
               return noOfParts
             }) }
-            
-            <CartIcon noOfParts={noOfParts}  />
-            
+           <Header as='h3' block>Review Shop Order </Header>
+           
+  
+          <CartIcon noOfParts={noOfParts}  />
+  
           </Segment>
         </Container>
         <Container>
@@ -60,7 +62,7 @@ const CartList = (props) => {
         <Container textAlign='center'>
           <Input fluid label='Additional Notes' />
           <Segment raised>
-            {(!props.loading && order) && <div>Total Price: $ {order.totalPrice / 100}</div>}
+            {(!props.loading && order) && <Header as='h3' block>Total Price: $ {order.totalPrice / 100}</Header>}
             <br />
             <Button primary>
               CONFIRM <br />ORDER
