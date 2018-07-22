@@ -27,14 +27,23 @@ const AssessmentAddReview = (props) => {
                       return (
                         <Segment key={key}>
                           <strong>{step.schema.properties[key].title}</strong>
-                          <span style={{ paddingLeft: '1em' }}>
-                    
+                          <ul style={{ paddingLeft: '1em' }}>
                             {
-                              <span>
-                                {props.formData[key]}
-                              </span>
+                              Array.isArray(props.formData[key]) ?
+                              props.formData[key].map(item => {
+                                return (
+                                  <li>{item}</li>
+                                )
+                              }) :
+                              <li>
+                                {
+                                  typeof props.formData[key] === 'boolean' ?
+                                  (props.formData[key] ? 'Yes' : 'No') :
+                                  props.formData[key]
+                                }
+                              </li>
                             }
-                          </span>
+                          </ul>
                         </Segment>
                       )
                     }
