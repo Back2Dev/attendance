@@ -45,7 +45,6 @@ export default [{
           },
           uniqueItems: true
         },
-        // TODO: array brought in from DB 
       }
     },
     uiSchema: {
@@ -92,7 +91,6 @@ export default [{
           },
           uniqueItems: true
         },
-        // TODO: array brought in from DB 
         comments: {
           type: "string",
           title: "Comments"
