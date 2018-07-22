@@ -34,7 +34,9 @@ export default withTracker((props) => {
     });
       if (!found) {
       const res = await Meteor.callAsync('orders.update', orderedPart)
-      return res
+      if(res){
+        alert(`Successfully added ${orderedPart.name} to cart`)
+      }
       } else {
       currentOrder.forEach(p => {
         if (p.partId === orderedPart.partId){
@@ -43,7 +45,9 @@ export default withTracker((props) => {
         }
       })
       const res = await Meteor.callAsync('orders.qtyUpdate', currentOrder)
-      return res
+      if(res){
+        alert(`Successfully added ${orderedPart.name} to cart`)
+      }
       }
     }
   
