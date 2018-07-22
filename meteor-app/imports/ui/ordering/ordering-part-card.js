@@ -49,7 +49,7 @@ const PartCard = ({
 
         <div className='price-container' >
           <b>${retailPrice}</b>
-          <Button className='part-add-cart-button' floated='right' color='blue' onClick={() => addToCart(activeOrder.orderedParts.push({
+          <Button className='part-add-cart-button' floated='right' color='blue' onClick={() => addToCart({
             name: name,
             partId: _id,
             partNo: partNo,
@@ -57,7 +57,7 @@ const PartCard = ({
             price: retailPrice,
             qty: 1,
             userId: 'MarksID',
-          }))} >Add To Cart</Button>
+          })} >Add To Cart</Button>
         </div>
       </Card.Content>
     </Card>

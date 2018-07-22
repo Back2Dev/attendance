@@ -9,10 +9,11 @@ import '/imports/api/sessions/methods'
 import '/imports/api/sessions/server/publications'
 
 //parts
+import '/imports/api/parts/methods'
 import '/imports/api/parts/schema'
 import '/imports/api/parts/server/publications'
 
 //orders 
-
+import '/imports/api/orders/methods'
 import '/imports/api/orders/schema'
 import '/imports/api/orders/server/publications'

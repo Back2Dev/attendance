@@ -21,15 +21,25 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.update'(orderedParts) {
+  'orders.update'(orderedPart) {
     try {
-      log.info('updating order: ', orderedParts)
-      return Orders.update({ status: 1 }, { $push: { orderedParts: { ...orderedParts } } })
+      log.info('updating order: ', orderedPart)
+      return Orders.update({ status: 1 }, { $push: { orderedParts: { ...orderedPart } } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'orders.qtyUpdate'(orderedParts){
+    try {
+      log.info('adding quantity to order ')
+      return Orders.update({ status: 1 }, { $set: { orderedParts } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+
+  }
 
 
 })
