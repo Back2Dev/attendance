@@ -18,6 +18,7 @@ Next
 * Added Assessment publication
 * Add Assessment, ServiceItems and Services schema tests
 * Add seed data for services and service items/parts
+* Add assessment form submission functionality
 
 0.3.0
 ------
