@@ -4,15 +4,14 @@ import { Button, Icon, Image, Header, Segment } from 'semantic-ui-react'
 
 const AssessmentAddReview = (props) => {
   const stepsToDisplay = props.steps.filter(step => {
-       if(step.stepTitle != "Review" && step.stepTitle != "Customer Details") {
-         return step
-       }    
+    if(step.stepTitle != "Review" && step.stepTitle != "Customer Details") {
+      return step
+    }    
   })
   return (
     <Segment style={{ textAlign: 'left' }}>
       <Header as='h1' content='Review your details:' textAlign='center' />
       {
- 
         stepsToDisplay.map((step, ix) => {
           return (
             <Segment padded='very' key={ix}>
@@ -22,6 +21,7 @@ const AssessmentAddReview = (props) => {
               </h2>
               <Segment.Group>
                 {
+                  // TODO: Need to add estimated price quote
                   Object.keys(step.schema.properties).map((key, value, iy) => {
                     if (props.formData[key]) {
                       return (
