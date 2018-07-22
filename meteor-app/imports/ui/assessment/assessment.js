@@ -3,15 +3,16 @@ import AssessmentAdd from "/imports/ui/assessment/assessment-add";
 import { ReactiveVar } from "meteor/reactive-var";
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
-
 import Alert from 'react-s-alert';
 
-const success = new ReactiveVar(false);
-const error = new ReactiveVar(false);
-const msg = new ReactiveVar("");
-const newId = new ReactiveVar("");
+const debug = require('debug')('b2b:addassessment')
 
 export default withTracker(props => {
+  const success = new ReactiveVar(false);
+  const error = new ReactiveVar(false);
+  const msg = new ReactiveVar("");
+  const newId = new ReactiveVar("");
+  
   Meteor.subscribe('services.all')
   Meteor.subscribe('serviceItems.all')
   // need to do something smarter than this... 
@@ -31,28 +32,17 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setAssessment = async (formData) => {
-    if (props.assessment != null) {
-      // we are updating the assessment
-      debug('updating assessment', formData)
-      // try {
-      //   const res = await Meteor.callAsync('assessment.updateJobDetail', formData._id, formData)
-      //   setSuccess('Successfully edited assessment', formData._id)
-      //   return res
-      // } catch (e) {
-      //   debug('error updating assessment', formData, e)
-      //   setError(e)
-      // }
-    } else {
-      // we are adding a assessment
-      try {
-        debug('adding assessment', formData)
-        const res = await Meteor.callAsync("assessment.insert", formData)
-        setSuccess("Successfully added new assessment", res)
-        return res
-      } catch (e) {
-        setError(e)
-      }
+  const setAssessment = async formData => {
+    // Adding an assessment
+    try {
+      debug('adding assessment', formData)
+      const res = await Meteor.callAsync("assessment.insert", formData)
+      setSuccess("Successfully added new assessment", res)
+      console.log(success)
+      return res
+    } catch (e) {
+      setError(e)
+      throw new Meteor.Error(e)
     }
   }
 
@@ -61,7 +51,6 @@ export default withTracker(props => {
     error: error.get(),
     success: success.get(),
     message: msg.get(),
-    // isIframe: isIframe(),
     newId: newId.get(),
     resetId: () => newId.set(""),
     assessment: props.assessment ? props.assessment : null,

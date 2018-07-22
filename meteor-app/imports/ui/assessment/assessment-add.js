@@ -55,7 +55,7 @@ class AssessmentAdd extends Component {
       this.props.resetId()
   }
 
-  onSubmit = ({ formData }) => {
+  onSubmit = async ({ formData }) => {
     const lastStep = this.state.step == 4
     
     if (lastStep) {
@@ -69,7 +69,7 @@ class AssessmentAdd extends Component {
           return formData.parts.includes(key.name) ? key.price : 0
         })
         .reduce((a, b) => a + b) || 0
-      const totalCost = totalServiceCost + totalPartsCost + (formData.additionalFee || 0)
+      const totalCost = totalServiceCost + totalPartsCost + (formData.additionalFee * 100 || 0)
 
       const serviceItem = this.props.services
         .filter(key => {
@@ -95,7 +95,8 @@ class AssessmentAdd extends Component {
       const search = formData.b2bRefurbish ? 
         'Refurbished Bike' : 
         (formData.name + formData.email + formData.bikeMake + formData.bikeColor)
-
+      
+      // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
           name: formData.name || '',
@@ -107,7 +108,7 @@ class AssessmentAdd extends Component {
           make: formData.bikeMake || '',
           model: formData.bikeModel || '',
           color: formData.bikeColor || '',
-          bikeValue: formData.approxBikeValue || '',
+          bikeValue: formData.approxBikeValue * 100 || '', // Value in cents
           sentimentValue: formData.sentimentalValue || false,
         },
         services: {
@@ -118,20 +119,23 @@ class AssessmentAdd extends Component {
           partsItem: partsItem || [],
           totalPartsCost: totalPartsCost || 0,
         },
-        additionalFees: formData.additionalFee || 0,
+        additionalFees: formData.additionalFee * 100 || 0, // Value in cents
         totalCost: totalCost,
-        dropoffDate: new Date().toLocaleDateString(),
-        pickupDate: new Date(formData.pickUpDate).toLocaleDateString() || '',
+        dropoffDate: new Date(),
+        pickupDate: new Date(formData.pickUpDate) || '',
         urgent: formData.requestUrgent || false,
         assessor: formData.assessor || '',
         mechanic: '',
         comment: formData.comment || '',
         temporaryBike: formData.replacementBike || false,
-        status: 1,
+        status: 1, // Default to 1: New Order
         search: search,
       }
-      console.log(formResult)
-      this.props.setAssessment(formResult)
+
+      await this.props.setAssessment(formResult)
+      this.setState({
+        step: this.state.step + 1
+      })
       return
     }
     this.setState((prevState, props) => {
@@ -160,6 +164,7 @@ class AssessmentAdd extends Component {
   }
 
   goToStep = (step) => {
+    // TODO: Might need to fix the next button & progress bug
     if (step <= this.state.progress) {
       this.setState({
         step,
@@ -170,7 +175,7 @@ class AssessmentAdd extends Component {
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
     schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => key.name)
-    console.log(this.state.step)
+
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
@@ -191,7 +196,6 @@ class AssessmentAdd extends Component {
   render() {
 
     const reviewStep = this.state.step == 3
-    const finalStep = this.state.step == 5
     const serviceSelectorStep = this.state.step == 0
     const orderSubmittedStep = this.state.step == 5
     return (
@@ -232,12 +236,9 @@ class AssessmentAdd extends Component {
         }
         {
           orderSubmittedStep &&
-            <Congratulations
-
-            />
+            <Congratulations />
         }
         {
-          
           (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
