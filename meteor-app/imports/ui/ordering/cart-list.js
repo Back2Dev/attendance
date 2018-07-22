@@ -1,10 +1,12 @@
 import React from 'react'
 import { Input, Divider, Container, Segment, Table, Button } from 'semantic-ui-react'
 import Component from '/imports/ui/ordering/cart-list-item'
-
+import CartIcon from '/imports/ui/ordering/cart-icon'
 
 const CartList = (props) => {
   let { order } = props
+  let noOfParts = 0
+
 
   return (
     <div>
@@ -17,6 +19,18 @@ const CartList = (props) => {
           justifyContent: 'center'
         }}
       >
+      <Container textAlign='center'>
+          <Segment raised>
+
+            {(!props.loading && order) && order.orderedParts.forEach(part =>{
+              noOfParts =+ part.qty
+              return noOfParts
+            }) }
+            
+            <CartIcon noOfParts={noOfParts}  />
+            
+          </Segment>
+        </Container>
         <Container>
           <Table striped size='large' celled compact='very'>
             <Table.Header>
