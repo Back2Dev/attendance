@@ -18,7 +18,9 @@ const mapSchemaToState = schema => (
   schema
     .reduce((state, step) => {
       Object.keys(step.schema.properties)
-        .forEach(prop => state[prop] = undefined)
+        .forEach(prop => {
+          prop === 'services' || prop === 'parts' ? state[prop] = [] : state[prop] = undefined
+        })
       return state
     }, {})
 )
@@ -66,6 +68,7 @@ class AssessmentAdd extends Component {
         .reduce((a, b) => a + b) || 0
       const totalPartsCost = this.props.serviceItems
         .map(key => {
+          if (formData.parts === undefined) { return 0 }
           return formData.parts.includes(key.name) ? key.price : 0
         })
         .reduce((a, b) => a + b) || 0
@@ -163,6 +166,30 @@ class AssessmentAdd extends Component {
     })
   }
 
+  selectMinor = () => {
+    const formData = this.state.formData
+
+    this.setState({
+      formData: {
+        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket']
+      },
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
+    })
+  }
+
+  selectMajor = () => {
+    const formData = this.state.formData
+
+    this.setState({
+      formData: {
+        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket', 'Check wheels are true', 'Clean and re-grease wheel bearings', 'Clean and re-grease headset', 'Clean and re-grease bottom bracket', 'Clean and re-grease seat post and clamps']
+      },
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
+    })
+  }
+
   goToStep = (step) => {
     // TODO: Might need to fix the next button & progress bug
     if (step <= this.state.progress) {
@@ -211,7 +238,9 @@ class AssessmentAdd extends Component {
         {
           serviceSelectorStep &&
             <ServiceList 
-            onClick={this.forwardStep}
+            formData={this.state.formData}
+            selectMinor={this.selectMinor}
+            selectMajor={this.selectMajor}
             />   
         }
         {
