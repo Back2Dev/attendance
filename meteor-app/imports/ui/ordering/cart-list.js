@@ -1,7 +1,8 @@
 import React from 'react'
-import { Input, Header, Container, Segment, Table, Button } from 'semantic-ui-react'
+import { Input, Header, Container, Segment, Table, Button, Icon } from 'semantic-ui-react'
 import Component from '/imports/ui/ordering/cart-list-item'
 import CartIcon from '/imports/ui/ordering/cart-icon'
+import { Link } from 'react-router-dom'
 
 const CartList = (props) => {
   let { order } = props
@@ -20,15 +21,20 @@ const CartList = (props) => {
         }}
       >
       <Container textAlign='center'>
+          <Link to="/ordering">
+            <Button icon labelPosition="left" secondary>
+            <Icon name='triangle left' />
+                Back To Search
+            </Button>
+          </Link>
           <Segment raised clearing>
 
             {(!props.loading && order) && order.orderedParts.forEach(part =>{
               noOfParts =+ part.qty
               return noOfParts
             }) }
-           <Header as='h3' block>Review Shop Order </Header>
            
-  
+           <Header as='h3' block>Review Shop Order </Header>
           <CartIcon noOfParts={noOfParts}  />
   
           </Segment>
