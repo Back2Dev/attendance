@@ -1,13 +1,12 @@
-import React from 'react';
-import { Component } from 'react';
-import { Button, Container, Grid} from 'semantic-ui-react'
+import React, { Component }  from 'react'
+import { Button, Grid} from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import PrintJobCard from 'imports/ui/assessment/assessment-print-job-card'
 import '/imports/ui/layouts/assessment.css'
 
 class Congratulations extends Component {
     
     render() {
-        console.log(this.props)
         return (
             <Grid.Column className="background-image" style={{ minHeight: '800px', width: "100%" }}>
                 <Grid.Row style={{ marginTop: '30px', textAlign: 'center' }}>
