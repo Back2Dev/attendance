@@ -34,7 +34,11 @@ h3 {
   .checkbox label span {
     display: flex;
     align-items: center;
-    line-height: 1.5
+    line-height: 2.5
+  }
+
+  .checkbox label input {
+    transform: scale(2);
   }
 
 
