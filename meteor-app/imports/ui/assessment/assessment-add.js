@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Header, Container } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
@@ -70,7 +70,6 @@ class AssessmentAdd extends Component {
 
   onSubmit = async ({ formData }) => {
     const lastStep = this.state.step == 4
-    console.log(formData)
 
     const totalServiceCost = this.props.services
       .map(key => {
@@ -131,6 +130,7 @@ class AssessmentAdd extends Component {
         services: {
           serviceItem: serviceItem,
           totalServiceCost: totalServiceCost,
+          baseService: formData.package,
         },
         parts: {
           partsItem: partsItem,
@@ -148,7 +148,6 @@ class AssessmentAdd extends Component {
         status: 1, // Default to 1: New Order
         search: search,
       }
-      console.log(formResult)
 
       await this.props.setAssessment(formResult)
       this.setState({
@@ -242,8 +241,7 @@ class AssessmentAdd extends Component {
       formData={this.state.formData}
       onSubmit={this.onSubmit}
       showErrorList={false} 
-      liveValidate={true}
-    >
+     >
       <Control
         backStep={this.backStep}
         step={this.state.step}
@@ -254,7 +252,7 @@ class AssessmentAdd extends Component {
   }
 
   render() {
-
+    console.log(this.props)
     const reviewStep = this.state.step == 3
     const serviceSelectorStep = this.state.step == 0
     const orderSubmittedStep = this.state.step == 5
@@ -299,7 +297,9 @@ class AssessmentAdd extends Component {
         }
         {
           orderSubmittedStep &&
-            <Congratulations />
+            <Congratulations 
+            assessmentLastSaved={this.props.assessmentLastSaved}
+            />
         }
         {
           (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&
