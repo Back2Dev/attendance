@@ -39,7 +39,9 @@ async function updateParts(parts) {
   return new Promise(async (resolve, reject) => {
     for (const part of parts) {
       try {
-        await updatePromise(part)
+        // if(barcode != ""){
+          await updatePromise(part)
+        // }
         count++
       } catch (e) {
         reject(`Couldnt add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`)
