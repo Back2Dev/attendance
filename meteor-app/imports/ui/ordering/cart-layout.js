@@ -31,14 +31,15 @@ export default withTracker((props) => {
     order.orderedParts.forEach(part => {
       if(part.partId === partId){
         part.qty -= 1
-        Meteor.callAsynch('order.updateQty', order._id, order.orderedParts)
+        Meteor.callAsync('order.updateQty', order._id, order.orderedParts)
       }
     })
   }
-  
+
   return {
     removePart,
     increaseQty,
+    decreaseQty,
     order: Orders.findOne({ status: CONSTANT.ORDER_STATUS_NEW }),
     loading: !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),

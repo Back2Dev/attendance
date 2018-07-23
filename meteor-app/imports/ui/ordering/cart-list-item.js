@@ -12,6 +12,7 @@ const CartListItem = ({
   qty,
   userId,
   increaseQty,
+  decreaseQty,
   removePart,
   orderId
 }) => {
@@ -29,7 +30,7 @@ const CartListItem = ({
       <Table.Cell collapsing textAlign='center'>
         <Button.Group >
           <Button color="green" onClick={() => increaseQty(orderId, partId)} >+</Button>
-          <Button>-</Button>
+          <Button onClick={() => decreaseQty(orderId, partId)} >-</Button>
           <Button color='red' onClick={() => removePart(orderId, partId)}>Delete</Button>
         </Button.Group>
       </Table.Cell>

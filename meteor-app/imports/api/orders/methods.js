@@ -48,7 +48,7 @@ Meteor.methods({
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
-  }
+  },
 
 
 })
