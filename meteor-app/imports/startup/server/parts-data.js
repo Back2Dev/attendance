@@ -33,17 +33,24 @@ Meteor.methods({
       const {
         Barcode, PartNo, Description, DefaultPrice
       } = part
-      // insert them one by one
-      await Parts.insert({
-        partNo: PartNo,
-        barcode: Barcode,
-        name: Description,
-        wholesalePrice: DefaultPrice * 100,
-        imageUrl: "some-url",
-        retailPrice: DefaultPrice * 100 + 500
-      })
+      try {
+        // insert them one by one
+        await Parts.insert({
+          partNo: PartNo,
+          barcode: Barcode,
+          // parts data doesnt have name, lets use description
+          name: Description,
+          // price given is in dollars, lets convert to cents
+          wholesalePrice: DefaultPrice * 100,
+          // we need to put retail function in here once its done
+          retailPrice: DefaultPrice * 100 + 500
+        })
+      } catch(e){
+        // log error
+      }
     }
   },
+  // this is an example of how we might update the parts data
   async 'update.parts'(streamFile) {
     for (part of partFile) {
       // deconstruct the part object
@@ -52,13 +59,19 @@ Meteor.methods({
       } = part
       try {
         // insert them one by one
-        await Parts.insert({
+        await Parts.update({
+          // find parts by partNo
           partNo: PartNo,
+        }, {
+          // update these keys
           barcode: Barcode,
           name: Description,
           wholesalePrice: DefaultPrice * 100,
-          imageUrl: "some-url",
+          // retail function here please
           retailPrice: DefaultPrice * 100 + 500
+        }, {
+          // if not found, create a whole new record
+          upsert: true
         })
       } catch(e){
         // log parts that didnt insert
