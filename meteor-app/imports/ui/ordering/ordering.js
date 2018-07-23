@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Grid, Segment, Header, Search } from 'semantic-ui-react'
+import { Grid, Segment, Header, Input } from 'semantic-ui-react'
 
 import PartCard from '/imports/ui/ordering/ordering-part-card'
 import PartList from '/imports/ui/ordering/ordering-part-list'
@@ -11,15 +11,16 @@ class Ordering extends React.Component {
   const { activeOrder } = this.props
   let noOfParts = 0
     return (
-      <Grid>
+      <Grid centered columns={1}>
         <Grid.Row>
-          </Grid.Row>
-          <input
+        <Input
         placeholder='Search Part Number'
         onChange={this.props.onSearchInput}
         value={this.props.partSearchQuery}
         icon={'search'}
       />
+          </Grid.Row>
+          
           <Grid.Row>
           <Grid.Column>
           <Segment raised>
