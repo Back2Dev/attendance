@@ -20,16 +20,21 @@ const mapSchemaToState = schema => {
     Object.keys(step.schema.properties)
       .forEach(prop => {
         const type = Object.values(step.schema.properties[prop].type).join('')
-        if(type === 'string') {
-          state[prop] = ''
-        } else if(type === 'integer') {
-          state[prop] = 0
-        } else if(type === 'array') {
-          state[prop] = []
-        } else if(type === 'boolean') {
-          state[prop] = false
-        } else {
-          state[prop] = null
+        switch(type) {
+          case 'string': 
+            state[prop] = '';
+            break;
+          case 'integer':
+            state[prop] = 0;
+            break;
+          case 'array':
+            state[prop] = [];
+            break;
+          case 'boolean':
+            state[prop] = false;
+            break;
+          default:
+            state[prop] = null;
         }
       })
     return state
