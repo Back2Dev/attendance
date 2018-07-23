@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Button, Icon, Image, Header, Segment } from 'semantic-ui-react'
+import PrintJobCard from './assessment-print-job-card'
 
 const AssessmentAddReview = (props) => {
   const stepsToDisplay = props.steps.filter(step => {
@@ -9,7 +10,7 @@ const AssessmentAddReview = (props) => {
     }    
   })
   return (
-    <Segment style={{ textAlign: 'left' }}>
+    <Segment id="toPrint" style={{ textAlign: 'left'}}>
       <Header as='h1' content='Review your details:' textAlign='center' />
       <Segment padded='very' >
         <h2>
@@ -63,6 +64,7 @@ const AssessmentAddReview = (props) => {
           )
         })
       }
+      <PrintJobCard /> 
     </Segment>
   )
 }
