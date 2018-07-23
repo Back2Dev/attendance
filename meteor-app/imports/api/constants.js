@@ -37,7 +37,17 @@ export const JOB_STATUS = {
   2: 'Assigned',
   3: 'In Progress',
   4: 'Completed',
-  5: 'Bike Picked Up'
-} 
+  5: 'Bike Picked Up',
+  6: 'Cancelled'
+}
+
+export const JOB_STATUS_BUTTON = {
+  1: 'Assign Job',
+  2: 'Start Job',
+  3: 'Complete Job',
+  4: 'Pick Up Bike',
+  5: 'Order Completed',
+  6: 'Re-Open Job'
+}
 
 export default CONSTANTS
