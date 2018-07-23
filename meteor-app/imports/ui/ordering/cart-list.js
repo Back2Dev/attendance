@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import './cart-list.css'
 
 const CartList = (props) => {
-  let { order } = props
+  let { order, removePart } = props
   let noOfParts = 0
 
 
@@ -42,7 +42,7 @@ const CartList = (props) => {
         </Container>
         <Container>
           <Table striped size='large' celled compact='very'>
-            <Table.Header textAlign='left'>
+            <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Part #</Table.HeaderCell>
                 <Table.HeaderCell>Part</Table.HeaderCell>
@@ -57,7 +57,7 @@ const CartList = (props) => {
               {
                 (!props.loading && order) &&
                 order.orderedParts.map((part) => (
-                  <Component className='cart-item' key={part.partId} {...part} />
+                  <Component className='cart-item' key={part.partId} {...part} orderId={order._id} removePart={removePart} />
                 ))
               }
             </Table.Body>

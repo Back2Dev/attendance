@@ -14,6 +14,7 @@ class Cart extends React.Component {
               order={this.props.order}
               componentClassName='cart-list-main'
               loading={this.props.loading}
+              removePart={this.props.removePart}
           
             />
           </Grid.Column>
