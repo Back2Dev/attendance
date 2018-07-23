@@ -1,6 +1,7 @@
 import React, { Component }  from 'react'
 import { Button, Grid} from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import printJobCard from '/imports/ui/assessment/assessment-print-job'
 import '/imports/ui/layouts/assessment.css'
 
 class Congratulations extends Component {
@@ -13,7 +14,8 @@ class Congratulations extends Component {
                     <h1> 17/08/2018 </h1>
                 </Grid.Row>
                 <Grid.Row style={{textAlign: 'center'}}>
-                        <Button color="green" style={{ marginTop: '60px', marginRight: '20px', marginLeft: '20px' }}>
+                        <Button color="green" style={{ marginTop: '60px', marginRight: '20px', marginLeft: '20px' }}
+                        onClick={ () => printJobCard(this.props.assessmentLastSaved)}>
                         <h1>Print Job</h1>
                         </Button>
                         <Button
