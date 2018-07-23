@@ -17,12 +17,12 @@ const CartListItem = ({
   const totalItemPrice = (priceInDollars * qty)
 
   return (
-    <Table.Row>
+    <Table.Row >
       <Table.Cell collapsing textAlign='left'>{partNo}</Table.Cell>
       <Table.Cell className='partDescription'>{name}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>${Math.round(priceInDollars * 100) / 100}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>{qty}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>${Math.round(totalItemPrice * 100) / 100}</Table.Cell>
+      <Table.Cell collapsing textAlign='left'>${Math.round(priceInDollars * 100) / 100}</Table.Cell>
+      <Table.Cell collapsing textAlign='left'>{qty}</Table.Cell>
+      <Table.Cell collapsing textAlign='left'>${Math.round(totalItemPrice * 100) / 100}</Table.Cell>
       <Table.Cell collapsing textAlign='center'>
         <Button.Group>
           <Button positive>Edit</Button>

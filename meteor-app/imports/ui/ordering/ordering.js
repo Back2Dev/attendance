@@ -18,7 +18,7 @@ class Ordering extends React.Component {
           <Segment raised>
 
             {(!this.props.loading && order) && order.orderedParts.forEach(part =>{
-              noOfParts =+ part.qty
+              noOfParts += part.qty
               return noOfParts
             }) }
 

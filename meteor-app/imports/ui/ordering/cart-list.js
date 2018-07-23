@@ -3,6 +3,7 @@ import { Input, Header, Container, Segment, Table, Button, Icon } from 'semantic
 import Component from '/imports/ui/ordering/cart-list-item'
 import CartIcon from '/imports/ui/ordering/cart-icon'
 import { Link } from 'react-router-dom'
+import './cart-list.css'
 
 const CartList = (props) => {
   let { order } = props
@@ -22,15 +23,15 @@ const CartList = (props) => {
       >
       <Container textAlign='center'>
           <Link to="/ordering">
-            <Button icon labelPosition="left" secondary>
+            <Button icon labelPosition='left' secondary>
             <Icon name='triangle left' />
                 Back To Search
             </Button>
           </Link>
-          <Segment raised clearing>
+          <Segment raised clearing className='review'>
 
             {(!props.loading && order) && order.orderedParts.forEach(part =>{
-              noOfParts =+ part.qty
+              noOfParts += part.qty
               return noOfParts
             }) }
            
@@ -41,7 +42,7 @@ const CartList = (props) => {
         </Container>
         <Container>
           <Table striped size='large' celled compact='very'>
-            <Table.Header>
+            <Table.Header textAlign='left'>
               <Table.Row>
                 <Table.HeaderCell>Part #</Table.HeaderCell>
                 <Table.HeaderCell>Part</Table.HeaderCell>
