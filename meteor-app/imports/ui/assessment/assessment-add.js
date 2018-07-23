@@ -75,7 +75,6 @@ class AssessmentAdd extends Component {
 
   onSubmit = async ({ formData }) => {
     const lastStep = this.state.step == 4
-    console.log(formData)
 
     const totalServiceCost = this.props.services
       .map(key => {
@@ -153,7 +152,6 @@ class AssessmentAdd extends Component {
         status: 1, // Default to 1: New Order
         search: search,
       }
-      console.log(formResult)
 
       await this.props.setAssessment(formResult)
       this.setState({
