@@ -31,6 +31,13 @@ h3 {
       margin-left: 10px;
   }
 
+  .checkbox label span {
+    display: flex;
+    align-items: center;
+    line-height: 1.5
+  }
+
+
   .ui[class*="vertically divided"].grid>.row:before {
     box-shadow: none !important
   }

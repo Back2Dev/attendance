@@ -76,20 +76,20 @@ Meteor.methods({
     // Currently placeholder data
     const parts = [
       {
-        name: '1 x Tyre (second hand)',
+        name: 'Tyre - Front (second hand)',
         price: 500
       },
       {
-        name: '2 x Tyre (second hand)',
+        name: 'Tyre - Rear (second hand)',
+        price: 500
+      },
+      {
+        name: 'Tyre - Front (new)',
         price: 1000
       },
       {
-        name: '1 x Tyre (new)',
+        name: 'Tyre - Rear (new)',
         price: 1000
-      },
-      {
-        name: '2 x Tyre (new)',
-        price: 2000
       },
       {
         name: 'Tube',
@@ -140,20 +140,20 @@ Meteor.methods({
         price: 4000
       },      
       {
-        name: '1 x Cable brake or gear fitted',
+        name: 'Brake cable fitted - Front',
         price: 1000
       },
       {
-        name: '2 x Cables brake or gear fitted',
-        price: 2000
+        name: 'Brake cable fitted - Rear',
+        price: 1000
       },
       {
-        name: '3 x Cables brake or gear fitted',
-        price: 3000
+        name: 'Gear cable fitted - Front',
+        price: 1000
       },
       {
-        name: '4 x Cables brake or gear fitted',
-        price: 4000
+        name: 'Gear cable fitted - Rear',
+        price: 1000
       },
       {
         name: '1 x Cable fitting',
