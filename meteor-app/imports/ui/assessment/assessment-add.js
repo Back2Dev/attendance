@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import { Grid } from 'semantic-ui-react'
-=======
-import { Button, Grid, Header, Container } from 'semantic-ui-react'
->>>>>>> 308d0602a861f491feead88ee66f5d6096e9f679
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
