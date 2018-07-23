@@ -3,6 +3,14 @@ import Parts from '/imports/api/parts/schema'
 import Orders from '/imports/api/orders/schema'
 import casual from 'casual'
 
+const path = require('path')
+const fs = require('fs')
+const debug = require('debug')('b2b:parts')
+const partFile = require("./parts-seed.json")
+
+
+
+
 const imagesUrls = [
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/4f8065b290713ff3dbca44641f3a52b5882c5e21.jpg',
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/b574ff4cedc436ba4185849b666179acfcb9f1b0.jpg',
@@ -19,33 +27,43 @@ const imagesUrls = [
 
 
 Meteor.methods({
-  'seed.parts'() {
-    const n = 10
-    // seed ensures same data is generated
-    casual.seed(123)
-
-    const arrayOf = function (times, generator) {
-      let result = [];
-      for (let i = 0; i < times; ++i) {
-        result.push(generator());
+  async 'seed.parts'() {
+    for (part of partFile) {
+      // deconstruct the part object
+      const {
+        Barcode, PartNo, Description, DefaultPrice
+      } = part
+      // insert them one by one
+      await Parts.insert({
+        partNo: PartNo,
+        barcode: Barcode,
+        name: Description,
+        wholesalePrice: DefaultPrice * 100,
+        imageUrl: "some-url",
+        retailPrice: DefaultPrice * 100 + 500
+      })
+    }
+  },
+  async 'update.parts'(streamFile) {
+    for (part of partFile) {
+      // deconstruct the part object
+      const {
+        Barcode, PartNo, Description, DefaultPrice
+      } = part
+      try {
+        // insert them one by one
+        await Parts.insert({
+          partNo: PartNo,
+          barcode: Barcode,
+          name: Description,
+          wholesalePrice: DefaultPrice * 100,
+          imageUrl: "some-url",
+          retailPrice: DefaultPrice * 100 + 500
+        })
+      } catch(e){
+        // log parts that didnt insert
       }
-      return result;
-    };
-
-    casual.define('part', function () {
-      return {
-        imageUrl: imagesUrls[Math.floor(Math.random() * imagesUrls.length)],
-        wholesalePrice: casual.integer(10, 200000),
-        retailPrice: casual.integer(10, 200000),
-        partNo: casual.integer(600000, 1000000).toString(),
-        name: casual.string,
-        barcode: casual.integer(600000, 1000000),
-      }
-    })
-
-    const partsList =
-      arrayOf(n, () => casual.part)
-        .forEach(r => Parts.insert(r))
+    }
   },
   'seed.orders'() {
     const orderedParts = []

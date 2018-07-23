@@ -1,0 +1,32 @@
+[
+  {
+    "Barcode": "",
+    "PartNo": "9001",
+    "Description": "'See 95796'      WHEEL F 12''",
+    "DefaultPrice": 11.95
+  },
+  {
+    "Barcode": "9340685010149",
+    "PartNo": "9004",
+    "Description": "WHEEL FRONT  16''CHROME Silver Spokes QLD",
+    "DefaultPrice": 18.95
+  },
+  {
+    "Barcode": "9340685010446",
+    "PartNo": "9005",
+    "Description": "WHEEL Rear 16'' Screw on CP **(WITH SILVER SPOKES)** QLD",
+    "DefaultPrice": 16.5
+  },
+  {
+    "Barcode": "9340685010019",
+    "PartNo": "9006",
+    "Description": "WHEEL COASTER 16''CHROME",
+    "DefaultPrice": 22.95
+  },
+  {
+    "Barcode": "9340685010156",
+    "PartNo": "9007",
+    "Description": "WHEEL Front 16''BLACK QLD",
+    "DefaultPrice": 14.95
+  }
+]
