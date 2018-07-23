@@ -72,7 +72,6 @@ PartCard.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   partNo: PropTypes.string.isRequired,
   retailPrice: PropTypes.number.isRequired,
-  // status: PropTypes.number.isRequired,
   wholesalePrice: PropTypes.number.isRequired,
 };
 
