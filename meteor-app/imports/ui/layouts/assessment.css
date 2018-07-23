@@ -21,6 +21,15 @@ h3 {
     text-align: center;
   }
 
+  #root_parts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding-left: 0;
+  }
+
+  .checkbox label span span {
+      margin-left: 10px;
+  }
 
 
 
