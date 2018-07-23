@@ -8,9 +8,9 @@ class ServiceList extends Component {
 
         const majorService = ["Check wheels are true", "Clean and re-grease wheel bearings", "Clean and re-grease headset", "Clean and re-grease bottom bracket", "Clean and re-grease seat post & clamps"]
 
-        const minorServiceTitle = "Minor Serivce"
+        const minorServiceTitle = "Minor Service"
         const minorServicePrice = "60"
-        const majorServiceTitle = "Major Serivce"
+        const majorServiceTitle = "Major Service"
         const majorServicePrice = "120"
 
         return (
@@ -21,7 +21,7 @@ class ServiceList extends Component {
                 </Header>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
-                        onClick={this.props.onClick}
+                        onClick={this.props.selectMinor}
                         serviceChoice= {minorService}
                         serviceTitle= {minorServiceTitle}
                         servicePrice= {minorServicePrice}
@@ -30,7 +30,7 @@ class ServiceList extends Component {
                 </Grid.Column>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
-                        onClick={this.props.onClick}
+                        onClick={this.props.selectMajor}
                         serviceChoice= {majorService}
                         serviceTitle= {majorServiceTitle}
                         servicePrice= {majorServicePrice}
