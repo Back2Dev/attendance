@@ -12,6 +12,7 @@ export default withTracker((props) => {
     const orderedParts = await Orders.findOne({ _id: OrderId}).orderedParts
     orderedParts.forEach(part => {
       if(part.partId === partId){
+        orderedParts.totalPrice = (orderedParts.totalPrice - (part.price * part.qty))
         Meteor.callAsync('orders.removePart', OrderId, part)
       }
     })
@@ -21,7 +22,8 @@ export default withTracker((props) => {
     order.orderedParts.forEach(part => {
       if(part.partId === partId){
         part.qty += 1
-        Meteor.callAsync('order.updateQty', order._id, order.orderedParts)
+        order.totalPrice += part.price
+        Meteor.callAsync('order.update', order._id, order)
       }
     })
   } 
@@ -29,9 +31,14 @@ export default withTracker((props) => {
   const decreaseQty = async (orderId, partId) => {
     const order = await Orders.findOne({ _id: orderId})
     order.orderedParts.forEach(part => {
-      if(part.partId === partId){
+      if(part.partId === partId && part.qty == 1){
+        order.orderedParts.totalPrice -= part.price
+        Meteor.callAsync('orders.removePart', orderId, part)
+      }
+      else if (part.partId === partId){
         part.qty -= 1
-        Meteor.callAsync('order.updateQty', order._id, order.orderedParts)
+        order.totalPrice -= part.price
+        Meteor.callAsync('order.update', order._id, order)
       }
     })
   }

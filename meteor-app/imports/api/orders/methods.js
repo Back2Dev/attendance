@@ -49,6 +49,13 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-
-
+  'order.update'(id, order) {
+    try {
+      log.info('updating quantity to order ')
+      return Orders.update({ _id: id }, { $set: order } )
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
 })
