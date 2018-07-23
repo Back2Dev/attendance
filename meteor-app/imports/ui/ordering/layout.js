@@ -55,7 +55,7 @@ export default withTracker((props) => {
   return {
     activeOrder: Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW }),
     addToCart,
-    parts: Parts.find({}).fetch(),
+    parts: Parts.find({}, {skip: 0, limit: 500}).fetch(),
     loading: !partsHandle.ready() || !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
 
