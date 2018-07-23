@@ -31,6 +31,9 @@ h3 {
       margin-left: 10px;
   }
 
+  .ui[class*="vertically divided"].grid>.row:before {
+    box-shadow: none !important
+  }
 
 
   
