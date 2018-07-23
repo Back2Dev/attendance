@@ -1,19 +1,22 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Grid, Segment, Header } from 'semantic-ui-react'
 
 import PartCard from '/imports/ui/ordering/ordering-part-card'
 import PartList from '/imports/ui/ordering/ordering-part-list'
 import CartIcon from '/imports/ui/ordering/cart-icon'
+import UploadXL from '/imports/ui/ordering/uploadXL'
 
 class Ordering extends React.Component {
+
   render() {
-  const { activeOrder } = this.props
+  const { activeOrder, uploadXL } = this.props
   let noOfParts = 0
     return (
       <Grid>
         <Grid.Row>
           <Grid.Column>
+            <UploadXL uploadXL={uploadXL} />
           <Segment raised>
             {(!this.props.loading && activeOrder) && activeOrder.orderedParts.forEach(part => {
               noOfParts += part.qty

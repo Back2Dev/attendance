@@ -6,10 +6,7 @@ import casual from 'casual'
 const path = require('path')
 const fs = require('fs')
 const debug = require('debug')('b2b:parts')
-const partFile = require("./parts-seed.json")
-
-
-
+const partSeedJSON = require("./parts-seed.json")
 
 const imagesUrls = [
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/4f8065b290713ff3dbca44641f3a52b5882c5e21.jpg',
@@ -28,7 +25,7 @@ const imagesUrls = [
 
 Meteor.methods({
   async 'seed.parts'() {
-    for (part of partFile) {
+    for (part of partSeedJSON) {
       // deconstruct the part object
       const {
         Barcode, PartNo, Description, DefaultPrice
@@ -47,12 +44,13 @@ Meteor.methods({
         })
       } catch(e){
         // log error
+        debug("Error seeding parts: ", e)
       }
     }
   },
   // this is an example of how we might update the parts data
   async 'update.parts'(streamFile) {
-    for (part of partFile) {
+    for (part of partSeedJSON) {
       // deconstruct the part object
       const {
         Barcode, PartNo, Description, DefaultPrice
@@ -74,6 +72,7 @@ Meteor.methods({
           upsert: true
         })
       } catch(e){
+        debug(e)
         // log parts that didnt insert
       }
     }

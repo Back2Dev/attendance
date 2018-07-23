@@ -25,6 +25,18 @@ function setError(e){
 Session.set('searchQuery', '')
 
 export default withTracker((props) => {
+
+  function uploadXL(e) {
+    e.preventDefault()
+    const input = e.target[0]
+    const reader = new FileReader()
+    reader.onloadend = function () {
+      const data = reader.result
+      Meteor.callAsync('parts.load', data)
+    }
+    reader.readAsBinaryString(input.files[0])
+  }
+
   const partsHandle = Meteor.subscribe('all.parts')
   const ordersHandle = Meteor.subscribe('all.orders')
   const addToCart = async (orderedPart) => {
@@ -58,7 +70,7 @@ export default withTracker((props) => {
     parts: Parts.find({}).fetch(),
     loading: !partsHandle.ready() || !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
-
+    uploadXL
   }
 })(Ordering)
 
