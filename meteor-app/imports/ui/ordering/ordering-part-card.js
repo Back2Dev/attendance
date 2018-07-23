@@ -1,19 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Container, Divider, Card, Icon, Image, Label, Button } from 'semantic-ui-react'
-import '/imports/ui/ordering/ordering-part-card.css'
+import '/imports/ui/ordering/ordering-part-card.css';
+
 
 const PartCard = ({
   _id,
   barcode,
   createdAt,
-  desc,
+  name,
   imageUrl,
   partNo,
   retailPrice,
   status,
   wholesalePrice,
-  className
+  className,
+  addToCart,
+  activeOrder,
 }) => {
 
   if (!barcode) {
@@ -40,13 +43,21 @@ const PartCard = ({
 
         <Divider fitted />
 
-        <Card.Description className='part-desc'>{desc}</Card.Description>
+        <Card.Description className='part-desc'>{name}</Card.Description>
 
         <Divider />
 
         <div className='price-container' >
           <b>${retailPrice}</b>
-          <Button className='part-add-cart-button' floated='right' color='blue'>Add To Cart</Button>
+          <Button className='part-add-cart-button' floated='right' color='blue' onClick={() => addToCart({
+            name: name,
+            partId: _id,
+            partNo: partNo,
+            addedAt: new Date(),
+            price: retailPrice,
+            qty: 1,
+            userId: 'MarksID',
+          })} >Add To Cart</Button>
         </div>
       </Card.Content>
     </Card>
@@ -61,7 +72,7 @@ PartCard.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   partNo: PropTypes.string.isRequired,
   retailPrice: PropTypes.number.isRequired,
-  wholesalePrice: PropTypes.number.isRequired
+  wholesalePrice: PropTypes.number.isRequired,
 };
 
 export default PartCard

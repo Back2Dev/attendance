@@ -11,12 +11,10 @@ class Ordering extends React.Component {
   let { order } = this.props
   let noOfParts = 0
     return (
-      
       <Grid>
         <Grid.Row>
           <Grid.Column>
           <Segment raised>
-
             {(!this.props.loading && order) && order.orderedParts.forEach(part =>{
               noOfParts += part.qty
               return noOfParts
@@ -28,6 +26,8 @@ class Ordering extends React.Component {
             <PartList
               title={'Part Title:'}
               parts={this.props.parts}
+              activeOrder={this.props.activeOrder}
+              addToCart={this.props.addToCart}
               Component={PartCard}
               componentClassName='part-card-main'
               loading={this.props.loading}
