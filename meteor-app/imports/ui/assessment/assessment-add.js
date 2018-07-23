@@ -14,16 +14,27 @@ import Congratulations from '/imports/ui/assessment/assessment-congratulations'
 
 import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 
-const mapSchemaToState = schema => (
-  schema
-    .reduce((state, step) => {
-      Object.keys(step.schema.properties)
-        .forEach(prop => {
-          prop === 'services' || prop === 'parts' ? state[prop] = [] : state[prop] = undefined
-        })
-      return state
-    }, {})
-)
+const mapSchemaToState = schema => {
+  // Filter through json form schema to filter out just the form fields
+  return schema.reduce((state, step) => {
+    Object.keys(step.schema.properties)
+      .forEach(prop => {
+        const type = Object.values(step.schema.properties[prop].type).join('')
+        if(type === 'string') {
+          state[prop] = ''
+        } else if(type === 'integer') {
+          state[prop] = 0
+        } else if(type === 'array') {
+          state[prop] = []
+        } else if(type === 'boolean') {
+          state[prop] = false
+        } else {
+          state[prop] = null
+        }
+      })
+    return state
+  }, {})
+}
 
 class AssessmentAdd extends Component {
   constructor(props) {
@@ -59,24 +70,26 @@ class AssessmentAdd extends Component {
 
   onSubmit = async ({ formData }) => {
     const lastStep = this.state.step == 4
+    console.log(formData)
 
     const totalServiceCost = this.props.services
       .map(key => {
         if (!formData) { return 0 }
         return formData.services.includes(key.name) ? key.price : 0
       })
-      .reduce((a, b) => a + b) || 0
+      .reduce((a, b) => a + b)
     const totalPartsCost = this.props.serviceItems
       .map(key => {
         if (!formData) { return 0 }
         return formData.parts.includes(key.name) ? key.price : 0
       })
-      .reduce((a, b) => a + b) || 0
-    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 || 0 : 0)
+      .reduce((a, b) => a + b)
+    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
         
     if (lastStep) {
       const serviceItem = this.props.services
         .filter(key => {
+          if (!formData) { return 0 }
           return formData.services.includes(key.name)
         })
         .map(key => {
@@ -88,6 +101,7 @@ class AssessmentAdd extends Component {
         })
       const partsItem = this.props.serviceItems
         .filter(key => {
+          if (!formData) { return 0 }
           return formData.parts.includes(key.name)
         })
         .map(key => {
@@ -102,38 +116,39 @@ class AssessmentAdd extends Component {
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
-          name: formData.name || '',
-          phone: formData.phone || '',
-          email: formData.email || '',
-          refurbishment: formData.b2bRefurbish || false,
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          refurbishment: formData.b2bRefurbish,
         },
         bikeDetails: {
-          make: formData.bikeMake || '',
-          model: formData.bikeModel || '',
-          color: formData.bikeColor || '',
-          bikeValue: formData.approxBikeValue * 100 || '', // Value in cents
-          sentimentValue: formData.sentimentalValue || false,
+          make: formData.bikeMake,
+          model: formData.bikeModel,
+          color: formData.bikeColor,
+          bikeValue: formData.approxBikeValue * 100, // Value in cents
+          sentimentValue: formData.sentimentalValue,
         },
         services: {
-          serviceItem: serviceItem || [],
-          totalServiceCost: totalServiceCost || 0,
+          serviceItem: serviceItem,
+          totalServiceCost: totalServiceCost,
         },
         parts: {
-          partsItem: partsItem || [],
-          totalPartsCost: totalPartsCost || 0,
+          partsItem: partsItem,
+          totalPartsCost: totalPartsCost,
         },
-        additionalFees: formData.additionalFee * 100 || 0, // Value in cents
+        additionalFees: formData.additionalFee * 100, // Value in cents
         totalCost: totalCost,
         dropoffDate: new Date(),
-        pickupDate: new Date(formData.pickUpDate) || '',
-        urgent: formData.requestUrgent || false,
-        assessor: formData.assessor || '',
+        pickupDate: new Date(formData.pickUpDate),
+        urgent: formData.requestUrgent,
+        assessor: formData.assessor,
         mechanic: '',
-        comment: formData.comment || '',
-        temporaryBike: formData.replacementBike || false,
+        comment: formData.comment,
+        temporaryBike: formData.replacementBike,
         status: 1, // Default to 1: New Order
         search: search,
       }
+      console.log(formResult)
 
       await this.props.setAssessment(formResult)
       this.setState({
@@ -170,10 +185,17 @@ class AssessmentAdd extends Component {
 
   selectMinor = () => {
     const formData = mapSchemaToState(schemas)
+    const minorServices = this.props.services
+      .filter(item => {
+        return item.package === 'Minor'
+      })
+      .map(key => {
+        return key.name
+      })
     this.setState({
       formData: {
         ...formData,
-        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket'],
+        services: minorServices,
         package: "Minor Service Package"
       },
       step: this.state.step + 1,
@@ -183,10 +205,17 @@ class AssessmentAdd extends Component {
 
   selectMajor = () => {
     const formData = mapSchemaToState(schemas)
+    const majorServices = this.props.services
+      .filter(item => {
+        return item.package === 'Major' || item.package === 'Minor'
+      })
+      .map(key => {
+        return key.name
+      })
     this.setState({
       formData: {
         ...formData,
-        services: ['Check functionality/adjust brakes and gears', 'Check hubs for wear/play', 'Remove, clean and oil chain', 'Clean rear cassette', 'Check tyre pressure', 'Lube deraileurs', 'Check/tighten bolts on cranks, headset, wheels and bottom bracket', 'Check wheels are true', 'Clean and re-grease wheel bearings', 'Clean and re-grease headset', 'Clean and re-grease bottom bracket', 'Clean and re-grease seat post and clamps'],
+        services: majorServices,
         package: "Major Service Package"
       },
       step: this.state.step + 1,

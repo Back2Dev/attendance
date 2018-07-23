@@ -16,10 +16,10 @@ const AssessmentAddReview = (props) => {
           Total Price
         </h2>
         <div>
-        <div>{props.formData.serviceCost ? "Total Service Cost: $" + props.formData.serviceCost/100 : ''}</div>
-          <div>{props.formData.partsCost ? "Total Parts Cost: $" + props.formData.partsCost/100 : ''}</div>
-          <div>{props.formData.additionalFee ? "Additional Fee: $" + props.formData.additionalFee : ''}</div>
-          <div style={{borderTop: "1px solid black", margin: "5px 0px", padding: "5px 0px"}}><strong>Total Price = ${(props.formData.serviceCost/100 || 0) + (props.formData.partsCost/100 || 0) + (props.formData.additionalFee || 0)}</strong></div>
+          <div>Total Service Cost: ${props.formData.serviceCost/100}</div>
+          <div>Total Parts Cost: ${props.formData.partsCost/100}</div>
+          <div>Additional Fee: ${props.formData.additionalFee}</div>
+          <div style={{borderTop: "1px solid black", margin: "5px 0px", padding: "5px 0px"}}><strong>Total Price = ${(props.formData.serviceCost/100) + (props.formData.partsCost/100) + (props.formData.additionalFee)}</strong></div>
         </div>
       </Segment>
       {
@@ -34,26 +34,24 @@ const AssessmentAddReview = (props) => {
                 {
                   // TODO: Need to add estimated price quote
                   Object.keys(step.schema.properties).map((key, value, iy) => {
-                    if (props.formData[key] && key !== 'serviceCost' && key !== 'partsCost') {
+                    const field = props.formData[key]
+                    if (field && !['serviceCost','partsCost'].includes(key)) {
+                      const listToRender = []
+
+                      if(Array.isArray(field)) {
+                        const arrayOfItems = field.map(item => (<li key={item}>{item}</li>))
+                        listToRender.push(arrayOfItems)
+                      } else if(typeof field === 'boolean') {
+                        listToRender.push(field ? <li>Yes</li> : <li>No</li>)
+                      } else {
+                        listToRender.push(<li>{field}</li>)
+                      }
+
                       return (
                         <Segment key={key}>
                           <strong>{step.schema.properties[key].title}</strong>
                           <ul style={{ paddingLeft: '1em' }}>
-                            {
-                              Array.isArray(props.formData[key]) ?
-                              props.formData[key].map(item => {
-                                return (
-                                  <li key={item}>{item}</li>
-                                )
-                              }) :
-                              <li>
-                                {
-                                  typeof props.formData[key] === 'boolean' ?
-                                  (props.formData[key] ? 'Yes' : 'No') :
-                                  props.formData[key]
-                                }
-                              </li>
-                            }
+                            {listToRender}
                           </ul>
                         </Segment>
                       )
