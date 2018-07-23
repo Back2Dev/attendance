@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { Card, List, Icon, Button } from 'semantic-ui-react'
@@ -15,7 +14,7 @@ render(){
                     {`${serviceTitle} $${servicePrice}`}
                 </Card.Header>
                 {
-                serviceTitle == "Major Serivce" &&
+                serviceTitle == "Major Service" &&
                 <div> 
                     <List.Item style={{paddingTop: "10px", color: "white"}}>
                         <Icon name="star outline"/>

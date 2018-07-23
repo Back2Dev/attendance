@@ -4,13 +4,13 @@ import ServiceCard from '../assessment/assessment-service-card'
 
 class ServiceList extends Component {
     render() {
-        const minorService = ["Check functionality/adjust brakes & gears", "Check hubs for wear/play", "Remove, clean & oil chain", "Clean rear cassette", "Check tyre pressure", "Lube deraileurs", "Check/tighten bolts on cranks, headset, wheels and bottom bracket"]
+        const minorService = ["Check functionality/adjust brakes & gears", "Check hubs for wear/play", "Remove, clean & oil chain", "Clean rear cassette", "Check tyre pressure", "Lube deraileurs", "Check/tighten bolts on cranks, headset, wheels and bottom bracket", "Check/tighten bolts on cranks, headset, wheels and bottom bracket" ]
 
         const majorService = ["Check wheels are true", "Clean and re-grease wheel bearings", "Clean and re-grease headset", "Clean and re-grease bottom bracket", "Clean and re-grease seat post & clamps"]
 
-        const minorServiceTitle = "Minor Service"
+        const minorServiceTitle = "Minor Serivce"
         const minorServicePrice = "60"
-        const majorServiceTitle = "Major Service"
+        const majorServiceTitle = "Major Serivce"
         const majorServicePrice = "120"
 
         return (
@@ -21,7 +21,7 @@ class ServiceList extends Component {
                 </Header>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
-                        onClick={this.props.selectMinor}
+                        onClick={this.props.onClick}
                         serviceChoice= {minorService}
                         serviceTitle= {minorServiceTitle}
                         servicePrice= {minorServicePrice}
@@ -30,7 +30,7 @@ class ServiceList extends Component {
                 </Grid.Column>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
-                        onClick={this.props.selectMajor}
+                        onClick={this.props.onClick}
                         serviceChoice= {majorService}
                         serviceTitle= {majorServiceTitle}
                         servicePrice= {majorServicePrice}
@@ -44,9 +44,7 @@ class ServiceList extends Component {
             </>
         )
     }
+
 }
 
 export default ServiceList
-
-
-

@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Header } from 'semantic-ui-react'
+import { Button, Grid, Header, Container } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui";
 import Alert from 'react-s-alert';
+
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
 import Steps from '/imports/ui/assessment/assessment-add-steps'
 import Control from '/imports/ui/assessment/assessment-add-control'
 import ServiceList from '/imports/ui/assessment/assessment-service-list'
+import Congratulations from '/imports/ui/assessment/assessment-congratulations'
 
 import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 
-const mapSchemaToState = schema => (
-  schema
-    .reduce((state, step) => {
-      Object.keys(step.schema.properties)
-        .forEach(prop => state[prop] = undefined)
-      return state
-    }, {})
-)
+const mapSchemaToState = schema => {
+  // Filter through json form schema to filter out just the form fields
+  return schema.reduce((state, step) => {
+    Object.keys(step.schema.properties)
+      .forEach(prop => {
+        const type = Object.values(step.schema.properties[prop].type).join('')
+        if(type === 'string') {
+          state[prop] = ''
+        } else if(type === 'integer') {
+          state[prop] = 0
+        } else if(type === 'array') {
+          state[prop] = []
+        } else if(type === 'boolean') {
+          state[prop] = false
+        } else {
+          state[prop] = null
+        }
+      })
+    return state
+  }, {})
+}
 
 class AssessmentAdd extends Component {
   constructor(props) {
@@ -53,10 +68,92 @@ class AssessmentAdd extends Component {
       this.props.resetId()
   }
 
-  onSubmit = ({ formData }) => {
-    const lastStep = schemas.length == this.state.step
+  onSubmit = async ({ formData }) => {
+    const lastStep = this.state.step == 4
+    console.log(formData)
+
+    const totalServiceCost = this.props.services
+      .map(key => {
+        if (!formData) { return 0 }
+        return formData.services.includes(key.name) ? key.price : 0
+      })
+      .reduce((a, b) => a + b)
+    const totalPartsCost = this.props.serviceItems
+      .map(key => {
+        if (!formData) { return 0 }
+        return formData.parts.includes(key.name) ? key.price : 0
+      })
+      .reduce((a, b) => a + b)
+    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
+        
     if (lastStep) {
-      this.props.setAssessment(this.state.formData)
+      const serviceItem = this.props.services
+        .filter(key => {
+          if (!formData) { return 0 }
+          return formData.services.includes(key.name)
+        })
+        .map(key => {
+          return {
+            name: key.name, 
+            price: key.price, 
+            package: key.package
+          }
+        })
+      const partsItem = this.props.serviceItems
+        .filter(key => {
+          if (!formData) { return 0 }
+          return formData.parts.includes(key.name)
+        })
+        .map(key => {
+          return {
+            name: key.name, 
+            price: key.price
+          }
+        })
+      const search = formData.b2bRefurbish ? 
+        'Refurbished Bike' : 
+        (formData.name + formData.email + formData.bikeMake + formData.bikeColor)
+      // Structuring form submission to match collection schema
+      const formResult = {
+        customerDetails: {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          refurbishment: formData.b2bRefurbish,
+        },
+        bikeDetails: {
+          make: formData.bikeMake,
+          model: formData.bikeModel,
+          color: formData.bikeColor,
+          bikeValue: formData.approxBikeValue * 100, // Value in cents
+          sentimentValue: formData.sentimentalValue,
+        },
+        services: {
+          serviceItem: serviceItem,
+          totalServiceCost: totalServiceCost,
+        },
+        parts: {
+          partsItem: partsItem,
+          totalPartsCost: totalPartsCost,
+        },
+        additionalFees: formData.additionalFee * 100, // Value in cents
+        totalCost: totalCost,
+        dropoffDate: new Date(),
+        pickupDate: new Date(formData.pickUpDate),
+        urgent: formData.requestUrgent,
+        assessor: formData.assessor,
+        mechanic: '',
+        comment: formData.comment,
+        temporaryBike: formData.replacementBike,
+        status: 1, // Default to 1: New Order
+        search: search,
+      }
+      console.log(formResult)
+
+      await this.props.setAssessment(formResult)
+      this.setState({
+        step: this.state.step + 1
+      })
       return
     }
     this.setState((prevState, props) => {
@@ -64,6 +161,8 @@ class AssessmentAdd extends Component {
         formData: {
           ...prevState.formData,
           ...formData,
+          serviceCost: totalServiceCost,
+          partsCost: totalPartsCost,
         },
         step: prevState.step + 1,
         progress: prevState.progress + 1,
@@ -84,7 +183,48 @@ class AssessmentAdd extends Component {
     })
   }
 
+  selectMinor = () => {
+    const formData = mapSchemaToState(schemas)
+    const minorServices = this.props.services
+      .filter(item => {
+        return item.package === 'Minor'
+      })
+      .map(key => {
+        return key.name
+      })
+    this.setState({
+      formData: {
+        ...formData,
+        services: minorServices,
+        package: "Minor Service Package"
+      },
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
+    })
+  }
+
+  selectMajor = () => {
+    const formData = mapSchemaToState(schemas)
+    const majorServices = this.props.services
+      .filter(item => {
+        return item.package === 'Major' || item.package === 'Minor'
+      })
+      .map(key => {
+        return key.name
+      })
+    this.setState({
+      formData: {
+        ...formData,
+        services: majorServices,
+        package: "Major Service Package"
+      },
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
+    })
+  }
+
   goToStep = (step) => {
+    // TODO: Might need to fix the next button & progress bug
     if (step <= this.state.progress) {
       this.setState({
         step,
@@ -93,6 +233,9 @@ class AssessmentAdd extends Component {
   }
 
   renderForm = () => {
+    schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
+    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => key.name)
+
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
@@ -114,6 +257,7 @@ class AssessmentAdd extends Component {
 
     const reviewStep = this.state.step == 3
     const serviceSelectorStep = this.state.step == 0
+    const orderSubmittedStep = this.state.step == 5
     return (
     <Grid divided='vertically' stackable>
       <Grid.Row centered>
@@ -127,6 +271,9 @@ class AssessmentAdd extends Component {
         {
           serviceSelectorStep &&
             <ServiceList 
+            formData={this.state.formData}
+            selectMinor={this.selectMinor}
+            selectMajor={this.selectMajor}
             onClick={this.forwardStep}
             />   
         }
@@ -151,8 +298,11 @@ class AssessmentAdd extends Component {
           </Grid.Row>
         }
         {
-          
-          (!reviewStep && !serviceSelectorStep) &&
+          orderSubmittedStep &&
+            <Congratulations />
+        }
+        {
+          (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
               {this.renderForm()}
