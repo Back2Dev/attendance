@@ -14,3 +14,14 @@ h3 {
 .background-image {
     background-image: url("/images/fireworks.svg");
 }
+
+.currency div.input::before {
+    content: "$";
+    padding: 6px 5px;
+    text-align: center;
+  }
+
+
+
+
+  
