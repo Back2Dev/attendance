@@ -1,7 +1,7 @@
 import React, { Component }  from 'react'
 import { Button, Grid} from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import PrintJobCard from 'imports/ui/assessment/assessment-print-job-card'
+import PrintJobCard from '/imports/ui/assessment/assessment-print-job-card'
 import '/imports/ui/layouts/assessment.css'
 
 class Congratulations extends Component {

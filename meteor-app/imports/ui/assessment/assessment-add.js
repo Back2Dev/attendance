@@ -101,8 +101,7 @@ class AssessmentAdd extends Component {
       formData={this.state.formData}
       onSubmit={this.onSubmit}
       showErrorList={false} 
-      liveValidate={true}
-    >
+     >
       <Control
         backStep={this.backStep}
         step={this.state.step}
