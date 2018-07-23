@@ -81,7 +81,8 @@ export default [{
       },
       approxBikeValue: {
         "ui:placeholder": "$Approx. price",
-        "ui:widget": "updown"
+        "ui:widget": "updown",
+        classNames: "currency" 
       },
       services: {
         "ui:widget": "checkboxes"
@@ -153,6 +154,7 @@ export default [{
         }
       },
       additionalFee: {
+        classNames: "currency",
         "ui:placeholder": "$Additional Fee",
         "ui:widget": "updown"
       },
