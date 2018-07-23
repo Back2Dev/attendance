@@ -8,8 +8,9 @@ class Congratulations extends Component {
     
     render() {
         return (
-            <Grid.Column className="background-image" style={{ minHeight: '800px', width: "100%" }}>
+            <Grid.Column style={{ width: "100%" }}>
                 <Grid.Row style={{ marginTop: '30px', textAlign: 'center' }}>
+                    <h1>Congratulations!</h1>
                     <h1> Your job order has been placed and be ready for pick up by: </h1>
                     <h1> 17/08/2018 </h1>
                 </Grid.Row>
