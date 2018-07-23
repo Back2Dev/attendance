@@ -16,6 +16,8 @@ class Ordering extends React.Component {
             <PartList
               title={'Part Title:'}
               parts={this.props.parts}
+              activeOrder={this.props.activeOrder}
+              addToCart={this.props.addToCart}
               Component={PartCard}
               componentClassName='part-card-main'
               loading={this.props.loading}
