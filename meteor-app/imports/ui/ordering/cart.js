@@ -15,7 +15,7 @@ class Cart extends React.Component {
               componentClassName='cart-list-main'
               loading={this.props.loading}
               removePart={this.props.removePart}
-          
+              increaseQty={this.props.increaseQty}
             />
           </Grid.Column>
         </Grid.Row>

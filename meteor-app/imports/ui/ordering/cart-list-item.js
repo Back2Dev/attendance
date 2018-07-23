@@ -11,6 +11,7 @@ const CartListItem = ({
   price,
   qty,
   userId,
+  increaseQty,
   removePart,
   orderId
 }) => {
@@ -27,9 +28,9 @@ const CartListItem = ({
       <Table.Cell collapsing textAlign='left'>${Math.round(totalItemPrice * 100) / 100}</Table.Cell>
       <Table.Cell collapsing textAlign='center'>
         <Button.Group >
-          <Button positive >Edit</Button>
-          <Button.Or />
-          <Button negative onClick={() => removePart(orderId, partId)}>Delete</Button>
+          <Button color="green" onClick={() => increaseQty(orderId, partId)} >+</Button>
+          <Button>-</Button>
+          <Button color='red' onClick={() => removePart(orderId, partId)}>Delete</Button>
         </Button.Group>
       </Table.Cell>
     </Table.Row>

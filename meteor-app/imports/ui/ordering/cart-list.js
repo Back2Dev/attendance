@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import './cart-list.css'
 
 const CartList = (props) => {
-  let { order, removePart } = props
+  let { order, removePart, increaseQty } = props
   let noOfParts = 0
 
 
@@ -57,7 +57,7 @@ const CartList = (props) => {
               {
                 (!props.loading && order) &&
                 order.orderedParts.map((part) => (
-                  <Component className='cart-item' key={part.partId} {...part} orderId={order._id} removePart={removePart} />
+                  <Component className='cart-item' key={part.partId} {...part} orderId={order._id} removePart={removePart} increaseQty={increaseQty} />
                 ))
               }
             </Table.Body>

@@ -16,8 +16,29 @@ export default withTracker((props) => {
       }
     })
   }
+  const increaseQty = async (orderId, partId) => {
+    const order = await Orders.findOne({ _id: orderId})
+    order.orderedParts.forEach(part => {
+      if(part.partId === partId){
+        part.qty += 1
+        Meteor.callAsync('order.updateQty', order._id, order.orderedParts)
+      }
+    })
+  } 
+
+  const decreaseQty = async (orderId, partId) => {
+    const order = await Orders.findOne({ _id: orderId})
+    order.orderedParts.forEach(part => {
+      if(part.partId === partId){
+        part.qty -= 1
+        Meteor.callAsynch('order.updateQty', order._id, order.orderedParts)
+      }
+    })
+  }
+  
   return {
     removePart,
+    increaseQty,
     order: Orders.findOne({ status: CONSTANT.ORDER_STATUS_NEW }),
     loading: !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
