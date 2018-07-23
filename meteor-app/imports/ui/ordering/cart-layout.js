@@ -32,7 +32,9 @@ export default withTracker((props) => {
     const order = await Orders.findOne({ _id: orderId})
     order.orderedParts.forEach(part => {
       if(part.partId === partId && part.qty == 1){
-        order.orderedParts.totalPrice -= part.price
+        // order.totalPrice -= part.price
+        order.totalPrice -= part.price
+        Meteor.callAsync('order.update', order._id, order)
         Meteor.callAsync('orders.removePart', orderId, part)
       }
       else if (part.partId === partId){
