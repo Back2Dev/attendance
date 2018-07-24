@@ -7,6 +7,7 @@ import Orders from '/imports/api/orders/schema';
 import { ReactiveVar } from "meteor/reactive-var";
 import Alert from 'react-s-alert';
 import CONSTANTS from '/imports/api/constants'
+import { escapeRegExp } from 'lodash'
 
 const success = new ReactiveVar(false);
 const error = new ReactiveVar(false);
@@ -21,7 +22,7 @@ function setError(e){
   Alert.error(e.reason)
 }
 
-Session.set('searchQuery', '')
+Session.set('partSearchQuery', '')
 
 export default withTracker((props) => {
 
@@ -38,6 +39,21 @@ export default withTracker((props) => {
 
   const partsHandle = Meteor.subscribe('all.parts')
   const ordersHandle = Meteor.subscribe('all.orders')
+  if (!partsHandle.ready()) {
+    Session.set('partSearchQuery', '')
+  }
+
+  const filter = (query) => {
+    const searching = query != ''
+    if (searching) {
+      return {
+        partNo: { $regex: new RegExp(escapeRegExp(query)), $options: 'i' },
+      }
+    } else {
+      return {}
+      
+    }
+  }
   const addToCart = async (orderedPart) => {
     const currentOrder = await Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW })
     let orderedParts = currentOrder.orderedParts
@@ -62,14 +78,16 @@ export default withTracker((props) => {
       }
       }
     }
+    const onSearchInput = q => Session.set('partSearchQuery', q.target.value)
   
   return {
     activeOrder: Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW }),
     addToCart,
-    parts: Parts.find({}, {skip: 0, limit: 500}).fetch(),
+    parts: Parts.find(filter(Session.get('partSearchQuery')), {skip: 0, limit: 50}).fetch(),
     loading: !partsHandle.ready() || !ordersHandle.ready(),
-    searchQuery: Session.get('searchQuery'),
-    uploadXL
+    partSearchQuery: Session.get('partSearchQuery'),
+    onSearchInput,
+
   }
 })(Ordering)
 
