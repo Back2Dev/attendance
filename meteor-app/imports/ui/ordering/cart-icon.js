@@ -1,16 +1,20 @@
 import React from 'react'
-import { Icon, Button } from 'semantic-ui-react'
+import { Icon, Button, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 const CartIcon = (props) => (
-    <Link to="/ordering/cart">
-    <Button primary animated='vertical'>
-      <Button.Content hidden>View Order</Button.Content>
-      <Button.Content visible>
-        <Icon name='cart' size='big' />
-        <Icon size='large'>{props.noOfParts}</Icon> 
-      </Button.Content>
-    </Button>
-    </Link>
-  )
-  
-  export default CartIcon 
+  <Link to="/ordering/cart">
+     <Button as='div' labelPosition='right' >
+      <Button icon>
+        <Icon name='cart'/>
+          View Order
+      </Button>
+      <Label basic pointing='left' >
+        {props.noOfParts}
+      </Label>
+    </Button>  
+  </Link>
+)
+
+
+export default CartIcon 
+
