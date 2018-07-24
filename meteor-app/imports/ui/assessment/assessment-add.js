@@ -299,7 +299,9 @@ class AssessmentAdd extends Component {
         }
         {
           orderSubmittedStep &&
-            <Congratulations />
+            <Congratulations
+            formData={this.state.formData}
+            />
         }
         {
           (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&
