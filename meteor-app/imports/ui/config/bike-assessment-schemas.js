@@ -136,7 +136,9 @@ export default [{
         },
         pickUpDate: {
           type: "string",
-          title: "Pick-up Date"
+          title: "Pick-up Date",
+          format: "date",
+          default: "2018-10-10"
         },
       },
     },
@@ -164,9 +166,6 @@ export default [{
       requestUrgent: {
 
       },
-      pickUpDate: {
-        "ui:widget": "date"
-      }
     }
   },
   {

@@ -19,6 +19,7 @@ const mapSchemaToState = schema => {
   return schema.reduce((state, step) => {
     Object.keys(step.schema.properties)
       .forEach(prop => {
+        if (prop === 'pickUpDate') return // Prevent this from showing in initial state to allow default value
         const type = Object.values(step.schema.properties[prop].type).join('')
         switch(type) {
           case 'string': 
@@ -254,6 +255,16 @@ class AssessmentAdd extends Component {
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
     schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => `${key.name} ($${key.price/100})`)
+
+    // Default one week later for pickup date
+    const date = new Date()
+    const dateOneWeekLater = new Date(date.setDate(date.getDate() + 7))
+    const day = dateOneWeekLater.getUTCDate()
+    const month =  (dateOneWeekLater.getMonth() + 1) < 10 ? `0${(dateOneWeekLater.getMonth() + 1)}` : (dateOneWeekLater.getMonth() + 1) 
+    const year =  dateOneWeekLater.getUTCFullYear()
+    const formattedDate = `${year}-${month}-${day}`
+    schemas[2].schema.properties.pickUpDate.default = formattedDate
+    console.log(formattedDate)
 
     return <Form
       schema={schemas[this.state.step].schema}
