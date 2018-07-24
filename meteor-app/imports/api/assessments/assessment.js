@@ -9,7 +9,7 @@ export const customerSchema = new SimpleSchema({
   name: { type: String, optional: true, label: 'Customer name' },
   phone: { type: String, optional: true, label: 'Customer phone number' },
   email: { type: String, optional: true, label: 'Customer email' },
-  refurbishment: { type: Boolean, label: 'Stating whether this job is a refurbishment' },
+  refurbishment: { type: String, label: 'Stating whether this job is a refurbishment' },
 })
 
 export const bikeSchema = new SimpleSchema({
