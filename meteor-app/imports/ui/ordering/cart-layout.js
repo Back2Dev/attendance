@@ -9,14 +9,16 @@ Session.set('searchQuery', '')
 export default withTracker((props) => {
   const ordersHandle = Meteor.subscribe('all.orders')
   const removePart = async (OrderId, partId) => {
-    const orderedParts = await Orders.findOne({ _id: OrderId}).orderedParts
-    orderedParts.forEach(part => {
+    const order = await Orders.findOne({ _id: OrderId})
+    order.orderedParts.forEach(part => {
       if(part.partId === partId){
-        orderedParts.totalPrice = (orderedParts.totalPrice - (part.price * part.qty))
-        Meteor.callAsync('orders.removePart', OrderId, part)
+        order.totalPrice = order.totalPrice - (part.price * part.qty)
+        Meteor.callAsync('order.update', order._id, order)
+        Meteor.callAsync('orders.removePart', order, part )
       }
     })
   }
+  
   const increaseQty = async (orderId, partId) => {
     const order = await Orders.findOne({ _id: orderId})
     order.orderedParts.forEach(part => {
@@ -32,10 +34,9 @@ export default withTracker((props) => {
     const order = await Orders.findOne({ _id: orderId})
     order.orderedParts.forEach(part => {
       if(part.partId === partId && part.qty == 1){
-        // order.totalPrice -= part.price
         order.totalPrice -= part.price
         Meteor.callAsync('order.update', order._id, order)
-        Meteor.callAsync('orders.removePart', orderId, part)
+        Meteor.callAsync('orders.removePart', order, part)
       }
       else if (part.partId === partId){
         part.qty -= 1

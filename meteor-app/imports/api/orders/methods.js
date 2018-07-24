@@ -22,10 +22,11 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.removePart'(id, part) {
+  'orders.removePart'(order, partId) {
+
     try {
-      log.info('removing part from current order', part)
-      return Orders.update({ _id: id }, { $pull: { orderedParts: part } })
+      log.info('removing part from current order', partId)
+      return Orders.update({ _id: order._id }, { $set: { order: order}, $pull: { orderedParts: partId }})
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
