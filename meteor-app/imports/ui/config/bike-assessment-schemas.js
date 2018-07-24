@@ -28,7 +28,8 @@ export default [{
         assessor: {
           type: "string",
           title: "Assessor",
-          enum: ["Mark", "Mike"]
+          enum: ["Mark", "Mike", ""],
+          default: ""
         },
         bikeMake: {
           type: "string",
@@ -186,7 +187,7 @@ export default [{
         b2bRefurbish: {
           type: "string",
           title: "Is this bike being refurbished by Back 2 Bikes?",
-          enum: ["Yes", "No"],
+          enum: ["Yes", "No", ""],
           default: "No"
         },
       },
@@ -195,7 +196,7 @@ export default [{
           "oneOf": [
             {
               properties: {
-                b2bRefurbish: { enum: ["Yes"] }
+                b2bRefurbish: { enum: ["Yes", ""] }
               }
             },
             {
