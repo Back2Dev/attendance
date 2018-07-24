@@ -6,35 +6,34 @@ import casual from 'casual'
 const path = require('path')
 const fs = require('fs')
 const debug = require('debug')('b2b:parts')
-
-
-const partSeedJSON = require("./parts-seed.json")
-
-const imagesUrls = [
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/4f8065b290713ff3dbca44641f3a52b5882c5e21.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/b574ff4cedc436ba4185849b666179acfcb9f1b0.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/28e301c326d101dadbdf52cf28cdb8f3e6bb0a4e.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/ef76b6b5a5d1b9f30db8db6a3da8a7c01d523a5b.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/0d629cb4986dc2e298ee30afd3dd89431dc7beca.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/a1bd6d38c8f70b572f1c75814f260538371a6645.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/57e14cd56d743a41459b30251cbc0a14c74c1b73.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/cc3e94374ecfc00e82c1eafdf626c03c5f5bd11f.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/bb751cf61ae9acd5fd514c2491f1911d811e544f.jpg',
-  'http://cdn2.webninjashops.com/bicycleparts/images/resized/917b18f1ea145ca30274450651c6411434e37046.jpg',
-  'http://cdn.webninjashops.com/bicycleparts/images/resized/556176e6d76f32931cb7b97b59de8cbd4068b3aa.png',
-]
+const partFile = require("./parts-seed.json")
 
 
 Meteor.methods({
-  async 'seed.parts'() {
-    for (part of partSeedJSON) {
+    async 'seed.parts'() {
+      console.log('#seeding parts')
+    for (part of partFile) {
       // deconstruct the part object
+      console.log('#seeding parts, total numer: ',partFile.length)
       const {
         Barcode, PartNo, Description, DefaultPrice
       } = part
       function calcRetail(price){
-        const wholesalePrice = (parseInt(price, 10) * 100) * 1.5
-        return parseInt(wholesalePrice, 10)
+        if (price <= 6000) {
+          const retailPrice = (parseInt(price, 10) * 100) * 2
+          return retailPrice
+        }
+        else if (price > 6000 && price <= 10000) {
+          const retailPrice = (parseInt(price, 10) * 100) * 1.5
+          return retailPrice
+        }
+        else if (price > 10000) {
+          const retailPrice = (parseInt(price, 10) * 100) * 1.3
+          return retailPrice
+        }
+        else {
+          return console.error('Error, not a number')
+        }
       }
       try {
         // insert them one by one
@@ -47,16 +46,18 @@ Meteor.methods({
           wholesalePrice: parseInt(DefaultPrice * 100),
           // we need to put retail function in here once its done
           retailPrice: calcRetail(DefaultPrice),
+          imageUrl: '/images/logo-large.jpg'
         })
       } catch(e){
-        // log error
-        debug("Error seeding parts: ", e)
+        console.log(e)
+
+
       }
     }
   },
   // this is an example of how we might update the parts data
   async 'update.parts'(streamFile) {
-    for (part of partSeedJSON) {
+    for (part of partFile) {
       // deconstruct the part object
       const {
         Barcode, PartNo, Description, DefaultPrice
@@ -78,7 +79,6 @@ Meteor.methods({
           upsert: true
         })
       } catch(e){
-        debug(e)
         // log parts that didnt insert
       }
     }
@@ -108,4 +108,3 @@ Meteor.startup(() => {
     Meteor.call('seed.orders')
   }
 })
-

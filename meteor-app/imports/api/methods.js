@@ -53,7 +53,7 @@ Meteor.methods({
       timeIn: { $gte: moment().startOf('day').toDate() },
     }).fetch()
       .pop()
-
+      
     debug(`Member ${id} is departing, session:`,session)
 
     if (session) {
