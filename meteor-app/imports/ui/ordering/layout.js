@@ -27,7 +27,9 @@ Session.set('partSearchQuery', '')
 export default withTracker((props) => {
 
   function uploadXL(e) {
+    
     e.preventDefault()
+    Alert.info(`Adding your parts`)
     const input = e.target[0]
     const reader = new FileReader()
     reader.onloadend = function () {
@@ -63,7 +65,7 @@ export default withTracker((props) => {
       if (!found) {
       const res = await Meteor.callAsync('orders.addPart', currentOrder._id, orderedPart)
       if(res){
-        Alert.info(e.reason)(`Successfully added ${orderedPart.name} to cart`)
+        Alert.info(`Successfully added ${orderedPart.name} to cart`)
       }
       } else {
       orderedParts.forEach(p => {

@@ -4,9 +4,27 @@ import log from '/imports/lib/server/log'
 import XLSX from 'xlsx'
 const debug = require('debug')('b2b:parts')
 
+function calcRetail(price){
+  if (price <= 6000) {
+    const retailPrice = (parseInt(price, 10) * 100) * 2
+    return retailPrice
+  }
+  else if (price > 6000 && price <= 10000) {
+    const retailPrice = (parseInt(price, 10) * 100) * 1.5
+    return retailPrice
+  }
+  else if (price > 10000) {
+    const retailPrice = (parseInt(price, 10) * 100) * 1.3
+    return retailPrice
+  }
+  else {
+    return console.error('Error, not a number')
+  }
+}
 async function updatePromise(part) {
   return new Promise(async (resolve, reject) => {
     const { partNo, name, barcode, wholesalePrice } = part
+
     debug("updatePromise: Adding Part: ", partNo)
     await Parts.update(
       {
@@ -17,7 +35,8 @@ async function updatePromise(part) {
           barcode,
           name,
           wholesalePrice: parseInt(wholesalePrice) * 100,
-          retailPrice: parseInt(wholesalePrice),
+          retailPrice: calcRetail(wholesalePrice),
+          imageUrl: '/images/logo-large.jpg',
         },
       },
       {
@@ -33,19 +52,23 @@ async function updatePromise(part) {
     )
   })
 }
-
 async function updateParts(parts) {
   let count = 0
   return new Promise(async (resolve, reject) => {
     for (const part of parts) {
-      try {
-        // if(barcode != ""){
-          await updatePromise(part)
-        // }
-        count++
-      } catch (e) {
-        reject(`Couldnt add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`)
+      if (part.barcode !== ""){
+        console.log("adding", part.partNo)
+        try {
+          // if(barcode != ""){
+            await updatePromise(part)
+          // }
+          count++
+        } catch (e) {
+          reject(`Couldnt add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`)
+        }
+
       }
+      
     }
     resolve(count)
   })
