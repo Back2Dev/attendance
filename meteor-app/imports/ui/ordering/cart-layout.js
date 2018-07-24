@@ -8,8 +8,8 @@ Session.set('searchQuery', '')
 
 export default withTracker((props) => {
   const ordersHandle = Meteor.subscribe('all.orders')
-  const removePart = async (OrderId, partId) => {
-    const order = await Orders.findOne({ _id: OrderId})
+  const removePart = (OrderId, partId) => {
+    const order = Orders.findOne({ _id: OrderId})
     order.orderedParts.forEach(part => {
       if(part.partId === partId){
         order.totalPrice = order.totalPrice - (part.price * part.qty)
@@ -19,8 +19,8 @@ export default withTracker((props) => {
     })
   }
   
-  const increaseQty = async (orderId, partId) => {
-    const order = await Orders.findOne({ _id: orderId})
+  const increaseQty = (orderId, partId) => {
+    const order = Orders.findOne({ _id: orderId})
     order.orderedParts.forEach(part => {
       if(part.partId === partId){
         part.qty += 1
@@ -30,8 +30,8 @@ export default withTracker((props) => {
     })
   } 
 
-  const decreaseQty = async (orderId, partId) => {
-    const order = await Orders.findOne({ _id: orderId})
+  const decreaseQty = (orderId, partId) => {
+    const order = Orders.findOne({ _id: orderId})
     order.orderedParts.forEach(part => {
       if(part.partId === partId && part.qty == 1){
         order.totalPrice -= part.price
