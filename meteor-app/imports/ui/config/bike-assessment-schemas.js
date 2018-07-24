@@ -184,22 +184,40 @@ export default [{
       title: "Enter Customer Details",
       properties: {
         b2bRefurbish: {
-          type: "boolean",
-          title: "Is this bike being refurbished by Back 2 Bikes?"
-        },
-        name: {
           type: "string",
-          title: "Name"
-        },
-        phone: {
-          type: "string",
-          title: "Phone Number"
-        },
-        email: {
-          type: "string",
-          title: "Email"
+          title: "Is this bike being refurbished by Back 2 Bikes?",
+          enum: ["Yes", "No"],
+          default: "No"
         },
       },
+      dependencies: {
+        b2bRefurbish: {
+          "oneOf": [
+            {
+              properties: {
+                b2bRefurbish: { enum: ["Yes"] }
+              }
+            },
+            {
+              properties: {
+                b2bRefurbish: { enum: ["No"] },
+                name: {
+                  type: "string",
+                  title: "Name"
+                },
+                phone: {
+                  type: "string",
+                  title: "Phone Number"
+                },
+                email: {
+                  type: "string",
+                  title: "Email"
+                },
+              }
+            }
+          ]
+        }
+      }
     },
     uiSchema: {
       b2bRefurbish: {},
