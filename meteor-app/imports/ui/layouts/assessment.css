@@ -14,3 +14,37 @@ h3 {
 .background-image {
     background-image: url("/images/fireworks.svg");
 }
+
+.currency div.input::before {
+    content: "$";
+    padding: 6px 5px;
+    text-align: center;
+  }
+
+  #root_parts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding-left: 0;
+    grid-column-gap: 20px;
+  }
+
+  .checkbox label span span {
+      margin-left: 10px;
+  }
+
+  .checkbox label span {
+    display: flex;
+    align-items: center;
+    height: 40px
+  }
+
+  .checkbox label input {
+    transform: scale(2);
+  }
+
+  .ui[class*="vertically divided"].grid>.row:before {
+    box-shadow: none !important
+  }
+
+
+  

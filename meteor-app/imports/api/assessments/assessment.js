@@ -25,6 +25,7 @@ export const servicesSchema = new SimpleSchema({
   'serviceItem.$': Object,
   'serviceItem.$.name': { type: String, label: 'Service description' },
   'serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single service item in cents' },
+  baseService: { type: String, label: 'Base service selection'},
   totalServiceCost: {
     type: SimpleSchema.Integer,
     label: 'Price of service in cents',

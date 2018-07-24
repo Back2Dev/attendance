@@ -76,85 +76,221 @@ Meteor.methods({
     // Currently placeholder data
     const parts = [
       {
-        name: '1 x Tyre',
+        name: 'Tyre - Front (second hand)',
+        price: 500
+      },
+      {
+        name: 'Tyre - Rear (second hand)',
+        price: 500
+      },
+      {
+        name: 'Tyre - Front (new)',
         price: 1000
       },
       {
-        name: '2 x Tyre',
-        price: 2000
-      },
-      {
-        name: '1 x Brake Cables',
+        name: 'Tyre - Rear (new)',
         price: 1000
       },
       {
-        name: '2 x Brake Cables',
+        name: 'Tube',
+        price: 800
+      },
+      {
+        name: 'Tube & fitting',
         price: 2000
       },
       {
-        name: '3 x Brake Cables',
+        name: 'Brake pads - Dual pivot',
+        price: 1500
+      },
+      {
+        name: 'Brake pads - V brakes',
+        price: 1000
+      },
+      {
+        name: '1 x Cable',
+        price: 500
+      },
+      {
+        name: '2 x Cables',
+        price: 1000
+      },
+      {
+        name: '3 x Cables',
+        price: 1500
+      },
+      {
+        name: '4 x Cables',
+        price: 2000
+      },
+      {
+        name: '1 x Cable fitted',
+        price: 1000
+      },
+      {
+        name: '2 x Cables fitted',
+        price: 2000
+      },
+      {
+        name: '3 x Cables fitted',
         price: 3000
       },
       {
-        name: '4 x Brake Cables',
+        name: '4 x Cables fitted',
         price: 4000
-      },
+      },      
       {
-        name: '1 x Gear Cables',
+        name: 'Brake cable fitted - Front',
         price: 1000
       },
       {
-        name: '2 x Gear Cables',
-        price: 2000
-      },
-      {
-        name: '3 x Gear Cables',
-        price: 3000
-      },
-      {
-        name: '4 x Gear Cables',
-        price: 4000
-      },
-      {
-        name: 'Chain and Cassette',
+        name: 'Brake cable fitted - Rear',
         price: 1000
       },
       {
-        name: 'Handlebar Grips',
-        price: 2000
-      },
-      {
-        name: 'Wheel Bearings',
-        price: 3000
-      },
-      {
-        name: 'Rack and Basket Fitting',
-        price: 4000
-      },
-      {
-        name: 'Bar Tape',
+        name: 'Gear cable fitted - Front',
         price: 1000
       },
       {
-        name: 'Bottom Bracket',
-        price: 2000
+        name: 'Gear cable fitted - Rear',
+        price: 1000
       },
       {
-        name: 'Wheel Truing',
+        name: '1 x Cable fitting',
+        price: 1500
+      },
+      {
+        name: '2 x Cable fitting',
         price: 3000
       },
       {
-        name: 'Locks',
+        name: 'Wheel true',
+        price: 2500
+      },
+      {
+        name: 'Spokes and nipples (each)',
+        price: 500
+      },
+      {
+        name: 'Hub service',
+        price: 1500
+      },
+      {
+        name: 'Hub service with new cones',
+        price: 2500
+      },
+      {
+        name: 'Bottom Bracket - square taper cartridge',
+        price: 2200
+      },
+      {
+        name: 'Bottom Bracket - Octalink, Hollowtech etc',
+        price: 2200
+      },
+      {
+        name: 'Chain - 6/7/8 Speed',
+        price: 2500
+      },
+      {
+        name: 'Chain - 9 Speed',
+        price: 3200
+      },
+      {
+        name: 'Chain - 10 Speed',
+        price: 4400
+      },
+      {
+        name: 'Chain - 11 Speed',
+        price: 6600
+      },
+      {
+        name: 'Chain - single speed/hub gear',
+        price: 1200
+      },
+      {
+        name: 'Locks - cable/combination',
+        price: 2000
+      },
+      {
+        name: 'Locks - D',
+        price: 3400
+      },
+      {
+        name: 'Light set - button rechargable',
         price: 4000
       },
       {
-        name: 'Lights',
-        price: 4000
+        name: 'Light set - button battery',
+        price: 2000
       },
       {
-        name: 'Helmet',
-        price: 4000
-      }
+        name: 'Lights - high power, per end',
+        price: 3600
+      },
+      {
+        name: 'Rear cog sets - free wheel 5 speed',
+        price: 2000
+      },
+      {
+        name: 'Rear cog sets - free wheel 6 speed',
+        price: 2200
+      },
+      {
+        name: 'Rear cog sets - free wheel 7 speed',
+        price: 2500
+      },
+      {
+        name: 'Rear cog sets - free wheel 8 speed',
+        price: 3200
+      },
+      {
+        name: 'Rear cog sets - free wheel 9 speed',
+        price: 4800
+      },
+      {
+        name: 'Rear cog sets - free wheel 10 speed',
+        price: 6600
+      },
+      {
+        name: 'Rear cog sets - free wheel 11 speed',
+        price: 8500
+      },
+      {
+        name: 'Single Speed',
+        price: 3200
+      },
+      {
+        name: 'Grips - standard',
+        price: 1000
+      },
+      {
+        name: 'Grips - lock on',
+        price: 2000
+      },
+      {
+        name: 'Bar tape',
+        price: 2000
+      },
+      {
+        name: 'Bar tape supply and fitting',
+        price: 3500
+      },
+      {
+        name: 'Racks supply and fit',
+        price: 4500
+      },
+      {
+        name: 'Saddle',
+        price: 2000
+      },
+      {
+        name: 'Bell',
+        price: 600
+      },
+      {
+        name: 'Side stand including fitting',
+        price: 1500
+      },
     ]
 
     for (let i = 0; i < parts.length; i++) {
