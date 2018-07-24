@@ -42,8 +42,8 @@ class Ordering extends React.Component {
       <Grid centered columns={1}>
   
       <Header as='h2' textAlign='center'> <div>Parts</div> </Header>
-     <Grid centered columns={3} width={4}>
-        <Grid.Row columns='equal' verticalAlign='top'>
+     <Grid columns={3} width={3}>
+        <Grid.Row centered verticalAlign='middle'>
        <Grid.Column>
             {(!this.props.loading && activeOrder) && activeOrder.orderedParts.forEach(part => {
               noOfParts += part.qty
