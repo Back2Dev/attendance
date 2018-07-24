@@ -76,19 +76,27 @@ Meteor.methods({
     // Currently placeholder data
     const parts = [
       {
-        name: 'Tyre - Front (second hand)',
+        name: 'Front Tyre (second hand)',
         price: 500
       },
       {
-        name: 'Tyre - Rear (second hand)',
+        name: 'Rear Tyre (second hand)',
         price: 500
       },
       {
-        name: 'Tyre - Front (new)',
+        name: 'Front Tyre (new)',
         price: 1000
       },
       {
-        name: 'Tyre - Rear (new)',
+        name: 'Rear Tyre (new)',
+        price: 1000
+      },
+      {
+        name: 'Brake pads - Dual pivot',
+        price: 1500
+      },
+      {
+        name: 'Brake pads - V brakes',
         price: 1000
       },
       {
@@ -100,67 +108,59 @@ Meteor.methods({
         price: 2000
       },
       {
-        name: 'Brake pads - Dual pivot',
-        price: 1500
-      },
-      {
-        name: 'Brake pads - V brakes',
-        price: 1000
-      },
-      {
-        name: '1 x Cable',
+        name: 'Cable x 1',
         price: 500
       },
       {
-        name: '2 x Cables',
+        name: 'Cables x 2',
         price: 1000
       },
       {
-        name: '3 x Cables',
+        name: 'Cables x 3',
         price: 1500
       },
       {
-        name: '4 x Cables',
+        name: 'Cables x 4',
         price: 2000
       },
       {
-        name: '1 x Cable fitted',
+        name: 'Cable fitted x 1',
         price: 1000
       },
       {
-        name: '2 x Cables fitted',
+        name: 'Cables fitted x 2',
         price: 2000
       },
       {
-        name: '3 x Cables fitted',
+        name: 'Cables fitted x 3',
         price: 3000
       },
       {
-        name: '4 x Cables fitted',
+        name: 'Cables fitted x 4',
         price: 4000
       },      
       {
-        name: 'Brake cable fitted - Front',
+        name: 'Front brake cable fitted',
         price: 1000
       },
       {
-        name: 'Brake cable fitted - Rear',
+        name: 'Rear brake cable fitted',
         price: 1000
       },
       {
-        name: 'Gear cable fitted - Front',
+        name: 'Front gear cable fitted',
         price: 1000
       },
       {
-        name: 'Gear cable fitted - Rear',
+        name: 'Rear gear cable fitted',
         price: 1000
       },
       {
-        name: '1 x Cable fitting',
+        name: 'Cable fitting x 1',
         price: 1500
       },
       {
-        name: '2 x Cable fitting',
+        name: 'Cable fitting x 2',
         price: 3000
       },
       {
@@ -168,7 +168,7 @@ Meteor.methods({
         price: 2500
       },
       {
-        name: 'Spokes and nipples (each)',
+        name: 'Spokes and nipples',
         price: 500
       },
       {

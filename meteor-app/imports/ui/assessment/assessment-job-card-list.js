@@ -1,27 +1,40 @@
 import React from 'react'
+import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import { Card, Button, Grid } from 'semantic-ui-react'
+import { Grid, Input, Icon, Search } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
-import { withRouter } from 'react-router-dom'
-import { withTracker } from "meteor/react-meteor-data"
 import Nav from '/imports/ui/ordering/navbar'
+import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
+import './assessment-job-card-list.css'
 
-
+const searchFilter = new ReactiveVar('')
+const statusFilter = new ReactiveVar('')
 
 class JobCardList extends Component {
+
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
 
     return(
       <>
-      <Nav />
-        <Grid stackable>
+        <Nav />
+        <div style={{margin: "10px"}}>
+          <Search
+            open={false}
+            onSearchChange={this.props.searchFind}
+            type='text'
+            size='big'
+            placeholder='Enter bike make/color or customer name'/>
+            
+        </div>
+        <Grid stackable >
           {this.props.jobs.map(job =>
-            <Grid.Column key={job._id} width={5}>
-                <JobCard
-                  currentJob={job}
-                />
+            <Grid.Column key={job._id} mobile={5} tablet={5} computer={4}>
+              <JobCard
+                currentJob={job}
+                updateStatus={this.props.updateStatus}
+              />
             </Grid.Column>
           )}
         </Grid>
@@ -32,9 +45,22 @@ class JobCardList extends Component {
 
 export default withTracker(props => {
   Meteor.subscribe('assessments.all')
+  
+  const searchLine = searchFilter.get()
+  const statusLine = statusFilter.get()
+  const searchFind = event => {
+    const value = event.target.value
+    searchFilter.set(value)
+    statusFilter.set(value)
+  }
+
+  const updateStatus = (jobId, updatedStatus) => {
+    Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
+  }
 
   return {
-    jobs: Assessment.find().fetch()
+    jobs: Assessment.find({ search: { $regex: searchLine } }).fetch(),
+    searchFind,
+    updateStatus
   }
 })(JobCardList)
-
