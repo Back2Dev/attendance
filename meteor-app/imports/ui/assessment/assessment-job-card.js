@@ -1,5 +1,4 @@
 import React from 'react'
-import { Meteor } from 'meteor/meteor'
 import { Component } from 'react'
 import { Card, Button, Container, List } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
@@ -11,14 +10,18 @@ class JobCard extends Component {
 
   updateButton = () => {
     const jobId = this.props.currentJob._id
-    const status = this.props.currentJob.status
-    const updatedStatus = status+1
+    const statusValue = this.props.currentJob.status
+    const statusList = Object.keys(JOB_STATUS)
+    const status = statusList.find(key => JOB_STATUS[key] === statusValue) // Find key/name of current status
+    const statusIndex = statusList.findIndex(element => element === status)
+    const updatedStatusKey = statusList[statusIndex+1] // Find key/name of next status
+    const updatedStatus = JOB_STATUS[updatedStatusKey] // Update to the next status 
 
     try {
       if (status >= JOB_STATUS.BIKE_PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
     } catch (error) {
-      Alert.error(error)
+      Alert.error(error.message)
     }
   }
 
@@ -36,7 +39,7 @@ class JobCard extends Component {
       }
       return
     } catch (error) {
-      Alert.error(error)
+      Alert.error(error.message)
     }
   }
 
@@ -55,8 +58,8 @@ class JobCard extends Component {
     const servicePackage = services.baseService
 
     // Dynamic button name
-    const statusButton = status <= 5 ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
-    const cancelButton = status <= 5 ? 'Cancel Job' : 'Re-open Job'
+    const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
+    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? 'Cancel Job' : 'Re-open Job'
     
     return (
       <Card>
