@@ -29,8 +29,9 @@ export default withTracker((props) => {
   function uploadXL(e) {
     
     e.preventDefault()
-    Alert.info(`Adding your parts`)
+   
     const input = e.target[0]
+    !input ? Alert.info(`Adding your parts`) : Alert.info(`Oops! Forgot to add the file? Try again uploading the file`)
     const reader = new FileReader()
     reader.onloadend = function () {
       const data = reader.result
