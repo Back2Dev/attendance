@@ -17,8 +17,8 @@ export default assessment => {
 
   const serviceItemNames = services.serviceItem.map(item => item.name);
   const servicePartNames = parts.partsItem.map(item => {
-    if(!item.name) { 
-      return "There are no parts for this service"
+    if(!item.name) {
+      return ["There are no parts for this service"]
     } else {
       return item.name   
     } 
@@ -32,6 +32,10 @@ export default assessment => {
   const bikeModel = bikeDetails.model ? ` - ${bikeDetails.model}` : "";
 
   var docDefinition = {
+    pageSize: 'A4',
+
+    watermark: {text: 'back2bikes', color: '#8FDBB6', opacity: 0.3, bold: true, italics: false},
+
     content: [
       {
         text: `Bike: ${bikeDetails.make} ${bikeModel} - ${
