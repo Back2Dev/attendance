@@ -147,7 +147,7 @@ class AssessmentAdd extends Component {
         urgent: formData.requestUrgent,
         assessor: formData.assessor,
         mechanic: '',
-        comment: formData.comment,
+        comment: formData.comments,
         temporaryBike: formData.replacementBike,
         status: 1, // Default to 1: New Order
         search: search,
