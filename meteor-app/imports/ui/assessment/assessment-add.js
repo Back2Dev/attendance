@@ -86,7 +86,7 @@ class AssessmentAdd extends Component {
     const totalPartsCost = this.props.serviceItems
       .map(key => {
         if (!formData) { return 0 }
-        return formData.parts.includes(key.name) ? key.price : 0
+        return formData.parts.includes(`${key.name} ($${key.price/100})`) ? key.price : 0
       })
       .reduce((a, b) => a + b)
     const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
@@ -161,6 +161,7 @@ class AssessmentAdd extends Component {
       })
       return
     }
+    console.log(this.state.formData)
     this.setState((prevState, props) => {
       return {
         formData: {
