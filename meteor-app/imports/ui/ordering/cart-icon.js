@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom'
 const CartIcon = (props) => (
   <Link to="/ordering/cart">
      <Button as='div' labelPosition='right' >
-      <Button icon>
-        <Icon name='cart'/>
-          View Order
+      <Button icon='cart' content='View Order' primary>
       </Button>
       <Label basic pointing='left' >
         {props.noOfParts}
