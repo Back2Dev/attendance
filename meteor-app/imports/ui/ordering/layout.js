@@ -87,6 +87,7 @@ export default withTracker((props) => {
     loading: !partsHandle.ready() || !ordersHandle.ready(),
     partSearchQuery: Session.get('partSearchQuery'),
     onSearchInput,
+    uploadXL
 
   }
 })(Ordering)
