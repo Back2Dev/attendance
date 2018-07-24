@@ -213,7 +213,8 @@ export default [{
                   type: "string",
                   title: "Email"
                 },
-              }
+              },
+              required: ["name", "phone", "email"]
             }
           ]
         }

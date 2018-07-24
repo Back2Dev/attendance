@@ -22,6 +22,15 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'orders.removePart'(id, part) {
+    try {
+      log.info('removing part from current order', part)
+      return Orders.update({ _id: id }, { $pull: { orderedParts: part } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
   'orders.addPart'(id, orderedPart) {
     try {
       log.info('updating order: ', orderedPart)
@@ -33,14 +42,13 @@ Meteor.methods({
   },
   'order.updateQty'(id, orderedParts) {
     try {
-      log.info('adding quantity to order ')
+      log.info('updating quantity to order ')
       return Orders.update({ _id: id }, { $set: { orderedParts } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
-
-  }
+  },
 
 
 })

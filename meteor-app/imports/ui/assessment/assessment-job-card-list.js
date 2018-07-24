@@ -8,8 +8,9 @@ import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
 
 class JobCardList extends Component {
-
+  // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
+
     return(
       <>
         <Nav />

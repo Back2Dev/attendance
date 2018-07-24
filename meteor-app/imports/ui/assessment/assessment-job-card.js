@@ -5,7 +5,6 @@ import { Card, Button, Container, List } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
 import { JOB_STATUS, JOB_STATUS_BUTTON } from '/imports/api/constants'
 
-
 class JobCard extends Component {
 
   updateButton = () => {
@@ -40,19 +39,20 @@ class JobCard extends Component {
 
   render() {
     // Pulling data from props (assessment collection)
+    const { status, bikeDetails, services, pickupDate, totalCost } = this.props.currentJob
     const job = this.props.currentJob
-    const make = job.bikeDetails.make
-    const model = job.bikeDetails.model
-    const color = job.bikeDetails.color
-    const pickupDate = job.pickupDate.toLocaleDateString()
-    const totalCost = job.totalCost/100
-    const status = JOB_STATUS[job.status]
-    const serviceList = job.services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
-    const servicePackage = job.baseService
+    const make = bikeDetails.make
+    const model = bikeDetails.model
+    const color = bikeDetails.color
+    const pickupDate = pickupDate.toLocaleDateString()
+    const totalCost = totalCost/100
+    const status = JOB_STATUS[status]
+    // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
+    const servicePackage = services.baseService
 
     // Dynamic button name
-    const statusButton = job.status <= 5 ? JOB_STATUS_BUTTON[job.status] : 'Order Cancelled'
-    const cancelButton = job.status <= 5 ? 'Cancel Job' : 'Re-open Job'
+    const statusButton = status <= 5 ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
+    const cancelButton = status <= 5 ? 'Cancel Job' : 'Re-open Job'
     
     return (
       <Card>
@@ -65,7 +65,7 @@ class JobCard extends Component {
               <List.Item><strong>Bike Make: </strong>{make}</List.Item>
               <List.Item><strong>Bike Model: </strong>{model}</List.Item>
               <List.Item><strong>Bike Color: </strong>{color}</List.Item>
-              {/* <List.Item><strong>Services: </strong>{servicePackage}</List.Item> */}
+              <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
               <List.Item><strong>Pickup Date: </strong>{pickupDate}</List.Item>
               <List.Item><strong>Total Price: </strong>${totalCost}</List.Item>
             </List>
