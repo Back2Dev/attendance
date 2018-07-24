@@ -299,8 +299,9 @@ class AssessmentAdd extends Component {
         }
         {
           orderSubmittedStep &&
-            <Congratulations 
-              formData={this.state.formData}
+
+            <Congratulations
+            formData={this.state.formData}
             />
         }
         {
