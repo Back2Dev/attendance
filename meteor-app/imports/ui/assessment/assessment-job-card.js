@@ -3,8 +3,9 @@ import { Meteor } from 'meteor/meteor'
 import { Component } from 'react'
 import { Card, Button, Container, List } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
-import { JOB_STATUS, JOB_STATUS_BUTTON } from '/imports/api/constants'
+import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
+import Alert from 'react-s-alert'
 
 class JobCard extends Component {
 
@@ -14,27 +15,28 @@ class JobCard extends Component {
     const updatedStatus = status+1
 
     try {
-      if (status >= 5) return
-      Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
+      if (status >= JOB_STATUS.BIKE_PICKED_UP) return
+      this.props.updateStatus(jobId, updatedStatus)
     } catch (error) {
-      throw new Meteor.Error(error)
+      Alert.error(error)
     }
   }
 
   cancelButton = () => {
     const jobId = this.props.currentJob._id
     const status = this.props.currentJob.status
-    const cancelStatus = 6
-    const reopenStatus = 1
+    const cancelStatus = JOB_STATUS.CANCELLED
+    const reopenStatus = JOB_STATUS.NEW
+    const bikePickedUpStatus = JOB_STATUS.BIKE_PICKED_UP
     try {
-      if (status < 5) {
-        Meteor.call('assessment.updateJobStatus', jobId, cancelStatus)
-      } else if(status === 6) {
-        Meteor.call('assessment.updateJobStatus', jobId, reopenStatus)
+      if (status < bikePickedUpStatus) {
+        this.props.updateStatus(jobId, cancelStatus)
+      } else if(status === cancelStatus) {
+        this.props.updateStatus(jobId, reopenStatus)
       }
       return
     } catch (error) {
-      throw new Meteor.Error(error)
+      Alert.error(error)
     }
   }
 
@@ -46,9 +48,9 @@ class JobCard extends Component {
     const color = bikeDetails.color
     const pickUpDate = pickupDate.toLocaleDateString()
     const totalRepairCost = totalCost/100
-    const jobStatus = JOB_STATUS[status]
+    const jobStatus = JOB_STATUS_READABLE[status]
     const refurbishBike = customerDetails.refurbishment
-    const customerName = refurbishBike === 'Yes' || refurbishBike ? 'Back2Bikes' : customerDetails.name
+    const customerName = refurbishBike ? 'Back2Bikes' : customerDetails.name
     // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
     const servicePackage = services.baseService
 

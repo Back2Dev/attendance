@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import Form from "react-jsonschema-form-semanticui";
-import Alert from 'react-s-alert';
-
+import Form from "react-jsonschema-form-semanticui"
+import Alert from 'react-s-alert'
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
 import Steps from '/imports/ui/assessment/assessment-add-steps'
@@ -20,7 +19,7 @@ const mapSchemaToState = schema => {
     Object.keys(step.schema.properties)
       .forEach(prop => {
         if (prop === 'pickUpDate') return // Prevent this from showing in initial state to allow default value
-        const type = Object.values(step.schema.properties[prop].type).join('')
+        const type = step.schema.properties[prop].type
         switch(type) {
           case 'string': 
             state[prop] = '';
@@ -86,7 +85,8 @@ class AssessmentAdd extends Component {
     const totalPartsCost = this.props.serviceItems
       .map(key => {
         if (!formData) { return 0 }
-        return formData.parts.includes(`${key.name} ($${key.price/100})`) ? key.price : 0
+        const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
+        return formattedParts.includes(key.name) ? key.price : 0 // Think about how to refactor this
       })
       .reduce((a, b) => a + b)
     const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
@@ -107,7 +107,8 @@ class AssessmentAdd extends Component {
       const partsItem = this.props.serviceItems
         .filter(key => {
           if (!formData) { return 0 }
-          return formData.parts.includes(key.name)
+          const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
+          return formattedParts.includes(key.name) ? key.price : 0
         })
         .map(key => {
           return {
@@ -161,7 +162,6 @@ class AssessmentAdd extends Component {
       })
       return
     }
-    console.log(this.state.formData)
     this.setState((prevState, props) => {
       return {
         formData: {
@@ -258,10 +258,7 @@ class AssessmentAdd extends Component {
     // Default one week later for pickup date
     const date = new Date()
     const dateOneWeekLater = new Date(date.setDate(date.getDate() + 7))
-    const day = dateOneWeekLater.getUTCDate()
-    const month =  (dateOneWeekLater.getMonth() + 1) < 10 ? `0${(dateOneWeekLater.getMonth() + 1)}` : (dateOneWeekLater.getMonth() + 1) 
-    const year =  dateOneWeekLater.getUTCFullYear()
-    const formattedDate = `${year}-${month}-${day}`
+    const formattedDate = moment(dateOneWeekLater).format('YYYY-MM-DD')
     schemas[2].schema.properties.pickUpDate.default = formattedDate
 
     return <Form

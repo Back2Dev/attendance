@@ -186,10 +186,9 @@ export default [{
       title: "Enter Customer Details",
       properties: {
         b2bRefurbish: {
-          type: "string",
+          type: "boolean",
           title: "Is this bike being refurbished by Back 2 Bikes?",
-          enum: ["Yes", "No", ""],
-          default: "No"
+          default: false
         },
       },
       dependencies: {
@@ -197,12 +196,12 @@ export default [{
           "oneOf": [
             {
               properties: {
-                b2bRefurbish: { enum: ["Yes", ""] }
+                b2bRefurbish: { enum: [true, ""] }
               }
             },
             {
               properties: {
-                b2bRefurbish: { enum: ["No"] },
+                b2bRefurbish: { enum: [false] },
                 name: {
                   type: "string",
                   title: "Name"

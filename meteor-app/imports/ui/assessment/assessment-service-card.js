@@ -9,7 +9,7 @@ class ServiceCard extends Component {
     return (
       <Button style={{backgroundColor: "white", minWidth: "100%"}}>
         <Card style={{backgroundColor: cardColor, color: "white", minWidth: "100%"}}>
-          <Card.Content style={{width: "100%", minHeight: "420px"}} onClick={() => onClick()}>
+          <Card.Content style={{width: "100%", minHeight: "420px"}} onClick={onClick}>
             <Card.Header style={{color: "white", paddingTop: "15px", fontSize: "1.5em"}} >
               {`${serviceTitle} $${servicePrice}`}
             </Card.Header>

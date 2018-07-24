@@ -6,6 +6,7 @@ import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
+import './assessment-job-card-list.css'
 
 const searchFilter = new ReactiveVar('')
 const statusFilter = new ReactiveVar('')
@@ -25,14 +26,15 @@ class JobCardList extends Component {
             onSearchChange={this.props.searchFind}
             type='text'
             size='big'
-            placeholder='Looking for something?'/>
+            placeholder='Enter bike make/color or customer name'/>
+            
         </div>
         <Grid stackable >
           {this.props.jobs.map(job =>
             <Grid.Column key={job._id} mobile={5} tablet={5} computer={4}>
               <JobCard
                 currentJob={job}
-                updateJob={this.props.updateJob}
+                updateStatus={this.props.updateStatus}
               />
             </Grid.Column>
           )}
@@ -53,8 +55,13 @@ export default withTracker(props => {
     statusFilter.set(value)
   }
 
+  const updateStatus = (jobId, updatedStatus) => {
+    Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
+  }
+
   return {
     jobs: Assessment.find({ search: { $regex: searchLine } }).fetch(),
     searchFind,
+    updateStatus
   }
 })(JobCardList)

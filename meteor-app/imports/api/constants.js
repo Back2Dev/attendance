@@ -33,6 +33,15 @@ CONSTANTS.ORDER_STATUS_READABLE = {
 }
 
 export const JOB_STATUS = {
+  NEW: 1,
+  ASSIGNED: 2,
+  IN_PROGRESS: 3,
+  COMPLETED: 4,
+  BIKE_PICKED_UP: 5,
+  CANCELLED: 6,
+}
+
+export const JOB_STATUS_READABLE = {
   1: 'New',
   2: 'Assigned',
   3: 'In Progress',
