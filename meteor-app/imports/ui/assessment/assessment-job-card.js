@@ -4,7 +4,7 @@ import { Component } from 'react'
 import { Card, Button, Container, List } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
 import { JOB_STATUS, JOB_STATUS_BUTTON } from '/imports/api/constants'
-// import printJobCart from '/imports/ui/assessment/assessment-print-job'
+import printJobCart from '/imports/ui/assessment/assessment-print-job'
 
 class JobCard extends Component {
 
@@ -86,7 +86,7 @@ class JobCard extends Component {
                 <Button 
                   className="positive ui button"
                   style={{ marginTop: '5px', marginBottom: '5px' }}
-                   >
+                  onClick={() => printJobCart(this.props.currentJob)} >
                     <h2>Print Job Card</h2>
                 </Button>
                 <Button 
