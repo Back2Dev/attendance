@@ -25,6 +25,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     padding-left: 0;
+    grid-column-gap: 20px;
   }
 
   .checkbox label span span {
@@ -34,13 +35,12 @@ h3 {
   .checkbox label span {
     display: flex;
     align-items: center;
-    line-height: 2.5
+    height: 40px
   }
 
   .checkbox label input {
     transform: scale(2);
   }
-
 
   .ui[class*="vertically divided"].grid>.row:before {
     box-shadow: none !important
