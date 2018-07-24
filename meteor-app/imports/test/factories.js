@@ -131,7 +131,7 @@ Factory.define('logs', Logger, {
 
 Factory.define('parts', ServiceItems, {
   name: faker.commerce.productName(),
-  price: Math.round(faker.commerce.price()*100) 
+  price: Math.round(faker.commerce.price() * 100)
 })
 
 Factory.define('services', Services, {
@@ -145,7 +145,7 @@ Factory.define('part', Parts, {
   retailPrice: 6666, // This is in cents
   wholesalePrice: 3333,
   partNo: 'pt-123',
-  desc: 'carbonfibre frame',
+  name: 'carbonfibre frame',
   barcode: '22413000022413',
   status: CONSTANTS.ORDER_STATUS_NEW,
 })

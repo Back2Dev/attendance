@@ -3,18 +3,24 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Container, List } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
+import CONSTANTS from '/imports/api/constants'
 
 
 class JobCard extends Component {
 
 
     render() {
-        const { jobStatus, make, model, color, serviceLevel, pickUp, cost } = this.props.currentJob
+        const { status, bikeDetails, services, pickupDate, totalCost } = this.props.currentJob
+        const make = bikeDetails.make
+        const model = bikeDetails.model
+        const color = bikeDetails.color
+        const serviceLevel = services.baseService
+        const pickUp = pickupDate.toLocaleDateString()
         return (
             <Card>
                 <Container className="job-card-container" >
                     <Card.Header style={{ textAlign: "Center", fontSize: "1.5em", margin: "10px" }} >
-                        {`Job Status: ${jobStatus}`}
+                        {`Job Status: ${CONSTANTS.ORDER_STATUS_READABLE[status]}`}
                     </Card.Header>
                     <Card.Content style={{ textAlign: "Center", fontSize: "1em" }}>
                         <List>
@@ -23,7 +29,7 @@ class JobCard extends Component {
                             <List.Item>{`Color: ${color}`}</List.Item>
                             <List.Item>{`Service Level: ${serviceLevel}`}</List.Item>
                             <List.Item>{`Pick-Up Date: ${pickUp}`}</List.Item>
-                            <List.Item>{`Total Price: ${cost}`}</List.Item>
+                            <List.Item>{`Total Price: $${totalCost/100}`}</List.Item>
                         </List>
                     </Card.Content>
                     <Container style={{ textAlign: "Center" }}>
