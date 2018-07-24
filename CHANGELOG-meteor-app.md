@@ -21,6 +21,7 @@ Next
 * Add assessment form submission functionality
 * Add To Cart feature (adds a part to current order, otherwise it updates the parts quantity)
 * Add parts searchbar
+* Add job cart update status functionality
 
 0.3.0
 ------
