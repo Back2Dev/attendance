@@ -21,7 +21,6 @@ class JobCardList extends Component {
         <Nav />
         <div style={{margin: "10px"}}>
           <Search
-            noResultsMessage
             open={false}
             onSearchChange={this.props.searchFind}
             type='text'
