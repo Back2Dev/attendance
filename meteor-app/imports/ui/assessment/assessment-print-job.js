@@ -26,7 +26,9 @@ export default assessment => {
   const tempBike = temporaryBike ? "Yes" : "No"
   const isUrgent = urgent ? "Yes" : "No"
   const hasSentimentValue = bikeDetails.sentimentValue ? "Yes" : "No"
-
+  const name = customerDetails.name ? customerDetails.name : "Back 2 Bikes"
+  const email = customerDetails.email ? customerDetails.email : "Back 2 Bikes"
+  const phone = customerDetails.phone ? customerDetails.phone : "Back 2 Bikes"
   const bikeModel = bikeDetails.model ? ` - ${bikeDetails.model}` : "";
 
   var docDefinition = {
@@ -60,9 +62,9 @@ export default assessment => {
       { text: "Owner", style: "subheader" },
       {
         ul: [
-          { text: customerDetails.name, bold: true },
-          { text: customerDetails.email, bold: true },
-          { text: customerDetails.phone, bold: true }
+          { text: name, bold: true },
+          { text: email, bold: true },
+          { text: phone, bold: true }
         ]
       },
 
