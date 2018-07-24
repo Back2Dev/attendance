@@ -226,6 +226,21 @@ class AssessmentAdd extends Component {
     })
   }
 
+  selectCustomService = () => {
+    const formData = mapSchemaToState(schemas)
+    console.log(this.formData)
+    this.setState({
+      formData: {
+        ...formData,
+        services: [],
+        package: "Custom Services"
+      },
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
+    })
+    console.log(this.formData)
+  }
+
   goToStep = (step) => {
     // TODO: Might need to fix the next button & progress bug
     if (step <= this.state.progress) {
@@ -277,6 +292,7 @@ class AssessmentAdd extends Component {
             formData={this.state.formData}
             selectMinor={this.selectMinor}
             selectMajor={this.selectMajor}
+            selectCustomService={this.selectCustomService}
             onClick={this.forwardStep}
             />   
         }

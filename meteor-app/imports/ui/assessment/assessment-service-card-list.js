@@ -38,7 +38,7 @@ class ServiceList extends Component {
                     />
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <Button size='big' fluid secondary onClick={() => this.props.onClick()}>Custom Service</Button>
+                    <Button size='big' fluid secondary onClick={this.props.onClick}>Custom Service</Button>
                 </Grid.Column>
             </Grid.Row>
             </>
