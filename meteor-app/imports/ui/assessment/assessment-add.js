@@ -230,7 +230,6 @@ class AssessmentAdd extends Component {
 
   selectCustomService = () => {
     const formData = mapSchemaToState(schemas)
-    console.log(this.formData)
     this.setState({
       formData: {
         ...formData,
@@ -240,7 +239,6 @@ class AssessmentAdd extends Component {
       step: this.state.step + 1,
       progress: this.state.progress + 1
     })
-    console.log(this.formData)
   }
 
   goToStep = (step) => {
@@ -264,7 +262,6 @@ class AssessmentAdd extends Component {
     const year =  dateOneWeekLater.getUTCFullYear()
     const formattedDate = `${year}-${month}-${day}`
     schemas[2].schema.properties.pickUpDate.default = formattedDate
-    console.log(formattedDate)
 
     return <Form
       schema={schemas[this.state.step].schema}
