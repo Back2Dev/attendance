@@ -14,9 +14,9 @@ class JobCardList extends Component {
     return(
       <>
         <Nav />
-        <Grid stackable>
+        <Grid stackable >
           {this.props.jobs.map(job =>
-            <Grid.Column key={job._id} width={5}>
+            <Grid.Column key={job._id} mobile={5} tablet={5} computer={4}>
               <JobCard
                 currentJob={job}
                 updateJob={this.props.updateJob}
