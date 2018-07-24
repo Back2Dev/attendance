@@ -4,15 +4,15 @@ import ServiceCard from '../assessment/assessment-service-card'
 
 class ServiceList extends Component {
     render() {
-        const minorService = ["Check functionality/adjust brakes & gears", "Check hubs for wear/play", "Remove, clean & oil chain", "Clean rear cassette", "Check tyre pressure", "Lube deraileurs", "Check/tighten bolts on cranks, headset, wheels and bottom bracket"]
+        const { services } = this.props
+        
+        const minorServices = services
+        .filter(service => service.package === "Minor")
+        .map(service => service.name)
 
-        const majorService = ["Check wheels are true", "Clean and re-grease wheel bearings", "Clean and re-grease headset", "Clean and re-grease bottom bracket", "Clean and re-grease seat post & clamps"]
-
-        const minorServiceTitle = "Minor Service"
-        const minorServicePrice = "60"
-        const majorServiceTitle = "Major Service"
-        const majorServicePrice = "120"
-
+        const majorServices = services
+            .filter(service => service.package === "Major")
+            .map(service => service.name)
         return (
             <>
             <Grid.Row columns={2} centered>
@@ -22,18 +22,18 @@ class ServiceList extends Component {
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
                         onClick={this.props.selectMinor}
-                        serviceChoice= {minorService}
-                        serviceTitle= {minorServiceTitle}
-                        servicePrice= {minorServicePrice}
+                        serviceChoice= {minorServices}
+                        serviceTitle= {"Minor Service"}
+                        servicePrice= {"60"}
                         cardColor="#00C646"
                     />
                 </Grid.Column>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
                         onClick={this.props.selectMajor}
-                        serviceChoice= {majorService}
-                        serviceTitle= {majorServiceTitle}
-                        servicePrice= {majorServicePrice}
+                        serviceChoice= {majorServices}
+                        serviceTitle= {"Major Service"}
+                        servicePrice= {"120"}
                         cardColor="#0081D3"
                     />
                 </Grid.Column>

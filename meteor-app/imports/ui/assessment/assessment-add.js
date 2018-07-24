@@ -272,6 +272,7 @@ class AssessmentAdd extends Component {
             selectMinor={this.selectMinor}
             selectMajor={this.selectMajor}
             onClick={this.forwardStep}
+            services={this.props.services}
             />   
         }
         {

@@ -36,7 +36,7 @@ export default assessment => {
       {
         text: `Bike: ${bikeDetails.make} ${bikeModel} - ${
           bikeDetails.color
-        } - Aprox Value $${bikeDetails.bikeValue / 100}`,
+        } - Approx Value $${bikeDetails.bikeValue / 100}`,
         style: "subheader",
         fontSize: 20
       },
