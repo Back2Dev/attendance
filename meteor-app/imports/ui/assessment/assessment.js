@@ -3,6 +3,7 @@ import AssessmentAdd from "/imports/ui/assessment/assessment-add";
 import { ReactiveVar } from "meteor/reactive-var";
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
+import Assessment from '/imports/api/assessments/assessment'
 import Alert from 'react-s-alert';
 
 const debug = require('debug')('b2b:addassessment')
@@ -15,6 +16,10 @@ export default withTracker(props => {
   
   Meteor.subscribe('services.all')
   Meteor.subscribe('serviceItems.all')
+  Meteor.subscribe('assessments.all')
+
+
+
   // need to do something smarter than this... 
   function setError(e) {
     newId.set(null)
@@ -55,5 +60,6 @@ export default withTracker(props => {
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
     serviceItems: ServiceItems.find().fetch(),
+    assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
   };
 })(AssessmentAdd);
