@@ -1,47 +1,25 @@
 import React from 'react'
+import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
 import { Card, Button, Grid } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
-import { withRouter } from 'react-router-dom'
 import Nav from '/imports/ui/ordering/navbar'
-
-
+import { withTracker } from "meteor/react-meteor-data";
+import Assessment from '/imports/api/assessments/assessment'
 
 class JobCardList extends Component {
 
-
-  // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
-    const currentJobs = [{
-              _id: "0",
-              jobStatus: "Not Completed",
-              make: "Toyota",
-              model: "Corolla",
-              color: "Red",
-              serviceLevel: "Minor",
-              pickUp: "25/07/2018",
-              cost: "50"
-              },
-              {
-                _id: "1",
-                jobStatus: "Not Completed",
-                make: "Toyota",
-                model: "Corolla",
-                color: "Red",
-                serviceLevel: "Minor",
-                pickUp: "25/07/2018",
-                cost: "50"
-                }]
-
     return(
       <>
-      <Nav />
+        <Nav />
         <Grid stackable>
-          {currentJobs.map(job =>
+          {this.props.jobs.map(job =>
             <Grid.Column key={job._id} width={5}>
-                <JobCard
-                  currentJob={job}
-                />
+              <JobCard
+                currentJob={job}
+                updateJob={this.props.updateJob}
+              />
             </Grid.Column>
           )}
         </Grid>
@@ -50,5 +28,10 @@ class JobCardList extends Component {
   }
 }
 
-export default withRouter(JobCardList)
+export default withTracker(props => {
+  Meteor.subscribe('assessments.all')
 
+  return {
+    jobs: Assessment.find().fetch(),
+  }
+})(JobCardList)
