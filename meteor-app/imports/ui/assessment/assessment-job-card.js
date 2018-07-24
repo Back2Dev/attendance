@@ -39,14 +39,15 @@ class JobCard extends Component {
 
   render() {
     // Pulling data from props (assessment collection)
-    const { status, bikeDetails, services, pickupDate, totalCost } = this.props.currentJob
-    const job = this.props.currentJob
+    const { status, bikeDetails, services, pickupDate, totalCost, customerDetails } = this.props.currentJob
     const make = bikeDetails.make
     const model = bikeDetails.model
     const color = bikeDetails.color
-    const pickupDate = pickupDate.toLocaleDateString()
-    const totalCost = totalCost/100
-    const status = JOB_STATUS[status]
+    const pickUpDate = pickupDate.toLocaleDateString()
+    const totalRepairCost = totalCost/100
+    const jobStatus = JOB_STATUS[status]
+    const refurbishBike = customerDetails.refurbishment
+    const customerName = refurbishBike === 'Yes' || refurbishBike ? 'Back2Bikes' : customerDetails.name
     // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
     const servicePackage = services.baseService
 
@@ -58,16 +59,17 @@ class JobCard extends Component {
       <Card>
         <Container className="job-card-container" >
           <Card.Header style={{ textAlign: "Center", fontSize: "1.5em", margin: "20px" }} >
-            Job Status: <strong>{status}</strong>
+            Job Status: <strong>{jobStatus}</strong>
           </Card.Header>
           <Card.Content style={{ fontSize: "1em", marginLeft: "15px" }}>
             <List>
+              <List.Item><strong>Customer Name: </strong>{customerName}</List.Item>
               <List.Item><strong>Bike Make: </strong>{make}</List.Item>
               <List.Item><strong>Bike Model: </strong>{model}</List.Item>
               <List.Item><strong>Bike Color: </strong>{color}</List.Item>
               <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
-              <List.Item><strong>Pickup Date: </strong>{pickupDate}</List.Item>
-              <List.Item><strong>Total Price: </strong>${totalCost}</List.Item>
+              <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
+              <List.Item><strong>Total Price: </strong>${totalRepairCost}</List.Item>
             </List>
           </Card.Content>
           <Container style={{ textAlign: "Center", margin: "20px 0" }}>
