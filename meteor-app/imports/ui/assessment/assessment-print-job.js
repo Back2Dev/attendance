@@ -11,17 +11,21 @@ export default assessment => {
     services,
     temporaryBike,
     totalCost,
-    urgent
+    urgent, 
+    comment
   } = assessment;
 
   const serviceItemNames = services.serviceItem.map(item => item.name);
   const servicePartNames = parts.partsItem.map(item => {
-    if (!item.name) {
-      return "There are no parts for this service";
+    if(!item.name) { 
+      return "There are no parts for this service"
     } else {
-      return item.name;
-    }
+      return item.name   
+    } 
   });
+  const tempBike = temporaryBike ? "Yes" : "No"
+  const isUrgent = urgent ? "Yes" : "No"
+  const hasSentimentValue = bikeDetails.sentimentValue ? "Yes" : "No"
 
   const bikeModel = bikeDetails.model ? ` - ${bikeDetails.model}` : "";
 
@@ -47,15 +51,10 @@ export default assessment => {
 
       {
         ul: [
-          { text: "Comments will go here!" },
-          { text: `Replacement bike required? - ${temporaryBike}` },
-          {
-            text: `Does the bike have sentimental value? - ${
-              bikeDetails.sentimentValue
-            }`,
-            style: "text"
-          },
-          { text: `Is this request urgent? - ${urgent} ` }
+          { text: comment },
+          { text: `Replacement bike required? - ${tempBike}`},
+          { text: `Does the bike have sentimental value? - ${hasSentimentValue}`},
+          { text: `Is this request urgent? - ${isUrgent}`}
         ]
       },
       { text: "Owner", style: "subheader" },
@@ -106,5 +105,5 @@ export default assessment => {
       // alignment: 'justify'
     }
   };
-  pdfMake.createPdf(docDefinition).download();
+  pdfMake.createPdf(docDefinition).download(`${customerDetails.name}-${bikeDetails.make}-${bikeDetails.color}`);
 };

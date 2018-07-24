@@ -143,7 +143,7 @@ class AssessmentAdd extends Component {
         urgent: formData.requestUrgent,
         assessor: formData.assessor,
         mechanic: '',
-        comment: formData.comment,
+        comment: formData.comments,
         temporaryBike: formData.replacementBike,
         status: 1, // Default to 1: New Order
         search: search,
@@ -252,7 +252,6 @@ class AssessmentAdd extends Component {
   }
 
   render() {
-    console.log(this.props)
     const reviewStep = this.state.step == 3
     const serviceSelectorStep = this.state.step == 0
     const orderSubmittedStep = this.state.step == 5
