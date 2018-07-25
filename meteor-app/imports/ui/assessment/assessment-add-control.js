@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
 const AssessmentAddControl = (props) => {
+  console.log(props)
   return (
     <div style={{marginTop: "50px"}}>
       {
@@ -14,7 +15,7 @@ const AssessmentAddControl = (props) => {
       }
       {
         (props.step < props.totalSteps - 1) &&
-        <Button type="submit" floated="right" onClick={props.onSubmit} >
+        <Button type="submit" floated="right" onClick={props.forwardStep} >
           Next
           <Icon name="arrow right" />
         </Button>
