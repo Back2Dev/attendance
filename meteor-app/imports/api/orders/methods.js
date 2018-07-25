@@ -2,8 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import Orders from '/imports/api/orders/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:orders')
-
-
 Meteor.methods({
   'orders.insert'(order) {
     try {
@@ -22,33 +20,36 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.removePart'(id, part) {
+  'orders.removePart'(order, part, totalPrice) {
+    totalPrice = totalPrice - (part.price * part.qty)
+    const id = order._id
     try {
       log.info('removing part from current order', part)
-      return Orders.update({ _id: id }, { $pull: { orderedParts: part } })
+      return Orders.update({ _id: id }, { $pull: { orderedParts: { partId: part.partId } }, $set: { totalPrice } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'orders.addPart'(id, orderedPart) {
+  'orders.addPart'(id, orderedPart, totalPrice) {
     try {
       log.info('updating order: ', orderedPart)
-      return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedPart } } })
+      return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedPart } }, $set: { totalPrice } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'order.updateQty'(id, orderedParts) {
+  'order.updateQty'(id, orderedParts, totalPrice) {
     try {
       log.info('updating quantity to order ')
-      return Orders.update({ _id: id }, { $set: { orderedParts } })
+      return Orders.update({ _id: id }, { $set: { 
+        orderedParts,
+        totalPrice,
+      } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-
-
 })
