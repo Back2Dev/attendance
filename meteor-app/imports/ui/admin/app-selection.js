@@ -2,8 +2,8 @@ import React from "react";
 import { Component } from "react";
 import { Button, Container } from "semantic-ui-react";
 import UploadXL from "/imports/ui/ordering/uploadXL";
-import { Meteor } from 'meteor/meteor'
-import Alert from 'react-s-alert';
+import { Meteor } from "meteor/meteor";
+import Alert from "react-s-alert";
 
 const debug = require("debug")("b2b:admin");
 
@@ -20,17 +20,20 @@ class AppSelection extends Component {
     this.setState({ addParts: !this.state.addParts });
   }
   uploadXL(e) {
-    
-    e.preventDefault()
-    
-    const input = e.target[0]
-    input.files[0] ? Alert.info(`Adding your parts`) : Alert.info(`Oops! Forgot to add the file? Try again uploading the file`)
-    const reader = new FileReader()
-    reader.onloadend = function () {
-      const data = reader.result
-      Meteor.callAsync('parts.load', data)
-    }
-    reader.readAsBinaryString(input.files[0])
+    e.preventDefault();
+
+    const input = e.target[0];
+    const msg = input.files[0]
+      ? Alert.info(`Adding your parts`)
+      : Alert.info(
+          `Oops! Forgot to add the file? Try again uploading the file`
+        );
+    const reader = new FileReader();
+    reader.onloadend = function() {
+      const data = reader.result;
+      Meteor.callAsync("parts.load", data);
+    };
+    reader.readAsBinaryString(input.files[0]);
   }
 
   render() {
@@ -102,9 +105,15 @@ class AppSelection extends Component {
             >
               <h1>Add updated pricelist</h1>
             </Button>
-            
-            {this.state.addParts ? '' : <UploadXL uploadXL={this.uploadXL} toggleAddPart={this.toggleAddPart} />}
-     
+
+            {this.state.addParts ? (
+              ""
+            ) : (
+              <UploadXL
+                uploadXL={this.uploadXL}
+                toggleAddPart={this.toggleAddPart}
+              />
+            )}
           </Button.Group>
         </Container>
       </div>
