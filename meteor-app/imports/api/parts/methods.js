@@ -6,21 +6,23 @@ const debug = require('debug')('b2b:parts')
 
 function calcRetail(price){
   if (price <= 6000) {
-    const retailPrice = (parseFloat(price, 10) * 100) * 2
+    const retailPrice = parseInt(price * 100, 10) * 2
     return retailPrice
   }
   else if (price > 6000 && price <= 10000) {
-    const retailPrice = (parseFloat(price, 10) * 100) * 1.5
+    const retailPrice = parseInt(price * 100, 10) * 1.5
     return retailPrice
   }
   else if (price > 10000) {
-    const retailPrice = (parseFloat(price, 10) * 100) * 1.3
+    const retailPrice = parseInt(price * 100, 10) * 1.3
     return retailPrice
   }
   else {
     return console.error('Error, not a number')
   }
 }
+
+
 async function updatePromise(part) {
   return new Promise(async (resolve, reject) => {
     const { partNo, name, barcode, wholesalePrice } = part
