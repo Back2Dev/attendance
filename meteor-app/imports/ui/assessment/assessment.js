@@ -3,6 +3,7 @@ import AssessmentAdd from "/imports/ui/assessment/assessment-add";
 import { ReactiveVar } from "meteor/reactive-var";
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
+import Members from '/imports/api/members/members'
 import Assessment from '/imports/api/assessments/assessment'
 import Alert from 'react-s-alert';
 
@@ -17,8 +18,7 @@ export default withTracker(props => {
   Meteor.subscribe('services.all')
   Meteor.subscribe('serviceItems.all')
   Meteor.subscribe('assessments.all')
-
-
+  Meteor.subscribe('all.members')
 
   // need to do something smarter than this... 
   function setError(e) {
@@ -60,6 +60,7 @@ export default withTracker(props => {
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
     serviceItems: ServiceItems.find().fetch(),
+    members: Members.find().fetch(),
     assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
   };
 })(AssessmentAdd);
