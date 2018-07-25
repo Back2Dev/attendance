@@ -20,9 +20,9 @@ if (Meteor.isServer) {
       expect(() => Meteor.call('assessment.insert', goodAssessment)).to.not.throw()
     })
 
-    it('assessment.updateJobDetail', () => {
+    it('assessment.updateJobStatus', () => {
       const jobId = Assessment.find({}).fetch()[0]._id
-      expect(() => Meteor.call('assessment.updateJobDetail', jobId, updatedAssessment)).to.not.throw()
+      expect(() => Meteor.call('assessment.updateJobStatus', jobId, 2)).to.not.throw()
     })
   })
 }

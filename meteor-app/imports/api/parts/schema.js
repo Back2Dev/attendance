@@ -1,13 +1,15 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/schema'
 import CONSTANTS from '/imports/api/constants.js'
 
 
 const Parts = new Mongo.Collection('parts')
 
 export const PartsSchema = new SimpleSchema({
-  _id: RegExId,
+  // upsert will fail if _id is not optional
+  // https://github.com/aldeed/meteor-collection2/issues/124
+  _id: OptionalRegExId,
   imageUrl: {
     type: String,
     defaultValue: '/public/images/logo-large.jpg',
