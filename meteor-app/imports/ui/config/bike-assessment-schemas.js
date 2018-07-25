@@ -28,7 +28,8 @@ export default [{
         assessor: {
           type: "string",
           title: "Assessor",
-          enum: ["Mark", "Mike"]
+          enum: ["Mark", "Mike", ""],
+          default: ""
         },
         bikeMake: {
           type: "string",
@@ -81,7 +82,8 @@ export default [{
       },
       approxBikeValue: {
         "ui:placeholder": "$Approx. price",
-        "ui:widget": "updown"
+        "ui:widget": "updown",
+        classNames: "currency" 
       },
       services: {
         "ui:widget": "checkboxes"
@@ -134,7 +136,9 @@ export default [{
         },
         pickUpDate: {
           type: "string",
-          title: "Pick-up Date"
+          title: "Pick-up Date",
+          format: "date",
+          default: "2018-10-10"
         },
       },
     },
@@ -153,6 +157,7 @@ export default [{
         }
       },
       additionalFee: {
+        classNames: "currency",
         "ui:placeholder": "$Additional Fee",
         "ui:widget": "updown"
       },
@@ -161,9 +166,6 @@ export default [{
       requestUrgent: {
 
       },
-      pickUpDate: {
-        "ui:widget": "date"
-      }
     }
   },
   {
@@ -185,21 +187,39 @@ export default [{
       properties: {
         b2bRefurbish: {
           type: "boolean",
-          title: "Is this bike being refurbished by Back 2 Bikes?"
-        },
-        name: {
-          type: "string",
-          title: "Name"
-        },
-        phone: {
-          type: "string",
-          title: "Phone Number"
-        },
-        email: {
-          type: "string",
-          title: "Email"
+          title: "Is this bike being refurbished by Back 2 Bikes?",
+          default: false
         },
       },
+      dependencies: {
+        b2bRefurbish: {
+          "oneOf": [
+            {
+              properties: {
+                b2bRefurbish: { enum: [true, ""] }
+              }
+            },
+            {
+              properties: {
+                b2bRefurbish: { enum: [false] },
+                name: {
+                  type: "string",
+                  title: "Name"
+                },
+                phone: {
+                  type: "string",
+                  title: "Phone Number"
+                },
+                email: {
+                  type: "string",
+                  title: "Email"
+                },
+              },
+              required: ["name", "phone", "email"]
+            }
+          ]
+        }
+      }
     },
     uiSchema: {
       b2bRefurbish: {},

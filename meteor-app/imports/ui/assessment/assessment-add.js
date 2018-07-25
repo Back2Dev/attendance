@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Grid, Header, Container } from 'semantic-ui-react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import Form from "react-jsonschema-form-semanticui";
-import Alert from 'react-s-alert';
-
+import Form from "react-jsonschema-form-semanticui"
+import Alert from 'react-s-alert'
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
 import Steps from '/imports/ui/assessment/assessment-add-steps'
@@ -19,17 +18,23 @@ const mapSchemaToState = schema => {
   return schema.reduce((state, step) => {
     Object.keys(step.schema.properties)
       .forEach(prop => {
-        const type = Object.values(step.schema.properties[prop].type).join('')
-        if(type === 'string') {
-          state[prop] = ''
-        } else if(type === 'integer') {
-          state[prop] = 0
-        } else if(type === 'array') {
-          state[prop] = []
-        } else if(type === 'boolean') {
-          state[prop] = false
-        } else {
-          state[prop] = null
+        if (prop === 'pickUpDate') return // Prevent this from showing in initial state to allow default value
+        const type = step.schema.properties[prop].type
+        switch(type) {
+          case 'string': 
+            state[prop] = '';
+            break;
+          case 'integer':
+            state[prop] = 0;
+            break;
+          case 'array':
+            state[prop] = [];
+            break;
+          case 'boolean':
+            state[prop] = false;
+            break;
+          default:
+            state[prop] = null;
         }
       })
     return state
@@ -70,7 +75,6 @@ class AssessmentAdd extends Component {
 
   onSubmit = async ({ formData }) => {
     const lastStep = this.state.step == 4
-    console.log(formData)
 
     const totalServiceCost = this.props.services
       .map(key => {
@@ -81,7 +85,8 @@ class AssessmentAdd extends Component {
     const totalPartsCost = this.props.serviceItems
       .map(key => {
         if (!formData) { return 0 }
-        return formData.parts.includes(key.name) ? key.price : 0
+        const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
+        return formattedParts.includes(key.name) ? key.price : 0 // Think about how to refactor this
       })
       .reduce((a, b) => a + b)
     const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
@@ -102,7 +107,8 @@ class AssessmentAdd extends Component {
       const partsItem = this.props.serviceItems
         .filter(key => {
           if (!formData) { return 0 }
-          return formData.parts.includes(key.name)
+          const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
+          return formattedParts.includes(key.name) ? key.price : 0
         })
         .map(key => {
           return {
@@ -110,13 +116,12 @@ class AssessmentAdd extends Component {
             price: key.price
           }
         })
-      const search = formData.b2bRefurbish ? 
-        'Refurbished Bike' : 
-        (formData.name + formData.email + formData.bikeMake + formData.bikeColor)
+      const search = formData.name + formData.email + formData.bikeMake + formData.bikeColor
+      const name = formData.refurbishment ? 'Back2Bikes' : formData.name
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
-          name: formData.name,
+          name: name,
           phone: formData.phone,
           email: formData.email,
           refurbishment: formData.b2bRefurbish,
@@ -131,6 +136,7 @@ class AssessmentAdd extends Component {
         services: {
           serviceItem: serviceItem,
           totalServiceCost: totalServiceCost,
+          baseService: formData.package,
         },
         parts: {
           partsItem: partsItem,
@@ -143,12 +149,11 @@ class AssessmentAdd extends Component {
         urgent: formData.requestUrgent,
         assessor: formData.assessor,
         mechanic: '',
-        comment: formData.comment,
+        comment: formData.comments,
         temporaryBike: formData.replacementBike,
         status: 1, // Default to 1: New Order
         search: search,
       }
-      console.log(formResult)
 
       await this.props.setAssessment(formResult)
       this.setState({
@@ -223,6 +228,19 @@ class AssessmentAdd extends Component {
     })
   }
 
+  selectCustomService = () => {
+    const formData = mapSchemaToState(schemas)
+    this.setState({
+      formData: {
+        ...formData,
+        services: [],
+        package: "Custom Services"
+      },
+      step: this.state.step + 1,
+      progress: this.state.progress + 1
+    })
+  }
+
   goToStep = (step) => {
     // TODO: Might need to fix the next button & progress bug
     if (step <= this.state.progress) {
@@ -234,7 +252,13 @@ class AssessmentAdd extends Component {
 
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
-    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => key.name)
+    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => `${key.name} ($${key.price/100})`)
+
+    // Default one week later for pickup date
+    const date = new Date()
+    const dateOneWeekLater = new Date(date.setDate(date.getDate() + 7))
+    const formattedDate = moment(dateOneWeekLater).format('YYYY-MM-DD')
+    schemas[2].schema.properties.pickUpDate.default = formattedDate
 
     return <Form
       schema={schemas[this.state.step].schema}
@@ -242,8 +266,7 @@ class AssessmentAdd extends Component {
       formData={this.state.formData}
       onSubmit={this.onSubmit}
       showErrorList={false} 
-      liveValidate={true}
-    >
+     >
       <Control
         backStep={this.backStep}
         step={this.state.step}
@@ -254,7 +277,6 @@ class AssessmentAdd extends Component {
   }
 
   render() {
-
     const reviewStep = this.state.step == 3
     const serviceSelectorStep = this.state.step == 0
     const orderSubmittedStep = this.state.step == 5
@@ -274,6 +296,7 @@ class AssessmentAdd extends Component {
             formData={this.state.formData}
             selectMinor={this.selectMinor}
             selectMajor={this.selectMajor}
+            selectCustomService={this.selectCustomService}
             onClick={this.forwardStep}
             />   
         }
@@ -299,7 +322,9 @@ class AssessmentAdd extends Component {
         }
         {
           orderSubmittedStep &&
-            <Congratulations />
+            <Congratulations 
+            assessmentLastSaved={this.props.assessmentLastSaved}
+            />
         }
         {
           (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&

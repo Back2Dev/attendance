@@ -12,6 +12,7 @@ const success = new ReactiveVar(false);
 const error = new ReactiveVar(false);
 const msg = new ReactiveVar("");
 const newId = new ReactiveVar("");
+
 function setError(e){
   newId.set(null)
   error.set(true)

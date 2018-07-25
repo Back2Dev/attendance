@@ -18,22 +18,23 @@ const CartList = (props) => {
           justifyContent: 'center'
         }}
       >
-      <Container textAlign='center'>
+        <Container textAlign='center'>
           <Link to="/ordering">
             <Button icon labelPosition='left' secondary>
-            <Icon name='triangle left' />
-                Back To Search
+              <Icon name='triangle left' />
+              Back To Search
             </Button>
           </Link>
           <Segment raised clearing className='review'>
-            {(!props.loading && order) && order.orderedParts.forEach(part =>{
+
+            {(!props.loading && order) && order.orderedParts.forEach(part => {
               noOfParts += part.qty
               return noOfParts
-            }) }
-           
-           <Header as='h3' block>Review Shop Order </Header>
-          <CartIcon noOfParts={noOfParts}  />
-  
+            })}
+
+            <Header as='h3' block>Review Shop Order </Header>
+            <CartIcon noOfParts={noOfParts} />
+
           </Segment>
         </Container>
         <Container>
@@ -64,8 +65,8 @@ const CartList = (props) => {
           <Segment raised>
             {(!props.loading && order) && <Header as='h3' block>Total Price: ${Number((order.totalPrice / 100)).toFixed(2)}</Header>}
             <br />
-            <Button primary>
-              CONFIRM <br />ORDER
+            <Button primary onClick={() => { printOrder() }}>
+              PRINT <br />ORDER
         </Button>
           </Segment>
         </Container>
