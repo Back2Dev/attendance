@@ -20,6 +20,9 @@ Next
 * Add seed data for services and service items/parts
 * Add assessment form submission functionality
 * Add To Cart feature (adds a part to current order, otherwise it updates the parts quantity)
+* Add parts searchbar
+* Add job cart update status and print job functionality
+* Add search functionality for job cart
 
 0.3.0
 ------

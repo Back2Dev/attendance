@@ -99,6 +99,7 @@ Factory.define('assessment', Assessment, {
         price: 3000,
       }
     ],
+    baseService: 'Minor Service',
     totalServiceCost: 8000,
   },
   parts: {

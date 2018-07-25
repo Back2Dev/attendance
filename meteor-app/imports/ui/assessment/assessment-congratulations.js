@@ -1,7 +1,7 @@
-import React from 'react';
-import { Component } from 'react';
-import { Button, Container, Grid} from 'semantic-ui-react'
+import React, { Component }  from 'react'
+import { Button, Grid} from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import printJobCard from '/imports/ui/assessment/assessment-print-job'
 import '/imports/ui/layouts/assessment.css'
 
 class Congratulations extends Component {
@@ -16,10 +16,9 @@ class Congratulations extends Component {
                     <h1> { pickUpDate } </h1>
                 </Grid.Row>
                 <Grid.Row style={{textAlign: 'center'}}>
-                        <Button 
-                            onClick={() => { this.props.history.push('/assessment') }} // This will be a print the job card with all of it's details populated
-                            color="green" style={{ marginTop: '60px', marginRight: '20px', marginLeft: '20px' }}> 
-                            <h1>Print Job Card</h1>
+                        <Button color="green" style={{ marginTop: '60px', marginRight: '20px', marginLeft: '20px' }}
+                        onClick={ () => printJobCard(this.props.assessmentLastSaved)}>
+                        <h1>Print Job</h1>
                         </Button>
                         <Button
                             onClick={() => { this.props.history.push('/jobs') }}
@@ -30,5 +29,7 @@ class Congratulations extends Component {
             </Grid.Column>
         )}
 }
+
+
 
 export default withRouter(Congratulations)

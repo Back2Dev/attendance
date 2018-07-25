@@ -9,7 +9,7 @@ const AssessmentAddReview = (props) => {
     }    
   })
   return (
-    <Segment style={{ textAlign: 'left' }}>
+    <Segment id="toPrint" style={{ textAlign: 'left'}}>
       <Header as='h1' content='Review your details:' textAlign='center' />
       <Segment padded='very' >
         <h2>

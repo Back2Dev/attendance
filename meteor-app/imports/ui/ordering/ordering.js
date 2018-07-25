@@ -1,42 +1,113 @@
-import React, { Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Grid, Segment, Header } from 'semantic-ui-react'
-
-import PartCard from '/imports/ui/ordering/ordering-part-card'
-import PartList from '/imports/ui/ordering/ordering-part-list'
-import CartIcon from '/imports/ui/ordering/cart-icon'
+import React from "react";
+import { withRouter } from "react-router-dom";
+import {
+  Grid,
+  Container,
+  Header,
+  Input,
+  Button,
+  Dimmer,
+  Loader,
+  Image,
+  Message
+} from "semantic-ui-react";
+import PartCard from "/imports/ui/ordering/ordering-part-card";
+import PartList from "/imports/ui/ordering/ordering-part-list";
+import CartIcon from "/imports/ui/ordering/cart-icon";
+import UploadXL from "/imports/ui/ordering/uploadXL";
 
 class Ordering extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addParts: true
+    };
+    this.toggleAddPart = this.toggleAddPart.bind(this);
+  }
+  toggleAddPart() {
+    this.setState({ addParts: !this.state.addParts });
+  }
   render() {
-  const { activeOrder } = this.props
-  let noOfParts = 0
+    if (this.props.loading) {
+      return (
+        <div>
+          <Dimmer active inverted>
+            <Loader size="large">Loading</Loader>
+          </Dimmer>
+
+          <Image src="/images/wireframe/short-paragraph.png" />
+        </div>
+      );
+    }
+    const { activeOrder, uploadXL } = this.props;
+    let noOfParts = 0;
+
     return (
-      <Grid>
+      <Grid container columns="equal">
+        {!this.props.loading &&
+          activeOrder &&
+          activeOrder.orderedParts.forEach(part => {
+            noOfParts += part.qty;
+            return noOfParts;
+          })}
+        <Grid.Row columns={2}>
+          <Grid.Column width={16}>
+            <Header as="h2" textAlign="center">
+              {" "}
+              <div>Back2Bikes Parts Search</div>{" "}
+            </Header>
+          </Grid.Column>
+
+          <Grid.Column width={16}>
+            <CartIcon noOfParts={noOfParts} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row columns={1} centered>
+          <Input
+            placeholder="Search Part Number"
+            onChange={this.props.onSearchInput}
+            value={this.props.partSearchQuery}
+            icon={"search"}
+            size="massive"
+          />
+        </Grid.Row>
+        <Grid.Row columns={1} centered>
+          {this.state.addParts ? (
+            <Button
+              content="Upload parts data file now!"
+              onClick={this.toggleAddPart}
+            />
+          ) : (
+            <UploadXL uploadXL={uploadXL} toggleAddPart={this.toggleAddPart} />
+          )}
+
+          {this.props.parts < 1 ? (
+            <Message
+              error
+              header="There is no Parts Data"
+              list={["Please upload your data file above"]}
+            />
+          ) : (
+            ""
+          )}
+        </Grid.Row>
+
         <Grid.Row>
           <Grid.Column>
-          <Segment raised>
-            {(!this.props.loading && activeOrder) && activeOrder.orderedParts.forEach(part => {
-              noOfParts += part.qty
-              return noOfParts
-            }) }
-            <Header as='h2' textAlign='center'> <div>Parts</div>  <CartIcon noOfParts={noOfParts} /> </Header>
-            
-
-            </Segment>
             <PartList
-              title={'Part Title:'}
+              title={"Part Title:"}
               parts={this.props.parts}
               activeOrder={this.props.activeOrder}
               addToCart={this.props.addToCart}
               Component={PartCard}
-              componentClassName='part-card-main'
+              componentClassName="part-card-main"
               loading={this.props.loading}
             />
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    )
+    );
   }
 }
 
-export default withRouter(Ordering)
+export default withRouter(Ordering);
