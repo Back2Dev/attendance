@@ -203,6 +203,14 @@ class AssessmentAdd extends Component {
       .map(key => {
         return key.name
       })
+    const minorServicesCost = this.props.services
+    .filter(item => {
+      return item.package === 'Minor'
+    })
+    .map(key => {
+      return key.price
+    })
+    .reduce((a, b) => a + b)
     this.setState({
       formData: {
         ...formData,
@@ -210,7 +218,7 @@ class AssessmentAdd extends Component {
         package: "Minor Service Package"
       },
       costData: {
-        serviceCost: 6000,
+        serviceCost: minorServicesCost,
         partsCost: 0,
         additionalCost: 0
       },
@@ -228,6 +236,14 @@ class AssessmentAdd extends Component {
       .map(key => {
         return key.name
       })
+    const majorServicesCost = this.props.services
+    .filter(item => {
+      return item.package === 'Major' || item.package === 'Minor'
+    })
+    .map(key => {
+      return key.name
+    })
+    .reduce((a, b) => a + b)
     this.setState({
       formData: {
         ...formData,
@@ -235,7 +251,7 @@ class AssessmentAdd extends Component {
         package: "Major Service Package"
       },
       costData: {
-        serviceCost: 12000,
+        serviceCost: majorServicesCost,
         partsCost: 0,
         additionalCost: 0
       },
