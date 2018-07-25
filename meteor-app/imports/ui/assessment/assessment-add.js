@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Segment } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from "react-jsonschema-form-semanticui"
 import Alert from 'react-s-alert'
@@ -48,12 +48,18 @@ class AssessmentAdd extends Component {
       step: (props.step) ? props.step : 0,
       formData: mapSchemaToState(schemas),
       progress: 0,
+      costData: {
+        serviceCost: 0,
+        partsCost: 0,
+        additionalCost: 0,
+      }
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    window.scrollTo(0, 0)
-
+    if (this.state.step - prevState.step > 0) {
+      window.scrollTo(0, 0)
+    }
     const reviewStep = this.state.step == 3
     if (reviewStep && this.props.newId) {
       Alert.success(this.props.message);
@@ -203,6 +209,11 @@ class AssessmentAdd extends Component {
         services: minorServices,
         package: "Minor Service Package"
       },
+      costData: {
+        serviceCost: 6000,
+        partsCost: 0,
+        additionalCost: 0
+      },
       step: this.state.step + 1,
       progress: this.state.progress + 1
     })
@@ -222,6 +233,11 @@ class AssessmentAdd extends Component {
         ...formData,
         services: majorServices,
         package: "Major Service Package"
+      },
+      costData: {
+        serviceCost: 12000,
+        partsCost: 0,
+        additionalCost: 0
       },
       step: this.state.step + 1,
       progress: this.state.progress + 1
@@ -250,6 +266,32 @@ class AssessmentAdd extends Component {
     }
   }
 
+  handleFormChange = data => {
+    const formData = data.formData
+    const totalServiceCost = this.props.services
+      .map(key => {
+        return formData.services.includes(key.name) ? key.price : 0
+      })
+      .reduce((a, b) => a + b)
+    const totalPartsCost = this.props.serviceItems
+      .map(key => {
+        const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
+        return formattedParts.includes(key.name) ? key.price : 0
+      })
+      .reduce((a, b) => a + b)
+    this.setState({
+      formData: {
+        ...formData
+      },
+      costData: {
+        serviceCost: totalServiceCost,
+        partsCost: totalPartsCost,
+        additionalCost: formData.additionalFee
+      }
+    })
+    console.log(data)
+  }
+
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
     schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => `${key.name} ($${key.price/100})`)
@@ -259,21 +301,41 @@ class AssessmentAdd extends Component {
     const dateOneWeekLater = new Date(date.setDate(date.getDate() + 7))
     const formattedDate = moment(dateOneWeekLater).format('YYYY-MM-DD')
     schemas[2].schema.properties.pickUpDate.default = formattedDate
+    const data = this.state.costData
+    const showPrice = this.state.step === 1 || this.state.step === 2
 
-    return <Form
-      schema={schemas[this.state.step].schema}
-      uiSchema={schemas[this.state.step].uiSchema}
-      formData={this.state.formData}
-      onSubmit={this.onSubmit}
-      showErrorList={false} 
-     >
-      <Control
-        backStep={this.backStep}
-        step={this.state.step}
-        totalSteps={schemas.length}
-        onSubmit={f => f}
-      />
-    </Form>
+    return (
+      <>
+        {
+          showPrice &&
+          <Segment padded='very' >
+            <h2>
+              Total Price
+            </h2>
+            <div>
+              <div>Total Service Cost: ${data.serviceCost/100}</div>
+              <div>Total Parts Cost: ${data.partsCost/100}</div>
+              <div>Additional Fee: ${data.additionalCost}</div>
+              <div style={{borderTop: "1px solid black", margin: "5px 0px", padding: "5px 0px"}}><strong>Total Price = ${(data.serviceCost/100) + (data.partsCost/100) + (data.additionalCost)}</strong></div>
+            </div>
+          </Segment>
+        }
+        <Form
+          schema={schemas[this.state.step].schema}
+          uiSchema={schemas[this.state.step].uiSchema}
+          formData={this.state.formData}
+          onSubmit={this.onSubmit}
+          showErrorList={false} 
+          onChange={this.handleFormChange}
+        >
+          <Control
+            backStep={this.backStep}
+            step={this.state.step}
+            totalSteps={schemas.length}
+            onSubmit={f => f}
+          />
+        </Form>
+      </>)
   }
 
   render() {
