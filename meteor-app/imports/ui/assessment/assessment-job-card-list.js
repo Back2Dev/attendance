@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { withTracker } from "meteor/react-meteor-data"
 import Nav from '/imports/ui/ordering/navbar'
 import Assessment from '/imports/api/assessments/assessment'
+import { SearchBar } from 'react-native-elements'
 
 
 
@@ -16,6 +17,7 @@ class JobCardList extends Component {
     return(
       <>
       <Nav />
+      <SearchBar />
         <Grid stackable>
           {this.props.jobs.map(job =>
             <Grid.Column key={job._id} width={5}>
