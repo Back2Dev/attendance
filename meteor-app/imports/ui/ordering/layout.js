@@ -8,7 +8,6 @@ import { ReactiveVar } from "meteor/reactive-var";
 import Alert from 'react-s-alert';
 import CONSTANTS from '/imports/api/constants'
 import { escapeRegExp } from 'lodash'
-
 const success = new ReactiveVar(false);
 const error = new ReactiveVar(false);
 const msg = new ReactiveVar("");
@@ -21,11 +20,8 @@ function setError(e){
   msg.set(e.reason)
   Alert.error(e.reason)
 }
-
 Session.set('partSearchQuery', '')
-
 export default withTracker((props) => {
-
   function uploadXL(e) {
     
     e.preventDefault()
@@ -39,13 +35,11 @@ export default withTracker((props) => {
     }
     reader.readAsBinaryString(input.files[0])
   }
-
   const partsHandle = Meteor.subscribe('all.parts')
   const ordersHandle = Meteor.subscribe('all.orders')
   if (!partsHandle.ready()) {
     Session.set('partSearchQuery', '')
   }
-
   const filter = (query) => {
     const searching = query != ''
     if (searching) {
@@ -59,12 +53,13 @@ export default withTracker((props) => {
   }
   const addToCart = async (orderedPart) => {
     const currentOrder = await Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW })
+    let totalPrice = currentOrder.totalPrice + orderedPart.price
     let orderedParts = currentOrder.orderedParts
     let found = orderedParts.find(function(part) {
       return part.partId === orderedPart.partId
     });
       if (!found) {
-      const res = await Meteor.callAsync('orders.addPart', currentOrder._id, orderedPart)
+      const res = await Meteor.callAsync('orders.addPart', currentOrder._id, orderedPart, totalPrice)
       if(res){
         Alert.info(`Successfully added ${orderedPart.name} to cart`)
       }
@@ -75,7 +70,7 @@ export default withTracker((props) => {
            return p
         }
       })
-      const res = await Meteor.callAsync('order.updateQty', currentOrder._id, orderedParts)
+      const res = await Meteor.callAsync('order.updateQty', currentOrder._id, orderedParts, totalPrice)
       if(res){
         Alert.info(`Successfully added ${orderedPart.name} to cart`)
       }
@@ -91,7 +86,6 @@ export default withTracker((props) => {
     partSearchQuery: Session.get('partSearchQuery'),
     onSearchInput,
     uploadXL
-
   }
 })(Ordering)
 
