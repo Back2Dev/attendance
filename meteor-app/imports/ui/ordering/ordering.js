@@ -14,19 +14,10 @@ import {
 import PartCard from "/imports/ui/ordering/ordering-part-card";
 import PartList from "/imports/ui/ordering/ordering-part-list";
 import CartIcon from "/imports/ui/ordering/cart-icon";
-import UploadXL from "/imports/ui/ordering/uploadXL";
+
 
 class Ordering extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      addParts: true
-    };
-    this.toggleAddPart = this.toggleAddPart.bind(this);
-  }
-  toggleAddPart() {
-    this.setState({ addParts: !this.state.addParts });
-  }
+  
   render() {
     if (this.props.loading) {
       return (
@@ -72,20 +63,11 @@ class Ordering extends React.Component {
           />
         </Grid.Row>
         <Grid.Row columns={1} centered>
-          {this.state.addParts ? (
-            <Button
-              content="Upload parts data file now!"
-              onClick={this.toggleAddPart}
-            />
-          ) : (
-            <UploadXL uploadXL={uploadXL} toggleAddPart={this.toggleAddPart} />
-          )}
-
           {this.props.parts < 1 ? (
             <Message
-              error
-              header="There is no Parts Data"
-              list={["Please upload your data file above"]}
+              icon='inbox'
+              header='Oops, no pricelist data available'
+              content='Please upload your pricelist through the admin panel'
             />
           ) : (
             ""
