@@ -23,14 +23,18 @@ class AppSelection extends Component {
     
     e.preventDefault()
     
-    const input = e.target[0]
-    input.files[0] ? Alert.info(`Adding your parts`) : Alert.info(`Oops! Forgot to add the file? Try again uploading the file`)
-    const reader = new FileReader()
+    const file = e.target[0].files[0]
+    const msg = 
+      file 
+        ? `Adding your parts`
+        : `Oops! Forgot to add the file? Try again uploading the file`
+     Alert.info(msg)
+     const reader = new FileReader()
     reader.onloadend = function () {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
-    reader.readAsBinaryString(input.files[0])
+    reader.readAsBinaryString(file)
   }
 
   render() {
