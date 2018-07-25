@@ -16,11 +16,11 @@ class ServiceCard extends Component {
             {
             serviceTitle == "Major Service" &&
             <div> 
-              <List.Item style={{paddingTop: "10px", color: "white"}}>
+              <List.Item style={{paddingTop: "20px", color: "white"}}>
                 <Icon name="star outline"/>
                 Includes everything from a minor service 
               </List.Item>
-              <List.Item style={{textAlign: "center"}} as='h3'>
+              <List.Item style={{textAlign: "center", paddingTop: "12px"}} as='h3'>
                 PLUS
               </List.Item>
             </div>
