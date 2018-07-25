@@ -1,15 +1,15 @@
 .uploadXL{
 
-	bottom: -100px;
-	-webkit-animation: slide 0.5s forwards;
-	animation: slide 0.5s forwards;
+	left: 400px;
+	-webkit-animation: slide 1s forwards;
+	animation: slide 1s forwards;
 	
 }
 
 @-webkit-keyframes slide {
-	100% { bottom: 0; }
+	100% { left: 0; }
 }
 
 @keyframes slide {
-	100% { bottom: 0; }
+	100% { left: 0; }
 }
