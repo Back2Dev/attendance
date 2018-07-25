@@ -289,7 +289,6 @@ class AssessmentAdd extends Component {
         additionalCost: formData.additionalFee
       }
     })
-    console.log(data)
   }
 
   renderForm = () => {
