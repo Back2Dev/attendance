@@ -24,7 +24,7 @@ class AppSelection extends Component {
     e.preventDefault()
     
     const input = e.target[0]
-    input.files[0] ? alert(`Adding your parts`) : alert(`Oops! Forgot to add the file? Try again uploading the file`)
+    input.files[0] ? Alert.info(`Adding your parts`) : Alert.info(`Oops! Forgot to add the file? Try again uploading the file`)
     const reader = new FileReader()
     reader.onloadend = function () {
       const data = reader.result

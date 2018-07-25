@@ -9,15 +9,14 @@ import {
   Dimmer,
   Loader,
   Image,
-  Message
+  Message,
+  Segment
 } from "semantic-ui-react";
 import PartCard from "/imports/ui/ordering/ordering-part-card";
 import PartList from "/imports/ui/ordering/ordering-part-list";
 import CartIcon from "/imports/ui/ordering/cart-icon";
 
-
 class Ordering extends React.Component {
-  
   render() {
     if (this.props.loading) {
       return (
@@ -41,33 +40,35 @@ class Ordering extends React.Component {
             noOfParts += part.qty;
             return noOfParts;
           })}
-        <Grid.Row columns={2}>
-          <Grid.Column width={16}>
-            <Header as="h2" textAlign="center">
-              {" "}
-              <div>Back2Bikes Parts Search</div>{" "}
-            </Header>
-          </Grid.Column>
-
-          <Grid.Column width={16}>
+    
+          <Grid.Row columns={1}>
+       
+            <Grid.Column width={16}>
+              <Header as="h2" textAlign="center">
+                {" "}
+                <div>Back2Bikes Parts Search</div>{" "}
+              </Header>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={1} centered>
             <CartIcon noOfParts={noOfParts} />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row columns={1} centered>
-          <Input
-            placeholder="Search Part Number"
-            onChange={this.props.onSearchInput}
-            value={this.props.partSearchQuery}
-            icon={"search"}
-            size="massive"
-          />
-        </Grid.Row>
+            <br />
+            <Input
+              placeholder="Search Part Number"
+              onChange={this.props.onSearchInput}
+              value={this.props.partSearchQuery}
+              icon={"search"}
+              size="massive"
+            />{" "}
+
+          </Grid.Row>
+      
         <Grid.Row columns={1} centered>
           {this.props.parts < 1 ? (
             <Message
-              icon='inbox'
-              header='Oops, no pricelist data available'
-              content='Please upload your pricelist through the admin panel'
+              icon="inbox"
+              header="Oops, no pricelist data available"
+              content="Please upload your pricelist through the admin panel"
             />
           ) : (
             ""
