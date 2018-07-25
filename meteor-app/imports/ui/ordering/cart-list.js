@@ -1,74 +1,70 @@
-import React from 'react'
-import { Input, Header, Container, Segment, Table, Button, Icon } from 'semantic-ui-react'
-import Component from '/imports/ui/ordering/cart-list-item'
-import CartIcon from '/imports/ui/ordering/cart-icon'
-import { Link } from 'react-router-dom'
-import './cart-list.css'
-const CartList = (props) => {
-  let { order, removePart, increaseQty, decreaseQty } = props
-  let noOfParts = 0
+import React from "react";
+import {
+  Header,
+  Container,
+  Segment,
+  Table,
+  Button,
+  Icon
+} from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import "./cart-list.css";
+import ActiveOrder from "/imports/ui/ordering/active-orders.js";
+import OldOrder from "/imports/ui/ordering/old-order.js";
+
+const CartList = props => {
+  let {
+    order,
+    removePart,
+    increaseQty,
+    decreaseQty,
+    oldOrders,
+    loading
+  } = props;
+
   return (
     <div>
       <div
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          height: '100%',
-          alignContent: 'center',
-          justifyContent: 'center'
+          display: "flex",
+          flexWrap: "wrap",
+          height: "100%",
+          alignContent: "center",
+          justifyContent: "center"
         }}
       >
-        <Container textAlign='center'>
+        <Container textAlign="center">
           <Link to="/ordering">
-            <Button icon labelPosition='left' secondary>
-              <Icon name='triangle left' />
+            <Button icon labelPosition="left" secondary>
+              <Icon name="triangle left" />
               Back To Search
             </Button>
           </Link>
-          <Segment raised clearing className='review'>
-
-            {(!props.loading && order) && order.orderedParts.forEach(part => {
-              noOfParts += part.qty
-              return noOfParts
-            })}
-
-            <Header as='h3' block>Review Shop Order </Header>
-            <CartIcon noOfParts={noOfParts} />
-
+          <Segment raised clearing className="review">
+            <Header as="h3" block>
+              Orders
+            </Header>
           </Segment>
-        </Container>
-        <Container textAlign='center' className="section-to-print">
-          <Table striped size='large' celled compact='very'>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Part #</Table.HeaderCell>
-                <Table.HeaderCell>Part</Table.HeaderCell>
-                <Table.HeaderCell>Price</Table.HeaderCell>
-                <Table.HeaderCell>Qty</Table.HeaderCell>
-                <Table.HeaderCell>Total</Table.HeaderCell>
-                <Table.HeaderCell className="noPrint">Edit</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {
-                (!props.loading && order) &&
-                order.orderedParts.map((part) => (
-                  <Component className='cart-item' key={part.partId} {...part} order={order} removePart={removePart} increaseQty={increaseQty} decreaseQty={decreaseQty} />
-                ))
-              }
-            </Table.Body>
-          </Table>
-          <Input fluid label='Additional Notes' />
-          <Segment raised>
-            {(!props.loading && order) && <Header as='h3' block>Total Price: ${Number((order.totalPrice / 100)).toFixed(2)}</Header>}
-            <br />
-            <Button className="noPrint" primary onClick={() => { printOrder() }}>
-              PRINT <br />ORDER
-        </Button>
+          </Container>
+        <ActiveOrder
+          order={order}
+          removePart={removePart}
+          increaseQty={increaseQty}
+          decreaseQty={decreaseQty}
+        />
+         <Container textAlign="center">
+        <Segment raised clearing className="review">
+            <Header as="h3" block>
+              Previous Orders
+            </Header>
           </Segment>
-        </Container>
+          </Container>
+        {oldOrders.map(order => {
+         
+          return <OldOrder key={order._id} order={order} />
+        })}
       </div>
     </div>
-  )
-}
-export default CartList
+  );
+};
+export default CartList;

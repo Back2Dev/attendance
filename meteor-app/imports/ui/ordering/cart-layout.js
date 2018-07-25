@@ -48,6 +48,7 @@ export default withTracker((props) => {
     increaseQty,
     decreaseQty,
     order: Orders.findOne({ status: CONSTANT.ORDER_STATUS_NEW }),
+    oldOrders: Orders.find({status: {$gt: 1}}).fetch(),
     loading: !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
   }
