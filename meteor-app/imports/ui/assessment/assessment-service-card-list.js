@@ -21,7 +21,7 @@ class ServiceList extends Component {
                 </Header>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
-                        onClick={this.props.onClick}
+                        onClick={this.props.selectMinor}
                         serviceChoice= {minorService}
                         serviceTitle= {minorServiceTitle}
                         servicePrice= {minorServicePrice}
@@ -30,7 +30,7 @@ class ServiceList extends Component {
                 </Grid.Column>
                 <Grid.Column textAlign='center' tablet={6} computer={6} style={{margin: "0"}}>
                     <ServiceCard
-                        onClick={this.props.onClick}
+                        onClick={this.props.selectMajor}
                         serviceChoice= {majorService}
                         serviceTitle= {majorServiceTitle}
                         servicePrice= {majorServicePrice}
@@ -38,7 +38,7 @@ class ServiceList extends Component {
                     />
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <Button size='big' fluid secondary onClick={() => this.props.onClick()}>Custom Service</Button>
+                    <Button size='big' fluid secondary onClick={this.props.selectCustomService}>Custom Service</Button>
                 </Grid.Column>
             </Grid.Row>
             </>
