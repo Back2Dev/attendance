@@ -20,6 +20,7 @@ Meteor.methods({
 })
 
 Meteor.startup(() => {
+  const invalid = (Orders.remove( { totalPrice : { $lt: 0 }  } ))
   if (Orders.find().count() === 0) {
     Meteor.call('seed.orders')
   }

@@ -20,7 +20,7 @@ const UploadXL = ({ uploadXL, toggleAddPart }) => (
         <Input type="file" />
       </Grid.Row>
       <Grid.Row>
-        <Button type="submit" content="Submit" positive />
+        <Button type="submit" content="Submit file" icon="inbox" positive />
       </Grid.Row>
     </Grid>
   </Form>
