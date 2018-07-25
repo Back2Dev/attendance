@@ -71,7 +71,7 @@ export default withTracker((props) => {
   return {
     activeOrder: Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW }),
     addToCart,
-    parts: Parts.find(filter(Session.get('partSearchQuery')), {skip: getRandomInt(50), limit: getRandomInt(50)}).fetch(),
+    parts: Parts.find(filter(Session.get('partSearchQuery')), {skip: 0, limit: 50}).fetch(),
     loading: !partsHandle.ready() || !ordersHandle.ready(),
     partSearchQuery: Session.get('partSearchQuery'),
     onSearchInput,

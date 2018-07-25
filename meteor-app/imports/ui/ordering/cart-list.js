@@ -48,7 +48,7 @@ const CartList = props => {
           </Segment>
         </Container>
         <Container>
-          <Table striped size="large" celled compact="very">
+          <Table stackable striped size="large" celled compact="very">
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Part #</Table.HeaderCell>
