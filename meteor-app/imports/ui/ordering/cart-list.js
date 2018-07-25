@@ -37,7 +37,7 @@ const CartList = (props) => {
 
           </Segment>
         </Container>
-        <Container>
+        <Container textAlign='center' className="section-to-print">
           <Table striped size='large' celled compact='very'>
             <Table.Header>
               <Table.Row>
@@ -46,7 +46,7 @@ const CartList = (props) => {
                 <Table.HeaderCell>Price</Table.HeaderCell>
                 <Table.HeaderCell>Qty</Table.HeaderCell>
                 <Table.HeaderCell>Total</Table.HeaderCell>
-                <Table.HeaderCell>Edit</Table.HeaderCell>
+                <Table.HeaderCell className="noPrint">Edit</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -58,14 +58,11 @@ const CartList = (props) => {
               }
             </Table.Body>
           </Table>
-        </Container>
-        <br />
-        <Container textAlign='center'>
           <Input fluid label='Additional Notes' />
           <Segment raised>
             {(!props.loading && order) && <Header as='h3' block>Total Price: ${Number((order.totalPrice / 100)).toFixed(2)}</Header>}
             <br />
-            <Button primary onClick={() => { printOrder() }}>
+            <Button className="noPrint" primary onClick={() => { printOrder() }}>
               PRINT <br />ORDER
         </Button>
           </Segment>

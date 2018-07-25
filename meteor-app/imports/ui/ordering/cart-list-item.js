@@ -21,7 +21,7 @@ const CartListItem = ({
       <Table.Cell collapsing textAlign='left'>${Number((price / 100)).toFixed(2)}</Table.Cell>
       <Table.Cell collapsing textAlign='left'>{qty}</Table.Cell>
       <Table.Cell collapsing textAlign='left'>${Number((price * qty / 100)).toFixed(2)}</Table.Cell>
-      <Table.Cell collapsing textAlign='center'>
+      <Table.Cell className="noPrint" collapsing textAlign='center'>
         <Button.Group >
           <Button color="green" onClick={() => increaseQty(order._id, partId)} >+</Button>
           <Button onClick={() => decreaseQty(order._id, partId)} >-</Button>
