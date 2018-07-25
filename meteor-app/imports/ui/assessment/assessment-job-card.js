@@ -18,7 +18,7 @@ class JobCard extends Component {
     const updatedStatus = JOB_STATUS[updatedStatusKey] // Update to the next status 
 
     try {
-      if (status >= JOB_STATUS.BIKE_PICKED_UP) return
+      if (statusValue >= JOB_STATUS.BIKE_PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
     } catch (error) {
       Alert.error(error.message)
