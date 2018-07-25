@@ -252,6 +252,7 @@ class AssessmentAdd extends Component {
 
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
+    schemas[1].schema.properties.assessor.enum = this.props.members.map(key => key.name)
     schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => `${key.name} ($${key.price/100})`)
 
     // Default one week later for pickup date
@@ -298,6 +299,7 @@ class AssessmentAdd extends Component {
             selectMajor={this.selectMajor}
             selectCustomService={this.selectCustomService}
             onClick={this.forwardStep}
+            services={this.props.services}
             />   
         }
         {
