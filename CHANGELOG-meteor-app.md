@@ -25,6 +25,8 @@ Next
 * Add search functionality for job cart
 * Upload interface added to /admin
 
+* Add status filter for job cart
+* Add live price update for form
 
 0.3.0
 ------
