@@ -5,7 +5,9 @@ import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Members from '/imports/api/members/members'
 import Assessment from '/imports/api/assessments/assessment'
-import Alert from 'react-s-alert';
+import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
+import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 
 const debug = require('debug')('b2b:addassessment')
 
@@ -46,7 +48,6 @@ export default withTracker(props => {
       return res
     } catch (e) {
       setError(e)
-      throw new Meteor.Error(e)
     }
   }
 
