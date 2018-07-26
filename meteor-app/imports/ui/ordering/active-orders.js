@@ -74,7 +74,7 @@ const activeOrder = (props) => {
               printOrder();
             }}
           >
-            PRINT <br />ORDER
+            PRINT <br />CURRENT ORDER
           </Button>
         </Segment>
       </Container>

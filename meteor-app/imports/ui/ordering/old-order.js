@@ -17,7 +17,7 @@ const oldOrderComponent = props => {
   const order = props.order
   return (
     <div>
-    <Container textAlign="center" className="section-to-print">
+    <Container textAlign="center">
       <Segment raised clearing className="review" inverted  color="olive">
         <Header as="h3">
           Order from {order.updatedAt.toString()}
@@ -57,15 +57,14 @@ const oldOrderComponent = props => {
             </Header>
           )}
         <br />
-        <Button
-          className="noPrint"
+        {/* <Button
           primary
           onClick={() => {
             printOrder();
           }}
         >
           PRINT <br />ORDER
-        </Button>
+        </Button> */}
       </Segment>
     </Container>
 
