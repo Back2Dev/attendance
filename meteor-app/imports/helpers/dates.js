@@ -7,3 +7,8 @@ export function humaniseDate(lastIn) {
   return moment.duration(hours, 'minutes').humanize()
 }
 
+export function humaniseDateDay(updatedAt) {
+  const date = moment(updatedAt).format("dddd, MMMM Do YYYY, h a")
+  return date
+}
+

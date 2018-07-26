@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import Orders from '/imports/api/orders/schema'
 import log from '/imports/lib/server/log'
+import CONSTANTS from '/imports/api/constants.js'
+
 const debug = require('debug')('b2b:orders')
 Meteor.methods({
   'orders.insert'(order) {
@@ -11,6 +13,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+
   'orders.remove'(id) {
     try {
       log.info('removing order: ', id)

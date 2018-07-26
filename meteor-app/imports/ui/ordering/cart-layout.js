@@ -3,10 +3,17 @@ import { withTracker } from 'meteor/react-meteor-data'
 import { Session } from 'meteor/session'
 import Cart from '/imports/ui/ordering/cart'
 import Orders from '/imports/api/orders/schema'
-import CONSTANT from '/imports/api/constants'
+import CONSTANTS from '/imports/api/constants'
+
 Session.set('searchQuery', '')
 export default withTracker((props) => {
   const ordersHandle = Meteor.subscribe('all.orders')
+
+  const archiveOrder = (order) => {
+    Orders.update({_id: order._id}, { $set: {status: CONSTANTS.ORDER_STATUS_SENT} })
+    const archive = Orders.findOne({_id: order._id})
+    Meteor.callAsync('order.insert', archive)
+  }
   const removePart = (order, partId) => {
     const currentOrder = Orders.findOne({_id: order._id})
     const orderedParts = currentOrder.orderedParts
@@ -47,8 +54,10 @@ export default withTracker((props) => {
     removePart,
     increaseQty,
     decreaseQty,
-    order: Orders.findOne({ status: CONSTANT.ORDER_STATUS_NEW }),
+    order: Orders.findOne({ status: CONSTANTS.ORDER_STATUS_NEW }),
+    oldOrders: Orders.find({status: {$gt: 1}}, {sort: {updatedAt: -1}}).fetch(),
     loading: !ordersHandle.ready(),
     searchQuery: Session.get('searchQuery'),
+    archiveOrder,
   }
 })(Cart)
