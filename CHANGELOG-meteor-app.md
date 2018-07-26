@@ -23,6 +23,8 @@ Next
 * Add parts searchbar
 * Add job cart update status and print job functionality
 * Add search functionality for job cart
+* Upload interface added to /admin
+
 * Add status filter for job cart
 * Add live price update for form
 

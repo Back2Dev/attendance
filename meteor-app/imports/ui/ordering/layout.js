@@ -22,19 +22,6 @@ function setError(e){
 }
 Session.set('partSearchQuery', '')
 export default withTracker((props) => {
-  function uploadXL(e) {
-    
-    e.preventDefault()
-    
-    const input = e.target[0]
-    input.files[0] ? Alert.info(`Adding your parts`) : Alert.info(`Oops! Forgot to add the file? Try again uploading the file`)
-    const reader = new FileReader()
-    reader.onloadend = function () {
-      const data = reader.result
-      Meteor.callAsync('parts.load', data)
-    }
-    reader.readAsBinaryString(input.files[0])
-  }
   const partsHandle = Meteor.subscribe('all.parts')
   const ordersHandle = Meteor.subscribe('all.orders')
   if (!partsHandle.ready()) {
@@ -76,6 +63,9 @@ export default withTracker((props) => {
       }
       }
     }
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
     const onSearchInput = q => Session.set('partSearchQuery', q.target.value)
   
   return {
@@ -85,7 +75,6 @@ export default withTracker((props) => {
     loading: !partsHandle.ready() || !ordersHandle.ready(),
     partSearchQuery: Session.get('partSearchQuery'),
     onSearchInput,
-    uploadXL
   }
 })(Ordering)
 

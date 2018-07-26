@@ -17,39 +17,48 @@ export default withTracker((props) => {
   const removePart = (order, partId) => {
     const currentOrder = Orders.findOne({_id: order._id})
     const orderedParts = currentOrder.orderedParts
-    let totalPrice = currentOrder.totalPrice
+    const totalPrice = currentOrder.totalPrice
     orderedParts.forEach(part => {
-      currentOrder.totalPrice = totalPrice - part.price
-      if(part.partId === partId){
-        Meteor.callAsync('orders.removePart', currentOrder, part, totalPrice)
+      currentOrder.totalPrice = totalPrice - part.price;
+      if (part.partId === partId) {
+        Meteor.callAsync("orders.removePart", currentOrder, part, totalPrice)
       }
-    })
-  }
-  const increaseQty =  (orderId, partId) => {
-    const order =  Orders.findOne({ _id: orderId})
-    let totalPrice = order.totalPrice
+    });
+  };
+  const increaseQty = async (orderId, partId) => {
+    const order = await Orders.findOne({ _id: orderId });
+    let totalPrice = order.totalPrice;
     order.orderedParts.forEach(part => {
-      if(part.partId === partId){
-        part.qty += 1
-        totalPrice += part.price
-        Meteor.callAsync('order.updateQty', order._id, order.orderedParts, totalPrice)
-      } 
-    })
-  } 
-  const decreaseQty = (orderId, partId) => {
-    const order =  Orders.findOne({ _id: orderId})
-    let totalPrice = order.totalPrice
+      if (part.partId === partId) {
+        part.qty += 1;
+        totalPrice += part.price;
+        Meteor.callAsync(
+          "order.updateQty",
+          order._id,
+          order.orderedParts,
+          totalPrice
+        );
+      }
+    });
+  };
+  const decreaseQty = async (orderId, partId) => {
+    const order = await Orders.findOne({ _id: orderId })
+    let totalPrice = order.totalPrice;
     order.orderedParts.forEach(part => {
-      if (part.partId === partId){
-        part.qty -= 1
-        totalPrice -= part.price
-        part.qty < 1 
-        ? Meteor.callAsync('orders.removePart', order, part, totalPrice) 
-        :
-        Meteor.callAsync('order.updateQty', order._id, order.orderedParts, totalPrice)
-      } 
-    })
-  }
+      if (part.partId === partId) {
+        part.qty -= 1;
+        totalPrice -= part.price;
+        part.qty < 1
+          ? Meteor.callAsync("orders.removePart", order, part, totalPrice)
+          : Meteor.callAsync(
+              "order.updateQty",
+              order._id,
+              order.orderedParts,
+              totalPrice
+            );
+      }
+    });
+  };
   return {
     removePart,
     increaseQty,

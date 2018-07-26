@@ -14,6 +14,9 @@ import CartIcon from "/imports/ui/ordering/cart-icon";
 const activeOrder = props => {
   let { order, removePart, increaseQty, decreaseQty, archiveOrder } = props;
   let noOfParts = 0;
+  const printOrder = () =>{
+    window.print()
+  }
   return (
     <div>
       <Container textAlign="center" className="section-to-print">
