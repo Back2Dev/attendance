@@ -43,6 +43,11 @@ class JobCard extends Component {
     }
   }
 
+  titleCase(str) {
+    if (!str) return
+    return str.toLowerCase().split(' ').map(x => x[0].toUpperCase()+x.slice(1)).join(' ');
+  }
+
   render() {
     // Pulling data from props (assessment collection)
     const { status, bikeDetails, services, pickupDate, totalCost, customerDetails } = this.props.currentJob
@@ -71,10 +76,10 @@ class JobCard extends Component {
           </Card.Header>
           <Card.Content style={{ fontSize: "1em", marginLeft: "15px" }}>
             <List>
-              <List.Item><strong>Customer Name: </strong>{customerName}</List.Item>
-              <List.Item><strong>Bike Make: </strong>{make}</List.Item>
-              <List.Item><strong>Bike Model: </strong>{model}</List.Item>
-              <List.Item><strong>Bike Color: </strong>{color}</List.Item>
+              <List.Item><strong>Customer Name: </strong>{this.titleCase(customerName)}</List.Item>
+              <List.Item><strong>Bike Make: </strong>{make.toUpperCase()}</List.Item>
+              <List.Item><strong>Bike Model: </strong>{model && model.toUpperCase()}</List.Item>
+              <List.Item><strong>Bike Color: </strong>{this.titleCase(color)}</List.Item>
               <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
               <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
               <List.Item><strong>Total Price: </strong>${totalRepairCost}</List.Item>
