@@ -122,12 +122,12 @@ class AssessmentAdd extends Component {
             price: key.price
           }
         })
-      const search = formData.name + formData.email + formData.bikeMake + formData.bikeColor
-      const name = formData.refurbishment ? 'Back2Bikes' : formData.name
+      const custName = formData.b2bRefurbish ? 'Back2Bikes' : formData.name
+      const search = custName + formData.email + formData.bikeMake + formData.bikeColor
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
-          name: name,
+          name: custName,
           phone: formData.phone,
           email: formData.email,
           refurbishment: formData.b2bRefurbish,
