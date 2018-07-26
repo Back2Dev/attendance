@@ -127,15 +127,15 @@ class AssessmentAdd extends Component {
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
-          name: custName,
+          name: custName.toLowerCase(),
           phone: formData.phone,
           email: formData.email,
           refurbishment: formData.b2bRefurbish,
         },
         bikeDetails: {
-          make: formData.bikeMake,
-          model: formData.bikeModel,
-          color: formData.bikeColor,
+          make: formData.bikeMake.toLowerCase(),
+          model: formData.bikeModel.toLowerCase(),
+          color: formData.bikeColor.toLowerCase(),
           bikeValue: formData.approxBikeValue * 100, // Value in cents
           sentimentValue: formData.sentimentalValue,
         },
@@ -155,7 +155,7 @@ class AssessmentAdd extends Component {
         urgent: formData.requestUrgent,
         assessor: formData.assessor,
         mechanic: '',
-        comment: formData.comments,
+        comment: formData.comments.toLowerCase(),
         temporaryBike: formData.replacementBike,
         status: 1, // Default to 1: New Order
         search: search,
