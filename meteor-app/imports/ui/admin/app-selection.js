@@ -1,9 +1,8 @@
 import React from "react";
 import { Component } from "react";
 import { Button, Container } from "semantic-ui-react";
-import UploadXL from "/imports/ui/ordering/uploadXL";
-import { Meteor } from "meteor/meteor";
 import Alert from "react-s-alert";
+import UploadXL from "/imports/ui/ordering/uploadXL";
 
 const debug = require("debug")("b2b:admin");
 
@@ -13,26 +12,10 @@ class AppSelection extends Component {
     this.state = {
       addParts: true
     };
-    this.toggleAddPart = this.toggleAddPart.bind(this);
-    this.uploadXL = this.uploadXL.bind(this);
+    this.toggleAddPart = this.toggleAddPart.bind(this)
   }
   toggleAddPart() {
     this.setState({ addParts: !this.state.addParts });
-  }
-  uploadXL(e) {
-    e.preventDefault();
-
-    const file = e.target[0].files[0];
-    const msg = file
-      ? `Adding your parts`
-      : `Oops! Forgot to add the file? Try again uploading the file`;
-    Alert.info(msg);
-    const reader = new FileReader();
-    reader.onloadend = function() {
-      const data = reader.result;
-      Meteor.callAsync("parts.load", data);
-    };
-    reader.readAsBinaryString(file);
   }
 
   render() {
@@ -109,7 +92,7 @@ class AppSelection extends Component {
               ""
             ) : (
               <UploadXL
-                uploadXL={this.uploadXL}
+                uploadXL={this.props.uploadXL}
                 toggleAddPart={this.toggleAddPart}
               />
             )}
