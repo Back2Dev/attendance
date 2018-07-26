@@ -18,7 +18,7 @@ class JobCard extends Component {
     const updatedStatus = JOB_STATUS[updatedStatusKey] // Update to the next status 
 
     try {
-      if (status >= JOB_STATUS.BIKE_PICKED_UP) return
+      if (statusValue >= JOB_STATUS.BIKE_PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
     } catch (error) {
       Alert.error(error.message)
@@ -41,6 +41,11 @@ class JobCard extends Component {
     } catch (error) {
       Alert.error(error.message)
     }
+  }
+
+  titleCase(str) {
+    if (!str) return
+    return str.toLowerCase().split(' ').map(x => x[0].toUpperCase()+x.slice(1)).join(' ');
   }
 
   render() {
@@ -71,10 +76,10 @@ class JobCard extends Component {
           </Card.Header>
           <Card.Content style={{ fontSize: "1em", marginLeft: "28px" }}>
             <List>
-              <List.Item><strong>Customer Name: </strong>{customerName}</List.Item>
-              <List.Item><strong>Bike Make: </strong>{make}</List.Item>
-              <List.Item><strong>Bike Model: </strong>{model}</List.Item>
-              <List.Item><strong>Bike Color: </strong>{color}</List.Item>
+              <List.Item><strong>Customer Name: </strong>{this.titleCase(customerName)}</List.Item>
+              <List.Item><strong>Bike Make: </strong>{make.toUpperCase()}</List.Item>
+              <List.Item><strong>Bike Model: </strong>{model && model.toUpperCase()}</List.Item>
+              <List.Item><strong>Bike Color: </strong>{this.titleCase(color)}</List.Item>
               <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
               <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
               <List.Item><strong>Total Price: </strong>${totalRepairCost}</List.Item>
