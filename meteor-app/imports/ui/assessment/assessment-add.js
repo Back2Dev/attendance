@@ -111,7 +111,7 @@ class AssessmentAdd extends Component {
           }
         })
       const custName = formData.b2bRefurbish ? 'Back2Bikes' : formData.name
-      const search = custName + formData.email + formData.bikeMake + formData.bikeColor
+      const search = custName + formData.email + formData.bikeMake.toLowerCase() + formData.bikeColor.toLowerCase()
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
@@ -156,6 +156,7 @@ class AssessmentAdd extends Component {
       })
       return
     }
+
     this.setState((prevState, props) => {
       return {
         formData: {
@@ -195,14 +196,15 @@ class AssessmentAdd extends Component {
     .reduce((a, b) => a + b)
     this.setState((prevState) => ({
       formData: {
-        ...formData,
+        ...prevState.formData,
         services: minorServices,
         package: "Minor Service Package"
       },
       costData: {
         serviceCost: minorServicesCost,
-        partsCost: 0,
-        additionalCost: 0
+        partsCost: prevState.costData.partsCost,
+        additionalCost: prevState.costData.additionalCost,
+        estBikeValue: prevState.formData.approxBikeValue
       },
       step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
       progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
@@ -228,14 +230,15 @@ class AssessmentAdd extends Component {
     .reduce((a, b) => a + b)
     this.setState((prevState) => ({
       formData: {
-        ...formData,
+        ...prevState.formData,
         services: majorServices,
         package: "Major Service Package"
       },
       costData: {
         serviceCost: majorServicesCost,
-        partsCost: 0,
-        additionalCost: 0
+        partsCost: prevState.costData.partsCost,
+        additionalCost: prevState.costData.additionalCost,
+        estBikeValue: prevState.formData.approxBikeValue
       },
       step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
       progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
@@ -249,6 +252,12 @@ class AssessmentAdd extends Component {
         ...formData,
         services: [],
         package: "Custom Services"
+      },
+      costData: {
+        serviceCost: 0,
+        partsCost: prevState.costData.partsCost,
+        additionalCost: prevState.costData.additionalCost,
+        estBikeValue: prevState.formData.approxBikeValue
       },
       step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
       progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
@@ -283,7 +292,8 @@ class AssessmentAdd extends Component {
       costData: {
         serviceCost: totalServiceCost,
         partsCost: totalPartsCost,
-        additionalCost: formData.additionalFee
+        additionalCost: formData.additionalFee,
+        estBikeValue: formData.approxBikeValue
       }
     })
   }
@@ -317,6 +327,7 @@ class AssessmentAdd extends Component {
               Total Price
             </h2>
             <div>
+              <div><strong>Estimated Bike Value: ${data.estBikeValue || 0}</strong></div>
               <div>Total Service Cost: ${data.serviceCost/100}</div>
               <div>Total Parts Cost: ${data.partsCost/100}</div>
               <div>Additional Fee: ${data.additionalCost}</div>
@@ -348,6 +359,7 @@ class AssessmentAdd extends Component {
     const orderSubmittedStep = this.state.step == 5
     return (
     <Grid divided='vertically' stackable>
+      <Alert stack={{limit: 3}} />
       <Grid.Row centered>
         <Steps
           step={this.state.step}
