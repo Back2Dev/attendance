@@ -59,7 +59,7 @@ const activeOrder = props => {
           {!props.loading &&
             order && (
               <Header as="h3" block>
-                Total Price: ${Number(order.totalPrice / 100).toFixed(2)}
+                Total Price: ${(order.totalPrice/100).toFixed(2)}
               </Header>
             )}
           <br />

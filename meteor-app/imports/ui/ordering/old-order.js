@@ -54,7 +54,7 @@ const oldOrderComponent = props => {
         {!props.loading &&
           order && (
             <Header as="h2" inverted color="black">
-              Total Price: ${Number(order.totalPrice / 100).toFixed(2)}
+              Total Price: ${(order.totalPrice/100).toFixed(2)}
             </Header>
           )}
         <br />

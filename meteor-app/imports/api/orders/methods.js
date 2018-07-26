@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Orders from '/imports/api/orders/schema'
 import log from '/imports/lib/server/log'
+import CONSTANTS from '/imports/api/constants.js'
 
 const debug = require('debug')('b2b:orders')
 Meteor.methods({
@@ -22,21 +23,6 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  async 'order.archive'(order) {
-    try {
-      log.info('moving order to archive ', order._id)
-      await Orders.insert ({
-        status: 1,
-        additionalNotes: null,
-        orderedParts: [],
-        totalPrice: 0,
-      })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.message)
-    }
-  },
-
   'orders.removePart'(order, part, totalPrice) {
     totalPrice = totalPrice - (part.price * part.qty)
     const id = order._id
