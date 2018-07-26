@@ -42,9 +42,9 @@ const AssessmentAddReview = (props) => {
                         const arrayOfItems = field.map(item => (<li key={item}>{item}</li>))
                         listToRender.push(arrayOfItems)
                       } else if(typeof field === 'boolean') {
-                        listToRender.push(field ? <li>Yes</li> : <li>No</li>)
+                        listToRender.push(field ? <li key={Math.random()}>Yes</li> : <li key={Math.random()}>No</li>)
                       } else {
-                        listToRender.push(<li>{field}</li>)
+                        listToRender.push(<li key={Math.random()}>{field}</li>)
                       }
 
                       return (

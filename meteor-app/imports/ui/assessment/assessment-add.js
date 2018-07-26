@@ -53,19 +53,6 @@ class AssessmentAdd extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
-
-    const reviewStep = this.state.step == 3
-    if (reviewStep && this.props.newId) {
-      Alert.success(this.props.message);
-      this.props.history.push(
-        this.props.isIframe
-          ? `/success/${this.props.newId}`
-          : '/'
-      )
-    }
-    if (reviewStep && this.props.error) {
-      Alert.error(this.props.message);
-    }
   }
 
   componentWillUnmount() {
@@ -157,7 +144,8 @@ class AssessmentAdd extends Component {
 
       await this.props.setAssessment(formResult)
       this.setState({
-        step: this.state.step + 1
+        step: this.state.step + 1,
+        progress: this.state.progress + 1
       })
       return
     }
@@ -169,8 +157,8 @@ class AssessmentAdd extends Component {
           serviceCost: totalServiceCost,
           partsCost: totalPartsCost,
         },
-        step: prevState.step + 1,
-        progress: prevState.progress + 1,
+        step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
+        progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
       }
     })
   }
@@ -178,13 +166,6 @@ class AssessmentAdd extends Component {
   backStep = () => {
     this.setState({
       step: this.state.step - 1
-    })
-  }
-
-  forwardStep = () => {
-    this.setState({
-      step: this.state.step + 1,
-      progress: this.state.progress + 1
     })
   }
 
@@ -197,15 +178,15 @@ class AssessmentAdd extends Component {
       .map(key => {
         return key.name
       })
-    this.setState({
+    this.setState((prevState) => ({
       formData: {
         ...formData,
         services: minorServices,
         package: "Minor Service Package"
       },
-      step: this.state.step + 1,
-      progress: this.state.progress + 1
-    })
+      step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
+      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+    }))
   }
 
   selectMajor = () => {
@@ -217,41 +198,48 @@ class AssessmentAdd extends Component {
       .map(key => {
         return key.name
       })
-    this.setState({
+    this.setState((prevState) => ({
       formData: {
         ...formData,
         services: majorServices,
         package: "Major Service Package"
       },
-      step: this.state.step + 1,
-      progress: this.state.progress + 1
-    })
+      step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
+      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+    }))
   }
 
   selectCustomService = () => {
     const formData = mapSchemaToState(schemas)
-    this.setState({
+    this.setState((prevState) => ({
       formData: {
         ...formData,
         services: [],
         package: "Custom Services"
       },
+      step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
+      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+    }))
+  }
+
+  goToStep = (step) => {
+    if (step <= this.state.progress) {
+      this.setState({
+        step
+      })
+    }
+  }
+
+  forwardStep = () => {
+    this.setState({
       step: this.state.step + 1,
       progress: this.state.progress + 1
     })
   }
 
-  goToStep = (step) => {
-    // TODO: Might need to fix the next button & progress bug
-    if (step <= this.state.progress) {
-      this.setState({
-        step,
-      })
-    }
-  }
-
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
+    schemas[1].schema.properties.assessor.enum = this.props.members.map(key => key.name)
     schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => `${key.name} ($${key.price/100})`)
 
     // Default one week later for pickup date
@@ -271,7 +259,6 @@ class AssessmentAdd extends Component {
         backStep={this.backStep}
         step={this.state.step}
         totalSteps={schemas.length}
-        onSubmit={f => f}
       />
     </Form>
   }
@@ -297,12 +284,11 @@ class AssessmentAdd extends Component {
             selectMinor={this.selectMinor}
             selectMajor={this.selectMajor}
             selectCustomService={this.selectCustomService}
-            onClick={this.forwardStep}
+            services={this.props.services}
             />   
         }
         {
           reviewStep &&
-          // this needs refactoring
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
               <AssessmentAddReview
@@ -312,17 +298,18 @@ class AssessmentAdd extends Component {
               />
               <Control
                 backStep={this.backStep}
-                forwardStep={this.forwardStep}
                 step={this.state.step}
                 totalSteps={schemas.length}
-                onSubmit={this.onSubmit}
+                forwardStep={this.forwardStep}
               />
             </Grid.Column>
           </Grid.Row>
         }
         {
           orderSubmittedStep &&
-            <Congratulations 
+
+            <Congratulations
+            formData={this.state.formData}
             assessmentLastSaved={this.props.assessmentLastSaved}
             />
         }
