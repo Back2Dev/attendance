@@ -6,11 +6,7 @@ import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
-<<<<<<< HEAD
-import { SearchBar } from 'react-native-elements'
-=======
 import './assessment-job-card-list.css'
->>>>>>> ae9b39d47db09680eed3e3a65637cf224387075a
 
 const searchFilter = new ReactiveVar('')
 const statusFilter = new ReactiveVar('')
