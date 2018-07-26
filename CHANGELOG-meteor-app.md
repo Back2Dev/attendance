@@ -23,6 +23,8 @@ Next
 * Add parts searchbar
 * Add job cart update status and print job functionality
 * Add search functionality for job cart
+* Upload interface added to /admin
+
 
 0.3.0
 ------
