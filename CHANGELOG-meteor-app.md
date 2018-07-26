@@ -27,6 +27,7 @@ Next
 
 * Add status filter for job cart
 * Add live price update for form
+* Add a name search feature to the search functionality
 
 0.3.0
 ------
