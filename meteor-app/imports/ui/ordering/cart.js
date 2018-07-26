@@ -29,6 +29,7 @@ class Cart extends React.Component {
               increaseQty={this.props.increaseQty}
               decreaseQty={this.props.decreaseQty}
               oldOrders={this.props.oldOrders}
+              archiveOrder={this.props.archiveOrder}
             />
           </Grid.Column>
         </Grid.Row>

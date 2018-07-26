@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { humaniseDateDay } from '/imports/helpers/dates'
 import {
   Input,
   Header,
@@ -20,7 +21,7 @@ const oldOrderComponent = props => {
     <Container textAlign="center">
       <Segment raised clearing className="review" inverted  color="olive">
         <Header as="h3">
-          Order from {order.updatedAt.toString()}
+          {humaniseDateDay(order.updatedAt)} 
         </Header>
         <CartIcon noOfParts={order.orderedParts.length} />
 

@@ -19,7 +19,8 @@ const CartList = props => {
     increaseQty,
     decreaseQty,
     oldOrders,
-    loading
+    loading,
+    archiveOrder
   } = props;
 
   return (
@@ -40,29 +41,32 @@ const CartList = props => {
               Back To Search
             </Button>
           </Link>
-          <Segment raised clearing className="review">
-            <Header as="h3" block>
+       
+            <Header as="h2" block>
               Orders
             </Header>
-          </Segment>
-          </Container>
+    
         <ActiveOrder
           order={order}
           removePart={removePart}
           increaseQty={increaseQty}
           decreaseQty={decreaseQty}
+          archiveOrder={archiveOrder}
         />
          <Container textAlign="center">
         <Segment raised clearing className="review">
             <Header as="h3" block>
               Previous Orders
             </Header>
-          </Segment>
-          </Container>
+        
         {oldOrders.map(order => {
          
           return <OldOrder key={order._id} order={order} />
         })}
+          </Segment>
+          </Container>
+    
+          </Container>
       </div>
     </div>
   );
