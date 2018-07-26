@@ -241,7 +241,7 @@ class AssessmentAdd extends Component {
       return item.package === 'Major' || item.package === 'Minor'
     })
     .map(key => {
-      return key.name
+      return key.price
     })
     .reduce((a, b) => a + b)
     this.setState({
