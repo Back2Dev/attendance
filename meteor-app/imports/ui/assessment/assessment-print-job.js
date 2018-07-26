@@ -17,8 +17,8 @@ export default assessment => {
 
   const serviceItemNames = services.serviceItem.map(item => item.name);
   const servicePartNames = parts.partsItem.map(item => {
-    if(!item.name) { 
-      return "There are no parts for this service"
+    if(!item.name) {
+      return ["There are no parts for this service"]
     } else {
       return item.name   
     } 
@@ -26,15 +26,21 @@ export default assessment => {
   const tempBike = temporaryBike ? "Yes" : "No"
   const isUrgent = urgent ? "Yes" : "No"
   const hasSentimentValue = bikeDetails.sentimentValue ? "Yes" : "No"
-
+  const name = customerDetails.name ? customerDetails.name : "Back 2 Bikes"
+  const email = customerDetails.email ? customerDetails.email : "Back 2 Bikes"
+  const phone = customerDetails.phone ? customerDetails.phone : "Back 2 Bikes"
   const bikeModel = bikeDetails.model ? ` - ${bikeDetails.model}` : "";
 
   var docDefinition = {
+    pageSize: 'A4',
+
+    watermark: {text: 'back2bikes', color: '#8FDBB6', opacity: 0.3, bold: true, italics: false},
+
     content: [
       {
         text: `Bike: ${bikeDetails.make} ${bikeModel} - ${
           bikeDetails.color
-        } - Aprox Value $${bikeDetails.bikeValue / 100}`,
+        } - Approx Value $${bikeDetails.bikeValue / 100}`,
         style: "subheader",
         fontSize: 20
       },
@@ -60,9 +66,9 @@ export default assessment => {
       { text: "Owner", style: "subheader" },
       {
         ul: [
-          { text: customerDetails.name, bold: true },
-          { text: customerDetails.email, bold: true },
-          { text: customerDetails.phone, bold: true }
+          { text: name, bold: true },
+          { text: email, bold: true },
+          { text: phone, bold: true }
         ]
       },
 
@@ -105,5 +111,5 @@ export default assessment => {
       // alignment: 'justify'
     }
   };
-  pdfMake.createPdf(docDefinition).download(`${customerDetails.name}-${bikeDetails.make}-${bikeDetails.color}`);
+  pdfMake.createPdf(docDefinition).download(`${name}-${bikeDetails.make}-${bikeDetails.color}`);
 };

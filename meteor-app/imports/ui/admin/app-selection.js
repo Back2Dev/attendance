@@ -13,25 +13,25 @@ class AppSelection extends Component {
                 <Button.Group style={{ width: "100%" }} vertical>
                     <Button 
                         onClick={() => { this.props.history.push('/userprofiles') }} 
-                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px' }} 
+                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px', borderRadius: "5px" }} 
                         color="grey">
                         <h1>User Profiles</h1>
                     </Button>
                     <Button 
                         onClick={() => { this.props.history.push('/ordering') }}
-                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px' }} 
+                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px', borderRadius: "5px" }} 
                         color="teal">
                         <h1>Part Prices</h1>
                     </Button>
                     <Button 
                         onClick={() => { this.props.history.push('/assessment') }}
-                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px' }} 
+                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px', borderRadius: "5px" }} 
                         color="blue">
                         <h1>New Bike Assessment</h1>
                     </Button>
                     <Button 
                         onClick={() => { this.props.history.push('/jobs') }}
-                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px' }} 
+                        style={{ height: "100px", marginTop: '20px', marginBottom: '20px', borderRadius: "5px" }} 
                         color="green">
                         <h1>Current Jobs</h1>
                     </Button>
