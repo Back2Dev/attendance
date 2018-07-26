@@ -307,7 +307,9 @@ class AssessmentAdd extends Component {
         }
         {
           orderSubmittedStep &&
-            <Congratulations 
+
+            <Congratulations
+            formData={this.state.formData}
             assessmentLastSaved={this.props.assessmentLastSaved}
             />
         }
