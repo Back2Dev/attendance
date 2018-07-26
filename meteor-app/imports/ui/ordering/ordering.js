@@ -10,7 +10,8 @@ import {
   Loader,
   Image,
   Message,
-  Segment
+  Segment,
+  Icon
 } from "semantic-ui-react";
 import PartCard from "/imports/ui/ordering/ordering-part-card";
 import PartList from "/imports/ui/ordering/ordering-part-list";
@@ -22,7 +23,7 @@ class Ordering extends React.Component {
       return (
         <div>
           <Dimmer active inverted>
-            <Loader size="large">Loading</Loader>
+            <Loader size="huge">Loading... </Loader>
           </Dimmer>
 
           <Image src="/images/wireframe/short-paragraph.png" />
@@ -40,29 +41,27 @@ class Ordering extends React.Component {
             noOfParts += part.qty;
             return noOfParts;
           })}
-    
-          <Grid.Row columns={1}>
-       
-            <Grid.Column width={16}>
-              <Header as="h2" textAlign="center">
-                {" "}
-                <div>Back2Bikes Parts Search</div>{" "}
-              </Header>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row columns={1} centered>
-            <CartIcon noOfParts={noOfParts} />
-            <br />
-            <Input
-              placeholder="Search Part Number"
-              onChange={this.props.onSearchInput}
-              value={this.props.partSearchQuery}
-              icon={"search"}
-              size="massive"
-            />{" "}
 
-          </Grid.Row>
-      
+        <Grid.Row columns={1}>
+          <Grid.Column width={16}>
+            <Header as="h2" textAlign="center">
+              {" "}
+              <div>Back2Bikes Parts Search</div>{" "}
+            </Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row columns={1} centered>
+          <CartIcon noOfParts={noOfParts} />
+          <br />
+          <Input
+            placeholder="Search Part Number"
+            onChange={this.props.onSearchInput}
+            value={this.props.partSearchQuery}
+            icon={"search"}
+            size="massive"
+          />{" "}
+        </Grid.Row>
+
         <Grid.Row columns={1} centered>
           {this.props.parts < 1 ? (
             <Message

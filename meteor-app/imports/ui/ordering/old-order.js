@@ -19,7 +19,7 @@ const oldOrderComponent = props => {
   return (
     <div>
     <Container textAlign="center">
-      <Segment raised clearing className="review" inverted  color="olive">
+      <Segment raised clearing className="review">
         <Header as="h3">
           {humaniseDateDay(order.updatedAt)} 
         </Header>
@@ -53,19 +53,11 @@ const oldOrderComponent = props => {
 
         {!props.loading &&
           order && (
-            <Header as="h2" inverted color="black">
+            <Header as="h2" >
               Total Price: ${(order.totalPrice/100).toFixed(2)}
             </Header>
           )}
         <br />
-        {/* <Button
-          primary
-          onClick={() => {
-            printOrder();
-          }}
-        >
-          PRINT <br />ORDER
-        </Button> */}
       </Segment>
     </Container>
 

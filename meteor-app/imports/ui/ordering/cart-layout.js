@@ -12,7 +12,7 @@ export default withTracker((props) => {
   const archiveOrder = (order) => {
     Orders.update({_id: order._id}, { $set: {status: CONSTANTS.ORDER_STATUS_SENT} })
     const archive = Orders.findOne({_id: order._id})
-    Meteor.callAsync('order.insert', archive)
+    Meteor.callAsync('seed.order')
   }
   const removePart = (order, partId) => {
     const currentOrder = Orders.findOne({_id: order._id})

@@ -48,7 +48,7 @@ const PartCard = ({
         <Divider />
 
         <div className='price-container' >
-          <b>${Number((retailPrice / 100)).toFixed(2)}</b>
+          <b>${(retailPrice / 100).toFixed(2)}</b>
           <Button className='part-add-cart-button' floated='right' color='blue' onClick={() => addToCart({
             name: name,
             partId: _id,
