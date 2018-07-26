@@ -211,7 +211,7 @@ class AssessmentAdd extends Component {
 
   selectCustomService = () => {
     const formData = mapSchemaToState(schemas)
-    this.setState({
+    this.setState((prevState) => ({
       formData: {
         ...formData,
         services: [],
@@ -219,7 +219,7 @@ class AssessmentAdd extends Component {
       },
       step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
       progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
-    })
+    }))
   }
 
   goToStep = (step) => {
