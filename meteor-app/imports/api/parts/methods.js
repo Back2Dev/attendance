@@ -10,21 +10,24 @@ function calcRetail(price) {
       const retailPrice = parseInt(price, 10) * 100 * 2;
       return retailPrice;
     } catch (e) {
-      console.error(e);
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else if (price > 6000 && price <= 10000) {
     try {
       const retailPrice = parseInt(price, 10) * 100 * 1.5;
       return retailPrice;
     } catch (e) {
-      console.error(e);
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else if (price > 10000) {
     try {
       const retailPrice = parseInt(price, 10) * 100 * 1.3;
       return retailPrice;
     } catch (e) {
-      console.error(e);
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else {
     return console.error("Error, not a number");
