@@ -20,7 +20,7 @@ const activeOrder = props => {
   return (
     <div>
       <Container textAlign="center" className="section-to-print">
-        <Segment raised clearing className="review">
+        <Segment raised clearing className="review" color="blue" >
           {!props.loading &&
             order &&
             order.orderedParts.forEach(part => {

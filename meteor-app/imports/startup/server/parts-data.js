@@ -3,7 +3,7 @@ import Orders from '/imports/api/orders/schema'
 
 Meteor.methods({
  
-  async 'seed.orders'() {
+  async 'seed.order'() {
     try {
       await Orders.insert ({
         status: 1,
@@ -22,6 +22,6 @@ Meteor.methods({
 Meteor.startup(() => {
   const invalid = (Orders.remove( { totalPrice : { $lt: 0 }  } ))
   if (Orders.find().count() === 0) {
-    Meteor.call('seed.orders')
+    Meteor.call('seed.order')
   }
 })

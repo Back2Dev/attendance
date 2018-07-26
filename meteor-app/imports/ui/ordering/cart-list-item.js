@@ -16,7 +16,9 @@ const CartListItem = ({
   return (
     <Table.Row>
       <Table.Cell collapsing textAlign="left">
-        <Label ribbon size="big">{partNo}</Label>
+        <Label ribbon size="big">
+          {partNo}
+        </Label>
       </Table.Cell>
       <Table.Cell className="partDescription">{name}</Table.Cell>
       <Table.Cell collapsing textAlign="left">

@@ -54,8 +54,8 @@ const CartList = props => {
           archiveOrder={archiveOrder}
         />
          <Container textAlign="center">
-        <Segment raised clearing className="review">
-            <Header as="h3" block>
+        <Segment raised clearing className="review" secondary color="olive" inverted>
+            <Header as="h3">
               Previous Orders
             </Header>
         
