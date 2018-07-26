@@ -74,7 +74,7 @@ class JobCard extends Component {
             <br/>
             <div><strong>{jobStatus}</strong></div>
           </Card.Header>
-          <Card.Content style={{ fontSize: "1em", marginLeft: "15px" }}>
+          <Card.Content style={{ fontSize: "1em", marginLeft: "28px" }}>
             <List>
               <List.Item><strong>Customer Name: </strong>{this.titleCase(customerName)}</List.Item>
               <List.Item><strong>Bike Make: </strong>{make.toUpperCase()}</List.Item>
@@ -89,19 +89,19 @@ class JobCard extends Component {
             <Button.Group style={{  width: "80%" }} vertical>
                 <Button 
                   className="positive ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px' }} 
+                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }} 
                   onClick={this.updateButton} >
                     <h2>{statusButton}</h2>
                 </Button>
                 <Button 
                   className="positive ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px' }}
+                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
                   onClick={() => printJobCart(this.props.currentJob)} >
                     <h2>Print Job Card</h2>
                 </Button>
                 <Button 
                   className="negative ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px' }}
+                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
                   onClick={this.cancelButton} >
                     <h2>{cancelButton}</h2>
                 </Button>

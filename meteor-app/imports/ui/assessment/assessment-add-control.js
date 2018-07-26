@@ -14,7 +14,7 @@ const AssessmentAddControl = (props) => {
       }
       {
         (props.step < props.totalSteps - 1) &&
-        <Button type="submit" floated="right" onClick={props.onSubmit} >
+        <Button type="submit" floated="right" onClick={props.forwardStep} >
           Next
           <Icon name="arrow right" />
         </Button>
