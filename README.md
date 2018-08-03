@@ -12,3 +12,6 @@ We prefer that volunteers work not on their own bike, but on one of our projects
 ## Update
 
 2 teams from Coder Academy are working on adding features to the app
+
+Thanks to Browser Stack for free access
+![browser stack](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/header-logo.svg)
