@@ -3,13 +3,21 @@ Workshop attendance app
 
 [![Back2bikes workshop](http://img.youtube.com/vi/0u2h09ZFhyc/0.jpg)](http://www.youtube.com/watch?v=0u2h09ZFhyc)
 
-## The business problem
+## Our challenge
 
-Volunteers sign up, and come along to fix bikes in the workshop. While we make our best efforts to welcome them, tell the story about us, and give them a bike to work on, sometimes they either never come or don't stay.
+Back2bikes is a place where we fix bikes. Our volunteers love doing that, and they are not really interested in paper work or administration.
 
-An attendance system can record who is doing sessions at back2bikes. and more importantly we can tell when they stop coming. This will give us the chance to send them an email and ask the reason, and if it was due to a perception oe an incident, we'll have a chance to address it.
+## Logging attendance
 
-We prefer that volunteers work not on their own bike, but on one of our projects. We do want to allow them to work on their own bikes, but only after they have done a number of sessions with us, and at designated times.
+As we have grown, we have realised the need to keep records, especially for insurance reasons.
+
+This app provides a really easy way for volunteers to sign in, and this helps us to track who has come, recognise our regulars, and reach out to people who stop coming.
+
+## Parts ordering
+
+
+## Service booking
+
 
 ## Thanks to our friends and sponsors
 
