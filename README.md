@@ -1,5 +1,7 @@
-# attendance
+# Attendance app
 Workshop attendance app
+
+[![Back2bikes workshop](http://img.youtube.com/vi/0u2h09ZFhyc/0.jpg)](http://www.youtube.com/watch?v=0u2h09ZFhyc)
 
 ## The business problem
 
@@ -9,9 +11,11 @@ An attendance system can record who is doing sessions at back2bikes. and more im
 
 We prefer that volunteers work not on their own bike, but on one of our projects. We do want to allow them to work on their own bikes, but only after they have done a number of sessions with us, and at designated times.
 
-## Update
+## Thanks to our friends and sponsors
 
-2 teams from Coder Academy are working on adding features to the app
+![Browser Stack](docs/browser-stack.png)
+Thanks to [Browser Stack](https://www.browserstack.com/) for free access to their tools. Without it we would have to beg, borrow or steal a bunch of computers and setups that we can bring up at will from a browser. Magic!
 
-![Browser Stack](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/header-logo.svg) Thanks to Browser Stack for free access
+![Coder Academy](docs/coder-academy.png) Thanks to 9 excellent students from [Coder Academy](https://coderacademy.edu.au/) who coded some app features for us.
+
 
