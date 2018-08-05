@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "private": false,
   "scripts": {
+    "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
     "start": "meteor run",
     "lint": "eslint .",
     "test:ui": "start-storybook -s public -p 6046",
@@ -78,7 +79,7 @@
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
-    "babel-root-slash-import": "^1.1.0",
+    "babel-plugin-root-import": "^6.1.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-enzyme": "^0.8.0",
