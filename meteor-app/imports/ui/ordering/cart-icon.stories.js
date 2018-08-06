@@ -9,7 +9,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 import member from '/imports/test/fake-member'
 import { Icon } from 'semantic-ui-react'
-import CartAddIcon from './cart-add-icon'
+import CartAddIcon from './cart-icon'
 
 storiesOf('Cart Icon', module)
   .addDecorator(withKnobs)
