@@ -34,6 +34,7 @@ storiesOf('Assessment.ServiceList', module)
                         serviceTitle= {minorServiceTitle}
                         servicePrice= {minorServicePrice}
                         cardColor="#00C646"
+                        onClick={action("Minor Service")}
                     />
                 </Grid.Column>
                 <Grid.Column textAlign='center' tablet={5} computer={5} floated='left'>
@@ -42,12 +43,16 @@ storiesOf('Assessment.ServiceList', module)
                         serviceTitle= {majorServiceTitle}
                         servicePrice= {majorServicePrice}
                         cardColor="#0081D3"
+                        onClick={action("Major Service")}
                     />
                 </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={1} centered>
                     <Grid.Column width={6}>
-                        <Button size='big' fluid secondary>Custom Service</Button>
+                        <Button 
+                        onClick={action("Custom Service")}
+                        size='big' 
+                        fluid secondary>Custom Service</Button>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>   

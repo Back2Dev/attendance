@@ -13,7 +13,7 @@ storiesOf('Assessment.PrintJobCard', module)
     const story = (
       <div>
         <Button
-          onClick={ () => printJobCard()}> Click Here! </Button> 
+          onClick={ action("Print Job Card")}> Print Job </Button> 
       </div>
     )
     return story
