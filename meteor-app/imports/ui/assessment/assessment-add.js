@@ -314,7 +314,7 @@ class AssessmentAdd extends Component {
     const date = new Date()
     const dateOneWeekLater = new Date(date.setDate(date.getDate() + 7))
     const formattedDate = moment(dateOneWeekLater).format('YYYY-MM-DD')
-    schemas[2].schema.properties.pickUpDate.default = formattedDate
+    schemas[4].schema.properties.pickUpDate.default = formattedDate
     const data = this.state.costData
     const showPrice = this.state.step === 1 || this.state.step === 2
 
