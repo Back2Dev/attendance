@@ -18,7 +18,7 @@ storiesOf('Assessment.Add', module)
       <Router>
         <div><p>Use Knobs to select step</p>
           <AssessmentAdd
-            step={number("Step",0)}
+            step={number("Step", 3)}
             addAssessment={action("addAssessment")}
             error={false}
             success={true}

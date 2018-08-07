@@ -64,7 +64,7 @@ class AssessmentAdd extends Component {
 
   componentWillUnmount() {
     // prevents id from persisting between adding assessments
-      this.props.resetId()
+      this.props.resetId
   }
 
   onSubmit = async ({ formData }) => {
