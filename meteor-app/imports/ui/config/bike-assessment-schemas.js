@@ -99,7 +99,6 @@ export default [{
     schema: {
       type: "object",
       title: "Select Parts",
-      required: ['pickUpDate'],
       properties: {
         parts: {
           type: "array",
@@ -122,24 +121,7 @@ export default [{
           type: "integer",
           title: "Enter additional fee if required (list reason in comments)"
         },
-        replacementBike: {
-          type: "boolean",
-          title: "Replacement bike required?"
-        },
-        sentimentalValue: {
-          type: "boolean",
-          title: "Does bike have sentimental value?"
-        },
-        requestUrgent: {
-          type: "boolean",
-          title: "Is this request urgent?"
-        },
-        pickUpDate: {
-          type: "string",
-          title: "Pick-up Date",
-          format: "date",
-          default: "2018-10-10"
-        },
+        
       },
     },
     uiSchema: {
@@ -161,13 +143,10 @@ export default [{
         "ui:placeholder": "$Additional Fee",
         "ui:widget": "updown"
       },
-      replacementBike: {},
-      sentimentalValue: {},
-      requestUrgent: {
 
-      },
     }
   },
+
   {
     stepTitle: 'Review',
     stepDescription: '',
@@ -190,6 +169,12 @@ export default [{
           title: "Is this bike being refurbished by Back 2 Bikes?",
           default: false
         },
+        pickUpDate: {
+          type: "string",
+          title: "Pick-up Date",
+          format: "date",
+          default: "2018-10-10"
+        },
       },
       dependencies: {
         b2bRefurbish: {
@@ -197,8 +182,8 @@ export default [{
             {
               properties: {
                 b2bRefurbish: { enum: [true, ""] }
-              }
-            },
+              },
+          },
             {
               properties: {
                 b2bRefurbish: { enum: [false] },
@@ -214,6 +199,22 @@ export default [{
                   type: "string",
                   title: "Email"
                 },
+                replacementBike: {
+                  type: "boolean",
+                  title: "Replacement bike required?",
+                  default: false
+                },
+                sentimentalValue: {
+                  type: "boolean",
+                  title: "Does bike have sentimental value?",
+                  default: false
+                },
+                requestUrgent: {
+                  type: "boolean",
+                  title: "Is this request urgent?",
+                  default: false
+                },
+        
               },
               required: ["name", "phone", "email"]
             }
@@ -227,7 +228,10 @@ export default [{
       phone: {},
       email: {
         "ui:widget": "email"
-      }
+      },
+      replacementBike: {},
+      sentimentalValue: {},
+      requestUrgent: {},
     },
   }
 ]
