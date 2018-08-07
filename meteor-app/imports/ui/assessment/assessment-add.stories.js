@@ -6,8 +6,51 @@ import { withInfo } from '@storybook/addon-info'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 import { BrowserRouter as Router } from 'react-router-dom'
-
 import AssessmentAdd from './assessment-add'
+
+const members = [{ name: 'Mark' }, { name: 'Mike' }]
+const serviceItems = [
+{
+  name: 'Front Tyre (new)',
+  price: 1000
+},
+{
+  name: 'Rear Tyre (new)',
+  price: 1000
+},
+{
+  name: 'Brake pads - Dual pivot',
+  price: 1500
+},
+{
+  name: 'Brake pads - V brakes',
+  price: 1000
+},
+{
+  name: 'Tube',
+  price: 800
+},
+{
+  name: 'Tube & fitting',
+  price: 2000
+},
+{
+  name: 'Cable x 1',
+  price: 500
+},
+{
+  name: 'Cables x 2',
+  price: 1000
+},
+{
+  name: 'Cables x 3',
+  price: 1500
+},
+{
+  name: 'Cables x 4',
+  price: 2000
+},
+]
 
 const myServices = [{
   name: 'Check functionality/adjust brakes and gears',
@@ -81,7 +124,9 @@ storiesOf('Assessment.Add', module)
         <div><p>Use Knobs to select step</p>
           <AssessmentAdd
             services={myServices}
-            step={number("Step", 3)}
+            serviceItems={serviceItems}
+            members={members}
+            step={number("Step", 0)}
             addAssessment={action("addAssessment")}
             error={false}
             success={true}
