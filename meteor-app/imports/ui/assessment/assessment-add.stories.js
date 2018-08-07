@@ -9,7 +9,66 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import AssessmentAdd from './assessment-add'
 
-const myServices = ["Check functionality/adjust brakes & gears", "Check hubs for wear/play", "Remove, clean & oil chain", "Clean rear cassette", "Check tyre pressure", "Lube deraileurs", "Check/tighten bolts on cranks, headset, wheels and bottom bracket", "Check/tighten bolts on cranks, headset, wheels and bottom bracket"]
+const myServices = [{
+  name: 'Check functionality/adjust brakes and gears',
+  price: 1000,
+  package: 'Minor',
+},
+{
+  name: 'Check hubs for wear/play',
+  price: 1000,
+  package: 'Minor',
+},
+{
+  name: 'Remove, clean and oil chain',
+  price: 1000,
+  package: 'Minor',
+},
+{
+  name: 'Clean rear cassette',
+  price: 1000,
+  package: 'Minor',
+},
+{
+  name: 'Check tyre pressure',
+  price: 500,
+  package: 'Minor',
+},
+{
+  name: 'Lube deraileurs',
+  price: 500,
+  package: 'Minor',
+},
+{
+  name: 'Check/tighten bolts on cranks, headset, wheels and bottom bracket',
+  price: 1000,
+  package: 'Minor',
+},
+{
+  name: 'Check wheels are true',
+  price: 1200,
+  package: 'Major',
+},
+{
+  name: 'Clean and re-grease wheel bearings',
+  price: 1200,
+  package: 'Major',
+},
+{
+  name: 'Clean and re-grease headset',
+  price: 1200,
+  package: 'Major',
+},
+{
+  name: 'Clean and re-grease bottom bracket',
+  price: 1200,
+  package: 'Major',
+},
+{
+  name: 'Clean and re-grease seat post and clamps',
+  price: 1200,
+  package: 'Major',
+}]
 
 storiesOf('Assessment.Add', module)
   .addDecorator(withKnobs)
