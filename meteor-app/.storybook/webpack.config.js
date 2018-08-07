@@ -18,7 +18,8 @@ module.exports = {
             ['babel-plugin-root-import',{
               "paths": [{"rootPathPrefix": "/"}]},],
             '@babel/plugin-proposal-object-rest-spread',
-            '@babel/plugin-proposal-class-properties'
+            '@babel/plugin-proposal-class-properties',
+			'@babel/plugin-transform-runtime',
           ],
         },
       },

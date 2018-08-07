@@ -28,6 +28,7 @@ Next
 * Add status filter for job cart
 * Add live price update for form
 * Add a name search feature to the search functionality
+* Fix storybook missing runtimeGenerator problem
 
 0.3.0
 ------
