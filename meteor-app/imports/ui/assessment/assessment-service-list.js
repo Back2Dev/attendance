@@ -45,10 +45,6 @@ class ServiceList extends Component {
         )
     }
 }
-
-ServiceList.defaultProps = {
-    services: [],
-  }
   
 export default ServiceList
 
