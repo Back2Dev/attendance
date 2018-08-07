@@ -8,9 +8,9 @@ const minorService = ["Check functionality/adjust brakes & gears", "Check hubs f
 
 const majorService = ["Check wheels are true", "Clean and re-grease wheel bearings", "Clean and re-grease headset", "Clean and re-grease bottom bracket", "Clean and re-grease seat post & clamps"]
 
-const minorServiceTitle = "Minor Serivce"
+const minorServiceTitle = "Minor Service"
 const minorServicePrice = "60"
-const majorServiceTitle = "Major Serivce"
+const majorServiceTitle = "Major Service"
 const majorServicePrice = "120"
 
 storiesOf('Assessment.ServiceCard', module)
@@ -25,6 +25,7 @@ storiesOf('Assessment.ServiceCard', module)
           serviceTitle= {minorServiceTitle}
           servicePrice= {minorServicePrice}
           cardColor="#00C646"
+          onClick={ action("Minor Service")}
         />
       </div>
     )
@@ -38,6 +39,7 @@ storiesOf('Assessment.ServiceCard', module)
         serviceTitle= {majorServiceTitle}
         servicePrice= {majorServicePrice}
         cardColor="#0081D3"
+        onClick={ action("Major Service")}
       />
     </div>
     )
