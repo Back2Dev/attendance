@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import { Grid, Search, Dropdown } from 'semantic-ui-react'
+import { Grid, Search, Radio } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
@@ -23,7 +23,6 @@ class JobCardList extends Component {
         text: JOB_STATUS_READABLE[key]
       }
     })
-    const preSelection = Object.values(JOB_STATUS_READABLE)
     
     return (
       <>
@@ -38,14 +37,17 @@ class JobCardList extends Component {
             placeholder='Enter bike make/color or customer name'/>
         </div>
         <div style={{margin: "10px"}}>
-          <Dropdown 
-            placeholder='Job Status' 
-            multiple 
-            search 
-            selection 
-            defaultValue={preSelection}
-            options={statusOptions} 
-            onChange={this.props.statusFilter} />
+        {
+          statusOptions.map((status) =>
+          <Radio
+          key={status.key}
+          style={{marginLeft: "10px"}}
+          label={status.text}
+          name={status.text}
+          value={status.value}
+          checked={"something here" === status.value}  //still working the right code for radio buttons to display check
+          onChange={this.props.statusFilter} />)
+        }
         </div>
         <Grid stackable >
           {this.props.jobs.map(job =>

@@ -34,29 +34,26 @@ CONSTANTS.ORDER_STATUS_READABLE = {
 
 export const JOB_STATUS = {
   NEW: 1,
-  ASSIGNED: 2,
-  IN_PROGRESS: 3,
-  COMPLETED: 4,
-  BIKE_PICKED_UP: 5,
-  CANCELLED: 6,
+  IN_PROGRESS: 2,
+  COMPLETED: 3,
+  BIKE_PICKED_UP: 4,
+  CANCELLED: 5,
 }
 
 export const JOB_STATUS_READABLE = {
   1: 'New',
-  2: 'Assigned',
-  3: 'In Progress',
-  4: 'Completed',
-  5: 'Bike Picked Up',
-  6: 'Cancelled'
+  2: 'In Progress',
+  3: 'Completed',
+  4: 'Bike Picked Up',
+  5: 'Cancelled'
 }
 
 export const JOB_STATUS_BUTTON = {
-  1: 'Assign Job',
-  2: 'Start Job',
-  3: 'Complete Job',
-  4: 'Pick Up Bike',
-  5: 'Order Completed',
-  6: 'Re-Open Job'
+  1: 'Start Job',
+  2: 'Complete Job',
+  3: 'Pick Up Bike',
+  4: 'Order Completed',
+  5: 'Re-Open Job'
 }
 
 export default CONSTANTS
