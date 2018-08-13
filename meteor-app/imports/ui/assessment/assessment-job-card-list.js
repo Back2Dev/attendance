@@ -18,13 +18,14 @@ class JobCardList extends Component {
   }
 
   setButtonState = (status) => {
-      this.setState({active: status.value})
+      this.setState({active: status.key});
+      this.props.statusFilter(status)
   }
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE).map(key => {
       return {
-        key: JOB_STATUS_READABLE[key],
+        key: key,
         value: JOB_STATUS_READABLE[key],
         text: JOB_STATUS_READABLE[key]
       }
@@ -46,7 +47,7 @@ class JobCardList extends Component {
           {statusOptions.map((status) =>  
             <Button
               toggle
-              className={this.state.active === status.value ? 'active' : ''}            
+              className={this.state.active === status.key ? 'active' : ''}            
               key={status.key}
               value={status.value}
               onClick={() => this.setButtonState(status)}
@@ -83,13 +84,10 @@ export default withTracker(props => {
     searchVar.set(value)
   }
 
-  const statusFilter = (event, data) => {
-    const value = Array.isArray(data.value) ? data.value : [data.value]
+  const statusFilter = (status) => {
     const statusValue = Object.keys(JOB_STATUS_READABLE)
     .filter(key => {
-      for (let i = 0; i < value.length; i++) {
-        if (JOB_STATUS_READABLE[key] === value[i]) return key
-      }
+        return key === status.key
     })
     .map(value => parseInt(value))
     statusVar.set(statusValue)
