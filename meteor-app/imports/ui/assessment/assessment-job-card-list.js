@@ -29,7 +29,6 @@ class JobCardList extends Component {
         text: JOB_STATUS_READABLE[key]
       }
     })
-
     return (
       <>
         <Nav />
