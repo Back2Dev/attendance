@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import { Grid, Search, Dropdown } from 'semantic-ui-react'
+import { Grid, Search, Button } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
@@ -13,18 +13,23 @@ const searchVar = new ReactiveVar('')
 const statusVar = new ReactiveVar('')
 
 class JobCardList extends Component {
+  state = {
+    active: null
+  }
 
+  setButtonState = (status) => {
+      this.setState({active: status.key});
+      this.props.statusFilter(status)
+  }
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE).map(key => {
       return {
-        key: JOB_STATUS_READABLE[key],
+        key: key,
         value: JOB_STATUS_READABLE[key],
         text: JOB_STATUS_READABLE[key]
       }
     })
-    const preSelection = Object.values(JOB_STATUS_READABLE)
-    
     return (
       <>
         <Nav />
@@ -38,15 +43,21 @@ class JobCardList extends Component {
             placeholder='Enter bike make/color or customer name'/>
         </div>
         <div style={{margin: "10px"}}>
-          <Dropdown 
-            placeholder='Job Status' 
-            multiple 
-            search 
-            selection 
-            defaultValue={preSelection}
-            options={statusOptions} 
-            onChange={this.props.statusFilter} />
+          <Button.Group basic id="button-parent">
+          {statusOptions.map((status) =>  
+            <Button
+              toggle
+              className={this.state.active === status.key ? 'active' : ''}            
+              key={status.key}
+              value={status.value}
+              onClick={() => this.setButtonState(status)}
+            >
+            {status.text}
+            </Button>
+          )}
+          </Button.Group>
         </div>
+
         <Grid stackable >
           {this.props.jobs.map(job =>
             <Grid.Column key={job._id} mobile={5} tablet={5} computer={4}>
@@ -73,17 +84,15 @@ export default withTracker(props => {
     searchVar.set(value)
   }
 
-  const statusFilter = (event, data) => {
-    const value = Array.isArray(data.value) ? data.value : [data.value]
+  const statusFilter = (status) => {
     const statusValue = Object.keys(JOB_STATUS_READABLE)
-      .filter(key => {
-        for (let i = 0; i < value.length; i++) {
-          if (JOB_STATUS_READABLE[key] === value[i]) return key
-        }
-      })
-      .map(value => parseInt(value))
+    .filter(key => {
+        return key === status.key
+    })
+    .map(value => parseInt(value))
     statusVar.set(statusValue)
   }
+ 
 
   const updateStatus = (jobId, updatedStatus) => {
     Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)

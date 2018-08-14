@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Component } from 'react'
 import { Card, Button, Container, List } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
@@ -31,7 +32,7 @@ class JobCard extends Component {
     const cancelStatus = JOB_STATUS.CANCELLED
     const reopenStatus = JOB_STATUS.NEW
     const bikePickedUpStatus = JOB_STATUS.BIKE_PICKED_UP
-    try {
+    try { p
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
       } else if(status === cancelStatus) {
@@ -112,5 +113,16 @@ class JobCard extends Component {
     )
   }
 }
+
+
+JobCard.propTypes = {
+  currentJob: PropTypes.shape({
+    _id: PropTypes.string,
+    status: PropTypes.string
+  }),
+  updateStatus: PropTypes.func.isRequired,
+};
+
+
 
 export default JobCard

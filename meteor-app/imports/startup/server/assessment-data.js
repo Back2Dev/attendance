@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
+import Assessment from '/imports/api/assessments/assessment'
+import { fakeJob } from '/imports/api/fake-data'
+import faker from 'faker'
 
 Meteor.methods({
   'seed.services'() {
@@ -296,15 +299,43 @@ Meteor.methods({
     for (let i = 0; i < parts.length; i++) {
       ServiceItems.insert(parts[i])
     }
+  },
+
+  'seed.assessments'() {
+
+    const n = 10
+    // seed ensures same data is generated
+    faker.seed(123)
+
+    const array_of = function (times, generator) {
+      let result = [];
+      for (let i = 0; i < times; ++i) {
+        result.push(generator());
+      }
+      return result;
+    };
+
+    const assessmentsArray =
+      array_of(n, () => fakeJob())
+        .forEach(r => Assessment.insert(r))
   }
 })
 
 Meteor.startup(() => {
+
+  ServiceItems.remove({})
+  Assessment.remove({})
+
+
   if (Services.find().count() === 0) {
     Meteor.call('seed.services')
   }
 
   if (ServiceItems.find().count() === 0) {
     Meteor.call('seed.repairParts')
+  }
+
+  if (Assessment.find().count() === 0) {
+    Meteor.call('seed.assessments')
   }
 })
