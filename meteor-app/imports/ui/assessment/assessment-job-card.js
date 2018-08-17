@@ -1,13 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Component } from 'react'
-import { Card, Button, Container, List } from 'semantic-ui-react'
+import { Card, Button, Container, List, Accordion } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
 import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
 import Alert from 'react-s-alert'
 
+
 class JobCard extends Component {
+  state = { activeIndex: 0 }
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
+  }
 
   updateButton = () => {
     const jobId = this.props.currentJob._id
@@ -50,6 +60,7 @@ class JobCard extends Component {
   }
 
   render() {
+    const { activeIndex } = this.state
     // Pulling data from props (assessment collection)
     const { status, bikeDetails, services, pickupDate, totalCost, customerDetails } = this.props.currentJob
     const make = bikeDetails.make
@@ -68,14 +79,15 @@ class JobCard extends Component {
     const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? 'Cancel Job' : 'Re-open Job'
     
     return (
-      <Card>
-        <Container className="job-card-container" >
-          <Card.Header style={{ textAlign: "Center", fontSize: "1.5em", margin: "20px" }} >
+      <Accordion className="job-card-container" >
+      
+          <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick} style={{ textAlign: "Center", fontSize: "1.5em", margin: "20px" }} >
             Job Status:
+
             <br/>
             <div><strong>{jobStatus}</strong></div>
-          </Card.Header>
-          <Card.Content style={{ fontSize: "1em", marginLeft: "28px" }}>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
             <List>
               <List.Item><strong>Customer Name: </strong>{this.titleCase(customerName)}</List.Item>
               <List.Item><strong>Bike Make: </strong>{make.toUpperCase()}</List.Item>
@@ -85,8 +97,8 @@ class JobCard extends Component {
               <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
               <List.Item><strong>Total Price: </strong>${totalRepairCost}</List.Item>
             </List>
-          </Card.Content>
-          <Container style={{ textAlign: "Center", margin: "20px 0" }}>
+          
+          {/* < style={{ textAlign: "Center", margin: "20px 0" }}> */}
             <Button.Group style={{  width: "80%" }} vertical>
                 <Button 
                   className="positive ui button"
@@ -107,9 +119,9 @@ class JobCard extends Component {
                     <h2>{cancelButton}</h2>
                 </Button>
             </Button.Group>
-          </Container>
-        </Container>
-      </Card>
+         
+        </Accordion.Content>
+      </Accordion>
     )
   }
 }
