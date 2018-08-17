@@ -108,11 +108,14 @@ class AssessmentAdd extends Component {
         .map(key => {
           return {
             name: key.name, 
-            price: key.price
+            price: key.price,
+            code: key.code,
+            category: key.category,
+            used: key.used
           }
         })
       const custName = formData.b2bRefurbish ? 'back2bikes' : formData.name.toLowerCase()
-      const search = custName + formData.email + formData.bikeMake.toLowerCase() + formData.bikeColor.toLowerCase()
+      const search = custName + formData.email + formData.phone + formData.bikeMake + formData.bikeModel + formData.bikeColor + formData.mechanic + formData.assessor + formData.comments + formData.package + JSON.stringify(partsItem)
       // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {

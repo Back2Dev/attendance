@@ -32,7 +32,7 @@ class JobCard extends Component {
     const cancelStatus = JOB_STATUS.CANCELLED
     const reopenStatus = JOB_STATUS.NEW
     const bikePickedUpStatus = JOB_STATUS.BIKE_PICKED_UP
-    try { p
+    try {
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
       } else if(status === cancelStatus) {
@@ -118,7 +118,7 @@ class JobCard extends Component {
 JobCard.propTypes = {
   currentJob: PropTypes.shape({
     _id: PropTypes.string,
-    status: PropTypes.string
+    status: PropTypes.number
   }),
   updateStatus: PropTypes.func.isRequired,
 };

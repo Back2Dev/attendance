@@ -2,21 +2,31 @@ import faker from 'faker'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
 
 export const fakeJob = () => {
-  // faker.seed(123)
+
+  // search items
   const name = faker.name.findName()
   const make = faker.random.arrayElement(['Apollo', 'Giant', 'Malvern Star', 'Specialized'])
   const color = faker.commerce.color()
+  const email = faker.internet.email()
+  const phone = faker.phone.phoneNumberFormat()
+  const model = faker.random.arrayElement(['TZ1000', 'Fireball', 'Chicken Dance', 'Zoom2000']) 
+  const comment = 'This bike is amazing'
+  const itemName = faker.random.arrayElement(['Tube', 'Cable', 'Tyre'])
+  const mechanic = faker.name.findName()
+  const assessor = faker.name.findName()
+  const baseService = faker.random.arrayElement(['Minor Service', 'Major Service', 'Custom Service'])
+  const status = parseInt(faker.random.arrayElement(Object.keys(JOB_STATUS_READABLE)))
 
   return {
     customerDetails: {
       name,
-      phone: faker.phone.phoneNumberFormat(),
-      email: faker.internet.email(),
+      phone,
+      email,
       refurbishment: faker.random.boolean(),
     },
     bikeDetails: {
       make,
-      model: faker.random.arrayElement(['TZ1000', 'Fireball', 'Chicken Dance', 'Zoom2000']),
+      model,
       color,
       bikeValue: faker.random.number({ min: 500, max: 100000 }),
       sentimentValue: faker.random.boolean(),
@@ -36,22 +46,31 @@ export const fakeJob = () => {
           price: 100,
         },
       ],
-      baseService: faker.random.arrayElement(['Minor Service', 'Major Service', 'Custom Service']),
+      baseService,
       totalServiceCost: 300,
     },
     parts: {
       partsItem: [
         {
-          name: 'Tube',
+          name: itemName,
           price: 100,
+          code: "F",
+          category: "tyre",
+          used: faker.random.boolean()
         },
         {
-          name: 'Cable',
+          name: itemName,
           price: 100,
+          code: "F",
+          category: "tyre",
+          used: faker.random.boolean()
         },
         {
-          name: 'Tyre',
+          name: itemName,
           price: 100,
+          code: "F",
+          category: "tyre",
+          used: faker.random.boolean()
         },
       ],
       totalPartsCost: 300,
@@ -61,11 +80,11 @@ export const fakeJob = () => {
     dropoffDate: new Date(),
     pickupDate: new Date(),
     urgent: faker.random.boolean(),
-    assessor: faker.name.findName(),
-    mechanic: faker.name.findName(),
-    comment: 'This Bike Is Amazing', 
+    assessor,
+    mechanic,
+    comment,
     temporaryBike: faker.random.boolean(),
-    status: parseInt(faker.random.arrayElement(Object.keys(JOB_STATUS_READABLE))),
-    search: `${name} ${make} ${color}`,
+    status,
+    search: `${name} ${phone} ${email} ${make} ${model} ${color} ${comment} ${itemName} ${mechanic} ${assessor} ${baseService}`,
   }
 }
