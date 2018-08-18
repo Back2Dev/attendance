@@ -107,6 +107,9 @@ Factory.define('assessment', Assessment, {
       {
         name: 'Handle Bar',
         price: 2000,
+        code: 'F',
+        category: 'Other',
+        used: false,
       }
     ],
     totalPartsCost: 2000,
