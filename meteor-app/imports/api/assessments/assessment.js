@@ -48,6 +48,9 @@ export const partsSchema = new SimpleSchema({
   'partsItem.$': Object,
   'partsItem.$.name': { type: String, label: 'Parts name/description' },
   'partsItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single parts item in cents' },
+  'partsItem.$.code': { type: String, label: 'Code to indicate if item is for front or back of bike' },
+  'partsItem.$.category': { type: String, label: 'Parts category' },
+  'partsItem.$.used': { type: Boolean, label: 'Is item new or used' },
   totalPartsCost: { 
     type: SimpleSchema.Integer, 
     label: 'Price of parts in cents',

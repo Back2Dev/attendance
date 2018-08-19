@@ -107,6 +107,9 @@ Factory.define('assessment', Assessment, {
       {
         name: 'Handle Bar',
         price: 2000,
+        code: 'F',
+        category: 'Other',
+        used: false,
       }
     ],
     totalPartsCost: 2000,
@@ -132,7 +135,10 @@ Factory.define('logs', Logger, {
 
 Factory.define('parts', ServiceItems, {
   name: faker.commerce.productName(),
-  price: Math.round(faker.commerce.price() * 100)
+  price: Math.round(faker.commerce.price() * 100),
+  code: 'F',
+  category: 'Other',
+  used: false
 })
 
 Factory.define('services', Services, {
