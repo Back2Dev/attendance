@@ -100,9 +100,9 @@ export default withTracker(props => {
 
   const renderJob = () => {
     if (statusLine == '') {
-      return Assessment.find({ search: { $regex: searchLine, $options: "i" } }).fetch()
+      return Assessment.find({ search: { $regex: searchLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
     }
-    return Assessment.find({ search: { $regex: searchLine, $options: "i"  }, status: { $in: statusLine } }).fetch()
+    return Assessment.find({ search: { $regex: searchLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: statusLine } }).fetch()
   }
 
   return {
