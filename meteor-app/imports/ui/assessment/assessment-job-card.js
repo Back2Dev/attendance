@@ -117,8 +117,8 @@ class JobCard extends Component {
 
 JobCard.propTypes = {
   currentJob: PropTypes.shape({
-    _id: PropTypes.string,
-    status: PropTypes.number
+    _id: PropTypes.string.isRequired,
+    status: PropTypes.number.isRequired
   }),
   updateStatus: PropTypes.func.isRequired,
 };
