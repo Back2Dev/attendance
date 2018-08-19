@@ -9,7 +9,7 @@ export const fakeJob = () => {
   const color = faker.commerce.color()
   const email = faker.internet.email()
   const phone = faker.phone.phoneNumberFormat()
-  const model = faker.random.arrayElement(['TZ1000', 'Fireball', 'Chicken Dance', 'Zoom2000']) 
+  const model = faker.random.arrayElement(['Trail Breaker', 'Samurai', 'Katana', 'Yukon', 'Cypress', 'Defy', 'CX1']) 
   const comment = 'This bike is amazing'
   const itemName = faker.random.arrayElement(['Tube', 'Cable', 'Tyre'])
   const mechanic = faker.name.findName()
