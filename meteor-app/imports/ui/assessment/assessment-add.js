@@ -115,8 +115,7 @@ class AssessmentAdd extends Component {
           }
         })
       const custName = formData.b2bRefurbish ? 'back2bikes' : formData.name.toLowerCase()
-      const search = custName + formData.email + formData.phone + formData.bikeMake + formData.bikeModel + formData.bikeColor + formData.mechanic + formData.assessor + formData.comments + formData.package + JSON.stringify(partsItem)
-      // Structuring form submission to match collection schema
+      const search = Object.values(formData).join(" ")      // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
           name: custName,
