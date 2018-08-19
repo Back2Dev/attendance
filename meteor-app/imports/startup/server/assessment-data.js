@@ -133,63 +133,7 @@ Meteor.methods({
         code: 'O',
         category: 'other',
         used: false
-      },
-      {
-        name: 'Cable x 1',
-        price: 500,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cables x 2',
-        price: 1000,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cables x 3',
-        price: 1500,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cables x 4',
-        price: 2000,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cable fitted x 1',
-        price: 1000,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cables fitted x 2',
-        price: 2000,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cables fitted x 3',
-        price: 3000,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },
-      {
-        name: 'Cables fitted x 4',
-        price: 4000,
-        code: 'O',
-        category: 'cable',
-        used: false
-      },      
+      },     
       {
         name: 'Front brake cable fitted',
         price: 1000,
