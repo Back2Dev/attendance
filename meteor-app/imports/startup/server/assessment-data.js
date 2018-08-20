@@ -80,219 +80,325 @@ Meteor.methods({
     const parts = [
       {
         name: 'Front Tyre (second hand)',
-        price: 500
+        price: 500,
+        code: 'F',
+        category: 'tyre',
+        used: true
       },
       {
         name: 'Rear Tyre (second hand)',
-        price: 500
+        price: 500,
+        code: 'R',
+        category: 'tyre',
+        used: true
       },
       {
         name: 'Front Tyre (new)',
-        price: 1000
+        price: 1000,
+        code: 'F',
+        category: 'tyre',
+        used: false
       },
       {
         name: 'Rear Tyre (new)',
-        price: 1000
+        price: 1000,
+        code: 'R',
+        category: 'tyre',
+        used: false
       },
       {
         name: 'Brake pads - Dual pivot',
-        price: 1500
+        price: 1500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Brake pads - V brakes',
-        price: 1000
+        price: 1000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Tube',
-        price: 800
+        price: 800,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Tube & fitting',
-        price: 2000
-      },
-      {
-        name: 'Cable x 1',
-        price: 500
-      },
-      {
-        name: 'Cables x 2',
-        price: 1000
-      },
-      {
-        name: 'Cables x 3',
-        price: 1500
-      },
-      {
-        name: 'Cables x 4',
-        price: 2000
-      },
-      {
-        name: 'Cable fitted x 1',
-        price: 1000
-      },
-      {
-        name: 'Cables fitted x 2',
-        price: 2000
-      },
-      {
-        name: 'Cables fitted x 3',
-        price: 3000
-      },
-      {
-        name: 'Cables fitted x 4',
-        price: 4000
-      },      
+        price: 2000,
+        code: 'O',
+        category: 'other',
+        used: false
+      },     
       {
         name: 'Front brake cable fitted',
-        price: 1000
+        price: 1000,
+        code: 'F',
+        category: 'cable',
+        used: false
       },
       {
         name: 'Rear brake cable fitted',
-        price: 1000
+        price: 1000,
+        code: 'R',
+        category: 'cable',
+        used: false
       },
       {
         name: 'Front gear cable fitted',
-        price: 1000
+        price: 1000,
+        code: 'F',
+        category: 'cable',
+        used: false
       },
       {
         name: 'Rear gear cable fitted',
-        price: 1000
+        price: 1000,
+        code: 'R',
+        category: 'cable',
+        used: false
       },
       {
         name: 'Cable fitting x 1',
-        price: 1500
+        price: 1500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Cable fitting x 2',
-        price: 3000
+        price: 3000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Wheel true',
-        price: 2500
+        price: 2500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Spokes and nipples',
-        price: 500
+        price: 500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Hub service',
-        price: 1500
+        price: 1500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Hub service with new cones',
-        price: 2500
+        price: 2500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Bottom Bracket - square taper cartridge',
-        price: 2200
+        price: 2200,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Bottom Bracket - Octalink, Hollowtech etc',
-        price: 2200
+        price: 2200,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Chain - 6/7/8 Speed',
-        price: 2500
+        price: 2500,
+        code: 'O',
+        category: 'chain',
+        used: false
       },
       {
         name: 'Chain - 9 Speed',
-        price: 3200
+        price: 3200,
+        code: 'O',
+        category: 'chain',
+        used: false
       },
       {
         name: 'Chain - 10 Speed',
-        price: 4400
+        price: 4400,
+        code: 'O',
+        category: 'chain',
+        used: false
       },
       {
         name: 'Chain - 11 Speed',
-        price: 6600
+        price: 6600,
+        code: 'O',
+        category: 'chain',
+        used: false
       },
       {
         name: 'Chain - single speed/hub gear',
-        price: 1200
+        price: 1200,
+        code: 'O',
+        category: 'chain',
+        used: false
       },
       {
         name: 'Locks - cable/combination',
-        price: 2000
+        price: 2000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Locks - D',
-        price: 3400
+        price: 3400,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Light set - button rechargable',
-        price: 4000
+        price: 4000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Light set - button battery',
-        price: 2000
+        price: 2000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Lights - high power, per end',
-        price: 3600
+        price: 3600,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 5 speed',
-        price: 2000
+        price: 2000,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 6 speed',
-        price: 2200
+        price: 2200,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 7 speed',
-        price: 2500
+        price: 2500,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 8 speed',
-        price: 3200
+        price: 3200,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 9 speed',
-        price: 4800
+        price: 4800,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 10 speed',
-        price: 6600
+        price: 6600,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Rear cog sets - free wheel 11 speed',
-        price: 8500
+        price: 8500,
+        code: 'R',
+        category: 'cog set',
+        used: false
       },
       {
         name: 'Single Speed',
-        price: 3200
+        price: 3200,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Grips - standard',
-        price: 1000
+        price: 1000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Grips - lock on',
-        price: 2000
+        price: 2000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Bar tape',
-        price: 2000
+        price: 2000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Bar tape supply and fitting',
-        price: 3500
+        price: 3500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Racks supply and fit',
-        price: 4500
+        price: 4500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Saddle',
-        price: 2000
+        price: 2000,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Bell',
-        price: 600
+        price: 600,
+        code: 'O',
+        category: 'other',
+        used: false
       },
       {
         name: 'Side stand including fitting',
-        price: 1500
+        price: 1500,
+        code: 'O',
+        category: 'other',
+        used: false
       },
     ]
 
@@ -303,7 +409,7 @@ Meteor.methods({
 
   'seed.assessments'() {
 
-    const n = 10
+    const n = 15
     // seed ensures same data is generated
     faker.seed(123)
 
