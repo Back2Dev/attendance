@@ -47,8 +47,8 @@ class JobCardList extends Component {
         <Grid stackable>
           <Grid.Row columns={2}>
         <Grid.Column>
-        <div style={{marginLeft: "60px", marginTop: "20px"}}>
-          <Button.Group basic id="button-parent">
+        <div style={{marginLeft: "50px", marginTop: "20px"}}>
+          <Button.Group compact basic id="button-parent">
           <Button
               toggle
               className={this.state.showAll ? 'active' : ''}            
@@ -72,7 +72,7 @@ class JobCardList extends Component {
         </div>
         </Grid.Column>
         <Grid.Column>
-        <div style={{textAlign: "right", marginRight: "60px", marginTop: "20px"}}>
+        <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
           <Search
             open={false}
             fluid
@@ -85,7 +85,7 @@ class JobCardList extends Component {
         </Grid.Row>
         </Grid>
 
-        <Grid style={{marginLeft: "60px", marginRight: "60px" }}>
+        <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
           {this.props.jobs.map(job =>
             <Grid.Row key={job._id}>
               <JobCard
