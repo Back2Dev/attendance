@@ -14,12 +14,23 @@ const statusVar = new ReactiveVar('')
 
 class JobCardList extends Component {
   state = {
-    active: null
+    active: null,
+    showAll: true,
   }
 
   setButtonState = (status) => {
-      this.setState({active: status.key});
+    if(status === 'all'){
+      this.setState({showAll: true,
+        active: null
+      });
       this.props.statusFilter(status)
+    } else {
+      this.setState({
+        active: status.key,
+        showAll: false,
+      });
+      this.props.statusFilter(status)
+    }
   }
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
@@ -44,7 +55,15 @@ class JobCardList extends Component {
         </div>
         <div style={{margin: "10px"}}>
           <Button.Group basic id="button-parent">
-          {statusOptions.map((status) =>  
+          <Button
+              toggle
+              className={this.state.showAll ? 'active' : ''}            
+              value='all'
+              onClick={() => this.setButtonState('all')}
+            >
+            Show All
+            </Button>
+          {statusOptions.map((status) => 
             <Button
               toggle
               className={this.state.active === status.key ? 'active' : ''}            
@@ -85,14 +104,17 @@ export default withTracker(props => {
   }
 
   const statusFilter = (status) => {
-    const statusValue = Object.keys(JOB_STATUS_READABLE)
-    .filter(key => {
-        return key === status.key
-    })
-    .map(value => parseInt(value))
-    statusVar.set(statusValue)
+    let statusValue
+    if(status === 'all'){
+      statusValue = [1,2,3,4]
+    } else {
+      statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
+        .filter(key => key === status.key) // ["1"]
+        .map(value => parseInt(value)) // [1]
   }
- 
+  statusVar.set(statusValue)
+  }
+
 
   const updateStatus = (jobId, updatedStatus) => {
     Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
