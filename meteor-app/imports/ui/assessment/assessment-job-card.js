@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Component } from 'react'
-import { Card, Button, Container, List, Accordion } from 'semantic-ui-react'
+import { Card, Button, Container, List, Accordion, Icon, Grid } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
 import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
@@ -9,7 +9,7 @@ import Alert from 'react-s-alert'
 
 
 class JobCard extends Component {
-  state = { activeIndex: 0 }
+  state = { activeIndex: -1 }
 
   handleClick = (e, titleProps) => {
     const { index } = titleProps
@@ -76,50 +76,76 @@ class JobCard extends Component {
 
     // Dynamic button name
     const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
-    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? 'Cancel Job' : 'Re-open Job'
+    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? <Icon name="times"/> : <Icon name="bicycle"/>
     
     return (
-      <Accordion className="job-card-container" >
+      <Accordion className="job-card-container" styled fluid>
       
-          <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick} style={{ textAlign: "Center", fontSize: "1.5em", margin: "20px" }} >
-            Job Status:
+        <Accordion.Title 
+          active={activeIndex === 0} 
+          index={0} onClick={this.handleClick} 
+          style={{backgroundColor: "lightblue",fontSize: "1.5em"}}
+        >
+          <Grid>
+            <Grid.Row columns={5}>
 
-            <br/>
-            <div><strong>{jobStatus}</strong></div>
-          </Accordion.Title>
-          <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
-            <List>
-              <List.Item><strong>Customer Name: </strong>{this.titleCase(customerName)}</List.Item>
-              <List.Item><strong>Bike Make: </strong>{make.toUpperCase()}</List.Item>
-              <List.Item><strong>Bike Model: </strong>{model && model.toUpperCase()}</List.Item>
-              <List.Item><strong>Bike Color: </strong>{this.titleCase(color)}</List.Item>
-              <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
-              <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
-              <List.Item><strong>Total Price: </strong>${totalRepairCost}</List.Item>
-            </List>
-          
-          {/* < style={{ textAlign: "Center", margin: "20px 0" }}> */}
-            <Button.Group style={{  width: "80%" }} vertical>
-                <Button 
-                  className="positive ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }} 
-                  onClick={this.updateButton} >
-                    <h2>{statusButton}</h2>
-                </Button>
-                <Button 
-                  className="positive ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
-                  onClick={() => printJobCart(this.props.currentJob)} >
-                    <h2>Print Job Card</h2>
-                </Button>
-                <Button 
-                  className="negative ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
-                  onClick={this.cancelButton} >
-                    <h2>{cancelButton}</h2>
-                </Button>
-            </Button.Group>
-         
+            <Grid.Column>
+              <Icon name='dropdown' />
+            </Grid.Column>
+
+            <Grid.Column>
+              <div><strong>{jobStatus}</strong></div>
+            </Grid.Column>
+
+            <Grid.Column>            
+              <List.Item>{this.titleCase(color)} {make} {model}</List.Item>
+            </Grid.Column>
+
+            <Grid.Column>            
+              <List.Item>{this.titleCase(customerName)}</List.Item>
+            </Grid.Column>
+
+            <Grid.Column>            
+              <List.Item>${totalRepairCost}</List.Item>
+            </Grid.Column>
+
+            </Grid.Row>
+          </Grid>
+        </Accordion.Title>
+
+        <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
+          <Grid>
+          <Grid.Row columns={2}>
+          <Grid.Column>
+            <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
+            <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
+          </Grid.Column>
+
+          <Grid.Column>
+          <Button.Group>
+              <Button 
+                className="positive ui button"
+                style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }} 
+                onClick={this.updateButton} >
+                  <h2>{statusButton}</h2>
+              </Button>
+              <Button 
+                className="ui button"
+                color="blue"
+                style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
+                onClick={() => printJobCart(this.props.currentJob)} >
+                  <Icon name="print" />
+              </Button>
+              <Button 
+                className="negative ui button"
+                style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
+                onClick={this.cancelButton} >
+                <h2>{cancelButton}</h2>
+              </Button>
+          </Button.Group>
+          </Grid.Column>
+          </Grid.Row>
+          </Grid>
         </Accordion.Content>
       </Accordion>
     )
@@ -134,7 +160,5 @@ JobCard.propTypes = {
   }),
   updateStatus: PropTypes.func.isRequired,
 };
-
-
 
 export default JobCard

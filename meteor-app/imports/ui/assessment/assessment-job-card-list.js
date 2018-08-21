@@ -58,14 +58,14 @@ class JobCardList extends Component {
           </Button.Group>
         </div>
 
-        <Grid stackable >
+        <Grid style={{margin: "20px"}}>
           {this.props.jobs.map(job =>
-            <Grid.Column key={job._id} mobile={5} tablet={5} computer={4}>
+            <Grid.Row key={job._id}>
               <JobCard
                 currentJob={job}
                 updateStatus={this.props.updateStatus}
               />
-            </Grid.Column>
+            </Grid.Row>
           )}
         </Grid>
       </>
