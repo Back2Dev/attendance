@@ -33,16 +33,10 @@ class JobCardList extends Component {
     return (
       <>
         <Nav />
-        <div style={{margin: "10px"}}>
-          <Search
-            open={false}
-            fluid
-            onSearchChange={this.props.searchFind}
-            type='text'
-            size='large'
-            placeholder='Enter bike make/color or customer name'/>
-        </div>
-        <div style={{margin: "10px"}}>
+        <Grid>
+          <Grid.Row columns={2}>
+        <Grid.Column>
+        <div style={{marginLeft: "60px", marginTop: "20px"}}>
           <Button.Group basic id="button-parent">
           {statusOptions.map((status) =>  
             <Button
@@ -57,8 +51,22 @@ class JobCardList extends Component {
           )}
           </Button.Group>
         </div>
+        </Grid.Column>
+        <Grid.Column>
+        <div style={{textAlign: "right", marginRight: "60px", marginTop: "20px"}}>
+          <Search
+            open={false}
+            fluid
+            onSearchChange={this.props.searchFind}
+            type='text'
+            size='large'
+            placeholder='Enter bike make/color or customer name'/>
+        </div>
+        </Grid.Column>
+        </Grid.Row>
+        </Grid>
 
-        <Grid style={{margin: "20px"}}>
+        <Grid style={{marginLeft: "60px", marginRight: "60px" }}>
           {this.props.jobs.map(job =>
             <Grid.Row key={job._id}>
               <JobCard

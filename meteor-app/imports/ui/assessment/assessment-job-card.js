@@ -84,7 +84,7 @@ class JobCard extends Component {
         <Accordion.Title 
           active={activeIndex === 0} 
           index={0} onClick={this.handleClick} 
-          style={{backgroundColor: "lightblue",fontSize: "1.5em"}}
+          style={{backgroundColor: "#ABD3B8",fontSize: "1.5em"}}
         >
           <Grid>
             <Grid.Row columns={5}>
@@ -124,23 +124,25 @@ class JobCard extends Component {
           <Grid.Column>
           <Button.Group>
               <Button 
-                className="positive ui button"
-                style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }} 
+                className="ui button"
+                color="green"
+                style={{ textAlign: "center", margin: "5px", borderRadius: "5px" }} 
                 onClick={this.updateButton} >
-                  <h2>{statusButton}</h2>
+                  <h1>{statusButton}</h1>
               </Button>
               <Button 
                 className="ui button"
                 color="blue"
-                style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
+                style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
                 onClick={() => printJobCart(this.props.currentJob)} >
-                  <Icon name="print" />
+                  <h1><Icon center name="print"/></h1>
               </Button>
               <Button 
-                className="negative ui button"
-                style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
+                className="ui button"
+                color="red"
+                style={{ textAlign: "center", margin:'5px', borderRadius: "5px" }}
                 onClick={this.cancelButton} >
-                <h2>{cancelButton}</h2>
+                <h1>{cancelButton}</h1>
               </Button>
           </Button.Group>
           </Grid.Column>
