@@ -33,7 +33,7 @@ class JobCardList extends Component {
     return (
       <>
         <Nav />
-        <Grid>
+        <Grid stackable>
           <Grid.Row columns={2}>
         <Grid.Column>
         <div style={{marginLeft: "60px", marginTop: "20px"}}>

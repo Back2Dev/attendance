@@ -62,7 +62,7 @@ class JobCard extends Component {
   render() {
     const { activeIndex } = this.state
     // Pulling data from props (assessment collection)
-    const { status, bikeDetails, services, pickupDate, totalCost, customerDetails } = this.props.currentJob
+    const { status, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.currentJob
     const make = bikeDetails.make
     const model = bikeDetails.model
     const color = bikeDetails.color
@@ -86,8 +86,8 @@ class JobCard extends Component {
           index={0} onClick={this.handleClick} 
           style={{backgroundColor: "#ABD3B8",fontSize: "1.5em"}}
         >
-          <Grid>
-            <Grid.Row columns={5}>
+          <Grid stackable>
+            <Grid.Row columns={5} mobile={2}>
 
             <Grid.Column>
               <Icon name='dropdown' />
@@ -114,15 +114,16 @@ class JobCard extends Component {
         </Accordion.Title>
 
         <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
-          <Grid>
-          <Grid.Row columns={2}>
-          <Grid.Column>
+          <Grid stackable>
+          <Grid.Row stackable columns={2}>
+          <Grid.Column style={{ fontSize: "1.2em"}}>
+            <List.Item><strong>Mechanic: </strong>{mechanic} <Icon name="remove user"/></List.Item>
             <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
             <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
           </Grid.Column>
 
-          <Grid.Column>
-          <Button.Group>
+          <Grid.Column stackable style={{ textAlign: "right"}}>
+          <Button.Group stackable>
               <Button 
                 className="ui button"
                 color="green"
