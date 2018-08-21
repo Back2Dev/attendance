@@ -44,16 +44,10 @@ class JobCardList extends Component {
     return (
       <>
         <Nav />
-        <div style={{margin: "10px"}}>
-          <Search
-            open={false}
-            fluid
-            onSearchChange={this.props.searchFind}
-            type='text'
-            size='large'
-            placeholder='Enter bike make/color or customer name'/>
-        </div>
-        <div style={{margin: "10px"}}>
+        <Grid stackable>
+          <Grid.Row columns={2}>
+        <Grid.Column>
+        <div style={{marginLeft: "60px", marginTop: "20px"}}>
           <Button.Group basic id="button-parent">
           <Button
               toggle
@@ -76,15 +70,29 @@ class JobCardList extends Component {
           )}
           </Button.Group>
         </div>
+        </Grid.Column>
+        <Grid.Column>
+        <div style={{textAlign: "right", marginRight: "60px", marginTop: "20px"}}>
+          <Search
+            open={false}
+            fluid
+            onSearchChange={this.props.searchFind}
+            type='text'
+            size='large'
+            placeholder='Enter bike make/color or customer name'/>
+        </div>
+        </Grid.Column>
+        </Grid.Row>
+        </Grid>
 
-        <Grid stackable >
+        <Grid style={{marginLeft: "60px", marginRight: "60px" }}>
           {this.props.jobs.map(job =>
-            <Grid.Column key={job._id} mobile={5} tablet={5} computer={4}>
+            <Grid.Row key={job._id}>
               <JobCard
                 currentJob={job}
                 updateStatus={this.props.updateStatus}
               />
-            </Grid.Column>
+            </Grid.Row>
           )}
         </Grid>
       </>
