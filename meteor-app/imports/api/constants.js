@@ -49,11 +49,11 @@ export const JOB_STATUS_READABLE = {
 }
 
 export const JOB_STATUS_BUTTON = {
-  1: 'Start Job',
-  2: 'Complete Job',
-  3: 'Pick Up Bike',
-  4: 'Order Completed',
-  5: 'Re-Open Job'
+  1: 'Start',
+  2: 'Serviced',
+  3: 'Picked Up',
+  4: 'Completed',
+  5: 'Re-Open'
 }
 
 export default CONSTANTS

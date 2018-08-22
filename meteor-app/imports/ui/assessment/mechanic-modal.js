@@ -24,7 +24,8 @@ class MyModal extends Component {
     <Modal trigger={
       <Button
         style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
-        className="ui button">
+        className="ui button"
+        color="teal">
         <h1><Icon name="remove user"/></h1>
       </Button>}>
       <Modal.Header>Select a Mechanic</Modal.Header>

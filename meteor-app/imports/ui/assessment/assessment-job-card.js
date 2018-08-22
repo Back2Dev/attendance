@@ -75,8 +75,8 @@ class JobCard extends Component {
     const servicePackage = services.baseService
 
     // Dynamic button name
-    const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
-    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? <Icon name="times"/> : <Icon name="bicycle"/>
+    const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
+    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? <Icon name="times"/> : <Icon name="undo"/>
 
     return (
       <Accordion className="job-card-container" styled fluid>
@@ -120,16 +120,13 @@ class JobCard extends Component {
             <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
             <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
             <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
-          </Grid.Column>
-
-          <Grid.Column style={{ textAlign: "right"}}>
-          <Grid.Row>
-          <Button.Group>
-              <MyModal />
+            <br  />
+            <Button.Group >
+            
               <Button 
                 className="ui button"
                 color="green"
-                style={{ textAlign: "center", margin: "5px", borderRadius: "5px" }} 
+                style={{ textAlign: "center", margin: "5px", borderRadius: "5px", width:"200px" }} 
                 onClick={this.updateButton} >
                   <h1>{statusButton}</h1>
               </Button>
@@ -142,18 +139,28 @@ class JobCard extends Component {
               </Button>
               
           </Button.Group>
-          </Grid.Row>
-         {/* break here */}
-         <Grid.Row>
+          </Grid.Column>
+
+
+          <Grid.Column style={{ textAlign: "right"}}>
+          <Grid.Row>
           <Button.Group>
-            
-          <Button 
+              <MyModal />
+              <Button 
                 className="ui button"
                 color="blue"
                 style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
                 onClick={() => printJobCart(this.props.currentJob)} >
                   <h1><Icon name="print"/></h1>
               </Button>
+              
+          </Button.Group>
+          </Grid.Row>
+         {/* break here */}
+         <Grid.Row>
+          <Button.Group>
+            
+        
              
               <Button 
                 className="ui button"
