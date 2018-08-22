@@ -1,24 +1,23 @@
 import React from 'react'
 import { Component } from 'react'
 import { Button, Icon, Modal, Dropdown } from 'semantic-ui-react'
-import Members from '/imports/api/members/members'
 import "/imports/ui/layouts/assessment.css"
 
-class MyModal extends Component {
-  
+class MechanicModal extends Component {
+
   handleChange = (event) => {
     console.log(event)
   }
   
   render() {
-
-    Meteor.subscribe('all.members')
-
-    const test = [{key: '1', text: 'cat'}, {key: '2', text: 'dog'}]
+    const members = this.props.members.map(member => {
+      return {
+        key: member._id,
+        value: member.name,
+        text: member.name
+      }
+    })
     
-    const members = Members.find().fetch()
-    
-
     return (
 
     <Modal trigger={
@@ -38,7 +37,7 @@ class MyModal extends Component {
             search
             selection
             fluid
-            options={members.map(key => key.name)}
+            options={members}
           />
         </Modal.Description>
       </Modal.Content> 
@@ -48,4 +47,4 @@ class MyModal extends Component {
   }
 };
 
-export default MyModal;
+export default MechanicModal;

@@ -44,7 +44,7 @@ export const JOB_STATUS_READABLE = {
   1: 'New',
   2: 'In Progress',
   3: 'Completed',
-  4: 'Bike Picked Up',
+  4: 'Picked Up',
   5: 'Cancelled',
 }
 

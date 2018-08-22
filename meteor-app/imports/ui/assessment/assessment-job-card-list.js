@@ -6,6 +6,7 @@ import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
+import Members from '/imports/api/members/members'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
@@ -20,7 +21,8 @@ class JobCardList extends Component {
 
   setButtonState = (status) => {
     if(status === 'all'){
-      this.setState({showAll: true,
+      this.setState({
+        showAll: true,
         active: null
       });
       this.props.statusFilter(status)
@@ -32,6 +34,11 @@ class JobCardList extends Component {
       this.props.statusFilter(status)
     }
   }
+
+  componentWillUnmount() {
+      this.props.resetStatus()
+  }
+
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE).map(key => {
@@ -91,6 +98,7 @@ class JobCardList extends Component {
               <JobCard
                 currentJob={job}
                 updateStatus={this.props.updateStatus}
+                members={this.props.members}
               />
             </Grid.Row>
           )}
@@ -102,12 +110,14 @@ class JobCardList extends Component {
 
 export default withTracker(props => {
   Meteor.subscribe('assessments.all')
-  
+  Meteor.subscribe('all.members')
+
   const searchLine = searchVar.get()
   const statusLine = statusVar.get()
   
   const searchFind = event => {
     const value = event.target.value
+    resetStatus()
     searchVar.set(value)
   }
 
@@ -123,6 +133,9 @@ export default withTracker(props => {
   statusVar.set(statusValue)
   }
 
+  const resetStatus = () => {
+    statusVar.set([1,2,3,4])
+  }
 
   const updateStatus = (jobId, updatedStatus) => {
     Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
@@ -137,8 +150,10 @@ export default withTracker(props => {
 
   return {
     jobs: renderJob(),
+    members: Members.find().fetch(),
     searchFind,
     statusFilter,
     updateStatus,
+    resetStatus
   }
 })(JobCardList)
