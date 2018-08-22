@@ -115,7 +115,8 @@ class JobCard extends Component {
 
         <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
           <Grid stackable>
-          <Grid.Row columns={2}>
+          <Grid.Row columns={2} style={{ marginTop: "20px"}}>
+        
           <Grid.Column style={{ fontSize: "1.2em"}}>
             <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
             <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
@@ -126,14 +127,14 @@ class JobCard extends Component {
               <Button 
                 className="ui button"
                 color="green"
-                style={{ textAlign: "center", margin: "5px", borderRadius: "5px", width:"200px" }} 
+                style={{ textAlign: "center", borderRadius: "5px", width:"200px" }} 
                 onClick={this.updateButton} >
                   <h1>{statusButton}</h1>
               </Button>
               <Button 
                 className="ui button"
                 color="red"
-                style={{ textAlign: "center", margin:'5px', borderRadius: "5px" }}
+                style={{ textAlign: "center", marginLeft: "10px", borderRadius: "5px" }}
                 onClick={this.cancelButton} >
                 <h1>{cancelButton}</h1>
               </Button>
