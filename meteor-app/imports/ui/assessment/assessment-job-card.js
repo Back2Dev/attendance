@@ -123,6 +123,7 @@ class JobCard extends Component {
           </Grid.Column>
 
           <Grid.Column style={{ textAlign: "right"}}>
+          <Grid.Row>
           <Button.Group>
               <MyModal />
               <Button 
@@ -134,19 +135,44 @@ class JobCard extends Component {
               </Button>
               <Button 
                 className="ui button"
-                color="blue"
-                style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
-                onClick={() => printJobCart(this.props.currentJob)} >
-                  <h1><Icon name="print"/></h1>
-              </Button>
-              <Button 
-                className="ui button"
                 color="red"
                 style={{ textAlign: "center", margin:'5px', borderRadius: "5px" }}
                 onClick={this.cancelButton} >
                 <h1>{cancelButton}</h1>
               </Button>
+              
           </Button.Group>
+          </Grid.Row>
+         {/* break here */}
+         <Grid.Row>
+          <Button.Group>
+            
+          <Button 
+                className="ui button"
+                color="blue"
+                style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
+                onClick={() => printJobCart(this.props.currentJob)} >
+                  <h1><Icon name="print"/></h1>
+              </Button>
+             
+              <Button 
+                className="ui button"
+                color="pink"
+                style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
+                // onClick={() => printJobCart(this.props.currentJob)} >
+                >
+                  <h1><Icon name="phone"/></h1>
+              </Button>
+              <Button 
+                className="ui button"
+                color="purple"
+                style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
+                // onClick={() => printJobCart(this.props.currentJob)} >
+                >
+                  <h1><Icon name="envelope outline"/></h1>
+              </Button>
+          </Button.Group>
+          </Grid.Row>
           </Grid.Column>
           </Grid.Row>
           </Grid>
