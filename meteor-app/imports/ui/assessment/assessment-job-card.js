@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Component } from 'react'
-import { Card, Button, Container, List, Accordion, Icon, Grid } from 'semantic-ui-react'
+import { Button, List, Accordion, Icon, Grid} from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
 import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
 import Alert from 'react-s-alert'
-
+import MyModal from '/imports/ui/assessment/mechanic-modal'
 
 class JobCard extends Component {
   state = { activeIndex: -1 }
@@ -77,7 +77,7 @@ class JobCard extends Component {
     // Dynamic button name
     const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
     const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? <Icon name="times"/> : <Icon name="bicycle"/>
-    
+
     return (
       <Accordion className="job-card-container" styled fluid>
       
@@ -89,23 +89,23 @@ class JobCard extends Component {
           <Grid stackable>
             <Grid.Row columns={5} mobile={2}>
 
-            <Grid.Column>
+            <Grid.Column width={1}>
               <Icon name='dropdown' />
             </Grid.Column>
 
-            <Grid.Column>
+            <Grid.Column width={3}>
               <div><strong>{jobStatus}</strong></div>
             </Grid.Column>
 
-            <Grid.Column>            
+            <Grid.Column width={6}>            
               <List.Item>{this.titleCase(color)} {make} {model}</List.Item>
             </Grid.Column>
 
-            <Grid.Column>            
+            <Grid.Column width={4}>            
               <List.Item>{this.titleCase(customerName)}</List.Item>
             </Grid.Column>
 
-            <Grid.Column>            
+            <Grid.Column width={2}>            
               <List.Item>${totalRepairCost}</List.Item>
             </Grid.Column>
 
@@ -115,15 +115,16 @@ class JobCard extends Component {
 
         <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
           <Grid stackable>
-          <Grid.Row stackable columns={2}>
+          <Grid.Row columns={2}>
           <Grid.Column style={{ fontSize: "1.2em"}}>
-            <List.Item><strong>Mechanic: </strong>{mechanic} <Icon name="remove user"/></List.Item>
+            <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
             <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
             <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
           </Grid.Column>
 
-          <Grid.Column stackable style={{ textAlign: "right"}}>
-          <Button.Group stackable>
+          <Grid.Column style={{ textAlign: "right"}}>
+          <Button.Group>
+              <MyModal />
               <Button 
                 className="ui button"
                 color="green"
@@ -136,7 +137,7 @@ class JobCard extends Component {
                 color="blue"
                 style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
                 onClick={() => printJobCart(this.props.currentJob)} >
-                  <h1><Icon center name="print"/></h1>
+                  <h1><Icon name="print"/></h1>
               </Button>
               <Button 
                 className="ui button"

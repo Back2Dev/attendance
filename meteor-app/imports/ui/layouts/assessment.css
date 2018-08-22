@@ -7,6 +7,10 @@ h3 {
     margin: 5px;
 }
 
+.ui.page.modals.transition.visible {
+  display: flex !important;
+}
+
 .background-image {
     background-image: url("/images/fireworks.svg");
 }
