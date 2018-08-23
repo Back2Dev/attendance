@@ -77,6 +77,20 @@ class AppSelection extends Component {
             </Button>
 
             <Button
+              onClick={() => {
+                this.props.history.push("/history");
+              }}
+              style={{
+                height: "100px",
+                marginTop: "20px",
+                marginBottom: "20px"
+              }}
+              color="green"
+            >
+              <h1>Completed Jobs</h1>
+            </Button>
+
+            <Button
               onClick={this.toggleAddPart}
               style={{
                 height: "100px",

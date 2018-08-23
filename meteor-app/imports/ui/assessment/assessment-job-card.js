@@ -119,7 +119,7 @@ class JobCard extends Component {
         
               <Grid.Column style={{ fontSize: "1.2em"}}>
                 <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
-                <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
+                <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
                 <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
                 <br />
                 <Button.Group >

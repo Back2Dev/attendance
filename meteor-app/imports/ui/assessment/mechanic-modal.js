@@ -36,9 +36,6 @@ class MechanicModal extends Component {
       }
     })
 
-   console.log(this.props.currentJob.mechanic)
-
-
     return (
 
     <Modal trigger={
