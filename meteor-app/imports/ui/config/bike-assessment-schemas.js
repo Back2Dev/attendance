@@ -98,6 +98,7 @@ export default [{
     stepDescription: '',
     schema: {
       type: "object",
+      required: ['additionalFee'],
       title: "Select Parts",
       properties: {
         parts: {
@@ -119,7 +120,7 @@ export default [{
         },
         additionalFee: {
           type: "integer",
-          title: "Enter additional fee if required (list reason in comments)"
+          title: "Enter additional cost if required (list reason in comments)"
         },
         
       },
@@ -140,7 +141,7 @@ export default [{
       },
       additionalFee: {
         classNames: "currency",
-        "ui:placeholder": "$Additional Fee",
+        "ui:placeholder": "$Additional Cost",
         "ui:widget": "updown"
       },
 
