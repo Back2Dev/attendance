@@ -4,12 +4,30 @@ import { Button, Icon, Modal, Dropdown } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
 
 class MechanicModal extends Component {
+  state = { 
+    modalOpen: false,
+    mechanic: "",
+   } 
 
-  handleChange = (event) => {
-    console.log(event)
+  handleOpen = () => this.setState({ modalOpen: true })
+
+  handleClose = () => this.setState({ modalOpen: false })
+
+  handleChange = (e, data) => {
+      this.setState({ mechanic: data.value });
   }
-  
+
+  handleSave(jobId, mechanic) {
+    // event.preventDefault()
+    Meteor.call("assessment.update", jobId, mechanic)
+    //code to save mechanic to db here
+    this.handleClose();
+  }
+
   render() {
+
+    const jobId = this.props.currentJob._id
+    const mechanic = this.state.mechanic
     const members = this.props.members.map(member => {
       return {
         key: member._id,
@@ -17,16 +35,20 @@ class MechanicModal extends Component {
         text: member.name
       }
     })
-    
+
     return (
 
     <Modal trigger={
       <Button
         style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
         className="ui button"
-        color="teal">
+        color="teal"
+        onClick={this.handleOpen}>
         <h1><Icon name="remove user"/></h1>
-      </Button>}>
+      </Button>}
+      onClose={this.handleClose}
+      open={this.state.modalOpen}
+      >
       <Modal.Header>Select a Mechanic</Modal.Header>
       <Modal.Content>
         <Modal.Description>
@@ -41,6 +63,14 @@ class MechanicModal extends Component {
           />
         </Modal.Description>
       </Modal.Content> 
+      <Modal.Actions>
+          <Button color='green' onClick={() => this.handleSave(jobId, mechanic)} inverted>
+            <Icon name='checkmark' /> Add
+          </Button>
+          <Button color='red' onClick={this.handleClose} inverted>
+            <Icon name='times' /> Close
+          </Button>
+        </Modal.Actions>
     </Modal>
 
     )

@@ -23,5 +23,12 @@ if (Meteor.isServer) {
   
       Logger.insert(log)
     },
+    'assessment.update'(jobId, mechanic){
+      check(jobId, String)
+      check(mechanic, String)
+
+      Assessment.update(jobId, { $set: {mechanic: mechanic} },
+        );
+      }
   })
 }
