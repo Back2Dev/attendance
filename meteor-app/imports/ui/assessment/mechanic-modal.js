@@ -36,6 +36,9 @@ class MechanicModal extends Component {
       }
     })
 
+   console.log(this.props.currentJob.mechanic)
+
+
     return (
 
     <Modal trigger={
@@ -44,7 +47,7 @@ class MechanicModal extends Component {
         className="ui button"
         color="teal"
         onClick={this.handleOpen}>
-        <h1><Icon name="remove user"/></h1>
+        <h1>{(this.props.currentJob.mechanic === undefined) ? <Icon name="add user"/> : <Icon name="remove user"/> }</h1>
       </Button>}
       onClose={this.handleClose}
       open={this.state.modalOpen}
