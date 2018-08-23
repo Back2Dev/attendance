@@ -41,7 +41,9 @@ class JobCardList extends Component {
 
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
-    const statusOptions = Object.keys(JOB_STATUS_READABLE).map(key => {
+    const statusOptions = Object.keys(JOB_STATUS_READABLE)
+    .filter(key => key <= "3")
+    .map(key => {
       return {
         key: key,
         value: JOB_STATUS_READABLE[key],
@@ -53,47 +55,57 @@ class JobCardList extends Component {
         <Nav />
         <Grid stackable>
           <Grid.Row columns={2}>
-        <Grid.Column>
-        <div style={{marginLeft: "50px", marginTop: "20px"}}>
-          <Button.Group compact basic id="button-parent">
-          <Button
-              toggle
-              className={this.state.showAll ? 'active' : ''}            
-              value='all'
-              onClick={() => this.setButtonState('all')}
-            >
-            Show All
-            </Button>
-          {statusOptions.map((status) => 
-            <Button
-              toggle
-              className={this.state.active === status.key ? 'active' : ''}            
-              key={status.key}
-              value={status.value}
-              onClick={() => this.setButtonState(status)}
-            >
-            {status.text}
-            </Button>
-          )}
-          </Button.Group>
-        </div>
-        </Grid.Column>
-        <Grid.Column>
-        <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
-          <Search
-            open={false}
-            fluid
-            onSearchChange={this.props.searchFind}
-            type='text'
-            size='large'
-            placeholder='Enter bike make/color or customer name'/>
-        </div>
-        </Grid.Column>
-        </Grid.Row>
+            <Grid.Column>
+              <div style={{marginLeft: "50px", marginTop: "20px"}}>
+                <Button.Group basic id="button-parent">
+                  <Button
+                      toggle
+                      className={this.state.showAll ? 'active' : ''}            
+                      value='all'
+                      onClick={() => this.setButtonState('all')}
+                    >
+                    Show All
+                  </Button>
+                  {statusOptions.map((status) => 
+                    <Button
+                      toggle
+                      className={this.state.active === status.key ? 'active' : ''}            
+                      key={status.key}
+                      value={status.value}
+                      onClick={() => this.setButtonState(status)}
+                    >
+                    {status.text}
+                    </Button>
+                  )}
+                  <Button
+                      onClick={() => {
+                        this.props.history.push("/history");
+                      }}
+                    >
+                      Job History
+                  </Button>
+                </Button.Group>
+              </div>
+            </Grid.Column>
+
+            <Grid.Column>
+              <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
+                <Search
+                  open={false}
+                  fluid
+                  onSearchChange={this.props.searchFind}
+                  type='text'
+                  size='large'
+                  placeholder='Enter bike make/color or customer name'/>
+              </div>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
-          {this.props.jobs.map(job =>
+          {this.props.jobs
+          .filter(job => job.status <= "3")
+          .map(job =>
             <Grid.Row key={job._id}>
               <JobCard
                 currentJob={job}
@@ -124,7 +136,7 @@ export default withTracker(props => {
   const statusFilter = (status) => {
     let statusValue
     if(status === 'all'){
-      statusValue = [1,2,3,4]
+      statusValue = [1,2,3]
     } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
@@ -134,7 +146,7 @@ export default withTracker(props => {
   }
 
   const resetStatus = () => {
-    statusVar.set([1,2,3,4])
+    statusVar.set([1,2,3])
   }
 
   const updateStatus = (jobId, updatedStatus) => {

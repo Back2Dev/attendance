@@ -56,44 +56,52 @@ class JobHistory extends Component {
         <Nav />
         <Grid stackable>
           <Grid.Row columns={2}>
-        <Grid.Column>
-        <div style={{marginLeft: "50px", marginTop: "20px"}}>
-          <Button.Group compact basic id="button-parent">
-          <Button
-              toggle
-              className={this.state.showAll ? 'active' : ''}            
-              value='all'
-              onClick={() => this.setButtonState('all')}
-            >
-            Show All
-            </Button>
-          {statusOptions
-          .map((status) => 
-            <Button
-              toggle
-              className={this.state.active === status.key ? 'active' : ''}            
-              key={status.key}
-              value={status.value}
-              onClick={() => this.setButtonState(status)}
-            >
-            {status.text}
-            </Button>
-          )}
-          </Button.Group>
-        </div>
-        </Grid.Column>
-        <Grid.Column>
-        <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
-          <Search
-            open={false}
-            fluid
-            onSearchChange={this.props.searchFind}
-            type='text'
-            size='large'
-            placeholder='Enter bike make/color or customer name'/>
-        </div>
-        </Grid.Column>
-        </Grid.Row>
+            <Grid.Column>
+              <div style={{marginLeft: "50px", marginTop: "20px"}}>
+                <Button.Group basic id="button-parent">
+                  <Button
+                      toggle
+                      className={this.state.showAll ? 'active' : ''}            
+                      value='all'
+                      onClick={() => this.setButtonState('all')}
+                    >
+                    Show All
+                  </Button>
+                  {statusOptions
+                  .map((status) => 
+                    <Button
+                      toggle
+                      className={this.state.active === status.key ? 'active' : ''}            
+                      key={status.key}
+                      value={status.value}
+                      onClick={() => this.setButtonState(status)}
+                    >
+                    {status.text}
+                    </Button>
+                  )}
+                  <Button
+                      onClick={() => {
+                        this.props.history.push("/jobs");
+                      }}
+                    >
+                      Current Jobs
+                  </Button>
+                </Button.Group>
+              </div>
+            </Grid.Column>
+
+            <Grid.Column>
+              <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
+                <Search
+                  open={false}
+                  fluid
+                  onSearchChange={this.props.searchFind}
+                  type='text'
+                  size='large'
+                  placeholder='Enter bike make/color or customer name'/>
+              </div>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
