@@ -1,15 +1,15 @@
 // cron-jobs.js
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
-import { _ } from 'lodash'
+
 const cron = require('node-cron')
 const debug = require('debug')('b2b:cron')
 
 import log from '/imports/lib/log'
 import Members from '/imports/api/members/members'
+import Sessions from '/imports/api/sessions/sessions'
 
 // import { CRON_JOBS, INTERCOM } from './server-constants'
-
 
 let busy = 0
 
@@ -18,22 +18,28 @@ Meteor.methods({
 })
 
 const signoutTicker = () => {
-	const hour = moment().hour()
-	debug("Tick "+hour)
-	if (hour >= 21) {
-		try {
-			const n = Members.update({
-				isHere: true,
-			}, {
-				$set: { isHere: false },
-			},{
-				multi: true,
-			})
-			debug(`Signed out ${n} members`)
-		} catch(error) {
-			console.error(`Error ${error.message} encountered signing members out`)
-		}
-	}
+  const hour = moment().hour()
+  debug("Tick "+hour)
+
+  try {
+    let n = 0
+    crew = Members.find({ isHere: true })
+    crew.forEach(dude => {
+			const sessions = Sessions.find({
+        memberId: dude._id,
+        timeOut: { $gt: new Date() }
+      })
+      if (!sessions.length) {
+				debug(`Automatically signed out ${dude.name}`)
+        n = n + Members.update(dude._id, { $set: { isHere: false }})
+      }
+    })
+    if (n) {
+      debug(`Signed out ${n} members`)
+    }
+  } catch(error) {
+    console.error(`Error ${error.message} encountered signing members out`)
+  }
 }
 
 //
@@ -49,11 +55,11 @@ const signoutTicker = () => {
 //                       │ │ │ │ │
 //                       * * * * *
 
-const TICKER_INTERVAL = '1 * * * *'
+const TICKER_INTERVAL = '1,16,31,46 * * * *'
 
 Meteor.startup(function() {
     cron.schedule(
-  		TICKER_INTERVAL,
+      TICKER_INTERVAL,
       Meteor.bindEnvironment(signoutTicker)
     )
 })
