@@ -4,6 +4,7 @@ import { ReactiveVar } from "meteor/reactive-var";
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Members from '/imports/api/members/members'
+import Logger from '/imports/api/assessments/logger'
 import Assessment from '/imports/api/assessments/assessment'
 import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
@@ -20,6 +21,7 @@ export default withTracker(props => {
   Meteor.subscribe('services.all')
   Meteor.subscribe('serviceItems.all')
   Meteor.subscribe('assessments.all')
+  Meteor.subscribe('logger.all')
   Meteor.subscribe('all.members')
 
   // need to do something smarter than this... 
@@ -45,6 +47,12 @@ export default withTracker(props => {
       debug('adding assessment', formData)
       const res = await Meteor.callAsync("assessment.insert", formData)
       setSuccess("Successfully added new assessment", res)
+      const log = {
+        user: formData.assessor, 
+        requestType: "Add new assessment", 
+        requestBody: "This is a test log to say a job has been created"
+      }
+      Meteor.call("logger.insert", log)
       return res
     } catch (e) {
       setError(e)
@@ -61,6 +69,7 @@ export default withTracker(props => {
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
     serviceItems: ServiceItems.find().fetch(),
+    logger: Logger.find().fetch(),
     members: Members.find().fetch(),
     assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
   };

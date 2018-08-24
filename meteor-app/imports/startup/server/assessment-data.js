@@ -409,7 +409,7 @@ Meteor.methods({
 
   'seed.assessments'() {
 
-    const n = 15
+    const n = 50
     // seed ensures same data is generated
     faker.seed(123)
 

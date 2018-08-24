@@ -7,6 +7,7 @@ import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
 import Members from '/imports/api/members/members'
+import Logger from '/imports/api/assessments/logger'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
@@ -42,7 +43,7 @@ class JobCardList extends Component {
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE)
-    .filter(key => key <= "3")
+    .filter(key => key <= "4")
     .map(key => {
       return {
         key: key,
@@ -57,14 +58,14 @@ class JobCardList extends Component {
           <Grid.Row columns={2}>
             <Grid.Column>
               <div style={{marginLeft: "50px", marginTop: "20px"}}>
-                <Button.Group basic id="button-parent">
+                <Button.Group compact basic id="button-parent">
                   <Button
                       toggle
                       className={this.state.showAll ? 'active' : ''}            
                       value='all'
                       onClick={() => this.setButtonState('all')}
                     >
-                    Show All
+                    All
                   </Button>
                   {statusOptions.map((status) => 
                     <Button
@@ -82,7 +83,7 @@ class JobCardList extends Component {
                         this.props.history.push("/history");
                       }}
                     >
-                      Job History
+                      Archive
                   </Button>
                 </Button.Group>
               </div>
@@ -95,7 +96,7 @@ class JobCardList extends Component {
                   fluid
                   onSearchChange={this.props.searchFind}
                   type='text'
-                  size='large'
+                  size='small'
                   placeholder='Enter bike make/color or customer name'/>
               </div>
             </Grid.Column>
@@ -103,14 +104,18 @@ class JobCardList extends Component {
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
+          <Grid.Row centered>
+          <h1 style={{fontSize: "50px" }}>Current Jobs</h1>
+          </Grid.Row>
           {this.props.jobs
-          .filter(job => job.status <= "3")
+          .filter(job => job.status <= "4")
           .map(job =>
             <Grid.Row key={job._id}>
               <JobCard
                 currentJob={job}
                 updateStatus={this.props.updateStatus}
                 members={this.props.members}
+                log={this.props.log}
               />
             </Grid.Row>
           )}
@@ -123,6 +128,7 @@ class JobCardList extends Component {
 export default withTracker(props => {
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
+  Meteor.subscribe('logger.all')
 
   const searchLine = searchVar.get()
   const statusLine = statusVar.get()
@@ -136,7 +142,7 @@ export default withTracker(props => {
   const statusFilter = (status) => {
     let statusValue
     if(status === 'all'){
-      statusValue = [1,2,3]
+      statusValue = [1,2,3,4]
     } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
@@ -146,7 +152,7 @@ export default withTracker(props => {
   }
 
   const resetStatus = () => {
-    statusVar.set([1,2,3])
+    statusVar.set([1,2,3,4])
   }
 
   const updateStatus = (jobId, updatedStatus) => {
@@ -163,6 +169,7 @@ export default withTracker(props => {
   return {
     jobs: renderJob(),
     members: Members.find().fetch(),
+    log: Logger.find().fetch(), 
     searchFind,
     statusFilter,
     updateStatus,

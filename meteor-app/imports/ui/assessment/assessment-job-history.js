@@ -7,6 +7,7 @@ import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
 import Members from '/imports/api/members/members'
+import Logger from '/imports/api/assessments/logger'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
@@ -42,7 +43,7 @@ class JobHistory extends Component {
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE)
-    .filter(key => key >= "4")
+    .filter(key => key >= "5")
     .map(key => {
       return {
         key: key,
@@ -65,7 +66,7 @@ class JobHistory extends Component {
                       value='all'
                       onClick={() => this.setButtonState('all')}
                     >
-                    Show All
+                    All
                   </Button>
                   {statusOptions
                   .map((status) => 
@@ -105,14 +106,18 @@ class JobHistory extends Component {
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
+        <Grid.Row centered>
+          <h1 style={{fontSize: "50px" }}>Archive</h1>
+          </Grid.Row>
           {this.props.jobs
-          .filter(job => job.status >= "4")
+          .filter(job => job.status >= "5")
           .map(job =>
             <Grid.Row key={job._id}>
               <JobCard
                 currentJob={job}
                 updateStatus={this.props.updateStatus}
                 members={this.props.members}
+                log={this.props.log}
               />
             </Grid.Row>
           )}
@@ -125,6 +130,7 @@ class JobHistory extends Component {
 export default withTracker(props => {
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
+  Meteor.subscribe('logger.all')
 
   const searchLine = searchVar.get()
   const statusLine = statusVar.get()
@@ -136,14 +142,19 @@ export default withTracker(props => {
   }
 
   const statusFilter = (status) => {
+    let statusValue
+    if(status === 'all'){
+      statusValue = [5,6]
+    } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
         .map(value => parseInt(value)) // [1]
+  }
   statusVar.set(statusValue)
   }
 
   const resetStatus = () => {
-    statusVar.set([3,4])
+    statusVar.set([5,6])
   }
 
   const updateStatus = (jobId, updatedStatus) => {
@@ -160,6 +171,7 @@ export default withTracker(props => {
   return {
     jobs: renderJob(),
     members: Members.find().fetch(),
+    log: Logger.find().fetch(), 
     searchFind,
     statusFilter,
     updateStatus,

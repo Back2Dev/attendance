@@ -29,7 +29,7 @@ class JobCard extends Component {
     const updatedStatus = JOB_STATUS[updatedStatusKey] // Update to the next status 
     
     try {
-      if (statusValue >= JOB_STATUS.BIKE_PICKED_UP) return
+      if (statusValue >= JOB_STATUS.PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
     } catch (error) {
       Alert.error(error.message)
@@ -41,7 +41,7 @@ class JobCard extends Component {
     const status = this.props.currentJob.status
     const cancelStatus = JOB_STATUS.CANCELLED
     const reopenStatus = JOB_STATUS.NEW
-    const bikePickedUpStatus = JOB_STATUS.BIKE_PICKED_UP
+    const bikePickedUpStatus = JOB_STATUS.PICKED_UP
     try {
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
@@ -75,16 +75,42 @@ class JobCard extends Component {
     const servicePackage = services.baseService
     
     // Dynamic button name
-    const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
-    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? <Icon name="times"/> : <Icon name="undo"/>
+    const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
+    const cancelButton = status <= JOB_STATUS.PICKED_UP ? "Cancel Job" : "Re-open Job"
+
+    let styles = {}
     
+    switch (jobStatus) {
+      case "Cancelled":
+          styles = {backgroundColor: "#ffb2b2",fontSize: "1.5em"};
+        break;
+      case "New":
+          styles = {backgroundColor: "lightblue",fontSize: "1.5em"};
+        break;
+      case "In Progress":
+          styles = {backgroundColor: "#d2abd2",fontSize: "1.5em"};
+        break;
+      case "Completed":
+          styles = {backgroundColor: "#ABD3B8",fontSize: "1.5em"};
+        break;    
+      case "Picked Up":
+        styles = {backgroundColor: "#ABD3B8",fontSize: "1.5em"};
+        break;  
+      case "Quality Check":
+        styles = {backgroundColor: "#ffffba",fontSize: "1.5em"};
+        break;  
+      default:
+        styles = {backgroundColor: "#ABD3B8",fontSize: "1.5em"};
+        break;
+    }
+
     return (
       <Accordion className="job-card-container" styled fluid>
       
         <Accordion.Title 
           active={activeIndex === 0} 
           index={0} onClick={this.handleClick} 
-          style={{backgroundColor: "#ABD3B8",fontSize: "1.5em"}}
+          style={styles}
         >
           <Grid stackable>
             <Grid.Row columns={5} mobile={2}>
@@ -121,6 +147,8 @@ class JobCard extends Component {
                 <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
                 <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
                 <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
+                <List.Item><strong>Job Logs: </strong>{this.props.log.map(log => `Created by: ${log.user} at ${log.createdAt.toLocaleDateString()} `)}</List.Item>
+
                 <br />
                 <Button.Group >
                   <Button 
