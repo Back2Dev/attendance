@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import { Grid, Search, Button } from 'semantic-ui-react'
+import GridColumn, { Grid, Search, Button } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
@@ -56,8 +56,8 @@ class JobHistory extends Component {
       <>
         <Nav />
         <Grid stackable>
-          <Grid.Row columns={2}>
-            <Grid.Column>
+          <Grid.Row columns={3}>
+          <Grid.Column width={7}>
               <div style={{marginLeft: "50px", marginTop: "20px"}}>
                 <Button.Group basic id="button-parent">
                   <Button
@@ -80,18 +80,12 @@ class JobHistory extends Component {
                     {status.text}
                     </Button>
                   )}
-                  <Button
-                      onClick={() => {
-                        this.props.history.push("/jobs");
-                      }}
-                    >
-                      Current Jobs
-                  </Button>
+                  
                 </Button.Group>
               </div>
             </Grid.Column>
 
-            <Grid.Column>
+            <Grid.Column width={6}>
               <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
                 <Search
                   open={false}
@@ -102,12 +96,25 @@ class JobHistory extends Component {
                   placeholder='Enter bike make/color or customer name'/>
               </div>
             </Grid.Column>
+            <Grid.Column width={3}>
+            
+            <div style={{ textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
+                  <Button
+                      color="blue"
+                      onClick={() => {
+                        this.props.history.push("/jobs");
+                      }}
+                    >
+                      Current Jobs
+                  </Button>
+                  </div>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
         <Grid.Row centered>
-          <h1 style={{fontSize: "50px" }}>Archive</h1>
+          <h1>Archive</h1>
           </Grid.Row>
           {this.props.jobs
           .filter(job => job.status >= JOB_STATUS.PICKED_UP)
