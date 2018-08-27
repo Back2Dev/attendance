@@ -41,6 +41,11 @@ export const JOB_STATUS = {
   CANCELLED: 6,
 }
 
+export const JOB_STATUS_ALL = [1,2,3,4]
+
+export const JOB_STATUS_COMPLETE = [5,6]
+
+
 export const JOB_STATUS_READABLE = {
   1: 'New',
   2: 'In Progress',
@@ -57,6 +62,15 @@ export const JOB_STATUS_BUTTON = {
   4: 'Picked Up',
   5: 'Completed',
   6: 'Re-Open'
+}
+
+export const JOB_STATUS_STYLES = {
+  1: {backgroundColor: "lightblue",fontSize: "1.5em"},
+  2: {backgroundColor: "#d2abd2",fontSize: "1.5em"},
+  3: {backgroundColor: "#ffffba",fontSize: "1.5em"},
+  4: {backgroundColor: "#ABD3B8",fontSize: "1.5em"},
+  5: {backgroundColor: "#ABD3B8",fontSize: "1.5em"},
+  6: {backgroundColor: "#ffb2b2",fontSize: "1.5em"},
 }
 
 export default CONSTANTS

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react'
 import { Button, List, Accordion, Icon, Grid} from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
-import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON } from '/imports/api/constants'
+import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON, JOB_STATUS_STYLES } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
 import Alert from 'react-s-alert'
 import MechanicModal from '/imports/ui/assessment/mechanic-modal'
@@ -78,39 +78,13 @@ class JobCard extends Component {
     const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
     const cancelButton = status <= JOB_STATUS.PICKED_UP ? "Cancel Job" : "Re-open Job"
 
-    let styles = {}
-    
-    switch (jobStatus) {
-      case "Cancelled":
-          styles = {backgroundColor: "#ffb2b2",fontSize: "1.5em"};
-        break;
-      case "New":
-          styles = {backgroundColor: "lightblue",fontSize: "1.5em"};
-        break;
-      case "In Progress":
-          styles = {backgroundColor: "#d2abd2",fontSize: "1.5em"};
-        break;
-      case "Completed":
-          styles = {backgroundColor: "#ABD3B8",fontSize: "1.5em"};
-        break;    
-      case "Picked Up":
-        styles = {backgroundColor: "#ABD3B8",fontSize: "1.5em"};
-        break;  
-      case "Quality Check":
-        styles = {backgroundColor: "#ffffba",fontSize: "1.5em"};
-        break;  
-      default:
-        styles = {backgroundColor: "#ABD3B8",fontSize: "1.5em"};
-        break;
-    }
-
     return (
       <Accordion className="job-card-container" styled fluid>
       
         <Accordion.Title 
           active={activeIndex === 0} 
           index={0} onClick={this.handleClick} 
-          style={styles}
+          style={JOB_STATUS_STYLES[status]}
         >
           <Grid stackable>
             <Grid.Row columns={5} mobile={2}>

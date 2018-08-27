@@ -8,7 +8,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
 import Members from '/imports/api/members/members'
 import Logger from '/imports/api/assessments/logger'
-import { JOB_STATUS_READABLE } from '/imports/api/constants'
+import { JOB_STATUS_READABLE, JOB_STATUS, JOB_STATUS_ALL } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
 const searchVar = new ReactiveVar('')
@@ -43,7 +43,7 @@ class JobCardList extends Component {
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE)
-    .filter(key => key <= "4")
+    .filter(key => key <= JOB_STATUS.READY_FOR_PICK_UP)
     .map(key => {
       return {
         key: key,
@@ -142,7 +142,7 @@ export default withTracker(props => {
   const statusFilter = (status) => {
     let statusValue
     if(status === 'all'){
-      statusValue = [1,2,3,4]
+      statusValue = JOB_STATUS_ALL
     } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
@@ -152,7 +152,7 @@ export default withTracker(props => {
   }
 
   const resetStatus = () => {
-    statusVar.set([1,2,3,4])
+    statusVar.set(JOB_STATUS_ALL)
   }
 
   const updateStatus = (jobId, updatedStatus) => {

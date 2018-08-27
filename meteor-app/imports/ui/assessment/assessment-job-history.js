@@ -8,7 +8,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import Assessment from '/imports/api/assessments/assessment'
 import Members from '/imports/api/members/members'
 import Logger from '/imports/api/assessments/logger'
-import { JOB_STATUS_READABLE } from '/imports/api/constants'
+import { JOB_STATUS_READABLE, JOB_STATUS, JOB_STATUS_COMPLETE } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
 const searchVar = new ReactiveVar('')
@@ -43,7 +43,7 @@ class JobHistory extends Component {
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
     const statusOptions = Object.keys(JOB_STATUS_READABLE)
-    .filter(key => key >= "5")
+    .filter(key => key >= JOB_STATUS.PICKED_UP)
     .map(key => {
       return {
         key: key,
@@ -110,7 +110,7 @@ class JobHistory extends Component {
           <h1 style={{fontSize: "50px" }}>Archive</h1>
           </Grid.Row>
           {this.props.jobs
-          .filter(job => job.status >= "5")
+          .filter(job => job.status >= JOB_STATUS.PICKED_UP)
           .map(job =>
             <Grid.Row key={job._id}>
               <JobCard
@@ -144,7 +144,7 @@ export default withTracker(props => {
   const statusFilter = (status) => {
     let statusValue
     if(status === 'all'){
-      statusValue = [5,6]
+      statusValue = JOB_STATUS_COMPLETE
     } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
@@ -154,7 +154,7 @@ export default withTracker(props => {
   }
 
   const resetStatus = () => {
-    statusVar.set([5,6])
+    statusVar.set(JOB_STATUS_COMPLETE)
   }
 
   const updateStatus = (jobId, updatedStatus) => {
