@@ -5,15 +5,16 @@ import { check } from 'meteor/check'
 import Assessment from './assessment'
 import Logger from './logger'
 import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB } from '/imports/api/constants'
+
 if (Meteor.isServer) {
   Meteor.methods({
     'assessment.insert'(form) {
       check(form, Object)
-      const aId = Assessment.insert(form)
+      Assessment.insert(form)
       Logger.insert({
         user: form.assessor, 
         status: form.status,
-        aId,
+        aId: form._id,
         eventType: LOG_EVENT_TYPES[NEW_JOB]
       })
     },
@@ -28,10 +29,6 @@ if (Meteor.isServer) {
         status: updatedStatus,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
       })
-    },
-    'logger.insert'(log) {
-      check(log, Object)
-  
     },
     'assessment.update'(job, mechanic){
       console.log(arguments)
