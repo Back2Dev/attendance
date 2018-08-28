@@ -19,7 +19,7 @@ class MechanicModal extends Component {
 
   handleSave(job, mechanic) {
     // event.preventDefault()
-    Meteor.call("assessment.update", job.jobId, job.status, mechanic)
+    Meteor.call("assessment.update", job, mechanic)
     //code to save mechanic to db here
     this.handleClose();
   }

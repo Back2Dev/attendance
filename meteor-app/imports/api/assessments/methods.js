@@ -4,7 +4,7 @@ import { check } from 'meteor/check'
 
 import Assessment from './assessment'
 import Logger from './logger'
-import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE } from '/imports/api/constants'
+import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB } from '/imports/api/constants'
 if (Meteor.isServer) {
   Meteor.methods({
     'assessment.insert'(form) {
@@ -14,6 +14,7 @@ if (Meteor.isServer) {
         user: form.assessor, 
         status: form.status,
         aId,
+        eventType: LOG_EVENT_TYPES[NEW_JOB]
       })
     },
     'assessment.updateJobStatus'(jobId, updatedStatus) {
@@ -25,6 +26,7 @@ if (Meteor.isServer) {
         user: 'Anonymous',
         aId: jobId,
         status: updatedStatus,
+        eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
       })
     },
     'logger.insert'(log) {
@@ -39,6 +41,7 @@ if (Meteor.isServer) {
       
       Assessment.update(_id, { $set: {mechanic} },
       Logger.insert({
+        user: 'Anonymous',
         status,
         aId: _id,
         eventType: LOG_EVENT_TYPES[MECHANIC_UPDATE] // integer

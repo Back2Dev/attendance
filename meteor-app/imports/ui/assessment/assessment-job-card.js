@@ -89,13 +89,17 @@ class JobCard extends Component {
         const message = (status) => {
           switch(status){
             case 1:
+              return "Status updated to: " + JOB_STATUS_READABLE[log.status]
+            case 2:
+              return "Added new mechanic"
+            case 3:
               return log.user + " added new job"
             default:
               return  JOB_STATUS_READABLE[log.status]
           }
         }
         return (
-        <li>{`${date} - ${message(log.status)}`}</li>
+        <li>{`${date} - ${message(log.eventType)}`}</li>
       )}
     )
   }
