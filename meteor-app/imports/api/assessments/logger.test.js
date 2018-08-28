@@ -7,7 +7,7 @@ import Logger from '/imports/api/assessments/logger'
 
 const badLogs = []
 
-badLogs.push(Factory.build('logs', { requestType: [] }))
+badLogs.push(Factory.build('logs', { aId: [] }))
 badLogs.push(Factory.build('logs', { user: '' }))
 
 const goodLogs = []

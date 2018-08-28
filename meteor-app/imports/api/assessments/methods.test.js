@@ -11,9 +11,9 @@ const goodLogger = Factory.build('logs')
 if (Meteor.isServer) {
   describe('API methods for assessment', () => {
 
-    it('getLogs method will work', () => {
+    it('logger.insert method will work', () => {
       
-      expect(() => Meteor.call('getLogs', goodLogger)).to.not.throw()
+      expect(() => Meteor.call('logger.insert', goodLogger)).to.not.throw()
     })
   
     it('assessment.insert method will work', () => {

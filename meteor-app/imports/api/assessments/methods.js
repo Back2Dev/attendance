@@ -30,6 +30,9 @@ if (Meteor.isServer) {
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
       })
     },
+    'logger.insert'(log) {
+      check(log, Object)
+    },
     'assessment.update'(job, mechanic){
       console.log(arguments)
       const { _id, status } = job
