@@ -7,9 +7,31 @@ import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON, JOB_STATUS_STYLES }
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
 import Alert from 'react-s-alert'
 import MechanicModal from '/imports/ui/assessment/mechanic-modal'
+import moment from 'moment'
 
 class JobCard extends Component {
-  state = { activeIndex: -1 }
+  state = { 
+    activeIndex: -1,
+    fetched: false,
+    logs: []
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.activeIndex === 0 && !this.state.fetched) {
+      this.getLogs()      
+    }
+  }
+  
+  getLogs = () => {
+    const { currentJob, getLogs } = this.props
+    getLogs(currentJob._id)
+      .then(l => {
+        this.setState({
+          logs: l,
+          fetched: true
+        })
+      }).catch(e => console.log(e))
+  }
 
   handleClick = (e, titleProps) => {
     const { index } = titleProps
@@ -31,6 +53,7 @@ class JobCard extends Component {
     try {
       if (statusValue >= JOB_STATUS.PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
+      this.getLogs()
     } catch (error) {
       Alert.error(error.message)
     }
@@ -58,7 +81,25 @@ class JobCard extends Component {
     if (!str) return
     return str.toLowerCase().split(' ').map(x => x[0].toUpperCase()+x.slice(1)).join(' ');
   }
-  
+
+  renderLogs(logs) {
+    return logs.map(
+      log => {
+        const date = moment(log.createdAt).format("ddd Do MMM, h:mm a")
+        const message = (status) => {
+          switch(status){
+            case 1:
+              return log.user + " added new job"
+            default:
+              return  JOB_STATUS_READABLE[log.status]
+          }
+        }
+        return (
+        <li>{`${date} - ${message(log.status)}`}</li>
+      )}
+    )
+  }
+
   render() {
     const { activeIndex } = this.state
     // Pulling data from props (assessment collection)
@@ -123,7 +164,14 @@ class JobCard extends Component {
                 <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
                 <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
                 <ul><strong>Job Logs: </strong>
-                {this.props.log.map(log => <li>{`${log.createdAt.toLocaleDateString()} - Assessment created by ${log.user}`}</li>)}
+                {
+                  !this.state.fetched &&
+                    <p>Loading....</p>
+                }
+                {
+                  this.state.fetched &&
+                    this.renderLogs(this.state.logs)
+               }
                 </ul>
                 <br />
                 <Button.Group >

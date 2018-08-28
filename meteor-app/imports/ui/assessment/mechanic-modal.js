@@ -17,9 +17,9 @@ class MechanicModal extends Component {
       this.setState({ mechanic: data.value });
   }
 
-  handleSave(jobId, mechanic) {
+  handleSave(job, mechanic) {
     // event.preventDefault()
-    Meteor.call("assessment.update", jobId, mechanic)
+    Meteor.call("assessment.update", job.jobId, job.status, mechanic)
     //code to save mechanic to db here
     this.handleClose();
   }
@@ -64,7 +64,7 @@ class MechanicModal extends Component {
         </Modal.Description>
       </Modal.Content> 
       <Modal.Actions>
-          <Button color='green' onClick={() => this.handleSave(jobId, mechanic)} inverted>
+          <Button color='green' onClick={() => this.handleSave(this.props.currentJob, mechanic)} inverted>
             <Icon name='checkmark' /> Add
           </Button>
           <Button color='red' onClick={this.handleClose} inverted>

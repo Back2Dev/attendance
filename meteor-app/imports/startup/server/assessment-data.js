@@ -429,8 +429,8 @@ Meteor.methods({
 
 Meteor.startup(() => {
 
-  ServiceItems.remove({})
-  Assessment.remove({})
+  // ServiceItems.remove({})
+  // Assessment.remove({})
 
 
   if (Services.find().count() === 0) {

@@ -130,6 +130,7 @@ class JobCardList extends Component {
                 updateStatus={this.props.updateStatus}
                 members={this.props.members}
                 log={this.props.log}
+                getLogs={this.props.getLogs}
               />
             </Grid.Row>
           )}
@@ -151,6 +152,10 @@ export default withTracker(props => {
     const value = event.target.value
     resetStatus()
     searchVar.set(value)
+  }
+
+  getLogs = (aId) => {
+    return Meteor.callAsync('getLogs', aId)
   }
 
   const statusFilter = (status) => {
@@ -187,6 +192,7 @@ export default withTracker(props => {
     searchFind,
     statusFilter,
     updateStatus,
-    resetStatus
+    resetStatus,
+    getLogs
   }
 })(JobCardList)

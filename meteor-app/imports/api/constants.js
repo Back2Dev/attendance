@@ -73,4 +73,17 @@ export const JOB_STATUS_STYLES = {
   6: {backgroundColor: "#ffb2b2",fontSize: "1.5em"},
 }
 
+export const LOG_EVENT_READABLE = {
+  1: 'Update Status',
+  2: 'Update Mechanic',
+}
+
+export const STATUS_UPDATE = "STATUS_UPDATE"
+export const MECHANIC_UPDATE = "MECHANIC_UPDATE"
+
+export const LOG_EVENT_TYPES = {
+  [STATUS_UPDATE]: 1,
+  [MECHANIC_UPDATE]: 2,
+}
+
 export default CONSTANTS

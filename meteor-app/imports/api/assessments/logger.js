@@ -7,8 +7,15 @@ const Logger = new Mongo.Collection('logger')
 export const LoggerSchema = new SimpleSchema({
   _id: RegExId,
   user: String,
-  requestType: { type: String, label: 'Database operation used i.e. submit form, update job etc.' },
-  requestBody: { type: String, label: 'Data inserted or updated' },
+  aId: { type: String, label: 'Assessment ID' },
+  status: {
+    type: SimpleSchema.Integer,
+    label: 'Updated status'
+  },
+  eventType: {
+    type: SimpleSchema.Integer,
+    label: 'Type of event'
+  },
   createdAt,
   updatedAt,
 })

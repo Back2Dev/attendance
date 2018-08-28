@@ -21,7 +21,6 @@ export default withTracker(props => {
   Meteor.subscribe('services.all')
   Meteor.subscribe('serviceItems.all')
   Meteor.subscribe('assessments.all')
-  Meteor.subscribe('logger.assessment')
   Meteor.subscribe('all.members')
 
   // need to do something smarter than this... 
@@ -47,12 +46,6 @@ export default withTracker(props => {
       debug('adding assessment', formData)
       const res = await Meteor.callAsync("assessment.insert", formData)
       setSuccess("Successfully added new assessment", res)
-      const log = {
-        user: formData.assessor, 
-        requestType: "Add new assessment", 
-        requestBody: "This is a test log to say a job has been created",
-      }
-      Meteor.call("logger.insert", log)
       return res
     } catch (e) {
       setError(e)
