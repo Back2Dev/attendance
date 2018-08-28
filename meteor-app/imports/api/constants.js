@@ -35,25 +35,59 @@ CONSTANTS.ORDER_STATUS_READABLE = {
 export const JOB_STATUS = {
   NEW: 1,
   IN_PROGRESS: 2,
-  COMPLETED: 3,
-  BIKE_PICKED_UP: 4,
-  CANCELLED: 5,
+  QUALITY_CHECK: 3,
+  READY_FOR_PICK_UP: 4,
+  PICKED_UP: 5,
+  CANCELLED: 6,
 }
+
+export const JOB_STATUS_ALL = [1,2,3,4]
+
+export const JOB_STATUS_COMPLETE = [5,6]
+
 
 export const JOB_STATUS_READABLE = {
   1: 'New',
   2: 'In Progress',
-  3: 'Completed',
-  4: 'Bike Picked Up',
-  5: 'Cancelled',
+  3: 'Quality Check',
+  4: 'Ready for Pick Up',
+  5: 'Picked Up',
+  6: 'Cancelled',
 }
 
 export const JOB_STATUS_BUTTON = {
-  1: 'Start Job',
-  2: 'Complete Job',
-  3: 'Pick Up Bike',
-  4: 'Order Completed',
-  5: 'Re-Open Job'
+  1: 'Start',
+  2: 'Service Done',
+  3: 'Quality Checked',
+  4: 'Picked Up',
+  5: 'Completed',
+  6: 'Re-Open'
+}
+
+export const JOB_STATUS_STYLES = {
+  1: {backgroundColor: "lightblue",fontSize: "1.5em"},
+  2: {backgroundColor: "#d2abd2",fontSize: "1.5em"},
+  3: {backgroundColor: "#ffffba",fontSize: "1.5em"},
+  4: {backgroundColor: "#ABD3B8",fontSize: "1.5em"},
+  5: {backgroundColor: "#ABD3B8",fontSize: "1.5em"},
+  6: {backgroundColor: "#ffb2b2",fontSize: "1.5em"},
+}
+
+export const LOG_EVENT_READABLE = {
+  1: 'Update Status',
+  2: 'Update Mechanic',
+  3: 'New Job Created'
+}
+
+export const STATUS_UPDATE = "STATUS_UPDATE"
+export const MECHANIC_UPDATE = "MECHANIC_UPDATE"
+export const NEW_JOB = "NEW_JOB"
+
+
+export const LOG_EVENT_TYPES = {
+  [STATUS_UPDATE]: 1,
+  [MECHANIC_UPDATE]: 2,
+  [NEW_JOB]: 3,
 }
 
 export default CONSTANTS

@@ -3,12 +3,12 @@
     color: blue;
 }
 
-.job-card-container{
-    background-color: lightgray;
-}
-
 h3 {
     margin: 5px;
+}
+
+.ui.page.modals.transition.visible {
+  display: flex !important;
 }
 
 .background-image {

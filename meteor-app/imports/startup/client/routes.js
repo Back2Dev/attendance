@@ -6,6 +6,8 @@ import AssessmentLayout from '/imports/ui/layouts/assessment'
 import Ordering from '/imports/ui/layouts/ordering'
 import MemberAddIframe from '/imports/ui/layouts/member-add-iframe'
 import JobCardList from '/imports/ui/assessment/assessment-job-card-list'
+import JobHistory from '/imports/ui/assessment/assessment-job-history'
+
 import Alert from 'react-s-alert';
 
 // there is an iframe on the B2B wordpress site allowing registration to attendance app.
@@ -19,6 +21,7 @@ export const renderRoutes = () => (
         <Route path="/ordering" component={Ordering} />
         <Route path="/assessment" component={AssessmentLayout} />
         <Route path="/jobs" component={JobCardList} />
+        <Route path="/history" component={JobHistory} />
         <Route component={Attendance} />
       </Switch>
     </Router>

@@ -4,6 +4,7 @@ import { ReactiveVar } from "meteor/reactive-var";
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Members from '/imports/api/members/members'
+import Logger from '/imports/api/assessments/logger'
 import Assessment from '/imports/api/assessments/assessment'
 import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
@@ -61,6 +62,7 @@ export default withTracker(props => {
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
     serviceItems: ServiceItems.find().fetch(),
+    log: Logger.find().fetch(),
     members: Members.find().fetch(),
     assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
   };

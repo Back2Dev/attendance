@@ -7,6 +7,13 @@ import AssessmentJobCard from './assessment-job-card'
 import { fakeJob } from '/imports/api/fake-data'
 
 // this ensures we get the same random data everytime so we dont break storyshots
+const members = [{
+  id: 1,
+  name: "Mike King",
+}, {
+  id: 2,
+  name: "Matt Wiseman",
+}]
 
 storiesOf('Job List', module)
   .addDecorator(withKnobs)
@@ -21,6 +28,7 @@ storiesOf('Job List', module)
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
+          members={members}
         />
     )
     return story
@@ -34,6 +42,7 @@ storiesOf('Job List', module)
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
+          members={members}
         />
     )
     return story
@@ -48,6 +57,7 @@ storiesOf('Job List', module)
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
+          members={members}
         />
     )
     return story
@@ -62,6 +72,7 @@ storiesOf('Job List', module)
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
+          members={members}
         />
     )
     return story
@@ -76,6 +87,7 @@ storiesOf('Job List', module)
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
+          members={members}
         />
     )
     return story

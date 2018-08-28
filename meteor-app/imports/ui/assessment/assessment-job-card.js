@@ -1,13 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Component } from 'react'
-import { Card, Button, Container, List } from 'semantic-ui-react'
+import { Button, List, Accordion, Icon, Grid} from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
-import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON } from '/imports/api/constants'
+import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON, JOB_STATUS_STYLES } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
 import Alert from 'react-s-alert'
+import MechanicModal from '/imports/ui/assessment/mechanic-modal'
+import moment from 'moment'
 
 class JobCard extends Component {
+  state = { 
+    activeIndex: -1,
+    fetched: false,
+    logs: []
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.activeIndex === 0 && !this.state.fetched) {
+      this.getLogs()      
+    }
+  }
+  
+  getLogs = () => {
+    const { currentJob, getLogs } = this.props
+    getLogs(currentJob._id)
+      .then(l => {
+        this.setState({
+          logs: l,
+          fetched: true
+        })
+      }).catch(e => console.log(e))
+  }
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
+  }
 
   updateButton = () => {
     const jobId = this.props.currentJob._id
@@ -17,21 +49,22 @@ class JobCard extends Component {
     const statusIndex = statusList.findIndex(element => element === status)
     const updatedStatusKey = statusList[statusIndex+1] // Find key/name of next status
     const updatedStatus = JOB_STATUS[updatedStatusKey] // Update to the next status 
-
+    
     try {
-      if (statusValue >= JOB_STATUS.BIKE_PICKED_UP) return
+      if (statusValue >= JOB_STATUS.PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
+      this.getLogs()
     } catch (error) {
       Alert.error(error.message)
     }
   }
-
+  
   cancelButton = () => {
     const jobId = this.props.currentJob._id
     const status = this.props.currentJob.status
     const cancelStatus = JOB_STATUS.CANCELLED
     const reopenStatus = JOB_STATUS.NEW
-    const bikePickedUpStatus = JOB_STATUS.BIKE_PICKED_UP
+    const bikePickedUpStatus = JOB_STATUS.PICKED_UP
     try {
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
@@ -49,9 +82,32 @@ class JobCard extends Component {
     return str.toLowerCase().split(' ').map(x => x[0].toUpperCase()+x.slice(1)).join(' ');
   }
 
+  renderLogs(logs) {
+    return logs.map(
+      log => {
+        const date = moment(log.createdAt).format("ddd Do MMM, h:mm a")
+        const message = (status) => {
+          switch(status){
+            case 1:
+              return "Status updated to: " + JOB_STATUS_READABLE[log.status]
+            case 2:
+              return "Added new mechanic"
+            case 3:
+              return log.user + " added new job"
+            default:
+              return  JOB_STATUS_READABLE[log.status]
+          }
+        }
+        return (
+        <li>{`${date} - ${message(log.eventType)}`}</li>
+      )}
+    )
+  }
+
   render() {
+    const { activeIndex } = this.state
     // Pulling data from props (assessment collection)
-    const { status, bikeDetails, services, pickupDate, totalCost, customerDetails } = this.props.currentJob
+    const { status, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.currentJob
     const make = bikeDetails.make
     const model = bikeDetails.model
     const color = bikeDetails.color
@@ -62,54 +118,120 @@ class JobCard extends Component {
     const customerName = refurbishBike ? 'Back2Bikes' : customerDetails.name
     // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
     const servicePackage = services.baseService
-
-    // Dynamic button name
-    const statusButton = status <= JOB_STATUS.BIKE_PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Order Cancelled'
-    const cancelButton = status <= JOB_STATUS.BIKE_PICKED_UP ? 'Cancel Job' : 'Re-open Job'
     
+    // Dynamic button name
+    const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
+    const cancelButton = status <= JOB_STATUS.PICKED_UP ? "Cancel Job" : "Re-open Job"
+
     return (
-      <Card>
-        <Container className="job-card-container" >
-          <Card.Header style={{ textAlign: "Center", fontSize: "1.5em", margin: "20px" }} >
-            Job Status:
-            <br/>
-            <div><strong>{jobStatus}</strong></div>
-          </Card.Header>
-          <Card.Content style={{ fontSize: "1em", marginLeft: "28px" }}>
-            <List>
-              <List.Item><strong>Customer Name: </strong>{this.titleCase(customerName)}</List.Item>
-              <List.Item><strong>Bike Make: </strong>{make.toUpperCase()}</List.Item>
-              <List.Item><strong>Bike Model: </strong>{model && model.toUpperCase()}</List.Item>
-              <List.Item><strong>Bike Color: </strong>{this.titleCase(color)}</List.Item>
-              <List.Item><strong>Services: </strong>{servicePackage}</List.Item>
-              <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
-              <List.Item><strong>Total Price: </strong>${totalRepairCost}</List.Item>
-            </List>
-          </Card.Content>
-          <Container style={{ textAlign: "Center", margin: "20px 0" }}>
-            <Button.Group style={{  width: "80%" }} vertical>
-                <Button 
-                  className="positive ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }} 
-                  onClick={this.updateButton} >
-                    <h2>{statusButton}</h2>
-                </Button>
-                <Button 
-                  className="positive ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
-                  onClick={() => printJobCart(this.props.currentJob)} >
-                    <h2>Print Job Card</h2>
-                </Button>
-                <Button 
-                  className="negative ui button"
-                  style={{ marginTop: '5px', marginBottom: '5px', borderRadius: "5px" }}
-                  onClick={this.cancelButton} >
-                    <h2>{cancelButton}</h2>
-                </Button>
-            </Button.Group>
-          </Container>
-        </Container>
-      </Card>
+      <Accordion className="job-card-container" styled fluid>
+      
+        <Accordion.Title 
+          active={activeIndex === 0} 
+          index={0} onClick={this.handleClick} 
+          style={JOB_STATUS_STYLES[status]}>
+
+          <Grid stackable>
+            <Grid.Row columns={5} mobile={2}>
+
+            <Grid.Column width={1}>
+              <Icon name='dropdown' />
+            </Grid.Column>
+
+            <Grid.Column width={3}>
+              <div><strong>{jobStatus}</strong></div>
+            </Grid.Column>
+
+            <Grid.Column width={6}>            
+              <List.Item>{this.titleCase(color)} {make} {model}</List.Item>
+            </Grid.Column>
+
+            <Grid.Column width={4}>            
+              <List.Item>{this.titleCase(customerName)}</List.Item>
+            </Grid.Column>
+
+            <Grid.Column width={2}>            
+              <List.Item>${totalRepairCost}</List.Item>
+            </Grid.Column>
+
+            </Grid.Row>
+          </Grid>
+        </Accordion.Title>
+
+        <Accordion.Content active={activeIndex === 0} style={{ fontSize: "1em", marginLeft: "28px" }}>
+          <Grid stackable>
+            <Grid.Row columns={2} style={{ marginTop: "20px"}}>
+        
+              <Grid.Column style={{ fontSize: "1.2em"}}>
+                <List.Item><strong>Job ID: </strong>{this.props.currentJob._id}</List.Item>
+                <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
+                <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
+                <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
+                <ul><strong>Job Logs: </strong>
+                {
+                  !this.state.fetched &&
+                    <p>Loading....</p>
+                }
+                {
+                  this.state.fetched &&
+                    this.renderLogs(this.state.logs)
+               }
+                </ul>
+                <br />
+                <Button.Group >
+                  <Button 
+                    className="ui button"
+                    color="green"
+                    style={{ textAlign: "center", borderRadius: "5px", width:"200px" }} 
+                    onClick={this.updateButton} >
+                      <h1>{statusButton}</h1>
+                  </Button>
+                  <Button 
+                    className="ui button"
+                    color="red"
+                    style={{ textAlign: "center", marginLeft: "10px", borderRadius: "5px" }}
+                    onClick={this.cancelButton} >
+                    <h1>{cancelButton}</h1>
+                  </Button>
+                </Button.Group>
+              </Grid.Column>
+
+              <Grid.Column style={{ textAlign: "right"}}>
+                <Grid.Row>
+                  <Button.Group>
+                    <MechanicModal {...this.props}/>
+                    <Button 
+                      className="ui button"
+                      color="blue"
+                      style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
+                      onClick={() => printJobCart(this.props.currentJob)}>
+                      <h1><Icon name="print"/></h1>
+                    </Button>
+                  </Button.Group>
+                </Grid.Row>
+
+                <Grid.Row>
+                  <Button.Group>
+                    <Button 
+                      className="ui button"
+                      color="pink"
+                      style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}>
+                      <h1><Icon name="phone"/></h1>
+                    </Button>
+                    <Button 
+                      className="ui button"
+                      color="purple"
+                      style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}>
+                      <h1><Icon name="envelope outline"/></h1>
+                    </Button>
+                  </Button.Group>
+                </Grid.Row>
+              </Grid.Column>
+
+            </Grid.Row>
+          </Grid>
+        </Accordion.Content>
+      </Accordion>
     )
   }
 }
@@ -122,7 +244,5 @@ JobCard.propTypes = {
   }),
   updateStatus: PropTypes.func.isRequired,
 };
-
-
 
 export default JobCard

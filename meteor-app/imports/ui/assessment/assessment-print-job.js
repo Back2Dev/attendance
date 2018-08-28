@@ -111,5 +111,5 @@ export default assessment => {
       // alignment: 'justify'
     }
   };
-  pdfMake.createPdf(docDefinition).download(`${name}-${bikeDetails.make}-${bikeDetails.color}`);
+  pdfMake.createPdf(docDefinition).open();
 };

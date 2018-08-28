@@ -409,7 +409,7 @@ Meteor.methods({
 
   'seed.assessments'() {
 
-    const n = 15
+    const n = 50
     // seed ensures same data is generated
     faker.seed(123)
 
@@ -429,8 +429,8 @@ Meteor.methods({
 
 Meteor.startup(() => {
 
-  ServiceItems.remove({})
-  Assessment.remove({})
+  // ServiceItems.remove({})
+  // Assessment.remove({})
 
 
   if (Services.find().count() === 0) {
