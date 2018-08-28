@@ -21,7 +21,7 @@ export default withTracker(props => {
   Meteor.subscribe('services.all')
   Meteor.subscribe('serviceItems.all')
   Meteor.subscribe('assessments.all')
-  Meteor.subscribe('logger.all')
+  Meteor.subscribe('logger.assessment')
   Meteor.subscribe('all.members')
 
   // need to do something smarter than this... 
@@ -50,7 +50,7 @@ export default withTracker(props => {
       const log = {
         user: formData.assessor, 
         requestType: "Add new assessment", 
-        requestBody: "This is a test log to say a job has been created"
+        requestBody: "This is a test log to say a job has been created",
       }
       Meteor.call("logger.insert", log)
       return res
@@ -69,7 +69,7 @@ export default withTracker(props => {
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
     serviceItems: ServiceItems.find().fetch(),
-    logger: Logger.find().fetch(),
+    log: Logger.find().fetch(),
     members: Members.find().fetch(),
     assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
   };

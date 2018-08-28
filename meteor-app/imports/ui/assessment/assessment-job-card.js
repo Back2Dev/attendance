@@ -84,8 +84,8 @@ class JobCard extends Component {
         <Accordion.Title 
           active={activeIndex === 0} 
           index={0} onClick={this.handleClick} 
-          style={JOB_STATUS_STYLES[status]}
-        >
+          style={JOB_STATUS_STYLES[status]}>
+
           <Grid stackable>
             <Grid.Row columns={5} mobile={2}>
 
@@ -118,11 +118,13 @@ class JobCard extends Component {
             <Grid.Row columns={2} style={{ marginTop: "20px"}}>
         
               <Grid.Column style={{ fontSize: "1.2em"}}>
+                <List.Item><strong>Job ID: </strong>{this.props.currentJob._id}</List.Item>
                 <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
                 <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
                 <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
-                <List.Item><strong>Job Logs: </strong>{this.props.log.map(log => `Created by: ${log.user} at ${log.createdAt.toLocaleDateString()} `)}</List.Item>
-
+                <ul><strong>Job Logs: </strong>
+                {this.props.log.map(log => <li>{`${log.createdAt.toLocaleDateString()} - Assessment created by ${log.user}`}</li>)}
+                </ul>
                 <br />
                 <Button.Group >
                   <Button 

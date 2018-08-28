@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import GridColumn, { Grid, Search, Button } from 'semantic-ui-react'
+import { Grid, Search, Button } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
@@ -36,6 +36,15 @@ class JobCardList extends Component {
     }
   }
 
+  componentDidUpdate(status) {
+    if(status === JOB_STATUS_ALL){
+      this.setState({
+        showAll: true,
+        active: null
+      })
+    }
+  }
+
   componentWillUnmount() {
       this.props.resetStatus()
   }
@@ -56,7 +65,7 @@ class JobCardList extends Component {
         <Nav />
         <Grid stackable>
           <Grid.Row columns={3}>
-            <Grid.Column width={7}>
+            <Grid.Column width={8}>
               <div style={{marginLeft: "50px", marginTop: "20px"}}>
                 <Button.Group basic id="button-parent">
                   <Button
@@ -78,12 +87,11 @@ class JobCardList extends Component {
                     {status.text}
                     </Button>
                   )}
-              
                 </Button.Group>
               </div>
             </Grid.Column>
 
-            <Grid.Column width={7}>
+            <Grid.Column width={6}>
               <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
                 <Search
                   open={false}
@@ -94,28 +102,27 @@ class JobCardList extends Component {
                   placeholder='Enter bike make/color or customer name'/>
               </div>
             </Grid.Column>
-            <Grid.Column width={2}>
-            <div style={{marginRight: "50px", marginTop: "20px"}}>
 
-             <Button
-                      color="blue"
-                      onClick={() => {
-                        this.props.history.push("/history");
-                      }}
-                    >
-                      Archive
-             </Button>
-             </div>
+            <Grid.Column width={2}>
+              <div style={{marginRight: "50px", marginTop: "20px"}}>
+                <Button
+                  color="blue"
+                  onClick={() => {
+                    this.props.history.push("/history");
+                  }}>
+                  Archive
+                </Button>
+              </div>
             </Grid.Column>
           </Grid.Row>
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
           <Grid.Row centered>
-          <h1>Current Jobs</h1>
+            <h1>Current Jobs</h1>
           </Grid.Row>
           {this.props.jobs
-          .filter(job => job.status <= "4")
+          .filter(job => job.status <= JOB_STATUS.READY_FOR_PICK_UP)
           .map(job =>
             <Grid.Row key={job._id}>
               <JobCard
@@ -135,7 +142,7 @@ class JobCardList extends Component {
 export default withTracker(props => {
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
-  Meteor.subscribe('logger.all')
+  Meteor.subscribe('logger.assessment')
 
   const searchLine = searchVar.get()
   const statusLine = statusVar.get()

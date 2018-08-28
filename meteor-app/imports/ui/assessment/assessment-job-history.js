@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import GridColumn, { Grid, Search, Button } from 'semantic-ui-react'
+import { Grid, Search, Button } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
@@ -57,15 +57,14 @@ class JobHistory extends Component {
         <Nav />
         <Grid stackable>
           <Grid.Row columns={3}>
-          <Grid.Column width={7}>
+            <Grid.Column width={7}>
               <div style={{marginLeft: "50px", marginTop: "20px"}}>
                 <Button.Group basic id="button-parent">
                   <Button
                       toggle
                       className={this.state.showAll ? 'active' : ''}            
                       value='all'
-                      onClick={() => this.setButtonState('all')}
-                    >
+                      onClick={() => this.setButtonState('all')}>
                     All
                   </Button>
                   {statusOptions
@@ -97,25 +96,24 @@ class JobHistory extends Component {
               </div>
             </Grid.Column>
             <Grid.Column width={3}>
-            
-            <div style={{ textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
-                  <Button
-                      color="blue"
-                      onClick={() => {
-                        this.props.history.push("/jobs");
-                      }}
-                    >
-                      Current Jobs
-                  </Button>
-                  </div>
+              <div style={{ textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
+                <Button
+                    color="blue"
+                    onClick={() => {
+                      this.props.history.push("/jobs");
+                    }}>
+                    Current Jobs
+                </Button>
+              </div>
             </Grid.Column>
           </Grid.Row>
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
-        <Grid.Row centered>
-          <h1>Archive</h1>
+          <Grid.Row centered>
+            <h1>Archive</h1>
           </Grid.Row>
+          
           {this.props.jobs
           .filter(job => job.status >= JOB_STATUS.PICKED_UP)
           .map(job =>
@@ -137,7 +135,7 @@ class JobHistory extends Component {
 export default withTracker(props => {
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
-  Meteor.subscribe('logger.all')
+  Meteor.subscribe('logger.assessment')
 
   const searchLine = searchVar.get()
   const statusLine = statusVar.get()
