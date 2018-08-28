@@ -129,8 +129,9 @@ Factory.define('assessment', Assessment, {
 
 Factory.define('logs', Logger, {
   user: faker.name.findName(),
-  requestType: 'Update form',
-  requestBody: faker.random.words()
+  aId: '34G5785heY6262',
+  status: 1,
+  eventType: 2
 })
 
 Factory.define('parts', ServiceItems, {
