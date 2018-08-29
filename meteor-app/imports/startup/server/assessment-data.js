@@ -442,10 +442,8 @@ Meteor.methods({
       .forEach(r => {
         const id = Assessment.insert(r)
         const logs = fakeLogs(id, r)
-        console.log(r.status)
         logs.forEach(l => {
           Logger.insert(l)
-          console.log(l.eventType)
         })
       })
   }
@@ -453,8 +451,8 @@ Meteor.methods({
 
 Meteor.startup(() => {
 
-  ServiceItems.remove({})
-  Assessment.remove({})
+  // ServiceItems.remove({})
+  // Assessment.remove({})
 
 
   if (Services.find().count() === 0) {
