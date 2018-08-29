@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
-import { Grid, Search, Button } from 'semantic-ui-react'
+import { Grid, Search, Button, Loader } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
 import { withTracker } from "meteor/react-meteor-data";
@@ -11,13 +11,13 @@ import Logger from '/imports/api/assessments/logger'
 import { JOB_STATUS_READABLE, JOB_STATUS, JOB_STATUS_ALL } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
-const searchVar = new ReactiveVar('')
-const statusVar = new ReactiveVar('')
+
 
 class JobCardList extends Component {
   state = {
     active: null,
     showAll: true,
+    job: {}
   }
 
   setButtonState = (status) => {
@@ -49,8 +49,18 @@ class JobCardList extends Component {
       this.props.resetStatus()
   }
 
+  setCurrentJob = (job) => {
+    this.setState({
+      job,
+    }, () => {
+      this.props.changeAssId(job._id)
+    })
+  }
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
+    if(this.props.loading){
+      return <Loader active />
+    }
     const statusOptions = Object.keys(JOB_STATUS_READABLE)
     .filter(key => key <= JOB_STATUS.READY_FOR_PICK_UP)
     .map(key => {
@@ -61,7 +71,7 @@ class JobCardList extends Component {
       }
     })
     return (
-      <>
+      <React.Fragment>
         <Nav />
         <Grid stackable>
           <Grid.Row columns={3}>
@@ -124,75 +134,21 @@ class JobCardList extends Component {
           {this.props.jobs
           .filter(job => job.status <= JOB_STATUS.READY_FOR_PICK_UP)
           .map(job =>
-            <Grid.Row key={job._id}>
+            <Grid.Row 
+              key={job._id}
+              onClick={() => this.setCurrentJob(job)}
+            >
               <JobCard
-                currentJob={job}
-                updateStatus={this.props.updateStatus}
-                members={this.props.members}
-                log={this.props.log}
-                getLogs={this.props.getLogs}
+                job={job}
+                currentJob={this.state.job}
+                {...this.props}
               />
             </Grid.Row>
           )}
         </Grid>
-      </>
+      </React.Fragment>
     )
   }
 }
 
-export default withTracker(props => {
-  Meteor.subscribe('assessments.all')
-  Meteor.subscribe('all.members')
-  Meteor.subscribe('logger.assessment')
-
-  const searchLine = searchVar.get()
-  const statusLine = statusVar.get()
-  
-  const searchFind = event => {
-    const value = event.target.value
-    resetStatus()
-    searchVar.set(value)
-  }
-
-  getLogs = (aId) => {
-    return Meteor.callAsync('getLogs', aId)
-  }
-
-  const statusFilter = (status) => {
-    let statusValue
-    if(status === 'all'){
-      statusValue = JOB_STATUS_ALL
-    } else {
-      statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
-        .filter(key => key === status.key) // ["1"]
-        .map(value => parseInt(value)) // [1]
-  }
-  statusVar.set(statusValue)
-  }
-
-  const resetStatus = () => {
-    statusVar.set(JOB_STATUS_ALL)
-  }
-
-  const updateStatus = (jobId, updatedStatus) => {
-    Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
-  }
-
-  const renderJob = () => {
-    if (statusLine == '') {
-      return Assessment.find({ search: { $regex: searchLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
-    }
-    return Assessment.find({ search: { $regex: searchLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: statusLine } }).fetch()
-  }
-
-  return {
-    jobs: renderJob(),
-    members: Members.find().fetch(),
-    log: Logger.find().fetch(), 
-    searchFind,
-    statusFilter,
-    updateStatus,
-    resetStatus,
-    getLogs
-  }
-})(JobCardList)
+export default JobCardList

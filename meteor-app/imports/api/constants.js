@@ -74,9 +74,9 @@ export const JOB_STATUS_STYLES = {
 }
 
 export const LOG_EVENT_READABLE = {
-  1: 'Update Status',
-  2: 'Update Mechanic',
-  3: 'New Job Created'
+  20: 'Update Status',
+  21: 'Update Mechanic',
+  22: 'New Job Created'
 }
 
 export const STATUS_UPDATE = "STATUS_UPDATE"
@@ -85,9 +85,9 @@ export const NEW_JOB = "NEW_JOB"
 
 
 export const LOG_EVENT_TYPES = {
-  [STATUS_UPDATE]: 1,
-  [MECHANIC_UPDATE]: 2,
-  [NEW_JOB]: 3,
+  [STATUS_UPDATE]: 20,
+  [MECHANIC_UPDATE]: 21,
+  [NEW_JOB]: 22,
 }
 
 export default CONSTANTS
