@@ -39,7 +39,7 @@ export default assessment => {
       {
         text: `Bike: ${bikeDetails.make} ${bikeModel} - ${
           bikeDetails.color
-        } - Approx Value $${bikeDetails.bikeValue / 100}`,
+        } - Total Price $${totalCost / 100}`,
         style: "subheader",
         fontSize: 20
       },
@@ -76,11 +76,7 @@ export default assessment => {
         style: "subheader",
         bold: true
       },
-      {
-        text: `Total Price $${totalCost / 100}`,
-        style: "subheader",
-        bold: true
-      }
+
     ],
     styles: {
       header: {

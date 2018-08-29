@@ -53,9 +53,9 @@ export default withTracker(props => {
     const search = searchVar.get()
     const status = statusVar.get()
     if (status == '') {
-      return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
+      return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }, {sort: {createdAt: -1}}).fetch()
     }
-    return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: status } }).fetch()
+    return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: status } }, {sort: {createdAt: -1}}).fetch()
   }
 
   return {
