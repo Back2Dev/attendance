@@ -36,17 +36,18 @@ class JobCardList extends Component {
     }
   }
 
-  componentDidUpdate(status) {
-    if(status === JOB_STATUS_ALL){
-      this.setState({
-        showAll: true,
-        active: null
-      })
-    }
-  }
-
   componentWillUnmount() {
       this.props.resetStatus()
+  }
+
+  searchJobs = (e) => {
+    const {value} = e.target
+    
+    this.setState({
+      active: null,
+      showAll: true,
+    })
+    this.props.searchFind(value)
   }
 
   setCurrentJob = (job) => {
@@ -106,7 +107,7 @@ class JobCardList extends Component {
                 <Search
                   open={false}
                   fluid
-                  onSearchChange={this.props.searchFind}
+                  onSearchChange={this.searchJobs}
                   type='text'
                   size='large'
                   placeholder='Enter bike make/color or customer name'/>
@@ -140,8 +141,10 @@ class JobCardList extends Component {
             >
               <JobCard
                 job={job}
+                updateStatus={this.props.updateStatus}
+                logs={this.props.logs}
                 currentJob={this.state.job}
-                {...this.props}
+                members={this.props.members}
               />
             </Grid.Row>
           )}

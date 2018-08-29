@@ -231,6 +231,7 @@ JobCard.propTypes = {
     status: PropTypes.number.isRequired
   }),
   updateStatus: PropTypes.func.isRequired,
+  logs: PropTypes.array.isRequired,
 };
 
 export default JobCard

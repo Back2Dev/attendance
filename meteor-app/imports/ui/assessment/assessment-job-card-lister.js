@@ -15,7 +15,7 @@ const statusVar = new ReactiveVar('')
 const selectedaId = new ReactiveVar('')
 
 export default withTracker(props => {
-  const jobSub = Meteor.subscribe('assessments.all')
+  const jobSub = Meteor.subscribe('assessments.current')
   const membersSub = Meteor.subscribe('all.members')
   const logSub = Meteor.subscribe('logger.assessment', selectedaId.get())
   const loading = !jobSub.ready() && !membersSub.ready() && !logSub.ready()
@@ -24,13 +24,9 @@ export default withTracker(props => {
   }
   const logs = Logger.find({aId: selectedaId.get()}).fetch()
 
-  const searchLine = searchVar.get()
-  const statusLine = statusVar.get()
-  
-  const searchFind = event => {
-    const value = event.target.value
+  const searchFind = search => {
     resetStatus()
-    searchVar.set(value)
+    searchVar.set(search)
   }
 
   const statusFilter = (status) => {
@@ -54,16 +50,18 @@ export default withTracker(props => {
   }
 
   const renderJob = () => {
-    if (statusLine == '') {
-      return Assessment.find({ search: { $regex: searchLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
+    const search = searchVar.get()
+    const status = statusVar.get()
+    if (statusVar.get() == '') {
+      return Assessment.find({ search: { $regex: searchVar.get().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
     }
-    return Assessment.find({ search: { $regex: searchLine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: statusLine } }).fetch()
+    return Assessment.find({ search: { $regex: searchVar.get().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: statusVar.get() } }).fetch()
   }
 
   return {
     loading,
     jobs: renderJob(),
-    members: Members.find().fetch(),
+    members: Members.find({}, { fields: {name: 1}, sort: { name: 1 } }).fetch(),
     searchFind,
     statusFilter,
     updateStatus,
