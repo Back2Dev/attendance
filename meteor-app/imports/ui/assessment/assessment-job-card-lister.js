@@ -52,10 +52,10 @@ export default withTracker(props => {
   const renderJob = () => {
     const search = searchVar.get()
     const status = statusVar.get()
-    if (statusVar.get() == '') {
-      return Assessment.find({ search: { $regex: searchVar.get().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
+    if (status == '') {
+      return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }).fetch()
     }
-    return Assessment.find({ search: { $regex: searchVar.get().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: statusVar.get() } }).fetch()
+    return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: status } }).fetch()
   }
 
   return {
