@@ -17,6 +17,8 @@ Meteor.publish('assessments.all', () => {
   return Assessment.find({})
 })
 
-Meteor.publish('logger.assessment', () => {
-  return Logger.find()
+Meteor.publish('logger.assessment', (aId) => {
+  if(aId){
+    return Logger.find({ aId })
+  }
 })

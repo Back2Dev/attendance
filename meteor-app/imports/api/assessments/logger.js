@@ -16,6 +16,11 @@ export const LoggerSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Type of event'
   },
+  data: {
+    type: String,
+    label: 'Log data', // mechanic name etc
+    optional: true
+  },
   createdAt,
   updatedAt,
 })
