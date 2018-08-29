@@ -6,7 +6,7 @@ import Assessment from '/imports/api/assessments/assessment'
 import Members from '/imports/api/members/members'
 import JobCardList from '/imports/ui/assessment/assessment-job-card-list'
 
-import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON, JOB_STATUS_STYLES } from '/imports/api/constants'
+import { JOB_STATUS_ALL, JOB_STATUS_READABLE } from '/imports/api/constants'
 
 const searchVar = new ReactiveVar('')
 const statusVar = new ReactiveVar('')
