@@ -1,6 +1,5 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import vfsFonts from "pdfmake/build/vfs_fonts";
-
 export default assessment => {
   const {
     assessor,
@@ -110,6 +109,7 @@ export default assessment => {
     defaultStyle: {
       // alignment: 'justify'
     }
-  };
-  pdfMake.createPdf(docDefinition).open();
+  }
+  // chrome blocks blobs being opened in new tab
+  pdfMake.createPdf(docDefinition).open({}, window);
 };
