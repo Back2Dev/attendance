@@ -66,11 +66,10 @@ class JobHistoryList extends Component {
     return (
       <React.Fragment>
         <Nav />
-        <Grid stackable>
+        <Grid stackable textAlign="center" style={{marginLeft: "50px", marginRight: "50px", marginTop: "20px" }}>
           <Grid.Row columns={3}>
-            <Grid.Column width={7}>
-              <div style={{marginLeft: "50px", marginTop: "20px"}}>
-                <Button.Group basic id="button-parent">
+          <Grid.Column computer={9} tablet={7} textAlign="left">
+                <Button.Group basic id="button-parent" className="ui stackable buttons">
                   <Button
                       toggle
                       className={this.state.showAll ? 'active' : ''}            
@@ -92,22 +91,18 @@ class JobHistoryList extends Component {
                   )}
                   
                 </Button.Group>
-              </div>
             </Grid.Column>
 
-            <Grid.Column width={6}>
-              <div style={{textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
+            <Grid.Column computer={4} tablet={5}>
                 <Search
                   open={false}
                   fluid
                   onSearchChange={this.searchJobs}
                   type='text'
                   size='large'
-                  placeholder='Enter bike make/color or customer name'/>
-              </div>
+                  placeholder='Search'/>
             </Grid.Column>
-            <Grid.Column width={3}>
-              <div style={{ textAlign: "right", marginRight: "50px", marginTop: "20px"}}>
+            <Grid.Column computer={3} tablet={4}>
                 <Button
                     color="blue"
                     onClick={() => {
@@ -115,7 +110,6 @@ class JobHistoryList extends Component {
                     }}>
                     Current Jobs
                 </Button>
-              </div>
             </Grid.Column>
           </Grid.Row>
         </Grid>
