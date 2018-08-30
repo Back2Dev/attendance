@@ -47,6 +47,26 @@ export default assessment => {
       { text: `Assessor: ${assessor} `, style: "text" },
       { text: `Base Service: ${services.baseService}`, style: "text" },
 
+      // below is code to test table format
+      { table: {
+				widths: [200, 'auto', 'auto'],
+				headerRows: 2,
+				// keepWithHeaderRows: 1,
+				body: [
+					[{text: 'Table Testing', style: 'tableHeader', colSpan: 2, alignment: 'center'}, {}, {}],
+					[{text: 'Parts Items', style: 'tableHeader', alignment: 'center'}, {text: 'Front', style: 'tableHeader', alignment: 'center'}, {text: 'Rear', style: 'tableHeader', alignment: 'center'}],
+					[servicePartNames, '', ''],
+					[{rowSpan: 1, text: 'Item'}, '', ''],
+					['Item', '', ''],
+					['Item', '', ''],
+					['Item', {colSpan: 2, rowSpan: 1, text: ''}, ''],
+					['Item',{colSpan: 2, rowSpan: 1, text: ''}, ''],
+				]
+      },
+    },
+
+    // end of table code
+      
       { text: "Service Items", style: "subheader" },
       { ul: serviceItemNames },
       { text: "Part Items", style: "subheader" },
