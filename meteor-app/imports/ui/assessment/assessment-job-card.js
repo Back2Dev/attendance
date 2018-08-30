@@ -44,6 +44,7 @@ class JobCard extends Component {
     try {
       if (statusValue >= JOB_STATUS.PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
+      Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[updatedStatus]}`)
     } catch (error) {
       Alert.error(error.message)
     }
@@ -58,8 +59,10 @@ class JobCard extends Component {
     try {
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
+        Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[cancelStatus]}`)
       } else if(status === cancelStatus) {
         this.props.updateStatus(jobId, reopenStatus)
+        Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[reopenStatus]}`)
       }
       return
     } catch (error) {
