@@ -19,7 +19,7 @@ export default assessment => {
     if(!item.name) {
       return ["There are no parts for this service"]
     } else {
-      return item.name   
+      return [item.name, 'F', 'R']
     } 
   });
   const tempBike = temporaryBike ? "Yes" : "No"
@@ -55,7 +55,7 @@ export default assessment => {
 				body: [
 					[{text: 'Table Testing', style: 'tableHeader', colSpan: 2, alignment: 'center'}, {}, {}],
 					[{text: 'Parts Items', style: 'tableHeader', alignment: 'center'}, {text: 'Front', style: 'tableHeader', alignment: 'center'}, {text: 'Rear', style: 'tableHeader', alignment: 'center'}],
-					[servicePartNames, '', ''],
+					...servicePartNames,
 					[{rowSpan: 1, text: 'Item'}, '', ''],
 					['Item', '', ''],
 					['Item', '', ''],
