@@ -107,5 +107,5 @@ export default assessment => {
     }
   }
   // chrome blocks blobs being opened in new tab
-  pdfMake.createPdf(docDefinition).open({}, window);
+  pdfMake.createPdf(docDefinition).open();
 };
