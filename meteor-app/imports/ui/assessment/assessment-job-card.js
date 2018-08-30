@@ -54,13 +54,14 @@ class JobCard extends Component {
     const jobId = this.props.job._id
     const status = this.props.job.status
     const cancelStatus = JOB_STATUS.CANCELLED
+    const completeStatus = JOB_STATUS.PICKED_UP
     const reopenStatus = JOB_STATUS.NEW
     const bikePickedUpStatus = JOB_STATUS.PICKED_UP
     try {
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
         Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[cancelStatus]}`)
-      } else if(status === cancelStatus) {
+      } else if(status === cancelStatus || status === completeStatus) {
         this.props.updateStatus(jobId, reopenStatus)
         Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[reopenStatus]}`)
       }
@@ -117,7 +118,7 @@ class JobCard extends Component {
     
     // Dynamic button name
     const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
-    const cancelButton = status <= JOB_STATUS.PICKED_UP ? "Cancel Job" : "Re-open Job"
+    const cancelButton = status <= JOB_STATUS.READY_FOR_PICK_UP ? "Cancel Job" : "Re-open Job"
 
     return (
       <Accordion className="job-card-container" styled fluid>
