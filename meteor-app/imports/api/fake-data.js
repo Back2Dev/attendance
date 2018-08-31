@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { JOB_STATUS_READABLE } from '/imports/api/constants'
+import { LOG_EVENT_TYPES, JOB_STATUS, NEW_JOB, STATUS_UPDATE, JOB_STATUS_READABLE } from '/imports/api/constants'
 
 export const fakeJob = () => {
 
@@ -99,3 +99,17 @@ export const fakeJob = () => {
     search: `${name} ${phone} ${email} ${make} ${model} ${color} ${comment} ${mechanic} ${assessor} ${baseService} ${JSON.stringify(partsItem)}`,
   }
 }
+
+    // generates all logs up to current status
+    export const fakeLogs = (id, job) => {
+      let logs = []
+      for (let i = 1; i <= job.status; i++) {
+        logs.push({
+          aId: id,
+          user: (i === JOB_STATUS.NEW) ? job.assessor : 'Anonymous',
+          status: i,
+          eventType: (i === JOB_STATUS.NEW) ? LOG_EVENT_TYPES.NEW_JOB : LOG_EVENT_TYPES.STATUS_UPDATE,
+        })
+      }
+      return logs
+    }

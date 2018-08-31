@@ -3,9 +3,8 @@ import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Assessment from '/imports/api/assessments/assessment'
 import Logger from '/imports/api/assessments/logger'
-import { fakeJob } from '/imports/api/fake-data'
+import { fakeJob, fakeLogs } from '/imports/api/fake-data'
 import faker from 'faker'
-import { LOG_EVENT_TYPES, NEW_JOB, JOB_STATUS_READABLE } from '/imports/api/constants'
 const debug = require('debug')('att:admin')
 
 Meteor.methods({
@@ -430,20 +429,6 @@ Meteor.methods({
       return result
     }
 
-    // generates all logs up to current status
-    function fakeLogs(id, job) {
-      let logs = []
-      for (let i = 1; i <= job.status; i++) {
-        logs.push({
-          aId: id,
-          user: (i === 1) ? job.assessor : 'Anonymous',
-          status: i,
-          eventType: (i === 1) ? 22 : 20,
-        })
-      }
-      return logs
-    }
-
     array_of(n, () => fakeJob())
       .forEach(r => {
         const id = Assessment.insert(r)
@@ -459,7 +444,6 @@ Meteor.startup(() => {
 
   // ServiceItems.remove({})
   // Assessment.remove({})
-
 
   if (Services.find().count() === 0) {
     Meteor.call('seed.services')

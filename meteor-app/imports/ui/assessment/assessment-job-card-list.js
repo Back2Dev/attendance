@@ -65,7 +65,6 @@ class JobCardList extends Component {
       }
     })
 
-    const jobs = this.props.jobs
     return (
       <React.Fragment>
         <Nav />
@@ -124,7 +123,7 @@ class JobCardList extends Component {
           </Grid.Row>
           
           {
-          jobs
+          this.props.jobs
           .filter(job => job.status <= JOB_STATUS.READY_FOR_PICK_UP)
           .map(job =>
             <Grid.Row 
