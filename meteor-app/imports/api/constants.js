@@ -76,7 +76,7 @@ export const JOB_STATUS_STYLES = {
 export const LOG_EVENT_READABLE = {
   20: 'Update Status',
   21: 'Update Mechanic',
-  22: 'New Job Created'
+  22: 'New Job Created By'
 }
 
 export const STATUS_UPDATE = "STATUS_UPDATE"
