@@ -1,17 +1,10 @@
 import React from 'react'
-import { Meteor } from 'meteor/meteor'
 import { Component } from 'react';
 import { Grid, Search, Button, Loader } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
-import { withTracker } from "meteor/react-meteor-data";
-import Assessment from '/imports/api/assessments/assessment'
-import Members from '/imports/api/members/members'
-import Logger from '/imports/api/assessments/logger'
-import { JOB_STATUS_READABLE, JOB_STATUS, JOB_STATUS_ALL } from '/imports/api/constants'
+import { JOB_STATUS_READABLE, JOB_STATUS } from '/imports/api/constants'
 import './assessment-job-card-list.css'
-
-
 
 class JobCardList extends Component {
   state = {
@@ -71,6 +64,8 @@ class JobCardList extends Component {
         text: JOB_STATUS_READABLE[key]
       }
     })
+
+    const jobs = this.props.jobs
     return (
       <React.Fragment>
         <Nav />
@@ -128,7 +123,8 @@ class JobCardList extends Component {
             <h1>Current Jobs</h1>
           </Grid.Row>
           
-          {this.props.jobs
+          {
+          jobs
           .filter(job => job.status <= JOB_STATUS.READY_FOR_PICK_UP)
           .map(job =>
             <Grid.Row 

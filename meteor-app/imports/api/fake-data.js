@@ -64,6 +64,7 @@ export const fakeJob = () => {
   .reduce((a, b) => a + b)
 
   return {
+    _id: Math.round((Math.random()*200)*500),
     customerDetails: {
       name,
       phone,
