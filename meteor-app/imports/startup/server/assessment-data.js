@@ -3,7 +3,7 @@ import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Assessment from '/imports/api/assessments/assessment'
 import Logger from '/imports/api/assessments/logger'
-import { fakeJob, fakeLogs } from '/imports/api/fake-data'
+import { fakeJob, fakeLogs } from '/imports/test/fake-data'
 import faker from 'faker'
 const debug = require('debug')('att:admin')
 

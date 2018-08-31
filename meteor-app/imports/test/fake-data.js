@@ -5,6 +5,7 @@ faker.seed(888)
 
 export const fakeJob = () => {
 
+  faker.seed(888)
   // search items
   const name = faker.name.findName()
   const make = faker.random.arrayElement(['Apollo', 'Giant', 'Malvern Star', 'Specialized'])

@@ -40,7 +40,8 @@ storiesOf('Job List', module)
     aId: currentJob3._id,
     status: 3,
     eventType: 22,
-    data: 'test log'
+    data: 'test log',
+    createdAt: new Date('2018-09-01')
   }]
 
   const story = (

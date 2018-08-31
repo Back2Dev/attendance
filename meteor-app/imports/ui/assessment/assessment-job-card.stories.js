@@ -3,9 +3,12 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
+import faker from 'faker'
 import AssessmentJobCard from './assessment-job-card'
 import { fakeJob } from '/imports/test/fake-data'
 import { LOG_EVENT_TYPES, JOB_STATUS, NEW_JOB, STATUS_UPDATE } from '/imports/api/constants'
+
+faker.seed(888)
 
 // this ensures we get the same random data everytime so we dont break storyshots
 const members = [{
@@ -32,7 +35,8 @@ storiesOf('Job Card', module)
     aId: currentJob._id,
     status: JOB_STATUS.NEW,
     eventType: LOG_EVENT_TYPES.NEW_JOB,
-    data: 'test log'
+    data: 'test log',
+    createdAt: new Date('2018-09-01')
   }]
 
   const story = (
@@ -57,7 +61,8 @@ storiesOf('Job Card', module)
       aId: currentJob._id,
       status: JOB_STATUS.IN_PROGRESS,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
-      data: 'test log'
+      data: 'test log',
+      createdAt: new Date('2018-09-01')
     }]
     const story = (
         <AssessmentJobCard
@@ -82,7 +87,8 @@ storiesOf('Job Card', module)
       aId: currentJob._id,
       status: JOB_STATUS.QUALITY_CHECK,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
-      data: 'test log'
+      data: 'test log',
+      createdAt: new Date('2018-09-01')
     }]
     const story = (
         <AssessmentJobCard
@@ -107,7 +113,8 @@ storiesOf('Job Card', module)
       aId: currentJob._id,
       status: JOB_STATUS.READY_FOR_PICK_UP,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
-      data: 'test log'
+      data: 'test log',
+      createdAt: new Date('2018-09-01')
     }]
     const story = (
         <AssessmentJobCard
@@ -132,7 +139,8 @@ storiesOf('Job Card', module)
       aId: currentJob._id,
       status: JOB_STATUS.PICKED_UP,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
-      data: 'test log'
+      data: 'test log',
+      createdAt: new Date('2018-09-01')
     }]
     const story = (
         <AssessmentJobCard
@@ -157,7 +165,8 @@ storiesOf('Job Card', module)
       aId: currentJob._id,
       status: JOB_STATUS.CANCELLED,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
-      data: 'test log'
+      data: 'test log',
+      createdAt: new Date('2018-09-01')
     }]
     const story = (
         <AssessmentJobCard
