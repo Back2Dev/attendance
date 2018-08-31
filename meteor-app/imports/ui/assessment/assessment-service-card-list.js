@@ -14,7 +14,6 @@ class ServiceList extends Component {
         const majorServicePrice = "120"
 
         return (
-            <>
             <Grid.Row columns={2} centered>
                 <Header as="h2" textAlign='center'>
                     Select Base Assessment
@@ -41,7 +40,6 @@ class ServiceList extends Component {
                     <Button size='big' fluid secondary onClick={this.props.selectCustomService}>Custom Service</Button>
                 </Grid.Column>
             </Grid.Row>
-            </>
         )
     }
 

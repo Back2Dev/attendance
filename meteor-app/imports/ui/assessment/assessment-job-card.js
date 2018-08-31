@@ -1,9 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Component } from 'react'
-import { Button, List, Accordion, Icon, Grid} from 'semantic-ui-react'
+import { Button, List, Accordion, Icon, Grid, Loader } from 'semantic-ui-react'
 import "/imports/ui/layouts/assessment.css"
-import { JOB_STATUS, JOB_STATUS_READABLE, JOB_STATUS_BUTTON, JOB_STATUS_STYLES } from '/imports/api/constants'
+import {
+  LOG_EVENT_READABLE,
+  STATUS_UPDATE,
+  MECHANIC_UPDATE,
+  NEW_JOB,
+  JOB_STATUS,
+  JOB_STATUS_READABLE,
+  JOB_STATUS_BUTTON,
+  JOB_STATUS_STYLES,
+  LOG_EVENT_TYPES
+} from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
 import Alert from 'react-s-alert'
 import MechanicModal from '/imports/ui/assessment/mechanic-modal'
@@ -12,25 +22,6 @@ import moment from 'moment'
 class JobCard extends Component {
   state = { 
     activeIndex: -1,
-    fetched: false,
-    logs: []
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.activeIndex === 0 && !this.state.fetched) {
-      this.getLogs()      
-    }
-  }
-  
-  getLogs = () => {
-    const { currentJob, getLogs } = this.props
-    getLogs(currentJob._id)
-      .then(l => {
-        this.setState({
-          logs: l,
-          fetched: true
-        })
-      }).catch(e => console.log(e))
   }
 
   handleClick = (e, titleProps) => {
@@ -42,8 +33,8 @@ class JobCard extends Component {
   }
 
   updateButton = () => {
-    const jobId = this.props.currentJob._id
-    const statusValue = this.props.currentJob.status
+    const jobId = this.props.job._id
+    const statusValue = this.props.job.status
     const statusList = Object.keys(JOB_STATUS)
     const status = statusList.find(key => JOB_STATUS[key] === statusValue) // Find key/name of current status
     const statusIndex = statusList.findIndex(element => element === status)
@@ -53,23 +44,26 @@ class JobCard extends Component {
     try {
       if (statusValue >= JOB_STATUS.PICKED_UP) return
       this.props.updateStatus(jobId, updatedStatus)
-      this.getLogs()
+      Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[updatedStatus]}`)
     } catch (error) {
       Alert.error(error.message)
     }
   }
   
   cancelButton = () => {
-    const jobId = this.props.currentJob._id
-    const status = this.props.currentJob.status
+    const jobId = this.props.job._id
+    const status = this.props.job.status
     const cancelStatus = JOB_STATUS.CANCELLED
+    const completeStatus = JOB_STATUS.PICKED_UP
     const reopenStatus = JOB_STATUS.NEW
     const bikePickedUpStatus = JOB_STATUS.PICKED_UP
     try {
       if (status < bikePickedUpStatus) {
         this.props.updateStatus(jobId, cancelStatus)
-      } else if(status === cancelStatus) {
+        Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[cancelStatus]}`)
+      } else if(status === cancelStatus || status === completeStatus) {
         this.props.updateStatus(jobId, reopenStatus)
+        Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[reopenStatus]}`)
       }
       return
     } catch (error) {
@@ -83,17 +77,20 @@ class JobCard extends Component {
   }
 
   renderLogs(logs) {
+    if(!logs.length){
+      return <Loader active inline size='mini' />
+    }
     return logs.map(
       log => {
         const date = moment(log.createdAt).format("ddd Do MMM, h:mm a")
         const message = (status) => {
           switch(status){
-            case 1:
-              return "Status updated to: " + JOB_STATUS_READABLE[log.status]
-            case 2:
-              return "Added new mechanic"
-            case 3:
-              return log.user + " added new job"
+            case  LOG_EVENT_TYPES[STATUS_UPDATE]:
+            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[STATUS_UPDATE]]}: ${JOB_STATUS_READABLE[log.status]}`
+            case  LOG_EVENT_TYPES[MECHANIC_UPDATE]:
+              return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[MECHANIC_UPDATE]]}: ${log.data}`
+            case LOG_EVENT_TYPES[NEW_JOB]:
+              return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[NEW_JOB]]} ${log.user}`
             default:
               return  JOB_STATUS_READABLE[log.status]
           }
@@ -107,7 +104,7 @@ class JobCard extends Component {
   render() {
     const { activeIndex } = this.state
     // Pulling data from props (assessment collection)
-    const { status, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.currentJob
+    const { status, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.job
     const make = bikeDetails.make
     const model = bikeDetails.model
     const color = bikeDetails.color
@@ -121,7 +118,7 @@ class JobCard extends Component {
     
     // Dynamic button name
     const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
-    const cancelButton = status <= JOB_STATUS.PICKED_UP ? "Cancel Job" : "Re-open Job"
+    const cancelButton = status <= JOB_STATUS.READY_FOR_PICK_UP ? "Cancel Job" : "Re-open Job"
 
     return (
       <Accordion className="job-card-container" styled fluid>
@@ -163,19 +160,14 @@ class JobCard extends Component {
             <Grid.Row columns={2} style={{ marginTop: "20px"}}>
         
               <Grid.Column style={{ fontSize: "1.2em"}}>
-                <List.Item><strong>Job ID: </strong>{this.props.currentJob._id}</List.Item>
+                <List.Item><strong>Job ID: </strong>{this.props.job._id}</List.Item>
                 <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
                 <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
                 <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
                 <ul><strong>Job Logs: </strong>
                 {
-                  !this.state.fetched &&
-                    <p>Loading....</p>
+                  this.renderLogs(this.props.logs)
                 }
-                {
-                  this.state.fetched &&
-                    this.renderLogs(this.state.logs)
-               }
                 </ul>
                 <br />
                 <Button.Group >
@@ -204,7 +196,7 @@ class JobCard extends Component {
                       className="ui button"
                       color="blue"
                       style={{ textAlign: "center", margin: '5px', borderRadius: "5px" }}
-                      onClick={() => printJobCart(this.props.currentJob)}>
+                      onClick={() => printJobCart(this.props.job)}>
                       <h1><Icon name="print"/></h1>
                     </Button>
                   </Button.Group>
@@ -238,11 +230,12 @@ class JobCard extends Component {
 
 
 JobCard.propTypes = {
-  currentJob: PropTypes.shape({
+  job: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     status: PropTypes.number.isRequired
   }),
   updateStatus: PropTypes.func.isRequired,
+  logs: PropTypes.array.isRequired,
 };
 
 export default JobCard

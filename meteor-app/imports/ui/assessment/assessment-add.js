@@ -201,7 +201,7 @@ class AssessmentAdd extends Component {
       formData: {
         ...prevState.formData,
         services: minorServices,
-        package: "Minor Service Package"
+        package: "Minor Service"
       },
       costData: {
         serviceCost: minorServicesCost,
@@ -235,7 +235,7 @@ class AssessmentAdd extends Component {
       formData: {
         ...prevState.formData,
         services: majorServices,
-        package: "Major Service Package"
+        package: "Major Service"
       },
       costData: {
         serviceCost: majorServicesCost,
@@ -322,7 +322,7 @@ class AssessmentAdd extends Component {
     const showPrice = this.state.step === 1 || this.state.step === 2
 
     return (
-      <>
+      <span>
         {
           showPrice &&
           <Segment padded='very' >
@@ -353,7 +353,7 @@ class AssessmentAdd extends Component {
             onSubmit={f => f}
           />
         </Form>
-      </>)
+      </span>)
   }
 
   render() {

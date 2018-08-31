@@ -7,7 +7,7 @@ export default [{
       properties: {
         package: {
           type: "string",
-          enum: ["Minor Service Package", "Major Service Package"]
+          enum: ["Minor Service", "Major Service"]
         }
       }
     },

@@ -1,18 +1,21 @@
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from "meteor/react-meteor-data";
+import { Meteor } from "meteor/meteor"
+import { withTracker } from "meteor/react-meteor-data"
 import { ReactiveVar } from "meteor/reactive-var"
+import Logger from '/imports/api/assessments/logger'
 import Assessment from '/imports/api/assessments/assessment'
 import Members from '/imports/api/members/members'
-import Logger from '/imports/api/assessments/logger'
-import JobHistoryList from '/imports/ui/assessment/assessment-job-history-list'
-import { JOB_STATUS_READABLE, JOB_STATUS_COMPLETE } from '/imports/api/constants'
+import JobCardList from '/imports/ui/assessment/assessment-job-card-list'
+
+import { JOB_STATUS_ALL, JOB_STATUS_READABLE } from '/imports/api/constants'
 
 const searchVar = new ReactiveVar('')
 const statusVar = new ReactiveVar('')
+// currently opened assessment Id
+// so that we can dynamically subscribe to logs
 const selectedaId = new ReactiveVar('')
 
 export default withTracker(props => {
-  const jobSub = Meteor.subscribe('assessments.archive')
+  const jobSub = Meteor.subscribe('assessments.current')
   const membersSub = Meteor.subscribe('all.members')
   const logSub = Meteor.subscribe('logger.assessment', selectedaId.get())
   const loading = !jobSub.ready() && !membersSub.ready() && !logSub.ready()
@@ -29,7 +32,7 @@ export default withTracker(props => {
   const statusFilter = (status) => {
     let statusValue
     if(status === 'all'){
-      statusValue = JOB_STATUS_COMPLETE
+      statusValue = JOB_STATUS_ALL
     } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
@@ -39,7 +42,7 @@ export default withTracker(props => {
   }
 
   const resetStatus = () => {
-    statusVar.set(JOB_STATUS_COMPLETE)
+    statusVar.set(JOB_STATUS_ALL)
   }
 
   const updateStatus = (jobId, updatedStatus) => {
@@ -65,6 +68,6 @@ export default withTracker(props => {
     resetStatus,
     logs,
     selectedaId: selectedaId.get(),
-    changeAssId
+    changeAssId,
   }
-})(JobHistoryList)
+})(JobCardList)

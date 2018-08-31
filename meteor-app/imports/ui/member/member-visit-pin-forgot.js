@@ -72,7 +72,7 @@ class MemberVisitPinForgot extends React.Component {
               onClick={this.onDeliverySelection}
             >
               <Icon 
-              name={this.state.selected == 'sms' ? 'check' : 'mobile alternate' }
+              name={this.state.selected == 'sms' ? 'check' : 'mobile' }
               />
               SMS
             </Button>

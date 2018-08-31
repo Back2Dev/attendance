@@ -14,6 +14,8 @@ class FakeCollection {
   insert() {}
 
   update() {}
+
+  attachSchema() {}
 }
 
 export const Mongo = {

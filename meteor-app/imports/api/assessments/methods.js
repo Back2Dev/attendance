@@ -34,7 +34,6 @@ if (Meteor.isServer) {
       check(log, Object)
     },
     'assessment.update'(job, mechanic){
-      console.log(arguments)
       const { _id, status } = job
       check(job, Object)
       check(mechanic, String)
@@ -44,6 +43,7 @@ if (Meteor.isServer) {
         user: 'Anonymous',
         status,
         aId: _id,
+        data: mechanic,
         eventType: LOG_EVENT_TYPES[MECHANIC_UPDATE] // integer
       })
       );

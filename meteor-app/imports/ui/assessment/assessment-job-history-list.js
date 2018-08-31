@@ -1,12 +1,13 @@
 import React from 'react'
 import { Component } from 'react';
-import { Grid, Search, Button, Loader } from 'semantic-ui-react'
+import { Grid, Search, Button } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
 import Nav from '/imports/ui/ordering/navbar'
-import { JOB_STATUS_READABLE, JOB_STATUS } from '/imports/api/constants'
+import { JOB_STATUS_READABLE, JOB_STATUS} from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
-class JobCardList extends Component {
+
+class JobHistoryList extends Component {
   state = {
     active: null,
     showAll: true,
@@ -52,17 +53,14 @@ class JobCardList extends Component {
   }
   // all props being passed to JobCard need to be changed to the actual data from the db
   render() {
-    if(this.props.loading){
-      return <Loader active />
-    }
     const statusOptions = Object.keys(JOB_STATUS_READABLE)
-    .filter(key => key <= JOB_STATUS.READY_FOR_PICK_UP)
+    .filter(key => key >= JOB_STATUS.PICKED_UP)
     .map(key => {
       return {
         key: key,
         value: JOB_STATUS_READABLE[key],
         text: JOB_STATUS_READABLE[key]
-      }
+      } 
     })
 
     return (
@@ -70,18 +68,17 @@ class JobCardList extends Component {
         <Nav />
         <Grid stackable textAlign="center" style={{marginLeft: "50px", marginRight: "50px", marginTop: "20px" }}>
           <Grid.Row columns={3}>
-
-            <Grid.Column computer={10} tablet={16} textAlign="left">
+          <Grid.Column computer={9} tablet={7} textAlign="left">
                 <Button.Group basic id="button-parent" className="ui stackable buttons">
                   <Button
                       toggle
                       className={this.state.showAll ? 'active' : ''}            
                       value='all'
-                      onClick={() => this.setButtonState('all')}
-                    >
+                      onClick={() => this.setButtonState('all')}>
                     All
                   </Button>
-                  {statusOptions.map((status) => 
+                  {statusOptions
+                  .map((status) => 
                     <Button
                       toggle
                       className={this.state.active === status.key ? 'active' : ''}            
@@ -92,50 +89,49 @@ class JobCardList extends Component {
                     {status.text}
                     </Button>
                   )}
+                  
                 </Button.Group>
             </Grid.Column>
 
-            <Grid.Column computer={4} tablet={8}>
+            <Grid.Column computer={4} tablet={5}>
                 <Search
                   open={false}
+                  fluid
                   onSearchChange={this.searchJobs}
                   type='text'
                   size='large'
                   placeholder='Search'/>
             </Grid.Column>
-
-            <Grid.Column computer={2} tablet={4}>
+            <Grid.Column computer={3} tablet={4}>
                 <Button
-                  color="blue"
-                  onClick={() => {
-                    this.props.history.push("/history");
-                  }}>
-                  Archive
+                    color="blue"
+                    onClick={() => {
+                      this.props.history.push("/jobs");
+                    }}>
+                    Current Jobs
                 </Button>
             </Grid.Column>
-
           </Grid.Row>
         </Grid>
 
         <Grid style={{marginLeft: "50px", marginRight: "50px" }}>
           <Grid.Row centered>
-            <h1>Current Jobs</h1>
+            <h1>Archive</h1>
           </Grid.Row>
           
-          {
-          this.props.jobs
-          .filter(job => job.status <= JOB_STATUS.READY_FOR_PICK_UP)
+          {this.props.jobs
+          .filter(job => job.status >= JOB_STATUS.PICKED_UP)
           .map(job =>
             <Grid.Row 
-              key={job._id}
-              onClick={() => this.setCurrentJob(job)}
-            >
+            key={job._id}
+            onClick={() => this.setCurrentJob(job)}
+          >
               <JobCard
                 job={job}
-                updateStatus={this.props.updateStatus}
-                logs={this.props.logs}
                 currentJob={this.state.job}
+                updateStatus={this.props.updateStatus}
                 members={this.props.members}
+                logs={this.props.logs}
               />
             </Grid.Row>
           )}
@@ -145,4 +141,4 @@ class JobCardList extends Component {
   }
 }
 
-export default JobCardList
+export default JobHistoryList

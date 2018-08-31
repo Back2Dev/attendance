@@ -20,6 +20,9 @@ class FakeMeteor {
   userId() {
     return this.mockUserId;
   }
+
+  methods() {}
+  
 }
 
 export const Meteor = new FakeMeteor();

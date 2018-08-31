@@ -35,12 +35,12 @@ const CartList = props => {
         }}
       >
         <Container textAlign="center">
-          <Link to="/ordering">
+          <span to="/ordering">
             <Button icon labelPosition="left" secondary>
               <Icon name="triangle left" />
               Back To Search
             </Button>
-          </Link>
+          </span>
        
             <Header as="h2" block>
               Orders

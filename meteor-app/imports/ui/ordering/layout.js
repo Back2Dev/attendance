@@ -79,9 +79,7 @@ export default withTracker(props => {
       }
     }
   }
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max))
-  }
+
   const onSearchInput = q => Session.set("partSearchQuery", q.target.value)
 
   return {
