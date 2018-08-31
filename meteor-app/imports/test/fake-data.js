@@ -1,8 +1,10 @@
 import faker from 'faker'
-import { LOG_EVENT_TYPES, JOB_STATUS, NEW_JOB, STATUS_UPDATE, JOB_STATUS_READABLE } from '/imports/api/constants'
+import { LOG_EVENT_TYPES, JOB_STATUS, JOB_STATUS_READABLE } from '/imports/api/constants'
+
 
 export const fakeJob = () => {
 
+  faker.seed(888)
   // search items
   const name = faker.name.findName()
   const make = faker.random.arrayElement(['Apollo', 'Giant', 'Malvern Star', 'Specialized'])
@@ -15,25 +17,25 @@ export const fakeJob = () => {
   const assessor = faker.name.findName()
   const baseService = faker.random.arrayElement(['Minor Service', 'Major Service', 'Custom Service'])
   const status = parseInt(faker.random.arrayElement(Object.keys(JOB_STATUS_READABLE)))
-  const additionalFees = Math.round((Math.random()*(20000-1000)+1000) / 500)*500
+  const additionalFees = faker.random.number(4000)
   const partsItem = [
     {
       name: faker.random.arrayElement(['Tube', 'Cable', 'Front Tyre', 'Bell', 'Back Tyre']),
-      price: Math.round((Math.random()*(9000-500)+500) / 500)*500,
+      price: faker.random.number(6000),
       code: "O",
       category: "other",
       used: faker.random.boolean()
     },
     {
       name: faker.random.arrayElement(['Tube', 'Cable', 'Front Tyre', 'Bell', 'Back Tyre']),
-      price: Math.round((Math.random()*(9000-500)+500) / 500)*500,
+      price: faker.random.number(6000),
       code: "O",
       category: "other",
       used: faker.random.boolean()
     },
     {
       name: faker.random.arrayElement(['Tube', 'Cable', 'Front Tyre', 'Bell', 'Back Tyre']),
-      price: Math.round((Math.random()*(9000-500)+500) / 500)*500,
+      price: faker.random.number(6000),
       code: "O",
       category: "other",
       used: faker.random.boolean()
@@ -47,15 +49,15 @@ export const fakeJob = () => {
   const serviceItem = [
     {
       name: faker.random.arrayElement(['Check functionality/adjust brakes and gears', 'Remove, clean and oil chain', 'Check wheels are true']),
-      price: Math.round((Math.random()*(2000-500)+500) / 500)*500,
+      price: faker.random.number(2000),
     },
     {
       name: faker.random.arrayElement(['Check functionality/adjust brakes and gears', 'Remove, clean and oil chain', 'Check wheels are true']),
-      price: Math.round((Math.random()*(2000-500)+500) / 500)*500,
+      price: faker.random.number(2500),
     },
     {
       name: faker.random.arrayElement(['Check functionality/adjust brakes and gears', 'Remove, clean and oil chain', 'Check wheels are true']),
-      price: Math.round((Math.random()*(2000-500)+500) / 500)*500,
+      price: faker.random.number(3000),
     },
   ]
   const totalServiceCost = serviceItem.map(item => {
@@ -74,7 +76,7 @@ export const fakeJob = () => {
       make,
       model,
       color,
-      bikeValue: Math.round((Math.random()*(50000-10000)+10000) / 5000)*5000,
+      bikeValue: faker.random.number(50000),
       sentimentValue: faker.random.boolean(),
     },
     services: {

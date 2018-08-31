@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 import AssessmentJobCard from './assessment-job-card'
-import { fakeJob } from '/imports/api/fake-data'
+import { fakeJob } from '/imports/test/fake-data'
 import { LOG_EVENT_TYPES, JOB_STATUS, NEW_JOB, STATUS_UPDATE } from '/imports/api/constants'
 
 // this ensures we get the same random data everytime so we dont break storyshots
@@ -16,7 +16,7 @@ const members = [{
   name: "Matt Wiseman",
 }]
 
-storiesOf('Job List', module)
+storiesOf('Job Card', module)
 .addDecorator(withKnobs)
 .addDecorator(StoryRouter())
 

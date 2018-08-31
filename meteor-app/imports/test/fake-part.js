@@ -1,5 +1,7 @@
 import faker from 'faker'
 
+faker.seed(111)
+
 const imagesUrls = [
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/4f8065b290713ff3dbca44641f3a52b5882c5e21.jpg',
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/b574ff4cedc436ba4185849b666179acfcb9f1b0.jpg',
@@ -15,7 +17,7 @@ const imagesUrls = [
 ]
 
 const part = {
-  imageUrl: imagesUrls[Math.floor(Math.random() * imagesUrls.length)],
+  imageUrl: imagesUrls[faker.random.number(imagesUrls.length)],
   retailPrice: faker.finance.amount(),
   wholesalePrice: faker.finance.amount(),
   partNo: faker.finance.amount(),

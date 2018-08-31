@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Grid, Button } from 'semantic-ui-react'
-import ServiceCard from '../assessment/assessment-service-card'
+import ServiceCard from './assessment-service-card'
+import CONSTANTS from '/imports/api/constants'
 
 class ServiceList extends Component {
     render() {
@@ -14,7 +15,6 @@ class ServiceList extends Component {
             .filter(service => service.package === "Major")
             .map(service => service.name)
         return (
-            <>
             <Grid.Row columns={2} centered>
                 <Header as="h2" textAlign='center'>
                     Select Base Assessment
@@ -23,7 +23,7 @@ class ServiceList extends Component {
                     <ServiceCard
                         onClick={this.props.selectMinor}
                         serviceChoice= {minorServices}
-                        serviceTitle= {"Minor Service"}
+                        serviceTitle= {CONSTANTS.SERVICE_TYPES.Minor}
                         servicePrice= {"60"}
                         cardColor="#00C646"
                     />
@@ -32,7 +32,7 @@ class ServiceList extends Component {
                     <ServiceCard
                         onClick={this.props.selectMajor}
                         serviceChoice= {majorServices}
-                        serviceTitle= {"Major Service"}
+                        serviceTitle= {CONSTANTS.SERVICE_TYPES.Major}
                         servicePrice= {"120"}
                         cardColor="#0081D3"
                     />
@@ -41,7 +41,6 @@ class ServiceList extends Component {
                     <Button size='big' fluid secondary onClick={this.props.selectCustomService}>Custom Service</Button>
                 </Grid.Column>
             </Grid.Row>
-            </>
         )
     }
 }

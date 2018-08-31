@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
 import AssessmentJobCard from './assessment-job-card'
-import { fakeJob } from '/imports/api/fake-data'
+import { fakeJob } from '/imports/test/fake-data'
 import { Grid } from 'semantic-ui-react'
 
 // this ensures we get the same random data everytime so we dont break storyshots
