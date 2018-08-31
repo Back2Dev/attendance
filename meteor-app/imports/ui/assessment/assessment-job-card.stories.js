@@ -16,19 +16,31 @@ const members = [{
 }]
 
 storiesOf('Job List', module)
-  .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
+.addDecorator(withKnobs)
+.addDecorator(StoryRouter())
 
-  .add('Job Card New', (() => {
-    const currentJob = {
-      ...fakeJob(),
-      status: number('Status', 1)
-    }
-    const story = (
-        <AssessmentJobCard
+.add('Job Card New', (() => {
+  const currentJob = {
+    ...fakeJob(),
+    status: number('Status', 1)
+  }
+
+  const logs = [{
+    _id: 567,
+    user: 'Mike',
+    aId: currentJob._id,
+    status: 3,
+    eventType: 22,
+    data: 'test log'
+  }]
+
+  const story = (
+    <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
           members={members}
+          logs={logs}
+          job={currentJob}
         />
     )
     return story
@@ -38,11 +50,21 @@ storiesOf('Job List', module)
       ...fakeJob(),
       status: number('Status', 2)
     }
+    const logs = [{
+      _id: 567,
+      user: 'Mike',
+      aId: currentJob._id,
+      status: 3,
+      eventType: 22,
+      data: 'test log'
+    }]
     const story = (
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
           members={members}
+          logs={logs}
+          job={currentJob}
         />
     )
     return story
@@ -53,11 +75,21 @@ storiesOf('Job List', module)
       ...fakeJob(),
       status: number('Status', 3)
     }
+    const logs = [{
+      _id: 567,
+      user: 'Mike',
+      aId: currentJob._id,
+      status: 3,
+      eventType: 22,
+      data: 'test log'
+    }]
     const story = (
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
           members={members}
+          logs={logs}
+          job={currentJob}
         />
     )
     return story
@@ -68,11 +100,21 @@ storiesOf('Job List', module)
       ...fakeJob(),
       status: number('Status', 4)
     }
+    const logs = [{
+      _id: 567,
+      user: 'Mike',
+      aId: currentJob._id,
+      status: 3,
+      eventType: 22,
+      data: 'test log'
+    }]
     const story = (
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
           members={members}
+          logs={logs}
+          job={currentJob}
         />
     )
     return story
@@ -83,11 +125,21 @@ storiesOf('Job List', module)
       ...fakeJob(),
       status: number('Status', 5)
     }
+    const logs = [{
+      _id: 567,
+      user: 'Mike',
+      aId: currentJob._id,
+      status: 3,
+      eventType: 22,
+      data: 'test log'
+    }]
     const story = (
         <AssessmentJobCard
           currentJob={currentJob}
           updateStatus={action('Update Status')}
           members={members}
+          logs={logs}
+          job={currentJob}
         />
     )
     return story
