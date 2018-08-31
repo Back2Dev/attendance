@@ -1,10 +1,10 @@
 import faker from 'faker'
 import { LOG_EVENT_TYPES, JOB_STATUS, JOB_STATUS_READABLE } from '/imports/api/constants'
 
+faker.seed(888)
 
 export const fakeJob = () => {
 
-  faker.seed(888)
   // search items
   const name = faker.name.findName()
   const make = faker.random.arrayElement(['Apollo', 'Giant', 'Malvern Star', 'Specialized'])

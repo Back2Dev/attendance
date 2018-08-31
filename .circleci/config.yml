@@ -82,10 +82,10 @@ jobs:
       #    working_directory: ~/repo/meteor-app
       #    command: npm run "test:unit" -- --reporter mocha-junit-reporter --reporter-options mochaFile=/tmp/test-results/unit/unit.xml
 
-      #- run:
-      #    name: snapshot tests
-      #    working_directory: ~/repo/meteor-app
-      #    command: TEST_REPORT_PATH=/tmp/test-results/snapshots TEST_REPORT_FILENAME=snapshots.xml npm run "test:snapshots" -- --ci --testResultsProcessor="./node_modules/jest-junit-reporter"
+      - run:
+          name: snapshot tests
+          working_directory: ~/repo/meteor-app
+          command: TEST_REPORT_PATH=/tmp/test-results/snapshots TEST_REPORT_FILENAME=snapshots.xml npm run "test:snapshots" -- --ci --testResultsProcessor="./node_modules/jest-junit-reporter"
 
       - run:
           name: integration tests
