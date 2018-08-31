@@ -13,14 +13,16 @@ Meteor.methods({
     // CUrrently placeholder data
     const services = [
       {
-        name: 'Check functionality/adjust brakes and gears',
+        name: 'Safety check / adjust brakes and gears',
         price: 1000,
         package: 'Minor',
+        code: 'FR',
       },
       {
         name: 'Check hubs for wear/play',
         price: 1000,
         package: 'Minor',
+        code: 'FR',
       },
       {
         name: 'Remove, clean and oil chain',
@@ -36,11 +38,13 @@ Meteor.methods({
         name: 'Check tyre pressure',
         price: 500,
         package: 'Minor',
+        code: 'FR',
       },
       {
-        name: 'Lube deraileurs',
+        name: 'Lube derailleurs',
         price: 500,
         package: 'Minor',
+        code: 'FR',
       },
       {
         name: 'Check/tighten bolts on cranks, headset, wheels and bottom bracket',
@@ -51,11 +55,13 @@ Meteor.methods({
         name: 'Check wheels are true',
         price: 1200,
         package: 'Major',
+        code: 'FR',
       },
       {
         name: 'Clean and re-grease wheel bearings',
         price: 1200,
         package: 'Major',
+        code: 'FR',
       },
       {
         name: 'Clean and re-grease headset',
@@ -417,12 +423,12 @@ Meteor.methods({
     faker.seed(123)
 
     const array_of = function (times, generator) {
-      let result = [];
+      let result = []
       for (let i = 0; i < times; ++i) {
-        result.push(generator());
+        result.push(generator())
       }
-      return result;
-    };
+      return result
+    }
 
     // generates all logs up to current status
     function fakeLogs(id, job) {

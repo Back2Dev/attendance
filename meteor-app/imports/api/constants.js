@@ -90,4 +90,9 @@ export const LOG_EVENT_TYPES = {
   [NEW_JOB]: 22,
 }
 
+CONSTANTS.SERVICE_TYPES = {
+  Major: 'Major Service',
+  Minor: 'Minor Service',
+}
+
 export default CONSTANTS
