@@ -36,7 +36,7 @@ storiesOf('Job Card', module)
     status: JOB_STATUS.NEW,
     eventType: LOG_EVENT_TYPES.NEW_JOB,
     data: 'test log',
-    createdAt: new Date('2018-09-01')
+    createdAt: new Date('2018-09-01T13:45:00')
   }]
 
   const story = (
@@ -62,7 +62,7 @@ storiesOf('Job Card', module)
       status: JOB_STATUS.IN_PROGRESS,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
       data: 'test log',
-      createdAt: new Date('2018-09-01')
+      createdAt: new Date('2018-09-01T13:45:00')
     }]
     const story = (
         <AssessmentJobCard
@@ -88,7 +88,7 @@ storiesOf('Job Card', module)
       status: JOB_STATUS.QUALITY_CHECK,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
       data: 'test log',
-      createdAt: new Date('2018-09-01')
+      createdAt: new Date('2018-09-01T13:45:00')
     }]
     const story = (
         <AssessmentJobCard
@@ -114,7 +114,7 @@ storiesOf('Job Card', module)
       status: JOB_STATUS.READY_FOR_PICK_UP,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
       data: 'test log',
-      createdAt: new Date('2018-09-01')
+      createdAt: new Date('2018-09-01T13:45:00')
     }]
     const story = (
         <AssessmentJobCard
@@ -140,7 +140,7 @@ storiesOf('Job Card', module)
       status: JOB_STATUS.PICKED_UP,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
       data: 'test log',
-      createdAt: new Date('2018-09-01')
+      createdAt: new Date('2018-09-01T13:45:00')
     }]
     const story = (
         <AssessmentJobCard
@@ -166,7 +166,7 @@ storiesOf('Job Card', module)
       status: JOB_STATUS.CANCELLED,
       eventType: LOG_EVENT_TYPES.STATUS_UPDATE,
       data: 'test log',
-      createdAt: new Date('2018-09-01')
+      createdAt: new Date('2018-09-01T13:45:00')
     }]
     const story = (
         <AssessmentJobCard

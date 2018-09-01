@@ -41,7 +41,7 @@ storiesOf('Job List', module)
     status: 3,
     eventType: 22,
     data: 'test log',
-    createdAt: new Date('2018-09-01')
+    createdAt: new Date('2018-09-01T13:45:00')
   }]
 
   const story = (

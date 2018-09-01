@@ -3159,7 +3159,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
               Job Logs: 
             </strong>
             <li>
-              Sat 1st Sep, 10:00 am - Update Status: Cancelled
+              Sat 1st Sep, 1:45 pm - Update Status: Cancelled
             </li>
           </ul>
           <br />
@@ -3462,7 +3462,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
               Job Logs: 
             </strong>
             <li>
-              Sat 1st Sep, 10:00 am - Update Status: In Progress
+              Sat 1st Sep, 1:45 pm - Update Status: In Progress
             </li>
           </ul>
           <br />
@@ -3765,7 +3765,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
               Job Logs: 
             </strong>
             <li>
-              Sat 1st Sep, 10:00 am - New Job Created By Mike
+              Sat 1st Sep, 1:45 pm - New Job Created By Mike
             </li>
           </ul>
           <br />
@@ -4068,7 +4068,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
               Job Logs: 
             </strong>
             <li>
-              Sat 1st Sep, 10:00 am - Update Status: Picked Up
+              Sat 1st Sep, 1:45 pm - Update Status: Picked Up
             </li>
           </ul>
           <br />
@@ -4371,7 +4371,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
               Job Logs: 
             </strong>
             <li>
-              Sat 1st Sep, 10:00 am - Update Status: Quality Check
+              Sat 1st Sep, 1:45 pm - Update Status: Quality Check
             </li>
           </ul>
           <br />
@@ -4674,7 +4674,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
               Job Logs: 
             </strong>
             <li>
-              Sat 1st Sep, 10:00 am - Update Status: Ready for Pick Up
+              Sat 1st Sep, 1:45 pm - Update Status: Ready for Pick Up
             </li>
           </ul>
           <br />
@@ -4996,7 +4996,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   Job Logs: 
                 </strong>
                 <li>
-                  Sat 1st Sep, 10:00 am - New Job Created By Mike
+                  Sat 1st Sep, 1:45 pm - New Job Created By Mike
                 </li>
               </ul>
               <br />
@@ -5300,7 +5300,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   Job Logs: 
                 </strong>
                 <li>
-                  Sat 1st Sep, 10:00 am - New Job Created By Mike
+                  Sat 1st Sep, 1:45 pm - New Job Created By Mike
                 </li>
               </ul>
               <br />
@@ -5604,7 +5604,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   Job Logs: 
                 </strong>
                 <li>
-                  Sat 1st Sep, 10:00 am - New Job Created By Mike
+                  Sat 1st Sep, 1:45 pm - New Job Created By Mike
                 </li>
               </ul>
               <br />
@@ -5908,7 +5908,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   Job Logs: 
                 </strong>
                 <li>
-                  Sat 1st Sep, 10:00 am - New Job Created By Mike
+                  Sat 1st Sep, 1:45 pm - New Job Created By Mike
                 </li>
               </ul>
               <br />
