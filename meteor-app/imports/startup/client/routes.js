@@ -25,7 +25,7 @@ export const renderRoutes = () => (
         <Route path="/jobs" component={JobCardLister} />
         <Route path="/history" component={JobHistory} />
         <Route component={Attendance} />
-        <Route component={Payment} />
+        <Route path="/payment" component={Payment} />
       </Switch>
     </Router>
   </div>
