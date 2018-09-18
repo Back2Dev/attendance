@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../lib/pinpayments.js'
 
 const Payment = () => (
   <div className="payment-wrapper">
