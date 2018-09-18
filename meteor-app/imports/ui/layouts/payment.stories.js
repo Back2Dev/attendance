@@ -1,15 +1,12 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import Payment from './payment.js'
 
 storiesOf('Layouts.Payment', module)
 
   .add('Payment', (() => {
-
     const story = (
-      <div>
-        <title>Back 2 Bikes | Payment</title>
-        <h1>Welcome to B2B Payment!</h1>
-      </div>
+      <Payment />
     )
     return story
   }))
