@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../lib/pinpayments.js'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
 
 class Payment extends React.Component {
   constructor(props) {
@@ -17,7 +17,15 @@ class Payment extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    
+    this.setState({[event.target.name]: event.target.value})
+    
+    this.setState({
+      [name]: value
+    });
   }
 
   handleSubmit(event) {
@@ -34,27 +42,35 @@ class Payment extends React.Component {
           <Form.Field>
             <label>
               Full Name:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
             </label>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <div id="name"></div>
+            <div id="errors_for_name" className="error_message"></div>
           </Form.Field>
 
           <Form.Field>
             <label>
               Card Number:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
             </label>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <div id="number"></div>
+            <div id="errors_for_number" className="error_message"></div>
           </Form.Field>
           <Form.Field>
             <label>
               CVC:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
             </label>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <div id="cvc"></div>
+            <div id="errors_for_cvc" className="error_message"></div>
           </Form.Field>
           <Form.Field>
             <label>
               Expiry:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
             </label>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <div id="expiry"></div>
+            <div id="errors_for_expiry" className="error_message"></div>
           </Form.Field>
           <Button type="submit">Submit</Button>
         </Form>

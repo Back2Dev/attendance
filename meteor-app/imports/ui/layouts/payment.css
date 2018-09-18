@@ -5,3 +5,10 @@
   padding-right: 10px;
   padding-left:  10px;
 }
+
+.pin-form-field {
+  height: 2em;
+  width: 50%;
+  border: 1px solid black;
+  padding: 0 0.5em;
+}
