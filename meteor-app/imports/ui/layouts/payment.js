@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../lib/pinpayments.js'
 import { Button, Form } from 'semantic-ui-react'
+import './payment.css'
 
 class Payment extends React.Component {
   constructor(props) {
