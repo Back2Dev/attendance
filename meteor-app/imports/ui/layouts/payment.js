@@ -3,21 +3,28 @@ import '../../lib/pinpayments.js'
 import { Button, Form } from 'semantic-ui-react'
 import './payment.css'
 
+const apiKey = 'import API_KEY'
+
 class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       fullName: '',
-      cardNumber: 0,
-      cvc: 0,
-      expiry: 0
+      cardNumber: '',
+      cvc: '',
+      expiry: '',
+      addressLine1: '',
+      addressLine2: '',
+      addressCity: '',
+      addressPostcode: '',
+      addressState: '',
+      addressCountry: ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  handleChange(event) {
+  onChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -29,9 +36,37 @@ class Payment extends React.Component {
     });
   }
 
-  handleSubmit(event) {
+  onSubmit(event) {
     event.preventDefault();
+    const user = {
+      fullName: this.state.fullName,
+      cardNumber: this.state.cardNumber,
+      cvc: this.state.cvc,
+      expiry: this.state.expiry,
+      addressLine1: this.state.addressLine1,
+      addressLine2: this.state.addressLine2,
+      addressCity: this.state.addressCity,
+      addressPostcode: this.state.addressPostcode,
+      addressState: this.state.addressState,
+      addressCountry: this.state.addressCountry
+    }
+    console.log('Submit Clicked');
+    console.log(user);
+    // tokenizeHostedFields();
   }
+  
+  tokenizeHostedFields() {
+    fields.tokenize(
+      {
+        publishable_api_key: {apiKey},
+        address_line1: this.state.addressLine1,
+        address_line2: this.state.addressLine2,
+        address_city: this.state.addressCity,
+        address_postcode: this.state.addressPostcode,
+        address_state: this.state.addressState,
+        address_country: this.state.addressCountry
+      }
+  )};
 
   render() {
     return (
@@ -39,39 +74,90 @@ class Payment extends React.Component {
         <title>Back 2 Bikes | Payment</title>
         <h1>Welcome to B2B Payment!</h1>
         
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.onSubmit}>
+        <Form.Field>
+            <label>
+              Address Line 1:
+            </label>
+            <input type="text" name="addressLine1" value={this.state.value} onChange={this.onChange} />
+            <div id="address-line-1"></div>
+            <div id="errors-for-address-line-1" className="error-message"></div>
+          </Form.Field>
+          <Form.Field>
+            <label>
+              Address Line 2:
+            </label>
+            <input type="text" name="addressLine2" value={this.state.value} onChange={this.onChange} />
+            <div id="address-line-2"></div>
+            <div id="errors-for-address-line-2" className="error-message"></div>
+          </Form.Field>
+          <Form.Field>
+            <label>
+              City:
+            </label>
+            <input type="text" name="addressCity" value={this.state.value} onChange={this.onChange} />
+            <div id="address-city"></div>
+            <div id="errors-for-address-city" className="error-message"></div>
+          </Form.Field>
+          <Form.Field>
+            <label>
+              Postcode:
+            </label>
+            <input type="text" name="addressPostcode" value={this.state.value} onChange={this.onChange} />
+            <div id="address-postcode"></div>
+            <div id="errors-for-address-postcode" className="error-message"></div>
+          </Form.Field>
+          <Form.Field>
+            <label>
+              State:
+            </label>
+            <input type="text" name="addressState" value={this.state.value} onChange={this.onChange} />
+            <div id="address-state"></div>
+            <div id="errors-for-address-state" className="error-message"></div>
+          </Form.Field>
+          <Form.Field>
+            <label>
+              Country:
+            </label>
+            <input type="text" name="addressCountry" value={this.state.value} onChange={this.onChange} />
+            <div id="address-country"></div>
+            <div id="errors-for-address-country" className="error-message"></div>
+          </Form.Field>
           <Form.Field>
             <label>
               Full Name:
             </label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-            <div id="name"></div>
-            <div id="errors_for_name" className="error_message"></div>
+            <input type="text" name="fullName" value={this.state.value} onChange={this.onChange} />
+            <div id="name" selector='#name'></div>
+            <div id="errors-for-name" className="error-message"></div>
           </Form.Field>
-
           <Form.Field>
             <label>
               Card Number:
             </label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-            <div id="number"></div>
+            <input type="text" name="cardNumber" value={this.state.value} onChange={this.onChange} />
+            <div id="number" selector='#number'></div>
             <div id="errors_for_number" className="error_message"></div>
           </Form.Field>
           <Form.Field>
             <label>
               CVC:
             </label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-            <div id="cvc"></div>
+            <input type="text" name="cvc" value={this.state.value} onChange={this.onChange} />
+            <div id="cvc" selector='#cvc'></div>
             <div id="errors_for_cvc" className="error_message"></div>
           </Form.Field>
           <Form.Field>
             <label>
               Expiry:
             </label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-            <div id="expiry"></div>
+            <input type="text" name="expiry" value={this.state.value} onChange={this.onChange} />
+            <div id="expiry" selector='#expiry'></div>
             <div id="errors_for_expiry" className="error_message"></div>
+          </Form.Field>
+          <Form.Field>
+            <input type="hidden" name="card_token" value={Response.token} />
+            <div id="card_token"></div>
           </Form.Field>
           <Button type="submit">Submit</Button>
         </Form>
