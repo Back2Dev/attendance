@@ -3,7 +3,8 @@ import '../../lib/pinpayments.js'
 import { Button, Form } from 'semantic-ui-react'
 import './payment.css'
 
-const apiKey = 'import API_KEY'
+//NOTE: This is the test secret key do not publish
+const apiKey = 'WiqQbXG1P_pDwdnnDSpnGA'
 
 class Payment extends React.Component {
   constructor(props) {
@@ -50,23 +51,41 @@ class Payment extends React.Component {
       addressState: this.state.addressState,
       addressCountry: this.state.addressCountry
     }
-    console.log('Submit Clicked');
-    console.log(user);
-    // tokenizeHostedFields();
+
+    console.log(user)
+
+    postData(`https://test-api.pinpayments.com/1/charges`, {})
+    .then(response => {
+      response.json()
+      console.log(response)
+    })
+    .catch(error => console.error(error))
+
+    function postData(url = `https://test-api.pinpayments.com/1/charges`, data = {}) {
+      return fetch(url, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+              "Content-Type": "application/json; charset=utf-8",
+              "Authorization": apiKey
+          },
+          body: JSON.stringify(data),
+      })
+    }
   }
-  
-  tokenizeHostedFields() {
-    fields.tokenize(
-      {
-        publishable_api_key: {apiKey},
-        address_line1: this.state.addressLine1,
-        address_line2: this.state.addressLine2,
-        address_city: this.state.addressCity,
-        address_postcode: this.state.addressPostcode,
-        address_state: this.state.addressState,
-        address_country: this.state.addressCountry
-      }
-  )};
+
+  // tokenizeHostedFields() {
+  //   fields.tokenize(
+  //     {
+  //       publishable_api_key: {apiKey},
+  //       address_line1: this.state.addressLine1,
+  //       address_line2: this.state.addressLine2,
+  //       address_city: this.state.addressCity,
+  //       address_postcode: this.state.addressPostcode,
+  //       address_state: this.state.addressState,
+  //       address_country: this.state.addressCountry
+  //     }
+  // )};
 
   render() {
     return (
