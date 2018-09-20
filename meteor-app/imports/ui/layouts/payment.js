@@ -175,7 +175,7 @@ class Payment extends React.Component {
             <div id="errors_for_expiry" className="error_message"></div>
           </Form.Field>
           <Form.Field>
-            <input type="hidden" name="card_token" value={Response.token} />
+            <input type="hidden" name="card_token" value={{}/*Response.token*/} />
             <div id="card_token"></div>
           </Form.Field>
           <Button type="submit">Submit</Button>
