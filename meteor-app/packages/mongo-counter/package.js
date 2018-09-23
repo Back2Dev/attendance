@@ -7,8 +7,8 @@ Package.describe({
 
 Package.onUse(function (api) {
   api.versionsFrom("1.2.1");
-  api.use(['coffeescript'], 'server');
-  api.addFiles('counter.coffee', 'server');
+  api.use(['ecmascript'], 'server');
+  api.addFiles('counter.js', 'server');
   if (api.export) {
     api.export('incrementCounter', 'server');
     api.export('decrementCounter', 'server');
@@ -18,7 +18,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function(api) {
-  api.use('coffeescript');
+  api.use('ecmascript');
   api.use('tinytest');
   api.use('mikkelking:mongo-counter');
 //  api.addFiles('tests.counter.coffee', 'server');
