@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
 
 const cron = require('node-cron')
-const debug = require('debug')('b2b:cron')
+const debug = require('debug')('att:cron')
 
 import log from '/imports/lib/log'
 import Members from '/imports/api/members/members'

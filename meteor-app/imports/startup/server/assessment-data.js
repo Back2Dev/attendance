@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Assessment from '/imports/api/assessments/assessment'
+import Counters from '/imports/api/counters/counters'
 import Logger from '/imports/api/assessments/logger'
 import { fakeJob, fakeLogs } from '/imports/test/fake-data'
 import faker from 'faker'
@@ -437,6 +438,10 @@ Meteor.methods({
           Logger.insert(l)
         })
       })
+  },
+
+  getNext() {
+    debug("n=" + incrementCounter(Counters,"assessments",1))
   }
 })
 
