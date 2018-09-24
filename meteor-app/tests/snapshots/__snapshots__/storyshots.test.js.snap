@@ -3054,11 +3054,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Indigo
-             
-            Giant
-             
-            Samurai
+            undefined Olive Apollo CX1
           </div>
         </div>
         <div
@@ -3069,7 +3065,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Back2bikes
+            Refurbish
           </div>
         </div>
         <div
@@ -3081,7 +3077,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             role="listitem"
           >
             $
-            153.32
+            151.08
           </div>
         </div>
       </div>
@@ -3121,42 +3117,20 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             role="listitem"
           >
             <strong>
-              Job ID: 
+              Custom Service
+               
             </strong>
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
+             Due: 
+            2018-9-25
+             
             <strong>
               Mechanic: 
             </strong>
-            Ari Bins
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Service: 
-            </strong>
-            Custom Service
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Pickup Date: 
-            </strong>
-            2018-9-24
+            Golda Price
           </div>
           <ul>
             <strong>
-              Job Logs: 
+              Activity: 
             </strong>
             <li>
               Sat 1st Sep, 10:00 am - Update Status: Cancelled
@@ -3357,11 +3331,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Indigo
-             
-            Giant
-             
-            Samurai
+            undefined Teal Specialized Defy
           </div>
         </div>
         <div
@@ -3372,7 +3342,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Back2bikes
+            Yasmine Wiza
           </div>
         </div>
         <div
@@ -3384,7 +3354,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             role="listitem"
           >
             $
-            153.32
+            133.3
           </div>
         </div>
       </div>
@@ -3424,42 +3394,20 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             role="listitem"
           >
             <strong>
-              Job ID: 
+              Major Service
+               
             </strong>
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
+             Due: 
+            2018-9-25
+             
             <strong>
               Mechanic: 
             </strong>
-            Ari Bins
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Service: 
-            </strong>
-            Custom Service
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Pickup Date: 
-            </strong>
-            2018-9-24
+            Roberto Johnson
           </div>
           <ul>
             <strong>
-              Job Logs: 
+              Activity: 
             </strong>
             <li>
               Sat 1st Sep, 10:00 am - Update Status: In Progress
@@ -3660,11 +3608,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Indigo
-             
-            Giant
-             
-            Samurai
+            undefined Olive Specialized CX1
           </div>
         </div>
         <div
@@ -3675,7 +3619,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Back2bikes
+            Ward Fadel Dvm
           </div>
         </div>
         <div
@@ -3687,7 +3631,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             role="listitem"
           >
             $
-            153.32
+            134.1
           </div>
         </div>
       </div>
@@ -3727,42 +3671,20 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             role="listitem"
           >
             <strong>
-              Job ID: 
+              Minor Service
+               
             </strong>
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
+             Due: 
+            2018-9-25
+             
             <strong>
               Mechanic: 
             </strong>
-            Ari Bins
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Service: 
-            </strong>
-            Custom Service
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Pickup Date: 
-            </strong>
-            2018-9-24
+            Olen Dach
           </div>
           <ul>
             <strong>
-              Job Logs: 
+              Activity: 
             </strong>
             <li>
               Sat 1st Sep, 10:00 am - New Job Created By Mike
@@ -3963,11 +3885,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Indigo
-             
-            Giant
-             
-            Samurai
+            undefined Grey Malvern Star Yukon
           </div>
         </div>
         <div
@@ -3978,7 +3896,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Back2bikes
+            Neha Baumbach Dvm
           </div>
         </div>
         <div
@@ -3990,7 +3908,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             role="listitem"
           >
             $
-            153.32
+            173.14
           </div>
         </div>
       </div>
@@ -4030,42 +3948,20 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             role="listitem"
           >
             <strong>
-              Job ID: 
+              Minor Service
+               
             </strong>
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
+             Due: 
+            2018-9-25
+             
             <strong>
               Mechanic: 
             </strong>
-            Ari Bins
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Service: 
-            </strong>
-            Custom Service
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Pickup Date: 
-            </strong>
-            2018-9-24
+            Chadd Schulist
           </div>
           <ul>
             <strong>
-              Job Logs: 
+              Activity: 
             </strong>
             <li>
               Sat 1st Sep, 10:00 am - Update Status: Picked Up
@@ -4266,11 +4162,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Indigo
-             
-            Giant
-             
-            Samurai
+            undefined Red Apollo Yukon
           </div>
         </div>
         <div
@@ -4281,7 +4173,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Back2bikes
+            Refurbish
           </div>
         </div>
         <div
@@ -4293,7 +4185,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             role="listitem"
           >
             $
-            153.32
+            195.66
           </div>
         </div>
       </div>
@@ -4333,42 +4225,20 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             role="listitem"
           >
             <strong>
-              Job ID: 
+              Minor Service
+               
             </strong>
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
+             Due: 
+            2018-9-25
+             
             <strong>
               Mechanic: 
             </strong>
-            Ari Bins
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Service: 
-            </strong>
-            Custom Service
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Pickup Date: 
-            </strong>
-            2018-9-24
+            Estella Botsford
           </div>
           <ul>
             <strong>
-              Job Logs: 
+              Activity: 
             </strong>
             <li>
               Sat 1st Sep, 10:00 am - Update Status: Quality Check
@@ -4569,11 +4439,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Indigo
-             
-            Giant
-             
-            Samurai
+            undefined Red Giant Samurai
           </div>
         </div>
         <div
@@ -4584,7 +4450,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Back2bikes
+            Sanford Kilback
           </div>
         </div>
         <div
@@ -4596,7 +4462,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             role="listitem"
           >
             $
-            153.32
+            155.93
           </div>
         </div>
       </div>
@@ -4636,42 +4502,20 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             role="listitem"
           >
             <strong>
-              Job ID: 
+              Custom Service
+               
             </strong>
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
+             Due: 
+            2018-9-25
+             
             <strong>
               Mechanic: 
             </strong>
-            Ari Bins
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Service: 
-            </strong>
-            Custom Service
-          </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-          >
-            <strong>
-              Pickup Date: 
-            </strong>
-            2018-9-24
+            Adela Hodkiewicz PhD
           </div>
           <ul>
             <strong>
-              Job Logs: 
+              Activity: 
             </strong>
             <li>
               Sat 1st Sep, 10:00 am - Update Status: Ready for Pick Up
@@ -4891,11 +4735,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Indigo
-                 
-                Giant
-                 
-                Samurai
+                undefined Lavender Apollo CX1
               </div>
             </div>
             <div
@@ -4906,7 +4746,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Back2bikes
+                Marlee Medhurst
               </div>
             </div>
             <div
@@ -4918,7 +4758,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                153.32
+                216.61
               </div>
             </div>
           </div>
@@ -4958,42 +4798,20 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 <strong>
-                  Job ID: 
+                  Major Service
+                   
                 </strong>
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
+                 Due: 
+                2018-9-25
+                 
                 <strong>
                   Mechanic: 
                 </strong>
-                Ari Bins
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Service: 
-                </strong>
-                Custom Service
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Pickup Date: 
-                </strong>
-                2018-9-24
+                Madie McGlynn
               </div>
               <ul>
                 <strong>
-                  Job Logs: 
+                  Activity: 
                 </strong>
                 <li>
                   Sat 1st Sep, 10:00 am - New Job Created By Mike
@@ -5195,11 +5013,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Indigo
-                 
-                Giant
-                 
-                Samurai
+                undefined Grey Giant Defy
               </div>
             </div>
             <div
@@ -5210,7 +5024,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Back2bikes
+                Emilia Schoen I
               </div>
             </div>
             <div
@@ -5222,7 +5036,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                153.32
+                130.21
               </div>
             </div>
           </div>
@@ -5262,42 +5076,20 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 <strong>
-                  Job ID: 
+                  Custom Service
+                   
                 </strong>
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
+                 Due: 
+                2018-9-25
+                 
                 <strong>
                   Mechanic: 
                 </strong>
-                Ari Bins
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Service: 
-                </strong>
-                Custom Service
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Pickup Date: 
-                </strong>
-                2018-9-24
+                Karina Lang
               </div>
               <ul>
                 <strong>
-                  Job Logs: 
+                  Activity: 
                 </strong>
                 <li>
                   Sat 1st Sep, 10:00 am - New Job Created By Mike
@@ -5499,11 +5291,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Indigo
-                 
-                Giant
-                 
-                Samurai
+                undefined Silver Specialized Katana
               </div>
             </div>
             <div
@@ -5514,7 +5302,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Back2bikes
+                Refurbish
               </div>
             </div>
             <div
@@ -5526,7 +5314,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                153.32
+                95.09
               </div>
             </div>
           </div>
@@ -5566,42 +5354,20 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 <strong>
-                  Job ID: 
+                  Major Service
+                   
                 </strong>
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
+                 Due: 
+                2018-9-25
+                 
                 <strong>
                   Mechanic: 
                 </strong>
-                Ari Bins
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Service: 
-                </strong>
-                Custom Service
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Pickup Date: 
-                </strong>
-                2018-9-24
+                Dorothea Lubowitz
               </div>
               <ul>
                 <strong>
-                  Job Logs: 
+                  Activity: 
                 </strong>
                 <li>
                   Sat 1st Sep, 10:00 am - New Job Created By Mike
@@ -5803,11 +5569,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Indigo
-                 
-                Giant
-                 
-                Samurai
+                undefined Lavender Apollo CX1
               </div>
             </div>
             <div
@@ -5818,7 +5580,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Back2bikes
+                Marlee Medhurst
               </div>
             </div>
             <div
@@ -5830,7 +5592,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                153.32
+                216.61
               </div>
             </div>
           </div>
@@ -5870,42 +5632,20 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 <strong>
-                  Job ID: 
+                  Major Service
+                   
                 </strong>
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
+                 Due: 
+                2018-9-25
+                 
                 <strong>
                   Mechanic: 
                 </strong>
-                Ari Bins
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Service: 
-                </strong>
-                Custom Service
-              </div>
-              <div
-                className="item"
-                onClick={[Function]}
-                role="listitem"
-              >
-                <strong>
-                  Pickup Date: 
-                </strong>
-                2018-9-24
+                Madie McGlynn
               </div>
               <ul>
                 <strong>
-                  Job Logs: 
+                  Activity: 
                 </strong>
                 <li>
                   Sat 1st Sep, 10:00 am - New Job Created By Mike

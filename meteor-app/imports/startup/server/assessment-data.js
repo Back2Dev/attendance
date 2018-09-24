@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
-import Assessment from '/imports/api/assessments/assessment'
-import Counters from '/imports/api/counters/counters'
+import Assessments from '/imports/api/assessments/assessments'
 import Logger from '/imports/api/assessments/logger'
 import { fakeJob, fakeLogs } from '/imports/test/fake-data'
 import faker from 'faker'
@@ -418,9 +417,9 @@ Meteor.methods({
 
   'seed.assessments'() {
 
-    const n = 50
+    const n = 10
     // seed ensures same data is generated
-    faker.seed(123)
+    faker.seed(123) 
 
     const array_of = function (times, generator) {
       let result = []
@@ -432,23 +431,20 @@ Meteor.methods({
 
     array_of(n, () => fakeJob())
       .forEach(r => {
-        const id = Assessment.insert(r)
+        r.jobNo = ((r.customerDetails.isRefurbish) ? 'R' : 'C') + Meteor.call('getNextJobNo')
+        const id = Assessments.insert(r)
         const logs = fakeLogs(id, r)
         logs.forEach(l => {
           Logger.insert(l)
         })
       })
   },
-
-  getNext() {
-    debug("n=" + incrementCounter(Counters,"assessments",1))
-  }
 })
 
 Meteor.startup(() => {
 
   // ServiceItems.remove({})
-  // Assessment.remove({})
+  // Assessments.remove({}) 
 
   if (Services.find().count() === 0) {
     Meteor.call('seed.services')
@@ -458,7 +454,7 @@ Meteor.startup(() => {
     Meteor.call('seed.repairParts')
   }
 
-  if (Assessment.find().count() === 0) {
+  if (Assessments.find().count() === 0) {
     Meteor.call('seed.assessments')
   }
 })

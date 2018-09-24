@@ -165,9 +165,9 @@ export default [{
       type: "object",
       title: "Enter Customer Details",
       properties: {
-        b2bRefurbish: {
+        isRefurbish: {
           type: "boolean",
-          title: "Is this bike being refurbished by Back 2 Bikes?",
+          title: "Is this bike being refurbished?",
           default: false
         },
         pickUpDate: {
@@ -178,16 +178,16 @@ export default [{
         },
       },
       dependencies: {
-        b2bRefurbish: {
+        isRefurbish: {
           "oneOf": [
             {
               properties: {
-                b2bRefurbish: { enum: [true, ""] }
+                isRefurbish: { enum: [true, ""] }
               },
           },
             {
               properties: {
-                b2bRefurbish: { enum: [false] },
+                isRefurbish: { enum: [false] },
                 name: {
                   type: "string",
                   title: "Name"
@@ -224,7 +224,7 @@ export default [{
       }
     },
     uiSchema: {
-      b2bRefurbish: {},
+      isRefurbish: {},
       name: {},
       phone: {},
       email: {

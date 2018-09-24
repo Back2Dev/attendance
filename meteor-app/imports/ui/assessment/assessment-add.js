@@ -114,14 +114,14 @@ class AssessmentAdd extends Component {
             used: key.used
           }
         })
-      const custName = formData.b2bRefurbish ? 'back2bikes' : formData.name.toLowerCase()
+      const custName = formData.isRefurbish ? 'Refurbish' : formData.name.toLowerCase()
       const search = Object.values(formData).join(" ")      // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
           name: custName,
           phone: formData.phone,
           email: formData.email,
-          refurbishment: formData.b2bRefurbish,
+          isRefurbish: formData.isRefurbish,
         },
         bikeDetails: {
           make: formData.bikeMake.toLowerCase(),

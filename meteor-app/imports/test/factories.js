@@ -15,7 +15,7 @@ import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
 import { RegExId } from '/imports/api/schema'
 
-import Assessment from '/imports/api/assessments/assessment'
+import Assessment from '/imports/api/assessments/assessments'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Logger from '/imports/api/assessments/logger'
@@ -79,7 +79,7 @@ Factory.define('assessment', Assessment, {
     name: faker.name.findName(),
     phone: faker.phone.phoneNumber(),
     email: faker.internet.email(),
-    refurbishment: faker.random.boolean(),
+    isRefurbish: faker.random.boolean(),
   },
   bikeDetails: {
     make: faker.commerce.productName(),

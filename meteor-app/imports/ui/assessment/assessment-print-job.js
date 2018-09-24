@@ -71,7 +71,7 @@ export default assessment => {
   })
   const tempBike = temporaryBike ? "A temporary bike has been provided to this customer." : ""
   const isUrgent = urgent ? `URGENT: This request must be completed by ${pickupDate.toDateString()}` : `Pickup Date: ${pickupDate.toDateString()}`
-  const name = customerDetails.name ? customerDetails.name : "Back2bikes"
+  const name = customerDetails.name ? customerDetails.name : "Refurb"
   const email = customerDetails.email ? customerDetails.email : "N/A"
   const phone = customerDetails.phone ? customerDetails.phone : "N/A"
   const bikeModel = bikeDetails.model ? ` - ${bikeDetails.model}` : ""
@@ -164,7 +164,7 @@ export default assessment => {
   if (tempBike) {
     docDefinition.content.push({text: tempBike})
   }
-  if (!customerDetails.refurbishment) {
+  if (!customerDetails.isRefurbish) {
     docDefinition.watermark.text = customerDetails.name
     docDefinition.watermark.color = "cyan"
   }

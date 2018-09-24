@@ -104,21 +104,21 @@ class JobCard extends Component {
   render() {
     const { activeIndex } = this.state
     // Pulling data from props (assessment collection)
-    const { status, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.job
+    const { status, jobNo, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.job
     const make = bikeDetails.make
     const model = bikeDetails.model
     const color = bikeDetails.color
     const pickUpDate = pickupDate.toLocaleDateString()
     const totalRepairCost = totalCost/100
     const jobStatus = JOB_STATUS_READABLE[status]
-    const refurbishBike = customerDetails.refurbishment
-    const customerName = refurbishBike ? 'Back2Bikes' : customerDetails.name
+    const customerName = customerDetails.isRefurbish ? 'Refurbish' : customerDetails.name
     // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
     const servicePackage = services.baseService
     
     // Dynamic button name
     const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
     const cancelButton = status <= JOB_STATUS.READY_FOR_PICK_UP ? "Cancel Job" : "Re-open Job"
+    const name = `${jobNo} ${this.titleCase(color)} ${make} ${model}`
 
     return (
       <Accordion className="job-card-container" styled fluid>
@@ -140,7 +140,7 @@ class JobCard extends Component {
             </Grid.Column>
 
             <Grid.Column width={6}>            
-              <List.Item>{this.titleCase(color)} {make} {model}</List.Item>
+              <List.Item>{name}</List.Item>
             </Grid.Column>
 
             <Grid.Column width={4}>            
@@ -160,11 +160,8 @@ class JobCard extends Component {
             <Grid.Row columns={2} style={{ marginTop: "20px"}}>
         
               <Grid.Column style={{ fontSize: "1.2em"}}>
-                <List.Item><strong>Job ID: </strong>{this.props.job._id}</List.Item>
-                <List.Item><strong>Mechanic: </strong>{mechanic}</List.Item>
-                <List.Item><strong>Service: </strong>{servicePackage}</List.Item>
-                <List.Item><strong>Pickup Date: </strong>{pickUpDate}</List.Item>
-                <ul><strong>Job Logs: </strong>
+              <List.Item><strong>{servicePackage} </strong> Due: {pickUpDate} <strong>Mechanic: </strong>{mechanic}</List.Item>
+                <ul><strong>Activity: </strong>
                 {
                   this.renderLogs(this.props.logs)
                 }

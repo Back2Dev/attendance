@@ -2,7 +2,7 @@ import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import Factory from '/imports/test/factories'
 
-import Assessment, { STATUS } from '/imports/api/assessments/assessment'
+import Assessments, { STATUS } from '/imports/api/assessments/assessments'
 
 const badAssessment = []
 
@@ -27,7 +27,7 @@ describe('assessment/schema', () => {
     describe(`Bad assessment form (${i+1})`, () => {
       it('will not save to database', () => {
         // Fail validation, throw
-        expect(() => Assessment.insert(bad)).to.throw() 
+        expect(() => Assessments.insert(bad)).to.throw() 
       })
     })
   })
@@ -37,7 +37,7 @@ describe('assessment/schema', () => {
       it('will save to database', () => {
 
         // Passes, doesn't throw 
-        expect(() => Assessment.insert(good)).to.not.throw()
+        expect(() => Assessments.insert(good)).to.not.throw()
       })
     })
   })
