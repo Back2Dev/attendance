@@ -3,9 +3,12 @@ import { LOG_EVENT_TYPES, JOB_STATUS, JOB_STATUS_READABLE } from '/imports/api/c
 
 faker.seed(888)
 
-export const fakeJob = () => {
+export const fakeJob = (seed) => {
 
-  // faker.seed(888)
+  // For snapshot testing, allow a seed to be passed in
+  if (seed) {
+    faker.seed(seed)
+  }
   // search items
   const name = faker.name.findName()
   const make = faker.random.arrayElement(['Apollo', 'Giant', 'Malvern Star', 'Specialized'])
