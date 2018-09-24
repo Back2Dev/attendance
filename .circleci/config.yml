@@ -117,7 +117,7 @@ jobs:
         environment:
           LC_ALL: C.UTF-8
           LANG: C
-      	  TZ: "/usr/share/zoneinfo/Australia/Melbourne"
+          TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     working_directory: ~/repo
 
