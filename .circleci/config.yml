@@ -120,6 +120,8 @@ jobs:
           TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     working_directory: ~/repo
+    environment:
+      TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     steps:
       - checkout
