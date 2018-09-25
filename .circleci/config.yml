@@ -13,12 +13,15 @@ jobs:
         environment:
           LC_ALL: C.UTF-8
           LANG: C
+          TZ: "/usr/share/zoneinfo/Australia/Melbourne"
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.0
 
     working_directory: ~/repo
+    environment:
+      TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     steps:
       - checkout
