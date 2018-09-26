@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
 import { Menu, Image, Button } from 'semantic-ui-react'
 import Search from '/imports/ui/member/member-search-container'
+import Payment from '/imports/ui/member/member-payment'
 
 const Nav = (props) => {
 
@@ -24,6 +25,9 @@ const Nav = (props) => {
           content='Admin'
           icon='dashboard'
         />
+      </Menu.Item>
+      <Menu.Item>
+        <Payment />
       </Menu.Item>
       <Menu.Item position='right'>
       <Search />
