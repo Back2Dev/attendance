@@ -3,11 +3,11 @@ import Members from '/imports/api/members/members'
 import Rejects from '/imports/api/members/rejects'
 import casual from 'casual'            // casual random data generator
 import moment from 'moment'
-const debug = require('debug')('b2b:members')
+const debug = require('debug')('att:members')
 
 // A little deviousness on allowing bulk import of member data
 //
-// 1) The server needs to be run with DEBUG=b2b:members
+// 1) The server needs to be run with DEBUG=att:members
 // 2) The /private/members.json folder must exist (won't happen in prod)
 // 3) You can do a Meteor.call('import.members','Special member')
 //

@@ -24,11 +24,15 @@ Next
 * Add job cart update status and print job functionality
 * Add search functionality for job cart
 * Upload interface added to /admin
-
 * Add status filter for job cart
 * Add live price update for form
 * Add a name search feature to the search functionality
 * Fix storybook missing runtimeGenerator problem
+* Added jobNo to assessment, show in list
+* Renamed Assessment collection to be plural (as per convention), => Assessments
+* Changed customer name to show "Refurb" instead of Back2bikes
+* Shrink job listing layout
+
 
 0.3.0
 ------

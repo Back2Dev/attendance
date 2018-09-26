@@ -22,15 +22,15 @@ storiesOf('Job List', module)
 
 .add('Job Card List', (() => {
   const currentJob1 = {
-    ...fakeJob(),
+    ...fakeJob(123),
     status: number('Status', 1)
   }
   const currentJob2 = {
-    ...fakeJob(),
+    ...fakeJob(234),
     status: number('Status', 2)
   }
   const currentJob3 = {
-    ...fakeJob(),
+    ...fakeJob(456),
     status: number('Status', 4)
   }
 

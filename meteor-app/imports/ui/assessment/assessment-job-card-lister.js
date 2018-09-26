@@ -2,7 +2,7 @@ import { Meteor } from "meteor/meteor"
 import { withTracker } from "meteor/react-meteor-data"
 import { ReactiveVar } from "meteor/reactive-var"
 import Logger from '/imports/api/assessments/logger'
-import Assessment from '/imports/api/assessments/assessment'
+import Assessment from '/imports/api/assessments/assessments'
 import Members from '/imports/api/members/members'
 import JobCardList from '/imports/ui/assessment/assessment-job-card-list'
 

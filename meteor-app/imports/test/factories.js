@@ -15,7 +15,7 @@ import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
 import { RegExId } from '/imports/api/schema'
 
-import Assessment from '/imports/api/assessments/assessment'
+import Assessments from '/imports/api/assessments/assessments'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Logger from '/imports/api/assessments/logger'
@@ -74,12 +74,12 @@ Factory.define('order', Orders, {
   totalPrice: 9900,   // This is in cents
 })
 
-Factory.define('assessment', Assessment, {
+Factory.define('assessment', Assessments, {
   customerDetails: {
     name: faker.name.findName(),
     phone: faker.phone.phoneNumber(),
     email: faker.internet.email(),
-    refurbishment: faker.random.boolean(),
+    isRefurbish: faker.random.boolean(),
   },
   bikeDetails: {
     make: faker.commerce.productName(),
@@ -116,6 +116,7 @@ Factory.define('assessment', Assessment, {
   },
   additionalFees: 1500,
   totalCost: 11500,
+  jobNo: "R001",
   dropoffDate: faker.date.future(),
   pickupDate: faker.date.future(),
   urgent: faker.random.boolean(),

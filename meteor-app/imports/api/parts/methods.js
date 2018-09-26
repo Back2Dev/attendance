@@ -2,7 +2,7 @@ import { Meteor } from "meteor/meteor";
 import Parts from "/imports/api/parts/schema";
 import log from "/imports/lib/server/log";
 import XLSX from "xlsx";
-const debug = require("debug")("b2b:parts");
+const debug = require("debug")("att:parts");
 
 function calcRetail(price) {
   if (price <= 6000) {

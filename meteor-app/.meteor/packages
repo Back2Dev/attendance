@@ -37,3 +37,4 @@ crosswalk@1.7.1
 email
 grove:call-async
 momentjs:moment
+mikkelking:mongo-counter

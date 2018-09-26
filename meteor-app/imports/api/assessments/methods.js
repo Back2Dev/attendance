@@ -2,14 +2,20 @@ import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
 
-import Assessment from './assessment'
+import Assessment from './assessments'
+import Counters from '/imports/api/counters/counters'
 import Logger from './logger'
 import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB } from '/imports/api/constants'
 
 if (Meteor.isServer) {
   Meteor.methods({
+    getNextJobNo() {
+      return incrementCounter(Counters,"jobs",1)
+    },  
     'assessment.insert'(form) {
       check(form, Object)
+// Add in an auto-incrementing job number
+      form.jobNo = ((form.customerDetails.isRefurbish) ? 'R' : 'C') + Meteor.call('getNextJobNo')
       Assessment.insert(form)
       Logger.insert({
         user: form.assessor, 
@@ -53,6 +59,6 @@ if (Meteor.isServer) {
       check(aId, String)
       
       return Logger.find({aId}).fetch()
-    }
+    },
   })
 }

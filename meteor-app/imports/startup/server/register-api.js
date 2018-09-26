@@ -19,7 +19,7 @@ import '/imports/api/orders/schema'
 import '/imports/api/orders/server/publications'
 
 // Assessments
-import '/imports/api/assessments/assessment'
+import '/imports/api/assessments/assessments'
 import '/imports/api/assessments/services'
 import '/imports/api/assessments/serviceItems'
 import '/imports/api/assessments/methods'
