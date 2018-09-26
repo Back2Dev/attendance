@@ -3,13 +3,13 @@ import SimpleSchema from  'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
 
-const Assessment = new Mongo.Collection('assessment')
+const Assessments = new Mongo.Collection('assessments')
 
 export const customerSchema = new SimpleSchema({
   name: { type: String, optional: true, label: 'Customer name' },
   phone: { type: String, optional: true, label: 'Customer phone number' },
   email: { type: String, optional: true, label: 'Customer email' },
-  refurbishment: { type: Boolean, label: 'Stating whether this job is a refurbishment' },
+  isRefurbish: { type: Boolean, label: 'Stating whether this job is a refurbishment' },
 })
 
 export const bikeSchema = new SimpleSchema({
@@ -69,8 +69,9 @@ export const partsSchema = new SimpleSchema({
 })
 
 // Note: By default, all keys are required
-export const AssessmentSchema = new SimpleSchema({
+export const AssessmentsSchema = new SimpleSchema({
   _id: RegExId,
+  jobNo: String,
   customerDetails: { type: customerSchema, label: 'Customer details' },
   bikeDetails: { type: bikeSchema, label: 'Bike details' },
   services: { type: servicesSchema, label: 'Details of services required' },
@@ -104,6 +105,6 @@ export const AssessmentSchema = new SimpleSchema({
   updatedAt,
 })
 
-Assessment.attachSchema(AssessmentSchema)
+Assessments.attachSchema(AssessmentsSchema)
 
-export default Assessment
+export default Assessments

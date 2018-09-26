@@ -5,12 +5,12 @@ import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Members from '/imports/api/members/members'
 import Logger from '/imports/api/assessments/logger'
-import Assessment from '/imports/api/assessments/assessment'
+import Assessment from '/imports/api/assessments/assessments'
 import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 
-const debug = require('debug')('b2b:addassessment')
+const debug = require('debug')('att:addassessment')
 
 export default withTracker(props => {
   const success = new ReactiveVar(false);

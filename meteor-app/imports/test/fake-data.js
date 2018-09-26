@@ -3,9 +3,12 @@ import { LOG_EVENT_TYPES, JOB_STATUS, JOB_STATUS_READABLE } from '/imports/api/c
 
 faker.seed(888)
 
-export const fakeJob = () => {
+export const fakeJob = (seed) => {
 
-  faker.seed(888)
+  // For snapshot testing, allow a seed to be passed in
+  if (seed) {
+    faker.seed(seed)
+  }
   // search items
   const name = faker.name.findName()
   const make = faker.random.arrayElement(['Apollo', 'Giant', 'Malvern Star', 'Specialized'])
@@ -71,7 +74,7 @@ export const fakeJob = () => {
       name,
       phone,
       email,
-      refurbishment: faker.random.boolean(),
+      isRefurbish: faker.random.boolean(),
     },
     bikeDetails: {
       make,
@@ -91,8 +94,9 @@ export const fakeJob = () => {
     },
     additionalFees,
     totalCost: totalServiceCost + totalPartsCost + additionalFees,
-    dropoffDate: new Date(),
-    pickupDate: new Date(),
+    dropoffDate: new Date('2018-09-21T09:10+10:00'),
+    pickupDate: new Date('2018-09-26T09:00+10:00'),
+    createdAt: new Date('2018-09-21T09:00+10:00'),
     urgent: faker.random.boolean(),
     assessor,
     mechanic,

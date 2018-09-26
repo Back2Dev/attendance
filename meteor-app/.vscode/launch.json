@@ -11,6 +11,7 @@
         {
             "type": "chrome",
             "request": "attach",
+            "sourceMaps": true,
             "name": "Attach Chrome",
             "url": "http://localhost:3030",
             "webRoot": "${workspaceFolder}",
