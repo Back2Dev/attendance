@@ -1,0 +1,9 @@
+{
+  "env": {
+    "environment": "test",
+    "ROOT_URL": "http://localhost:3030/"
+  },
+  "public": {
+
+  }
+}

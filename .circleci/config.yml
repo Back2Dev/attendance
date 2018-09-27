@@ -71,7 +71,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.cache
-          key: v2-cypress-cache-{{ checksum "admin-app/package.json" }}
+          key: v2-cypress-cache-{{ checksum "meteor-app/package.json" }}
 
       - run:
           name: create test-results folders
@@ -126,12 +126,12 @@ jobs:
           key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
       - save_cache:
           paths:
-            - admin-app/node_modules
-          key: v2-node-modules-{{ checksum "admin-app/package.json" }}
+            - meteor-app/node_modules
+          key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
       - save_cache:
           paths:
             - ~/.cache
-          key: v2-cypress-cache-{{ checksum "admin-app/node_modules/cypress/package.json" }}
+          key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
 
 
   deploy_staging:
