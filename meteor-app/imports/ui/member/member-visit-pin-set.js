@@ -58,6 +58,7 @@ class MemberVisitPinSet extends React.Component {
             <Input
               ref={this.pin1}
               name='pin1'
+              id='pin1'
               {...inputSettings}
               onChange={this.onPinInput}
             />
@@ -69,6 +70,7 @@ class MemberVisitPinSet extends React.Component {
             <Input
               ref={this.pin2}
               name='pin2'
+              id='pin2'
               error={pinsDontMatch}
               {...inputSettings}
               onChange={this.onPinInput}
@@ -82,6 +84,7 @@ class MemberVisitPinSet extends React.Component {
           </Form.Field>
           <Button
             type='submit'
+            id='setPIN'
             disabled={this.state.pin2.length < 4 || (this.state.pin1 != this.state.pin2)}>
             Set Pin
         </Button>

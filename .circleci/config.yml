@@ -75,17 +75,6 @@ jobs:
             - ~/.npm
             - ~/.cache
 
-
-      # cache npm packages
-      # - save_cache:
-      #     paths:
-      #       - meteor-app/node_modules
-      #     key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
-      # - save_cache:
-      #     paths:
-      #       - ~/.cache
-      #     key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
-
       - run:
           name: create test-results folders
           command: |
@@ -134,19 +123,6 @@ jobs:
             - meteor-app/.meteor/local
             - ~/.meteor/packages
           key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
-      # - save_cache:
-      #     paths:
-      #       - ~/.meteor/packages
-      #     key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
-      # - save_cache:
-      #     paths:
-      #       - meteor-app/node_modules
-      #     key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
-      # - save_cache:
-      #     paths:
-      #       - ~/.cache
-      #     key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
-
 
   deploy_staging:
     docker:
@@ -177,27 +153,10 @@ jobs:
           name: install meteor
           command: curl https://install.meteor.com/ | sh
 
-      # restore npm and meteor package caches
-      # - restore_cache:
-      #     keys:
-      #     - v2-node-modules-{{ checksum "meteor-app/package.json" }}
-      #     - v2-node-modules-
       - restore_cache:
           keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
           - v2-meteor-packages-
-      # - restore_cache:
-      #     keys:
-      #     - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
-      #     - v2-meteor-local-
-      # - restore_cache:
-      #     keys:
-      #     - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
-      #     - v2-cypress-cache-
-
-      # - run:
-      #     working_directory: ~/repo
-      #     command: npm ci
 
       - restore_cache:
           keys:
