@@ -32,6 +32,7 @@ Next
 * Renamed Assessment collection to be plural (as per convention), => Assessments
 * Changed customer name to show "Refurb" instead of Back2bikes
 * Shrink job listing layout
+* Added Cypress end-2-end testing, streamlined CI script to use npm ci
 
 
 0.3.0
