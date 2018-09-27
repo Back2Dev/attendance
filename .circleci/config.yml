@@ -41,37 +41,50 @@ jobs:
           command: curl https://install.meteor.com/ | sh
 
       # restore npm and meteor package caches
-      - restore_cache:
-          keys:
-          - v2-node-modules-{{ checksum "meteor-app/package.json" }}
-          - v2-node-modules-
+      # - restore_cache:
+      #     keys:
+      #     - v2-node-modules-{{ checksum "meteor-app/package.json" }}
+      #     - v2-node-modules-
       - restore_cache:
           keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
           - v2-meteor-packages-
-      - restore_cache:
-          keys:
-          - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
-          - v2-meteor-local-
-      - restore_cache:
-          keys:
-          - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
-          - v2-cypress-cache-
+      # - restore_cache:
+      #     keys:
+      #     - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
+      #     - v2-meteor-local-
+      # - restore_cache:
+      #     keys:
+      #     - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
+      #     - v2-cypress-cache-
 
+#      - run:
+#          working_directory: ~/repo/meteor-app
+#          command: npm install
+      - restore_cache:
+          keys:
+            - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run:
           working_directory: ~/repo/meteor-app
-          command: npm install
+          command: meteor npm ci
+      - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
 
 
       # cache npm packages
-      - save_cache:
-          paths:
-            - meteor-app/node_modules
-          key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
-      - save_cache:
-          paths:
-            - ~/.cache
-          key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - meteor-app/node_modules
+      #     key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - ~/.cache
+      #     key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
 
       - run:
           name: create test-results folders
@@ -119,19 +132,20 @@ jobs:
       - save_cache:
           paths:
             - meteor-app/.meteor/local
-          key: v2-meteor-local-{{ checksum "meteor-app/.meteor/packages"}}
-      - save_cache:
-          paths:
             - ~/.meteor/packages
           key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
-      - save_cache:
-          paths:
-            - meteor-app/node_modules
-          key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
-      - save_cache:
-          paths:
-            - ~/.cache
-          key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - ~/.meteor/packages
+      #     key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+      # - save_cache:
+      #     paths:
+      #       - meteor-app/node_modules
+      #     key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - ~/.cache
+      #     key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
 
 
   deploy_staging:
@@ -164,30 +178,35 @@ jobs:
           command: curl https://install.meteor.com/ | sh
 
       # restore npm and meteor package caches
+      # - restore_cache:
+      #     keys:
+      #     - v2-node-modules-{{ checksum "meteor-app/package.json" }}
+      #     - v2-node-modules-
       - restore_cache:
           keys:
-          - v2-node-modules-{{ checksum "meteor-app/package.json" }}
-          - v2-node-modules-
-      - restore_cache:
-          keys:
-          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/packages"}}
+          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
           - v2-meteor-packages-
+      # - restore_cache:
+      #     keys:
+      #     - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
+      #     - v2-meteor-local-
+      # - restore_cache:
+      #     keys:
+      #     - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
+      #     - v2-cypress-cache-
+
+      # - run:
+      #     working_directory: ~/repo
+      #     command: npm ci
+
       - restore_cache:
           keys:
-          - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
-          - v2-meteor-local-
-      - restore_cache:
-          keys:
-          - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
-          - v2-cypress-cache-
-
-      - run:
-          working_directory: ~/repo
-          command: meteor npm install
-
+            - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run:
           working_directory: ~/repo/meteor-app
-          command: meteor npm install
+          command: meteor npm ci
 
       - add_ssh_keys:
           fingerprints:
