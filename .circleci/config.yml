@@ -41,26 +41,11 @@ jobs:
           command: curl https://install.meteor.com/ | sh
 
       # restore npm and meteor package caches
-      # - restore_cache:
-      #     keys:
-      #     - v2-node-modules-{{ checksum "meteor-app/package.json" }}
-      #     - v2-node-modules-
       - restore_cache:
           keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
           - v2-meteor-packages-
-      # - restore_cache:
-      #     keys:
-      #     - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
-      #     - v2-meteor-local-
-      # - restore_cache:
-      #     keys:
-      #     - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
-      #     - v2-cypress-cache-
 
-#      - run:
-#          working_directory: ~/repo/meteor-app
-#          command: npm install
       - restore_cache:
           keys:
             - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
