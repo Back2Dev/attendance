@@ -71,7 +71,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.cache
-          key: v2-cypress-cache-{{ checksum "meteor-app/package.json" }}
+          key: v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json" }}
 
       - run:
           name: create test-results folders
