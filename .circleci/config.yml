@@ -119,7 +119,7 @@ jobs:
       - save_cache:
           paths:
             - meteor-app/.meteor/local
-          key: v2-meteor-local-{{ checksum "meteor-app/.meteor/versions"}}
+          key: v2-meteor-local-{{ checksum "meteor-app/.meteor/packages"}}
       - save_cache:
           paths:
             - ~/.meteor/packages
@@ -170,12 +170,16 @@ jobs:
           - v2-node-modules-
       - restore_cache:
           keys:
-          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/packages"}}
           - v2-meteor-packages-
       - restore_cache:
           keys:
           - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
           - v2-meteor-local-
+      - restore_cache:
+          keys:
+          - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
+          - v2-cypress-cache-
 
       - run:
           working_directory: ~/repo
