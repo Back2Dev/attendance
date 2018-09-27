@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
        # node 8.9
-      - image: circleci/node:8.9
+      - image: cypress/base:8
         # fix locale issues that cause mongodb to explode
         # see https://github.com/meteor/meteor/issues/4019
         environment:
@@ -30,7 +30,7 @@ jobs:
       # ie, using describe.only() makes the test suite only run a subset of tests.
       - run:
           name: grep for naughty patterns
-          working_diretory: ~/repo/meteor-app
+          working_directory: ~/repo/meteor-app
           command: |
             set +e
             grep -r --exclude-dir=node_modules --exclude-dir=.meteor "describe.only" ~/repo/meteor-app
@@ -43,8 +43,8 @@ jobs:
       # restore npm and meteor package caches
       - restore_cache:
           keys:
-          - v1-node-modules-{{ checksum "meteor-app/package.json" }}
-          - v1-node-modules-
+          - v2-node-modules-{{ checksum "meteor-app/package.json" }}
+          - v2-node-modules-
       - restore_cache:
           keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
@@ -53,6 +53,10 @@ jobs:
           keys:
           - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
           - v2-meteor-local-
+      - restore_cache:
+          keys:
+          - v2-cypress-cache-{{ checksum "meteor-app/node_modules/cypress/package.json"}}
+          - v2-cypress-cache-
 
       - run:
           working_directory: ~/repo/meteor-app
@@ -63,7 +67,11 @@ jobs:
       - save_cache:
           paths:
             - meteor-app/node_modules
-          key: v1-node-modules-{{ checksum "meteor-app/package.json" }}
+          key: v2-node-modules-{{ checksum "meteor-app/package.json" }}
+      - save_cache:
+          paths:
+            - ~/.cache
+          key: v2-cypress-cache-{{ checksum "admin-app/package.json" }}
 
       - run:
           name: create test-results folders
@@ -93,7 +101,13 @@ jobs:
       - run:
           name: integration tests
           working_directory: ~/repo/meteor-app
-          command: SERVER_TEST_REPORTER=xunit XUNIT_FILE=/tmp/test-results/integration/integration.xml npm run "test:integration"
+          command: METEOR_ALLOW_SUPERUSER=1 SERVER_TEST_REPORTER=xunit XUNIT_FILE=/tmp/test-results/integration/integration.xml npm run "test:integration"
+
+      - run:
+          name: start app and run e2e tests
+          working_directory: ~/repo/meteor-app
+          command: npm run test:e2e:standalone
+          no_output_timeout: 5m
 
       - store_artifacts:
           path: /tmp/test-results/
@@ -110,11 +124,20 @@ jobs:
           paths:
             - ~/.meteor/packages
           key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+      - save_cache:
+          paths:
+            - admin-app/node_modules
+          key: v2-node-modules-{{ checksum "admin-app/package.json" }}
+      - save_cache:
+          paths:
+            - ~/.cache
+          key: v2-cypress-cache-{{ checksum "admin-app/node_modules/cypress/package.json" }}
+
 
   deploy_staging:
     docker:
        # node 8.9
-      - image: circleci/node:8.9
+      - image: cypress/base:8
         # fix locale issues that cause mongodb to explode
         # see https://github.com/meteor/meteor/issues/4019
         environment:
@@ -143,8 +166,8 @@ jobs:
       # restore npm and meteor package caches
       - restore_cache:
           keys:
-          - v1-node-modules-{{ checksum "meteor-app/package.json" }}
-          - v1-node-modules-
+          - v2-node-modules-{{ checksum "meteor-app/package.json" }}
+          - v2-node-modules-
       - restore_cache:
           keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
@@ -156,11 +179,11 @@ jobs:
 
       - run:
           working_directory: ~/repo
-          command: npm install
+          command: meteor npm install
 
       - run:
           working_directory: ~/repo/meteor-app
-          command: npm install
+          command: meteor npm install
 
       - add_ssh_keys:
           fingerprints:
@@ -170,7 +193,7 @@ jobs:
           name: mup deploy
           working_directory: ~/repo/deployment/b2b-staging
           no_output_timeout: 20m # this might take forever
-          command: npx mup deploy --verbose
+          command: METEOR_ALLOW_SUPERUSER=1 npx mup deploy --verbose
 
       # todo - remove this when we've figured out why staging deploys fail without it
       - run:

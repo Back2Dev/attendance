@@ -6,6 +6,8 @@
     "start": "meteor run",
     "debug": "DEBUG=att:* meteor run --inspect --port 3030 ",
     "lint": "eslint .",
+    "ci-app": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3010 --settings ci.settings.json",
+    "ci-test": "./node_modules/cypress/bin/cypress run",
     "test:ui": "start-storybook -s public -p 6046",
     "storybook": "start-storybook -s public -p 6046",
     "test:build:ui": "BABEL_ENV=ui-test build-storybook",
@@ -20,9 +22,13 @@
     "storyshots": "jest test/snapshots/** --watch",
     "test:storyspecs": "mocha --opts tests/mocha.storyspecs.opts",
     "test:storyspecs:watch": "mocha --opts tests/mocha.storyspecs.opts --watch",
+    "test": "npm run test:snapshots && npm run test:storyspecs && npm run test:integration",
     "storyspecs": "mocha --opts tests/mocha.storyspecs.opts --watch",
     "testall": "npm run test:unit && npm run test:snapshots && npm run test:storyspecs && npm run test:integration",
-    "test": "npm run test:snapshots && npm run test:storyspecs && npm run test:integration"
+    "test:e2e:standalone": "node tests/cypress/run-on-circle.js 'meteor npm run ci-app' 'meteor npm run ci-test'",
+    "cypress:open": "./node_modules/cypress/bin/cypress open",
+    "cypress:run": "./node_modules/cypress/bin/cypress run",
+    "cypress:record": "./node_modules/cypress/bin/cypress run --record --key 7f96e2e6-b3ad-4fdc-8b70-af7cfc31f7da"
   },
   "description": "Workshop attendance app for back2bikes volunteers.",
   "directories": {
@@ -100,6 +106,7 @@
     "chai-enzyme": "^0.8.0",
     "cheerio": "0.20.x",
     "css-loader": "^0.27.3",
+    "cypress": "^3.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^3.4.0",
