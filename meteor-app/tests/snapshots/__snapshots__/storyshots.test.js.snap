@@ -9136,7 +9136,1152 @@ exports[`Storyshots Member.List Member Counter 1`] = `
 </div>
 `;
 
-exports[`Storyshots Member.Session Attend 1`] = `
+exports[`Storyshots Member.Session Forgot PIN 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "position": "relative",
+        "zIndex": 0,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "maxWidth": "280px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "textAlign": "center",
+          }
+        }
+      >
+        <h3>
+          Select best way to send your PIN reminder:
+        </h3>
+        <form
+          className="ui form"
+          onSubmit={[Function]}
+        >
+          <div>
+            <button
+              className="ui green icon left labeled button"
+              name="email"
+              onClick={[Function]}
+              role="button"
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="check icon"
+              />
+              Email
+            </button>
+          </div>
+          <div>
+            <button
+              className="ui grey icon disabled left labeled button"
+              disabled={true}
+              name="sms"
+              onClick={[Function]}
+              role="button"
+              tabIndex={-1}
+              type="button"
+            >
+              <i
+                aria-hidden="true"
+                className="mobile icon"
+              />
+              SMS
+            </button>
+          </div>
+          <div
+            className="field"
+          >
+            <input
+              checked={true}
+              hidden={true}
+              name="email"
+              onChange={[Function]}
+              type="radio"
+            />
+            <input
+              checked={false}
+              hidden={true}
+              name="sms"
+              onChange={[Function]}
+              type="radio"
+            />
+            <div
+              className="ui input"
+            >
+              <input
+                name="email"
+                onChange={[Function]}
+                placeholder="Enter your email address"
+                type="text"
+              />
+            </div>
+          </div>
+          <button
+            className="ui button"
+            onClick={[Function]}
+            role="button"
+            type="submit"
+          >
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <button
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "#28c",
+        "border": "none",
+        "borderRadius": "0 0 0 5px",
+        "color": "#fff",
+        "cursor": "pointer",
+        "display": "block",
+        "fontFamily": "sans-serif",
+        "fontSize": "12px",
+        "padding": "5px 15px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+      }
+    }
+    type="button"
+  >
+    Show Info
+  </button>
+  <div
+    style={
+      Object {
+        "background": "white",
+        "bottom": 0,
+        "display": "none",
+        "left": 0,
+        "overflow": "auto",
+        "padding": "0 40px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+        "zIndex": 99999,
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#28c",
+          "border": "none",
+          "borderRadius": "0 0 0 5px",
+          "color": "#fff",
+          "cursor": "pointer",
+          "display": "block",
+          "fontFamily": "sans-serif",
+          "fontSize": "12px",
+          "padding": "5px 15px",
+          "position": "fixed",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      type="button"
+    >
+      ×
+    </button>
+    <div>
+      <div
+        style={
+          Object {
+            "WebkitFontSmoothing": "antialiased",
+            "backgroundColor": "#fff",
+            "border": "1px solid #eee",
+            "borderRadius": "2px",
+            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
+            "color": "#444",
+            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+            "fontSize": "15px",
+            "fontWeight": 300,
+            "lineHeight": 1.45,
+            "marginBottom": "20px",
+            "marginTop": "20px",
+            "padding": "20px 40px 40px",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "borderBottom": "1px solid #eee",
+              "marginBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <h1
+            style={
+              Object {
+                "fontSize": "35px",
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            Member.Session
+          </h1>
+          <h2
+            style={
+              Object {
+                "fontSize": "22px",
+                "fontWeight": 400,
+                "margin": "0 0 10px 0",
+                "padding": 0,
+              }
+            }
+          >
+            Forgot PIN
+          </h2>
+        </div>
+        <div
+          style={
+            Object {
+              "marginBottom": 0,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "WebkitFontSmoothing": "antialiased",
+                "color": "#444",
+                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+                "fontSize": "15px",
+              }
+            }
+          >
+            Here/Absent
+          </div>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Story Source
+          </h1>
+          <pre
+            className="css-4akams"
+          >
+            <div>
+              <div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    div
+                  </span>
+                  <span>
+                    <span>
+                       
+                      <span
+                        style={Object {}}
+                      >
+                        style
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              {
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#666",
+                                  }
+                                }
+                              >
+                                maxWidth
+                              </span>
+                              : 
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#22a",
+                                    "wordBreak": "break-word",
+                                  }
+                                }
+                              >
+                                "
+                                280px
+                                "
+                              </span>
+                              }
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                      
+                    </span>
+                  </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    MemberVisitPinForgot
+                  </span>
+                  <span>
+                    <span>
+                       
+                      <span
+                        style={Object {}}
+                      >
+                        onPinReminderSent
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              sent PIN reminder()
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                       
+                      <span
+                        style={Object {}}
+                      >
+                        forgotPin
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              forgotten PIN()
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                       
+                    </span>
+                  </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    /&gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;/
+                    div
+                    &gt;
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              className="css-gydez8"
+              onClick={[Function]}
+            >
+              <div
+                className="css-kv47nt"
+              >
+                <div
+                  style={
+                    Object {
+                      "marginBottom": 6,
+                    }
+                  }
+                >
+                  Copied!
+                </div>
+                <div>
+                  Copy
+                </div>
+              </div>
+            </button>
+          </pre>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Prop Types
+          </h1>
+          <div>
+            <h2
+              style={
+                Object {
+                  "margin": "20px 0 0 0",
+                }
+              }
+            >
+              "
+              MemberVisitPinForgot
+              " Component
+            </h2>
+            <table
+              className="css-1ytzlk7"
+            >
+              <thead>
+                <tr>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    property
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    propType
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    required
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    default
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    onPinReminderSent
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Member.Session Set PIN 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "position": "relative",
+        "zIndex": 0,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "maxWidth": "280px",
+          "textAlign": "center",
+        }
+      }
+    >
+      <div
+        className="member-visit-pin"
+      >
+        <h3>
+          Set your own PIN:
+        </h3>
+        <form
+          className="ui form"
+          onSubmit={[Function]}
+        >
+          <div
+            className="field"
+          >
+            <label
+              htmlFor="pin1"
+            >
+              Enter a 4 digit pin
+            </label>
+            <div
+              className="ui input"
+              inputMode="numeric"
+              style={
+                Object {
+                  "fontSize": "20px",
+                  "margin": "10px 0",
+                  "textAlign": "center",
+                  "width": "80%",
+                }
+              }
+            >
+              <input
+                id="pin1"
+                maxLength="4"
+                name="pin1"
+                onChange={[Function]}
+                pattern="[0-9]{4}"
+                type="tel"
+              />
+            </div>
+          </div>
+          <div
+            className="field"
+          >
+            <label
+              htmlFor="pin2"
+            >
+              Confirm Your Pin
+            </label>
+            <div
+              className="ui input"
+              inputMode="numeric"
+              style={
+                Object {
+                  "fontSize": "20px",
+                  "margin": "10px 0",
+                  "textAlign": "center",
+                  "width": "80%",
+                }
+              }
+            >
+              <input
+                id="pin2"
+                maxLength="4"
+                name="pin2"
+                onChange={[Function]}
+                pattern="[0-9]{4}"
+                type="tel"
+              />
+            </div>
+          </div>
+          <button
+            className="ui disabled button"
+            disabled={true}
+            id="setPIN"
+            onClick={[Function]}
+            role="button"
+            tabIndex={-1}
+            type="submit"
+          >
+            Set Pin
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <button
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "#28c",
+        "border": "none",
+        "borderRadius": "0 0 0 5px",
+        "color": "#fff",
+        "cursor": "pointer",
+        "display": "block",
+        "fontFamily": "sans-serif",
+        "fontSize": "12px",
+        "padding": "5px 15px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+      }
+    }
+    type="button"
+  >
+    Show Info
+  </button>
+  <div
+    style={
+      Object {
+        "background": "white",
+        "bottom": 0,
+        "display": "none",
+        "left": 0,
+        "overflow": "auto",
+        "padding": "0 40px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+        "zIndex": 99999,
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#28c",
+          "border": "none",
+          "borderRadius": "0 0 0 5px",
+          "color": "#fff",
+          "cursor": "pointer",
+          "display": "block",
+          "fontFamily": "sans-serif",
+          "fontSize": "12px",
+          "padding": "5px 15px",
+          "position": "fixed",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      type="button"
+    >
+      ×
+    </button>
+    <div>
+      <div
+        style={
+          Object {
+            "WebkitFontSmoothing": "antialiased",
+            "backgroundColor": "#fff",
+            "border": "1px solid #eee",
+            "borderRadius": "2px",
+            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
+            "color": "#444",
+            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+            "fontSize": "15px",
+            "fontWeight": 300,
+            "lineHeight": 1.45,
+            "marginBottom": "20px",
+            "marginTop": "20px",
+            "padding": "20px 40px 40px",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "borderBottom": "1px solid #eee",
+              "marginBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <h1
+            style={
+              Object {
+                "fontSize": "35px",
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            Member.Session
+          </h1>
+          <h2
+            style={
+              Object {
+                "fontSize": "22px",
+                "fontWeight": 400,
+                "margin": "0 0 10px 0",
+                "padding": 0,
+              }
+            }
+          >
+            Set PIN
+          </h2>
+        </div>
+        <div
+          style={
+            Object {
+              "marginBottom": 0,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "WebkitFontSmoothing": "antialiased",
+                "color": "#444",
+                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+                "fontSize": "15px",
+              }
+            }
+          >
+            PIN Set
+          </div>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Story Source
+          </h1>
+          <pre
+            className="css-4akams"
+          >
+            <div>
+              <div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    div
+                  </span>
+                  <span>
+                    <span>
+                       
+                      <span
+                        style={Object {}}
+                      >
+                        style
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
+                                }
+                              }
+                            >
+                              {
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#666",
+                                  }
+                                }
+                              >
+                                maxWidth
+                              </span>
+                              : 
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#22a",
+                                    "wordBreak": "break-word",
+                                  }
+                                }
+                              >
+                                "
+                                280px
+                                "
+                              </span>
+                              , 
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#666",
+                                  }
+                                }
+                              >
+                                textAlign
+                              </span>
+                              : 
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#22a",
+                                    "wordBreak": "break-word",
+                                  }
+                                }
+                              >
+                                "
+                                center
+                                "
+                              </span>
+                              }
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                      
+                    </span>
+                  </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    MemberVisitPinSet
+                  </span>
+                  <span>
+                    <span>
+                       
+                      <span
+                        style={Object {}}
+                      >
+                        loading
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
+                                }
+                              }
+                            >
+                              false
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                       
+                      <span
+                        style={Object {}}
+                      >
+                        setPin
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          <span>
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              setPin()
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                       
+                    </span>
+                  </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    /&gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;/
+                    div
+                    &gt;
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              className="css-gydez8"
+              onClick={[Function]}
+            >
+              <div
+                className="css-kv47nt"
+              >
+                <div
+                  style={
+                    Object {
+                      "marginBottom": 6,
+                    }
+                  }
+                >
+                  Copied!
+                </div>
+                <div>
+                  Copy
+                </div>
+              </div>
+            </button>
+          </pre>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Prop Types
+          </h1>
+          <div>
+            <h2
+              style={
+                Object {
+                  "margin": "20px 0 0 0",
+                }
+              }
+            >
+              "
+              MemberVisitPinSet
+              " Component
+            </h2>
+            <table
+              className="css-1ytzlk7"
+            >
+              <thead>
+                <tr>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    property
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    propType
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    required
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    default
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    setPin
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Member.Session Sign in 1`] = `
 <div>
   <div
     style={
@@ -9418,7 +10563,7 @@ exports[`Storyshots Member.Session Attend 1`] = `
               }
             }
           >
-            Attend
+            Sign in
           </h2>
         </div>
         <div
@@ -10402,567 +11547,6 @@ exports[`Storyshots Member.Session Attend 1`] = `
                     className="css-1ygfcef"
                   >
                     setPinSuccess
-                  </td>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    <span />
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    yes
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  >
-                    -
-                  </td>
-                  <td
-                    className="css-d52hbj"
-                  />
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Storyshots Member.Session.ForgotPin Attend 1`] = `
-<div>
-  <div
-    style={
-      Object {
-        "position": "relative",
-        "zIndex": 0,
-      }
-    }
-  >
-    <div
-      style={
-        Object {
-          "maxWidth": "280px",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "textAlign": "center",
-          }
-        }
-      >
-        <h3>
-          Select best way to send your PIN reminder:
-        </h3>
-        <form
-          className="ui form"
-          onSubmit={[Function]}
-        >
-          <div>
-            <button
-              className="ui green icon left labeled button"
-              name="email"
-              onClick={[Function]}
-              role="button"
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="check icon"
-              />
-              Email
-            </button>
-          </div>
-          <div>
-            <button
-              className="ui grey icon disabled left labeled button"
-              disabled={true}
-              name="sms"
-              onClick={[Function]}
-              role="button"
-              tabIndex={-1}
-              type="button"
-            >
-              <i
-                aria-hidden="true"
-                className="mobile icon"
-              />
-              SMS
-            </button>
-          </div>
-          <div
-            className="field"
-          >
-            <input
-              checked={true}
-              hidden={true}
-              name="email"
-              onChange={[Function]}
-              type="radio"
-            />
-            <input
-              checked={false}
-              hidden={true}
-              name="sms"
-              onChange={[Function]}
-              type="radio"
-            />
-            <div
-              className="ui input"
-            >
-              <input
-                name="email"
-                onChange={[Function]}
-                placeholder="Enter your email address"
-                type="text"
-              />
-            </div>
-          </div>
-          <button
-            className="ui button"
-            onClick={[Function]}
-            role="button"
-            type="submit"
-          >
-            Send
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <button
-    onClick={[Function]}
-    style={
-      Object {
-        "background": "#28c",
-        "border": "none",
-        "borderRadius": "0 0 0 5px",
-        "color": "#fff",
-        "cursor": "pointer",
-        "display": "block",
-        "fontFamily": "sans-serif",
-        "fontSize": "12px",
-        "padding": "5px 15px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-      }
-    }
-    type="button"
-  >
-    Show Info
-  </button>
-  <div
-    style={
-      Object {
-        "background": "white",
-        "bottom": 0,
-        "display": "none",
-        "left": 0,
-        "overflow": "auto",
-        "padding": "0 40px",
-        "position": "fixed",
-        "right": 0,
-        "top": 0,
-        "zIndex": 99999,
-      }
-    }
-  >
-    <button
-      onClick={[Function]}
-      style={
-        Object {
-          "background": "#28c",
-          "border": "none",
-          "borderRadius": "0 0 0 5px",
-          "color": "#fff",
-          "cursor": "pointer",
-          "display": "block",
-          "fontFamily": "sans-serif",
-          "fontSize": "12px",
-          "padding": "5px 15px",
-          "position": "fixed",
-          "right": 0,
-          "top": 0,
-        }
-      }
-      type="button"
-    >
-      ×
-    </button>
-    <div>
-      <div
-        style={
-          Object {
-            "WebkitFontSmoothing": "antialiased",
-            "backgroundColor": "#fff",
-            "border": "1px solid #eee",
-            "borderRadius": "2px",
-            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
-            "color": "#444",
-            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-            "fontSize": "15px",
-            "fontWeight": 300,
-            "lineHeight": 1.45,
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "padding": "20px 40px 40px",
-          }
-        }
-      >
-        <div
-          style={
-            Object {
-              "borderBottom": "1px solid #eee",
-              "marginBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <h1
-            style={
-              Object {
-                "fontSize": "35px",
-                "margin": 0,
-                "padding": 0,
-              }
-            }
-          >
-            Member.Session.ForgotPin
-          </h1>
-          <h2
-            style={
-              Object {
-                "fontSize": "22px",
-                "fontWeight": 400,
-                "margin": "0 0 10px 0",
-                "padding": 0,
-              }
-            }
-          >
-            Attend
-          </h2>
-        </div>
-        <div
-          style={
-            Object {
-              "marginBottom": 0,
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "WebkitFontSmoothing": "antialiased",
-                "color": "#444",
-                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
-                "fontSize": "15px",
-              }
-            }
-          >
-            Here/Absent
-          </div>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Story Source
-          </h1>
-          <pre
-            className="css-4akams"
-          >
-            <div>
-              <div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 18,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;
-                    div
-                  </span>
-                  <span>
-                    <span>
-                       
-                      <span
-                        style={Object {}}
-                      >
-                        style
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
-                              }
-                            >
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
-                                }
-                              >
-                                maxWidth
-                              </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
-                                }
-                              >
-                                "
-                                280px
-                                "
-                              </span>
-                              }
-                            </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
-                      
-                    </span>
-                  </span>
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &gt;
-                  </span>
-                </div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 33,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;
-                    MemberVisitPinForgot
-                  </span>
-                  <span>
-                    <span>
-                       
-                      <span
-                        style={Object {}}
-                      >
-                        onPinReminderSent
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
-                              }
-                            >
-                              sent PIN reminder()
-                            </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                       
-                      <span
-                        style={Object {}}
-                      >
-                        forgotPin
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
-                              }
-                            >
-                              forgotten PIN()
-                            </span>
-                            }
-                          </span>
-                        </span>
-                      </span>
-                       
-                    </span>
-                  </span>
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    /&gt;
-                  </span>
-                </div>
-                <div
-                  style={
-                    Object {
-                      "paddingLeft": 18,
-                      "paddingRight": 3,
-                    }
-                  }
-                >
-                  <span
-                    style={
-                      Object {
-                        "color": "#777",
-                      }
-                    }
-                  >
-                    &lt;/
-                    div
-                    &gt;
-                  </span>
-                </div>
-              </div>
-            </div>
-            <button
-              className="css-gydez8"
-              onClick={[Function]}
-            >
-              <div
-                className="css-kv47nt"
-              >
-                <div
-                  style={
-                    Object {
-                      "marginBottom": 6,
-                    }
-                  }
-                >
-                  Copied!
-                </div>
-                <div>
-                  Copy
-                </div>
-              </div>
-            </button>
-          </pre>
-        </div>
-        <div>
-          <h1
-            style={
-              Object {
-                "borderBottom": "1px solid #EEE",
-                "fontSize": "25px",
-                "margin": "20px 0 0 0",
-                "padding": "0 0 5px 0",
-              }
-            }
-          >
-            Prop Types
-          </h1>
-          <div>
-            <h2
-              style={
-                Object {
-                  "margin": "20px 0 0 0",
-                }
-              }
-            >
-              "
-              MemberVisitPinForgot
-              " Component
-            </h2>
-            <table
-              className="css-1ytzlk7"
-            >
-              <thead>
-                <tr>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    property
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    propType
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    required
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    default
-                  </th>
-                  <th
-                    className="css-d52hbj"
-                  >
-                    description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td
-                    className="css-1ygfcef"
-                  >
-                    onPinReminderSent
                   </td>
                   <td
                     className="css-1ygfcef"
