@@ -14,7 +14,7 @@ export default withTracker((props) => {
   const id = props.match.params.id
   const member = Members.findOne(id)
 
-  const memberHasOwnPin = (() => member && member.pin != undefined)()
+  const memberHasOwnPin = (() => member && member.pin)()
 
   function recordVisit({ duration }) {
     if (!member.isHere) {
@@ -40,14 +40,12 @@ export default withTracker((props) => {
   function setPin(pin) {
     debug('setting custom pin: ', pin)
     Meteor.call('members.setPin', member._id, pin)
-    // setPinSuccess.set(true)
     validPin.set(true)
   }
   
   function changeAvatar(avatar){
     debug('changing avatar', avatar)
     Meteor.call('members.changeAvatar', member._id, avatar)
-    // setPinSuccess.set(true)
   }
   
   function clearPin() {

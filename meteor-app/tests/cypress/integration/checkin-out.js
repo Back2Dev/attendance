@@ -25,9 +25,9 @@ describe('Checking in', function() {
       .type(pin)
     cy.get("#setPIN")
       .click()
-// Enter the PIN
-    cy.get('input#pin')
-      .type(pin)
+// // Enter the PIN
+//     cy.get('input#pin')
+//       .type(pin)
     cy.get("#signIn")
       .click()
   })
