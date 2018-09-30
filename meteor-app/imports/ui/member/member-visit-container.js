@@ -40,7 +40,8 @@ export default withTracker((props) => {
   function setPin(pin) {
     debug('setting custom pin: ', pin)
     Meteor.call('members.setPin', member._id, pin)
-    setPinSuccess.set(true)
+    // setPinSuccess.set(true)
+    validPin.set(true)
   }
   
   function changeAvatar(avatar){
