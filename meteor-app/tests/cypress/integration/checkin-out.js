@@ -1,8 +1,9 @@
 
-describe('Checkin', function() {
+describe('Setup', function() {
   beforeEach(function(){
     cy.visit('/')
     loadFixtures()
+    rmPin('Dorothea Kovacek')
   })
 })
 
@@ -14,6 +15,8 @@ describe('Checking in', function() {
     loadFixtures()
   })
   it('Allows checkin', function() {
+
+    rmPin('Dorothea Kovacek')
     cy.contains('Dorothea Kovacek')
       .click()
 // Create a PIN for the user
