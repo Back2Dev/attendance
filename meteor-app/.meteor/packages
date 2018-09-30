@@ -27,14 +27,14 @@ practicalmeteor:mocha
 xolvio:cleaner
 practicalmeteor:chai
 session@1.1.7
-dynamic-import@0.4.0
+dynamic-import@0.4.2
 babel-compiler@7.1.1
 meteortesting:mocha
 force-ssl@1.1.0
 dburles:factory
 random@1.1.0
 crosswalk@1.7.1
-email
+email@1.2.3
 grove:call-async
 momentjs:moment
 mikkelking:mongo-counter
