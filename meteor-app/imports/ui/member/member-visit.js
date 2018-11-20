@@ -69,7 +69,7 @@ class MemberVisit extends React.Component {
         <Grid.Column>
 
           <Modal basic open={this.state.showAlertModal}>
-            <Header icon='key' content='Looks like you havnt set a PIN yet.' />
+            <Header icon='key' content='Looks like you have not set a PIN yet.' />
             <Modal.Content>
               <p>
                 Please set a PIN for managing your profile.
@@ -79,7 +79,7 @@ class MemberVisit extends React.Component {
               <Button basic color='red' inverted onClick={this.props.cancelClick}>
                 <Icon name='arrow left' /> Cancel
             </Button>
-              <Button color='green' inverted onClick={this.toggleModal}>
+              <Button id="createPIN" color='green' inverted onClick={this.toggleModal}>
                 <Icon name='arrow right' /> Create PIN
             </Button>
             </Modal.Actions>

@@ -77,3 +77,8 @@ global.loadFixtures = () => {
   // cy.fixture('users.json').as('users')
   cy.window().then(win => win.Meteor.call('loadFixtures'))
 }
+
+global.rmPin = (name) => {
+  cy.window().then(win => win.Meteor.call('members.rmPin',name))
+}
+

@@ -33,6 +33,9 @@ Next
 * Renamed Assessment collection to be plural (as per convention), => Assessments
 * Changed customer name to show "Refurb" instead of Back2bikes
 * Shrink job listing layout
+* Added Cypress end-2-end testing, streamlined CI script to use npm ci
+* Set PIN doesn't ask for PIN again
+* Add storybook entry for set PIN
 
 
 0.3.0

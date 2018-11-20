@@ -16,11 +16,11 @@ import member from '/imports/test/fake-member'
 
 import MemberVisitPinForgot from './member-visit-pin-forgot'
 
-storiesOf('Member.Session.ForgotPin', module)
+storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Attend', withInfo('Here/Absent')(() => {
+  .add('Forgot PIN', withInfo('Here/Absent')(() => {
     const story = (
       <div style={{maxWidth: '280px'}}>
           <MemberVisitPinForgot
