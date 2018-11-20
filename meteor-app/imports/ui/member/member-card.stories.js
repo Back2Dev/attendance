@@ -14,12 +14,13 @@ import Card from './member-card'
 
 storiesOf('Member.Card', module)
   .addDecorator(withKnobs)
-
   .add('Card', withInfo('Checked in/out')(() => {
     const story = (
       <div><p>Use Knobs to show checked in/out status</p>
         <Card
           {...member}
+          isSuper={boolean('Is Supervisor', false)}
+          sessionCount={number('Session Count', 4)}
           onCardClick={action('onCardClick')}
         />
       </div>

@@ -1,0 +1,45 @@
+{
+  "_id": "string",
+  "customerDetails": {
+    "name": "string",
+    "phone": "string",
+    "email": "string"
+  },
+  "bikeDetails": {
+    "make": "string",
+    "model": "string",
+    "color": "string",
+    "bikeValue": "integer",
+    "sentimentValue": "boolean"
+  },
+  "serviceTask": {
+    "serviceItem": [
+      {
+        "name": "string",
+        "description": "string",
+        "price": "integer",
+        "selection": "boolean"
+      }],
+    "totalServiceCost": "integer"
+  },
+  "replacementParts": {
+    "partsItem": [
+      {
+        "name": "string",
+        "price": "integer",
+        "selection": "boolean"
+      }],
+    "totalPartsCost": "integer"
+  },
+  "additionalFee": "integer",
+  "totalCost": "integer",
+  "dropoffDate": "date",
+  "pickupDate": "date",
+  "urgent": "boolean",
+  "assessor": "string",
+  "mechanic": "string",
+  "comment": "string",
+  "temporaryBike": "boolean",
+  "status": "string",
+  "search": "string"
+}

@@ -1,0 +1,486 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Bike Assessment API",
+    "description": "Bike Assessment API",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Coder Academy",
+      "url": "https://coderacademy.edu.au/"
+    }
+  },
+  "license": {
+    "name": "",
+    "url": ""
+  },
+  "basePath": "/api",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+
+  },
+  "paths": {
+    "/assessment": {
+      "post": {
+        "summary": "Submitting assessment form",
+        "description": "Submitting assessment form",
+        "tags": [
+          "Assessment Form"
+        ],
+        "operationId": "SubmitForm",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Details of bike repair assessment",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/SubmitFormRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SubmitFormResponse"
+            }
+          },
+          "422": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/GenericErrorModel"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve job cart",
+        "description": "Retrieve job cart",
+        "tags": [
+          "Job Cart"
+        ],
+        "operationId": "GetJobCart",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetJobCart"
+            }
+          },
+          "422": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/GenericErrorModel"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update job cart",
+        "description": "Retrieve job cart",
+        "tags": [
+          "Job Cart"
+        ],
+        "operationId": "UpdateJobCart",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Details of job cart",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/UpdateJobCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetJobCart"
+            }
+          },
+          "422": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/GenericErrorModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CustomerDetails": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        
+      ]
+    },
+    "BikeDetails": {
+      "type": "object",
+      "properties": {
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "bikeValue": {
+          "type": "integer"
+        },
+        "sentimentValue": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "make",
+        "color",
+        "bikeValue"
+      ]
+    },
+    "ServiceItems": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "selection": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "price",
+        "selection"
+      ]
+    },
+    "PartsItems": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "selection": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "price",
+        "selection"
+      ]
+    },
+    "ServiceTask": {
+      "type": "object",
+      "properties": {
+        "serviceItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceItems"
+          }
+        },
+        "totalServiceCost": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "serviceItem",
+        "totalServiceCost"
+      ]
+    },
+    "ReplacementParts": {
+      "type": "object",
+      "properties": {
+        "partsItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartsItems"
+          }
+        },
+        "totalPartsCost": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "partsItem",
+        "totalPartsCost"
+      ]
+    },
+    "SubmitFormResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "customerDetails": {
+          "$ref": "#/definitions/CustomerDetails"
+        },
+        "bikeDetails": {
+          "$ref": "#/definitions/BikeDetails"
+        },
+        "serviceTask": {
+          "$ref": "#/definitions/ServiceTask"
+        },
+        "replacementParts": {
+          "$ref": "#/definitions/ReplacementParts"
+        },
+        "additionalFee": {
+          "type": "integer"
+        },
+        "totalCost": {
+          "type": "integer"
+        },
+        "dropoffDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "pickupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "urgent": {
+          "type": "boolean"
+        },
+        "assessorName": {
+          "type": "string"
+        },
+        "mechanicName": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "temporaryBike": {
+          "type": "boolean"
+        },
+        "repairStatus": {
+          "type": "string"
+        },
+        "search": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "customerDetails",
+        "bikeDetails",
+        "serviceTask",
+        "replacementParts",
+        "totalCost",
+        "dropoffDate",
+        "pickupDate",
+        "assessorName",
+        "temporaryBike",
+        "repairStatus",
+        "search"
+      ]
+    },
+    "SubmitFormRequest": {
+      "type": "object",
+      "properties": {
+        "customerDetails": {
+          "$ref": "#/definitions/CustomerDetails"
+        },
+        "bikeDetails": {
+          "$ref": "#/definitions/BikeDetails"
+        },
+        "serviceTask": {
+          "$ref": "#/definitions/ServiceTask"
+        },
+        "replacementParts": {
+          "$ref": "#/definitions/ReplacementParts"
+        },
+        "additionalFee": {
+          "type": "integer"
+        },
+        "totalCost": {
+          "type": "integer"
+        },
+        "dropoffDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "pickupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "urgent": {
+          "type": "boolean"
+        },
+        "assessorName": {
+          "type": "string"
+        },
+        "mechanicName": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "temporaryBike": {
+          "type": "boolean"
+        },
+        "repairStatus": {
+          "type": "string"
+        },
+        "search": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "customerDetails",
+        "bikeDetails",
+        "serviceTask",
+        "replacementParts",
+        "totalCost",
+        "dropoffDate",
+        "pickupDate",
+        "assessorName",
+        "temporaryBike",
+        "repairStatus",
+        "search"
+      ]
+    },
+    "GetJobCart": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "bikeDetails": {
+          "$ref": "#/definitions/BikeDetails"
+        },
+        "serviceTask": {
+          "$ref": "#/definitions/ServiceTask"
+        },
+        "replacementParts": {
+          "$ref": "#/definitions/ReplacementParts"
+        },
+        "additionalFee": {
+          "type": "integer"
+        },
+        "totalCost": {
+          "type": "integer"
+        },
+        "pickupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "urgent": {
+          "type": "string"
+        },
+        "mechanicName": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "repairStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bikeDetails",
+        "serviceTask",
+        "replacementParts",
+        "totalCost",
+        "pickupDate",
+        "temporaryBike",
+        "repairStatus",
+        "urgent"
+      ]
+    },
+    "UpdateJobCart": {
+      "type": "object",
+      "properties": {
+        "bikeDetails": {
+          "$ref": "#/definitions/BikeDetails"
+        },
+        "serviceTask": {
+          "$ref": "#/definitions/ServiceTask"
+        },
+        "replacementParts": {
+          "$ref": "#/definitions/ReplacementParts"
+        },
+        "additionalFee": {
+          "type": "integer"
+        },
+        "totalCost": {
+          "type": "integer"
+        },
+        "pickupDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "urgent": {
+          "type": "string"
+        },
+        "mechanicName": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "repairStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "GenericErrorModel": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "body"
+          ]
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    }
+  }
+}

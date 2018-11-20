@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Input } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
+import './member-search.css'
 
 const Search = props => {
   return (
-    <Grid centered>
       <Input
-        placeholder='Search for yourself here'
+        className='member-search'
+        placeholder='Search Volunteers'
         onChange={props.onSearchInput}
+        value={props.searchQuery}
         icon={'search'}
-        size='huge'
-        style={{padding: '20px 0', width: '400px'}}
       />
-    </Grid>
   );
 }
 
 Search.propTypes = {
   onSearchInput: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
 }
 
 export default Search

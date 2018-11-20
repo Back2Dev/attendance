@@ -1,11 +1,23 @@
 {
-  "presets": [
-    "es2015",
-    "es2016",
-    "react",
-    "stage-1"
-  ],
-  "plugins": [
-    "babel-plugin-root-import"
-  ]
+  "env": {
+    "test": {
+      "presets": [
+        "env",
+        "react",
+        "stage-1"
+      ],
+      "plugins": [
+        [
+          "babel-plugin-root-import",
+          {
+            "paths": [
+              {
+                "rootPathPrefix": "/"
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  }
 }

@@ -41,6 +41,7 @@ storiesOf('Member.Add', module)
           nextStep={() => move(1)}
           onSubmit={action("submit")}
           totalSteps={4}
+          resetId={action("resetId")}
         />
       </div>
     )

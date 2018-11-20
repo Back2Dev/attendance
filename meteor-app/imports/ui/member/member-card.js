@@ -5,40 +5,43 @@ import { humaniseDate } from '/imports/helpers/dates'
 import '/imports/ui/member/member-card.css'
 
 const MemberCard = (props) => {
-  const { _id, name, avatar, isHere, sessions = [], lastIn = null } = props
-  const sessionsNum = sessions.length
-
-  const newbie = sessionsNum <= 5
+  const { _id, name, avatar, isSuper, isHere, sessionCount, sessions = [], lastIn = null } = props
+  const newbie = sessionCount <= 5
 
   return (
     <Card
+      style={{ textAlign: 'center' }}
+      className={props.className}
       key={_id}
-      style={{ width: '200px' }}
-      onClick={() => props.onCardClick(_id)}
     >
-      <Image src={"/images/avatars/" + avatar} />
+      <Image
+        src={"/images/avatars/" + avatar}
+        label={isSuper ? { color: 'yellow', icon: 'star', ribbon: true } : null}
+      />
       <Card.Content>
-        <Card.Header>
+        <Card.Header >
           {name}
-          <Card.Content>
-
+        </Card.Header>
+        <Card.Content>
+          <div style={{
+            padding: '10px 0',
+          }}>
+            <Label color={newbie ? 'green' : isSuper ? 'yellow' : 'blue'}>
+              <Icon name='trophy' />
+              {sessionCount}
+            </Label>
             {
               newbie &&
-              <div>
-                <Label color='green'>
-                  <Icon name='star' />
-                  {sessionsNum}
-                </Label>
-                <Label color='green'>
-                  Newbie
+              <Label color='green'>
+                Newbie
               </Label>
-              </div>
             }
-
+          </div>
+          <div>
             {props.children}
+          </div>
 
-          </Card.Content>
-        </Card.Header>
+        </Card.Content>
       </Card.Content>
       <Card.Content extra>
         {
@@ -53,13 +56,14 @@ const MemberCard = (props) => {
 }
 
 MemberCard.propTypes = {
+  className: PropTypes.string,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   isHere: PropTypes.bool.isRequired,
   sessions: PropTypes.array.isRequired,
   lastIn: PropTypes.object,
-  onCardClick: PropTypes.func.isRequired,
+  sessionCount: PropTypes.number.isRequired,
 };
 
 export default MemberCard

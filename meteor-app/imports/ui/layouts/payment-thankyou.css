@@ -1,0 +1,17 @@
+.payment-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+h1 {
+  font-size: 5em;
+  font-weight: 900;
+  text-align: center;
+}
+
+.green-tick-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

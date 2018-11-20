@@ -1,0 +1,26 @@
+.menunavbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(34, 36, 38, .15);
+    box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
+}
+
+.navbarlogo {
+    width: 80px;
+    height: 80px;
+    margin: 0 20px;
+}
+
+.menu-buttons {
+    align-self: center;
+    display: flex;
+}
+
+.navbutton {
+    margin-right: 20px !important;
+}
+
+

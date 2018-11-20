@@ -1,0 +1,26 @@
+.review {
+  margin-bottom: 30px !important;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .section-to-print, .section-to-print * {
+    visibility: visible;
+  }
+  .section-to-print {
+    position: absolute;
+    max-width: 80%;
+    top: 0;
+    left: 40px;
+    right: 40px;
+
+  }
+  .noPrint{
+    visibility: hidden;
+    display: none;
+    color: #FFF;
+  }
+  
+}

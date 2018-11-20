@@ -30,6 +30,16 @@ class MemberAdd extends Component {
     }
   }
 
+componentDidMount(){
+  if(this.props.member){
+    this.setState({
+      formData: {...this.props.member},
+      step: 4,
+      progress: 4,
+    })
+  }
+}
+
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
 
@@ -47,11 +57,15 @@ class MemberAdd extends Component {
     }
   }
 
-  onSubmit = ({ formData }) => {
+  componentWillUnmount() {
+    // prevents id from persisting between adding users
+      this.props.resetId()
+  }
 
+  onSubmit = ({ formData }) => {
     const finalStep = schemas.length == this.state.step
     if (finalStep) {
-      this.props.addMember(this.state.formData)
+      this.props.setMember(this.state.formData)
       return
     }
     this.setState((prevState, props) => {
@@ -78,16 +92,29 @@ class MemberAdd extends Component {
       })
     }
   }
-
+  validate = (formData, errors) => {
+    if(this.props.member != null){
+      return true
+    }
+    if (formData.pin && formData.pin.length < 4) {
+      errors.pin.addError("PIN number must be at least 4 digits long.");
+    }
+    if (formData.pin !== formData.pinConfirm) {
+      errors.pinConfirm.addError("PIN numbers don't match");
+    }
+    return errors;
+  }
   renderForm = () => {
     return <Form
       schema={schemas[this.state.step].schema}
       uiSchema={schemas[this.state.step].uiSchema}
       formData={this.state.formData}
-      onChange={this.onChange}
       onSubmit={this.onSubmit}
+      validate={this.validate}
       widgets={widgets}
       fields={fields}
+      showErrorList={false} 
+      liveValidate={true}
     >
       <Control
         backStep={this.backStep}
@@ -141,7 +168,8 @@ class MemberAdd extends Component {
 }
 
 MemberAdd.propTypes = {
-  addMember: PropTypes.func.isRequired,
+  setMember: PropTypes.func.isRequired,
+  resetId: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,

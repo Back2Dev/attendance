@@ -6,17 +6,24 @@ import { Meteor } from 'meteor/meteor';
 import faker from 'faker';
 import { Factory } from 'meteor/dburles:factory';
 import { Random } from 'meteor/random';
-import _ from 'lodash';
 
+import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
+import Orders from '/imports/api/orders/schema'
+import Parts from '/imports/api/parts/schema'
+import { RegExId } from '/imports/api/schema'
 
+import Assessments from '/imports/api/assessments/assessments'
+import Services from '/imports/api/assessments/services'
+import ServiceItems from '/imports/api/assessments/serviceItems'
+import Logger from '/imports/api/assessments/logger'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
-// TODO - the rest of these
+  // TODO - the rest of these
   // isHere: true,
   // avatar: '7.jpg',
   // sessions:
@@ -51,6 +58,105 @@ Factory.define('session', Sessions, {
   timeIn: new Date(),
   timeOut: new Date(),
   duration: faker.random.number(6),
+})
+
+Factory.define('order', Orders, {
+  status: CONSTANTS.ORDER_STATUS_NEW,
+  orderedParts: [{
+    name: '700c hybrid Wheel ME, eyeletted',
+    price: 5000,
+    qty: 1,
+    partId: 'frame',
+    partNo: 'sadasd',
+    addedAt: new Date(),
+    userId: '2ueueoaje',
+  }],
+  totalPrice: 9900,   // This is in cents
+})
+
+Factory.define('assessment', Assessments, {
+  customerDetails: {
+    name: faker.name.findName(),
+    phone: faker.phone.phoneNumber(),
+    email: faker.internet.email(),
+    isRefurbish: faker.random.boolean(),
+  },
+  bikeDetails: {
+    make: faker.commerce.productName(),
+    model: 'TX-1234',
+    color: faker.commerce.color(),
+    bikeValue: Math.round(faker.finance.amount()),
+    sentimentValue: faker.random.boolean(),
+  },
+  services: {
+    serviceItem: [
+      {
+        name: 'Fix tyre',
+        price: 5000,
+      },
+      {
+        name: 'Fix handle bar',
+        price: 3000,
+      }
+    ],
+    baseService: 'Minor Service',
+    totalServiceCost: 8000,
+  },
+  parts: {
+    partsItem: [
+      {
+        name: 'Handle Bar',
+        price: 2000,
+        code: 'F',
+        category: 'Other',
+        used: false,
+      }
+    ],
+    totalPartsCost: 2000,
+  },
+  additionalFees: 1500,
+  totalCost: 11500,
+  jobNo: "R001",
+  dropoffDate: faker.date.future(),
+  pickupDate: faker.date.future(),
+  urgent: faker.random.boolean(),
+  assessor: faker.name.findName(),
+  mechanic: faker.name.findName(),
+  comment: 'Thorough cleaning of the bike is required',
+  temporaryBike: faker.random.boolean(),
+  status: 2,
+  search: faker.name.findName(),
+})
+
+Factory.define('logs', Logger, {
+  user: faker.name.findName(),
+  aId: '34G5785heY6262',
+  status: 1,
+  eventType: 2
+})
+
+Factory.define('parts', ServiceItems, {
+  name: faker.commerce.productName(),
+  price: Math.round(faker.commerce.price() * 100),
+  code: 'F',
+  category: 'Other',
+  used: false
+})
+
+Factory.define('services', Services, {
+  name: faker.commerce.productName(),
+  price: Math.round(faker.commerce.price()),
+  package: 'Minor'
+})
+
+Factory.define('part', Parts, {
+  imageUrl: '/public/images/logo-large.jpg',
+  retailPrice: 6666, // This is in cents
+  wholesalePrice: 3333,
+  partNo: 'pt-123',
+  name: 'carbonfibre frame',
+  barcode: '22413000022413',
+  status: CONSTANTS.ORDER_STATUS_NEW,
 })
 
 export default Factory

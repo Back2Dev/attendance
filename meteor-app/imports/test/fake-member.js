@@ -2,6 +2,7 @@
 const member = {
   _id: "BXghHGE343iuyMN",
   isHere: true,
+  isSuper: true,
   avatar: '7.jpg',
   sessions:
     [{ memberId: 'randomSession' },
@@ -22,6 +23,7 @@ const member = {
   name: 'Orie Kautzer',
   phone: '144-467-2060',
   workStatus: 'Student',
+  sessionCount:5,
   reasons: `My love of bikes started as a child. It was my transport growing up, 
   	I had no money to pay for repairs, so I had to fix it myself. My best bike 
   	was a white Sun 10 speed racer. I saved up for months to buy it. I saved
