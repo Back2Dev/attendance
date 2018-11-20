@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'
@@ -65,6 +65,6 @@ class MemberMain extends React.Component {
 
 
 MemberList.propTypes = {
-};
+}
 
 export default withRouter(MemberMain)

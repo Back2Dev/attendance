@@ -6,7 +6,7 @@ import { Icon, Label, List, Image } from 'semantic-ui-react'
 const MemberCardSmall = (props) => {
   const { _id, avatar, onCardClick, name } = props
   const shortName = (function () {
-    const names = name.split(' ')
+    const names = name ? name.split(' ') : ['Unknown']
     return names[1]
       ? `${names[0]} ${names[1][0]}`
       : `${names[0]}`
