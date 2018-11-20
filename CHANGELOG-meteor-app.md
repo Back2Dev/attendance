@@ -2,6 +2,7 @@
 
 Next 
 ------
+* Added Cypress integration
 * Added SMS send method
 * Added eventLog() method and Events collection
 * Upgraded to npm version of simple-schema and updated collection2 to 3.0
