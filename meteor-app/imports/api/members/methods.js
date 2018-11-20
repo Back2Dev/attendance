@@ -23,9 +23,17 @@ Meteor.methods({
   },
   'members.setPin'(id, pin) {
     try {
-      log.info('setting pin: ', id, pin)
-      // return Members.remove({ _id: id })
+      log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin: pin } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
+  'members.rmPin'(name) {
+    try {
+      log.info('Removing pin: ', name)
+      return Members.update({ name }, { $unset: { pin: true } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)

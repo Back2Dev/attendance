@@ -9,7 +9,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import member from '/imports/test/fake-member'
 
-import MemberVisit from './member-visit'
+import MemberVisitPinSet from './member-visit-pin-set'
 
 const match = {
   params: {
@@ -30,27 +30,13 @@ storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Sign in', withInfo('Here/Absent')(() => {
+  .add('Set PIN', withInfo('PIN Set')(() => {
     const story = (
-      <div>
-      <p>When component is unmounted, the <code>clearPin</code> function should run.</p>
-        {
-          boolean('mounted', true) &&
-          <MemberVisit
-            loading={boolean('Loading', false)}
-            member={updateMember()}
-            recordVisit={action('record visit')}
-            cancelClick={action('cancel')}
-            memberHasOwnPin={true}
-            setPinSuccess={boolean('successfully set pin', false)}
-            clearPin={action('clear pin')}
-            // checkPin={(pin) => action('checking PIN: ' + pin)()}
-            onSubmitPin={(pin) => action('setting custom pin ', pin)()}
-            validPin={false}
-            forgotPin={action('forgotPin')}
-            setPin={action('setPin')}
-          />
-        }
+      <div style={{maxWidth: '280px', textAlign: 'center'}}>
+        <MemberVisitPinSet
+          loading={boolean('Loading', false)}
+          setPin={action('setPin')}
+        />
       </div>
     )
     // specs(() =>

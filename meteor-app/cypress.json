@@ -1,0 +1,10 @@
+{
+  "projectId": "81ebdm",
+  "baseUrl": "http://localhost:3030",
+  "integrationFolder": "tests/cypress/integration",
+  "fixturesFolder": "tests/cypress/fixtures",
+  "pluginsFile": "tests/cypress/plugins/index.js",
+  "screenshotsFolder": "tests/cypress/screenshots",
+  "supportFile": "tests/cypress/support/index.js",
+  "videosFolder": "tests/cypress/videos"
+}

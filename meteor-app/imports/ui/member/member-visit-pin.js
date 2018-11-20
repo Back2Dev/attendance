@@ -67,6 +67,7 @@ class MemberVisitPin extends React.Component {
             error={this.state.pin.length >= 4 && !this.props.validPin}
             ref={this.pinInput}
             name='pinInput'
+            id="pin"
             {...inputSettings}  
             onChange={this.onPinInput}
           />

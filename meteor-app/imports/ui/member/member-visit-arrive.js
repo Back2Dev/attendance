@@ -47,6 +47,7 @@ const MemberVisitArrive = (props) => {
           onClick={props.updateStatus.bind(null, props)}
           positive
           fluid
+          id="signIn"
           size='large'
         >
           {
