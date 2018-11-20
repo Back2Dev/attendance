@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "private": false,
   "scripts": {
-    "debug": "DEBUG=att:* meteor run --inspect --port 3030 ",
+    "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
     "start": "meteor run",
     "lint": "eslint .",
     "ci-app": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.settings.json",
@@ -35,7 +35,7 @@
     "doc": "docs"
   },
   "dependencies": {
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.56",
+    "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/runtime": "^7.1.5",
     "babel-loader": "^8.0.0-beta.0",
     "bcrypt": "^1.0.3",
