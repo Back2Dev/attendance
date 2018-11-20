@@ -1,11 +1,10 @@
 {
   "name": "back2bikes-attendance",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": false,
   "scripts": {
-    "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
-    "start": "meteor run",
     "debug": "DEBUG=att:* meteor run --inspect --port 3030 ",
+    "start": "meteor run",
     "lint": "eslint .",
     "ci-app": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.settings.json",
     "ci-test": "./node_modules/cypress/bin/cypress run",
