@@ -2,6 +2,10 @@
 
 Next 
 ------
+
+
+0.4.0
+------
 * Added Cypress integration
 * Added SMS send method
 * Added eventLog() method and Events collection
