@@ -443,9 +443,6 @@ Meteor.methods({
 
 Meteor.startup(() => {
 
-  // ServiceItems.remove({})
-  // Assessments.remove({}) 
-
   if (Services.find().count() === 0) {
     Meteor.call('seed.services')
   }
