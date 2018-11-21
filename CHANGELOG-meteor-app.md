@@ -2,7 +2,7 @@
 
 Next 
 ------
-
+Fixed instant auto-logout
 
 0.4.0
 ------
