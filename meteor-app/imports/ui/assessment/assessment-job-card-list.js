@@ -101,6 +101,7 @@ class JobCardList extends Component {
                   onSearchChange={this.searchJobs}
                   type='text'
                   size='large'
+                  className='member-search'
                   placeholder='Search'/>
             </Grid.Column>
 

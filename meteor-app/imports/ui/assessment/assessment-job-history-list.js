@@ -100,6 +100,8 @@ class JobHistoryList extends Component {
                   onSearchChange={this.searchJobs}
                   type='text'
                   size='large'
+                  className='member-search'
+                  style={{width: '250px'}}
                   placeholder='Search'/>
             </Grid.Column>
             <Grid.Column computer={3} tablet={4}>
