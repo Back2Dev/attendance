@@ -5,7 +5,7 @@
 var versionService = {
 
   version: function() {
-    return "0.9.0"
+    return "0.10.0"
   }
 
 };
