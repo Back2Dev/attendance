@@ -2,6 +2,10 @@
 
 Next 
 ------
+
+
+0.8.0
+------
 Fixed instant auto-logout
 
 0.4.0
