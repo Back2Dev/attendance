@@ -2,7 +2,8 @@
 
 Next 
 ------
-
+Added special PIN = '----', meaning "I don't want a PIN Number"
+Added supervisor PIN override '1--1'
 
 0.8.0
 ------

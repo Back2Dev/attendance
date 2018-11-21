@@ -41,6 +41,8 @@ class MemberVisit extends React.Component {
     this.setState({
       showAlertModal: !this.state.showAlertModal
     })
+    if (document.getElementById('pin1'))
+      document.getElementById('pin1').focus()
   }
 
   componentWillUnmount() {
@@ -129,10 +131,10 @@ class MemberVisit extends React.Component {
                     <div>
                       <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)}>Edit Your Profile</Button>
                       <MemberVisitArrive
-                      member={this.props.member}
-                      duration={this.state.duration}
-                      setDuration={this.setDuration}
-                      updateStatus={this.updateStatus}
+                        member={this.props.member}
+                        duration={this.state.duration}
+                        setDuration={this.setDuration}
+                        updateStatus={this.updateStatus}
                       />
                     </div>
                   }

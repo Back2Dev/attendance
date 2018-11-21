@@ -29,7 +29,7 @@ class MemberVisitPin extends React.Component {
   componentDidUpdate() {
     const { pin } = this.state
     if (pin.length >= 4) {
-      this.props.onSubmitPin(pin)
+      this.props.onSubmitPin(pin) 
     }
   }
 

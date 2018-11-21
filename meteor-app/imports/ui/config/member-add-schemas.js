@@ -49,7 +49,7 @@ export default [
         addressStreet: { type: "string", title: "Street Address" },
         addressSuburb: { type: "string", title: "Suburb" },
         addressState: { type: "string", title: "State", default: "VIC", enum: ["VIC", "NSW", "SA", "QLD", "NT", "WA", "TAS"] },
-        addressPostcode: { type: "number", title: "Postcode" },
+        addressPostcode: { type: "string", title: "Postcode" },
         phone: { type: "string", title: "Phone number" },
         mobile: { type: "string", title: "Mobile number" },
         pin: { type: "string", title: "PIN number" },
@@ -95,13 +95,13 @@ export default [
       pin: {
         "ui:placeholder": "Enter a PIN number for signing in and out.",
         "ui:options": {
-          inputType: 'password'
+          inputType: 'tel'
         }
       },
       pinConfirm: {
         "ui:placeholder": "Enter the same PIN number again to confirm.",
         "ui:options": {
-          inputType: 'password'
+          inputType: 'tel'
         }
       },
     }

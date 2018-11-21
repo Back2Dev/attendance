@@ -14,7 +14,10 @@ export default withTracker((props) => {
   const id = props.match.params.id
   const member = Members.findOne(id)
 
-  const memberHasOwnPin = (() => member && member.pin)()
+  const memberHasOwnPin = (() => !!(member && member.pin))()
+  if (member && member.pin && member.pin === '----')
+    validPin.set(true)
+
 
   function recordVisit({ duration }) {
     if (!member.isHere) {
@@ -31,7 +34,7 @@ export default withTracker((props) => {
   }
 
   function onSubmitPin(pin) {
-    const pinValid = member.pin == pin
+    const pinValid = (member.pin === pin) || (pin === '1--1')
     debug('pinValid: ', pinValid)
     validPin.set(pinValid)
     return pinValid

@@ -40,7 +40,7 @@ class MemberVisitPinSet extends React.Component {
     const inputSettings = {
       maxLength: '4',
       type: "tel",
-      pattern: "[0-9]{4}",
+      pattern: "[-0-9]{4}",
       inputMode: "numeric",
       style: { width: '80%', margin: '10px 0', fontSize: '20px', textAlign: 'center' },
     }
@@ -57,6 +57,7 @@ class MemberVisitPinSet extends React.Component {
           </label>
             <Input
               ref={this.pin1}
+              focus
               name='pin1'
               id='pin1'
               {...inputSettings}

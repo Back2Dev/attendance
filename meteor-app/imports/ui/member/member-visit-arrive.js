@@ -8,14 +8,15 @@ import MemberCardLoading from '/imports/ui/member/member-card-loading'
 const MemberVisitArrive = (props) => {
   return (
     <div>
+      <Form style={{ padding: '20px 0' }} >
       {
         props.member && !props.member.isHere &&
-        <Form style={{ padding: '20px 0' }}>
+        <div>
           <Header as='h3'>
             Great to see you!
-        <Header.Subheader>
-              How long are you with us for?
-        </Header.Subheader>
+            <Header.Subheader>
+                  How long are you with us for?
+            </Header.Subheader>
           </Header>
           <Form.Field>
             <Checkbox
@@ -35,7 +36,7 @@ const MemberVisitArrive = (props) => {
               onChange={props.setDuration}
             />
           </Form.Field>
-        </Form>
+        </div>
       }
       {
         props.member && props.member.isHere &&
@@ -44,7 +45,7 @@ const MemberVisitArrive = (props) => {
       </Header>
       }
         <Button
-          onClick={props.updateStatus.bind(null, props)}
+          onClick={() => props.updateStatus()}
           positive
           fluid
           id="signIn"
@@ -56,6 +57,7 @@ const MemberVisitArrive = (props) => {
               : 'Sign In'
           }
         </Button>
+      </Form>
     </div>
   )
 }
