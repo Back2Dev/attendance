@@ -25,12 +25,11 @@ const signoutTicker = () => {
     let n = 0
     crew = Members.find({ isHere: true })
     crew.forEach(dude => {
-      const expiredQuery = {
+      const stillHereQuery = {
         memberId: dude._id,
-        timeOut: { $lte: new Date().toISOString() }
+        timeOut: { $gt: new Date() }
       }
-      debug('expiredQuery',expiredQuery)
-          const sessions = Sessions.find(expiredQuery)
+      const sessions = Sessions.find(stillHereQuery).fetch()
       if (!sessions.length) {
 				debug(`Automatically signed out ${dude.name}`)
         n = n + Members.update(dude._id, { $set: { isHere: false }})
@@ -57,8 +56,8 @@ const signoutTicker = () => {
 //                       │ │ │ │ │
 //                       * * * * *
 
-// const TICKER_INTERVAL = '1,16,31,46 * * * *'
-const TICKER_INTERVAL = '* * * * *'
+const TICKER_INTERVAL = '1,16,31,46 * * * *'
+// const TICKER_INTERVAL = '* * * * *'
 
 Meteor.startup(function() {
     cron.schedule(

@@ -20,7 +20,7 @@ Meteor.methods({
         timeOut,
         duration,
       })
-      const session = Sessions.findOne(id);
+      const session = Sessions.findOne(id)
       const sessionCount = Sessions.find({ memberId }).count()
 
       Members.update(
