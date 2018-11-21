@@ -74,7 +74,7 @@ class MemberVisit extends React.Component {
             <Header icon='key' content='Looks like you have not set a PIN yet.' />
             <Modal.Content>
               <p>
-                Please set a PIN for managing your profile.
+                Please set a PIN for managing your profile
             </p>
             </Modal.Content>
             <Modal.Actions>
