@@ -9712,7 +9712,7 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
               Enter a 4 digit pin
             </label>
             <div
-              className="ui input"
+              className="ui focus input"
               inputMode="numeric"
               style={
                 Object {
@@ -9728,7 +9728,7 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                 maxLength="4"
                 name="pin1"
                 onChange={[Function]}
-                pattern="[0-9]{4}"
+                pattern="[-0-9]{4}"
                 type="tel"
               />
             </div>
@@ -9758,7 +9758,7 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                 maxLength="4"
                 name="pin2"
                 onChange={[Function]}
-                pattern="[0-9]{4}"
+                pattern="[-0-9]{4}"
                 type="tel"
               />
             </div>
