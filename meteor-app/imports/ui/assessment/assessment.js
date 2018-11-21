@@ -10,7 +10,7 @@ import Alert from 'react-s-alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 
-const debug = require('debug')('att:addassessment')
+const debug = require('debug')('b2b:addassessment')
 
 export default withTracker(props => {
   const success = new ReactiveVar(false);

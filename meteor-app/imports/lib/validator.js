@@ -12,7 +12,7 @@ import Sessions, { SessionsSchema } from '/imports/api/sessions/sessions'
 import Events, { EventsSchema } from '/imports/api/events'
 // import { checkSuperAdmin } from '/imports/api/util-auth'
 
-const debug = _debug('att:validator')
+const debug = _debug('b2b:validator')
 
 const collectionSchemaMap = {
   members: {

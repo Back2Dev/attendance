@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-const debug = require('debug')('att:visit')
+const debug = require('debug')('b2b:visit')
 import { ReactiveVar } from 'meteor/reactive-var'
 import MemberDash from '/imports/ui/member/member-dash'
 import Members from '/imports/api/members/members'

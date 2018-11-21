@@ -4,7 +4,7 @@ import { Button, Container } from "semantic-ui-react";
 import Alert from "react-s-alert";
 import UploadXL from "/imports/ui/ordering/uploadXL";
 
-const debug = require("debug")("att:admin");
+const debug = require("debug")("b2b:admin");
 
 class AppSelection extends Component {
   constructor(props) {

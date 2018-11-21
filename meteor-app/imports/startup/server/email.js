@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
-const debug = require('debug')('att:email')
+const debug = require('debug')('b2b:email')
 import { eventLog } from '/imports/api/events'
 import log from '/imports/lib/log'
 

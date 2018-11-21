@@ -2,7 +2,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import MemberAdd from "/imports/ui/member/member-add";
 import { ReactiveVar } from "meteor/reactive-var";
 import isIframe from "/imports/helpers/isIframe";
-const debug = require('debug')('att:addmember')
+const debug = require('debug')('b2b:addmember')
 import Alert from 'react-s-alert';
 
 const success = new ReactiveVar(false);

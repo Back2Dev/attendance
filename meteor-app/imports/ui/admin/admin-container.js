@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Alert from 'react-s-alert';
-const debug = require('debug')('att:admin')
+const debug = require('debug')('b2b:admin')
 import { escapeRegExp } from 'lodash'
 
 import Admin from "/imports/ui/admin/admin";

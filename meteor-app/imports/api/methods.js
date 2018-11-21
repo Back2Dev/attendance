@@ -5,7 +5,7 @@ import moment from 'moment'
 import Members from '/imports/api/members/members'
 import Sessions from '/imports/api/sessions/sessions'
 import log from '/imports/lib/server/log'
-const debug = require('debug')('att:server-methods')
+const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
   'arrive'(memberId, duration) {
@@ -32,7 +32,7 @@ Meteor.methods({
           },
           $push: { sessions: session },
         })
-    debug('member arrive update', id, session, sessionCount, memberId, duration)
+    debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
 
     } catch (error) {
       log.error({ error })

@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 // import plivo from 'plivo'
 import querystring from 'querystring'
 import fetch from 'node-fetch'
-const debug = require('debug')('att:sms')
+const debug = require('debug')('b2b:sms')
 
 import { eventLog } from '/imports/api/events'
 import log from '/imports/lib/log'

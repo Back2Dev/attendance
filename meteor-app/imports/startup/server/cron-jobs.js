@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
 
 const cron = require('node-cron')
-const debug = require('debug')('att:cron')
+const debug = require('debug')('b2b:cron')
 
 import log from '/imports/lib/log'
 import Members from '/imports/api/members/members'
@@ -19,16 +19,18 @@ Meteor.methods({
 
 const signoutTicker = () => {
   const hour = moment().hour()
-  debug("Tick "+hour)
+  debug(`Tick ${hour}:00`)
 
   try {
     let n = 0
     crew = Members.find({ isHere: true })
     crew.forEach(dude => {
-			const sessions = Sessions.find({
+      const expiredQuery = {
         memberId: dude._id,
-        timeOut: { $gt: new Date() }
-      })
+        timeOut: { $lte: new Date().toISOString() }
+      }
+      debug('expiredQuery',expiredQuery)
+          const sessions = Sessions.find(expiredQuery)
       if (!sessions.length) {
 				debug(`Automatically signed out ${dude.name}`)
         n = n + Members.update(dude._id, { $set: { isHere: false }})
@@ -55,7 +57,8 @@ const signoutTicker = () => {
 //                       │ │ │ │ │
 //                       * * * * *
 
-const TICKER_INTERVAL = '1,16,31,46 * * * *'
+// const TICKER_INTERVAL = '1,16,31,46 * * * *'
+const TICKER_INTERVAL = '* * * * *'
 
 Meteor.startup(function() {
     cron.schedule(

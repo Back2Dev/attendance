@@ -3,7 +3,7 @@ import Orders from '/imports/api/orders/schema'
 import log from '/imports/lib/server/log'
 import CONSTANTS from '/imports/api/constants.js'
 
-const debug = require('debug')('att:orders')
+const debug = require('debug')('b2b:orders')
 Meteor.methods({
   'orders.insert'(order) {
     try {

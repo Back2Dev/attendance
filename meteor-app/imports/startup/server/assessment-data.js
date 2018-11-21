@@ -5,7 +5,7 @@ import Assessments from '/imports/api/assessments/assessments'
 import Logger from '/imports/api/assessments/logger'
 import { fakeJob, fakeLogs } from '/imports/test/fake-data'
 import faker from 'faker'
-const debug = require('debug')('att:admin')
+const debug = require('debug')('b2b:admin')
 
 Meteor.methods({
   'seed.services'() {
