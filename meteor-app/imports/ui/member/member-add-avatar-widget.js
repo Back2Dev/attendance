@@ -20,7 +20,7 @@ const AvatarWidget = (props) => {
       }}
       >
         {
-          props.options.enumOptions.map(option =>
+          props.options.enumOptions.map((option, ix) =>
             (
               <Image
                 circular
@@ -33,6 +33,7 @@ const AvatarWidget = (props) => {
                   opacity: (props.value != option.value) ? '.75' : '1',
                 }}
                 size='tiny'
+                key={ix}
                 src={`/images/avatars/${option.value}`}
                 onClick={(event) => props.onChange(option.value)}
               />

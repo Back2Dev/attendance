@@ -55,6 +55,7 @@ class Ordering extends React.Component {
           <br />
           <Input
             placeholder="Search Part Number"
+            className="member-search"
             onChange={this.props.onSearchInput}
             value={this.props.partSearchQuery}
             icon={"search"}
