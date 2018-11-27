@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "start": "meteor run",
-    "debug": "DEBUG=att:* meteor run --inspect --port 3030 ",
+    "debug": "DEBUG=att:* meteor run --inspect --port 3030  ",
     "lint": "eslint .",
     "ci-app": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.settings.json",
     "ci-test": "./node_modules/cypress/bin/cypress run",
