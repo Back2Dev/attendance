@@ -5,6 +5,9 @@
     "MAIL_URL": "smtp://mikkel@market-research.com:Nautilus!@secure.emailsrvr.com:587"
   },
   "public": {
-
+    "logo": "/images/logo-tiny.jpg",
+    "member": "Volunteer",
+    "parts": 1,
+    "servicing": 1
   }
 }
