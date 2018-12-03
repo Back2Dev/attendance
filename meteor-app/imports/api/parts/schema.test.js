@@ -36,7 +36,7 @@ const badParts = [
 
     {
         retailPrice: 7865,
-        wholesalePrice: 50
+        wholesalePrice: 50,
         partNo: 1010,
         name: 'brake line',
         barcode: '11100011102',
