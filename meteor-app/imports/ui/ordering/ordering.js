@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types"
 import { withRouter } from "react-router-dom";
 import {
   Grid,
@@ -13,11 +14,23 @@ import {
   Segment,
   Icon
 } from "semantic-ui-react";
+import UploadXL from "/imports/ui/ordering/uploadXL";
 import PartCard from "/imports/ui/ordering/ordering-part-card";
 import PartList from "/imports/ui/ordering/ordering-part-list";
 import CartIcon from "/imports/ui/ordering/cart-icon";
 
 class Ordering extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addParts: true
+    };
+  }
+
+  toggleAddPart = () => {
+    this.setState({ addParts: !this.state.addParts });
+  }
+
   render() {
     if (this.props.loading) {
       return (
@@ -46,7 +59,7 @@ class Ordering extends React.Component {
           <Grid.Column width={16}>
             <Header as="h2" textAlign="center">
               {" "}
-              <div>Back2Bikes Parts Search</div>{" "}
+              <div>Parts Search</div>{" "}
             </Header>
           </Grid.Column>
         </Grid.Row>
@@ -54,22 +67,45 @@ class Ordering extends React.Component {
           <CartIcon noOfParts={noOfParts} />
           <br />
           <Input
-            placeholder="Search Part Number"
+            placeholder="Part number or name"
             className="member-search"
             onChange={this.props.onSearchInput}
             value={this.props.partSearchQuery}
             icon={"search"}
-            size="massive"
+            size="huge"
+            fluid
           />{" "}
         </Grid.Row>
 
         <Grid.Row columns={1} centered>
           {this.props.parts < 1 ? (
-            <Message
-              icon="inbox"
-              header="Oops, no pricelist data available"
-              content="Please upload your pricelist through the admin panel"
-            />
+            <>
+              <Message
+                icon="inbox"
+                header="Nothing found"
+                content="Please try again"
+              />
+              <Button
+                onClick={this.toggleAddPart}
+                style={{
+                  height: "100px",
+                  marginTop: "20px",
+                  marginBottom: "20px"
+                }}
+                color="grey"
+              >
+                <h1>Add updated pricelist</h1>
+              </Button>
+
+              {this.state.addParts ? (
+                ""
+              ) : (
+                <UploadXL
+                  uploadXL={this.props.uploadXL}
+                  toggleAddPart={this.toggleAddPart}
+                />
+              )}
+            </>
           ) : (
             ""
           )}
@@ -94,3 +130,13 @@ class Ordering extends React.Component {
 }
 
 export default withRouter(Ordering);
+
+Ordering.propTypes = {
+  activeOrder: PropTypes.object,
+  addToCart: PropTypes.func.isRequired,
+  parts: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  partSearchQuery: PropTypes.string,
+  onSearchInput: PropTypes.func,
+  uploadXL: PropTypes.func.isRequired,
+}

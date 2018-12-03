@@ -23,6 +23,7 @@ export default withTracker((props) => {
       return { }
     }
   }
+
   const uploadXL = (e) => {
     e.preventDefault();
 
@@ -38,6 +39,7 @@ export default withTracker((props) => {
     };
     reader.readAsBinaryString(file);
   }
+
   const members = Members.find(
     filter(Session.get('searchQuery')), {
       sort: {

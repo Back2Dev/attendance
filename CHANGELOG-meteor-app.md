@@ -2,13 +2,15 @@
 
 Next 
 ------
+* Made it configurable for PA use, put all menu items across the top
+
 
 0.10.0
 ------
-Added special PIN = '----', meaning "I don't want a PIN Number"
-Added supervisor PIN override '1--1'
-Added more avatars
-Added version number template
+* Added special PIN = '----', meaning "I don't want a PIN Number"
+* Added supervisor PIN override '1--1'
+* Added more avatars
+* Added version number template
 
 0.8.0
 ------

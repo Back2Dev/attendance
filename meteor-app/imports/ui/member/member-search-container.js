@@ -9,6 +9,7 @@ export default withTracker((props) => {
   
   return {
     onSearchInput,
+    memberWords: props.memberWords,
     searchQuery: Session.get('searchQuery')
   }
 })(MemberSearch)

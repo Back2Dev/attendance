@@ -69,12 +69,12 @@ async function updateParts(parts) {
   let count = 0;
   return new Promise(async (resolve, reject) => {
     for (const part of parts) {
-      if (part.barcode !== "") {
+      if (part.barcode) {
         try {
           await updatePromise(part);
           count++;
         } catch (e) {
-          reject(`Couldnt add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`);
+          reject(`Couldn't add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`);
         }
       }
     }
@@ -96,6 +96,7 @@ Meteor.methods({
     let countTotal = 0;
     if (Meteor.isClient) return;
     try {
+      debug("Loading parts from spreadsheet data")
       const parse = XLSX.read(data, { type: "binary" });
       const wb = parse.Sheets;
       const sheets = Object.keys(wb);
@@ -108,7 +109,7 @@ Meteor.methods({
           const sheetTotal = await updateParts(parts);
           countTotal += sheetTotal;
         } catch (e) {
-          debug("Couldnt add " + s + " " + e);
+          console.error(`Couldn't add parts from worksheet ${s}: `,e);
         }
       }
       return countTotal;

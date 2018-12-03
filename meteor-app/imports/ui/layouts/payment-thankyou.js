@@ -1,6 +1,6 @@
 import React from 'react'
 import './payment-thankyou.css'
-import Nav from '/imports/ui/ordering/navbar'
+import Nav from '/imports/ui/member/member-nav'
 
 const PaymentThankyou = () => (
   <div className="payment-wrapper">

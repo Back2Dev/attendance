@@ -15,7 +15,7 @@ storiesOf('Cart', module)
   .add('Edit-Delete Button', (() => {
     const story = (
       <EditDelete
-        onClick={action('clicked', 'test')}
+        onClick={action('clicked', 'test click')}
       />
     )
     return story

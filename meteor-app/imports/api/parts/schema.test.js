@@ -36,7 +36,7 @@ const badParts = [
 
     {
         retailPrice: 7865,
-        wholesalePrice: "",
+        wholesalePrice: "",   // Fails on this
         partNo: 1010,
         name: 'brake line',
         barcode: '11100011102',
@@ -45,7 +45,7 @@ const badParts = [
 
     {
         imageUrl: '/public/images/logo-large.jpg',
-        retailPrice: "",
+        retailPrice: "",    // Fails on this
         wholesalePrice: 3000,
         partNo: '12345',
         name: 'golden bell',

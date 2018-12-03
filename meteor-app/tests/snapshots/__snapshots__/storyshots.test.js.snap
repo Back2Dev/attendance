@@ -6219,6 +6219,201 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                             }
                           }
                         />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test11.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test14.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test16.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test17.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test18.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test19.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test20.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test21.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test24.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test25.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test26.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test28.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
+                        <img
+                          className="ui tiny circular image"
+                          onClick={[Function]}
+                          src="/images/avatars/test29.png"
+                          style={
+                            Object {
+                              "border": "none",
+                              "boxShadow": "0px 2px 2px 1px rgba(0,0,0,.25)",
+                              "filter": "brightness(80%)",
+                              "height": "80px",
+                              "margin": "5px",
+                              "opacity": ".75",
+                            }
+                          }
+                        />
                       </div>
                       <input
                         hidden={true}

@@ -4,10 +4,11 @@ import { Input } from 'semantic-ui-react'
 import './member-search.css'
 
 const Search = props => {
+  const searchFor = (props.memberWords) ? `Search ${props.memberWords}` : 'Search Volunteers'
   return (
       <Input
         className='member-search'
-        placeholder='Search Volunteers'
+        placeholder={searchFor}
         onChange={props.onSearchInput}
         value={props.searchQuery}
         icon={'search'}
@@ -18,6 +19,7 @@ const Search = props => {
 Search.propTypes = {
   onSearchInput: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
+  memberWords: PropTypes.string,
 }
 
 export default Search
