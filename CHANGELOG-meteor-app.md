@@ -2,8 +2,10 @@
 
 Next 
 ------
-* Made it configurable for PA use, put all menu items across the top
 
+0.11.0
+------
+* Made it configurable for PA use, put all menu items across the top
 
 0.10.0
 ------
