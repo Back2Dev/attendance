@@ -4,3 +4,4 @@ node_modules/
 .meteor/meteorite
 .deploy/
 private
+.vs

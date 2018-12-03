@@ -29,7 +29,7 @@ class Admin extends Component {
     return (
       <Grid centered>
         <Grid.Column width={12}>
-          <h1>Admin</h1>
+          <h1>Volunteers</h1>
           <Switch>
             <PropsRoute path="/" component={AdminMemberList} {...this.props} />
           </Switch>

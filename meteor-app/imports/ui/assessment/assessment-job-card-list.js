@@ -2,7 +2,7 @@ import React from 'react'
 import { Component } from 'react';
 import { Grid, Search, Button, Loader } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
-import Nav from '/imports/ui/ordering/navbar'
+import Nav from '/imports/ui/member/member-nav'
 import { JOB_STATUS_READABLE, JOB_STATUS } from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
@@ -111,7 +111,7 @@ class JobCardList extends Component {
                   onClick={() => {
                     this.props.history.push("/history");
                   }}>
-                  Archive
+                  Old jobs
                 </Button>
             </Grid.Column>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Component } from 'react';
 import { Grid, Search, Button } from 'semantic-ui-react'
 import JobCard from '/imports/ui/assessment/assessment-job-card'
-import Nav from '/imports/ui/ordering/navbar'
+import Nav from '/imports/ui/member/member-nav'
 import { JOB_STATUS_READABLE, JOB_STATUS} from '/imports/api/constants'
 import './assessment-job-card-list.css'
 

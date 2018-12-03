@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
 import Assessment from '/imports/ui/assessment/assessment'
 import '/imports/ui/layouts/attendance.css'
-import Nav from '/imports/ui/ordering/navbar'
+import Nav from '/imports/ui/member/member-nav'
 
 const AssessmentLayout = () => (
   <div className="assessment-wrapper">

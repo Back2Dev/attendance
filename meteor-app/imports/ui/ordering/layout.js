@@ -42,6 +42,23 @@ export default withTracker(props => {
       return {}
     }
   }
+
+  const uploadXL = (e) => {
+    e.preventDefault();
+
+    const file = e.target[0].files[0];
+    const msg = file
+      ? `Adding your parts`
+      : `Oops! Forgot to add the file? Try again uploading the file`;
+    Alert.info(msg);
+    const reader = new FileReader();
+    reader.onloadend = function() {
+      const data = reader.result;
+      Meteor.callAsync("parts.load", data);
+    };
+    reader.readAsBinaryString(file);
+  }
+
   const addToCart = async orderedPart => {
     const currentOrder = await Orders.findOne({
       status: CONSTANTS.ORDER_STATUS_NEW
@@ -91,6 +108,7 @@ export default withTracker(props => {
     }).fetch(),
     loading: !partsHandle.ready() || !ordersHandle.ready(),
     partSearchQuery: Session.get("partSearchQuery"),
-    onSearchInput
+    onSearchInput,
+    uploadXL
   }
 })(Ordering)

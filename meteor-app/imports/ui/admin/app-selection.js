@@ -1,7 +1,6 @@
 import React from "react";
 import { Component } from "react";
 import { Button, Container } from "semantic-ui-react";
-import Alert from "react-s-alert";
 import UploadXL from "/imports/ui/ordering/uploadXL";
 
 const debug = require("debug")("b2b:admin");
@@ -12,9 +11,9 @@ class AppSelection extends Component {
     this.state = {
       addParts: true
     };
-    this.toggleAddPart = this.toggleAddPart.bind(this)
   }
-  toggleAddPart() {
+
+  toggleAddPart = () => {
     this.setState({ addParts: !this.state.addParts });
   }
 
@@ -36,19 +35,7 @@ class AppSelection extends Component {
             >
               <h1>User Profiles</h1>
             </Button>
-            <Button
-              onClick={() => {
-                this.props.history.push("/ordering");
-              }}
-              style={{
-                height: "100px",
-                marginTop: "20px",
-                marginBottom: "20px"
-              }}
-              color="teal"
-            >
-              <h1>Part Prices</h1>
-            </Button>
+
             <Button
               onClick={() => {
                 this.props.history.push("/assessment");
@@ -90,6 +77,19 @@ class AppSelection extends Component {
               <h1>Completed Jobs</h1>
             </Button>
 
+            <Button
+              onClick={() => {
+                this.props.history.push("/ordering");
+              }}
+              style={{
+                height: "100px",
+                marginTop: "20px",
+                marginBottom: "20px"
+              }}
+              color="teal"
+            >
+              <h1>Part Prices</h1>
+            </Button>
             <Button
               onClick={this.toggleAddPart}
               style={{
