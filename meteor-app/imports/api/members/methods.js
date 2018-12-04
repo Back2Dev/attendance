@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Members from '/imports/api/members/members'
+import Members, { Dupes } from '/imports/api/members/members'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 
@@ -78,5 +78,28 @@ Meteor.methods({
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
+  },
+  'members.showDupes'() {
+    const m = function () {
+      emit(this.name, 1);
+    }
+    const r = function (k, vals) {
+      return Array.sum(vals);
+    }
+
+    // const res = db.members.mapReduce(m,r, { out : "duplicates" });
+    // db[res.result].find({value: {$gt: 1}});
+
+    // convert mapReduce to synchronous function
+    const rawMembers = Members.rawCollection()
+    var syncMapReduce = Meteor.wrapAsync(rawMembers.mapReduce, rawMembers);
+
+    // CollectionName will be overwritten after each mapReduce call
+    syncMapReduce(m, r, {
+        out: "dupes"
+    });
+
+    const dupes = Dupes.find({ value: {$gt: 1}}).fetch();
+    console.log(dupes)
   }
 })

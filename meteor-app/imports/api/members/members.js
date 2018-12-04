@@ -156,3 +156,5 @@ export const MembersSchema = new SimpleSchema({
 Members.attachSchema(MembersSchema)
 
 export default Members
+
+export const Dupes = new Mongo.Collection('dupes')
