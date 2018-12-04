@@ -89,6 +89,18 @@ Meteor.methods({
     var result = Members.mapReduce(m, r, {out: {inline: 1}});
     console.log(result.filter(row => (row.value > 1)))
   },
+/* Duplicate member detection, started with this script, 
+   Which runs in the mongo shell
+m = function () {
+  emit(this.name, 1);
+}
+r = function (k, vals) {
+  return Array.sum(vals);
+}
+
+res = db.members.mapReduce(m,r, { out : "duplicates" });
+db[res.result].find({value: {$gt: 1}});
+*/
   'members.showDupes'() {
     const m = function () {
       emit(this.name, 1);
@@ -96,9 +108,6 @@ Meteor.methods({
     const r = function (k, vals) {
       return Array.sum(vals);
     }
-
-    // const res = db.members.mapReduce(m,r, { out : "duplicates" });
-    // db[res.result].find({value: {$gt: 1}});
 
     // convert mapReduce to synchronous function
     const rawMembers = Members.rawCollection()
