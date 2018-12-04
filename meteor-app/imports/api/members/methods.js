@@ -79,6 +79,16 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'members.showDupes2'() {
+    const m = function () {
+      emit(this.name, 1);
+    }
+    const r = function (k, vals) {
+      return Array.sum(vals);
+    }
+    var result = Members.mapReduce(m, r, {out: {inline: 1}});
+    console.log(result.filter(row => (row.value > 1)))
+  },
   'members.showDupes'() {
     const m = function () {
       emit(this.name, 1);

@@ -29,6 +29,7 @@ ecmascript-runtime-server@0.7.1
 ejson@1.1.0
 email@1.2.3
 es5-shim@4.8.0
+fentas:mapreduce@0.1.0
 fetch@0.1.0
 force-ssl@1.1.0
 force-ssl-common@1.1.0
@@ -50,6 +51,7 @@ logging@1.1.20
 mdg:validated-method@1.2.0
 meteor@1.9.2
 meteor-base@1.4.0
+meteorhacks:collection-utils@1.2.0
 meteorhacks:picker@1.0.3
 meteortesting:browser-tests@0.2.0
 meteortesting:mocha@0.6.0
@@ -67,6 +69,7 @@ mongo@1.6.0
 mongo-decimal@0.1.0
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
+mongo-livedata@1.0.12
 npm-mongo@3.1.1
 observe-sequence@1.0.16
 ordered-dict@1.1.0

@@ -38,3 +38,4 @@ email@1.2.3
 grove:call-async
 momentjs:moment
 mikkelking:mongo-counter
+fentas:mapreduce
