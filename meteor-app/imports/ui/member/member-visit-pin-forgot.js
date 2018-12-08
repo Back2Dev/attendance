@@ -46,37 +46,27 @@ class MemberVisitPinForgot extends React.Component {
           ref={this.form}
           onSubmit={this.handleSubmit}>
 
-          <div>
+          <Button.Group size='small'>
             <Button
-              icon
               name={'email'}
+              size='small'
               type='button'
-              color={this.state.selected == 'email' ? 'green' : 'grey'}
-              labelPosition='left'
+              positive={this.state.selected == 'email'}
               onClick={this.onDeliverySelection}
             >
-              <Icon 
-              name={this.state.selected == 'email' ? 'check' : 'mail' }
-              />
               Email
-</Button>
-          </div>
-          <div>
+            </Button>
+            <Button.Or />
             <Button
-              disabled
               name={'sms'}
-              icon
+              size='small'
               type='button'
-              color={this.state.selected == 'sms' ? 'green' : 'grey'}
-              labelPosition='left'
+              positive={this.state.selected == 'sms'}
               onClick={this.onDeliverySelection}
             >
-              <Icon 
-              name={this.state.selected == 'sms' ? 'check' : 'mobile' }
-              />
               SMS
             </Button>
-          </div>
+          </Button.Group>
 
           <Form.Field>
 

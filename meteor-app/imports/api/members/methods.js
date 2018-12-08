@@ -59,10 +59,10 @@ Meteor.methods({
       const message = 'Your PIN for Back2Bikes attendance app is: \n ' + pin
       if (method == 'email') {
         debug('sending PIN reminder via email.', destination, message)
-        return Meteor.call('sendEmail', destination, message, 'Back2Bikes Pin Reminder')
+        return Meteor.call('sendPINEmail', destination, message, 'Back2Bikes Pin Reminder')
       } else {
-        // Meteor.call(send sms, message, destination)
-        debug('sending via sms.', message)
+        Meteor.call('sendPINSms', message, destination)
+        debug('sending PIN via sms.', message)
       }
     } catch (e) {
       log.error({ e })
