@@ -33,7 +33,7 @@ Meteor.startup(() => {
 const SMS_URL = 'https://api.smsbroadcast.com.au/api-adv.php'
 
 Meteor.methods({
-  'sendSmsTest'(
+  'sendPINSms'(
     message = DEFAULT_MESSAGE,
     destination = DEFAULT_DESTINATION
   ) {
@@ -83,21 +83,6 @@ Meteor.methods({
       } catch (error) {
         log.error("Error from sms gateway", error)
       }
-
-
-      // const client = new plivo.Client('MAMMEZMJYYZGE2MWEZNZ','YzBhMGM3MDRhZTAyNWU2NDM0ZDNiMzNhMGY0ZTRm')
-
-
-      // client.messages.create(
-      //   '+61438002921',
-      //   destination,
-      //   message
-      // ).then(function(msg) {
-      //   debug(`SMS sent`,msg)
-      // })
-    // } catch (error) {
-    //   debug("Error from sms gateway", error)
-    // }
     }
   },
 })

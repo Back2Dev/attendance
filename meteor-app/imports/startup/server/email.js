@@ -18,7 +18,7 @@ Meteor.startup(() => {
 })
 
 Meteor.methods({
-  'sendEmail'(
+  'sendPINEmail'(
     destination = DEFAULT_DESTINATION,
     message = DEFAULT_MESSAGE,
     subject = DEFAULT_SUBJECT
@@ -26,7 +26,7 @@ Meteor.methods({
     debug(`Sending email: ${subject}: ${message} to ${destination}`)
 
     const options = {
-      from: 'mikkel@back2bikes.com.au',
+      from: 'admin@back2bikes.com.au',
       to: destination,
       subject: subject,
       text: message

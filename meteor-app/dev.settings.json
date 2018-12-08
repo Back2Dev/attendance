@@ -1,4 +1,12 @@
 {
+  "env": {
+    "MAIL_URL": "smtps://admin:Back2bikes.24@back2bikes.com.au:secure364.sgcpanel.com:465",
+    "SMS": {
+      "USERNAME": "mikkel",
+      "PASSWORD": "Smsbroadcast.24",
+      "FROM": "Back2bikes"
+    }
+  },
   "public": {
     "logo": "/images/hands.jpg",
     "member": "Friend",

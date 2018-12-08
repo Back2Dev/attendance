@@ -3,7 +3,7 @@
   "version": "0.12.0",
   "private": false,
   "scripts": {
-    "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
+    "debug": "MAIL_URL=smtps://admin@back2bikes.com.au:Back2bikes.24@secure364.sgcpanel.com:465 DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
     "debug.pa": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.pa.settings.json",
     "debug.b2b": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.b2b.settings.json",
     "start": "meteor run",
