@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
-    "debugem": "MAIL_URL=smtps://admin@back2bikes.com.au:Back2bikes.24@secure364.sgcpanel.com:465 DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
+    "debug.email": "MAIL_URL=smtps://admin@back2bikes.com.au:Back2bikes.24@secure364.sgcpanel.com:465 DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
     "debug.pa": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.pa.settings.json",
     "debug.b2b": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.b2b.settings.json",
     "start": "meteor run",
@@ -38,9 +38,9 @@
     "doc": "docs"
   },
   "dependencies": {
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/runtime": "^7.1.5",
-    "babel-loader": "^8.0.0-beta.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/runtime": "^7.2.0",
+    "babel-loader": "^8.0.4",
     "bcrypt": "^1.0.3",
     "bufferutil": "^3.0.5",
     "casual": "^1.5.14",
@@ -78,13 +78,13 @@
     "xlsx": "^0.13.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.51",
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.51",
-    "@babel/preset-env": "^7.0.0-beta.51",
-    "@babel/preset-react": "^7.0.0-beta.51",
-    "@babel/register": "^7.0.0-beta.51",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "@storybook/addon-actions": "^3.4.3",
     "@storybook/addon-info": "^3.4.3",
     "@storybook/addon-knobs": "^3.4.7",

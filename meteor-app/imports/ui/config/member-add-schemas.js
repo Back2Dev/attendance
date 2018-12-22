@@ -1,4 +1,84 @@
-export default [
+//
+// Back2bikes schema overrides
+//
+const b2bSchema = {
+  aboutStep: {
+    schema: {
+      type: "object",
+      title: "Lets get to know each other.",
+      // required: ["bikesHousehold", "reasons"],
+      properties: {
+        bikesHousehold: { type: "number", title: "How many bikes in your household?" },
+        primaryBike: { type: "string", title: "What type of bike do you ride the most?", enum: ["Road/racer", "Hybrid", "Mountain", "Cruiser", "Ladies", "Gents", "Fixie/Single Speed"] },
+        workStatus: { type: "string", title: "Work status", enum: ["Full Time", "Part Time", "Pension/Disability", "Unemployed", "Student", "Retired"] },
+        reasons: { type: "string", title: "Reasons for volunteering" }
+      }
+    },
+    uiSchema: {
+      bikesHousehold: {
+        "ui:widget": "updown",
+        "ui:placeholder": "Enter the number of bikes you own",
+        "ui:autofocus": true,
+      },
+      primaryBike: {
+        "ui:widget": "select",
+        "ui:placeholder": "Select a type of bike",
+      },
+      workStatus: {
+        "ui:widget": "select",
+        "ui:placeholder": "Select your employment status",
+      },
+      reasons: {
+        "ui:widget": "textarea",
+        "ui:placeholder": "Some good starting points:\nWhat makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?",
+        "ui:options": {
+          "rows": 12
+        }
+      }
+    }
+  }
+}
+//
+// Peak Adventure schema overrides
+//
+const paSchema = {
+  aboutStep: {
+    schema: {
+      type: "object",
+      properties: {
+        sports: { 
+          type: "array",
+          title: "Which of these sports are you active in?",
+          "uniqueItems": true,
+          items: {
+            type: "string",
+            enum: ["Kayaking", "Road cycling", "MTB", "Running", "Swimming", "Triathlon", "Multisport"],
+          },
+        },
+        reasons: { type: "string", title: "Tell us why you come to Peak Adventure sessions?" }
+      }
+    },
+    uiSchema: {
+      sports: {
+        "ui:widget": "checkboxes",
+      },
+      reasons: {
+        "ui:widget": "textarea",
+        "ui:placeholder": "",
+        "ui:options": {
+          "rows": 12
+        }
+      }
+    }
+  }
+}
+
+const schemas = {
+  b2b: b2bSchema,
+  pa: paSchema,
+}
+
+const defaultSchema = [
   {
     stepTitle: 'About You',
     stepDescription: '',
@@ -162,3 +242,22 @@ export default [
     }
   }
 ]
+
+//
+// Copy in the schema overrides
+//
+if (Meteor.settings.public.recruit && schemas[Meteor.settings.public.recruit]) {
+  const newSchema = schemas[Meteor.settings.public.recruit]
+  const steps = ['about', 'contact', 'emergency', 'avatar']
+  debugger
+  steps.forEach((step, ix) => {
+    const stepName = `${step}Step`
+    if (newSchema[stepName] && newSchema[stepName].schema) {
+      defaultSchema[ix].schema = newSchema[stepName].schema
+      defaultSchema[ix].uiSchema = newSchema[stepName].uiSchema
+    }
+  })
+
+}
+
+export default defaultSchema
