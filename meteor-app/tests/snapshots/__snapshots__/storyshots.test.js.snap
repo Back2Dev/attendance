@@ -10,6 +10,7 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
       }
     }
   >
+    <div>
       <p>
         Use Knobs to select step
       </p>
