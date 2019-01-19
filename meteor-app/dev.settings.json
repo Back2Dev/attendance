@@ -9,9 +9,9 @@
   },
   "public": {
     "logo": "/images/hands.jpg",
-    "member": "Friend",
+    "member": "Member",
     "parts": 1,
     "servicing": 1,
-    "recruit": "b2b"
+    "recruit": "pa"
   }
 }
