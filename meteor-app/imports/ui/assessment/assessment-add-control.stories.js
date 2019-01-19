@@ -11,30 +11,31 @@ storiesOf('Assessment.Add', module)
   .addDecorator(withKnobs)
   .addDecorator(StoryRouter())
 
-  .add('AssessmentAddControl', (() => {
-// NB Select control only works with strings
-    let step = number("Step",1)
+  .add('AssessmentAddControl', () => {
+    // NB Select control only works with strings
+    let step = number('Step', 1)
 
-    const move = (delta) => {
+    const move = delta => {
       try {
-        action("move")(delta)
+        action('move')(delta)
         action('step')(step)
         step = step + delta
-      } catch(error) {
-        console.log("Error", error)
+      } catch (error) {
+        console.log('Error', error)
       }
     }
     const story = (
-      <div><p>Use Knobs to select step, currently on step {step}</p>
+      <div>
+        <p>Use Knobs to select step, currently on step {step}</p>
         <AssessmentAddControl
           step={step}
           backStep={() => move(-1)}
           forwardStep={() => move(1)}
-          onSubmit={action("submit")}
+          onSubmit={action('submit')}
           totalSteps={5}
-          resetId={action("resetId")} 
+          resetId={action('resetId')}
         />
       </div>
     )
     return story
-  }))
+  })

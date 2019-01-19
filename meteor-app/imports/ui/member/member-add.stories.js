@@ -27,6 +27,7 @@ storiesOf('Member.Add', module)
             <MemberAdd
               step={number('Step', 3)}
               addMember={action('addMember')}
+              setMember={action('setMember')}
               error={false}
               success={true}
               message="OK"

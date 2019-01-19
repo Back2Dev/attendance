@@ -1455,6 +1455,35 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                         <span
                           style={Object {}}
                         >
+                          setAssessment
+                        </span>
+                        <span>
+                          =
+                          <span
+                            style={Object {}}
+                          >
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              setAssessment
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                      <span>
+                        <span>
+                          <br />
+                            
+                        </span>
+                        <span
+                          style={Object {}}
+                        >
                           error
                         </span>
                         <span>
@@ -2274,22 +2303,6 @@ exports[`Storyshots Assessment.ServiceCard Minor Service Card 1`] = `
             />
             Check/tighten bolts on cranks, headset, wheels and bottom bracket
           </div>
-          <div
-            className="item"
-            onClick={[Function]}
-            role="listitem"
-            style={
-              Object {
-                "padding": "10px",
-              }
-            }
-          >
-            <i
-              aria-hidden="true"
-              className="wrench icon"
-            />
-            Check/tighten bolts on cranks, headset, wheels and bottom bracket
-          </div>
         </div>
       </div>
     </div>
@@ -2456,22 +2469,6 @@ exports[`Storyshots Assessment.ServiceList Service List 1`] = `
                     className="wrench icon"
                   />
                   Lube deraileurs
-                </div>
-                <div
-                  className="item"
-                  onClick={[Function]}
-                  role="listitem"
-                  style={
-                    Object {
-                      "padding": "10px",
-                    }
-                  }
-                >
-                  <i
-                    aria-hidden="true"
-                    className="wrench icon"
-                  />
-                  Check/tighten bolts on cranks, headset, wheels and bottom bracket
                 </div>
                 <div
                   className="item"
@@ -6818,6 +6815,35 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                               }
                             >
                               addMember
+                            </span>
+                            }
+                          </span>
+                        </span>
+                      </span>
+                      <span>
+                        <span>
+                          <br />
+                            
+                        </span>
+                        <span
+                          style={Object {}}
+                        >
+                          setMember
+                        </span>
+                        <span>
+                          =
+                          <span
+                            style={Object {}}
+                          >
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
+                                }
+                              }
+                            >
+                              setMember
                             </span>
                             }
                           </span>

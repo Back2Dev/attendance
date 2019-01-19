@@ -33,7 +33,7 @@ jobs:
           working_directory: ~/repo/meteor-app
           command: |
             set +e
-            grep -r --exclude-dir=node_modules --exclude-dir=.meteor "describe.only" ~/repo/meteor-app
+            grep -r --exclude-dir=node_modules --exclude-dir=.meteor "describe.only|debugger" ~/repo/meteor-app
             test $? -eq 1
 
       - run:

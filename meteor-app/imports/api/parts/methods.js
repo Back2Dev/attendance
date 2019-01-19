@@ -1,44 +1,44 @@
-import { Meteor } from "meteor/meteor";
-import Parts from "/imports/api/parts/schema";
-import log from "/imports/lib/server/log";
-import XLSX from "xlsx";
-const debug = require("debug")("b2b:parts");
+import { Meteor } from 'meteor/meteor'
+import Parts from '/imports/api/parts/schema'
+import log from '/imports/lib/server/log'
+import XLSX from 'xlsx'
+const debug = require('debug')('b2b:parts')
 
 function calcRetail(price) {
   if (price <= 6000) {
     try {
-      const retailPrice = parseInt(price, 10) * 100 * 2;
-      return retailPrice;
+      const retailPrice = parseInt(price, 10) * 100 * 2
+      return retailPrice
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else if (price > 6000 && price <= 10000) {
     try {
-      const retailPrice = parseInt(price, 10) * 100 * 1.5;
-      return retailPrice;
+      const retailPrice = parseInt(price, 10) * 100 * 1.5
+      return retailPrice
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else if (price > 10000) {
     try {
-      const retailPrice = parseInt(price, 10) * 100 * 1.3;
-      return retailPrice;
+      const retailPrice = parseInt(price, 10) * 100 * 1.3
+      return retailPrice
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else {
-    return console.error("Error, not a number");
+    return console.error('Error, not a number')
   }
 }
 
 async function updatePromise(part) {
   return new Promise(async (resolve, reject) => {
-    const { partNo, name, barcode, wholesalePrice } = part;
+    const { partNo, name, barcode, wholesalePrice } = part
 
-    debug("updatePromise: Adding Part: ", partNo);
+    debug('updatePromise: Adding Part: ', partNo)
     await Parts.update(
       {
         partNo: partNo
@@ -49,7 +49,7 @@ async function updatePromise(part) {
           name,
           wholesalePrice: parseInt(wholesalePrice) * 100,
           retailPrice: calcRetail(wholesalePrice),
-          imageUrl: "/images/logo-large.jpg"
+          imageUrl: '/images/logo-large.jpg'
         }
       },
       {
@@ -57,65 +57,65 @@ async function updatePromise(part) {
       },
       (err, res) => {
         if (res) {
-          resolve(res);
+          resolve(res)
         } else {
-          reject(err);
+          reject(err)
         }
       }
-    );
-  });
+    )
+  })
 }
 async function updateParts(parts) {
-  let count = 0;
+  let count = 0
   return new Promise(async (resolve, reject) => {
     for (const part of parts) {
       if (part.barcode) {
         try {
-          await updatePromise(part);
-          count++;
+          await updatePromise(part)
+          count++
         } catch (e) {
-          reject(`Couldn't add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`);
+          reject(`Couldn't add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`)
         }
       }
     }
-    resolve(count);
-  });
+    resolve(count)
+  })
 }
 
 Meteor.methods({
-  "parts.insert"(part) {
+  'parts.insert'(part) {
     try {
-      return Parts.insert(part);
+      return Parts.insert(part)
     } catch (e) {
-      log.error({ e });
-      throw new Meteor.Error(500, e.sanitizedError.reason);
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
 
-  async "parts.load"(data) {
-    let countTotal = 0;
-    if (Meteor.isClient) return;
+  async 'parts.load'(data) {
+    let countTotal = 0
+    if (Meteor.isClient) return
     try {
-      debug("Loading parts from spreadsheet data")
-      const parse = XLSX.read(data, { type: "binary" });
-      const wb = parse.Sheets;
-      const sheets = Object.keys(wb);
+      debug('Loading parts from spreadsheet data')
+      const parse = XLSX.read(data, { type: 'binary' })
+      const wb = parse.Sheets
+      const sheets = Object.keys(wb)
       for (const s of sheets) {
         try {
           const parts = XLSX.utils.sheet_to_json(wb[s], {
             raw: true,
-            header: ["partNo", "name", "wholesalePrice", "barcode"]
-          });
-          const sheetTotal = await updateParts(parts);
-          countTotal += sheetTotal;
+            header: ['partNo', 'name', 'wholesalePrice', 'barcode']
+          })
+          const sheetTotal = await updateParts(parts)
+          countTotal += sheetTotal
         } catch (e) {
-          console.error(`Couldn't add parts from worksheet ${s}: `,e);
+          console.error(`Couldn't add parts from worksheet ${s}: `, e)
         }
       }
-      return countTotal;
+      return countTotal
     } catch (e) {
-      debug(e);
-      throw new Meteor.Error(500, e);
+      debug(e)
+      throw new Meteor.Error(500, e)
     }
   }
-});
+})
