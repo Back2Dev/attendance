@@ -1,32 +1,33 @@
 // member-add.stories.js
-import React from 'react'
+import React from "react";
 
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
-import { Welcome } from '@storybook/react/demo'
-import { withInfo } from '@storybook/addon-info'
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
-import StoryRouter from 'storybook-router'
-import formData from '/imports/test/fake-member'
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import { linkTo } from "@storybook/addon-links";
+import { Welcome } from "@storybook/react/demo";
+import { withInfo } from "@storybook/addon-info";
+import { withKnobs, text, boolean, number } from "@storybook/addon-knobs/react";
+import StoryRouter from "storybook-router";
+import formData from "/imports/test/fake-member";
 
-import schemas from '/imports/ui/config/member-add-schemas'
-import MemberAddReview from './member-add-review'
+import schemas from "/imports/ui/config/member-add-schemas";
+import MemberAddReview from "./member-add-review";
 
-storiesOf('Member.Add', module)
-.addDecorator(StoryRouter())
+storiesOf("Member.Add", module)
+  .addDecorator(StoryRouter())
 
-  .add('MemberAddReview', (() => {
+  .add("MemberAddReview", () => {
     const story = (
-      <div><p>Use Knobs to show checked in/out status</p>
+      <div>
+        <p>Use Knobs to show checked in/out status</p>
         <MemberAddReview
           formData={formData}
           steps={schemas}
-          resetId={action('resetId')}
+          resetId={action("resetId")}
           goToStep={action("submit")}
         />
       </div>
-    )
+    );
     // specs(() =>
     //   describe('<MemberAddReview />', () => {
     //     it('displays the add member wizard', () => {
@@ -36,5 +37,5 @@ storiesOf('Member.Add', module)
     //     })
     //   })
     // )
-    return story
-  }))
+    return story;
+  });
