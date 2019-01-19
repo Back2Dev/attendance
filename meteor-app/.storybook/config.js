@@ -25,7 +25,7 @@ global.expect = expect;
 global.Meteor = {
   settings: {
     public: {
-      recruit: true
+      recruit: "b2b"
     }
   }
 };

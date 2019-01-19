@@ -383,8 +383,9 @@ const defaultSchema = [
 //
 // Copy in the schema overrides
 //
-if (Meteor.settings.public.recruit && schemas[Meteor.settings.public.recruit]) {
-  const newSchema = schemas[Meteor.settings.public.recruit];
+const custom = "b2b"; //Meteor.settings.public.recruit
+if (custom && schemas[custom]) {
+  const newSchema = schemas[custom];
   const steps = ["about", "contact", "emergency", "avatar"];
   steps.forEach((step, ix) => {
     const stepName = `${step}Step`;

@@ -780,273 +780,285 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
                                 }
-                              >
-                                [
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Check functionality/adjust brakes and gears
-                                      "
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      price
-                                    </span>
-                                    : 
-                                    <span>
-                                      {
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#a11",
-                                          }
-                                        }
-                                      >
-                                        1000
-                                      </span>
-                                      }
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      package
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Minor
-                                      "
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Check hubs for wear/play
-                                      "
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      price
-                                    </span>
-                                    : 
-                                    <span>
-                                      {
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#a11",
-                                          }
-                                        }
-                                      >
-                                        1000
-                                      </span>
-                                      }
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      package
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Minor
-                                      "
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Remove, clean and oil chain
-                                      "
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      price
-                                    </span>
-                                    : 
-                                    <span>
-                                      {
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#a11",
-                                          }
-                                        }
-                                      >
-                                        1000
-                                      </span>
-                                      }
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      package
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Minor
-                                      "
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                …
-                                ]
-                              </span>
                               }
+                            >
+                              [
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Check functionality/adjust brakes and gears'
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      price
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#a11",
+                                      }
+                                    }
+                                  >
+                                    1000
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      package
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Minor'
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Check hubs for wear/play'
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      price
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#a11",
+                                      }
+                                    }
+                                  >
+                                    1000
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      package
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Minor'
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Remove, clean and oil chain'
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      price
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#a11",
+                                      }
+                                    }
+                                  >
+                                    1000
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      package
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Minor'
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                …
+                              </span>
+                              <span>
+                                <br />
+                                  
+                              </span>
+                              ]
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -1065,204 +1077,216 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
                                 }
-                              >
-                                [
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Front Tyre (new)
-                                      "
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      price
-                                    </span>
-                                    : 
-                                    <span>
-                                      {
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#a11",
-                                          }
-                                        }
-                                      >
-                                        1000
-                                      </span>
-                                      }
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Rear Tyre (new)
-                                      "
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      price
-                                    </span>
-                                    : 
-                                    <span>
-                                      {
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#a11",
-                                          }
-                                        }
-                                      >
-                                        1000
-                                      </span>
-                                      }
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Brake pads - Dual pivot
-                                      "
-                                    </span>
-                                    , 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      price
-                                    </span>
-                                    : 
-                                    <span>
-                                      {
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#a11",
-                                          }
-                                        }
-                                      >
-                                        1500
-                                      </span>
-                                      }
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                …
-                                ]
-                              </span>
                               }
+                            >
+                              [
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Front Tyre (new)'
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      price
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#a11",
+                                      }
+                                    }
+                                  >
+                                    1000
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Rear Tyre (new)'
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      price
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#a11",
+                                      }
+                                    }
+                                  >
+                                    1000
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Brake pads - Dual pivot'
+                                  </span>
+                                  ,
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      price
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#a11",
+                                      }
+                                    }
+                                  >
+                                    1500
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span>
+                                  <br />
+                                    
+                                    
+                                </span>
+                                …
+                              </span>
+                              <span>
+                                <br />
+                                  
+                              </span>
+                              ]
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -1281,93 +1305,87 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#666",
                                 }
-                              >
-                                [
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Mark
-                                      "
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                , 
-                                <span>
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    {
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#666",
-                                        }
-                                      }
-                                    >
-                                      name
-                                    </span>
-                                    : 
-                                    <span
-                                      style={
-                                        Object {
-                                          "color": "#22a",
-                                          "wordBreak": "break-word",
-                                        }
-                                      }
-                                    >
-                                      "
-                                      Mike
-                                      "
-                                    </span>
-                                    }
-                                  </span>
-                                  }
-                                </span>
-                                ]
-                              </span>
                               }
+                            >
+                              [
+                              <span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Mark'
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ,
+                              <span>
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#666",
+                                    }
+                                  }
+                                >
+                                  {
+                                  <span>
+                                    <span
+                                      style={
+                                        Object {
+                                          "color": "#666",
+                                        }
+                                      }
+                                    >
+                                      name
+                                    </span>
+                                  </span>
+                                  : 
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#22a",
+                                        "wordBreak": "break-word",
+                                      }
+                                    }
+                                  >
+                                    'Mike'
+                                  </span>
+                                  }
+                                </span>
+                              </span>
+                              ]
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -1386,19 +1404,17 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#a11",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
                                 }
-                              >
-                                0
-                              </span>
                               }
+                            >
+                              0
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -1417,19 +1433,17 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#170",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
                                 }
-                              >
-                                addAssessment()
-                              </span>
                               }
+                            >
+                              addAssessment
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -1448,19 +1462,17 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#a11",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
                                 }
-                              >
-                                false
-                              </span>
                               }
+                            >
+                              false
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -1490,6 +1502,7 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
+                            "
                             <span
                               style={
                                 Object {
@@ -1498,10 +1511,9 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                                 }
                               }
                             >
-                              "
                               OK
-                              "
                             </span>
+                            "
                           </span>
                         </span>
                       </span>
@@ -1520,19 +1532,17 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#170",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
                                 }
-                              >
-                                resetId()
-                              </span>
                               }
+                            >
+                              resetId
                             </span>
+                            }
                           </span>
                         </span>
                         <br />
@@ -1592,7 +1602,7 @@ exports[`Storyshots Assessment.Add AssessmentAdd 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -3121,7 +3131,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                
             </strong>
              Due: 
-            2018-9-26
+            9/26/2018
              
             <strong>
               Mechanic: 
@@ -3398,7 +3408,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                
             </strong>
              Due: 
-            2018-9-26
+            9/26/2018
              
             <strong>
               Mechanic: 
@@ -3675,7 +3685,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                
             </strong>
              Due: 
-            2018-9-26
+            9/26/2018
              
             <strong>
               Mechanic: 
@@ -3952,7 +3962,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                
             </strong>
              Due: 
-            2018-9-26
+            9/26/2018
              
             <strong>
               Mechanic: 
@@ -4229,7 +4239,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                
             </strong>
              Due: 
-            2018-9-26
+            9/26/2018
              
             <strong>
               Mechanic: 
@@ -4506,7 +4516,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                
             </strong>
              Due: 
-            2018-9-26
+            9/26/2018
              
             <strong>
               Mechanic: 
@@ -4802,7 +4812,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                    
                 </strong>
                  Due: 
-                2018-9-26
+                9/26/2018
                  
                 <strong>
                   Mechanic: 
@@ -5080,7 +5090,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                    
                 </strong>
                  Due: 
-                2018-9-26
+                9/26/2018
                  
                 <strong>
                   Mechanic: 
@@ -5358,7 +5368,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                    
                 </strong>
                  Due: 
-                2018-9-26
+                9/26/2018
                  
                 <strong>
                   Mechanic: 
@@ -5636,7 +5646,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                    
                 </strong>
                  Due: 
-                2018-9-26
+                9/26/2018
                  
                 <strong>
                   Mechanic: 
@@ -6770,19 +6780,17 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#a11",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
                                 }
-                              >
-                                3
-                              </span>
                               }
+                            >
+                              3
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -6801,19 +6809,17 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#170",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
                                 }
-                              >
-                                addMember()
-                              </span>
                               }
+                            >
+                              addMember
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -6832,19 +6838,17 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#a11",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
                                 }
-                              >
-                                false
-                              </span>
                               }
+                            >
+                              false
                             </span>
+                            }
                           </span>
                         </span>
                       </span>
@@ -6874,6 +6878,7 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                           <span
                             style={Object {}}
                           >
+                            "
                             <span
                               style={
                                 Object {
@@ -6882,10 +6887,9 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                                 }
                               }
                             >
-                              "
                               OK
-                              "
                             </span>
+                            "
                           </span>
                         </span>
                       </span>
@@ -6904,19 +6908,17 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                           <span
                             style={Object {}}
                           >
-                            <span>
-                              {
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#170",
-                                  }
+                            {
+                            <span
+                              style={
+                                Object {
+                                  "color": "#170",
                                 }
-                              >
-                                resetId()
-                              </span>
                               }
+                            >
+                              resetId
                             </span>
+                            }
                           </span>
                         </span>
                         <br />
@@ -6976,7 +6978,7 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -8193,19 +8195,17 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              false
-                            </span>
                             }
+                          >
+                            false
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -8224,6 +8224,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8232,10 +8233,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             7.jpg
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8254,93 +8254,87 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
                               }
-                            >
-                              [
-                              <span>
-                                {
-                                <span
-                                  style={
-                                    Object {
-                                      "color": "#666",
-                                    }
-                                  }
-                                >
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    memberId
-                                  </span>
-                                  : 
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#22a",
-                                        "wordBreak": "break-word",
-                                      }
-                                    }
-                                  >
-                                    "
-                                    randomSession
-                                    "
-                                  </span>
-                                  }
-                                </span>
-                                }
-                              </span>
-                              , 
-                              <span>
-                                {
-                                <span
-                                  style={
-                                    Object {
-                                      "color": "#666",
-                                    }
-                                  }
-                                >
-                                  {
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#666",
-                                      }
-                                    }
-                                  >
-                                    memberId
-                                  </span>
-                                  : 
-                                  <span
-                                    style={
-                                      Object {
-                                        "color": "#22a",
-                                        "wordBreak": "break-word",
-                                      }
-                                    }
-                                  >
-                                    "
-                                    randomSession
-                                    "
-                                  </span>
-                                  }
-                                </span>
-                                }
-                              </span>
-                              ]
-                            </span>
                             }
+                          >
+                            [
+                            <span>
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#666",
+                                  }
+                                }
+                              >
+                                {
+                                <span>
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#666",
+                                      }
+                                    }
+                                  >
+                                    memberId
+                                  </span>
+                                </span>
+                                : 
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#22a",
+                                      "wordBreak": "break-word",
+                                    }
+                                  }
+                                >
+                                  'randomSession'
+                                </span>
+                                }
+                              </span>
+                            </span>
+                            ,
+                            <span>
+                              <span
+                                style={
+                                  Object {
+                                    "color": "#666",
+                                  }
+                                }
+                              >
+                                {
+                                <span>
+                                  <span
+                                    style={
+                                      Object {
+                                        "color": "#666",
+                                      }
+                                    }
+                                  >
+                                    memberId
+                                  </span>
+                                </span>
+                                : 
+                                <span
+                                  style={
+                                    Object {
+                                      "color": "#22a",
+                                      "wordBreak": "break-word",
+                                    }
+                                  }
+                                >
+                                  'randomSession'
+                                </span>
+                                }
+                              </span>
+                            </span>
+                            ]
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -8359,20 +8353,18 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
+                              }
+                            }
+                          >
                             {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
-                              }
-                            >
-                              {
-                              }
-                            </span>
                             }
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -8391,20 +8383,18 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
+                              }
+                            }
+                          >
                             {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
-                              }
-                            >
-                              {
-                              }
-                            </span>
                             }
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -8423,6 +8413,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8431,10 +8422,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             3428
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8453,6 +8443,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8461,10 +8452,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             VIC
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8483,6 +8473,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8491,10 +8482,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             199 Henderson Spur
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8513,6 +8503,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8521,10 +8512,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             South Melbourne
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8543,19 +8533,17 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              5
-                            </span>
                             }
+                          >
+                            5
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -8574,6 +8562,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8582,10 +8571,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Jelly.Belly@smells.nasty.com
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8604,6 +8592,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8612,10 +8601,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Everett Mosciski
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8634,6 +8622,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8642,10 +8631,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Ibrahim.Flatley@gmail.com
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8664,6 +8652,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8672,10 +8661,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             848-220-5422
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8694,6 +8682,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8702,10 +8691,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             848-924-0182
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8724,6 +8712,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8732,10 +8721,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             352-485-4816
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8754,6 +8742,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8762,10 +8751,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Orie Kautzer
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8784,6 +8772,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8792,10 +8781,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             144-467-2060
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8814,6 +8802,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8822,10 +8811,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Student
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8844,19 +8832,17 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              4
-                            </span>
                             }
+                          >
+                            4
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -8875,6 +8861,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8883,10 +8870,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             My love of bikes started as a child. It was my tra…
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8905,6 +8891,7 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -8913,10 +8900,9 @@ exports[`Storyshots Member.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Racer
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -8935,19 +8921,17 @@ exports[`Storyshots Member.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              onCardClick()
-                            </span>
                             }
+                          >
+                            onCardClick
                           </span>
+                          }
                         </span>
                       </span>
                       <br />
@@ -8986,7 +8970,7 @@ exports[`Storyshots Member.Card Card 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -9609,16 +9593,16 @@ exports[`Storyshots Member.Session Forgot PIN 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
                               }
-                            >
-                              {
+                            }
+                          >
+                            {
+                            <span>
                               <span
                                 style={
                                   Object {
@@ -9628,23 +9612,21 @@ exports[`Storyshots Member.Session Forgot PIN 1`] = `
                               >
                                 maxWidth
                               </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#22a",
+                                  "wordBreak": "break-word",
                                 }
-                              >
-                                "
-                                280px
-                                "
-                              </span>
                               }
+                            >
+                              '280px'
                             </span>
                             }
                           </span>
+                          }
                         </span>
                       </span>
                       
@@ -9691,19 +9673,17 @@ exports[`Storyshots Member.Session Forgot PIN 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              sent PIN reminder()
-                            </span>
                             }
+                          >
+                            sent PIN reminder
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -9719,19 +9699,17 @@ exports[`Storyshots Member.Session Forgot PIN 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              forgotten PIN()
-                            </span>
                             }
+                          >
+                            forgotten PIN
                           </span>
+                          }
                         </span>
                       </span>
                        
@@ -9770,7 +9748,7 @@ exports[`Storyshots Member.Session Forgot PIN 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -10170,16 +10148,16 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
                               }
-                            >
-                              {
+                            }
+                          >
+                            {
+                            <span>
                               <span
                                 style={
                                   Object {
@@ -10189,20 +10167,20 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                               >
                                 maxWidth
                               </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#22a",
+                                  "wordBreak": "break-word",
                                 }
-                              >
-                                "
-                                280px
-                                "
-                              </span>
-                              , 
+                              }
+                            >
+                              '280px'
+                            </span>
+                            ,
+                            <span>
                               <span
                                 style={
                                   Object {
@@ -10212,23 +10190,21 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                               >
                                 textAlign
                               </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#22a",
+                                  "wordBreak": "break-word",
                                 }
-                              >
-                                "
-                                center
-                                "
-                              </span>
                               }
+                            >
+                              'center'
                             </span>
                             }
                           </span>
+                          }
                         </span>
                       </span>
                       
@@ -10275,19 +10251,17 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              false
-                            </span>
                             }
+                          >
+                            false
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -10303,19 +10277,17 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              setPin()
-                            </span>
                             }
+                          >
+                            setPin
                           </span>
+                          }
                         </span>
                       </span>
                        
@@ -10354,7 +10326,7 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -11011,19 +10983,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              false
-                            </span>
                             }
+                          >
+                            false
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11042,16 +11012,21 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#666",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
                               }
-                            >
-                              {
+                            }
+                          >
+                            {
+                            <span>
+                              <span>
+                                <br />
+                                  
+                                  
+                              </span>
                               <span
                                 style={
                                   Object {
@@ -11061,20 +11036,25 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                               >
                                 _id
                               </span>
-                              : 
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#22a",
-                                    "wordBreak": "break-word",
-                                  }
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#22a",
+                                  "wordBreak": "break-word",
                                 }
-                              >
-                                "
-                                BXghHGE343iuyMN
-                                "
+                              }
+                            >
+                              'BXghHGE343iuyMN'
+                            </span>
+                            ,
+                            <span>
+                              <span>
+                                <br />
+                                  
+                                  
                               </span>
-                              , 
                               <span
                                 style={
                                   Object {
@@ -11084,21 +11064,24 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                               >
                                 isHere
                               </span>
-                              : 
-                              <span>
-                                {
-                                <span
-                                  style={
-                                    Object {
-                                      "color": "#a11",
-                                    }
-                                  }
-                                >
-                                  false
-                                </span>
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
                                 }
+                              }
+                            >
+                              false
+                            </span>
+                            ,
+                            <span>
+                              <span>
+                                <br />
+                                  
+                                  
                               </span>
-                              , 
                               <span
                                 style={
                                   Object {
@@ -11108,26 +11091,33 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                               >
                                 isSuper
                               </span>
-                              : 
-                              <span>
-                                {
-                                <span
-                                  style={
-                                    Object {
-                                      "color": "#a11",
-                                    }
-                                  }
-                                >
-                                  true
-                                </span>
+                            </span>
+                            : 
+                            <span
+                              style={
+                                Object {
+                                  "color": "#a11",
                                 }
-                              </span>
-                              , 
-                              …
                               }
+                            >
+                              true
+                            </span>
+                            ,
+                            <span>
+                              <span>
+                                <br />
+                                  
+                                  
+                              </span>
+                              …
+                            </span>
+                            <span>
+                              <br />
+                                
                             </span>
                             }
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11146,19 +11136,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              record visit()
-                            </span>
                             }
+                          >
+                            record visit
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11177,19 +11165,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              cancel()
-                            </span>
                             }
+                          >
+                            cancel
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11219,19 +11205,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              false
-                            </span>
                             }
+                          >
+                            false
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11250,19 +11234,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              clear pin()
-                            </span>
                             }
+                          >
+                            clear pin
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11281,19 +11263,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              onSubmitPin()
-                            </span>
                             }
+                          >
+                            onSubmitPin
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11312,19 +11292,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              false
-                            </span>
                             }
+                          >
+                            false
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11343,19 +11321,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              forgotPin()
-                            </span>
                             }
+                          >
+                            forgotPin
                           </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -11374,19 +11350,17 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#170",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
                               }
-                            >
-                              setPin()
-                            </span>
                             }
+                          >
+                            setPin
                           </span>
+                          }
                         </span>
                       </span>
                       <br />
@@ -11425,7 +11399,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -12117,7 +12091,7 @@ exports[`Storyshots Navbar Navbar 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
@@ -12586,6 +12560,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -12594,10 +12569,9 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             http://cdn2.webninjashops.com/bicycleparts/images/…
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -12616,6 +12590,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -12624,10 +12599,9 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             120.75
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -12646,6 +12620,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -12654,10 +12629,9 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             169.07
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -12676,6 +12650,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -12684,10 +12659,9 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             301.79
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -12706,6 +12680,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -12714,10 +12689,9 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             Assumenda ullam exercitationem vel voluptatem non …
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -12736,6 +12710,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
+                          "
                           <span
                             style={
                               Object {
@@ -12744,10 +12719,9 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            "
                             793.97
-                            "
                           </span>
+                          "
                         </span>
                       </span>
                     </span>
@@ -12766,19 +12740,17 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          <span>
-                            {
-                            <span
-                              style={
-                                Object {
-                                  "color": "#a11",
-                                }
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
                               }
-                            >
-                              1
-                            </span>
                             }
+                          >
+                            1
                           </span>
+                          }
                         </span>
                       </span>
                       <br />
@@ -12817,7 +12789,7 @@ exports[`Storyshots Part.Card Card 1`] = `
               </div>
             </div>
             <button
-              className="css-gydez8"
+              className="css-py33tc"
               onClick={[Function]}
             >
               <div
