@@ -1,7 +1,7 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
-// Don't mention ze war! (or ze debugger!)
+// Don't mention ze war! (or ze debu g g e r!)
 
 import Parts from '/imports/api/parts/schema'
 import Factory from '/imports/test/factories'
