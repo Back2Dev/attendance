@@ -21,7 +21,7 @@ storiesOf('Assessment.Add', module)
         action('step')(step)
         step = step + delta
       } catch (error) {
-        console.log('Error', error)
+        console.error('Error', error)
       }
     }
     const story = (

@@ -26,7 +26,7 @@ storiesOf('Member.Add', module)
         // Updating the step does cause a refresh, methinks it should
         step = step + delta
       } catch (error) {
-        console.log('Error', error)
+        console.error('Error', error)
       }
     }
     const story = (

@@ -6,8 +6,7 @@ import { Menu, Image, Button } from 'semantic-ui-react'
 import Search from '/imports/ui/member/member-search-container'
 import Payment from '/imports/ui/member/member-payment'
 
-const Nav = (props) => {
-
+const Nav = props => {
   const logoFile = Meteor.settings.public.logo || '/images/logo-tiny.jpg'
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
@@ -15,65 +14,69 @@ const Nav = (props) => {
   const showServicing = Meteor.settings.public.servicing || false
 
   return (
-    <Menu fixed='top' stackable>
-      <Menu.Item onClick={() => { props.history.push('/') }}>
+    <Menu fixed="top" stackable>
+      <Menu.Item
+        onClick={() => {
+          props.history.push('/')
+        }}
+      >
         <Image src={logoFile} height="35px" />
       </Menu.Item>
-      <Menu.Item onClick={() => { props.history.push('/add') }}>
-        <Button
-          color='green'
-          content={`Add ${memberWord}`}
-          icon='add user'
-          />
+      <Menu.Item
+        onClick={() => {
+          props.history.push('/add')
+        }}
+      >
+        <Button id="add_member" color="green" content={`Add ${memberWord}`} icon="add user" />
       </Menu.Item>
-      <Menu.Item onClick={() => { props.history.push('/userprofiles') }}>
-        <Button
-          color='blue'
-          content={memberWords}
-          icon='group'
-        />
+      <Menu.Item
+        onClick={() => {
+          props.history.push('/userprofiles')
+        }}
+      >
+        <Button id="list_members" color="blue" content={memberWords} icon="group" />
       </Menu.Item>
       <Menu.Item>
         <Payment />
       </Menu.Item>
-      {showServicing && 
+      {showServicing && (
         <>
           <Menu.Item>
             <Button
+              id="add_assessmentr"
               color="orange"
-              icon="wrench" 
+              icon="wrench"
               content="Service"
               onClick={() => {
-                props.history.push("/assessment")
+                props.history.push('/assessment')
               }}
             />
           </Menu.Item>
-          <Menu.Item onClick={() => {props.history.push("/jobs") }}>
-            <Button
-              color="orange"
-              icon="tasks"
-              content="Jobs"
-            />
+          <Menu.Item
+            onClick={() => {
+              props.history.push('/jobs')
+            }}
+          >
+            <Button color="orange" icon="tasks" content="Jobs" />
           </Menu.Item>
         </>
-      }
-      {showParts && 
-        <Menu.Item onClick={() => {props.history.push("/ordering") }}>
-          <Button
-            color="violet"
-            icon="cogs"
-            content="Parts"
-          />
+      )}
+      {showParts && (
+        <Menu.Item
+          onClick={() => {
+            props.history.push('/ordering')
+          }}
+        >
+          <Button color="violet" icon="cogs" content="Parts" />
         </Menu.Item>
-      }
-      <Menu.Item position='right'>
-      <Search memberWords={memberWords}/>
+      )}
+      <Menu.Item position="right">
+        <Search memberWords={memberWords} />
       </Menu.Item>
     </Menu>
   )
 }
 
-Nav.propTypes = {
-}
+Nav.propTypes = {}
 
 export default withRouter(Nav)

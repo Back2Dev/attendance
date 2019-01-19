@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
 import StoryRouter from 'storybook-router'
-import AssessmentJobCard from './assessment-job-card'
+import JobCard from './assessment-job-card'
 import { fakeJob } from '/imports/test/fake-data'
 import { Grid } from 'semantic-ui-react'
 
@@ -55,7 +55,7 @@ storiesOf('Job List', module)
           <h1>Current Jobs</h1>
         </Grid.Row>
         <Grid.Row>
-          <AssessmentJobCard
+          <JobCard
             currentJob={currentJob3}
             key={currentJob3._id}
             updateStatus={action('Update Status')}
@@ -65,7 +65,7 @@ storiesOf('Job List', module)
           />
         </Grid.Row>
         <Grid.Row>
-          <AssessmentJobCard
+          <JobCard
             key={currentJob2._id}
             currentJob={currentJob2}
             updateStatus={action('Update Status')}
@@ -75,7 +75,7 @@ storiesOf('Job List', module)
           />
         </Grid.Row>
         <Grid.Row>
-          <AssessmentJobCard
+          <JobCard
             key={currentJob1._id}
             currentJob={currentJob1}
             updateStatus={action('Update Status')}
@@ -85,7 +85,7 @@ storiesOf('Job List', module)
           />
         </Grid.Row>
         <Grid.Row>
-          <AssessmentJobCard
+          <JobCard
             key={currentJob3._id}
             currentJob={currentJob3}
             updateStatus={action('Update Status')}

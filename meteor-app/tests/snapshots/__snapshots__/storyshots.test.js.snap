@@ -3197,6 +3197,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             >
               <button
                 className="ui teal button ui button"
+                id="add_mechanic"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -3474,6 +3475,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             >
               <button
                 className="ui teal button ui button"
+                id="add_mechanic"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -3751,6 +3753,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             >
               <button
                 className="ui teal button ui button"
+                id="add_mechanic"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4028,6 +4031,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             >
               <button
                 className="ui teal button ui button"
+                id="add_mechanic"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4305,6 +4309,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             >
               <button
                 className="ui teal button ui button"
+                id="add_mechanic"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4582,6 +4587,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             >
               <button
                 className="ui teal button ui button"
+                id="add_mechanic"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -4878,6 +4884,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui teal button ui button"
+                    id="add_mechanic"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -5156,6 +5163,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui teal button ui button"
+                    id="add_mechanic"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -5434,6 +5442,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui teal button ui button"
+                    id="add_mechanic"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -5712,6 +5721,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui teal button ui button"
+                    id="add_mechanic"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
