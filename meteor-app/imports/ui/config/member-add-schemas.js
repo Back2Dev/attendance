@@ -221,7 +221,7 @@ const defaultSchema = [
     schema: {
       type: 'object',
       title: 'Who should we contact in an emergency?',
-      // required: ["emergencyContact"],
+      required: ['emergencyContact', 'emergencyPhone'],
       properties: {
         emergencyContact: { type: 'string', title: 'Emergency Contact Name' },
         emergencyEmail: { type: 'string', title: 'Emergency Contact Email' },
