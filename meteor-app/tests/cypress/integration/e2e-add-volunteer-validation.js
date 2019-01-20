@@ -112,5 +112,8 @@ describe('Create member', function() {
       .click()
     // check success alert shows
     cy.get('.s-alert-success').should('exist')
+    cy.get('div[list="away"]')
+      .contains('Eddie Mercx')
+      .should('exist')
   })
 })

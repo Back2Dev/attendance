@@ -8950,7 +8950,8 @@ exports[`Storyshots Member.Add.Iframe Success 1`] = `
               Arrived:
                
               a few seconds
-               ago 
+               ago
+               
             </p>
           </div>
         </div>
@@ -9033,7 +9034,8 @@ exports[`Storyshots Member.Card Card 1`] = `
               Arrived:
                
               a few seconds
-               ago 
+               ago
+               
             </p>
           </div>
         </div>
@@ -11742,7 +11744,8 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                     Last Seen
                      
                     a few seconds
-                     ago 
+                     ago
+                     
                   </p>
                 </div>
               </div>

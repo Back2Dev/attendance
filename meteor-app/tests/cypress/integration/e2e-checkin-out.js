@@ -1,6 +1,5 @@
-
 describe('Setup', function() {
-  beforeEach(function(){
+  beforeEach(function() {
     cy.visit('/')
     loadFixtures()
     rmPin('Dorothea Kovacek')
@@ -10,39 +9,33 @@ describe('Setup', function() {
 const pin = '1234'
 
 describe('Checking in', function() {
-  beforeEach(function(){
+  beforeEach(function() {
     cy.visit('/')
     loadFixtures()
   })
   it('Allows checkin', function() {
-
     rmPin('Dorothea Kovacek')
-    cy.contains('Dorothea Kovacek')
+    cy.get('div[list="away"]')
+      .contains('Dorothea Kovacek')
       .click()
-// Create a PIN for the user
-    cy.get("#createPIN")
-      .click()
-    cy.get('input#pin1')
-      .type(pin)
-    cy.get('input#pin2')
-      .type(pin)
-    cy.get("#setPIN")
-      .click()
-// // Enter the PIN
-//     cy.get('input#pin')
-//       .type(pin)
-    cy.get("#signIn")
-      .click()
+    // Create a PIN for the user
+    cy.get('#createPIN').click()
+    cy.get('input#pin1').type(pin)
+    cy.get('input#pin2').type(pin)
+    cy.get('#setPIN').click()
+    cy.get('#signIn').click()
+    cy.get('div[list="present"]')
+      .contains('Dorothea K')
+      .should('exist')
   })
   it('Allows checkout', function() {
-    cy.contains('Dorothea K')
-      .click()
-    cy.get('input#pin')
-      .type(pin)
-    cy.get("#signIn")
-      .click()
+    cy.contains(/Dorothea K$/).click()
+    cy.get('input#pin').type(pin)
+    cy.get('#signIn').click() // button is used for both sign in and out
+  })
+  it('Available for checkin', function() {
+    cy.get('div[list="away"]')
+      .contains('Dorothea Kovacek')
+      .should('exist')
   })
 })
-
-
-

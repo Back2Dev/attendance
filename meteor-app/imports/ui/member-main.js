@@ -11,8 +11,7 @@ import MemberCounter from '/imports/ui/member/member-counter'
 import '/imports/ui/member-main.css'
 
 class MemberMain extends React.Component {
-
-  onCardClick = (id) => {
+  onCardClick = id => {
     this.props.history.push(`/${id}`)
   }
 
@@ -20,12 +19,13 @@ class MemberMain extends React.Component {
     return (
       <Grid>
         <Grid.Row>
-          <Grid.Column width='13'>
+          <Grid.Column width="13">
             <MemberList
               title={'Check In:'}
               members={this.props.membersOut}
               Component={MemberCard}
-              componentClassName='member-card-main'
+              list="away"
+              componentClassName="member-card-main"
               onCardClick={this.onCardClick}
               loading={this.props.loading}
               Loader={MemberCardLoading}
@@ -33,7 +33,7 @@ class MemberMain extends React.Component {
           </Grid.Column>
 
           <Grid.Column
-            width='3'
+            width="3"
             style={{
               position: 'fixed',
               top: '70px',
@@ -42,13 +42,14 @@ class MemberMain extends React.Component {
               textAlign: 'center',
               padding: '20px',
               backgroundColor: 'rgb(238, 238, 238)',
-              overflowY: 'scroll',
+              overflowY: 'scroll'
             }}
           >
             <MemberList
-              title={'Who\'s Here:'}
+              title={"Who's Here:"}
               members={this.props.membersIn}
               Component={MemberCardSmall}
+              list="present"
               onCardClick={this.onCardClick}
               loading={this.props.loading}
               Loader={MemberCardSmallLoading}
@@ -57,14 +58,11 @@ class MemberMain extends React.Component {
             </MemberList>
           </Grid.Column>
         </Grid.Row>
-
       </Grid>
     )
   }
 }
 
-
-MemberList.propTypes = {
-}
+MemberList.propTypes = {}
 
 export default withRouter(MemberMain)

@@ -124,5 +124,24 @@ describe('Create member', function() {
     cy.contains('Eddie Mercx').click()
     cy.get('input#pin').type(pin)
     cy.get('#signIn').click()
+    cy.get('div[list="present"]')
+      .contains(/Eddie M$/)
+      .should('exist')
+  })
+})
+
+describe('Clean up', function() {
+  beforeEach(function() {
+    cy.visit('/')
+    // loadFixtures()
+    rmEddie('Eddie Mercx')
+  })
+  it('Open form - about you', function() {
+    cy.get('#add_member').click()
+    cy.get('h1')
+      .contains('Lets get to know each other')
+      .should('exist')
+    cy.visit('/')
+    cy.get('div[list="present"]').should('exist')
   })
 })
