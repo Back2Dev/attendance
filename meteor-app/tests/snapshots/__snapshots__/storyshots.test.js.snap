@@ -7904,6 +7904,11 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                                   >
                                     {
                                     <span>
+                                      <span>
+                                        <br />
+                                              
+                                          
+                                      </span>
                                       <span
                                         style={
                                           Object {
@@ -7927,6 +7932,11 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                                     </span>
                                     ,
                                     <span>
+                                      <span>
+                                        <br />
+                                              
+                                          
+                                      </span>
                                       <span
                                         style={
                                           Object {
@@ -7950,6 +7960,11 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                                     </span>
                                     ,
                                     <span>
+                                      <span>
+                                        <br />
+                                              
+                                          
+                                      </span>
                                       <span
                                         style={
                                           Object {
@@ -7957,7 +7972,7 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                                           }
                                         }
                                       >
-                                        properties
+                                        required
                                       </span>
                                     </span>
                                     : 
@@ -7968,211 +7983,46 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                                         }
                                       }
                                     >
-                                      {
+                                      [
                                       <span>
                                         <span
                                           style={
                                             Object {
-                                              "color": "#666",
-                                            }
-                                          }
-                                        >
-                                          emergencyContact
-                                        </span>
-                                      </span>
-                                      : 
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#666",
-                                          }
-                                        }
-                                      >
-                                        {
-                                        <span>
-                                          <span
-                                            style={
-                                              Object {
-                                                "color": "#666",
-                                              }
-                                            }
-                                          >
-                                            type
-                                          </span>
-                                        </span>
-                                        : 
-                                        <span
-                                          style={
-                                            Object {
                                               "color": "#22a",
                                               "wordBreak": "break-word",
                                             }
                                           }
                                         >
-                                          'string'
+                                          'emergencyContact'
                                         </span>
-                                        ,
-                                        <span>
-                                          <span
-                                            style={
-                                              Object {
-                                                "color": "#666",
-                                              }
-                                            }
-                                          >
-                                            title
-                                          </span>
-                                        </span>
-                                        : 
-                                        <span
-                                          style={
-                                            Object {
-                                              "color": "#22a",
-                                              "wordBreak": "break-word",
-                                            }
-                                          }
-                                        >
-                                          'Emergency Contact Name'
-                                        </span>
-                                        }
                                       </span>
                                       ,
                                       <span>
                                         <span
                                           style={
                                             Object {
-                                              "color": "#666",
-                                            }
-                                          }
-                                        >
-                                          emergencyEmail
-                                        </span>
-                                      </span>
-                                      : 
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#666",
-                                          }
-                                        }
-                                      >
-                                        {
-                                        <span>
-                                          <span
-                                            style={
-                                              Object {
-                                                "color": "#666",
-                                              }
-                                            }
-                                          >
-                                            type
-                                          </span>
-                                        </span>
-                                        : 
-                                        <span
-                                          style={
-                                            Object {
                                               "color": "#22a",
                                               "wordBreak": "break-word",
                                             }
                                           }
                                         >
-                                          'string'
+                                          'emergencyPhone'
                                         </span>
-                                        ,
-                                        <span>
-                                          <span
-                                            style={
-                                              Object {
-                                                "color": "#666",
-                                              }
-                                            }
-                                          >
-                                            title
-                                          </span>
-                                        </span>
-                                        : 
-                                        <span
-                                          style={
-                                            Object {
-                                              "color": "#22a",
-                                              "wordBreak": "break-word",
-                                            }
-                                          }
-                                        >
-                                          'Emergency Contact Email'
-                                        </span>
-                                        }
                                       </span>
-                                      ,
+                                      ]
+                                    </span>
+                                    ,
+                                    <span>
                                       <span>
-                                        <span
-                                          style={
-                                            Object {
-                                              "color": "#666",
-                                            }
-                                          }
-                                        >
-                                          emergencyPhone
-                                        </span>
+                                        <br />
+                                              
+                                          
                                       </span>
-                                      : 
-                                      <span
-                                        style={
-                                          Object {
-                                            "color": "#666",
-                                          }
-                                        }
-                                      >
-                                        {
-                                        <span>
-                                          <span
-                                            style={
-                                              Object {
-                                                "color": "#666",
-                                              }
-                                            }
-                                          >
-                                            type
-                                          </span>
-                                        </span>
-                                        : 
-                                        <span
-                                          style={
-                                            Object {
-                                              "color": "#22a",
-                                              "wordBreak": "break-word",
-                                            }
-                                          }
-                                        >
-                                          'string'
-                                        </span>
-                                        ,
-                                        <span>
-                                          <span
-                                            style={
-                                              Object {
-                                                "color": "#666",
-                                              }
-                                            }
-                                          >
-                                            title
-                                          </span>
-                                        </span>
-                                        : 
-                                        <span
-                                          style={
-                                            Object {
-                                              "color": "#22a",
-                                              "wordBreak": "break-word",
-                                            }
-                                          }
-                                        >
-                                          'Emergency Contact Mobile number'
-                                        </span>
-                                        }
-                                      </span>
-                                      }
+                                      …
+                                    </span>
+                                    <span>
+                                      <br />
+                                            
                                     </span>
                                     }
                                   </span>
