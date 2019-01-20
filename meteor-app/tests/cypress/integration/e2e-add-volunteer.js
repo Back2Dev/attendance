@@ -142,6 +142,6 @@ describe('Clean up', function() {
       .contains('Lets get to know each other')
       .should('exist')
     cy.visit('/')
-    cy.get('div[list="present"]').should('exist')
+    cy.get('div[list="away"]').should('exist')
   })
 })
