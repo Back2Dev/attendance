@@ -1,10 +1,9 @@
-import { getYear } from 'date-fns'
-
 const pin = '1234'
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
-  // failing the test
+  // failing the test. We do this because of some ugly js errors
+  // from a js library we are using
   return false
 })
 

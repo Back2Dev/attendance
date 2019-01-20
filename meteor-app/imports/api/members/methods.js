@@ -39,6 +39,15 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'members.rmEddie'(name) {
+    try {
+      log.info('Removing member: Eddie Mercx ' + name)
+      return Members.remove({ name: 'Eddie Mercx' })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
   'members.update'(id, formData) {
     try {
       log.info('updating member: ', id, formData)
@@ -48,7 +57,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  
+
   'members.forgotPin'(id, method, destination) {
     log.info(`sending pin for member ${id} via ${method} to ${destination}`)
     try {
@@ -80,16 +89,16 @@ Meteor.methods({
     }
   },
   'members.showDupes2'() {
-    const m = function () {
-      emit(this.name, 1);
+    const m = function() {
+      emit(this.name, 1)
     }
-    const r = function (k, vals) {
-      return Array.sum(vals);
+    const r = function(k, vals) {
+      return Array.sum(vals)
     }
-    var result = Members.mapReduce(m, r, {out: {inline: 1}});
-    console.log(result.filter(row => (row.value > 1)))
+    var result = Members.mapReduce(m, r, { out: { inline: 1 } })
+    console.log(result.filter(row => row.value > 1))
   },
-/* Duplicate member detection, started with this script, 
+  /* Duplicate member detection, started with this script, 
    Which runs in the mongo shell
 m = function () {
   emit(this.name, 1);
@@ -102,23 +111,23 @@ res = db.members.mapReduce(m,r, { out : "duplicates" });
 db[res.result].find({value: {$gt: 1}});
 */
   'members.showDupes'() {
-    const m = function () {
-      emit(this.name, 1);
+    const m = function() {
+      emit(this.name, 1)
     }
-    const r = function (k, vals) {
-      return Array.sum(vals);
+    const r = function(k, vals) {
+      return Array.sum(vals)
     }
 
     // convert mapReduce to synchronous function
     const rawMembers = Members.rawCollection()
-    var syncMapReduce = Meteor.wrapAsync(rawMembers.mapReduce, rawMembers);
+    var syncMapReduce = Meteor.wrapAsync(rawMembers.mapReduce, rawMembers)
 
     // CollectionName will be overwritten after each mapReduce call
     syncMapReduce(m, r, {
-        out: "dupes"
-    });
+      out: 'dupes'
+    })
 
-    const dupes = Dupes.find({ value: {$gt: 1}}).fetch();
+    const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     console.log(dupes)
   }
 })

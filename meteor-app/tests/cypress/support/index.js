@@ -17,17 +17,17 @@
 // import './commands'
 import faker from 'faker'
 
-function generate(times, cb){
+function generate(times, cb) {
   let result = []
-  for(let i = 0; i < times; i++){
+  for (let i = 0; i < times; i++) {
     result.push(cb())
   }
   return result
 }
 
 global.login = (username, password) => {
-  cy.window().then((win) => {
-     win.Meteor.loginWithPassword(username, password)
+  cy.window().then(win => {
+    win.Meteor.loginWithPassword(username, password)
   })
 }
 
@@ -37,39 +37,39 @@ global.school = () => {
     _id: faker.random.number(),
     name: faker.address.city() + ' School',
     slug: faker.lorem.word(),
-    schoolYear: "2018",
+    schoolYear: '2018',
     termNo: 3,
     terms: 4,
     years: {},
-    email: "demo@tmap.me",
+    email: 'demo@tmap.me',
     password: 'password'
   }
 }
 
 global.classy = () => {
   faker.seed(123)
-  const letter = "A"
+  const letter = 'A'
   const grade = faker.random.number(12)
-  const teacherName = [  faker.name.firstName(), faker.name.lastName()]
-    return {
-      _id: faker.random.number(),
-      name: `${grade}${letter} Miss ${teacherName[1]}`,
-      slug: `dem${grade}${letter}`,
-      password: "demo",
-      schoolYear: "2018",
-      termNo: 1,
-      terms: [],
-      schoolId: faker.random.number(),
-      grade,
-      letter,
-      teacherName: teacherName.join(' '),
-      teacherEmail: "dem7d@tmap.me"
-    }
+  const teacherName = [faker.name.firstName(), faker.name.lastName()]
+  return {
+    _id: faker.random.number(),
+    name: `${grade}${letter} Miss ${teacherName[1]}`,
+    slug: `dem${grade}${letter}`,
+    password: 'demo',
+    schoolYear: '2018',
+    termNo: 1,
+    terms: [],
+    schoolId: faker.random.number(),
+    grade,
+    letter,
+    teacherName: teacherName.join(' '),
+    teacherEmail: 'dem7d@tmap.me'
+  }
 }
 
 // for use when bulk adding a class
 global.fakeClassList = () => {
-  const n = generate(20, faker.name.findName) 
+  const n = generate(20, faker.name.findName)
   return n.join('\n')
 }
 
@@ -78,7 +78,10 @@ global.loadFixtures = () => {
   cy.window().then(win => win.Meteor.call('loadFixtures'))
 }
 
-global.rmPin = (name) => {
-  cy.window().then(win => win.Meteor.call('members.rmPin',name))
+global.rmPin = name => {
+  cy.window().then(win => win.Meteor.call('members.rmPin', name))
 }
 
+global.rmEddie = name => {
+  cy.window().then(win => win.Meteor.call('members.rmEddie', name))
+}
