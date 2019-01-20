@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Component } from 'react'
+import moment from 'moment'
+import Alert from 'react-s-alert'
 import { Button, List, Accordion, Icon, Grid, Loader } from 'semantic-ui-react'
+
 import '/imports/ui/layouts/assessment.css'
 import {
   LOG_EVENT_READABLE,
@@ -15,9 +17,7 @@ import {
   LOG_EVENT_TYPES
 } from '/imports/api/constants'
 import printJobCart from '/imports/ui/assessment/assessment-print-job'
-import Alert from 'react-s-alert'
 import MechanicModal from '/imports/ui/assessment/mechanic-modal'
-import moment from 'moment'
 
 class JobCard extends Component {
   state = {
@@ -109,7 +109,7 @@ class JobCard extends Component {
     const make = bikeDetails.make
     const model = bikeDetails.model
     const color = bikeDetails.color
-    const pickUpDate = pickupDate.toLocaleDateString()
+    const pickupDisplay = moment(pickupDate).format('D/M/YYYY')
     const totalRepairCost = totalCost / 100
     const jobStatus = JOB_STATUS_READABLE[status]
     const customerName = customerDetails.isRefurbish ? 'Refurbish' : customerDetails.name
@@ -161,7 +161,7 @@ class JobCard extends Component {
             <Grid.Row columns={2} style={{ marginTop: '20px' }}>
               <Grid.Column style={{ fontSize: '1.2em' }}>
                 <List.Item>
-                  <strong>{servicePackage} </strong> Due: {pickUpDate} <strong>Mechanic: </strong>
+                  <strong>{servicePackage} </strong> Due: {pickupDisplay} <strong>Mechanic: </strong>
                   {mechanic}
                 </List.Item>
                 <ul>
