@@ -15,6 +15,9 @@ describe('Checking in', function() {
   })
   it('Allows checkin', function() {
     rmPin('Dorothea Kovacek')
+    cy.get('div[about="Dorothea Kovacek"]')
+      .invoke('text')
+      .as('visits') // This saves it for 'Ron
     cy.get('div[list="away"]')
       .contains('Dorothea Kovacek')
       .click()
@@ -37,5 +40,9 @@ describe('Checking in', function() {
     cy.get('div[list="away"]')
       .contains('Dorothea Kovacek')
       .should('exist')
+    // Check the number of visits has gone up by 1
+    cy.get('div[about="Dorothea Kovacek"]').then(function($div) {
+      expect(parseInt($div.text() - parseInt(this.visits))).to.eq(1)
+    })
   })
 })

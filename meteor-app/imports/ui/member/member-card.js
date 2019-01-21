@@ -22,7 +22,7 @@ const MemberCard = props => {
               padding: '10px 0'
             }}
           >
-            <Label color={newbie ? 'green' : isSuper ? 'yellow' : 'blue'}>
+            <Label color={newbie ? 'green' : isSuper ? 'yellow' : 'blue'} about={name}>
               <Icon name="trophy" />
               {sessionCount}
             </Label>
