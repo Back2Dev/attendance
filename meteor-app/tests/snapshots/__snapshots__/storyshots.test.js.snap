@@ -8923,6 +8923,7 @@ exports[`Storyshots Member.Add.Iframe Success 1`] = `
               }
             >
               <div
+                about="Orie Kautzer"
                 className="ui green label"
                 onClick={[Function]}
               >
@@ -9007,6 +9008,7 @@ exports[`Storyshots Member.Card Card 1`] = `
               }
             >
               <div
+                about="Orie Kautzer"
                 className="ui green label"
                 onClick={[Function]}
               >
@@ -11658,6 +11660,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                     }
                   >
                     <div
+                      about="Orie Kautzer"
                       className="ui green label"
                       onClick={[Function]}
                     >
