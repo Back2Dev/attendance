@@ -37,7 +37,7 @@ export const servicesSchema = new SimpleSchema({
       }, 0)
       const check = calcServicesCost === this.value
       if (!check) {
-        return new Meteor.Error('Total service cost not equal the sum of its parts!')
+        return new Meteor.Error(`Total service cost ${this.value} not equal the sum of its parts ${calcServicesCost}!`)
       }
     }
   }
@@ -90,7 +90,7 @@ export const AssessmentsSchema = new SimpleSchema({
 
       const check = services + parts + additional - discount === this.value
       if (!check) {
-        return new Meteor.Error('Total repair cost not equal sum of services, parts and additional fees, less discount')
+        return new Meteor.Error(`Total repair cost ${this.value} not equal sum of services ${services}, parts ${parts} and additional fees ${additional}, less discount ${discount}`)
       }
     } 
   },

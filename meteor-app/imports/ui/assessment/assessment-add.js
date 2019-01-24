@@ -53,6 +53,7 @@ class AssessmentAdd extends Component {
         serviceCost: 0,
         partsCost: 0,
         additionalCost: 0,
+        discount: 0,
       }
     }
   }
@@ -84,7 +85,7 @@ class AssessmentAdd extends Component {
         return formattedParts.includes(key.name) ? key.price : 0 // Think about how to refactor this
       })
       .reduce((a, b) => a + b)
-    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
+    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0) - (formData.discount * 100)
         
     if (lastStep) {
       const serviceItem = this.props.services
