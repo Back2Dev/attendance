@@ -3061,7 +3061,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            undefined Olive Apollo Defy
+            undefined White Giant Cypress
           </div>
         </div>
         <div
@@ -3072,7 +3072,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Refurbish
+            Damien Corwin
           </div>
         </div>
         <div
@@ -3084,7 +3084,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             role="listitem"
           >
             $
-            130.31
+            117.37
           </div>
         </div>
       </div>
@@ -3124,7 +3124,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             role="listitem"
           >
             <strong>
-              Minor Service
+              Custom Service
                
             </strong>
              Due: 
@@ -3133,7 +3133,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             <strong>
               Mechanic: 
             </strong>
-            Myrtie Sanford
+            Amie Welch
           </div>
           <ul>
             <strong>
@@ -3339,7 +3339,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            undefined Magenta Apollo Trail Breaker
+            undefined Teal Specialized Defy
           </div>
         </div>
         <div
@@ -3350,7 +3350,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Refurbish
+            Mrs. Coleman Pouros
           </div>
         </div>
         <div
@@ -3362,7 +3362,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             role="listitem"
           >
             $
-            156.68
+            158
           </div>
         </div>
       </div>
@@ -3402,7 +3402,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             role="listitem"
           >
             <strong>
-              Major Service
+              Custom Service
                
             </strong>
              Due: 
@@ -3411,7 +3411,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             <strong>
               Mechanic: 
             </strong>
-            Jean Smitham
+            Lupe Beahan PhD
           </div>
           <ul>
             <strong>
@@ -3617,7 +3617,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            undefined Lavender Apollo Katana
+            undefined Violet Apollo Defy
           </div>
         </div>
         <div
@@ -3628,7 +3628,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Cole Stanton
+            Dr. Rosetta Collier
           </div>
         </div>
         <div
@@ -3640,7 +3640,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             role="listitem"
           >
             $
-            148.06
+            134.54
           </div>
         </div>
       </div>
@@ -3689,7 +3689,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             <strong>
               Mechanic: 
             </strong>
-            Glennie Lynch
+            Claudie Weissnat
           </div>
           <ul>
             <strong>
@@ -3895,7 +3895,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            undefined Sky Blue Malvern Star Katana
+            undefined Tan Giant Cypress
           </div>
         </div>
         <div
@@ -3906,7 +3906,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Devyn Koch
+            Refurbish
           </div>
         </div>
         <div
@@ -3918,7 +3918,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             role="listitem"
           >
             $
-            166.21
+            161.76
           </div>
         </div>
       </div>
@@ -3958,7 +3958,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             role="listitem"
           >
             <strong>
-              Minor Service
+              Major Service
                
             </strong>
              Due: 
@@ -3967,7 +3967,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
             <strong>
               Mechanic: 
             </strong>
-            Mercedes O'Conner
+            Drake Flatley
           </div>
           <ul>
             <strong>
@@ -4173,7 +4173,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            undefined Orange Apollo Katana
+            undefined Lime Specialized Katana
           </div>
         </div>
         <div
@@ -4184,7 +4184,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Dr. Grover Rowe
+            Miss Kaitlyn Kunde
           </div>
         </div>
         <div
@@ -4196,7 +4196,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             role="listitem"
           >
             $
-            178.31
+            144.45
           </div>
         </div>
       </div>
@@ -4245,7 +4245,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             <strong>
               Mechanic: 
             </strong>
-            Jayme Connelly
+            Clifton Casper
           </div>
           <ul>
             <strong>
@@ -4451,7 +4451,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            undefined Silver Specialized Katana
+            undefined Cyan Apollo Trail Breaker
           </div>
         </div>
         <div
@@ -4462,7 +4462,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             onClick={[Function]}
             role="listitem"
           >
-            Calista Lebsack
+            Mrs. Bertram Ullrich
           </div>
         </div>
         <div
@@ -4474,7 +4474,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             role="listitem"
           >
             $
-            141.58
+            116.3
           </div>
         </div>
       </div>
@@ -4523,7 +4523,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             <strong>
               Mechanic: 
             </strong>
-            Mya Price
+            Shanie Rogahn
           </div>
           <ul>
             <strong>
@@ -4759,7 +4759,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Refurbish
+                Carter Corwin
               </div>
             </div>
             <div
@@ -4771,7 +4771,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                114.04
+                150.39
               </div>
             </div>
           </div>
@@ -5050,7 +5050,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                167.24
+                159.57
               </div>
             </div>
           </div>
@@ -5329,7 +5329,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                123.85
+                158.9
               </div>
             </div>
           </div>
@@ -5596,7 +5596,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 onClick={[Function]}
                 role="listitem"
               >
-                Refurbish
+                Carter Corwin
               </div>
             </div>
             <div
@@ -5608,7 +5608,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 role="listitem"
               >
                 $
-                114.04
+                150.39
               </div>
             </div>
           </div>

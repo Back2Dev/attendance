@@ -140,6 +140,7 @@ class AssessmentAdd extends Component {
           totalPartsCost: totalPartsCost,
         },
         additionalFees: formData.additionalFee * 100, // Value in cents
+        discount: formData.discount * 100,     // cents
         totalCost: totalCost,
         dropoffDate: new Date(),
         pickupDate: new Date(formData.pickUpDate),
@@ -296,6 +297,7 @@ class AssessmentAdd extends Component {
         serviceCost: totalServiceCost,
         partsCost: totalPartsCost,
         additionalCost: formData.additionalFee,
+        discount: formData.discount,
         estBikeValue: formData.approxBikeValue
       }
     })

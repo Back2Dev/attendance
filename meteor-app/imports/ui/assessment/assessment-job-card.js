@@ -71,6 +71,14 @@ class JobCard extends Component {
     }
   }
 
+  sendSMS = () => {
+    const jobId = this.props.job._id    
+  }
+
+  callCustomer = () => {
+    const jobId = this.props.job._id
+  }
+
   titleCase(str) {
     if (!str) return
     return str
@@ -212,6 +220,7 @@ class JobCard extends Component {
                       className="ui button"
                       color="pink"
                       style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                      onClick={() => callCustomer(this.props.job)}
                     >
                       <h1>
                         <Icon name="phone" />
@@ -221,6 +230,7 @@ class JobCard extends Component {
                       className="ui button"
                       color="purple"
                       style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                      onClick={() => sendSMS(this.props.job)}
                     >
                       <h1>
                         <Icon name="envelope outline" />

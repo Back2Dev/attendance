@@ -115,6 +115,7 @@ Factory.define('assessment', Assessments, {
     totalPartsCost: 2000,
   },
   additionalFees: 1500,
+  discount: 2000,
   totalCost: 11500,
   jobNo: "R001",
   dropoffDate: faker.date.future(),

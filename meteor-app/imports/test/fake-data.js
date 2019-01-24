@@ -22,6 +22,7 @@ export const fakeJob = seed => {
   const baseService = faker.random.arrayElement(['Minor Service', 'Major Service', 'Custom Service'])
   const status = parseInt(faker.random.arrayElement(Object.keys(JOB_STATUS_READABLE)))
   const additionalFees = faker.random.number(4000)
+  const discount = faker.random.number(2000)
   const partsItem = [
     {
       name: faker.random.arrayElement(['Tube', 'Cable', 'Front Tyre', 'Bell', 'Back Tyre']),
@@ -108,7 +109,8 @@ export const fakeJob = seed => {
     },
     _id: randomId(),
     additionalFees,
-    totalCost: totalServiceCost + totalPartsCost + additionalFees,
+    discount,
+    totalCost: totalServiceCost + totalPartsCost + additionalFees - discount,
     dropoffDate: new Date('2018-09-21T09:10+10:00'),
     pickupDate: new Date('2018-09-26T09:00+10:00'),
     createdAt: new Date('2018-09-21T09:00+10:00'),

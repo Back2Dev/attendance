@@ -8,6 +8,7 @@ const AssessmentAddReview = (props) => {
       return step
     }    
   })
+  const totalPrice = (props.formData.serviceCost/100) + (props.formData.partsCost/100) + (props.formData.additionalFee) - (props.formData.discount)
   return (
     <Segment id="toPrint" style={{ textAlign: 'left'}}>
       <Header as='h1' content='Review your details:' textAlign='center' />
@@ -19,7 +20,8 @@ const AssessmentAddReview = (props) => {
           <div>Total Service Cost: ${props.formData.serviceCost/100}</div>
           <div>Total Parts Cost: ${props.formData.partsCost/100}</div>
           <div>Additional Fee: ${props.formData.additionalFee}</div>
-          <div style={{borderTop: "1px solid black", margin: "5px 0px", padding: "5px 0px"}}><strong>Total Price = ${(props.formData.serviceCost/100) + (props.formData.partsCost/100) + (props.formData.additionalFee)}</strong></div>
+          <div>Less Discount: ${props.formData.discount}</div>
+          <div style={{borderTop: "1px solid black", margin: "5px 0px", padding: "5px 0px"}}><strong>Total Price = ${totalPrice}</strong></div>
         </div>
       </Segment>
       {

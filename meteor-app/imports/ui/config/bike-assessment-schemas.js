@@ -98,7 +98,7 @@ export default [{
     stepDescription: '',
     schema: {
       type: "object",
-      required: ['additionalFee'],
+      required: ['additionalFee','discount'],
       title: "Select Parts",
       properties: {
         parts: {
@@ -122,6 +122,14 @@ export default [{
           type: "integer",
           title: "Enter additional cost if required (list reason in comments)"
         },
+        discount: {
+          type: "integer",
+          title: "Discount"
+        },
+        discountReason: {
+          type: "string",
+          title: "Reason for discount"
+        },
         
       },
     },
@@ -142,6 +150,11 @@ export default [{
       additionalFee: {
         classNames: "currency",
         "ui:placeholder": "$Additional Cost",
+        "ui:widget": "updown"
+      },
+      discount: {
+        classNames: "currency",
+        "ui:placeholder": "$Discount",
         "ui:widget": "updown"
       },
 
@@ -217,7 +230,10 @@ export default [{
                 },
         
               },
-              required: ["name", "phone", "email"]
+              "oneOf": [
+                {required: ["name", "phone"]},
+                {required: ["name", "email"]}
+              ]
             }
           ]
         }

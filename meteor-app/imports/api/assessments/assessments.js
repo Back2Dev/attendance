@@ -77,6 +77,7 @@ export const AssessmentsSchema = new SimpleSchema({
   services: { type: servicesSchema, label: 'Details of services required' },
   parts: { type: partsSchema, label: 'Details of parts required' },
   additionalFees: { type: SimpleSchema.Integer, label: 'Additional cost in cents' },
+  discount: { type: SimpleSchema.Integer, label: 'Discount in cents' },
   totalCost: { 
     type: SimpleSchema.Integer, 
     label: 'Total cost in cents',
@@ -85,10 +86,11 @@ export const AssessmentsSchema = new SimpleSchema({
       const services = this.siblingField('services.totalServiceCost').value
       const parts = this.siblingField('parts.totalPartsCost').value
       const additional = this.siblingField('additionalFees').value
+      const discount = this.siblingField('discount').value
 
-      const check = services + parts + additional === this.value
+      const check = services + parts + additional - discount === this.value
       if (!check) {
-        return new Meteor.Error('Total repair cost not equal sum of services, parts and additional fees')
+        return new Meteor.Error('Total repair cost not equal sum of services, parts and additional fees, less discount')
       }
     } 
   },
