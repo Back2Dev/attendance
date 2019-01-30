@@ -2,6 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import { Button, Icon, Modal, Dropdown } from 'semantic-ui-react'
 import '/imports/ui/layouts/assessment.css'
+import { MECHANIC_UPDATE } from '/imports/api/constants'
 
 class MechanicModal extends Component {
   state = {
@@ -19,7 +20,7 @@ class MechanicModal extends Component {
 
   handleSave(job, mechanic) {
     // event.preventDefault()
-    Meteor.call('assessment.update', job, mechanic)
+    Meteor.call('assessment.update', job, MECHANIC_UPDATE, mechanic)
     //code to save mechanic to db here
     this.handleClose()
   }

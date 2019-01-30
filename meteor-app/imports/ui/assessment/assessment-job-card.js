@@ -10,14 +10,18 @@ import {
   STATUS_UPDATE,
   MECHANIC_UPDATE,
   NEW_JOB,
+  PHONE_CALL,
+  SEND_SMS,
   JOB_STATUS,
   JOB_STATUS_READABLE,
   JOB_STATUS_BUTTON,
   JOB_STATUS_STYLES,
   LOG_EVENT_TYPES
 } from '/imports/api/constants'
-import printJobCart from '/imports/ui/assessment/assessment-print-job'
-import MechanicModal from '/imports/ui/assessment/mechanic-modal'
+import printJobCart from './assessment-add'
+import MechanicModal from './mechanic-modal'
+import SmsModal from './sms-modal'
+import PhoneModal from './phone-modal'
 
 class JobCard extends Component {
   state = {
@@ -71,11 +75,9 @@ class JobCard extends Component {
     }
   }
 
-  sendSMS = () => {
-    const jobId = this.props.job._id    
-  }
+  sendSMS = cost => {}
 
-  callCustomer = () => {
+  callCustomer = cost => {
     const jobId = this.props.job._id
   }
 
@@ -102,6 +104,10 @@ class JobCard extends Component {
             return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[MECHANIC_UPDATE]]}: ${log.data}`
           case LOG_EVENT_TYPES[NEW_JOB]:
             return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[NEW_JOB]]} ${log.user}`
+          case LOG_EVENT_TYPES[PHONE_CALL]:
+            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[PHONE_CALL]]}: ${log.data}`
+          case LOG_EVENT_TYPES[SEND_SMS]:
+            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[SEND_SMS]]}: ${log.data}`
           default:
             return JOB_STATUS_READABLE[log.status]
         }
@@ -216,26 +222,8 @@ class JobCard extends Component {
 
                 <Grid.Row>
                   <Button.Group>
-                    <Button
-                      className="ui button"
-                      color="pink"
-                      style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
-                      onClick={() => callCustomer(this.props.job)}
-                    >
-                      <h1>
-                        <Icon name="phone" />
-                      </h1>
-                    </Button>
-                    <Button
-                      className="ui button"
-                      color="purple"
-                      style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
-                      onClick={() => sendSMS(this.props.job)}
-                    >
-                      <h1>
-                        <Icon name="envelope outline" />
-                      </h1>
-                    </Button>
+                    <PhoneModal job={this.props.job} />
+                    <SmsModal job={this.props.job} />
                   </Button.Group>
                 </Grid.Row>
               </Grid.Column>

@@ -9,7 +9,7 @@ const CONSTANTS = {
   ORDER_STATUS_RECEIVED: 3,
   ORDER_STATUS_RECONCILED: 4,
   ORDER_STATUS_QUERIED: 5,
-  ORDER_STATUS_CANCELLED: 6,
+  ORDER_STATUS_CANCELLED: 6
 }
 
 // // Human readable lookup table:
@@ -29,7 +29,7 @@ CONSTANTS.ORDER_STATUS_READABLE = {
   3: 'Received',
   4: 'Reconciled',
   5: 'Queried',
-  6: 'Cancelled',
+  6: 'Cancelled'
 }
 
 export const JOB_STATUS = {
@@ -38,13 +38,12 @@ export const JOB_STATUS = {
   QUALITY_CHECK: 3,
   READY_FOR_PICK_UP: 4,
   PICKED_UP: 5,
-  CANCELLED: 6,
+  CANCELLED: 6
 }
 
-export const JOB_STATUS_ALL = [1,2,3,4]
+export const JOB_STATUS_ALL = [1, 2, 3, 4]
 
-export const JOB_STATUS_COMPLETE = [5,6]
-
+export const JOB_STATUS_COMPLETE = [5, 6]
 
 export const JOB_STATUS_READABLE = {
   1: 'New',
@@ -52,7 +51,7 @@ export const JOB_STATUS_READABLE = {
   3: 'Quality Check',
   4: 'Ready for Pick Up',
   5: 'Picked Up',
-  6: 'Cancelled',
+  6: 'Cancelled'
 }
 
 export const JOB_STATUS_BUTTON = {
@@ -65,34 +64,39 @@ export const JOB_STATUS_BUTTON = {
 }
 
 export const JOB_STATUS_STYLES = {
-  1: {backgroundColor: "lightblue",fontSize: "1.5em"},
-  2: {backgroundColor: "#d2abd2",fontSize: "1.5em"},
-  3: {backgroundColor: "#ffffba",fontSize: "1.5em"},
-  4: {backgroundColor: "#ABD3B8",fontSize: "1.5em"},
-  5: {backgroundColor: "#ABD3B8",fontSize: "1.5em"},
-  6: {backgroundColor: "#ffb2b2",fontSize: "1.5em"},
+  1: { backgroundColor: 'lightblue', fontSize: '1.5em' },
+  2: { backgroundColor: '#d2abd2', fontSize: '1.5em' },
+  3: { backgroundColor: '#ffffba', fontSize: '1.5em' },
+  4: { backgroundColor: '#ABD3B8', fontSize: '1.5em' },
+  5: { backgroundColor: '#ABD3B8', fontSize: '1.5em' },
+  6: { backgroundColor: '#ffb2b2', fontSize: '1.5em' }
 }
 
 export const LOG_EVENT_READABLE = {
   20: 'Update Status',
   21: 'Update Mechanic',
-  22: 'New Job Created By'
+  22: 'New Job Created By',
+  23: 'Phone call',
+  24: 'SMS sent'
 }
 
-export const STATUS_UPDATE = "STATUS_UPDATE"
-export const MECHANIC_UPDATE = "MECHANIC_UPDATE"
-export const NEW_JOB = "NEW_JOB"
-
+export const STATUS_UPDATE = 'STATUS_UPDATE'
+export const MECHANIC_UPDATE = 'MECHANIC_UPDATE'
+export const NEW_JOB = 'NEW_JOB'
+export const PHONE_CALL = 'PHONE_CALL'
+export const SEND_SMS = 'SEND_SMS'
 
 export const LOG_EVENT_TYPES = {
   [STATUS_UPDATE]: 20,
   [MECHANIC_UPDATE]: 21,
   [NEW_JOB]: 22,
+  [PHONE_CALL]: 23,
+  [SEND_SMS]: 24
 }
 
 CONSTANTS.SERVICE_TYPES = {
   Major: 'Major Service',
-  Minor: 'Minor Service',
+  Minor: 'Minor Service'
 }
 
 export default CONSTANTS
