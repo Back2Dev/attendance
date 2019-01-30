@@ -3248,7 +3248,11 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
             >
               <button
                 className="ui pink button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -3267,7 +3271,11 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
               </button>
               <button
                 className="ui purple button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -3526,7 +3534,11 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
             >
               <button
                 className="ui pink button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -3545,7 +3557,11 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
               </button>
               <button
                 className="ui purple button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -3804,7 +3820,11 @@ exports[`Storyshots Job Card Job Card New 1`] = `
             >
               <button
                 className="ui pink button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -3823,7 +3843,11 @@ exports[`Storyshots Job Card Job Card New 1`] = `
               </button>
               <button
                 className="ui purple button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4081,8 +4105,13 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
               className="ui buttons"
             >
               <button
-                className="ui pink button ui button"
+                className="ui grey disabled button ui button"
+                disabled={true}
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4091,6 +4120,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                     "textAlign": "center",
                   }
                 }
+                tabIndex={-1}
               >
                 <h1>
                   <i
@@ -4100,8 +4130,13 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                 </h1>
               </button>
               <button
-                className="ui purple button ui button"
+                className="ui grey disabled button ui button"
+                disabled={true}
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4110,6 +4145,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                     "textAlign": "center",
                   }
                 }
+                tabIndex={-1}
               >
                 <h1>
                   <i
@@ -4360,7 +4396,11 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
             >
               <button
                 className="ui pink button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4379,7 +4419,11 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
               </button>
               <button
                 className="ui purple button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4638,7 +4682,11 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
             >
               <button
                 className="ui pink button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4657,7 +4705,11 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
               </button>
               <button
                 className="ui purple button ui button"
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
                 role="button"
                 style={
                   Object {
@@ -4935,7 +4987,11 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui pink button ui button"
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -4954,7 +5010,11 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   </button>
                   <button
                     className="ui purple button ui button"
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -5213,8 +5273,13 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   className="ui buttons"
                 >
                   <button
-                    className="ui pink button ui button"
+                    className="ui grey disabled button ui button"
+                    disabled={true}
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -5223,6 +5288,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    tabIndex={-1}
                   >
                     <h1>
                       <i
@@ -5232,8 +5298,13 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     </h1>
                   </button>
                   <button
-                    className="ui purple button ui button"
+                    className="ui grey disabled button ui button"
+                    disabled={true}
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -5242,6 +5313,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    tabIndex={-1}
                   >
                     <h1>
                       <i
@@ -5493,7 +5565,11 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui pink button ui button"
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -5512,7 +5588,11 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   </button>
                   <button
                     className="ui purple button ui button"
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -5772,7 +5852,11 @@ exports[`Storyshots Job List Job Card List 1`] = `
                 >
                   <button
                     className="ui pink button ui button"
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
@@ -5791,7 +5875,11 @@ exports[`Storyshots Job List Job Card List 1`] = `
                   </button>
                   <button
                     className="ui purple button ui button"
+                    onBlur={[Function]}
                     onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                     role="button"
                     style={
                       Object {
