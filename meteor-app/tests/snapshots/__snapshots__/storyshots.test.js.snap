@@ -3159,7 +3159,9 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                 }
               }
             >
-              Cancelled
+              <h2>
+                Cancelled
+              </h2>
             </button>
             <button
               className="ui red button ui button"
@@ -3173,7 +3175,9 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                 }
               }
             >
-              Re-open Job
+              <h2>
+                Re-open Job
+              </h2>
             </button>
           </div>
         </div>
@@ -3207,13 +3211,15 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Assign mechanic"
               >
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="remove user icon"
+                    className="doctor icon"
                   />
                 </h1>
+                Amie W
               </button>
               <button
                 className="ui blue button ui button"
@@ -3233,6 +3239,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                     className="print icon"
                   />
                 </h1>
+                Job Card
               </button>
             </div>
           </div>
@@ -3257,6 +3264,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Call customer"
               >
                 <h1>
                   <i
@@ -3264,6 +3272,7 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                     className="phone icon"
                   />
                 </h1>
+                Call Customer
               </button>
               <button
                 className="ui purple button ui button"
@@ -3284,9 +3293,10 @@ exports[`Storyshots Job Card Job Card Cancelled 1`] = `
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="envelope outline icon"
+                    className="talk icon"
                   />
                 </h1>
+                Send SMS
               </button>
             </div>
           </div>
@@ -3441,7 +3451,9 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                 }
               }
             >
-              Service Done
+              <h2>
+                Service Done
+              </h2>
             </button>
             <button
               className="ui red button ui button"
@@ -3455,7 +3467,9 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                 }
               }
             >
-              Cancel Job
+              <h2>
+                Cancel Job
+              </h2>
             </button>
           </div>
         </div>
@@ -3489,13 +3503,15 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Assign mechanic"
               >
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="remove user icon"
+                    className="doctor icon"
                   />
                 </h1>
+                Lupe P
               </button>
               <button
                 className="ui blue button ui button"
@@ -3515,6 +3531,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                     className="print icon"
                   />
                 </h1>
+                Job Card
               </button>
             </div>
           </div>
@@ -3539,6 +3556,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Call customer"
               >
                 <h1>
                   <i
@@ -3546,6 +3564,7 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                     className="phone icon"
                   />
                 </h1>
+                Call Customer
               </button>
               <button
                 className="ui purple button ui button"
@@ -3566,9 +3585,10 @@ exports[`Storyshots Job Card Job Card In Progress 1`] = `
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="envelope outline icon"
+                    className="talk icon"
                   />
                 </h1>
+                Send SMS
               </button>
             </div>
           </div>
@@ -3723,7 +3743,9 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                 }
               }
             >
-              Start
+              <h2>
+                Start
+              </h2>
             </button>
             <button
               className="ui red button ui button"
@@ -3737,7 +3759,9 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                 }
               }
             >
-              Cancel Job
+              <h2>
+                Cancel Job
+              </h2>
             </button>
           </div>
         </div>
@@ -3771,13 +3795,15 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Assign mechanic"
               >
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="remove user icon"
+                    className="doctor icon"
                   />
                 </h1>
+                Claudie W
               </button>
               <button
                 className="ui blue button ui button"
@@ -3797,6 +3823,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                     className="print icon"
                   />
                 </h1>
+                Job Card
               </button>
             </div>
           </div>
@@ -3821,6 +3848,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Call customer"
               >
                 <h1>
                   <i
@@ -3828,6 +3856,7 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                     className="phone icon"
                   />
                 </h1>
+                Call Customer
               </button>
               <button
                 className="ui purple button ui button"
@@ -3848,9 +3877,10 @@ exports[`Storyshots Job Card Job Card New 1`] = `
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="envelope outline icon"
+                    className="talk icon"
                   />
                 </h1>
+                Send SMS
               </button>
             </div>
           </div>
@@ -4005,7 +4035,9 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                 }
               }
             >
-              Completed
+              <h2>
+                Completed
+              </h2>
             </button>
             <button
               className="ui red button ui button"
@@ -4019,7 +4051,9 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                 }
               }
             >
-              Re-open Job
+              <h2>
+                Re-open Job
+              </h2>
             </button>
           </div>
         </div>
@@ -4053,13 +4087,15 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Assign mechanic"
               >
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="remove user icon"
+                    className="doctor icon"
                   />
                 </h1>
+                Drake F
               </button>
               <button
                 className="ui blue button ui button"
@@ -4079,6 +4115,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                     className="print icon"
                   />
                 </h1>
+                Job Card
               </button>
             </div>
           </div>
@@ -4105,6 +4142,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                   }
                 }
                 tabIndex={-1}
+                title="This is a refurbish, there is no customer to call"
               >
                 <h1>
                   <i
@@ -4112,6 +4150,7 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                     className="phone icon"
                   />
                 </h1>
+                Call Customer
               </button>
               <button
                 className="ui grey disabled button ui button"
@@ -4134,9 +4173,10 @@ exports[`Storyshots Job Card Job Card Picked Up 1`] = `
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="envelope outline icon"
+                    className="talk icon"
                   />
                 </h1>
+                Send SMS
               </button>
             </div>
           </div>
@@ -4291,7 +4331,9 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                 }
               }
             >
-              Quality Checked
+              <h2>
+                Quality Checked
+              </h2>
             </button>
             <button
               className="ui red button ui button"
@@ -4305,7 +4347,9 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                 }
               }
             >
-              Cancel Job
+              <h2>
+                Cancel Job
+              </h2>
             </button>
           </div>
         </div>
@@ -4339,13 +4383,15 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Assign mechanic"
               >
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="remove user icon"
+                    className="doctor icon"
                   />
                 </h1>
+                Clifton C
               </button>
               <button
                 className="ui blue button ui button"
@@ -4365,6 +4411,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                     className="print icon"
                   />
                 </h1>
+                Job Card
               </button>
             </div>
           </div>
@@ -4389,6 +4436,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Call customer"
               >
                 <h1>
                   <i
@@ -4396,6 +4444,7 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                     className="phone icon"
                   />
                 </h1>
+                Call Customer
               </button>
               <button
                 className="ui purple button ui button"
@@ -4416,9 +4465,10 @@ exports[`Storyshots Job Card Job Card Quality Check 1`] = `
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="envelope outline icon"
+                    className="talk icon"
                   />
                 </h1>
+                Send SMS
               </button>
             </div>
           </div>
@@ -4573,7 +4623,9 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                 }
               }
             >
-              Picked Up
+              <h2>
+                Picked Up
+              </h2>
             </button>
             <button
               className="ui red button ui button"
@@ -4587,7 +4639,9 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                 }
               }
             >
-              Cancel Job
+              <h2>
+                Cancel Job
+              </h2>
             </button>
           </div>
         </div>
@@ -4621,13 +4675,15 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Assign mechanic"
               >
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="remove user icon"
+                    className="doctor icon"
                   />
                 </h1>
+                Shanie R
               </button>
               <button
                 className="ui blue button ui button"
@@ -4647,6 +4703,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                     className="print icon"
                   />
                 </h1>
+                Job Card
               </button>
             </div>
           </div>
@@ -4671,6 +4728,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                     "textAlign": "center",
                   }
                 }
+                title="Call customer"
               >
                 <h1>
                   <i
@@ -4678,6 +4736,7 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                     className="phone icon"
                   />
                 </h1>
+                Call Customer
               </button>
               <button
                 className="ui purple button ui button"
@@ -4698,9 +4757,10 @@ exports[`Storyshots Job Card Job Card Ready For Pick Up 1`] = `
                 <h1>
                   <i
                     aria-hidden="true"
-                    className="envelope outline icon"
+                    className="talk icon"
                   />
                 </h1>
+                Send SMS
               </button>
             </div>
           </div>
@@ -4874,7 +4934,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Picked Up
+                  <h2>
+                    Picked Up
+                  </h2>
                 </button>
                 <button
                   className="ui red button ui button"
@@ -4888,7 +4950,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Cancel Job
+                  <h2>
+                    Cancel Job
+                  </h2>
                 </button>
               </div>
             </div>
@@ -4922,13 +4986,15 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Assign mechanic"
                   >
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="remove user icon"
+                        className="doctor icon"
                       />
                     </h1>
+                    Kip R
                   </button>
                   <button
                     className="ui blue button ui button"
@@ -4948,6 +5014,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="print icon"
                       />
                     </h1>
+                    Job Card
                   </button>
                 </div>
               </div>
@@ -4972,6 +5039,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Call customer"
                   >
                     <h1>
                       <i
@@ -4979,6 +5047,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="phone icon"
                       />
                     </h1>
+                    Call Customer
                   </button>
                   <button
                     className="ui purple button ui button"
@@ -4999,9 +5068,10 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="envelope outline icon"
+                        className="talk icon"
                       />
                     </h1>
+                    Send SMS
                   </button>
                 </div>
               </div>
@@ -5157,7 +5227,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Service Done
+                  <h2>
+                    Service Done
+                  </h2>
                 </button>
                 <button
                   className="ui red button ui button"
@@ -5171,7 +5243,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Cancel Job
+                  <h2>
+                    Cancel Job
+                  </h2>
                 </button>
               </div>
             </div>
@@ -5205,13 +5279,15 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Assign mechanic"
                   >
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="remove user icon"
+                        className="doctor icon"
                       />
                     </h1>
+                    Johanna B
                   </button>
                   <button
                     className="ui blue button ui button"
@@ -5231,6 +5307,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="print icon"
                       />
                     </h1>
+                    Job Card
                   </button>
                 </div>
               </div>
@@ -5257,6 +5334,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                       }
                     }
                     tabIndex={-1}
+                    title="This is a refurbish, there is no customer to call"
                   >
                     <h1>
                       <i
@@ -5264,6 +5342,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="phone icon"
                       />
                     </h1>
+                    Call Customer
                   </button>
                   <button
                     className="ui grey disabled button ui button"
@@ -5286,9 +5365,10 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="envelope outline icon"
+                        className="talk icon"
                       />
                     </h1>
+                    Send SMS
                   </button>
                 </div>
               </div>
@@ -5444,7 +5524,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Start
+                  <h2>
+                    Start
+                  </h2>
                 </button>
                 <button
                   className="ui red button ui button"
@@ -5458,7 +5540,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Cancel Job
+                  <h2>
+                    Cancel Job
+                  </h2>
                 </button>
               </div>
             </div>
@@ -5492,13 +5576,15 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Assign mechanic"
                   >
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="remove user icon"
+                        className="doctor icon"
                       />
                     </h1>
+                    Ian F
                   </button>
                   <button
                     className="ui blue button ui button"
@@ -5518,6 +5604,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="print icon"
                       />
                     </h1>
+                    Job Card
                   </button>
                 </div>
               </div>
@@ -5542,6 +5629,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Call customer"
                   >
                     <h1>
                       <i
@@ -5549,6 +5637,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="phone icon"
                       />
                     </h1>
+                    Call Customer
                   </button>
                   <button
                     className="ui purple button ui button"
@@ -5569,9 +5658,10 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="envelope outline icon"
+                        className="talk icon"
                       />
                     </h1>
+                    Send SMS
                   </button>
                 </div>
               </div>
@@ -5727,7 +5817,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Picked Up
+                  <h2>
+                    Picked Up
+                  </h2>
                 </button>
                 <button
                   className="ui red button ui button"
@@ -5741,7 +5833,9 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     }
                   }
                 >
-                  Cancel Job
+                  <h2>
+                    Cancel Job
+                  </h2>
                 </button>
               </div>
             </div>
@@ -5775,13 +5869,15 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Assign mechanic"
                   >
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="remove user icon"
+                        className="doctor icon"
                       />
                     </h1>
+                    Kip R
                   </button>
                   <button
                     className="ui blue button ui button"
@@ -5801,6 +5897,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="print icon"
                       />
                     </h1>
+                    Job Card
                   </button>
                 </div>
               </div>
@@ -5825,6 +5922,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         "textAlign": "center",
                       }
                     }
+                    title="Call customer"
                   >
                     <h1>
                       <i
@@ -5832,6 +5930,7 @@ exports[`Storyshots Job List Job Card List 1`] = `
                         className="phone icon"
                       />
                     </h1>
+                    Call Customer
                   </button>
                   <button
                     className="ui purple button ui button"
@@ -5852,9 +5951,10 @@ exports[`Storyshots Job List Job Card List 1`] = `
                     <h1>
                       <i
                         aria-hidden="true"
-                        className="envelope outline icon"
+                        className="talk icon"
                       />
                     </h1>
+                    Send SMS
                   </button>
                 </div>
               </div>

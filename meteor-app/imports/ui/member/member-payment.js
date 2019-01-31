@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react'
 const Payment = () => {
   return (
     <a className="pin-payment-button" href="https://pay.pinpayments.com/qrgb" id="add_member">
-      <Button color="red" content="Pay Now" icon="credit card outline" />
+      <Button color="red" content="Pay Now" icon="credit card" />
     </a>
   )
 }

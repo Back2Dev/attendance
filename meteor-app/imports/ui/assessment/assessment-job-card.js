@@ -190,7 +190,7 @@ class JobCard extends Component {
                     style={{ textAlign: 'center', borderRadius: '5px', width: '200px' }}
                     onClick={this.updateButton}
                   >
-                    {statusText}
+                    <h2>{statusText}</h2>
                   </Button>
                   <Button
                     className="ui button"
@@ -198,7 +198,7 @@ class JobCard extends Component {
                     style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
                     onClick={this.cancelButton}
                   >
-                    {cancelText}
+                    <h2>{cancelText}</h2>
                   </Button>
                 </Button.Group>
               </Grid.Column>
@@ -216,6 +216,7 @@ class JobCard extends Component {
                       <h1>
                         <Icon name="print" />
                       </h1>
+                      Job Card
                     </Button>
                   </Button.Group>
                 </Grid.Row>

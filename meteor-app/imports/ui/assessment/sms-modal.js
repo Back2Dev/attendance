@@ -48,8 +48,9 @@ class SmsModal extends Component {
             disabled={!!job.customerDetails.isRefurbish}
           >
             <h1>
-              <Icon name="envelope outline" />
+              <Icon name="talk" />
             </h1>
+            Send SMS
           </Button>
         }
       >

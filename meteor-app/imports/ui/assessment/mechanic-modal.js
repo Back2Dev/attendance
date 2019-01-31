@@ -3,6 +3,7 @@ import { Component } from 'react'
 import { Button, Icon, Modal, Dropdown } from 'semantic-ui-react'
 import '/imports/ui/layouts/assessment.css'
 import { MECHANIC_UPDATE } from '/imports/api/constants'
+import { shorten_name } from '/imports/api/utils'
 
 class MechanicModal extends Component {
   state = {
@@ -45,10 +46,10 @@ class MechanicModal extends Component {
             className="ui button"
             color="teal"
             onClick={this.handleOpen}
+            title="Assign mechanic"
           >
-            <h1>
-              {this.props.currentJob.mechanic === undefined ? <Icon name="add user" /> : <Icon name="remove user" />}
-            </h1>
+            <h1>{!this.props.currentJob.mechanic ? <Icon name="add user" /> : <Icon name="doctor" />}</h1>
+            {shorten_name(this.props.job.mechanic)}
           </Button>
         }
         onClose={this.handleClose}
@@ -79,7 +80,7 @@ class MechanicModal extends Component {
             <Icon name="checkmark" /> Add
           </Button>
           <Button color="red" onClick={this.handleClose} inverted id="cancel">
-            <Icon name="times" /> Close
+            <Icon name="delete" /> Close
           </Button>
         </Modal.Actions>
       </Modal>

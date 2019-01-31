@@ -27,6 +27,10 @@ class Element extends Component {
 
   render(props) {
     const { job } = this.props
+    const disabled = !!job.customerDetails.isRefurbish
+    const reason = job.customerDetails.isRefurbish
+      ? 'This is a refurbish, there is no customer to call'
+      : 'Call customer'
     return (
       <Modal
         open
@@ -39,11 +43,13 @@ class Element extends Component {
             color={job.customerDetails.isRefurbish ? 'grey' : 'pink'}
             style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
             onClick={() => this.setState({ isOpen: true })}
-            disabled={!!job.customerDetails.isRefurbish}
+            disabled={disabled}
+            title={reason}
           >
             <h1>
               <Icon name="phone" />
             </h1>
+            Call Customer
           </Button>
         }
       >
