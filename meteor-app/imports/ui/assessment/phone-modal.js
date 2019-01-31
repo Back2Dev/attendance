@@ -47,7 +47,10 @@ class Element extends Component {
           </Button>
         }
       >
-        <Header icon="arrow right" content="Call customer" />
+        <Header
+          icon="arrow right"
+          content={`Call customer ${job.customerDetails.name} on number: ${job.customerDetails.phone}`}
+        />
         <Modal.Content>
           <div>
             <p />

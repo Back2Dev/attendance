@@ -131,8 +131,8 @@ class JobCard extends Component {
     const servicePackage = services.baseService
 
     // Dynamic button name
-    const statusButton = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
-    const cancelButton = status <= JOB_STATUS.READY_FOR_PICK_UP ? 'Cancel Job' : 'Re-open Job'
+    const statusText = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
+    const cancelText = status <= JOB_STATUS.READY_FOR_PICK_UP ? 'Cancel Job' : 'Re-open Job'
     const name = `${jobNo} ${this.titleCase(color)} ${make} ${model}`
 
     return (
@@ -190,7 +190,7 @@ class JobCard extends Component {
                     style={{ textAlign: 'center', borderRadius: '5px', width: '200px' }}
                     onClick={this.updateButton}
                   >
-                    <h1>{statusButton}</h1>
+                    {statusText}
                   </Button>
                   <Button
                     className="ui button"
@@ -198,7 +198,7 @@ class JobCard extends Component {
                     style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
                     onClick={this.cancelButton}
                   >
-                    <h1>{cancelButton}</h1>
+                    {cancelText}
                   </Button>
                 </Button.Group>
               </Grid.Column>

@@ -53,7 +53,10 @@ class SmsModal extends Component {
           </Button>
         }
       >
-        <Header icon="arrow right" content="Send 'pickup' SMS to customer" />
+        <Header
+          icon="arrow right"
+          content={`Send 'pickup' SMS to customer ${job.customerDetails.name} on number: ${job.customerDetails.phone}`}
+        />
         <Modal.Content>
           <div>
             <p />
