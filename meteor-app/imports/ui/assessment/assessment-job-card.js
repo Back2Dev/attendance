@@ -18,7 +18,7 @@ import {
   JOB_STATUS_STYLES,
   LOG_EVENT_TYPES
 } from '/imports/api/constants'
-import printJobCart from './assessment-add'
+import printJobCard from '/imports/ui/assessment/assessment-print-job'
 import MechanicModal from './mechanic-modal'
 import SmsModal from './sms-modal'
 import PhoneModal from './phone-modal'
@@ -211,7 +211,7 @@ class JobCard extends Component {
                       className="ui button"
                       color="blue"
                       style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
-                      onClick={() => printJobCart(this.props.job)}
+                      onClick={() => printJobCard(this.props.job)}
                     >
                       <h1>
                         <Icon name="print" />
