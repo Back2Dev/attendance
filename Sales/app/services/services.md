@@ -1,0 +1,1 @@
+The services folder is for the functions that wrap our API calls to stripe.
