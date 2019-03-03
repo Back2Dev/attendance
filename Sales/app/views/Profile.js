@@ -1,15 +1,15 @@
-import React from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
+import React from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 export default class Profile extends React.Component {
-    static navigationOptions = {
-        title: 'User Profile',
-    }
+  static navigationOptions = {
+    title: "User Profile"
+  };
   render() {
     return (
       <View style={styles.container}>
-
         <Text>User Profile</Text>
+        <Text>Mike</Text>
 
         {/* Avatar and Name Component */}
 
@@ -23,21 +23,20 @@ export default class Profile extends React.Component {
 
         {/* Attendance History Component */}
 
-        <Button 
-            title="Settings"
-            onPress={() => this.props.navigation.navigate('Settings')}
+        <Button
+          title="Settings"
+          onPress={() => this.props.navigation.navigate("Settings")}
         />
       </View>
-    )
+    );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
