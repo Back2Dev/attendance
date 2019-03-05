@@ -1,7 +1,7 @@
 describe('Setup', () => {
   beforeEach(() => {
     cy.visit('/')
-    loadFixtures()
+    // loadFixtures()
     rmPin('Dorothea Kovacek')
   })
 })
@@ -11,7 +11,7 @@ const pin = '1234'
 describe('Checking in', () => {
   beforeEach(() => {
     cy.visit('/')
-    loadFixtures()
+    // loadFixtures()
   })
   it('Allows checkin', () => {
     rmPin('Dorothea Kovacek')
