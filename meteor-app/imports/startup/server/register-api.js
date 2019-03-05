@@ -8,12 +8,12 @@ import '/imports/api/members/server/publications'
 import '/imports/api/sessions/methods'
 import '/imports/api/sessions/server/publications'
 
-//parts
+// parts
 import '/imports/api/parts/methods'
 import '/imports/api/parts/schema'
 import '/imports/api/parts/server/publications'
 
-//orders 
+// orders
 import '/imports/api/orders/methods'
 import '/imports/api/orders/schema'
 import '/imports/api/orders/server/publications'
@@ -24,3 +24,6 @@ import '/imports/api/assessments/services'
 import '/imports/api/assessments/serviceItems'
 import '/imports/api/assessments/methods'
 import '/imports/api/assessments/server/publications'
+
+// Sales
+import '/imports/api/transactions/server/publications'
