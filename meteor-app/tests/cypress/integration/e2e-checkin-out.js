@@ -43,6 +43,7 @@ describe('Checking in', () => {
     // Check the number of visits has gone up by 1
     cy.get('div[about="Dorothea Kovacek"]').then(function ($div) {
       expect(parseInt($div.text()) - parseInt(this.visits)).to.eq(1)
+      expect($div.text()).to.eq(this.visits)
     })
   })
 })
