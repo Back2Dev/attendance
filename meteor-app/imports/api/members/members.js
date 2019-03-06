@@ -150,6 +150,36 @@ export const MembersSchema = new SimpleSchema({
     label: "Pin number",
     optional: true,
   },
+  stripeId: {
+    type: String,
+    label: "Stripe id associated with customer",
+    optional: true,
+  },
+  cardId: {
+    type: String,
+    label: "Card id given to us from stripe",
+    optional: true,
+  },
+  cardBrand: {
+    type: String,
+    label: "Card brand on file for user",
+    optional: true,
+  },
+  cardExpMonth: { 
+    type: Number,
+    label: "Card expiry month",
+    optional: true,
+  },
+  cardExpYear: {
+    type: Number,
+    label: "Card expiry year",
+    optional: true,
+  },
+  cardLastFour: {
+    type: String,
+    label: "Last 4 digits of card on file",
+    optional: true
+  },
   createdAt,
   updatedAt,
 })
