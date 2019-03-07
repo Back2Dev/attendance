@@ -6,8 +6,8 @@ const cron = require('node-cron')
 const debug = require('debug')('b2b:cron')
 
 import log from '/imports/lib/log'
-import Members from '/imports/api/members/members'
-import Sessions from '/imports/api/sessions/sessions'
+import Members from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
 
 // import { CRON_JOBS, INTERCOM } from './server-constants'
 

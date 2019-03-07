@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor"; // base
-import Members from "/imports/api/members/members";
+import Members from "/imports/api/members/schema";
 import Rejects from "/imports/api/members/rejects";
 import casual from "casual"; // casual random data generator
 import moment from "moment";

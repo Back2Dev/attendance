@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { Meteor } from 'meteor/meteor'
 import Factory from '/imports/test/factories'
 import '/imports/api/assessments/methods'
-import Assessments from '/imports/api/assessments/assessments'
+import Assessments from '/imports/api/assessments/schema'
 
 const goodAssessment = Factory.build('assessment')
 const updatedAssessment = Factory.build('assessment', { customerDetails: { name: 'Test Name' } })

@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from  'simpl-schema'
 
-import { memberSchema } from '../members/members';
-import { productSchema } from '../products/products';
+import { memberSchema } from '../members/schema';
+import { productSchema } from '../products/schema';
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
@@ -16,10 +16,10 @@ export const TransactionsSchema = new SimpleSchema({
     optional: false
   },
   memberId: {
-    type: memberSchema,
+    type: String,
   },
   productId: {
-    type: productSchema,
+    type: String,
   },
   price: {
     type: Number,

@@ -1,9 +1,8 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
-import Transactions from './transactions'
+import Transactions from './schema'
 import Factory from '/imports/test/factories'
-// import { RegExId } from '../schema'
 
 const badTransactions = [
     // no memberId
@@ -21,12 +20,6 @@ const badTransactions = [
     memberId: 'asdf9kj98',
     productId: 'asdf23asdf',
   },
-   // price is a string
-  {
-    memberId: 'asdf9kj98',
-    productId: 'asdf23asdf',
-    price: "5000",
-  },
 ]
 
 const goodTransactions = [
@@ -37,13 +30,13 @@ const goodTransactions = [
   },
 ]
 
-goodTransactions.push(Factory.build('product'))
+goodTransactions.push(Factory.build('transaction'))
 
 describe('transactions', () => {
   beforeEach(resetDatabase)
 
   goodTransactions.forEach((good, i) => {
-    describe('TransactionsSchema good products', () => {
+    describe('TransactionsSchema good transactions', () => {
       it(`Succeeds on GOOD Transactions insert ${i + 1}`, () => {
         expect(() => Transactions.insert(good)).not.to.throw()
       })

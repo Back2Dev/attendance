@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Members, { Dupes } from '/imports/api/members/members'
+import Members, { Dupes } from '/imports/api/members/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 

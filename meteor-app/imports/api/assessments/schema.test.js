@@ -2,7 +2,7 @@ import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 import Factory from '/imports/test/factories'
 
-import Assessments, { STATUS } from '/imports/api/assessments/assessments'
+import Assessments, { STATUS } from '/imports/api/assessments/schema'
 
 const badAssessment = []
 

@@ -1,1 +1,1 @@
-import Products from './products'
+import Products from './schema'

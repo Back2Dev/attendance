@@ -9,14 +9,16 @@ import { Random } from 'meteor/random';
 
 import CONSTANTS from '/imports/api/constants'
 // publications
-import Members from '/imports/api/members/members'
-import Sessions from '/imports/api/sessions/sessions'
+import Members from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
 import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
-import { RegExId } from '/imports/api/schema'
+import Products from '/imports/api/products/schema'
+import Transactions from '/imports/api/transactions/schema'
+// import { RegExId } from '/imports/api/schema'
 
-import Assessments from '/imports/api/assessments/assessments'
-import Services from '/imports/api/assessments/services'
+import Assessments from '/imports/api/assessments/schema'
+import Services from '/imports/api/assessments/schema'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Logger from '/imports/api/assessments/logger'
 
@@ -158,6 +160,24 @@ Factory.define('part', Parts, {
   name: 'carbonfibre frame',
   barcode: '22413000022413',
   status: CONSTANTS.ORDER_STATUS_NEW,
+})
+
+Factory.define('product', Products, {
+  productTitle: "3 Month membership for Back2Bikes",
+  productDescription: 'Passes allow you to use Back 2 Bikes',
+  productType:'membership',
+  duration: 3,
+  price: 5000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  startDate: "2019-02-18T16:00:00Z",
+  endDate: "2019-05-18T16:00:00Z"
+})
+
+Factory.define('transaction', Transactions, {
+  memberId: 'asdf9kj98',
+  productId: 'asdf23asdf',
+  price: 5000,
 })
 
 export default Factory

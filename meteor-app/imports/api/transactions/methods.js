@@ -1,1 +1,1 @@
-import Transactions from './transactions'
+import Transactions from './schema'

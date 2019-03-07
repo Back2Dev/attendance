@@ -3,7 +3,7 @@ import SimpleSchema from  'simpl-schema'
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
-const Products = new Mongo.Collection('sessions')
+const Products = new Mongo.Collection('products')
 
 export const ProductsSchema = new SimpleSchema({
   _id: {

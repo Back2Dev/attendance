@@ -2,8 +2,8 @@
 
 import moment from 'moment'
 
-import Members from '/imports/api/members/members'
-import Sessions from '/imports/api/sessions/sessions'
+import Members from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 

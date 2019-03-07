@@ -1,12 +1,11 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
-import Products from './products'
+import Products from './schema'
 import Factory from '/imports/test/factories'
-// import { RegExId } from '../schema'
 
 const badProducts = [
-    // no productTitle
+    // 1. no productTitle
   {
     productDescription: 'Passes allow you to use Back 2 Bikes',
     productType:'pass',
@@ -17,7 +16,7 @@ const badProducts = [
     startDate: "2019-02-18T16:00:00Z",
     endDate: "2019-05-18T16:00:00Z"
   },
-    // no productDescription
+    // 2. no productDescription 
   {
     productTitle: "Pass for Back2Bikes",
     productType:'pass',
@@ -28,7 +27,7 @@ const badProducts = [
     startDate: "2019-02-18T16:00:00Z",
     endDate: "2019-05-18T16:00:00Z"
   },
-    // no productType
+    // 3. no productType
   {
     productTitle: "Pass for Back2Bikes",
     productDescription: 'Passes allow you to use Back 2 Bikes',
@@ -39,19 +38,19 @@ const badProducts = [
     startDate: "2019-02-18T16:00:00Z",
     endDate: "2019-05-18T16:00:00Z"
   },
-    // duration a string instead of number
+    // 4. duration a boolean instead of number
   {
     productTitle: "Pass for Back2Bikes",
     productDescription: 'Passes allow you to use Back 2 Bikes',
     productType:'pass',
-    duration: "3",
+    duration: true,
     price: 5000,
     image: '/public/images/gym.jpg',
     active: true,
     startDate: "2019-02-18T16:00:00Z",
     endDate: "2019-05-18T16:00:00Z"
   },
-    // price a boolean instead of number
+    // 5. price a boolean instead of number
   {
     productTitle: "Pass for Back2Bikes",
     productDescription: 'Passes allow you to use Back 2 Bikes',
@@ -62,41 +61,6 @@ const badProducts = [
     active: true,
     startDate: "2019-02-18T16:00:00Z",
     endDate: "2019-05-18T16:00:00Z"
-  },
-    // active string instead of boolean
-  {
-    productTitle: "Pass for Back2Bikes",
-    productDescription: 'Passes allow you to use Back 2 Bikes',
-    productType:'pass',
-    duration: 3,
-    price: 5000,
-    image: '/public/images/gym.jpg',
-    active: "true",
-    startDate: "2019-02-18T16:00:00Z",
-    endDate: "2019-05-18T16:00:00Z"
-  },
-    // startDate missing
-  {
-    productTitle: "Pass for Back2Bikes",
-    productDescription: 'Passes allow you to use Back 2 Bikes',
-    productType:'pass',
-    duration: 3,
-    price: 5000,
-    image: '/public/images/gym.jpg',
-    active: true,
-    endDate: "2019-05-18T16:00:00Z"
-  },
-    // endDate a number
-  {
-    productTitle: "Pass for Back2Bikes",
-    productDescription: 'Passes allow you to use Back 2 Bikes',
-    productType:'pass',
-    duration: 3,
-    price: 5000,
-    image: '/public/images/gym.jpg',
-    active: true,
-    startDate: "2019-02-18T16:00:00Z",
-    endDate: 2020,
   },
 ]
 
@@ -133,8 +97,8 @@ const goodProducts = [
 ]
 
 goodProducts.push(Factory.build('product'))
-
-describe('products', () => {
+ 
+describe('schema', () => {
   beforeEach(resetDatabase)
 
   goodProducts.forEach((good, i) => {
@@ -159,7 +123,7 @@ describe('products', () => {
         expect(product.active).to.equal(good.active)
         expect(product.startDate).to.equal(good.startDate)
         expect(product.endDate).to.equal(good.endDate)
-      })
+      }) 
     })
 
     badProducts.forEach((bad, i) => {
