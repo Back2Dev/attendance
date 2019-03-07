@@ -1,3 +1,7 @@
+// schema.test.js
+
+/* eslint-disable no-unused-expressions */
+
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 

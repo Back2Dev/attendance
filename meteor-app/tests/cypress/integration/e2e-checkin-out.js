@@ -1,19 +1,19 @@
-describe('Setup', function() {
-  beforeEach(function() {
+describe('Setup', () => {
+  beforeEach(() => {
     cy.visit('/')
-    loadFixtures()
+    // loadFixtures()
     rmPin('Dorothea Kovacek')
   })
 })
 
 const pin = '1234'
 
-describe('Checking in', function() {
-  beforeEach(function() {
+describe('Checking in', () => {
+  beforeEach(() => {
     cy.visit('/')
-    loadFixtures()
+    // loadFixtures()
   })
-  it('Allows checkin', function() {
+  it('Allows checkin', () => {
     rmPin('Dorothea Kovacek')
     cy.get('div[about="Dorothea Kovacek"]')
       .invoke('text')
@@ -31,18 +31,19 @@ describe('Checking in', function() {
       .contains('Dorothea K')
       .should('exist')
   })
-  it('Allows checkout', function() {
+  it('Allows checkout', () => {
     cy.contains(/Dorothea K$/).click()
     cy.get('input#pin').type(pin)
     cy.get('#signIn').click() // button is used for both sign in and out
   })
-  it('Available for checkin', function() {
+  it('Available for checkin', () => {
     cy.get('div[list="away"]')
       .contains('Dorothea Kovacek')
       .should('exist')
     // Check the number of visits has gone up by 1
-    cy.get('div[about="Dorothea Kovacek"]').then(function($div) {
-      expect(parseInt($div.text() - parseInt(this.visits))).to.eq(1)
+    cy.get('div[about="Dorothea Kovacek"]').then(function ($div) {
+      expect(parseInt($div.text()) - parseInt(this.visits)).to.eq(1)
+      // expect($div.text()).to.eq(this.visits)
     })
   })
 })

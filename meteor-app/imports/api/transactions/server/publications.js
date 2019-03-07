@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import Transactions from '../transactions'
+import Transactions from '../schema'
 
 Meteor.publish('all.transactions', () => {
-  return Transactions.find({}, { sort: { createdAt: -1 } })
+  return Transactions.find({})
 })
-
