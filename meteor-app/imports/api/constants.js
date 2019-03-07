@@ -89,4 +89,18 @@ CONSTANTS.SERVICE_TYPES = {
   Minor: 'Minor Service'
 }
 
+// Product Type values
+CONSTANTS.PRODUCT_TYPES = {
+  PASS: 1,
+  COURSE: 2,
+  MEMBERSHIP: 3
+}
+
+// Human readable lookup table:
+CONSTANTS.PRODUCT_TYPES_READABLE = {
+  1: 'Pass',
+  2: 'Course',
+  3: 'Membership'
+}
+
 export default CONSTANTS

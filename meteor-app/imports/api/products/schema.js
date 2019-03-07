@@ -1,8 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
-import CONSTANTS from './constants'
-
+import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
 
@@ -19,7 +18,7 @@ export const ProductsSchema = new SimpleSchema({
   type: {
     type: SimpleSchema.Integer,
     label: 'Product Type: Pass, Membership, Course',
-    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPE_READABLE).map(key => parseInt(key, 10)),
+    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE).map(key => parseInt(key, 10))
   },
   duration: {
     type: SimpleSchema.Integer,
@@ -30,7 +29,7 @@ export const ProductsSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Product Price in cents.  If free please leave blank',
     optional: true,
-    defaultValue: 0,
+    defaultValue: 0
   },
   image: {
     type: String,
