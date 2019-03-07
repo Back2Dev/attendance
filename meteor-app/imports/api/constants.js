@@ -12,16 +12,6 @@ const CONSTANTS = {
   ORDER_STATUS_CANCELLED: 6
 }
 
-// // Human readable lookup table:
-// CONSTANTS.ORDER_STATUS_READABLE = {
-//   ORDER_STATUS_NEW: 'New',
-//   ORDER_STATUS_SENT: 'Sent',
-//   ORDER_STATUS_RECEIVED: 'Received',
-//   ORDER_STATUS_RECONCILED: 'Reconciled',
-//   ORDER_STATUS_QUERIED: 'Queried',
-//   ORDER_STATUS_CANCELLED: 'Cancelled',
-// }
-
 // Human readable lookup table:
 CONSTANTS.ORDER_STATUS_READABLE = {
   1: 'New',

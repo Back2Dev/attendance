@@ -28,7 +28,7 @@ import '/imports/api/assessments/server/publications'
 // //transactions
 // import 'imports/api/transactions/schema'
 // import 'imports/api/transactions/methods'
-import 'imports/api/transactions/server/publications'
+import '/imports/api/transactions/server/publications'
 
 // //products
 // import 'imports/api/products/schema'
