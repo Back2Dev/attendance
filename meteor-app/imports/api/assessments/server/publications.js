@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Assessment from '../assessments'
+import Assessment from '../schema'
 import Services from '../services'
 import ServiceItems from '../serviceItems'
 import Logger from '../logger'

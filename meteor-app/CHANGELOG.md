@@ -2,6 +2,8 @@
 
 Next 
 ------
+* Added new collections for sales
+* Upgrade cypress to 3.1.5
 
 0.11.0
 ------

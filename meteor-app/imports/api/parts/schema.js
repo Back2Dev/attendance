@@ -36,7 +36,7 @@ export const PartsSchema = new SimpleSchema({
     label: 'Barcode',
     optional: true,
   },
-  status: {
+  status: { 
     type: SimpleSchema.Integer,
     label: 'Part Status',
     allowedValues: Object.keys(CONSTANTS.ORDER_STATUS_READABLE).map(key => parseInt(key, 10)),

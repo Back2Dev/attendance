@@ -7,8 +7,8 @@ import { Meteor } from 'meteor/meteor'
 import _debug from 'debug'
 import { check } from 'meteor/check'
 
-import Members, { MembersSchema } from '/imports/api/members/members'
-import Sessions, { SessionsSchema } from '/imports/api/sessions/sessions'
+import Members, { MembersSchema } from '/imports/api/members/schema'
+import Sessions, { SessionsSchema } from '/imports/api/sessions/schema'
 import Events, { EventsSchema } from '/imports/api/events'
 // import { checkSuperAdmin } from '/imports/api/util-auth'
 
