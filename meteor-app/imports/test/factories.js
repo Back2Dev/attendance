@@ -163,9 +163,9 @@ Factory.define('part', Parts, {
 })
 
 Factory.define('product', Products, {
-  productTitle: "3 Month membership for Back2Bikes",
-  productDescription: 'Passes allow you to use Back 2 Bikes',
-  productType:'membership',
+  name: "3 Month membership for Back2Bikes",
+  description: 'Passes allow you to use Back 2 Bikes',
+  type: 1,
   duration: 3,
   price: 5000,
   image: '/public/images/gym.jpg',

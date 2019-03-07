@@ -1,33 +1,36 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import CONSTANTS from './constants'
+
 
 const Products = new Mongo.Collection('products')
 
 export const ProductsSchema = new SimpleSchema({
   _id: RegExId,
-  productTitle: {
+  name: {
     type: String,
     label: 'Product Title'
   },
-  productDescription: {
+  description: {
     type: String,
     label: 'Product Description'
   },
-  productType: {
-    type: String,
-    label: 'Product Type: Pass, Membership, Course'
+  type: {
+    type: SimpleSchema.Integer,
+    label: 'Product Type: Pass, Membership, Course',
+    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPE_READABLE).map(key => parseInt(key, 10)),
   },
   duration: {
-    type: Number,
+    type: SimpleSchema.Integer,
     label: 'Product Duration in weeks (if applicable)',
     optional: true
   },
   price: {
-    type: Number,
-    label: 'Product Price.  If free please leave blank',
-    optional: true
+    type: SimpleSchema.Integer,
+    label: 'Product Price in cents.  If free please leave blank',
+    optional: true,
+    defaultValue: 0,
   },
   image: {
     type: String,
