@@ -1,9 +1,9 @@
-import { Meteor } from "meteor/meteor"
-import { withTracker } from "meteor/react-meteor-data"
-import { ReactiveVar } from "meteor/reactive-var"
+import { Meteor } from 'meteor/meteor'
+import { withTracker } from 'meteor/react-meteor-data'
+import { ReactiveVar } from 'meteor/reactive-var'
 import Logger from '/imports/api/assessments/logger'
-import Assessment from '/imports/api/assessments/assessments'
-import Members from '/imports/api/members/members'
+import Assessment from '/imports/api/assessments/schema'
+import Members from '/imports/api/members/schema'
 import JobCardList from '/imports/ui/assessment/assessment-job-card-list'
 
 import { JOB_STATUS_ALL, JOB_STATUS_READABLE } from '/imports/api/constants'
@@ -19,26 +19,26 @@ export default withTracker(props => {
   const membersSub = Meteor.subscribe('all.members')
   const logSub = Meteor.subscribe('logger.assessment', selectedaId.get())
   const loading = !jobSub.ready() && !membersSub.ready() && !logSub.ready()
-  function changeAssId(aId){
+  function changeAssId(aId) {
     selectedaId.set(aId)
   }
-  const logs = Logger.find({aId: selectedaId.get()}).fetch()
+  const logs = Logger.find({ aId: selectedaId.get() }).fetch()
 
   const searchFind = search => {
     resetStatus()
     searchVar.set(search)
   }
 
-  const statusFilter = (status) => {
+  const statusFilter = status => {
     let statusValue
-    if(status === 'all'){
+    if (status === 'all') {
       statusValue = JOB_STATUS_ALL
     } else {
       statusValue = Object.keys(JOB_STATUS_READABLE) // [ "1","2","3","4","5" ]
         .filter(key => key === status.key) // ["1"]
         .map(value => parseInt(value)) // [1]
-  }
-  statusVar.set(statusValue)
+    }
+    statusVar.set(statusValue)
   }
 
   const resetStatus = () => {
@@ -53,21 +53,27 @@ export default withTracker(props => {
     const search = searchVar.get()
     const status = statusVar.get()
     if (status == '') {
-      return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } }, {sort: {createdAt: -1}}).fetch()
+      return Assessment.find(
+        { search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' } },
+        { sort: { createdAt: -1 } }
+      ).fetch()
     }
-    return Assessment.find({ search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i"  }, status: { $in: status } }, {sort: {createdAt: -1}}).fetch()
+    return Assessment.find(
+      { search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' }, status: { $in: status } },
+      { sort: { createdAt: -1 } }
+    ).fetch()
   }
 
   return {
     loading,
     jobs: renderJob(),
-    members: Members.find({}, { fields: {name: 1}, sort: { name: 1 } }).fetch(),
+    members: Members.find({}, { fields: { name: 1 }, sort: { name: 1 } }).fetch(),
     searchFind,
     statusFilter,
     updateStatus,
     resetStatus,
     logs,
     selectedaId: selectedaId.get(),
-    changeAssId,
+    changeAssId
   }
 })(JobCardList)

@@ -3,21 +3,19 @@ import { withTracker } from 'meteor/react-meteor-data'
 const debug = require('debug')('b2b:visit')
 import { ReactiveVar } from 'meteor/reactive-var'
 import MemberDash from '/imports/ui/member/member-dash'
-import Members from '/imports/api/members/members'
+import Members from '/imports/api/members/schema'
 
 const validPin = new ReactiveVar(false)
 const setPinSuccess = new ReactiveVar(false)
 
-export default withTracker((props) => {
+export default withTracker(props => {
   const membersHandle = Meteor.subscribe('all.members')
   const loading = !membersHandle.ready()
   const id = props.match.params.id
   const member = Members.findOne(id)
 
   const memberHasOwnPin = (() => !!(member && member.pin))()
-  if (member && member.pin && member.pin === '----')
-    validPin.set(true)
-
+  if (member && member.pin && member.pin === '----') validPin.set(true)
 
   function recordVisit({ duration }) {
     if (!member.isHere) {
@@ -34,7 +32,7 @@ export default withTracker((props) => {
   }
 
   function onSubmitPin(pin) {
-    const pinValid = (member.pin === pin) || (pin === '1--1')
+    const pinValid = member.pin === pin || pin === '1--1'
     debug('pinValid: ', pinValid)
     validPin.set(pinValid)
     return pinValid
@@ -45,19 +43,19 @@ export default withTracker((props) => {
     Meteor.call('members.setPin', member._id, pin)
     validPin.set(true)
   }
-  
-  function changeAvatar(avatar){
+
+  function changeAvatar(avatar) {
     debug('changing avatar', avatar)
     Meteor.call('members.changeAvatar', member._id, avatar)
   }
-  
+
   function clearPin() {
     debug('clearingPin:')
     validPin.set(false)
     setPinSuccess.set(false)
   }
-  
-  function forgotPin(method,destination) {
+
+  function forgotPin(method, destination) {
     // redirect to forgot PIN screen
     debug('forgotten pin: ', member._id, method, destination)
     Meteor.call('members.forgotPin', member._id, method, destination)
@@ -75,6 +73,6 @@ export default withTracker((props) => {
     clearPin,
     forgotPin,
     setPinSuccess: setPinSuccess.get(),
-    changeAvatar,
+    changeAvatar
   }
 })(MemberDash)
