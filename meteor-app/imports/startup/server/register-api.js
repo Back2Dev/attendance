@@ -31,6 +31,6 @@ import '/imports/api/transactions/methods'
 import '/imports/api/transactions/server/publications'
 
 // Products
-// import 'imports/api/products/schema'
-// import 'imports/api/products/methods'
-// import 'imports/api/products/server/publications'
+import '/imports/api/products/schema'
+import '/imports/api/products/methods'
+import '/imports/api/products/server/publications'
