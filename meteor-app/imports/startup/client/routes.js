@@ -8,6 +8,7 @@ import MemberAddIframe from '/imports/ui/layouts/member-add-iframe'
 import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
+import Purchase from '/imports/ui/layouts/purchase'
 
 
 import Alert from 'react-s-alert';
@@ -25,6 +26,7 @@ export const renderRoutes = () => (
         <Route path="/jobs" component={JobCardLister} />
         <Route path="/history" component={JobHistory} />
         <Route path="/payment" component={PaymentThankyou} />
+        <Route path="/purchase" component={Purchase} />
         <Route component={Attendance} />
       </Switch>
     </Router>
