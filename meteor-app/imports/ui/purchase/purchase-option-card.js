@@ -1,20 +1,28 @@
 import React from 'react'
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { Card, List, Icon, Button } from 'semantic-ui-react'
 
 const PurchaseCard = props => {
   const cardColor = 'pink' // Mike added this
   const cardClick = () => {}
 
+  const { name, description, price = '$10' } = props
+
   return (
-    <Button style={{ backgroundColor: 'white', minWidth: '100%' }}>
-      <Card style={{ backgroundColor: cardColor, color: 'white', minWidth: '100%' }}>
-        <Card.Content style={{ width: '100%', minHeight: '420px' }} onClick={cardClick}>
-          <Card.Header style={{ color: 'white', paddingTop: '15px', fontSize: '1.5em' }}>{`Workshop`}</Card.Header>
+    <Button>
+      <Card>
+        <Card.Content onClick={cardClick}>
+          <Card.Header>{name}</Card.Header>
+          <div>{description}</div>
+          <div>Price: {price}</div>
         </Card.Content>
       </Card>
     </Button>
   )
 }
 
+PurchaseCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
+}
 export default PurchaseCard
