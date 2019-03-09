@@ -14371,3 +14371,36 @@ exports[`Storyshots Part.Card Card 1`] = `
   </div>
 </div>
 `;
+
+exports[`Storyshots Purchase Card 1`] = `
+<div>
+  <button
+    className="ui button"
+    onClick={[Function]}
+    role="button"
+  >
+    <div
+      className="ui card"
+      onClick={[Function]}
+    >
+      <div
+        className="content"
+        onClick={[Function]}
+      >
+        <div
+          className="header"
+        >
+          10 visit pass
+        </div>
+        <div>
+          10 visits, usable at any of our evening sessions 
+        </div>
+        <div>
+          Price: 
+          $10
+        </div>
+      </div>
+    </div>
+  </button>
+</div>
+`;
