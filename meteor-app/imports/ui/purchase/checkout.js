@@ -1,6 +1,6 @@
 import React from 'react'
-import StripeCheckout from 'react-stripe-checkout';
-require('dotenv').config()
+import { Meteor } from 'meteor/meteor'
+import StripeCheckout from 'react-stripe-checkout'
 
 export default class Checkout extends React.Component {
   // state = { 
@@ -12,17 +12,19 @@ export default class Checkout extends React.Component {
   }
 
   render() {
+    const stripeKey = Meteor.settings.public.stripeKey || "pk_test_315Jrr5E4VK9O1motqWvTJS9"
     return (
-      <StripeCheckout
-        amount={this.props.amount} //{this.props.total}
-        stripeKey="pk_test_315Jrr5E4VK9O1motqWvTJS9"
-        // stripeKey={`${process.env.REACT_APP_STRIPE_KEY}`}
-        token={this.onToken}
-        label="Pay Back2Bikes"
-        currency="AUD"
-        panelLabel={this.props.panelLabel}
-        data-label="Proceed to Pay with Card"
-        />
+      <div>
+        <StripeCheckout
+          amount={this.props.amount}
+          stripeKey={stripeKey}
+          token={this.onToken}
+          label="Pay Back2Bikes"
+          currency="AUD"
+          panelLabel={this.props.panelLabel}
+          data-label="Proceed to Pay with Card"
+          />
+      </div>
     )
   }
 }

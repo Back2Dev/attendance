@@ -1,6 +1,6 @@
-import { Meteor } from 'meteor/meteor';
-import express from 'express';
-import bodyParser from 'body-parser';
+import { Meteor } from 'meteor/meteor'
+import express from 'express'
+import bodyParser from 'body-parser'
 import Transactions from '/imports/api/transactions/schema'
 
 const debug = require('debug')('b2b:server-payments')
@@ -13,25 +13,25 @@ async function acceptPayment(req, res) {
       debug("Saving")
       const txn = Transactions.update("1234",{
         status: "Paid"
-      });
+      })
     } catch(e) {
       console.error(e)
     }
   })()
 
-  res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok" })
 }
 
 export function setupPaymentsApi() {
   debug("Setting up payments API")
-  const app = express();
-  app.use(bodyParser.urlencoded({ extended: false }));
+  const app = express()
+  app.use(bodyParser.urlencoded({ extended: false }))
 
-  app.post('/payment', acceptPayment);
+  app.post('/payment', acceptPayment)
   app.get('/api', (req, res) => {
-    res.status(200).json({ message: 'B2B Payments API' });    // Shouldn't call this, just for testing for now
-  });
+    res.status(200).json({ message: 'B2B Payments API' })    // Shouldn't call this, just for testing for now
+  })
 
-  WebApp.connectHandlers.use(app);
+  WebApp.connectHandlers.use(app)
 }
 

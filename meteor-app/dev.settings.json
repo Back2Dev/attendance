@@ -8,10 +8,12 @@
     }
   },
   "public": {
-    "logo": "/images/hands.jpg",
+    "logo": "/images/logo-tiny.jpg",
     "member": "Member",
     "parts": 1,
     "servicing": 1,
-    "recruit": "b2b"
+    "recruit": "b2b",
+    "stripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJ59",
+    "XstripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJS9"
   }
 }
