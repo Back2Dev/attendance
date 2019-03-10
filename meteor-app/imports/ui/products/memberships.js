@@ -3,98 +3,89 @@ import Checkout from '../purchase/checkout'
 import './products.css'
 
 export default class Memberships extends Component {
-
     state = {
       selected: '3-month',
-      total: 0,
+    }
+    componentDidUpdate () {
+        // alert(document.querySelector('input[name=membershipDuration]:checked').value);
     }
 
-    handleFrequencyChange = (e) => {
-        this.setState({
-            selectedOption: e.target.value
-        })
-        calcTotal()
-        console.log(selectedOption)
-    }
-
-    calcTotal = () => {
-          if (this.state.selectedOption === "threeMonth"){
-            this.setState({total: 6000})
-        }
-        else if (this.state.selectedOption === "sixMonth"){
-            this.setState({total: 6000})
-        }
-        else if (this.state.selectedOption === "twelveMonth"){
-            this.setState({total: 6000})
-        }
-        else {
-            this.setState({total: 6000})
-        }
-
-    }
-      
-
+    // handleFrequencyChange = (e) => {
+    //     this.setState({
+    //         selectedOption: e.target.value
+    //     })
+    // }
 
     render() {
 
           return (
               <div className="product-content membership-container">
               
-              <h4>Membership Types</h4>
+                <h4>Membership Types</h4>
+
                 <p>Memberships allow you to access and use the facilities at Back 2 Bikes.</p>
                 <form>
-                    <div className="form-check">
-                        <label htmlFor="frequency">3 Month Membership</label>
-                        <input type="radio" id="threeMonthMembership" value="threeMonth" name="frequency" checked={this.state.selectedOption === "threeMonth"} onChange={this.handleFrequencyChange}/>
+                    <div>
+                    <input type='radio' id='3-month' name='membershipDuration' value='3-month'
+                        checked={this.state.selected === '3-month'} onChange={(e) => this.setState({ selected: e.target.value })} />
+                    <label htmlFor="frequency">3 Month Membership - $40</label>
                     </div>
 
-                    <div className="form-check">
-                        <label htmlFor="frequency">6 Month Membership</label>
-                        <input type="radio" id="sixMonthMembership" value="sixMonth" name="frequency" checked={this.state.selectedOption === "sixMonth"} onChange={this.handleFrequencyChange}/>
+                    <div>
+                    <input type='radio' id='6-month' name='membershipDuration' value='6-month' 
+                        checked={this.state.selected === '6-month'} onChange={(e) => this.setState({ selected: e.target.value })} />
+                    <label htmlFor="frequency">6 Month Membership - $60</label>
                     </div>
 
-                    <div className="form-check">
-                        <label htmlFor="frequency">12 Month Membership</label>
-                        <input type="radio" id="twelveMonthMembership" value="twelveMonth" name="frequency" checked={this.state.selectedOption === "twelveMonth"} onChange={this.handleFrequencyChange}/>
+                    <div>
+                    <input type='radio' id='12-month' name='membershipDuration' value='12-month' 
+                        checked={this.state.selected === '12-month'} onChange={(e) => this.setState({ selected: e.target.value })} />
+                    <label htmlFor="frequency">12 Month Membership - $80</label>
                     </div>
+
                 </form>
-            {this.state.isSubmitted && email && <Payment {...this.props} email={email} selectedOption={selectedOption} />}
+        
               
-              <p>current total is {this.state.total}</p>
-                <Checkout
-                    amount={this.state.total}
-                />
+                {this.state.selected === "3-month" &&
+                    <>
+                        <p>current total is $40</p>
+                        <Checkout amount="4000"/>
+                    </>
+                }
+                {this.state.selected === "6-month" &&
+                    <>
+                        <p>current total is $60</p>
+                        <Checkout amount="6000"/>
+                    </>
+                }
+                {this.state.selected === "12-month" &&
+                    <>
+                        <p>current total is $80</p>
+                        <Checkout amount="8000"/>
+                    </>
+                }
+             
               </div>
           )
         }
 
 }
 
-// submitForm = (e) => {
-//     e.preventDefault()
-
-    // const {  firstName, lastName, email, password, session, phone, streetAddress, suburb, postcode, ausState, dateJoined, numberOfOrders, stripeId, active, admin, selectedOption, passwordConfirm} = this.state
-    // const url = `${process.env.REACT_APP_DOMAIN}/end point`
-
-    // if(password === passwordConfirm){
-
-    //   const data = { firstName, lastName, email, password, session, phone, streetAddress, suburb, postcode, ausState, dateJoined, numberOfOrders, stripeId, active, admin, selectedOption }
-    
-    //   axios.post(url, data)
-    //   .then(resp => {
-    //     this.setState({ message: 'congratulations you have just purchased a Back 2 Bikes membership', error: null, isSubmitted: true })
-    //     const {token} = resp.data
-    //     Cookies.set('token', token)
-    //     this.props.setToken(token) 
-    //     // console.log(resp)
-    //   })
-    //   .catch(err => {
-    //       console.log(err.response)
-    //       if (err.response === 403) {
-    //         this.setState({ error: 'Nope!', message: null})
-    //       }
-    //   })
-    // } else {
-    //   this.setState({passwordMsg: "passwords do not match!"})
-    // }
-    
+//     state = {
+//       selected: 'radio-1'
+//     };
+//     componentDidUpdate () {
+//       alert(document.querySelector('input[name=myRadio]:checked').value);
+//     }
+//     render () {
+//       return (
+//         <div>
+//           <input type='radio' id='radio-1' name='myRadio' value='radio-1'
+//             checked={this.state.selected === 'radio-1'} onChange={(e) => this.setState({ selected: e.target.value })} />
+//           <br />
+//           <input type='radio' id='radio-2' name='myRadio' value='radio-2' 
+//             checked={this.state.selected === 'radio-2'} onChange={(e) => this.setState({ selected: e.target.value })} />
+//         </div>
+//       );
+//     }
+//   };
