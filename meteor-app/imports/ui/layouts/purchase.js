@@ -11,13 +11,12 @@ const PurchaseLayout = () => (
   <div className="Purchase-wrapper">
     <title>Back 2 Bikes | Purchase Sessions</title>
     <Nav />
-        <div style={{ height: '100%' }}>
+        <div>
           <Switch>
             <Route path="/purchase" component={Purchase} />
             <Route component={NotFound} />
           </Switch>
         </div>
-        <p>this</p>
         <PurchaseContainer/>
        
   </div>

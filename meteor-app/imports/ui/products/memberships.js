@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
 import Checkout from '../purchase/checkout'
+import './products.css'
 
 export default class Memberships extends Component {
     state = {
@@ -45,9 +45,9 @@ export default class Memberships extends Component {
        
 
           return (
-              <div>
+              <div className="product-content membership-container">
               
-              <h4>Membership Types</h4>
+              {/* <h4>Membership Types</h4> */}
                 <p>Memberships allow you to access and use the facilities at Back 2 Bikes.</p>
                 <form>
                     {/* <div className="form-check">
