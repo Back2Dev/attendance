@@ -35,10 +35,23 @@ export default class Passes extends Component {
                 
                 <form>
                     <label>How many Passes would you like to purchase?</label>
-                    <input type="number" name="passes" id="passes" value={this.state.passes} onChange={this.handlePassChange}/>
+                    <select name="passes" id="passes" onChange={this.handlePassChange}>
+                        <option value="" selected disabled>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    {/* <input type="number" name="passes" id="passes" value={this.state.passes} onChange={this.handlePassChange}/> */}
                 </form>
 
-                <p>Your total is ${total / 100}</p>
+                <p>Your total is <strong>${total / 100}</strong></p>
 
                 <Checkout
                     amount={total}
