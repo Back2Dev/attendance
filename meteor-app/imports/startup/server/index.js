@@ -1,4 +1,5 @@
-// seed initial data
+import { Meteor } from 'meteor/meteor';
+
 import './members-data'
 import './parts-data'
 import './register-api.js'
@@ -8,3 +9,10 @@ import './email'
 import '/imports/lib/validator'
 import '/imports/api/archive'
 import './assessment-data'
+import {setupPaymentsApi} from '/imports/lib/server/route-payments'
+
+Meteor.startup(() => {
+  if (Meteor.isServer) {
+    setupPaymentsApi()
+  }
+})
