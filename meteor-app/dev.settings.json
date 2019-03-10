@@ -5,7 +5,8 @@
       "USERNAME": "mikkel",
       "PASSWORD": "Smsbroadcast.24",
       "FROM": "Back2bikes"
-    }
+    },
+    "privateStripeKey": "sk_test_MsFkS9KodEJyxmgIql45Me2w"
   },
   "public": {
     "logo": "/images/logo-tiny.jpg",
@@ -13,7 +14,6 @@
     "parts": 1,
     "servicing": 1,
     "recruit": "b2b",
-    "stripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJ59",
-    "XstripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJS9"
+    "stripeKey": "pk_test_84A7QYIUhWG1GWw0MYUcQ51y"
   }
 }
