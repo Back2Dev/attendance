@@ -5,16 +5,21 @@ import Purchase from '/imports/ui/purchase/purchase-option-card'
 import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/member/member-nav'
 
+import PurchaseContainer from '../purchase/purchase-container'
+
 const PurchaseLayout = () => (
   <div className="Purchase-wrapper">
     <title>Back 2 Bikes | Purchase Sessions</title>
     <Nav />
         <div style={{ height: '100%' }}>
           <Switch>
-            <Route path="/" component={Purchase} />
+            <Route path="/purchase" component={Purchase} />
             <Route component={NotFound} />
           </Switch>
         </div>
+        <p>this</p>
+        <PurchaseContainer/>
+       
   </div>
 )
 
