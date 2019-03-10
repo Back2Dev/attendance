@@ -10,15 +10,14 @@ import PurchaseContainer from '../purchase/purchase-container'
 const PurchaseLayout = () => (
   <div className="Purchase-wrapper">
     <title>Back 2 Bikes | Purchase Sessions</title>
-    <Nav />
-        <div>
-          <Switch>
-            <Route path="/purchase" component={Purchase} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-        <PurchaseContainer/>
-       
+    {/* <Nav /> */}
+    <div>
+      {/* <Switch>
+        <Route path="/purchase" component={Purchase} />
+        <Route component={NotFound} />
+      </Switch> */}
+    </div>
+    <PurchaseContainer />
   </div>
 )
 

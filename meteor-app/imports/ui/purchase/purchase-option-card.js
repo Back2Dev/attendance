@@ -6,7 +6,7 @@ const PurchaseCard = props => {
   const cardColor = 'pink' // Mike added this
   const cardClick = () => {}
 
-  const { name, description, price = '$10' } = props
+  const { name = 'No name', description = 'No description', price = '$9.99' } = props
 
   return (
     <Button>

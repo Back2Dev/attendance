@@ -3,7 +3,7 @@ import Checkout from '../purchase/checkout'
 import './products.css'
 
 const Memberships = props => {
-  const [selected, select] = useState('12-month')
+  const [membership, pick] = React.useState('12-month')
 
   return (
     <div className="product-content membership-container">
@@ -18,8 +18,8 @@ const Memberships = props => {
               id="3-month"
               name="membershipDuration"
               value="3-month"
-              checked={this.state.selected === '3-month'}
-              onChange={e => select(e.target.value)}
+              checked={membership === '3-month'}
+              onChange={e => pick(e.target.value)}
             />
             3 Month Membership - $40
           </label>
@@ -32,8 +32,8 @@ const Memberships = props => {
               id="6-month"
               name="membershipDuration"
               value="6-month"
-              checked={this.state.selected === '6-month'}
-              onChange={e => select(e.target.value)}
+              checked={membership === '6-month'}
+              onChange={e => pick(e.target.value)}
             />
             6 Month Membership - $60
           </label>
@@ -46,32 +46,34 @@ const Memberships = props => {
               id="12-month"
               name="membershipDuration"
               value="12-month"
-              checked={this.state.selected === '12-month'}
-              onChange={e => select(e.target.value)}
+              checked={membership === '12-month'}
+              onChange={e => pick(e.target.value)}
             />
             12 Month Membership - $80
           </label>
         </div>
       </form>
 
-      {this.state.selected === '3-month' && (
-        <>
+      {membership === '3-month' && (
+        <div>
           <p>current total is $40</p>
           <Checkout amount="4000" />
-        </>
+        </div>
       )}
-      {this.state.selected === '6-month' && (
-        <>
+      {membership === '6-month' && (
+        <div>
           <p>current total is $60</p>
           <Checkout amount="6000" />
-        </>
+        </div>
       )}
-      {this.state.selected === '12-month' && (
-        <>
+      {membership === '12-month' && (
+        <div>
           <p>current total is $80</p>
           <Checkout amount="8000" />
-        </>
+        </div>
       )}
     </div>
   )
 }
+
+export default Memberships
