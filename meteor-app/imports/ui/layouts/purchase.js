@@ -17,7 +17,6 @@ const PurchaseLayout = () => (
             <Route component={NotFound} />
           </Switch>
         </div>
-        <p>this</p>
         <PurchaseContainer/>
        
   </div>
