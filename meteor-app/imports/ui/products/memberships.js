@@ -5,65 +5,44 @@ import './products.css'
 export default class Memberships extends Component {
 
     state = {
-      selected: '3-month'
+      selected: '3-month',
+      total: 0,
     }
 
     handleFrequencyChange = (e) => {
-    this.setState({
-        selectedOption: e.target.value
-    });
-    console.log(selectedOption);
-      };
+        this.setState({
+            selectedOption: e.target.value
+        })
+        calcTotal()
+        console.log(selectedOption)
+    }
 
-    // totalCost = () => {
-    //       if (this.state.selectedOption === "threeMonth"){
-    //         let total = 6000
-    //     }
-    //     else if (this.state.selectedOption === "sixMonth"){
-    //         const total = 8000
-    //     }
-    //     else if (this.state.selectedOption === "twelveMonth"){
-    //         const total = 10000
-    //     }
-    //     else {
-    //         const total = 0
-    //     }
+    calcTotal = () => {
+          if (this.state.selectedOption === "threeMonth"){
+            this.setState({total: 6000})
+        }
+        else if (this.state.selectedOption === "sixMonth"){
+            this.setState({total: 6000})
+        }
+        else if (this.state.selectedOption === "twelveMonth"){
+            this.setState({total: 6000})
+        }
+        else {
+            this.setState({total: 6000})
+        }
 
-    // }
+    }
       
 
 
     render() {
-    //   if (this.state.isSuper) {
-    //       return (
-    //       <div>
-    //           Similar to this section in passes.js - check if admin, then allow              to update membership info
-    //       </div>
-    //       )}
-    //   else  {
-       
 
           return (
               <div className="product-content membership-container">
               
-              {/* <h4>Membership Types</h4> */}
+              <h4>Membership Types</h4>
                 <p>Memberships allow you to access and use the facilities at Back 2 Bikes.</p>
                 <form>
-                    {/* <div className="form-check">
-                        <label htmlFor="frequency">3 Month Membership</label>
-                        <input type="radio" id="threeMonthMembership" value="threeMonth" name="frequency" checked={this.state.selectedOption === "threeMonth"} onChange={this.handleFrequencyChange}/>
-                    </div>
-
-                    <div className="form-check">
-                        <label htmlFor="frequency">6 Month Membership</label>
-                        <input type="radio" id="sixMonthMembership" value="sixMonth" name="frequency" checked={this.state.selectedOption === "sixMonth"} onChange={this.handleFrequencyChange}/>
-                    </div>
-
-                    <div className="form-check">
-                        <label htmlFor="frequency">12 Month Membership</label>
-                        <input type="radio" id="twelveMonthMembership" value="twelveMonth" name="frequency" checked={this.state.selectedOption === "twelveMonth"} onChange={this.handleFrequencyChange}/>
-                    </div> */}
-
                     <div className="form-check">
                         <label htmlFor="frequency">3 Month Membership</label>
                         <input type="radio" id="threeMonthMembership" value="threeMonth" name="frequency" checked={this.state.selectedOption === "threeMonth"} onChange={this.handleFrequencyChange}/>
@@ -78,16 +57,12 @@ export default class Memberships extends Component {
                         <label htmlFor="frequency">12 Month Membership</label>
                         <input type="radio" id="twelveMonthMembership" value="twelveMonth" name="frequency" checked={this.state.selectedOption === "twelveMonth"} onChange={this.handleFrequencyChange}/>
                     </div>
-
-
-
-
                 </form>
-            {/* {this.state.isSubmitted && email && <Payment {...this.props} email={email} selectedOption={selectedOption} />} */}
+            {this.state.isSubmitted && email && <Payment {...this.props} email={email} selectedOption={selectedOption} />}
               
               <p>current total is {this.state.total}</p>
                 <Checkout
-                    // amount={total}
+                    amount={this.state.total}
                 />
               </div>
           )
