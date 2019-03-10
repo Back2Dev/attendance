@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Checkout from '../purchase/checkout'
+import './products.css'
 
 export default class Courses extends Component {
   state = {
@@ -36,7 +37,7 @@ export default class Courses extends Component {
 
         if(this.state.rendered) {
             return (
-                <div class="course-container">
+                <div className="course-container product-content">
                   {this.state.courses.map( 
                       course => {return (
                         <div class="course-card">
@@ -56,7 +57,9 @@ export default class Courses extends Component {
             )}
             else {
               return (
-                  <p>There are currently no courses</p>
+                  <div className="course-container product-content">
+                    <h3>There are currently no courses</h3>
+                  </div>
               )
             }
         }      

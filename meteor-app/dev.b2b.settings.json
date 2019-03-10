@@ -4,6 +4,8 @@
     "member": "Volunteer",
     "parts": 1,
     "servicing": 1,
-    "recruit": "b2b"
+    "recruit": "b2b",
+    "stripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
+    "XstripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJS9"
   }
 }
