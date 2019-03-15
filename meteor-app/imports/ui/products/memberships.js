@@ -3,7 +3,7 @@ import Checkout from '../purchase/checkout'
 import './products.css'
 
 const Memberships = props => {
-  const [membership, pick] = React.useState('12-month')
+  const [membership, setMembership] = useState('12-month')
 
   return (
     <div className="product-content membership-container">
@@ -19,7 +19,7 @@ const Memberships = props => {
               name="membershipDuration"
               value="3-month"
               checked={membership === '3-month'}
-              onChange={e => pick(e.target.value)}
+              onChange={e => setMembership(e.target.value)}
             />
             3 Month Membership - $40
           </label>
@@ -33,7 +33,7 @@ const Memberships = props => {
               name="membershipDuration"
               value="6-month"
               checked={membership === '6-month'}
-              onChange={e => pick(e.target.value)}
+              onChange={e => setMembership(e.target.value)}
             />
             6 Month Membership - $60
           </label>
@@ -47,7 +47,7 @@ const Memberships = props => {
               name="membershipDuration"
               value="12-month"
               checked={membership === '12-month'}
-              onChange={e => pick(e.target.value)}
+              onChange={e => setMembership(e.target.value)}
             />
             12 Month Membership - $80
           </label>

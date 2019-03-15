@@ -1,69 +1,42 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import Checkout from '../purchase/checkout'
-import './products.css'
+import './courses.css'
 
-export default class Courses extends Component {
-  state = {
-    //   isSuper = this.isSuper
-    rendered: false
-  }
+const Courses = props => {
 
-//   componentDidMount () {
-//     const url =  `${process.env.REACT_APP_DOMAIN}/courses`
-//     axios.get(url)
-//     .then(resp => {
-//       const courses = resp.data 
-//       this.setState({
-//           courses: courses, 
-//           rendered: true})
-//           courses.map(course => {
-//             console.log(course.title)
-//           })
-//     })
-//     .catch( err => console.log(err))
-//   }
-  //still need to filter result of products - to only include products that are courses
+  const [courses, setCourses] = useState([])
 
-  render() {
-    // if (this.state.isSuper) {
-
-    //     return (
-    //     <div>
-    //         Update course functionality
-    //     </div>
-    //     )
-    //  }
-    // else  {
-
-        if(this.state.rendered) {
-            return (
-                <div className="course-container product-content">
-                  {this.state.courses.map( 
-                      course => {return (
-                        <div class="course-card">
-                            <div class="course-card-details">
-                                <img src={course.img}/>
-                                <h1>{course.title}</h1>
-                                <span>Starting on: {course.startDate}, Ending on: {course.endDate}</span>
-                                <p>{course.description}</p>
-                                <Checkout/> 
-                                {/* i need to pass the price as props here */}
-                                <hr/>
-                            </div>
-                        </div>
-                      )}
-                  )}
-                </div>         
+    // if(rendered) {
+      return (
+        <div className="course-container product-content">
+          {courses.map( 
+            course => {return (
+              <div class="course-card">
+                <div class="course-card-details">
+                  <img src={course.img}/>
+                  <h1>{course.title}</h1>
+                  <span>Starting on: {course.startDate}, Ending on: {course.endDate}</span>
+                  <p>{course.description}</p>
+                  <Checkout/> 
+                  {/* i need to pass the price as props here */}
+                  <hr/>
+                </div>
+              </div>
             )}
-            else {
-              return (
-                  <div className="course-container product-content">
-                    <h3>There are currently no courses</h3>
-                  </div>
-              )
-            }
-        }      
-}
+          )}
+        </div>         
+      )}
+    //   else {
+    //     return (
+    //       <div className="course-container product-content">
+    //         <h3>There are currently no courses</h3>
+    //       </div>
+    //     )
+    //   }
+    // }      
+
+
+export default Courses
 
 
 

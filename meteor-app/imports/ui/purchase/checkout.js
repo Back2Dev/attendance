@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meteor } from 'meteor/meteor'
+// import { Meteor } from 'meteor/meteor'
 import StripeCheckout from 'react-stripe-checkout'
 
 export default class Checkout extends React.Component {
@@ -11,8 +11,9 @@ export default class Checkout extends React.Component {
     console.log(token);
   }
 
+  // Meteor.settings.public.stripeKey ||
   render() {
-    const stripeKey = Meteor.settings.public.stripeKey || "pk_test_315Jrr5E4VK9O1motqWvTJS9"
+    const stripeKey =  "pk_test_315Jrr5E4VK9O1motqWvTJS9"
     return (
       <div>
         <StripeCheckout
