@@ -9,10 +9,9 @@ import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Purchase from '/imports/ui/layouts/purchase'
-import Product from '/imports/ui/purchase/purchase'
+import ProductTypes from '/imports/ui/aales/product-types'
 
-
-import Alert from 'react-s-alert';
+import Alert from 'react-s-alert'
 
 // there is an iframe on the B2B wordpress site allowing registration to attendance app.
 // we'll give them a different layout/component to prevent access to rest of the app
@@ -28,7 +27,7 @@ export const renderRoutes = () => (
         <Route path="/history" component={JobHistory} />
         <Route path="/payment" component={PaymentThankyou} />
         <Route path="/purchase" component={Purchase} />
-        <Route path="/product" component={Product} />
+        <Route path="/shop" component={ProductTypes} />
         <Route component={Attendance} />
       </Switch>
     </Router>
