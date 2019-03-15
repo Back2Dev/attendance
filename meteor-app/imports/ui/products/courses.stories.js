@@ -1,9 +1,6 @@
-// member-card.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 const courseInfo = {
@@ -19,22 +16,12 @@ import Courses from './courses'
 storiesOf('Courses', module)
   .addDecorator(withKnobs)
 
-  .add('div.course-card', () => {
+  .add('Courses Card', () => {
     const story = (
       <div>
-        <Courses {...courseInfo} />
-        {/* <p>hello</p> */}
-      </div>
+        <Courses {...courseInfo} /> 
+      </div>   
     )
     return story
   })
 
-
-// {this.state.courses.map( 
-//   course => {return (
-//     <div class="course-card">
-//       <div class="course-card-details">
-//         <img src={course.img}/>
-//         <h1>{course.title}</h1>
-//         <span>Starting on: {course.startDate}, Ending on: {course.endDate}</span>
-//         <p>{course.description}</p>
