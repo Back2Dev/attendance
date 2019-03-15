@@ -9,7 +9,7 @@ export const ProductsSchema = new SimpleSchema({
   _id: RegExId,
   name: {
     type: String,
-    label: 'Product Title'
+    label: 'Product Name'
   },
   description: {
     type: String,
