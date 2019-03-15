@@ -6,14 +6,5 @@ Meteor.publish('all.products', () => {
 })
 
 Meteor.publish('product.types', () => {
-  return Products.aggregate(
-    [
-      {
-        $group: {
-          _id: { type: "$type" },
-          count: { $sum: 1 }
-        }
-      }
-    ]
-  )
+  return Products.find({})
 })
