@@ -1,6 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import isIframe from '/imports/helpers/isIframe'
+import Alert from 'react-s-alert'
+
 import Attendance from '/imports/ui/layouts/attendance'
 import AssessmentLayout from '/imports/ui/layouts/assessment'
 import Ordering from '/imports/ui/layouts/ordering'
@@ -9,10 +11,7 @@ import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Purchase from '/imports/ui/layouts/purchase'
-import Shop from '/imports/ui/shop/building'
-import Department from '/imports/ui/shop/department'
-
-import Alert from 'react-s-alert'
+import Shop from '/imports/ui/shop'
 
 // there is an iframe on the B2B wordpress site allowing registration to attendance app.
 // we'll give them a different layout/component to prevent access to rest of the app
@@ -28,8 +27,7 @@ export const renderRoutes = () => (
         <Route path="/history" component={JobHistory} />
         <Route path="/payment" component={PaymentThankyou} />
         <Route path="/purchase" component={Purchase} />
-        <Route path="/shop" exact component={Shop} />
-        <Route path="/shop/:type" component={Department} />
+        <Route path="/shop" component={Shop} />
         <Route component={Attendance} />
       </Switch>
     </Router>

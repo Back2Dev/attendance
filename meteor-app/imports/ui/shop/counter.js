@@ -1,12 +1,17 @@
-import React, { useState, createRef } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Card, Sticky } from 'semantic-ui-react'
+import { cloneDeep } from 'lodash'
 import Cart from './shopping-cart'
+import { CartContext } from './cart-data'
 
 const Price = props => <span>Price: ${props.cents / 100}</span>
 const Item = props => {
+  const { state, dispatch } = React.useContext(CartContext)
   const go = () => {
-    props.history.push(`/shop/1/1`)
+    const product = cloneDeep(props)
+    product.qty = 0
+    dispatch({ type: 'add', payload: product })
   }
   return (
     <Card>
@@ -17,7 +22,7 @@ const Item = props => {
       <Card.Content extra>
         <Price cents={props.price} />{' '}
         <Button primary type="button" onClick={go}>
-          Buy now
+          Add to cart
         </Button>
       </Card.Content>
     </Card>
@@ -27,7 +32,8 @@ const Item = props => {
 const Counter = props => {
   const { products, loading, productTypes } = props
   const [prodType] = productTypes
-  const ref = createRef()
+  const { state, dispatch } = React.useContext(CartContext)
+
   if (loading) return <div>Loading...</div>
   return (
     <div>
@@ -48,6 +54,6 @@ const Counter = props => {
 Counter.propTypes = {
   loading: PropTypes.bool.isRequired,
   products: PropTypes.array,
-  productTypes: PropTypes.array
+  productTypes: PropTypes.array,
 }
 export default Counter
