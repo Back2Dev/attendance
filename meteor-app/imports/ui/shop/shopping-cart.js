@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Sticky, Button, Header } from 'semantic-ui-react'
+import { Button, Header } from 'semantic-ui-react'
 
+const cartStyle = { right: 10, top: 10, position: 'absolute', zIndex: 5 }
+// const cartStyle = {}
 const Cart = props => {
-  const { ref, count = 0, price = 0 } = props
+  const { count = 1, price = 0 } = props
   return (
-    <Sticky context={ref}>
+    <div style={cartStyle}>
       <Header as="h3">
         {count} items ${price}
       </Header>
-    </Sticky>
+    </div>
   )
 }
 

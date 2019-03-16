@@ -1,6 +1,6 @@
 import React, { useState, createRef } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card } from 'semantic-ui-react'
+import { Button, Card, Sticky } from 'semantic-ui-react'
 import Cart from './shopping-cart'
 
 const Price = props => <span>Price: ${props.cents / 100}</span>
@@ -31,7 +31,7 @@ const Counter = props => {
   if (loading) return <div>Loading...</div>
   return (
     <div>
-      <Cart ref={ref} } />
+      <Cart />
       <h2>
         {prodType.name} ({products.length})
       </h2>
