@@ -1,38 +1,11 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Sticky } from 'semantic-ui-react'
-import { cloneDeep } from 'lodash'
 import CartSummary from './cart-summary'
-import { CartContext } from './cart-data'
-import Price from './price'
-
-const Item = props => {
-  const { state, dispatch } = React.useContext(CartContext)
-  const go = () => {
-    const product = cloneDeep(props)
-    product.qty = 0
-    dispatch({ type: 'add', payload: product })
-  }
-  return (
-    <Card>
-      <Card.Content>
-        <Card.Header>{props.name}</Card.Header>
-        <Card.Description>{props.description}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <Price cents={props.price} />{' '}
-        <Button primary type="button" onClick={go}>
-          Add to cart
-        </Button>
-      </Card.Content>
-    </Card>
-  )
-}
+import ProductCard from './product-card'
 
 const Counter = props => {
   const { products, loading, productTypes } = props
   const [prodType] = productTypes
-  const { state, dispatch } = React.useContext(CartContext)
 
   if (loading) return <div>Loading...</div>
   return (
@@ -44,7 +17,7 @@ const Counter = props => {
       {prodType.description}
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {products.map(item => (
-          <Item {...item} key={item._id} />
+          <ProductCard {...item} key={item._id} mode="add" color={prodType.color} />
         ))}
       </div>
     </div>

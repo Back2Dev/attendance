@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 // import productTypes from './building'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 const ProdTypeCard = props => {
   const go = () => {
@@ -9,7 +9,8 @@ const ProdTypeCard = props => {
   }
   return (
     <p key={props.type}>
-      <Button type="button" onClick={go}>
+      <Button type="button" onClick={go} color={props.color} icon labelPosition="left">
+        <Icon name={props.icon} />
         {props.name}
       </Button>
     </p>

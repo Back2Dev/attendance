@@ -31,8 +31,20 @@ const reducer = (state, action) => {
       state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
       state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
       return { ...state }
-    case 'set-color':
-      return { ...state, currentColor: action.payload }
+    case 'remove':
+      const i = state.products.findIndex((prod, ix) => {
+        if (prod._id === action.payload) {
+          return prod
+        }
+      })
+      if (i >= 0) {
+        state.products.splice(i, 1)
+        state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
+        state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
+      }
+      return { ...state }
+    default:
+      return { ...state }
   }
 }
 

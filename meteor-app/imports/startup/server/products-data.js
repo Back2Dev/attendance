@@ -6,17 +6,23 @@ const productTypes = [
   {
     type: CONSTANTS.PRODUCT_TYPES.COURSE,
     name: 'Maintenance Courses',
-    description: 'We offer maintenance courses, you can learn to repair your bike yourself'
+    description: 'We offer maintenance courses, you can learn to repair your bike yourself',
+    color: 'orange',
+    icon: 'wrench'
   },
   {
     type: CONSTANTS.PRODUCT_TYPES.PASS,
     name: 'Workshop time',
-    description: 'Use our fully equipped workshop to fix your bike. Get advice and help about how to do it'
+    description: 'Use our fully equipped workshop to fix your bike. Get advice and help about how to do it',
+    color: 'green',
+    icon: 'cog'
   },
   {
     type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
     name: 'Memberships',
-    description: 'Join as a member, get access to discounts and workshop time'
+    description: 'Join as a member, get access to discounts and workshop time',
+    color: 'blue',
+    icon: 'cogs'
   }
 ]
 const b2bProducts = [
