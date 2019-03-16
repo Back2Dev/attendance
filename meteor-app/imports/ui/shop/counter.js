@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Card, Sticky } from 'semantic-ui-react'
 import { cloneDeep } from 'lodash'
-import Cart from './shopping-cart'
+import CartSummary from './cart-summary'
 import { CartContext } from './cart-data'
+import Price from './price'
 
-const Price = props => <span>Price: ${props.cents / 100}</span>
 const Item = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const go = () => {
@@ -37,7 +37,7 @@ const Counter = props => {
   if (loading) return <div>Loading...</div>
   return (
     <div>
-      <Cart />
+      <CartSummary history={props.history} />
       <h2>
         {prodType.name} ({products.length})
       </h2>
@@ -54,6 +54,6 @@ const Counter = props => {
 Counter.propTypes = {
   loading: PropTypes.bool.isRequired,
   products: PropTypes.array,
-  productTypes: PropTypes.array,
+  productTypes: PropTypes.array
 }
 export default Counter

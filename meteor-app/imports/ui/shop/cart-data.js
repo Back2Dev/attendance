@@ -4,15 +4,16 @@ const CartContext = React.createContext()
 
 const initialState = {
   price: 0,
-  products: [],
+  totalqty: 0,
+  products: []
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-  case 'reset':
-    return initialState
-  case 'add':
-    if (
+    case 'reset':
+      return initialState
+    case 'add':
+      if (
         state.products.find((prod, ix) => {
           if (prod._id === action.payload._id) {
             state.products[ix].qty += 1
@@ -21,15 +22,17 @@ const reducer = (state, action) => {
         })
       ) {
         state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
+        state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
         return { ...state }
       }
-    action.payload.qty = 1
-    state.products.push(action.payload)
+      action.payload.qty = 1
+      state.products.push(action.payload)
 
-    state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
-    return { ...state }
-  case 'set-color':
-    return { ...state, currentColor: action.payload }
+      state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
+      state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
+      return { ...state }
+    case 'set-color':
+      return { ...state, currentColor: action.payload }
   }
 }
 
