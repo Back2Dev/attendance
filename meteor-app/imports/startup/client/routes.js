@@ -9,7 +9,8 @@ import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Purchase from '/imports/ui/layouts/purchase'
-import ProductTypes from '/imports/ui/aales/product-types'
+import Shop from '/imports/ui/shop/building'
+import Department from '/imports/ui/shop/department'
 
 import Alert from 'react-s-alert'
 
@@ -27,7 +28,8 @@ export const renderRoutes = () => (
         <Route path="/history" component={JobHistory} />
         <Route path="/payment" component={PaymentThankyou} />
         <Route path="/purchase" component={Purchase} />
-        <Route path="/shop" component={ProductTypes} />
+        <Route path="/shop" exact component={Shop} />
+        <Route path="/shop/:type" component={Department} />
         <Route component={Attendance} />
       </Switch>
     </Router>
