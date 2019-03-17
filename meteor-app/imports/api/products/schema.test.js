@@ -139,7 +139,7 @@ const badCarts = [
 
 const goodCarts = [{ products: [] }, { price: 999, products: goodProducts }]
 
-describe.only('carts schema', () => {
+describe('carts schema', () => {
   beforeEach(resetDatabase)
 
   goodCarts.forEach((good, i) => {
