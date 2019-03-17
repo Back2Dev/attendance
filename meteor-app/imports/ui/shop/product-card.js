@@ -26,16 +26,22 @@ const ProductCard = props => {
         <Card.Description>{props.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Price cents={props.price} />{' '}
         {props.mode === 'add' && (
-          <Button type="button" onClick={add} color={props.color}>
-            Add to cart
-          </Button>
+          <div>
+            <Price cents={props.price} />
+            <Button type="button" onClick={add} color={props.color}>
+              Add to cart
+            </Button>
+          </div>
         )}
         {props.mode === 'remove' && (
-          <Button color="red" type="button" onClick={remove} title="Remove this item">
-            X
-          </Button>
+          <div>
+            {props.qty > 1 && <span>{props.qty} x </span>}
+            <Price cents={props.price} />
+            <Button floated="right" color="red" type="button" onClick={remove} title="Remove this item">
+              X
+            </Button>
+          </div>
         )}
       </Card.Content>
     </Card>
