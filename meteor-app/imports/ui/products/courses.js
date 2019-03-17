@@ -3,17 +3,17 @@ import Checkout from '../purchase/checkout'
 import './courses.css'
 
 const Courses = props => {
-  const [courses, setCourses] = useState([])
+  // const [courses, setCourses] = useState(0)
 
   const { img = '/images/gym.jpg', title = '', description = '', startDate = '', endDate = '' } = props
 
-  if (courses) {
+  if (img) {
     return (
       <div className="course-container product-content">
         {/* {courses.map(  */}
         {/* course => {return ( */}
-        <div class="course-card">
-          <div class="course-card-details">
+        <div className="course-card">
+          <div className="course-card-details">
             <img src={img} />
             <h1>{title}</h1>
             <span>
@@ -29,13 +29,12 @@ const Courses = props => {
         {/* )} */}
       </div>
     )
-  } else {
-    return (
-      <div className="course-container product-content">
-        <h3>There are currently no courses</h3>
-      </div>
-    )
   }
+  return (
+    <div className="course-container product-content">
+      <h3>There are currently no courses</h3>
+    </div>
+  )
 }
 
 export default Courses
