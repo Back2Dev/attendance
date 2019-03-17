@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 
 const CartContext = React.createContext()
 
@@ -11,6 +12,10 @@ const initialState = {
 const recalc = state => {
   state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
   state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
+  // This looks like a good moment to save the cart to the db
+  if (cartUpdater) {
+    cartUpdater(state)
+  }
 }
 
 const reducer = (state, action) => {
@@ -50,10 +55,16 @@ const reducer = (state, action) => {
 }
 
 function CartContextProvider(props) {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
   const value = { state, dispatch }
+  cartUpdater = props.cartUpdate
 
   return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
+}
+
+CartContextProvider.propTypes = {
+  cartUpdate: PropTypes.func.isRequired,
+  cart: PropTypes.object,
 }
 
 const CartContextConsumer = CartContext.Consumer

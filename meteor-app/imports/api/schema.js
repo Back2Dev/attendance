@@ -11,7 +11,7 @@ export const REGEX_ID = /^[01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop
  * and can't be updated afterwards
  */
 
-export function createdAtAutoValue () {
+export function createdAtAutoValue() {
   if (this.isInsert) {
     return new Date()
   } else if (this.isUpsert) {
@@ -32,10 +32,9 @@ export const createdAt = {
  */
 export const updatedAt = {
   type: Date,
-  autoValue () {
+  autoValue() {
     if (this.isInsert) {
-      this.unset()
-      return undefined
+      return new Date()
     }
     return {
       $set: new Date()
@@ -50,14 +49,9 @@ export const updatedAt = {
  * use with the simpleschema .custom directive
  * @param {[String]} fieldNames   array of field names to check against
  */
-export function mustEqualOneOf (fieldNames) {
-  return function mustEqualOneOfClosure () {
-    if (
-      this.isSet &&
-      !fieldNames
-        .map(fieldName => this.field(fieldName).value)
-        .includes(this.value)
-    ) {
+export function mustEqualOneOf(fieldNames) {
+  return function mustEqualOneOfClosure() {
+    if (this.isSet && !fieldNames.map(fieldName => this.field(fieldName).value).includes(this.value)) {
       return 'mustEqualOneOf'
     }
     return true
@@ -70,15 +64,16 @@ export const isRequired = (thing, shouldBeRequired) => {
   if (shouldBeRequired) {
     // inserts
     if (!thing.operator) {
-      if (!thing.isSet || thing.value === null || thing.value === '') { return 'required' }
+      if (!thing.isSet || thing.value === null || thing.value === '') {
+        return 'required'
+      }
     }
 
     // updates
     else if (thing.isSet) {
-      if (
-        (thing.operator === '$set' && thing.value === null) ||
-        thing.value === ''
-      ) { return 'required' }
+      if ((thing.operator === '$set' && thing.value === null) || thing.value === '') {
+        return 'required'
+      }
       if (thing.operator === '$unset') return 'required'
       if (thing.operator === '$rename') return 'required'
     }
@@ -94,49 +89,27 @@ export const fixCreatedAt = collection => {
   // Fill in missing createdAt values
 
   let query = { createdAt: { $exists: false } }
-  let n = collection.update(
-    query,
-    { $set: { createdAt: yesterYear } },
-    { multi: true, bypassCollection2: true }
-  )
+  let n = collection.update(query, { $set: { createdAt: yesterYear } }, { multi: true, bypassCollection2: true })
 
   // Fill in missing updatedAt values with the createdAt value
 
   query = { updatedAt: { $exists: false } }
   collection.find(query).forEach(record => {
-    n =
-      n +
-      collection.update(
-        record._id,
-        { $set: { updatedAt: new Date(record.createdAt) } },
-        { bypassCollection2: true }
-      )
+    n += collection.update(record._id, { $set: { updatedAt: new Date(record.createdAt) } }, { bypassCollection2: true })
   })
 
   // Convert numbers to dates on createdAt
 
   query = { createdAt: { $gt: 0 } }
   collection.find(query).forEach(record => {
-    n =
-      n +
-      collection.update(
-        record._id,
-        { $set: { createdAt: new Date(record.createdAt) } },
-        { bypassCollection2: true }
-      )
+    n += collection.update(record._id, { $set: { createdAt: new Date(record.createdAt) } }, { bypassCollection2: true })
   })
 
   // Convert numbers to dates on createdAt
 
   query = { updatedAt: { $gt: 0 } }
   collection.find(query).forEach(record => {
-    n =
-      n +
-      collection.update(
-        record._id,
-        { $set: { updatedAt: new Date(record.updatedAt) } },
-        { bypassCollection2: true }
-      )
+    n += collection.update(record._id, { $set: { updatedAt: new Date(record.updatedAt) } }, { bypassCollection2: true })
   })
 
   // The number returned will probably be more than the number of records in the collection

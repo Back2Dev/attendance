@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Products, { ProductTypes } from '../schema'
+import Products, { ProductTypes, Carts } from '../schema'
 
 Meteor.publish('all.products', () => Products.find({ active: true }))
 
@@ -10,3 +10,5 @@ Meteor.publish('products.bytype', typeString => {
   const type = parseInt(typeString, 10)
   return [Products.find({ active: true, type }), ProductTypes.find({ type })]
 })
+
+Meteor.publish('cart', id => Carts.find(id))
