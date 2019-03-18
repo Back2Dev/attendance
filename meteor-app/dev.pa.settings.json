@@ -4,6 +4,8 @@
     "member": "Member",
     "parts": 0,
     "servicing": 0,
-    "recruit": "pa"
+    "recruit": "pa",
+	"shop": 1,
+	"org": "Peak Adventure"
   }
 }

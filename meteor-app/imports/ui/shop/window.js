@@ -21,7 +21,7 @@ const ShopWindow = props => {
   const { productTypes } = props
   return (
     <div>
-      <h4>Back2bikes Shop</h4>
+      <h4>{props.org} Shop</h4>
       <p>We'd love to help you learn how to fix your bike. Here's what we offer</p>
       {props.loading && <span>Loading...</span>}
       {!props.loading &&

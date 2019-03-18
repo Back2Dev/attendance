@@ -7,6 +7,7 @@ export default withTracker(props => {
   const prodTypesHandle = Meteor.subscribe('product.types')
   return {
     productTypes: ProductTypes.find({}).fetch(),
-    loading: !prodTypesHandle.ready()
+    loading: !prodTypesHandle.ready(),
+    org: Meteor.settings.public.org || 'Widget'
   }
 })(ShopWindow)

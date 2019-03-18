@@ -31,8 +31,6 @@ email@1.2.3
 es5-shim@4.8.0
 fentas:mapreduce@0.1.0
 fetch@0.1.0
-force-ssl@1.1.0
-force-ssl-common@1.1.0
 geojson-utils@1.0.10
 grove:call-async@1.0.0
 hot-code-push@1.0.4

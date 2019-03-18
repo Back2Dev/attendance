@@ -6,6 +6,8 @@
     "servicing": 1,
     "recruit": "b2b",
     "stripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
-    "XstripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJS9"
+    "XstripeKey": "pk_test_315Jrr5E4VK9O1motqWvTJS9",
+	"shop": 1,
+	"org": "Back2bikes"
   }
 }
