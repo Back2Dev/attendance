@@ -12,9 +12,9 @@ const ShopFront = props => {
   return (
     <CartContextProvider cart={props.carts[0]} cartUpdate={props.cartUpdate}>
       <Switch>
-        <Route path="/shop" exact component={Building} />
-        <Route path="/shop/checkout" exact component={Checkout} />
-        <Route path="/shop/:type" component={Department} />
+        <Route path='/shop' exact component={Building} />
+        <Route path='/shop/checkout' exact component={Checkout} />
+        <Route path='/shop/:type' component={Department} />
       </Switch>
     </CartContextProvider>
   )
