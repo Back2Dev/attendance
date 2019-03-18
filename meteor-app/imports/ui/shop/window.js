@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 // import productTypes from './building'
 import { Button, Icon } from 'semantic-ui-react'
+import CartSummary from './cart-summary'
 
 const ProdTypeCard = props => {
   const go = () => {
@@ -21,7 +22,8 @@ const ShopWindow = props => {
   const { productTypes } = props
   return (
     <div>
-      <h4>{props.org} Shop</h4>
+      <h4>Back2bikes Shop</h4>
+      <CartSummary history={props.history} />
       <p>We'd love to help you learn how to fix your bike. Here's what we offer</p>
       {props.loading && <span>Loading...</span>}
       {!props.loading &&
