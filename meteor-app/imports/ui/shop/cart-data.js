@@ -1,5 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import Alert from 'react-s-alert'
 
 const CartContext = React.createContext()
 
@@ -7,11 +8,16 @@ const initialState = {
   price: 0,
   totalqty: 0,
   products: [],
+  prodqty: {},
 }
 
 const recalc = state => {
   state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
   state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
+  state.prodqty = {}
+  state.products.forEach(prod => {
+    state.prodqty[prod._id] = prod.qty
+  })
   // This looks like a good moment to save the cart to the db
   if (cartUpdater) {
     cartUpdater(state)
@@ -24,19 +30,18 @@ const reducer = (state, action) => {
     return initialState
   case 'add':
     if (
-        state.products.find((prod, ix) => {
+        !state.products.find((prod, ix) => {
           if (prod._id === action.payload._id) {
             state.products[ix].qty += 1
             return prod
           }
         })
       ) {
-        recalc(state)
-        return { ...state }
+        state.products.push(action.payload)
       }
-    action.payload.qty = 1
-    state.products.push(action.payload)
+
     recalc(state)
+    Alert.info(`Added ${action.payload.name} to cart`)
     return { ...state }
   case 'remove':
     const i = state.products.findIndex((prod, ix) => {
@@ -45,6 +50,7 @@ const reducer = (state, action) => {
         }
       })
     if (i >= 0) {
+        Alert.info(`Removed ${state.products[i].name} from cart`)
         state.products.splice(i, 1)
         recalc(state)
       }

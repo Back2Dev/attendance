@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Button, Card, Image, Icon } from 'semantic-ui-react'
 import { cloneDeep } from 'lodash'
 import { CartContext } from './cart-data'
 import Price from './price'
@@ -34,6 +34,7 @@ const ProductCard = props => {
             </Button>
           </div>
         )}
+        {state.prodqty && state.prodqty[props._id] && <Icon name="check" floated="right" />}
         {props.mode === 'remove' && (
           <div>
             {props.qty > 1 && <span>{props.qty} x </span>}
