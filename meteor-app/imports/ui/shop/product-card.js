@@ -18,6 +18,7 @@ const ProductCard = props => {
   }
 
   const img = props.image || '/images/gym.jpg'
+  const { mode } = props
   return (
     <Card color={props.color}>
       <Card.Content>
@@ -26,16 +27,24 @@ const ProductCard = props => {
         <Card.Description>{props.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        {props.mode === 'add' && (
+        {mode === 'add' && (
           <div>
             <Price cents={props.price} />
+            &nbsp;
             <Button type="button" onClick={add} color={props.color}>
               Add to cart
             </Button>
+            {state.prodqty && state.prodqty[props._id] && (
+              <span style={{ float: 'right' }}>
+                {state.prodqty[props._id]}&nbsp;
+                <Button size="mini" compact color="red" type="button" onClick={remove} title="Remove this item">
+                  x
+                </Button>
+              </span>
+            )}
           </div>
         )}
-        {state.prodqty && state.prodqty[props._id] && <Icon name="check" floated="right" />}
-        {props.mode === 'remove' && (
+        {mode === 'remove' && (
           <div>
             {props.qty > 1 && <span>{props.qty} x </span>}
             <Price cents={props.price} />
