@@ -8,7 +8,7 @@ import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 
 const ShopFront = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <div>Loading ...</div>
   return (
     <CartContextProvider cart={props.carts[0]} cartUpdate={props.cartUpdate}>
       <Switch>
