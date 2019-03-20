@@ -140,7 +140,7 @@
     "regenerator-runtime": "^0.11.1",
     "sinon": "^5.0.7",
     "storybook-addon-specifications": "^2.1.2",
-    "storybook-router": "^0.3.2",
+    "storybook-router": "^0.3.4",
     "style-loader": "^0.14.1"
   },
   "postcss": {
