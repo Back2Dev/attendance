@@ -137,7 +137,11 @@ const badCarts = [
   // { products: { name: 'icecream' } },
 ]
 
-const goodCarts = [{ products: [] }, { price: 999, products: goodProducts }]
+const goodCarts = [{ products: [], prodqty: [] }, {
+  price: 999,
+  prodqty: goodProducts.map(prod => { return { [prod._id]: 1 } }),
+  products: goodProducts
+}]
 
 describe('carts schema', () => {
   beforeEach(resetDatabase)
