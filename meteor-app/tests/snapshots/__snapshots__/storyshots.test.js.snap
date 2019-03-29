@@ -3015,6 +3015,87 @@ exports[`Storyshots Cart.ListItem Cart List Item 1`] = `
 </div>
 `;
 
+exports[`Storyshots Courses Courses Card 1`] = `
+<div>
+  <div
+    className="course-container product-content"
+  >
+    <div
+      className="course-card"
+    >
+      <div
+        className="course-card-details"
+      >
+        <img
+          src="/images/gym.jpg"
+        />
+        <h1>
+          awesome course similar to awesome sauce, but a course
+        </h1>
+        <span>
+          Starting on: 
+          2019-02-18T16:00:00Z
+          , Ending on: 
+          2019-03-18T16:00:00Z
+        </span>
+        <p>
+          10 visits, usable at any of our evening sessions 
+        </p>
+        <div>
+          <button
+            className="StripeCheckout"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseUp={[Function]}
+            style={
+              Object {
+                "background": "linear-gradient(#28a0e5,#015e94)",
+                "border": 0,
+                "borderRadius": 5,
+                "boxShadow": "0 1px 0 rgba(0,0,0,0.2)",
+                "cursor": "pointer",
+                "display": "inline-block",
+                "overflow": "hidden",
+                "padding": 1,
+                "textDecoration": "none",
+                "userSelect": "none",
+                "visibility": "visible",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "backgroundImage": "linear-gradient(#7dc5ee,#008cdd 85%,#30a2e4)",
+                  "borderRadius": 4,
+                  "boxShadow": "inset 0 1px 0 rgba(255,255,255,0.25)",
+                  "color": "#fff",
+                  "display": "block",
+                  "fontFamily": "\\"Helvetica Neue\\",Helvetica,Arial,sans-serif",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "height": 30,
+                  "lineHeight": "30px",
+                  "padding": "0 12px",
+                  "position": "relative",
+                  "textShadow": "0 -1px 0 rgba(0,0,0,0.25)",
+                }
+              }
+            >
+              Pay Back2Bikes
+            </span>
+          </button>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Job Card Job Card Cancelled 1`] = `
 <div
   className="accordion ui fluid styled job-card-container"
@@ -11751,7 +11832,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
          function should run.
       </p>
       <div
-        className="ui centered middle aligned grid"
+        className="ui middle aligned grid"
         style={
           Object {
             "height": "100%",
@@ -11846,7 +11927,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                               Enter your PIN:
                             </label>
                             <div
-                              className="ui input"
+                              className="ui focus input"
                               inputMode="numeric"
                               style={
                                 Object {
@@ -14369,5 +14450,38 @@ exports[`Storyshots Part.Card Card 1`] = `
       </div>
     </div>
   </div>
+</div>
+`;
+
+exports[`Storyshots Purchase Card 1`] = `
+<div>
+  <button
+    className="ui button"
+    onClick={[Function]}
+    role="button"
+  >
+    <div
+      className="ui card"
+      onClick={[Function]}
+    >
+      <div
+        className="content"
+        onClick={[Function]}
+      >
+        <div
+          className="header"
+        >
+          10 visit pass
+        </div>
+        <div>
+          10 visits, usable at any of our evening sessions 
+        </div>
+        <div>
+          Price: 
+          $9.99
+        </div>
+      </div>
+    </div>
+  </button>
 </div>
 `;

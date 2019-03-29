@@ -1,12 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { Button, Card, Icon, Checkbox, Form, Grid, Header, Message, Modal, Segment } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
-import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
-import MemberVisitPin from '/imports/ui/member/member-visit-pin';
-import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot';
-import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set';
+import MemberVisitArrive from '/imports/ui/member/member-visit-arrive'
+import MemberVisitPin from '/imports/ui/member/member-visit-pin'
+import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot'
+import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set'
 import '/imports/ui/member/member-visit.css'
 
 class MemberVisit extends React.Component {
@@ -15,10 +15,10 @@ class MemberVisit extends React.Component {
     this.state = {
       duration: 6,
       showAlertModal: false,
-      showForgotPinForm: false,
+      showForgotPinForm: false
     }
   }
-  updateStatus = (data) => {
+  updateStatus = data => {
     this.props.recordVisit({ duration: this.state.duration })
     this.props.history.goBack()
   }
@@ -41,8 +41,7 @@ class MemberVisit extends React.Component {
     this.setState({
       showAlertModal: !this.state.showAlertModal
     })
-    if (document.getElementById('pin1'))
-      document.getElementById('pin1').focus()
+    if (document.getElementById('pin1')) document.getElementById('pin1').focus()
   }
 
   componentWillUnmount() {
@@ -64,52 +63,39 @@ class MemberVisit extends React.Component {
 
   render() {
     this.props.loading && MemberCardLoading
-    // this is a bug in semantic UI 2.3, temp fix:
 
     return (
-      <Grid centered style={{ height: '100%' }} verticalAlign='middle'>
+      <Grid style={{ height: '100%' }} verticalAlign="middle">
         <Grid.Column>
-
-          <Modal basic open={this.state.showAlertModal}>
-            <Header icon='key' content='Looks like you have not set a PIN yet.' />
+          <Modal basic open={this.state.showAlertModal} centered="false">
+            <Modal.Header icon="key" content="Looks like you have not set a PIN yet." />
             <Modal.Content>
-              <p>
-                Please set a PIN for managing your profile
-            </p>
+              <p>Please set a PIN for managing your profile</p>
             </Modal.Content>
             <Modal.Actions>
-              <Button basic color='red' inverted onClick={this.props.cancelClick}>
-                <Icon name='arrow left' /> Cancel
-            </Button>
-              <Button id="createPIN" color='green' inverted onClick={this.toggleModal}>
-                <Icon name='arrow right' /> Create PIN
-            </Button>
+              <Button color="red" onClick={this.props.cancelClick}>
+                <Icon name="arrow left" /> Cancel
+              </Button>
+              <Button id="createPIN" color="green" onClick={this.toggleModal}>
+                <Icon name="arrow right" /> Create PIN
+              </Button>
             </Modal.Actions>
           </Modal>
 
           <Card.Group centered>
-            <MemberCard
-              className='member-visit-card'
-              {...this.props.member}
-              onCardClick={f => f}
-            >
-
-              {
-                this.state.showForgotPinForm &&
+            <MemberCard className="member-visit-card" {...this.props.member} onCardClick={f => f}>
+              {this.state.showForgotPinForm && (
                 <MemberVisitPinForgot
                   member={this.props.member}
                   forgotPin={this.onForgotPin}
                   onPinReminderSent={this.onPinReminderSent}
                 />
-              }
-              {
-                !this.state.showForgotPinForm &&
+              )}
+              {!this.state.showForgotPinForm && (
                 <div style={{ margin: '40px 0' }}>
-                  {
-                    !this.props.validPin &&
+                  {!this.props.validPin && (
                     <div>
-                      {
-                        this.props.memberHasOwnPin &&
+                      {this.props.memberHasOwnPin && (
                         <MemberVisitPin
                           setPinSuccess={this.props.setPinSuccess}
                           validPin={this.props.validPin}
@@ -117,19 +103,15 @@ class MemberVisit extends React.Component {
                           forgotPin={this.props.forgotPin}
                           toggleForgotPinForm={this.toggleForgotPinForm}
                         />
-                      }
-                      {
-                        !this.props.memberHasOwnPin &&
-                        <MemberVisitPinSet
-                          setPin={this.props.setPin}
-                        />
-                      }
+                      )}
+                      {!this.props.memberHasOwnPin && <MemberVisitPinSet setPin={this.props.setPin} />}
                     </div>
-                  }
-                  {
-                    this.props.validPin &&
+                  )}
+                  {this.props.validPin && (
                     <div>
-                      <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)}>Edit Your Profile</Button>
+                      <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)}>
+                        Edit Your Profile
+                      </Button>
                       <MemberVisitArrive
                         member={this.props.member}
                         duration={this.state.duration}
@@ -137,16 +119,12 @@ class MemberVisit extends React.Component {
                         updateStatus={this.updateStatus}
                       />
                     </div>
-                  }
+                  )}
                 </div>
-              }
-              <Button
-                fluid
-                size='large'
-                onClick={this.props.cancelClick}
-              >
+              )}
+              <Button fluid size="large" onClick={this.props.cancelClick}>
                 Back
-                </Button>
+              </Button>
             </MemberCard>
           </Card.Group>
         </Grid.Column>
@@ -165,7 +143,7 @@ MemberVisit.propTypes = {
   clearPin: PropTypes.func.isRequired,
   forgotPin: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
-  setPinSuccess: PropTypes.bool.isRequired,
-};
+  setPinSuccess: PropTypes.bool.isRequired
+}
 
 export default MemberVisit

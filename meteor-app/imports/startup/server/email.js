@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
 const debug = require('debug')('b2b:email')
 import { eventLog } from '/imports/api/events'
+
 import log from '/imports/lib/log'
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'

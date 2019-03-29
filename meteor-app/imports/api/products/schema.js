@@ -1,15 +1,48 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/schema'
 import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
+export const ProductTypes = new Mongo.Collection('productTypes')
+export const Carts = new Mongo.Collection('carts')
 
-export const ProductsSchema = new SimpleSchema({
-  _id: RegExId,
+export const ProductTypesSchema = new SimpleSchema({
+  _id: OptionalRegExId,
   name: {
     type: String,
-    label: 'Product Title'
+    label: 'Product Type Name'
+  },
+  description: {
+    type: String,
+    label: 'Product Type Description'
+  },
+  type: {
+    type: SimpleSchema.Integer,
+    label: 'Product Type Code',
+    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE).map(key => parseInt(key, 10))
+  },
+  color: {
+    type: String,
+    defaultValue: 'green'
+  },
+  image: {
+    type: String,
+    label: 'Product Type Image',
+    optional: true
+  },
+  icon: {
+    type: String,
+    label: 'Product Type Icon',
+    optional: true
+  }
+})
+
+export const ProductsSchema = new SimpleSchema({
+  _id: OptionalRegExId,
+  name: {
+    type: String,
+    label: 'Product Name'
   },
   description: {
     type: String,
@@ -17,7 +50,7 @@ export const ProductsSchema = new SimpleSchema({
   },
   type: {
     type: SimpleSchema.Integer,
-    label: 'Product Type: Pass, Membership, Course',
+    label: 'Product Type: pass, membership, course',
     allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE).map(key => parseInt(key, 10))
   },
   duration: {
@@ -29,6 +62,11 @@ export const ProductsSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Product Price in cents.  If free please leave blank',
     optional: true,
+    defaultValue: 0
+  },
+  qty: {
+    type: SimpleSchema.Integer,
+    label: 'Quantity',
     defaultValue: 0
   },
   image: {
@@ -54,6 +92,50 @@ export const ProductsSchema = new SimpleSchema({
   updatedAt
 })
 
+const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt')
+
+export const CartsSchema = new SimpleSchema({
+  _id: OptionalRegExId,
+  memberId: OptionalRegExId,
+  userId: OptionalRegExId,
+  price: {
+    type: SimpleSchema.Integer,
+    label: 'Total Price in cents',
+    defaultValue: 0
+  },
+  totalqty: {
+    type: SimpleSchema.Integer,
+    label: 'Total quantity',
+    defaultValue: 0
+  },
+  prodqty: {
+    type: Object,
+    label: 'Product quantities',
+    blackbox: true
+  },
+  products: {
+    type: Array,
+    optional: true
+  },
+  'products.$': ProductListSchema,
+  createdAt,
+  updatedAt
+})
+
 Products.attachSchema(ProductsSchema)
+ProductTypes.attachSchema(ProductTypesSchema)
+Carts.attachSchema(CartsSchema)
+
+Carts.allow({
+  update() {
+    return true
+  },
+  insert() {
+    return true
+  },
+  remove() {
+    return true
+  }
+})
 
 export default Products
