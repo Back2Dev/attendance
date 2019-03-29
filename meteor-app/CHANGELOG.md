@@ -4,6 +4,11 @@ Next
 ------
 * Added new collections for sales
 * Upgrade cypress to 3.1.5
+* Added shopping cart
+* Improved set pin handling
+* Auto submit when new pin matches
+* Bring modal up for ipad use
+* iPad support
 
 0.11.0
 ------

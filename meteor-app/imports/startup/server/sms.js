@@ -18,7 +18,6 @@ const required = ['USERNAME', 'PASSWORD', 'FROM']
 Meteor.startup(() => {
   if (Meteor.settings.env && Meteor.settings.env.SMS) {
     const settings = Meteor.settings.env.SMS
-    debug("settings",settings)
     smsSettings.enabled = required.every(item => {
       smsSettings[item] = settings[item]
       if (!settings[item]) {
@@ -27,16 +26,13 @@ Meteor.startup(() => {
       return settings[item]
     })
   }
-  debug("SMS Sending is "+smsSettings.enabled)
+  debug('SMS Sending is ' + smsSettings.enabled)
 })
 
 const SMS_URL = 'https://api.smsbroadcast.com.au/api-adv.php'
 
 Meteor.methods({
-  'sendPINSms'(
-    message = DEFAULT_MESSAGE,
-    destination = DEFAULT_DESTINATION
-  ) {
+  sendPINSms(message = DEFAULT_MESSAGE, destination = DEFAULT_DESTINATION) {
     if (smsSettings.enabled) {
       debug(`Sending message ${message} to ${destination}`)
 
@@ -46,45 +42,45 @@ Meteor.methods({
           password: smsSettings.PASSWORD,
           from: smsSettings.FROM,
           to: destination,
-          message: message,
-        };
+          message: message
+        }
         const payload = {
-          method: 'GET',
+          method: 'GET'
         }
         let url = SMS_URL
         Object.keys(body).forEach((item, ix) => {
-        debug("url=" + url)
-          const joiner = (ix === 0) ? '?' : '&'
+          debug('url=' + url)
+          const joiner = ix === 0 ? '?' : '&'
           url = `${url}${joiner}${item}=${body[item]}`
         })
-        debug("url=" + url)
+        debug('url=' + url)
         fetch(url, payload)
           .then(res => res.text())
           .then(data => {
-            debug("SMS send response", data)
+            debug('SMS send response', data)
             eventLog({
               who: destination,
               what: `SMS message: ${message}`,
               object: {
-                response: data,
-              },
+                response: data
+              }
             })
           })
           .catch(error => {
-            debug("Error from sms gateway", error)
+            debug('Error from sms gateway', error)
             eventLog({
               who: destination,
               what: `SMS message: ${message}`,
               object: {
-                response: error,
-              },
+                response: error
+              }
             })
-          });
+          })
       } catch (error) {
-        log.error("Error from sms gateway", error)
+        log.error('Error from sms gateway', error)
       }
     }
-  },
+  }
 })
 
 // https://api.smsbroadcast.com.au/api-adv.php?username=mikkel&password=Smsbroadcast.24&from=0416988516&to=0438002921&message=hello

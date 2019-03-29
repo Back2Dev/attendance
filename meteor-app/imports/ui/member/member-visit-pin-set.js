@@ -31,7 +31,7 @@ class MemberVisitPinSet extends React.Component {
 
   componentDidMount() {
     if (this.pin1 && this.pin1.current) {
-      this.pin1.current.focus()
+      //   this.pin1.current.focus()
     }
   }
 
@@ -57,7 +57,7 @@ class MemberVisitPinSet extends React.Component {
         <Form ref={this.form} onSubmit={this.handleSetPin}>
           <Form.Field>
             <label htmlFor="pin1">Enter a 4 digit pin</label>
-            <Input ref={this.pin1} focus name="pin1" id="pin1" {...inputSettings} onChange={this.onPinInput} />
+            <Input ref={this.pin1} name="pin1" id="pin1" {...inputSettings} focus onChange={this.onPinInput} />
           </Form.Field>
           <Form.Field>
             <label htmlFor="pin2">Confirm Your Pin</label>

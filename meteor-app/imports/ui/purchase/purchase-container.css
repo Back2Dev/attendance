@@ -1,0 +1,34 @@
+.purchase-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5em;
+}
+
+.purchase-option {
+  min-width: 20%;
+  width: 25%;
+  text-align: center;
+  border-radius: 5px;
+  max-height: 100%;
+}
+
+.purchase-option .purchase-button {
+  width: 100%;
+  height: 3em;
+  border: none;
+  font-size: 2.2em;
+  color: white;
+  border-radius: 5px;
+}
+
+.purchase-container .passes button {
+  background-color: #db2828;
+}
+
+.purchase-container .courses button {
+  background-color: #21ba45;
+}
+
+.purchase-container .memberships button {
+  background-color: #2185d0;
+}

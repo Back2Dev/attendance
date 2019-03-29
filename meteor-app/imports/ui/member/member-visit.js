@@ -63,8 +63,6 @@ class MemberVisit extends React.Component {
 
   render() {
     this.props.loading && MemberCardLoading
-    console.log(this.props.loading)
-    // this is a bug in semantic UI 2.3, temp fix:
 
     return (
       <Grid style={{ height: '100%' }} verticalAlign="middle">

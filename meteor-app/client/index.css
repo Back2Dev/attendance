@@ -1,6 +1,6 @@
 /* this is to fix semantic ui 2.3 bug where modal doesnt center */
 .ui.basic.modal.transition.visible.active {
-  margin-top: -50% !important;
+  margin-top: -40% !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
