@@ -11832,7 +11832,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
          function should run.
       </p>
       <div
-        className="ui centered middle aligned grid"
+        className="ui middle aligned grid"
         style={
           Object {
             "height": "100%",
@@ -11927,7 +11927,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                               Enter your PIN:
                             </label>
                             <div
-                              className="ui input"
+                              className="ui focus input"
                               inputMode="numeric"
                               style={
                                 Object {
