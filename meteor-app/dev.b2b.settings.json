@@ -4,6 +4,9 @@
     "member": "Volunteer",
     "parts": 1,
     "servicing": 1,
-    "recruit": "b2b"
+    "recruit": "b2b",
+    "paymentApiKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
+    "shop": 1,
+    "org": "Back2bikes"
   }
 }

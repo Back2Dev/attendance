@@ -4,14 +4,18 @@
     "SMS": {
       "USERNAME": "mikkel",
       "PASSWORD": "Smsbroadcast.24",
-      "FROM": "Back2bikes"
-    }
+      "FROM": "0438002921"
+    },
+    "privateStripeKey": "sk_test_MsFkS9KodEJyxmgIql45Me2w"
   },
   "public": {
-    "logo": "/images/hands.jpg",
+    "logo": "/images/logo-tiny.jpg",
     "member": "Member",
     "parts": 1,
     "servicing": 1,
-    "recruit": "b2b"
+    "recruit": "b2b",
+    "paymentApiKey": "pk_test_84A7QYIUhWG1GWw0MYUcQ51y",
+    "shop": 1,
+    "org": "Back2bikes"
   }
 }

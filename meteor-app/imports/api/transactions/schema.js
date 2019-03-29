@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 
 import { memberSchema } from '../members/schema';
 import { productSchema } from '../products/schema';
@@ -20,6 +20,10 @@ export const TransactionsSchema = new SimpleSchema({
   },
   productId: {
     type: String,
+  },
+  userId: {
+    type: String,
+    optional: true,
   },
   price: {
     type: Number,

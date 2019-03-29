@@ -2,10 +2,9 @@ module.exports = {
   servers: {
     one: {
       // TODO: set host address, username, and authentication method
-      host: 'staging.back2bikes.com.au',
-      username: 'mikkel',
-      // pem: './path/to/pem'
-      // or neither for authenticate from ssh-agent
+      host: '13.54.15.61',
+      username: 'ubuntu',
+      // authenticate from ssh-agent
     }
   },
 
@@ -58,7 +57,8 @@ module.exports = {
 
     ssl: {
       // Enable Let's Encrypt
-      letsEncryptEmail: 'mikkel@almsford.org'
+      letsEncryptEmail: 'mikkel@almsford.org',
+	  forceSSL: true
     }
   }
 };
