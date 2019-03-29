@@ -24,7 +24,7 @@ class MemberVisitPinSet extends React.Component {
 
   componentDidMount() {
     if (this.pin1 && this.pin1.current) {
-      this.pin1.current.focus()
+      //   this.pin1.current.focus()
     }
   }
 
@@ -57,7 +57,6 @@ class MemberVisitPinSet extends React.Component {
           </label>
             <Input
               ref={this.pin1}
-              focus
               name='pin1'
               id='pin1'
               {...inputSettings}
