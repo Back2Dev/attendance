@@ -9,6 +9,20 @@
 }
 .Punch-Card p {
 }
-.Digit img {
+.Digit {
   margin: 5px;
+  border-radius: 25%;
+  color: blue;
+  background: white;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.DigitUsed {
+  margin: 5px;
+  border-radius: 50%;
+  color: red;
+  font-weight: bold;
+  background: white;
+  padding: 10px;
 }
