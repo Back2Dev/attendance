@@ -14514,28 +14514,6 @@ exports[`Storyshots Punch-card Punchcard 1`] = `
 </div>
 `;
 
-exports[`Storyshots PunchCard Card 1`] = `
-<div>
-  <div
-    className="ui card"
-    onClick={[Function]}
-  >
-    <div
-      className="content"
-    >
-      Mike King
-    </div>
-    <div
-      className="meta"
-    >
-      3
-       used out of 
-      12
-    </div>
-  </div>
-</div>
-`;
-
 exports[`Storyshots Purchase Card 1`] = `
 <div>
   <button
