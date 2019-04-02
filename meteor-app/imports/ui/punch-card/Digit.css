@@ -1,0 +1,14 @@
+.Container {
+  background-color: #fbbd08;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px 20px;
+}
+.Punch-Card p {
+}
+.Digit img {
+  margin: 5px;
+}
