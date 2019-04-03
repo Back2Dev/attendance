@@ -10632,7 +10632,7 @@ exports[`Storyshots Member.Card Card 1`] = `
 </div>
 `;
 
-exports[`Storyshots Member.Card Member Card Small 1`] = `
+exports[`Storyshots Member.Card Small 1`] = `
 <div
   className="item"
   onClick={[Function]}
