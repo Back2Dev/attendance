@@ -60,7 +60,7 @@ Meteor.methods({
       Suburb: 'addressSuburb',
       State: 'addressState',
       Postcode: 'addressPostcode',
-      Email: 'email',
+      'Email ': 'email',
       Notes: 'status'
     }
     const genderAvatars = {

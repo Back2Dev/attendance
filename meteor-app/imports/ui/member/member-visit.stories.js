@@ -20,7 +20,9 @@ const updateMember = () => {
   const options = {
     isHere: boolean('Present', false),
     isSuper: boolean('Is Supervisor', true),
-    sessionCount: boolean('Is Newbie', true) ? 1 : 25
+    sessionCount: boolean('Is Newbie', true) ? 1 : 25,
+    email: text('Email', 'me@me.com'),
+    mobile: text('Mobile', '0499 911')
   }
   return Object.assign(member, options)
 }
@@ -51,6 +53,7 @@ storiesOf('Member.Session', module)
               validPin={false}
               forgotPin={action('forgotPin')}
               setPin={action('setPin')}
+              save={action('save')}
             />
           )}
         </div>

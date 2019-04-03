@@ -35,7 +35,7 @@ class MemberDash extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.memberHasOwnPin) {
+    if (!this.props.memberHasOwnPin || !memberHasPhoneEmail) {
       this.toggleModal()
     }
   }
@@ -82,6 +82,7 @@ MemberDash.propTypes = {
   cancelClick: PropTypes.func.isRequired,
   recordVisit: PropTypes.func.isRequired,
   memberHasOwnPin: PropTypes.bool.isRequired,
+  memberHasPhoneEmail: PropTypes.bool.isRequired,
   onSubmitPin: PropTypes.func.isRequired,
   validPin: PropTypes.bool.isRequired,
   clearPin: PropTypes.func.isRequired,

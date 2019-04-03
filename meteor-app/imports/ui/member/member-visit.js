@@ -7,6 +7,7 @@ import MemberVisitArrive from '/imports/ui/member/member-visit-arrive'
 import MemberVisitPin from '/imports/ui/member/member-visit-pin'
 import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot'
 import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set'
+import MemberEmailPhone from './member-email-phone'
 import '/imports/ui/member/member-visit.css'
 
 class MemberVisit extends React.Component {
@@ -62,7 +63,7 @@ class MemberVisit extends React.Component {
   }
 
   render() {
-    this.props.loading && MemberCardLoading
+    this.props.loading && <MemberCardLoading />
 
     return (
       <Grid style={{ height: '100%' }} verticalAlign="middle">
@@ -105,6 +106,9 @@ class MemberVisit extends React.Component {
                         />
                       )}
                       {!this.props.memberHasOwnPin && <MemberVisitPinSet setPin={this.props.setPin} />}
+                      {!this.props.memberHasPhoneEmail && (
+                        <MemberEmailPhone email={this.props.member.email} mobile={this.props.member.mobile} />
+                      )}
                     </div>
                   )}
                   {this.props.validPin && (

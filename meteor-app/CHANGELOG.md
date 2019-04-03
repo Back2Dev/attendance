@@ -9,6 +9,9 @@ Next
 * Auto submit when new pin matches
 * Bring modal up for ipad use
 * iPad support
+* PIN entry - auto-tab to next field after 4 digits
+* Limited PIN entry to 4
+* Added mup logging
 
 0.11.0
 ------

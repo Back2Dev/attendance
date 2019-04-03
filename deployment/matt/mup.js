@@ -2,8 +2,8 @@ module.exports = {
   servers: {
     one: {
       // TODO: set host address, username, and authentication method
-      host: '192.168.1.100',
-      username: 'matt',
+      host: "192.168.1.100",
+      username: "matt"
       // password: 'matt'
       // pem: '~/.ssh/id_rsa'
       // or neither for authenticate from ssh-agent
@@ -12,27 +12,27 @@ module.exports = {
 
   app: {
     // TODO: change app name and path
-    name: 'matt-b2b-staging',
-    path: '../../meteor-app',
+    name: "matt-b2b-staging",
+    path: "../../meteor-app",
 
     servers: {
-      one: {},
+      one: {}
     },
 
     buildOptions: {
-      serverOnly: true,
+      serverOnly: true
     },
     env: {
       // TODO: Change to your app's url
       // If you are using ssl, it needs to start with https://
-      ROOT_URL: 'http://b2b.ladidadi.xyz',
-      MONGO_URL: 'mongodb://mongodb/meteor',
-      MONGO_OPLOG_URL: 'mongodb://mongodb/local',
+      ROOT_URL: "http://b2b.ladidadi.xyz",
+      MONGO_URL: "mongodb://mongodb/meteor",
+      MONGO_OPLOG_URL: "mongodb://mongodb/local"
     },
 
     docker: {
       // change to 'abernix/meteord:base' if your app is using Meteor 1.4 - 1.5
-      image: 'abernix/meteord:node-8.4.0-base',
+      image: "abernix/meteord:node-8.4.0-base"
     },
 
     // Show progress bar while uploading bundle to server
@@ -41,7 +41,7 @@ module.exports = {
   },
 
   mongo: {
-    version: '3.4.1',
+    version: "3.4.1",
     servers: {
       one: {}
     }
@@ -51,12 +51,20 @@ module.exports = {
   // Use the proxy to setup ssl or to route requests to the correct
   // app when there are several apps
 
-   proxy: {
-     domains: 'b2b.ladidadi.xyz',
+  proxy: {
+    domains: "b2b.ladidadi.xyz",
 
-     ssl: {
-       // Enable Let's Encrypt
-       letsEncryptEmail: 'mrslwiseman@gmail.com'
-     }
-   }
+    ssl: {
+      // Enable Let's Encrypt
+      letsEncryptEmail: "mrslwiseman@gmail.com"
+    }
+  },
+  hooks: {
+    "pre.deploy": {
+      localCommand: "node ../../scripts/log-deployment.js `date` `pwd` deploy"
+    },
+    "pre.default.reconfig": {
+      localCommand: "node ../../scripts/log-deployment.js `date` `pwd` reconfig"
+    }
+  }
 };

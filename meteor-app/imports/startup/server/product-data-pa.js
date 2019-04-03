@@ -34,6 +34,8 @@ const myProducts = {
       description: '10 sessions ',
       type: CONSTANTS.PRODUCT_TYPES.PASS,
       active: true,
+      autoRenew: true,
+      duration: 2,
       image: '/images/pass.jpg'
     },
     {
@@ -42,6 +44,8 @@ const myProducts = {
       description: 'Unlimited sessions, automatic renewal every 12 months',
       type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
       active: true,
+      autoRenew: true,
+      duration: 12,
       image: '/images/membership.jpg'
     },
     {
@@ -50,6 +54,8 @@ const myProducts = {
       price: 270 * 100,
       description: 'Unlimited sessions, automatic renewal every 3 months',
       active: true,
+      autoRenew: true,
+      duration: 3,
       color: 'blue',
       icon: 'cogs',
       image: '/images/membership.jpg'
@@ -60,6 +66,8 @@ const myProducts = {
       price: 100 * 100,
       description: 'Unlimited sessions, automatic renewal every month',
       active: true,
+      duration: 1,
+      autoRenew: true,
       color: 'blue',
       icon: 'cogs',
       image: '/images/membership.jpg'

@@ -34,6 +34,7 @@ const b2bProducts = {
       description: '6 week bicycle maintenance course',
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       active: true,
+      autoRenew: false,
       image: '/images/maintenance.jpg'
     },
     {
@@ -42,6 +43,7 @@ const b2bProducts = {
       description: 'Week 1: Punctures',
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       active: true,
+      autoRenew: false,
       image: '/images/puncture.jpg'
     },
     {
@@ -50,6 +52,7 @@ const b2bProducts = {
       description: 'Week 2: Brakes',
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       active: true,
+      autoRenew: false,
       image: '/images/brakes.jpg'
     },
     {
@@ -58,6 +61,7 @@ const b2bProducts = {
       description: 'Weeks 3 & 4: Gears',
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       active: true,
+      autoRenew: false,
       image: '/images/gears.jpg'
     },
     {
@@ -66,6 +70,7 @@ const b2bProducts = {
       description: 'Week 5: Wheel bearings',
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       active: true,
+      autoRenew: false,
       image: '/images/wheels.jpg'
     },
     {
@@ -74,6 +79,7 @@ const b2bProducts = {
       description: 'Week 6: Forks and Bottom brackets',
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       active: true,
+      autoRenew: false,
       image: '/images/forks.jpg'
     },
     {
@@ -82,6 +88,7 @@ const b2bProducts = {
       description: 'Evening workshop access',
       type: CONSTANTS.PRODUCT_TYPES.PASS,
       active: true,
+      autoRenew: false,
       image: '/images/workshop.jpg'
     },
     {
@@ -90,30 +97,35 @@ const b2bProducts = {
       description: "Evening workshop access (women's nights)",
       type: CONSTANTS.PRODUCT_TYPES.PASS,
       active: true,
+      autoRenew: false,
       image: '/images/womens.jpg'
     },
     {
       name: '1 month membership',
       price: 4000,
-      description: 'Evening workshop access for 6 months',
+      description: 'Evening workshop access for 1 months',
       type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
       active: true,
+      autoRenew: true,
+      duration: 1,
       image: '/images/bicycle-membership.jpg'
     },
     {
       name: '3 month membership',
       price: 20000,
-      description: 'Evening workshop access for 6 months',
+      description: 'Evening workshop access for 3 months',
       type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
       active: true,
+      autoRenew: true,
       image: '/images/membership.jpg'
     },
     {
       name: '12 month membership',
-      price: 40000,
-      description: 'Evening workshop access for 6 months',
+      price: 50000,
+      description: 'Evening workshop access for 12 months',
       type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
       active: true,
+      autoRenew: true,
       image: '/images/membership.jpg'
     }
   ]
