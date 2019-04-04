@@ -64,7 +64,9 @@ class MemberVisit extends React.Component {
 
   render() {
     this.props.loading && <MemberCardLoading />
-
+    const highlightEdit = !this.props.memberHasPhoneEmail
+      ? { positive: 'true', fluid: 'true', size: 'large', style: { border: '2px solid yellow' } }
+      : {}
     return (
       <Segment>
         <Grid columns={2} style={{ height: '100%' }} verticalAlign="middle">
@@ -88,9 +90,9 @@ class MemberVisit extends React.Component {
             </Card.Group>
           </Grid.Column>
           <Grid.Column>
-            {!this.props.memberHasPhoneEmail && (
+            {/* {!this.props.memberHasPhoneEmail && (
               <MemberEmailPhone email={this.props.member.email} mobile={this.props.member.mobile} />
-            )}
+            )} */}
             {this.state.showForgotPinForm && (
               <MemberVisitPinForgot
                 member={this.props.member}
@@ -116,7 +118,7 @@ class MemberVisit extends React.Component {
                 )}
                 {this.props.validPin && (
                   <div>
-                    <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)}>
+                    <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)} {...highlightEdit}>
                       Edit Your Profile
                     </Button>
                     <MemberVisitArrive
