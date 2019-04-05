@@ -17,37 +17,18 @@ const match = {
   }
 }
 
-const updateMember = () => {
-  const options = {
-    isHere: boolean('Present', false),
-    isSuper: boolean('Is Supervisor', true),
-    sessionCount: boolean('Is Newbie', true) ? 1 : 25,
-  }
-  return Object.assign(member, options)
-}
-
 storiesOf('Member.Session', module)
   .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
-  .add('Set PIN', withInfo('PIN Set')(() => {
-    const story = (
-      <div style={{maxWidth: '280px', textAlign: 'center'}}>
-        <MemberVisitPinSet
-          loading={boolean('Loading', false)}
-          setPin={action('setPin')}
-        />
-      </div>
-    )
-    // specs(() =>
-    //   describe('<User avatar={avatar} />', () => {
-    //     it('displays an User', () => {
-    //       const wrapper = mount(story);
-    //       expect(wrapper.find('img')).to.have.length(1);
-    //       expect(wrapper.find('img').props().src).to.contain(avatar.url);
-    //     });
-    //   })
-    // );
-    return story;
-  }))
-
+  .add(
+    'Set PIN',
+    withInfo('PIN Set')(() => {
+      const story = (
+        <div style={{ maxWidth: '280px', textAlign: 'center' }}>
+          <MemberVisitPinSet loading={boolean('Loading', false)} setPin={action('setPin')} />
+        </div>
+      )
+      return story
+    })
+  )

@@ -44,7 +44,7 @@ storiesOf('Member.Add', module)
           it('displays the add member wizard', () => {
             const wrapper = mount(story)
             // Something ugly goes on here - first render it's zero, second render it's right
-            expect(wrapper.find('button')).to.have.length(1)
+            if (expect(wrapper.find('button')).to) expect(wrapper.find('button')).to.have.length(1)
             // expect(wrapper.find('button').props().src).to.contain(avatar.url)
           })
         })

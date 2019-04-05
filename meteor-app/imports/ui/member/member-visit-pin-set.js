@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Label, Button, Input } from 'semantic-ui-react'
 import '/imports/ui/member/member-visit-pin.css'
 
 const MemberVisitPinSet = props => {
-  const [pin1, setPin1] = React.useState('')
-  const [pin2, setPin2] = React.useState('')
+  const [pin1, setPin1] = useState('')
+  const [pin2, setPin2] = useState('')
 
   const onPinInput = (e, { name, value }) => {
     if (name === 'pin1') setPin1(value)

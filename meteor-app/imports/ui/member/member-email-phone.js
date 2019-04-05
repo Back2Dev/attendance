@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Label, Button, Input } from 'semantic-ui-react'
+import { Form, Button, Input } from 'semantic-ui-react'
 import '/imports/ui/member/member-visit-pin.css'
 
 const MemberEmailPhone = props => {

@@ -11832,158 +11832,168 @@ exports[`Storyshots Member.Session Sign in 1`] = `
          function should run.
       </p>
       <div
-        className="ui middle aligned grid"
-        style={
-          Object {
-            "height": "100%",
-          }
-        }
+        className="ui segment"
       >
         <div
-          className="column"
+          className="ui middle aligned two column grid"
+          style={
+            Object {
+              "height": "100%",
+            }
+          }
         >
           <div
-            className="ui centered cards"
+            className="column"
           >
             <div
-              className="ui card member-visit-card"
-              onClick={[Function]}
-              style={
-                Object {
-                  "textAlign": "center",
-                }
-              }
+              className="ui centered cards"
             >
               <div
-                className="ui image"
+                className="ui card member-visit-card"
+                onClick={[Function]}
+                style={
+                  Object {
+                    "textAlign": "center",
+                  }
+                }
               >
                 <div
-                  className="ui yellow ribbon label"
-                  onClick={[Function]}
+                  className="ui image"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="star icon"
+                  <div
+                    className="ui yellow ribbon label"
+                    onClick={[Function]}
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="star icon"
+                    />
+                  </div>
+                  <img
+                    src="/images/avatars/7.jpg"
                   />
-                </div>
-                <img
-                  src="/images/avatars/7.jpg"
-                />
-              </div>
-              <div
-                className="content"
-              >
-                <div
-                  className="header"
-                >
-                  Orie Kautzer
                 </div>
                 <div
                   className="content"
                 >
                   <div
-                    style={
-                      Object {
-                        "padding": "10px 0",
-                      }
-                    }
+                    className="header"
                   >
-                    <div
-                      about="Orie Kautzer"
-                      className="ui green label"
-                      onClick={[Function]}
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="trophy icon"
-                      />
-                      1
-                    </div>
-                    <div
-                      className="ui green label"
-                      onClick={[Function]}
-                    >
-                      Newbie
-                    </div>
+                    Orie Kautzer
                   </div>
-                  <div>
+                  <div
+                    className="content"
+                  >
                     <div
                       style={
                         Object {
-                          "margin": "40px 0",
+                          "padding": "10px 0",
                         }
                       }
                     >
-                      <div>
-                        <div
-                          className="member-visit-pin"
-                        >
-                          <div
-                            className="field"
-                          >
-                            <label
-                              htmlFor="pinInput"
-                            >
-                              Enter your PIN:
-                            </label>
-                            <div
-                              className="ui focus input"
-                              inputMode="numeric"
-                              style={
-                                Object {
-                                  "fontSize": "20px",
-                                  "margin": "10px 0",
-                                  "textAlign": "center",
-                                  "width": "80%",
-                                }
-                              }
-                            >
-                              <input
-                                id="pin"
-                                maxLength="4"
-                                name="pinInput"
-                                onChange={[Function]}
-                                pattern="/[0-9]/"
-                                type="tel"
-                              />
-                            </div>
-                            <div
-                              className="ui pointing label ui button"
-                              onClick={[Function]}
-                              role="button"
-                            >
-                              Forgotten your PIN? Click here
-                            </div>
-                          </div>
-                        </div>
+                      <div
+                        about="Orie Kautzer"
+                        className="ui green label"
+                        onClick={[Function]}
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="trophy icon"
+                        />
+                        1
+                      </div>
+                      <div
+                        className="ui green label"
+                        onClick={[Function]}
+                      >
+                        Newbie
                       </div>
                     </div>
-                    <button
-                      className="ui large fluid button"
-                      onClick={[Function]}
-                      role="button"
-                    >
-                      Back
-                    </button>
+                    <div />
                   </div>
                 </div>
-              </div>
-              <div
-                className="extra content"
-              >
-                <div>
-                  <p>
-                    Last Seen
-                     
-                    a few seconds
-                     ago
-                     
-                  </p>
+                <div
+                  className="extra content"
+                >
+                  <div>
+                    <p>
+                      Last Seen
+                       
+                      a few seconds
+                       ago
+                       
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div
+            className="column"
+          >
+            <div
+              style={
+                Object {
+                  "margin": "40px 0",
+                }
+              }
+            >
+              <div>
+                <div
+                  className="member-visit-pin"
+                >
+                  <div
+                    className="field"
+                  >
+                    <label
+                      htmlFor="pinInput"
+                    >
+                      Enter your PIN:
+                    </label>
+                    <div
+                      className="ui focus input"
+                      inputMode="numeric"
+                      style={
+                        Object {
+                          "fontSize": "20px",
+                          "margin": "10px 0",
+                          "textAlign": "center",
+                          "width": "80%",
+                        }
+                      }
+                    >
+                      <input
+                        id="pin"
+                        maxLength="4"
+                        name="pinInput"
+                        onChange={[Function]}
+                        pattern="/[0-9]/"
+                        type="tel"
+                      />
+                    </div>
+                    <div
+                      className="ui pointing label ui button"
+                      onClick={[Function]}
+                      role="button"
+                    >
+                      Forgotten your PIN? Click here
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              className="ui large fluid button"
+              onClick={[Function]}
+              role="button"
+            >
+              Back
+            </button>
+          </div>
         </div>
+        <div
+          className="ui vertical divider"
+        />
       </div>
     </div>
   </div>
@@ -12733,6 +12743,35 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                             }
                           >
                             setPin
+                          </span>
+                          }
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        save
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
+                              }
+                            }
+                          >
+                            save
                           </span>
                           }
                         </span>
@@ -13628,7 +13667,9 @@ exports[`Storyshots Part.Card Card 1`] = `
           />
           <div
             className="description part-desc"
-          />
+          >
+            Bicycle bell LG
+          </div>
           <div
             className="ui divider"
           />
@@ -13637,7 +13678,7 @@ exports[`Storyshots Part.Card Card 1`] = `
           >
             <b>
               $
-              1.21
+              120.75
             </b>
             <button
               className="ui blue right floated button part-add-cart-button"
@@ -13957,7 +13998,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                       <span
                         style={Object {}}
                       >
-                        retailPrice
+                        name
                       </span>
                       <span>
                         =
@@ -13973,9 +14014,38 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            120.75
+                            Bicycle bell LG
                           </span>
                           "
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        retailPrice
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
+                              }
+                            }
+                          >
+                            12075
+                          </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -13994,18 +14064,17 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          "
+                          {
                           <span
                             style={
                               Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
+                                "color": "#a11",
                               }
                             }
                           >
-                            169.07
+                            16907
                           </span>
-                          "
+                          }
                         </span>
                       </span>
                     </span>
@@ -14123,6 +14192,36 @@ exports[`Storyshots Part.Card Card 1`] = `
                             }
                           >
                             1
+                          </span>
+                          }
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        createdAt
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
+                              }
+                            }
+                          >
+                            {
+                            }
                           </span>
                           }
                         </span>
