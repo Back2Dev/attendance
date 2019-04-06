@@ -10,6 +10,8 @@ import member from '/imports/test/fake-member'
 
 import MemberEmailPhone from './member-email-phone'
 
+const Wrapper = props => <div style={{ maxWidth: '280px', textAlign: 'center' }} />
+
 storiesOf('Member.Session', module)
   .addDecorator(withKnobs)
 
@@ -17,14 +19,14 @@ storiesOf('Member.Session', module)
     'Email & Phone',
     withInfo('Entry')(() => {
       const story = (
-        <div style={{ maxWidth: '280px', textAlign: 'center' }}>
+        <Wrapper>
           <MemberEmailPhone
             loading={boolean('Loading', false)}
             email={member.email}
             mobile={member.mobile}
             save={action('save')}
           />
-        </div>
+        </Wrapper>
       )
       return story
     })

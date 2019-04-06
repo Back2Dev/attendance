@@ -10,11 +10,12 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import member from '/imports/test/fake-member'
 
 import MemberVisitPinSet from './member-visit-pin-set'
+const Wrapper = props => <div style={{ maxWidth: '280px', textAlign: 'center' }} />
 
 const match = {
   params: {
-    id: '12344'
-  }
+    id: '12344',
+  },
 }
 
 storiesOf('Member.Session', module)
@@ -25,9 +26,9 @@ storiesOf('Member.Session', module)
     'Set PIN',
     withInfo('PIN Set')(() => {
       const story = (
-        <div style={{ maxWidth: '280px', textAlign: 'center' }}>
+        <Wrapper>
           <MemberVisitPinSet loading={boolean('Loading', false)} setPin={action('setPin')} />
-        </div>
+        </Wrapper>
       )
       return story
     })
