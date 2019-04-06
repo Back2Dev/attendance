@@ -16,6 +16,7 @@
     "recruit": "b2b",
     "paymentApiKey": "pk_test_84A7QYIUhWG1GWw0MYUcQ51y",
     "shop": 1,
+    "orgid": "b2b",
     "org": "Back2bikes"
   }
 }

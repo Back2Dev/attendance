@@ -1,87 +1,69 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Label, Button, Input } from 'semantic-ui-react'
 import '/imports/ui/member/member-visit-pin.css'
 
-class MemberVisitPinSet extends React.Component {
-  constructor(props) {
-    super(props)
+const MemberVisitPinSet = props => {
+  const [pin1, setPin1] = useState('')
+  const [pin2, setPin2] = useState('')
 
-    this.state = {
-      pin1: '',
-      pin2: '',
-      pinMatchError: false
-    }
-
-    this.pin1 = React.createRef()
-    this.pin2 = React.createRef()
-  }
-
-  onPinInput = (e, { name, value }) => {
-    this.setState({ [name]: value })
+  const onPinInput = (e, { name, value }) => {
+    if (name === 'pin1') setPin1(value)
+    if (name === 'pin2') setPin2(value)
     if (name === 'pin1' && value.length === 4) {
       const form = e.target.form
       const index = Array.prototype.indexOf.call(form, e.target)
       form.elements[index + 1].focus()
     }
-    if (name === 'pin2' && value.length === 4 && this.state.pin1 === value) {
+    if (name === 'pin2' && value.length === 4 && pin1 === value) {
       setTimeout(() => document.querySelector('form').dispatchEvent(new Event('submit')), 0)
     }
   }
 
-  componentDidMount() {
-    if (this.pin1 && this.pin1.current) {
-      //   this.pin1.current.focus()
-    }
-  }
-
-  handleSetPin = (e, h) => {
-    const { pin1, pin2 } = this.state
+  const handleSetPin = (e, h) => {
     if (pin2.length >= 4 && pin1 == pin2) {
-      this.props.setPin(pin1)
+      props.setPin(pin1)
     }
   }
 
-  render() {
-    const pinsDontMatch = this.state.pin2.length >= 4 && this.state.pin1 != this.state.pin2
-    const inputSettings = {
-      maxLength: '4',
-      type: 'tel',
-      pattern: '[-0-9]{4}',
-      inputMode: 'numeric',
-      style: { width: '80%', margin: '10px 0', fontSize: '20px', textAlign: 'center' }
-    }
-    return (
-      <div className="member-visit-pin">
-        <h3>Set your own PIN:</h3>
-        <Form ref={this.form} onSubmit={this.handleSetPin}>
-          <Form.Field>
-            <label htmlFor="pin1">Enter a 4 digit pin</label>
-            <Input ref={this.pin1} name="pin1" id="pin1" {...inputSettings} focus onChange={this.onPinInput} />
-          </Form.Field>
-          <Form.Field>
-            <label htmlFor="pin2">Confirm Your Pin</label>
-            <Input
-              ref={this.pin2}
-              name="pin2"
-              id="pin2"
-              error={pinsDontMatch}
-              {...inputSettings}
-              onChange={this.onPinInput}
-            />
-            {pinsDontMatch && (
-              <Label color="red" pointing>
-                Make sure both PINs match.
-              </Label>
-            )}
-          </Form.Field>
-          <Button type="submit" id="setPIN" disabled={this.state.pin2.length < 4 || this.state.pin1 != this.state.pin2}>
-            Set Pin
-          </Button>
-        </Form>
-      </div>
-    )
+  const pinsDontMatch = pin2.length >= 4 && pin1 != pin2
+  const inputSettings = {
+    maxLength: '4',
+    type: 'tel',
+    pattern: '[-0-9]{4}',
+    inputMode: 'numeric',
+    style: { width: '80%', margin: '10px 0', fontSize: '20px', textAlign: 'center' }
   }
+  return (
+    <div className="member-visit-pin">
+      <h3>Set your own PIN:</h3>
+      <Form onSubmit={handleSetPin}>
+        <Form.Field>
+          <label htmlFor="pin1">Enter a 4 digit pin</label>
+          <Input defaultValue={pin1} name="pin1" id="pin1" {...inputSettings} focus onChange={onPinInput} />
+        </Form.Field>
+        <Form.Field>
+          <label htmlFor="pin2">Confirm Your Pin</label>
+          <Input
+            defaultValue={pin2}
+            name="pin2"
+            id="pin2"
+            error={pinsDontMatch}
+            {...inputSettings}
+            onChange={onPinInput}
+          />
+          {pinsDontMatch && (
+            <Label color="red" pointing>
+              Make sure both PINs match.
+            </Label>
+          )}
+        </Form.Field>
+        <Button type="submit" id="setPIN" disabled={pin2.length < 4 || pin1 != pin2}>
+          Set Pin
+        </Button>
+      </Form>
+    </div>
+  )
 }
 
 MemberVisitPinSet.propTypes = {

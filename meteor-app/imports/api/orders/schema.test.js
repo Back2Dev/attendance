@@ -15,20 +15,19 @@ import { Random } from 'meteor/random'
 
 import Orders from '/imports/api/orders/schema'
 import Factory from '/imports/test/factories'
-import { RegExId } from '../schema';
-
+import { RegExId } from '../schema'
 
 const badOrders = [
   {},
   {
     _id: 1234,
-    orderedParts: 'sadsd',
+    orderedParts: 'sadsd'
   },
 
   {
     status: 7,
     orderedParts: [],
-    totalPrice: 'expect fail',   // This is in cents
+    totalPrice: 'expect fail' // This is in cents
   },
 
   {
@@ -36,72 +35,79 @@ const badOrders = [
     status: 15,
     additionalNotes: 107,
     orderedParts: {},
-    totalPrice: 'expect fail',
+    totalPrice: 'expect fail'
   },
 
   {
     status: 1,
-    orderedParts: [{
-      name: 'Limited Edition Frame',
-      price: 60.10,
-      qty: 0,
-      partId: '3432n3',
-      partNo: '22999',
-      addedAt: new Date(),
-      userId: 'user55',
-    }],
-    totalPrice: 9900.10,   // This is in cents
+    orderedParts: [
+      {
+        name: 'Limited Edition Frame',
+        price: 60.1,
+        qty: 0,
+        partId: '3432n3',
+        partNo: '22999',
+        addedAt: new Date(),
+        userId: 'user55'
+      }
+    ],
+    totalPrice: 9900.1 // This is in cents
   },
 
   {
     status: -1,
-    orderedParts: [{
-      name: 'Blue Bike Bell',
-      price: 4000,
-      qty: 3.5,
-      partNo: 2114567788644,
-      addedAt: new Date(),
-      userId: 'user55',
-    }],
-    totalPrice: 9900,   // This is in cents
-  },
+    orderedParts: [
+      {
+        name: 'Blue Bike Bell',
+        price: 4000,
+        qty: 3.5,
+        partNo: '2114567788644',
+        addedAt: new Date(),
+        userId: 'user55'
+      }
+    ],
+    totalPrice: 9900 // This is in cents
+  }
 ]
-
 
 const goodOrders = [
   // one part
   {
     status: 1,
-    orderedParts: [{
-      name: 'Frame',
-      price: 6000,
-      qty: 3,
-      partId: '3432n3',
-      partNo: '22999',
-      addedAt: new Date(),
-      userId: 'sds',
-    }],
-    totalPrice: 1100,   // This is in cents
+    orderedParts: [
+      {
+        name: 'Frame',
+        price: 6000,
+        qty: 3,
+        partId: '3432n3',
+        partNo: '22999',
+        addedAt: new Date(),
+        userId: 'sds'
+      }
+    ],
+    totalPrice: 1100 // This is in cents
   },
 
   {
     status: 4,
     orderedParts: [],
-    totalPrice: 11100,   // This is in cents
+    totalPrice: 11100 // This is in cents
   },
 
   {
     status: 2,
-    orderedParts: [{
-      name: 'Limited Edition Frame',
-      price: 60.00,
-      qty: 5,
-      partId: '3432n3',
-      partNo: '22999',
-      addedAt: new Date(),
-      userId: 'user55',
-    }],
-    totalPrice: 8888,
+    orderedParts: [
+      {
+        name: 'Limited Edition Frame',
+        price: 60.0,
+        qty: 5,
+        partId: '3432n3',
+        partNo: '22999',
+        addedAt: new Date(),
+        userId: 'user55'
+      }
+    ],
+    totalPrice: 8888
   },
 
   // many parts
@@ -115,7 +121,7 @@ const goodOrders = [
         partId: 'abc123',
         partNo: '007',
         addedAt: new Date(),
-        userId: 'mr.cool',
+        userId: 'mr.cool'
       },
       {
         name: 'Brake Lever',
@@ -124,7 +130,7 @@ const goodOrders = [
         partId: 'l-k343',
         partNo: '67900',
         addedAt: new Date(),
-        userId: 'user56',
+        userId: 'user56'
       },
       {
         name: 'Braided Line',
@@ -133,11 +139,11 @@ const goodOrders = [
         partId: '991',
         partNo: '619619',
         addedAt: new Date(),
-        userId: 'mark',
-      },
+        userId: 'mark'
+      }
     ],
-    totalPrice: 4444,   // This is in cents
-  },
+    totalPrice: 4444 // This is in cents
+  }
 ]
 
 goodOrders.push(Factory.build('order'))
@@ -164,7 +170,6 @@ describe('schema', () => {
 
     describe('query database good records', () => {
       it('Return database query', () => {
-
         const orderId = Orders.insert(good)
         const order = Orders.findOne(orderId)
 
@@ -182,15 +187,12 @@ describe('schema', () => {
             })
           })
         }
-
       })
     })
   })
 
-
   describe('Order Status', () => {
     it('Checks on order status values', () => {
-
       // fails validation, throws
       let l = Factory.build('order')
       l.status = 99
@@ -207,7 +209,6 @@ describe('schema', () => {
       l = Factory.build('order')
       l.status = 1
       expect(() => Orders.insert(l)).not.to.throw()
-
     })
   })
 })

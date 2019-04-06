@@ -55,7 +55,7 @@ export const ProductsSchema = new SimpleSchema({
   },
   duration: {
     type: SimpleSchema.Integer,
-    label: 'Product Duration in weeks (if applicable)',
+    label: 'Product Duration in months',
     optional: true
   },
   price: {
@@ -77,6 +77,10 @@ export const ProductsSchema = new SimpleSchema({
   active: {
     type: Boolean,
     label: 'Is the product available'
+  },
+  autoRenew: {
+    type: Boolean,
+    label: 'Does it automatically get renewed'
   },
   startDate: {
     type: Date,

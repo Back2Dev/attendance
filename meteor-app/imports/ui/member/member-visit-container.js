@@ -16,6 +16,7 @@ export default withTracker(props => {
 
   const memberHasOwnPin = (() => !!(member && member.pin))()
   if (member && member.pin && member.pin === '----') validPin.set(true)
+  const memberHasPhoneEmail = !!(member && member.email && member.mobile)
 
   function recordVisit({ duration }) {
     if (!member.isHere) {
@@ -67,6 +68,7 @@ export default withTracker(props => {
     member,
     cancelClick,
     memberHasOwnPin,
+    memberHasPhoneEmail,
     onSubmitPin,
     setPin,
     validPin: validPin.get(),
