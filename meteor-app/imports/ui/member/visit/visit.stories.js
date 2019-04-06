@@ -7,6 +7,7 @@ import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import member from '/imports/test/fake-member'
+member.pin = '0000'
 
 import MemberVisit from './visit'
 
@@ -21,6 +22,7 @@ const updateMember = () => {
     isHere: boolean('Present', false),
     isSuper: boolean('Is Supervisor', true),
     sessionCount: boolean('Is Newbie', true) ? 1 : 25,
+    pin: text('PIN', '0000'),
     email: text('Email', 'me@me.com'),
     mobile: text('Mobile', '0499 911')
   }

@@ -8,8 +8,8 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import member from '/imports/test/fake-member'
 
-import MemberVisitPinSet from './in-set'
-const Wrapper = props => <div style={{ maxWidth: '280px', textAlign: 'center' }} />
+import MemberVisitPinSet from './pin-set'
+const Wrapper = props => <div style={{ maxWidth: '280px', textAlign: 'center' }}>{props.children}</div>
 
 const match = {
   params: {
