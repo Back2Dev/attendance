@@ -34,3 +34,8 @@ import '/imports/api/purchases/server/publications'
 import '/imports/api/products/schema'
 import '/imports/api/products/methods'
 import '/imports/api/products/server/publications'
+
+// Events
+import '/imports/api/events/schema'
+// import '/imports/api/events/methods'
+import '/imports/api/events/server/publications'

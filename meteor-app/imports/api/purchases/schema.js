@@ -16,6 +16,10 @@ export const PurchasesSchema = new SimpleSchema({
     type: String,
     label: 'Member Id'
   },
+  productName: {
+    type: String,
+    label: 'Product name'
+  },
   productId: {
     type: String,
     label: 'Product id'

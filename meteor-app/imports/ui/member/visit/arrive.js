@@ -1,72 +1,54 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
-import { Button, Card, Checkbox, Form, Grid, Header, } from 'semantic-ui-react'
-import MemberCard from '/imports/ui/member/member-card'
-import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import PropTypes from 'prop-types'
+import { Button, Form, Header } from 'semantic-ui-react'
 
-const MemberVisitArrive = (props) => {
+const Arrive = props => {
+  const eventStart = event => {
+    props.setDuration(event.duration)
+    props.updateStatus()
+  }
   return (
-    <div>
-      <Form style={{ padding: '20px 0' }} >
-      {
-        props.member && !props.member.isHere &&
+    <div style={{ padding: '20px 0' }}>
+      {props.member && !props.member.isHere && (
         <div>
-          <Header as='h3'>
-            Great to see you!
-            <Header.Subheader>
-                  How long are you with us for?
-            </Header.Subheader>
-          </Header>
-          <Form.Field>
-            <Checkbox
-              label='Half Day (~3hrs)'
-              name='duration'
-              value={3}
-              checked={props.duration === 3}
-              onChange={props.setDuration}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              label='Full Day (~6hrs)'
-              name='duration'
-              value={6}
-              checked={props.duration === 6}
-              onChange={props.setDuration}
-            />
-          </Form.Field>
+          <Header as="h3">Welcome! What are you here for today?</Header>
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            {props.events &&
+              props.events.length &&
+              props.events.map(event => (
+                <Button
+                  type="button"
+                  onClick={() => eventStart(event)}
+                  positive
+                  key={event._id}
+                  id={event.name}
+                  size="large"
+                >
+                  {event.name}
+                </Button>
+              ))}
+          </div>
         </div>
-      }
-      {
-        props.member && props.member.isHere &&
-        <Header as='h4'>
-          See you next time!
-      </Header>
-      }
-        <Button
-          onClick={() => props.updateStatus()}
-          positive
-          fluid
-          id="signIn"
-          size='large'
-        >
-          {
-            props.member.isHere
-              ? 'Sign Out'
-              : 'Sign In'
-          }
-        </Button>
-      </Form>
+      )}
+      {props.member && props.member.isHere && (
+        <div>
+          <Header as="h4">See you next time!</Header>
+          <Button onClick={() => props.updateStatus()} positive fluid id="signIn" size="large">
+            Sign Out
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
 
-MemberVisitArrive.propTypes = {
+Arrive.propTypes = {
   member: PropTypes.object.isRequired,
+  events: PropTypes.array.isRequired,
+  purchases: PropTypes.array.isRequired,
   duration: PropTypes.number.isRequired,
   setDuration: PropTypes.func.isRequired,
-  updateStatus: PropTypes.func.isRequired,
-};
+  updateStatus: PropTypes.func.isRequired
+}
 
-export default MemberVisitArrive
+export default Arrive

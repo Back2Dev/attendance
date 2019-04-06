@@ -136,25 +136,29 @@ const myProducts = {
       name: 'Club Championships',
       location: 'Sandrige',
       when: new Date(),
-      active: true
+      active: true,
+      duration: 3
     },
     {
       name: 'Group Kayak',
       location: 'Sandrige',
       when: new Date(),
-      active: false
+      active: false,
+      duration: 1
     },
     {
       name: 'Group Running',
       location: 'Sandrige',
       when: new Date(),
-      active: false
+      active: false,
+      duration: 1
     },
     {
       name: 'Bootcamp',
       location: 'Sandrige',
       when: new Date(),
-      active: false
+      active: false,
+      duration: 1
     }
   ]
 }

@@ -5,6 +5,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
+import Events from '/imports/api/events/schema'
 import MemberVisit from './visit'
 
 const validPin = new ReactiveVar(false)
@@ -16,7 +17,7 @@ export default withTracker(props => {
   const loading = !memberHandle.ready()
   const member = Members.findOne(id)
   const purchases = Purchases.find({ memberId: id }).fetch()
-  const events = Purchases.find({ active: true }).fetch()
+  const events = Events.find({ active: true }).fetch()
   debug('purchases', loading, purchases, id)
 
   const memberHasOwnPin = (() => !!(member && member.pin))()

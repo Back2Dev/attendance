@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import { Button, Card, Icon, Grid, Divider, Modal, Segment } from 'semantic-ui-react'
 import MemberCard from '../member-card'
 import MemberCardLoading from '../member-card-loading'
@@ -9,6 +10,23 @@ import MemberVisitPinForgot from './pin-forgot'
 import MemberVisitPinSet from './pin-set'
 import './visit.css'
 
+const MemberPurchases = props => {
+  return (
+    <Card.Group>
+      {props.purchases.map(item => (
+        <Card key={item._id}>
+          <Card.Content>
+            <Card.Header>{item.productName}</Card.Header>
+            <Card.Description>
+              {item.remaining && <div>Remaining: {item.remaining}</div>}
+              Expires: {moment(item.expiry).format('D MMM YYYY')}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+      ))}
+    </Card.Group>
+  )
+}
 class MemberVisit extends React.Component {
   constructor(props) {
     super(props)
@@ -120,11 +138,14 @@ class MemberVisit extends React.Component {
                     <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)} {...highlightEdit}>
                       Edit Your Profile
                     </Button>
+                    <MemberPurchases purchases={this.props.purchases} />
                     <MemberVisitArrive
                       member={this.props.member}
                       duration={this.state.duration}
                       setDuration={this.setDuration}
                       updateStatus={this.updateStatus}
+                      events={this.props.events}
+                      purchases={this.props.purchases}
                     />
                   </div>
                 )}
@@ -144,6 +165,8 @@ class MemberVisit extends React.Component {
 
 MemberVisit.propTypes = {
   member: PropTypes.object,
+  events: PropTypes.array.isRequired,
+  purchases: PropTypes.array.isRequired,
   cancelClick: PropTypes.func.isRequired,
   recordVisit: PropTypes.func.isRequired,
   memberHasOwnPin: PropTypes.bool.isRequired,
