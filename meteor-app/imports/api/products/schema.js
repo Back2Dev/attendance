@@ -18,9 +18,9 @@ export const ProductTypesSchema = new SimpleSchema({
     label: 'Product Type Description'
   },
   type: {
-    type: SimpleSchema.Integer,
+    type: String,
     label: 'Product Type Code',
-    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE).map(key => parseInt(key, 10))
+    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE)
   },
   color: {
     type: String,
@@ -48,10 +48,14 @@ export const ProductsSchema = new SimpleSchema({
     type: String,
     label: 'Product Description'
   },
+  code: {
+    type: String,
+    label: 'Product code'
+  },
   type: {
-    type: SimpleSchema.Integer,
+    type: String,
     label: 'Product Type: pass, membership, course',
-    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE).map(key => parseInt(key, 10))
+    allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE)
   },
   duration: {
     type: SimpleSchema.Integer,

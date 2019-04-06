@@ -3,7 +3,6 @@ import Members from '/imports/api/members/schema'
 import Rejects from '/imports/api/members/rejects'
 import casual from 'casual' // casual random data generator
 import moment from 'moment'
-import guess from '/server/gender-guess'
 
 const debug = require('debug')('b2b:members')
 
@@ -52,79 +51,7 @@ Meteor.methods({
         for security reasons (unless you know a secret code)`)
     }
   },
-  'import.pa'(secret) {
-    const mapping = {
-      'First Name': 'firstname',
-      'Last Name': 'lastname',
-      address: 'addressStreet',
-      Suburb: 'addressSuburb',
-      State: 'addressState',
-      Postcode: 'addressPostcode',
-      'Email ': 'email',
-      Notes: 'status'
-    }
-    const genderAvatars = {
-      M: [1, 2, 7, 9, 12, 14, 15, 'test10', 'test11', 'test14', 'test15', 'test19', 'test21'],
-      F: [4, 5, 3, 6, 8, 10, 11, 13, 16, 'test17', 'test18']
-    }
-    const getRandomInt = max => {
-      return Math.floor(Math.random() * Math.floor(max))
-    }
-    const getAvatar = name => {
-      // detect the gender:
-      const g = guess(name)
-      if (g.gender) {
-        const img = genderAvatars[g.gender][getRandomInt(genderAvatars[g.gender].length)]
-        return img.toString().match(/test/) ? `${img}.png` : `${img}.jpg`
-      } else {
-        return 'default.jpg'
-      }
-    }
-    if (specialMember === specialMember) {
-      //
-      // Clean up
-      //
-      Rejects.remove({})
-      Members.remove({})
 
-      debug('importing members....')
-      const membersArray = JSON.parse(Assets.getText('pa.json'))
-      membersArray.forEach(member => {
-        try {
-          Object.keys(mapping).forEach(key => {
-            if (member[key]) {
-              member[mapping[key]] = member[key]
-              delete member[key]
-            }
-          })
-          if (member.type && member.type.match(/multipass/)) {
-            delete member.type
-          }
-          member.name = `${member.firstname} ${member.lastname}`
-          const existing = member.email
-            ? Members.findOne({ email: member.email })
-            : Members.findOne({ name: member.name })
-
-          member.avatar = getAvatar(member.firstname)
-          if (existing) {
-            debug(`${member.name} exists already`)
-            member.reason = 'Duplicate'
-            Rejects.insert(member)
-          } else {
-            debug('+ ' + member.name)
-            Members.insert(member)
-          }
-        } catch (error) {
-          debug(`Error [${error.message}], Failed to import `, member)
-          member.reason = error.message
-          Rejects.insert(member)
-        }
-      })
-    } else {
-      throw new Meteor.Error(`Members import was moved to a private repo 
-        for security reasons (unless you know a secret code)`)
-    }
-  },
   'seed.members'() {
     const n = 10
     // seed ensures same data is generated

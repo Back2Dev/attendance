@@ -5,9 +5,7 @@ Meteor.publish('all.products', () => Products.find({ active: true }))
 
 Meteor.publish('product.types', () => ProductTypes.find({}))
 
-// Note that 'type' is a number, and the passed parameter will be a string
-Meteor.publish('products.bytype', typeString => {
-  const type = parseInt(typeString, 10)
+Meteor.publish('products.bytype', type => {
   return [Products.find({ active: true, type }), ProductTypes.find({ type })]
 })
 

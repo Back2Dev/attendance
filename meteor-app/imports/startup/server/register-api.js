@@ -25,10 +25,10 @@ import '/imports/api/assessments/serviceItems'
 import '/imports/api/assessments/methods'
 import '/imports/api/assessments/server/publications'
 
-// Transactions
-import '/imports/api/transactions/schema'
-import '/imports/api/transactions/methods'
-import '/imports/api/transactions/server/publications'
+// Purchases
+import '/imports/api/purchases/schema'
+import '/imports/api/purchases/methods'
+import '/imports/api/purchases/server/publications'
 
 // Products
 import '/imports/api/products/schema'

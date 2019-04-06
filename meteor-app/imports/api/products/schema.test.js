@@ -68,7 +68,8 @@ const goodProducts = [
   {
     name: '3 Month membership for Back2Bikes',
     description: 'Passes allow you to use Back 2 Bikes',
-    type: 2,
+    type: 'membership',
+    code: 'B2B-MEMB-3',
     duration: 3,
     price: 5000,
     image: '/images/gym.jpg',
@@ -80,15 +81,17 @@ const goodProducts = [
   {
     name: 'Intro to Bikes',
     description: 'A Free course on how to ride a bike',
-    type: 1,
+    type: 'course',
+    code: 'B2B-COURSE-FREE',
     active: true,
     autoRenew: true,
     bogus: "This won't be saved in the database (SimpleSchema silently drops it)"
   },
   {
-    name: '3 Month membership for Back2Bikes',
+    name: '6 Month membership for Back2Bikes',
     description: 'Passes allow you to use Back 2 Bikes',
-    type: 2,
+    type: 'membership',
+    code: 'B2B-MEMB-6',
     duration: 3,
     price: 5000,
     image: '/images/gym.jpg',

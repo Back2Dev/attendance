@@ -9,6 +9,7 @@ import Payment from '/imports/ui/member/member-payment'
 const Nav = props => {
   const logoFile = Meteor.settings.public.logo || '/images/logo-tiny.jpg'
   const memberWord = Meteor.settings.public.member || 'Volunteer'
+  const register = Meteor.settings.public.register || 'Register'
   const memberWords = memberWord + 's'
   const showParts = Meteor.settings.public.parts || false
   const showServicing = Meteor.settings.public.servicing || false
@@ -27,15 +28,15 @@ const Nav = props => {
           props.history.push('/add')
         }}
       >
-        <Button id="add_member" color="green" content={`Add ${memberWord}`} icon="add user" />
+        <Button id="add_member" color="green" content={`${register}`} icon="add user" />
       </Menu.Item>
-      <Menu.Item
+      {/* <Menu.Item
         onClick={() => {
           props.history.push('/userprofiles')
         }}
       >
         <Button id="list_members" color="blue" content={memberWords} icon="group" />
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item>
         <Payment />
       </Menu.Item>
