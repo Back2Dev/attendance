@@ -3,6 +3,7 @@ import Products, { ProductTypes } from '/imports/api/products/schema'
 
 import paProducts from './product-data-pa'
 import b2bProducts from './product-data-b2b'
+import Events from '/imports/api/events/schema'
 
 const config = [
   {
@@ -12,6 +13,10 @@ const config = [
   {
     collection: ProductTypes,
     element: 'productTypes'
+  },
+  {
+    collection: Events,
+    element: 'events'
   }
 ]
 

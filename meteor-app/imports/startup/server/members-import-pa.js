@@ -4,6 +4,7 @@ import Members from '/imports/api/members/schema'
 import Rejects from '/imports/api/members/rejects'
 import Products from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
+import Events from '/imports/api/events/schema'
 
 import guess from '/server/gender-guess'
 

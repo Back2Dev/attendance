@@ -130,6 +130,32 @@ const myProducts = {
       icon: 'cogs',
       image: '/images/membership.jpg'
     }
+  ],
+  events: [
+    {
+      name: 'Club Championships',
+      location: 'Sandrige',
+      when: new Date(),
+      active: true
+    },
+    {
+      name: 'Group Kayak',
+      location: 'Sandrige',
+      when: new Date(),
+      active: false
+    },
+    {
+      name: 'Group Running',
+      location: 'Sandrige',
+      when: new Date(),
+      active: false
+    },
+    {
+      name: 'Bootcamp',
+      location: 'Sandrige',
+      when: new Date(),
+      active: false
+    }
   ]
 }
 

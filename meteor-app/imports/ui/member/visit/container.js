@@ -16,6 +16,7 @@ export default withTracker(props => {
   const loading = !memberHandle.ready()
   const member = Members.findOne(id)
   const purchases = Purchases.find({ memberId: id }).fetch()
+  const events = Purchases.find({ active: true }).fetch()
   debug('purchases', loading, purchases, id)
 
   const memberHasOwnPin = (() => !!(member && member.pin))()
@@ -71,6 +72,7 @@ export default withTracker(props => {
     loading,
     member,
     purchases,
+    events,
     cancelClick,
     memberHasOwnPin,
     memberHasPhoneEmail,

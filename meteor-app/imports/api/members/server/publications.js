@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Members from '../schema'
 import Purchases from '../../purchases/schema'
+import Events from '../../events/schema'
 
 Meteor.publish('all.members', () => {
   return Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } })
@@ -12,5 +13,5 @@ Meteor.publish('members.names', () => {
 })
 
 Meteor.publish('member', id => {
-  return [Members.find(id), Purchases.find({ memberId: id })]
+  return [Members.find(id), Purchases.find({ memberId: id }), Events.find({ active: true })]
 })
