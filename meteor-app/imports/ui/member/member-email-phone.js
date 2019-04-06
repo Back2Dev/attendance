@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Button, Input } from 'semantic-ui-react'
-import '/imports/ui/member/member-visit-pin.css'
 
 const MemberEmailPhone = props => {
   const [email, setEmail] = React.useState(props.email)

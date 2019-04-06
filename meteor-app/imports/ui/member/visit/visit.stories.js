@@ -1,4 +1,4 @@
-// member-visit.stories.js
+// member/visit.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -8,7 +8,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import member from '/imports/test/fake-member'
 
-import MemberVisit from './member-visit'
+import MemberVisit from './visit'
 
 const match = {
   params: {

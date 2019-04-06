@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Card, Icon, Grid, Divider, Modal, Segment } from 'semantic-ui-react'
-import MemberCard from '/imports/ui/member/member-card'
-import MemberCardLoading from '/imports/ui/member/member-card-loading'
-import MemberVisitArrive from '/imports/ui/member/member-visit-arrive'
-import MemberVisitPin from '/imports/ui/member/member-visit-pin'
-import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot'
-import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set'
-import '/imports/ui/member/member-visit.css'
+import MemberCard from '../member-card'
+import MemberCardLoading from '../member-card-loading'
+import MemberVisitArrive from './arrive'
+import MemberVisitPin from './pin'
+import MemberVisitPinForgot from './pin-forgot'
+import MemberVisitPinSet from './pin-set'
+import './visit.css'
 
 class MemberVisit extends React.Component {
   constructor(props) {
