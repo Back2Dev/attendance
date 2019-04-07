@@ -3,11 +3,34 @@
 import moment from 'moment'
 
 import Members from '/imports/api/members/schema'
+import Products, { Carts } from '/imports/api/products/schema'
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
+  memberRenew(memberId, code) {
+    try {
+      Carts.remove({ _id: memberId })
+      const product = Products.findOne({ active: true, code })
+      delete product.createdAt
+      delete product.updatedAt
+      product.qty = 1
+      const cart = {
+        _id: memberId,
+        memberId,
+        userId: Meteor.userId,
+        price: product.price,
+        totalqty: 1,
+        prodqty: { [product._id]: 1 },
+        products: [product]
+      }
+      const id = Carts.insert(cart)
+    } catch (e) {
+      debug(`Error [${e.message}] in memberRenew, product code ${product.code}`)
+    }
+  },
+
   arrive(memberId, event) {
     const { duration, name, price } = event
     const timeIn = new Date()

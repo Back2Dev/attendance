@@ -9,25 +9,33 @@ import MemberVisitPin from './pin'
 import MemberVisitPinForgot from './pin-forgot'
 import MemberVisitPinSet from './pin-set'
 import './visit.css'
+import { Meteor } from 'meteor/meteor'
 
-const RenewButton = props => (
-  <Button icon size="mini" floated="right" type="button">
-    <Icon name="dollar" />
-    Renew
-  </Button>
-)
+const RenewButton = props => {
+  const renew = async function() {
+    await Meteor.call('memberRenew', props.memberId, props.code)
+    localStorage.setItem('mycart', props.memberId)
+    props.history.push(`/shop/checkout`)
+  }
+  return (
+    <Button icon size="mini" floated="right" type="button" color="orange" onClick={renew}>
+      <Icon name="dollar" />
+      Renew
+    </Button>
+  )
+}
 
 const StatusCard = props => {
-  const { _id, productName, remaining, expiry } = props
+  const { _id, code, productName, remaining, expiry } = props
   const renew = expiry && moment(expiry).isBefore(moment().add(3, 'months'))
   return (
     <Card>
       <Card.Content>
         <Card.Header>{productName}</Card.Header>
         <Card.Description>
-          {remaining && <div>Remaining: {remaining}</div>}
+          {remaining && <div> Remaining: {remaining}</div>}
           Expires: {moment(expiry).format('D MMM YYYY')}
-          {renew && <RenewButton />}
+          {renew && <RenewButton code={code} memberId={props.memberId} history={props.history} />}
         </Card.Description>
       </Card.Content>
     </Card>
@@ -37,7 +45,7 @@ const MemberPurchases = props => {
   return (
     <Card.Group>
       {props.purchases.map(item => (
-        <StatusCard {...item} key={item._id} />
+        <StatusCard {...item} key={item._id} history={props.history} />
       ))}
     </Card.Group>
   )
@@ -153,7 +161,7 @@ class MemberVisit extends React.Component {
                     <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)} {...highlightEdit}>
                       Edit Your Profile
                     </Button>
-                    <MemberPurchases purchases={this.props.purchases} />
+                    <MemberPurchases purchases={this.props.purchases} history={this.props.history} />
                     <MemberVisitArrive
                       member={this.props.member}
                       duration={this.state.duration}

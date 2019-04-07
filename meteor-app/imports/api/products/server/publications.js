@@ -9,4 +9,8 @@ Meteor.publish('products.bytype', type => {
   return [Products.find({ active: true, type }), ProductTypes.find({ type })]
 })
 
+Meteor.publish('product.bycode', code => {
+  return Products.find({ active: true, code })
+})
+
 Meteor.publish('cart', id => Carts.find(id))

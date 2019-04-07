@@ -47,6 +47,8 @@
     "body-parser": "^1.18.3",
     "bufferutil": "^3.0.5",
     "casual": "^1.5.14",
+    "cordova-plugin-splashscreen": "^4.1.0",
+    "cordova-plugin-statusbar": "^2.3.0",
     "debug": "^3.1.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
