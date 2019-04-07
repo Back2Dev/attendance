@@ -1,28 +1,43 @@
-.Container {
+@import url('https://fonts.googleapis.com/css?family=Lato');
+.Punch-Card {
+  font-family: 'Lato', sans-serif;
+  width: 80%;
+  margin: auto;
+  padding: auto;
   background-color: #fbbd08;
+}
+.Container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  border-radius: 50px 20px;
 }
-.Punch-Card p {
-}
-.Digit {
+.Digit,
+.DigitUsed {
   margin: 5px;
   border-radius: 25%;
   color: blue;
   background: white;
   font-weight: bold;
-  padding: 10px;
+  padding: 20px;
+  font-size: 30px;
 }
 
 .DigitUsed {
-  margin: 5px;
-  border-radius: 50%;
-  color: red;
+  color: white;
+  background-color: red;
+  border-radius: 40%;
+}
+.header {
+  font-size: 40px;
+  padding: 20px;
+  color: white;
   font-weight: bold;
-  background: white;
-  padding: 10px;
+}
+.footer {
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  padding: 20px;
 }
