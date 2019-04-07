@@ -10,8 +10,10 @@ const PayNowButton = props => {
   const paymentUrl = `${
     Meteor.settings.public.paymentSite
   }?amount=${amount}&description=${productCode}%2F${memberId}&amount_editable=false&success_url=https%3A%2F%2Fpa.almsford.org%2Fshop%2Fpaid`
+  const options =
+    'location=no,toolbar=no,footer=yes,footercolor=#cccccc,closebuttoncaption=Close,closebuttoncolor=#888888'
   const openPayment = () => {
-    window.open(paymentUrl, '_system')
+    window.open(paymentUrl, '_system', options)
   }
   return (
     <Button floated="right" type="button" icon="credit card" color="red" onClick={openPayment}>
