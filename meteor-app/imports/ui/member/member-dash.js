@@ -14,8 +14,8 @@ class MemberDash extends React.Component {
       showForgotPinForm: false
     }
   }
-  updateStatus = data => {
-    this.props.recordVisit({ duration: this.state.duration })
+  updatePresence = data => {
+    this.props.recordVisit(data)
     this.props.history.goBack()
   }
 

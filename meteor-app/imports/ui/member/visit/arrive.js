@@ -4,8 +4,7 @@ import { Button, Form, Header } from 'semantic-ui-react'
 
 const Arrive = props => {
   const eventStart = event => {
-    props.setDuration(event.duration)
-    props.updateStatus()
+    props.updatePresence(event)
   }
   return (
     <div style={{ padding: '20px 0' }}>
@@ -33,7 +32,7 @@ const Arrive = props => {
       {props.member && props.member.isHere && (
         <div>
           <Header as="h4">See you next time!</Header>
-          <Button onClick={() => props.updateStatus()} positive fluid id="signIn" size="large">
+          <Button onClick={() => props.updatePresence()} positive fluid id="signIn" size="large">
             Sign Out
           </Button>
         </div>
@@ -48,7 +47,7 @@ Arrive.propTypes = {
   purchases: PropTypes.array.isRequired,
   duration: PropTypes.number.isRequired,
   setDuration: PropTypes.func.isRequired,
-  updateStatus: PropTypes.func.isRequired
+  updatePresence: PropTypes.func.isRequired
 }
 
 export default Arrive

@@ -8,32 +8,36 @@ import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  'arrive'(memberId, duration) {
-    
+  arrive(memberId, event) {
+    const { duration, name, price } = event
     const timeIn = new Date()
-    const timeOut = moment(timeIn).add(duration, 'h').toDate()
+    const timeOut = moment(timeIn)
+      .add(duration, 'h')
+      .toDate()
 
     try {
       const id = Sessions.insert({
         memberId,
+        eventId: event._id,
+        // purchaseId,
         timeIn,
         timeOut,
         duration,
+        name,
+        price
       })
       const session = Sessions.findOne(id)
       const sessionCount = Sessions.find({ memberId }).count()
 
-      Members.update(
-        memberId, {
-          $set: {
-            isHere: true,
-            lastIn: timeIn,
-            sessionCount,
-          },
-          $push: { sessions: session },
-        })
-    debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
-
+      Members.update(memberId, {
+        $set: {
+          isHere: true,
+          lastIn: timeIn,
+          sessionCount
+        },
+        $push: { sessions: session }
+      })
+      debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error({ error })
     }
@@ -42,19 +46,23 @@ Meteor.methods({
   // signing out _isn't_ mandatory.
   // at end of each day every member will be automatically signed out.
   // if member does sign out early though, lets update timeOut and duration
-  'depart'(id) {
-
+  depart(id) {
     //
     // member may have signed in multiple times that day,
     // so lets find the LAST session of theirs from 12am TODAY
     //
     const session = Sessions.find({
       memberId: id,
-      timeIn: { $gte: moment().startOf('day').toDate() },
-    }).fetch()
+      timeIn: {
+        $gte: moment()
+          .startOf('day')
+          .toDate()
+      }
+    })
+      .fetch()
       .pop()
-      
-    debug(`Member ${id} is departing, session:`,session)
+
+    debug(`Member ${id} is departing, session:`, session)
 
     if (session) {
       // lets recalculate the duration of session
@@ -63,25 +71,25 @@ Meteor.methods({
         let timeOut = moment()
 
         // update the anticipated duration with actual visit duration
-        let duration =
-          moment
-            .duration(timeOut.diff(timeIn))
-            .get('hours')
+        let duration = moment.duration(timeOut.diff(timeIn)).get('hours')
         if (duration === 0) {
           duration = 1
         }
-        const m = Sessions.update({
-          _id: session._id,
-        }, {
+        const m = Sessions.update(
+          {
+            _id: session._id
+          },
+          {
             $set: {
               // convert timeOut from moment instance to native date object
               timeOut: timeOut.toDate(),
-              duration,
-            },
-          })
+              duration
+            }
+          }
+        )
         const n = Members.update(
           {
-            "_id": id,
+            _id: id
             // sessions: {
             //   $elemMatch: {
             //     "_id": session._id,
@@ -92,38 +100,41 @@ Meteor.methods({
             $set: {
               isHere: false,
               lastIn: new Date(),
-              "sessions.$.duration": duration,
+              'sessions.$.duration': duration
             }
           }
         )
-        debug("m="+m+", n="+n)
+        debug('m=' + m + ', n=' + n)
       } catch (error) {
         throw new Meteor.Error(error)
       }
     } else {
       Members.update(
         {
-          "_id": id,
+          _id: id
         },
         {
           $set: {
-            isHere: false,
+            isHere: false
           }
         }
       )
     }
-
   },
 
   // signing out _isn't_ mandatory. This is the one that happens automatically
-  'autoDepart'(id) {
-
+  autoDepart(id) {
     // member may have signed in multiple times that day,
     // so lets find the LAST session of theirs from 12am TODAY
     const session = Sessions.find({
       memberId: id,
-      timeIn: { $gte: moment().startOf('day').toDate() },
-    }).fetch()
+      timeIn: {
+        $gte: moment()
+          .startOf('day')
+          .toDate()
+      }
+    })
+      .fetch()
       .pop()
 
     // lets recalculate the duration of session
@@ -131,27 +142,27 @@ Meteor.methods({
     let timeOut = moment()
 
     // update the anticipated duration with actual visit duration
-    const duration =
-      moment
-        .duration(timeOut.diff(timeIn))
-        .get('hours')
+    const duration = moment.duration(timeOut.diff(timeIn)).get('hours')
 
-    Sessions.update({
-      _id: session._id,
-    }, {
+    Sessions.update(
+      {
+        _id: session._id
+      },
+      {
         $set: {
           // convert timeOut from moment instance to native date object
           timeOut: timeOut.toDate(),
-          duration,
-        },
-      })
+          duration
+        }
+      }
+    )
 
     Members.update(
       {
-        "_id": id,
+        _id: id,
         sessions: {
           $elemMatch: {
-            "_id": session._id, 
+            _id: session._id
           }
         }
       },
@@ -159,11 +170,9 @@ Meteor.methods({
         $set: {
           isHere: false,
           lastIn: new Date(),
-          "sessions.$.duration": duration,
+          'sessions.$.duration': duration
         }
       }
     )
-  },
-
+  }
 })
-

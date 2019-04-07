@@ -1,40 +1,41 @@
-import { Mongo } from 'meteor/mongo';
-import SimpleSchema from  'simpl-schema'
+import { Mongo } from 'meteor/mongo'
+import SimpleSchema from 'simpl-schema'
 
-import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
+import { REGEX_ID, OptionalRegExId, RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
 const Sessions = new Mongo.Collection('sessions')
 
 export const SessionsSchema = new SimpleSchema({
-  _id: {
+  _id: OptionalRegExId,
+  memberId: RegExId,
+  eventId: OptionalRegExId,
+  purchaseId: OptionalRegExId,
+  name: {
     type: String,
-    regEx: REGEX_ID,
-    label: "Unique _id",
-    optional: false
+    label: 'Session name'
   },
-  memberId: {
-    type: String,
-    regEx: REGEX_ID,
-    label: "Session Member id",
+  duration: {
+    type: Number,
+    label: 'Duration in hours',
     optional: false
   },
   timeIn: {
     type: Date,
-    label: "Visit start time",
+    label: 'Visit start time',
     optional: false
   },
   timeOut: {
     type: Date,
-    label: "Visit end time",
+    label: 'Visit end time',
     optional: false
   },
-  duration: {
-    type: Number,
-    label: "Duration in hours",
-    optional: false
+  price: {
+    type: SimpleSchema.Integer,
+    label: 'Session Price in cents',
+    defaultValue: 0
   },
   createdAt,
-  updatedAt,
+  updatedAt
 })
 
 Sessions.attachSchema(SessionsSchema)

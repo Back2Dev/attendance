@@ -24,10 +24,10 @@ export default withTracker(props => {
   if (member && member.pin && member.pin === '----') validPin.set(true)
   const memberHasPhoneEmail = !!(member && member.email && member.mobile)
 
-  function recordVisit({ duration }) {
+  function recordVisit(data) {
     if (!member.isHere) {
-      debug('member arriving', id, duration)
-      Meteor.call('arrive', id, duration)
+      debug('member arriving', id, data)
+      Meteor.call('arrive', id, data)
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)

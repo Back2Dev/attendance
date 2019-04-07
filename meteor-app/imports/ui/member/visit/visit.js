@@ -10,19 +10,34 @@ import MemberVisitPinForgot from './pin-forgot'
 import MemberVisitPinSet from './pin-set'
 import './visit.css'
 
+const RenewButton = props => (
+  <Button icon size="mini" floated="right" type="button">
+    <Icon name="dollar" />
+    Renew
+  </Button>
+)
+
+const StatusCard = props => {
+  const { _id, productName, remaining, expiry } = props
+  const renew = expiry && moment(expiry).isBefore(moment().add(3, 'months'))
+  return (
+    <Card>
+      <Card.Content>
+        <Card.Header>{productName}</Card.Header>
+        <Card.Description>
+          {remaining && <div>Remaining: {remaining}</div>}
+          Expires: {moment(expiry).format('D MMM YYYY')}
+          {renew && <RenewButton />}
+        </Card.Description>
+      </Card.Content>
+    </Card>
+  )
+}
 const MemberPurchases = props => {
   return (
     <Card.Group>
       {props.purchases.map(item => (
-        <Card key={item._id}>
-          <Card.Content>
-            <Card.Header>{item.productName}</Card.Header>
-            <Card.Description>
-              {item.remaining && <div>Remaining: {item.remaining}</div>}
-              Expires: {moment(item.expiry).format('D MMM YYYY')}
-            </Card.Description>
-          </Card.Content>
-        </Card>
+        <StatusCard {...item} key={item._id} />
       ))}
     </Card.Group>
   )
@@ -36,12 +51,12 @@ class MemberVisit extends React.Component {
       showForgotPinForm: false
     }
   }
-  updateStatus = data => {
-    this.props.recordVisit({ duration: this.state.duration })
+  updatePresence = data => {
+    this.props.recordVisit(data)
     this.props.history.goBack()
   }
 
-  setDuration = (e, { value }) => this.setState({ duration: value })
+  setDuration = value => this.setState({ duration: value })
 
   toggleForgotPinForm = () => this.setState({ showForgotPinForm: !this.state.showForgotPinForm })
 
@@ -143,7 +158,7 @@ class MemberVisit extends React.Component {
                       member={this.props.member}
                       duration={this.state.duration}
                       setDuration={this.setDuration}
-                      updateStatus={this.updateStatus}
+                      updatePresence={this.updatePresence}
                       events={this.props.events}
                       purchases={this.props.purchases}
                     />

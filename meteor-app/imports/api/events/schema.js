@@ -27,6 +27,12 @@ export const EventsSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Event duration (hours)'
   },
+  price: {
+    type: SimpleSchema.Integer,
+    label: 'Event Price in cents',
+    defaultValue: 0
+  },
+
   createdAt,
   updatedAt
 })
