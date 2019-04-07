@@ -14453,6 +14453,67 @@ exports[`Storyshots Part.Card Card 1`] = `
 </div>
 `;
 
+exports[`Storyshots Punch-card Punchcard 1`] = `
+<div
+  className="Punch-Card"
+>
+  <div
+    className="Container"
+  >
+    <div
+      className="DigitUsed"
+    >
+      1
+    </div>
+    <div
+      className="DigitUsed"
+    >
+      2
+    </div>
+    <div
+      className="DigitUsed"
+    >
+      3
+    </div>
+    <div
+      className="Digit"
+    >
+      4
+    </div>
+    <div
+      className="Digit"
+    >
+      5
+    </div>
+    <div
+      className="Digit"
+    >
+      6
+    </div>
+    <div
+      className="Digit"
+    >
+      7
+    </div>
+    <div
+      className="Digit"
+    >
+      8
+    </div>
+    <div
+      className="Digit"
+    >
+      9
+    </div>
+    <div
+      className="Digit"
+    >
+      10
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Purchase Card 1`] = `
 <div>
   <button
