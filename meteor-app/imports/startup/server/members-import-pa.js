@@ -5,7 +5,8 @@ import Rejects from '/imports/api/members/rejects'
 import Products from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 
-import guess from '/server/gender-guess'
+// Commented out to prevent build/boot probs
+// import guess from '/server/gender-guess'
 
 const debug = require('debug')('b2b:members-import-pa')
 
@@ -18,11 +19,11 @@ const type2code = {
   '12-month unlimited': 'PA-MEMB-12',
   '3-month unlimited': 'PA-MEMB-3',
   '3-month': 'PA-MEMB-3',
-  '3 month': 'PA-MEMB-3'
+  '3 month': 'PA-MEMB-3',
 }
 
 Meteor.methods({
-  'import.pa'(secret) {
+  'import.pa': function(secret) {
     const mapping = {
       'First Name': 'firstname',
       'Last Name': 'lastname',
@@ -31,27 +32,25 @@ Meteor.methods({
       State: 'addressState',
       Postcode: 'addressPostcode',
       'Email ': 'email',
-      Notes: 'status'
+      Notes: 'status',
     }
     const genderAvatars = {
       M: [1, 2, 7, 9, 12, 14, 15, 'test10', 'test11', 'test14', 'test15', 'test19', 'test21'],
-      F: [4, 5, 3, 6, 8, 10, 11, 13, 16, 'test17', 'test18']
+      F: [4, 5, 3, 6, 8, 10, 11, 13, 16, 'test17', 'test18'],
     }
-    const getRandomInt = max => {
-      return Math.floor(Math.random() * Math.floor(max))
-    }
+    const getRandomInt = max => Math.floor(Math.random() * Math.floor(max))
     const getAvatar = name => {
       // detect the gender:
       const g = guess(name)
       if (g.gender) {
         const img = genderAvatars[g.gender][getRandomInt(genderAvatars[g.gender].length)]
         return img.toString().match(/test/) ? `${img}.png` : `${img}.jpg`
-      } else {
+      } 
         return 'default.jpg'
-      }
+      
     }
     if (true) {
-      //specialMember === specialMember) {
+      // specialMember === specialMember) {
       //
       // Clean up
       //
@@ -117,5 +116,5 @@ Meteor.methods({
       throw new Meteor.Error(`Members import was moved to a private repo 
         for security reasons (unless you know a secret code)`)
     }
-  }
+  },
 })
