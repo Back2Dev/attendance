@@ -15,7 +15,7 @@
 }
 .Digit,
 .DigitUsed {
-  margin: 5px;
+  margin: 0 20px ;
   border-radius: 25%;
   color: blue;
   background: white;
@@ -23,10 +23,18 @@
   padding: 20px;
   font-size: 30px;
 }
-
+.Digit img {
+  max-width: 50px;
+  max-height: 50px;
+}
+.Digit,.DigitUsed div{
+  font-size: 15px;
+  text-align: center;
+  padding: 5px;
+}
 .DigitUsed {
   color: white;
-  background-color: red;
+  background-color: green;
   border-radius: 40%;
 }
 .header {
@@ -40,4 +48,9 @@
   color: white;
   text-align: center;
   padding: 20px;
+}
+.weekName{
+  text-align: center;
+  color: blue;
+  font-weight: bold;
 }
