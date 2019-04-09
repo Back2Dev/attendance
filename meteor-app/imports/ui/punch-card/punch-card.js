@@ -25,7 +25,7 @@ const PunchCard = props => {
     } else if (weekValue[i] === 'true') {
       elements.push(
         <div key={i} className="digitParent">
-          <img className="Digit" src="images/punch-card-img/tick2.png" />
+          <img className="Digit" src="images/tick2.png" />
           <p className="weekName">{weekName[i]}</p>
         </div>
       )

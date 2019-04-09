@@ -10,11 +10,11 @@ const weeks =
   //Sample array
   [
     { name: 'Punctures', used: true, img: '/images/punctures.jpg' },
-    { name: 'Gears cleaning', used: false, img: '/images/punch-card-img/1.jpg' },
-    { name: 'Gears tuning', used: true, img: '/images/punch-card-img/2.jpg' },
+    { name: 'Gears cleaning', used: false, img: '/images/gears-cleaning.jpg' },
+    { name: 'Gears tuning', used: true, img: '/images/gears-tuning.jpg' },
     { name: 'Wheel bearings', used: false, img: '/images/bearings.jpg' },
     { name: 'Brakes', used: true, img: '/images/brakes.jpg' },
-    { name: 'Forks and B/B', used: true, img: '/images/punctures.jpg' }
+    { name: 'Forks and B/B', used: true, img: '/images/forks.jpg' }
   ]
 
 //populating values in arrays
