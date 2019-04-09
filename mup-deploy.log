@@ -1,0 +1,5 @@
+Wed 3 Apr 2019 21:50:03 AEDT /Users/mikkel/back2bikes/attendance/deployment/b2b-staging deploy 
+Sun 7 Apr 2019 11:36:41 AEST /Users/mikkel/back2bikes/attendance/deployment/pa-prod deploy 
+Sun 7 Apr 2019 11:50:52 AEST /Users/mikkel/back2bikes/attendance/deployment/pa-prod reconfig 
+Sun 7 Apr 2019 14:55:42 AEST /Users/mikkel/back2bikes/attendance/deployment/pa-prod deploy 
+Sun 7 Apr 2019 15:09:38 AEST /Users/mikkel/back2bikes/attendance/deployment/pa-prod reconfig 
