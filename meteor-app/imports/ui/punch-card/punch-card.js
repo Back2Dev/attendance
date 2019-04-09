@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './Digit.css'
 
 const PunchCard = props => {
-
   const digitClicked = () => {
     alert('clicked')
   }
@@ -27,7 +27,8 @@ const PunchCard = props => {
         <div key={i} className="digitParent">
           <img className="Digit" src="images/punch-card-img/tick2.png" />
           <p className="weekName">{weekName[i]}</p>
-        </div>)
+        </div>
+      )
       weeksDone++
     }
   }
@@ -38,11 +39,15 @@ const PunchCard = props => {
         <h1 className="header">Maintenance Course</h1>
       </div>
       <div className="Container">{elements}</div>
-      <div className="footer">
-        {Math.round(weeksDone / (weeksDone + weeksLeft) * 100)}% Completed
-      </div>
+      <div className="footer">{Math.round((weeksDone / (weeksDone + weeksLeft)) * 100)}% Completed</div>
     </div>
   )
 }
 
+PunchCard.propTypes = {
+  weekNum: PropTypes.number.isRequired,
+  weekValue: PropTypes.array.isRequired,
+  weekName: PropTypes.array.isRequired,
+  imgs: PropTypes.array.isRequired
+}
 export default PunchCard
