@@ -9,25 +9,26 @@ import MemberVisitPin from './pin'
 import MemberVisitPinForgot from './pin-forgot'
 import MemberVisitPinSet from './pin-set'
 import './visit.css'
-import { Meteor } from 'meteor/meteor'
+// import { Meteor } from 'meteor/meteor'
 
-const RenewButton = props => {
-  const renew = async function() {
-    await Meteor.call('memberRenew', props.memberId, props.code)
-    localStorage.setItem('mycart', props.memberId)
-    props.history.push(`/shop/checkout`)
-  }
-  return (
-    <Button icon size="mini" floated="right" type="button" color="orange" onClick={renew}>
-      <Icon name="dollar" />
-      Renew
-    </Button>
-  )
-}
+// const RenewButton = props => {
+//   const renew = async function() {
+//     await Meteor.call('memberRenew', props.memberId, props.code)
+//     localStorage.setItem('mycart', props.memberId)
+//     props.history.push(`/shop/checkout`)
+//   }
+//   return (
+//     <Button icon size="mini" floated="right" type="button" color="orange" onClick={renew}>
+//       <Icon name="dollar" />
+//       Renew
+//     </Button>
+//   )
+// }
+const RenewButton = props => <span> - </span>
 
 const StatusCard = props => {
   const { _id, code, productName, remaining, expiry } = props
-  const renew = expiry && moment(expiry).isBefore(moment().add(3, 'months'))
+  const renew = false && expiry && moment(expiry).isBefore(moment().add(3, 'months'))
   return (
     <Card>
       <Card.Content>

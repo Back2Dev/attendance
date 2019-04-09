@@ -65,12 +65,12 @@ const BuyMe = props => {
   */
   fields.tokenize(
     {
-      publishable_api_key: '<Your publishable API key>',
-      address_line1: 'Unit 42',
-      address_line2: '123 Example St',
-      address_city: 'Perth',
-      address_postcode: '6000',
-      address_state: 'WA',
+      publishable_api_key: 'pk_g5_qP5N35CdS37gXDZK97g',
+      address_line1: '71 Carter St',
+      address_line2: '',
+      address_city: 'Middle Park',
+      address_postcode: '3206',
+      address_state: 'VIC',
       address_country: 'Australia'
     },
     function(err, response){

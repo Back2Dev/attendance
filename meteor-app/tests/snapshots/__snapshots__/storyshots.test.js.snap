@@ -8695,13 +8695,18 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
     </h1>
     <img
       className="ui tiny circular centered image"
+      onClick={[Function]}
       src="/images/avatars/7.jpg"
     />
     <div
       className="ui very padded segment"
     >
-      <h2>
-        About You
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          About You
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -8797,8 +8802,12 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
     <div
       className="ui very padded segment"
     >
-      <h2>
-        Contact
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          Contact
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -8957,13 +8966,35 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
             </span>
           </span>
         </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            PIN number
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              0000
+            </span>
+          </span>
+        </div>
       </div>
     </div>
     <div
       className="ui very padded segment"
     >
-      <h2>
-        Emergency
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          Emergency
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -9037,8 +9068,12 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
     <div
       className="ui very padded segment"
     >
-      <h2>
-        Avatar
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          Avatar
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -10273,6 +10308,36 @@ exports[`Storyshots Member.Card Card 1`] = `
                             }
                           >
                             Racer
+                          </span>
+                          "
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        pin
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          "
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            0000
                           </span>
                           "
                         </span>
@@ -13267,6 +13332,56 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                     className="css-d52hbj"
                   >
                     -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    events
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    purchases
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
                   </td>
                   <td
                     className="css-d52hbj"
