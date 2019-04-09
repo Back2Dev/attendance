@@ -11,11 +11,9 @@ import Sessions from '/imports/api/sessions/schema'
 
 // import { CRON_JOBS, INTERCOM } from './server-constants'
 
-let busy = 0
+const busy = 0
 
-Meteor.methods({
-
-})
+Meteor.methods({})
 
 const signoutTicker = () => {
   const hour = moment().hour()
@@ -27,18 +25,19 @@ const signoutTicker = () => {
     crew.forEach(dude => {
       const stillHereQuery = {
         memberId: dude._id,
-        timeOut: { $gt: new Date() }
+        timeOut: { $gt: Members.findOne(dude._id).now() },
       }
+      debug('stillHereQuery', stillHereQuery)
       const sessions = Sessions.find(stillHereQuery).fetch()
       if (!sessions.length) {
-				debug(`Automatically signed out ${dude.name}`)
-        n = n + Members.update(dude._id, { $set: { isHere: false }})
+        debug(`Automatically signed out ${dude.name}`)
+        n += Members.update(dude._id, { $set: { isHere: false } })
       }
     })
     if (n) {
       debug(`Signed out ${n} members`)
     }
-  } catch(error) {
+  } catch (error) {
     console.error(`Error ${error.message} encountered signing members out`)
   }
 }
@@ -59,9 +58,6 @@ const signoutTicker = () => {
 const TICKER_INTERVAL = '1,16,31,46 * * * *'
 // const TICKER_INTERVAL = '* * * * *'
 
-Meteor.startup(function() {
-    cron.schedule(
-      TICKER_INTERVAL,
-      Meteor.bindEnvironment(signoutTicker)
-    )
+Meteor.startup(() => {
+  cron.schedule(TICKER_INTERVAL, Meteor.bindEnvironment(signoutTicker))
 })
