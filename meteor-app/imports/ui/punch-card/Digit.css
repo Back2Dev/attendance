@@ -13,29 +13,24 @@
   justify-content: center;
   align-items: center;
 }
-.Digit,
-.DigitUsed {
+.Digit{
   margin: 0 20px ;
   border-radius: 25%;
   color: blue;
   background: white;
   font-weight: bold;
-  padding: 20px;
-  font-size: 30px;
-}
-.Digit img {
-  max-width: 50px;
-  max-height: 50px;
-}
-.Digit,.DigitUsed div{
+  width: 100px;
+  height: 100px;
   font-size: 15px;
   text-align: center;
   padding: 5px;
 }
-.DigitUsed {
-  color: white;
-  background-color: green;
-  border-radius: 40%;
+.Digit{
+  max-width: 80px;
+  max-height: 80px;
+  display: block;
+  margin: auto;
+  object-fit: contain;
 }
 .header {
   font-size: 40px;
@@ -53,4 +48,8 @@
   text-align: center;
   color: blue;
   font-weight: bold;
+}
+.digitParent{
+  width: 100px;
+  height: 100px;
 }

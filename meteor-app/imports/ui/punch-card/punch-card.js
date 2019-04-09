@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './Digit.css'
 
 const PunchCard = props => {
-  //A function that fetchs array of attended and 'not' attended weeks
 
   const digitClicked = () => {
     alert('clicked')
@@ -17,34 +16,30 @@ const PunchCard = props => {
   for (let i = 0; i < weekNum; i++) {
     if (weekValue[i] === 'false') {
       elements.push(
-        <div>
-          <div className="Digit" onClick={() => digitClicked}>
-            <img src={imgs[i]} />
-          </div>
-          <div className="weekName">{weekName[i]}</div>
+        <div key={i} className="digitParent">
+          <img src={imgs[i]} className="Digit" onClick={() => digitClicked} />
+          <p className="weekName">{weekName[i]}</p>
         </div>
       )
       weeksLeft++
     } else if (weekValue[i] === 'true') {
       elements.push(
-        <div>
-          <div className="DigitUsed">&#10003;</div>
+        <div key={i} className="digitParent">
+          <img className="Digit" src="images/punch-card-img/tick2.png" />
           <p className="weekName">{weekName[i]}</p>
         </div>)
       weeksDone++
-    } else {
-      console.log("!!!!!!")
     }
   }
 
   return (
     <div className="Punch-Card">
       <div className="Container">
-        <h1 className="header">Workshop Weeks</h1>
+        <h1 className="header">Maintenance Course</h1>
       </div>
       <div className="Container">{elements}</div>
       <div className="footer">
-        Weeks completed: {weeksDone} and Weeks left: {weeksLeft}
+        {Math.round(weeksDone / (weeksDone + weeksLeft) * 100)}% Completed
       </div>
     </div>
   )
