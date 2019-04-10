@@ -9,10 +9,6 @@ import log from '/imports/lib/log'
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 
-// import { CRON_JOBS, INTERCOM } from './server-constants'
-
-const busy = 0
-
 Meteor.methods({})
 
 const signoutTicker = () => {
@@ -27,17 +23,20 @@ const signoutTicker = () => {
         memberId: dude._id,
       }
       debug('stillHereQuery', stillHereQuery)
-      const sessions = Sessions.find(stillHereQuery, {
+      Sessions.find(stillHereQuery, {
         sort: { createdAt: -1 },
         limit: 1,
       }).forEach(session => {
-        debug('Checking', session.timeOut, moment(), moment().utc())
+        console.log('timeOut', session.timeOut)
+        console.log('now',moment().toDate(),moment().isAfter(session.timeOut))
+        console.log('now.utc2',moment(),moment().utc().isAfter(moment(session.timeOut).utc()))
+        console.log('now.utc', moment().utc().toDate(),)
         if (
           moment()
             .utc()
             .isAfter(session.timeOut)
         ) {
-          debug(`Automatically signed out ${dude.name}`)
+          console.log(`Automatically signed out ${dude.name}`)
           n += Members.update(dude._id, { $set: { isHere: false } })
         }
       })

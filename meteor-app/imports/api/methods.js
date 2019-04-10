@@ -144,6 +144,39 @@ Meteor.methods({
       )
     }
   },
+// Code to help debug a time problem
+  checkTimes() {
+    let n = 0
+    crew = Members.find({ isHere: true })
+    crew.forEach(dude => {
+      const stillHereQuery = {
+        memberId: dude._id,
+      }
+      console.log('stillHereQuery', stillHereQuery)
+      const sessions = Sessions.find(stillHereQuery, {
+        sort: { createdAt: -1 },
+        limit: 1,
+      }).forEach(session => {
+        console.log('session.timeOut', session.timeOut)
+        console.log('now',moment().toDate(),moment().isAfter(session.timeOut))
+        console.log('now.utc2',moment(),moment().utc().isAfter(moment(session.timeOut).utc()))
+        console.log('now.utc', moment().utc().toDate(),)
+        if (
+          moment()
+            .utc()
+            .isAfter(session.timeOut)
+        ) {
+          debug(`Automatically signed out ${dude.name}`)
+          // n += Members.update(dude._id, { $set: { isHere: false } })
+        } else {
+          console.log(`${dude.name} is still there`)
+        }
+      })
+    })
+    if (n) {
+      debug(`Would have signed out ${n} members`)
+    }
+  },
 
   // signing out _isn't_ mandatory. This is the one that happens automatically
   autoDepart(id) {
