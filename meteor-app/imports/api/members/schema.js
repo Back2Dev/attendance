@@ -5,12 +5,6 @@ import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 
 const Members = new Mongo.Collection('members')
 
-Members.helpers({
-  now() {
-    return new Date()
-  },
-})
-
 export const MembersSchema = new SimpleSchema({
   _id: {
     type: String,

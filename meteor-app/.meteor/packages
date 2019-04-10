@@ -39,4 +39,3 @@ momentjs:moment
 mikkelking:mongo-counter
 fentas:mapreduce
 meteorhacks:aggregate
-dburles:collection-helpers
