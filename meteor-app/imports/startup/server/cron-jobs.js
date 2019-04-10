@@ -59,8 +59,8 @@ const signoutTicker = () => {
 //                       │ │ │ │ │
 //                       * * * * *
 
-// const TICKER_INTERVAL = '1,16,31,46 * * * *'
-const TICKER_INTERVAL = '* * * * *'
+const TICKER_INTERVAL = '1,16,31,46 * * * *'
+// const TICKER_INTERVAL = '* * * * *'
 // const TICKER_INTERVAL = '* * * * *'
 
 Meteor.startup(() => {
