@@ -31,8 +31,12 @@ const signoutTicker = () => {
         sort: { createdAt: -1 },
         limit: 1,
       }).forEach(session => {
-        debug('Checking', session.timeOut)
-        if (moment().isAfter(session.timeOut)) {
+        debug('Checking', session.timeOut, moment(), moment().utc())
+        if (
+          moment()
+            .utc()
+            .isAfter(session.timeOut)
+        ) {
           debug(`Automatically signed out ${dude.name}`)
           n += Members.update(dude._id, { $set: { isHere: false } })
         }
