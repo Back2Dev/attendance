@@ -20,21 +20,32 @@ const signoutTicker = () => {
     crew = Members.find({ isHere: true })
     crew.forEach(dude => {
       const stillHereQuery = {
-        memberId: dude._id,
+        memberId: dude._id
       }
       debug('stillHereQuery', stillHereQuery)
       Sessions.find(stillHereQuery, {
         sort: { createdAt: -1 },
-        limit: 1,
+        limit: 1
       }).forEach(session => {
         console.log('timeOut', session.timeOut)
-        console.log('now',moment().toDate(),moment().isAfter(session.timeOut))
-        console.log('now.utc2',moment(),moment().utc().isAfter(moment(session.timeOut).utc()))
-        console.log('now.utc', moment().utc().toDate(),)
+        console.log('now', moment().toDate(), moment().isAfter(session.timeOut))
+        console.log(
+          'now.utc2',
+          moment(),
+          moment()
+            .utc()
+            .isAfter(moment(session.timeOut).utc())
+        )
+        console.log(
+          'now.utc',
+          moment()
+            .utc()
+            .toDate()
+        )
         if (
           moment()
             .utc()
-            .isAfter(session.timeOut)
+            .isAfter(moment(session.timeOut).utc())
         ) {
           console.log(`Automatically signed out ${dude.name}`)
           n += Members.update(dude._id, { $set: { isHere: false } })
