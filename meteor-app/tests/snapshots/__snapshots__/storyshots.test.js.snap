@@ -13113,6 +13113,153 @@ exports[`Storyshots Member.Session Sign in 1`] = `
 </div>
 `;
 
+exports[`Storyshots Multi-Visits-Card Multi-Visits-Card 1`] = `
+<div
+  className="multi-visit-card"
+>
+  <div
+    className="Container"
+  >
+    <h1
+      className="header"
+    >
+      Visits
+    </h1>
+  </div>
+  <div
+    className="Container"
+  >
+    <div
+      className="digitParent"
+    >
+      <p
+        className="usedMultiDigit"
+        onClick={[Function]}
+      >
+        X
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="usedMultiDigit"
+        onClick={[Function]}
+      >
+        X
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="usedMultiDigit"
+        onClick={[Function]}
+      >
+        X
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        4
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        5
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        6
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        7
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        8
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        9
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        10
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        11
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        12
+      </p>
+    </div>
+  </div>
+  <div
+    className="footer"
+  >
+    You have used 
+    25
+    % of your visits.
+  </div>
+</div>
+`;
+
 exports[`Storyshots Navbar Navbar 1`] = `
 <div>
   <div
@@ -14460,56 +14607,130 @@ exports[`Storyshots Punch-card Punchcard 1`] = `
   <div
     className="Container"
   >
-    <div
-      className="DigitUsed"
+    <h1
+      className="header"
     >
-      1
+      Maintenance Course
+    </h1>
+  </div>
+  <div
+    className="Container"
+  />
+  <div
+    className="footer"
+  >
+    NaN
+    % Completed
+  </div>
+</div>
+`;
+
+exports[`Storyshots Punch-card Punchcard false 1`] = `
+<div
+  className="Punch-Card"
+>
+  <div
+    className="Container"
+  >
+    <h1
+      className="header"
+    >
+      Maintenance Course
+    </h1>
+  </div>
+  <div
+    className="Container"
+  >
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/punctures.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Punctures
+      </p>
     </div>
     <div
-      className="DigitUsed"
+      className="digitParent"
     >
-      2
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/gears-cleaning.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Gears cleaning
+      </p>
     </div>
     <div
-      className="DigitUsed"
+      className="digitParent"
     >
-      3
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/gears-tuning.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Gears tuning
+      </p>
     </div>
     <div
-      className="Digit"
+      className="digitParent"
     >
-      4
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/bearings.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Wheel bearings
+      </p>
     </div>
     <div
-      className="Digit"
+      className="digitParent"
     >
-      5
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/brakes.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Brakes
+      </p>
     </div>
     <div
-      className="Digit"
+      className="digitParent"
     >
-      6
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/forks.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Forks and B/B
+      </p>
     </div>
-    <div
-      className="Digit"
-    >
-      7
-    </div>
-    <div
-      className="Digit"
-    >
-      8
-    </div>
-    <div
-      className="Digit"
-    >
-      9
-    </div>
-    <div
-      className="Digit"
-    >
-      10
-    </div>
+  </div>
+  <div
+    className="footer"
+  >
+    0
+    % Completed
   </div>
 </div>
 `;
