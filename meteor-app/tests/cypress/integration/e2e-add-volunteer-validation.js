@@ -1,17 +1,16 @@
 const pin = '1234'
 
-Cypress.on('uncaught:exception', (err, runnable) => {
+Cypress.on('uncaught:exception', (err, runnable) => 
   // returning false here prevents Cypress from
   // failing the test. We do this because of some ugly js errors
   // from a js library we are using
-  return false
-})
+   false)
 
-describe('Create member', function() {
-  it('Open form - about you', function() {
+describe('Create member', () => {
+  it('Open form - about you', () => {
     cy.visit('/')
     cy.get('#add_member').click()
-    cy.get('h1')
+    cy.get('div')
       .contains('Lets get to know each other')
       .should('exist')
     // Nothing mandatory on the first page
@@ -19,7 +18,7 @@ describe('Create member', function() {
       .contains('Next')
       .click()
   })
-  it('Contact details', function() {
+  it('Contact details', () => {
     cy.get('h1')
       .contains('Details')
       .should('exist')
@@ -55,13 +54,13 @@ describe('Create member', function() {
       .contains('Details')
       .should('exist')
     cy.get('div')
-      .contains("PIN numbers don't match")
+      .contains('PIN numbers don\'t match')
       .should('exist')
     cy.get('#root_pinConfirm')
       .clear()
       .type('0909')
     cy.get('div')
-      .contains("PIN numbers don't match")
+      .contains('PIN numbers don\'t match')
       .should('exist')
 
     // Get the pin right now and move on
@@ -73,7 +72,7 @@ describe('Create member', function() {
       .contains('Next')
       .click()
   })
-  it('Emergency contact details', function() {
+  it('Emergency contact details', () => {
     cy.get('h1')
       .contains('Who should we contact in an emergency')
       .should('exist')
@@ -87,7 +86,7 @@ describe('Create member', function() {
       .contains('Next')
       .click()
   })
-  it('Choose an avatar', function() {
+  it('Choose an avatar', () => {
     cy.get('h1')
       .contains('Choose an avatar')
       .should('exist')
@@ -96,7 +95,7 @@ describe('Create member', function() {
       .contains('Next')
       .click()
   })
-  it('Review your details', function() {
+  it('Review your details', () => {
     cy.get('h1')
       .contains('Review your details')
       .should('exist')
