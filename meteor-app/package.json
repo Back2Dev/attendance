@@ -104,7 +104,7 @@
     "@storybook/addon-storyshots": "^3.4.3",
     "@storybook/addon-viewport": "^3.4.4",
     "@storybook/addons": "^3.4.3",
-    "@storybook/react": "^3.4.3",
+    "@storybook/react": "^3.4.12",
     "autoprefixer": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^6.1.2",
