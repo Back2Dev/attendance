@@ -14,6 +14,7 @@ import getSchemas from '/imports/ui/config/member-add-schemas'
 import MemberAdd from './member-add'
 
 const STORY_NAME = 'MemberAdd'
+const avatar = { url: '/images/avatars/default.jpg' }
 
 storiesOf('Member.Add', module)
   .addDecorator(withKnobs)
@@ -43,9 +44,10 @@ storiesOf('Member.Add', module)
         describe(STORY_NAME, () => {
           it('displays the add member wizard', () => {
             const wrapper = mount(story)
+            console.log(wrapper.find('#avatar'))
+            expect(wrapper.find('#avatar').src).to.contain(avatar.url)
             // Something ugly goes on here - first render it's zero, second render it's right
             if (expect(wrapper.find('button')).to) expect(wrapper.find('button')).to.have.length(1)
-            // expect(wrapper.find('button').props().src).to.contain(avatar.url)
           })
         })
       )
