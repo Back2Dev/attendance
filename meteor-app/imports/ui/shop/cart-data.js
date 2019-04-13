@@ -1,6 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import Alert from 'react-s-alert'
+import { cloneDeep } from 'lodash'
 
 const CartContext = React.createContext()
 
@@ -27,7 +28,15 @@ const recalc = state => {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'reset':
-      return initialState
+      return cloneDeep(initialState)
+    case 'reset-add':
+      const newState = cloneDeep(initialState)
+      action.payload.qty = 1
+      newState.products.push(action.payload)
+
+      recalc(newState)
+      Alert.info(`Added ${action.payload.name} to cart`)
+      return { ...newState }
     case 'add':
       if (
         !state.products.find((prod, ix) => {

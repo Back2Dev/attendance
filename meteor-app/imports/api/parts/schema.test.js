@@ -29,7 +29,7 @@ const badParts = [
   {
     imageUrl: '/public/images/logo-large.jpg',
     retailPrice: 9690,
-    partNo: 101,
+    partNo: '101',
     name: 'bmx pegs',
     barcode: '11100011102',
     status: 'sent'
@@ -38,7 +38,7 @@ const badParts = [
   {
     retailPrice: 7865,
     wholesalePrice: null, // Fails on this
-    partNo: 1010,
+    partNo: '1010',
     name: 'brake line',
     barcode: '11100011102',
     status: 'recieved'

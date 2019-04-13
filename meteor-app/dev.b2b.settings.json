@@ -7,6 +7,8 @@
     "recruit": "b2b",
     "paymentApiKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
     "shop": 1,
-    "org": "Back2bikes"
+    "orgid": "b2b",
+    "org": "Back2bikes",
+    "tagline": "We'd love to help you learn how to fix your bike. Here's what we offer"
   }
 }

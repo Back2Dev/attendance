@@ -5,7 +5,7 @@ import querystring from 'querystring'
 import fetch from 'node-fetch'
 const debug = require('debug')('b2b:sms')
 
-import { eventLog } from '/imports/api/events'
+import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/log'
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. https://app.back2bikes.com.au/'

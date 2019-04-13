@@ -12,6 +12,7 @@ import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Purchase from '/imports/ui/layouts/purchase'
 import Shop from '/imports/ui/shop'
+import ShopIframe from '/imports/ui/shop/iframe'
 
 // there is an iframe on the B2B wordpress site allowing registration to attendance app.
 // we'll give them a different layout/component to prevent access to rest of the app
@@ -20,7 +21,8 @@ export const renderRoutes = () => (
     <Alert stack={{ limit: 3 }} />
     <Router>
       <Switch>
-        {isIframe() && <Route component={MemberAddIframe} />}
+        {isIframe('add') && <Route component={MemberAddIframe} />}
+        {isIframe('shop') && <Route component={ShopIframe} />}
         <Route path="/ordering" component={Ordering} />
         <Route path="/assessment" component={AssessmentLayout} />
         <Route path="/jobs" component={JobCardLister} />

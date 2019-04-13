@@ -5,7 +5,10 @@
     "parts": 0,
     "servicing": 0,
     "recruit": "pa",
-	"shop": 1,
-	"org": "Peak Adventure"
+    "shop": 1,
+    "org": "Peak Adventure",
+    "orgid": "pa",
+    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
+    "tagline": "Come and train with us, either on a multi-pass or a membership... because you are worth it."
   }
 }

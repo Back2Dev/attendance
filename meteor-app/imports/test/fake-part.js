@@ -13,17 +13,20 @@ const imagesUrls = [
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/cc3e94374ecfc00e82c1eafdf626c03c5f5bd11f.jpg',
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/bb751cf61ae9acd5fd514c2491f1911d811e544f.jpg',
   'http://cdn2.webninjashops.com/bicycleparts/images/resized/917b18f1ea145ca30274450651c6411434e37046.jpg',
-  'http://cdn.webninjashops.com/bicycleparts/images/resized/556176e6d76f32931cb7b97b59de8cbd4068b3aa.png',
+  'http://cdn.webninjashops.com/bicycleparts/images/resized/556176e6d76f32931cb7b97b59de8cbd4068b3aa.png'
 ]
 
 const part = {
+  _id: '9th4N4XhFinbivESh',
   imageUrl: imagesUrls[faker.random.number(imagesUrls.length)],
-  retailPrice: faker.finance.amount(),
-  wholesalePrice: faker.finance.amount(),
+  name: 'Bicycle bell LG',
+  retailPrice: faker.finance.amount() * 100,
+  wholesalePrice: faker.finance.amount() * 100,
   partNo: faker.finance.amount(),
   desc: faker.lorem.sentences(),
   barcode: faker.finance.amount(),
   status: 1,
+  createdAt: new Date()
 }
 
 export default part
