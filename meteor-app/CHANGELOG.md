@@ -12,6 +12,8 @@
 - PIN entry - auto-tab to next field after 4 digits
 - Limited PIN entry to 4
 - Added mup logging
+- Checkin lists available events
+- Fixed cron problem
 
   0.11.0
 
