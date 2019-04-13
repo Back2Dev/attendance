@@ -21,8 +21,8 @@
   border-radius: 50%;
   font-weight: bold;
   background: white;
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   font-size: 40px;
   text-align: center;
   padding: 5px;
@@ -32,8 +32,8 @@
   object-fit: contain;
 }
 .usedMultiDigit{
-  color: red;
-  background: white;
+  background: none;
+  padding: 0;
 }
 .multiDigit{
   color: white;
@@ -54,10 +54,12 @@
 }
 .weekName{
   text-align: center;
-  color: blue;
+  color: black;
   font-weight: bold;
+  font-size: 15px;
 }
 .digitParent{
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: auto;
+  margin: 5px;
 }

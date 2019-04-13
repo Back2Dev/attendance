@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import '../punch-card/Digit.css'
+import { Icon } from 'semantic-ui-react'
 
 const MultiVisitsCard = props => {
     const digitClicked = () => {
@@ -18,7 +19,7 @@ const MultiVisitsCard = props => {
         else
             elements.push(
                 <div key={i} className="digitParent">
-                    <p className="usedMultiDigit" onClick={() => digitClicked}>X</p>
+                    <img src="images/smiley.png" className="usedMultiDigit" />
                 </div>
             )
     }
@@ -33,5 +34,8 @@ const MultiVisitsCard = props => {
         </div >
     )
 }
-
+MultiVisitsCard.propTypes = {
+    totalVisits: PropTypes.number.isRequired,
+    usedVisits: PropTypes.number.isRequired
+}
 export default MultiVisitsCard
