@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../punch-card/Digit.css'
+import './Digit.css'
 import { Icon } from 'semantic-ui-react'
 
 const MultiVisitsCard = props => {

@@ -4,7 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs/react'
 import { number, array } from '@storybook/addon-knobs/dist/react'
 import MultiVisitsCard from './multi-visits-card'
 
-storiesOf('Multi-Visits-Card', module)
+storiesOf('Punch-card', module)
   .addDecorator(withKnobs)
   .add('Multi-Visits-Card', () => (
     <MultiVisitsCard totalVisits={number("Total Visits", 12)} usedVisits={number("Used Visits", 3)} />
