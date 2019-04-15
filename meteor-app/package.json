@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
-    "debug-local": "meteor --inspect --port 3030 --settings dev.settings.json",
+    "debug-local": "cross-env meteor --inspect --port 3030 --settings dev.settings.json",
     "debug.email": "MAIL_URL=smtps://admin@back2bikes.com.au:Back2bikes.24@secure364.sgcpanel.com:465 DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
     "debug.pa": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.pa.settings.json",
     "debug.pa.ios": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor run ios-device --inspect --port 3030 --settings dev.pa.settings.json ",
@@ -114,6 +114,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-enzyme": "^0.8.0",
     "cheerio": "0.20.x",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.27.3",
     "cypress": "^3.1.5",
     "enzyme": "^3.3.0",
