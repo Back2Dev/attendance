@@ -8,7 +8,8 @@
     "shop": 1,
     "org": "Peak Adventure",
     "orgid": "pa",
-    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
+    "paymentApiKey": "pk_D0YUJidDxWzUsL4rSpmLCQ",
+    "paymentSite": "https://pay.pinpayments.com/r516/test/",
     "tagline": "Come and train with us, either on a multi-pass or a membership... because you are worth it."
   }
 }
