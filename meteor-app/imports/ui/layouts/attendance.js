@@ -1,16 +1,15 @@
 import React from 'react'
-import { Sidebar, Menu, Icon } from 'semantic-ui-react'
 import { Switch, Route } from 'react-router-dom'
 import NotFound from '/imports/ui/not-found'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import AssessmentAddContainer from '/imports/ui/assessment/assessment'
 import { Meteor } from 'meteor/meteor'
 
-import MemberEdit from '/imports/ui/member/member-edit'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberVisitContainer from '/imports/ui/member/member-dash-container'
 import AdminContainer from '/imports/ui/admin/admin-container'
 import AppSelection from '/imports/ui/admin/app-selection'
+import PaymentConfirm from '/imports/ui/shop/payment-confirm'
 import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert'
@@ -20,10 +19,10 @@ const Attendance = () => {
     e.preventDefault()
 
     const file = e.target[0].files[0]
-    const msg = file ? `Adding your parts` : `Oops! Forgot to add the file? Try again uploading the file`
+    const msg = file ? 'Adding your parts' : 'Oops! Forgot to add the file? Try again uploading the file'
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
@@ -43,6 +42,7 @@ const Attendance = () => {
 
           <Route path="/:id" component={MemberVisitContainer} />
           <Route path="/" component={MemberMainContainer} />
+          <Route path="/payment-confirm" component={PaymentConfirm} />
           <Route component={NotFound} />
         </Switch>
       </div>

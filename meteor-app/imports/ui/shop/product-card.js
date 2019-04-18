@@ -62,7 +62,7 @@ const ProductCard = props => {
           <div>
             {props.qty > 1 && <span>{props.qty} x </span>}
             <Price cents={props.price} />
-            <PayNowButton productCode={props.code} memberId={props.memberId} amount={(props.qty * props.price) / 100} />
+            {/* <PayNowButton productCode={props.code} memberId={props.memberId} amount={(props.qty * props.price) / 100} /> */}
           </div>
         )}
       </Card.Content>
@@ -71,7 +71,7 @@ const ProductCard = props => {
 }
 
 ProductCard.propTypes = {
-  mode: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
 }
 
 export default ProductCard

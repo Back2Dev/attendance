@@ -3,6 +3,7 @@ import { Card, Segment, Button } from 'semantic-ui-react'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
+import BuyMe from './buy-me'
 
 const Checkout = props => {
   const { state, dispatch } = React.useContext(CartContext)
@@ -18,7 +19,7 @@ const Checkout = props => {
         </Segment>
       </div>
     )
-  } else {
+  } 
     return (
       <div>
         <h4>Checkout </h4>
@@ -27,9 +28,11 @@ const Checkout = props => {
             return <ProductCard {...p} key={p._id} mode="remove" />
           })}
         </Card.Group>
+        <hr />
+        <BuyMe />
       </div>
     )
-  }
+  
 }
 
 export default Checkout
