@@ -106,8 +106,8 @@ const BuyMe = props => {
         /* Resubmit the form with the added card_token input. */
         debug('Submitting')
         Meteor.call('makePayment', {
-          card_token: response.token,
-          // customer_token: 'cus_5yEM34e0ngYv_0yd-tDBYg',
+          // card_token: response.token,
+          customer_token: 'cus_5yEM34e0ngYv_0yd-tDBYg',
           amount: '12000',
           currency: 'AUD',
           description: 'Advanced Testing',
