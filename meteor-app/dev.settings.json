@@ -5,8 +5,11 @@
       "USERNAME": "mikkel",
       "PASSWORD": "Smsbroadcast.24",
       "FROM": "0438002921"
-    },
-    "privateStripeKey": "sk_test_MsFkS9KodEJyxmgIql45Me2w"
+    }
+  },
+  "private": {
+    "paymentURL": "https://test-api.pinpayments.com/1/charges",
+    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA"
   },
   "public": {
     "logo": "/images/logo-tiny.jpg",
@@ -15,9 +18,11 @@
     "servicing": 1,
     "recruit": "b2b",
     "admin": 1,
-    "paymentApiKey": "pk_test_84A7QYIUhWG1GWw0MYUcQ51y",
     "shop": 1,
+    "org": "Back2bikes",
     "orgid": "b2b",
-    "org": "Back2bikes"
+    "paymentApiKey": "pk_D0YUJidDxWzUsL4rSpmLCQ",
+    "paymentSite": "https://pay.pinpayments.com/r516/test/",
+    "tagline": "Come and train with us, either on a multi-pass or a membership... because you are worth it."
   }
 }

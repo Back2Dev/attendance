@@ -22,7 +22,7 @@ const Attendance = () => {
     const msg = file ? 'Adding your parts' : 'Oops! Forgot to add the file? Try again uploading the file'
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function () {
+    reader.onloadend = function() {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
@@ -40,9 +40,9 @@ const Attendance = () => {
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />
 
+          <Route path="/payment-confirm" component={PaymentConfirm} />
           <Route path="/:id" component={MemberVisitContainer} />
           <Route path="/" component={MemberMainContainer} />
-          <Route path="/payment-confirm" component={PaymentConfirm} />
           <Route component={NotFound} />
         </Switch>
       </div>

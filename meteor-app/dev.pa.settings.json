@@ -1,4 +1,12 @@
 {
+  "env": {
+    "MAIL_URL": "",
+    "SMS": {}
+  },
+  "private": {
+    "paymentURL": "https://test-api.pinpayments.com/1/charges",
+    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA"
+  },
   "public": {
     "logo": "/images/pa-logo.jpg",
     "member": "Member",
