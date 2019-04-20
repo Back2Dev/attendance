@@ -7,7 +7,7 @@ import axios from 'axios'
 const debug = require('debug')('b2b:payments')
 
 Meteor.methods({
-  makePayment: function(chargeData) {
+  makePayment: async function(chargeData) {
     const paymentURL = Meteor.settings.private.paymentURL
     const request = {
       url: paymentURL,
@@ -19,12 +19,14 @@ Meteor.methods({
       }
     }
     debug(`Sending charge to ${paymentURL}`, request)
-    axios(request)
-      .then(function(response) {
-        debug(response.data.response)
-      })
-      .catch(function(error) {
-        debug(error)
-      })
+    try {
+      const response = await axios(request)
+      debug(response.data.response)
+      return response.data.response
+    } catch (error) {
+      debug(error)
+      // throw new Meteor.Error(error.message)
+      return error.message
+    }
   }
 })

@@ -19,58 +19,52 @@ const BuyMe = props => {
     number: React.useRef(),
     expiry: React.useRef()
   }
-  const [token, setToken] = React.useState('')
-  const [errors, setErrors] = React.useState({})
+  const [status, setStatus] = React.useState('entry')
   React.useEffect(props => {
-    fields = HostedFields.create({
-      /* Set this to true when testing. Set it to false in production. */
-      sandbox: true,
+    if (status === 'entry') {
+      debug(`calling HostedFields ${status}`)
+      fields = HostedFields.create({
+        /* Set this to true when testing. Set it to false in production. */
+        sandbox: true,
 
-      /*
+        /*
         These are the CSS styles for the input elements inside the iframes. Inside each iframe
         is a single input with its id set to name, number, cvc or expiry.
 
         When the input has a valid value, it will have the 'hosted-fields-valid' class. When
         the input has an invalid value, it will have the 'hosted-fields-invalid' class.
       */
-      styles: {
-        input: {
-          'font-size': '16px',
-          'font-family': 'helvetica, tahoma, calibri, sans-serif',
-          color: '#3a3a3a'
+        styles: {
+          input: {
+            'font-size': '16px',
+            'font-family': 'helvetica, tahoma, calibri, sans-serif',
+            color: '#3a3a3a'
+          },
+          '.hosted-fields-invalid:not(:focus)': {
+            color: 'red'
+          }
         },
-        '.hosted-fields-invalid:not(:focus)': {
-          color: 'red'
-        }
-      },
 
-      /*
-        The fields object defines the fields to be created. All four fields are required
-        (name, number, cvc, expiry).
-
-        Each field requires a selector for the element in which to create an iframe. Optionally,
-        you can define placeholder text and a label selector (the CSS selector of the label
-        element for that particular field).
-      */
-      fields: {
-        name: {
-          selector: '#name',
-          placeholder: 'Name on card'
-        },
-        number: {
-          selector: '#number',
-          placeholder: 'Credit card number'
-        },
-        cvc: {
-          selector: '#cvc',
-          placeholder: 'CVC (on back of card)'
-        },
-        expiry: {
-          selector: '#expiry',
-          placeholder: 'Card Expiry (MM/DD)'
+        fields: {
+          name: {
+            selector: '#name',
+            placeholder: 'Name on card'
+          },
+          number: {
+            selector: '#number',
+            placeholder: 'Credit card number'
+          },
+          cvc: {
+            selector: '#cvc',
+            placeholder: 'CVC (on back of card)'
+          },
+          expiry: {
+            selector: '#expiry',
+            placeholder: 'Card Expiry (MM/DD)'
+          }
         }
-      }
-    })
+      })
+    }
   })
 
   /*
@@ -93,29 +87,32 @@ const BuyMe = props => {
         address_state: 'VIC',
         address_country: 'Australia'
       },
-      (err, response) => {
+      async (err, response) => {
         if (err) {
           handleErrors(err)
           return
         }
 
         /* Append a hidden element to the form with the card_token */
-        debug(`Setting token to ${response.token}`)
-        setToken(response.token)
+        debug(`Calculated card token as ${response.token}`)
+        // setToken(response.token)
 
-        /* Resubmit the form with the added card_token input. */
+        /* Submit the form with the added card_token input. */
         debug('Submitting')
-        Meteor.call('makePayment', {
+        const result = await Meteor.callAsync('makePayment', {
           // card_token: response.token,
+          // Need to make this real
           customer_token: 'cus_5yEM34e0ngYv_0yd-tDBYg',
-          amount: '12000',
+          amount: props.price.toString(),
           currency: 'AUD',
-          description: 'Advanced Testing',
+          description: 'Initial Testing',
           ip_address: '203.192.1.172',
           email: 'mikkelking@hotmail.com',
-          metadata: { OrderNumber: '123456', CustomerName: 'Freddie Mercury' }
+          metadata: { cartId: props.cartId, codes: props.codes }
         })
-        debug('Submitted ok')
+        debug('Submitted ok', result)
+        if (typeof result === 'string' && result.match(/^Request failed/i)) setStatus('error')
+        else setStatus('success')
       }
     )
   }
@@ -126,66 +123,72 @@ const BuyMe = props => {
     /* Clear any existing error messages. */
     const errors = {}
     /* Add each error message to their respective divs. */
-
-    err.messages.forEach(errMsg => {
-      errors[errMsg.param] = errMsg.message
-      if (refs[errMsg.param].current && refs[errMsg.param].current)
-        refs[errMsg.param].current.innerHTML = errMsg.message
-    })
-    debug('Errors:', errors)
-    // setErrors(errors)
+    debug(err)
+    if (err.messages) {
+      err.messages.forEach(errMsg => {
+        errors[errMsg.param] = errMsg.message
+        if (refs[errMsg.param].current && refs[errMsg.param].current)
+          refs[errMsg.param].current.innerHTML = errMsg.message
+      })
+      debug('Errors:', errors)
+    } else {
+      if (err.error_description) {
+        setStatus('error')
+      }
+    }
   }
 
   const submitForm = e => {
+    debug('Tokenising fields')
     e.preventDefault()
-    if (token === '') {
-      debug('Tokenising fields')
-      e.preventDefault()
-      tokenizeHostedFields()
-    }
+    tokenizeHostedFields()
   }
-  return (
-    <Form id="payment_form" action="/payment-confirm" method="post">
-      <label htmlFor="name">
-        Full name <Required />
-        <ErrMsg id="ename" ref={refs.name}>
-          {errors.name}
-        </ErrMsg>
-      </label>
-      <br />
-      <div id="name" />
 
-      <label htmlFor="number">
-        Card number <Required />
-        <ErrMsg id="enumber" ref={refs.number}>
-          {errors.number}
-        </ErrMsg>
-      </label>
-      <br />
-      <div id="number" />
+  switch (status) {
+    case 'error':
+      return <div>Something went wrong</div>
+    case 'success':
+      return <div>Payment succeeded</div>
+    case 'entry':
+      return (
+        <Form id="payment_form" action="/payment-confirm" method="post">
+          <div>
+            Product codes: {props.codes}, Total price: {props.price}
+          </div>
+          <label htmlFor="name">
+            Full name <Required />
+            <ErrMsg id="ename" ref={refs.name} />
+          </label>
+          <br />
+          <div id="name" />
 
-      <label htmlFor="cvc">
-        CVC <Required />
-        <ErrMsg id="ecvc" ref={refs.cvc}>
-          {errors.cvc}
-        </ErrMsg>
-      </label>
-      <br />
-      <div id="cvc" />
+          <label htmlFor="number">
+            Card number <Required />
+            <ErrMsg id="enumber" ref={refs.number} />
+          </label>
+          <br />
+          <div id="number" />
 
-      <label htmlFor="expiry">
-        Expiry <Required />
-        <ErrMsg id="eexpiry" ref={refs.expiry}>
-          {errors.expiry}
-        </ErrMsg>
-      </label>
-      <br />
-      <div id="expiry" />
+          <label htmlFor="cvc">
+            CVC <Required />
+            <ErrMsg id="ecvc" ref={refs.cvc} />
+          </label>
+          <br />
+          <div id="cvc" />
 
-      <input type="hidden" defaultValue={token} id="card_token" />
-      <input type="submit" onClick={submitForm} id="form-submit" />
-    </Form>
-  )
+          <label htmlFor="expiry">
+            Expiry <Required />
+            <ErrMsg id="eexpiry" ref={refs.expiry} />
+          </label>
+          <br />
+          <div id="expiry" />
+
+          <input type="submit" onClick={submitForm} id="form-submit" />
+        </Form>
+      )
+    default:
+      return <div>Something unexpected happened</div>
+  }
 }
 
 export default BuyMe

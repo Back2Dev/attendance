@@ -19,20 +19,24 @@ const Checkout = props => {
         </Segment>
       </div>
     )
-  } 
-    return (
-      <div>
-        <h4>Checkout </h4>
-        <Card.Group>
-          {state.products.map(p => {
-            return <ProductCard {...p} key={p._id} mode="remove" />
-          })}
-        </Card.Group>
-        <hr />
-        <BuyMe />
-      </div>
-    )
-  
+  }
+  const codes = state.products
+    .map(prod => {
+      return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
+    })
+    .join(',')
+  return (
+    <div>
+      <h4>Checkout </h4>
+      <Card.Group>
+        {state.products.map(p => {
+          return <ProductCard {...p} key={p._id} mode="remove" />
+        })}
+      </Card.Group>
+      <hr />
+      <BuyMe cartId={state._id} codes={codes} price={state.price} />
+    </div>
+  )
 }
 
 export default Checkout

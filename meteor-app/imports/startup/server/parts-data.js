@@ -3,9 +3,9 @@ import Orders from '/imports/api/orders/schema'
 
 Meteor.methods({
  
-  async 'seed.order'() {
+  'seed.order'() {
     try {
-      await Orders.insert ({
+      Orders.insert ({
         status: 1,
         additionalNotes: null,
         orderedParts: [],

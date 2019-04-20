@@ -1,23 +1,23 @@
-const HostedFields = new function () {
-  this.create = function (t) {
+const HostedFields = new function() {
+  this.create = function(t) {
     return new e(t)
   }
-  var e = function (e) {
+  var e = function(e) {
     function t(e, t, n) {
       n || (n = '*'), e.postMessage(JSON.stringify(t), n)
     }
     function n(e) {
       window.addEventListener(
         'message',
-        (t) => {
-          e(JSON.parse(t.data), t)
+        t => {
+          if (typeof t.data === 'string') e(JSON.parse(t.data), t)
         },
         !1
       )
     }
     function i(e) {
-      B[`tokenize.${  e.requestId}`] &&
-        B[`tokenize.${  e.requestId}`].forEach((t) => {
+      B[`tokenize.${e.requestId}`] &&
+        B[`tokenize.${e.requestId}`].forEach(t => {
           t(e.err, e.response)
         })
     }
@@ -46,7 +46,7 @@ const HostedFields = new function () {
     }
     function l(e, t) {
       e &&
-        (e.className ? e.className.includes && !e.className.includes(t) && (e.className += ` ${  t}`) : (e.className = t))
+        (e.className ? e.className.includes && !e.className.includes(t) && (e.className += ` ${t}`) : (e.className = t))
     }
     function f(e, t) {
       e &&
@@ -57,8 +57,8 @@ const HostedFields = new function () {
           .replace(/\s\s+/g, ' '))
     }
     function d(e, n) {
-      Object.keys(e).forEach((i) => {
-        (J[i] = !1),
+      Object.keys(e).forEach(i => {
+        ;(J[i] = !1),
           h(e[i].selector, i, e[i], (e, o) => {
             let s = { type: 'applyStyles', data: n }
             t(e.contentWindow, s), u(e, o), g(i)
@@ -70,10 +70,10 @@ const HostedFields = new function () {
       if (t.labelSelector) n = document.querySelectorAll(t.labelSelector)
       else {
         let i = t.selector.replace('#', '')
-        n = document.querySelectorAll(`label[for="${  i  }"]`)
+        n = document.querySelectorAll(`label[for="${i}"]`)
       }
       n.forEach &&
-        n.forEach((t) => {
+        n.forEach(t => {
           t.addEventListener('click', () => {
             e && e.contentWindow.focus()
           })
@@ -90,7 +90,7 @@ const HostedFields = new function () {
         })
     }
     function p() {
-      return `${I  }/hosted_fields.html?instance_identifier=${  W}`
+      return `${I}/hosted_fields.html?instance_identifier=${W}`
     }
     function h(e, t, n, i) {
       let o = document.querySelector(e),
@@ -115,13 +115,13 @@ const HostedFields = new function () {
       )
     }
     function v(e, t) {
-      let n = `${I  }/field.html?field_name=${  e  }&instance_identifier=${  W}`
-      return t.placeholder && (n += `&placeholder=${  w(t.placeholder)}`), M && (n += `&autocomplete=${  M}`), n
+      let n = `${I}/field.html?field_name=${e}&instance_identifier=${W}`
+      return t.placeholder && (n += `&placeholder=${w(t.placeholder)}`), M && (n += `&autocomplete=${M}`), n
     }
     function g(e) {
       J[e] = !0
       let t = !0
-      Object.keys(J).forEach((e) => {
+      Object.keys(J).forEach(e => {
         J[e] || (t = !1)
       }),
         t && b()
@@ -137,15 +137,15 @@ const HostedFields = new function () {
       q(e, 'options must be a hash'),
         E(e, 'fields', 'options.fields is required'),
         q(e.fields, 'options.fields must be a hash'),
-        S(Object.keys(e.fields), 4, `options.fields must contain exactly 4 keys, ${  A}`),
-        A.forEach((t) => {
-          E(e.fields, t, `options.fields must contain key :: ${  t}`),
-            E(e.fields[t], 'selector', `options.fields.${  t  }.selector must be present`),
-            N(e.fields[t].selector, 'string', `options.fields.${  t  }.selector must a string`)
+        S(Object.keys(e.fields), 4, `options.fields must contain exactly 4 keys, ${A}`),
+        A.forEach(t => {
+          E(e.fields, t, `options.fields must contain key :: ${t}`),
+            E(e.fields[t], 'selector', `options.fields.${t}.selector must be present`),
+            N(e.fields[t].selector, 'string', `options.fields.${t}.selector must a string`)
           let n = document.querySelectorAll(e.fields[t].selector)
-          S(n, 1, 'Selector for field \'' + t + '\' matches ' + n.length + ' elements, must match exactly 1 element'),
+          S(n, 1, "Selector for field '" + t + "' matches " + n.length + ' elements, must match exactly 1 element'),
             e.fields[t].labelSelector &&
-              N(e.fields[t].labelSelector, 'string', `options.fields.${  t  }.labelSelector must a string`)
+              N(e.fields[t].labelSelector, 'string', `options.fields.${t}.labelSelector must a string`)
         })
     }
     function S(e, t, n) {
@@ -181,43 +181,43 @@ const HostedFields = new function () {
       B = {},
       D = 0,
       J = {}
-      ;(O.tokenize = function (e, n) {
+    ;(O.tokenize = function(e, n) {
       q(e, 'Params must be a hash'), N(n, 'function', 'Tokenize callback must be a function')
       let i = { type: 'tokenize', params: e, sandbox: L, requestId: ++D }
-      ;(B[`tokenize.${  i.requestId}`] = [n]), t(C.contentWindow, i)
+      ;(B[`tokenize.${i.requestId}`] = [n]), t(C.contentWindow, i)
     }),
-      (O.on = function (e, t) {
+      (O.on = function(e, t) {
         B[e] || (B[e] = []), B[e].push(t)
       }),
-      (O.trigger = function (e, t) {
+      (O.trigger = function(e, t) {
         B[e.type] &&
-          B[e.type].forEach((n) => {
+          B[e.type].forEach(n => {
             n(e, t)
           })
       }),
-      (function () {
+      (function() {
         k(e),
           e.sandbox && (L = e.sandbox),
           e.autocomplete && (M = e.autocomplete),
-          m((t) => {
-            (C = t), d(e.fields, e.styles)
+          m(t => {
+            ;(C = t), d(e.fields, e.styles)
           }),
-          n((e) => {
+          n(e => {
             switch (e.type) {
-            case 'tokenizeResponse':
-              i(e)
-              break
-            case 'validityChange':
-              c(e), s(e)
-              break
-            case 'cardTypeChange':
-              o(e)
-              break
-            default:
-              a(e)
+              case 'tokenizeResponse':
+                i(e)
+                break
+              case 'validityChange':
+                c(e), s(e)
+                break
+              case 'cardTypeChange':
+                o(e)
+                break
+              default:
+                a(e)
             }
           })
-      }())
+      })()
   }
 }()
 
