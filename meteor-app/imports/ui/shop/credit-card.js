@@ -1,6 +1,7 @@
 import React from 'react'
 import HostedFields from './pin'
 import { Form } from 'semantic-ui-react'
+import { CartContext } from './cart-data'
 
 const debug = require('debug')('b2b:shop')
 
@@ -11,7 +12,7 @@ const ErrMsg = React.forwardRef((props, ref) => (
 ))
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
-const BuyMe = props => {
+const CreditCard = props => {
   let fields = {}
   const refs = {
     name: React.useRef(),
@@ -20,6 +21,7 @@ const BuyMe = props => {
     expiry: React.useRef()
   }
   const [status, setStatus] = React.useState('entry')
+  const { state, dispatch } = React.useContext(CartContext)
   React.useEffect(props => {
     if (status === 'entry') {
       debug(`calling HostedFields ${status}`)
@@ -75,46 +77,45 @@ const BuyMe = props => {
   function tokenizeHostedFields() {
     /*
     Tokenise the card. This requires address details not included in the hosted fields
-    which can be pulled from elsewhere (such as other form elements).
   */
-    fields.tokenize(
+    const address = Object.assign(
       {
-        publishable_api_key: Meteor.settings.public.paymentApiKey,
-        address_line1: '71 Carter St',
-        address_line2: '',
-        address_city: 'Middle Park',
-        address_postcode: '3206',
-        address_state: 'VIC',
-        address_country: 'Australia'
+        publishable_api_key: Meteor.settings.public.paymentApiKey
       },
-      async (err, response) => {
-        if (err) {
-          handleErrors(err)
-          return
-        }
-
-        /* Append a hidden element to the form with the card_token */
-        debug(`Calculated card token as ${response.token}`)
-        // setToken(response.token)
-
-        /* Submit the form with the added card_token input. */
-        debug('Submitting')
-        const result = await Meteor.callAsync('makePayment', {
-          // card_token: response.token,
-          // Need to make this real
-          customer_token: 'cus_5yEM34e0ngYv_0yd-tDBYg',
-          amount: props.price.toString(),
-          currency: 'AUD',
-          description: 'Initial Testing',
-          ip_address: '203.192.1.172',
-          email: 'mikkelking@hotmail.com',
-          metadata: { cartId: props.cartId, codes: props.codes }
-        })
-        debug('Submitted ok', result)
-        if (typeof result === 'string' && result.match(/^Request failed/i)) setStatus('error')
-        else setStatus('success')
-      }
+      state.creditCard
     )
+
+    fields.tokenize(address, async (err, response) => {
+      if (err) {
+        handleErrors(err)
+        return
+      }
+
+      debug(`Calculated card token as ${response.token}`, response)
+
+      /* Submit the form with the added card_token input. */
+      debug('Submitting')
+      const mapping = { token: 'card_token' }
+      const packet = {
+        // Need to make this real
+        //  customer_token: 'cus_5yEM34e0ngYv_0yd-tDBYg',
+        amount: price.toString(),
+        currency: 'AUD',
+        description: 'Initial Testing',
+        ip_address: '203.192.1.172',
+        email: 'mikkel@almsford.org',
+        metadata: { cartId, codes }
+      }
+      Object.keys(response).forEach(key => {
+        packet[mapping[key] || key] = response[key]
+      })
+      debug('Sending ', packet)
+      // const result = await Meteor.callAsync('makePayment', packet)
+      const result = await Meteor.callAsync('createCustomer', packet)
+      debug('Submitted ok', result)
+      if (typeof result === 'string' && result.match(/^Request failed/i)) setStatus('error')
+      else setStatus('success')
+    })
   }
 
   /* Handles rendering of the error messages to the form. */
@@ -144,51 +145,50 @@ const BuyMe = props => {
     tokenizeHostedFields()
   }
 
-  switch (status) {
-    case 'error':
-      return <div>Something went wrong</div>
-    case 'success':
-      return <div>Payment succeeded</div>
-    case 'entry':
-      return (
-        <Form id="payment_form" action="/payment-confirm" method="post">
-          <div>
-            Product codes: {props.codes}, Total price: {props.price}
-          </div>
-          <label htmlFor="name">
-            Full name <Required />
-            <ErrMsg id="ename" ref={refs.name} />
-          </label>
-          <br />
-          <div id="name" />
+  const codes = state.products
+    .map(prod => {
+      return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
+    })
+    .join(',')
 
-          <label htmlFor="number">
-            Card number <Required />
-            <ErrMsg id="enumber" ref={refs.number} />
-          </label>
-          <br />
-          <div id="number" />
+  const { _id: cardId, price } = state
 
-          <label htmlFor="cvc">
-            CVC <Required />
-            <ErrMsg id="ecvc" ref={refs.cvc} />
-          </label>
-          <br />
-          <div id="cvc" />
+  return (
+    <Form id="payment_form" action="/payment-confirm" method="post">
+      <div>
+        Product codes: {codes}, Total price: {price}
+      </div>
+      <label htmlFor="name">
+        Full name <Required />
+        <ErrMsg id="ename" ref={refs.name} />
+      </label>
+      <br />
+      <div id="name" />
 
-          <label htmlFor="expiry">
-            Expiry <Required />
-            <ErrMsg id="eexpiry" ref={refs.expiry} />
-          </label>
-          <br />
-          <div id="expiry" />
+      <label htmlFor="number">
+        Card number <Required />
+        <ErrMsg id="enumber" ref={refs.number} />
+      </label>
+      <br />
+      <div id="number" />
 
-          <input type="submit" onClick={submitForm} id="form-submit" />
-        </Form>
-      )
-    default:
-      return <div>Something unexpected happened</div>
-  }
+      <label htmlFor="cvc">
+        CVC <Required />
+        <ErrMsg id="ecvc" ref={refs.cvc} />
+      </label>
+      <br />
+      <div id="cvc" />
+
+      <label htmlFor="expiry">
+        Expiry <Required />
+        <ErrMsg id="eexpiry" ref={refs.expiry} />
+      </label>
+      <br />
+      <div id="expiry" />
+
+      <input type="submit" onClick={submitForm} id="form-submit" />
+    </Form>
+  )
 }
 
-export default BuyMe
+export default CreditCard

@@ -9,6 +9,7 @@
   },
   "private": {
     "paymentURL": "https://test-api.pinpayments.com/1/charges",
+    "customerURL": "https://test-api.pinpayments.com/1/customers",
     "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA"
   },
   "public": {
@@ -21,7 +22,7 @@
     "shop": 1,
     "org": "Back2bikes",
     "orgid": "b2b",
-    "paymentApiKey": "pk_D0YUJidDxWzUsL4rSpmLCQ",
+    "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
     "paymentSite": "https://pay.pinpayments.com/r516/test/",
     "tagline": "Come and train with us, either on a multi-pass or a membership... because you are worth it."
   }

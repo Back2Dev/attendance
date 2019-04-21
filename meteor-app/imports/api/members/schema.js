@@ -10,88 +10,98 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     regEx: REGEX_ID,
     label: 'Unique _id',
-    optional: false,
+    optional: false
   },
   name: {
     type: String,
     label: 'Name',
-    max: 128,
+    max: 128
   },
   email: {
     type: String,
     label: 'Email Address',
-    optional: true,
+    optional: true
   },
   addressStreet: {
     type: String,
     label: 'Street address',
-    optional: true,
+    optional: true
+  },
+  addressStreet2: {
+    type: String,
+    label: 'Street address 2',
+    optional: true
   },
   addressSuburb: {
     type: String,
     label: 'Suburb',
-    optional: true,
+    optional: true
   },
   addressState: {
     type: String,
     label: 'State',
-    optional: true,
+    optional: true
   },
   addressPostcode: {
     type: String,
     label: 'Postcode',
-    optional: true,
+    optional: true
+  },
+  addressCountry: {
+    type: String,
+    label: 'Country',
+    optional: true
   },
   phone: {
     type: String,
     label: 'Phone number',
-    optional: true,
+    optional: true
   },
   mobile: {
     type: String,
     label: 'Mobile number',
-    optional: true,
+    optional: true
   },
   avatar: {
     type: String,
     label: 'Avatar file name',
-    defaultValue: 'default.jpg',
+    defaultValue: 'default.jpg'
   },
   isHere: {
     type: Boolean,
     label: 'Is signed in',
-    defaultValue: false,
+    defaultValue: false
   },
   isSuper: {
     type: Boolean,
     label: 'Is supervisor',
-    defaultValue: false,
+    defaultValue: false
   },
   joined: {
     type: Date,
     label: 'Date added to database',
-    defaultValue: new Date(),
+    defaultValue: new Date()
   },
   lastIn: {
     type: Date,
     label: 'Date of last interaction',
-    defaultValue: new Date(),
+    defaultValue: new Date()
   },
   sessions: {
     type: Array,
     label: 'Array of sessions attended',
     defaultValue: [],
-    blackbox: true,
+    blackbox: true
   },
   'sessions.$': Object,
   sessionCount: {
     type: Number,
-    defaultValue: 0,
+    defaultValue: 0
   },
   bikesHousehold: {
     type: Number,
     label: 'Number of bikes in household',
-    optional: true,
+    optional: true
   },
   primaryBike: {
     type: String,
@@ -105,7 +115,7 @@ export const MembersSchema = new SimpleSchema({
     //   "Fixie/Single Speed"
     // ],
     label: 'Primary Bike',
-    optional: true,
+    optional: true
   },
   workStatus: {
     type: String,
@@ -118,37 +128,37 @@ export const MembersSchema = new SimpleSchema({
     //   "Retired"
     // ],
     label: 'Work status',
-    optional: true,
+    optional: true
   },
   reasons: {
     type: String,
     label: 'Reasons for volunteering',
-    optional: true,
+    optional: true
   },
   emergencyContact: {
     type: String,
     label: 'Emergency contact name',
-    optional: true,
+    optional: true
   },
   emergencyEmail: {
     type: String,
     label: 'Emergency contact email address',
-    optional: true,
+    optional: true
   },
   emergencyPhone: {
     type: String,
     label: 'Emergency contact phone',
-    optional: true,
+    optional: true
   },
   emergencyMobile: {
     type: String,
     label: 'Emergency contact mobile',
-    optional: true,
+    optional: true
   },
   pin: {
     type: String,
     label: 'Pin number',
-    optional: true,
+    optional: true
   },
   //
   // Payment system attributes
@@ -156,41 +166,70 @@ export const MembersSchema = new SimpleSchema({
   paymentCustId: {
     type: String,
     label: 'Payment cust Id associated with customer',
-    optional: true,
+    optional: true
   },
   cardToken: {
     type: String,
     label: 'Card token given to us from payments system',
-    optional: true,
+    optional: true
   },
   cardBrand: {
     type: String,
     label: 'Card brand on file for user',
-    optional: true,
+    optional: true
   },
   cardExpMonth: {
     type: Number,
     label: 'Card expiry month',
-    optional: true,
+    optional: true
   },
   cardExpYear: {
     type: Number,
     label: 'Card expiry year',
-    optional: true,
+    optional: true
   },
   cardDisplay: {
     type: String,
     label: 'Card display (only shows last 4 digits)',
-    optional: true,
+    optional: true
+  },
+  cardCountry: {
+    type: String,
+    label: 'Country of issue',
+    optional: true
   },
   //
   // End of payment system data
   //
   createdAt,
-  updatedAt,
+  updatedAt
 })
 Members.attachSchema(MembersSchema)
 
 export default Members
+
+//
+// Pin Payments card data field mapping
+//
+export const pinCardFieldMap = {
+  customer_token: 'paymentCustId',
+  card_token: 'cardToken',
+  scheme: 'cardBrand',
+  expiry_month: 'cardExpMonth',
+  expiry_year: 'cardExpYear',
+  display_number: 'cardDisplay',
+  issuing_country: 'cardCountry',
+  expiry_month: 'cardExpMonth',
+  expiry_year: 'cardExpYear'
+}
+
+export const pinAddressFieldMap = {
+  address_line1: 'streetAddress',
+  address_line2: 'streetAddress2',
+  address_city: 'streetSuburb',
+  address_postcode: 'addressPostcode',
+  address_state: 'addressState',
+  address_country: 'addressCountry'
+}
 
 export const Dupes = new Mongo.Collection('dupes')

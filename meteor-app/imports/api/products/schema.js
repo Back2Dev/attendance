@@ -102,6 +102,19 @@ export const ProductsSchema = new SimpleSchema({
 
 const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt')
 
+export const CreditCardSchema = new SimpleSchema({
+  address_line1: String,
+  address_line2: {
+    type: String,
+    optional: true
+  },
+  address_city: String,
+  address_postcode: String,
+  address_state: String,
+  address_country: { type: String, optional: true },
+  card_token: { type: String, optional: true }
+})
+
 export const CartsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: OptionalRegExId,
@@ -126,6 +139,10 @@ export const CartsSchema = new SimpleSchema({
     optional: true
   },
   'products.$': ProductListSchema,
+  creditCard: {
+    type: CreditCardSchema,
+    optional: true
+  },
   createdAt,
   updatedAt
 })

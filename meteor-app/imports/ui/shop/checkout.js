@@ -3,7 +3,6 @@ import { Card, Segment, Button } from 'semantic-ui-react'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
-import BuyMe from './buy-me'
 
 const Checkout = props => {
   const { state, dispatch } = React.useContext(CartContext)
@@ -20,11 +19,6 @@ const Checkout = props => {
       </div>
     )
   }
-  const codes = state.products
-    .map(prod => {
-      return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
-    })
-    .join(',')
   return (
     <div>
       <h4>Checkout </h4>
@@ -34,7 +28,9 @@ const Checkout = props => {
         })}
       </Card.Group>
       <hr />
-      <BuyMe cartId={state._id} codes={codes} price={state.price} />
+      <Button type="button" color="green" floated="right" onClick={() => props.history.push('/shop/address')}>
+        Buy now
+      </Button>
     </div>
   )
 }
