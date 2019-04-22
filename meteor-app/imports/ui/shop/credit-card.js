@@ -5,24 +5,27 @@ import { CartContext } from './cart-data'
 
 const debug = require('debug')('b2b:shop')
 
-const ErrMsg = React.forwardRef((props, ref) => (
-  <span style={{ fontSize: '9px', color: 'red' }} {...props} ref={ref}>
+const ErrMsg = props => (
+  <span style={{ fontSize: '9px', color: 'red' }} {...props} >
     {props.children}
   </span>
-))
+)
+
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
 const CreditCard = props => {
   let fields = {}
-  const refs = {
-    name: React.useRef(),
-    cvc: React.useRef(),
-    number: React.useRef(),
-    expiry: React.useRef()
-  }
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [errors,setErrors] = React.useState({})
+  const codes = state.products
+    .map(prod => {
+      return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
+    })
+    .join(',')
+
+  const { _id: cardId, price, email } = state
+
   React.useEffect(props => {
     debug('useEffect',props)
     if (status === 'entry') {
@@ -100,13 +103,10 @@ const CreditCard = props => {
       debug('Submitting')
       const mapping = { token: 'card_token' }
       const packet = {
-        // Need to make this real
-        //  customer_token: 'cus_5yEM34e0ngYv_0yd-tDBYg',
         amount: price.toString(),
         currency: 'AUD',
-        description: 'Initial Testing',
-        ip_address: '203.192.1.172',
-        email: 'mikkel@almsford.org',
+        description: 'Purchase',
+        email,
         metadata: { cartId, codes }
       }
       Object.keys(response).forEach(key => {
@@ -136,8 +136,6 @@ const CreditCard = props => {
     if (err.messages) {
       err.messages.forEach(errMsg => {
         errors[errMsg.param] = errMsg.message
-        if (refs[errMsg.param].current && refs[errMsg.param].current)
-          refs[errMsg.param].current.innerHTML = errMsg.message
       })
       debug('Errors:', errors)
       setErrors(errors)
@@ -154,14 +152,6 @@ const CreditCard = props => {
     tokenizeHostedFields()
   }
 
-  const codes = state.products
-    .map(prod => {
-      return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
-    })
-    .join(',')
-
-  const { _id: cardId, price } = state
-
   return (
     <Form id="payment_form" action="/payment-confirm" method="post">
       <div>
@@ -169,28 +159,28 @@ const CreditCard = props => {
       </div>
       <label htmlFor="name">
         Full name <Required />
-        <ErrMsg id="ename" ref={refs.name} />
+        <ErrMsg >{errors.name}</ErrMsg>
       </label>
       <br />
       <div id="name" />
 
       <label htmlFor="number">
         Card number <Required />
-        <ErrMsg id="enumber" ref={refs.number} />
+        <ErrMsg >{errors.number}</ErrMsg>
       </label>
       <br />
       <div id="number" />
 
       <label htmlFor="cvc">
         CVC <Required />
-        <ErrMsg id="ecvc" ref={refs.cvc} />
+        <ErrMsg>{errors.cvc}</ErrMsg>
       </label>
       <br />
       <div id="cvc" />
 
       <label htmlFor="expiry">
         Expiry <Required />
-        <ErrMsg id="eexpiry" ref={refs.expiry} />
+        <ErrMsg >{errors.expiry}</ErrMsg>
       </label>
       <br />
       <div id="expiry" />

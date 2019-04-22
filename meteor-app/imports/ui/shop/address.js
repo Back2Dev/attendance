@@ -5,6 +5,7 @@ import { CartContext } from './cart-data'
 
 const debug = require('debug')('b2b:shop')
 
+const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 const ErrMsg = props => <span style={{ fontSize: '9px', color: 'red' }}>{props.children}</span>
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
@@ -14,8 +15,8 @@ const Address = props => {
   const [e, setError] = React.useState([])
 
   const fieldChange = event => {
-    const addr = cloneDeep(a)
-    debug(`changed: ${event.target.name} => ${event.target.value}`)
+    const addr = Object.assign({}, a)
+    // debug(`changed: ${event.target.name} => ${event.target.value}`)
     addr[event.target.name] = event.target.value
     setAddress(addr)
     setError([])
@@ -23,14 +24,16 @@ const Address = props => {
 
   const submitAddress = event => {
     event.preventDefault()
-    const required = 'line1 city postcode state'.split(/\s+/)
+    const required = 'email line1 city postcode state'.split(/\s+/)
     const errs = []
+
     // If we are valid...
     if (
       required
         .map(field => {
-          const f = `address_${field}`
-          const isValid = a[f] && a[f] !== ''
+          const f = field === 'email' ? 'email' : `address_${field}`
+          let isValid = a[f] && a[f] !== ''
+          if (isValid && field === 'email') isValid = emailRegex.test(a.email)
           if (!isValid) errs.push(field)
           debug(`${f}: ${a[f]} ${isValid}`)
           return isValid
@@ -43,10 +46,18 @@ const Address = props => {
     } else setError(errs)
   }
 
-  const isAbsent = name => e.indexOf(name) === -1
-
   return (
     <Form id="address_form" action="" method="post" size="mini">
+      <Form.Input
+        fluid
+        error={e.indexOf('email') !== -1}
+        label="Email"
+        placeholder="Email"
+        defaultValue={a.email}
+        onChange={fieldChange}
+        name="email"
+      />
+
       <Form.Input
         fluid
         error={e.indexOf('line1') !== -1}
@@ -107,7 +118,7 @@ const Address = props => {
         name="address_country"
       />
 
-      {e.length > 1 && <Message negative header="Oops, your address is missing:" content={e.join(', ')} />}
+      {e.length > 0 && <Message negative header="Oops, your address is missing:" content={e.join(', ')} />}
       <Button size="mini" type="button" color="green" floated="right" onClick={submitAddress}>
         Next
       </Button>
