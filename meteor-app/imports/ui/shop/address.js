@@ -9,9 +9,9 @@ const ErrMsg = props => <span style={{ fontSize: '9px', color: 'red' }}>{props.c
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
 const Address = props => {
-  const [a, setAddress] = React.useState({})
-  const [e, setError] = React.useState([])
   const { state, dispatch } = React.useContext(CartContext)
+  const [a, setAddress] = React.useState(state.creditCard || {})
+  const [e, setError] = React.useState([])
 
   const fieldChange = event => {
     const addr = cloneDeep(a)

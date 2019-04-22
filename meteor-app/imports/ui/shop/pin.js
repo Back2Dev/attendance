@@ -10,7 +10,12 @@ const HostedFields = new function() {
       window.addEventListener(
         'message',
         t => {
-          if (typeof t.data === 'string') e(JSON.parse(t.data), t)
+          // console.log(t)
+          try{
+            if (t.data && typeof t.data === 'string') e(JSON.parse(t.data), t)
+          } catch(e) {
+            // Don't complain about unexpected messages
+          }
         },
         !1
       )

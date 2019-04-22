@@ -8,7 +8,7 @@ import Checkout from './checkout'
 import Address from './address'
 import CreditCard from './credit-card'
 import Failed from './failed'
-import Paid from './paid'
+import Receipt from './receipt'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 
@@ -22,7 +22,7 @@ const ShopFront = props => {
         <Route path="/shop/checkout" exact component={Checkout} />
         <Route path="/shop/address" exact component={Address} />
         <Route path="/shop/credit-card" exact component={CreditCard} />
-        <Route path="/shop/paid" exact component={Paid} />
+        <Route path="/shop/receipt" exact component={Receipt} />
         <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
       </Switch>

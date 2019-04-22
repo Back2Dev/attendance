@@ -73,8 +73,8 @@ Meteor.methods({
     debug(`Sending charge to ${customerURL}`, request)
     try {
       const response = await axios(request)
-      debug(response)
-      return response
+      debug(`status: ${response.status} ${response.statusText}`, response.data)
+      return response.data
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)

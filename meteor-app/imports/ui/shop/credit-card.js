@@ -20,10 +20,13 @@ const CreditCard = props => {
     number: React.useRef(),
     expiry: React.useRef()
   }
-  const [status, setStatus] = React.useState('entry')
+  let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
+  const [errors,setErrors] = React.useState({})
   React.useEffect(props => {
+    debug('useEffect',props)
     if (status === 'entry') {
+      status = 'loading'
       debug(`calling HostedFields ${status}`)
       fields = HostedFields.create({
         /* Set this to true when testing. Set it to false in production. */
@@ -67,7 +70,7 @@ const CreditCard = props => {
         }
       })
     }
-  })
+  },[])
 
   /*
     Tokenises the hosted fields. Appends a hidden field for card_token on success, adds
@@ -113,8 +116,13 @@ const CreditCard = props => {
       // const result = await Meteor.callAsync('makePayment', packet)
       const result = await Meteor.callAsync('createCustomer', packet)
       debug('Submitted ok', result)
-      if (typeof result === 'string' && result.match(/^Request failed/i)) setStatus('error')
-      else setStatus('success')
+      if (typeof result === 'string' && result.match(/^Request failed/i)) {
+      props.history.push('/shop/failed')
+      }
+      else{
+        // Save the result here, and show the payment receipt
+      props.history.push('/shop/receipt')
+      }
     })
   }
 
@@ -132,9 +140,10 @@ const CreditCard = props => {
           refs[errMsg.param].current.innerHTML = errMsg.message
       })
       debug('Errors:', errors)
+      setErrors(errors)
     } else {
       if (err.error_description) {
-        setStatus('error')
+        // setStatus('error')
       }
     }
   }

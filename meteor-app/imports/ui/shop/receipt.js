@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Paid = props => (
+const Receipt = props => (
   <div>
     Thanks for the payment{' '}
     <p>
@@ -11,4 +11,4 @@ const Paid = props => (
   </div>
 )
 
-export default Paid
+export default Receipt
