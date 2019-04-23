@@ -23,7 +23,7 @@
     "org": "Back2bikes",
     "orgid": "b2b",
     "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
-    "paymentSite": "https://pay.pinpayments.com/r516/test/",
+    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
     "tagline": "Come and train with us, either on a multi-pass or a membership... because you are worth it."
   }
 }

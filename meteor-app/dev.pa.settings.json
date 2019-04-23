@@ -5,7 +5,7 @@
   },
   "private": {
     "paymentURL": "https://test-api.pinpayments.com/1/charges",
-    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA"
+    "paymentApiKey": "WYDzy5lEFLpH3RwS-3F45w"
   },
   "public": {
     "logo": "/images/pa-logo.jpg",
