@@ -117,8 +117,65 @@ Meteor.methods({
         for security reasons (unless you know a secret code)`)
     }
   },
-  'update.email': data => {
+  'update.wix.email': (data, force) => {
     // name	first	last	photo	email1type	email1	email2type	email2	phone1type	phone1	phone2type	phone2	phone3type	phone3
+    let countTotal = 0
+    if (Meteor.isClient) return
+    try {
+      debug(`Loading names from spreadsheet data: ${data}`)
+      const wb = XLSX.readFile(data)
+      const sheets = wb.SheetNames
+      for (const s of sheets) {
+        try {
+          const people = XLSX.utils.sheet_to_json(wb.Sheets[s], {
+            // raw: true
+            // header: ['partNo', 'name', 'wholesalePrice', 'barcode']
+          })
+          people.forEach(p => {
+            //First Name	Last Name	Email	Phone
+            const r = {}
+            r.name = `${p['First Name']} ${p['Last Name']}`
+            r.email = p.Email
+            r.mobile = p.Phone
+            if (!r.name || r.name === 'undefined undefined') return null
+            if (r.mobile && r.mobile.length === 9 && r.mobile.match(/^4/)) {
+              r.mobile = `0${r.mobile}`
+            }
+            r.name = r.name.replace(/undefined/g, '').trim()
+            const searchFor = new RegExp(r.name, 'i')
+            const m = Members.findOne({ name: searchFor })
+            if (m) {
+              const details = {}
+              if (r.email) details.email = r.email
+              if (r.mobile) details.mobile = r.mobile
+              if (details) {
+                'mobile email'.split(/\s+/).forEach(key => {
+                  if (details[key]) details[key] = details[key].replace(/Â/g, '')
+                  if (!force && m[key] && m[key] !== '') {
+                    delete details[key]
+                  }
+                })
+                if (Object.keys(details).length) {
+                  debug(`Updating ${m.name}`, details)
+                  Members.update(m._id, { $set: details })
+                  countTotal++
+                }
+              } else {
+                debug(`No mobile or email for ${m.name}`)
+              }
+            } else debug(`Not found: ${r.name}`)
+          })
+        } catch (e) {
+          console.error(`Couldn't update emails from worksheet ${s}: `, e)
+        }
+      }
+      return countTotal
+    } catch (e) {
+      debug(e)
+      throw new Meteor.Error(500, e)
+    }
+  },
+  'update.email': (data, force) => {
     let countTotal = 0
     if (Meteor.isClient) return
     const getDetails = (name, r) => {
@@ -143,7 +200,7 @@ Meteor.methods({
       return result
     }
     try {
-      debug('Loading names from spreadsheet data')
+      debug(`Loading names from spreadsheet data: ${data}`)
       const wb = XLSX.readFile(data)
       const sheets = wb.SheetNames
       for (const s of sheets) {
@@ -160,13 +217,14 @@ Meteor.methods({
               if (details) {
                 'mobile phone email'.split(/\s+/).forEach(key => {
                   if (details[key]) details[key] = details[key].replace(/Â/g, '')
-                  // if (m[key] && m[key] !== '') {
-                  //   delete details[key]
-                  // }
+                  if (!force && m[key] && m[key] !== '') {
+                    delete details[key]
+                  }
                 })
                 if (Object.keys(details).length) {
                   debug(`Updating ${m.name}`, details)
                   Members.update(m._id, { $set: details })
+                  countTotal++
                 }
               } else {
                 debug(`No mobile or email for ${m.name}`)
