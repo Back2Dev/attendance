@@ -6,7 +6,7 @@ import { CartContext } from './cart-data'
 const debug = require('debug')('b2b:shop')
 
 const ErrMsg = props => (
-  <span style={{ fontSize: '9px', color: 'red' }} {...props} >
+  <span style={{ fontSize: '9px', color: 'red' }} {...props}>
     {props.children}
   </span>
 )
@@ -17,7 +17,7 @@ const CreditCard = props => {
   let fields = {}
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
-  const [errors,setErrors] = React.useState({})
+  const [errors, setErrors] = React.useState({})
   const codes = state.products
     .map(prod => {
       return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
@@ -27,7 +27,7 @@ const CreditCard = props => {
   const { _id: cardId, price, email } = state
 
   React.useEffect(props => {
-    debug('useEffect',props)
+    debug('useEffect', props)
     if (status === 'entry') {
       status = 'loading'
       debug(`calling HostedFields ${status}`)
@@ -73,7 +73,7 @@ const CreditCard = props => {
         }
       })
     }
-  },[])
+  }, [])
 
   /*
     Tokenises the hosted fields. Appends a hidden field for card_token on success, adds
@@ -117,11 +117,10 @@ const CreditCard = props => {
       const result = await Meteor.callAsync('createCustomer', packet)
       debug('Submitted ok', result)
       if (typeof result === 'string' && result.match(/^Request failed/i)) {
-      props.history.push('/shop/failed')
-      }
-      else{
+        props.history.push('/shop/failed')
+      } else {
         // Save the result here, and show the payment receipt
-      props.history.push('/shop/receipt')
+        props.history.push('/shop/receipt')
       }
     })
   }
@@ -159,14 +158,14 @@ const CreditCard = props => {
       </div>
       <label htmlFor="name">
         Full name <Required />
-        <ErrMsg >{errors.name}</ErrMsg>
+        <ErrMsg>{errors.name}</ErrMsg>
       </label>
       <br />
       <div id="name" />
 
       <label htmlFor="number">
         Card number <Required />
-        <ErrMsg >{errors.number}</ErrMsg>
+        <ErrMsg>{errors.number}</ErrMsg>
       </label>
       <br />
       <div id="number" />
@@ -180,7 +179,7 @@ const CreditCard = props => {
 
       <label htmlFor="expiry">
         Expiry <Required />
-        <ErrMsg >{errors.expiry}</ErrMsg>
+        <ErrMsg>{errors.expiry}</ErrMsg>
       </label>
       <br />
       <div id="expiry" />

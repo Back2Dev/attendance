@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-// import productTypes from './building'
 import { Button, Icon } from 'semantic-ui-react'
 import CartSummary from './cart-summary'
 
