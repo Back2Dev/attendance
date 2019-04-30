@@ -1,3 +1,5 @@
+# B2B Login flow
+
 ```mermaid
 graph TD
 classDef green fill:#9f6,stroke:#333,stroke-width:2px
@@ -10,11 +12,11 @@ HASDETAILS -- no details --> EDIT(Edit profile)
 HASPIN -- has PIN --> HASDETAILS
 EDIT -- saved --> SELECT
 LEGEND(Back2bikes sign in<br>Life cycle diagram)
-style LEGEND fill:lemonchiffon,stroke:#333,stroke-width:2px
-style HASPIN fill:lightblue,stroke:#333,stroke-width:2px
-style HASDETAILS fill:lightblue,stroke:#333,stroke-width:2px
-
+  style LEGEND fill:lemonchiffon,stroke:#333,stroke-width:2px
+    style HASPIN fill:lightblue,stroke:#333,stroke-width:2px
+    style HASDETAILS fill:lightblue,stroke:#333,stroke-width:2px
 ```
+
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbMjQyMzA1NTM3XX0=
 -->

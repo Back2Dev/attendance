@@ -18,7 +18,6 @@ ADDRESS --> PCI
 AUTH -- Success --> RECEIPT(Receipt)
 AUTH -- Fail --> FAIL(Failed)
 end
-
 LEGEND(Back2bikes shop<br>Life cycle diagram)
 CART(Cart)
 style LEGEND fill:lemonchiffon,stroke:#333,stroke-width:2px
