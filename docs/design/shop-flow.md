@@ -22,3 +22,6 @@ LEGEND(Back2bikes shop<br>Life cycle diagram)
 CART(Cart)
 style LEGEND fill:lemonchiffon,stroke:#333,stroke-width:2px
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTY1ODkyMDIzNl19
+-->
