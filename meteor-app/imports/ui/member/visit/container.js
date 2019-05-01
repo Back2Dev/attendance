@@ -51,11 +51,6 @@ export default withTracker(props => {
     validPin.set(true)
   }
 
-  function changeAvatar(avatar) {
-    debug('changing avatar', avatar)
-    Meteor.call('members.changeAvatar', member._id, avatar)
-  }
-
   function clearPin() {
     debug('clearingPin:')
     validPin.set(false)
@@ -82,7 +77,6 @@ export default withTracker(props => {
     validPin: validPin.get(),
     clearPin,
     forgotPin,
-    setPinSuccess: setPinSuccess.get(),
-    changeAvatar
+    setPinSuccess: setPinSuccess.get()
   }
 })(MemberVisit)

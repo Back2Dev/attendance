@@ -4,7 +4,7 @@ import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  'members.insert': function (member) {
+  'members.insert': function(member) {
     try {
       return Members.insert(member)
     } catch (e) {
@@ -12,7 +12,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.remove': function (id) {
+  'members.remove': function(id) {
     try {
       log.info('removing member id: ', id)
       return Members.remove({ _id: id })
@@ -21,7 +21,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.setPin': function (id, pin) {
+  'members.setPin': function(id, pin) {
     try {
       log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin } })
@@ -30,7 +30,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.rmPin': function (name) {
+  'members.rmPin': function(name) {
     try {
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
@@ -39,7 +39,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.rmEddie': function (name) {
+  'members.rmEddie': function(name) {
     try {
       log.info(`Removing member: Eddie Mercx ${name}`)
       return Members.remove({ name: 'Eddie Mercx' })
@@ -48,7 +48,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.update': function (id, formData) {
+  'members.update': function(id, formData) {
     try {
       log.info('updating member: ', id, formData)
       return Members.update({ _id: id }, { $set: { ...formData } })
@@ -58,14 +58,14 @@ Meteor.methods({
     }
   },
 
-  'members.forgotPin': function (id, method, destination) {
+  'members.forgotPin': function(id, method, destination) {
     log.info(`sending pin for member ${id} via ${method} to ${destination}`)
     try {
       // make DB query and grab the pin.
       const member = Members.findOne(id)
       const pin = member.pin
       // construct message.
-      const message = `Your PIN for Back2Bikes attendance app is: \n ${  pin}`
+      const message = `Your PIN for Back2Bikes attendance app is: \n ${pin}`
       if (method == 'email') {
         debug('sending PIN reminder via email.', destination, message)
         return Meteor.call('sendPINEmail', destination, message, 'Back2Bikes Pin Reminder')
@@ -77,21 +77,11 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.changeAvatar': function (id, avatar) {
-    try {
-      debug('changing avatar: ', id, avatar)
-      // return Members.remove({ _id: id })
-      // return Members.update({ _id: id }, { $set: { pin: pin } })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
-    }
-  },
-  'members.showDupes2': function () {
-    const m = function () {
+  'members.showDupes2': function() {
+    const m = function() {
       emit(this.name, 1)
     }
-    const r = function (k, vals) {
+    const r = function(k, vals) {
       return Array.sum(vals)
     }
     const result = Members.mapReduce(m, r, { out: { inline: 1 } })
@@ -109,11 +99,11 @@ r = function (k, vals) {
 res = db.members.mapReduce(m,r, { out : "duplicates" });
 db[res.result].find({value: {$gt: 1}});
 */
-  'members.showDupes': function () {
-    const m = function () {
+  'members.showDupes': function() {
+    const m = function() {
       emit(this.name, 1)
     }
-    const r = function (k, vals) {
+    const r = function(k, vals) {
       return Array.sum(vals)
     }
 
@@ -123,10 +113,10 @@ db[res.result].find({value: {$gt: 1}});
 
     // CollectionName will be overwritten after each mapReduce call
     syncMapReduce(m, r, {
-      out: 'dupes',
+      out: 'dupes'
     })
 
     const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     console.log(dupes)
-  },
+  }
 })

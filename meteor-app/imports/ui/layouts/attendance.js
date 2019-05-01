@@ -41,7 +41,7 @@ const Attendance = () => {
           <Route path="/assessment" component={AssessmentAddContainer} />
 
           <Route path="/payment-confirm" component={PaymentConfirm} />
-          <Route path="/:id" component={MemberVisitContainer} />
+          <Route path="/visit/:id" component={MemberVisitContainer} />
           <Route path="/" component={MemberMainContainer} />
           <Route component={NotFound} />
         </Switch>
