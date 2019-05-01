@@ -6,10 +6,11 @@ classDef green fill:#9f6,stroke:#333,stroke-width:2px
 class A green
 AA[Find member] -- Tap picture --> HASPIN{Has PIN?}
 HASPIN -- no PIN --> CP(Create Pin)
-CP --> HASDETAILS{have details?}
+CP --> SELECT(Select Activity)
+SELECT --> HASDETAILS
 HASDETAILS -- have details --> RETURN(Main Menu)
 HASDETAILS -- no details --> EDIT(Edit profile)
-HASPIN -- has PIN --> HASDETAILS
+HASPIN -- has PIN --> SELECT
 EDIT -- saved --> SELECT
 LEGEND(Back2bikes sign in<br>Life cycle diagram)
 
@@ -19,6 +20,6 @@ style HASDETAILS fill:lightblue,stroke:#333,stroke-width:2px
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTcwNTE2Nzg0OCw2NDM5OTU0NzMsMjQyMz
-A1NTM3XX0=
+eyJoaXN0b3J5IjpbMjc1NTY2OTk3LDY0Mzk5NTQ3MywyNDIzMD
+U1MzddfQ==
 -->
