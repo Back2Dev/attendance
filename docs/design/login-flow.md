@@ -6,7 +6,7 @@ classDef green fill:#9f6,stroke:#333,stroke-width:2px
 class A green
 AA[Find member] -- Tap picture --> HASPIN{Has PIN?}
 HASPIN -- no PIN --> CP(Create Pin)
-CP --> SELECT(Select Activity)
+CP -- Confirm new Pin--> SELECT(Select Activity)
 SELECT -- Activity selected --> HASDETAILS{have details?}
 HASDETAILS -- have details --> RETURN(Main Menu)
 HASDETAILS -- no details --> EDIT(Edit profile)
@@ -20,6 +20,6 @@ style HASDETAILS fill:lightblue,stroke:#333,stroke-width:2px
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA3NzUyNTc1Niw2NDM5OTU0NzMsMjQyMz
-A1NTM3XX0=
+eyJoaXN0b3J5IjpbMTQwNzgzMjE3LDY0Mzk5NTQ3MywyNDIzMD
+U1MzddfQ==
 -->
