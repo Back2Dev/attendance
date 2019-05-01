@@ -1,4 +1,4 @@
-// member-visit.stories.js
+// member/visit.stories.js
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
@@ -7,8 +7,9 @@ import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import member from '/imports/test/fake-member'
+member.pin = '0000'
 
-import MemberVisit from './member-visit'
+import MemberVisit from './visit'
 
 const match = {
   params: {
@@ -20,7 +21,10 @@ const updateMember = () => {
   const options = {
     isHere: boolean('Present', false),
     isSuper: boolean('Is Supervisor', true),
-    sessionCount: boolean('Is Newbie', true) ? 1 : 25
+    sessionCount: boolean('Is Newbie', true) ? 1 : 25,
+    pin: text('PIN', '0000'),
+    email: text('Email', 'me@me.com'),
+    mobile: text('Mobile', '0499 911')
   }
   return Object.assign(member, options)
 }
@@ -51,6 +55,7 @@ storiesOf('Member.Session', module)
               validPin={false}
               forgotPin={action('forgotPin')}
               setPin={action('setPin')}
+              save={action('save')}
             />
           )}
         </div>

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
 const debug = require('debug')('b2b:email')
-import { eventLog } from '/imports/api/events'
+import { eventLog } from '/imports/api/eventlogs'
 
 import log from '/imports/lib/log'
 
@@ -19,11 +19,7 @@ Meteor.startup(() => {
 })
 
 Meteor.methods({
-  'sendPINEmail'(
-    destination = DEFAULT_DESTINATION,
-    message = DEFAULT_MESSAGE,
-    subject = DEFAULT_SUBJECT
-  ) {
+  sendPINEmail(destination = DEFAULT_DESTINATION, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
     debug(`Sending email: ${subject}: ${message} to ${destination}`)
 
     const options = {
@@ -35,9 +31,7 @@ Meteor.methods({
     try {
       Email.send(options)
     } catch (error) {
-      log.error("Error from email gateway", error)
+      log.error('Error from email gateway', error)
     }
-
-  },
+  }
 })
-

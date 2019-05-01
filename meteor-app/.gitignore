@@ -3,6 +3,7 @@ node_modules/
 .meteor/local
 .meteor/meteorite
 .deploy/
+.plugins
 private
 .vs
 x

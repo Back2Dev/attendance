@@ -1,8 +1,9 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor'
 
 import './members-data'
+import './members-import-pa'
 import './parts-data'
-import './products-data'
+import './product-data-all'
 import './register-api.js'
 import './cron-jobs'
 import './sms'

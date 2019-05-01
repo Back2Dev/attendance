@@ -25,7 +25,8 @@ describe('Checking in', () => {
     cy.get('#createPIN').click()
     cy.get('input#pin1').type(pin)
     cy.get('input#pin2').type(pin)
-    cy.get('#setPIN').click()
+    // A change was made to auto-submit
+    // cy.get('#setPIN').click()
     cy.get('#signIn').click()
     cy.get('div[list="present"]')
       .contains('Dorothea K')

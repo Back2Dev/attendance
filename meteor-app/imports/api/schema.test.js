@@ -10,23 +10,23 @@ import { createdAt, updatedAt, mustEqualOneOf, fixCreatedAt } from '/imports/api
 
 const testSchema = new SimpleSchema({
   name: {
-    type: String
+    type: String,
   },
   foo: {
     type: String,
-    optional: true
+    optional: true,
   },
   bar: {
     type: String,
-    optional: true
+    optional: true,
   },
   qux: {
     type: String,
     optional: true,
-    custom: mustEqualOneOf(['foo', 'bar'])
+    custom: mustEqualOneOf(['foo', 'bar']),
   },
   createdAt,
-  updatedAt
+  updatedAt,
 })
 
 const TestCollection = new Mongo.Collection('testCollection')
@@ -38,7 +38,7 @@ describe('api/schema', () => {
   describe('createdAt', () => {
     it('Gets set when you insert a doc', () => {
       const id = TestCollection.insert({
-        name: 'foobar'
+        name: 'foobar',
       })
       const doc = TestCollection.findOne(id)
       expect(doc.name).to.equal('foobar')
@@ -48,12 +48,12 @@ describe('api/schema', () => {
     it('Gets set when you upsert a doc', () => {
       const upsert = TestCollection.upsert(
         {
-          name: 'not-an-existing-name'
+          name: 'not-an-existing-name',
         },
         {
           $set: {
-            name: 'new-name'
-          }
+            name: 'new-name',
+          },
         }
       )
       expect(upsert.insertedId).to.be.ok
@@ -68,20 +68,20 @@ describe('api/schema', () => {
 
       const id = TestCollection.insert({
         name: 'foobar',
-        createdAt: future
+        createdAt: future,
       })
       const doc = TestCollection.findOne(id)
       expect(doc.createdAt.valueOf()).not.to.equal(future.valueOf())
 
       const upsert = TestCollection.upsert(
         {
-          name: 'quxly'
+          name: 'quxly',
         },
         {
           $set: {
             name: 'foobarqux',
-            createdAt: future
-          }
+            createdAt: future,
+          },
         }
       )
       const upsertDoc = TestCollection.findOne(upsert.insertedId)
@@ -90,7 +90,7 @@ describe('api/schema', () => {
 
     it('Cannot be updated', () => {
       const id = TestCollection.insert({
-        name: 'foobar'
+        name: 'foobar',
       })
       const doc = TestCollection.findOne(id)
       expect(doc.name).to.equal('foobar')
@@ -100,8 +100,8 @@ describe('api/schema', () => {
 
       TestCollection.update(id, {
         $set: {
-          createdAt: future
-        }
+          createdAt: future,
+        },
       })
 
       const updated = TestCollection.findOne(id)
@@ -124,42 +124,23 @@ describe('api/schema', () => {
     it('Should be set on insert', () => {
       const id = TestCollection.insert({
         name: 'foobar',
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       const doc = TestCollection.findOne(id)
       expect(doc.updatedAt).to.be.ok
     })
 
-    // disabled because i can't figure out a way to prevent this
-    // simpleschema can't distinguish between an upsert creates
-    // a new doc and one that modifies an existing doc.
-    xit('Cannot be set on upsert if the doc gets inserted', () => {
-      const upsert = TestCollection.upsert(
-        {
-          name: 'not-an-existing-name'
-        },
-        {
-          $set: {
-            name: 'a-new-name',
-            updatedAt: new Date()
-          }
-        }
-      )
-      const doc = TestCollection.findOne(upsert.insertedId)
-      expect(doc.updatedAt).not.to.be.ok
-    })
-
     it('Sets itself on update', () => {
       const id = TestCollection.insert({
-        name: 'foobar'
+        name: 'foobar',
       })
       const future = new Date()
       future.setYear(3000)
       TestCollection.update(id, {
         $set: {
           name: 'quxly',
-          updatedAt: future
-        }
+          updatedAt: future,
+        },
       })
       const updated = TestCollection.findOne(id)
       expect(updated.name).to.equal('quxly')
@@ -169,22 +150,22 @@ describe('api/schema', () => {
 
     it('Sets itself on upsert', () => {
       const id = TestCollection.insert({
-        name: 'foobar'
+        name: 'foobar',
       })
       const future = new Date()
       future.setYear(3000)
       TestCollection.upsert(
         {
-          name: 'foobar'
+          name: 'foobar',
         },
         {
           $set: {
             name: 'quxly',
-            updatedAt: future
-          }
+            updatedAt: future,
+          },
         },
         {
-          multi: true
+          multi: true,
         }
       )
 
@@ -199,13 +180,13 @@ describe('api/schema', () => {
   })
 
   describe('mustEqualOneOf()', () => {
-    it("throws if the value isn't one of the specified values", () => {
+    it('throws if the value isn\'t one of the specified values', () => {
       expect(() => {
         TestCollection.insert({
           name: 'name',
           foo: '1',
           bar: '2',
-          qux: '3'
+          qux: '3',
         })
       }).to.throw()
     })
@@ -216,7 +197,7 @@ describe('api/schema', () => {
           name: 'name',
           foo: '1',
           bar: '2',
-          qux: '2'
+          qux: '2',
         })
       ).to.be.ok
     })
@@ -226,7 +207,7 @@ describe('api/schema', () => {
         name: 'name',
         foo: true,
         bar: false,
-        qux: true
+        qux: true,
       })
       expect(TestCollection.findOne(id).qux).to.equal('true')
     })
@@ -237,7 +218,7 @@ describe('api/schema', () => {
       // 2 fixes - both missing
       TestCollection.insert(
         {
-          name: 'test missing stuff'
+          name: 'test missing stuff',
         },
         { bypassCollection2: true }
       )
@@ -248,7 +229,7 @@ describe('api/schema', () => {
       TestCollection.insert(
         {
           name: 'test number conversion',
-          createdAt: 1481715317425
+          createdAt: 1481715317425,
         },
         { bypassCollection2: true }
       )
@@ -260,7 +241,7 @@ describe('api/schema', () => {
         {
           name: 'test happy day conversion',
           updatedAt: 1481715317425,
-          createdAt: new Date(1481715317425)
+          createdAt: new Date(1481715317425),
         },
         { bypassCollection2: true }
       )

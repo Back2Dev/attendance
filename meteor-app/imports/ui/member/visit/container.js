@@ -1,26 +1,33 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-const debug = require('debug')('b2b:visit')
+const debug = require('debug')('b2b:member-visit')
 import { ReactiveVar } from 'meteor/reactive-var'
-import MemberDash from '/imports/ui/member/member-dash'
+
 import Members from '/imports/api/members/schema'
+import Purchases from '/imports/api/purchases/schema'
+import Events from '/imports/api/events/schema'
+import MemberVisit from './visit'
 
 const validPin = new ReactiveVar(false)
 const setPinSuccess = new ReactiveVar(false)
 
 export default withTracker(props => {
-  const membersHandle = Meteor.subscribe('all.members')
-  const loading = !membersHandle.ready()
   const id = props.match.params.id
+  const memberHandle = Meteor.subscribe('member', id)
+  const loading = !memberHandle.ready()
   const member = Members.findOne(id)
+  const purchases = Purchases.find({ memberId: id }).fetch()
+  const events = Events.find({ active: true }).fetch()
+  debug('purchases', loading, purchases, id)
 
   const memberHasOwnPin = (() => !!(member && member.pin))()
   if (member && member.pin && member.pin === '----') validPin.set(true)
+  const memberHasPhoneEmail = !!(member && member.email && member.mobile)
 
-  function recordVisit({ duration }) {
+  function recordVisit(data) {
     if (!member.isHere) {
-      debug('member arriving', id, duration)
-      Meteor.call('arrive', id, duration)
+      debug('member arriving', id, data)
+      Meteor.call('arrive', id, data)
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)
@@ -65,8 +72,11 @@ export default withTracker(props => {
     recordVisit,
     loading,
     member,
+    purchases,
+    events,
     cancelClick,
     memberHasOwnPin,
+    memberHasPhoneEmail,
     onSubmitPin,
     setPin,
     validPin: validPin.get(),
@@ -75,4 +85,4 @@ export default withTracker(props => {
     setPinSuccess: setPinSuccess.get(),
     changeAvatar
   }
-})(MemberDash)
+})(MemberVisit)

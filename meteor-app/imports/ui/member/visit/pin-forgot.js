@@ -1,17 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import { Icon, Form, Label, Button, Header, Input, Message } from 'semantic-ui-react'
-// import '/imports/ui/member/member-visit-pin.css'
+import PropTypes from 'prop-types'
+import { Form, Button, Input } from 'semantic-ui-react'
 
 class MemberVisitPinForgot extends React.Component {
-
   constructor(props) {
     super(props)
 
     this.state = {
       value: 'grey',
       selected: 'email',
-      sent: false,
+      sent: false
     }
   }
 
@@ -36,21 +34,16 @@ class MemberVisitPinForgot extends React.Component {
   }
 
   render() {
-    const message = this.state.selected == 'email'
-      ? 'email address'
-      : 'mobile phone number'
+    const message = this.state.selected == 'email' ? 'email address' : 'mobile phone number'
     return (
       <div style={{ textAlign: 'center' }}>
         <h3>Select best way to send your PIN reminder:</h3>
-        <Form
-          ref={this.form}
-          onSubmit={this.handleSubmit}>
-
-          <Button.Group size='small'>
+        <Form ref={this.form} onSubmit={this.handleSubmit}>
+          <Button.Group size="small">
             <Button
               name={'email'}
-              size='small'
-              type='button'
+              size="small"
+              type="button"
               positive={this.state.selected == 'email'}
               onClick={this.onDeliverySelection}
             >
@@ -59,8 +52,8 @@ class MemberVisitPinForgot extends React.Component {
             <Button.Or />
             <Button
               name={'sms'}
-              size='small'
-              type='button'
+              size="small"
+              type="button"
               positive={this.state.selected == 'sms'}
               onClick={this.onDeliverySelection}
             >
@@ -69,21 +62,20 @@ class MemberVisitPinForgot extends React.Component {
           </Button.Group>
 
           <Form.Field>
-
             <input
               hidden
-              type='radio'
+              type="radio"
               checked={this.state.selected == 'email'}
               ref={this.email}
-              name='email'
+              name="email"
               onChange={this.onDeliverySelection}
             />
             <input
               hidden
-              type='radio'
+              type="radio"
               checked={this.state.selected == 'sms'}
               ref={this.sms}
-              name='sms'
+              name="sms"
               onChange={this.onDeliverySelection}
             />
             <Input
@@ -94,19 +86,15 @@ class MemberVisitPinForgot extends React.Component {
             />
           </Form.Field>
 
-          <Button
-            type='submit'>
-            Send
-        </Button>
+          <Button type="submit">Send</Button>
         </Form>
-      </div >
+      </div>
     )
-
   }
 }
 
 MemberVisitPinForgot.propTypes = {
-  onPinReminderSent: PropTypes.func.isRequired,
-};
+  onPinReminderSent: PropTypes.func.isRequired
+}
 
 export default MemberVisitPinForgot

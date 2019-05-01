@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Label, Button, Header, Input, Message } from 'semantic-ui-react'
-import '/imports/ui/member/member-visit-pin.css'
+import { Form, Label, Button, Input, Message } from 'semantic-ui-react'
 
 class MemberVisitPin extends React.Component {
   constructor(props) {
