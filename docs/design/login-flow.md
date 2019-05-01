@@ -7,11 +7,11 @@ class A green
 AA[Find member] -- Tap picture --> HASPIN{Has PIN?}
 HASPIN -- no PIN --> CP(Create Pin)
 CP --> SELECT(Select Activity)
-SELECT --> HASDETAILS
+SELECT -- Activity selected --> HASDETAILS{have details?}
 HASDETAILS -- have details --> RETURN(Main Menu)
 HASDETAILS -- no details --> EDIT(Edit profile)
 HASPIN -- has PIN --> SELECT
-EDIT -- saved --> SELECT
+EDIT -- saved --> RETURN
 LEGEND(Back2bikes sign in<br>Life cycle diagram)
 
 style LEGEND fill:lemonchiffon,stroke:#333,stroke-width:2px
@@ -20,6 +20,6 @@ style HASDETAILS fill:lightblue,stroke:#333,stroke-width:2px
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjc1NTY2OTk3LDY0Mzk5NTQ3MywyNDIzMD
-U1MzddfQ==
+eyJoaXN0b3J5IjpbMTA3NzUyNTc1Niw2NDM5OTU0NzMsMjQyMz
+A1NTM3XX0=
 -->
