@@ -12,7 +12,7 @@ import '/imports/ui/member-main.css'
 
 class MemberMain extends React.Component {
   onCardClick = id => {
-    this.props.history.push(`/visit/${id}`)
+    this.props.history.push(`/visit/${id}/arrive`)
   }
 
   render() {

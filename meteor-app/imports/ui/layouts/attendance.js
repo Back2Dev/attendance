@@ -7,12 +7,15 @@ import { Meteor } from 'meteor/meteor'
 
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberVisitContainer from '/imports/ui/member/member-dash-container'
+
+import Visit from '/imports/ui/visit'
+
 import AdminContainer from '/imports/ui/admin/admin-container'
 import AppSelection from '/imports/ui/admin/app-selection'
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
-import '/imports/ui/layouts/attendance.css'
 import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert'
+import '/imports/ui/layouts/attendance.css'
 
 const Attendance = () => {
   const uploadXL = e => {
@@ -39,9 +42,10 @@ const Attendance = () => {
           <Route path="/userprofiles" component={AdminContainer} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />
-
           <Route path="/payment-confirm" component={PaymentConfirm} />
-          <Route path="/visit/:id" component={MemberVisitContainer} />
+          <Route path="/oldvisit/:id" component={MemberVisitContainer} />
+          <Route path="/visit/:id" component={Visit} />
+
           <Route path="/" component={MemberMainContainer} />
           <Route component={NotFound} />
         </Switch>

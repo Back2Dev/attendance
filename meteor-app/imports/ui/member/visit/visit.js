@@ -9,11 +9,12 @@ import MemberVisitPin from './pin'
 import MemberVisitPinForgot from './pin-forgot'
 import MemberVisitPinSet from './pin-set'
 import './visit.css'
-import { Meteor } from 'meteor/meteor'
+// import { Meteor } from 'meteor/meteor'
 
 const RenewButton = props => {
   const renew = async function() {
-    await Meteor.call('memberRenew', props.memberId, props.code)
+    // await Meteor.call('memberRenew', props.memberId, props.code)
+    alert('COmmented out Meteor.call(memberRenew)')
     localStorage.setItem('mycart', props.memberId)
     props.history.push(`/shop/checkout`)
   }

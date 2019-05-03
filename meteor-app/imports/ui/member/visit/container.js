@@ -52,7 +52,7 @@ export default withTracker(props => {
   }
 
   function clearPin() {
-    debug('clearingPin:')
+    debug('clearing Pin:')
     validPin.set(false)
     setPinSuccess.set(false)
   }
