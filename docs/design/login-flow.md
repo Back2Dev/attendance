@@ -12,7 +12,6 @@ HASDETAILS -- have details --> RETURN(Main Menu)
 HASDETAILS -- no details --> EDIT(Edit profile)
 HASPIN -- has PIN --> SELECT
 EDIT -- saved --> RETURN
-RETURN -- edit pro
 LEGEND(Back2bikes sign in<br>Life cycle diagram)
 
 style LEGEND fill:lemonchiffon,stroke:#333,stroke-width:2px
@@ -21,6 +20,6 @@ style HASDETAILS fill:lightblue,stroke:#333,stroke-width:2px
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NTgxMTY2NDgsMTQwNzgzMjE3LDY0Mz
-k5NTQ3MywyNDIzMDU1MzddfQ==
+eyJoaXN0b3J5IjpbMTQwNzgzMjE3LDE0MDc4MzIxNyw2NDM5OT
+U0NzMsMjQyMzA1NTM3XX0=
 -->
