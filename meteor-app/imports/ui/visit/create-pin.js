@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Header } from 'semantic-ui-react'
 
-const Arrive = props => {
+const CreatePin = props => {
   return (
     <div style={{ padding: '20px 0' }}>
       <div>
@@ -23,6 +23,6 @@ const Arrive = props => {
   )
 }
 
-Arrive.propTypes = {}
+CreatePin.propTypes = {}
 
-export default Arrive
+export default CreatePin
