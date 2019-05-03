@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 const debug = require('debug')('b2b:visit')
 import { ReactiveVar } from 'meteor/reactive-var'
 import Members from '/imports/api/members/schema'
+import Events from '/imports/api/events/schema'
 import Main from './main'
 
 const validPin = new ReactiveVar(false)
@@ -13,6 +14,7 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id)
+  const events = Events.find({ active: true }).fetch()
 
   const memberHasOwnPin = (() => !!(member && member.pin))()
   if (member && member.pin && member.pin === '----') validPin.set(true)
@@ -66,6 +68,7 @@ export default withTracker(props => {
     memberHasPhoneEmail,
     onSubmitPin,
     setPin,
+    events,
     validPin: validPin.get(),
     clearPin,
     forgotPin,
