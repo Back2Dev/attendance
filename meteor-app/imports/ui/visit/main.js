@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, Card, Segment, Grid, Divider } from 'semantic-ui-react'
 
 import MemberCard from '/imports/ui/member/member-card'
-import Arrive from '/imports/ui/member/visit/arrive'
+import Arrive from '/imports/ui/visit/arrive'
 import CreatePin from '/imports/ui/visit/create-pin'
 import SelectActivity from '/imports/ui/visit/select-activity'
 import SignedIn from '/imports/ui/visit/signed-in'

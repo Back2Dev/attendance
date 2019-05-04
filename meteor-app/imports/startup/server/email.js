@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
 const debug = require('debug')('b2b:email')
 import { eventLog } from '/imports/api/eventlogs'
+import Purchases from '/imports/api/purchases/schema'
+import Members from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
 
@@ -33,5 +35,13 @@ Meteor.methods({
     } catch (error) {
       log.error('Error from email gateway', error)
     }
+  },
+  sendMembershipRenewals() {
+    debug('sendMembershipRenewals')
+    Purchases.find({ code: 'PA-MEMB-12', expiry: { $lt: new Date() } }).forEach(purchase => {
+      debug(purchase.purchaser, purchase.expiry)
+      const member = Members.findOne(purchase.memberId)
+      debug(member)
+    })
   }
 })

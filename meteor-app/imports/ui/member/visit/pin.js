@@ -50,7 +50,8 @@ class MemberVisitPin extends React.Component {
           <Message attached="top" success header="Success" content="Sign in with your new PIN now!" />
         )}
         <Form.Field>
-          {!this.props.setPinSuccess && <label htmlFor="pinInput">Enter your PIN:</label>}
+          <label htmlFor="pinInput">Enter your PIN:</label>
+          <br />
           <Input
             error={this.state.pin.length >= 4 && !this.props.validPin}
             ref={this.pinInput}
