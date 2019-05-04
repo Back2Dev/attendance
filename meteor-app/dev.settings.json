@@ -10,7 +10,14 @@
   "private": {
     "paymentURL": "https://test-api.pinpayments.com/1/charges",
     "customerURL": "https://test-api.pinpayments.com/1/customers",
-    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA"
+    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA",
+    "sendgridApikey": "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",
+    "fromEmail": "6374@ait.nsw.edu.au",
+    "expiredMembershipID": "d-53dd3cdb5e6a40498194bfd4b057031f",
+    "validMembershipID": "d-79f59041c0824569aadb79aeeac06392",
+    "expiredPassID": "d-5671d65a19034755bdfc7538b2ec2f69",
+    "validPassID": "d-aae6788a880042e78c46794add7db2fd",
+    "registerCardID": "d-400c9c2cfcf54adf80dd90ab1ef7f966"
   },
   "public": {
     "logo": "/images/logo-tiny.jpg",

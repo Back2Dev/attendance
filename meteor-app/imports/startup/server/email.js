@@ -4,6 +4,9 @@ const debug = require('debug')('b2b:email')
 import { eventLog } from '/imports/api/eventlogs'
 
 import log from '/imports/lib/log'
+import Purchases from '/imports/api/purchases/schema'
+import Members from '/imports/api/members/schema'
+import Moment from 'moment'
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'
 const DEFAULT_DESTINATION = 'mrslwiseman@gmail.com'
@@ -33,5 +36,35 @@ Meteor.methods({
     } catch (error) {
       log.error('Error from email gateway', error)
     }
-  }
+  },
+  sendRenewalEmail(to, name, type, expiryDate) {
+    const sgMail = require('@sendgrid/mail')
+    sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+    const options = {
+      to,
+      from: Meteor.settings.private.fromEmail,
+      templateId: Meteor.settings.private.expiredMembershipID,
+      dynamic_template_data: {
+        name,
+        type,
+        expiryDate
+      }
+    }
+    sgMail.send(options)
+  },
+  sendRenewals() {
+    sentArr = ['2y44NEJDZfffJufrj']
+    Purchases.find({ expiry: { $lt: new Date() } }).forEach(purchase => {
+      Members.find({ _id: purchase.memberId }).forEach(member => {
+        Meteor.call(
+          'sendRenewalEmail',
+          member.email,
+          member.name,
+          purchase.productName,
+          Moment(purchase.expiry).format('Do MMM YYYY')
+        )
+      })
+    })
+  },
+  sendVisitsRemaining() {}
 })
