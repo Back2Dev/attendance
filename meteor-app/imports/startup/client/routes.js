@@ -13,6 +13,7 @@ import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Purchase from '/imports/ui/layouts/purchase'
 import Shop from '/imports/ui/shop'
 import ShopIframe from '/imports/ui/shop/iframe'
+import Renew from '/imports/ui/renew'
 
 // there is an iframe on the B2B wordpress site allowing registration to attendance app.
 // we'll give them a different layout/component to prevent access to rest of the app
@@ -30,6 +31,7 @@ export const renderRoutes = () => (
         <Route path="/payment" component={PaymentThankyou} />
         <Route path="/purchase" component={Purchase} />
         <Route path="/shop" component={Shop} />
+        <Route path="/renew/:id" component={Renew} />
         <Route component={Attendance} />
       </Switch>
     </Router>

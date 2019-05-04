@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
 const debug = require('debug')('b2b:email')
 import { eventLog } from '/imports/api/eventlogs'
+import Purchases from '/imports/api/purchases/schema'
+import Members from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
 import Purchases from '/imports/api/purchases/schema'
@@ -37,6 +39,7 @@ Meteor.methods({
       log.error('Error from email gateway', error)
     }
   },
+<<<<<<< HEAD
   sendRenewalEmail(to, name, type, expiryDate) {
     const sgMail = require('@sendgrid/mail')
     sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
@@ -66,5 +69,12 @@ Meteor.methods({
       })
     })
   },
-  sendVisitsRemaining() {}
+  sendMembershipRenewals() {
+    debug('sendMembershipRenewals')
+    Purchases.find({ code: 'PA-MEMB-12', expiry: { $lt: new Date() } }).forEach(purchase => {
+      debug(purchase.purchaser, purchase.expiry)
+      const member = Members.findOne(purchase.memberId)
+      debug(member)
+    })
+  }
 })
