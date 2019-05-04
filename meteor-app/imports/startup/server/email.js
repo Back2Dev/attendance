@@ -6,6 +6,7 @@ import Purchases from '/imports/api/purchases/schema'
 import Members from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
+import Moment from 'moment'
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'
 const DEFAULT_DESTINATION = 'mrslwiseman@gmail.com'
@@ -36,12 +37,33 @@ Meteor.methods({
       log.error('Error from email gateway', error)
     }
   },
-  sendMembershipRenewals() {
-    debug('sendMembershipRenewals')
-    Purchases.find({ code: 'PA-MEMB-12', expiry: { $lt: new Date() } }).forEach(purchase => {
-      debug(purchase.purchaser, purchase.expiry)
-      const member = Members.findOne(purchase.memberId)
-      debug(member)
+  sendMembershipRenewal(to, name, type, expiryDate) {
+    const sgMail = require('@sendgrid/mail')
+    sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+    const options = {
+      to,
+      from: Meteor.settings.private.fromEmail,
+      templateId: Meteor.settings.private.expiredMembershipID,
+      dynamic_template_data: {
+        name,
+        type,
+        expiryDate
+      }
+    }
+    sgMail.send(options)
+  },
+  sendRenewals() {
+    Members.find({}).forEach(member => {
+      Purchases.find({ memberId: member._id, code: 'PA-MEMB-12', expiry: { $lt: new Date() } }).forEach(purchase => {
+        /*Meteor.call(
+          'sendRenewalEmail',
+          member.email,
+          member.name,
+          purchase.productName,
+          Moment(purchase.expiry).format('Do MMM YYYY')
+        )*/
+        debug(purchase.purchaser)
+      })
     })
   }
 })
