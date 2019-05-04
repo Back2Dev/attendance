@@ -6,8 +6,6 @@ import Purchases from '/imports/api/purchases/schema'
 import Members from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
-import Purchases from '/imports/api/purchases/schema'
-import Members from '/imports/api/members/schema'
 import Moment from 'moment'
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'
@@ -55,16 +53,16 @@ Meteor.methods({
     sgMail.send(options)
   },
   sendRenewals() {
-    sentArr = ['2y44NEJDZfffJufrj']
-    Purchases.find({ expiry: { $lt: new Date() } }).forEach(purchase => {
-      Members.find({ _id: purchase.memberId }).forEach(member => {
-        Meteor.call(
+    Members.find({}).forEach(member => {
+      Purchases.find({ memberId: member._id, code: 'PA-MEMB-12', expiry: { $lt: new Date() } }).forEach(purchase => {
+        /*Meteor.call(
           'sendRenewalEmail',
           member.email,
           member.name,
           purchase.productName,
           Moment(purchase.expiry).format('Do MMM YYYY')
-        )
+        )*/
+        debug(purchase.purchaser)
       })
     })
   }
