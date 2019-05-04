@@ -14,7 +14,7 @@ const badProducts = [
     image: '/images/gym.jpg',
     active: true,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
+    endDate: '2019-05-18T16:00:00Z'
   },
   // 2. no description
   {
@@ -25,7 +25,7 @@ const badProducts = [
     image: '/images/gym.jpg',
     active: true,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
+    endDate: '2019-05-18T16:00:00Z'
   },
   // 3. no type
   {
@@ -36,7 +36,7 @@ const badProducts = [
     image: '/images/gym.jpg',
     active: true,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
+    endDate: '2019-05-18T16:00:00Z'
   },
   // 4. duration a boolean instead of number
   {
@@ -48,7 +48,7 @@ const badProducts = [
     image: '/images/gym.jpg',
     active: true,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
+    endDate: '2019-05-18T16:00:00Z'
   },
   // 5. price a boolean instead of number
   {
@@ -60,40 +60,46 @@ const badProducts = [
     image: '/images/gym.jpg',
     active: true,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
-  },
+    endDate: '2019-05-18T16:00:00Z'
+  }
 ]
 
 const goodProducts = [
   {
     name: '3 Month membership for Back2Bikes',
     description: 'Passes allow you to use Back 2 Bikes',
-    type: 2,
+    type: 'membership',
+    code: 'B2B-MEMB-3',
     duration: 3,
     price: 5000,
     image: '/images/gym.jpg',
     active: true,
+    autoRenew: true,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
+    endDate: '2019-05-18T16:00:00Z'
   },
   {
     name: 'Intro to Bikes',
     description: 'A Free course on how to ride a bike',
-    type: 1,
+    type: 'course',
+    code: 'B2B-COURSE-FREE',
     active: true,
-    bogus: 'This won\'t be saved in the database (SimpleSchema silently drops it)',
+    autoRenew: true,
+    bogus: "This won't be saved in the database (SimpleSchema silently drops it)"
   },
   {
-    name: '3 Month membership for Back2Bikes',
+    name: '6 Month membership for Back2Bikes',
     description: 'Passes allow you to use Back 2 Bikes',
-    type: 2,
+    type: 'membership',
+    code: 'B2B-MEMB-6',
     duration: 3,
     price: 5000,
     image: '/images/gym.jpg',
     active: true,
+    autoRenew: false,
     startDate: '2019-02-18T16:00:00Z',
-    endDate: '2019-05-18T16:00:00Z',
-  },
+    endDate: '2019-05-18T16:00:00Z'
+  }
 ]
 
 goodProducts.push(Factory.build('product'))
@@ -133,15 +139,20 @@ const badCarts = [
   { totalqty: 'Lots' },
   { price: '9.99' },
   { price: 9.99 },
-  { products: 'ice' },
+  { products: 'ice' }
   // { products: { name: 'icecream' } },
 ]
 
-const goodCarts = [{ products: [], prodqty: [] }, {
-  price: 999,
-  prodqty: goodProducts.map(prod => { return { [prod._id]: 1 } }),
-  products: goodProducts
-}]
+const goodCarts = [
+  { products: [], prodqty: [] },
+  {
+    price: 999,
+    prodqty: goodProducts.map(prod => {
+      return { [prod._id]: 1 }
+    }),
+    products: goodProducts
+  }
+]
 
 describe('carts schema', () => {
   beforeEach(resetDatabase)

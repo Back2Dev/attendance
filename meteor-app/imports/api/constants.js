@@ -91,16 +91,16 @@ CONSTANTS.SERVICE_TYPES = {
 
 // Product Type values
 CONSTANTS.PRODUCT_TYPES = {
-  PASS: 1,
-  COURSE: 2,
-  MEMBERSHIP: 3
+  PASS: 'pass',
+  COURSE: 'course',
+  MEMBERSHIP: 'membership'
 }
 
 // Human readable lookup table:
 CONSTANTS.PRODUCT_TYPES_READABLE = {
-  1: 'Pass',
-  2: 'Course',
-  3: 'Membership'
+  pass: 'Pass',
+  course: 'Course',
+  membership: 'Membership'
 }
 
 export default CONSTANTS

@@ -8,6 +8,7 @@ export default withTracker(props => {
   return {
     productTypes: ProductTypes.find({}).fetch(),
     loading: !prodTypesHandle.ready(),
-    org: Meteor.settings.public.org || 'Widget'
+    org: Meteor.settings.public.org || 'Widget',
+    tagline: Meteor.settings.public.tagline || "We'd love to help you learn how to fix your bike. Here's what we offer"
   }
 })(ShopWindow)

@@ -19,12 +19,12 @@ const ProdTypeCard = props => {
 }
 
 const ShopWindow = props => {
-  const { productTypes } = props
+  const { productTypes, org, tagline } = props
   return (
     <div>
-      <h4>Back2bikes Shop</h4>
+      <h4>{org} Shop</h4>
       <CartSummary history={props.history} />
-      <p>We'd love to help you learn how to fix your bike. Here's what we offer</p>
+      <p>{tagline}</p>
       {props.loading && <span>Loading...</span>}
       {!props.loading &&
         productTypes &&

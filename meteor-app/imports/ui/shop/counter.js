@@ -8,6 +8,7 @@ const Counter = props => {
   const [prodType] = productTypes
 
   if (loading) return <div>Loading...</div>
+  if (!prodType) return <div>Product type not found</div>
   return (
     <div>
       <CartSummary history={props.history} />

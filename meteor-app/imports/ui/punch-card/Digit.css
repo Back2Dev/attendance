@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
-.Punch-Card {
+.Punch-Card, .multi-visit-card {
   font-family: 'Lato', sans-serif;
   width: 80%;
   margin: auto;
   padding: auto;
   background-color: #fbbd08;
+}
+.multi-visit-card{
+  background-color: #6699ff;
 }
 .Container {
   display: flex;
@@ -13,29 +16,28 @@
   justify-content: center;
   align-items: center;
 }
-.Digit,
-.DigitUsed {
-  margin: 0 20px ;
-  border-radius: 25%;
-  color: blue;
-  background: white;
+.Digit, .usedMultiDigit, .multiDigit{
+  margin: auto ;
+  border-radius: 50%;
   font-weight: bold;
-  padding: 20px;
-  font-size: 30px;
-}
-.Digit img {
-  max-width: 50px;
-  max-height: 50px;
-}
-.Digit,.DigitUsed div{
-  font-size: 15px;
+  background: white;
+  width: 70px;
+  height: 70px;
+  font-size: 40px;
   text-align: center;
   padding: 5px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
 }
-.DigitUsed {
+.usedMultiDigit{
+  background: none;
+  padding: 0;
+}
+.multiDigit{
   color: white;
-  background-color: green;
-  border-radius: 40%;
+  background: green;
 }
 .header {
   font-size: 40px;
@@ -47,10 +49,17 @@
   font-weight: bold;
   color: white;
   text-align: center;
+  font-size: 20px;
   padding: 20px;
 }
 .weekName{
   text-align: center;
-  color: blue;
+  color: black;
   font-weight: bold;
+  font-size: 15px;
+}
+.digitParent{
+  width: auto;
+  height: auto;
+  margin: 5px;
 }
