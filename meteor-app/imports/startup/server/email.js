@@ -39,8 +39,7 @@ Meteor.methods({
       log.error('Error from email gateway', error)
     }
   },
-<<<<<<< HEAD
-  sendRenewalEmail(to, name, type, expiryDate) {
+  sendMembershipRenewal(to, name, type, expiryDate) {
     const sgMail = require('@sendgrid/mail')
     sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
     const options = {
@@ -67,14 +66,6 @@ Meteor.methods({
           Moment(purchase.expiry).format('Do MMM YYYY')
         )
       })
-    })
-  },
-  sendMembershipRenewals() {
-    debug('sendMembershipRenewals')
-    Purchases.find({ code: 'PA-MEMB-12', expiry: { $lt: new Date() } }).forEach(purchase => {
-      debug(purchase.purchaser, purchase.expiry)
-      const member = Members.findOne(purchase.memberId)
-      debug(member)
     })
   }
 })
