@@ -9,6 +9,8 @@ Next
 * Auto submit when new pin matches
 * Bring modal up for ipad use
 * iPad support
+* Added membership card
+* Added the Multi-visit card and Maintenance-course card
 
 0.11.0
 ------
