@@ -20,7 +20,8 @@ const reducer = (state, action) => {
   debug(`Dispatch: ${action.type}`, action.payload)
   switch (action.type) {
     case 'next':
-      state.history.push(`/visit/${state.member._id}/${nextStep(action)}`)
+      const where = state.member.isHere ? 'sign-out' : nextStep(action)
+      state.history.push(`/visit/${state.member._id}/${where}`)
     case 'reset':
       return cloneDeep(initialState)
     default:
