@@ -2,6 +2,9 @@ import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
+import { SessionsSchema } from '/imports/api/sessions/schema'
+
+const SessionListSchema = SessionsSchema.omit('memberId', 'createdAt', 'updatedAt')
 
 const Members = new Mongo.Collection('members')
 
@@ -93,7 +96,7 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: [],
     blackbox: true
   },
-  'sessions.$': Object,
+  'sessions.$': SessionListSchema,
   sessionCount: {
     type: Number,
     defaultValue: 0
