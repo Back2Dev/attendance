@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Image, Card, Segment, Grid, Header } from 'semantic-ui-react'
 
 import MemberCard from '/imports/ui/member/member-card-small'
+import MembershipCard from '/imports/ui/member-card/member-card'
 import { ProductCardOnly } from '/imports/ui/shop/product-card'
 // import { RenewContextProvider } from './context'
 
@@ -19,14 +20,16 @@ const Main = props => {
         <Image src={logoFile} height="35px" /> {Meteor.settings.public.org} membership renewal
       </Header>
       <Segment>
-        <Grid style={{ height: '100%' }} verticalAlign="middle" divided>
-          <Grid.Column width={6}>
+        <Grid style={{ height: '100%' }} verticalAlign="middle" centered>
+          <Grid.Column width={8}>
             <Card.Group centered>
-              <MemberCard className="member-visit-card" {...props.member} onCardClick={f => f} />
+              <MembershipCard member={props.member} />
             </Card.Group>
           </Grid.Column>
-          <Grid.Column width={10}>
-            <ProductCardOnly mode="add" {...props.products[0]} add={add} remove={remove} />{' '}
+          <Grid.Column width={8}>
+            <Card.Group centered>
+              <ProductCardOnly mode="add" {...props.products[0]} add={add} remove={remove} />{' '}
+            </Card.Group>
           </Grid.Column>
         </Grid>
       </Segment>
