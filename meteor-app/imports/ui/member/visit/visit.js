@@ -160,7 +160,7 @@ class MemberVisit extends React.Component {
                 )}
                 {this.props.validPin && (
                   <div>
-                    <Button onClick={() => this.props.history.push(`${this.props.match.url}/edit`)} {...highlightEdit}>
+                    <Button onClick={() => this.props.history.push(`/edit/${props.member_id}`)} {...highlightEdit}>
                       Edit Your Profile
                     </Button>
                     <MemberPurchases purchases={this.props.purchases} history={this.props.history} />

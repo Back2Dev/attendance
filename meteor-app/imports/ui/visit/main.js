@@ -10,7 +10,6 @@ import SelectActivity from '/imports/ui/visit/select-activity'
 import SignedIn from '/imports/ui/visit/signed-in'
 import Depart from '/imports/ui/visit/depart'
 import SignOut from '/imports/ui/visit/sign-out'
-import ForgotPin from '/imports/ui/visit/forgot-pin'
 import { VisitContextProvider } from './context'
 
 const Main = props => {

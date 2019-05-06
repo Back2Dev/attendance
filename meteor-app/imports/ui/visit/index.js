@@ -24,7 +24,7 @@ export default withTracker(props => {
     if (!member.isHere) {
       debug('member arriving', id, event)
       Meteor.call('arrive', id, event)
-      props.history.push('/')
+      props.history.push(`/visit/${member._id}/signed-in`)
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)
