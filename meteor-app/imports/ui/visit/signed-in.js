@@ -21,7 +21,7 @@ const EmailMobile = props => {
           <label htmlFor="email">Your email</label>
           <Input defaultValue={email} name="email" id="emai" onChange={onChangeInput} />
         </Form.Field>
-        <Button type="submit" id="update" color="green" fluid>
+        <Button type="submit" id="update" color="green" size="large" fluid style={{ marginBottom: '24px' }}>
           Save
         </Button>
       </Form>
@@ -31,18 +31,29 @@ const EmailMobile = props => {
 
 const Arrive = props => {
   const [showEdit, setShow] = React.useState(false)
+  const needMore = !props.member.email || !props.member.mobile
+  React.useEffect(() => {
+    const needMore = !props.member.email || !props.member.mobile
+    if (!needMore) {
+      const timer = setTimeout(() => {
+        props.history.push('/')
+      }, 5000)
+      return function cleanup() {
+        clearTimeout(timer)
+      }
+    }
+  }),
+    []
   const toggleEdit = e => {
     setShow(!showEdit)
   }
-  const needMore = !props.member.email || !props.member.mobile
   const but = needMore ? ", but your profile isn't complete" : ''
   return (
     <div style={{ padding: '20px 0' }}>
       <div>
         <Header as="h3">You are now signed in{but}</Header>
-        {needMore && showEdit && <EmailMobile {...props} />}
+        {needMore && <EmailMobile {...props} />}
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Button onClick={toggleEdit}>Enter email/mobile only</Button>
           <Button onClick={() => props.history.push(`/edit/${props.member._id}`)}>Edit Your Profile</Button>
           <Button onClick={() => props.history.push(`/`)}>Not now</Button>
         </div>

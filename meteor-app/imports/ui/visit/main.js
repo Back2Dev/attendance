@@ -35,7 +35,7 @@ const Main = props => {
               <Route path="/visit/:id/depart" render={() => <Depart {...props} />} />
               <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} />
             </Switch>
-            <Button fluid size="large" onClick={backClick} color="red" icon inverted>
+            <Button fluid size="large" onClick={backClick} color="red" icon inverted style={{ marginTop: '24px' }}>
               <Icon name="chevron left" />
               Back
             </Button>
