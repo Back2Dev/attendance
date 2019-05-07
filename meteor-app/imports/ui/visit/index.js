@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
+import Alert from 'react-s-alert'
 import moment from 'moment'
 import { ReactiveVar } from 'meteor/reactive-var'
 import Members from '/imports/api/members/schema'
@@ -63,16 +64,19 @@ export default withTracker(props => {
       debug('member arriving', id, event)
       Meteor.call('arrive', id, event)
       props.history.push(`/visit/${member._id}/signed-in`)
+      Alert.success(`You signed in for ${event.name}`)
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)
       props.history.push('/')
+      Alert.success(`You are now signed out`)
     }
   }
   function recordDeparture(event) {
     debug('member departure', id)
     Meteor.call('depart', id)
     props.history.push('/')
+    Alert.success(`You are signed out`)
   }
 
   function cancelClick() {
