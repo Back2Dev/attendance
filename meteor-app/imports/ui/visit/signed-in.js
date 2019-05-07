@@ -2,13 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Header, Input } from 'semantic-ui-react'
 
+const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
+
 const EmailMobile = props => {
-  const { email, mobile } = props.member
+  const { email = '', mobile = '' } = props.member
   const [form, setForm] = React.useState({ mobile, email })
-  const save = () => {}
+  const [disabled, setDisabled] = React.useState(true)
+  const save = () => {
+    props.save(props.member._id, form)
+  }
+
   const onChangeInput = (e, data) => {
     const newForm = form
     newForm[e.target.name] = e.target.value
+    setForm(newForm)
+    const emailValid = emailRegex.test(form.email)
+    setDisabled(form.mobile.length < 8 || form.email.length < 6 || !emailValid)
   }
   return (
     <div>
@@ -21,7 +30,15 @@ const EmailMobile = props => {
           <label htmlFor="email">Your email</label>
           <Input defaultValue={email} name="email" id="emai" onChange={onChangeInput} />
         </Form.Field>
-        <Button type="submit" id="update" color="green" size="large" fluid style={{ marginBottom: '24px' }}>
+        <Button
+          type="submit"
+          id="update"
+          disabled={disabled}
+          color="green"
+          size="large"
+          fluid
+          style={{ marginBottom: '24px' }}
+        >
           Save
         </Button>
       </Form>
@@ -55,7 +72,12 @@ const Arrive = props => {
         {needMore && <EmailMobile {...props} />}
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <Button onClick={() => props.history.push(`/edit/${props.member._id}`)}>Edit Your Profile</Button>
-          <Button onClick={() => props.history.push(`/`)}>Not now</Button>
+          {needMore && <Button onClick={() => props.history.push(`/`)}>Not now</Button>}
+          {!needMore && (
+            <Button onClick={() => props.history.push(`/`)} color="green">
+              I'm done now
+            </Button>
+          )}
         </div>
       </div>
 

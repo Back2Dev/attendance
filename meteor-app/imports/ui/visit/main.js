@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Button, Card, Segment, Grid, Icon } from 'semantic-ui-react'
+import { Button, Card, Segment, Grid, Icon, Header, Image } from 'semantic-ui-react'
 
 import MemberCard from '/imports/ui/member/member-card'
 import Arrive from '/imports/ui/visit/arrive'
@@ -27,6 +27,9 @@ const Main = props => {
         </Grid.Column>
         <Grid.Column width={10}>
           <VisitContextProvider {...props}>
+            <Header as="h2">
+              <Image circular src={props.logo} /> {props.org} Sign in
+            </Header>
             <Switch>
               <Route path="/visit/:id/arrive" render={() => <Arrive {...props} />} />
               <Route path="/visit/:id/create-pin" render={() => <CreatePin {...props} />} />
@@ -35,10 +38,18 @@ const Main = props => {
               <Route path="/visit/:id/depart" render={() => <Depart {...props} />} />
               <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} />
             </Switch>
-            <Button fluid size="large" onClick={backClick} color="red" icon inverted style={{ marginTop: '24px' }}>
+            <Button
+              floated="right"
+              size="small"
+              onClick={backClick}
+              color="red"
+              icon
+              inverted
+              style={{ marginTop: '24px' }}
+            >
               <Icon name="chevron left" />
               Back
-            </Button>
+            </Button>{' '}
           </VisitContextProvider>
         </Grid.Column>
       </Grid>

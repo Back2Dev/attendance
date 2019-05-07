@@ -14,7 +14,7 @@ Meteor.publish('members.names', () => {
 })
 
 Meteor.publish('member', id => {
-  return [Members.find(id), Purchases.find({ memberId: id }), Events.find({ active: true })]
+  return [Members.find(id), Purchases.find({ memberId: id }), Events.find()]
 })
 
 Meteor.publish('member.renew', id => {

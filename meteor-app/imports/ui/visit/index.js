@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-const debug = require('debug')('b2b:visit')
+import moment from 'moment'
 import { ReactiveVar } from 'meteor/reactive-var'
 import Members from '/imports/api/members/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
+
+const debug = require('debug')('b2b:visit')
 
 const validPin = new ReactiveVar(false)
 const setPinSuccess = new ReactiveVar(false)
@@ -14,7 +16,43 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id)
-  const events = Events.find({ active: true }).fetch()
+  const eventQuery = {
+    active: true,
+    $or: [
+      { type: 'day', days: moment().weekday() },
+      {
+        type: 'once',
+        when: {
+          $gte: moment()
+            .startOf('day')
+            .toDate()
+        },
+        when: {
+          $lte: moment()
+            .endOf('day')
+            .toDate()
+        }
+      }
+    ]
+  }
+  // It's quite possible that the above
+  const fallbackQuery = { type: 'fallback' }
+  let events = Events.find(eventQuery).fetch()
+  if (!events.length) {
+    events = Events.find(fallbackQuery).fetch()
+    if (!events.length) {
+      events = [
+        {
+          _id: 'j8DuNfgYBFABvWwWQ',
+          name: 'Training',
+          location: 'Narnia',
+          when: new Date(),
+          duration: 3,
+          type: 'fallback'
+        }
+      ]
+    }
+  }
 
   const memberHasOwnPin = (() => !!(member && member.pin))()
   if (member && member.pin && member.pin === '----') validPin.set(true)
@@ -66,8 +104,13 @@ export default withTracker(props => {
     Meteor.call('members.forgotPin', member._id, method, destination, remember)
   }
 
+  function save(id, formData) {
+    Meteor.call('members.update', id, formData)
+  }
+
   return {
     recordVisit,
+    save,
     recordDeparture,
     loading,
     member,
@@ -80,6 +123,8 @@ export default withTracker(props => {
     validPin: validPin.get(),
     clearPin,
     forgotPin,
-    setPinSuccess: setPinSuccess.get()
+    setPinSuccess: setPinSuccess.get(),
+    org: Meteor.settings.public.org,
+    logo: Meteor.settings.public.logo
   }
 })(Main)

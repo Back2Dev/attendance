@@ -39,13 +39,22 @@ const CreatePin = props => {
       <Form onSubmit={handleSetPin}>
         <Form.Field>
           <label htmlFor="pin1">Enter a 4 digit pin</label>
-          <Input defaultValue={pin1} name="pin1" id="pin1" {...inputSettings} focus onChange={onPinInput} />
+          <Input
+            defaultValue={pin1}
+            className="member-search"
+            name="pin1"
+            id="pin1"
+            {...inputSettings}
+            focus
+            onChange={onPinInput}
+          />
         </Form.Field>
         <Form.Field>
           <label htmlFor="pin2">Confirm Your Pin</label>
           <Input
             defaultValue={pin2}
             name="pin2"
+            className="member-search"
             id="pin2"
             error={pinsDontMatch}
             {...inputSettings}
