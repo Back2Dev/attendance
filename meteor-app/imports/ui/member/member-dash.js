@@ -62,7 +62,7 @@ class MemberDash extends React.Component {
     return (
       <div>
         <Switch>
-          <Route path={`${this.props.match.url}/edit`} exact render={props => <MemberEdit {...this.props} />} />
+          <Route path={`/edit/:id`} exact render={props => <MemberEdit {...this.props} />} />
           <Route path={`${this.props.match.url}`} exact render={props => <MemberVisitContainer {...this.props} />} />
         </Switch>
       </div>

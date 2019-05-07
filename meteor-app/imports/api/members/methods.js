@@ -58,8 +58,8 @@ Meteor.methods({
     }
   },
 
-  'members.forgotPin': function(id, method, destination) {
-    log.info(`sending pin for member ${id} via ${method} to ${destination}`)
+  'members.forgotPin': function(id, method, destination, remember) {
+    log.info(`sending pin for member ${id} via ${method} to ${destination} ${remember}`)
     try {
       // make DB query and grab the pin.
       const member = Members.findOne(id)
@@ -68,10 +68,12 @@ Meteor.methods({
       const message = `Your PIN for Back2Bikes attendance app is: \n ${pin}`
       if (method == 'email') {
         debug('sending PIN reminder via email.', destination, message)
+        if (!member.email && remember) Members.update(member._id, { $set: { email: destination } })
         return Meteor.call('sendPINEmail', destination, message, 'Back2Bikes Pin Reminder')
       }
       Meteor.call('sendPINSms', message, destination)
       debug('sending PIN via sms.', message)
+      if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: destination } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)

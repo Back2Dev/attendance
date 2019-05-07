@@ -14,6 +14,8 @@
 - Added mup logging
 - Checkin lists available events
 - Fixed cron problem
+- Added Membership Card
+- Added Multi-visit Card and Maintain-Course Card.
 
   0.11.0
 

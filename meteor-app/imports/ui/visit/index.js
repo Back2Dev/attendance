@@ -20,14 +20,21 @@ export default withTracker(props => {
   if (member && member.pin && member.pin === '----') validPin.set(true)
   const memberHasPhoneEmail = !!(member && member.email && member.mobile)
 
-  function recordVisit({ duration }) {
+  function recordVisit(event) {
     if (!member.isHere) {
-      debug('member arriving', id, duration)
-      Meteor.call('arrive', id, duration)
+      debug('member arriving', id, event)
+      Meteor.call('arrive', id, event)
+      props.history.push(`/visit/${member._id}/signed-in`)
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)
+      props.history.push('/')
     }
+  }
+  function recordDeparture(event) {
+    debug('member departure', id)
+    Meteor.call('depart', id)
+    props.history.push('/')
   }
 
   function cancelClick() {
@@ -44,7 +51,7 @@ export default withTracker(props => {
   function setPin(pin) {
     debug('setting custom pin: ', pin)
     Meteor.call('members.setPin', member._id, pin)
-    validPin.set(true)
+    props.history.push(`/visit/${member._id}/select-activity`)
   }
 
   function clearPin() {
@@ -53,14 +60,15 @@ export default withTracker(props => {
     setPinSuccess.set(false)
   }
 
-  function forgotPin(method, destination) {
+  function forgotPin(method, destination, remember) {
     // redirect to forgot PIN screen
-    debug('forgotten pin: ', member._id, method, destination)
-    Meteor.call('members.forgotPin', member._id, method, destination)
+    debug('forgotten pin: ', member._id, method, destination, remember)
+    Meteor.call('members.forgotPin', member._id, method, destination, remember)
   }
 
   return {
     recordVisit,
+    recordDeparture,
     loading,
     member,
     cancelClick,

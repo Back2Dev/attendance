@@ -7,7 +7,7 @@ import { Meteor } from 'meteor/meteor'
 
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberVisitContainer from '/imports/ui/member/member-dash-container'
-
+import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
 
 import AdminContainer from '/imports/ui/admin/admin-container'
@@ -45,6 +45,7 @@ const Attendance = () => {
           <Route path="/payment-confirm" component={PaymentConfirm} />
           <Route path="/oldvisit/:id" component={MemberVisitContainer} />
           <Route path="/visit/:id" component={Visit} />
+          <Route path="/edit/:id" component={MemberEdit} />
 
           <Route path="/" component={MemberMainContainer} />
           <Route component={NotFound} />
