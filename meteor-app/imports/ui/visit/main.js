@@ -39,7 +39,7 @@ const Main = props => {
               <Route path="/visit/:id/depart" render={() => <Depart {...props} />} />
               <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} />
             </Switch>
-            {props.member.isHere && (
+            {(props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
               <Button
                 type="button"
                 size="small"
