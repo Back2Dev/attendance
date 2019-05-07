@@ -71,7 +71,6 @@ const Arrive = props => {
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Button onClick={() => props.history.push(`/edit/${props.member._id}`)}>Edit Your Profile</Button>
           {needMore && <Button onClick={() => props.history.push(`/`)}>Not now</Button>}
           {!needMore && (
             <Button onClick={() => props.history.push(`/`)} color="green">

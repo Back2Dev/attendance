@@ -9,14 +9,11 @@ import Main from './main'
 
 const debug = require('debug')('b2b:visit')
 
-const validPin = new ReactiveVar(false)
-const setPinSuccess = new ReactiveVar(false)
-
 export default withTracker(props => {
   const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member', id)
   const loading = !membersHandle.ready()
-  const member = Members.findOne(id)
+  const member = Members.findOne(id) || {}
   const eventQuery = {
     active: true,
     $or: [
@@ -36,12 +33,14 @@ export default withTracker(props => {
       }
     ]
   }
-  // It's quite possible that the above
+  // It's quite possible that the above doesn't
+  // yield anything, so look for a fallback
   const fallbackQuery = { type: 'fallback' }
   let events = Events.find(eventQuery).fetch()
   if (!events.length) {
     events = Events.find(fallbackQuery).fetch()
     if (!events.length) {
+      // and again provide a hard coded fallback just in case
       events = [
         {
           _id: 'j8DuNfgYBFABvWwWQ',
@@ -54,10 +53,6 @@ export default withTracker(props => {
       ]
     }
   }
-
-  const memberHasOwnPin = (() => !!(member && member.pin))()
-  if (member && member.pin && member.pin === '----') validPin.set(true)
-  const memberHasPhoneEmail = !!(member && member.email && member.mobile)
 
   function recordVisit(event) {
     if (!member.isHere) {
@@ -86,7 +81,6 @@ export default withTracker(props => {
   function onSubmitPin(pin) {
     const pinValid = member.pin === pin || pin === '1--1'
     debug('pinValid: ', pinValid)
-    validPin.set(pinValid)
     return pinValid
   }
 
@@ -94,12 +88,6 @@ export default withTracker(props => {
     debug('setting custom pin: ', pin)
     Meteor.call('members.setPin', member._id, pin)
     props.history.push(`/visit/${member._id}/select-activity`)
-  }
-
-  function clearPin() {
-    debug('clearingPin:')
-    validPin.set(false)
-    setPinSuccess.set(false)
   }
 
   function forgotPin(method, destination, remember) {
@@ -118,16 +106,11 @@ export default withTracker(props => {
     recordDeparture,
     loading,
     member,
+    events,
     cancelClick,
-    memberHasOwnPin,
-    memberHasPhoneEmail,
     onSubmitPin,
     setPin,
-    events,
-    validPin: validPin.get(),
-    clearPin,
     forgotPin,
-    setPinSuccess: setPinSuccess.get(),
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo
   }

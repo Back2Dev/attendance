@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { Button, Card, Segment, Grid, Icon, Header, Image } from 'semantic-ui-react'
 
 import MemberCard from '/imports/ui/member/member-card'
-import Arrive from '/imports/ui/visit/arrive'
 import CreatePin from '/imports/ui/visit/create-pin'
+import EnterPin from './enter-pin'
 import SelectActivity from '/imports/ui/visit/select-activity'
 import SignedIn from '/imports/ui/visit/signed-in'
 import Depart from '/imports/ui/visit/depart'
@@ -17,6 +17,7 @@ const Main = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
+  const inOut = props.member.isHere ? 'out' : 'in'
   return (
     <Segment>
       <Grid style={{ height: '100%' }} verticalAlign="middle" divided>
@@ -28,16 +29,26 @@ const Main = props => {
         <Grid.Column width={10}>
           <VisitContextProvider {...props}>
             <Header as="h2">
-              <Image circular src={props.logo} /> {props.org} Sign in
+              <Image circular src={props.logo} /> {props.org} Sign {inOut}
             </Header>
             <Switch>
-              <Route path="/visit/:id/arrive" render={() => <Arrive {...props} />} />
+              <Route path="/visit/:id/arrive" render={() => <EnterPin {...props} next="select-activity" />} />
               <Route path="/visit/:id/create-pin" render={() => <CreatePin {...props} />} />
               <Route path="/visit/:id/select-activity" render={() => <SelectActivity {...props} />} />
               <Route path="/visit/:id/signed-in" render={() => <SignedIn {...props} />} />
               <Route path="/visit/:id/depart" render={() => <Depart {...props} />} />
               <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} />
             </Switch>
+            {props.member.isHere && (
+              <Button
+                type="button"
+                size="small"
+                onClick={() => props.history.push(`/edit/${props.member._id}`)}
+                style={{ marginTop: '24px' }}
+              >
+                Edit Your Profile
+              </Button>
+            )}
             <Button
               floated="right"
               size="small"
@@ -58,6 +69,6 @@ const Main = props => {
 }
 
 Main.propTypes = {
-  // member: PropTypes.object.isRequired
+  member: PropTypes.object.isRequired
 }
 export default Main
