@@ -13,7 +13,9 @@ export default withTracker(props => {
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: id }).fetch()
-  const products = purchases.length ? Products.find(purchases[0].productId).fetch() : Products.find({ active: true })
+  const products = purchases.length
+    ? Products.find(purchases[0].productId).fetch()
+    : Products.find({ active: true }).fetch()
 
   return {
     org: Meteor.settings.public.org,
