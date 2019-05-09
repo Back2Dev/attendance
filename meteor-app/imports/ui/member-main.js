@@ -13,7 +13,8 @@ import '/imports/ui/member-main.css'
 class MemberMain extends React.Component {
   onCardClick = member => {
     let action = member.pin ? 'arrive' : 'create-pin'
-    if (member.isHere) action = 'depart'
+    if (member.pin === '----') action = 'select-activity'
+    if (member.isHere) action = member.pin === '----' ? 'sign-out' : 'depart'
     this.props.history.push(`/visit/${member._id}/${action}`)
   }
 

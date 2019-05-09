@@ -16,6 +16,12 @@ export const EventsSchema = new SimpleSchema({
     label: 'Description',
     optional: true
   },
+  type: {
+    type: String,
+    allowedValues: ['day', 'monthly', 'once', 'fallback']
+  },
+  days: { type: Array, optional: true },
+  'days.$': { type: SimpleSchema.Integer },
   location: {
     type: String,
     label: 'Location',

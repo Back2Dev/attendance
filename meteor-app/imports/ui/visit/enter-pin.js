@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Label, Button, Input, Message } from 'semantic-ui-react'
+import { Form, Label, Button, Input, Message, Image } from 'semantic-ui-react'
 import ForgotPin from './forgot-pin'
 // const { state, dispatch } = React.useContext(VisitContext)
 
@@ -38,7 +38,6 @@ const EnterPin = props => {
     pattern: '/[0-9]/',
     inputMode: 'numeric',
     style: {
-      width: '80%',
       margin: '10px 0',
       fontSize: '20px',
       textAlign: 'center'
@@ -57,10 +56,12 @@ const EnterPin = props => {
           <label htmlFor="pinInput">Enter your PIN:</label>
           <br />
           <Input
+            className="member-search"
             error={pin.length >= 4 && pinMatchError}
             name="pinInput"
             id="pin"
             focus
+            fluid
             {...inputSettings}
             onChange={onPinInput}
           />
@@ -74,9 +75,10 @@ const EnterPin = props => {
 }
 
 EnterPin.propTypes = {
-  // forgotPin: PropTypes.func.isRequired,
-  // validPin: PropTypes.bool.isRequired,
-  // toggleForgotPinForm: PropTypes.func.isRequired
+  member: PropTypes.object.isRequired,
+  next: PropTypes.string.isRequired,
+  org: PropTypes.string.isRequired,
+  logo: PropTypes.string.isRequired
 }
 
 export default EnterPin

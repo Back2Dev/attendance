@@ -133,32 +133,56 @@ const myProducts = {
   ],
   events: [
     {
-      name: 'Club Championships',
-      location: 'Sandrige',
+      name: 'Training Session',
+      location: 'Sandridge',
+      when: new Date(),
+      active: false,
+      duration: 3,
+      type: 'fallback'
+    },
+    {
+      name: 'Club Champs',
+      location: 'Sandridge',
       when: new Date(),
       active: true,
-      duration: 3
+      duration: 3,
+      type: 'once'
     },
     {
       name: 'Group Kayak',
-      location: 'Sandrige',
+      location: 'Sandridge',
       when: new Date(),
-      active: false,
-      duration: 1
+      active: true,
+      duration: 2,
+      type: 'day',
+      days: [1, 2, 3, 4, 6]
     },
     {
-      name: 'Group Running',
-      location: 'Sandrige',
+      name: 'SAS Squad',
+      location: 'Sandridge',
       when: new Date(),
-      active: false,
-      duration: 1
+      active: true,
+      duration: 2,
+      type: 'day',
+      days: [3, 5]
     },
     {
-      name: 'Bootcamp',
-      location: 'Sandrige',
+      name: 'Paddle Bootcamp',
+      location: 'Sandridge',
       when: new Date(),
-      active: false,
-      duration: 1
+      active: true,
+      duration: 2,
+      type: 'day',
+      days: [5]
+    },
+    {
+      name: 'Paddle Bootcamp',
+      location: 'Sandridge',
+      when: new Date(),
+      active: true,
+      duration: 2,
+      type: 'day',
+      days: [5]
     }
   ]
 }
