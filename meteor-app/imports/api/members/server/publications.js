@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Members from '../schema'
 import Purchases from '../../purchases/schema'
+import Products from '../../products/schema'
 import Events from '../../events/schema'
 
 Meteor.publish('all.members', () => {
@@ -13,5 +14,9 @@ Meteor.publish('members.names', () => {
 })
 
 Meteor.publish('member', id => {
-  return [Members.find(id), Purchases.find({ memberId: id }), Events.find({ active: true })]
+  return [Members.find(id), Purchases.find({ memberId: id }), Events.find()]
+})
+
+Meteor.publish('member.renew', id => {
+  return [Members.find(id), Purchases.find({ memberId: id }), Products.find({ active: true })]
 })

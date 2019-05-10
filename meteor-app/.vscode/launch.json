@@ -1,29 +1,40 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "server",
-            "restart": true,
-            "port": 9229,
-        },
-        {
-            "type": "chrome",
-            "request": "attach",
-            "sourceMaps": true,
-            "name": "Attach Chrome",
-            "url": "http://localhost:3030",
-            "webRoot": "${workspaceFolder}",
-            "run chrome like this:": "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222",
-            "navigate to:": "http://localhost:3030/ (home page)",
-            "port": 9222
-        },
-],
-"compounds": [
+  "version": "0.2.0",
+  "configurations": [
     {
-        "name": "Meteor: All",
-        "configurations": ["server", "Attach Chrome"]
+      "type": "node",
+      "request": "attach",
+      "name": "server",
+      "restart": true,
+      "port": 9229
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "sourceMaps": true,
+      "name": "Attach Chrome",
+      "url": "http://localhost:3030",
+      "webRoot": "${workspaceFolder}",
+      "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
+      "navigate to:": "http://localhost:3030/ (home page)",
+      "port": 9222
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "sourceMaps": true,
+      "name": "Attach to shop",
+      "url": "http://localhost:3030/shop/checkout",
+      "webRoot": "${workspaceFolder}",
+      "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
+      "navigate to:": "http://localhost:3030/ (home page)",
+      "port": 9222
     }
-]
+  ],
+  "compounds": [
+    {
+      "name": "Meteor: All",
+      "configurations": ["server", "Attach Chrome"]
+    }
+  ]
 }

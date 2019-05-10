@@ -22,7 +22,7 @@ async function acceptPayment(req, res) {
 }
 
 export function setupPaymentsApi() {
-  debug('Setting up payments API')
+  debug('Setting up payment hooks')
   const app = express()
   app.use(bodyParser.urlencoded({ extended: false }))
 

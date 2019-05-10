@@ -43,6 +43,13 @@ const Nav = props => {
       <Menu.Item>
         <Payment />
       </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          props.history.push('/shop')
+        }}
+      >
+        <Button id="shop" color="blue" content="Shop" icon="group" />
+      </Menu.Item>
       {showServicing && (
         <>
           <Menu.Item>

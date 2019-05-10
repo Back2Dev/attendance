@@ -18,18 +18,21 @@ const Checkout = props => {
         </Segment>
       </div>
     )
-  } else {
-    return (
-      <div>
-        <h4>Checkout </h4>
-        <Card.Group>
-          {state.products.map(p => {
-            return <ProductCard {...p} key={p._id} mode="remove" />
-          })}
-        </Card.Group>
-      </div>
-    )
   }
+  return (
+    <div>
+      <h4>Checkout </h4>
+      <Card.Group>
+        {state.products.map(p => {
+          return <ProductCard {...p} key={p._id} mode="remove" />
+        })}
+      </Card.Group>
+      <hr />
+      <Button type="button" color="green" floated="right" onClick={() => props.history.push('/shop/address')}>
+        Buy now
+      </Button>
+    </div>
+  )
 }
 
 export default Checkout

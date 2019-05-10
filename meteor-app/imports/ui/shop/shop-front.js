@@ -5,7 +5,10 @@ import AddContainer from './add-container'
 import Building from './building'
 import Department from './department'
 import Checkout from './checkout'
-import Paid from './paid'
+import Address from './address'
+import CreditCard from './credit-card'
+import Failed from './failed'
+import Receipt from './receipt'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 
@@ -17,8 +20,11 @@ const ShopFront = props => {
         <Route path="/shop" exact component={Building} />
         <Route path="/shop/add/:code/:memberId" exact component={AddContainer} />
         <Route path="/shop/checkout" exact component={Checkout} />
-        <Route path="/shop/paid" exact component={Paid} />
-        <Route path="/shop/:type" component={Department} />
+        <Route path="/shop/address" exact component={Address} />
+        <Route path="/shop/credit-card" exact component={CreditCard} />
+        <Route path="/shop/receipt" exact component={Receipt} />
+        <Route path="/shop/failed" exact component={Failed} />
+        <Route path="/shop/type/:type" component={Department} />
       </Switch>
     </CartContextProvider>
   )

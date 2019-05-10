@@ -11,8 +11,11 @@ import MemberCounter from '/imports/ui/member/member-counter'
 import '/imports/ui/member-main.css'
 
 class MemberMain extends React.Component {
-  onCardClick = id => {
-    this.props.history.push(`/${id}`)
+  onCardClick = member => {
+    let action = member.pin ? 'arrive' : 'create-pin'
+    if (member.pin === '----') action = 'select-activity'
+    if (member.isHere) action = member.pin === '----' ? 'sign-out' : 'depart'
+    this.props.history.push(`/visit/${member._id}/${action}`)
   }
 
   render() {

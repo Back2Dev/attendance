@@ -11,7 +11,7 @@ const Cart = props => {
   const { state, dispatch } = React.useContext(CartContext)
 
   const checkout = () => {
-    if (state.totalqty) props.history.push(`/shop/checkout`)
+    if (state.totalqty) props.history.push('/shop/checkout')
     else {
       Alert.error('You do not have any items in your cart yet, please add something before going to the checkout')
     }
@@ -31,5 +31,7 @@ const Cart = props => {
   )
 }
 
-Cart.propTypes = {}
+Cart.propTypes = {
+  history: PropTypes.object,
+}
 export default Cart

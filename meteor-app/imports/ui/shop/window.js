@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-// import productTypes from './building'
 import { Button, Icon } from 'semantic-ui-react'
 import CartSummary from './cart-summary'
 
 const ProdTypeCard = props => {
   const go = () => {
-    props.history.push(`/shop/${props.type}`)
+    props.history.push(`/shop/type/${props.type}`)
   }
   return (
     <p key={props.type}>

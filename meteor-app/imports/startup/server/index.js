@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 
 import './members-data'
+import './methods-payments'
 import './members-import-pa'
 import './parts-data'
 import './product-data-all'

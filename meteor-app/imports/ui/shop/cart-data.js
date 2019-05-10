@@ -3,13 +3,16 @@ import PropTypes from 'prop-types'
 import Alert from 'react-s-alert'
 import { cloneDeep } from 'lodash'
 
+const debug = require('debug')('b2b:cart-data')
+
 const CartContext = React.createContext()
 
 const initialState = {
   price: 0,
   totalqty: 0,
   products: [],
-  prodqty: {}
+  prodqty: {},
+  creditCard: {}
 }
 
 const recalc = state => {
@@ -25,10 +28,24 @@ const recalc = state => {
   }
 }
 
+const saveCart = state => {
+  if (cartUpdater) {
+    cartUpdater(state)
+  }
+}
+
 const reducer = (state, action) => {
+  debug(`Dispatch: ${action.type}`, action.payload)
   switch (action.type) {
     case 'reset':
       return cloneDeep(initialState)
+    case 'save-address':
+      const newS = cloneDeep(state)
+      if (newS.creditCard) delete newS.creditCard
+      newS.creditCard = Object.assign({}, action.payload)
+      saveCart(newS)
+      debug('save-address', newS)
+      return newS
     case 'reset-add':
       const newState = cloneDeep(initialState)
       action.payload.qty = 1
