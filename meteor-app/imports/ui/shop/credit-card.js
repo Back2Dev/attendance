@@ -158,6 +158,10 @@ const CreditCard = props => {
         <Header as="h2">
           <Image src={state.logo} />
         </Header>
+        <Header as="h5">
+          Cards accepted: &nbsp;&nbsp;
+          <Image src="/images/cards.png" verticalAlign="middle" verticalAlign="middle" style={{ width: '200px' }} />
+        </Header>
         <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
           <div>
             Product codes: {codes}, Total price: {price}

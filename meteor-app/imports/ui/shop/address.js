@@ -62,6 +62,7 @@ const Address = props => {
             defaultValue={a.email}
             onChange={fieldChange}
             name="email"
+            style={{ textAlign: 'left' }}
           />
 
           <Form.Input
@@ -72,6 +73,7 @@ const Address = props => {
             defaultValue={a.address_line1}
             onChange={fieldChange}
             name="address_line1"
+            style={{ textAlign: 'left' }}
           />
 
           <Form.Input
