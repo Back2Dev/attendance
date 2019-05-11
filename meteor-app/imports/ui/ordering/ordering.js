@@ -47,6 +47,9 @@ const Ordering = props => {
   const { activeOrder, uploadXL } = props
   let noOfParts = 0
   const { parts = [] } = props
+  const cartClick = () => {
+    props.history.push('/ordering/cart')
+  }
 
   return (
     <Grid container columns="equal">
@@ -66,7 +69,7 @@ const Ordering = props => {
         </Grid.Column>
       </Grid.Row>
       <Grid.Row columns={1} centered>
-        <CartIcon noOfParts={noOfParts} />
+        <CartIcon noOfParts={noOfParts} onClick={cartClick} />
         <br />
         <Input
           placeholder="Part number or name"
