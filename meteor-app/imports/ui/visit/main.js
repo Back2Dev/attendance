@@ -17,7 +17,7 @@ const Main = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
-  const inOut = props.member.isHere ? 'out' : 'in'
+  const inOut = 'in/out'
   return (
     <Segment>
       <Grid style={{ height: '100%' }} verticalAlign="middle" divided>

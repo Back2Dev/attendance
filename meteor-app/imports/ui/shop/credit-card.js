@@ -1,6 +1,6 @@
 import React from 'react'
 import HostedFields from './pin'
-import { Form } from 'semantic-ui-react'
+import { Form, Image, Container, Segment, Header } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 
 const debug = require('debug')('b2b:shop')
@@ -152,40 +152,48 @@ const CreditCard = props => {
   }
 
   return (
-    <Form id="payment_form" action="/payment-confirm" method="post">
-      <div>
-        Product codes: {codes}, Total price: {price}
-      </div>
-      <label htmlFor="name">
-        Full name <Required />
-        <ErrMsg>{errors.name}</ErrMsg>
-      </label>
-      <br />
-      <div id="name" />
+    <Container text textAlign="center">
+      <Segment textAlign="center">
+        <Header as="h2">Payment form - credit card</Header>
+        <Header as="h2">
+          <Image src={state.logo} />
+        </Header>
+        <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
+          <div>
+            Product codes: {codes}, Total price: {price}
+          </div>
+          <label htmlFor="name">
+            Full name <Required />
+            <ErrMsg>{errors.name}</ErrMsg>
+          </label>
+          <br />
+          <div id="name" />
 
-      <label htmlFor="number">
-        Card number <Required />
-        <ErrMsg>{errors.number}</ErrMsg>
-      </label>
-      <br />
-      <div id="number" />
+          <label htmlFor="number">
+            Card number <Required />
+            <ErrMsg>{errors.number}</ErrMsg>
+          </label>
+          <br />
+          <div id="number" />
 
-      <label htmlFor="cvc">
-        CVC <Required />
-        <ErrMsg>{errors.cvc}</ErrMsg>
-      </label>
-      <br />
-      <div id="cvc" />
+          <label htmlFor="cvc">
+            CVC <Required />
+            <ErrMsg>{errors.cvc}</ErrMsg>
+          </label>
+          <br />
+          <div id="cvc" />
 
-      <label htmlFor="expiry">
-        Expiry <Required />
-        <ErrMsg>{errors.expiry}</ErrMsg>
-      </label>
-      <br />
-      <div id="expiry" />
+          <label htmlFor="expiry">
+            Expiry <Required />
+            <ErrMsg>{errors.expiry}</ErrMsg>
+          </label>
+          <br />
+          <div id="expiry" />
 
-      <input type="submit" onClick={submitForm} id="form-submit" />
-    </Form>
+          <input type="submit" onClick={submitForm} id="form-submit" />
+        </Form>
+      </Segment>
+    </Container>
   )
 }
 

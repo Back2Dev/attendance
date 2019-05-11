@@ -19,6 +19,19 @@ Meteor.methods({
     } catch (e) {
       console.log(e)
     }
+  },
+  'seed.order'(id) {
+    try {
+      // Create a new order
+      Orders.insert({
+        status: 1,
+        additionalNotes: null,
+        orderedParts: [],
+        totalPrice: 0
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 })
 
