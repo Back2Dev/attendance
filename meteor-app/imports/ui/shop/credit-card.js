@@ -1,6 +1,6 @@
 import React from 'react'
 import HostedFields from './pin'
-import { Form, Image, Container, Segment, Header } from 'semantic-ui-react'
+import { Form, Image, Container, Segment, Header, Button, Modal, Checkbox, Icon } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 
 const debug = require('debug')('b2b:shop')
@@ -193,9 +193,38 @@ const CreditCard = props => {
           </label>
           <br />
           <div id="expiry" />
-
-          <input type="submit" onClick={submitForm} id="form-submit" />
         </Form>
+        <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
+          Pay
+        </Button>
+        <Checkbox
+          label="Keep my card on file for future payments"
+          name="keep"
+          id="keep"
+          defaultChecked
+          style={{ marginTop: '12px', marginLeft: '12px' }}
+        />{' '}
+        <Modal
+          trigger={
+            <Button size="mini" type="button" inverted color="blue" icon>
+              <Icon name="info" />
+              Why?
+            </Button>
+          }
+          closeIcon
+        >
+          <Modal.Content scrolling>
+            <Modal.Description>
+              <Header as="h3">Why should I save my card information?</Header>
+              <p>
+                We don't save your card details on our system. It is securely stored for your convenience on our payment
+                gateway. Saving it will make it easier for you to buy from us next time, without the need to re-enter
+                all your details.
+              </p>
+              <p>You can remove your card from the system at any time.</p>
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
       </Segment>
     </Container>
   )
