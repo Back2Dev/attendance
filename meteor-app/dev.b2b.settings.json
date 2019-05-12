@@ -5,7 +5,6 @@
     "parts": 1,
     "servicing": 1,
     "recruit": "b2b",
-    "paymentApiKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
     "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
     "shop": 1,
     "orgid": "b2b",
