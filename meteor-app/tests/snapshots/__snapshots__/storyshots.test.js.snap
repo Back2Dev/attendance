@@ -2782,7 +2782,7 @@ exports[`Storyshots Cart.List Cart List 1`] = `
               aria-hidden="true"
               className="triangle left icon"
             />
-            Back To Search
+            Back to search parts
           </button>
         </span>
         <h2
@@ -3012,6 +3012,87 @@ exports[`Storyshots Cart.ListItem Cart List Item 1`] = `
       </tr>
     </tbody>
   </table>
+</div>
+`;
+
+exports[`Storyshots Courses Courses Card 1`] = `
+<div>
+  <div
+    className="course-container product-content"
+  >
+    <div
+      className="course-card"
+    >
+      <div
+        className="course-card-details"
+      >
+        <img
+          src="/images/gym.jpg"
+        />
+        <h1>
+          awesome course similar to awesome sauce, but a course
+        </h1>
+        <span>
+          Starting on: 
+          2019-02-18T16:00:00Z
+          , Ending on: 
+          2019-03-18T16:00:00Z
+        </span>
+        <p>
+          10 visits, usable at any of our evening sessions 
+        </p>
+        <div>
+          <button
+            className="StripeCheckout"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseUp={[Function]}
+            style={
+              Object {
+                "background": "linear-gradient(#28a0e5,#015e94)",
+                "border": 0,
+                "borderRadius": 5,
+                "boxShadow": "0 1px 0 rgba(0,0,0,0.2)",
+                "cursor": "pointer",
+                "display": "inline-block",
+                "overflow": "hidden",
+                "padding": 1,
+                "textDecoration": "none",
+                "userSelect": "none",
+                "visibility": "visible",
+              }
+            }
+          >
+            <span
+              style={
+                Object {
+                  "backgroundImage": "linear-gradient(#7dc5ee,#008cdd 85%,#30a2e4)",
+                  "borderRadius": 4,
+                  "boxShadow": "inset 0 1px 0 rgba(255,255,255,0.25)",
+                  "color": "#fff",
+                  "display": "block",
+                  "fontFamily": "\\"Helvetica Neue\\",Helvetica,Arial,sans-serif",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "height": 30,
+                  "lineHeight": "30px",
+                  "padding": "0 12px",
+                  "position": "relative",
+                  "textShadow": "0 -1px 0 rgba(0,0,0,0.25)",
+                }
+              }
+            >
+              Pay Back2Bikes
+            </span>
+          </button>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -8614,13 +8695,18 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
     </h1>
     <img
       className="ui tiny circular centered image"
+      onClick={[Function]}
       src="/images/avatars/7.jpg"
     />
     <div
       className="ui very padded segment"
     >
-      <h2>
-        About You
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          About You
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -8716,8 +8802,12 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
     <div
       className="ui very padded segment"
     >
-      <h2>
-        Contact
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          Contact
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -8876,13 +8966,35 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
             </span>
           </span>
         </div>
+        <div
+          className="ui segment"
+        >
+          <strong>
+            PIN number
+          </strong>
+          <span
+            style={
+              Object {
+                "paddingLeft": "1em",
+              }
+            }
+          >
+            <span>
+              0000
+            </span>
+          </span>
+        </div>
       </div>
     </div>
     <div
       className="ui very padded segment"
     >
-      <h2>
-        Emergency
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          Emergency
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -8956,8 +9068,12 @@ exports[`Storyshots Member.Add MemberAddReview 1`] = `
     <div
       className="ui very padded segment"
     >
-      <h2>
-        Avatar
+      <h2
+        onClick={[Function]}
+      >
+        <span>
+          Avatar
+        </span>
         <button
           className="ui basic circular icon right floated button"
           onClick={[Function]}
@@ -10205,6 +10321,36 @@ exports[`Storyshots Member.Card Card 1`] = `
                       <span
                         style={Object {}}
                       >
+                        pin
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          "
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            0000
+                          </span>
+                          "
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
                         onCardClick
                       </span>
                       <span>
@@ -10551,7 +10697,7 @@ exports[`Storyshots Member.Card Card 1`] = `
 </div>
 `;
 
-exports[`Storyshots Member.Card Member Card Small 1`] = `
+exports[`Storyshots Member.Card Small 1`] = `
 <div
   className="item"
   onClick={[Function]}
@@ -10602,6 +10748,508 @@ exports[`Storyshots Member.List Member Counter 1`] = `
     />
      
     12
+  </div>
+</div>
+`;
+
+exports[`Storyshots Member.Session Email & Phone 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "position": "relative",
+        "zIndex": 0,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "maxWidth": "280px",
+          "textAlign": "center",
+        }
+      }
+    />
+  </div>
+  <button
+    onClick={[Function]}
+    style={
+      Object {
+        "background": "#28c",
+        "border": "none",
+        "borderRadius": "0 0 0 5px",
+        "color": "#fff",
+        "cursor": "pointer",
+        "display": "block",
+        "fontFamily": "sans-serif",
+        "fontSize": "12px",
+        "padding": "5px 15px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+      }
+    }
+    type="button"
+  >
+    Show Info
+  </button>
+  <div
+    style={
+      Object {
+        "background": "white",
+        "bottom": 0,
+        "display": "none",
+        "left": 0,
+        "overflow": "auto",
+        "padding": "0 40px",
+        "position": "fixed",
+        "right": 0,
+        "top": 0,
+        "zIndex": 99999,
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#28c",
+          "border": "none",
+          "borderRadius": "0 0 0 5px",
+          "color": "#fff",
+          "cursor": "pointer",
+          "display": "block",
+          "fontFamily": "sans-serif",
+          "fontSize": "12px",
+          "padding": "5px 15px",
+          "position": "fixed",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      type="button"
+    >
+      ×
+    </button>
+    <div>
+      <div
+        style={
+          Object {
+            "WebkitFontSmoothing": "antialiased",
+            "backgroundColor": "#fff",
+            "border": "1px solid #eee",
+            "borderRadius": "2px",
+            "boxShadow": "0px 2px 3px rgba(0, 0, 0, 0.05)",
+            "color": "#444",
+            "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+            "fontSize": "15px",
+            "fontWeight": 300,
+            "lineHeight": 1.45,
+            "marginBottom": "20px",
+            "marginTop": "20px",
+            "padding": "20px 40px 40px",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "borderBottom": "1px solid #eee",
+              "marginBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <h1
+            style={
+              Object {
+                "fontSize": "35px",
+                "margin": 0,
+                "padding": 0,
+              }
+            }
+          >
+            Member.Session
+          </h1>
+          <h2
+            style={
+              Object {
+                "fontSize": "22px",
+                "fontWeight": 400,
+                "margin": "0 0 10px 0",
+                "padding": 0,
+              }
+            }
+          >
+            Email & Phone
+          </h2>
+        </div>
+        <div
+          style={
+            Object {
+              "marginBottom": 0,
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "WebkitFontSmoothing": "antialiased",
+                "color": "#444",
+                "fontFamily": "-apple-system, \\".SFNSText-Regular\\", \\"San Francisco\\", BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\", \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\", \\"Lucida Grande\\", \\"Arial\\", sans-serif",
+                "fontSize": "15px",
+              }
+            }
+          >
+            Entry
+          </div>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Story Source
+          </h1>
+          <pre
+            className="css-4akams"
+          >
+            <div>
+              <div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    Wrapper
+                  </span>
+                  <span />
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 33,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;
+                    MemberEmailPhone
+                  </span>
+                  <span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        loading
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
+                              }
+                            }
+                          >
+                            false
+                          </span>
+                          }
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        email
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          "
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            Jelly.Belly@smells.nasty.com
+                          </span>
+                          "
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        mobile
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          "
+                          <span
+                            style={
+                              Object {
+                                "color": "#22a",
+                                "wordBreak": "break-word",
+                              }
+                            }
+                          >
+                            352-485-4816
+                          </span>
+                          "
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        save
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
+                              }
+                            }
+                          >
+                            save
+                          </span>
+                          }
+                        </span>
+                      </span>
+                      <br />
+                    </span>
+                  </span>
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    /&gt;
+                  </span>
+                </div>
+                <div
+                  style={
+                    Object {
+                      "paddingLeft": 18,
+                      "paddingRight": 3,
+                    }
+                  }
+                >
+                  <span
+                    style={
+                      Object {
+                        "color": "#777",
+                      }
+                    }
+                  >
+                    &lt;/
+                    Wrapper
+                    &gt;
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              className="css-py33tc"
+              onClick={[Function]}
+            >
+              <div
+                className="css-kv47nt"
+              >
+                <div
+                  style={
+                    Object {
+                      "marginBottom": 6,
+                    }
+                  }
+                >
+                  Copied!
+                </div>
+                <div>
+                  Copy
+                </div>
+              </div>
+            </button>
+          </pre>
+        </div>
+        <div>
+          <h1
+            style={
+              Object {
+                "borderBottom": "1px solid #EEE",
+                "fontSize": "25px",
+                "margin": "20px 0 0 0",
+                "padding": "0 0 5px 0",
+              }
+            }
+          >
+            Prop Types
+          </h1>
+          <div>
+            <h2
+              style={
+                Object {
+                  "margin": "20px 0 0 0",
+                }
+              }
+            >
+              "
+              MemberEmailPhone
+              " Component
+            </h2>
+            <table
+              className="css-1ytzlk7"
+            >
+              <thead>
+                <tr>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    property
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    propType
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    required
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    default
+                  </th>
+                  <th
+                    className="css-d52hbj"
+                  >
+                    description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    save
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h2
+              style={
+                Object {
+                  "margin": "20px 0 0 0",
+                }
+              }
+            >
+              "
+              Wrapper
+              " Component
+            </h2>
+            <small>
+              No propTypes defined!
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -11171,91 +11819,7 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
           "textAlign": "center",
         }
       }
-    >
-      <div
-        className="member-visit-pin"
-      >
-        <h3>
-          Set your own PIN:
-        </h3>
-        <form
-          className="ui form"
-          onSubmit={[Function]}
-        >
-          <div
-            className="field"
-          >
-            <label
-              htmlFor="pin1"
-            >
-              Enter a 4 digit pin
-            </label>
-            <div
-              className="ui focus input"
-              inputMode="numeric"
-              style={
-                Object {
-                  "fontSize": "20px",
-                  "margin": "10px 0",
-                  "textAlign": "center",
-                  "width": "80%",
-                }
-              }
-            >
-              <input
-                id="pin1"
-                maxLength="4"
-                name="pin1"
-                onChange={[Function]}
-                pattern="[-0-9]{4}"
-                type="tel"
-              />
-            </div>
-          </div>
-          <div
-            className="field"
-          >
-            <label
-              htmlFor="pin2"
-            >
-              Confirm Your Pin
-            </label>
-            <div
-              className="ui input"
-              inputMode="numeric"
-              style={
-                Object {
-                  "fontSize": "20px",
-                  "margin": "10px 0",
-                  "textAlign": "center",
-                  "width": "80%",
-                }
-              }
-            >
-              <input
-                id="pin2"
-                maxLength="4"
-                name="pin2"
-                onChange={[Function]}
-                pattern="[-0-9]{4}"
-                type="tel"
-              />
-            </div>
-          </div>
-          <button
-            className="ui disabled button"
-            disabled={true}
-            id="setPIN"
-            onClick={[Function]}
-            role="button"
-            tabIndex={-1}
-            type="submit"
-          >
-            Set Pin
-          </button>
-        </form>
-      </div>
-    </div>
+    />
   </div>
   <button
     onClick={[Function]}
@@ -11424,83 +11988,9 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                     }
                   >
                     &lt;
-                    div
+                    Wrapper
                   </span>
-                  <span>
-                    <span>
-                       
-                      <span
-                        style={Object {}}
-                      >
-                        style
-                      </span>
-                      <span>
-                        =
-                        <span
-                          style={Object {}}
-                        >
-                          {
-                          <span
-                            style={
-                              Object {
-                                "color": "#666",
-                              }
-                            }
-                          >
-                            {
-                            <span>
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
-                                }
-                              >
-                                maxWidth
-                              </span>
-                            </span>
-                            : 
-                            <span
-                              style={
-                                Object {
-                                  "color": "#22a",
-                                  "wordBreak": "break-word",
-                                }
-                              }
-                            >
-                              '280px'
-                            </span>
-                            ,
-                            <span>
-                              <span
-                                style={
-                                  Object {
-                                    "color": "#666",
-                                  }
-                                }
-                              >
-                                textAlign
-                              </span>
-                            </span>
-                            : 
-                            <span
-                              style={
-                                Object {
-                                  "color": "#22a",
-                                  "wordBreak": "break-word",
-                                }
-                              }
-                            >
-                              'center'
-                            </span>
-                            }
-                          </span>
-                          }
-                        </span>
-                      </span>
-                      
-                    </span>
-                  </span>
+                  <span />
                   <span
                     style={
                       Object {
@@ -11610,7 +12100,7 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
                     }
                   >
                     &lt;/
-                    div
+                    Wrapper
                     &gt;
                   </span>
                 </div>
@@ -11725,6 +12215,22 @@ exports[`Storyshots Member.Session Set PIN 1`] = `
               </tbody>
             </table>
           </div>
+          <div>
+            <h2
+              style={
+                Object {
+                  "margin": "20px 0 0 0",
+                }
+              }
+            >
+              "
+              Wrapper
+              " Component
+            </h2>
+            <small>
+              No propTypes defined!
+            </small>
+          </div>
         </div>
       </div>
     </div>
@@ -11751,158 +12257,168 @@ exports[`Storyshots Member.Session Sign in 1`] = `
          function should run.
       </p>
       <div
-        className="ui centered middle aligned grid"
-        style={
-          Object {
-            "height": "100%",
-          }
-        }
+        className="ui segment"
       >
         <div
-          className="column"
+          className="ui middle aligned two column grid"
+          style={
+            Object {
+              "height": "100%",
+            }
+          }
         >
           <div
-            className="ui centered cards"
+            className="column"
           >
             <div
-              className="ui card member-visit-card"
-              onClick={[Function]}
-              style={
-                Object {
-                  "textAlign": "center",
-                }
-              }
+              className="ui centered cards"
             >
               <div
-                className="ui image"
+                className="ui card member-visit-card"
+                onClick={[Function]}
+                style={
+                  Object {
+                    "textAlign": "center",
+                  }
+                }
               >
                 <div
-                  className="ui yellow ribbon label"
-                  onClick={[Function]}
+                  className="ui image"
                 >
-                  <i
-                    aria-hidden="true"
-                    className="star icon"
+                  <div
+                    className="ui yellow ribbon label"
+                    onClick={[Function]}
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="star icon"
+                    />
+                  </div>
+                  <img
+                    src="/images/avatars/7.jpg"
                   />
-                </div>
-                <img
-                  src="/images/avatars/7.jpg"
-                />
-              </div>
-              <div
-                className="content"
-              >
-                <div
-                  className="header"
-                >
-                  Orie Kautzer
                 </div>
                 <div
                   className="content"
                 >
                   <div
-                    style={
-                      Object {
-                        "padding": "10px 0",
-                      }
-                    }
+                    className="header"
                   >
-                    <div
-                      about="Orie Kautzer"
-                      className="ui green label"
-                      onClick={[Function]}
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="trophy icon"
-                      />
-                      1
-                    </div>
-                    <div
-                      className="ui green label"
-                      onClick={[Function]}
-                    >
-                      Newbie
-                    </div>
+                    Orie Kautzer
                   </div>
-                  <div>
+                  <div
+                    className="content"
+                  >
                     <div
                       style={
                         Object {
-                          "margin": "40px 0",
+                          "padding": "10px 0",
                         }
                       }
                     >
-                      <div>
-                        <div
-                          className="member-visit-pin"
-                        >
-                          <div
-                            className="field"
-                          >
-                            <label
-                              htmlFor="pinInput"
-                            >
-                              Enter your PIN:
-                            </label>
-                            <div
-                              className="ui input"
-                              inputMode="numeric"
-                              style={
-                                Object {
-                                  "fontSize": "20px",
-                                  "margin": "10px 0",
-                                  "textAlign": "center",
-                                  "width": "80%",
-                                }
-                              }
-                            >
-                              <input
-                                id="pin"
-                                maxLength="4"
-                                name="pinInput"
-                                onChange={[Function]}
-                                pattern="/[0-9]/"
-                                type="tel"
-                              />
-                            </div>
-                            <div
-                              className="ui pointing label ui button"
-                              onClick={[Function]}
-                              role="button"
-                            >
-                              Forgotten your PIN? Click here
-                            </div>
-                          </div>
-                        </div>
+                      <div
+                        about="Orie Kautzer"
+                        className="ui green label"
+                        onClick={[Function]}
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="trophy icon"
+                        />
+                        1
+                      </div>
+                      <div
+                        className="ui green label"
+                        onClick={[Function]}
+                      >
+                        Newbie
                       </div>
                     </div>
-                    <button
-                      className="ui large fluid button"
-                      onClick={[Function]}
-                      role="button"
-                    >
-                      Back
-                    </button>
+                    <div />
                   </div>
                 </div>
-              </div>
-              <div
-                className="extra content"
-              >
-                <div>
-                  <p>
-                    Last Seen
-                     
-                    a few seconds
-                     ago
-                     
-                  </p>
+                <div
+                  className="extra content"
+                >
+                  <div>
+                    <p>
+                      Last Seen
+                       
+                      a few seconds
+                       ago
+                       
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div
+            className="column"
+          >
+            <div
+              style={
+                Object {
+                  "margin": "40px 0",
+                }
+              }
+            >
+              <div>
+                <div
+                  className="member-visit-pin"
+                >
+                  <div
+                    className="field"
+                  >
+                    <label
+                      htmlFor="pinInput"
+                    >
+                      Enter your PIN:
+                    </label>
+                    <div
+                      className="ui focus input"
+                      inputMode="numeric"
+                      style={
+                        Object {
+                          "fontSize": "20px",
+                          "margin": "10px 0",
+                          "textAlign": "center",
+                          "width": "80%",
+                        }
+                      }
+                    >
+                      <input
+                        id="pin"
+                        maxLength="4"
+                        name="pinInput"
+                        onChange={[Function]}
+                        pattern="/[0-9]/"
+                        type="tel"
+                      />
+                    </div>
+                    <div
+                      className="ui pointing label ui button"
+                      onClick={[Function]}
+                      role="button"
+                    >
+                      Forgotten your PIN? Click here
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              className="ui large fluid button"
+              onClick={[Function]}
+              role="button"
+            >
+              Back
+            </button>
+          </div>
         </div>
+        <div
+          className="ui vertical divider"
+        />
       </div>
     </div>
   </div>
@@ -12656,6 +13172,35 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                           }
                         </span>
                       </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        save
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#170",
+                              }
+                            }
+                          >
+                            save
+                          </span>
+                          }
+                        </span>
+                      </span>
                       <br />
                     </span>
                   </span>
@@ -12787,6 +13332,56 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                     className="css-d52hbj"
                   >
                     -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    events
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    -
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  />
+                </tr>
+                <tr>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    purchases
+                  </td>
+                  <td
+                    className="css-1ygfcef"
+                  >
+                    <span />
+                  </td>
+                  <td
+                    className="css-d52hbj"
+                  >
+                    yes
                   </td>
                   <td
                     className="css-d52hbj"
@@ -13028,6 +13623,153 @@ exports[`Storyshots Member.Session Sign in 1`] = `
         </div>
       </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Multi-Visits-Card Multi-Visits-Card 1`] = `
+<div
+  className="multi-visit-card"
+>
+  <div
+    className="Container"
+  >
+    <h1
+      className="header"
+    >
+      Visits
+    </h1>
+  </div>
+  <div
+    className="Container"
+  >
+    <div
+      className="digitParent"
+    >
+      <p
+        className="usedMultiDigit"
+        onClick={[Function]}
+      >
+        X
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="usedMultiDigit"
+        onClick={[Function]}
+      >
+        X
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="usedMultiDigit"
+        onClick={[Function]}
+      >
+        X
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        4
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        5
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        6
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        7
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        8
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        9
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        10
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        11
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        12
+      </p>
+    </div>
+  </div>
+  <div
+    className="footer"
+  >
+    You have used 
+    25
+    % of your visits.
   </div>
 </div>
 `;
@@ -13547,7 +14289,9 @@ exports[`Storyshots Part.Card Card 1`] = `
           />
           <div
             className="description part-desc"
-          />
+          >
+            Bicycle bell LG
+          </div>
           <div
             className="ui divider"
           />
@@ -13556,7 +14300,7 @@ exports[`Storyshots Part.Card Card 1`] = `
           >
             <b>
               $
-              1.21
+              120.75
             </b>
             <button
               className="ui blue right floated button part-add-cart-button"
@@ -13876,7 +14620,7 @@ exports[`Storyshots Part.Card Card 1`] = `
                       <span
                         style={Object {}}
                       >
-                        retailPrice
+                        name
                       </span>
                       <span>
                         =
@@ -13892,9 +14636,38 @@ exports[`Storyshots Part.Card Card 1`] = `
                               }
                             }
                           >
-                            120.75
+                            Bicycle bell LG
                           </span>
                           "
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        retailPrice
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#a11",
+                              }
+                            }
+                          >
+                            12075
+                          </span>
+                          }
                         </span>
                       </span>
                     </span>
@@ -13913,18 +14686,17 @@ exports[`Storyshots Part.Card Card 1`] = `
                         <span
                           style={Object {}}
                         >
-                          "
+                          {
                           <span
                             style={
                               Object {
-                                "color": "#22a",
-                                "wordBreak": "break-word",
+                                "color": "#a11",
                               }
                             }
                           >
-                            169.07
+                            16907
                           </span>
-                          "
+                          }
                         </span>
                       </span>
                     </span>
@@ -14042,6 +14814,36 @@ exports[`Storyshots Part.Card Card 1`] = `
                             }
                           >
                             1
+                          </span>
+                          }
+                        </span>
+                      </span>
+                    </span>
+                    <span>
+                      <span>
+                        <br />
+                          
+                      </span>
+                      <span
+                        style={Object {}}
+                      >
+                        createdAt
+                      </span>
+                      <span>
+                        =
+                        <span
+                          style={Object {}}
+                        >
+                          {
+                          <span
+                            style={
+                              Object {
+                                "color": "#666",
+                              }
+                            }
+                          >
+                            {
+                            }
                           </span>
                           }
                         </span>
@@ -14369,5 +15171,173 @@ exports[`Storyshots Part.Card Card 1`] = `
       </div>
     </div>
   </div>
+</div>
+`;
+
+exports[`Storyshots Punch-card Punchcard 1`] = `
+<div
+  className="Punch-Card"
+>
+  <div
+    className="Container"
+  >
+    <h1
+      className="header"
+    >
+      Maintenance Course
+    </h1>
+  </div>
+  <div
+    className="Container"
+  />
+  <div
+    className="footer"
+  >
+    NaN
+    % Completed
+  </div>
+</div>
+`;
+
+exports[`Storyshots Punch-card Punchcard false 1`] = `
+<div
+  className="Punch-Card"
+>
+  <div
+    className="Container"
+  >
+    <h1
+      className="header"
+    >
+      Maintenance Course
+    </h1>
+  </div>
+  <div
+    className="Container"
+  >
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/punctures.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Punctures
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/gears-cleaning.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Gears cleaning
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/gears-tuning.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Gears tuning
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/bearings.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Wheel bearings
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/brakes.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Brakes
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="Digit"
+        onClick={[Function]}
+        src="/images/forks.jpg"
+      />
+      <p
+        className="weekName"
+      >
+        Forks and B/B
+      </p>
+    </div>
+  </div>
+  <div
+    className="footer"
+  >
+    0
+    % Completed
+  </div>
+</div>
+`;
+
+exports[`Storyshots Purchase Card 1`] = `
+<div>
+  <button
+    className="ui button"
+    onClick={[Function]}
+    role="button"
+  >
+    <div
+      className="ui card"
+      onClick={[Function]}
+    >
+      <div
+        className="content"
+        onClick={[Function]}
+      >
+        <div
+          className="header"
+        >
+          10 visit pass
+        </div>
+        <div>
+          10 visits, usable at any of our evening sessions 
+        </div>
+        <div>
+          Price: 
+          $9.99
+        </div>
+      </div>
+    </div>
+  </button>
 </div>
 `;

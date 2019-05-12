@@ -1,13 +1,12 @@
 /* this is to fix semantic ui 2.3 bug where modal doesnt center */
 .ui.basic.modal.transition.visible.active {
-  margin-top: 20% !important;
+  margin-top: -40% !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
 
-
 #app {
-    height: 100%;
+  height: 100%;
 }
 
 ul {
@@ -22,102 +21,112 @@ ul {
 }
 
 .raised.item {
-	text-align: center;
+  text-align: center;
 }
 
 .avcontainer {
-	flex-grow: 1;
+  flex-grow: 1;
   font-size: 1.5em;
 }
 
+input[type='range'] {
+  /*removes default webkit styles*/
+  -webkit-appearance: none;
 
-input[type=range] {
-    /*removes default webkit styles*/
-    -webkit-appearance: none;
-    
-    /*fix for FF unable to apply focus style bug */
-    border: 1px solid white;
-    
-    /*required for proper track sizing in FF*/
-    width: 200px;
+  /*fix for FF unable to apply focus style bug */
+  border: 1px solid white;
+
+  /*required for proper track sizing in FF*/
+  width: 200px;
 }
-input[type=range]::-webkit-slider-runnable-track {
-    width: 200px;
-    height: 5px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
+input[type='range']::-webkit-slider-runnable-track {
+  width: 200px;
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
 }
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
-    margin-top: -4px;
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: goldenrod;
+  margin-top: -4px;
 }
-input[type=range]:focus {
-    outline: none;
+input[type='range']:focus {
+  outline: none;
 }
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
+input[type='range']:focus::-webkit-slider-runnable-track {
+  background: #ccc;
 }
 
-input[type=range]::-moz-range-track {
-    width: 200px;
-    height: 5px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
+input[type='range']::-moz-range-track {
+  width: 200px;
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
 }
-input[type=range]::-moz-range-thumb {
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
+input[type='range']::-moz-range-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: goldenrod;
 }
 
 /*hide the outline behind the border*/
-input[type=range]:-moz-focusring{
-    outline: 1px solid white;
-    outline-offset: -1px;
+input[type='range']:-moz-focusring {
+  outline: 1px solid white;
+  outline-offset: -1px;
 }
 
-input[type=range]::-ms-track {
-    width: 200px;
-    height: 5px;
-    
-    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
-    background: transparent;
-    
-    /*leave room for the larger thumb to overflow with a transparent border */
-    border-color: transparent;
-    border-width: 6px 0;
+input[type='range']::-ms-track {
+  width: 200px;
+  height: 5px;
 
-    /*remove default tick marks*/
-    color: transparent;
+  /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+  background: transparent;
+
+  /*leave room for the larger thumb to overflow with a transparent border */
+  border-color: transparent;
+  border-width: 6px 0;
+
+  /*remove default tick marks*/
+  color: transparent;
 }
-input[type=range]::-ms-fill-lower {
-    background: #777;
-    border-radius: 10px;
+input[type='range']::-ms-fill-lower {
+  background: #777;
+  border-radius: 10px;
 }
-input[type=range]::-ms-fill-upper {
-    background: #ddd;
-    border-radius: 10px;
+input[type='range']::-ms-fill-upper {
+  background: #ddd;
+  border-radius: 10px;
 }
-input[type=range]::-ms-thumb {
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
+input[type='range']::-ms-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: goldenrod;
 }
-input[type=range]:focus::-ms-fill-lower {
-    background: #888;
+input[type='range']:focus::-ms-fill-lower {
+  background: #888;
 }
-input[type=range]:focus::-ms-fill-upper {
-    background: #ccc;
+input[type='range']:focus::-ms-fill-upper {
+  background: #ccc;
 }
 
+.pin-form-field {
+  height: 2em;
+  width: 100%;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 0.28571429rem;
+  box-shadow: 0 0 0 0 transparent inset;
+  transition: color 0.1s ease, border-color 0.1s ease;
+
+  padding: 0 0.5em;
+}

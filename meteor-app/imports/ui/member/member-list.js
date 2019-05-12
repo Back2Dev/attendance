@@ -22,7 +22,7 @@ const MemberList = props => {
         {!props.loading &&
           members &&
           members.map(member => (
-            <div key={member._id} onClick={() => onCardClick(member._id)}>
+            <div key={member._id} onClick={() => onCardClick(member)}>
               <Component className={props.componentClassName} list={list} {...member} style={{ padding: '5px' }} />
             </div>
           ))}

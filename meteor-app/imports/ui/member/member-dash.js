@@ -1,16 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import { Button, Card, Icon, Checkbox, Form, Grid, Header, Message, Modal, Segment } from 'semantic-ui-react'
-import MemberCard from '/imports/ui/member/member-card'
-import MemberCardLoading from '/imports/ui/member/member-card-loading'
-import MemberVisitArrive from '/imports/ui/member/member-visit-arrive';
-import MemberVisitPin from '/imports/ui/member/member-visit-pin';
-import MemberVisitPinForgot from '/imports/ui/member/member-visit-pin-forgot';
-import MemberVisitPinSet from '/imports/ui/member/member-visit-pin-set';
-import MemberEdit from '/imports/ui/member/member-edit';
+import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
-import '/imports/ui/member/member-visit.css'
-import MemberVisit from '/imports/ui/member/member-visit'
+import MemberCardLoading from '/imports/ui/member/member-card-loading'
+import MemberEdit from '/imports/ui/member/member-edit'
+import MemberVisitContainer from '/imports/ui/member/visit/container'
 
 class MemberDash extends React.Component {
   constructor(props) {
@@ -18,11 +11,11 @@ class MemberDash extends React.Component {
     this.state = {
       duration: 6,
       showAlertModal: false,
-      showForgotPinForm: false,
+      showForgotPinForm: false
     }
   }
-  updateStatus = (data) => {
-    this.props.recordVisit({ duration: this.state.duration })
+  updatePresence = data => {
+    this.props.recordVisit(data)
     this.props.history.goBack()
   }
 
@@ -35,7 +28,7 @@ class MemberDash extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.memberHasOwnPin) {
+    if (!this.props.memberHasOwnPin || !memberHasPhoneEmail) {
       this.toggleModal()
     }
   }
@@ -64,21 +57,13 @@ class MemberDash extends React.Component {
   }
 
   render() {
-    this.props.loading && MemberCardLoading
+    if (this.props.loading) return <MemberCardLoading />
 
     return (
       <div>
         <Switch>
-          <Route 
-            path={`${this.props.match.url}/edit`} 
-            exact 
-            render={(props) => (<MemberEdit {...this.props} />)} 
-          />
-          <Route 
-            path={`${this.props.match.url}`} 
-            exact 
-            render={(props) => (<MemberVisit {...this.props} />)} 
-          />
+          <Route path={`/edit/:id`} exact render={props => <MemberEdit {...this.props} />} />
+          <Route path={`${this.props.match.url}`} exact render={props => <MemberVisitContainer {...this.props} />} />
         </Switch>
       </div>
     )
@@ -90,12 +75,13 @@ MemberDash.propTypes = {
   cancelClick: PropTypes.func.isRequired,
   recordVisit: PropTypes.func.isRequired,
   memberHasOwnPin: PropTypes.bool.isRequired,
+  memberHasPhoneEmail: PropTypes.bool.isRequired,
   onSubmitPin: PropTypes.func.isRequired,
   validPin: PropTypes.bool.isRequired,
   clearPin: PropTypes.func.isRequired,
   forgotPin: PropTypes.func.isRequired,
   setPin: PropTypes.func.isRequired,
-  setPinSuccess: PropTypes.bool.isRequired,
-};
+  setPinSuccess: PropTypes.bool.isRequired
+}
 
 export default MemberDash

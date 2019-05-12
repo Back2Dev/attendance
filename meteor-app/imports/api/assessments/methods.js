@@ -2,8 +2,8 @@ import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
 
-import Assessment from './assessments'
-import Counters from '/imports/api/counters/counters'
+import Assessment from './schema'
+import Counters from '/imports/api/counters/schema'
 import Logger from './logger'
 import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB } from '/imports/api/constants'
 

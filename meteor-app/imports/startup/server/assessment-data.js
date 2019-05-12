@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
-import Assessments from '/imports/api/assessments/assessments'
+import Assessments from '/imports/api/assessments/schema'
 import Logger from '/imports/api/assessments/logger'
 import { fakeJob, fakeLogs } from '/imports/test/fake-data'
 import faker from 'faker'

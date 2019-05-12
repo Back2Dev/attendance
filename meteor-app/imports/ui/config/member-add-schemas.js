@@ -164,8 +164,8 @@ const defaultSchema = [
         addressPostcode: { type: 'string', title: 'Postcode' },
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
-        pin: { type: 'string', title: 'PIN number' },
-        pinConfirm: { type: 'string', title: 'PIN number' }
+        pin: { type: 'string', title: 'PIN number', maxLength: 4 },
+        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 }
       }
     },
     uiSchema: {

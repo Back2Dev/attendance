@@ -12,16 +12,6 @@ const CONSTANTS = {
   ORDER_STATUS_CANCELLED: 6
 }
 
-// // Human readable lookup table:
-// CONSTANTS.ORDER_STATUS_READABLE = {
-//   ORDER_STATUS_NEW: 'New',
-//   ORDER_STATUS_SENT: 'Sent',
-//   ORDER_STATUS_RECEIVED: 'Received',
-//   ORDER_STATUS_RECONCILED: 'Reconciled',
-//   ORDER_STATUS_QUERIED: 'Queried',
-//   ORDER_STATUS_CANCELLED: 'Cancelled',
-// }
-
 // Human readable lookup table:
 CONSTANTS.ORDER_STATUS_READABLE = {
   1: 'New',
@@ -97,6 +87,20 @@ export const LOG_EVENT_TYPES = {
 CONSTANTS.SERVICE_TYPES = {
   Major: 'Major Service',
   Minor: 'Minor Service'
+}
+
+// Product Type values
+CONSTANTS.PRODUCT_TYPES = {
+  PASS: 'pass',
+  COURSE: 'course',
+  MEMBERSHIP: 'membership'
+}
+
+// Human readable lookup table:
+CONSTANTS.PRODUCT_TYPES_READABLE = {
+  pass: 'Pass',
+  course: 'Course',
+  membership: 'Membership'
 }
 
 export default CONSTANTS

@@ -2,22 +2,25 @@
  * test factories.
  * configure our factories here and return the Factory module.
  */
-import { Meteor } from 'meteor/meteor';
-import faker from 'faker';
-import { Factory } from 'meteor/dburles:factory';
-import { Random } from 'meteor/random';
+import { Meteor } from 'meteor/meteor'
+import faker from 'faker'
+import { Factory } from 'meteor/dburles:factory'
+import { Random } from 'meteor/random'
 
 import CONSTANTS from '/imports/api/constants'
 // publications
-import Members from '/imports/api/members/members'
-import Sessions from '/imports/api/sessions/sessions'
+import Members from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
 import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
-import { RegExId } from '/imports/api/schema'
+import Products from '/imports/api/products/schema'
+import Purchases from '/imports/api/purchases/schema'
+// import { RegExId } from '/imports/api/schema'
 
-import Assessments from '/imports/api/assessments/assessments'
-import Services from '/imports/api/assessments/services'
+import Assessments from '/imports/api/assessments/schema'
+import Services from '/imports/api/assessments/schema'
 import ServiceItems from '/imports/api/assessments/serviceItems'
+import Events from '/imports/api/events/schema'
 import Logger from '/imports/api/assessments/logger'
 
 Factory.define('member', Members, {
@@ -45,8 +48,8 @@ Factory.define('member', Members, {
   // name: 'Orie Kautzer',
   // phone: '144-467-2060',
   // workStatus: 'Student',
-  // reasons: `My love of bikes started as a child. It was my transport growing up, 
-  //   I had no money to pay for repairs, so I had to fix it myself. My best bike 
+  // reasons: `My love of bikes started as a child. It was my transport growing up,
+  //   I had no money to pay for repairs, so I had to fix it myself. My best bike
   //   was a white Sun 10 speed racer. I saved up for months to buy it. I saved
   //   money from my paper round, and my dad threw some money in too.
   // `,
@@ -55,6 +58,7 @@ Factory.define('member', Members, {
 
 Factory.define('session', Sessions, {
   memberId: Random.id(),
+  name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),
   duration: faker.random.number(6),
@@ -62,16 +66,18 @@ Factory.define('session', Sessions, {
 
 Factory.define('order', Orders, {
   status: CONSTANTS.ORDER_STATUS_NEW,
-  orderedParts: [{
-    name: '700c hybrid Wheel ME, eyeletted',
-    price: 5000,
-    qty: 1,
-    partId: 'frame',
-    partNo: 'sadasd',
-    addedAt: new Date(),
-    userId: '2ueueoaje',
-  }],
-  totalPrice: 9900,   // This is in cents
+  orderedParts: [
+    {
+      name: '700c hybrid Wheel ME, eyeletted',
+      price: 5000,
+      qty: 1,
+      partId: 'frame',
+      partNo: 'sadasd',
+      addedAt: new Date(),
+      userId: '2ueueoaje',
+    },
+  ],
+  totalPrice: 9900, // This is in cents
 })
 
 Factory.define('assessment', Assessments, {
@@ -97,7 +103,7 @@ Factory.define('assessment', Assessments, {
       {
         name: 'Fix handle bar',
         price: 3000,
-      }
+      },
     ],
     baseService: 'Minor Service',
     totalServiceCost: 8000,
@@ -110,14 +116,14 @@ Factory.define('assessment', Assessments, {
         code: 'F',
         category: 'Other',
         used: false,
-      }
+      },
     ],
     totalPartsCost: 2000,
   },
   additionalFees: 1500,
   discount: 2000,
   totalCost: 9500,
-  jobNo: "R001",
+  jobNo: 'R001',
   dropoffDate: faker.date.future(),
   pickupDate: faker.date.future(),
   urgent: faker.random.boolean(),
@@ -133,7 +139,7 @@ Factory.define('logs', Logger, {
   user: faker.name.findName(),
   aId: '34G5785heY6262',
   status: 1,
-  eventType: 2
+  eventType: 2,
 })
 
 Factory.define('parts', ServiceItems, {
@@ -141,13 +147,13 @@ Factory.define('parts', ServiceItems, {
   price: Math.round(faker.commerce.price() * 100),
   code: 'F',
   category: 'Other',
-  used: false
+  used: false,
 })
 
 Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
-  package: 'Minor'
+  package: 'Minor',
 })
 
 Factory.define('part', Parts, {
@@ -158,6 +164,37 @@ Factory.define('part', Parts, {
   name: 'carbonfibre frame',
   barcode: '22413000022413',
   status: CONSTANTS.ORDER_STATUS_NEW,
+})
+
+Factory.define('product', Products, {
+  name: '3 Month membership for Back2Bikes',
+  description: 'Passes allow you to use Back 2 Bikes',
+  type: 'membership',
+  code: 'B2B-MEMB-3',
+  duration: 3,
+  price: 5000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  autoRenew: true,
+  startDate: '2019-02-18T16:00:00Z',
+  endDate: '2019-05-18T16:00:00Z',
+})
+
+Factory.define('purchase', Purchases, {
+  memberId: 'asdf9kj98',
+  productId: 'asdf23asdf',
+  productName: 'Evening workshop',
+  price: 5000,
+  code: 'MISC',
+})
+
+Factory.define('event', Events, {
+  name: 'Evening workshop',
+  location: 'Back2bikes',
+  when: new Date(),
+  active: true,
+  duration: 2,
+  price: 200,
 })
 
 export default Factory

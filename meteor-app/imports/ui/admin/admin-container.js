@@ -5,8 +5,8 @@ const debug = require('debug')('b2b:admin')
 import { escapeRegExp } from 'lodash'
 
 import Admin from '/imports/ui/admin/admin'
-import Members from '/imports/api/members/members'
-import { eventLog } from '/imports/api/events'
+import Members from '/imports/api/members/schema'
+import { eventLog } from '/imports/api/eventlogs'
 import { saveToArchive } from '/imports/api/archive'
 
 export default withTracker(props => {

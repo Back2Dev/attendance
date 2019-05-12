@@ -1,0 +1,1 @@
+import Products from './schema'

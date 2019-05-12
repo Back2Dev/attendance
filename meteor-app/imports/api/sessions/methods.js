@@ -1,1 +1,1 @@
-import Sessions from './sessions'
+import Sessions from './schema'

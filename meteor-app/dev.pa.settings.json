@@ -1,9 +1,1 @@
-{
-  "public": {
-    "logo": "/images/pa-logo.jpg",
-    "member": "Member",
-    "parts": 0,
-    "servicing": 0,
-    "recruit": "pa"
-  }
-}
+../deploy/settings/dev.pa.settings.json

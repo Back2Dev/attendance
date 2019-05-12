@@ -10,6 +10,7 @@ const AvatarWidget = props => {
         centered
         size="medium"
         circular
+        id="avatar"
         src={`/images/avatars/${props.value}`}
       />
       <div

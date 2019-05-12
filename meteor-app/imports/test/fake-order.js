@@ -11,9 +11,9 @@ for (let i = 0; i < 10; i++) {
 const order = {
   status: 1,
   additionalNotes: faker.lorem.sentences(),
-  totalPrice: faker.finance.amount(),
+  totalPrice: faker.finance.amount() * 100,
   orderedParts: orderItems,
-  oldOrders: [],
+  oldOrders: []
 }
 
 export default order

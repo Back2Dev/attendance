@@ -8,19 +8,34 @@ import '/imports/api/members/server/publications'
 import '/imports/api/sessions/methods'
 import '/imports/api/sessions/server/publications'
 
-//parts
+// parts
 import '/imports/api/parts/methods'
 import '/imports/api/parts/schema'
 import '/imports/api/parts/server/publications'
 
-//orders 
+// orders
 import '/imports/api/orders/methods'
 import '/imports/api/orders/schema'
 import '/imports/api/orders/server/publications'
 
 // Assessments
-import '/imports/api/assessments/assessments'
+import '/imports/api/assessments/schema'
 import '/imports/api/assessments/services'
 import '/imports/api/assessments/serviceItems'
 import '/imports/api/assessments/methods'
 import '/imports/api/assessments/server/publications'
+
+// Purchases
+import '/imports/api/purchases/schema'
+import '/imports/api/purchases/methods'
+import '/imports/api/purchases/server/publications'
+
+// Products
+import '/imports/api/products/schema'
+import '/imports/api/products/methods'
+import '/imports/api/products/server/publications'
+
+// Events
+import '/imports/api/events/schema'
+// import '/imports/api/events/methods'
+import '/imports/api/events/server/publications'

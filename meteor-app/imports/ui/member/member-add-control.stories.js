@@ -9,7 +9,7 @@ import StoryRouter from 'storybook-router'
 import MemberAddControl from './member-add-control'
 
 storiesOf('Member.Add', module)
-  .addDecorator(withKnobs)
+  // .addDecorator(withKnobs)
   .addDecorator(StoryRouter())
 
   .add('MemberAddControl', () => {
