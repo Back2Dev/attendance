@@ -17,7 +17,11 @@ const b2bProducts = {
       active: true,
       duration: 3,
       type: 'day',
+<<<<<<< HEAD
       days: [0, 1, 2, 3, 4, 5, 6]
+=======
+      days: [1, 2, 3, 4, 5, 6]
+>>>>>>> 5413100808ec4e58d56a7dc5adc9f26599016550
     },
     {
       name: 'Full day',
@@ -26,7 +30,84 @@ const b2bProducts = {
       active: true,
       duration: 6,
       type: 'day',
+<<<<<<< HEAD
       days: [0, 1, 2, 3, 4, 5, 6]
+=======
+      days: [1, 2, 3, 4, 5, 6]
+    },
+    // Fallback event
+    {
+      name: 'Volunteer',
+      location: 'Back2bikes',
+      when: new Date(),
+      active: false,
+      duration: 6,
+      type: 'fallback'
+    },
+    // TEST TODAY
+    {
+      name: 'Special for today ' + new Date(),
+      location: 'Back2bikes',
+      when: new Date(),
+      active: true,
+      duration: 3,
+      type: 'once'
+    },
+    ,
+    // workshop week 1
+    {
+      name: '1: Punctures',
+      location: 'Back2bikes',
+      when: new Date('2019-05-21'),
+      active: true,
+      duration: 3,
+      type: 'once'
+    },
+    // workshop week 2
+    {
+      name: '2: Brakes',
+      location: 'Back2bikes',
+      when: new Date('2019-05-28'),
+      active: true,
+      duration: 3,
+      type: 'once'
+    },
+    // workshop week 3
+    {
+      name: '3: Gear cleaning',
+      location: 'Back2bikes',
+      when: new Date('2019-06-04'),
+      active: true,
+      duration: 3,
+      type: 'once'
+    },
+    // workshop week 4
+    {
+      name: '4: Gear setup and tuning',
+      location: 'Back2bikes',
+      when: new Date('2019-06-11'),
+      active: true,
+      duration: 3,
+      type: 'once'
+    },
+    // workshop week 5
+    {
+      name: '5: Wheel bearings',
+      location: 'Back2bikes',
+      when: new Date('2019-06-18'),
+      active: true,
+      duration: 3,
+      type: 'once'
+    },
+    // workshop week 6
+    {
+      name: '6: Headsets and Bottom Brackets',
+      location: 'Back2bikes',
+      when: new Date('2019-06-25'),
+      active: true,
+      duration: 3,
+      type: 'once'
+>>>>>>> 5413100808ec4e58d56a7dc5adc9f26599016550
     }
   ],
   productTypes: [
@@ -42,9 +123,14 @@ const b2bProducts = {
     {
       type: CONSTANTS.PRODUCT_TYPES.PASS,
       name: 'Workshop time',
+<<<<<<< HEAD
       description:
         'Use our fully equipped workshop  to fix your bike. Get advice and help about how to do it',
       color: 'lim',
+=======
+      description: 'Use our fully equipped workshop  to fix your bike. Get advice and help about how to do it',
+      color: 'lime',
+>>>>>>> 5413100808ec4e58d56a7dc5adc9f26599016550
       icon: 'cog',
       image: '/images/workshop.jpg'
     },

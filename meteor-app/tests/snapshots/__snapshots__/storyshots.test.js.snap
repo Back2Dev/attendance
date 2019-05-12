@@ -2782,7 +2782,7 @@ exports[`Storyshots Cart.List Cart List 1`] = `
               aria-hidden="true"
               className="triangle left icon"
             />
-            Back To Search
+            Back to search parts
           </button>
         </span>
         <h2

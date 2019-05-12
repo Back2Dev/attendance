@@ -1,18 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Table, Button, Label } from "semantic-ui-react";
-const CartListItem = ({
-  partId,
-  name,
-  partNo,
-  price,
-  qty,
-  increaseQty,
-  decreaseQty,
-  removePart,
-  order,
-  oldOrder
-}) => {
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Table, Button, Label } from 'semantic-ui-react'
+const CartListItem = ({ partId, name, partNo, price, qty, increaseQty, decreaseQty, removePart, order, oldOrder }) => {
   return (
     <Table.Row>
       <Table.Cell collapsing textAlign="left">
@@ -33,10 +22,7 @@ const CartListItem = ({
       {!oldOrder ? (
         <Table.Cell className="noPrint" collapsing textAlign="center">
           <Button.Group>
-            <Button
-              color="green"
-              onClick={() => increaseQty(order._id, partId)}
-            >
+            <Button color="green" onClick={() => increaseQty(order._id, partId)}>
               +
             </Button>
             <Button onClick={() => decreaseQty(order._id, partId)}>-</Button>
@@ -46,11 +32,11 @@ const CartListItem = ({
           </Button.Group>
         </Table.Cell>
       ) : (
-        ""
+        <Table.Cell className="noPrint" collapsing textAlign="center" />
       )}
     </Table.Row>
-  );
-};
+  )
+}
 CartListItem.propTypes = {
   partId: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -59,5 +45,5 @@ CartListItem.propTypes = {
   price: PropTypes.number.isRequired,
   qty: PropTypes.number.isRequired,
   userId: PropTypes.string
-};
-export default CartListItem;
+}
+export default CartListItem

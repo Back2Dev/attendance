@@ -1,36 +1,31 @@
-import React from "react";
-import {
-  Input,
-  Header,
-  Container,
-  Segment,
-  Table,
-  Button,
-  Icon
-} from "semantic-ui-react";
-import Component from "/imports/ui/ordering/cart-list-item";
-import CartIcon from "/imports/ui/ordering/cart-icon";
+import React from 'react'
+import { Input, Header, Container, Segment, Table, Button, Icon } from 'semantic-ui-react'
+import Component from '/imports/ui/ordering/cart-list-item'
+import CartIcon from '/imports/ui/ordering/cart-icon'
 
 const activeOrder = props => {
-  let { order, removePart, increaseQty, decreaseQty, archiveOrder } = props;
-  let noOfParts = 0;
-  const printOrder = () =>{
+  let { order, removePart, increaseQty, decreaseQty, archiveOrder } = props
+  let noOfParts = 0
+  const printOrder = () => {
     window.print()
+  }
+  const cartClick = () => {
+    // props.history.push('/ordering/cart')
   }
   return (
     <div>
       <Container textAlign="center" className="section-to-print">
-        <Segment raised clearing className="review" color="blue" >
+        <Segment raised clearing className="review" color="blue">
           {!props.loading &&
             order &&
             order.orderedParts.forEach(part => {
-              noOfParts += part.qty;
-              return noOfParts;
+              noOfParts += part.qty
+              return noOfParts
             })}
           <Header as="h3" block>
             Please review your current order
           </Header>
-          <CartIcon noOfParts={noOfParts} />
+          <CartIcon noOfParts={noOfParts} onClick={cartClick} />
           <Table striped size="large" celled compact="very">
             <Table.Header>
               <Table.Row>
@@ -58,43 +53,42 @@ const activeOrder = props => {
                 ))}
             </Table.Body>
           </Table>
-          <Input fluid label="Additional Notes" />
-          {!props.loading &&
-            order && (
-              <Header as="h3" block>
-                Total Price: ${(order.totalPrice/100).toFixed(2)}
-              </Header>
-            )}
+          <Input fluid label="Additional notes" />
+          {!props.loading && order && (
+            <Header as="h3" block>
+              Total Price: ${(order.totalPrice / 100).toFixed(2)}
+            </Header>
+          )}
           <br />
           <Container>
-          <Button.Group>
-            <Button
-              className="noPrint"
-              primary
-              onClick={() => {
-                printOrder();
-              }}
-              size="big"
-            >
-              Print Order
-            </Button>
-            <Button.Or />
-            <Button
-              size="big"
-              className="noPrint"
-              color="olive"
-              onClick={() => {
-                archiveOrder(order);
-              }}
-            >
-              Archive Order
-            </Button>
-          </Button.Group>
+            <Button.Group>
+              <Button
+                className="noPrint"
+                primary
+                onClick={() => {
+                  printOrder()
+                }}
+                size="big"
+              >
+                Print Order
+              </Button>
+              <Button.Or />
+              <Button
+                size="big"
+                className="noPrint"
+                color="olive"
+                onClick={() => {
+                  archiveOrder(order)
+                }}
+              >
+                Archive Order
+              </Button>
+            </Button.Group>
           </Container>
         </Segment>
       </Container>
     </div>
-  );
-};
+  )
+}
 
-export default activeOrder;
+export default activeOrder

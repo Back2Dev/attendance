@@ -121,7 +121,12 @@ input[type='range']:focus::-ms-fill-upper {
 
 .pin-form-field {
   height: 2em;
-  width: 50%;
-  border: 1px solid black;
+  width: 100%;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 0.28571429rem;
+  box-shadow: 0 0 0 0 transparent inset;
+  transition: color 0.1s ease, border-color 0.1s ease;
+
   padding: 0 0.5em;
 }
