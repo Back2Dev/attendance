@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import CartSummary from './cart-summary'
+import { Menu } from 'semantic-ui-react'
+import { CartMenuItem } from './cart-summary'
 import ProductCard from './product-card'
 
 const Counter = props => {
@@ -11,14 +12,24 @@ const Counter = props => {
   if (!prodType) return <div>Product type not found</div>
   return (
     <div>
-      <CartSummary history={props.history} />
-      <h2>
-        {prodType.name} ({products.length})
-      </h2>
+      <Menu>
+        <Menu.Item>
+          <h2>
+            {prodType.name} ({products.length})
+          </h2>
+        </Menu.Item>
+        <CartMenuItem history={props.history} />
+      </Menu>
+
       {prodType.description}
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {products.map(item => (
-          <ProductCard {...item} key={item._id} mode="add" color={prodType.color} />
+          <ProductCard
+            {...item}
+            key={item._id}
+            mode='add'
+            color={prodType.color}
+          />
         ))}
       </div>
     </div>
