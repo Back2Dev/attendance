@@ -1,5 +1,6 @@
 import React from 'react'
 import HostedFields from './pin'
+import { Link } from 'react-router-dom'
 import { Form, Image, Container, Segment, Header, Button, Modal, Checkbox, Icon } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 
@@ -215,11 +216,17 @@ const CreditCard = props => {
         >
           <Modal.Content scrolling>
             <Modal.Description>
+              <a href="https://pinpayments.com" target="_blank">
+                <Header as="h2">
+                  <Image src={state.logo} />
+                  <Image src="/images/pinpayments.png" style={{ width: '140px' }} />
+                </Header>
+              </a>
               <Header as="h3">Why should I save my card information?</Header>
               <p>
                 We don't save your card details on our system. It is securely stored for your convenience on our payment
-                gateway. Saving it will make it easier for you to buy from us next time, without the need to re-enter
-                all your details.
+                gateway using PCI DSS standards. Saving it will make it easier for you to buy from us next time, without
+                the need to re-enter all your details.
               </p>
               <p>You can remove your card from the system at any time.</p>
             </Modal.Description>
