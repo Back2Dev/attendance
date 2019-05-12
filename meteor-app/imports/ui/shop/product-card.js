@@ -16,7 +16,13 @@ const PayNowButton = props => {
     window.open(paymentUrl, '_system', options)
   }
   return (
-    <Button floated="right" type="button" icon="credit card" color="red" onClick={openPayment}>
+    <Button
+      floated='right'
+      type='button'
+      icon='credit card'
+      color='red'
+      onClick={openPayment}
+    >
       Pay ${amount} now
     </Button>
   )
@@ -24,16 +30,33 @@ const PayNowButton = props => {
 
 export const ProductCardOnly = props => {
   const img = props.image || '/images/gym.jpg'
-  const { mode, add, remove, color, name, description, price, code, qty } = props
+  const {
+    mode,
+    add,
+    remove,
+    color = 'green',
+    name,
+    description,
+    price,
+    code,
+    qty
+  } = props
   return (
     <Card color={color}>
       <Card.Content>
         {mode === 'remove' && (
-          <Button size="mini" floated="right" type="button" onClick={remove} title="Remove this item">
+          <Button
+            size='mini'
+            floated='right'
+            type='button'
+            onClick={remove}
+            color='red'
+            title='Remove this item'
+          >
             X
           </Button>
         )}
-        <Image floated="left" size="mini" src={img} />
+        <Image floated='left' size='mini' src={img} />
         <Card.Header>{name}</Card.Header>
         <Card.Description>{description}</Card.Description>
       </Card.Content>
@@ -42,7 +65,7 @@ export const ProductCardOnly = props => {
           <div>
             <Price cents={price} />
             &nbsp;
-            <Button type="button" onClick={add} color={color}>
+            <Button type='button' onClick={add} color={color}>
               Add to cart
             </Button>
           </div>

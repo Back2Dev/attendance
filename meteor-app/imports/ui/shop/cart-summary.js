@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Header, Icon, Menu } from 'semantic-ui-react'
+import { Button, Label, Icon, Menu } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
 
 import { CartContext } from './cart-data'
@@ -18,26 +18,22 @@ const Cart = props => {
       )
     }
   }
+  const items = state.totalqty > 1 ? 'items' : 'item'
   return (
-    <div style={cartStyle}>
-      <Button
-        type='button'
-        onClick={checkout}
-        icon
-        labelPosition='left'
-        color='green'
-        size='small'
-        compact
-      >
+    <Button as='div' labelPosition='left' size='large'>
+      <Label basic pointing='right'>
         <Icon name='shopping cart' />
         {!state.totalqty && <span>Cart is empty</span>}
         {state.totalqty > 0 && (
-          <span>
-            {state.totalqty} items, (<Price cents={state.price} />)
-          </span>
+          <div>
+            {state.totalqty} {items} (<Price cents={state.price} />)
+          </div>
         )}
+      </Label>
+      <Button type='button' color='green' onClick={checkout}>
+        Go to checkout now
       </Button>
-    </div>
+    </Button>
   )
 }
 
@@ -57,15 +53,21 @@ export const CartMenuItem = props => {
       )
     }
   }
+  if (!state.totalqty) {
+    return (
+      <Menu.Item position='right' onClick={checkout} color='blue'>
+        <Icon name='shopping cart' /> Cart is empty
+      </Menu.Item>
+    )
+  }
+
+  const items = state.totalqty > 1 ? 'items' : 'item'
   return (
     <Menu.Item position='right' onClick={checkout} color='green'>
-      <Icon name='shopping cart' />
-      {!state.totalqty && <span>Cart is empty</span>}
-      {state.totalqty > 0 && (
-        <span>
-          {state.totalqty} items, (<Price cents={state.price} />)
-        </span>
-      )}
+      <Button type='button' color='green'>
+        <Icon name='shopping cart' />
+        {state.totalqty} {items} (<Price cents={state.price} />)
+      </Button>
     </Menu.Item>
   )
 }

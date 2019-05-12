@@ -103,6 +103,7 @@ export const ProductsSchema = new SimpleSchema({
 const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt')
 
 export const CreditCardSchema = new SimpleSchema({
+  email: { type: String, optional: true },
   address_line1: { type: String, optional: true },
   address_line2: {
     type: String,
@@ -152,13 +153,13 @@ ProductTypes.attachSchema(ProductTypesSchema)
 Carts.attachSchema(CartsSchema)
 
 Carts.allow({
-  update() {
+  update () {
     return true
   },
-  insert() {
+  insert () {
     return true
   },
-  remove() {
+  remove () {
     return true
   }
 })
