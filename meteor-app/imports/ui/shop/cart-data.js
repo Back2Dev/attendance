@@ -16,10 +16,7 @@ const initialState = {
 }
 
 const recalc = state => {
-  state.price = state.products.reduce(
-    (acc, product) => acc + product.qty * product.price,
-    0
-  )
+  state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
   state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
   state.prodqty = {}
   state.products.forEach(prod => {
@@ -91,18 +88,14 @@ const reducer = (state, action) => {
   }
 }
 
-function CartContextProvider (props) {
-  const [state, dispatch] = React.useReducer(
-    reducer,
-    props.cart || initialState
-  )
+function CartContextProvider(props) {
+  const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
   state.logo = props.logo
+  state.org = props.org
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 
-  return (
-    <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
-  )
+  return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
 }
 
 CartContextProvider.propTypes = {

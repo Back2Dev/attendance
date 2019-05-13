@@ -1,7 +1,5 @@
 import { Meteor } from 'meteor/meteor' // base
-import moment from 'moment'
-import Members from '/imports/api/members/schema'
-import Purchases from '/imports/api/purchases/schema'
+import { Carts } from '/imports/api/products/schema'
 import axios from 'axios'
 
 const debug = require('debug')('b2b:payments')
@@ -35,8 +33,20 @@ Meteor.methods({
     debug(`Sending charge to ${paymentURL}`, request)
     try {
       const response = await axios(request)
-      debug(response.data.response)
-      return response.data.response
+      const data = JSON.parse(response.data)
+      data.response.status = response.status
+      data.response.statusText = response.statusText
+      data.response.customerToken = data.response.token
+      delete data.response.token
+      debug(`status: ${response.status} ${response.statusText}`, data.response)
+      Carts.update(chargeData.metadata.cartId, {
+        $set: {
+          chargeResponse: data.response
+        }
+      })
+
+      debug(data.response)
+      return data.response
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
@@ -70,11 +80,21 @@ Meteor.methods({
         password: ''
       }
     }
-    debug(`Sending charge to ${customerURL}`, request)
+    debug(`Creating customer at ${customerURL}`, request)
     try {
       const response = await axios(request)
-      debug(`status: ${response.status} ${response.statusText}`, response.data)
-      return response.data
+      const data = JSON.parse(response.data)
+      data.response.status = response.status
+      data.response.statusText = response.statusText
+      data.response.customerToken = data.response.token
+      delete data.response.token
+      debug(`status: ${response.status} ${response.statusText}`, data.response)
+      Carts.update(custData.metadata.cartId, {
+        $set: {
+          customerResponse: data.response
+        }
+      })
+      return data
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)

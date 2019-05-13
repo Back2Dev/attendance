@@ -20,13 +20,15 @@ const CreditCard = props => {
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [errors, setErrors] = React.useState({})
+  const [keep, setKeep] = React.useState(false)
   const codes = state.products
     .map(prod => {
       return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
     })
     .join(',')
 
-  const { _id: cardId, price, email } = state
+  const { _id: cartId, price } = state
+  const { email } = state.creditCard
 
   React.useEffect(props => {
     debug('useEffect', props)
@@ -114,10 +116,14 @@ const CreditCard = props => {
       Object.keys(response).forEach(key => {
         packet[mapping[key] || key] = response[key]
       })
-      debug('Sending ', packet)
-      // const result = await Meteor.callAsync('makePayment', packet)
-      const result = await Meteor.callAsync('createCustomer', packet)
-      debug('Submitted ok', result)
+      if (keep) {
+        debug('Creating customer ', packet)
+        const result = await Meteor.callAsync('createCustomer', packet)
+        debug('Submitted ok', result)
+      }
+
+      debug('Making payment')
+      const result = await Meteor.callAsync('makePayment', packet)
       if (typeof result === 'string' && result.match(/^Request failed/i)) {
         props.history.push('/shop/failed')
       } else {
@@ -165,9 +171,9 @@ const CreditCard = props => {
           <Image src="/images/cards.png" verticalAlign="middle" verticalAlign="middle" style={{ width: '200px' }} />
         </Header>
         <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
-          <div>
-            Total price: <Price cents={price} />
-          </div>
+          <Header as="h2" style={{ textAlign: 'center' }}>
+            Total charge for card: <Price cents={price} />
+          </Header>
           <label htmlFor="name">
             Full name <Required />
             <ErrMsg>{errors.name}</ErrMsg>
@@ -203,7 +209,7 @@ const CreditCard = props => {
           label="Keep my card on file for future payments"
           name="keep"
           id="keep"
-          defaultChecked
+          onChange={e => setKeep(!keep)}
           style={{ marginTop: '12px', marginLeft: '12px' }}
         />{' '}
         <Modal
