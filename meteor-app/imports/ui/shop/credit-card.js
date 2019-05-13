@@ -3,6 +3,7 @@ import HostedFields from './pin'
 import { Link } from 'react-router-dom'
 import { Form, Image, Container, Segment, Header, Button, Modal, Checkbox, Icon } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
+import Price from './price'
 
 const debug = require('debug')('b2b:shop')
 
@@ -165,7 +166,7 @@ const CreditCard = props => {
         </Header>
         <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
           <div>
-            Product codes: {codes}, Total price: {price}
+            Total price: <Price cents={price} />
           </div>
           <label htmlFor="name">
             Full name <Required />
