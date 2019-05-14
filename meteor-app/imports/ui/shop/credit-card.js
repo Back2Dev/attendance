@@ -7,6 +7,10 @@ import Price from './price'
 
 const debug = require('debug')('b2b:shop')
 
+// Put this variable here, so that it's outside React's lifecycle - when we create the
+// fields object, it contains a tokenize function, which disappears on a component refresh
+let fields = {}
+
 const ErrMsg = props => (
   <span style={{ fontSize: '9px', color: 'red' }} {...props}>
     {props.children}
@@ -16,7 +20,6 @@ const ErrMsg = props => (
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
 const CreditCard = props => {
-  let fields = {}
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [errors, setErrors] = React.useState({})
@@ -37,7 +40,7 @@ const CreditCard = props => {
       debug(`calling HostedFields ${status}`)
       fields = HostedFields.create({
         /* Set this to true when testing. Set it to false in production. */
-        sandbox: true,
+        sandbox: false,
 
         /*
         These are the CSS styles for the input elements inside the iframes. Inside each iframe
