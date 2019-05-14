@@ -68,6 +68,7 @@ Meteor.methods({
           Moment(purchase.expiry).format('Do MMM YYYY'),
           Meteor.settings.private.expiredMembershipID
         )
+        debug('Sending Membership Renewal to ' + member.email)
       })
     })
   },
@@ -75,7 +76,7 @@ Meteor.methods({
     Members.find({}).forEach(member => {
       Purchases.find({
         memberId: member._id,
-        $or: [{ code: 'PA-MEMB-12' }, { code: 'PA-MEMB-3' }],
+        code: /PA-MEMB/,
         expiry: { $gt: new Date() }
       }).forEach(purchase => {
         Meteor.call(
@@ -86,7 +87,7 @@ Meteor.methods({
           Moment(purchase.expiry).format('Do MMM YYYY'),
           Meteor.settings.private.validMembershipID
         )
-        debug('Email sending to ' + purchase.purchaser)
+        debug('Sending Membership reminder to ' + member.email)
       })
     })
   },
@@ -106,27 +107,21 @@ Meteor.methods({
     sgMail.send(options)
   },
   sendPassRenewal() {
-    Members.find({}).forEach(member => {
-      if (member.sessions.length >= 5) {
-        Meteor.call(
-          'sendPassEmail',
-          member.email,
-          member.name,
-          member.sessions.length,
-          Meteor.settings.private.validPassID
-        )
-
-        debug('Sending Email to ' + member.name)
-      } else if (member.sessions.length >= 10) {
-        Meteor.call(
-          'sendPassEmail',
-          member.email,
-          member.name,
-          member.sessions.length,
-          Meteor.settings.private.expiredPassID
-        )
-        debug('Sending Email to ' + member.name)
-      }
+    Members.find({ $where: 'this.sessions.length >=5' }).forEach(member => {
+      Purchases.find({
+        memberId: member._id,
+        code: /PA-PASS/,
+        expiry: { $lt: new Date() }
+      }).forEach(p => {
+        debug(p.purchaser + ' has expired PASS... Sending Renewal Email.')
+      })
+      Purchases.find({
+        memberId: member._id,
+        code: /PA-PASS/,
+        expiry: { $gt: new Date() }
+      }).forEach(p => {
+        debug(p.purchaser + ' has valid PASS.... Sending Reminder Email')
+      })
     })
   }
 })
