@@ -34,6 +34,11 @@ Meteor.methods({
     try {
       const response = await axios(request)
       const data = JSON.parse(response.data)
+      if (data.error) {
+        const errText = `Payment error: ${data.error_description}`
+        console.error(errText)
+        return errText
+      }
       data.response.status = response.status
       data.response.statusText = response.statusText
       data.response.customerToken = data.response.token
@@ -50,7 +55,7 @@ Meteor.methods({
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
-      return error.message
+      return `Payment error: ${error.message}`
     }
   },
   createCustomer: async function(custData) {

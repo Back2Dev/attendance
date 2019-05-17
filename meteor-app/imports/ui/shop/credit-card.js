@@ -127,11 +127,12 @@ const CreditCard = props => {
 
       debug('Making payment')
       const result = await Meteor.callAsync('makePayment', packet)
-      if (typeof result === 'string' && result.match(/^Request failed/i)) {
-        props.history.push('/shop/failed')
+      if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+        setErrors({ remote: result })
+        // props.history.push(`/shop/failed/${result}`)
       } else {
         // Save the result here, and show the payment receipt
-        props.history.push('/shop/receipt')
+        props.history.replace('/shop/receipt')
       }
     })
   }
@@ -205,6 +206,8 @@ const CreditCard = props => {
           <br />
           <div id="expiry" />
         </Form>
+        <ErrMsg>{errors.remote}</ErrMsg>
+        <br />
         <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
           Pay
         </Button>
@@ -214,7 +217,7 @@ const CreditCard = props => {
           id="keep"
           onChange={e => setKeep(!keep)}
           style={{ marginTop: '12px', marginLeft: '12px' }}
-        />{' '}
+        />
         <Modal
           trigger={
             <Button size="mini" type="button" inverted color="blue" icon>
