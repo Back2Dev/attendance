@@ -21,33 +21,35 @@ const Receipt = props => {
   )
   const Purchased = props => (
     <span>
-      {props.items.map(item => (
-        <span>
+      {props.items.map((item, ix) => (
+        <span key={ix}>
           {item.qty} x {item.name} <Price cents={item.price} />
         </span>
       ))}
     </span>
   )
 
-  const items = [
-    { name: 'Purchased', value: <Purchased items={state.products} /> },
-    { name: 'Amount', value: <Price cents={state.chargeResponse.amount} /> },
-    { name: 'Name', value: state.chargeResponse.card.name },
-    {
-      name: 'Card',
-      value: `${state.chargeResponse.card.scheme} ${state.chargeResponse.card.display_number}`
-    },
-    {
-      name: 'Country of issue',
-      value: state.chargeResponse.card.issuing_country
-    },
-    {
-      name: 'Billing address',
-      value: <Address fields={'line1 line2 city state postcode country'.split(/\s+/)} />
-    },
-    { name: 'Date', value: moment().format('DD-MM-YYYY') },
-    { name: 'Time', value: moment().format('HH:MM:SS') }
-  ]
+  const items = !state.chargeResponse
+    ? [{ name: 'Status', value: <span>No data from server?</span> }]
+    : [
+        { name: 'Purchased', value: <Purchased items={state.products} /> },
+        { name: 'Amount', value: <Price cents={state.chargeResponse.amount} /> },
+        { name: 'Name', value: state.chargeResponse.card.name },
+        {
+          name: 'Card',
+          value: `${state.chargeResponse.card.scheme} ${state.chargeResponse.card.display_number}`
+        },
+        {
+          name: 'Country of issue',
+          value: state.chargeResponse.card.issuing_country
+        },
+        {
+          name: 'Billing address',
+          value: <Address fields={'line1 line2 city state postcode country'.split(/\s+/)} />
+        },
+        { name: 'Date', value: moment().format('DD-MM-YYYY') },
+        { name: 'Time', value: moment().format('HH:MM:SS') }
+      ]
 
   return (
     <Container text textAlign="center">

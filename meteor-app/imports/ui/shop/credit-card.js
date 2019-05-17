@@ -7,6 +7,10 @@ import Price from './price'
 
 const debug = require('debug')('b2b:shop')
 
+// Put this variable here, so that it's outside React's lifecycle - when we create the
+// fields object, it contains a tokenize function, which disappears on a component refresh
+let fields = {}
+
 const ErrMsg = props => (
   <span style={{ fontSize: '9px', color: 'red' }} {...props}>
     {props.children}
@@ -16,7 +20,6 @@ const ErrMsg = props => (
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
 const CreditCard = props => {
-  let fields = {}
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [errors, setErrors] = React.useState({})
@@ -37,7 +40,7 @@ const CreditCard = props => {
       debug(`calling HostedFields ${status}`)
       fields = HostedFields.create({
         /* Set this to true when testing. Set it to false in production. */
-        sandbox: true,
+        sandbox: Meteor.settings.public.paymentTest,
 
         /*
         These are the CSS styles for the input elements inside the iframes. Inside each iframe
@@ -124,11 +127,12 @@ const CreditCard = props => {
 
       debug('Making payment')
       const result = await Meteor.callAsync('makePayment', packet)
-      if (typeof result === 'string' && result.match(/^Request failed/i)) {
-        props.history.push('/shop/failed')
+      if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+        setErrors({ remote: result })
+        // props.history.push(`/shop/failed/${result}`)
       } else {
         // Save the result here, and show the payment receipt
-        props.history.push('/shop/receipt')
+        props.history.replace('/shop/receipt')
       }
     })
   }
@@ -139,7 +143,7 @@ const CreditCard = props => {
     /* Clear any existing error messages. */
     const errors = {}
     /* Add each error message to their respective divs. */
-    debug(err)
+    debug('Handling errors', err)
     if (err.messages) {
       err.messages.forEach(errMsg => {
         errors[errMsg.param] = errMsg.message
@@ -148,7 +152,7 @@ const CreditCard = props => {
       setErrors(errors)
     } else {
       if (err.error_description) {
-        // setStatus('error')
+        setErrors({ remote: err.error_description })
       }
     }
   }
@@ -202,6 +206,8 @@ const CreditCard = props => {
           <br />
           <div id="expiry" />
         </Form>
+        <ErrMsg>{errors.remote}</ErrMsg>
+        <br />
         <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
           Pay
         </Button>
@@ -211,7 +217,7 @@ const CreditCard = props => {
           id="keep"
           onChange={e => setKeep(!keep)}
           style={{ marginTop: '12px', marginLeft: '12px' }}
-        />{' '}
+        />
         <Modal
           trigger={
             <Button size="mini" type="button" inverted color="blue" icon>
