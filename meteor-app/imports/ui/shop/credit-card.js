@@ -40,7 +40,7 @@ const CreditCard = props => {
       debug(`calling HostedFields ${status}`)
       fields = HostedFields.create({
         /* Set this to true when testing. Set it to false in production. */
-        sandbox: false,
+        sandbox: Meteor.settings.public.paymentTest,
 
         /*
         These are the CSS styles for the input elements inside the iframes. Inside each iframe
@@ -143,7 +143,7 @@ const CreditCard = props => {
     /* Clear any existing error messages. */
     const errors = {}
     /* Add each error message to their respective divs. */
-    debug(err)
+    debug('Handling errors', err)
     if (err.messages) {
       err.messages.forEach(errMsg => {
         errors[errMsg.param] = errMsg.message
@@ -152,7 +152,7 @@ const CreditCard = props => {
       setErrors(errors)
     } else {
       if (err.error_description) {
-        // setStatus('error')
+        setErrors({ remote: err.error_description })
       }
     }
   }
