@@ -242,15 +242,19 @@ Meteor.methods({
   },
   updateRemainingAll() {
     Members.find({ subsType: 'pass', status: 'current' }).forEach(member => {
-      remValue = 10 - member.sessionCount
+      Purchases.find({ memberId: member._id }).forEach(purchase => {
+        remValue = purchase.remaining - member.sessionCount
+      })
       Members.update({ _id: member._id }, { $set: { remaining: remValue } })
     })
     Members.find({ subsType: 'pass', status: 'expired' }).forEach(member => {
-      if (member.sessionCount == 0) {
-        remValue = 0
-      } else {
-        remValue = 10 - member.sessionCount
-      }
+      Purchases.find({ memberId: member._id }).forEach(purchase => {
+        if (member.sessionCount == 0) {
+          remValue = 0
+        } else {
+          remValue = purchase.remaining - member.sessionCount
+        }
+      })
 
       Members.update({ _id: member._id }, { $set: { remaining: remValue } })
     })
