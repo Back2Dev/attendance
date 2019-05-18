@@ -38,7 +38,7 @@ Meteor.methods({
       log.error('Error from email gateway', error)
     }
   },
-  sendMembershipEmail(to, name, type, expiryDate, apiKey) {
+  sendMembershipEmail(to, name, type, expiry, apiKey) {
     sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
     const options = {
       to,
@@ -47,7 +47,7 @@ Meteor.methods({
       dynamic_template_data: {
         name,
         type,
-        expiryDate
+        expiry
       }
     }
     sgMail.send(options)
@@ -57,7 +57,7 @@ Meteor.methods({
     Members.find({}).forEach(member => {
       Purchases.find({
         memberId: member._id,
-        $or: [{ code: 'PA-MEMB-12' }, { code: 'PA-MEMB-3' }],
+        code: '/PA-MEMB/',
         expiry: { $lt: new Date() }
       }).forEach(purchase => {
         Meteor.call(
@@ -88,6 +88,45 @@ Meteor.methods({
         )
         debug('Email sending to ' + purchase.purchaser)
       })
+    })
+  },
+  sendPassEmail(to, name, visitsUsed, apiKey) {
+    sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+    const options = {
+      to,
+      from: Meteor.settings.private.fromEmail,
+      templateId: apiKey,
+      dynamic_template_data: {
+        name,
+        type,
+        expiry,
+        visitsUsed
+      }
+    }
+    sgMail.send(options)
+  },
+  sendPassRenewal() {
+    Members.find({}).forEach(member => {
+      if (member.sessions.length >= 5) {
+        Meteor.call(
+          'sendPassEmail',
+          member.email,
+          member.name,
+          member.sessions.length,
+          Meteor.settings.private.validPassID
+        )
+
+        debug('Sending Email to ' + member.name)
+      } else if (member.sessions.length >= 10) {
+        Meteor.call(
+          'sendPassEmail',
+          member.email,
+          member.name,
+          member.sessions.length,
+          Meteor.settings.private.expiredPassID
+        )
+        debug('Sending Email to ' + member.name)
+      }
     })
   }
 })
