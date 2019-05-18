@@ -1,14 +1,1 @@
-{
-  "public": {
-    "logo": "/images/pa-logo.jpg",
-    "member": "Member",
-    "parts": 0,
-    "servicing": 0,
-    "recruit": "pa",
-    "shop": 1,
-    "org": "Peak Adventure",
-    "orgid": "pa",
-    "paymentSite": "https://pay.pinpayments.com/r516/",
-    "tagline": "Come and train with us, either on a multi-pass or a membership... because you are worth it."
-  }
-}
+../deploy/settings/prod.pa.settings.json

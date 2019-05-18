@@ -3,25 +3,38 @@ import CONSTANTS from '/imports/api/constants'
 const b2bProducts = {
   events: [
     {
+      name: 'Volunteer',
+      location: 'Back2bikes',
+      when: new Date(),
+      active: false,
+      duration: 3,
+      type: 'fallback'
+    },
+    {
       name: 'Half day',
       location: 'Back2bikes',
       when: new Date(),
       active: true,
-      duration: 3
+      duration: 3,
+      type: 'day',
+      days: [0, 1, 2, 3, 4, 5, 6]
     },
     {
       name: 'Full day',
       location: 'Back2bikes',
       when: new Date(),
       active: true,
-      duration: 6
+      duration: 6,
+      type: 'day',
+      days: [0, 1, 2, 3, 4, 5, 6]
     }
   ],
   productTypes: [
     {
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       name: 'Maintenance Courses',
-      description: 'We offer maintenance courses, you can learn to repair your bike yourself',
+      description:
+        'We offer maintenance courses, you can learn to repair your bike yourself',
       color: 'orange',
       icon: 'wrench',
       image: '/images/maintenance.jpg'
@@ -29,15 +42,17 @@ const b2bProducts = {
     {
       type: CONSTANTS.PRODUCT_TYPES.PASS,
       name: 'Workshop time',
-      description: 'Use our fully equipped workshop  to fix your bike. Get advice and help about how to do it',
-      color: 'lim',
+      description:
+        'Use our fully equipped workshop  to fix your bike. Get advice and help about how to do it',
+      color: 'lime',
       icon: 'cog',
       image: '/images/workshop.jpg'
     },
     {
       type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
       name: 'Memberships',
-      description: 'Join as a member, get access to discounts and workshop time',
+      description:
+        'Join as a member, get access to discounts and workshop time',
       color: 'blue',
       icon: 'cogs',
       image: '/images/membership.jpg'

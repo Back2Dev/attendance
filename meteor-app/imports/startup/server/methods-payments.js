@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor' // base
-import moment from 'moment'
-import Members from '/imports/api/members/schema'
-import Purchases from '/imports/api/purchases/schema'
 import axios from 'axios'
+import { Carts } from '/imports/api/products/schema'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:payments')
 
@@ -35,12 +34,30 @@ Meteor.methods({
     debug(`Sending charge to ${paymentURL}`, request)
     try {
       const response = await axios(request)
-      debug(response.data.response)
-      return response.data.response
+      const data = JSON.parse(response.data)
+      if (data.error) {
+        const errText = `Payment error: ${data.error_description}`
+        console.error(errText)
+        return errText
+      }
+      data.response.status = response.status
+      data.response.statusText = response.statusText
+      data.response.customerToken = data.response.token
+      delete data.response.token
+      debug(`status: ${response.status} ${response.statusText}`, data.response)
+      Carts.update(chargeData.metadata.cartId, {
+        $set: {
+          status: CONSTANTS.CART_STATUS.COMPLETE,
+          chargeResponse: data.response
+        }
+      })
+
+      debug(data.response)
+      return data.response
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
-      return error.message
+      return `Payment error: ${error.message}`
     }
   },
   createCustomer: async function(custData) {
@@ -70,11 +87,21 @@ Meteor.methods({
         password: ''
       }
     }
-    debug(`Sending charge to ${customerURL}`, request)
+    debug(`Creating customer at ${customerURL}`, request)
     try {
       const response = await axios(request)
-      debug(`status: ${response.status} ${response.statusText}`, response.data)
-      return response.data
+      const data = JSON.parse(response.data)
+      data.response.status = response.status
+      data.response.statusText = response.statusText
+      data.response.customerToken = data.response.token
+      delete data.response.token
+      debug(`status: ${response.status} ${response.statusText}`, data.response)
+      Carts.update(custData.metadata.cartId, {
+        $set: {
+          customerResponse: data.response
+        }
+      })
+      return data
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)

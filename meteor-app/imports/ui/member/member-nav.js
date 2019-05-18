@@ -14,6 +14,7 @@ const Nav = props => {
   const memberWords = memberWord + 's'
   const showParts = Meteor.settings.public.parts || false
   const showServicing = Meteor.settings.public.servicing || false
+  const showShop = Meteor.settings.public.shop || false
 
   return (
     <Menu fixed="top" stackable>
@@ -43,13 +44,15 @@ const Nav = props => {
       <Menu.Item>
         <Payment />
       </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          props.history.push('/shop')
-        }}
-      >
-        <Button id="shop" color="blue" content="Shop" icon="group" />
-      </Menu.Item>
+      {showShop && (
+        <Menu.Item
+          onClick={() => {
+            props.history.push('/shop')
+          }}
+        >
+          <Button id="shop" color="blue" content="Shop" icon="shop" />
+        </Menu.Item>
+      )}
       {showServicing && (
         <>
           <Menu.Item>

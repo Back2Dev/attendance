@@ -15,7 +15,7 @@ const debug = require('debug')('b2b:shop')
 const ShopFront = props => {
   if (props.loading) return <div>Loading ...</div>
   return (
-    <CartContextProvider cart={props.carts[0]} cartUpdate={props.cartUpdate}>
+    <CartContextProvider cart={props.carts[0]} cartUpdate={props.cartUpdate} settings={props.settings}>
       <Switch>
         <Route path="/shop" exact component={Building} />
         <Route path="/shop/add/:code/:memberId" exact component={AddContainer} />

@@ -43,6 +43,7 @@ const reducer = (state, action) => {
       const newS = cloneDeep(state)
       if (newS.creditCard) delete newS.creditCard
       newS.creditCard = Object.assign({}, action.payload)
+      // newS.email = action.payload.email
       saveCart(newS)
       debug('save-address', newS)
       return newS
@@ -89,6 +90,7 @@ const reducer = (state, action) => {
 
 function CartContextProvider(props) {
   const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
+  state.settings = props.settings
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 

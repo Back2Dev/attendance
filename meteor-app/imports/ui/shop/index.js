@@ -1,12 +1,14 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
+import { cloneDeep } from 'lodash'
 import { Carts } from '/imports/api/products/schema'
 import ShopFront from './shop-front'
 
 const debug = require('debug')('b2b:shop')
 
-const cartUpdate = contents => {
+const cartUpdate = data => {
   try {
+    const contents = cloneDeep(data)
     const id = contents._id
     if (id) {
       delete contents._id
@@ -30,5 +32,6 @@ export default withTracker(props => {
     carts: Carts.find(cartId).fetch(),
     loading: !cartSub.ready(),
     cartUpdate,
+    settings: Meteor.settings.public
   }
 })(ShopFront)

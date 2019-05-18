@@ -1,15 +1,1 @@
-{
-  "public": {
-    "logo": "/images/logo-tiny.jpg",
-    "member": "Volunteer",
-    "parts": 1,
-    "servicing": 1,
-    "recruit": "b2b",
-    "paymentApiKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
-    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
-    "shop": 1,
-    "orgid": "b2b",
-    "org": "Back2bikes",
-    "tagline": "We'd love to help you learn how to fix your bike. Here's what we offer"
-  }
-}
+../deploy/settings/dev.b2b.settings.json
