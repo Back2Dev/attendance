@@ -50,6 +50,10 @@ export const PurchasesSchema = new SimpleSchema({
     label: 'Transaction date',
     defaultValue: new Date()
   },
+  remaining: {
+    type: SimpleSchema.Integer,
+    optional: true
+  },
   createdAt,
   updatedAt
 })

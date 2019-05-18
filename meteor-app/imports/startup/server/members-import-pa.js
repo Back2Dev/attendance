@@ -24,6 +24,43 @@ const type2code = {
 }
 
 Meteor.methods({
+  'patch.pa': function(secret) {
+    const mapping = {
+      'First Name': 'firstname',
+      'Last Name': 'lastname',
+      address: 'addressStreet',
+      Suburb: 'addressSuburb',
+      State: 'addressState',
+      Postcode: 'addressPostcode',
+      'Email ': 'email',
+      Notes: 'status'
+    }
+    const membersArray = JSON.parse(Assets.getText('pa.json'))
+    membersArray.forEach(member => {
+      try {
+        const sub = { price: 0 }
+        Object.keys(mapping).forEach(key => {
+          if (member[key]) {
+            member[mapping[key]] = member[key]
+            delete member[key]
+          }
+        })
+        member.name = `${member.firstname.trim()} ${member.lastname.trim()}`
+        sub.remaining = member.remaining || 0
+        if (sub.remaining === 'N/A') sub.remaining = 0
+        const existing = member.email
+          ? Members.findOne({ email: member.email })
+          : Members.findOne({ name: member.name })
+        if (existing) {
+          Purchases.update({ memberId: existing._id }, { $set: { remaining: sub.remaining } })
+        }
+      } catch (error) {
+        debug(`Error [${error.message}], Failed to fix `, member)
+        member.reason = error.message
+        Rejects.insert(member)
+      }
+    })
+  },
   'import.pa': function(secret) {
     const mapping = {
       'First Name': 'firstname',
