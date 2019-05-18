@@ -21,10 +21,10 @@ const Cart = props => {
     <Button as="div" labelPosition="left" size="large">
       <Label basic pointing="right">
         <Icon name="shopping cart" />
-        {!state.totalqty && <span>Cart is empty</span>}
+        {!state.totalqty && <span>Cart is empty {!state._id && '!'}</span>}
         {state.totalqty > 0 && (
           <div>
-            {state.totalqty} {items} (<Price cents={state.price} />)
+            {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
           </div>
         )}
       </Label>
@@ -54,7 +54,7 @@ export const CartMenuItem = props => {
   if (!state.totalqty) {
     return (
       <Menu.Item position="right" onClick={checkout} color="blue">
-        <Icon name="shopping cart" /> Cart is empty
+        <Icon name="shopping cart" /> Cart is empty {!state._id && '!'}
       </Menu.Item>
     )
   }
@@ -64,7 +64,7 @@ export const CartMenuItem = props => {
     <Menu.Item position="right" onClick={checkout} color="green">
       <Button type="button" color="green">
         <Icon name="shopping cart" />
-        {state.totalqty} {items} (<Price cents={state.price} />)
+        {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
       </Button>
     </Menu.Item>
   )

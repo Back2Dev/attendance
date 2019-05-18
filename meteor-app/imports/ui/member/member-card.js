@@ -9,7 +9,19 @@ const MyBadge = props => {
   return <Label size="mini" icon={props.icon} content={props.content} color={props.color || 'orange'} />
 }
 const MemberCard = props => {
-  const { _id, name, avatar, isSuper, list, isHere, sessionCount, sessions = [], lastIn = null } = props
+  const {
+    _id,
+    name,
+    avatar,
+    isSuper,
+    list,
+    isHere,
+    sessionCount,
+    subsType,
+    remaining,
+    sessions = [],
+    lastIn = null
+  } = props
   const rookie = sessionCount <= 5
   const isExpired = props.status === 'expired'
   const isSlsa = false
@@ -22,6 +34,7 @@ const MemberCard = props => {
       }
     : null
   const subsColor = isExpired ? 'red' : 'orange'
+  const togo = subsType === 'pass' ? `(${remaining})` : ''
   return (
     <Card style={{ textAlign: 'center' }} className={props.className} key={_id}>
       <Image src={'/images/avatars/' + avatar} style={{ opacity: isExpired ? '0.25' : '1' }} />
@@ -49,7 +62,7 @@ const MemberCard = props => {
             )}
             {props.subsType && (
               <Label size="mini" color={subsColor}>
-                {props.subsType}
+                {props.subsType} {togo}
               </Label>
             )}
             {props.badges && props.badges.map(badge => <MyBadge {...badge} />)}

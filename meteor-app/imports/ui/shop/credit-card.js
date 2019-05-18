@@ -147,7 +147,7 @@ const CreditCard = props => {
         // The cart gets updated with the response on the server
         // So show the payment receipt now
         Alert.success('Payment completed')
-        props.history.replace('/shop/receipt')
+        setTimeout(() => props.history.replace('/shop/receipt'), 1000)
       }
     })
   }
