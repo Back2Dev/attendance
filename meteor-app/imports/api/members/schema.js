@@ -201,6 +201,12 @@ export const MembersSchema = new SimpleSchema({
     label: 'Country of issue',
     optional: true
   },
+  status: {
+    type: String,
+    optional: true
+  },
+  subsType: { type: String, optional: true },
+  remaining: { type: SimpleSchema.Integer, optional: true },
   //
   // End of payment system data
   //
