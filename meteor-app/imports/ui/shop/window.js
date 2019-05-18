@@ -18,12 +18,12 @@ const ProdTypeCard = props => {
 }
 
 const ShopWindow = props => {
-  const { productTypes, org, tagline } = props
+  const { productTypes, settings } = props
   return (
     <div>
-      <h4>{org} Shop</h4>
+      <h4>{settings.org} Shop</h4>
       <CartSummary history={props.history} />
-      <p>{tagline}</p>
+      <p>{settings.tagline}</p>
       {props.loading && <span>Loading...</span>}
       {!props.loading &&
         productTypes &&
@@ -35,6 +35,7 @@ const ShopWindow = props => {
 
 ShopWindow.propTypes = {
   loading: PropTypes.bool.isRequired,
-  productTypes: PropTypes.array
+  productTypes: PropTypes.array,
+  settings: PropTypes.object.isRequired
 }
 export default ShopWindow

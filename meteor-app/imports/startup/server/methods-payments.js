@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor' // base
-import { Carts } from '/imports/api/products/schema'
 import axios from 'axios'
+import { Carts } from '/imports/api/products/schema'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:payments')
 
@@ -46,6 +47,7 @@ Meteor.methods({
       debug(`status: ${response.status} ${response.statusText}`, data.response)
       Carts.update(chargeData.metadata.cartId, {
         $set: {
+          status: CONSTANTS.CART_STATUS.COMPLETE,
           chargeResponse: data.response
         }
       })

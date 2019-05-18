@@ -55,9 +55,9 @@ const Receipt = props => {
     <Container text textAlign="center">
       <Segment textAlign="center">
         <Header as="h2">
-          <Image src={state.logo} />
+          <Image src={state.settings.logo} />
         </Header>
-        <Header as="h5">{state.org}</Header>
+        <Header as="h5">{state.settings.org}</Header>
         <Header as="h2">Card payment receipt</Header>
         <Table basic="very" celled collapsing>
           <Table.Body>

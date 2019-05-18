@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Header, Image, Container, Button, Message, Segment } from 'semantic-ui-react'
-import cloneDeep from 'lodash'
 import { CartContext } from './cart-data'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:shop')
 
@@ -13,6 +13,11 @@ const Address = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const [a, setAddress] = React.useState(state.creditCard || {})
   const [e, setError] = React.useState([])
+
+  const gotoShop = e => {
+    localStorage.setItem('mycart', null)
+    props.history.push('/shop')
+  }
 
   const fieldChange = event => {
     const addr = Object.assign({}, a)
@@ -45,13 +50,30 @@ const Address = props => {
       props.history.push('/shop/credit-card')
     } else setError(errs)
   }
+  if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {
+    debug('Cart is complete')
+    return (
+      <Container text textAlign="center">
+        <Segment textAlign="center">
+          <Header as="h2">Payment form - your address</Header>
+          <Header as="h2">
+            <Image src={state.settings.logo} />
+          </Header>
+          <div>Payment has been completed</div>
+          <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+            Back to the shop
+          </Button>
+        </Segment>
+      </Container>
+    )
+  }
 
   return (
     <Container text textAlign="center">
       <Segment textAlign="center">
         <Header as="h2">Payment form - your address</Header>
         <Header as="h2">
-          <Image src={state.logo} />
+          <Image src={state.settings.logo} />
         </Header>
         <Form id="address_form" action="" method="post" size="mini" style={{ textAlign: 'left' }}>
           <Form.Input

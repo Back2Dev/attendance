@@ -30,7 +30,6 @@ export default withTracker(props => {
     carts: Carts.find(cartId).fetch(),
     loading: !cartSub.ready(),
     cartUpdate,
-    logo: Meteor.settings.public.logo,
-    org: Meteor.settings.public.org
+    settings: Meteor.settings.public
   }
 })(ShopFront)

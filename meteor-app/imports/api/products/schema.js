@@ -171,6 +171,11 @@ export const CartsSchema = new SimpleSchema({
     type: CreditCardSchema,
     optional: true
   },
+  status: {
+    type: String,
+    allowedValues: CONSTANTS.CART_STATUS.ENUM,
+    defaultValue: 'ready'
+  },
   customerResponse: { type: Object, blackbox: true, optional: true },
   chargeResponse: { type: Object, blackbox: true, optional: true },
   createdAt,

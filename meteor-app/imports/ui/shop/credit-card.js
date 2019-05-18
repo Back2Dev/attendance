@@ -1,11 +1,15 @@
 import React from 'react'
+import Alert from 'react-s-alert'
 import HostedFields from './pin'
 import { Link } from 'react-router-dom'
 import { Form, Image, Container, Segment, Header, Button, Modal, Checkbox, Icon } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 import Price from './price'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:shop')
+
+const { paymentsHomePage, paymentTest, paymentApiKey } = Meteor.settings.public
 
 // Put this variable here, so that it's outside React's lifecycle - when we create the
 // fields object, it contains a tokenize function, which disappears on a component refresh
@@ -16,6 +20,11 @@ const ErrMsg = props => (
     {props.children}
   </span>
 )
+const StatusMsg = props => (
+  <span style={{ fontSize: '9px', color: 'green' }} {...props}>
+    {props.children}
+  </span>
+)
 
 const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
@@ -23,6 +32,7 @@ const CreditCard = props => {
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [errors, setErrors] = React.useState({})
+  const [statusMsg, setStatus] = React.useState('')
   const [keep, setKeep] = React.useState(false)
   const codes = state.products
     .map(prod => {
@@ -31,16 +41,17 @@ const CreditCard = props => {
     .join(',')
 
   const { _id: cartId, price } = state
+  if (!cartId) debug('_id is missing from state', state)
   const { email } = state.creditCard
 
   React.useEffect(props => {
     debug('useEffect', props)
-    if (status === 'entry') {
+    if (status === 'entry' && state.status !== CONSTANTS.CART_STATUS.COMPLETE) {
       status = 'loading'
       debug(`calling HostedFields ${status}`)
       fields = HostedFields.create({
         /* Set this to true when testing. Set it to false in production. */
-        sandbox: Meteor.settings.public.paymentTest,
+        sandbox: paymentTest,
 
         /*
         These are the CSS styles for the input elements inside the iframes. Inside each iframe
@@ -93,7 +104,7 @@ const CreditCard = props => {
   */
     const address = Object.assign(
       {
-        publishable_api_key: Meteor.settings.public.paymentApiKey
+        publishable_api_key: paymentApiKey
       },
       state.creditCard
     )
@@ -126,12 +137,16 @@ const CreditCard = props => {
       }
 
       debug('Making payment')
+      setStatus('Transmitting')
       const result = await Meteor.callAsync('makePayment', packet)
+      setStatus('')
       if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
         setErrors({ remote: result })
         // props.history.push(`/shop/failed/${result}`)
       } else {
-        // Save the result here, and show the payment receipt
+        // The cart gets updated with the response on the server
+        // So show the payment receipt now
+        Alert.success('Payment completed')
         props.history.replace('/shop/receipt')
       }
     })
@@ -142,6 +157,7 @@ const CreditCard = props => {
   function handleErrors(err) {
     /* Clear any existing error messages. */
     const errors = {}
+    setStatus('')
     /* Add each error message to their respective divs. */
     debug('Handling errors', err)
     if (err.messages) {
@@ -160,15 +176,39 @@ const CreditCard = props => {
   const submitForm = e => {
     debug('Tokenising fields')
     e.preventDefault()
+    setErrors({})
+    setStatus('Preparing')
     tokenizeHostedFields()
   }
 
+  const gotoShop = e => {
+    localStorage.setItem('mycart', null)
+    props.history.push('/shop')
+  }
+
+  if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {
+    debug('Cart is complete')
+    return (
+      <Container text textAlign="center">
+        <Segment textAlign="center">
+          <Header as="h2">Payment form - credit card</Header>
+          <Header as="h2">
+            <Image src={state.settings.logo} />
+          </Header>
+          <div>Payment has been completed</div>
+          <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+            Back to the shop
+          </Button>
+        </Segment>
+      </Container>
+    )
+  }
   return (
     <Container text textAlign="center">
       <Segment textAlign="center">
         <Header as="h2">Payment form - credit card</Header>
         <Header as="h2">
-          <Image src={state.logo} />
+          <Image src={state.settings.logo} />
         </Header>
         <Header as="h5">
           Cards accepted: &nbsp;&nbsp;
@@ -180,33 +220,34 @@ const CreditCard = props => {
           </Header>
           <label htmlFor="name">
             Full name <Required />
-            <ErrMsg>{errors.name}</ErrMsg>
+            <ErrMsg id="err.name">{errors.name}</ErrMsg>
           </label>
           <br />
           <div id="name" />
 
           <label htmlFor="number">
             Card number <Required />
-            <ErrMsg>{errors.number}</ErrMsg>
+            <ErrMsg id="err.number">{errors.number}</ErrMsg>
           </label>
           <br />
           <div id="number" />
 
           <label htmlFor="cvc">
             CVC <Required />
-            <ErrMsg>{errors.cvc}</ErrMsg>
+            <ErrMsg id="err.cvc">{errors.cvc}</ErrMsg>
           </label>
           <br />
           <div id="cvc" />
 
           <label htmlFor="expiry">
             Expiry <Required />
-            <ErrMsg>{errors.expiry}</ErrMsg>
+            <ErrMsg id="err.expiry">{errors.expiry}</ErrMsg>
           </label>
           <br />
           <div id="expiry" />
         </Form>
-        <ErrMsg>{errors.remote}</ErrMsg>
+        <ErrMsg id="err.remote">{errors.remote}</ErrMsg>
+        <StatusMsg id="status.msg">{statusMsg}</StatusMsg>
         <br />
         <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
           Pay
@@ -229,9 +270,9 @@ const CreditCard = props => {
         >
           <Modal.Content scrolling>
             <Modal.Description>
-              <a href="https://pinpayments.com" target="_blank">
+              <a href={paymentsHomePage} target="_blank">
                 <Header as="h2">
-                  <Image src={state.logo} />
+                  <Image src={state.settings.logo} />
                   <Image src="/images/pinpayments.png" style={{ width: '140px' }} />
                 </Header>
               </a>

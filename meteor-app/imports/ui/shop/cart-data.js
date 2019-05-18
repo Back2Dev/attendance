@@ -90,8 +90,7 @@ const reducer = (state, action) => {
 
 function CartContextProvider(props) {
   const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
-  state.logo = props.logo
-  state.org = props.org
+  state.settings = props.settings
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 
