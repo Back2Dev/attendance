@@ -10,10 +10,10 @@ const Receipt = props => {
   const Address = props => (
     <div>
       {props.fields
-        .filter(part => state.chargeResponse.card[`address_${part}`])
+        .filter(part => state.card[`address_${part}`])
         .map(part => (
           <span key={part}>
-            {state.chargeResponse.card[`address_${part}`]}
+            {state.card[`address_${part}`]}
             <br />
           </span>
         ))}
@@ -29,19 +29,19 @@ const Receipt = props => {
     </span>
   )
 
-  const items = !state.chargeResponse
+  const items = !state.card
     ? [{ name: 'Status', value: <span>No data from server?</span> }]
     : [
         { name: 'Purchased', value: <Purchased items={state.products} /> },
-        { name: 'Amount', value: <Price cents={state.chargeResponse.amount} /> },
-        { name: 'Name', value: state.chargeResponse.card.name },
+        { name: 'Amount', value: <Price cents={state.price} /> },
+        { name: 'Name', value: state.card.name },
         {
           name: 'Card',
-          value: `${state.chargeResponse.card.scheme} ${state.chargeResponse.card.display_number}`
+          value: `${state.card.scheme} ${state.card.display_number}`
         },
         {
           name: 'Country of issue',
-          value: state.chargeResponse.card.issuing_country
+          value: state.card.issuing_country
         },
         {
           name: 'Billing address',
@@ -50,6 +50,11 @@ const Receipt = props => {
         { name: 'Date', value: moment().format('DD-MM-YYYY') },
         { name: 'Time', value: moment().format('HH:MM:SS') }
       ]
+
+  const gotoShop = e => {
+    localStorage.setItem('mycart', null)
+    props.history.push('/shop')
+  }
 
   return (
     <Container text textAlign="center">
@@ -71,6 +76,9 @@ const Receipt = props => {
             ))}
           </Table.Body>
         </Table>
+        <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+          Back to the shop
+        </Button>
       </Segment>
     </Container>
   )

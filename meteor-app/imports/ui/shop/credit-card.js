@@ -118,6 +118,7 @@ const CreditCard = props => {
       }
 
       debug(`Calculated card token as ${response.token}`, response)
+      state.card = response
 
       /* Submit the form with the added card_token input. */
       debug('Submitting')
@@ -149,7 +150,8 @@ const CreditCard = props => {
         // The cart gets updated with the response on the server
         // So show the payment receipt now
         Alert.success('Payment completed')
-        setTimeout(() => props.history.push('/shop/receipt'), 1000)
+        state.status = CONSTANTS.CART_STATUS.COMPLETE
+        props.history.replace('/shop/receipt')
       }
     })
   }
@@ -162,9 +164,12 @@ const CreditCard = props => {
     setStatus('')
     /* Add each error message to their respective divs. */
     debug('Handling errors', err)
+    cardFormParams = 'name number cvc expiry'.split(/\s+/)
     if (err.messages) {
+      errors.remote = ''
       err.messages.forEach(errMsg => {
         errors[errMsg.param] = errMsg.message
+        if (!cardFormParams.includes(errMsg.param)) errors.remote = `${errors.remote} ${errMsg.message}`
       })
       debug('Errors:', errors)
       setErrors(errors)

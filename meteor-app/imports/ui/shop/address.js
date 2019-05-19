@@ -29,7 +29,7 @@ const Address = props => {
 
   const submitAddress = event => {
     event.preventDefault()
-    const required = 'email line1 city postcode state'.split(/\s+/)
+    const required = 'email line1 city postcode state country'.split(/\s+/)
     const errs = []
 
     // If we are valid...

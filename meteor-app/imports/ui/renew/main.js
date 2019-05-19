@@ -10,7 +10,7 @@ import ProductButton from '/imports/ui/shop/product-button'
 // import { RenewContextProvider } from './context'
 
 const Main = props => {
-  const [product, setProduct] = React.useState(props.products[0])
+  const [product, setProduct] = React.useState(props.myProduct)
   const add = props => {}
   const remove = props => {}
   const selectOption = product => {
@@ -33,11 +33,11 @@ const Main = props => {
               <MembershipCard member={props.member} />
             </Card.Group>
           </Grid.Column>
-          <Grid.Column width={8}>
+          <Grid.Column width={8} centered>
+            <h4>Please choose a membership option </h4>
             <Card.Group centered>
               {!(product && product.name) && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                  <h4>Please choose a membership option</h4>
                   {props.products.map(p => (
                     <ProductButton key={p.name} {...p} onClick={() => selectOption(p)} />
                   ))}
@@ -65,6 +65,7 @@ Main.propTypes = {
   logo: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   purchases: PropTypes.array.isRequired,
-  products: PropTypes.array.isRequired
+  products: PropTypes.array.isRequired,
+  myProduct: PropTypes.object
 }
 export default Main
