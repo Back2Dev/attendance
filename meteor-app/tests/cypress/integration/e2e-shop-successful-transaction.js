@@ -22,15 +22,15 @@ describe('Shopping Payment', function() {
     cy.get('button')
       .contains('Go to checkout now')
       .should('exist')
-      .click()    
+      .click()
   })
-  it ('Confirm Cart', function() {
+  it('Confirm Cart', function() {
     cy.get('button')
       .contains('Buy now')
       .should('exist')
       .click()
   })
-  it ('Add Personal Details', function() {
+  it('Add Personal Details', function() {
     cy.get('h2')
       .contains('Payment form - your address')
       .should('exist')
@@ -56,19 +56,47 @@ describe('Shopping Payment', function() {
       .contains('Next')
       .click()
   })
-  it ('Add Card Details', function() {
-      cy.get('#name').within(() => {
-        // cy.get('iframe').then(function($iframe){
-        //   const b = $iframe.contents().find("input")
-        //   cy.wrap(b).click({force: true})
-        // })
-        cy.get('iframe').then($element => {
-
-          const $body = $element.contents().find('body')
-        
-          let stripe = cy.wrap($body)
-          stripe.find('input').eq(0).click().type('4242424242424242')      
+  it('fills out card details', () => {
+    Cypress.Commands.add('pinType', (field, text) => {
+      cy.get('#' + field).within(() => {
+        cy.get(`iframe`).then($iframe => {
+          const body = $iframe.contents().find('body')
+          cy.wrap(body)
+            .find(`.${field}`)
+            .type(text)
         })
       })
+    })
+
+    cy.wait(2000)
+    cy.pinType('name', 'Mickey Moto')
+    cy.pinType('number', '4242000000000000')
+    cy.pinType('cvc', '000')
+    cy.pinType('expiry', '12/22')
+    cy.get('button')
+      .contains('Pay')
+      .click()
+    cy.log('on the way')
+    cy.get('span').contains('Preparing')
+    cy.get('span').contains('Transmitting')
+    cy.wait(20000)
+    cy.get('h2').contains('Card payment receipt')
   })
+  // it('Add Card Details', function() {
+  //   cy.get('iframe.pin.name')
+  //     .should('exist')
+  //     .then(function($iframe) {
+  //       //   cy.get('#name').within(() => {
+  //       // cy.get('iframe')
+  //       const iframe = $iframe.contents()
+  //       const cardNameInput = iframe.find('#thisField')
+  //       cardNameInput.val('Mikkel king')
+
+  //       // setTimeout(() => {
+  //       //   iframe.find('button').click()
+  //       // }, 1000)
+
+  //       return null
+  //     })
+  // })
 })

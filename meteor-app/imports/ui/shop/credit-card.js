@@ -108,9 +108,11 @@ const CreditCard = props => {
       },
       state.creditCard
     )
-
+    console.log('tokenize')
     fields.tokenize(address, async (err, response) => {
       if (err) {
+        console.log('tokenize errors', err)
+
         handleErrors(err)
         return
       }
@@ -147,7 +149,7 @@ const CreditCard = props => {
         // The cart gets updated with the response on the server
         // So show the payment receipt now
         Alert.success('Payment completed')
-        setTimeout(() => props.history.replace('/shop/receipt'), 1000)
+        setTimeout(() => props.history.push('/shop/receipt'), 1000)
       }
     })
   }

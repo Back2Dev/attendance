@@ -1,10 +1,12 @@
 {
   "projectId": "81ebdm",
-  "baseUrl": "https://staging.back2bikes.com.au/",
+  "baseUrl": "http://localhost:3030/",
+  "xbaseUrl": "https://staging.back2bikes.com.au/",
   "integrationFolder": "tests/cypress/integration",
   "fixturesFolder": "tests/cypress/fixtures",
   "pluginsFile": "tests/cypress/plugins/index.js",
   "screenshotsFolder": "tests/cypress/screenshots",
   "supportFile": "tests/cypress/support/index.js",
+  "chromeWebSecurity": false,
   "videosFolder": "tests/cypress/videos"
 }
