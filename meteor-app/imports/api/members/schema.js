@@ -205,6 +205,10 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true
   },
+  expiry: {
+    type: Date,
+    optional: true
+  },
   subsType: { type: String, optional: true },
   remaining: { type: SimpleSchema.Integer, optional: true },
   //

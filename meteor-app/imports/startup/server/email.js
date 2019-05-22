@@ -130,7 +130,7 @@ Meteor.methods({
         { _id: memberId },
         {
           $set: {
-            status: status
+            status
           }
         }
       )
@@ -174,7 +174,8 @@ Meteor.methods({
             { _id: purchase.memberId },
             {
               $set: {
-                status: 'expired'
+                status: 'expired',
+                expiry: purchase.expiry
               }
             }
           )
@@ -184,7 +185,8 @@ Meteor.methods({
             { _id: purchase.memberId },
             {
               $set: {
-                status: 'current'
+                status: 'current',
+                expiry: purchase.expiry
               }
             }
           )

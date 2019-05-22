@@ -6,7 +6,7 @@ const ProductButton = props => {
   const img = props.image || '/images/gym.jpg'
   const { add, color, name } = props
   return (
-    <Button type="button" onClick={props.onClick} color={color}>
+    <Button type="button" onClick={props.onClick} color={color} style={{ margin: '4px' }}>
       {name}
     </Button>
   )

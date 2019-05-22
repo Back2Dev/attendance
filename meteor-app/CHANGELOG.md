@@ -16,6 +16,7 @@
 - Fixed cron problem
 - Added Membership Card
 - Added Multi-visit Card and Maintain-Course Card.
+- Show expired members in red
 
   0.11.0
 

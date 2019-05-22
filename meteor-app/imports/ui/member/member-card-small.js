@@ -9,7 +9,7 @@ const MemberCardSmall = props => {
     const names = name ? name.split(' ') : ['Unknown']
     return names[1] ? `${names[0]} ${names[1][0]}` : `${names[0]}`
   })(name)
-
+  const color = props.status === 'expired' ? 'red' : ''
   return (
     <List.Item
       style={{
@@ -20,7 +20,9 @@ const MemberCardSmall = props => {
     >
       <Image size="tiny" avatar spaced src={'/images/avatars/' + avatar} style={{ border: '3px solid white' }} />
       <div list={list}>
-        <Label size="big">{shortName}</Label>
+        <Label size="big" color={color}>
+          {shortName}
+        </Label>
       </div>
     </List.Item>
   )

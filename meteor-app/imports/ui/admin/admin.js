@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
-import MemberCardSmall from '/imports/ui/member/member-card-small'
 import { Grid } from 'semantic-ui-react'
 import AdminMemberList from '/imports/ui/admin/admin-member-list'
 
