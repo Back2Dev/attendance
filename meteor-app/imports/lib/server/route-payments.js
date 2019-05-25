@@ -10,6 +10,7 @@ async function acceptPayment(req, res) {
   Meteor.bindEnvironment(() => {
     try {
       debug('Saving', req.body)
+      // First check the authentication, see here: https://pinpayments.com/developers/integration-guides/webhooks
       // req.body.cartId will contain the id of the cart.
       //Find the cart, and then create a purchase record from the contents of the cart
     } catch (e) {
