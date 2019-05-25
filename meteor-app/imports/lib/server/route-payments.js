@@ -24,7 +24,7 @@ async function acceptPayment(req, res) {
 export function setupPaymentsApi() {
   debug('Setting up payment hooks')
   const app = express()
-  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json({ extended: false }))
 
   app.post('/payment', acceptPayment)
   app.get('/api', (req, res) => {
