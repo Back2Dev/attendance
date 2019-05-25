@@ -9,10 +9,9 @@ async function acceptPayment(req, res) {
   // We need to bind to the Meteor environment for this to work.
   Meteor.bindEnvironment(() => {
     try {
-      debug('Saving')
-      const txn = Purchases.update('1234', {
-        status: 'Paid'
-      })
+      debug('Saving', req.body)
+      // req.body.cartId will contain the id of the cart.
+      //Find the cart, and then create a purchase record from the contents of the cart
     } catch (e) {
       console.error(e)
     }
