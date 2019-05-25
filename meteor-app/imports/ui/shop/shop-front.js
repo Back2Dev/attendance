@@ -9,6 +9,7 @@ import Address from './address'
 import CreditCard from './credit-card'
 import Failed from './failed'
 import Receipt from './receipt'
+import Renewal from './renewal'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 
@@ -25,6 +26,7 @@ const ShopFront = props => {
         <Route path="/shop/receipt" exact component={Receipt} />
         <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
+        <Route path="/renew/:id" component={Renewal} />
       </Switch>
     </CartContextProvider>
   )

@@ -1,17 +1,25 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { cloneDeep } from 'lodash'
 import { Button, Image, Card, Segment, Grid, Header } from 'semantic-ui-react'
 
 import MemberCard from '/imports/ui/member/member-card-small'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import { ProductCardOnly } from '/imports/ui/shop/product-card'
 import ProductButton from '/imports/ui/shop/product-button'
-// import { RenewContextProvider } from './context'
+import { CartContext } from './cart-data'
 
-const Main = props => {
+const Renew = props => {
   const [product, setProduct] = React.useState(props.myProduct)
-  const add = props => {}
+  const { state, dispatch } = React.useContext(CartContext)
+  const add = () => {
+    const prod = cloneDeep(product)
+    prod.qty = 0
+    dispatch({ type: 'add', payload: prod })
+    props.history.push('/shop/checkout')
+  }
+
   const remove = props => {}
   const selectOption = product => {
     setProduct(product)
@@ -59,7 +67,7 @@ const Main = props => {
   )
 }
 
-Main.propTypes = {
+Renew.propTypes = {
   member: PropTypes.object.isRequired,
   org: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
@@ -68,4 +76,4 @@ Main.propTypes = {
   products: PropTypes.array.isRequired,
   myProduct: PropTypes.object
 }
-export default Main
+export default Renew

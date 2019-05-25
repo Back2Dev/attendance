@@ -4,13 +4,13 @@ import React from 'react'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Products from '/imports/api/products/schema'
-import Main from './main'
+import Renew from './renew'
 
 const debug = require('debug')('b2b:renew')
 
 const Loader = props => {
   if (props.loading) return <div>Loading...</div>
-  return <Main {...props} />
+  return <Renew {...props} />
 }
 
 export default withTracker(props => {
