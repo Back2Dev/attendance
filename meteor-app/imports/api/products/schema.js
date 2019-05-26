@@ -84,7 +84,8 @@ export const ProductsSchema = new SimpleSchema({
   },
   autoRenew: {
     type: Boolean,
-    label: 'Does it automatically get renewed'
+    label: 'Does it automatically get renewed',
+    defaultValue: true
   },
   startDate: {
     type: Date,
@@ -100,7 +101,9 @@ export const ProductsSchema = new SimpleSchema({
   updatedAt
 })
 
-const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt')
+const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt').extend({
+  expiry: { type: Date, optional: true }
+})
 
 export const CreditCardSchema = new SimpleSchema({
   email: { type: String, optional: true },

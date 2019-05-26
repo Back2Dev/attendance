@@ -18,7 +18,7 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member.renew', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
-  const purchases = Purchases.find({ memberId: id }).fetch()
+  const purchases = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
   const products = Products.find({ active: true }).fetch()
   let myProduct
   if (purchases.length) {

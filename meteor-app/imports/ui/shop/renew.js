@@ -15,6 +15,8 @@ const Renew = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const add = () => {
     const prod = cloneDeep(product)
+    prod.memberId = props.member._id
+    if (props.purchases && props.purchases.length) prod.expiry = props.purchases[0].expiry
     prod.qty = 0
     dispatch({ type: 'add', payload: prod })
     props.history.push('/shop/checkout')

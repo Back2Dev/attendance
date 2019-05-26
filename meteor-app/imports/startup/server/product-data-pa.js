@@ -28,6 +28,7 @@ const myProducts = {
       code: 'PA-PASS-CASUAL',
       autoRenew: true,
       active: true,
+      qty: 1,
       image: '/images/pass.jpg'
     },
     {
@@ -37,6 +38,7 @@ const myProducts = {
       type: CONSTANTS.PRODUCT_TYPES.PASS,
       code: 'PA-PASS-MULTI-10',
       active: true,
+      qty: 10,
       autoRenew: true,
       duration: 2,
       image: '/images/pass.jpg'
