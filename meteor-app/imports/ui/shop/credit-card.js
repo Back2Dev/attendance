@@ -33,7 +33,7 @@ const CreditCard = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const [errors, setErrors] = React.useState({})
   const [statusMsg, setStatus] = React.useState('')
-  const [keep, setKeep] = React.useState(false)
+  const [keep, setKeep] = React.useState(true)
   const codes = state.products
     .map(prod => {
       return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
@@ -136,7 +136,7 @@ const CreditCard = props => {
       if (keep) {
         debug('Creating customer ', packet)
         const result = await Meteor.callAsync('createCustomer', packet)
-        debug('Submitted ok', result)
+        debug('Customer created ok', result)
       }
 
       debug('Making payment')
@@ -263,12 +263,14 @@ const CreditCard = props => {
           label="Keep my card on file for future payments"
           name="keep"
           id="keep"
+          checked={keep}
+          value={1}
           onChange={e => setKeep(!keep)}
           style={{ marginTop: '12px', marginLeft: '12px' }}
         />
         <Modal
           trigger={
-            <Button size="mini" type="button" inverted color="blue" icon>
+            <Button size="mini" type="button" inverted color="blue" icon style={{ marginLeft: '12px' }}>
               <Icon name="info" />
               Why?
             </Button>

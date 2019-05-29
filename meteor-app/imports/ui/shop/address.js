@@ -11,9 +11,15 @@ const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*
 
 const Address = props => {
   const { state, dispatch } = React.useContext(CartContext)
-  const [a, setAddress] = React.useState(state.creditCard || {})
+  const [a, setAddress] = React.useState(
+    CartContext.creditCard || {
+      email: CartContext.email,
+      memberId: CartContext.memberId
+    }
+  )
   const [e, setError] = React.useState([])
 
+  debug(state, a)
   const gotoShop = e => {
     localStorage.setItem('mycart', null)
     props.history.push('/shop')

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor' // base
 import axios from 'axios'
 import { Carts } from '/imports/api/products/schema'
 import CONSTANTS from '/imports/api/constants'
+import Members from '/imports/api/members/schema'
 
 const debug = require('debug')('b2b:payments')
 
@@ -96,11 +97,14 @@ Meteor.methods({
       data.response.customerToken = data.response.token
       delete data.response.token
       debug(`status: ${response.status} ${response.statusText}`, data.response)
-      Carts.update(custData.metadata.cartId, {
-        $set: {
-          customerResponse: data.response
-        }
-      })
+      // Carts.update(custData.metadata.cartId, {
+      //   $set: {
+      //     customerResponse: data.response
+      //   }
+      // })
+      // const cart = Carts.find(custData.metadata.cartId)
+      // if (cart && cart.memberId)
+      Members.update({ email: custData.email }, { $set: { paymentCustId: data.response.customerToken } })
       return data
     } catch (error) {
       debug(error)

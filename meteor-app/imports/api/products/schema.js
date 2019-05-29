@@ -92,6 +92,7 @@ export const ProductsSchema = new SimpleSchema({
     label: 'Product start date',
     optional: true
   },
+
   endDate: {
     type: Date,
     label: 'Product end date',
@@ -149,6 +150,7 @@ export const PaymentResponseSchema = new SimpleSchema({
 export const CartsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: OptionalRegExId,
+  email: OptionalString,
   userId: OptionalRegExId,
   price: {
     type: SimpleSchema.Integer,

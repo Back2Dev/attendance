@@ -67,6 +67,7 @@ const reducer = (state, action) => {
         action.payload.qty = 1
         if (action.payload.memberId) state.memberId = action.payload.memberId
         if (action.payload.expiry) state.expiry = action.payload.expiry
+        if (action.payload.email) state.email = action.payload.email
         state.products.push(action.payload)
       }
 

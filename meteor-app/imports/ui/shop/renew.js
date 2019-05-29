@@ -16,6 +16,7 @@ const Renew = props => {
   const add = () => {
     const prod = cloneDeep(product)
     prod.memberId = props.member._id
+    prod.email = props.member.email
     if (props.purchases && props.purchases.length) prod.expiry = props.purchases[0].expiry
     prod.qty = 0
     dispatch({ type: 'add', payload: prod })
