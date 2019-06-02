@@ -24,7 +24,7 @@ const PayNowButton = props => {
 
 export const ProductCardOnly = props => {
   const img = props.image || '/images/gym.jpg'
-  const { mode, add, remove, color = 'green', name, description, price, code, qty } = props
+  const { mode, takeAction, remove, color = 'green', name, description, price, code, qty } = props
   return (
     <Card color={color}>
       <Card.Content>
@@ -38,11 +38,20 @@ export const ProductCardOnly = props => {
         <Card.Description>{description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
+        {mode === 'next' && (
+          <div>
+            <Price cents={price} />
+            &nbsp;
+            <Button type="button" onClick={takeAction} color={color}>
+              Next
+            </Button>
+          </div>
+        )}
         {mode === 'add' && (
           <div>
             <Price cents={price} />
             &nbsp;
-            <Button type="button" onClick={add} color={color}>
+            <Button type="button" onClick={takeAction} color={color}>
               Add to cart
             </Button>
           </div>
@@ -70,7 +79,7 @@ export const ProductCard = props => {
     dispatch({ type: 'remove', payload: props._id })
   }
 
-  return <ProductCardOnly {...props} add={add} remove={remove} />
+  return <ProductCardOnly {...props} takeAction={add} remove={remove} />
 }
 
 ProductCard.propTypes = {

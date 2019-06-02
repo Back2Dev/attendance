@@ -13,6 +13,11 @@ import { CartContext } from './cart-data'
 const Renew = props => {
   const [product, setProduct] = React.useState(props.myProduct)
   const { state, dispatch } = React.useContext(CartContext)
+  // With the next action, the product is in the cart already
+  const next = () => {
+    props.history.push('/shop/checkout')
+  }
+  // Here we have to add it into the cart
   const add = () => {
     const prod = cloneDeep(product)
     prod.memberId = props.member._id
@@ -30,8 +35,11 @@ const Renew = props => {
   const change = () => {
     setProduct(null)
   }
+
   const logoFile = props.logo || '/images/logo-tiny.jpg'
   if (props.loading) return <div>Loading...</div>
+  let { cart } = props
+  const haveCart = cart && cart.products && cart.products.length > 0
   return (
     <div>
       <Header as="h1">
@@ -44,9 +52,22 @@ const Renew = props => {
               <MembershipCard member={props.member} />
             </Card.Group>
           </Grid.Column>
-          <Grid.Column width={8} centered>
+          <Grid.Column width={8}>
             <h4>Please choose a membership option </h4>
             <Card.Group centered>
+              {haveCart && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                  {cart.products.map(p => (
+                    <ProductCardOnly
+                      mode="next"
+                      takeAction={next}
+                      key={p.name}
+                      {...p}
+                      onClick={() => selectOption(p)}
+                    />
+                  ))}
+                </div>
+              )}
               {!(product && product.name) && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                   {props.products.map(p => (
@@ -54,13 +75,13 @@ const Renew = props => {
                   ))}
                 </div>
               )}
+              {!haveCart && product && product.name && (
+                <ProductCardOnly mode="add" {...product} takeAction={add} remove={remove} />
+              )}
               {product && product.name && (
-                <div>
-                  <ProductCardOnly mode="add" {...product} add={add} remove={remove} />
-                  <Button type="button" onClick={change} color="blue" inverted style={{ marginTop: '12px' }}>
-                    Change
-                  </Button>
-                </div>
+                <Button type="button" onClick={change} color="blue" inverted style={{ marginTop: '12px' }}>
+                  Change
+                </Button>
               )}
             </Card.Group>
           </Grid.Column>
@@ -77,6 +98,7 @@ Renew.propTypes = {
   loading: PropTypes.bool.isRequired,
   purchases: PropTypes.array.isRequired,
   products: PropTypes.array.isRequired,
+  cart: PropTypes.object.isRequired,
   myProduct: PropTypes.object
 }
 export default Renew

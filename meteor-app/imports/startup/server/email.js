@@ -4,7 +4,8 @@ const debug = require('debug')('b2b:email')
 const sgMail = require('@sendgrid/mail')
 import { eventLog } from '/imports/api/eventlogs'
 import Purchases from '/imports/api/purchases/schema'
-import Members from '/imports/api/members/schema'
+import Products, { Carts } from '/imports/api/products/schema'
+import Members, { pinAddressFieldMap } from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
 import Moment from 'moment'
@@ -170,6 +171,7 @@ Meteor.methods({
     try {
       Members.find({}).forEach(member => {
         Purchases.find({ memberId: member._id, expiry: { $lt: new Date() } }).forEach(purchase => {
+          debug(`Member ${member.name} is expired (${purchase.expiry})`)
           Members.update(
             { _id: purchase.memberId },
             {
@@ -181,6 +183,7 @@ Meteor.methods({
           )
         })
         Purchases.find({ memberId: member._id, expiry: { $gt: new Date() } }).forEach(purchase => {
+          debug(`Member ${member.name} is current, expiring (${purchase.expiry})`)
           Members.update(
             { _id: purchase.memberId },
             {
@@ -192,6 +195,14 @@ Meteor.methods({
           )
         })
       })
+      Members.update({ status: null }, { $set: { status: 'expired' } }, { multi: true })
+      const stats = Members.find({})
+        .fetch()
+        .reduce((acc, member) => {
+          acc[member.status] = acc[member.status] ? acc[member.status] + 1 : 1
+          return acc
+        }, {})
+      debug('Member status: ', stats)
     } catch (e) {
       debug(e)
     }
@@ -199,70 +210,77 @@ Meteor.methods({
   updateSubsTypeAll() {
     try {
       Purchases.find({ code: /PA-PASS/ }).forEach(purchase => {
-        Members.update(
-          { _id: purchase.memberId },
-          {
-            $set: {
-              subsType: 'pass'
-            }
+        debug(`Member ${purchase.memberId} ${purchase.purchaser} pass: ${purchase.code}`)
+        Members.update(purchase.memberId, {
+          $set: {
+            subsType: 'pass'
           }
-        )
+        })
       })
       Purchases.find({ code: /PA-MEMB/ }).forEach(purchase => {
-        Members.update(
-          { _id: purchase.memberId },
-          {
-            $set: {
-              subsType: 'member'
-            }
+        debug(`Member ${purchase.purchaser} member: ${purchase.code}`)
+        Members.update(purchase.memberId, {
+          $set: {
+            subsType: 'member'
           }
-        )
+        })
       })
       Purchases.find({ code: 'PA-PASS-CASUAL' }).forEach(purchase => {
-        Members.update(
-          { _id: purchase.memberId },
-          {
-            $set: {
-              subsType: 'casual'
-            }
+        debug(`Member ${purchase.purchaser} casual: ${purchase.code}`)
+        Members.update(purchase.memberId, {
+          $set: {
+            subsType: 'casual'
           }
-        )
+        })
       })
       Members.find({ subsType: null }).forEach(member => {
-        Members.update(
-          { _id: member._id },
-          {
-            $set: {
-              subsType: 'casual'
-            }
+        debug(`!!! Member ${member.name} unknown: setting to casual`)
+        Members.update(member._id, {
+          $set: {
+            subsType: 'casual'
           }
-        )
+        })
       })
     } catch (e) {
       debug(e)
     }
+    const stats = Members.find({})
+      .fetch()
+      .reduce((acc, member) => {
+        acc[member.subsType] = acc[member.subsType] ? acc[member.subsType] + 1 : 1
+        return acc
+      }, {})
+    debug('Member subs types: ', stats)
   },
   updateRemainingAll() {
     Members.find({ subsType: 'pass', status: 'current' }).forEach(member => {
       Purchases.find({ memberId: member._id }).forEach(purchase => {
-        remValue = purchase.remaining - member.sessionCount
+        remValue = (purchase.remaining || 0) - member.sessionCount
       })
-      Members.update({ _id: member._id }, { $set: { remaining: remValue } })
+      debug(`Current member update ${member.name} remaining: ${remValue}`)
+      Members.update(member._id, { $set: { remaining: remValue } })
     })
     Members.find({ subsType: 'pass', status: 'expired' }).forEach(member => {
       Purchases.find({ memberId: member._id }).forEach(purchase => {
         if (member.sessionCount == 0) {
           remValue = 0
         } else {
-          remValue = purchase.remaining - member.sessionCount
+          remValue = (purchase.remaining || 0) - member.sessionCount
         }
       })
-
+      debug(`Expired member update ${member.name} remaining: ${remValue}`)
       Members.update({ _id: member._id }, { $set: { remaining: remValue } })
     })
     Members.find({ $or: [{ subsType: 'member' }, { subsType: 'casual' }] }).forEach(member => {
       Members.update({ _id: member._id }, { $set: { remaining: 0 } })
     })
+    const stats = Members.find({})
+      .fetch()
+      .reduce((acc, member) => {
+        acc[member.remaining] = acc[member.remaining] ? acc[member.remaining] + 1 : 1
+        return acc
+      }, {})
+    debug('Member remaining: ', stats)
   },
   getMembersByStatus(status) {
     Members.find({ status: status }).forEach(member => {
@@ -272,6 +290,46 @@ Meteor.methods({
   getMembersBySubsType(subsType) {
     Members.find({ subsType: subsType }).forEach(member => {
       debug(member.name)
+    })
+  },
+
+  // Create shopping cart entries for previous offenders
+  primeRenewals() {
+    Purchases.find({}).forEach(purchase => {
+      const member = Members.findOne(purchase.memberId)
+      if (!member) {
+        console.error(`Could not find member ${purchase.purchaser} with id: ${purchase.memberId}`)
+      } else {
+        const carts = Carts.find({ memberId: member._id, status: 'ready' })
+        if (carts.length > 0) {
+          debug(`${member.name} has a cart already`)
+        } else {
+          const product = Products.findOne(purchase.productId)
+          if (!product) {
+            console.error(
+              `Could not find product to match previous purchase ${purchase.productName} ${purchase.productId}`
+            )
+          } else {
+            product.qty = 1
+            const creditCard = {}
+            Object.keys(pinAddressFieldMap).forEach(key => {
+              creditCard[key] = member[pinAddressFieldMap[key]]
+            })
+            const cart = {
+              memberId: member._id,
+              email: member.email,
+              customerName: member.name,
+              products: [product],
+              price: product.price,
+              totalqty: 1,
+              prodqty: { [purchase.productId]: 1 },
+              creditCard,
+              status: 'ready'
+            }
+            const cartId = Carts.insert(cart)
+          }
+        }
+      }
     })
   }
 })

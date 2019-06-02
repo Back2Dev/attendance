@@ -26,7 +26,7 @@ const ShopFront = props => {
         <Route path="/shop/receipt" exact component={Receipt} />
         <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
-        <Route path="/renew/:id" component={Renewal} />
+        <Route path="/renew/:id/:cartId" component={Renewal} />
       </Switch>
     </CartContextProvider>
   )

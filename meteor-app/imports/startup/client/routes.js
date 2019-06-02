@@ -30,7 +30,7 @@ export const renderRoutes = () => (
         <Route path="/payment" component={PaymentThankyou} />
         <Route path="/purchase" component={Purchase} />
         <Route path="/shop" component={Shop} />
-        <Route path="/renew/:id" component={Shop} />
+        <Route path="/renew/:id/:cartId" component={Shop} />
         <Route component={Attendance} />
       </Switch>
     </Router>

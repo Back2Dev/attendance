@@ -151,6 +151,7 @@ export const CartsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: OptionalRegExId,
   email: OptionalString,
+  customerName: OptionalString,
   userId: OptionalRegExId,
   price: {
     type: SimpleSchema.Integer,

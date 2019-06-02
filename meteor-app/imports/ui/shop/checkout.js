@@ -47,7 +47,15 @@ const Checkout = props => {
       </Segment>
 
       <div style={{ textAlign: 'center' }}>
-        <Button type="button" color="green" onClick={() => props.history.push('/shop/address')}>
+        <Button type="button" primary onClick={() => props.history.push('/shop/type/membership')}>
+          Continue shopping
+        </Button>
+        <Button
+          type="button"
+          color="green"
+          style={{ marginLeft: '16px' }}
+          onClick={() => props.history.push('/shop/address')}
+        >
           Buy now {!state._id && '!'}
         </Button>
       </div>

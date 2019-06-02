@@ -12,10 +12,12 @@ const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*
 const Address = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const [a, setAddress] = React.useState(
-    CartContext.creditCard || {
-      email: CartContext.email,
-      memberId: CartContext.memberId
-    }
+    state.creditCard && Object.keys(state.creditCard).length
+      ? state.creditCard
+      : {
+          email: state.email,
+          memberId: state.memberId
+        }
   )
   const [e, setError] = React.useState([])
 
