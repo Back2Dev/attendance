@@ -36,13 +36,13 @@ const privateSchema = new SimpleSchema({
 Meteor.startup(() => {
   let errs = 0
   let vContext = publicSchema.newContext()
-  vContext.validate(Meteor.settings.public)
+  vContext.validate(Meteor.settings.public || {})
   if (!vContext.isValid()) {
     errs += vContext.validationErrors.length
     console.error('Errors found in public section of settings.json\n', vContext.validationErrors())
   }
   vContext = privateSchema.newContext()
-  vContext.validate(Meteor.settings.private)
+  vContext.validate(Meteor.settings.private || {})
   if (!vContext.isValid()) {
     errs += vContext.validationErrors.length
     console.error('Errors found in private section of settings.json\n', vContext.validationErrors())
