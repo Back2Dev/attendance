@@ -23,9 +23,7 @@ export default withTracker(props => {
         when: {
           $gte: moment()
             .startOf('day')
-            .toDate()
-        },
-        when: {
+            .toDate(),
           $lte: moment()
             .endOf('day')
             .toDate()
@@ -36,6 +34,7 @@ export default withTracker(props => {
   // It's quite possible that the above doesn't
   // yield anything, so look for a fallback
   const fallbackQuery = { type: 'fallback' }
+  debug('Queries', eventQuery, fallbackQuery)
   let events = Events.find(eventQuery).fetch()
   if (!events.length) {
     events = Events.find(fallbackQuery).fetch()
