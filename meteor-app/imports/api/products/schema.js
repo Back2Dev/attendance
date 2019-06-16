@@ -57,6 +57,7 @@ export const ProductsSchema = new SimpleSchema({
     label: 'Product Type: pass, membership, course',
     allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE)
   },
+  subsType: { type: String, label: 'Subscription type' },
   duration: {
     type: SimpleSchema.Integer,
     label: 'Product Duration in months',

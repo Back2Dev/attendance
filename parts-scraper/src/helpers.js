@@ -1,39 +1,42 @@
-const axios = require('axios');
-const _ = require('lodash');
+const axios = require('axios')
+const _ = require('lodash')
+const debug = require('debug')('parts:scraper')
+
 exports.asyncQueue = (handler, parallel = 1) => {
-  let counter = 0;
-  const tasks = [];
-  const queueHandler = handler || ((fn, ...args) => fn(...args));
+  let counter = 0
+  const tasks = []
+  const queueHandler = handler || ((fn, ...args) => fn(...args))
   const process = async () => {
     if (counter < parallel && tasks.length) {
-      counter += 1;
-      const { resolve, reject, args } = tasks.shift();
+      counter += 1
+      const { resolve, reject, args } = tasks.shift()
       try {
-        resolve(await queueHandler(...args));
+        resolve(await queueHandler(...args))
       } catch (e) {
-        reject(e);
+        debug(`Rejecting ${e.message}`)
+        reject(e)
       }
-      counter -= 1;
-      process();
+      counter -= 1
+      process()
     }
-  };
+  }
   const result = (...args) =>
     new Promise((resolve, reject) => {
-      tasks.push({ args, resolve, reject });
-      process();
-    });
+      tasks.push({ args, resolve, reject })
+      process()
+    })
 
-  return result;
-};
+  return result
+}
 
 // if we use the same cookie, they wont allow us to make multiple concurrent requests :)
 const createSessionCookie = keyword => {
-  const rand = () => Math.round(Math.random() * 9);
-  return `osCsid=v${rand()}${rand()}j${rand()}hjmfckr${rand()}hojpfg${rand()}nk${rand()}of${rand()};`;
-};
+  const rand = () => Math.round(Math.random() * 9)
+  return `osCsid=v${rand()}${rand()}j${rand()}hjmfckr${rand()}hojpfg${rand()}nk${rand()}of${rand()};`
+}
 
 exports.request = async keyword => {
-  const cookie = createSessionCookie(keyword);
+  const cookie = createSessionCookie(keyword)
   const { data } = await axios({
     method: 'POST',
     url: 'https://www.bicyclepartswholesale.com.au/search',
@@ -58,7 +61,7 @@ exports.request = async keyword => {
       cookie
     },
     data: `keywords=${keyword}`
-  });
+  })
 
-  return data;
-};
+  return data
+}

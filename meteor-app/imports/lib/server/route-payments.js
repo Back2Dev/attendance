@@ -12,17 +12,17 @@ const debug = require('debug')('b2b:server-payments')
 async function acceptPayment(req, res) {
   // We need to bind to the Meteor environment for this to work.
   Meteor.bindEnvironment(() => {
-    debug('/payment hook', req.body)
+    if (req.body.data && req.body.data.metadata) debug('/payment hook, metadata', req.body.data.metadata)
     try {
       // First check the authentication, see here: https://pinpayments.com/developers/integration-guides/webhooks
       // req.body.data.metadata.cartId will contain the id of the cart.
       //Find the cart, and then create a purchase record from the contents of the cart
       const cartId = req.body.data.metadata.cartid
       const cart = Carts.findOne(cartId)
-      const member = Members.findOne(cart.memberId) || {}
       if (!cart) {
-        console.error(`Could not find cart with id ${cartId}`)
+        console.error(`Could not find cart with id ${cartId}`) // This is a kind-of normal condition
       } else {
+        const member = Members.findOne(cart.memberId) || {}
         debug(`Processing ${cart.products.length} products from cart ${cartId}`)
         cart.products.forEach(prod => {
           debug(prod)
@@ -50,6 +50,7 @@ async function acceptPayment(req, res) {
           Members.update(cart.memberId, {
             $set: {
               status: 'current',
+              subsType: prod.subsType,
               expiry
             }
           })

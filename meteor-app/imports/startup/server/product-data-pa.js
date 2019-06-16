@@ -29,6 +29,7 @@ const myProducts = {
       autoRenew: true,
       active: true,
       qty: 1,
+      subsType: 'casual',
       image: '/images/pass.jpg'
     },
     {
@@ -41,6 +42,7 @@ const myProducts = {
       qty: 10,
       autoRenew: true,
       duration: 2,
+      subsType: 'pass',
       image: '/images/pass.jpg'
     },
     {
@@ -52,6 +54,7 @@ const myProducts = {
       active: true,
       autoRenew: true,
       duration: 12,
+      subsType: 'member',
       image: '/images/membership.jpg'
     },
     {
@@ -63,6 +66,7 @@ const myProducts = {
       active: true,
       autoRenew: true,
       duration: 3,
+      subsType: 'member',
       color: 'blue',
       icon: 'cogs',
       image: '/images/membership.jpg'
@@ -75,6 +79,7 @@ const myProducts = {
       description: 'Unlimited sessions, automatic renewal every month',
       active: true,
       duration: 1,
+      subsType: 'member',
       autoRenew: true,
       color: 'blue',
       icon: 'cogs',
@@ -88,6 +93,7 @@ const myProducts = {
       description: 'Sandridge Active Patrolling Membership',
       active: true,
       duration: 12,
+      subsType: 'member',
       autoRenew: false,
       color: 'blue',
       icon: 'cogs',
@@ -101,6 +107,7 @@ const myProducts = {
       description: 'Sandridge Associate Membership',
       active: true,
       duration: 12,
+      subsType: 'member',
       autoRenew: false,
       color: 'blue',
       icon: 'cogs',
@@ -114,6 +121,7 @@ const myProducts = {
       description: 'Sandridge Junior/Cadet Patrolling Membership',
       active: true,
       duration: 12,
+      subsType: 'member',
       autoRenew: false,
       color: 'blue',
       icon: 'cogs',
@@ -127,6 +135,7 @@ const myProducts = {
       description: 'Sandridge Family Membership, (2 adults, 2 kids U17)',
       active: false,
       duration: 12,
+      subsType: 'member',
       autoRenew: false,
       color: 'blue',
       icon: 'cogs',
