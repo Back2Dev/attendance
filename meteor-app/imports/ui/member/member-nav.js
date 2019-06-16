@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Menu, Image, Button } from 'semantic-ui-react'
+import { version } from '/imports/api/version'
 import Search from '/imports/ui/member/member-search-container'
 import Payment from '/imports/ui/member/member-payment'
 
@@ -23,7 +24,9 @@ const Nav = props => {
           props.history.push('/')
         }}
       >
-        <Image src={logoFile} height="35px" />
+        <Image src={logoFile} height="35px" title={version()} />
+        <br />
+        <span style={{ fontSize: '7pt' }}>{version()}</span>
       </Menu.Item>
       <Menu.Item
         onClick={() => {

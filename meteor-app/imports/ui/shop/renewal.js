@@ -16,6 +16,7 @@ const Loader = props => {
 export default withTracker(props => {
   const id = props.match.params.id
   const cartId = props.match.params.cartId
+  if (cartId) localStorage.setItem('mycart', cartId)
   const membersHandle = Meteor.subscribe('member.renew', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}

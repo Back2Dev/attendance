@@ -295,6 +295,7 @@ Meteor.methods({
 
   // Create shopping cart entries for previous offenders
   primeRenewals() {
+    debug(`Deleted ${Carts.remove({})} carts`)
     Purchases.find({}).forEach(purchase => {
       const member = Members.findOne(purchase.memberId)
       if (!member) {
@@ -315,6 +316,7 @@ Meteor.methods({
             Object.keys(pinAddressFieldMap).forEach(key => {
               creditCard[key] = member[pinAddressFieldMap[key]]
             })
+            if (!creditCard.address_country) creditCard.address_country = 'Australia'
             const cart = {
               memberId: member._id,
               email: member.email,
@@ -331,5 +333,6 @@ Meteor.methods({
         }
       }
     })
+    debug(`Created ${Carts.find({}).count()} carts`)
   }
 })

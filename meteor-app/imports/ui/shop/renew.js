@@ -33,6 +33,7 @@ const Renew = props => {
     setProduct(product)
   }
   const change = () => {
+    dispatch({ type: 'clear' })
     setProduct(null)
   }
 

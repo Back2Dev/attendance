@@ -39,6 +39,14 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'reset':
       return cloneDeep(initialState)
+    case 'clear':
+      const clrS = cloneDeep(state)
+      clrS.prodqty = {}
+      clrS.products = []
+      clrS.price = 0
+      clrS.totalqty = 0
+      saveCart(clrS)
+      return clrS
     case 'save-address':
       const newS = cloneDeep(state)
       if (newS.creditCard) delete newS.creditCard
