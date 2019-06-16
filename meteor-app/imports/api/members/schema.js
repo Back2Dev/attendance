@@ -237,6 +237,7 @@ export const pinCardFieldMap = {
 }
 
 export const pinAddressFieldMap = {
+  email: 'email',
   address_line1: 'addressStreet',
   address_line2: 'addressStreet2',
   address_city: 'addressSuburb',

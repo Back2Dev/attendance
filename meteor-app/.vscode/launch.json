@@ -23,6 +23,17 @@
       "type": "chrome",
       "request": "attach",
       "sourceMaps": true,
+      "name": "Attach to mike cart",
+      "url": "http://localhost:3030/renew/3zoJ9PxfYis4B75np/qiFXoyi38cW2Mf7hH",
+      "webRoot": "${workspaceFolder}",
+      "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
+      "navigate to:": "http://localhost:3030/ (home page)",
+      "port": 9222
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "sourceMaps": true,
       "name": "Attach to shop/address",
       "url": "http://localhost:3030/shop/address",
       "webRoot": "${workspaceFolder}",
