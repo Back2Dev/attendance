@@ -9,12 +9,13 @@ Meteor.publish('all.members', () => {
   return Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } })
 })
 
+Meteor.publish('all.members.carts', () => {
+  return [Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } }), Carts.find({})]
+})
+
 // This one isn't used, but it probably should be :)
 Meteor.publish('members.names', () => {
-  return Members.find(
-    {},
-    { fields: { name: 1 }, sort: { joined: -1, lastIn: -1, name: 1 } }
-  )
+  return Members.find({}, { fields: { name: 1 }, sort: { joined: -1, lastIn: -1, name: 1 } })
 })
 
 Meteor.publish('member', id => {
@@ -22,12 +23,7 @@ Meteor.publish('member', id => {
 })
 
 Meteor.publish('member.renew', (id, cartId) => {
-  return [
-    Members.find(id),
-    Purchases.find({ memberId: id }),
-    Products.find({ active: true }),
-    Carts.find(cartId)
-  ]
+  return [Members.find(id), Purchases.find({ memberId: id }), Products.find({ active: true }), Carts.find(cartId)]
 })
 
 Meteor.publish('member.all', id => {
