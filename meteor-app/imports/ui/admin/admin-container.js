@@ -1,13 +1,13 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Alert from 'react-s-alert'
-const debug = require('debug')('b2b:admin')
 import { escapeRegExp } from 'lodash'
 
 import Admin from '/imports/ui/admin/admin'
 import Members from '/imports/api/members/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import { saveToArchive } from '/imports/api/archive'
+const debug = require('debug')('b2b:admin')
 
 export default withTracker(props => {
   const membersHandle = Meteor.subscribe('all.members')
@@ -28,10 +28,12 @@ export default withTracker(props => {
     e.preventDefault()
 
     const file = e.target[0].files[0]
-    const msg = file ? `Adding your parts` : `Oops! Forgot to add the file? Try again uploading the file`
+    const msg = file
+      ? `Adding your parts`
+      : `Oops! Forgot to add the file? Try again uploading the file`
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
