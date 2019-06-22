@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Image, List } from 'semantic-ui-react'
 import { humaniseDate } from '/imports/helpers/dates'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import CartList from './cart-list'
 import './admin-member-list.css'
 
@@ -35,14 +34,14 @@ class Admin extends Component {
                 onClick={e => this.memberClick(member._id)}
               />
               <List.Content onClick={e => this.memberClick(member._id)}>
-              <List.Header>{member.name}</List.Header>
+                <List.Header>{member.name}</List.Header>
                 <List.Description>
                   <p>
                     {member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago{' '}
                   </p>
-                  <CartList carts={memberCarts}></CartList>
+                  <CartList carts={memberCarts} />
                 </List.Description>
-                      </List.Content>
+              </List.Content>
               <List.Content floated="right">
                 <Button
                   onClick={e => {
