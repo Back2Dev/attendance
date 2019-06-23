@@ -42,3 +42,15 @@ export default Eventlogs
 export const eventLog = params => {
   Eventlogs.insert(params)
 }
+
+Eventlogs.allow({
+  update() {
+    return false
+  },
+  insert() {
+    return true
+  },
+  remove() {
+    return false
+  }
+})

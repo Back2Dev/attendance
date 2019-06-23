@@ -4,8 +4,9 @@ import React from 'react'
 import Alert from 'react-s-alert'
 import { escapeRegExp } from 'lodash'
 
-import Admin from '/imports/ui/admin/admin'
+import Admin from './admin'
 import Members from '/imports/api/members/schema'
+import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import { saveToArchive } from '/imports/api/archive'
@@ -52,23 +53,58 @@ export default withTracker(props => {
   }).fetch()
 
   const carts = Carts.find({}).fetch()
+  const purchases = Purchases.find({}).fetch()
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
 
+  const removeCart = id => {
+    const cart = Carts.findOne(id)
+    Meteor.call('cart.remove', id, (err, res) => {
+      if (err) {
+        Alert.error('error whilst removing cart')
+      } else {
+        Alert.success(`successfully removed ${res} cart`)
+        eventLog({
+          who: 'Admin',
+          what: `removed cart id: ${id}`,
+          object: cart
+        })
+      }
+    })
+  }
+
+  const extendMember = async (memberId, purchaseId) => {
+    const member = Members.findOne(memberId)
+    const when = prompt(`Extend membership for ${member.name} to (DD/MM/YYYY)`)
+    if (when) {
+      Meteor.call('purchase.extend', memberId, purchaseId, when, (err, res) => {
+        if (err) {
+          Alert.error('error whilst extending member')
+        } else {
+          Alert.success(`successfully removed ${res} member`)
+          eventLog({
+            who: 'Admin',
+            what: `extended member id: ${memberId} to ${when}`,
+            object: member
+          })
+        }
+      })
+    }
+  }
   const removeMember = async id => {
     const member = Members.findOne(id)
-    eventLog({
-      who: 'Admin',
-      what: `removed member id: ${id}`,
-      object: member
-    })
-    saveToArchive('member', member)
     Meteor.call('members.remove', id, (err, res) => {
       if (err) {
         Alert.error('error whilst removing member')
       } else {
         Alert.success(`successfully removed ${res} member`)
+        eventLog({
+          who: 'Admin',
+          what: `removed member id: ${id}`,
+          object: member
+        })
+        saveToArchive('member', member)
       }
     })
   }
@@ -77,7 +113,10 @@ export default withTracker(props => {
     loading,
     members,
     carts,
+    purchases,
     removeMember,
+    extendMember,
+    removeCart,
     uploadXL,
     memberWords
   }

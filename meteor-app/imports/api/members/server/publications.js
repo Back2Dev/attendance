@@ -10,7 +10,7 @@ Meteor.publish('all.members', () => {
 })
 
 Meteor.publish('all.members.carts', () => {
-  return [Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } }), Carts.find({})]
+  return [Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } }), Carts.find({}), Purchases.find({})]
 })
 
 // This one isn't used, but it probably should be :)
