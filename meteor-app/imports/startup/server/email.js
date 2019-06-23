@@ -1,7 +1,5 @@
 import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
-const debug = require('debug')('b2b:email')
-const sgMail = require('@sendgrid/mail')
 import { eventLog } from '/imports/api/eventlogs'
 import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
@@ -9,6 +7,8 @@ import Members, { pinAddressFieldMap } from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
 import Moment from 'moment'
+const debug = require('debug')('b2b:email')
+const sgMail = require('@sendgrid/mail')
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'
 const DEFAULT_DESTINATION = 'mrslwiseman@gmail.com'
@@ -39,42 +39,59 @@ Meteor.methods({
       log.error('Error from email gateway', error)
     }
   },
-  sendMembershipEmail(to, name, type, expiry, apiKey) {
-    sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
-    const options = {
-      to,
-      from: Meteor.settings.private.fromEmail,
-      templateId: apiKey,
-      dynamic_template_data: {
-        name,
-        type,
-        expiry
+  sendMembershipEmail(to, name, type, expiry, link, templateId) {
+    try {
+      sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+      const options = {
+        to,
+        from: Meteor.settings.private.fromEmail,
+        templateId,
+        dynamic_template_data: {
+          name,
+          type,
+          expiry,
+          link: `${Meteor.absoluteUrl()}${link}`
+        }
       }
+      log.info(`Sending email ${templateId} to ${name} <${to}> link: ${link}`)
+      sgMail.send(options)
+    } catch (e) {
+      log.error(`Error sending email: ${e.message}`)
     }
-    sgMail.send(options)
   },
 
-  sendMembershipRenewals() {
-    Members.find({}).forEach(member => {
-      Purchases.find({
-        memberId: member._id,
-        code: '/PA-MEMB/',
-        expiry: { $lt: new Date() }
-      }).forEach(purchase => {
-        Meteor.call(
-          'sendMembershipEmail',
-          member.email,
-          member.name,
-          purchase.productName,
-          Moment(purchase.expiry).format('Do MMM YYYY'),
-          Meteor.settings.private.expiredMembershipID
-        )
-        debug('Sending Membership Renewal to ' + member.email)
+  sendMembershipRenewals(name) {
+    const query = name ? { name } : {}
+    Members.find(query).forEach(member => {
+      debug(`Checking ${member.name}`)
+      // Purchases.find({
+      //   memberId: member._id,
+      //   code: '/PA-MEMB/',
+      //   expiry: { $lt: new Date() }
+      // }).forEach(purchase => {
+      Carts.find({ memberId: member._id, status: 'ready' }).forEach(cart => {
+        cart.products
+          .filter(product => product.code.match(/^PA-MEMB/))
+          .forEach(product => {
+            debug(`Sending email for ${product.code} to ${member.name}, `)
+            Meteor.call(
+              'sendMembershipEmail',
+              member.email,
+              member.name,
+              product.name,
+              Moment(member.expiry).format('Do MMM YYYY'),
+              `renew/${member._id}/${cart._id}`,
+              Meteor.settings.private.expiredMembershipID
+            )
+            debug('Sending Membership Renewal to ' + member.email)
+          })
       })
     })
   },
-  sendMembershipReminderEmail() {
-    Members.find({}).forEach(member => {
+
+  sendMembershipReminderEmail(name) {
+    const query = name ? { name } : {}
+    Members.find(query).forEach(member => {
       Purchases.find({
         memberId: member._id,
         code: /PA-MEMB/,
@@ -170,7 +187,10 @@ Meteor.methods({
   updateStatusAll() {
     try {
       Members.find({}).forEach(member => {
-        Purchases.find({ memberId: member._id, expiry: { $lt: new Date() } }).forEach(purchase => {
+        Purchases.find({
+          memberId: member._id,
+          expiry: { $lt: new Date() }
+        }).forEach(purchase => {
           debug(`Member ${member.name} is expired (${purchase.expiry})`)
           Members.update(
             { _id: purchase.memberId },
@@ -182,7 +202,10 @@ Meteor.methods({
             }
           )
         })
-        Purchases.find({ memberId: member._id, expiry: { $gt: new Date() } }).forEach(purchase => {
+        Purchases.find({
+          memberId: member._id,
+          expiry: { $gt: new Date() }
+        }).forEach(purchase => {
           debug(`Member ${member.name} is current, expiring (${purchase.expiry})`)
           Members.update(
             { _id: purchase.memberId },
@@ -271,7 +294,9 @@ Meteor.methods({
       debug(`Expired member update ${member.name} remaining: ${remValue}`)
       Members.update({ _id: member._id }, { $set: { remaining: remValue } })
     })
-    Members.find({ $or: [{ subsType: 'member' }, { subsType: 'casual' }] }).forEach(member => {
+    Members.find({
+      $or: [{ subsType: 'member' }, { subsType: 'casual' }]
+    }).forEach(member => {
       Members.update({ _id: member._id }, { $set: { remaining: 0 } })
     })
     const stats = Members.find({})
@@ -316,7 +341,9 @@ Meteor.methods({
             Object.keys(pinAddressFieldMap).forEach(key => {
               creditCard[key] = member[pinAddressFieldMap[key]]
             })
-            if (!creditCard.address_country) creditCard.address_country = 'Australia'
+            if (!creditCard.address_country) {
+              creditCard.address_country = 'Australia'
+            }
             const cart = {
               memberId: member._id,
               email: member.email,

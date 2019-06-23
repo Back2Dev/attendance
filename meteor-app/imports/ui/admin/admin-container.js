@@ -36,10 +36,12 @@ export default withTracker(props => {
     e.preventDefault()
 
     const file = e.target[0].files[0]
-    const msg = file ? `Adding your parts` : `Oops! Forgot to add the file? Try again uploading the file`
+    const msg = file
+      ? `Adding your parts`
+      : `Oops! Forgot to add the file? Try again uploading the file`
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
@@ -82,7 +84,7 @@ export default withTracker(props => {
         if (err) {
           Alert.error('error whilst extending member')
         } else {
-          Alert.success(`successfully removed ${res} member`)
+          Alert.success(`successfully extended ${res} membership to ${when}`)
           eventLog({
             who: 'Admin',
             what: `extended member id: ${memberId} to ${when}`,
