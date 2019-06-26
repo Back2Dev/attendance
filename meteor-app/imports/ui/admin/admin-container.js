@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Alert from 'react-s-alert'
 import { escapeRegExp } from 'lodash'
+import moment from 'moment'
 
 import Admin from './admin'
 import Members from '/imports/api/members/schema'
@@ -36,12 +37,10 @@ export default withTracker(props => {
     e.preventDefault()
 
     const file = e.target[0].files[0]
-    const msg = file
-      ? `Adding your parts`
-      : `Oops! Forgot to add the file? Try again uploading the file`
+    const msg = file ? `Adding your parts` : `Oops! Forgot to add the file? Try again uploading the file`
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function () {
+    reader.onloadend = function() {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
@@ -80,14 +79,15 @@ export default withTracker(props => {
     const member = Members.findOne(memberId)
     const when = prompt(`Extend membership for ${member.name} to (DD/MM/YYYY)`)
     if (when) {
-      Meteor.call('purchase.extend', memberId, purchaseId, when, (err, res) => {
+      const isoWhen = moment(when,'DD/MM/YYYY').format('YYYY-MM-DD')
+      Meteor.call('purchase.extend', memberId, purchaseId, isoWhen, (err, res) => {
         if (err) {
           Alert.error('error whilst extending member')
         } else {
-          Alert.success(`successfully extended ${res} membership to ${when}`)
+          Alert.success(`successfully extended ${res} membership to ${isoWhen}`)
           eventLog({
             who: 'Admin',
-            what: `extended member id: ${memberId} to ${when}`,
+            what: `extended member id: ${memberId} to ${isoWhen}`,
             object: member
           })
         }

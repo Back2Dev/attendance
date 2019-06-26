@@ -64,6 +64,7 @@
     "lodash": "^4.17.10",
     "minimist": "^1.2.0",
     "moment": "^2.22.1",
+    "moment-timezone": "^0.5.25",
     "node-cron": "^1.2.1",
     "node-fetch": "^2.1.2",
     "pdfmake": "^0.1.53",
