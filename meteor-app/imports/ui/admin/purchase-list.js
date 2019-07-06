@@ -2,16 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const PurchaseList = ({ purchases, removePurchase }) => {
+  const purchase = purchases[purchases.length - 1]
   return (
     <ul style={{ listStyleType: 'circle' }}>
-      {purchases.map((purchase, ix) => (
-        <span key={purchase._id}>
-          <li key={purchase._id}>
-            {purchase.productName} <Price cents={purchase.price} />
-          </li>
-          <li key={ix}>Expires: {moment(purchase.expiry).format('D MMM YYYY')}</li>
-        </span>
-      ))}
+      <span key={purchase._id}>
+        <li key={purchase._id}>
+          {purchase.productName} <Price cents={purchase.price} />
+        </li>
+        <li>Expires: {moment(purchase.expiry).format('D MMM YYYY')}</li>
+      </span>
     </ul>
   )
 }
