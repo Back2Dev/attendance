@@ -61,3 +61,6 @@ Sun 23 Jun 2019 18:03:18 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod
 Sun 23 Jun 2019 18:17:56 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 
 Wed 26 Jun 2019 23:39:49 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 
 Wed 26 Jun 2019 23:45:13 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 
+Sat 6 Jul 2019 18:42:35 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy 
+Sat 6 Jul 2019 18:47:13 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy 
+Sat 6 Jul 2019 18:57:49 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig 
