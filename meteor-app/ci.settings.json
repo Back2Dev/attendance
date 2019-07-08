@@ -7,6 +7,9 @@
     "logo": "/images/logo-tiny.jpg",
     "member": "Volunteer",
     "parts": 1,
+    "register": 1,
+    "paymentTest": 1,
+    "admin": 1,
     "servicing": 1,
     "recruit": "b2b",
     "paymentApiKey": "pk_test_XXXXKaaaaaaa5555",
@@ -15,5 +18,17 @@
     "orgid": "b2b",
     "org": "Back2bikes",
     "tagline": "We'd love to help you learn how to fix your bike. Here's what we offer"
+  },
+  "private": {
+    "paymentUrl": "https://something.com",
+    "customerUrl": "https://something.com",
+    "paymentApiKey": "NONE-SUCH",
+    "sendgridApikey": "NA",
+    "fromEmail": "mikkel@back2bikes.com.au",
+    "expiredMembershipID": "xxx",
+    "validMembershipID": "xxx",
+    "expiredPassID": "xxx",
+    "validPassID": "xxx",
+    "registerCardID": "xxx"
   }
 }
