@@ -1,12 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-import {
-  OptionalRegExId,
-  OptionalString,
-  OptionalInteger,
-  createdAt,
-  updatedAt
-} from '/imports/api/schema'
+import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt } from '/imports/api/schema'
 import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
@@ -63,7 +57,7 @@ export const ProductsSchema = new SimpleSchema({
     label: 'Product Type: pass, membership, course',
     allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE)
   },
-  subsType: { type: String, label: 'Subscription type' },
+  subsType: { type: String, label: 'Subscription type', optional: true },
   duration: {
     type: SimpleSchema.Integer,
     label: 'Product Duration in months',

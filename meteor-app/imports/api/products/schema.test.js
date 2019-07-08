@@ -72,6 +72,7 @@ const goodProducts = [
     code: 'B2B-MEMB-3',
     duration: 3,
     price: 5000,
+    subsType: 'member',
     image: '/images/gym.jpg',
     active: true,
     autoRenew: true,
@@ -83,6 +84,7 @@ const goodProducts = [
     description: 'A Free course on how to ride a bike',
     type: 'course',
     code: 'B2B-COURSE-FREE',
+    subsType: 'course',
     active: true,
     autoRenew: true,
     bogus: "This won't be saved in the database (SimpleSchema silently drops it)"
@@ -94,6 +96,7 @@ const goodProducts = [
     code: 'B2B-MEMB-6',
     duration: 3,
     price: 5000,
+    subsType: 'member',
     image: '/images/gym.jpg',
     active: true,
     autoRenew: false,
