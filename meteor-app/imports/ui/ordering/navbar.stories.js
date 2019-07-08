@@ -7,7 +7,7 @@ import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 import Navbar from './navbar'
-import StoryRouter from 'storybook-router'
+import StoryRouter from 'storybook-react-router'
 
 storiesOf('Navbar', module)
   .addDecorator(StoryRouter())
