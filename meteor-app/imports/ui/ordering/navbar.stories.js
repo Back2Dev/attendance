@@ -11,12 +11,15 @@ import StoryRouter from 'storybook-router'
 
 storiesOf('Navbar', module)
   .addDecorator(StoryRouter())
-  .add('Navbar', withInfo('part testing')(() => {
-    const story = (
-      <div><p>Navbar </p>
-        <Navbar
-        />
-      </div>
-    )
-    return story;
-  }))
+  .add(
+    'Navbar',
+    withInfo('part testing')(() => {
+      const story = (
+        <div>
+          <p>Navbar </p>
+          <Navbar />
+        </div>
+      )
+      return story
+    })
+  )

@@ -3,14 +3,17 @@ import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { withKnobs, number, boolean, select } from '@storybook/addon-knobs/react'
-import StoryRouter from 'storybook-router'
+import {
+  withKnobs,
+  number,
+  boolean,
+  select
+} from '@storybook/addon-knobs/react'
 
 import MemberAddControl from './member-add-control'
 
 storiesOf('Member.Add', module)
-  // .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
+// .addDecorator(withKnobs)
 
   .add('MemberAddControl', () => {
     // NB Select control only works with strings

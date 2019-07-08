@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import StoryRouter from 'storybook-router'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
@@ -13,18 +12,17 @@ import member from '/imports/test/fake-member'
 
 import MemberVisitPinForgot from './pin-forgot'
 
-storiesOf('Member.Session', module)
-  .addDecorator(StoryRouter())
-  .addDecorator(withKnobs)
-
-  .add(
-    'Forgot PIN',
-    withInfo('Here/Absent')(() => {
-      const story = (
-        <div style={{ maxWidth: '280px' }}>
-          <MemberVisitPinForgot onPinReminderSent={action('sent PIN reminder')} forgotPin={action('forgotten PIN')} />
-        </div>
-      )
-      return story
-    })
-  )
+storiesOf('Member.Session', module).add(
+  'Forgot PIN',
+  withInfo('Here/Absent')(() => {
+    const story = (
+      <div style={{ maxWidth: '280px' }}>
+        <MemberVisitPinForgot
+          onPinReminderSent={action('sent PIN reminder')}
+          forgotPin={action('forgotten PIN')}
+        />
+      </div>
+    )
+    return story
+  })
+)

@@ -2,7 +2,6 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
-import StoryRouter from 'storybook-router'
 import faker from 'faker'
 import AssessmentJobCard from './assessment-job-card'
 import { fakeJob } from '/imports/test/fake-data'
@@ -24,7 +23,6 @@ const members = [
 
 storiesOf('Job Card', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
 
   .add('Job Card New', () => {
     const currentJob = {

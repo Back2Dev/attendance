@@ -2882,7 +2882,7 @@ exports[`Storyshots Cart.List Cart List 1`] = `
                   className="ui label label"
                   onClick={[Function]}
                 >
-                  Additional Notes
+                  Additional notes
                 </div>
                 <input
                   onChange={[Function]}
@@ -6183,6 +6183,7 @@ exports[`Storyshots Member.Add MemberAdd 1`] = `
                     >
                       <img
                         className="ui medium circular centered image"
+                        id="avatar"
                         src="/images/avatars/default.jpg"
                         style={
                           Object {
@@ -9152,33 +9153,38 @@ exports[`Storyshots Member.Add.Iframe Success 1`] = `
           }
         }
       >
-        <div
+        <img
           className="ui image"
-        >
-          <div
-            className="ui yellow ribbon label"
-            onClick={[Function]}
-          >
-            <i
-              aria-hidden="true"
-              className="star icon"
-            />
-          </div>
-          <img
-            src="/images/avatars/7.jpg"
-          />
-        </div>
+          src="/images/avatars/7.jpg"
+          style={
+            Object {
+              "opacity": "1",
+            }
+          }
+        />
         <div
           className="content"
         >
           <div
             className="header"
           >
+             
             Orie Kautzer
+             
+            
           </div>
           <div
             className="content"
           >
+            <div
+              className="ui orange left corner label"
+              onClick={[Function]}
+            >
+              <i
+                aria-hidden="true"
+                className="student icon"
+              />
+            </div>
             <div
               style={
                 Object {
@@ -9188,20 +9194,20 @@ exports[`Storyshots Member.Add.Iframe Success 1`] = `
             >
               <div
                 about="Orie Kautzer"
-                className="ui green label"
+                className="ui green mini label"
                 onClick={[Function]}
               >
                 <i
                   aria-hidden="true"
-                  className="trophy icon"
+                  className="star half full icon"
                 />
                 5
               </div>
               <div
-                className="ui green label"
+                className="ui green mini label"
                 onClick={[Function]}
               >
-                Newbie
+                rookie
               </div>
             </div>
             <div />
@@ -9252,6 +9258,11 @@ exports[`Storyshots Member.Card Card 1`] = `
         <img
           className="ui image"
           src="/images/avatars/7.jpg"
+          style={
+            Object {
+              "opacity": "1",
+            }
+          }
         />
         <div
           className="content"
@@ -9259,7 +9270,10 @@ exports[`Storyshots Member.Card Card 1`] = `
           <div
             className="header"
           >
+             
             Orie Kautzer
+             
+            
           </div>
           <div
             className="content"
@@ -9273,20 +9287,20 @@ exports[`Storyshots Member.Card Card 1`] = `
             >
               <div
                 about="Orie Kautzer"
-                className="ui green label"
+                className="ui green mini label"
                 onClick={[Function]}
               >
                 <i
                   aria-hidden="true"
-                  className="trophy icon"
+                  className="star half full icon"
                 />
                 4
               </div>
               <div
-                className="ui green label"
+                className="ui green mini label"
                 onClick={[Function]}
               >
-                Newbie
+                rookie
               </div>
             </div>
             <div />
@@ -12282,33 +12296,38 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                   }
                 }
               >
-                <div
+                <img
                   className="ui image"
-                >
-                  <div
-                    className="ui yellow ribbon label"
-                    onClick={[Function]}
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="star icon"
-                    />
-                  </div>
-                  <img
-                    src="/images/avatars/7.jpg"
-                  />
-                </div>
+                  src="/images/avatars/7.jpg"
+                  style={
+                    Object {
+                      "opacity": "1",
+                    }
+                  }
+                />
                 <div
                   className="content"
                 >
                   <div
                     className="header"
                   >
+                     
                     Orie Kautzer
+                     
+                    
                   </div>
                   <div
                     className="content"
                   >
+                    <div
+                      className="ui orange left corner label"
+                      onClick={[Function]}
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="student icon"
+                      />
+                    </div>
                     <div
                       style={
                         Object {
@@ -12318,20 +12337,20 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                     >
                       <div
                         about="Orie Kautzer"
-                        className="ui green label"
+                        className="ui green mini label"
                         onClick={[Function]}
                       >
                         <i
                           aria-hidden="true"
-                          className="trophy icon"
+                          className="star half full icon"
                         />
                         1
                       </div>
                       <div
-                        className="ui green label"
+                        className="ui green mini label"
                         onClick={[Function]}
                       >
-                        Newbie
+                        rookie
                       </div>
                     </div>
                     <div />
@@ -12375,6 +12394,7 @@ exports[`Storyshots Member.Session Sign in 1`] = `
                     >
                       Enter your PIN:
                     </label>
+                    <br />
                     <div
                       className="ui focus input"
                       inputMode="numeric"
@@ -13627,149 +13647,62 @@ exports[`Storyshots Member.Session Sign in 1`] = `
 </div>
 `;
 
-exports[`Storyshots Multi-Visits-Card Multi-Visits-Card 1`] = `
+exports[`Storyshots MyMember MembershipCard 1`] = `
 <div
-  className="multi-visit-card"
+  className="ui grid member-card-container"
 >
   <div
-    className="Container"
-  >
-    <h1
-      className="header"
-    >
-      Visits
-    </h1>
-  </div>
-  <div
-    className="Container"
+    className="sixteen wide column ui grid card-header"
   >
     <div
-      className="digitParent"
+      className="sixteen wide column"
     >
-      <p
-        className="usedMultiDigit"
-        onClick={[Function]}
-      >
-        X
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="usedMultiDigit"
-        onClick={[Function]}
-      >
-        X
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="usedMultiDigit"
-        onClick={[Function]}
-      >
-        X
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        4
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        5
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        6
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        7
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        8
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        9
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        10
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        11
-      </p>
-    </div>
-    <div
-      className="digitParent"
-    >
-      <p
-        className="multiDigit"
-        onClick={[Function]}
-      >
-        12
-      </p>
+      MANH HUY VO
     </div>
   </div>
   <div
-    className="footer"
+    className="ui grid sixteen wide column card-content-container"
   >
-    You have used 
-    25
-    % of your visits.
+    <div
+      className="four wide column card-avatar-container"
+    >
+      <img
+        className="card-avatar-img"
+        src="/images/avatars/./images/avatars/test10.png"
+      />
+    </div>
+    <div
+      className="ui grid twelve wide column card-details-container"
+    >
+      <div
+        className="sixteen wide column card-details-attributes title"
+      >
+        Last seen 
+        a few seconds ago
+      </div>
+      <div
+        className="sixteen wide column card-details-attributes title"
+      >
+        Email 
+      </div>
+      <div
+        className="sixteen wide column card-details-attributes title"
+      >
+        Mobile 
+      </div>
+      <div
+        className="sixteen wide column card-details-attributes title"
+      >
+        Expires 
+        8th Jul 2019
+      </div>
+      <div
+        className="sixteen wide column card-details-attributes title"
+      >
+        Member Type 
+         
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -15170,6 +15103,147 @@ exports[`Storyshots Part.Card Card 1`] = `
         </div>
       </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Punch-card Multi-Visits-Card 1`] = `
+<div
+  className="multi-visit-card"
+>
+  <div
+    className="Container"
+  >
+    <h1
+      className="header"
+    >
+      Visits
+    </h1>
+  </div>
+  <div
+    className="Container"
+  >
+    <div
+      className="digitParent"
+    >
+      <img
+        className="usedMultiDigit"
+        src="images/smiley.png"
+      />
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="usedMultiDigit"
+        src="images/smiley.png"
+      />
+    </div>
+    <div
+      className="digitParent"
+    >
+      <img
+        className="usedMultiDigit"
+        src="images/smiley.png"
+      />
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        4
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        5
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        6
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        7
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        8
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        9
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        10
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        11
+      </p>
+    </div>
+    <div
+      className="digitParent"
+    >
+      <p
+        className="multiDigit"
+        onClick={[Function]}
+      >
+        12
+      </p>
+    </div>
+  </div>
+  <div
+    className="footer"
+  >
+    You have used 
+    25
+    % of your visits.
   </div>
 </div>
 `;
