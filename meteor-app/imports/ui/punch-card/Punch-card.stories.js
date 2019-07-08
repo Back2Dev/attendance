@@ -2,10 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { withKnobs } from '@storybook/addon-knobs/react'
 import PunchCard from './punch-card'
-import { array, number } from '@storybook/addon-knobs/dist/react'
+import { array, number } from '@storybook/addon-knobs/react'
 
 const weeks =
-  //Sample array
+  // Sample array
   [
     { name: 'Punctures', used: true, img: '/images/punctures.jpg' },
     { name: 'Gears cleaning', used: false, img: '/images/gears-cleaning.jpg' },
@@ -15,7 +15,7 @@ const weeks =
     { name: 'Forks and B/B', used: true, img: '/images/forks.jpg' }
   ]
 
-//populating values in arrays
+// populating values in arrays
 
 const weekValue = weeks.map(item => item.used)
 const weekName = weeks.map(item => item.name)

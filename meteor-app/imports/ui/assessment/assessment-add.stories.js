@@ -4,7 +4,6 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
-import StoryRouter from 'storybook-router'
 import { BrowserRouter as Router } from 'react-router-dom'
 import AssessmentAdd from './assessment-add'
 
@@ -117,7 +116,6 @@ const myServices = [
 
 storiesOf('Assessment.Add', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
 
   .add(
     'AssessmentAdd',
@@ -134,8 +132,8 @@ storiesOf('Assessment.Add', module)
               addAssessment={action('addAssessment')}
               setAssessment={action('setAssessment')}
               error={false}
-              success={true}
-              message="OK"
+              success
+              message='OK'
               resetId={action('resetId')}
             />
           </div>

@@ -1,6 +1,12 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt } from '/imports/api/schema'
+import {
+  OptionalRegExId,
+  OptionalString,
+  OptionalInteger,
+  createdAt,
+  updatedAt
+} from '/imports/api/schema'
 import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
@@ -193,16 +199,16 @@ Products.attachSchema(ProductsSchema)
 ProductTypes.attachSchema(ProductTypesSchema)
 Carts.attachSchema(CartsSchema)
 
-Carts.allow({
-  update() {
-    return true
-  },
-  insert() {
-    return true
-  },
-  remove() {
-    return true
-  }
-})
+// Carts.allow({
+//   update() {
+//     return true
+//   },
+//   insert() {
+//     return true
+//   },
+//   remove() {
+//     return true
+//   }
+// })
 
 export default Products

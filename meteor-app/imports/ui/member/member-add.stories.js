@@ -7,7 +7,6 @@ import { withInfo } from '@storybook/addon-info'
 import { withKnobs, number, text } from '@storybook/addon-knobs/react'
 import { specs, describe, it } from 'storybook-addon-specifications'
 import { mount } from 'enzyme'
-import StoryRouter from 'storybook-router'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import getSchemas from '/imports/ui/config/member-add-schemas'
@@ -18,7 +17,6 @@ const avatar = { url: '/images/avatars/default.jpg' }
 
 storiesOf('Member.Add', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
 
   .add(
     STORY_NAME,
@@ -32,8 +30,8 @@ storiesOf('Member.Add', module)
               addMember={action('addMember')}
               setMember={action('setMember')}
               error={false}
-              success={true}
-              message="OK"
+              success
+              message='OK'
               resetId={action('resetId')}
               schemas={getSchemas(text('Custom schema (b2b/pa/...)', 'b2b'))}
             />
@@ -47,7 +45,7 @@ storiesOf('Member.Add', module)
             console.log(wrapper.find('#avatar'))
             expect(wrapper.find('#avatar').src).to.contain(avatar.url)
             // Something ugly goes on here - first render it's zero, second render it's right
-            if (expect(wrapper.find('button')).to) expect(wrapper.find('button')).to.have.length(1)
+            if (expect(wrapper.find('button')).to) { expect(wrapper.find('button')).to.have.length(1) }
           })
         })
       )

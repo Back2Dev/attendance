@@ -2,7 +2,6 @@ import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import StoryRouter from 'storybook-router'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
@@ -18,7 +17,6 @@ const match = {
 }
 
 storiesOf('Member.Session', module)
-  .addDecorator(StoryRouter())
   .addDecorator(withKnobs)
 
   .add(
