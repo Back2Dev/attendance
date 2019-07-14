@@ -15,12 +15,27 @@ const b2bSchema = {
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed']
+          enum: [
+            'Road/racer',
+            'Hybrid',
+            'Mountain',
+            'Cruiser',
+            'Ladies',
+            'Gents',
+            'Fixie/Single Speed'
+          ]
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired']
+          enum: [
+            'Full Time',
+            'Part Time',
+            'Pension/Disability',
+            'Unemployed',
+            'Student',
+            'Retired'
+          ]
         },
         reasons: { type: 'string', title: 'Reasons for volunteering' }
       }
@@ -57,6 +72,7 @@ const paSchema = {
   aboutStep: {
     schema: {
       type: 'object',
+      required: ['swim', 'terms', 'fitness'],
       properties: {
         sports: {
           type: 'array',
@@ -64,12 +80,37 @@ const paSchema = {
           uniqueItems: true,
           items: {
             type: 'string',
-            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport']
+            enum: [
+              'Kayaking',
+              'Road cycling',
+              'MTB',
+              'Running',
+              'Swimming',
+              'Triathlon',
+              'Multisport'
+            ]
           }
         },
         reasons: {
           type: 'string',
           title: 'Tell us why you come to Peak Adventure sessions?'
+        },
+        swim: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title: 'I can swim 200 metres unassisted'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree to the Terms & Conditions'
+        },
+        fitness: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I declare I am medically fit and capable of undertaking this physical activity'
         }
       }
     },
@@ -109,12 +150,27 @@ const defaultSchema = [
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed']
+          enum: [
+            'Road/racer',
+            'Hybrid',
+            'Mountain',
+            'Cruiser',
+            'Ladies',
+            'Gents',
+            'Fixie/Single Speed'
+          ]
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired']
+          enum: [
+            'Full Time',
+            'Part Time',
+            'Pension/Disability',
+            'Unemployed',
+            'Student',
+            'Retired'
+          ]
         },
         reasons: { type: 'string', title: 'Reasons for volunteering' }
       }
@@ -240,7 +296,8 @@ const defaultSchema = [
         'ui:placeholder': "Enter your emergency contact's email"
       },
       emergencyPhone: {
-        'ui:placeholder': "Enter your emergency contact's mobile or phone number",
+        'ui:placeholder':
+          "Enter your emergency contact's mobile or phone number",
         'ui:options': {
           inputType: 'tel'
         }
@@ -344,7 +401,7 @@ const defaultSchema = [
 //
 // Copy in the schema overrides
 //
-const custom = 'b2b' //Meteor.settings.public.recruit || "b2b"
+const custom = 'b2b' // Meteor.settings.public.recruit || "b2b"
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
   const steps = ['about', 'contact', 'emergency', 'avatar']
