@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo'
+import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt } from '/imports/api/schema'
 import CONSTANTS from '../constants'
@@ -193,16 +194,18 @@ Products.attachSchema(ProductsSchema)
 ProductTypes.attachSchema(ProductTypesSchema)
 Carts.attachSchema(CartsSchema)
 
-// Carts.allow({
-//   update() {
-//     return true
-//   },
-//   insert() {
-//     return true
-//   },
-//   remove() {
-//     return true
-//   }
-// })
+if (Meteor.isServer) {
+  Carts.allow({
+    update() {
+      return true
+    },
+    insert() {
+      return true
+    },
+    remove() {
+      return true
+    }
+  })
+}
 
 export default Products

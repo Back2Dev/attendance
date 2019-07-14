@@ -16,7 +16,7 @@ const match = {
   }
 }
 
-storiesOf('Member.Session', module)
+storiesOf('Member.VisitPinSet nosnap', module)
   .addDecorator(withKnobs)
 
   .add(

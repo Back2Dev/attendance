@@ -1,7 +1,7 @@
 import { configure } from '@storybook/react'
 import { storiesOf, action, linkTo } from '@storybook/react'
 import { specs, describe, it } from 'storybook-addon-specifications'
-import { expect } from 'chai'
+// import { expect } from 'chai'
 import { setOptions } from '@storybook/addon-options'
 import 'semantic-ui-css/semantic.min.css'
 import TestUtils from 'react-dom/test-utils'
@@ -23,7 +23,7 @@ global.specs = specs
 global.describe = describe
 global.it = it
 global.mount = Enzyme.mount
-global.expect = expect
+// global.expect = expect
 
 // END OF SPECIFIC MOCHA CONF
 // TODO:

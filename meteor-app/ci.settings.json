@@ -5,7 +5,7 @@
   },
   "public": {
     "logo": "/images/logo-tiny.jpg",
-    "member": "Volunteer",
+    "member": "Member",
     "parts": 1,
     "register": 1,
     "paymentTest": 1,

@@ -5681,7 +5681,7 @@ exports[` 14`] = `
         className="sixteen wide column card-details-attributes title"
       >
         Expires 
-        8th Jul 2019
+        10th Jul 2019
       </div>
       <div
         className="sixteen wide column card-details-attributes title"
@@ -9103,7 +9103,7 @@ exports[` 20`] = `
               }
             }
           >
-            Member.Card
+            Member.Card nosnap
           </h1>
           <h2
             style={

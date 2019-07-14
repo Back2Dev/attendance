@@ -8,6 +8,7 @@ import { withKnobs, number, text } from '@storybook/addon-knobs/react'
 import { specs, describe, it } from 'storybook-addon-specifications'
 import { mount } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { expect } from 'chai'
 
 import getSchemas from '/imports/ui/config/member-add-schemas'
 import MemberAdd from './member-add'
@@ -31,24 +32,26 @@ storiesOf('Member.Add', module)
               setMember={action('setMember')}
               error={false}
               success
-              message='OK'
+              message="OK"
               resetId={action('resetId')}
               schemas={getSchemas(text('Custom schema (b2b/pa/...)', 'b2b'))}
             />
           </div>
         </Router>
       )
-      specs(() =>
-        describe(STORY_NAME, () => {
-          it('displays the add member wizard', () => {
-            const wrapper = mount(story)
-            console.log(wrapper.find('#avatar'))
-            expect(wrapper.find('#avatar').src).to.contain(avatar.url)
-            // Something ugly goes on here - first render it's zero, second render it's right
-            if (expect(wrapper.find('button')).to) { expect(wrapper.find('button')).to.have.length(1) }
-          })
-        })
-      )
+      // specs(() =>
+      //   describe(STORY_NAME, () => {
+      //     it('displays the add member wizard', () => {
+      //       const wrapper = mount(story)
+      //       console.log(wrapper.find('#avatar'))
+      //       expect(wrapper.find('#avatar').src).to.contain(avatar.url)
+      //       // Something ugly goes on here - first render it's zero, second render it's right
+      //       // if (expect(wrapper.find('button')).to) {
+      //       //   expect(wrapper.find('button')).to.have.length(1)
+      //       // }
+      //     })
+      //   })
+      // )
       return story
     })
   )
