@@ -1,13 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
-.Punch-Card, .multi-visit-card {
+.Punch-Card,
+.multi-visit-card {
   font-family: 'Lato', sans-serif;
-  width: 80%;
+  width: 460px;
   margin: auto;
   padding: auto;
-  background-color: #fbbd08;
-}
-.multi-visit-card{
-  background-color: #6699ff;
+  background-color: rgb(255, 137, 0);
+  border-radius: 6px;
 }
 .Container {
   display: flex;
@@ -16,8 +15,10 @@
   justify-content: center;
   align-items: center;
 }
-.Digit, .usedMultiDigit, .multiDigit{
-  margin: auto ;
+.Digit,
+.usedMultiDigit,
+.multiDigit {
+  margin: auto;
   border-radius: 50%;
   font-weight: bold;
   background: white;
@@ -26,18 +27,19 @@
   font-size: 40px;
   text-align: center;
   padding: 5px;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   object-fit: contain;
 }
-.usedMultiDigit{
+.usedMultiDigit {
   background: none;
   padding: 0;
 }
-.multiDigit{
+.multiDigit {
   color: white;
-  background: green;
+  background: rgb(202, 120, 48);
+  border: 1px solid rgb(170, 104, 4);
 }
 .header {
   font-size: 40px;
@@ -52,13 +54,13 @@
   font-size: 20px;
   padding: 20px;
 }
-.weekName{
+.weekName {
   text-align: center;
   color: black;
   font-weight: bold;
   font-size: 15px;
 }
-.digitParent{
+.digitParent {
   width: auto;
   height: auto;
   margin: 5px;

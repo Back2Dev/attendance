@@ -11,6 +11,7 @@ import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
 
 import AdminContainer from '/imports/ui/admin/admin-container'
+import RenewalsContainer from '/imports/ui/renewals/container'
 import AppSelection from '/imports/ui/admin/app-selection'
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
 import Nav from '/imports/ui/member/member-nav'
@@ -40,6 +41,7 @@ const Attendance = () => {
         <Switch>
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
           <Route path="/userprofiles" component={AdminContainer} />
+          <Route path="/renewals" component={RenewalsContainer} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />
           <Route path="/payment-confirm" component={PaymentConfirm} />

@@ -13,7 +13,7 @@ const recentFormat = dateValue => {
 }
 
 function MembershipCard(props) {
-  const { name, mobile, email, avatar, lastIn, expiry, status, subsType } = props.member
+  const { name, mobile, email, avatar, lastIn, expiry, status, subsType, remaining } = props.member
   return (
     <div className="ui grid member-card-container">
       <div className="sixteen wide column ui grid card-header">
@@ -29,7 +29,7 @@ function MembershipCard(props) {
           <div className="sixteen wide column card-details-attributes title">Mobile {mobile}</div>
           <div className="sixteen wide column card-details-attributes title">Expires {dateFormat(expiry)}</div>
           <div className="sixteen wide column card-details-attributes title">
-            Member Type {status} {subsType}
+            Member Type {status} {subsType} {remaining}
           </div>
         </div>
       </div>
