@@ -54,7 +54,8 @@ Meteor.methods({
               const rec = item.collection.findOne({ code: record.code })
               console.log(`Checking ${target}`, rec)
               if (!rec) {
-                console.error(`Could not find record for ${record.code}`)
+                console.warn(`Could not find record for ${record.code}, adding now`)
+                item.collection.insert(record)
               } else {
                 if (!rec.subsType) {
                   item.collection.update({ code: record.code }, { $set: { subsType: record.subsType } })

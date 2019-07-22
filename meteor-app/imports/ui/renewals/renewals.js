@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Menu, Checkbox, Tab, Icon } from 'semantic-ui-react'
-
+import { Button, Menu, Checkbox, Tab, Icon, Label } from 'semantic-ui-react'
+import moment from 'moment'
+import './styles.css'
 const debug = require('debug')('b2b:reminders')
 
 const ListMembers = ({ members, type }) => {
@@ -62,20 +63,40 @@ const ListMembers = ({ members, type }) => {
       {members
         .filter(member => member.subsType === type)
         .filter(member => (expired ? member.status === 'expired' : true))
-        .map((member, ix) => (
-          <div key={member._id}>
-            <Checkbox
-              label={`${member.name} ${member.subsType} ${member.status}`}
-              value={member.name}
-              name={member.name}
-              defaultChecked={selected[member.name]}
-              onClick={e => {
-                e.preventDefault()
-                selectMember(member.name)
-              }}
-            />
-          </div>
-        ))}
+        .map((member, ix) => {
+          const expiry = moment(member.expiry).format('DD MMM YYYY')
+          let extras = ''
+          switch (member.subsType) {
+            case 'pass':
+              extras = `${member.remaining} remaining expires ${expiry}`
+              break
+            case 'member':
+              extras = expiry
+              break
+            case 'casual':
+              extras = ''
+              break
+          }
+          return (
+            <div key={member._id}>
+              <label className={member.status}>
+                <Checkbox
+                  value={member.name}
+                  name={member.name}
+                  defaultChecked={selected[member.name]}
+                  onClick={e => {
+                    selectMember(member.name)
+                  }}
+                />
+                &nbsp;
+                {`${member.name} ${member.subsType} ${member.status} ${extras}`}
+              </label>
+              <a href={`/userprofiles/${member._id}`} target="_blank">
+                <Icon name="arrow right" />
+              </a>
+            </div>
+          )
+        })}
     </div>
   )
 }

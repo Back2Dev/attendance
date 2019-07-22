@@ -59,6 +59,7 @@ Meteor.methods({
           member.name,
           purchase.productName,
           moment(purchase.expiry).format('Do MMM YYYY'),
+          `renew/${member._id}/${cart._id}`,
           Meteor.settings.private.validMembershipID
         )
         debug('Sending Membership reminder to ' + member.email)
@@ -66,25 +67,66 @@ Meteor.methods({
     })
   },
 
-  // Send pass renewal email
-  sendPassRenewal() {
-    Members.find({ $where: 'this.sessions.length >=5' }).forEach(member => {
-      Purchases.find({
-        memberId: member._id,
-        code: /-PASS-/,
-        expiry: { $lt: new Date() }
-      }).forEach(p => {
-        debug(p.purchaser + ' has expired PASS... Sending Renewal Email.')
-      })
-      Purchases.find({
-        memberId: member._id,
-        code: /-PASS-/,
-        expiry: { $gt: new Date() }
-      }).forEach(p => {
-        debug(p.purchaser + ' has valid PASS.... Sending Reminder Email')
+  //----------
+  // Send membership renewals, assumes that shopping carts have been pre-filled
+  sendPassRenewals(name) {
+    const query = name ? { name } : {}
+    Members.find(query).forEach(member => {
+      debug(`Checking ${member.name}`)
+      Carts.find({ memberId: member._id, status: 'ready' }).forEach(cart => {
+        cart.products
+          .filter(product => product.code.match(/-PASS-/))
+          .forEach(product => {
+            debug(`Sending email for ${product.code} to ${member.name}, `)
+            Meteor.call(
+              'sendPassEmail',
+              member.email,
+              member.name,
+              moment(member.expiry).format('Do MMM YYYY'),
+              `renew/${member._id}/${cart._id}`,
+              Meteor.settings.private.expiredPassID
+            )
+            debug('Sending Pass Renewal to ' + member.email)
+          })
       })
     })
   },
+
+  // // Send pass renewal email
+  // sendPassRenewals() {
+  //   Members.find({ $where: 'this.sessions.length >=5' }).forEach(member => {
+  //     Purchases.find({
+  //       memberId: member._id,
+  //       code: /-PASS-/,
+  //       expiry: { $lt: new Date() }
+  //     }).forEach(p => {
+  //       debug(`${p.purchaser} has expired PASS.... Sending Pass Renewal Email to ${member.email}`)
+  //       Meteor.call(
+  //         'sendPassEmail',
+  //         member.email,
+  //         member.name,
+  //         moment(member.expiry).format('DD MMM YYYY'),
+  //         `renew/${member._id}/${cart._id}`,
+  //         Meteor.settings.private.expiredPassID
+  //       )
+  //     })
+  //     Purchases.find({
+  //       memberId: member._id,
+  //       code: /-PASS-/,
+  //       expiry: { $gt: new Date() }
+  //     }).forEach(p => {
+  //       debug(`${p.purchaser} has valid PASS.... Sending Pass Reminder Email to ${member.email}`)
+  //       Meteor.call(
+  //         'sendPassEmail',
+  //         member.email,
+  //         member.name,
+  //         moment(member.expiry).format('DD MMM YYYY'),
+  //         `renew/${member._id}/${cart._id}`,
+  //         Meteor.settings.private.validPassID
+  //       )
+  //     })
+  //   })
+  // },
 
   // update member status
   updateMemberStatus(memberId, status) {
@@ -235,9 +277,10 @@ Meteor.methods({
     Members.find({ subsType: 'pass', status: 'current' }).forEach(member => {
       Purchases.find({ memberId: member._id }).forEach(purchase => {
         remaining = (purchase.qty || 1) - member.sessionCount
+        status = remaining > 0 ? 'current' : 'expired'
       })
       debug(`Current member update ${member.name} remaining: ${remaining}`)
-      Members.update(member._id, { $set: { remaining } })
+      Members.update(member._id, { $set: { remaining, status } })
     })
     Members.find({ subsType: 'pass', status: 'expired' }).forEach(member => {
       Purchases.find({ memberId: member._id }).forEach(purchase => {
@@ -299,7 +342,7 @@ Meteor.methods({
             } else {
               product.qty = 1
               if (product.code.match(/-PASS-/) && member.remaining < 0) {
-                product.qty = product.qty + (-member.remaining % 10)
+                product.qty = product.qty + Math.floor(Math.abs(member.remaining) / 10)
               }
               const creditCard = {}
               Object.keys(pinAddressFieldMap).forEach(key => {

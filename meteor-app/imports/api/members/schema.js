@@ -163,6 +163,12 @@ export const MembersSchema = new SimpleSchema({
     label: 'Pin number',
     optional: true
   },
+  active: {
+    type: Boolean,
+    label: 'Is active',
+    defaultValue: true,
+    optional: true
+  },
   //
   // Payment system attributes
   //

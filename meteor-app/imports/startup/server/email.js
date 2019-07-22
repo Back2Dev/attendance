@@ -59,18 +59,17 @@ Meteor.methods({
   },
 
   // Send 'Your pass has expired/is empty' email
-  sendPassEmail(to, name, visitsUsed, apiKey) {
+  sendPassEmail(to, name, expiry, link, templateId) {
     try {
       sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
       const options = {
         to,
         from: Meteor.settings.private.fromEmail,
-        templateId: apiKey,
+        templateId,
         dynamic_template_data: {
           name,
-          type,
           expiry,
-          visitsUsed
+          link: `${Meteor.absoluteUrl()}${link}`
         }
       }
       sgMail.send(options)

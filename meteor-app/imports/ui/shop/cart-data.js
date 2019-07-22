@@ -47,6 +47,10 @@ const reducer = (state, action) => {
       clrS.totalqty = 0
       saveCart(clrS)
       return clrS
+    case 'save-card':
+      saveCart(state)
+      debug('save-cart', state)
+      return state
     case 'save-address':
       const newS = cloneDeep(state)
       if (newS.creditCard) delete newS.creditCard
