@@ -27,9 +27,11 @@ function MembershipCard(props) {
           <div className="sixteen wide column card-details-attributes title">Last seen {recentFormat(lastIn)}</div>
           <div className="sixteen wide column card-details-attributes title">Email {email}</div>
           <div className="sixteen wide column card-details-attributes title">Mobile {mobile}</div>
-          <div className="sixteen wide column card-details-attributes title">Expires {dateFormat(expiry)}</div>
+          {subsType !== 'casual' && (
+            <div className="sixteen wide column card-details-attributes title">Expires {dateFormat(expiry)}</div>
+          )}
           <div className="sixteen wide column card-details-attributes title">
-            Member Type {status} {subsType} {remaining}
+            Member Type {subsType !== 'casual' ? status : ''} {subsType} {subsType === 'pass' ? remaining : ''}
           </div>
         </div>
       </div>

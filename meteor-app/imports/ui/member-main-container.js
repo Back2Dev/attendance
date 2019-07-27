@@ -28,6 +28,8 @@ export default withTracker(props => {
     }
   }
 
+  document.title = `${Meteor.settings.public.org} - ${Meteor.settings.public.member} check in`
+
   return {
     membersIn: Members.find(
       {

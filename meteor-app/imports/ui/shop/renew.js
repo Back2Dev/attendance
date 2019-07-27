@@ -11,7 +11,7 @@ import ProductButton from '/imports/ui/shop/product-button'
 import { CartContext } from './cart-data'
 
 const Renew = props => {
-  const [product, setProduct] = React.useState(props.myProduct)
+  const [product, setProduct] = React.useState(props.myProduct || props.cart.products[0])
   const { state, dispatch } = React.useContext(CartContext)
   // With the next action, the product is in the cart already
   const next = () => {

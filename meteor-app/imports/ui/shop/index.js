@@ -25,6 +25,7 @@ const cartUpdate = data => {
 }
 
 export default withTracker(props => {
+  document.title = `${Meteor.settings.public.org} - shop`
   cartId = localStorage.getItem('mycart')
   debug(`Cart id is ${cartId}`)
   const cartSub = Meteor.subscribe('cart', cartId)

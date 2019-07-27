@@ -244,19 +244,21 @@ Meteor.methods({
           }
         })
       })
-      Purchases.find({ code: 'PA-PASS-CASUAL' }).forEach(purchase => {
+      Purchases.find({ code: /-CASUAL/ }).forEach(purchase => {
         debug(`Member ${purchase.purchaser} casual: ${purchase.code}`)
         Members.update(purchase.memberId, {
           $set: {
-            subsType: 'casual'
+            subsType: 'casual',
+            status: 'current'
           }
         })
       })
-      Members.find({ subsType: null }).forEach(member => {
+      Members.find({ subsType: { $in: [null, 'casual'] } }).forEach(member => {
         debug(`!!! Member ${member.name} substype is unknown: setting to casual`)
         Members.update(member._id, {
           $set: {
-            subsType: 'casual'
+            subsType: 'casual',
+            status: 'current'
           }
         })
       })
@@ -318,6 +320,40 @@ Meteor.methods({
   //     debug(member.name)
   //   })
   // },
+
+  //
+  // Prime shopping carts for casuals
+  //
+  primeCasuals() {
+    let newCarts = 0
+    debug(`Deleted ${Carts.remove({ status: 'ready', 'products.code': /CASUAL/ })} carts`)
+    const product = Products.findOne({ code: 'PA-CASUAL-SIGNUP' })
+    if (!product) throw new Error('Could not find product for PA-CASUAL-SIGNUP')
+    Members.find({ subsType: 'casual' }).forEach(m => {
+      product.qty = 1
+      const creditCard = {}
+      Object.keys(pinAddressFieldMap).forEach(key => {
+        creditCard[key] = m[pinAddressFieldMap[key]]
+      })
+      if (!creditCard.address_country) {
+        creditCard.address_country = 'Australia'
+      }
+      const cart = {
+        memberId: m._id,
+        email: m.email,
+        customerName: m.name,
+        products: [product],
+        price: product.price,
+        totalqty: product.qty,
+        prodqty: { [product._id]: product.qty },
+        creditCard,
+        status: 'ready'
+      }
+      const cartId = Carts.insert(cart)
+      debug(`Added cart for ${m.name} ${m.status} ${m.subsType}`)
+      newCarts++
+    })
+  },
 
   // Create shopping cart entries for previous offenders,
   // - only applicable to non-casuals who have expired

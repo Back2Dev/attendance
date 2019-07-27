@@ -52,7 +52,7 @@ Meteor.methods({
           if (item.element === target) {
             data[target].forEach(record => {
               const rec = item.collection.findOne({ code: record.code })
-              console.log(`Checking ${target}`, rec)
+              // console.log(`Checking ${target}`, rec)
               if (!rec) {
                 console.warn(`Could not find record for ${record.code}, adding now`)
                 item.collection.insert(record)

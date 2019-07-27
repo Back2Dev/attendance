@@ -17,7 +17,8 @@ const publicSchema = new SimpleSchema({
   paymentApiKey: String,
   paymentTest: Boolean,
   paymentSite: String,
-  tagline: String
+  tagline: String,
+  support: String
 })
 
 const privateSchema = new SimpleSchema({
@@ -30,7 +31,8 @@ const privateSchema = new SimpleSchema({
   validMembershipID: String,
   expiredPassID: String,
   validPassID: String,
-  registerCardID: String
+  registerCardID: String,
+  forgotPINID: String
 })
 
 Meteor.startup(() => {

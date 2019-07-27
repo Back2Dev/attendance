@@ -20,19 +20,37 @@ Meteor.startup(() => {
 
 Meteor.methods({
   // Send forgotten PIN by email
-  sendPINEmail(destination = DEFAULT_DESTINATION, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
-    debug(`Sending email: ${subject}: ${message} to ${destination}`)
-
-    const options = {
-      from: 'admin@back2bikes.com.au',
-      to: destination,
-      subject: subject,
-      text: message
-    }
-    try {
-      Email.send(options)
-    } catch (error) {
-      log.error('Error from email gateway', error)
+  sendPINEmail(to = DEFAULT_DESTINATION, pin, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
+    debug(`Sending email: ${subject} to ${to}`)
+    if (Meteor.settings.private.sendgridApikey && Meteor.settings.private.forgotPINID) {
+      try {
+        sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+        const options = {
+          to,
+          from: Meteor.settings.private.fromEmail,
+          templateId: Meteor.settings.private.forgotPINID,
+          dynamic_template_data: {
+            // name,
+            pin
+          }
+        }
+        log.info(`Sending email to <${to}>`)
+        sgMail.send(options)
+      } catch (e) {
+        log.error(`Error sending email: ${e.message}`)
+      }
+    } else {
+      const options = {
+        from: Meteor.settings.private.fromEmail,
+        to,
+        subject,
+        text: message
+      }
+      try {
+        Email.send(options)
+      } catch (error) {
+        log.error('Error from email gateway', error)
+      }
     }
   },
 
