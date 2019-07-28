@@ -13,6 +13,42 @@ const cron = require('node-cron')
 const debug = require('debug')('b2b:cron')
 
 Meteor.methods({
+  reconcileCompletedCarts() {
+    try {
+      Carts.find({ status: 'complete', memberId: { $exists: false } }).forEach(cart => {
+        debug(`Cart ${cart._id} ${cart.products.map(p => p.code).join()} ${cart.price}`)
+        const members = Members.find({ email: cart.creditCard.email }).fetch()
+        if (members.length === 0) debug(`Could not find a member with email ${cart.creditCard.email}`)
+        if (members.length > 1) debug(`More than one member with the email ${cart.creditCard.email}`)
+        if (members.length === 1) {
+          debug(`Found member [${members[0].name}]`)
+          const sub = cart.products[0]
+          sub.txnDate = cart.chargeResponse.created_at
+          sub.purchaser = members[0].name
+          sub.productId = cart.products[0]._id
+          sub.productName = cart.products[0].name
+          sub.memberId = members[0]._id
+
+          delete sub._id
+
+          // sub.expiry = moment(member.expiry).toISOString()
+          // sub.remaining = member.remaining || 0
+          Purchases.insert(sub)
+          Carts.update(cart._id, {
+            $set: {
+              memberId: members[0]._id,
+              email: members[0].email,
+              customerName: members[0].name
+            }
+          })
+          Members.update(members[0]._id, { $set: { paymentCustId: cart.chargeResponse.customerToken } })
+        }
+      })
+    } catch (e) {
+      debug(`Error [${e.message}] encountered while matching completed carts`)
+    }
+  },
+
   //----------
   // Send membership renewals, assumes that shopping carts have been pre-filled
   sendMembershipRenewals(name) {
