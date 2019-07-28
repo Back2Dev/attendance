@@ -104,7 +104,7 @@ Meteor.methods({
   },
 
   //----------
-  // Send membership renewals, assumes that shopping carts have been pre-filled
+  // Send pass renewals, assumes that shopping carts have been pre-filled
   sendPassRenewals(name) {
     const query = name ? { name } : {}
     Members.find(query).forEach(member => {
@@ -113,16 +113,48 @@ Meteor.methods({
         cart.products
           .filter(product => product.code.match(/-PASS-/))
           .forEach(product => {
-            debug(`Sending email for ${product.code} to ${member.name}, `)
-            Meteor.call(
-              'sendPassEmail',
-              member.email,
-              member.name,
-              moment(member.expiry).format('Do MMM YYYY'),
-              `renew/${member._id}/${cart._id}`,
-              Meteor.settings.private.expiredPassID
-            )
-            debug('Sending Pass Renewal to ' + member.email)
+            if (!member.email) {
+              console.log(`No email address found for ${member.name}`)
+            } else {
+              debug(`Sending email for ${product.code} to ${member.name}, ${member.email}`)
+              Meteor.call(
+                'sendPassEmail',
+                member.email,
+                member.name,
+                moment(member.expiry).format('Do MMM YYYY'),
+                `renew/${member._id}/${cart._id}`,
+                Meteor.settings.private.expiredPassID
+              )
+              debug('Sending Pass Renewal to ' + member.email)
+            }
+          })
+      })
+    })
+  },
+
+  //----------
+  // Send casual registrations, assumes that shopping carts have been pre-filled
+  sendCasualRenewals(name) {
+    const query = name ? { name } : {}
+    Members.find(query).forEach(member => {
+      debug(`Checking ${member.name}`)
+      Carts.find({ memberId: member._id, status: 'ready' }).forEach(cart => {
+        cart.products
+          .filter(product => product.code.match(/-CASUAL-SIGNUP/))
+          .forEach(product => {
+            if (!member.email) {
+              console.log(`No email address found for ${member.name}`)
+            } else {
+              debug(`Sending email for ${product.code} to ${member.name},  ${member.email} `)
+              Meteor.call(
+                'sendPassEmail',
+                member.email,
+                member.name,
+                moment(member.expiry).format('Do MMM YYYY'),
+                `renew/${member._id}/${cart._id}`,
+                Meteor.settings.private.registerCardID
+              )
+            }
           })
       })
     })

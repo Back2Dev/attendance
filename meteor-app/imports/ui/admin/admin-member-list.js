@@ -91,7 +91,7 @@ const Admin = props => {
                   />
                 )}
                 &nbsp;
-                <Button
+                { false && <Button
                   color='green'
                   onClick={e => {
                     e.preventDefault()
@@ -99,7 +99,7 @@ const Admin = props => {
                   }}
                   content='Invite...'
                   about={member.name}
-                />
+                />}
                 &nbsp;
                 <Button
                   color='red'
