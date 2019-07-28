@@ -76,7 +76,7 @@ Meteor.methods({
     }
   },
 
-  // Send 'Your pass has expired/is empty' email
+  // Send 'Your pass has expired/is empty' or Casual signup email
   sendPassEmail(to, name, expiry, link, templateId) {
     try {
       sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
