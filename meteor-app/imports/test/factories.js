@@ -15,6 +15,7 @@ import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
 import Products from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
+import Wwccs from '/imports/api/wwccs/schema'
 // import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
@@ -196,6 +197,13 @@ Factory.define('event', Events, {
   duration: 2,
   price: 200,
   type: 'monthly'
+})
+
+Factory.define('wwcc', Events, {
+  wwcc: '01819845',
+  surname: 'King',
+  memberId: 'asdf9kj98',
+  responses: []
 })
 
 export default Factory

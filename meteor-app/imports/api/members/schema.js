@@ -4,11 +4,7 @@ import SimpleSchema from 'simpl-schema'
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 import { SessionsSchema } from '/imports/api/sessions/schema'
 
-const SessionListSchema = SessionsSchema.omit(
-  'memberId',
-  'createdAt',
-  'updatedAt'
-)
+const SessionListSchema = SessionsSchema.omit('memberId', 'createdAt', 'updatedAt')
 
 const Members = new Mongo.Collection('members')
 
@@ -217,6 +213,11 @@ export const MembersSchema = new SimpleSchema({
   remaining: { type: SimpleSchema.Integer, optional: true },
   wwcc: {
     type: String,
+    optional: true
+  },
+  wwccOk: {
+    type: Boolean,
+    defaultValue: false,
     optional: true
   },
   privacy: {
