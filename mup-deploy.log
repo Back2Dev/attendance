@@ -80,3 +80,5 @@ Sat 27 Jul 2019 23:49:20 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod
 Sun 28 Jul 2019 18:46:17 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.4
 Sun 28 Jul 2019 19:00:44 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.4
 Sun 28 Jul 2019 20:33:41 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.4
+Mon 29 Jul 2019 22:18:29 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.5
+Mon 29 Jul 2019 22:33:03 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.5
