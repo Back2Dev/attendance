@@ -79,7 +79,7 @@ export default withTracker(props => {
     const member = Members.findOne(memberId)
     const when = prompt(`Extend membership for ${member.name} to (DD/MM/YYYY)`)
     if (when) {
-      const isoWhen = moment(when,'DD/MM/YYYY').format('YYYY-MM-DD')
+      const isoWhen = moment(when, 'DD/MM/YYYY').format('YYYY-MM-DD')
       Meteor.call('purchase.extend', memberId, purchaseId, isoWhen, (err, res) => {
         if (err) {
           Alert.error('error whilst extending member')

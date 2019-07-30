@@ -12,6 +12,8 @@ const publicSchema = new SimpleSchema({
   register: String,
   admin: SimpleSchema.Integer,
   shop: SimpleSchema.Integer,
+  payNow: SimpleSchema.Integer,
+  addCard: SimpleSchema.Integer,
   org: String,
   orgid: String,
   paymentApiKey: String,

@@ -46,8 +46,21 @@ const Main = props => {
                 onClick={() => props.history.push(`/edit/${props.member._id}`)}
                 style={{ marginTop: '24px' }}
               >
-                Edit Your Profile
+                Edit your profile
               </Button>
+            )}
+            {(props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
+              <span>
+                &nbsp; &nbsp;
+                <Button
+                  type="button"
+                  size="small"
+                  onClick={() => props.history.push(`/addcard/${props.member._id}`)}
+                  style={{ marginTop: '24px' }}
+                >
+                  Add a credit card
+                </Button>
+              </span>
             )}
             <Button
               floated="right"
