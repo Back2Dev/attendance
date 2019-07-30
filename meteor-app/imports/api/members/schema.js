@@ -4,7 +4,11 @@ import SimpleSchema from 'simpl-schema'
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 import { SessionsSchema } from '/imports/api/sessions/schema'
 
-const SessionListSchema = SessionsSchema.omit('memberId', 'createdAt', 'updatedAt')
+const SessionListSchema = SessionsSchema.omit(
+  'memberId',
+  'createdAt',
+  'updatedAt'
+)
 
 const Members = new Mongo.Collection('members')
 
@@ -211,6 +215,22 @@ export const MembersSchema = new SimpleSchema({
   },
   subsType: { type: String, optional: true },
   remaining: { type: SimpleSchema.Integer, optional: true },
+  wwcc: {
+    type: String,
+    optional: true
+  },
+  privacy: {
+    type: Boolean,
+    optional: true
+  },
+  terms: {
+    type: Boolean,
+    optional: true
+  },
+  permission: {
+    type: Boolean,
+    optional: true
+  },
   //
   // End of payment system data
   //
