@@ -26,14 +26,14 @@ export const WwccsSchema = new SimpleSchema({
   responses: {
     type: Array,
     label: 'Array of responses received',
-    defaultValue: [],
-    blackbox: true
+    defaultValue: []
+    // blackbox: true
   },
   'responses.$': responseSchema,
   createdAt,
   updatedAt
 })
 
-Parts.attachSchema(PartsSchema)
+Wwccs.attachSchema(WwccsSchema)
 
-export default Parts
+export default Wwccs

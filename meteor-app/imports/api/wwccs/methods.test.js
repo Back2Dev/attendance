@@ -12,7 +12,7 @@ if (Meteor.isServer) {
       expect(goodWwcc).to.be.a('object')
     })
 
-    it('should contain required keys: imageUrl,retailPrice,wholesalePrice and partNo', () => {
+    it('should contain required keys: _id, memberId, wwcc, surname', () => {
       expect(goodWwcc).to.contain.keys('_id', 'memberId', 'wwcc', 'surname')
     })
   })

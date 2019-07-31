@@ -182,8 +182,8 @@ Factory.define('product', Products, {
 })
 
 Factory.define('purchase', Purchases, {
-  memberId: 'asdf9kj98',
-  productId: 'asdf23asdf',
+  memberId: 'SYdWnRL5LmZXT4GxE',
+  productId: 'SYdWnRL5LmZXT4GxE',
   productName: 'Evening workshop',
   price: 5000,
   code: 'MISC'
@@ -202,7 +202,7 @@ Factory.define('event', Events, {
 Factory.define('wwcc', Events, {
   wwcc: '01819845',
   surname: 'King',
-  memberId: 'asdf9kj98',
+  memberId: 'SYdWnRL5LmZXT4GxE',
   responses: []
 })
 

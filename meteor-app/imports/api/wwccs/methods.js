@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Wwccs from '/imports/api/parts/schema'
+import Wwccs from '/imports/api/wwccs/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:wwcc')
 

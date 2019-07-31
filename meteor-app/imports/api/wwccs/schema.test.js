@@ -3,6 +3,7 @@ import { expect } from 'chai'
 
 // Don't mention ze war! (or ze debu g g e r!)
 
+import { randomId } from '/imports/test/util'
 import Wwccs from '/imports/api/wwccs/schema'
 import Factory from '/imports/test/factories'
 import { RegExId } from '../schema'
@@ -10,12 +11,12 @@ import { RegExId } from '../schema'
 const badWwccs = [
   // Missing wwcc
   {
-    memberId: '3DE54FGTddfhhh',
+    memberId: 'SYdWnRL5LmZXT4GxE',
     surname: 'French'
   },
   // Missing surname
   {
-    memberId: '3DE54FGTddfhhh',
+    memberId: 'SYdWnRL5LmZXT4GxE',
     wwcc: '00000021'
   },
   // Missing memberId
@@ -25,21 +26,21 @@ const badWwccs = [
   },
   // Invalid responses
   {
-    memberId: '3DE54FGTddfhhh',
+    memberId: 'SYdWnRL5LmZXT4GxE',
     wwcc: '00019845',
     surname: 'King',
     responses: '[ "reason": "something wrong" ]'
   },
   // Invalid responses
-  {
-    memberId: '3DE54FGTddfhhh',
-    wwcc: '00019845',
-    surname: 'King',
-    responses: { reason: 'Something wrong - unexpected object' }
-  },
+  // {
+  //   memberId: 'SYdWnRL5LmZXT4GxE',
+  //   wwcc: '00019845',
+  //   surname: 'King',
+  //   responses: { reason: 'Something wrong - unexpected object' }
+  // }
   // Invalid responses
   {
-    memberId: '3DE54FGTddfhhh',
+    memberId: 'SYdWnRL5LmZXT4GxE',
     wwcc: '00019845',
     surname: 'King',
     responses: [{ reason: 'Something wrong - unexpected element' }]
@@ -50,13 +51,13 @@ const goodWwccs = [
   {
     wwcc: '00019845',
     surname: 'King',
-    memberId: 'asdf9kj98',
+    memberId: 'SYdWnRL5LmZXT4GxE',
     responses: []
   },
   {
     wwcc: '00019845-02',
     surname: 'Thomas, Geraint',
-    memberId: 'asdf9kj98e3s0',
+    memberId: 'SYdWnRL5LmZXT4GxE',
     responses: []
   }
 ]
@@ -67,7 +68,9 @@ describe('schema', () => {
   beforeEach(resetDatabase)
 
   goodWwccs.forEach((good, i) => {
-    describe('WwccsSchema good wwccs', () => {
+    good._id = randomId()
+
+    describe(`WwccsSchema good wwccs ${good._id}`, () => {
       it(`Succeeds on GOOD Wwccs insert ${i + 1}`, () => {
         expect(() => Wwccs.insert(good)).not.to.throw()
       })
@@ -84,6 +87,8 @@ describe('schema', () => {
   })
 
   badWwccs.forEach((bad, i) => {
+    bad._id = randomId()
+
     describe('WwccsSchema bad wwccs', () => {
       it(`Succeeds on BAD Wwccs insert ${i + 1}`, () => {
         expect(() => Wwccs.insert(bad)).to.throw()
