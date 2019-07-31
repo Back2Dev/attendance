@@ -110,6 +110,7 @@ export default withTracker(props => {
     setPin,
     forgotPin,
     org: Meteor.settings.public.org,
-    logo: Meteor.settings.public.logo
+    logo: Meteor.settings.public.logo,
+    addCard: Meteor.settings.public.addCard
   }
 })(Main)

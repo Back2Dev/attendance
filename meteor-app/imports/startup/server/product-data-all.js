@@ -3,6 +3,7 @@ import Products, { ProductTypes } from '/imports/api/products/schema'
 
 import paProducts from './product-data-pa'
 import b2bProducts from './product-data-b2b'
+import b4hProducts from './product-data-b4h'
 import Events from '/imports/api/events/schema'
 
 const config = [
@@ -22,7 +23,8 @@ const config = [
 
 const fixtures = {
   pa: paProducts,
-  b2b: b2bProducts
+  b2b: b2bProducts,
+  b4h: b4hProducts
 }
 
 Meteor.methods({

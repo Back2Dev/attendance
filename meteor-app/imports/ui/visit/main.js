@@ -49,7 +49,7 @@ const Main = props => {
                 Edit your profile
               </Button>
             )}
-            {(props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
+            {props.addCard === '1' && (props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
               <span>
                 &nbsp; &nbsp;
                 <Button
@@ -82,6 +82,7 @@ const Main = props => {
 }
 
 Main.propTypes = {
-  member: PropTypes.object.isRequired
+  member: PropTypes.object.isRequired,
+  addCard: PropTypes.string.isRequired
 }
 export default Main
