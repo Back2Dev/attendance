@@ -37,7 +37,7 @@ export default withTracker(props => {
       debug('updating member', formData)
       try {
         const res = await Meteor.callAsync('members.update', formData._id, formData)
-        setSuccess('Successfully edited member', formData._id)
+        setSuccess('Saved ok', formData._id)
         return res
       } catch (e) {
         debug('error updating member', formData, e)

@@ -72,7 +72,7 @@ class MemberAdd extends Component {
         progress: prevState.step + 1
       }
     })
-    this.props.setMember(this.state.formData)
+    // this.props.setMember(this.state.formData)
   }
 
   backStep = () => {
