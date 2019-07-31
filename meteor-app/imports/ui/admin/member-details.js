@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { Segment, Header } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member-card/member-card'
 import Price from '/imports/ui/shop/price'
 import CartList from './cart-list'
@@ -36,7 +37,8 @@ const MemberDetails = ({ member, carts, sessions, purchases }) => {
         ))
       )}
       <hr />
-      Shopping carts ({carts.length}){carts.length === 0 ? <div>(none)</div> : <CartList carts={carts} />}
+      <Header as="h5">Shopping carts ({carts.length})</Header>
+      {carts.length === 0 ? <div>(none)</div> : <CartList carts={carts} />}
     </div>
   )
 }

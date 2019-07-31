@@ -12,8 +12,8 @@ import Purchases from '/imports/api/purchases/schema'
 const debug = require('debug')('b2b:members-import-pa')
 
 const type2code = {
-  Casual: 'PA-PASS-CASUAL',
-  'Casual attendance': 'PA-PASS-CASUAL',
+  Casual: 'PA-CASUAL',
+  'Casual attendance': 'PA-CASUAL',
   '10-session multipass': 'PA-PASS-MULTI-10',
   'Subscription (per month)': 'PA-MEMB-1',
   Yearly: 'PA-MEMB-12',

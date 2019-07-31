@@ -1,27 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Card, Segment } from 'semantic-ui-react'
 
 const CartList = ({ carts, removeCart }) => {
-  return (
-    <ul style={{ listStyleType: 'circle' }}>
-      {carts.map(cart => (
-        <span key={cart._id}>
-          <li key={cart._id}>
-            {moment(cart.createdAt).format('D MMM YYYY')} {cart.status}
-            &nbsp;
-            <span style={{ color: 'red' }} onClick={() => removeCart(cart._id)}>
-              X
-            </span>
-          </li>
-          {cart.products.map(product => (
-            <li key={product._id}>
-              {product.qty} x {product.code} = <Price cents={product.price} />
-            </li>
-          ))}
+  const items = carts.map(cart => {
+    return {
+      description: cart.products.map(product => (
+        <span>
+          {product.qty} x {product.code} <Price cents={product.price} />
         </span>
-      ))}
-    </ul>
-  )
+      )),
+      meta: `Created: ${moment(cart.createdAt).format('D MMM YYYY')} status: ${cart.status}`,
+      header: (
+        <span>
+          {cart.totalqty} items, <Price cents={cart.price} />
+        </span>
+      )
+    }
+  })
+  return <Card.Group items={items} />
 }
 
 CartList.propTypes = {

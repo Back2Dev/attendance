@@ -58,22 +58,41 @@ Meteor.methods({
     }
   },
 
-  'members.forgotPin': function(id, method, destination, remember) {
-    log.info(`sending pin for member ${id} via ${method} to ${destination} ${remember}`)
+  'members.forgotPin': function(id, method, to, remember) {
+    log.info(`sending pin for member ${id} via ${method} to ${to} ${remember}`)
     try {
       // make DB query and grab the pin.
       const member = Members.findOne(id)
       const pin = member.pin
       // construct message.
-      const message = `Your PIN for Back2Bikes attendance app is: \n ${pin}`
+      let message = `
+You are receiving this email because you requested a PIN reminder 
+from ${Meteor.settings.public.org}.
+
+Your PIN for the ${Meteor.settings.public.org} sign in app is: ${pin}
+
+If you did not request the forgotten PIN, or you have privacy concerns, 
+please forward this email to ${Meteor.settings.public.support}, 
+and explain your concerns. If you can please include your phone number, 
+so we can contact you to discuss them and make sure they are dealt 
+with to your satisfaction.
+
+Regards
+
+The support team
+
+${Meteor.settings.public.org}
+`
       if (method == 'email') {
-        debug('sending PIN reminder via email.', destination, message)
-        if (!member.email && remember) Members.update(member._id, { $set: { email: destination } })
-        return Meteor.call('sendPINEmail', destination, message, 'Back2Bikes Pin Reminder')
+        debug('sending PIN reminder via email ', to)
+        if (!member.email && remember) Members.update(member._id, { $set: { email: to } })
+        return Meteor.call('sendPINEmail', to, pin, message, `${Meteor.settings.public.org} Pin Reminder`)
+      } else {
+        message = `Your PIN for the ${Meteor.settings.public.org} sign in app is: ${pin}`
+        Meteor.call('sendPINSms', message, to)
+        debug('sending PIN via sms.', message)
+        if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: to } })
       }
-      Meteor.call('sendPINSms', message, destination)
-      debug('sending PIN via sms.', message)
-      if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: destination } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)

@@ -21,11 +21,23 @@ const myProducts = {
   ],
   products: [
     {
+      name: 'PA Casual signup',
+      price: 0,
+      description: 'Pay $0 now, automatic payment of $20 when you attend',
+      type: CONSTANTS.PRODUCT_TYPES.PASS,
+      code: 'PA-CASUAL-SIGNUP',
+      autoRenew: true,
+      active: true,
+      qty: 1,
+      subsType: 'casual',
+      image: '/images/pass.jpg'
+    },
+    {
       name: 'PA Casual session',
       price: 20 * 100,
       description: '1 session',
       type: CONSTANTS.PRODUCT_TYPES.PASS,
-      code: 'PA-PASS-CASUAL',
+      code: 'PA-CASUAL',
       autoRenew: true,
       active: true,
       qty: 1,

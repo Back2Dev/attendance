@@ -5,17 +5,16 @@ import Alert from 'react-s-alert'
 import { escapeRegExp } from 'lodash'
 import moment from 'moment'
 
-import Admin from './admin'
+import Renewals from './renewals'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
-import { saveToArchive } from '/imports/api/archive'
 const debug = require('debug')('b2b:admin')
 
 const Loader = props => {
   if (props.loading) return <div>Loading...</div>
-  return <Admin {...props} />
+  return <Renewals {...props} />
 }
 
 export default withTracker(props => {
@@ -31,20 +30,6 @@ export default withTracker(props => {
     } else {
       return {}
     }
-  }
-
-  const uploadXL = e => {
-    e.preventDefault()
-
-    const file = e.target[0].files[0]
-    const msg = file ? `Adding your parts` : `Oops! Forgot to add the file? Try again uploading the file`
-    Alert.info(msg)
-    const reader = new FileReader()
-    reader.onloadend = function() {
-      const data = reader.result
-      Meteor.callAsync('parts.load', data)
-    }
-    reader.readAsBinaryString(file)
   }
 
   const members = Members.find(filter(Session.get('searchQuery')), {
@@ -94,32 +79,14 @@ export default withTracker(props => {
       })
     }
   }
-  const removeMember = async id => {
-    const member = Members.findOne(id)
-    Meteor.call('members.remove', id, (err, res) => {
-      if (err) {
-        Alert.error('error whilst removing member')
-      } else {
-        Alert.success(`successfully removed ${res} member`)
-        eventLog({
-          who: 'Admin',
-          what: `removed member id: ${id}`,
-          object: member
-        })
-        saveToArchive('member', member)
-      }
-    })
-  }
 
   return {
     loading,
     members,
     carts,
     purchases,
-    removeMember,
     extendMember,
     removeCart,
-    uploadXL,
     memberWords
   }
 })(Loader)

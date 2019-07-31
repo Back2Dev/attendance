@@ -12,12 +12,15 @@ const publicSchema = new SimpleSchema({
   register: String,
   admin: SimpleSchema.Integer,
   shop: SimpleSchema.Integer,
+  payNow: SimpleSchema.Integer,
+  addCard: SimpleSchema.Integer,
   org: String,
   orgid: String,
   paymentApiKey: String,
   paymentTest: Boolean,
   paymentSite: String,
-  tagline: String
+  tagline: String,
+  support: String
 })
 
 const privateSchema = new SimpleSchema({
@@ -30,7 +33,8 @@ const privateSchema = new SimpleSchema({
   validMembershipID: String,
   expiredPassID: String,
   validPassID: String,
-  registerCardID: String
+  registerCardID: String,
+  forgotPINID: String
 })
 
 Meteor.startup(() => {

@@ -13,6 +13,7 @@
   height: 275px;
   min-width: 470px;
   background-image: url('/images/card-background.jpg');
+
   background-size: cover;
   background-repeat: no-repeat;
   color: #ff9900;
@@ -22,7 +23,7 @@
   padding-top: 10px !important;
   padding-bottom: 0 !important;
   text-align: center;
-  font-family: 'Lucida Console', Monaco, monospace;
+  font-family: 'Arial', 'sans serif';
 }
 .card-avatar-container {
   padding: 0 !important;
@@ -37,10 +38,12 @@
 }
 .card-details-attributes {
   padding-top: 0 !important;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: 'Arial', 'sans serif';
 }
 .title {
-  font-weight: bold;
+  font-weight: normal;
+  font-size: 18px;
+  color: white;
 }
 .info {
   text-align: right;

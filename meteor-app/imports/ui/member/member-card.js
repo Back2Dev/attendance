@@ -51,17 +51,17 @@ const MemberCard = props => {
               padding: '10px 0'
             }}
           >
-            <Label size="mini" color={rookie ? 'green' : isSuper ? 'orange' : 'blue'} about={name}>
+            <Label size="small" color={rookie ? 'green' : isSuper ? 'orange' : 'blue'} about={name}>
               <Icon name={rookie ? 'star half full' : 'trophy'} />
               {sessionCount}
             </Label>
             {rookie && (
-              <Label size="mini" color="green">
+              <Label size="small" color="green">
                 rookie
               </Label>
             )}
             {props.subsType && (
-              <Label size="mini" color={subsColor}>
+              <Label size="small" color={subsColor}>
                 {props.subsType} {togo}
               </Label>
             )}

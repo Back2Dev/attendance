@@ -3,11 +3,9 @@
  */
 
 var versionService = {
-
   version: function() {
-    return "1.1.0"
+    return '1.1.5'
   }
+}
 
-};
-
-module.exports = versionService;
+module.exports = versionService

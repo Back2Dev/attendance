@@ -1,4 +1,5 @@
 import { withTracker } from 'meteor/react-meteor-data'
+import { Meteor } from 'meteor/meteor'
 import MemberAdd from '/imports/ui/member/member-add'
 import { ReactiveVar } from 'meteor/reactive-var'
 import isIframe from '/imports/helpers/isIframe'
@@ -54,6 +55,8 @@ export default withTracker(props => {
       }
     }
   }
+
+  document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
 
   return {
     setMember,

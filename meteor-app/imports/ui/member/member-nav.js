@@ -16,6 +16,7 @@ const Nav = props => {
   const showParts = Meteor.settings.public.parts || false
   const showServicing = Meteor.settings.public.servicing || false
   const showShop = Meteor.settings.public.shop || false
+  const payNow = Meteor.settings.public.payNow || false
 
   return (
     <Menu fixed="top" stackable>
@@ -44,9 +45,11 @@ const Nav = props => {
           <Button id="list_members" color="blue" content={memberWords} icon="group" />
         </Menu.Item>
       )}
-      <Menu.Item>
-        <Payment />
-      </Menu.Item>
+      {payNow && (
+        <Menu.Item>
+          <Payment />
+        </Menu.Item>
+      )}
       {showShop && (
         <Menu.Item
           onClick={() => {

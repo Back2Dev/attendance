@@ -139,19 +139,25 @@ const CreditCard = props => {
         debug('Customer created ok', result)
       }
 
-      debug('Making payment')
-      setStatus('Transmitting')
-      const result = await Meteor.callAsync('makePayment', packet)
-      setStatus('')
-      if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
-        setErrors({ remote: result })
-        // props.history.push(`/shop/failed/${result}`)
-      } else {
-        // The cart gets updated with the response on the server
-        // So show the payment receipt now
-        Alert.success('Payment completed')
+      if (price === 0) {
         state.status = CONSTANTS.CART_STATUS.COMPLETE
-        props.history.replace('/shop/receipt')
+        dispatch({ type: 'save-cart', payload: null })
+        props.history.replace('/shop/registered')
+      } else {
+        debug('Making payment')
+        setStatus('Transmitting')
+        const result = await Meteor.callAsync('makePayment', packet)
+        setStatus('')
+        if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+          setErrors({ remote: result })
+          // props.history.push(`/shop/failed/${result}`)
+        } else {
+          // The cart gets updated with the response on the server
+          // So show the payment receipt now
+          Alert.success('Payment completed')
+          state.status = CONSTANTS.CART_STATUS.COMPLETE
+          props.history.replace('/shop/receipt')
+        }
       }
     })
   }
@@ -223,7 +229,8 @@ const CreditCard = props => {
         </Header>
         <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
           <Header as="h2" style={{ textAlign: 'center' }}>
-            Total charge for card: <Price cents={price} />
+            {price > 0 && `Total charge for card: <Price cents={price} />`}
+            {price === 0 && `No charge today, please enter your card details for later`}
           </Header>
           <label htmlFor="name">
             Full name <Required />
