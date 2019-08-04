@@ -49,7 +49,7 @@ const Main = props => {
                 Edit your profile
               </Button>
             )}
-            {props.addCard === '1' && (props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
+            {props.addCard === 1 && (props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
               <span>
                 &nbsp; &nbsp;
                 <Button
