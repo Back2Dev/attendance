@@ -34,6 +34,7 @@ const CreditCard = props => {
   const [errors, setErrors] = React.useState({})
   const [statusMsg, setStatus] = React.useState('')
   const [keep, setKeep] = React.useState(true)
+  const memberId = props.match.params.id
   const codes = state.products
     .map(prod => {
       return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
@@ -41,7 +42,7 @@ const CreditCard = props => {
     .join(',')
 
   const { _id: cartId, price } = state
-  if (!cartId) debug('_id is missing from state', state)
+  if (!cartId && !memberId) debug('cart._id or memberId is missing from state', state)
   const { email } = state.creditCard
 
   React.useEffect(props => {
@@ -229,8 +230,12 @@ const CreditCard = props => {
         </Header>
         <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
           <Header as="h2" style={{ textAlign: 'center' }}>
-            {price > 0 && `Total charge for card: <Price cents={price} />`}
-            {price === 0 && `No charge today, please enter your card details for later`}
+            {price > 0 && (
+              <>
+                Total charge for card: <Price cents={price} />
+              </>
+            )}
+            {price === 0 && `No charge today, please provide your card details`}
           </Header>
           <label htmlFor="name">
             Full name <Required />
@@ -264,44 +269,48 @@ const CreditCard = props => {
         <StatusMsg id="status.msg">{statusMsg}</StatusMsg>
         <br />
         <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
-          Pay
+          {price === 0 ? 'Register card' : 'Pay'}
         </Button>
-        <Checkbox
-          label="Keep my card on file for future payments"
-          name="keep"
-          id="keep"
-          checked={keep}
-          value={1}
-          onChange={e => setKeep(!keep)}
-          style={{ marginTop: '12px', marginLeft: '12px' }}
-        />
-        <Modal
-          trigger={
-            <Button size="mini" type="button" inverted color="blue" icon style={{ marginLeft: '12px' }}>
-              <Icon name="info" />
-              Why?
-            </Button>
-          }
-          closeIcon
-        >
-          <Modal.Content scrolling>
-            <Modal.Description>
-              <a href={paymentsHomePage} target="_blank">
-                <Header as="h2">
-                  <Image src={state.settings.logo} />
-                  <Image src="/images/pinpayments.png" style={{ width: '140px' }} />
-                </Header>
-              </a>
-              <Header as="h3">Why should I save my card information?</Header>
-              <p>
-                We don't save your card details on our system. It is securely stored for your convenience on our payment
-                gateway using PCI DSS standards. Saving it will make it easier for you to buy from us next time, without
-                the need to re-enter all your details.
-              </p>
-              <p>You can remove your card from the system at any time.</p>
-            </Modal.Description>
-          </Modal.Content>
-        </Modal>
+        {!memberId && (
+          <>
+            <Checkbox
+              label="Keep my card on file for future payments"
+              name="keep"
+              id="keep"
+              checked={keep}
+              value={1}
+              onChange={e => setKeep(!keep)}
+              style={{ marginTop: '12px', marginLeft: '12px' }}
+            />
+            <Modal
+              trigger={
+                <Button size="mini" type="button" inverted color="blue" icon style={{ marginLeft: '12px' }}>
+                  <Icon name="info" />
+                  Why?
+                </Button>
+              }
+              closeIcon
+            >
+              <Modal.Content scrolling>
+                <Modal.Description>
+                  <a href={paymentsHomePage} target="_blank">
+                    <Header as="h2">
+                      <Image src={state.settings.logo} />
+                      <Image src="/images/pinpayments.png" style={{ width: '140px' }} />
+                    </Header>
+                  </a>
+                  <Header as="h3">Why should I save my card information?</Header>
+                  <p>
+                    We don't save your card details on our system. It is securely stored for your convenience on our
+                    payment gateway using PCI DSS standards. Saving it will make it easier for you to buy from us next
+                    time, without the need to re-enter all your details.
+                  </p>
+                  <p>You can remove your card from the system at any time.</p>
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+          </>
+        )}
       </Segment>
     </Container>
   )

@@ -24,6 +24,7 @@ const ShopFront = props => {
         <Route path="/shop/checkout" exact component={Checkout} />
         <Route path="/shop/address" exact component={Address} />
         <Route path="/shop/credit-card" exact component={CreditCard} />
+        <Route path="/shop/credit-card/:id" exact component={CreditCard} />
         <Route path="/shop/receipt" exact component={Receipt} />
         <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
