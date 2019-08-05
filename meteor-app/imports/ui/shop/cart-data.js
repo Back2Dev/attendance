@@ -106,6 +106,7 @@ const reducer = (state, action) => {
 function CartContextProvider(props) {
   const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
   state.settings = props.settings
+  state.cartUpdate = props.cartUpdate
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 
