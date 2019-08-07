@@ -56,14 +56,12 @@ const Main = props => {
                   &nbsp; &nbsp;
                   <Button
                     type="button"
-                    size="large"
+                    size="medium"
                     onClick={() => props.history.push(`/shop/register-card/${props.member._id}`)}
-                    style={{ marginTop: '24px' }}
+                    style={{ marginTop: '24px', marginLeft: '20px' }}
                     color="green"
-                    icon
-                    labelPosition="left"
                   >
-                    <Icon name="credit card" />
+                    <img className="card-mc" src={'/images/visa-mc.jpg'} align="middle" />
                     Please register your credit card
                   </Button>
                 </span>

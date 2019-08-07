@@ -13,7 +13,7 @@ const recentFormat = dateValue => {
 }
 
 function MembershipCard(props) {
-  const { name, mobile, email, avatar, lastIn, expiry, status, subsType, remaining } = props.member
+  const { name, mobile, email, avatar, lastIn, expiry, status, subsType, remaining, paymentCustId } = props.member
   return (
     <div className="ui grid member-card-container">
       <div className="sixteen wide column ui grid card-header">
@@ -22,6 +22,7 @@ function MembershipCard(props) {
       <div className="ui grid sixteen wide column card-content-container">
         <div className="four wide column card-avatar-container">
           <img className="card-avatar-img" src={'/images/avatars/' + avatar} />
+          {paymentCustId && <img className="card-mc" src={'/images/visa-mc.jpg'} />}
         </div>
         <div className="ui grid twelve wide column card-details-container">
           <div className="sixteen wide column card-details-attributes title">Last seen {recentFormat(lastIn)}</div>
