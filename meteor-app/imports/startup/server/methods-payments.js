@@ -102,9 +102,9 @@ Meteor.methods({
       //     customerResponse: data.response
       //   }
       // })
-      // const cart = Carts.find(custData.metadata.cartId)
-      // if (cart && cart.memberId)
-      Members.update({ email: custData.email }, { $set: { paymentCustId: data.response.customerToken } })
+      const cart = Carts.findOne(custData.metadata.cartId)
+      if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: data.response.customerToken } })
+      else Members.update({ email: custData.email }, { $set: { paymentCustId: data.response.customerToken } })
       return data
     } catch (error) {
       debug(error)

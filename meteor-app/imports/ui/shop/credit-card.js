@@ -278,6 +278,7 @@ const CreditCard = props => {
               name="keep"
               id="keep"
               checked={keep}
+              disabled={price === 0}
               value={1}
               onChange={e => setKeep(!keep)}
               style={{ marginTop: '12px', marginLeft: '12px' }}

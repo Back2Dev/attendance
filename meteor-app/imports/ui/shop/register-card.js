@@ -13,6 +13,7 @@ const RegisterCard = props => {
     // Create an empty cart
     state.cartUpdate({
       prodqty: {},
+      products: [],
       memberId: props.match.params.id
     })
     props.history.push('/shop/address')

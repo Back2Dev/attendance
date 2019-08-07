@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { Card, Segment } from 'semantic-ui-react'
 
 const CartList = ({ carts, removeCart }) => {
-  const items = carts.map(cart => {
+  const items = carts.map((cart, ix) => {
     return {
-      description: cart.products.map(product => (
-        <span>
+      key: ix,
+      description: cart.products.map((product, iy) => (
+        <span key={iy}>
           {product.qty} x {product.code} <Price cents={product.price} />
         </span>
       )),
