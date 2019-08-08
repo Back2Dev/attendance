@@ -10,16 +10,22 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
 
 import MemberCounter from './member-counter'
 
-storiesOf('Member.List', module).add('Member Counter', () => {
-  const story = <MemberCounter count='12' />
-  // specs(() =>
-  //   describe('<Avatar avatar={avatar} />', () => {
-  //     it('displays an avatar', () => {
-  //       const wrapper = mount(story);
-  //       expect(wrapper.find('img')).to.have.length(1);
-  //       expect(wrapper.find('img').props().src).to.contain(avatar.url);
-  //     });
-  //   })
-  // );
-  return story
-})
+storiesOf('Member.List', module)
+  .addDecorator(withInfo)
+  .add(
+    'Member Counter',
+    () => {
+      const story = <MemberCounter count="12" />
+      // specs(() =>
+      //   describe('<Avatar avatar={avatar} />', () => {
+      //     it('displays an avatar', () => {
+      //       const wrapper = mount(story);
+      //       expect(wrapper.find('img')).to.have.length(1);
+      //       expect(wrapper.find('img').props().src).to.contain(avatar.url);
+      //     });
+      //   })
+      // );
+      return story
+    },
+    { info: 'Member list' }
+  )

@@ -115,11 +115,12 @@ const myServices = [
 ]
 
 storiesOf('Assessment.Add', module)
+  .addDecorator(withInfo)
   .addDecorator(withKnobs)
 
   .add(
     'AssessmentAdd',
-    withInfo('Add Assessment')(() => {
+    () => {
       const story = (
         <Router>
           <div>
@@ -133,12 +134,13 @@ storiesOf('Assessment.Add', module)
               setAssessment={action('setAssessment')}
               error={false}
               success
-              message='OK'
+              message="OK"
               resetId={action('resetId')}
             />
           </div>
         </Router>
       )
       return story
-    })
+    },
+    { info: 'Add Assessment' }
   )

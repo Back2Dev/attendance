@@ -11,16 +11,19 @@ import part from '/imports/test/fake-part'
 
 import Card from './ordering-part-card'
 
-
 storiesOf('Part.Card', module)
+  .addDecorator(withInfo)
   .addDecorator(withKnobs)
-  .add('Card', withInfo('part testing')(() => {
-    const story = (
-      <div><p>Part Card with faker </p>
-        <Card
-          {...part}
-        />
-      </div>
-    )
-    return story;
-  }))
+  .add(
+    'Card',
+    () => {
+      const story = (
+        <div>
+          <p>Part Card with faker </p>
+          <Card {...part} />
+        </div>
+      )
+      return story
+    },
+    { info: 'Part/card' }
+  )

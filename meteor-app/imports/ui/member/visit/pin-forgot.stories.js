@@ -12,17 +12,17 @@ import member from '/imports/test/fake-member'
 
 import MemberVisitPinForgot from './pin-forgot'
 
-storiesOf('Member.Session', module).add(
-  'Forgot PIN',
-  withInfo('Here/Absent')(() => {
-    const story = (
-      <div style={{ maxWidth: '280px' }}>
-        <MemberVisitPinForgot
-          onPinReminderSent={action('sent PIN reminder')}
-          forgotPin={action('forgotten PIN')}
-        />
-      </div>
-    )
-    return story
-  })
-)
+storiesOf('Member.Session', module)
+  .addDecorator(withInfo)
+  .add(
+    'Forgot PIN',
+    () => {
+      const story = (
+        <div style={{ maxWidth: '280px' }}>
+          <MemberVisitPinForgot onPinReminderSent={action('sent PIN reminder')} forgotPin={action('forgotten PIN')} />
+        </div>
+      )
+      return story
+    },
+    { info: 'Here/absent' }
+  )

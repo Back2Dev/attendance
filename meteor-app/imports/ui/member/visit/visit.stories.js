@@ -31,11 +31,12 @@ const updateMember = () => {
 
 storiesOf('Member.Session', module)
   // .addDecorator(StoryRouter())
+  .addDecorator(withInfo)
   .addDecorator(withKnobs)
 
   .add(
     'Sign in',
-    withInfo('Here/Absent')(() => {
+    () => {
       const story = (
         <div>
           <p>
@@ -61,5 +62,6 @@ storiesOf('Member.Session', module)
         </div>
       )
       return story
-    })
+    },
+    { info: 'Here/absent' }
   )

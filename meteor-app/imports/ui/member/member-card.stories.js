@@ -18,9 +18,10 @@ const STORY_NAME = 'Regular'
 
 storiesOf('Member.Card nosnap', module)
   .addDecorator(withKnobs)
+  .addDecorator(withInfo)
   .add(
     'Card',
-    withInfo('Checked in/out')(() => {
+    () => {
       const story = (
         <div>
           <p>Use Knobs to show checked in/out status</p>
@@ -49,5 +50,6 @@ storiesOf('Member.Card nosnap', module)
       //   })
       // )
       return story
-    })
+    },
+    { info: 'Checked in/out' }
   )

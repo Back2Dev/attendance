@@ -13,7 +13,7 @@ storiesOf('Navbar', module)
   .addDecorator(StoryRouter())
   .add(
     'Navbar',
-    withInfo('part testing')(() => {
+    () => {
       const story = (
         <div>
           <p>Navbar </p>
@@ -21,5 +21,6 @@ storiesOf('Navbar', module)
         </div>
       )
       return story
-    })
+    },
+    { info: 'navbar' }
   )

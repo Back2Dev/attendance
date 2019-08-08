@@ -16,23 +16,29 @@ import member from '/imports/test/fake-member'
 
 const STORY_NAME = 'Small'
 
-storiesOf('Member.Card', module).add(STORY_NAME, () => {
-  const story = (
-    <Router>
-      <MemberCardSmall {...member} onCardClick={action('onCardClick')} />
-    </Router>
+storiesOf('Member.Card', module)
+  .addDecorator(withInfo)
+  .add(
+    STORY_NAME,
+    () => {
+      const story = (
+        <Router>
+          <MemberCardSmall {...member} onCardClick={action('onCardClick')} />
+        </Router>
+      )
+      specs(() =>
+        describe(STORY_NAME, () => {
+          it('displays the member name', () => {
+            const wrapper = mount(story)
+            expect(wrapper.find('div.ui.big.label')).to.have.length(1)
+          })
+          it('displays the member image', () => {
+            const wrapper = mount(story)
+            expect(wrapper.find('img')).to.have.length(1)
+          })
+        })
+      )
+      return story
+    },
+    { info: 'Member card small' }
   )
-  specs(() =>
-    describe(STORY_NAME, () => {
-      it('displays the member name', () => {
-        const wrapper = mount(story)
-        expect(wrapper.find('div.ui.big.label')).to.have.length(1)
-      })
-      it('displays the member image', () => {
-        const wrapper = mount(story)
-        expect(wrapper.find('img')).to.have.length(1)
-      })
-    })
-  )
-  return story
-})

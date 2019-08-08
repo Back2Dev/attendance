@@ -17,11 +17,12 @@ const STORY_NAME = 'MemberAdd'
 const avatar = { url: '/images/avatars/default.jpg' }
 
 storiesOf('Member.Add', module)
+  .addDecorator(withInfo)
   .addDecorator(withKnobs)
 
   .add(
     STORY_NAME,
-    withInfo('Add member')(() => {
+    () => {
       const story = (
         <Router>
           <div>
@@ -53,5 +54,6 @@ storiesOf('Member.Add', module)
       //   })
       // )
       return story
-    })
+    },
+    { info: 'Add member' }
   )
