@@ -51,9 +51,9 @@ const CCRegistered = props => {
         { name: 'Time', value: moment().format('HH:MM:SS') }
       ]
 
-  const gotoShop = e => {
+  const gotoHome = e => {
     localStorage.setItem('mycart', null)
-    props.history.push('/shop')
+    props.history.push('/')
   }
 
   return (
@@ -76,8 +76,8 @@ const CCRegistered = props => {
             ))}
           </Table.Body>
         </Table>
-        <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
-          Back to the shop
+        <Button size="mini" type="button" color="green" onClick={gotoHome} style={{ marginTop: '24px' }}>
+          Back to the checkin
         </Button>
       </Segment>
     </Container>

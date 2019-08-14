@@ -94,3 +94,13 @@ Thu 1 Aug 2019 06:10:36 AEST /Users/mikkel/back2bikes/attendance/deploy/b4h-prod
 Thu 1 Aug 2019 06:11:01 AEST /Users/mikkel/back2bikes/attendance/deploy/b4h-prod deploy 1.1.6
 Thu 1 Aug 2019 06:18:29 AEST /Users/mikkel/back2bikes/attendance/deploy/b4h-prod deploy 1.1.6
 Thu 1 Aug 2019 06:33:37 AEST /Users/mikkel/back2bikes/attendance/deploy/b4h-prod reconfig 1.1.6
+Mon 5 Aug 2019 17:40:30 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.6
+Mon 5 Aug 2019 17:52:46 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.6
+Mon 5 Aug 2019 17:54:15 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.6
+Wed 7 Aug 2019 23:37:10 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.7
+Wed 7 Aug 2019 23:37:42 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.7
+Wed 7 Aug 2019 23:52:40 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.7
+Thu 8 Aug 2019 00:40:09 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.7
+Thu 8 Aug 2019 01:15:35 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.7
+Thu 8 Aug 2019 01:17:16 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.8
+Thu 8 Aug 2019 01:24:32 AEST /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.8

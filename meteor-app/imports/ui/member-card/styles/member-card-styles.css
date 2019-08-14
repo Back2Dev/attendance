@@ -52,3 +52,7 @@
   max-height: 200px;
   margin-top: 0 !important;
 }
+.card-mc {
+  padding: 10px;
+  width: 80px;
+}

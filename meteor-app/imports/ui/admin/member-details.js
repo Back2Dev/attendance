@@ -16,8 +16,8 @@ const MemberDetails = ({ member, carts, sessions, purchases }) => {
       {sessions.length === 0 ? (
         <div>(none)</div>
       ) : (
-        sessions.map(session => (
-          <div>
+        sessions.map((session, ix) => (
+          <div key={`s${ix}`}>
             {moment(session.createdAt).format('D MMM YYYY')} {session.name}
           </div>
         ))
@@ -27,8 +27,8 @@ const MemberDetails = ({ member, carts, sessions, purchases }) => {
       {purchases.length === 0 ? (
         <div>(none)</div>
       ) : (
-        purchases.map(purchase => (
-          <div>
+        purchases.map((purchase, ix) => (
+          <div key={`p${ix}`}>
             {moment(purchase.createdAt).format('D MMM YYYY')} {purchase.code} {purchase.productName}{' '}
             <Price cents={purchase.price} />
             &nbsp;[expires {moment(purchase.expiry).format('D MMM YYYY')}
@@ -38,7 +38,7 @@ const MemberDetails = ({ member, carts, sessions, purchases }) => {
       )}
       <hr />
       <Header as="h5">Shopping carts ({carts.length})</Header>
-      {carts.length === 0 ? <div>(none)</div> : <CartList carts={carts} />}
+      {carts.length === 0 ? <div>(none)</div> : <CartList carts={carts} removeCart={() => {}} />}
     </div>
   )
 }
