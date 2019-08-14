@@ -49,7 +49,6 @@ const Attendance = () => {
           <Route path="/oldvisit/:id" component={MemberVisitContainer} />
           <Route path="/visit/:id" component={Visit} />
           <Route path="/edit/:id" component={MemberEdit} />
-          <Route path="/addcard/:id" component={MemberAddCardContainer} />
 
           <Route path="/" component={MemberMainContainer} />
           <Route component={NotFound} />

@@ -55,7 +55,7 @@ const Main = props => {
                 <Button
                   type="button"
                   size="small"
-                  onClick={() => props.history.push(`/addcard/${props.member._id}`)}
+                  onClick={() => props.history.push(`/shop/register-card/${props.member._id}`)}
                   style={{ marginTop: '24px' }}
                 >
                   Add a credit card

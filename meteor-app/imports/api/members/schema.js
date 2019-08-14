@@ -238,6 +238,14 @@ export const MembersSchema = new SimpleSchema({
     type: Boolean,
     optional: true
   },
+  swim: {
+    type: Boolean,
+    optional: true
+  },
+  fitness: {
+    type: Boolean,
+    optional: true
+  },
   //
   // End of payment system data
   //

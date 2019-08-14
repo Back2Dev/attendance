@@ -32,8 +32,8 @@ class MemberAdd extends Component {
     if (this.props.member) {
       this.setState({
         formData: { ...this.props.member },
-        step: 4,
-        progress: 4
+        step: this.schemas.length,
+        progress: this.schemas.length
       })
     }
   }
