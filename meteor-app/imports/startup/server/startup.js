@@ -20,7 +20,8 @@ const publicSchema = new SimpleSchema({
   paymentTest: Boolean,
   paymentSite: String,
   tagline: String,
-  support: String
+  support: String,
+  welcome: String
 })
 
 const privateSchema = new SimpleSchema({

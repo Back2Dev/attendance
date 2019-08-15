@@ -48,7 +48,7 @@ export default withTracker(props => {
       try {
         debug('adding member', formData)
         const res = await Meteor.callAsync('members.insert', formData)
-        setSuccess('Successfully added new volunteer', res)
+        setSuccess('Details saved ok', res)
         return res
       } catch (e) {
         setError(e)
