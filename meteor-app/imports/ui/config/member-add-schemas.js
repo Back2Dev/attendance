@@ -15,27 +15,12 @@ const b2bSchema = {
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: [
-            'Road/racer',
-            'Hybrid',
-            'Mountain',
-            'Cruiser',
-            'Ladies',
-            'Gents',
-            'Fixie/Single Speed'
-          ]
+          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed']
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: [
-            'Full Time',
-            'Part Time',
-            'Pension/Disability',
-            'Unemployed',
-            'Student',
-            'Retired'
-          ]
+          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired']
         },
         reasons: { type: 'string', title: 'Reasons for volunteering' }
       }
@@ -72,7 +57,7 @@ const paSchema = {
   aboutStep: {
     schema: {
       type: 'object',
-      required: ['swim', 'terms', 'fitness'],
+      required: [],
       properties: {
         sports: {
           type: 'array',
@@ -80,37 +65,12 @@ const paSchema = {
           uniqueItems: true,
           items: {
             type: 'string',
-            enum: [
-              'Kayaking',
-              'Road cycling',
-              'MTB',
-              'Running',
-              'Swimming',
-              'Triathlon',
-              'Multisport'
-            ]
+            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport']
           }
         },
         reasons: {
           type: 'string',
           title: 'Tell us why you come to Peak Adventure sessions?'
-        },
-        swim: {
-          description: 'You must tick all of these',
-          type: 'boolean',
-          enum: [true],
-          title: 'I can swim 200 metres unassisted'
-        },
-        terms: {
-          type: 'boolean',
-          enum: [true],
-          title: 'I have read and agree to the Terms & Conditions'
-        },
-        fitness: {
-          type: 'boolean',
-          enum: [true],
-          title:
-            'I declare I am medically fit and capable of undertaking this physical activity'
         }
       }
     },
@@ -126,6 +86,31 @@ const paSchema = {
         }
       }
     }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['swim', 'terms', 'fitness'],
+      properties: {
+        swim: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title: 'I can swim 200 metres unassisted'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree to the Terms & Conditions'
+        },
+        fitness: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I declare I am medically fit and capable of undertaking this physical activity'
+        }
+      }
+    },
+    uiSchema: {}
   }
 }
 
@@ -136,33 +121,12 @@ const b4hSchema = {
   aboutStep: {
     schema: {
       type: 'object',
-      required: ['permission', 'terms', 'privacy'],
+      required: [],
       properties: {
         reasons: {
           type: 'string',
           title: 'Tell us why you volunteer for Bicycles For Humanity?'
-        },
-        wwcc: {
-          type: 'string',
-          title: 'Please enter your Working With Children Check (WWCC) number (if you have one). 8 digits, no need for the -01 or -02 at the end.',
-        },
-        permission: {
-          description: 'You must tick all of these',
-          type: 'boolean',
-          enum: [true],
-          title: 'I consent to Bicycles for Humanity Melbourne to take, use and distribute photographs and video in order to promote volunteering or the organisation'
-        },
-        privacy: {
-          type: 'boolean',
-          enum: [true],
-          title:
-            'I consent to Bicycles for Humanity Melbourne storing the information I have provided above. I understand that Bicycles for Humanity Melbourne will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
-        },
-        terms: {
-          type: 'boolean',
-          enum: [true],
-          title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook'
-        },
+        }
       }
     },
     uiSchema: {
@@ -174,6 +138,38 @@ const b4hSchema = {
         }
       }
     }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['permission', 'terms', 'privacy'],
+      properties: {
+        wwcc: {
+          type: 'string',
+          title:
+            'Please enter your Working With Children Check (WWCC) number (if you have one). 8 digits, no need for the -01 or -02 at the end.'
+        },
+        permission: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Bicycles for Humanity Melbourne to take, use and distribute photographs and video in order to promote volunteering or the organisation'
+        },
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Bicycles for Humanity Melbourne storing the information I have provided above. I understand that Bicycles for Humanity Melbourne will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook'
+        }
+      }
+    },
+    uiSchema: {}
   }
 }
 
@@ -186,7 +182,7 @@ const customSchemas = {
 const defaultSchema = [
   {
     stepTitle: 'About You',
-    stepDescription: '',
+    stepDescription: 'About',
     schema: {
       type: 'object',
       title: 'Lets get to know each other.',
@@ -199,27 +195,12 @@ const defaultSchema = [
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: [
-            'Road/racer',
-            'Hybrid',
-            'Mountain',
-            'Cruiser',
-            'Ladies',
-            'Gents',
-            'Fixie/Single Speed'
-          ]
+          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed']
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: [
-            'Full Time',
-            'Part Time',
-            'Pension/Disability',
-            'Unemployed',
-            'Student',
-            'Retired'
-          ]
+          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired']
         },
         reasons: { type: 'string', title: 'Reasons for volunteering' }
       }
@@ -250,7 +231,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Contact',
-    stepDescription: '',
+    stepDescription: 'Contact',
     schema: {
       title: 'Details',
       type: 'object',
@@ -322,7 +303,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Emergency',
-    stepDescription: '',
+    stepDescription: 'Emerg',
     schema: {
       type: 'object',
       title: 'Who should we contact in an emergency?',
@@ -345,8 +326,7 @@ const defaultSchema = [
         'ui:placeholder': "Enter your emergency contact's email"
       },
       emergencyPhone: {
-        'ui:placeholder':
-          "Enter your emergency contact's mobile or phone number",
+        'ui:placeholder': "Enter your emergency contact's mobile or phone number",
         'ui:options': {
           inputType: 'tel'
         }
@@ -355,7 +335,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Avatar',
-    stepDescription: '',
+    stepDescription: 'Avatar',
     schema: {
       type: 'object',
       title: 'Choose an avatar',
@@ -444,6 +424,31 @@ const defaultSchema = [
         }
       }
     }
+  },
+  {
+    stepTitle: 'Terms',
+    stepDescription: 'Terms',
+    schema: {
+      type: 'object',
+      title: 'Terms and Conditions',
+      required: ['privacy'],
+      properties: {
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Back2bikes storing the information I have provided above. I understand that Back2bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        }
+      }
+    },
+    uiSchema: {
+      avatar: {
+        'ui:widget': 'avatarWidget',
+        'ui:options': {
+          label: false
+        }
+      }
+    }
   }
 ]
 
@@ -453,7 +458,7 @@ const defaultSchema = [
 const custom = 'b2b' // Meteor.settings.public.recruit || "b2b"
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
-  const steps = ['about', 'contact', 'emergency', 'avatar']
+  const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
   steps.forEach((step, ix) => {
     const stepName = `${step}Step`
     if (newSchema[stepName] && newSchema[stepName].schema) {
@@ -468,7 +473,7 @@ if (custom && customSchemas[custom]) {
 const getSchemas = custom => {
   if (custom && customSchemas[custom]) {
     const newSchema = customSchemas[custom]
-    const steps = ['about', 'contact', 'emergency', 'avatar']
+    const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
     steps.forEach((step, ix) => {
       const stepName = `${step}Step`
       if (newSchema[stepName] && newSchema[stepName].schema) {

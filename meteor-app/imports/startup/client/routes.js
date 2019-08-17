@@ -7,6 +7,7 @@ import Attendance from '/imports/ui/layouts/attendance'
 import AssessmentLayout from '/imports/ui/layouts/assessment'
 import Ordering from '/imports/ui/layouts/ordering'
 import MemberAddIframe from '/imports/ui/layouts/member-add-iframe'
+import MemberSuccessIframe from '/imports/ui/layouts/member-success-iframe'
 import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
@@ -21,8 +22,9 @@ export const renderRoutes = () => (
     <Alert stack={{ limit: 3 }} />
     <Router>
       <Switch>
-        {isIframe('add') && <Route component={MemberAddIframe} />}
-        {isIframe('shop') && <Route component={ShopIframe} />}
+        {isIframe(/add$/) && <Route component={MemberAddIframe} />}
+        {isIframe(/success\/\w+$/) && <Route component={MemberSuccessIframe} />}
+        {isIframe(/shop$/) && <Route component={ShopIframe} />}
         <Route path="/ordering" component={Ordering} />
         <Route path="/assessment" component={AssessmentLayout} />
         <Route path="/jobs" component={JobCardLister} />
