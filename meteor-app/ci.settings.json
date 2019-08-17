@@ -7,8 +7,10 @@
     "logo": "/images/logo-tiny.jpg",
     "member": "Member",
     "parts": 1,
-    "register": 1,
-    "paymentTest": 1,
+    "register": "Register",
+    "paymentTest": true,
+    "payNow": 1,
+    "addCard": 1,
     "admin": 1,
     "servicing": 1,
     "recruit": "b2b",
@@ -17,7 +19,8 @@
     "shop": 1,
     "orgid": "b2b",
     "org": "Back2bikes",
-    "tagline": "We'd love to help you learn how to fix your bike. Here's what we offer"
+    "tagline": "We'd love to help you learn how to fix your bike. Here's what we offer",
+    "welcome": "Welcome to the party"
   },
   "private": {
     "paymentUrl": "https://something.com",
@@ -29,6 +32,7 @@
     "validMembershipID": "xxx",
     "expiredPassID": "xxx",
     "validPassID": "xxx",
-    "registerCardID": "xxx"
+    "registerCardID": "xxx",
+    "forgotPINID": "xxx"
   }
 }
