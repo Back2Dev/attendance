@@ -1,6 +1,11 @@
 import { Meteor } from 'meteor/meteor'
-import Members, { Dupes } from '/imports/api/members/schema'
+import Members, { Dupes, RawDupes } from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
+import Purchases from '/imports/api/purchases/schema'
+import { Carts } from '/imports/api/products/schema'
+import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
+import { saveToArchive } from '/imports/api/archive'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -20,6 +25,37 @@ Meteor.methods({
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
+  },
+  'members.removeDupe': function(id, merge) {
+    const data = { merge }
+    data.member = Members.findOne(id)
+    data.purchases = Purchases.find({ memberId: id }).fetch()
+    data.carts = Carts.find({ memberId: id }).fetch()
+    data.sessions = Sessions.find({ memberId: id }).fetch()
+    eventLog({
+      who: 'Admin',
+      what: `removed member id: ${id}`,
+      object: data.member
+    })
+    // If merging, find another member with same name for transfer
+    if (merge) {
+      const members = Members.find({ name: data.member.name, _id: { $ne: id } }, { sort: { sessionCount: -1 } }).fetch()
+      if (members.length) {
+        const memberId = members[0]._id
+        Purchases.update({ memberId: id }, { $set: { memberId } })
+        Carts.update({ memberId: id }, { $set: { memberId } })
+        Sessions.update({ memberId: id }, { $set: { memberId } })
+        const sessions = Sessions.find({ memberId }, { sort: { createdAt: 1 } }).fetch()
+        Members.update(memberId, { $set: { sessions, sessionCount: sessions.length } })
+      }
+    } else {
+      Purchases.remove({ memberId: id })
+      Carts.remove({ memberId: id })
+      Sessions.remove({ memberId: id })
+    }
+    Dupes.remove(data.member.name) // Kill the duplicate to force a refresh
+    saveToArchive('member', data)
+    Members.remove(id)
   },
   'members.setPin': function(id, pin) {
     try {
@@ -98,16 +134,6 @@ ${Meteor.settings.public.org}
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.showDupes2': function() {
-    const m = function() {
-      emit(this.name, 1)
-    }
-    const r = function(k, vals) {
-      return Array.sum(vals)
-    }
-    const result = Members.mapReduce(m, r, { out: { inline: 1 } })
-    console.log(result.filter(row => row.value > 1))
-  },
   /* Duplicate member detection, started with this script,
    Which runs in the mongo shell
 m = function () {
@@ -133,11 +159,15 @@ db[res.result].find({value: {$gt: 1}});
     const syncMapReduce = Meteor.wrapAsync(rawMembers.mapReduce, rawMembers)
 
     // CollectionName will be overwritten after each mapReduce call
+    // Reactive performance is a little better by using a second collection
     syncMapReduce(m, r, {
-      out: 'dupes'
+      out: 'rawdupes'
     })
 
-    const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
-    console.log(dupes)
+    // Refresh the collection
+    Dupes.remove({})
+    RawDupes.find({ value: { $gt: 1 } }).forEach(rec => Dupes.insert(rec))
+    // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
+    // debug(dupes)
   }
 })

@@ -17,7 +17,7 @@ const cartUpdate = data => {
     } else {
       const id = Carts.insert(contents)
       debug(`New cart id is ${id}`)
-      localStorage.setItem('mycart', id)
+      sessionStorage.setItem('mycart', id)
     }
   } catch (e) {
     console.error(`Error: [${e.message}] encountered while saving shopping cart`)
@@ -26,7 +26,7 @@ const cartUpdate = data => {
 
 export default withTracker(props => {
   document.title = `${Meteor.settings.public.org} - shop`
-  cartId = localStorage.getItem('mycart')
+  cartId = sessionStorage.getItem('mycart')
   debug(`Cart id is ${cartId}`)
   const cartSub = Meteor.subscribe('cart', cartId)
   return {

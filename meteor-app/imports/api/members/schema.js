@@ -219,31 +219,43 @@ export const MembersSchema = new SimpleSchema({
   remaining: { type: SimpleSchema.Integer, optional: true },
   wwcc: {
     type: String,
+    label: 'Working With Children Check (WWCC) number',
     optional: true
   },
   wwccOk: {
     type: Boolean,
+    label: '(WWCC) checked ok',
     defaultValue: false,
     optional: true
   },
   privacy: {
     type: Boolean,
+    label: 'I consent to storing my information',
     optional: true
   },
   terms: {
     type: Boolean,
+    label: 'I have read and agree with the Terms & Conditions',
     optional: true
   },
   permission: {
     type: Boolean,
+    label: 'I consent to take and use photos for publicity',
     optional: true
   },
   swim: {
     type: Boolean,
+    label: 'I can swim 200 metres unassisted',
     optional: true
   },
   fitness: {
     type: Boolean,
+    label: 'I declare I am medically fit and capable of undertaking this physical activity',
+    optional: true
+  },
+  parental: {
+    type: Boolean,
+    label: "Parental consent for U18's",
     optional: true
   },
   //
@@ -282,3 +294,4 @@ export const pinAddressFieldMap = {
 }
 
 export const Dupes = new Mongo.Collection('dupes')
+export const RawDupes = new Mongo.Collection('rawdupes')

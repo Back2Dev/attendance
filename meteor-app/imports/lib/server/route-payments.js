@@ -3,7 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import moment from 'moment'
 import CONSTANTS from '/imports/api/constants'
-import Members from '/imports/api/members/schema'
+import Members, { Dupes } from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 

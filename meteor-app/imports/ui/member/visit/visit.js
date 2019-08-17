@@ -15,7 +15,7 @@ const RenewButton = props => {
   const renew = async function() {
     // await Meteor.call('memberRenew', props.memberId, props.code)
     alert('COmmented out Meteor.call(memberRenew)')
-    localStorage.setItem('mycart', props.memberId)
+    sessionStorage.setItem('mycart', props.memberId)
     props.history.push(`/shop/checkout`)
   }
   return (

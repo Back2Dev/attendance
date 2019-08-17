@@ -23,7 +23,7 @@ const Address = props => {
 
   debug(state, a)
   const gotoShop = e => {
-    localStorage.setItem('mycart', null)
+    sessionStorage.setItem('mycart', null)
     props.history.push('/shop')
   }
 

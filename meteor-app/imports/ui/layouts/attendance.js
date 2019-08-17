@@ -12,6 +12,7 @@ import MemberAddCardContainer from '/imports/ui/member/member-add-card-container
 import Visit from '/imports/ui/visit'
 
 import AdminContainer from '/imports/ui/admin/admin-container'
+import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
 import AppSelection from '/imports/ui/admin/app-selection'
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
@@ -42,6 +43,7 @@ const Attendance = () => {
         <Switch>
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
           <Route path="/userprofiles" component={AdminContainer} />
+          <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />

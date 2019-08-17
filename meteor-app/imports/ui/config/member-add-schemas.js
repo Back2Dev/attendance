@@ -166,6 +166,10 @@ const b4hSchema = {
           type: 'boolean',
           enum: [true],
           title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook'
+        },
+        parental: {
+          type: 'boolean',
+          title: 'I am under 18 and have received permission for all the above from a parent/guardian'
         }
       }
     },

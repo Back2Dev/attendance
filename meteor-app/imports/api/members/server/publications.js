@@ -1,9 +1,12 @@
 import { Meteor } from 'meteor/meteor'
 import Members from '../schema'
+import { Dupes } from '../schema'
 import Purchases from '../../purchases/schema'
 import Sessions from '../../sessions/schema'
 import Products, { Carts } from '../../products/schema'
 import Events from '../../events/schema'
+
+const debug = require('debug')('b2b:server')
 
 Meteor.publish('all.members', () => {
   return Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } })
@@ -11,6 +14,15 @@ Meteor.publish('all.members', () => {
 
 Meteor.publish('all.members.carts', () => {
   return [Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } }), Carts.find({}), Purchases.find({})]
+})
+
+Meteor.publish('members.dupes', () => {
+  const names = Dupes.find({ value: { $gt: 1 } }).map(name => name._id)
+  debug('Duplicates', names)
+  return [
+    Members.find({ name: { $in: names } }, { sort: { name: 1, joined: -1, lastIn: -1 } }),
+    Dupes.find({ value: { $gt: 1 } })
+  ]
 })
 
 // This one isn't used, but it probably should be :)

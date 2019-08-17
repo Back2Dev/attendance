@@ -1,14 +1,14 @@
 import { withTracker } from 'meteor/react-meteor-data'
-import AssessmentAdd from '/imports/ui/assessment/assessment-add'
 import { ReactiveVar } from 'meteor/reactive-var'
+import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
+import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Members from '/imports/api/members/schema'
 import Logger from '/imports/api/assessments/logger'
 import Assessment from '/imports/api/assessments/schema'
-import Alert from 'react-s-alert'
-import 'react-s-alert/dist/s-alert-default.css'
-import 'react-s-alert/dist/s-alert-css-effects/slide.css'
+import AssessmentAdd from '/imports/ui/assessment/assessment-add'
 
 const debug = require('debug')('b2b:addassessment')
 

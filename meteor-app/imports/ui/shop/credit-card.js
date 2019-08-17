@@ -196,7 +196,7 @@ const CreditCard = props => {
   }
 
   const gotoShop = e => {
-    localStorage.setItem('mycart', null)
+    sessionStorage.setItem('mycart', null)
     props.history.push('/shop')
   }
 

@@ -1,10 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Image, List, Grid } from 'semantic-ui-react'
-import { humaniseDate, expires, isPast } from '/imports/helpers/dates'
+import React from 'react'
+import { Button, Grid, Image, List } from 'semantic-ui-react'
+import './admin-member-list.css'
 import CartList from './cart-list'
 import PurchaseList from './purchase-list'
-import './admin-member-list.css'
+import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
 
 const debug = require('debug')('b2b:admin')
 
@@ -21,22 +21,17 @@ const Admin = props => {
     <Grid columns={4}>
       {members.map(member => {
         const memberCarts = carts.filter(cart => cart.memberId === member._id)
-        const memberPurchases = purchases.filter(
-          purchase => purchase.memberId === member._id
-        )
+        const memberPurchases = purchases.filter(purchase => purchase.memberId === member._id)
         return (
           <Grid.Row key={member._id}>
             <Grid.Column>
               <table>
                 <tbody>
                   <tr>
-                    <td
-                      onClick={e => memberClick(member._id)}
-                      style={{ cursor: 'pointer' }}
-                    >
+                    <td onClick={e => memberClick(member._id)} style={{ cursor: 'pointer' }}>
                       <Image
                         avatar
-                        size='tiny'
+                        size="tiny"
                         spaced
                         src={'/images/avatars/' + member.avatar}
                         style={{ border: '3px solid white' }}
@@ -47,8 +42,7 @@ const Admin = props => {
                         <List.Header>{member.name}</List.Header>
                         <List.Description>
                           <p>
-                            {member.isHere ? 'Arrived:' : 'Last Seen'}{' '}
-                            {humaniseDate(member.lastIn)} ago <br />
+                            {member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago <br />
                             <span
                               style={{
                                 color: isPast(member.expiry) ? 'red' : 'black'
@@ -65,12 +59,8 @@ const Admin = props => {
               </table>{' '}
             </Grid.Column>
             <Grid.Column style={{ textAlign: 'left' }}>
-              {memberPurchases.length > 0 && (
-                <PurchaseList purchases={memberPurchases} />
-              )}
-              {memberPurchases.length === 0 && (
-                <span>No previous purchases</span>
-              )}
+              {memberPurchases.length > 0 && <PurchaseList purchases={memberPurchases} />}
+              {memberPurchases.length === 0 && <span>No previous purchases</span>}
             </Grid.Column>
             {showCarts && (
               <Grid.Column style={{ textAlign: 'left' }}>
@@ -78,36 +68,38 @@ const Admin = props => {
               </Grid.Column>
             )}
             <Grid.Column style={{ textAlign: 'right' }} width={6}>
-              <List.Content floated='right'>
+              <List.Content floated="right">
                 {memberPurchases.length > 0 && (
                   <Button
-                    color='blue'
+                    color="blue"
                     onClick={e => {
                       e.preventDefault()
                       props.extendMember(member._id, memberPurchases[0]._id)
                     }}
-                    content='Extend'
+                    content="Extend"
                     about={member.name}
                   />
                 )}
                 &nbsp;
-                { false && <Button
-                  color='green'
-                  onClick={e => {
-                    e.preventDefault()
-                    memberClick(member._id)
-                  }}
-                  content='Invite...'
-                  about={member.name}
-                />}
+                {false && (
+                  <Button
+                    color="green"
+                    onClick={e => {
+                      e.preventDefault()
+                      memberClick(member._id)
+                    }}
+                    content="Invite..."
+                    about={member.name}
+                  />
+                )}
                 &nbsp;
                 <Button
-                  color='red'
+                  color="red"
                   onClick={e => {
                     e.preventDefault()
                     props.removeMember(member._id)
                   }}
-                  content='Delete'
+                  content="Delete"
                   about={member.name}
                 />
               </List.Content>
