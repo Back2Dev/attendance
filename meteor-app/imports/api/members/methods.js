@@ -20,6 +20,21 @@ Meteor.methods({
   'members.remove': function(id) {
     try {
       log.info('removing member id: ', id)
+      const data = {}
+      data.member = Members.findOne(id)
+      if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
+      data.purchases = Purchases.find({ memberId: id }).fetch()
+      data.carts = Carts.find({ memberId: id }).fetch()
+      data.sessions = Sessions.find({ memberId: id }).fetch()
+      eventLog({
+        who: 'Admin',
+        what: `removed member id: ${id}`,
+        object: data.member
+      })
+      saveToArchive('member', data)
+      Purchases.remove({ memberId: id })
+      Carts.remove({ memberId: id })
+      Sessions.remove({ memberId: id })
       return Members.remove({ _id: id })
     } catch (e) {
       log.error({ e })
@@ -29,6 +44,7 @@ Meteor.methods({
   'members.removeDupe': function(id, merge) {
     const data = { merge }
     data.member = Members.findOne(id)
+    if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
     data.purchases = Purchases.find({ memberId: id }).fetch()
     data.carts = Carts.find({ memberId: id }).fetch()
     data.sessions = Sessions.find({ memberId: id }).fetch()
