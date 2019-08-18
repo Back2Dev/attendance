@@ -34,7 +34,7 @@ const Checkout = props => {
         </Menu.Item>
         <Menu.Item position="right">
           <Button type="button" color="green" floated="right" onClick={() => props.history.push('/shop/address')}>
-            Buy now
+            Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
       </Menu>
@@ -47,8 +47,16 @@ const Checkout = props => {
       </Segment>
 
       <div style={{ textAlign: 'center' }}>
-        <Button type="button" color="green" onClick={() => props.history.push('/shop/address')}>
-          Buy now
+        <Button type="button" primary onClick={() => props.history.push('/shop/type/membership')}>
+          Continue shopping
+        </Button>
+        <Button
+          type="button"
+          color="green"
+          style={{ marginLeft: '16px' }}
+          onClick={() => props.history.push('/shop/address')}
+        >
+          Buy now {!state._id && '!'}
         </Button>
       </div>
     </div>

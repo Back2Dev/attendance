@@ -46,9 +46,26 @@ const Main = props => {
                 onClick={() => props.history.push(`/edit/${props.member._id}`)}
                 style={{ marginTop: '24px' }}
               >
-                Edit Your Profile
+                Edit your profile
               </Button>
             )}
+            {props.addCard === 1 &&
+              (props.member.isHere || window.location.pathname.match(/select-activity$/)) &&
+              !props.member.paymentCustId && (
+                <span>
+                  &nbsp; &nbsp;
+                  <Button
+                    type="button"
+                    size="medium"
+                    onClick={() => props.history.push(`/shop/register-card/${props.member._id}`)}
+                    style={{ marginTop: '24px', marginLeft: '20px' }}
+                    color="green"
+                  >
+                    <img className="card-mc" src={'/images/visa-mc.jpg'} align="middle" />
+                    Please register your credit card
+                  </Button>
+                </span>
+              )}
             <Button
               floated="right"
               size="small"
@@ -69,6 +86,7 @@ const Main = props => {
 }
 
 Main.propTypes = {
-  member: PropTypes.object.isRequired
+  member: PropTypes.object.isRequired,
+  addCard: PropTypes.number.isRequired
 }
 export default Main

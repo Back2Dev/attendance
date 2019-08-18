@@ -110,6 +110,7 @@ export const fakeJob = seed => {
     _id: randomId(),
     additionalFees,
     discount,
+    jobNo: 'JOB911',
     totalCost: totalServiceCost + totalPartsCost + additionalFees - discount,
     dropoffDate: new Date('2018-09-21T09:10+10:00'),
     pickupDate: new Date('2018-09-26T09:00+10:00'),

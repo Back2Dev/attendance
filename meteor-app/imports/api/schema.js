@@ -1,4 +1,6 @@
 // schema.js
+import SimpleSchema from 'simpl-schema'
+
 export const REGEX_ID = /^[01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{17}$/
 
 /**
@@ -135,5 +137,10 @@ export const OptionalRegExId = {
 
 export const OptionalString = {
   type: String,
+  optional: true
+}
+
+export const OptionalInteger = {
+  type: SimpleSchema.Integer,
   optional: true
 }

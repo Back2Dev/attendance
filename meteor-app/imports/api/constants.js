@@ -103,4 +103,12 @@ CONSTANTS.PRODUCT_TYPES_READABLE = {
   membership: 'Membership'
 }
 
+CONSTANTS.CART_STATUS = {
+  READY: 'ready',
+  DENIED: 'denied',
+  CANCELLED: 'cancelled',
+  COMPLETE: 'complete',
+  ENUM: ['ready', 'denied', 'cancelled', 'complete']
+}
+
 export default CONSTANTS

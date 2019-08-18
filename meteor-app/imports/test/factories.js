@@ -15,6 +15,7 @@ import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
 import Products from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
+import Wwccs from '/imports/api/wwccs/schema'
 // import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
@@ -25,7 +26,7 @@ import Logger from '/imports/api/assessments/logger'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
-  email: () => faker.internet.email(),
+  email: () => faker.internet.email()
   // TODO - the rest of these
   // isHere: true,
   // avatar: '7.jpg',
@@ -61,7 +62,7 @@ Factory.define('session', Sessions, {
   name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),
-  duration: faker.random.number(6),
+  duration: faker.random.number(6)
 })
 
 Factory.define('order', Orders, {
@@ -74,10 +75,10 @@ Factory.define('order', Orders, {
       partId: 'frame',
       partNo: 'sadasd',
       addedAt: new Date(),
-      userId: '2ueueoaje',
-    },
+      userId: '2ueueoaje'
+    }
   ],
-  totalPrice: 9900, // This is in cents
+  totalPrice: 9900 // This is in cents
 })
 
 Factory.define('assessment', Assessments, {
@@ -85,28 +86,28 @@ Factory.define('assessment', Assessments, {
     name: faker.name.findName(),
     phone: faker.phone.phoneNumber(),
     email: faker.internet.email(),
-    isRefurbish: faker.random.boolean(),
+    isRefurbish: faker.random.boolean()
   },
   bikeDetails: {
     make: faker.commerce.productName(),
     model: 'TX-1234',
     color: faker.commerce.color(),
     bikeValue: Math.round(faker.finance.amount()),
-    sentimentValue: faker.random.boolean(),
+    sentimentValue: faker.random.boolean()
   },
   services: {
     serviceItem: [
       {
         name: 'Fix tyre',
-        price: 5000,
+        price: 5000
       },
       {
         name: 'Fix handle bar',
-        price: 3000,
-      },
+        price: 3000
+      }
     ],
     baseService: 'Minor Service',
-    totalServiceCost: 8000,
+    totalServiceCost: 8000
   },
   parts: {
     partsItem: [
@@ -115,10 +116,10 @@ Factory.define('assessment', Assessments, {
         price: 2000,
         code: 'F',
         category: 'Other',
-        used: false,
-      },
+        used: false
+      }
     ],
-    totalPartsCost: 2000,
+    totalPartsCost: 2000
   },
   additionalFees: 1500,
   discount: 2000,
@@ -132,14 +133,14 @@ Factory.define('assessment', Assessments, {
   comment: 'Thorough cleaning of the bike is required',
   temporaryBike: faker.random.boolean(),
   status: 2,
-  search: faker.name.findName(),
+  search: faker.name.findName()
 })
 
 Factory.define('logs', Logger, {
   user: faker.name.findName(),
   aId: '34G5785heY6262',
   status: 1,
-  eventType: 2,
+  eventType: 2
 })
 
 Factory.define('parts', ServiceItems, {
@@ -147,13 +148,13 @@ Factory.define('parts', ServiceItems, {
   price: Math.round(faker.commerce.price() * 100),
   code: 'F',
   category: 'Other',
-  used: false,
+  used: false
 })
 
 Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
-  package: 'Minor',
+  package: 'Minor'
 })
 
 Factory.define('part', Parts, {
@@ -163,7 +164,7 @@ Factory.define('part', Parts, {
   partNo: 'pt-123',
   name: 'carbonfibre frame',
   barcode: '22413000022413',
-  status: CONSTANTS.ORDER_STATUS_NEW,
+  status: CONSTANTS.ORDER_STATUS_NEW
 })
 
 Factory.define('product', Products, {
@@ -177,15 +178,15 @@ Factory.define('product', Products, {
   active: true,
   autoRenew: true,
   startDate: '2019-02-18T16:00:00Z',
-  endDate: '2019-05-18T16:00:00Z',
+  endDate: '2019-05-18T16:00:00Z'
 })
 
 Factory.define('purchase', Purchases, {
-  memberId: 'asdf9kj98',
-  productId: 'asdf23asdf',
+  memberId: 'SYdWnRL5LmZXT4GxE',
+  productId: 'SYdWnRL5LmZXT4GxE',
   productName: 'Evening workshop',
   price: 5000,
-  code: 'MISC',
+  code: 'MISC'
 })
 
 Factory.define('event', Events, {
@@ -195,6 +196,14 @@ Factory.define('event', Events, {
   active: true,
   duration: 2,
   price: 200,
+  type: 'monthly'
+})
+
+Factory.define('wwcc', Events, {
+  wwcc: '01819845',
+  surname: 'King',
+  memberId: 'SYdWnRL5LmZXT4GxE',
+  responses: []
 })
 
 export default Factory

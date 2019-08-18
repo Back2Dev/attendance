@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
 
@@ -14,7 +13,7 @@ if (Meteor.isServer) {
     },
     'assessment.insert'(form) {
       check(form, Object)
-      // Add in an auto-incrementing job number
+      // Add in an auto-incrementing the job number
       form.jobNo = (form.customerDetails.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
       Assessment.insert(form)
       Logger.insert({

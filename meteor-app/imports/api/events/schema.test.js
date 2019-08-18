@@ -31,7 +31,8 @@ const goodEvents = [
   {
     name: 'Group Kayak',
     duration: 2,
-    active: true
+    active: true,
+    type: 'day'
   }
 ]
 

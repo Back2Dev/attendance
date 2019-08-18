@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom'
 import Form from 'react-jsonschema-form-semanticui'
 import Alert from 'react-s-alert'
 import Steps from '/imports/ui/member/member-add-steps'
-// import getSchemas from '/imports/ui/config/member-add-schemas'
 import Control from '/imports/ui/member/member-add-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
@@ -32,8 +31,8 @@ class MemberAdd extends Component {
     if (this.props.member) {
       this.setState({
         formData: { ...this.props.member },
-        step: 4,
-        progress: 4
+        step: this.schemas.length,
+        progress: this.schemas.length
       })
     }
   }
@@ -72,6 +71,7 @@ class MemberAdd extends Component {
         progress: prevState.step + 1
       }
     })
+    // this.props.setMember(this.state.formData)
   }
 
   backStep = () => {

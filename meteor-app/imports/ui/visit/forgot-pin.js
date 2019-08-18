@@ -43,10 +43,12 @@ const ForgotPin = props => {
           <Button name={'email'} size="small" type="button" positive={method == 'email'} onClick={onDeliverySelection}>
             Email: {props.member.email}
           </Button>
-          <Button.Or />
-          <Button name={'sms'} size="small" type="button" positive={method == 'sms'} onClick={onDeliverySelection}>
-            SMS: {props.member.mobile}
-          </Button>
+          {props.member.mobile && props.member.email && <Button.Or />}
+          {props.member.mobile && (
+            <Button name={'sms'} size="small" type="button" positive={method == 'sms'} onClick={onDeliverySelection}>
+              SMS: {props.member.mobile}
+            </Button>
+          )}
         </Button.Group>
         <br />
 

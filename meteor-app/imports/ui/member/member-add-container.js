@@ -1,4 +1,5 @@
 import { withTracker } from 'meteor/react-meteor-data'
+import { Meteor } from 'meteor/meteor'
 import MemberAdd from '/imports/ui/member/member-add'
 import { ReactiveVar } from 'meteor/reactive-var'
 import isIframe from '/imports/helpers/isIframe'
@@ -36,7 +37,7 @@ export default withTracker(props => {
       debug('updating member', formData)
       try {
         const res = await Meteor.callAsync('members.update', formData._id, formData)
-        setSuccess('Successfully edited member', formData._id)
+        setSuccess('Saved ok', formData._id)
         return res
       } catch (e) {
         debug('error updating member', formData, e)
@@ -47,13 +48,15 @@ export default withTracker(props => {
       try {
         debug('adding member', formData)
         const res = await Meteor.callAsync('members.insert', formData)
-        setSuccess('Successfully added new volunteer', res)
+        setSuccess('Details saved ok', res)
         return res
       } catch (e) {
         setError(e)
       }
     }
   }
+
+  document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
 
   return {
     setMember,

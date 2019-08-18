@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
-import MemberCardSmall from '/imports/ui/member/member-card-small'
 import { Grid } from 'semantic-ui-react'
-import AdminMemberList from '/imports/ui/admin/admin-member-list'
+import AdminMemberList from './admin-member-list'
+import MemberDetails from './member'
 
 const renderMergedProps = (component, ...rest) => {
   const finalProps = Object.assign({}, ...rest)
   return React.createElement(component, finalProps)
 }
 
-const PropsRoute = ({ component, ...rest }) => {
+const PropsRoute = ({ component, match, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -32,7 +32,8 @@ class Admin extends Component {
         <Grid.Column width={12}>
           <h1> {this.props.memberWords ? this.props.memberWords : 'Volunteers'}</h1>
           <Switch>
-            <PropsRoute path="/" component={AdminMemberList} {...this.props} />
+            <PropsRoute path="/userprofiles" exact component={AdminMemberList} {...this.props} />
+            <PropsRoute path="/userprofiles/:id" component={MemberDetails} {...this.props} />
           </Switch>
         </Grid.Column>
       </Grid>
@@ -43,7 +44,9 @@ class Admin extends Component {
 Admin.propTypes = {
   members: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
-  removeMember: PropTypes.func.isRequired
+  removeMember: PropTypes.func.isRequired,
+  extendMember: PropTypes.func.isRequired,
+  removeCart: PropTypes.func.isRequired
 }
 
 export default Admin

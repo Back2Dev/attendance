@@ -13,26 +13,26 @@ const Cart = props => {
   const checkout = () => {
     if (state.totalqty) props.history.push('/shop/checkout')
     else {
-      Alert.error(
-        'You do not have any items in your cart yet, please add something before going to the checkout'
-      )
+      Alert.error('You do not have any items in your cart yet, please add something before going to the checkout')
     }
   }
   const items = state.totalqty > 1 ? 'items' : 'item'
   return (
-    <Button as='div' labelPosition='left' size='large'>
-      <Label basic pointing='right'>
-        <Icon name='shopping cart' />
-        {!state.totalqty && <span>Cart is empty</span>}
+    <Button as="div" labelPosition="left" size="large">
+      <Label basic pointing="right">
+        <Icon name="shopping cart" />
+        {!state.totalqty && <span>Cart is empty {!state._id && '!'}</span>}
         {state.totalqty > 0 && (
           <div>
-            {state.totalqty} {items} (<Price cents={state.price} />)
+            {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
           </div>
         )}
       </Label>
-      <Button type='button' color='green' onClick={checkout}>
-        Go to checkout now
-      </Button>
+      {state.totalqty > 0 && (
+        <Button type="button" color="green" onClick={checkout}>
+          Go to checkout now
+        </Button>
+      )}
     </Button>
   )
 }
@@ -48,25 +48,23 @@ export const CartMenuItem = props => {
   const checkout = () => {
     if (state.totalqty) props.history.push('/shop/checkout')
     else {
-      Alert.error(
-        'You do not have any items in your cart yet, please add something before going to the checkout'
-      )
+      Alert.error('You do not have any items in your cart yet, please add something before going to the checkout')
     }
   }
   if (!state.totalqty) {
     return (
-      <Menu.Item position='right' onClick={checkout} color='blue'>
-        <Icon name='shopping cart' /> Cart is empty
+      <Menu.Item position="right" onClick={checkout} color="blue">
+        <Icon name="shopping cart" /> Cart is empty {!state._id && '!'}
       </Menu.Item>
     )
   }
 
   const items = state.totalqty > 1 ? 'items' : 'item'
   return (
-    <Menu.Item position='right' onClick={checkout} color='green'>
-      <Button type='button' color='green'>
-        <Icon name='shopping cart' />
-        {state.totalqty} {items} (<Price cents={state.price} />)
+    <Menu.Item position="right" onClick={checkout} color="green">
+      <Button type="button" color="green">
+        <Icon name="shopping cart" />
+        {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
       </Button>
     </Menu.Item>
   )

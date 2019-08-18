@@ -3,9 +3,6 @@ import { Meteor } from 'meteor/meteor'
 import Orders from '/imports/api/orders/schema'
 import '/imports/api/orders/methods'
 import Factory from '/imports/test/factories'
-import { resetDatabase } from '/imports/test/util-test'
-import { relativeTimeThreshold } from '../../../node_modules/moment';
-
 
 const goodOrder = Factory.build('order')
 const orderId = goodOrder._id
@@ -23,7 +20,9 @@ if (Meteor.isServer) {
 
     it('success on updating an order', () => {
       const orderedPart = goodOrder.orderedParts
-      expect(() => Meteor.call('orders.addPart', orderId, orderedPart)).to.not.throw()
+      expect(() =>
+        Meteor.call('orders.addPart', orderId, orderedPart)
+      ).to.not.throw()
     })
   })
 }

@@ -1,0 +1,21 @@
+{
+  "name": "b2b-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "scrape": "node src/index ../in/parts.json ../out",
+    "parse": "node src/parse ../in/parts.xlsx ../out"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "csv-parse": "^4.4.3",
+    "debug": "^4.1.1",
+    "js-xlsx": "^0.8.22",
+    "lodash": "^4.17.11",
+    "node-fetch": "^2.6.0",
+    "promise-retry": "^1.1.1",
+    "xlsx": "^0.14.3"
+  }
+}

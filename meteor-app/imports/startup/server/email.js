@@ -1,13 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { Email } from 'meteor/email'
-const debug = require('debug')('b2b:email')
-const sgMail = require('@sendgrid/mail')
-import { eventLog } from '/imports/api/eventlogs'
-import Purchases from '/imports/api/purchases/schema'
-import Members from '/imports/api/members/schema'
 
 import log from '/imports/lib/log'
-import Moment from 'moment'
+const debug = require('debug')('b2b:email')
+const sgMail = require('@sendgrid/mail')
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'
 const DEFAULT_DESTINATION = 'mrslwiseman@gmail.com'
@@ -23,71 +19,80 @@ Meteor.startup(() => {
 })
 
 Meteor.methods({
-  sendPINEmail(destination = DEFAULT_DESTINATION, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
-    debug(`Sending email: ${subject}: ${message} to ${destination}`)
-
-    const options = {
-      from: 'admin@back2bikes.com.au',
-      to: destination,
-      subject: subject,
-      text: message
-    }
-    try {
-      Email.send(options)
-    } catch (error) {
-      log.error('Error from email gateway', error)
-    }
-  },
-  sendMembershipEmail(to, name, type, expiryDate, apiKey) {
-    sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
-    const options = {
-      to,
-      from: Meteor.settings.private.fromEmail,
-      templateId: apiKey,
-      dynamic_template_data: {
-        name,
-        type,
-        expiryDate
+  // Send forgotten PIN by email
+  sendPINEmail(to = DEFAULT_DESTINATION, pin, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
+    debug(`Sending email: ${subject} to ${to}`)
+    if (Meteor.settings.private.sendgridApikey && Meteor.settings.private.forgotPINID) {
+      try {
+        sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+        const options = {
+          to,
+          from: Meteor.settings.private.fromEmail,
+          templateId: Meteor.settings.private.forgotPINID,
+          dynamic_template_data: {
+            // name,
+            pin
+          }
+        }
+        log.info(`Sending email to <${to}>`)
+        sgMail.send(options)
+      } catch (e) {
+        log.error(`Error sending email: ${e.message}`)
+      }
+    } else {
+      const options = {
+        from: Meteor.settings.private.fromEmail,
+        to,
+        subject,
+        text: message
+      }
+      try {
+        Email.send(options)
+      } catch (error) {
+        log.error('Error from email gateway', error)
       }
     }
-    sgMail.send(options)
   },
 
-  sendMembershipRenewals() {
-    Members.find({}).forEach(member => {
-      Purchases.find({
-        memberId: member._id,
-        $or: [{ code: 'PA-MEMB-12' }, { code: 'PA-MEMB-3' }],
-        expiry: { $lt: new Date() }
-      }).forEach(purchase => {
-        Meteor.call(
-          'sendMembershipEmail',
-          member.email,
-          member.name,
-          purchase.productName,
-          Moment(purchase.expiry).format('Do MMM YYYY'),
-          Meteor.settings.private.expiredMembershipID
-        )
-      })
-    })
+  // Send membership expiry email
+  sendMembershipEmail(to, name, type, expiry, link, templateId) {
+    try {
+      sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+      const options = {
+        to,
+        from: Meteor.settings.private.fromEmail,
+        templateId,
+        dynamic_template_data: {
+          name,
+          type,
+          expiry,
+          link: `${Meteor.absoluteUrl()}${link}`
+        }
+      }
+      log.info(`Sending email ${templateId} to ${name} <${to}> link: ${link}`)
+      sgMail.send(options)
+    } catch (e) {
+      log.error(`Error sending email: ${e.message}`)
+    }
   },
-  sendMembershipReminderEmail() {
-    Members.find({}).forEach(member => {
-      Purchases.find({
-        memberId: member._id,
-        $or: [{ code: 'PA-MEMB-12' }, { code: 'PA-MEMB-3' }],
-        expiry: { $gt: new Date() }
-      }).forEach(purchase => {
-        Meteor.call(
-          'sendMembershipEmail',
-          member.email,
-          member.name,
-          purchase.productName,
-          Moment(purchase.expiry).format('Do MMM YYYY'),
-          Meteor.settings.private.validMembershipID
-        )
-        debug('Email sending to ' + purchase.purchaser)
-      })
-    })
+
+  // Send 'Your pass has expired/is empty' or Casual signup email
+  sendPassEmail(to, name, expiry, link, templateId) {
+    try {
+      sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+      const options = {
+        to,
+        from: Meteor.settings.private.fromEmail,
+        templateId,
+        dynamic_template_data: {
+          name,
+          expiry,
+          link: `${Meteor.absoluteUrl()}${link}`
+        }
+      }
+      sgMail.send(options)
+    } catch (e) {
+      log.error(`Error sending pass email: ${e.message}`)
+    }
   }
 })

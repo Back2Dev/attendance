@@ -16,6 +16,9 @@
 - Fixed cron problem
 - Added Membership Card
 - Added Multi-visit Card and Maintain-Course Card.
+- Show expired members in red
+- Added image scraper
+- Fixed query for 'once' events (date range was broken)
 
   0.11.0
 

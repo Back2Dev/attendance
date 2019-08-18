@@ -16,10 +16,7 @@ const initialState = {
 }
 
 const recalc = state => {
-  state.price = state.products.reduce(
-    (acc, product) => acc + product.qty * product.price,
-    0
-  )
+  state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
   state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
   state.prodqty = {}
   state.products.forEach(prod => {
@@ -42,6 +39,18 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'reset':
       return cloneDeep(initialState)
+    case 'clear':
+      const clrS = cloneDeep(state)
+      clrS.prodqty = {}
+      clrS.products = []
+      clrS.price = 0
+      clrS.totalqty = 0
+      saveCart(clrS)
+      return clrS
+    case 'save-card':
+      saveCart(state)
+      debug('save-cart', state)
+      return state
     case 'save-address':
       const newS = cloneDeep(state)
       if (newS.creditCard) delete newS.creditCard
@@ -68,6 +77,9 @@ const reducer = (state, action) => {
         })
       ) {
         action.payload.qty = 1
+        if (action.payload.memberId) state.memberId = action.payload.memberId
+        if (action.payload.expiry) state.expiry = action.payload.expiry
+        if (action.payload.email) state.email = action.payload.email
         state.products.push(action.payload)
       }
 
@@ -91,18 +103,14 @@ const reducer = (state, action) => {
   }
 }
 
-function CartContextProvider (props) {
-  const [state, dispatch] = React.useReducer(
-    reducer,
-    props.cart || initialState
-  )
-  state.logo = props.logo
+function CartContextProvider(props) {
+  const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
+  state.settings = props.settings
+  state.cartUpdate = props.cartUpdate
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 
-  return (
-    <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
-  )
+  return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
 }
 
 CartContextProvider.propTypes = {

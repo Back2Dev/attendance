@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo'
+import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
-import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/schema'
+import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt } from '/imports/api/schema'
 import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
@@ -57,6 +58,7 @@ export const ProductsSchema = new SimpleSchema({
     label: 'Product Type: pass, membership, course',
     allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE)
   },
+  subsType: { type: String, label: 'Subscription type', optional: true },
   duration: {
     type: SimpleSchema.Integer,
     label: 'Product Duration in months',
@@ -84,13 +86,15 @@ export const ProductsSchema = new SimpleSchema({
   },
   autoRenew: {
     type: Boolean,
-    label: 'Does it automatically get renewed'
+    label: 'Does it automatically get renewed',
+    defaultValue: true
   },
   startDate: {
     type: Date,
     label: 'Product start date',
     optional: true
   },
+
   endDate: {
     type: Date,
     label: 'Product end date',
@@ -100,7 +104,9 @@ export const ProductsSchema = new SimpleSchema({
   updatedAt
 })
 
-const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt')
+const ProductListSchema = ProductsSchema.omit('createdAt', 'updatedAt').extend({
+  expiry: { type: Date, optional: true }
+})
 
 export const CreditCardSchema = new SimpleSchema({
   email: { type: String, optional: true },
@@ -116,9 +122,38 @@ export const CreditCardSchema = new SimpleSchema({
   card_token: { type: String, optional: true }
 })
 
+export const CardResponseSchema = new SimpleSchema({
+  token: OptionalString,
+  scheme: OptionalString,
+  display_number: OptionalString,
+  issuing_country: OptionalString,
+  expiry_month: OptionalInteger,
+  expiry_year: OptionalInteger,
+  name: OptionalString,
+  address_line1: OptionalString,
+  address_line2: OptionalString,
+  address_city: OptionalString,
+  address_postcode: OptionalString,
+  address_state: OptionalString,
+  address_country: OptionalString,
+  customer_token: OptionalString,
+  primary: { type: Boolean, optional: true }
+})
+
+export const PaymentResponseSchema = new SimpleSchema({
+  status: OptionalString,
+  statusText: OptionalString,
+  customerToken: OptionalString,
+  email: OptionalString,
+  created_at: OptionalString,
+  card: { type: CardResponseSchema, optional: true }
+})
+
 export const CartsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: OptionalRegExId,
+  email: OptionalString,
+  customerName: OptionalString,
   userId: OptionalRegExId,
   price: {
     type: SimpleSchema.Integer,
@@ -144,6 +179,13 @@ export const CartsSchema = new SimpleSchema({
     type: CreditCardSchema,
     optional: true
   },
+  status: {
+    type: String,
+    allowedValues: CONSTANTS.CART_STATUS.ENUM,
+    defaultValue: 'ready'
+  },
+  customerResponse: { type: Object, blackbox: true, optional: true },
+  chargeResponse: { type: Object, blackbox: true, optional: true },
   createdAt,
   updatedAt
 })
@@ -152,16 +194,18 @@ Products.attachSchema(ProductsSchema)
 ProductTypes.attachSchema(ProductTypesSchema)
 Carts.attachSchema(CartsSchema)
 
-Carts.allow({
-  update () {
-    return true
-  },
-  insert () {
-    return true
-  },
-  remove () {
-    return true
-  }
-})
+if (Meteor.isServer) {
+  Carts.allow({
+    update() {
+      return true
+    },
+    insert() {
+      return true
+    },
+    remove() {
+      return true
+    }
+  })
+}
 
 export default Products

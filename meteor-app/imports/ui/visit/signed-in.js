@@ -73,7 +73,7 @@ const Arrive = props => {
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {needMore && <Button onClick={() => props.history.push(`/`)}>Not now</Button>}
           {!needMore && (
-            <Button onClick={() => props.history.push(`/`)} color="green">
+            <Button onClick={() => props.history.push(`/`)} color="orange">
               I'm done now
             </Button>
           )}

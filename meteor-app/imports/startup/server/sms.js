@@ -49,7 +49,6 @@ Meteor.methods({
         }
         let url = SMS_URL
         Object.keys(body).forEach((item, ix) => {
-          debug('url=' + url)
           const joiner = ix === 0 ? '?' : '&'
           url = `${url}${joiner}${item}=${body[item]}`
         })

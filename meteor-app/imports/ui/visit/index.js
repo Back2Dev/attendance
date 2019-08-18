@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Alert from 'react-s-alert'
 import moment from 'moment'
-import { ReactiveVar } from 'meteor/reactive-var'
 import Members from '/imports/api/members/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
@@ -23,9 +22,7 @@ export default withTracker(props => {
         when: {
           $gte: moment()
             .startOf('day')
-            .toDate()
-        },
-        when: {
+            .toDate(),
           $lte: moment()
             .endOf('day')
             .toDate()
@@ -36,6 +33,7 @@ export default withTracker(props => {
   // It's quite possible that the above doesn't
   // yield anything, so look for a fallback
   const fallbackQuery = { type: 'fallback' }
+  debug('Queries', eventQuery, fallbackQuery)
   let events = Events.find(eventQuery).fetch()
   if (!events.length) {
     events = Events.find(fallbackQuery).fetch()
@@ -112,6 +110,7 @@ export default withTracker(props => {
     setPin,
     forgotPin,
     org: Meteor.settings.public.org,
-    logo: Meteor.settings.public.logo
+    logo: Meteor.settings.public.logo,
+    addCard: Meteor.settings.public.addCard
   }
 })(Main)

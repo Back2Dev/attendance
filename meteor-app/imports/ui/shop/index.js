@@ -1,12 +1,14 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
+import { cloneDeep } from 'lodash'
 import { Carts } from '/imports/api/products/schema'
 import ShopFront from './shop-front'
 
 const debug = require('debug')('b2b:shop')
 
-const cartUpdate = contents => {
+const cartUpdate = data => {
   try {
+    const contents = cloneDeep(data)
     const id = contents._id
     if (id) {
       delete contents._id
@@ -15,7 +17,7 @@ const cartUpdate = contents => {
     } else {
       const id = Carts.insert(contents)
       debug(`New cart id is ${id}`)
-      localStorage.setItem('mycart', id)
+      sessionStorage.setItem('mycart', id)
     }
   } catch (e) {
     console.error(`Error: [${e.message}] encountered while saving shopping cart`)
@@ -23,13 +25,14 @@ const cartUpdate = contents => {
 }
 
 export default withTracker(props => {
-  cartId = localStorage.getItem('mycart')
+  document.title = `${Meteor.settings.public.org} - shop`
+  cartId = sessionStorage.getItem('mycart')
   debug(`Cart id is ${cartId}`)
   const cartSub = Meteor.subscribe('cart', cartId)
   return {
     carts: Carts.find(cartId).fetch(),
     loading: !cartSub.ready(),
     cartUpdate,
-    logo: Meteor.settings.public.logo
+    settings: Meteor.settings.public
   }
 })(ShopFront)

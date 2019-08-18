@@ -13,27 +13,27 @@ const recentFormat = dateValue => {
 }
 
 function MembershipCard(props) {
-  const { name, mobile, email, avatar, lastIn, expiry, memberType } = props.member
+  const { name, mobile, email, avatar, lastIn, expiry, status, subsType, remaining, paymentCustId } = props.member
   return (
     <div className="ui grid member-card-container">
       <div className="sixteen wide column ui grid card-header">
         <div className="sixteen wide column">{name}</div>
       </div>
       <div className="ui grid sixteen wide column card-content-container">
-        <div className="six wide column card-avatar-container">
+        <div className="four wide column card-avatar-container">
           <img className="card-avatar-img" src={'/images/avatars/' + avatar} />
+          {paymentCustId && <img className="card-mc" src={'/images/visa-mc.jpg'} />}
         </div>
-        <div className="ui grid ten wide column card-details-container">
-          <div className="eight wide column card-details-attributes title">Last seen</div>
-          <div className="eight wide column card-details-attributes info">{recentFormat(lastIn)}</div>
-          <div className="eight wide column card-details-attributes title">Email</div>
-          <div className="eight wide column card-details-attributes info">{email}</div>
-          <div className="eight wide column card-details-attributes title">Mobile</div>
-          <div className="eight wide column card-details-attributes info">{mobile}</div>
-          <div className="eight wide column card-details-attributes title">Expiry Date</div>
-          <div className="eight wide column card-details-attributes info">{dateFormat(expiry)}</div>
-          <div className="eight wide column card-details-attributes title">Member Type</div>
-          <div className="eight wide column card-details-attributes info">{memberType}</div>
+        <div className="ui grid twelve wide column card-details-container">
+          <div className="sixteen wide column card-details-attributes title">Last seen {recentFormat(lastIn)}</div>
+          <div className="sixteen wide column card-details-attributes title">Email {email}</div>
+          <div className="sixteen wide column card-details-attributes title">Mobile {mobile}</div>
+          {subsType !== 'casual' && (
+            <div className="sixteen wide column card-details-attributes title">Expires {dateFormat(expiry)}</div>
+          )}
+          <div className="sixteen wide column card-details-attributes title">
+            Member Type {subsType !== 'casual' ? status : ''} {subsType} {subsType === 'pass' ? remaining : ''}
+          </div>
         </div>
       </div>
     </div>

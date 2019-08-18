@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Menu, Image, Button } from 'semantic-ui-react'
+import { version } from '/imports/api/version'
 import Search from '/imports/ui/member/member-search-container'
 import Payment from '/imports/ui/member/member-payment'
 
@@ -14,6 +15,8 @@ const Nav = props => {
   const memberWords = memberWord + 's'
   const showParts = Meteor.settings.public.parts || false
   const showServicing = Meteor.settings.public.servicing || false
+  const showShop = Meteor.settings.public.shop || false
+  const payNow = Meteor.settings.public.payNow || false
 
   return (
     <Menu fixed="top" stackable>
@@ -22,7 +25,9 @@ const Nav = props => {
           props.history.push('/')
         }}
       >
-        <Image src={logoFile} height="35px" />
+        <Image src={logoFile} height="35px" title={version()} />
+        <br />
+        <span style={{ fontSize: '7pt' }}>{version()}</span>
       </Menu.Item>
       <Menu.Item
         onClick={() => {
@@ -40,16 +45,20 @@ const Nav = props => {
           <Button id="list_members" color="blue" content={memberWords} icon="group" />
         </Menu.Item>
       )}
-      <Menu.Item>
-        <Payment />
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          props.history.push('/shop')
-        }}
-      >
-        <Button id="shop" color="blue" content="Shop" icon="group" />
-      </Menu.Item>
+      {payNow && (
+        <Menu.Item>
+          <Payment />
+        </Menu.Item>
+      )}
+      {showShop && (
+        <Menu.Item
+          onClick={() => {
+            props.history.push('/shop')
+          }}
+        >
+          <Button id="shop" color="blue" content="Shop" icon="shop" />
+        </Menu.Item>
+      )}
       {showServicing && (
         <>
           <Menu.Item>

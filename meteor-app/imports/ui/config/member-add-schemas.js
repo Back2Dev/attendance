@@ -57,6 +57,7 @@ const paSchema = {
   aboutStep: {
     schema: {
       type: 'object',
+      required: [],
       properties: {
         sports: {
           type: 'array',
@@ -85,18 +86,107 @@ const paSchema = {
         }
       }
     }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['swim', 'terms', 'fitness'],
+      properties: {
+        swim: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title: 'I can swim 200 metres unassisted'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree to the Terms & Conditions'
+        },
+        fitness: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I declare I am medically fit and capable of undertaking this physical activity'
+        }
+      }
+    },
+    uiSchema: {}
+  }
+}
+
+//
+// Bicycles for Humanity (B4H) schema overrides
+//
+const b4hSchema = {
+  aboutStep: {
+    schema: {
+      type: 'object',
+      required: [],
+      properties: {
+        reasons: {
+          type: 'string',
+          title: 'Tell us why you volunteer for Bicycles For Humanity?'
+        }
+      }
+    },
+    uiSchema: {
+      reasons: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': '',
+        'ui:options': {
+          rows: 12
+        }
+      }
+    }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['permission', 'terms', 'privacy'],
+      properties: {
+        wwcc: {
+          type: 'string',
+          title:
+            'Please enter your Working With Children Check (WWCC) number (if you have one). 8 digits, no need for the -01 or -02 at the end.'
+        },
+        permission: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Bicycles for Humanity Melbourne to take, use and distribute photographs and video in order to promote volunteering or the organisation'
+        },
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Bicycles for Humanity Melbourne storing the information I have provided above. I understand that Bicycles for Humanity Melbourne will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook'
+        },
+        parental: {
+          type: 'boolean',
+          title: 'I am under 18 and have received permission for all the above from a parent/guardian'
+        }
+      }
+    },
+    uiSchema: {}
   }
 }
 
 const customSchemas = {
   b2b: b2bSchema,
-  pa: paSchema
+  pa: paSchema,
+  b4h: b4hSchema
 }
 
 const defaultSchema = [
   {
     stepTitle: 'About You',
-    stepDescription: '',
+    stepDescription: 'About',
     schema: {
       type: 'object',
       title: 'Lets get to know each other.',
@@ -145,7 +235,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Contact',
-    stepDescription: '',
+    stepDescription: 'Contact',
     schema: {
       title: 'Details',
       type: 'object',
@@ -217,7 +307,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Emergency',
-    stepDescription: '',
+    stepDescription: 'Emerg',
     schema: {
       type: 'object',
       title: 'Who should we contact in an emergency?',
@@ -249,7 +339,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Avatar',
-    stepDescription: '',
+    stepDescription: 'Avatar',
     schema: {
       type: 'object',
       title: 'Choose an avatar',
@@ -338,16 +428,41 @@ const defaultSchema = [
         }
       }
     }
+  },
+  {
+    stepTitle: 'Terms',
+    stepDescription: 'Terms',
+    schema: {
+      type: 'object',
+      title: 'Terms and Conditions',
+      required: ['privacy'],
+      properties: {
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Back2bikes storing the information I have provided above. I understand that Back2bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        }
+      }
+    },
+    uiSchema: {
+      avatar: {
+        'ui:widget': 'avatarWidget',
+        'ui:options': {
+          label: false
+        }
+      }
+    }
   }
 ]
 
 //
 // Copy in the schema overrides
 //
-const custom = 'b2b' //Meteor.settings.public.recruit || "b2b"
+const custom = 'b2b' // Meteor.settings.public.recruit || "b2b"
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
-  const steps = ['about', 'contact', 'emergency', 'avatar']
+  const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
   steps.forEach((step, ix) => {
     const stepName = `${step}Step`
     if (newSchema[stepName] && newSchema[stepName].schema) {
@@ -362,7 +477,7 @@ if (custom && customSchemas[custom]) {
 const getSchemas = custom => {
   if (custom && customSchemas[custom]) {
     const newSchema = customSchemas[custom]
-    const steps = ['about', 'contact', 'emergency', 'avatar']
+    const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
     steps.forEach((step, ix) => {
       const stepName = `${step}Step`
       if (newSchema[stepName] && newSchema[stepName].schema) {

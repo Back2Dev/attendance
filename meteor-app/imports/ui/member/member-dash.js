@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberEdit from '/imports/ui/member/member-edit'
+import MemberAddCard from '/imports/ui/member/member-add-card'
 import MemberVisitContainer from '/imports/ui/member/visit/container'
 
 class MemberDash extends React.Component {
@@ -63,6 +64,7 @@ class MemberDash extends React.Component {
       <div>
         <Switch>
           <Route path={`/edit/:id`} exact render={props => <MemberEdit {...this.props} />} />
+          <Route path={`/addcard/:id`} exact render={props => <MemberAddCard {...this.props} />} />
           <Route path={`${this.props.match.url}`} exact render={props => <MemberVisitContainer {...this.props} />} />
         </Switch>
       </div>
