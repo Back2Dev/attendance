@@ -45,7 +45,6 @@ Admin.propTypes = {
   members: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   removeMember: PropTypes.func.isRequired,
-  extendMember: PropTypes.func.isRequired,
   removeCart: PropTypes.func.isRequired
 }
 

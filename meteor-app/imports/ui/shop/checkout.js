@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Segment, Button, Menu } from 'semantic-ui-react'
+import { Card, Segment, Button, Menu, Input } from 'semantic-ui-react'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
@@ -7,6 +7,15 @@ import Privacy, { SecurityModal } from './privacy'
 
 const Checkout = props => {
   const { state, dispatch } = React.useContext(CartContext)
+  const [icon, setIcon] = React.useState('search')
+  const [promo, setPromo] = React.useState('')
+
+  const checkPromo = () => {
+    setIcon('ellipsis horizontal')
+    console.log(`Checking promo code ${promo}`)
+    setIcon('check')
+  }
+
   if (!state.products.length) {
     return (
       <div>
@@ -58,6 +67,17 @@ const Checkout = props => {
         >
           Buy now {!state._id && '!'}
         </Button>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Input
+          action={<Button color="teal" onClick={checkPromo} content="Check" />}
+          iconPosition="left"
+          icon={icon}
+          placeholder="Promo code"
+          onChange={e => setPromo(e.target.value)}
+          labelPosition="right"
+          name="promo"
+        />
       </div>
     </div>
   )

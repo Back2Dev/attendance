@@ -75,6 +75,11 @@ export default withTracker(props => {
     })
   }
 
+  const addProduct = memberId => {
+    sessionStorage.setItem('memberId', memberId)
+    props.history.push('/shop')
+  }
+
   const extendMember = async (memberId, purchaseId) => {
     const member = Members.findOne(memberId)
     const when = prompt(`Extend membership for ${member.name} to (DD/MM/YYYY)`)
@@ -118,6 +123,7 @@ export default withTracker(props => {
     purchases,
     removeMember,
     extendMember,
+    addProduct,
     removeCart,
     uploadXL,
     memberWords

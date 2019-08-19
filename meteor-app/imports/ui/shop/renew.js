@@ -20,7 +20,7 @@ const Renew = props => {
   // Here we have to add it into the cart
   const add = () => {
     const prod = cloneDeep(product)
-    prod.memberId = props.member._id
+    prod.memberId = props.member._id || sessionStorage.getItem('memberId')
     prod.email = props.member.email
     if (props.purchases && props.purchases.length) prod.expiry = props.purchases[0].expiry
     prod.qty = 0

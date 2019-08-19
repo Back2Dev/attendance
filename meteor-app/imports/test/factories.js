@@ -13,7 +13,7 @@ import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
-import Products from '/imports/api/products/schema'
+import Products ,{Carts} from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Wwccs from '/imports/api/wwccs/schema'
 // import { RegExId } from '/imports/api/schema'
@@ -197,11 +197,29 @@ Factory.define('event', Events, {
   type: 'monthly'
 })
 
-Factory.define('wwcc', Events, {
+Factory.define('wwcc', Wwccs, {
   wwcc: '01819845',
   surname: 'King',
   memberId: 'SYdWnRL5LmZXT4GxE',
   responses: []
+})
+
+Factory.define('cart', Carts, {
+  memberId: 'SYdWnRL5LmZXT4GxE',
+  email: 'mike@nesmith.com',
+  customerName: 'Mike Nesmith',
+  price: 5000,
+  totalqty: 1,
+  prodqty: {
+  },
+  products: [
+    Factory.create('product')
+  ]
+  status: 'complete'
+  ,
+  customerResponse: { },
+  chargeResponse: {  },
+
 })
 
 export default Factory
