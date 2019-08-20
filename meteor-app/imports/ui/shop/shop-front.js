@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import AddContainer from './add-container'
 import Building from './building'
@@ -18,7 +19,12 @@ const debug = require('debug')('b2b:shop')
 const ShopFront = props => {
   if (props.loading) return <div>Loading ...</div>
   return (
-    <CartContextProvider cart={props.carts[0]} cartUpdate={props.cartUpdate} settings={props.settings}>
+    <CartContextProvider
+      cart={props.carts[0]}
+      cartUpdate={props.cartUpdate}
+      getPromo={props.getPromo}
+      settings={props.settings}
+    >
       <Switch>
         <Route path="/shop" exact component={Building} />
         <Route path="/shop/add/:code/:memberId" exact component={AddContainer} />
@@ -34,6 +40,11 @@ const ShopFront = props => {
       </Switch>
     </CartContextProvider>
   )
+}
+
+ShopFront.propTypes = {
+  cartUpdate: PropTypes.func.isRequired,
+  getPromo: PropTypes.func.isRequired
 }
 
 export default ShopFront

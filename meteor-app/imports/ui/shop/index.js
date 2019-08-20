@@ -6,6 +6,10 @@ import ShopFront from './shop-front'
 
 const debug = require('debug')('b2b:shop')
 
+const getPromo = async code => {
+  return await Meteor.callAsync('getPromo', code)
+}
+
 const cartUpdate = data => {
   try {
     const contents = cloneDeep(data)
@@ -33,6 +37,7 @@ export default withTracker(props => {
     carts: Carts.find(cartId).fetch(),
     loading: !cartSub.ready(),
     cartUpdate,
+    getPromo,
     settings: Meteor.settings.public
   }
 })(ShopFront)

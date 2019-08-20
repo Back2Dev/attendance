@@ -39,3 +39,8 @@ import '/imports/api/products/server/publications'
 import '/imports/api/events/schema'
 // import '/imports/api/events/methods'
 import '/imports/api/events/server/publications'
+
+// Promos
+import '/imports/api/promos/schema'
+import '/imports/api/promos/methods'
+import '/imports/api/promos/server/publications'

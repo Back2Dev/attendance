@@ -5,18 +5,24 @@ import { CartContext } from './cart-data'
 import ProductCard from './product-card'
 import Privacy, { SecurityModal } from './privacy'
 
+const debug = require('debug')('b2b:checkout')
+
 const Checkout = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const [icon, setIcon] = React.useState('search')
-  const [promo, setPromo] = React.useState('')
+  const [code, setCode] = React.useState('')
 
-  const checkPromo = () => {
+  const checkPromo = async () => {
     setIcon('ellipsis horizontal')
-    console.log(`Checking promo code ${promo}`)
+    debug(`Checking promo code ${code}`)
+    // dispatch({ type: 'get-promo', payload: code })
+    const promo = await Meteor.callAsync('getPromo', code)
+    debug('Promo:', promo)
+
     setIcon('check')
   }
 
-  if (!state.products.length) {
+  if (!state.products || !state.products.length) {
     return (
       <div>
         <h4>Checkout </h4>
@@ -74,7 +80,7 @@ const Checkout = props => {
           iconPosition="left"
           icon={icon}
           placeholder="Promo code"
-          onChange={e => setPromo(e.target.value)}
+          onChange={e => setCode(e.target.value)}
           labelPosition="right"
           name="promo"
         />

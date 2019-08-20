@@ -34,7 +34,7 @@ const saveCart = state => {
   }
 }
 
-const reducer = (state, action) => {
+const reducer = async (state, action) => {
   debug(`Dispatch: ${action.type}`, action.payload)
   switch (action.type) {
     case 'reset':
@@ -59,6 +59,11 @@ const reducer = (state, action) => {
       saveCart(newS)
       debug('save-address', newS)
       return newS
+    case 'get-promo':
+      const promoS = cloneDeep(state)
+      state.promo = await state.getPromo(action.payload)
+      debug(`promo data for ${action.payload}`, state)
+      return { ...promoS }
     case 'reset-add':
       const newState = cloneDeep(initialState)
       action.payload.qty = 1
@@ -107,6 +112,7 @@ function CartContextProvider(props) {
   const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
   state.settings = props.settings
   state.cartUpdate = props.cartUpdate
+  state.getPromo = props.getPromo
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 
