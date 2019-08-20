@@ -218,7 +218,7 @@ const myProducts = {
       start: new Date(),
       expires: new Date('2019-9-30')
     },
-    { code: 'JARAD_ROOLS', description: "Jarad's special", discount: 0, admin: true, start: new Date() }
+    { code: 'JARAD-ROOLS', description: "Jarad's special", discount: 0, admin: true, start: new Date() }
   ]
 }
 
