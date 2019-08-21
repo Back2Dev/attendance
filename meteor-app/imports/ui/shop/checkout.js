@@ -22,7 +22,6 @@ const Checkout = props => {
   const checkPromo = async () => {
     setIcon('ellipsis horizontal')
     debug(`Checking promo code ${code}`)
-    // dispatch({ type: 'get-promo', payload: code })
     const promo = (await Meteor.callAsync('getPromo', code)) || { status: `Promo code "${code}" not found` }
     setPromo(promo)
     setIcon('check')
