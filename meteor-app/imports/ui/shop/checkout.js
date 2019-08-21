@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Segment, Button, Menu, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
+import { Card, Segment, Button, Menu, Label, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
@@ -15,9 +15,23 @@ const Checkout = props => {
   const [promo, setPromo] = React.useState(null)
   const [method, setMethod] = React.useState('')
   const [showDate, setShowDate] = React.useState(false)
+  const [discountedPrice, setDP] = React.useState(state.price / 100)
   const changeMethod = e => {
     setMethod(e.target.value)
     setShowDate(NEED_DATE.includes(e.target.value))
+  }
+  const changeDiscount = e => {
+    // setDiscount(e.target.value)
+    state.discount = e.target.value
+    if (e.target.value.match(/^\$\d+/)) {
+      const disc = parseInt(e.target.value.replace('$', ''))
+      setDP(state.price / 100 - disc)
+    } else {
+      const disc = parseInt(e.target.value)
+      if (disc) {
+        setDP(Math.floor(((100 - disc) * (state.price / 100)) / 100))
+      } else setDP(state.price / 100)
+    }
   }
   const checkPromo = async () => {
     setIcon('ellipsis horizontal')
@@ -121,15 +135,9 @@ const Checkout = props => {
                   </Header>
                   <Form>
                     <Form.Group grouped>
-                      <Form.Field
-                        label="Discount"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="discount"
-                        onChange={changeMethod}
-                      />
-                      {method === 'discount' && <Input name="discount" placeholder="Discount %" />}
+                      <Label>Charge: ${discountedPrice}</Label>
+                      <br />
+                      <Input name="discount" onChange={changeDiscount} placeholder="Discount % or $" />
                       <Form.Field
                         label="Send invoice by email"
                         control="input"
@@ -164,14 +172,6 @@ const Checkout = props => {
                         onChange={changeMethod}
                       />
                       {showDate && <Input name="date" placeholder="Date paid" />}
-                      <Form.Field
-                        label="Freebie"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="freebie"
-                        onChange={changeMethod}
-                      />
                       <Form.Field
                         label="Charge to card"
                         control="input"
