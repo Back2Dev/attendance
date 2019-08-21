@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Segment, Button, Menu, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
+import { Card, Segment, Button, Menu, Label, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
@@ -15,16 +15,37 @@ const Checkout = props => {
   const [promo, setPromo] = React.useState(null)
   const [method, setMethod] = React.useState('')
   const [showDate, setShowDate] = React.useState(false)
+  const [discountedPrice, setDP] = React.useState(state.price / 100)
   const changeMethod = e => {
     setMethod(e.target.value)
     setShowDate(NEED_DATE.includes(e.target.value))
   }
+  const changeDiscount = e => {
+    // setDiscount(e.target.value)
+    state.discount = e.target.value
+    if (e.target.value.match(/^\$\d+/)) {
+      const disc = parseInt(e.target.value.replace('$', ''))
+      setDP(state.price / 100 - disc)
+    } else {
+      const disc = parseInt(e.target.value)
+      if (disc) {
+        setDP(Math.floor(((100 - disc) * (state.price / 100)) / 100))
+      } else setDP(state.price / 100)
+    }
+  }
   const checkPromo = async () => {
     setIcon('ellipsis horizontal')
     debug(`Checking promo code ${code}`)
-    const promo = (await Meteor.callAsync('getPromo', code)) || { status: `Promo code "${code}" not found` }
-    setPromo(promo)
-    setIcon('check')
+    // dispatch({ type: 'get-promo', payload: code })
+    if (code) {
+      const promo = (await Meteor.callAsync('getPromo', code)) || { status: `Promo code "${code}" not found` }
+      debug('Promo', promo)
+      setPromo(promo)
+      setIcon('check')
+    } else {
+      setPromo({ status: 'Please enter a discount code' })
+      setIcon('meh outline')
+    }
   }
 
   if (!state.products || !state.products.length) {
@@ -78,9 +99,8 @@ const Checkout = props => {
         >
           Buy now {!state._id && '!'}
         </Button>
-      </div>
-      <div style={{ textAlign: 'center' }}>
         <Input
+          style={{ float: 'right' }}
           action={<Button color="teal" onClick={checkPromo} content="Check" />}
           iconPosition="left"
           icon={icon}
@@ -90,7 +110,18 @@ const Checkout = props => {
           name="promo"
         />
       </div>
-      {promo && promo._id && (
+      <div style={{ textAlign: 'center' }} />
+      {promo && promo.discount && !promo.admin && (
+        <Header style={{ textAlign: 'center' }}>
+          <Icon name="flag checkered" color="green" style={{ display: 'inline' }} />
+          Yay! You found...
+          <br />
+          {promo.description}
+          <br />
+          Click on "Buy Now" to make use of your discount
+        </Header>
+      )}
+      {promo && promo._id && promo.admin && (
         <div style={{ textAlign: 'center' }}>
           <Grid textAlign="center" columns={3}>
             <Grid.Row>
@@ -104,15 +135,9 @@ const Checkout = props => {
                   </Header>
                   <Form>
                     <Form.Group grouped>
-                      <Form.Field
-                        label="Discount"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="discount"
-                        onChange={changeMethod}
-                      />
-                      {method === 'discount' && <Input name="discount" placeholder="Discount %" />}
+                      <Label>Charge: ${discountedPrice}</Label>
+                      <br />
+                      <Input name="discount" onChange={changeDiscount} placeholder="Discount % or $" />
                       <Form.Field
                         label="Send invoice by email"
                         control="input"
@@ -148,14 +173,6 @@ const Checkout = props => {
                       />
                       {showDate && <Input name="date" placeholder="Date paid" />}
                       <Form.Field
-                        label="Freebie"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="freebie"
-                        onChange={changeMethod}
-                      />
-                      <Form.Field
                         label="Charge to card"
                         control="input"
                         type="radio"
@@ -172,7 +189,13 @@ const Checkout = props => {
           </Grid>
         </div>
       )}
-      {promo && promo.status && <span style={{ color: 'red' }}>{promo.status}</span>}
+      {promo && promo.status && (
+        <Header style={{ textAlign: 'center', color: 'red' }}>
+          <Icon name="meh outline" color="red" />
+
+          {promo.status}
+        </Header>
+      )}
     </div>
   )
 }

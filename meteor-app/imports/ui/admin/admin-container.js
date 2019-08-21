@@ -75,8 +75,9 @@ export default withTracker(props => {
     })
   }
 
-  const addProduct = memberId => {
+  const addProduct = (memberId, name) => {
     sessionStorage.setItem('memberId', memberId)
+    sessionStorage.setItem('name', name)
     props.history.push('/shop')
   }
 

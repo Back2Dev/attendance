@@ -68,6 +68,7 @@ const reducer = (state, action) => {
       Alert.info(`Added ${action.payload.name} to cart`)
       return { ...newState }
     case 'add':
+      if (!state.products) state = cloneDeep(initialState)
       if (
         !state.products.find((prod, ix) => {
           if (prod._id === action.payload._id) {

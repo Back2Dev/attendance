@@ -75,7 +75,7 @@ const Admin = props => {
                     onClick={e => {
                       e.preventDefault()
                       // props.extendMember(member._id, memberPurchases[0]._id)
-                      props.addProduct(member._id)
+                      props.addProduct(member._id, member.name)
                     }}
                     content="Add..."
                     about={member.name}
