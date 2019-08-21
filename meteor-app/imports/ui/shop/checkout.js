@@ -13,13 +13,34 @@ const Checkout = props => {
   const [icon, setIcon] = React.useState('search')
   const [code, setCode] = React.useState('')
   const [promo, setPromo] = React.useState(null)
+  const [member, setMember] = React.useState(null)
   const [method, setMethod] = React.useState('')
   const [showDate, setShowDate] = React.useState(false)
   const [discountedPrice, setDP] = React.useState(state.price / 100)
+
+  const adminDoIt = () => {
+    switch (method) {
+      case 'charge':
+        // Go to the Charge my card page...
+        props.history.push('/shop/charge')
+        break
+      // it's paid already
+      case 'paypal':
+      case 'xero':
+      case 'cash':
+        props.history.push('/shop/paid')
+
+        break
+      default:
+        break
+    }
+  }
+
   const changeMethod = e => {
     setMethod(e.target.value)
     setShowDate(NEED_DATE.includes(e.target.value))
   }
+
   const changeDiscount = e => {
     // setDiscount(e.target.value)
     state.discount = e.target.value
@@ -38,9 +59,12 @@ const Checkout = props => {
     debug(`Checking promo code ${code}`)
     // dispatch({ type: 'get-promo', payload: code })
     if (code) {
-      const promo = (await Meteor.callAsync('getPromo', code)) || { status: `Promo code "${code}" not found` }
+      const { promo, member } = (await Meteor.callAsync('getPromo', code, sessionStorage.getItem('memberId'))) || {
+        status: `Promo code "${code}" not found`
+      }
       debug('Promo', promo)
       setPromo(promo)
+      setMember(member)
       setIcon('check')
     } else {
       setPromo({ status: 'Please enter a discount code' })
@@ -146,7 +170,9 @@ const Checkout = props => {
                         value="email"
                         onChange={changeMethod}
                       />
-                      {method === 'email' && <Input name="email" type="email" placeholder="Email" />}
+                      {method === 'email' && (
+                        <Input name="email" type="email" placeholder="Email" defaultValue={member.email} />
+                      )}
                       <Form.Field
                         label="Paid via Paypal"
                         control="input"
@@ -172,16 +198,21 @@ const Checkout = props => {
                         onChange={changeMethod}
                       />
                       {showDate && <Input name="date" placeholder="Date paid" />}
-                      <Form.Field
-                        label="Charge to card"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="charge"
-                        onChange={changeMethod}
-                      />
+                      {member && member.paymentCustId && (
+                        <Form.Field
+                          label={`Charge to credit card`}
+                          control="input"
+                          type="radio"
+                          name="method"
+                          value="charge"
+                          onChange={changeMethod}
+                        />
+                      )}
                     </Form.Group>
                   </Form>
+                  <Button type="button" onClick={adminDoIt}>
+                    Do it
+                  </Button>
                 </Segment>
               </Grid.Column>
               <Grid.Column />
