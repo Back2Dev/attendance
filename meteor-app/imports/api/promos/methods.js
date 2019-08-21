@@ -4,8 +4,9 @@ import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  getPromo(code) {
-    debug(`Finding promo code ${code}`)
+  getPromo(searchStr) {
+    debug(`Finding promo code ${searchStr}`)
+    const code = searchStr.toUpperCase()
     const promo = Promos.findOne({ code })
     // debug(promo)
     return promo

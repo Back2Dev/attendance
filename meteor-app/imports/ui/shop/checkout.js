@@ -23,9 +23,15 @@ const Checkout = props => {
     setIcon('ellipsis horizontal')
     debug(`Checking promo code ${code}`)
     // dispatch({ type: 'get-promo', payload: code })
-    const promo = (await Meteor.callAsync('getPromo', code)) || { status: `Promo code "${code}" not found` }
-    setPromo(promo)
-    setIcon('check')
+    if (code) {
+      const promo = (await Meteor.callAsync('getPromo', code)) || { status: `Promo code "${code}" not found` }
+      debug('Promo', promo)
+      setPromo(promo)
+      setIcon('check')
+    } else {
+      setPromo({ status: 'Please enter a discount code' })
+      setIcon('meh outline')
+    }
   }
 
   if (!state.products || !state.products.length) {
@@ -79,9 +85,8 @@ const Checkout = props => {
         >
           Buy now {!state._id && '!'}
         </Button>
-      </div>
-      <div style={{ textAlign: 'center' }}>
         <Input
+          style={{ float: 'right' }}
           action={<Button color="teal" onClick={checkPromo} content="Check" />}
           iconPosition="left"
           icon={icon}
@@ -91,7 +96,18 @@ const Checkout = props => {
           name="promo"
         />
       </div>
-      {promo && promo._id && (
+      <div style={{ textAlign: 'center' }} />
+      {promo && promo.discount && !promo.admin && (
+        <Header style={{ textAlign: 'center' }}>
+          <Icon name="flag checkered" color="green" style={{ display: 'inline' }} />
+          Yay! You found...
+          <br />
+          {promo.description}
+          <br />
+          Click on "Buy Now" to make use of your discount
+        </Header>
+      )}
+      {promo && promo._id && promo.admin && (
         <div style={{ textAlign: 'center' }}>
           <Grid textAlign="center" columns={3}>
             <Grid.Row>
@@ -173,7 +189,13 @@ const Checkout = props => {
           </Grid>
         </div>
       )}
-      {promo && promo.status && <span style={{ color: 'red' }}>{promo.status}</span>}
+      {promo && promo.status && (
+        <Header style={{ textAlign: 'center', color: 'red' }}>
+          <Icon name="meh outline" color="red" />
+
+          {promo.status}
+        </Header>
+      )}
     </div>
   )
 }
