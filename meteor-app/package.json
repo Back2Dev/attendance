@@ -59,6 +59,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "faker": "^4.1.0",
+    "file-saver": "^2.0.2",
     "gender-detection": "^0.1.0",
     "gender-guess": "^1.0.4",
     "indexof": "0.0.1",

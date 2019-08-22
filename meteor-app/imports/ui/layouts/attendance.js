@@ -43,6 +43,7 @@ const Attendance = () => {
         <Switch>
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
           <Route path="/userprofiles" component={AdminContainer} />
+          <Route path="/useradmin" component={AdminContainer} />
           <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />
           <Route path="/add" component={MemberAddContainer} />
