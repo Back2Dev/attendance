@@ -24,16 +24,25 @@ export const csvFileNameFor = string => `${string.replace(/(^\W+|\W+$)/g, '').re
  * @return {String}
  */
 export function sanitizeValueForCSV(value) {
+  if (typeof value === 'object' && value.toLocaleString) {
+    return value.toLocaleString().replace(',', '')
+  }
   if (isPlainObject(value) && value.filename && value.url) {
-    return `"${value.url}"`
+    return `"${value.url}"`.replace(',', '')
   }
   if (isArray(value)) {
-    return value.map(sanitizeValueForCSV).join('; ')
+    return value
+      .map(sanitizeValueForCSV)
+      .join('; ')
+      .replace(',', '')
   }
   if (value === undefined || value === null) return ''
   // if (isString(value) && value.match(/^0/) && !isNaN(value)) { // adds a leading # to number beginning with 0
   if (isString(value) && !isNaN(value)) {
     value = value.replace(/^(.{0})/, '$1#') // eslint-disable-line no-param-reassign
   }
-  return value.toString().replace(/\n|,/g, ' ')
+  return value
+    .toString()
+    .replace(/\n|,/g, ' ')
+    .replace(',', '')
 }

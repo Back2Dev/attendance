@@ -11,7 +11,6 @@ export const exportData = function(rows, item, columns) {
   const cols = Object.keys(columns)
   const names = Object.values(columns)
   const values = _.chain(rows)
-    // .map(c => [sanitizeValueForCSV(c.name), sanitizeValueForCSV(c.slug), sanitizeValueForCSV(c.password)])
     .map(c => cols.map(col => sanitizeValueForCSV(c[col])))
     .unshift(names)
     .join('\n')
