@@ -58,7 +58,7 @@ export default withTracker(props => {
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
-  const org = Meteor.settings.public.org || 'b2b'
+  const orgid = Meteor.settings.public.orgid || 'b2b'
 
   const removeCart = id => {
     const cart = Carts.findOne(id)
@@ -118,6 +118,10 @@ export default withTracker(props => {
     })
   }
 
+  const getAllSessions = async () => {
+    return await Meteor.callAsync('getAllSessions')
+  }
+
   return {
     loading,
     members,
@@ -129,6 +133,7 @@ export default withTracker(props => {
     removeCart,
     uploadXL,
     memberWords,
-    org
+    orgid,
+    getAllSessions
   }
 })(Loader)

@@ -243,6 +243,12 @@ export const MembersSchema = new SimpleSchema({
     label: 'I consent to take and use photos for publicity',
     optional: true
   },
+  sports: {
+    type: Array,
+    label: 'Sports participation',
+    defaultValue: []
+  },
+  'sports.$': String,
   swim: {
     type: Boolean,
     label: 'I can swim 200 metres unassisted',

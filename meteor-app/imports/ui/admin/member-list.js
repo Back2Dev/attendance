@@ -10,11 +10,8 @@ import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
 
 const debug = require('debug')('b2b:admin')
 
-const nameExportMap = {}
-
 const Admin = props => {
-  const [showCarts, setCart] = React.useState(false)
-  const { members, carts, purchases, removeCart, org } = props
+  const { members, carts, purchases, removeCart, orgid, getAllSessions } = props
 
   const memberClick = id => {
     debug(`memberClick(${id})`)
@@ -22,11 +19,20 @@ const Admin = props => {
   }
 
   const exportNames = () => {
-    exportData(members, 'Names', getExportMap(org))
+    exportData(members, `${orgid}-names`, getExportMap(orgid))
   }
 
-  const exportSessions = () => {
-    exportData()
+  const sessionsMap = {}
+  const mix = {}
+  members.forEach(m => (mix[m._id] = m.name))
+  'member name timeIn timeOut duration createdAt'.split(/\s+/).forEach(key => (sessionsMap[key] = key))
+
+  const exportSessions = async () => {
+    const ss = await getAllSessions()
+    const sessions = ss.map(s => {
+      return { member: mix[s.memberId], ...s }
+    })
+    exportData(sessions, `${orgid}-sessions`, sessionsMap)
   }
 
   return (
@@ -63,13 +69,6 @@ const Admin = props => {
                         <List.Description>
                           <p>
                             {member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago <br />
-                            <span
-                              style={{
-                                color: isPast(member.expiry) ? 'red' : 'black'
-                              }}
-                            >
-                              {member.subsType} {expires(member.expiry)}
-                            </span>
                           </p>
                         </List.Description>
                       </List.Content>
@@ -78,42 +77,8 @@ const Admin = props => {
                 </tbody>
               </table>{' '}
             </Grid.Column>
-            <Grid.Column style={{ textAlign: 'left' }}>
-              {memberPurchases.length > 0 && <PurchaseList purchases={memberPurchases} />}
-              {memberPurchases.length === 0 && <span>No previous purchases</span>}
-            </Grid.Column>
-            {showCarts && (
-              <Grid.Column style={{ textAlign: 'left' }}>
-                <CartList carts={memberCarts} removeCart={removeCart} />
-              </Grid.Column>
-            )}
             <Grid.Column style={{ textAlign: 'right' }} width={6}>
               <List.Content floated="right">
-                {memberPurchases.length > 0 && (
-                  <Button
-                    color="blue"
-                    onClick={e => {
-                      e.preventDefault()
-                      // props.extendMember(member._id, memberPurchases[0]._id)
-                      props.addProduct(member._id, member.name)
-                    }}
-                    content="Add..."
-                    about={member.name}
-                  />
-                )}
-                &nbsp;
-                {false && (
-                  <Button
-                    color="green"
-                    onClick={e => {
-                      e.preventDefault()
-                      memberClick(member._id)
-                    }}
-                    content="Invite..."
-                    about={member.name}
-                  />
-                )}
-                &nbsp;
                 <Button
                   color="red"
                   onClick={e => {

@@ -472,16 +472,19 @@ if (custom && customSchemas[custom]) {
   })
 }
 
-const filters = [/Id$/]
-const types = ['string', 'number', 'boolean', 'date']
+const filters = [/Id$/, /^pin/, /avatar/]
 export const getExportMap = custom => {
   const exportMap = {}
   const schema = getSchemas(custom)
   schema.forEach(step => {
-    Object.keys(step.schema.properties).forEach(key => {
-      exportMap[key] = key
-    })
+    Object.keys(step.schema.properties)
+      .filter(key => !filters.some(f => key.match(f)))
+      .forEach(key => {
+        exportMap[key] = key
+      })
   })
+  exportMap.lastIn = 'last in'
+  exportMap.sessionCount = 'Session count'
   return exportMap
 }
 
