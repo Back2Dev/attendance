@@ -472,7 +472,18 @@ if (custom && customSchemas[custom]) {
   })
 }
 
-// export default defaultSchema
+const filters = [/Id$/]
+const types = ['string', 'number', 'boolean', 'date']
+export const getExportMap = custom => {
+  const exportMap = {}
+  const schema = getSchemas(custom)
+  schema.forEach(step => {
+    Object.keys(step.schema.properties).forEach(key => {
+      exportMap[key] = key
+    })
+  })
+  return exportMap
+}
 
 const getSchemas = custom => {
   if (custom && customSchemas[custom]) {

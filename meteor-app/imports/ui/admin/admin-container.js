@@ -58,6 +58,7 @@ export default withTracker(props => {
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
+  const org = Meteor.settings.public.org || 'b2b'
 
   const removeCart = id => {
     const cart = Carts.findOne(id)
@@ -127,6 +128,7 @@ export default withTracker(props => {
     addProduct,
     removeCart,
     uploadXL,
-    memberWords
+    memberWords,
+    org
   }
 })(Loader)

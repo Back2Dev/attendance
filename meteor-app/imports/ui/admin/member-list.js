@@ -2,9 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, Grid, Image, List } from 'semantic-ui-react'
 import './admin-member-list.css'
-import { exportData } from '/imports/ui/utils/exporter'
 import CartList from './cart-list'
 import PurchaseList from './purchase-list'
+import { exportData } from '/imports/ui/utils/exporter'
+import { getExportMap } from '/imports/ui/config/member-add-schemas'
 import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
 
 const debug = require('debug')('b2b:admin')
@@ -13,7 +14,7 @@ const nameExportMap = {}
 
 const Admin = props => {
   const [showCarts, setCart] = React.useState(false)
-  const { members, carts, purchases, removeCart } = props
+  const { members, carts, purchases, removeCart, org } = props
 
   const memberClick = id => {
     debug(`memberClick(${id})`)
@@ -21,7 +22,7 @@ const Admin = props => {
   }
 
   const exportNames = () => {
-    exportData(members, 'Names', nameExportMap)
+    exportData(members, 'Names', getExportMap(org))
   }
 
   const exportSessions = () => {
