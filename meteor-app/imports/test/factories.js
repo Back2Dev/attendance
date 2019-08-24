@@ -13,9 +13,10 @@ import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
-import Products ,{Carts} from '/imports/api/products/schema'
+import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Wwccs from '/imports/api/wwccs/schema'
+import Promos from '/imports/api/promos/schema'
 // import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
@@ -210,16 +211,19 @@ Factory.define('cart', Carts, {
   customerName: 'Mike Nesmith',
   price: 5000,
   totalqty: 1,
-  prodqty: {
-  },
-  products: [
-    Factory.create('product')
-  ]
-  status: 'complete'
-  ,
-  customerResponse: { },
-  chargeResponse: {  },
+  prodqty: {},
+  products: [Factory.create('product')],
+  status: 'complete',
+  customerResponse: {},
+  chargeResponse: {}
+})
 
+Factory.define('promo', Promos, {
+  code: 'BLACK-FRIDAY',
+  description: 'Black Friday 50% off',
+  discount: 50,
+  admin: false,
+  start: new Date()
 })
 
 export default Factory

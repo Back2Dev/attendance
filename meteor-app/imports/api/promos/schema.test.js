@@ -17,7 +17,7 @@ const okPromo = {
   start: new Date()
 }
 
-const badPromos = []
+let badPromos = []
 const omit = 'code description admin discount start'
 badPromos = omit.split(/\s+/).map(element => {
   delete cloneDeep(okPromo)[element]
