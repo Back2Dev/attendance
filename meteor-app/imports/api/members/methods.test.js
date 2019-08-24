@@ -10,7 +10,7 @@ const goodMember = Factory.build('member')
 const goodSession = Factory.build('session', { memberId: goodMember._id })
 
 if (Meteor.isServer) {
-  describe.only('API methods for members collection', () => {
+  describe('API methods for members collection', () => {
     // beforeEach(resetDatabase)
 
     it('members.insert and members.remove method will work', () => {
