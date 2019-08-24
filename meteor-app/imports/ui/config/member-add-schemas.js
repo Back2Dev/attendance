@@ -4,6 +4,9 @@
 const b2bSchema = {
   aboutStep: {
     schema: {
+      title: 'Back2bikes volunteer registration',
+      description:
+        'No need to register if you are already signing in on the computer. Keep going until the end to make sure it saves',
       type: 'object',
       title: 'Lets get to know each other.',
       // required: ["bikesHousehold", "reasons"],
@@ -56,6 +59,8 @@ const b2bSchema = {
 const paSchema = {
   aboutStep: {
     schema: {
+      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      description: 'Keep going until the end to make sure it saves',
       type: 'object',
       required: [],
       properties: {
@@ -70,7 +75,7 @@ const paSchema = {
         },
         reasons: {
           type: 'string',
-          title: 'Tell us why you come to Peak Adventure sessions?'
+          title: 'Please tell us why you come to Peak Adventure sessions'
         }
       }
     },
@@ -120,6 +125,8 @@ const paSchema = {
 const b4hSchema = {
   aboutStep: {
     schema: {
+      title: 'Bicycles for Humanity Volunteer registration',
+      description: 'Keep going until the end to make sure it saves',
       type: 'object',
       required: [],
       properties: {
