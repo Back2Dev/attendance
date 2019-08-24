@@ -4,6 +4,7 @@ import { Button, Card, Image } from 'semantic-ui-react'
 import { cloneDeep } from 'lodash'
 import { CartContext } from './cart-data'
 import Price from './price'
+const mkid = name => name.toLowerCase().replace(/[\W+]/, '_')
 
 const PayNowButton = props => {
   const { productCode, memberId, amount } = props
@@ -51,7 +52,7 @@ export const ProductCardOnly = props => {
           <div>
             <Price cents={price} />
             &nbsp;
-            <Button type="button" onClick={takeAction} color={color}>
+            <Button id={mkid(name)} type="button" onClick={takeAction} color={color}>
               Add to cart
             </Button>
           </div>

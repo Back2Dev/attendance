@@ -72,7 +72,7 @@ const Arrive = props => {
         {needMore && <EmailMobile {...props} />}
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {needMore && (
-            <Button type="button" id="not_now" onClick={() => props.history.push(`/`)}>
+            <Button type="button" id="done" onClick={() => props.history.push(`/`)}>
               Not now
             </Button>
           )}
