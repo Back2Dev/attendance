@@ -453,6 +453,24 @@ const defaultSchema = [
         }
       }
     }
+  },
+  {
+    stepTitle: 'Welcome',
+    stepDescription: 'Welcome',
+    schema: {
+      type: 'object',
+      title: 'Welcome',
+      required: [],
+      properties: {
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to Back2bikes storing the information I have provided above. I understand that Back2bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        }
+      }
+    },
+    uiSchema: {}
   }
 ]
 
@@ -462,7 +480,7 @@ const defaultSchema = [
 const custom = 'b2b' // Meteor.settings.public.recruit || "b2b"
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
-  const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
+  const steps = ['about', 'contact', 'emergency', 'avatar', 'terms', 'welcome']
   steps.forEach((step, ix) => {
     const stepName = `${step}Step`
     if (newSchema[stepName] && newSchema[stepName].schema) {
