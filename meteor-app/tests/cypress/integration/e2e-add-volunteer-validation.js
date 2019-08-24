@@ -95,7 +95,16 @@ describe('Create member', () => {
       .contains('Next')
       .click()
   })
-  it('Review your details', () => {
+  it('Terms', function() {
+    cy.get('h1')
+      .contains('Terms and Conditions')
+      .should('exist')
+    cy.get('#root_privacy').click({ force: true })
+    cy.get('button')
+      .contains('Next')
+      .click()
+  })
+  it('Review your details', function() {
     cy.get('h1')
       .contains('Review your details')
       .should('exist')
