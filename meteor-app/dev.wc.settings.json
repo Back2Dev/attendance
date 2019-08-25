@@ -1,0 +1,39 @@
+{
+  "env": {
+    "environment": "test",
+    "ROOT_URL": "http://localhost:3030/"
+  },
+  "public": {
+    "logo": "/images/wc-logo.jpg",
+    "member": "Member",
+    "parts": 1,
+    "register": "Register",
+    "paymentTest": true,
+    "payNow": 1,
+    "addCard": 1,
+    "admin": 1,
+    "servicing": 1,
+    "recruit": "wc",
+    "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
+    "paymentTest": true,
+    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
+    "shop": 1,
+    "orgid": "wc",
+    "org": "WeCycle",
+    "tagline": "We'd love to help you learn how to fix your bike. Here's what we offer",
+    "welcome": "Welcome to the party"
+  },
+  "private": {
+    "paymentURL": "https://test-api.pinpayments.com/1/charges",
+    "customerURL": "https://test-api.pinpayments.com/1/customers",
+    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA",
+    "sendgridApikey": "NA",
+    "fromEmail": "mikkel@back2bikes.com.au",
+    "expiredMembershipID": "xxx",
+    "validMembershipID": "xxx",
+    "expiredPassID": "xxx",
+    "validPassID": "xxx",
+    "registerCardID": "xxx",
+    "forgotPINID": "xxx"
+  }
+}

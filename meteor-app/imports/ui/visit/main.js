@@ -17,6 +17,7 @@ const Main = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
+  if (!props.member.name) return <h1>Person not found</h1>
   const inOut = 'in/out'
   return (
     <Segment>
