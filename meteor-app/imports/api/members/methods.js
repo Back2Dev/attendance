@@ -192,6 +192,7 @@ db[res.result].find({value: {$gt: 1}});
     const cart = Carts.findOne(cartId)
     if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
     const member = Members.findOne(cart.memberId)
+    debug('Emailing invoice for cart', cart)
 
     const priceFormat = price => `${price / 100}.00`
 
