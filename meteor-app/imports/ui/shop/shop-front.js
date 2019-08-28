@@ -13,6 +13,8 @@ import Failed from './failed'
 import Receipt from './receipt'
 import Renewal from './renewal'
 import CCRegistered from './cc-registered'
+import CCCharge from './cc-charge'
+import EmailSent from './email-sent'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 
@@ -37,6 +39,8 @@ const ShopFront = props => {
         <Route path="/shop/type/:type" component={Department} />
         <Route path="/renew/:id/:cartId" component={Renewal} />
         <Route path="/shop/registered" exact component={CCRegistered} />
+        <Route path="/shop/charge" exact component={CCCharge} />
+        <Route path="/shop/sent" exact component={EmailSent} />
       </Switch>
     </CartContextProvider>
   )

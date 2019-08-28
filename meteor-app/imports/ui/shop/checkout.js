@@ -8,7 +8,7 @@ import Privacy, { SecurityModal } from './privacy'
 const debug = require('debug')('b2b:checkout')
 const NEED_DATE = 'paypal cash xero'.split(/\s+/)
 
-const Checkout = props => {
+const Checkout = ({ history }) => {
   const { state, dispatch } = React.useContext(CartContext)
   const [icon, setIcon] = React.useState('search')
   const [code, setCode] = React.useState('')
@@ -16,19 +16,31 @@ const Checkout = props => {
   const [member, setMember] = React.useState(null)
   const [method, setMethod] = React.useState('')
   const [showDate, setShowDate] = React.useState(false)
+  const [email, setEmail] = React.useState('')
   const [discountedPrice, setDP] = React.useState(state.price / 100)
 
-  const adminDoIt = () => {
+  const adminDoIt = async () => {
     switch (method) {
+      case 'email':
+        // Send an email containing the cart
+        const status = await Meteor.callAsync(
+          'member.email.invoice',
+          state._id,
+          email,
+          discountedPrice * 100,
+          state.discount
+        )
+        // history.push('/shop/sent')
+        break
       case 'charge':
         // Go to the Charge my card page...
-        props.history.push('/shop/charge')
+        history.push('/shop/charge')
         break
       // it's paid already
       case 'paypal':
       case 'xero':
       case 'cash':
-        props.history.push('/shop/paid')
+        history.push('/shop/paid')
 
         break
       default:
@@ -42,7 +54,6 @@ const Checkout = props => {
   }
 
   const changeDiscount = e => {
-    // setDiscount(e.target.value)
     state.discount = e.target.value
     if (e.target.value.match(/^\$\d+/)) {
       const disc = parseInt(e.target.value.replace('$', ''))
@@ -65,6 +76,7 @@ const Checkout = props => {
       debug('Promo', promo)
       setPromo(promo)
       setMember(member)
+      setEmail(member.email)
       setIcon('check')
     } else {
       setPromo({ status: 'Please enter a discount code' })
@@ -78,7 +90,7 @@ const Checkout = props => {
         <h4>Checkout </h4>
         <Segment raised color="red">
           <p>You have nothing in your shopping cart</p>
-          <Button type="button" primary onClick={() => props.history.push('/shop')}>
+          <Button type="button" primary onClick={() => history.push('/shop')}>
             Continue shopping
           </Button>
         </Segment>
@@ -98,7 +110,7 @@ const Checkout = props => {
           <SecurityModal />
         </Menu.Item>
         <Menu.Item position="right">
-          <Button type="button" color="green" floated="right" onClick={() => props.history.push('/shop/address')}>
+          <Button type="button" color="green" floated="right" onClick={() => history.push('/shop/address')}>
             Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
@@ -112,14 +124,14 @@ const Checkout = props => {
       </Segment>
 
       <div style={{ textAlign: 'center' }}>
-        <Button type="button" primary onClick={() => props.history.push('/shop/type/membership')}>
+        <Button type="button" primary onClick={() => history.push('/shop/type/membership')}>
           Continue shopping
         </Button>
         <Button
           type="button"
           color="green"
           style={{ marginLeft: '16px' }}
-          onClick={() => props.history.push('/shop/address')}
+          onClick={() => history.push('/shop/address')}
         >
           Buy now {!state._id && '!'}
         </Button>
@@ -171,7 +183,13 @@ const Checkout = props => {
                         onChange={changeMethod}
                       />
                       {method === 'email' && (
-                        <Input name="email" type="email" placeholder="Email" defaultValue={member.email} />
+                        <Input
+                          name="email"
+                          type="email"
+                          placeholder="Email"
+                          defaultValue={email}
+                          onChange={e => setEmail(e.target.value)}
+                        />
                       )}
                       <Form.Field
                         label="Paid via Paypal"
@@ -197,7 +215,7 @@ const Checkout = props => {
                         value="cash"
                         onChange={changeMethod}
                       />
-                      {showDate && <Input name="date" placeholder="Date paid" />}
+                      {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
                       {member && member.paymentCustId && (
                         <Form.Field
                           label={`Charge to credit card`}

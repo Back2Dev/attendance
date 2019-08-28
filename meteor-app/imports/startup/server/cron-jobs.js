@@ -480,7 +480,7 @@ Meteor.methods({
 
 const signoutTicker = () => {
   const hour = moment().hour()
-  debug(`Tick ${hour}:00`)
+  // debug(`Tick ${hour}:00`)
 
   try {
     let n = 0
