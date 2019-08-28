@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Segment, Button, Menu, Label, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
+import Alert from 'react-s-alert'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
@@ -30,7 +31,10 @@ const Checkout = ({ history }) => {
           discountedPrice * 100,
           state.discount
         )
-        // history.push('/shop/sent')
+        sessionStorage.removeItem('myCart')
+        sessionStorage.removeItem('name')
+        Alert.info(`Sent invoice to ${email}`)
+        history.push('/shop/sent')
         break
       case 'charge':
         // Go to the Charge my card page...
