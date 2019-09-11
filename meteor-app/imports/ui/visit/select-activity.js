@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Header } from 'semantic-ui-react'
 
-const mkid = name => name.toLowerCase().replace(/[\W+]/, '_')
+const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
 const SelectActivity = props => {
   const eventStart = event => {

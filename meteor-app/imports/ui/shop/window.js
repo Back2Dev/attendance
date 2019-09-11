@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 import CartSummary from './cart-summary'
 
-const mkid = name => name.toLowerCase().replace(/[\W+]/, '_')
+const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
 const ProdTypeCard = props => {
   const go = () => {

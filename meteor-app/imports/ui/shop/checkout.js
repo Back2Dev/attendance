@@ -20,6 +20,11 @@ const Checkout = ({ history }) => {
   const [email, setEmail] = React.useState('')
   const [discountedPrice, setDP] = React.useState(state.price / 100)
 
+  const adminCancel = () => {
+    setPromo({ status: 'Please enter a discount code' })
+    setIcon('meh outline')
+  }
+
   const adminDoIt = async () => {
     switch (method) {
       case 'email':
@@ -74,14 +79,19 @@ const Checkout = ({ history }) => {
     debug(`Checking promo code ${code}`)
     // dispatch({ type: 'get-promo', payload: code })
     if (code) {
-      const { promo, member } = (await Meteor.callAsync('getPromo', code, sessionStorage.getItem('memberId'))) || {
-        status: `Promo code "${code}" not found`
+      const { promo, member } = await Meteor.callAsync('getPromo', code, sessionStorage.getItem('memberId'))
+      if (!promo) {
+        setPromo({
+          status: `Promo code "${code}" not found`
+        })
+        setIcon('cancel')
+      } else {
+        debug('Promo', promo)
+        setPromo(promo)
+        setMember(member)
+        setEmail(member.email)
+        setIcon('check')
       }
-      debug('Promo', promo)
-      setPromo(promo)
-      setMember(member)
-      setEmail(member.email)
-      setIcon('check')
     } else {
       setPromo({ status: 'Please enter a discount code' })
       setIcon('meh outline')
@@ -94,7 +104,7 @@ const Checkout = ({ history }) => {
         <h4>Checkout </h4>
         <Segment raised color="red">
           <p>You have nothing in your shopping cart</p>
-          <Button type="button" primary onClick={() => history.push('/shop')}>
+          <Button id="continue" type="button" primary onClick={() => history.push('/shop')}>
             Continue shopping
           </Button>
         </Segment>
@@ -114,7 +124,13 @@ const Checkout = ({ history }) => {
           <SecurityModal />
         </Menu.Item>
         <Menu.Item position="right">
-          <Button type="button" color="green" floated="right" onClick={() => history.push('/shop/address')}>
+          <Button
+            type="button"
+            color="green"
+            floated="right"
+            id="menu_buy_now"
+            onClick={() => history.push('/shop/address')}
+          >
             Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
@@ -128,7 +144,7 @@ const Checkout = ({ history }) => {
       </Segment>
 
       <div style={{ textAlign: 'center' }}>
-        <Button type="button" primary onClick={() => history.push('/shop/type/membership')}>
+        <Button id="continue" type="button" primary onClick={() => history.push('/shop/type/membership')}>
           Continue shopping
         </Button>
         <Button
@@ -136,12 +152,13 @@ const Checkout = ({ history }) => {
           color="green"
           style={{ marginLeft: '16px' }}
           onClick={() => history.push('/shop/address')}
+          id="buy_now"
         >
           Buy now {!state._id && '!'}
         </Button>
         <Input
           style={{ float: 'right' }}
-          action={<Button color="teal" onClick={checkPromo} content="Check" />}
+          action={<Button id="check" color="teal" onClick={checkPromo} content="Check" />}
           iconPosition="left"
           icon={icon}
           placeholder="Promo code"
@@ -232,8 +249,11 @@ const Checkout = ({ history }) => {
                       )}
                     </Form.Group>
                   </Form>
-                  <Button type="button" onClick={adminDoIt}>
+                  <Button id="doit" type="button" onClick={adminDoIt}>
                     Do it
+                  </Button>
+                  <Button id="cancel" type="button" onClick={adminCancel}>
+                    Cancel
                   </Button>
                 </Segment>
               </Grid.Column>

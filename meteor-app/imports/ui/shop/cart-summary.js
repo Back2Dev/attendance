@@ -31,7 +31,7 @@ const Cart = props => {
         )}
       </Label>
       {state.totalqty > 0 && (
-        <Button type="button" color="green" onClick={checkout}>
+        <Button type="button" color="green" onClick={checkout} id="checkout">
           Go to checkout now
         </Button>
       )}
