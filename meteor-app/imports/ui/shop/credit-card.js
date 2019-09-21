@@ -110,57 +110,61 @@ const CreditCard = props => {
       state.creditCard
     )
     console.log('tokenize')
-    fields.tokenize(address, async (err, response) => {
-      if (err) {
-        console.log('tokenize errors', err)
+    try {
+      fields.tokenize(address, async (err, response) => {
+        if (err) {
+          console.log('tokenize errors', err)
 
-        handleErrors(err)
-        return
-      }
-
-      debug(`Calculated card token as ${response.token}`, response)
-      state.card = response
-
-      /* Submit the form with the added card_token input. */
-      debug('Submitting')
-      const mapping = { token: 'card_token' }
-      const packet = {
-        amount: price.toString(),
-        currency: 'AUD',
-        description: 'Purchase',
-        email,
-        metadata: { cartId, codes }
-      }
-      Object.keys(response).forEach(key => {
-        packet[mapping[key] || key] = response[key]
-      })
-      if (keep) {
-        debug('Creating customer ', packet)
-        const result = await Meteor.callAsync('createCustomer', packet)
-        debug('Customer created ok', result)
-      }
-
-      if (price === 0) {
-        state.status = CONSTANTS.CART_STATUS.COMPLETE
-        dispatch({ type: 'save-cart', payload: null })
-        props.history.replace('/shop/registered')
-      } else {
-        debug('Making payment')
-        setStatus('Transmitting')
-        const result = await Meteor.callAsync('makePayment', packet)
-        setStatus('')
-        if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
-          setErrors({ remote: result })
-          // props.history.push(`/shop/failed/${result}`)
-        } else {
-          // The cart gets updated with the response on the server
-          // So show the payment receipt now
-          Alert.success('Payment completed')
-          state.status = CONSTANTS.CART_STATUS.COMPLETE
-          props.history.replace('/shop/receipt')
+          handleErrors(err)
+          return
         }
-      }
-    })
+
+        debug(`Calculated card token as ${response.token}`, response)
+        state.card = response
+
+        /* Submit the form with the added card_token input. */
+        debug('Submitting')
+        const mapping = { token: 'card_token' }
+        const packet = {
+          amount: price.toString(),
+          currency: 'AUD',
+          description: 'Purchase',
+          email,
+          metadata: { cartId, codes }
+        }
+        Object.keys(response).forEach(key => {
+          packet[mapping[key] || key] = response[key]
+        })
+        if (keep) {
+          debug('Creating customer ', packet)
+          const result = await Meteor.callAsync('createCustomer', packet)
+          debug('Customer created ok', result)
+        }
+
+        if (price === 0) {
+          state.status = CONSTANTS.CART_STATUS.COMPLETE
+          dispatch({ type: 'save-cart', payload: null })
+          props.history.replace('/shop/registered')
+        } else {
+          debug('Making payment')
+          setStatus('Transmitting')
+          const result = await Meteor.callAsync('makePayment', packet)
+          setStatus('')
+          if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+            setErrors({ remote: result })
+            // props.history.push(`/shop/failed/${result}`)
+          } else {
+            // The cart gets updated with the response on the server
+            // So show the payment receipt now
+            Alert.success('Payment completed')
+            state.status = CONSTANTS.CART_STATUS.COMPLETE
+            props.history.replace('/shop/receipt')
+          }
+        }
+      })
+    } catch (err) {
+      debug(`Error $err.message`, err)
+    }
   }
 
   /* Handles rendering of the error messages to the form. */
@@ -192,7 +196,11 @@ const CreditCard = props => {
     e.preventDefault()
     setErrors({})
     setStatus('Preparing')
-    tokenizeHostedFields()
+    try {
+      tokenizeHostedFields()
+    } catch (err) {
+      debug(`Error $err.message`, err)
+    }
   }
 
   const gotoShop = e => {

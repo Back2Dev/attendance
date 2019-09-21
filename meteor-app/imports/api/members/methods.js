@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import moment from 'moment'
 import Members, { Dupes, RawDupes } from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -6,6 +7,7 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
+
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -20,6 +22,21 @@ Meteor.methods({
   'members.remove': function(id) {
     try {
       log.info('removing member id: ', id)
+      const data = {}
+      data.member = Members.findOne(id)
+      if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
+      data.purchases = Purchases.find({ memberId: id }).fetch()
+      data.carts = Carts.find({ memberId: id }).fetch()
+      data.sessions = Sessions.find({ memberId: id }).fetch()
+      eventLog({
+        who: 'Admin',
+        what: `removed member id: ${id}`,
+        object: data.member
+      })
+      saveToArchive('member', data)
+      Purchases.remove({ memberId: id })
+      Carts.remove({ memberId: id })
+      Sessions.remove({ memberId: id })
       return Members.remove({ _id: id })
     } catch (e) {
       log.error({ e })
@@ -29,6 +46,7 @@ Meteor.methods({
   'members.removeDupe': function(id, merge) {
     const data = { merge }
     data.member = Members.findOne(id)
+    if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
     data.purchases = Purchases.find({ memberId: id }).fetch()
     data.carts = Carts.find({ memberId: id }).fetch()
     data.sessions = Sessions.find({ memberId: id }).fetch()
@@ -169,5 +187,37 @@ db[res.result].find({value: {$gt: 1}});
     RawDupes.find({ value: { $gt: 1 } }).forEach(rec => Dupes.insert(rec))
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
+  },
+  'member.email.invoice': function(cartId, email, discountedPrice, discount) {
+    const cart = Carts.findOne(cartId)
+    if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
+    const member = Members.findOne(cart.memberId)
+    debug('Emailing invoice for cart', cart)
+
+    const priceFormat = price => `${price / 100}.00`
+
+    return Meteor.call(
+      'sendInvoiceEmail',
+      email,
+      {
+        // merge fields:
+        date: moment().format('DD/MM/YYYY'),
+        name: member.name,
+        email,
+        discount,
+        description1: cart.products[0].name,
+        description2: cart.products.length > 1 ? cart.products[1].name : '',
+        description3: cart.products.length > 2 ? cart.products[2].name : '',
+        amount1: priceFormat(cart.products[0].price),
+        amount2: cart.products.length > 1 ? priceFormat(cart.products[1].price) : '',
+        amount3: cart.products.length > 2 ? priceFormat(cart.products[2].price) : '',
+        subtotal: priceFormat(cart.price),
+        gst: priceFormat(0),
+        total: priceFormat(discountedPrice),
+        terms: 'Payment within 14 days',
+        link: `${Meteor.absoluteUrl()}renew/${member._id}/${cartId}`
+      },
+      Meteor.settings.private.invoiceID
+    )
   }
 })

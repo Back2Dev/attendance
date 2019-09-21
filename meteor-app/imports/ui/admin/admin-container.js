@@ -58,6 +58,7 @@ export default withTracker(props => {
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
+  const orgid = Meteor.settings.public.orgid || 'b2b'
 
   const removeCart = id => {
     const cart = Carts.findOne(id)
@@ -73,6 +74,12 @@ export default withTracker(props => {
         })
       }
     })
+  }
+
+  const addProduct = (memberId, name) => {
+    sessionStorage.setItem('memberId', memberId)
+    sessionStorage.setItem('name', name)
+    props.history.push('/shop')
   }
 
   const extendMember = async (memberId, purchaseId) => {
@@ -111,6 +118,10 @@ export default withTracker(props => {
     })
   }
 
+  const getAllSessions = async () => {
+    return await Meteor.callAsync('getAllSessions')
+  }
+
   return {
     loading,
     members,
@@ -118,8 +129,11 @@ export default withTracker(props => {
     purchases,
     removeMember,
     extendMember,
+    addProduct,
     removeCart,
     uploadXL,
-    memberWords
+    memberWords,
+    orgid,
+    getAllSessions
   }
 })(Loader)

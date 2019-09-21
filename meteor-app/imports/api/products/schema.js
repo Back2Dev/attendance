@@ -165,6 +165,9 @@ export const CartsSchema = new SimpleSchema({
     label: 'Total quantity',
     defaultValue: 0
   },
+  promo: OptionalString,
+  promoStatus: OptionalString,
+  promoId: OptionalRegExId,
   prodqty: {
     type: Object,
     label: 'Product quantities',

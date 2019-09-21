@@ -6,7 +6,6 @@ import MemberAddContainer from '/imports/ui/member/member-add-container'
 import AssessmentAddContainer from '/imports/ui/assessment/assessment'
 
 import MemberMainContainer from '/imports/ui/member-main-container'
-import MemberVisitContainer from '/imports/ui/member/member-dash-container'
 import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
 
@@ -44,12 +43,12 @@ const Attendance = () => {
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
           <Route path="/userprofiles" component={AdminContainer} />
           <Route path="/wwcc" component={WwccContainer} />
+          <Route path="/useradmin" component={AdminContainer} />
           <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />
           <Route path="/payment-confirm" component={PaymentConfirm} />
-          <Route path="/oldvisit/:id" component={MemberVisitContainer} />
           <Route path="/visit/:id" component={Visit} />
           <Route path="/edit/:id" component={MemberEdit} />
 

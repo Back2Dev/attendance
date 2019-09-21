@@ -98,13 +98,11 @@ describe('Create member', () => {
       .contains('Next')
       .click()
   })
-  it('Terms and Conditions', () => {
+  it('Terms', function() {
     cy.get('h1')
       .contains('Terms and Conditions')
       .should('exist')
-    cy.get('label')
-      .contains('I consent')
-      .click()
+    cy.get('#root_privacy').click({ force: true })
     cy.get('button')
       .contains('Next')
       .click()

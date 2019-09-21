@@ -5,18 +5,18 @@ import { Button, Card, Segment, Grid, Icon, Header, Image } from 'semantic-ui-re
 
 import MemberCard from '/imports/ui/member/member-card'
 import CreatePin from '/imports/ui/visit/create-pin'
-import EnterPin from './enter-pin'
 import SelectActivity from '/imports/ui/visit/select-activity'
 import SignedIn from '/imports/ui/visit/signed-in'
 import Depart from '/imports/ui/visit/depart'
 import SignOut from '/imports/ui/visit/sign-out'
+import EnterPin from './enter-pin'
 import { VisitContextProvider } from './context'
 
 const Main = props => {
-  const cancelClick = () => props.history.push('/')
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
+  if (!props.member.name) return <h1>Person not found</h1>
   const inOut = 'in/out'
   return (
     <Segment>
@@ -87,6 +87,9 @@ const Main = props => {
 
 Main.propTypes = {
   member: PropTypes.object.isRequired,
-  addCard: PropTypes.number.isRequired
+  addCard: PropTypes.number.isRequired,
+  logo: PropTypes.string.isRequired,
+  org: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired
 }
 export default Main

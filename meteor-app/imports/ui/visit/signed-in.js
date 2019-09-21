@@ -71,9 +71,13 @@ const Arrive = props => {
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          {needMore && <Button onClick={() => props.history.push(`/`)}>Not now</Button>}
+          {needMore && (
+            <Button type="button" id="done" onClick={() => props.history.push(`/`)}>
+              Not now
+            </Button>
+          )}
           {!needMore && (
-            <Button onClick={() => props.history.push(`/`)} color="orange">
+            <Button id="done" type="button" onClick={() => props.history.push(`/`)} color="orange">
               I'm done now
             </Button>
           )}

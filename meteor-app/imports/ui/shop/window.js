@@ -3,13 +3,15 @@ import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 import CartSummary from './cart-summary'
 
+const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
+
 const ProdTypeCard = props => {
   const go = () => {
     props.history.push(`/shop/type/${props.type}`)
   }
   return (
     <p key={props.type}>
-      <Button type="button" onClick={go} color={props.color} icon labelPosition="left">
+      <Button id={mkid(props.name)} type="button" onClick={go} color={props.color} icon labelPosition="left">
         <Icon name={props.icon} />
         {props.name}
       </Button>

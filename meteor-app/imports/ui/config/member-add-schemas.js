@@ -4,6 +4,9 @@
 const b2bSchema = {
   aboutStep: {
     schema: {
+      title: 'Back2bikes volunteer registration',
+      description:
+        'No need to register if you are already signing in on the computer. Keep going until the end to make sure it saves',
       type: 'object',
       title: 'Lets get to know each other.',
       // required: ["bikesHousehold", "reasons"],
@@ -56,6 +59,8 @@ const b2bSchema = {
 const paSchema = {
   aboutStep: {
     schema: {
+      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      description: 'Keep going until the end to make sure it saves',
       type: 'object',
       required: [],
       properties: {
@@ -70,7 +75,7 @@ const paSchema = {
         },
         reasons: {
           type: 'string',
-          title: 'Tell us why you come to Peak Adventure sessions?'
+          title: 'Please tell us why you come to Peak Adventure sessions'
         }
       }
     },
@@ -120,6 +125,8 @@ const paSchema = {
 const b4hSchema = {
   aboutStep: {
     schema: {
+      title: 'Bicycles for Humanity Volunteer registration',
+      description: 'Keep going until the end to make sure it saves',
       type: 'object',
       required: [],
       properties: {
@@ -177,10 +184,60 @@ const b4hSchema = {
   }
 }
 
+//
+// WeCycle (WC) schema overrides
+//
+const wcSchema = {
+  aboutStep: {
+    schema: {
+      type: 'object',
+      required: [],
+      properties: {
+        reasons: {
+          type: 'string',
+          title: 'Tell us why you volunteer for WeCycle?'
+        }
+      }
+    },
+    uiSchema: {
+      reasons: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': '',
+        'ui:options': {
+          rows: 12
+        }
+      }
+    }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['permission', 'privacy'],
+      properties: {
+        permission: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to WeCycle to take, use and distribute photographs and video in order to promote volunteering or the organisation'
+        },
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to WeCycle for Humanity Melbourne storing the information I have provided above. I understand that WeCycle will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        }
+      }
+    },
+    uiSchema: {}
+  }
+}
+
 const customSchemas = {
   b2b: b2bSchema,
   pa: paSchema,
-  b4h: b4hSchema
+  b4h: b4hSchema,
+  wc: wcSchema
 }
 
 const defaultSchema = [
@@ -472,7 +529,21 @@ if (custom && customSchemas[custom]) {
   })
 }
 
-// export default defaultSchema
+const filters = [/Id$/, /^pin/, /avatar/]
+export const getExportMap = custom => {
+  const exportMap = {}
+  const schema = getSchemas(custom)
+  schema.forEach(step => {
+    Object.keys(step.schema.properties)
+      .filter(key => !filters.some(f => key.match(f)))
+      .forEach(key => {
+        exportMap[key] = key
+      })
+  })
+  exportMap.lastIn = 'last in'
+  exportMap.sessionCount = 'Session count'
+  return exportMap
+}
 
 const getSchemas = custom => {
   if (custom && customSchemas[custom]) {
