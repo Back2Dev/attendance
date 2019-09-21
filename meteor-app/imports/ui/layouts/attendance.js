@@ -1,17 +1,17 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import { Meteor } from 'meteor/meteor'
 import NotFound from '/imports/ui/not-found'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import AssessmentAddContainer from '/imports/ui/assessment/assessment'
-import { Meteor } from 'meteor/meteor'
 
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberVisitContainer from '/imports/ui/member/member-dash-container'
 import MemberEdit from '/imports/ui/member-edit'
-import MemberAddCardContainer from '/imports/ui/member/member-add-card-container'
 import Visit from '/imports/ui/visit'
 
 import AdminContainer from '/imports/ui/admin/admin-container'
+import WwccContainer from '/imports/ui/wwcc'
 import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
 import AppSelection from '/imports/ui/admin/app-selection'
@@ -43,6 +43,7 @@ const Attendance = () => {
         <Switch>
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
           <Route path="/userprofiles" component={AdminContainer} />
+          <Route path="/wwcc" component={WwccContainer} />
           <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />
           <Route path="/add" component={MemberAddContainer} />
