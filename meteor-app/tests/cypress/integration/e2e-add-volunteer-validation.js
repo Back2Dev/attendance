@@ -1,10 +1,13 @@
 const pin = '1234'
 
-Cypress.on('uncaught:exception', (err, runnable) => 
-  // returning false here prevents Cypress from
-  // failing the test. We do this because of some ugly js errors
-  // from a js library we are using
-   false)
+Cypress.on(
+  'uncaught:exception',
+  (err, runnable) =>
+    // returning false here prevents Cypress from
+    // failing the test. We do this because of some ugly js errors
+    // from a js library we are using
+    false
+)
 
 describe('Create member', () => {
   it('Open form - about you', () => {
@@ -54,13 +57,13 @@ describe('Create member', () => {
       .contains('Details')
       .should('exist')
     cy.get('div')
-      .contains('PIN numbers don\'t match')
+      .contains("PIN numbers don't match")
       .should('exist')
     cy.get('#root_pinConfirm')
       .clear()
       .type('0909')
     cy.get('div')
-      .contains('PIN numbers don\'t match')
+      .contains("PIN numbers don't match")
       .should('exist')
 
     // Get the pin right now and move on
@@ -91,6 +94,17 @@ describe('Create member', () => {
       .contains('Choose an avatar')
       .should('exist')
     cy.get('img[src="/images/avatars/12.jpg"]').click()
+    cy.get('button')
+      .contains('Next')
+      .click()
+  })
+  it('Terms and Conditions', () => {
+    cy.get('h1')
+      .contains('Terms and Conditions')
+      .should('exist')
+    cy.get('label')
+      .contains('I consent')
+      .click()
     cy.get('button')
       .contains('Next')
       .click()

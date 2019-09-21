@@ -89,6 +89,17 @@ describe('Create member', function() {
       .contains('Next')
       .click()
   })
+  it('Terms and Conditions', () => {
+    cy.get('h1')
+      .contains('Terms and Conditions')
+      .should('exist')
+    cy.get('label')
+      .contains('I consent')
+      .click()
+    cy.get('button')
+      .contains('Next')
+      .click()
+  })
   it('Review your details', function() {
     cy.get('h1')
       .contains('Review your details')
