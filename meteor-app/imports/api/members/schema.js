@@ -233,6 +233,11 @@ export const MembersSchema = new SimpleSchema({
     label: '(WWCC) expiry date',
     optional: true
   },
+  wwccError: {
+    type: String,
+    label: '(WWCC) error message',
+    optional: true
+  },
   privacy: {
     type: Boolean,
     label: 'I consent to storing my information',

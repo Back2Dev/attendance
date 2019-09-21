@@ -23,7 +23,7 @@ export const WwccsSchema = new SimpleSchema({
   memberId: RegExId,
   wwcc: String,
   surname: String,
-  expiry: Date,
+  expiry: { type: Date, optional: true },
   responses: {
     type: Array,
     label: 'Array of responses received',
