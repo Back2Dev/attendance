@@ -5,53 +5,50 @@
 
 <h1 id="menu-structure">Menu structure</h1>
 <p>At the moment we have various random menu items, in no particular order and with zero security. Time to fix this</p>
+<p>Let’s think about the ‘modules’ of the current attendance app:</p>
 <ul>
-<li>
-<p>Volunteer Sign in</p>
-</li>
-<li>
-<p>Pay now</p>
-</li>
-<li>
-<p>Shop - ie evening maintenance classes</p>
-</li>
-<li>
-<p>Servicing</p>
-</li>
-<li>
-<p>Parts ordering</p>
-</li>
-<li>
-<p>Menu</p>
-<ul>
-<li>Public items
-<ul>
-<li>Shop</li>
-</ul>
-</li>
-<li>Private items
-<ul>
-<li>Vol sign in</li>
+<li>Volunteer registration</li>
+<li>Volunteer Sign in</li>
 <li>Pay now</li>
-<li>Servicing</li>
+<li>Shop - ie evening maintenance classes</li>
+<li>Servicing
+<ul>
+<li>New Service</li>
+<li>Current jobs</li>
+</ul>
+</li>
 <li>Parts ordering</li>
-<li>Administration</li>
-<li>Superadmin</li>
+<li>Admin</li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>Roles</p>
+<h2 id="menu">Menu</h2>
+<p>Let’s organise these into a menu structure, so that we know which items are public and which are private (ie you need to be logged in to access them)</p>
+<pre><code>* Public menu items
+	* Shop
+	* Volunteer registration
+* Private menu items
+	* Vol sign in 
+	* Pay now
+	* Servicing
+		* New Service
+		* Current jobs
+	* Parts ordering
+	* Administration
+	* Superadmin
+</code></pre>
+<h2 id="roles">Roles</h2>
+<p>We are now going to define some access roles. Each user will have access to one or more roles, and each role is associated with a module (as above)</p>
+<p>Let’s have a look at some scenarios, and that will help us to understand how the roles will be applied</p>
 <p>In the workshop<br>
 * Private items<br>
 * Vol sign in<br>
 * Pay now<br>
 * Servicing<br>
+* New service<br>
+* Current jobs<br>
 * Parts ordering<br>
 * Administration<br>
 * Superadmin</p>
-<p>At Sandridge Life Saving<br>
+<p>At Sandridge Life Saving Club<br>
 * Private items<br>
 * Vol sign in</p>
 <p>At Bikes for Humanity<br>
