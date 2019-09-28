@@ -14,7 +14,7 @@ describe('Create member', () => {
     cy.visit('/')
     cy.get('#add_member').click()
     cy.get('div')
-      .contains('About You')
+      .contains('Lets get to know each other')
       .should('exist')
     // Nothing mandatory on the first page
     cy.get('button')
@@ -22,8 +22,8 @@ describe('Create member', () => {
       .click()
   })
   it('Contact details', () => {
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     // Try to move on
     cy.get('button')
@@ -31,8 +31,8 @@ describe('Create member', () => {
       .click()
 
     // Still on this page - add the name
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     cy.get('div')
       .contains('is a required property')
@@ -42,8 +42,8 @@ describe('Create member', () => {
       .type('Eddie Mercx')
 
     // Still on this page add the pin
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     cy.get('div')
       .contains('is a required property')
@@ -53,17 +53,17 @@ describe('Create member', () => {
       .type(pin)
 
     // Still on this page add the second (wrong) pin
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     cy.get('div')
-      .contains('PIN numbers don\'t match')
+      .contains("PIN numbers don't match")
       .should('exist')
     cy.get('#root_pinConfirm')
       .clear()
       .type('0909')
     cy.get('div')
-      .contains('PIN numbers don\'t match')
+      .contains("PIN numbers don't match")
       .should('exist')
 
     // Get the pin right now and move on
@@ -107,7 +107,7 @@ describe('Create member', () => {
       .contains('Next')
       .click()
   })
-  it('Review your details', function() {
+  it('Review your details', () => {
     cy.get('h1')
       .contains('Review your details')
       .should('exist')
@@ -126,19 +126,5 @@ describe('Create member', () => {
     cy.get('div[list="away"]')
       .contains('Eddie Mercx')
       .should('exist')
-  })
-  it('Can find and delete', () => {
-    cy.visit('/')
-    cy.get('div[list="away"]')
-      .contains('Eddie Mercx')
-      .should('exist')
-    cy.visit('/useradmin')
-    cy.get('h1')
-      .contains('Members')
-      .should('exist')
-    cy.get('button[about="Eddie Mercx"]')
-      .contains('Delete')
-      .click()
-    cy.get('.s-alert-success').should('exist')
   })
 })

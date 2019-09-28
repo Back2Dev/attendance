@@ -1,17 +1,20 @@
 const pin = '1234'
 
-Cypress.on('uncaught:exception', (err, runnable) => 
-  // returning false here prevents Cypress from
-  // failing the test. We do this because of some ugly js errors
-  // from a js library we are using
-   false)
+Cypress.on(
+  'uncaught:exception',
+  (err, runnable) =>
+    // returning false here prevents Cypress from
+    // failing the test. We do this because of some ugly js errors
+    // from a js library we are using
+    false
+)
 
 describe('Create member', () => {
   it('Open form - about you', () => {
     cy.visit('/')
     cy.get('#add_member').click()
     cy.get('div')
-      .contains('Lets get to know each other')
+      .contains('About You')
       .should('exist')
     // Nothing mandatory on the first page
     cy.get('button')
@@ -19,8 +22,8 @@ describe('Create member', () => {
       .click()
   })
   it('Contact details', () => {
-    cy.get('h1')
-      .contains('Details')
+    cy.get('div')
+      .contains('Contact')
       .should('exist')
     // Try to move on
     cy.get('button')
@@ -28,8 +31,8 @@ describe('Create member', () => {
       .click()
 
     // Still on this page - add the name
-    cy.get('h1')
-      .contains('Details')
+    cy.get('div')
+      .contains('Contact')
       .should('exist')
     cy.get('div')
       .contains('is a required property')
@@ -39,8 +42,8 @@ describe('Create member', () => {
       .type('Eddie Mercx')
 
     // Still on this page add the pin
-    cy.get('h1')
-      .contains('Details')
+    cy.get('div')
+      .contains('Contact')
       .should('exist')
     cy.get('div')
       .contains('is a required property')
@@ -50,17 +53,17 @@ describe('Create member', () => {
       .type(pin)
 
     // Still on this page add the second (wrong) pin
-    cy.get('h1')
-      .contains('Details')
+    cy.get('div')
+      .contains('Contact')
       .should('exist')
     cy.get('div')
-      .contains('PIN numbers don\'t match')
+      .contains("PIN numbers don't match")
       .should('exist')
     cy.get('#root_pinConfirm')
       .clear()
       .type('0909')
     cy.get('div')
-      .contains('PIN numbers don\'t match')
+      .contains("PIN numbers don't match")
       .should('exist')
 
     // Get the pin right now and move on
@@ -104,7 +107,7 @@ describe('Create member', () => {
       .contains('Next')
       .click()
   })
-  it('Review your details', function() {
+  it('Review your details', () => {
     cy.get('h1')
       .contains('Review your details')
       .should('exist')
@@ -123,5 +126,19 @@ describe('Create member', () => {
     cy.get('div[list="away"]')
       .contains('Eddie Mercx')
       .should('exist')
+  })
+  it('Can find and delete', () => {
+    cy.visit('/')
+    cy.get('div[list="away"]')
+      .contains('Eddie Mercx')
+      .should('exist')
+    cy.visit('/useradmin')
+    cy.get('h1')
+      .contains('Members')
+      .should('exist')
+    cy.get('button[about="Eddie Mercx"]')
+      .contains('Delete')
+      .click()
+    cy.get('.s-alert-success').should('exist')
   })
 })
