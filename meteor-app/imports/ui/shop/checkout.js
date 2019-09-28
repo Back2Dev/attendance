@@ -26,34 +26,38 @@ const Checkout = ({ history }) => {
   }
 
   const adminDoIt = async () => {
-    switch (method) {
-      case 'email':
-        // Send an email containing the cart
-        const status = await Meteor.callAsync(
-          'member.email.invoice',
-          state._id,
-          email,
-          discountedPrice * 100,
-          state.discount
-        )
-        sessionStorage.removeItem('myCart')
-        sessionStorage.removeItem('name')
-        Alert.info(`Sent invoice to ${email}`)
-        history.push('/shop/sent')
-        break
-      case 'charge':
-        // Go to the Charge my card page...
-        history.push('/shop/charge')
-        break
-      // it's paid already
-      case 'paypal':
-      case 'xero':
-      case 'cash':
-        history.push('/shop/paid')
+    try {
+      switch (method) {
+        case 'email':
+          // Send an email containing the cart
+          const status = await Meteor.callAsync(
+            'member.email.invoice',
+            state._id,
+            email,
+            discountedPrice * 100,
+            state.discount
+          )
+          sessionStorage.removeItem('myCart')
+          sessionStorage.removeItem('name')
+          Alert.info(`Sent invoice to ${email}`)
+          history.push(`/shop/sent/${email}`)
+          break
+        case 'charge':
+          // Go to the Charge my card page...
+          history.push(`/shop/charge/${member._id}`)
+          break
+        // it's paid already
+        case 'paypal':
+        case 'xero':
+        case 'cash':
+          history.push('/shop/paid/${member._id}')
 
-        break
-      default:
-        break
+          break
+        default:
+          break
+      }
+    } catch (e) {
+      console.error(`Something went wrong ${e.message}`)
     }
   }
 

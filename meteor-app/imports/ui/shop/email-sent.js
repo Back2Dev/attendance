@@ -1,13 +1,13 @@
 import React from 'react'
-import { Container, Segment, Table, Header, Button, Icon, Image } from 'semantic-ui-react'
+import { Container, Segment, Header, Button, Image } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 
-const EmailSent = ({ props, member = {} }) => {
+const EmailSent = ({ history, match }) => {
   const { state, dispatch } = React.useContext(CartContext)
 
   const gotoHome = e => {
     sessionStorage.setItem('mycart', null)
-    props.history.push('/')
+    history.push('/')
   }
 
   return (
@@ -17,7 +17,7 @@ const EmailSent = ({ props, member = {} }) => {
           <Image src={state.settings.logo} />
         </Header>
         <Header as="h5">{state.settings.org}</Header>
-        <Header as="h2">Email sent to {member.email} </Header>
+        <Header as="h2">Email sent to {match.params.email} </Header>
         <Button size="mini" type="button" color="green" onClick={gotoHome} style={{ marginTop: '24px' }}>
           Back to the checkin
         </Button>
