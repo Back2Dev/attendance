@@ -515,6 +515,70 @@ const signoutTicker = () => {
 // This will run daily to check for expiring subscriptions etc
 const membershipTicker = () => {
   debug(`Membership ticker`)
+  // Update status values
+  Meteor.call('updateMemberStatusAll')
+
+  // Update subs type for all
+  Meteor.call('updateSubsTypeAll')
+
+  // Update 'remaining visits'
+  Meteor.call('updateRemainingAll')
+
+  // Send out the following emails:
+  // - Advance notice of auto-payment
+  // - Auto-payment has been made
+  // - Your membership has expired - please renew
+
+  // Send Advance notice of auto-payment
+  let query = {
+    autoPay: true,
+    subsType: 'member',
+    paymentCustId: { $exists: true }
+  }
+  Members.find(query).forEach(member => {
+    // Expiring within the next 3 days?
+    const expiry = moment(member.expiry)
+    if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
+      Meteor.call(
+        'sendGenericInfoEmail',
+        member.email,
+        {
+          subject: 'Automatic payment due soon',
+          name: member.name,
+          message:
+            'No action is required, as you have elected to pay automatically, and we have your card details on file',
+          headline: 'Payment',
+          action: '',
+          link: `${Meteor.absoluteUrl()}register`
+        },
+        Meteor.settings.private.genericID
+      )
+    }
+  })
+
+  // Make auto-payments when expired, and send email
+  query = {
+    autoPay: true,
+    subsType: 'member',
+    paymentCustId: { $exists: true }
+  }
+  Members.find(query).forEach(member => {
+    // Expiring today?
+    const expiry = moment(member.expiry)
+    if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
+      Meteor.call(
+        'sendGenericInfoEmail',
+        member.email,
+        {
+          subject: 'Automatic payment due soon',
+          name: member.name,
+          message: 'No action required as ',
+          headline: 'Read all about it!'
+        },
+        Meteor.settings.private.genericInfoID
+      )
+    }
+  })
 
   try {
   } catch (error) {
@@ -535,7 +599,8 @@ const membershipTicker = () => {
 //                       * * * * *
 
 const SIGNOUT_TICKER_INTERVAL = '1,16,31,46 * * * *'
-const MEMBERSHIP_TICKER_INTERVAL = '5 6 * * *'
+// const MEMBERSHIP_TICKER_INTERVAL = '5 6 * * *'
+const MEMBERSHIP_TICKER_INTERVAL = '* * * * *'
 
 Meteor.startup(() => {
   cron.schedule(SIGNOUT_TICKER_INTERVAL, Meteor.bindEnvironment(signoutTicker))
