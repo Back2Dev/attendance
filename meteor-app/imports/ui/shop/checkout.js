@@ -44,7 +44,7 @@ const Checkout = ({ history }) => {
           break
         case 'charge':
           // Go to the Charge my card page...
-          history.push(`/shop/charge/${member._id}`)
+          history.push(`/shop/charge/${member._id}/${state._id}`)
           break
         // it's paid already
         case 'paypal':
