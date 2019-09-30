@@ -44,7 +44,7 @@ const Checkout = ({ history }) => {
           break
         case 'charge':
           // Go to the Charge my card page...
-          history.push(`/shop/charge/${member._id}`)
+          history.push(`/shop/charge/${member._id}/${state._id}`)
           break
         // it's paid already
         case 'paypal':
@@ -83,14 +83,18 @@ const Checkout = ({ history }) => {
     debug(`Checking promo code ${code}`)
     // dispatch({ type: 'get-promo', payload: code })
     if (code) {
-      const { promo, member } = await Meteor.callAsync('getPromo', code, sessionStorage.getItem('memberId'))
+      const { promo, member } = await Meteor.callAsync(
+        'getPromo',
+        code,
+        sessionStorage.getItem('memberId') || state.memberId
+      )
       if (!promo) {
         setPromo({
           status: `Promo code "${code}" not found`
         })
         setIcon('cancel')
       } else {
-        debug('Promo', promo)
+        debug('Promo', promo, member)
         setPromo(promo)
         setMember(member)
         setEmail(member.email)
@@ -199,8 +203,18 @@ const Checkout = ({ history }) => {
                       <Label>Charge: ${discountedPrice}</Label>
                       <br />
                       <Input name="discount" onChange={changeDiscount} placeholder="Discount % or $" />
+                      {member && member.paymentCustId && (
+                        <Form.Field
+                          label="&nbsp; Charge to credit card"
+                          control="input"
+                          type="radio"
+                          name="method"
+                          value="charge"
+                          onChange={changeMethod}
+                        />
+                      )}
                       <Form.Field
-                        label="Send invoice by email"
+                        label="&nbsp; Send invoice by email"
                         control="input"
                         type="radio"
                         name="method"
@@ -217,7 +231,7 @@ const Checkout = ({ history }) => {
                         />
                       )}
                       <Form.Field
-                        label="Paid via Paypal"
+                        label="&nbsp; Paid via Paypal"
                         control="input"
                         type="radio"
                         name="method"
@@ -225,7 +239,7 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       <Form.Field
-                        label="Paid in Xero"
+                        label="&nbsp; Paid in Xero"
                         control="input"
                         type="radio"
                         name="method"
@@ -233,7 +247,7 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       <Form.Field
-                        label="Paid in cash"
+                        label="&nbsp; Paid in cash"
                         control="input"
                         type="radio"
                         name="method"
@@ -241,16 +255,6 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
-                      {member && member.paymentCustId && (
-                        <Form.Field
-                          label={`Charge to credit card`}
-                          control="input"
-                          type="radio"
-                          name="method"
-                          value="charge"
-                          onChange={changeMethod}
-                        />
-                      )}
                     </Form.Group>
                   </Form>
                   <Button id="doit" type="button" onClick={adminDoIt}>
