@@ -17,7 +17,8 @@ const CCCharge = props => {
           <Image src={state.settings.logo} />
         </Header>
         <Header as="h5">{state.settings.org}</Header>
-        <Header as="h2">Charge Card </Header>
+        <Header as="h2">Charge Credit Card </Header>
+        {state.member.name}
         <Button size="mini" type="button" color="green" onClick={gotoHome} style={{ marginTop: '24px' }}>
           Back to the checkin
         </Button>

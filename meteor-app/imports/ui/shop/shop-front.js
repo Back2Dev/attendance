@@ -39,7 +39,7 @@ const ShopFront = props => {
         <Route path="/shop/type/:type" component={Department} />
         <Route path="/renew/:id/:cartId" component={Renewal} />
         <Route path="/shop/registered" exact component={CCRegistered} />
-        <Route path="/shop/charge" exact component={CCCharge} />
+        <Route path="/shop/charge/:cartId" exact component={CCCharge} />
         <Route path="/shop/sent/:email" exact component={EmailSent} />
       </Switch>
     </CartContextProvider>
