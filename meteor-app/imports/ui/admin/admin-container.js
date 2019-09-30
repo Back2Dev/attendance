@@ -107,7 +107,7 @@ export default withTracker(props => {
       if (err) {
         Alert.error('error whilst removing member')
       } else {
-        Alert.success(`successfully removed ${res} member`)
+        Alert.success(`successfully removed ${res} member `)
         eventLog({
           who: 'Admin',
           what: `removed member id: ${id}`,

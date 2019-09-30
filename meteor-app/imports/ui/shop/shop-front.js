@@ -20,9 +20,11 @@ const debug = require('debug')('b2b:shop')
 
 const ShopFront = props => {
   if (props.loading) return <div>Loading ...</div>
+  props.cart.member = {}
+  'email,name,paymentCustId,autoPay'.split(/,/).forEach(key => (props.cart.member[key] = props.member[key]))
   return (
     <CartContextProvider
-      cart={props.carts[0]}
+      cart={props.cart}
       cartUpdate={props.cartUpdate}
       getPromo={props.getPromo}
       settings={props.settings}
