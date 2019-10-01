@@ -29,8 +29,41 @@ const cartUpdate = data => {
   }
 }
 
-const chargeCard = async () => {
-  debug('Charging credit card')
+const chargeCard = async ({ price, email, customer_token, metadata }) => {
+  try {
+    /* Submit the payment  */
+    debug('Charging credit card')
+    const packet = {
+      amount: price.toString(),
+      currency: 'AUD',
+      description: 'Purchase',
+      email,
+      metadata
+    }
+
+    if (price === 0) {
+      state.status = CONSTANTS.CART_STATUS.COMPLETE
+      dispatch({ type: 'save-cart', payload: null })
+      props.history.replace('/shop/registered')
+    } else {
+      debug('Making payment')
+      // setStatus('Transmitting')
+      const result = await Meteor.callAsync('makePayment', packet)
+      // setStatus('')
+      if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+        setErrors({ remote: result })
+        // props.history.push(`/shop/failed/${result}`)
+      } else {
+        // The cart gets updated with the response on the server
+        // So show the payment receipt now
+        Alert.success('Payment completed')
+        state.status = CONSTANTS.CART_STATUS.COMPLETE
+        props.history.replace('/shop/receipt')
+      }
+    }
+  } catch (err) {
+    debug(`Error $err.message`, err)
+  }
 }
 
 export default withTracker(props => {
