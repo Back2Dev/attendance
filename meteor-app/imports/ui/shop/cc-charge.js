@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container, Segment, Card, Header, Button, Image } from 'semantic-ui-react'
+import Alert from 'react-s-alert'
 import { CartContext } from './cart-data'
 import Price from './price'
 
@@ -11,13 +12,26 @@ const CCCharge = props => {
     props.history.push('/') // Go home
   }
 
-  const paymentDetails = {
-    member: state.member.name,
-    price: state.price,
-    memberId: state.memberId,
-    cartId: state.cartId
-  }
+  const chargeCard = () => {
+    const codes = state.products
+      .map(prod => {
+        return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
+      })
+      .join(',')
 
+    const result = state.chargeCard({
+      customer_token: state.member.paymentCustId,
+      email: state.member.email,
+      price: state.price,
+      metadata: { cartId: state._id, codes }
+    })
+    if (result.error) Alert.error(result.error)
+    else {
+      // So show the payment receipt now
+      Alert.success('Payment completed')
+      props.history.replace('/shop/receipt')
+    }
+  }
   return (
     <Container text textAlign="center">
       <Segment textAlign="center">
@@ -40,7 +54,7 @@ const CCCharge = props => {
             </Card.Content>
             <Card.Content extra>
               <div>
-                <Button basic color="green" type="button" onClick={() => state.chargeCard(paymentDetails)}>
+                <Button basic color="green" type="button" onClick={chargeCard}>
                   Charge: <Price cents={state.price}></Price>
                 </Button>
                 <Button basic color="red" type="button" onClick={gotoHome}>
