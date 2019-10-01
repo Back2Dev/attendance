@@ -20,14 +20,17 @@ const debug = require('debug')('b2b:shop')
 
 const ShopFront = props => {
   if (props.loading) return <div>Loading ...</div>
-  props.cart.member = {}
-  'email,name,paymentCustId,autoPay'.split(/,/).forEach(key => (props.cart.member[key] = props.member[key]))
+  if (props.cart) {
+    props.cart.member = {}
+    'email,name,avatar,paymentCustId,autoPay'.split(/,/).forEach(key => (props.cart.member[key] = props.member[key]))
+  }
   return (
     <CartContextProvider
       cart={props.cart}
       cartUpdate={props.cartUpdate}
       getPromo={props.getPromo}
       settings={props.settings}
+      chargeCard={props.chargeCard}
     >
       <Switch>
         <Route path="/shop" exact component={Building} />
@@ -41,7 +44,7 @@ const ShopFront = props => {
         <Route path="/shop/type/:type" component={Department} />
         <Route path="/renew/:id/:cartId" component={Renewal} />
         <Route path="/shop/registered" exact component={CCRegistered} />
-        <Route path="/shop/charge/:cartId" exact component={CCCharge} />
+        <Route path="/shop/charge/:memberId/:cartId" exact component={CCCharge} />
         <Route path="/shop/sent/:email" exact component={EmailSent} />
       </Switch>
     </CartContextProvider>

@@ -109,6 +109,7 @@ function CartContextProvider(props) {
   state.settings = props.settings
   state.cartUpdate = props.cartUpdate
   state.getPromo = props.getPromo
+  state.chargeCard = props.chargeCard
   const value = { state, dispatch }
   cartUpdater = props.cartUpdate
 
@@ -117,7 +118,8 @@ function CartContextProvider(props) {
 
 CartContextProvider.propTypes = {
   cartUpdate: PropTypes.func.isRequired,
-  cart: PropTypes.object
+  cart: PropTypes.object,
+  chargeCard: PropTypes.func.isRequired
 }
 
 const CartContextConsumer = CartContext.Consumer

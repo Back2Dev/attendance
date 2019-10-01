@@ -176,7 +176,7 @@ const Checkout = ({ history }) => {
         />
       </div>
       <div style={{ textAlign: 'center' }} />
-      {promo && promo.discount && !promo.admin && (
+      {promo && promo.discount > 0 && !promo.admin && (
         <Header style={{ textAlign: 'center' }}>
           <Icon name="flag checkered" color="green" style={{ display: 'inline' }} />
           Yay! You found...

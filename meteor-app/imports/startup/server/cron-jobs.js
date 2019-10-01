@@ -16,12 +16,12 @@ Meteor.methods({
   reconcileCompletedCarts() {
     try {
       Carts.find({ status: 'complete', memberId: { $exists: false } }).forEach(cart => {
-        debug(`Cart ${cart._id} ${cart.products.map(p => p.code).join()} ${cart.price}`)
+        // debug(`Cart ${cart._id} ${cart.products.map(p => p.code).join()} ${cart.price}`)
         const members = Members.find({ email: cart.creditCard.email }).fetch()
         if (members.length === 0) debug(`Could not find a member with email ${cart.creditCard.email}`)
         if (members.length > 1) debug(`More than one member with the email ${cart.creditCard.email}`)
         if (members.length === 1) {
-          debug(`Found member [${members[0].name}]`)
+          // debug(`Found member [${members[0].name}]`)
           const sub = cart.products[0]
           sub.txnDate = cart.chargeResponse.created_at
           sub.purchaser = members[0].name
@@ -54,7 +54,7 @@ Meteor.methods({
   sendMembershipRenewals(name) {
     const query = name ? { name } : {}
     Members.find(query).forEach(member => {
-      debug(`Checking ${member.name}`)
+      // debug(`Checking ${member.name}`)
       // Purchases.find({
       //   memberId: member._id,
       //   code: '/PA-MEMB/',
@@ -64,7 +64,7 @@ Meteor.methods({
         cart.products
           .filter(product => product.code.match(/-MEMB-/))
           .forEach(product => {
-            debug(`Sending email for ${product.code} to ${member.name}, `)
+            // debug(`Sending email for ${product.code} to ${member.name}, `)
             Meteor.call(
               'sendMembershipEmail',
               member.email,
@@ -74,7 +74,7 @@ Meteor.methods({
               `renew/${member._id}/${cart._id}`,
               Meteor.settings.private.expiredMembershipID
             )
-            debug('Sending Membership Renewal to ' + member.email)
+            // debug('Sending Membership Renewal to ' + member.email)
           })
       })
     })
@@ -98,7 +98,7 @@ Meteor.methods({
           `renew/${member._id}/${cart._id}`,
           Meteor.settings.private.validMembershipID
         )
-        debug('Sending Membership reminder to ' + member.email)
+        // debug('Sending Membership reminder to ' + member.email)
       })
     })
   },
@@ -108,7 +108,7 @@ Meteor.methods({
   sendPassRenewals(name) {
     const query = name ? { name } : {}
     Members.find(query).forEach(member => {
-      debug(`Checking ${member.name}`)
+      // debug(`Checking ${member.name}`)
       Carts.find({ memberId: member._id, status: 'ready' }).forEach(cart => {
         cart.products
           .filter(product => product.code.match(/-PASS-/))
@@ -116,7 +116,7 @@ Meteor.methods({
             if (!member.email) {
               console.log(`No email address found for ${member.name}`)
             } else {
-              debug(`Sending email for ${product.code} to ${member.name}, ${member.email}`)
+              // debug(`Sending email for ${product.code} to ${member.name}, ${member.email}`)
               Meteor.call(
                 'sendPassEmail',
                 member.email,
@@ -252,7 +252,7 @@ Meteor.methods({
           memberId: member._id,
           expiry: { $lt: new Date() }
         }).forEach(purchase => {
-          debug(`Member ${member.name} is expired (${purchase.expiry})`)
+          // debug(`Member ${member.name} is expired (${purchase.expiry})`)
           Members.update(
             { _id: purchase.memberId },
             {
@@ -268,7 +268,7 @@ Meteor.methods({
           memberId: member._id,
           expiry: { $gt: new Date() }
         }).forEach(purchase => {
-          debug(`Member ${member.name} is current, expiring (${purchase.expiry})`)
+          // debug(`Member ${member.name} is current, expiring (${purchase.expiry})`)
           Members.update(
             { _id: purchase.memberId },
             {
@@ -287,7 +287,7 @@ Meteor.methods({
           acc[member.status] = acc[member.status] ? acc[member.status] + 1 : 1
           return acc
         }, {})
-      debug('Member status: ', stats)
+      // debug('Member status: ', stats)
     } catch (e) {
       debug(e)
     }
@@ -297,7 +297,7 @@ Meteor.methods({
   updateSubsTypeAll() {
     try {
       Purchases.find({ code: /-PASS-/ }).forEach(purchase => {
-        debug(`Member ${purchase.memberId} ${purchase.purchaser} pass: ${purchase.code}`)
+        // debug(`Member ${purchase.memberId} ${purchase.purchaser} pass: ${purchase.code}`)
         Members.update(purchase.memberId, {
           $set: {
             subsType: 'pass'
@@ -305,7 +305,7 @@ Meteor.methods({
         })
       })
       Purchases.find({ code: /-MEMB-/ }).forEach(purchase => {
-        debug(`Member ${purchase.purchaser} member: ${purchase.code}`)
+        // debug(`Member ${purchase.purchaser} member: ${purchase.code}`)
         Members.update(purchase.memberId, {
           $set: {
             subsType: 'member'
@@ -313,7 +313,7 @@ Meteor.methods({
         })
       })
       Purchases.find({ code: /-CASUAL/ }).forEach(purchase => {
-        debug(`Member ${purchase.purchaser} casual: ${purchase.code}`)
+        // debug(`Member ${purchase.purchaser} casual: ${purchase.code}`)
         Members.update(purchase.memberId, {
           $set: {
             subsType: 'casual',
@@ -322,7 +322,7 @@ Meteor.methods({
         })
       })
       Members.find({ subsType: { $in: [null, 'casual'] } }).forEach(member => {
-        debug(`!!! Member ${member.name} substype is unknown: setting to casual`)
+        // debug(`!!! Member ${member.name} substype is unknown: setting to casual`)
         Members.update(member._id, {
           $set: {
             subsType: 'casual',
@@ -339,7 +339,7 @@ Meteor.methods({
         acc[member.subsType] = acc[member.subsType] ? acc[member.subsType] + 1 : 1
         return acc
       }, {})
-    debug('Member subs types: ', stats)
+    // debug('Member subs types: ', stats)
   },
 
   // Update 'remaining visits'
@@ -349,7 +349,7 @@ Meteor.methods({
         remaining = (purchase.qty || 1) - member.sessionCount
         status = remaining > 0 ? 'current' : 'expired'
       })
-      debug(`Current member update ${member.name} remaining: ${remaining}`)
+      // debug(`Current member update ${member.name} remaining: ${remaining}`)
       Members.update(member._id, { $set: { remaining, status } })
     })
     Members.find({ subsType: 'pass', status: 'expired' }).forEach(member => {
@@ -360,7 +360,7 @@ Meteor.methods({
           remaining = (purchase.qty || 1) - member.sessionCount
         }
       })
-      debug(`Expired member update ${member.name} remaining: ${remaining}`)
+      // debug(`Expired member update ${member.name} remaining: ${remaining}`)
       Members.update({ _id: member._id }, { $set: { remaining } })
     })
     Members.find({
@@ -374,7 +374,7 @@ Meteor.methods({
         acc[member.remaining] = acc[member.remaining] ? acc[member.remaining] + 1 : 1
         return acc
       }, {})
-    debug('Member remaining: ', stats)
+    // debug('Member remaining: ', stats)
   },
 
   // NOT USED?
@@ -394,7 +394,7 @@ Meteor.methods({
   //
   primeCasuals() {
     let newCarts = 0
-    debug(`Deleted ${Carts.remove({ status: 'ready', 'products.code': /CASUAL/ })} carts`)
+    // debug(`Deleted ${Carts.remove({ status: 'ready', 'products.code': /CASUAL/ })} carts`)
     const product = Products.findOne({ code: 'PA-CASUAL-SIGNUP' })
     if (!product) throw new Error('Could not find product for PA-CASUAL-SIGNUP')
     Members.find({ subsType: 'casual' }).forEach(m => {
@@ -418,7 +418,7 @@ Meteor.methods({
         status: 'ready'
       }
       const cartId = Carts.insert(cart)
-      debug(`Added cart for ${m.name} ${m.status} ${m.subsType}`)
+      // debug(`Added cart for ${m.name} ${m.status} ${m.subsType}`)
       newCarts++
     })
   },
@@ -426,7 +426,7 @@ Meteor.methods({
   // Create shopping cart entries for previous offenders,
   // - only applicable to non-casuals who have expired
   primeRenewals() {
-    debug(`Deleted ${Carts.remove({ status: 'ready' })} carts`)
+    // debug(`Deleted ${Carts.remove({ status: 'ready' })} carts`)
     let newCarts = 0
     Purchases.find({}).forEach(purchase => {
       const member = Members.findOne(purchase.memberId)
@@ -489,7 +489,7 @@ const signoutTicker = () => {
       const stillHereQuery = {
         memberId: dude._id
       }
-      debug('stillHereQuery', stillHereQuery)
+      // debug('stillHereQuery', stillHereQuery)
       Sessions.find(stillHereQuery, {
         sort: { createdAt: -1 },
         limit: 1
@@ -514,7 +514,7 @@ const signoutTicker = () => {
 
 // This will run daily to check for expiring subscriptions etc
 const membershipTicker = () => {
-  debug(`Membership ticker`)
+  // debug(`Membership ticker`)
   // Update status values
   Meteor.call('updateMemberStatusAll')
 

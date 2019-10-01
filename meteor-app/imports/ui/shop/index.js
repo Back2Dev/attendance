@@ -29,6 +29,10 @@ const cartUpdate = data => {
   }
 }
 
+const chargeCard = async () => {
+  debug('Charging credit card')
+}
+
 export default withTracker(props => {
   document.title = `${Meteor.settings.public.org} - shop`
   cartId = sessionStorage.getItem('mycart')
@@ -40,6 +44,7 @@ export default withTracker(props => {
     member: Members.findOne(memberId),
     loading: !cartSub.ready(),
     cartUpdate,
+    chargeCard,
     getPromo,
     settings: Meteor.settings.public
   }
