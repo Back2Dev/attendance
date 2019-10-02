@@ -50,7 +50,8 @@ Meteor.methods({
       Carts.update(chargeData.metadata.cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
-          chargeResponse: data.response
+          chargeResponse: data.response,
+          creditCard: data.response.card
         }
       })
 

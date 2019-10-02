@@ -119,7 +119,11 @@ export const CreditCardSchema = new SimpleSchema({
   address_postcode: { type: String, optional: true },
   address_state: { type: String, optional: true },
   address_country: { type: String, optional: true },
-  card_token: { type: String, optional: true }
+  card_token: { type: String, optional: true },
+  scheme: { type: String, optional: true },
+  display_number: { type: String, optional: true },
+  issuing_country: { type: String, optional: true },
+  name: { type: String, optional: true }
 })
 
 export const CardResponseSchema = new SimpleSchema({
