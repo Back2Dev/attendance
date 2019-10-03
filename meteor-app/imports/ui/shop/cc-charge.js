@@ -1,34 +1,42 @@
 import React from 'react'
 import { Container, Segment, Card, Header, Button, Image } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
+import CONSTANTS from '/imports/api/constants'
 import { CartContext } from './cart-data'
 import Price from './price'
 
 const CCCharge = props => {
   const { state, dispatch } = React.useContext(CartContext)
+  const [status, setStatus] = React.useState('')
 
   const gotoHome = e => {
     sessionStorage.setItem('mycart', null) // Forget the cart
     props.history.push('/') // Go home
   }
 
-  const chargeCard = () => {
+  const chargeCard = async () => {
+    setStatus('Contacting payment gateway...')
     const codes = state.products
       .map(prod => {
         return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
       })
       .join(',')
 
-    const result = state.chargeCard({
+    const result = await state.chargeCard({
       customer_token: state.member.paymentCustId,
       email: state.member.email,
       price: state.price,
       metadata: { cartId: state._id, codes }
     })
-    if (result.error) Alert.error(result.error)
-    else {
+    if (result.error) {
+      const errMsg = result.error.match(/could not be found/i) ? 'Customer not found' : result.error
+      Alert.error(errMsg)
+      setStatus(`Error: ${errMsg}`)
+    } else {
       // So show the payment receipt now
       Alert.success('Payment completed')
+      state.status = CONSTANTS.CART_STATUS.COMPLETE
+      setStatus('Transaction completed')
       props.history.replace('/shop/receipt')
     }
   }
@@ -61,6 +69,7 @@ const CCCharge = props => {
                   Cancel
                 </Button>
               </div>
+              {status}
             </Card.Content>
           </Card>
         </Card.Group>
