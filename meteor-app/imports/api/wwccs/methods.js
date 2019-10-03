@@ -4,15 +4,16 @@ import fetch from 'node-fetch'
 const { URLSearchParams } = require('url');
 
 import Wwccs from '/imports/api/wwccs/schema'
+import Members from '/imports/api/members/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:wwcc')
 
 const WWCC_URL = 'https://online.justice.vic.gov.au/wwccu/checkstatus.doj'
 
 const searches = [
-  { re: /This family name and application\/card number combination do not match/i, result: false },
-  { re: /Working with Children Check number (\d+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./, result: true },
-
+  { re: /This family name and application\/card number combination do not match/i, result: false, message: "This family name and application/card number combination do not match" },
+  { re: /Working with Children Check number (\d+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./, result: true, message: 'Valid' },
+  { re: /There was a problem submitting your request, one or more fields are missing or incorrect/i, result: false, message: 'There was a problem submitting your request, one or more fields are missing or incorrect' }
 ]
 Meteor.methods({
   'members.checkWwcc': async (id, wwccNo, name) => {
@@ -54,16 +55,29 @@ Meteor.methods({
       fetch(WWCC_URL, { method: 'POST', body: params })
         .then(res => res.text())
         .then(response => {
-          debug('response', response)
-          const result = searches.reduce((acc, search, ix) => {
-            if (response.match(search.re)) {
+          let stopping = false
+          const buf = response.split(/\n/).reduce((acc, line) => {
+            if (!acc && line.match(/FORM_LEVEL_ERROR_MARKER/))
+              return line
+            if (acc) {
+              if (line.match('checkstatus_form')) stopping = true
+              if (!stopping)
+                return acc + "\n" + line
+              return acc
+            }
+          }, null)
+          debug('response', buf)
+          const index = searches.reduce((acc, search, ix) => {
+            if (buf.match(search.re)) {
               return ix
             }
+            return acc
           }, -1)
-          debug(`Match ${result}`)
+          debug(`Match ${index} `)
+          wwccOk = (index === -1) ? false : searches[index].result
           Members.update(id, {
             $set: {
-              wwccOk: searches[result]
+              wwccOk
             }
           })
         })
