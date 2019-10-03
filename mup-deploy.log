@@ -124,3 +124,8 @@ Tue 3 Sep 2019 05:13:12 AEST /Users/mikkel/back2bikes/attendance/deploy/b4h-prod
 Tue 3 Sep 2019 05:18:45 AEST /Users/mikkel/back2bikes/attendance/deploy/b4h-prod reconfig 1.1.12
 Sat 7 Sep 2019 15:41:45 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy 1.1.12
 Sat 7 Sep 2019 15:46:54 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig 1.1.12
+Thu 3 Oct 2019 12:57:18 AEST /Users/b2b/back2bikes/attendance/deploy/pa-staging deploy 1.1.12
+Thu 3 Oct 2019 13:01:14 AEST /Users/b2b/back2bikes/attendance/deploy/pa-staging deploy 1.1.12
+Thu 3 Oct 2019 13:01:58 AEST /Users/b2b/back2bikes/attendance/deploy/pa-staging reconfig 1.1.12
+Thu 3 Oct 2019 13:02:23 AEST /Users/b2b/back2bikes/attendance/deploy/pa-staging deploy 1.1.12
+Thu 3 Oct 2019 13:29:06 AEST /Users/b2b/back2bikes/attendance/deploy/pa-staging reconfig 1.1.12
