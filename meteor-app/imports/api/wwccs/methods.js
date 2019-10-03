@@ -98,7 +98,8 @@ Meteor.methods({
         $set: {
           wwccOk,
           wwccError,
-          wwccExpiry
+          wwccExpiry,
+          wwcc: wwccNo
         }
       })
       return 'WWCC Status received ok'
