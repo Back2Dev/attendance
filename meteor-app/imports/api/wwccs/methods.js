@@ -30,7 +30,7 @@ const searches = [
 ]
 Meteor.methods({
   'members.checkWwcc': async (id, wwccNo, name) => {
-    const surname = name.split(/\s+/).pop()
+    const wwccSurname = name.split(/\s+/).pop()
     const params = new URLSearchParams()
     const data = {
       viewSequence: '1',
@@ -38,7 +38,7 @@ Meteor.methods({
       cardnumber: wwccNo,
       pageAction: 'Submit',
       Submit: 'submit',
-      lastname: surname
+      lastname: wwccSurname
     }
     Object.keys(data).forEach(key => {
       params.append(key, data[key])
@@ -62,7 +62,7 @@ Meteor.methods({
         }
       ]
     }
-    debug(`Checking WWCC ${WWCC_URL}`, request)
+    debug(`Checking WWCC ${WWCC_URL}`, id, wwccNo, name)
     try {
       const res = await fetch(WWCC_URL, { method: 'POST', body: params })
       const response = await res.text()
@@ -99,7 +99,8 @@ Meteor.methods({
           wwccOk,
           wwccError,
           wwccExpiry,
-          wwcc: wwccNo
+          wwcc: wwccNo,
+          wwccSurname
         }
       })
       return 'WWCC Status received ok'

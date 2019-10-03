@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Button, Header, Icon, Input, Modal } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
 
@@ -6,8 +7,9 @@ const debug = require('debug')('b2b:sms')
 
 class WwccModal extends Component {
   state = {
-    wwcc: ``,
-    isOpen: false
+    wwcc: this.props.member.wwcc || ``,
+    isOpen: false,
+    surname: this.props.member.surname ? this.props.member.name.split(/\s+/).pop() : ''
   }
 
   updateWwcc = e => {
@@ -16,18 +18,25 @@ class WwccModal extends Component {
     })
   }
 
+  updateSurname = e => {
+    this.setState({
+      surname: e.target.value
+    })
+  }
+
   submit = () => {
     if (!this.state.wwcc) {
       // todo: fix Alert.error so that it displays above modal
       alert('Please enter a wwcc to check')
     } else {
-      this.props.checkWwcc(this.props.member._id, this.state.wwcc, this.props.member.name)
+      this.props.checkWwcc(this.props.member._id, this.state.wwcc, this.state.surname)
       this.setState({ isOpen: false })
     }
   }
 
   render(props) {
-    const { job } = this.props
+    const surname = this.state.surname || this.props.member.name.split(/\s+/).pop()
+    const wwcc = this.state.wwcc || this.props.member.wwcc
     return (
       <Modal
         open
@@ -54,9 +63,14 @@ class WwccModal extends Component {
         <Modal.Content>
           <div>
             <p />
+            <label style={{ paddingBottom: '5px' }}>Last name</label>
+            <div>
+              <Input onChange={this.updateSurname} defaultValue={surname} fluid />
+            </div>
+            <p />
             <label style={{ paddingBottom: '5px' }}>Wwcc No (8 digits)</label>
             <div>
-              <Input onChange={this.updateWwcc} defaultValue={this.state.wwcc} fluid />
+              <Input onChange={this.updateWwcc} defaultValue={wwcc} fluid />
             </div>
           </div>
         </Modal.Content>
@@ -74,3 +88,8 @@ class WwccModal extends Component {
   }
 }
 export default WwccModal
+
+WwccModal.propTypes = {
+  member: PropTypes.object.isRequired,
+  checkWwcc: PropTypes.func.isRequired
+}

@@ -238,6 +238,11 @@ export const MembersSchema = new SimpleSchema({
     label: '(WWCC) error message',
     optional: true
   },
+  wwccSurname: {
+    type: String,
+    label: '(WWCC) surname',
+    optional: true
+  },
   privacy: {
     type: Boolean,
     label: 'I consent to storing my information',

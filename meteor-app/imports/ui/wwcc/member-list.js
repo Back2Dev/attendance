@@ -46,7 +46,7 @@ const Admin = props => {
                                 color: wwccOk ? 'green' : 'red'
                               }}
                             >
-                              {member.wwcc ? `${member.wwcc}` : ` WWCC NOT SUPPLIED`}
+                              {member.wwcc ? `${member.wwcc} ${member.wwccSurname || ''}` : ` WWCC NOT SUPPLIED`}
                               {member.wwccExpiry ? `, expires: ${dateOnly(member.wwccExpiry)}` : ''}
                             </span>
                           </p>
@@ -72,7 +72,7 @@ const Admin = props => {
                     about={member.name}
                   />
                 )}
-                {!member.wwcc && <WwccModal {...props} member={member} />}
+                <WwccModal {...props} member={member} />
                 <div style={{ color: 'red' }}>&nbsp;{member.wwccError}</div>
               </List.Content>
             </Grid.Column>
