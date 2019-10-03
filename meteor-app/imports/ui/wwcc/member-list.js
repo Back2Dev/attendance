@@ -16,13 +16,13 @@ const Admin = props => {
   }
 
   return (
-    <Grid columns={4}>
+    <Grid columns={2}>
       {members.map(member => {
         const wwccOk = member.wwccOk // && !isPast(member.wwccExpiry)
         const wwccColor = wwccOk ? 'green' : 'red'
         return (
           <Grid.Row key={member._id}>
-            <Grid.Column width={8}>
+            <Grid.Column width={6}>
               <table>
                 <tbody>
                   <tr>
@@ -57,7 +57,7 @@ const Admin = props => {
                 </tbody>
               </table>{' '}
             </Grid.Column>
-            <Grid.Column style={{ textAlign: 'right' }} width={6}>
+            <Grid.Column style={{ textAlign: 'left' }} width={10}>
               <List.Content floated="right">
                 &nbsp;
                 {member.wwcc && (
