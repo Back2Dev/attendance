@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "57d075bf-c869-437a-b0ab-24c67815c9af",
+		"name": "wwc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Check - success",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "viewSequence",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "en",
+							"type": "text"
+						},
+						{
+							"key": "cardnumber",
+							"value": "01819845",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "King",
+							"type": "text"
+						},
+						{
+							"key": "pageAction",
+							"value": "Submit",
+							"type": "text"
+						},
+						{
+							"key": "Submit",
+							"value": "submit",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://online.justice.vic.gov.au/wwccu/checkstatus.doj",
+					"protocol": "https",
+					"host": [
+						"online",
+						"justice",
+						"vic",
+						"gov",
+						"au"
+					],
+					"path": [
+						"wwccu",
+						"checkstatus.doj"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check - Bad card no",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "viewSequence",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "en",
+							"type": "text"
+						},
+						{
+							"key": "cardnumber",
+							"value": "01819845-02",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "King",
+							"type": "text"
+						},
+						{
+							"key": "pageAction",
+							"value": "Submit",
+							"type": "text"
+						},
+						{
+							"key": "Submit",
+							"value": "submit",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://online.justice.vic.gov.au/wwccu/checkstatus.doj",
+					"protocol": "https",
+					"host": [
+						"online",
+						"justice",
+						"vic",
+						"gov",
+						"au"
+					],
+					"path": [
+						"wwccu",
+						"checkstatus.doj"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check - Name does not match",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "viewSequence",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "en",
+							"type": "text"
+						},
+						{
+							"key": "cardnumber",
+							"value": "01819845",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Kingsley",
+							"type": "text"
+						},
+						{
+							"key": "pageAction",
+							"value": "Submit",
+							"type": "text"
+						},
+						{
+							"key": "Submit",
+							"value": "submit",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://online.justice.vic.gov.au/wwccu/checkstatus.doj",
+					"protocol": "https",
+					"host": [
+						"online",
+						"justice",
+						"vic",
+						"gov",
+						"au"
+					],
+					"path": [
+						"wwccu",
+						"checkstatus.doj"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

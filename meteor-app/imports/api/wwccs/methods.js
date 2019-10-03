@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import axios from 'axios'
 import fetch from 'node-fetch'
-const { URLSearchParams } = require('url');
+const { URLSearchParams } = require('url')
 
 import Wwccs from '/imports/api/wwccs/schema'
 import Members from '/imports/api/members/schema'
@@ -10,22 +10,34 @@ const debug = require('debug')('b2b:wwcc')
 
 const WWCC_URL = 'https://online.justice.vic.gov.au/wwccu/checkstatus.doj'
 
+const matchre = /Working with Children Check number (\d+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./i
 const searches = [
-  { re: /This family name and application\/card number combination do not match/i, result: false, message: "This family name and application/card number combination do not match" },
-  { re: /Working with Children Check number (\d+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./, result: true, message: 'Valid' },
-  { re: /There was a problem submitting your request, one or more fields are missing or incorrect/i, result: false, message: 'There was a problem submitting your request, one or more fields are missing or incorrect' }
+  {
+    re: /This family name and application\/card number combination do not match/i,
+    result: false,
+    message: 'This family name and application/card number combination do not match'
+  },
+  {
+    re: matchre,
+    result: true,
+    message: 'Valid'
+  },
+  {
+    re: /There was a problem submitting your request, one or more fields are missing or incorrect/i,
+    result: false,
+    message: 'There was a problem submitting your request, one or more fields are missing or incorrect'
+  }
 ]
 Meteor.methods({
   'members.checkWwcc': async (id, wwccNo, name) => {
-
     const surname = name.split(/\s+/).pop()
-    const params = new URLSearchParams();
+    const params = new URLSearchParams()
     const data = {
-      viewSequence: "1",
+      viewSequence: '1',
       language: 'en',
       cardnumber: wwccNo,
-      pageAction: "Submit",
-      Submit: "submit",
+      pageAction: 'Submit',
+      Submit: 'submit',
       lastname: surname
     }
     Object.keys(data).forEach(key => {
@@ -38,12 +50,12 @@ Meteor.methods({
       method: 'post',
 
       responseType: 'text',
-      validateStatus: function (status) {
+      validateStatus: function(status) {
         return status >= 200
       },
 
       transformResponse: [
-        function (data) {
+        function(data) {
           // Do whatever you want to transform the data
           // debug('intercepted data', data)
           return data
@@ -52,35 +64,44 @@ Meteor.methods({
     }
     debug(`Checking WWCC ${WWCC_URL}`, request)
     try {
-      fetch(WWCC_URL, { method: 'POST', body: params })
-        .then(res => res.text())
-        .then(response => {
-          let stopping = false
-          const buf = response.split(/\n/).reduce((acc, line) => {
-            if (!acc && line.match(/FORM_LEVEL_ERROR_MARKER/))
-              return line
-            if (acc) {
-              if (line.match('checkstatus_form')) stopping = true
-              if (!stopping)
-                return acc + "\n" + line
-              return acc
-            }
-          }, null)
-          debug('response', buf)
-          const index = searches.reduce((acc, search, ix) => {
-            if (buf.match(search.re)) {
-              return ix
-            }
+      const res = await fetch(WWCC_URL, { method: 'POST', body: params })
+      const response = await res.text()
+      let stopping = false
+      const buf = response
+        .split(/\n/)
+        .reduce((acc, line) => {
+          if (!acc && line.match(/FORM_LEVEL_ERROR_MARKER/)) return ' '
+          if (acc) {
+            if (line.match('checkstatus_form')) stopping = true
+            if (!stopping) return acc + '\n' + line
             return acc
-          }, -1)
-          debug(`Match ${index} `)
-          wwccOk = (index === -1) ? false : searches[index].result
-          Members.update(id, {
-            $set: {
-              wwccOk
-            }
-          })
-        })
+          }
+        }, null)
+        .replace(/<\/?[^>]+(>|$)/g, '')
+        .trim()
+      debug('response', buf)
+      const index = searches.reduce((acc, search, ix) => {
+        if (buf.match(search.re)) {
+          return ix
+        }
+        return acc
+      }, -1)
+      debug(`Match ${index} `)
+      const wwccOk = index === -1 ? false : searches[index].result
+      let wwccExpiry = ''
+      if (wwccOk) {
+        const m = buf.match(matchre)
+        wwccExpiry = m[4]
+      }
+      const wwccError = wwccOk ? '' : searches[index].message
+      Members.update(id, {
+        $set: {
+          wwccOk,
+          wwccError,
+          wwccExpiry
+        }
+      })
+      return 'WWCC Status received ok'
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)

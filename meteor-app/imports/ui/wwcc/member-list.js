@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, Grid, Image, List } from 'semantic-ui-react'
 import './member-list.css'
-import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
+import { dateOnly, humaniseDate, isPast } from '/imports/helpers/dates'
 
 const debug = require('debug')('b2b:admin')
 
@@ -17,8 +17,8 @@ const Admin = props => {
   return (
     <Grid columns={4}>
       {members.map(member => {
-        const wwccOk = member.wwccOk// && !isPast(member.wwccExpiry)
-        const wwccColor = wwccOk ? "green" : "red"
+        const wwccOk = member.wwccOk // && !isPast(member.wwccExpiry)
+        const wwccColor = wwccOk ? 'green' : 'red'
         return (
           <Grid.Row key={member._id}>
             <Grid.Column width={8}>
@@ -46,7 +46,7 @@ const Admin = props => {
                               }}
                             >
                               {member.wwcc ? `${member.wwcc}` : ` WWCC NOT SUPPLIED`}
-                              {member.wwccExpiry ? `, expires: ${member.wwccExpiry}` : ''}
+                              {member.wwccExpiry ? `, expires: ${dateOnly(member.wwccExpiry)}` : ''}
                             </span>
                           </p>
                         </List.Description>
@@ -59,9 +59,10 @@ const Admin = props => {
             <Grid.Column style={{ textAlign: 'right' }} width={6}>
               <List.Content floated="right">
                 &nbsp;
-                {member.wwcc &&
+                {member.wwcc && (
                   <Button
                     color={wwccColor}
+                    inverted
                     onClick={e => {
                       e.preventDefault()
                       props.checkWwcc(member._id, member.wwcc, member.name)
@@ -69,8 +70,8 @@ const Admin = props => {
                     content="Check"
                     about={member.name}
                   />
-                }
-                <span style={{ color: 'red' }}>&nbsp;{member.wwccError}</span>
+                )}
+                <div style={{ color: 'red' }}>&nbsp;{member.wwccError}</div>
               </List.Content>
             </Grid.Column>
           </Grid.Row>

@@ -39,19 +39,17 @@ export default withTracker(props => {
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
 
-  const checkWwcc = (id, wwcc, name) => {
-    Meteor.call('members.checkWwcc', id, wwcc, name, (err, res) => {
-      if (err) {
-        debug(err)
-        Alert.error('error whilst checking member wwcc: ' + err)
-      } else {
-        Alert.success(`successfully checked ${res} member wwcc`)
-        eventLog({
-          who: 'Admin',
-          what: `checked wwcc for: ${id}`
-        })
-      }
-    })
+  const checkWwcc = async (id, wwcc, name) => {
+    try {
+      const result = await Meteor.callAsync('members.checkWwcc', id, wwcc, name)
+      Alert.success(result)
+      eventLog({
+        who: 'Admin',
+        what: `checked wwcc for: ${id}`
+      })
+    } catch (e) {
+      Alert.error(e.message)
+    }
   }
 
   return {
