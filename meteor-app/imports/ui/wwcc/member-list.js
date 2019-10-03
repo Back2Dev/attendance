@@ -17,7 +17,8 @@ const Admin = props => {
   return (
     <Grid columns={4}>
       {members.map(member => {
-        const wwccOk = member.wwcc && !isPast(member.wwccExpiry)
+        const wwccOk = member.wwccOk// && !isPast(member.wwccExpiry)
+        const wwccColor = wwccOk ? "green" : "red"
         return (
           <Grid.Row key={member._id}>
             <Grid.Column width={8}>
@@ -58,15 +59,17 @@ const Admin = props => {
             <Grid.Column style={{ textAlign: 'right' }} width={6}>
               <List.Content floated="right">
                 &nbsp;
-                <Button
-                  color="red"
-                  onClick={e => {
-                    e.preventDefault()
-                    props.checkWwcc(member._id)
-                  }}
-                  content="Check"
-                  about={member.name}
-                />
+                {member.wwcc &&
+                  <Button
+                    color={wwccColor}
+                    onClick={e => {
+                      e.preventDefault()
+                      props.checkWwcc(member._id, member.wwcc, member.name)
+                    }}
+                    content="Check"
+                    about={member.name}
+                  />
+                }
                 <span style={{ color: 'red' }}>&nbsp;{member.wwccError}</span>
               </List.Content>
             </Grid.Column>
