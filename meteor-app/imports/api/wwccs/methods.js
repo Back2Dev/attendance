@@ -103,6 +103,14 @@ Meteor.methods({
           wwccSurname
         }
       })
+      Wwccs.insert({
+        memberId: id,
+        wwccOk,
+        wwccError,
+        wwccExpiry,
+        wwcc: wwccNo,
+        wwccSurname
+      })
       return 'WWCC Status received ok'
     } catch (error) {
       debug(error)
