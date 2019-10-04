@@ -11,6 +11,7 @@ import Visit from '/imports/ui/visit'
 
 import AdminContainer from '/imports/ui/admin/admin-container'
 import WwccContainer from '/imports/ui/wwcc'
+import SlsaContainer from '/imports/ui/slsa'
 import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
 import AppSelection from '/imports/ui/admin/app-selection'
@@ -43,6 +44,7 @@ const Attendance = () => {
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
           <Route path="/userprofiles" component={AdminContainer} />
           <Route path="/wwcc" component={WwccContainer} />
+          <Route path="/slsa" component={SlsaContainer} />
           <Route path="/useradmin" component={AdminContainer} />
           <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />

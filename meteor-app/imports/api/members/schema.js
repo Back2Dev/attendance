@@ -243,6 +243,12 @@ export const MembersSchema = new SimpleSchema({
     label: '(WWCC) surname',
     optional: true
   },
+  isSlsa: {
+    type: Boolean,
+    label: 'is a Surf Life Saver',
+    defaultValue: false,
+    optional: true
+  },
   privacy: {
     type: Boolean,
     label: 'I consent to storing my information',

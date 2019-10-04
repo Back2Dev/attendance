@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
+import XLSX from 'xlsx'
 import Members, { Dupes, RawDupes } from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -219,5 +220,41 @@ db[res.result].find({value: {$gt: 1}});
       },
       Meteor.settings.private.invoiceID
     )
+  },
+
+  async 'slsa.load'(data) {
+    let countTotal = 0
+    if (Meteor.isClient) return
+    try {
+      debug('Loading SLSA from csv data')
+      const parse = XLSX.read(data, { type: 'string' })
+      const wb = parse.Sheets
+      const sheets = Object.keys(wb)
+      for (const s of sheets) {
+        try {
+          const wanted = ['Member ID', 'Last Name', 'First Name']
+          const rows = XLSX.utils.sheet_to_json(wb[s], {
+            raw: true
+          })
+          countTotal = rows
+            .filter(row => row.Status === 'Active' && row.Season === '2019/2020')
+            .map(row => wanted.map(key => row[key]))
+            .map(row => {
+              return { slsaId: row[0], name: `${row[2]} ${row[1]}` }
+            })
+            .reduce((acc, member) => {
+              debug(`Updating ${member.name}`)
+              return acc + Members.update({ name: member.name }, { $set: { isSlsa: true } })
+            }, 0)
+          debug('updated', countTotal)
+        } catch (e) {
+          console.error(`Couldn't update members from csv ${s}: `, e)
+        }
+      }
+      return countTotal
+    } catch (e) {
+      debug(e)
+      throw new Meteor.Error(500, e)
+    }
   }
 })
