@@ -14,7 +14,7 @@ const debug = require('debug')('b2b:wwcc')
 const WWCC_URL = 'https://online.justice.vic.gov.au/wwccu/checkstatus.doj'
 
 // Regex for a succcess message
-const matchre = /Working with Children Check number (\d+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./i
+const matchre = /Working with Children Check number (\w+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./i
 const searches = [
   {
     re: /This family name and application\/card number combination do not match/i,
@@ -54,12 +54,12 @@ Meteor.methods({
       method: 'post',
 
       responseType: 'text',
-      validateStatus: function(status) {
+      validateStatus: function (status) {
         return status >= 200
       },
 
       transformResponse: [
-        function(data) {
+        function (data) {
           // Do whatever you want to transform the data
           // debug('intercepted data', data)
           return data
@@ -117,7 +117,7 @@ Meteor.methods({
         wwcc: wwccNo,
         wwccSurname
       })
-      return wwccError ? `Error: ${wwccError}` : 'WWCC is valid and current'
+      return wwccError ? `Error: ${wwccError}` : `WWCC is valid, expires ${wwccExpiry}`
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
