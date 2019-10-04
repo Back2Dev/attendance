@@ -23,14 +23,11 @@ export const WwccsSchema = new SimpleSchema({
   memberId: RegExId,
   wwcc: {
     type: String,
-    label: 'Working With Children Check (WWCC) number',
-    optional: true
+    label: 'Working With Children Check (WWCC) number'
   },
   wwccOk: {
     type: Boolean,
-    label: '(WWCC) checked ok',
-    defaultValue: false,
-    optional: true
+    label: '(WWCC) checked ok'
   },
   wwccExpiry: {
     type: Date,
@@ -44,8 +41,7 @@ export const WwccsSchema = new SimpleSchema({
   },
   wwccSurname: {
     type: String,
-    label: '(WWCC) surname',
-    optional: true
+    label: '(WWCC) surname'
   },
   createdAt,
   updatedAt

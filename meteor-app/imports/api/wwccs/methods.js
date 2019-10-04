@@ -8,8 +8,12 @@ import Members from '/imports/api/members/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:wwcc')
 
+/*
+ * This is a bit of a hack. I have asked for access to an official API at
+ */
 const WWCC_URL = 'https://online.justice.vic.gov.au/wwccu/checkstatus.doj'
 
+// Regex for a succcess message
 const matchre = /Working with Children Check number (\d+) \((\w+)\) for (.*?) is current. This person may engage in child related work and their card expires on (.*?)\./i
 const searches = [
   {
@@ -94,6 +98,7 @@ Meteor.methods({
         wwccExpiry = m[4]
       }
       const wwccError = wwccOk ? '' : searches[index].message
+      // Update the WWCC information in the member record
       Members.update(id, {
         $set: {
           wwccOk,
@@ -103,6 +108,7 @@ Meteor.methods({
           wwccSurname
         }
       })
+      // Keep a record of the check for posterity...
       Wwccs.insert({
         memberId: id,
         wwccOk,

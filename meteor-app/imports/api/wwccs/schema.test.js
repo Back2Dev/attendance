@@ -12,9 +12,9 @@ const badWwccs = [
   // Missing wwcc
   {
     memberId: 'SYdWnRL5LmZXT4GxE',
-    surname: 'French'
+    wwccSurname: 'French'
   },
-  // Missing surname
+  // Missing wwccSurname
   {
     memberId: 'SYdWnRL5LmZXT4GxE',
     wwcc: '00000021'
@@ -22,43 +22,38 @@ const badWwccs = [
   // Missing memberId
   {
     wwcc: '00000021',
-    surname: 'French'
+    wwccSurname: 'French'
   },
   // Invalid responses
   {
     memberId: 'SYdWnRL5LmZXT4GxE',
     wwcc: '00019845',
-    surname: 'King',
-    responses: '[ "reason": "something wrong" ]'
+    wwccSurname: 'King',
+    wwccOk: false,
+    wwccError: [{ error: 'something wrong' }]
   },
-  // Invalid responses
-  // {
-  //   memberId: 'SYdWnRL5LmZXT4GxE',
-  //   wwcc: '00019845',
-  //   surname: 'King',
-  //   responses: { reason: 'Something wrong - unexpected object' }
-  // }
   // Invalid responses
   {
     memberId: 'SYdWnRL5LmZXT4GxE',
     wwcc: '00019845',
-    surname: 'King',
-    responses: [{ reason: 'Something wrong - unexpected element' }]
+    wwccSurname: 'King',
+    wwccOk: false,
+    wwccError: [404]
   }
 ]
 
 const goodWwccs = [
   {
     wwcc: '00019845',
-    surname: 'King',
+    wwccSurname: 'King',
     memberId: 'SYdWnRL5LmZXT4GxE',
-    responses: []
+    wwccOk: true
   },
   {
     wwcc: '00019845-02',
-    surname: 'Thomas, Geraint',
+    wwccSurname: 'Thomas, Geraint',
     memberId: 'SYdWnRL5LmZXT4GxE',
-    responses: []
+    wwccOk: true
   }
 ]
 
