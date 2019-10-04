@@ -9,7 +9,7 @@ class WwccModal extends Component {
   state = {
     wwcc: this.props.member.wwcc || ``,
     isOpen: false,
-    surname: this.props.member.surname ? this.props.member.name.split(/\s+/).pop() : ''
+    surname: this.props.member.name ? this.props.member.name.split(/\s+/).pop() : ''
   }
 
   updateWwcc = e => {

@@ -42,11 +42,8 @@ export default withTracker(props => {
   const checkWwcc = async (id, wwcc, name) => {
     try {
       const result = await Meteor.callAsync('members.checkWwcc', id, wwcc, name)
-      Alert.success(result)
-      eventLog({
-        who: 'Admin',
-        what: `checked wwcc for: ${id}`
-      })
+      if (result.match(/error/i)) Alert.error(result)
+      else Alert.success(result)
     } catch (e) {
       Alert.error(e.message)
     }

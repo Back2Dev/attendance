@@ -117,7 +117,7 @@ Meteor.methods({
         wwcc: wwccNo,
         wwccSurname
       })
-      return 'WWCC Status received ok'
+      return wwccError ? `Error: ${wwccError}` : 'WWCC is valid and current'
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
