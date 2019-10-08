@@ -22,7 +22,8 @@ const ShopFront = props => {
   if (props.loading) return <div>Loading ...</div>
   if (props.cart) {
     props.cart.member = {}
-    'email,name,avatar,paymentCustId,autoPay'.split(/,/).forEach(key => (props.cart.member[key] = props.member[key]))
+    if (props.member)
+      'email,name,avatar,paymentCustId,autoPay'.split(/,/).forEach(key => (props.cart.member[key] = props.member[key]))
   }
   return (
     <CartContextProvider

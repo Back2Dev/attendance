@@ -2,8 +2,8 @@
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
 
-import { eventLog } from '/imports/api/eventlogs'
-import log from '/imports/lib/log'
+// import { eventLog } from '/imports/api/eventlogs'
+// import log from '/imports/lib/log'
 import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Members, { pinAddressFieldMap } from '/imports/api/members/schema'
@@ -599,8 +599,8 @@ const membershipTicker = () => {
 //                       * * * * *
 
 const SIGNOUT_TICKER_INTERVAL = '1,16,31,46 * * * *'
-// const MEMBERSHIP_TICKER_INTERVAL = '5 6 * * *'
-const MEMBERSHIP_TICKER_INTERVAL = '* * * * *'
+const MEMBERSHIP_TICKER_INTERVAL = '5 6 * * *'
+// const MEMBERSHIP_TICKER_INTERVAL = '* * * * *'
 
 Meteor.startup(() => {
   cron.schedule(SIGNOUT_TICKER_INTERVAL, Meteor.bindEnvironment(signoutTicker))
