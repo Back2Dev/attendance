@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor'
+import moment from 'moment'
+import XLSX from 'xlsx'
 import Members, { Dupes, RawDupes } from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -6,6 +8,7 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
+
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -20,6 +23,21 @@ Meteor.methods({
   'members.remove': function(id) {
     try {
       log.info('removing member id: ', id)
+      const data = {}
+      data.member = Members.findOne(id)
+      if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
+      data.purchases = Purchases.find({ memberId: id }).fetch()
+      data.carts = Carts.find({ memberId: id }).fetch()
+      data.sessions = Sessions.find({ memberId: id }).fetch()
+      eventLog({
+        who: 'Admin',
+        what: `removed member id: ${id}`,
+        object: data.member
+      })
+      saveToArchive('member', data)
+      Purchases.remove({ memberId: id })
+      Carts.remove({ memberId: id })
+      Sessions.remove({ memberId: id })
       return Members.remove({ _id: id })
     } catch (e) {
       log.error({ e })
@@ -29,6 +47,7 @@ Meteor.methods({
   'members.removeDupe': function(id, merge) {
     const data = { merge }
     data.member = Members.findOne(id)
+    if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
     data.purchases = Purchases.find({ memberId: id }).fetch()
     data.carts = Carts.find({ memberId: id }).fetch()
     data.sessions = Sessions.find({ memberId: id }).fetch()
@@ -169,5 +188,73 @@ db[res.result].find({value: {$gt: 1}});
     RawDupes.find({ value: { $gt: 1 } }).forEach(rec => Dupes.insert(rec))
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
+  },
+  'member.email.invoice': function(cartId, email, discountedPrice, discount) {
+    const cart = Carts.findOne(cartId)
+    if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
+    const member = Members.findOne(cart.memberId)
+    debug('Emailing invoice for cart', cart)
+
+    const priceFormat = price => `${price / 100}.00`
+
+    return Meteor.call(
+      'sendInvoiceEmail',
+      email,
+      {
+        // merge fields:
+        date: moment().format('DD/MM/YYYY'),
+        name: member.name,
+        email,
+        discount,
+        description1: cart.products[0].name,
+        description2: cart.products.length > 1 ? cart.products[1].name : '',
+        description3: cart.products.length > 2 ? cart.products[2].name : '',
+        amount1: priceFormat(cart.products[0].price),
+        amount2: cart.products.length > 1 ? priceFormat(cart.products[1].price) : '',
+        amount3: cart.products.length > 2 ? priceFormat(cart.products[2].price) : '',
+        subtotal: priceFormat(cart.price),
+        gst: priceFormat(0),
+        total: priceFormat(discountedPrice),
+        terms: 'Payment within 14 days',
+        link: `${Meteor.absoluteUrl()}renew/${member._id}/${cartId}`
+      },
+      Meteor.settings.private.invoiceID
+    )
+  },
+
+  async 'slsa.load'(data) {
+    let countTotal = 0
+    if (Meteor.isClient) return
+    try {
+      debug('Loading SLSA from csv data')
+      const parse = XLSX.read(data, { type: 'string' })
+      const wb = parse.Sheets
+      const sheets = Object.keys(wb)
+      for (const s of sheets) {
+        try {
+          const wanted = ['Member ID', 'Last Name', 'First Name']
+          const rows = XLSX.utils.sheet_to_json(wb[s], {
+            raw: true
+          })
+          countTotal = rows
+            .filter(row => row.Status === 'Active' && row.Season === '2019/2020')
+            .map(row => wanted.map(key => row[key]))
+            .map(row => {
+              return { slsaId: row[0], name: `${row[2]} ${row[1]}` }
+            })
+            .reduce((acc, member) => {
+              debug(`Updating ${member.name}`)
+              return acc + Members.update({ name: member.name }, { $set: { isSlsa: true } })
+            }, 0)
+          debug('updated', countTotal)
+        } catch (e) {
+          console.error(`Couldn't update members from csv ${s}: `, e)
+        }
+      }
+      return countTotal
+    } catch (e) {
+      debug(e)
+      throw new Meteor.Error(500, e)
+    }
   }
 })

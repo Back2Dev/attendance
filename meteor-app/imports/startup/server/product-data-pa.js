@@ -207,6 +207,18 @@ const myProducts = {
       type: 'day',
       days: [5]
     }
+  ],
+  promos: [
+    { code: 'PA-10-PERCENT', description: '10% off', discount: 10, admin: false, start: new Date() },
+    {
+      code: 'PA-SEPTEMBER',
+      description: 'September 15% Special',
+      discount: 15,
+      admin: false,
+      start: new Date(),
+      expires: new Date('2019-9-30')
+    },
+    { code: 'JARAD-ROOLS', description: "Jarad's special", discount: 0, admin: true, start: new Date() }
   ]
 }
 

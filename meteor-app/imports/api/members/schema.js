@@ -228,6 +228,27 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: false,
     optional: true
   },
+  wwccExpiry: {
+    type: Date,
+    label: '(WWCC) expiry date',
+    optional: true
+  },
+  wwccError: {
+    type: String,
+    label: '(WWCC) error message',
+    optional: true
+  },
+  wwccSurname: {
+    type: String,
+    label: '(WWCC) surname',
+    optional: true
+  },
+  isSlsa: {
+    type: Boolean,
+    label: 'is a Surf Life Saver',
+    defaultValue: false,
+    optional: true
+  },
   privacy: {
     type: Boolean,
     label: 'I consent to storing my information',
@@ -243,6 +264,12 @@ export const MembersSchema = new SimpleSchema({
     label: 'I consent to take and use photos for publicity',
     optional: true
   },
+  sports: {
+    type: Array,
+    label: 'Sports participation',
+    defaultValue: []
+  },
+  'sports.$': String,
   swim: {
     type: Boolean,
     label: 'I can swim 200 metres unassisted',

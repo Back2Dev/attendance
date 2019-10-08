@@ -5,6 +5,7 @@ import paProducts from './product-data-pa'
 import b2bProducts from './product-data-b2b'
 import b4hProducts from './product-data-b4h'
 import Events from '/imports/api/events/schema'
+import Promos from '/imports/api/promos/schema'
 
 const config = [
   {
@@ -18,6 +19,10 @@ const config = [
   {
     collection: Events,
     element: 'events'
+  },
+  {
+    collection: Promos,
+    element: 'promos'
   }
 ]
 

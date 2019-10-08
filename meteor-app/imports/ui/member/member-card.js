@@ -18,13 +18,14 @@ const MemberCard = props => {
     isHere,
     sessionCount,
     subsType,
+    wwccOk,
+    isSlsa,
     remaining,
     sessions = [],
     lastIn = null
   } = props
   const rookie = sessionCount <= 5
   const isExpired = props.status === 'expired'
-  const isSlsa = false
 
   const ribbon = isSuper
     ? {
@@ -46,6 +47,11 @@ const MemberCard = props => {
         </Card.Header>
         <Card.Content>
           {isSuper && <Label corner="left" icon="student" color="orange" />}
+          {wwccOk && (
+            <Label corner="right">
+              <Icon name="check" color="green"></Icon>
+            </Label>
+          )}
           <div
             style={{
               padding: '10px 0'

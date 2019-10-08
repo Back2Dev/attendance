@@ -58,5 +58,6 @@ typings/
 
 b2b-private
 deploy
+settings
 .DS_Store
 deploy

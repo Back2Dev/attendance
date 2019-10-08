@@ -11,7 +11,7 @@ import ProductButton from '/imports/ui/shop/product-button'
 import { CartContext } from './cart-data'
 
 const Renew = props => {
-  const [product, setProduct] = React.useState(props.myProduct || props.cart.products[0])
+  const [product, setProduct] = React.useState(props.cart.products[0] || props.myProduct)
   const { state, dispatch } = React.useContext(CartContext)
   // With the next action, the product is in the cart already
   const next = () => {
@@ -20,7 +20,7 @@ const Renew = props => {
   // Here we have to add it into the cart
   const add = () => {
     const prod = cloneDeep(product)
-    prod.memberId = props.member._id
+    prod.memberId = props.member._id || sessionStorage.getItem('memberId')
     prod.email = props.member.email
     if (props.purchases && props.purchases.length) prod.expiry = props.purchases[0].expiry
     prod.qty = 0

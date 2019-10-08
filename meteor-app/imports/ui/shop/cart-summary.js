@@ -5,6 +5,7 @@ import Alert from 'react-s-alert'
 
 import { CartContext } from './cart-data'
 import Price from './price'
+import { CustomerLabel } from './customer'
 
 const cartStyle = { right: 10, top: 10, position: 'absolute', zIndex: 5 }
 const Cart = props => {
@@ -19,6 +20,7 @@ const Cart = props => {
   const items = state.totalqty > 1 ? 'items' : 'item'
   return (
     <Button as="div" labelPosition="left" size="large">
+      <CustomerLabel name={sessionStorage.getItem('name')} />
       <Label basic pointing="right">
         <Icon name="shopping cart" />
         {!state.totalqty && <span>Cart is empty {!state._id && '!'}</span>}
@@ -29,7 +31,7 @@ const Cart = props => {
         )}
       </Label>
       {state.totalqty > 0 && (
-        <Button type="button" color="green" onClick={checkout}>
+        <Button type="button" color="green" onClick={checkout} id="checkout">
           Go to checkout now
         </Button>
       )}

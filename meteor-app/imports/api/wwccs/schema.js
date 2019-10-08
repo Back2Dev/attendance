@@ -21,15 +21,28 @@ export const WwccsSchema = new SimpleSchema({
   // https://github.com/aldeed/meteor-collection2/issues/124
   _id: OptionalRegExId,
   memberId: RegExId,
-  wwcc: String,
-  surname: String,
-  responses: {
-    type: Array,
-    label: 'Array of responses received',
-    defaultValue: []
-    // blackbox: true
+  wwcc: {
+    type: String,
+    label: 'Working With Children Check (WWCC) number'
   },
-  'responses.$': responseSchema,
+  wwccOk: {
+    type: Boolean,
+    label: '(WWCC) checked ok'
+  },
+  wwccExpiry: {
+    type: Date,
+    label: '(WWCC) expiry date',
+    optional: true
+  },
+  wwccError: {
+    type: String,
+    label: '(WWCC) error message',
+    optional: true
+  },
+  wwccSurname: {
+    type: String,
+    label: '(WWCC) surname'
+  },
   createdAt,
   updatedAt
 })

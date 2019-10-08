@@ -94,5 +94,21 @@ Meteor.methods({
     } catch (e) {
       log.error(`Error sending pass email: ${e.message}`)
     }
+  },
+
+  sendInvoiceEmail(to, mergeData, templateId) {
+    try {
+      debug(`Sending invoice email to ${to}`, mergeData)
+      sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
+      const options = {
+        to,
+        from: Meteor.settings.private.fromEmail,
+        templateId,
+        dynamic_template_data: mergeData
+      }
+      sgMail.send(options)
+    } catch (e) {
+      log.error(`Error sending invoice email: ${e.message}`)
+    }
   }
 })
