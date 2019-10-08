@@ -12,8 +12,9 @@ if (Meteor.isServer) {
       expect(goodWwcc).to.be.a('object')
     })
 
-    it('should contain required keys: _id, memberId, wwcc, surname', () => {
-      expect(goodWwcc).to.contain.keys('_id', 'memberId', 'wwcc', 'surname')
+    const keylist = '_id, memberId, wwcc, wwccSurname'
+    it(`should contain required keys: ${keylist}`, () => {
+      expect(goodWwcc).to.contain.keys(keylist.split(/,\s*/g))
     })
   })
 }

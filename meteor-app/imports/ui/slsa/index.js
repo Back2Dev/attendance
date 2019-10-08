@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from 'react-s-alert'
 import { escapeRegExp } from 'lodash'
+import Alert from 'react-s-alert'
 
 import Admin from './admin'
 import Members from '/imports/api/members/schema'
@@ -13,6 +13,20 @@ const debug = require('debug')('b2b:admin')
 const Loader = props => {
   if (props.loading) return <div>Loading...</div>
   return <Admin {...props} />
+}
+
+const uploadXL = e => {
+  e.preventDefault()
+
+  const file = e.target[0].files[0]
+  const msg = file ? `Processing member history file` : `Oops! Forgot to add the file? Try again uploading the file`
+  Alert.info(msg)
+  const reader = new FileReader()
+  reader.onloadend = function() {
+    const data = reader.result
+    Meteor.callAsync('slsa.load', data)
+  }
+  reader.readAsBinaryString(file)
 }
 
 export default withTracker(props => {
@@ -39,20 +53,10 @@ export default withTracker(props => {
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
 
-  const checkWwcc = async (id, wwcc, name) => {
-    try {
-      const result = await Meteor.callAsync('members.checkWwcc', id, wwcc, name)
-      if (result.match(/error/i)) Alert.error(result)
-      else Alert.success(result)
-    } catch (e) {
-      Alert.error(e.message)
-    }
-  }
-
   return {
     loading,
     members,
     memberWords,
-    checkWwcc
+    uploadXL
   }
 })(Loader)
