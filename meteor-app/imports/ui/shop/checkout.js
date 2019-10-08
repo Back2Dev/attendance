@@ -66,6 +66,13 @@ const Checkout = ({ history }) => {
     setShowDate(NEED_DATE.includes(e.target.value))
   }
 
+  const buyNow = () => {
+    state.discount = 0
+    if (state && state.member && state.member.paymentCustId)
+      history.push(`/shop/charge/${state.member._id}/${state._id}`)
+    else history.push('/shop/address')
+  }
+
   const changeDiscount = e => {
     state.discount = e.target.value
     if (e.target.value.match(/^\$\d+/)) {
@@ -132,13 +139,7 @@ const Checkout = ({ history }) => {
           <SecurityModal />
         </Menu.Item>
         <Menu.Item position="right">
-          <Button
-            type="button"
-            color="green"
-            floated="right"
-            id="menu_buy_now"
-            onClick={() => history.push('/shop/address')}
-          >
+          <Button type="button" color="green" floated="right" id="menu_buy_now" onClick={buyNow}>
             Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
@@ -155,13 +156,7 @@ const Checkout = ({ history }) => {
         <Button id="continue" type="button" primary onClick={() => history.push('/shop/type/membership')}>
           Continue shopping
         </Button>
-        <Button
-          type="button"
-          color="green"
-          style={{ marginLeft: '16px' }}
-          onClick={() => history.push('/shop/address')}
-          id="buy_now"
-        >
+        <Button type="button" color="green" style={{ marginLeft: '16px' }} onClick={buyNow} id="buy_now">
           Buy now {!state._id && '!'}
         </Button>
         <Input
