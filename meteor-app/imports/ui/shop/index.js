@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { cloneDeep } from 'lodash'
 import { Carts } from '/imports/api/products/schema'
+import Members from '/imports/api/members/schema'
 import ShopFront from './shop-front'
-import Members from '../../api/members/schema'
 
 const debug = require('debug')('b2b:shop')
 
