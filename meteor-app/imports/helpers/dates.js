@@ -23,3 +23,6 @@ export function humaniseDateDay(updatedAt) {
   const date = moment(updatedAt).format('dddd, MMMM Do YYYY, h a')
   return date
 }
+export function dateOnly(date) {
+  return moment(date).format('DD/MM/YYYY')
+}

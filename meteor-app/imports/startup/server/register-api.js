@@ -44,3 +44,8 @@ import '/imports/api/events/server/publications'
 import '/imports/api/promos/schema'
 import '/imports/api/promos/methods'
 import '/imports/api/promos/server/publications'
+
+// Promos
+import '/imports/api/wwccs/schema'
+import '/imports/api/wwccs/methods'
+import '/imports/api/wwccs/server/publications'

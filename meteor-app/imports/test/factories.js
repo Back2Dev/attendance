@@ -200,9 +200,9 @@ Factory.define('event', Events, {
 
 Factory.define('wwcc', Wwccs, {
   wwcc: '01819845',
-  surname: 'King',
+  wwccSurname: 'King',
   memberId: 'SYdWnRL5LmZXT4GxE',
-  responses: []
+  wwccOk: true
 })
 
 Factory.define('cart', Carts, {
