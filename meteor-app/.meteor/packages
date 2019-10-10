@@ -39,3 +39,5 @@ momentjs:moment
 mikkelking:mongo-counter
 fentas:mapreduce
 meteorhacks:aggregate
+accounts-password
+alanning:roles
