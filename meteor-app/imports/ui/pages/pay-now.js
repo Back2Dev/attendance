@@ -1,41 +1,71 @@
-import React from 'react';
-import { Meteor } from 'meteor/meteor';
-import { Container, Table, Header, Loader } from 'semantic-ui-react';
-import { Stuffs } from '/imports/api/stuff/stuff';
-import StuffItem from '/imports/ui/components/stuff-item';
-import { withTracker } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { Container, Header, Accordion, Label, Image, Message } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import CreditCardButton from '/imports/ui/member/member-payment'
 
-/** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
-class ListStuff extends React.Component {
-
-  /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
-  render() {
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+const payments = [
+  {
+    content: (
+      <Message
+        key="1"
+        header="Credit Card payment (via Pin Payments, click button to pay)"
+        content={<CreditCardButton url={Meteor.settings.public.paymentSite}></CreditCardButton>}
+      />
+    )
+  },
+  {
+    content: (
+      <Message
+        header="Direct Bank Transfer"
+        key="2"
+        content={
+          <div>
+            Commonwealth Bank,
+            <br />
+            BSB: 063 000 <br />
+            A/C: 1221 4326
+          </div>
+        }
+      />
+    )
+  },
+  {
+    content: (
+      <Message
+        key="3"
+        header="Pay Pal.me"
+        content={
+          <a href="https://paypal.me/back2bikes?locale.x=en_AU" target="_blank">
+            Paypal.me/back2bikes
+          </a>
+        }
+      />
+    )
+  },
+  {
+    content: <Message key="4" header="Pay Pal send money" content="Send to admin@back2bikes.com.au" />
   }
+]
 
-  /** Render the page once subscriptions have been received. */
-  renderPage() {
-    return (
-        <Container>
-          <Header as="h2" textAlign="center">PayNow</Header>
-        </Container>
-    );
-  }
+const PaymentPage = props => {
+  return (
+    <Container>
+      <Header as="h2" textAlign="center">
+        Payment options
+      </Header>
+      <div>
+        <Image src="/images/paypal-here.png"></Image>
+      </div>
+      <p>
+        Normally we process payments using the PayPal Here device. You should enter the details of the sale on the iPad,
+        and then tap the card reader to complete the payment.
+      </p>
+      <p>if the card reader is not working, we have the following payment options </p>
+      {payments.map(payment => payment.content)}
+    </Container>
+  )
 }
 
-/** Require an array of Stuff documents in the props. */
-ListStuff.propTypes = {
-  stuffs: PropTypes.array.isRequired,
-  ready: PropTypes.bool.isRequired,
-};
+PaymentPage.propTypes = {}
 
-/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
-export default withTracker(() => {
-  // Get access to Stuff documents.
-  const subscription = Meteor.subscribe('Stuff');
-  return {
-    stuffs: Stuffs.find({}).fetch(),
-    ready: subscription.ready(),
-  };
-})(ListStuff);
+export default PaymentPage

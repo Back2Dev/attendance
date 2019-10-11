@@ -1,17 +1,21 @@
 import React from 'react'
-import '../../lib/pinpayment_button'
+import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 
-const Payment = () => {
+import '/imports/lib/pinpayment_button'
+
+const CreditCardButton = ({ image, url }) => {
   return (
-    <a className="pin-payment-button" href={Meteor.settings.public.paymentSite} id="add_member">
-      <Button color="red" content="Pay Now" icon="credit card" />
+    <a className="pin-payment-button" href={url} id="pay-by-card">
+      {image && <img src="/images/pay-button.png" alt="Pay Now" width="86" height="38" />}
+      {!image && <Button color="green" inverted content="Pay by credit card..." icon="credit card" />}
     </a>
   )
 }
 
-{
-  /* <img src='/images/pay-button.png' alt="Pay Now" width="86" height="38" /> */
+CreditCardButton.propTypes = {
+  image: PropTypes.string,
+  url: PropTypes.string.isRequired
 }
 
-export default Payment
+export default CreditCardButton

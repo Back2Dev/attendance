@@ -7,12 +7,15 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import NavBar from '../components/nav-bar'
 import Footer from '../components/footer'
 import Landing from '../pages/landing'
-// import Shop from "../pages/shop";
+
 import Shop from '/imports/ui/shop'
-import NotFound from '../pages/not-found'
+import Ordering from '/imports/ui/layouts/ordering'
 import PayNow from '../pages/pay-now'
+
+import NotFound from '../pages/not-found'
 import Parts from '../pages/parts'
 import Signin from '../pages/signin'
+import Attendance from '/imports/ui/layouts/attendance'
 import Signup from '../pages/signup'
 import CurrentJobs from '../pages/current-jobs'
 import NewService from '../pages/new-service'
@@ -37,17 +40,23 @@ class App extends React.Component {
               <Route path="/signup" component={Signup} />
               <Route path="/signin" component={Signin} />
               <Route path="/shop" component={Shop} />
-              <VolSignInProtectedRoute path="/volsignin" component={VolSignIn} />
-              <PartsProtectedRoute path="/parts" component={Parts} />
+
+              <VolSignInProtectedRoute path="/volsignin" component={Attendance} />
+
+              <PartsProtectedRoute path="/parts" component={Ordering} />
+
               <ServicingProtectedRoute path="/newservice" component={NewService} />
               <ServicingProtectedRoute path="/currentjobs" component={CurrentJobs} />
+
               <PayNowProtectedRoute path="/paynow" component={PayNow} />
+
               <AdminProtectedRoute path="/admin" component={Admin} />
+
               <SuperAdminProtectedRoute path="/superadmin" component={SuperAdmin} />
+
               <ProtectedRoute path="/signout" component={Signout} />
               <Route component={NotFound} />
             </Switch>
-            <Footer />
           </div>
         </div>
       </Router>
