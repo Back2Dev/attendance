@@ -38,7 +38,7 @@ class App extends React.Component {
           </div>
           <div>
             <Switch>
-              <Route exact path="/" component={Landing} />
+              <Route exact path="/" component={Attendance} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/shop" component={Shop} />
