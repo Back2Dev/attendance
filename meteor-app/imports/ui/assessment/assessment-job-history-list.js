@@ -67,7 +67,6 @@ class JobHistoryList extends Component {
 
     return (
       <React.Fragment>
-        <Nav />
         <Grid stackable textAlign="center" style={{ marginLeft: '50px', marginRight: '50px', marginTop: '20px' }}>
           <Grid.Row columns={3}>
             <Grid.Column computer={9} tablet={7} textAlign="left">

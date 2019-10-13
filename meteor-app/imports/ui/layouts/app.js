@@ -4,26 +4,28 @@ import { Meteor } from 'meteor/meteor'
 import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+
 import NavBar from '../components/nav-bar'
-import Footer from '../components/footer'
-import Landing from '../pages/landing'
+import './app.css'
 
 import Shop from '/imports/ui/shop'
 import Ordering from '/imports/ui/layouts/ordering'
 import PayNow from '../pages/pay-now'
-
-import NotFound from '../pages/not-found'
-import Parts from '../pages/parts'
-import Signin from '../pages/signin'
+import Assessment from '/imports/ui/assessment/assessment'
+import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
+import JobHistory from '/imports/ui/assessment/assessment-job-history'
+import MemberAddContainer from '/imports/ui/member/member-add-container'
 import Attendance from '/imports/ui/layouts/attendance'
+
+// These ones were created when initially setting up the new menu system, 
+// and can probably go at some stage
+import Landing from '../pages/landing'
+import NotFound from '../pages/not-found'
+import Login from '../pages/login'
 import Signup from '../pages/signup'
-import CurrentJobs from '../pages/current-jobs'
-import NewService from '../pages/new-service'
-import Signout from '../pages/signout'
+import Signout from '../pages/logout'
 import Admin from '../pages/admin.container'
-import VolSignIn from '../pages/vol-sign-in'
 import SuperAdmin from '../pages/super-admin'
-import './app.css'
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
 class App extends React.Component {
@@ -38,15 +40,17 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route path="/signup" component={Signup} />
-              <Route path="/signin" component={Signin} />
+              <Route path="/login" component={Login} />
               <Route path="/shop" component={Shop} />
 
-              <VolSignInProtectedRoute path="/volsignin" component={Attendance} />
+              <VolsigninProtectedRoute path="/volsignin" component={Attendance} />
+              <VolsigninProtectedRoute path="/add" component={MemberAddContainer} />
 
               <PartsProtectedRoute path="/parts" component={Ordering} />
 
-              <ServicingProtectedRoute path="/newservice" component={NewService} />
-              <ServicingProtectedRoute path="/currentjobs" component={CurrentJobs} />
+              <ServicingProtectedRoute path="/assessment" component={Assessment} />
+              <ServicingProtectedRoute path="/jobs" component={JobCardLister} />
+              <ServicingProtectedRoute path="/job-history" component={JobHistory} />
 
               <PayNowProtectedRoute path="/paynow" component={PayNow} />
 
@@ -66,7 +70,7 @@ class App extends React.Component {
 
 /**
  * ProtectedRoute (see React Router v4 sample)
- * Checks for Meteor login before routing to the requested page, otherwise goes to signin page.
+ * Checks for Meteor login before routing to the requested page, otherwise goes to login page.
  * @param {any} { component: Component, ...rest }
  */
 const ProtectedRoute = ({ component: Component, ...rest }) => (
@@ -77,13 +81,13 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
 
-const VolSignInProtectedRoute = ({ component: Component, ...rest }) => (
+const VolsigninProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
@@ -92,8 +96,8 @@ const VolSignInProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -107,8 +111,8 @@ const PartsProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -122,8 +126,8 @@ const ServicingProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -137,15 +141,15 @@ const PayNowProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
 
 /**
  * AdminProtectedRoute (see React Router v4 sample)
- * Checks for Meteor login and admin role before routing to the requested page, otherwise goes to signin page.
+ * Checks for Meteor login and admin role before routing to the requested page, otherwise goes to login page.
  * @param {any} { component: Component, ...rest }
  */
 const AdminProtectedRoute = ({ component: Component, ...rest }) => (
@@ -157,8 +161,8 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -172,8 +176,8 @@ const SuperAdminProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/signin', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )

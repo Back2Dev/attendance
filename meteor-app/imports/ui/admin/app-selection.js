@@ -66,7 +66,7 @@ class AppSelection extends Component {
 
             <Button
               onClick={() => {
-                this.props.history.push('/history')
+                this.props.history.push('/job-history')
               }}
               style={{
                 height: '100px',

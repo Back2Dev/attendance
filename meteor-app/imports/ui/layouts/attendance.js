@@ -16,7 +16,6 @@ import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
 import AppSelection from '/imports/ui/admin/app-selection'
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
-import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert'
 import '/imports/ui/layouts/attendance.css'
 
@@ -28,7 +27,7 @@ const Attendance = () => {
     const msg = file ? 'Adding your parts' : 'Oops! Forgot to add the file? Try again uploading the file'
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
@@ -38,7 +37,6 @@ const Attendance = () => {
   return (
     <div className="attendance-wrapper">
       <title>Back 2 Bikes | Attendance</title>
-      <Nav />
       <div style={{ marginTop: '70px', height: '100%' }}>
         <Switch>
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
