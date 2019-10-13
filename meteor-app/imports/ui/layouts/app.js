@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import NavBar from '../components/nav-bar'
 import './app.css'
@@ -17,7 +17,7 @@ import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import Attendance from '/imports/ui/layouts/attendance'
 
-// These ones were created when initially setting up the new menu system, 
+// These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
 import Landing from '../pages/landing'
 import NotFound from '../pages/not-found'
@@ -81,8 +81,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
@@ -96,8 +96,8 @@ const VolsigninProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
@@ -111,8 +111,8 @@ const PartsProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
@@ -126,8 +126,8 @@ const ServicingProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
@@ -141,8 +141,8 @@ const PayNowProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
@@ -161,8 +161,8 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
@@ -176,8 +176,8 @@ const SuperAdminProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
     }}
   />
 )
