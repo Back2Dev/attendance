@@ -36,7 +36,7 @@ if (Meteor.isServer) {
     })
   })
 
-  describe.only('upload processing', () => {
+  describe('upload processing', () => {
     it('slsa.load imports and updates 2 recorda', () => {
       resetDatabase()
       let n = 0
