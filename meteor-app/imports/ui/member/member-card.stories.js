@@ -28,6 +28,7 @@ storiesOf('Member.Card nosnap', module)
           <Card
             {...member}
             isSuper={boolean('Is Supervisor', false)}
+            isSlsa={boolean('SLSA?', false)}
             sessionCount={number('Session Count', 4)}
             onCardClick={action('onCardClick')}
           />

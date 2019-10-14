@@ -9,7 +9,7 @@ const UploadButton = ({ uploadMethod, toggle, header }) => (
     className="upload-button"
     action=""
     onSubmit={e => {
-      toggle();
+      if (toggle) toggle();
       uploadMethod(e);
     }}
   >

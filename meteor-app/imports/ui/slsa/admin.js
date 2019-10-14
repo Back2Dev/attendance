@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
-import UploadXL from '/imports/ui/ordering/uploadXL'
+import UploadButton from '/imports/ui/components/upload-button'
 // import MemberList from './member-list'
 // import MemberDetails from './member'
 
@@ -22,14 +22,21 @@ import UploadXL from '/imports/ui/ordering/uploadXL'
 //   )
 // }
 
-const Admin = props => {
-  const toggleNOOP = () => { }
+const Admin = ({ uploadMethod }) => {
 
   return (
     <Grid centered>
       <Grid.Column width={12}>
         <h2> Surf Life Saving Admin</h2>
-        <UploadXL uploadXL={props.uploadXL} toggleAddPart={toggleNOOP}></UploadXL>
+        <p>This page can be used to upload Surf Life saving membersip information, as extracted from Surf Guard. The file should be of the following format...</p>
+        <ul>
+          <li>Member ID</li>
+          <li>Last Name</li>
+          <li>First Name</li>
+          <li>Status</li>
+          <li>Season</li>
+        </ul>
+        <UploadButton uploadMethod={uploadMethod} header="Upload CSV file from Surf Guard"></UploadButton>
         <Switch>
           {/* <PropsRoute path="/admin/slsa" exact component={MemberList} {...this.props} /> */}
           {/* <PropsRoute path="/admin/slsa/:id" component={MemberDetails} {...this.props} /> */}
@@ -42,7 +49,7 @@ const Admin = props => {
 Admin.propTypes = {
   members: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
-  uploadXL: PropTypes.func.isRequired
+  uploadMethod: PropTypes.func.isRequired
 }
 
 export default Admin

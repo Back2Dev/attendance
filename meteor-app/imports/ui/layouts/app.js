@@ -15,8 +15,9 @@ import Assessment from '/imports/ui/assessment/assessment'
 import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
-import Attendance from '/imports/ui/layouts/attendance'
 import MemberMainContainer from '/imports/ui/member-main-container'
+import MemberEdit from '/imports/ui/member-edit'
+import Visit from '/imports/ui/visit'
 
 // These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
@@ -48,6 +49,8 @@ class App extends React.Component {
 
               <VolsigninProtectedRoute path="/volsignin" component={MemberMainContainer} />
               <VolsigninProtectedRoute path="/add" component={MemberAddContainer} />
+              <VolsigninProtectedRoute path="/visit/:id" component={Visit} />
+              <VolsigninProtectedRoute path="/edit/:id" component={MemberEdit} />
 
               <PartsProtectedRoute path="/parts" component={Ordering} />
 

@@ -6,6 +6,10 @@ import '/imports/api/members/methods'
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 
+import slsaData from '/imports/test/slsa.sample'
+
+const fs = require('fs')
+
 const goodMember = Factory.build('member')
 const goodSession = Factory.build('session', { memberId: goodMember._id })
 
@@ -30,5 +34,16 @@ if (Meteor.isServer) {
       sid = Sessions.find({ memberId: id }).fetch()
       expect(() => sid.to.not.be.ok())
     })
+  })
+
+  describe.only('upload processing', () => {
+    it('slsa.load imports and updates 2 recorda', () => {
+      let n = 0
+      expect(() => {
+        n = Meteor.call('slsa.load', slsaData)
+      }).to.not.throw()
+      expect(n).to.be.equal(2)
+    })
+
   })
 }

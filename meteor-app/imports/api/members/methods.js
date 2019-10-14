@@ -12,7 +12,7 @@ import { saveToArchive } from '/imports/api/archive'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  'members.insert': function(member) {
+  'members.insert': function (member) {
     try {
       return Members.insert(member)
     } catch (e) {
@@ -20,7 +20,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.remove': function(id) {
+  'members.remove': function (id) {
     try {
       log.info('removing member id: ', id)
       const data = {}
@@ -44,7 +44,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.removeDupe': function(id, merge) {
+  'members.removeDupe': function (id, merge) {
     const data = { merge }
     data.member = Members.findOne(id)
     if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
@@ -76,7 +76,7 @@ Meteor.methods({
     saveToArchive('member', data)
     Members.remove(id)
   },
-  'members.setPin': function(id, pin) {
+  'members.setPin': function (id, pin) {
     try {
       log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin } })
@@ -85,7 +85,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.rmPin': function(name) {
+  'members.rmPin': function (name) {
     try {
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
@@ -94,7 +94,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.rmEddie': function(name) {
+  'members.rmEddie': function (name) {
     try {
       log.info(`Removing member: Eddie Mercx ${name}`)
       return Members.remove({ name: 'Eddie Mercx' })
@@ -103,7 +103,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.update': function(id, formData) {
+  'members.update': function (id, formData) {
     try {
       log.info('updating member: ', id, formData)
       return Members.update({ _id: id }, { $set: { ...formData } })
@@ -113,7 +113,7 @@ Meteor.methods({
     }
   },
 
-  'members.forgotPin': function(id, method, to, remember) {
+  'members.forgotPin': function (id, method, to, remember) {
     log.info(`sending pin for member ${id} via ${method} to ${to} ${remember}`)
     try {
       // make DB query and grab the pin.
@@ -165,11 +165,11 @@ r = function (k, vals) {
 res = db.members.mapReduce(m,r, { out : "duplicates" });
 db[res.result].find({value: {$gt: 1}});
 */
-  'members.showDupes': function() {
-    const m = function() {
+  'members.showDupes': function () {
+    const m = function () {
       emit(this.name, 1)
     }
-    const r = function(k, vals) {
+    const r = function (k, vals) {
       return Array.sum(vals)
     }
 
@@ -189,7 +189,7 @@ db[res.result].find({value: {$gt: 1}});
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
   },
-  'member.email.invoice': function(cartId, email, discountedPrice, discount) {
+  'member.email.invoice': function (cartId, email, discountedPrice, discount) {
     const cart = Carts.findOne(cartId)
     if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
     const member = Members.findOne(cart.memberId)
@@ -222,7 +222,7 @@ db[res.result].find({value: {$gt: 1}});
     )
   },
 
-  async 'slsa.load'(data) {
+  'slsa.load': function (data) {
     let countTotal = 0
     if (Meteor.isClient) return
     try {
@@ -240,10 +240,13 @@ db[res.result].find({value: {$gt: 1}});
             .filter(row => row.Status === 'Active' && row.Season === '2019/2020')
             .map(row => wanted.map(key => row[key]))
             .map(row => {
+              debug('row', row)
               return { slsaId: row[0], name: `${row[2]} ${row[1]}` }
             })
             .reduce((acc, member) => {
               debug(`Updating ${member.name}`)
+              if (!Members.findOne({ name: member.name })) debug(`Could not find ${member.name}`)
+              Members.find({ name: member.name }).map(m => debug(m.name))
               return acc + Members.update({ name: member.name }, { $set: { isSlsa: true } })
             }, 0)
           debug('updated', countTotal)
@@ -251,6 +254,7 @@ db[res.result].find({value: {$gt: 1}});
           console.error(`Couldn't update members from csv ${s}: `, e)
         }
       }
+      debug(`Updated ${countTotal} records`)
       return countTotal
     } catch (e) {
       debug(e)
