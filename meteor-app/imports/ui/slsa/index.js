@@ -15,7 +15,7 @@ const Loader = props => {
   return <Admin {...props} />
 }
 
-const uploadSLSAFile = (e) => {
+const uploadSLSAFile = (e, season) => {
   e.preventDefault()
 
   const file = e.target[0].files[0]
@@ -24,7 +24,7 @@ const uploadSLSAFile = (e) => {
   const reader = new FileReader()
   reader.onloadend = async function () {
     const data = reader.result
-    const response = await Meteor.callAsync('slsa.load', data)
+    const response = await Meteor.callAsync('slsa.load', data, season)
     debug('Response is ', response)
   }
   reader.readAsBinaryString(file)

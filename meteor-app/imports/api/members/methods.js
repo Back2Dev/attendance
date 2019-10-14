@@ -222,7 +222,7 @@ db[res.result].find({value: {$gt: 1}});
     )
   },
 
-  'slsa.load': function (data) {
+  'slsa.load': function (data, season) {
     let countTotal = 0
     if (Meteor.isClient) return
     try {
@@ -237,7 +237,7 @@ db[res.result].find({value: {$gt: 1}});
             raw: true
           })
           countTotal = rows
-            .filter(row => row.Status === 'Active' && row.Season === '2019/2020')
+            .filter(row => row.Status === 'Active' && row.Season === season)
             .map(row => wanted.map(key => row[key]))
             .map(row => {
               debug('row', row)

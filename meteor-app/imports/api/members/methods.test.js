@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { Meteor } from 'meteor/meteor'
-// import { resetDatabase } from '/imports/test/util-test'
+import { resetDatabase } from '/imports/test/util-test'
 import Factory from '/imports/test/factories'
 import '/imports/api/members/methods'
 import Members from '/imports/api/members/schema'
@@ -38,9 +38,16 @@ if (Meteor.isServer) {
 
   describe.only('upload processing', () => {
     it('slsa.load imports and updates 2 recorda', () => {
+      resetDatabase()
       let n = 0
+      delete goodMember._id
+      goodMember.name = 'Herminio Blick'
+      expect(() => Members.insert(goodMember)).to.not.throw()
+      delete goodMember._id
+      goodMember.name = 'Hope Cartwright'
+      expect(() => Members.insert(goodMember)).to.not.throw()
       expect(() => {
-        n = Meteor.call('slsa.load', slsaData)
+        n = Meteor.call('slsa.load', slsaData, '2019/2020')
       }).to.not.throw()
       expect(n).to.be.equal(2)
     })

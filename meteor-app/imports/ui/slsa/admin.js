@@ -36,7 +36,7 @@ const Admin = ({ uploadMethod }) => {
           <li>Status</li>
           <li>Season</li>
         </ul>
-        <UploadButton uploadMethod={uploadMethod} header="Upload CSV file from Surf Guard"></UploadButton>
+        <UploadButton uploadMethod={uploadMethod} header="Upload CSV file from Surf Guard" input="season" prompt="Enter current season (eg 2019/2020)"></UploadButton>
         <Switch>
           {/* <PropsRoute path="/admin/slsa" exact component={MemberList} {...this.props} /> */}
           {/* <PropsRoute path="/admin/slsa/:id" component={MemberDetails} {...this.props} /> */}
