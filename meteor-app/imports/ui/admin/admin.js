@@ -33,9 +33,9 @@ class Admin extends Component {
         <Grid.Column width={12}>
           <h1> {this.props.memberWords ? this.props.memberWords : 'Volunteers'}</h1>
           <Switch>
-            <PropsRoute path="/useradmin" exact component={MemberList} {...this.props} />
-            <PropsRoute path="/userprofiles" exact component={AdminMemberList} {...this.props} />
-            <PropsRoute path="/userprofiles/:id" component={MemberDetails} {...this.props} />
+            <PropsRoute path="/admin/useradmin" exact component={MemberList} {...this.props} />
+            <PropsRoute path="/admin/userprofiles" exact component={AdminMemberList} {...this.props} />
+            <PropsRoute path="/admin/userprofiles/:id" component={MemberDetails} {...this.props} />
           </Switch>
         </Grid.Column>
       </Grid>

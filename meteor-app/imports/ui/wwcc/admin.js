@@ -32,8 +32,8 @@ class Admin extends Component {
         <Grid.Column width={12}>
           <h2> Working with children check</h2>
           <Switch>
-            <PropsRoute path="/wwcc" exact component={MemberList} {...this.props} />
-            <PropsRoute path="/wwcc/:id" component={MemberDetails} {...this.props} />
+            <PropsRoute path="/admin/wwcc" exact component={MemberList} {...this.props} />
+            <PropsRoute path="/admin/wwcc/:id" component={MemberDetails} {...this.props} />
           </Switch>
         </Grid.Column>
       </Grid>

@@ -6,6 +6,9 @@ import { withRouter, NavLink } from 'react-router-dom'
 import { Menu, Dropdown, Header, Icon } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
 
+import AdminMenu from '/imports/ui/pages/admin-menu'
+
+
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class NavBar extends React.Component {
   render() {
@@ -94,17 +97,9 @@ class NavBar extends React.Component {
           ]
           : ''}
         {Roles.userIsInRole(Meteor.userId(), 'admin')
-          ? [
-            <Menu.Item
-              as={NavLink}
-              content="Admin"
-              icon="user"
-              activeClassName="active"
-              exact
-              to="/admin"
-              key="admin"
-            />
-          ]
+          ?
+          <AdminMenu></AdminMenu>
+
           : ''}
         {Roles.userIsInRole(Meteor.userId(), 'superadmin')
           ? [

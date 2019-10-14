@@ -11,8 +11,8 @@ const Ordering = () => {
       <title>Back2Bikes | Ordering</title>
       <div style={{ marginTop: '70px', height: '100%' }}>
         <Switch>
-          <Route path="/ordering/cart" component={Cart} />
-          <Route path="/" component={Layout} />
+          <Route path="/parts/ordering/cart" component={Cart} />
+          <Route path="/parts" component={Layout} />
           <Route component={NotFound} />
         </Switch>
       </div>

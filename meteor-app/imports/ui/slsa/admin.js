@@ -23,7 +23,7 @@ import UploadXL from '/imports/ui/ordering/uploadXL'
 // }
 
 const Admin = props => {
-  const toggleNOOP = () => {}
+  const toggleNOOP = () => { }
 
   return (
     <Grid centered>
@@ -31,8 +31,8 @@ const Admin = props => {
         <h2> Surf Life Saving Admin</h2>
         <UploadXL uploadXL={props.uploadXL} toggleAddPart={toggleNOOP}></UploadXL>
         <Switch>
-          {/* <PropsRoute path="/slsa" exact component={MemberList} {...this.props} /> */}
-          {/* <PropsRoute path="/slsa/:id" component={MemberDetails} {...this.props} /> */}
+          {/* <PropsRoute path="/admin/slsa" exact component={MemberList} {...this.props} /> */}
+          {/* <PropsRoute path="/admin/slsa/:id" component={MemberDetails} {...this.props} /> */}
         </Switch>
       </Grid.Column>
     </Grid>

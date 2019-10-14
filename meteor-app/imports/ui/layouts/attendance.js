@@ -15,6 +15,7 @@ import SlsaContainer from '/imports/ui/slsa'
 import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
 import AppSelection from '/imports/ui/admin/app-selection'
+
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
 import Alert from 'react-s-alert'
 import '/imports/ui/layouts/attendance.css'
@@ -46,6 +47,7 @@ const Attendance = () => {
           <Route path="/useradmin" component={AdminContainer} />
           <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />
+
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />
           <Route path="/payment-confirm" component={PaymentConfirm} />

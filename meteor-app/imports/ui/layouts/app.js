@@ -16,6 +16,7 @@ import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import Attendance from '/imports/ui/layouts/attendance'
+import MemberMainContainer from '/imports/ui/member-main-container'
 
 // These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
@@ -24,8 +25,10 @@ import NotFound from '../pages/not-found'
 import Login from '../pages/login'
 import Signup from '../pages/signup'
 import Signout from '../pages/logout'
-import Admin from '../pages/admin.container'
+import Admin from '../pages/admin-container'
 import SuperAdmin from '../pages/super-admin'
+
+const Home = props => <div>Home is where the heart is</div>
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
 class App extends React.Component {
@@ -38,12 +41,12 @@ class App extends React.Component {
           </div>
           <div>
             <Switch>
-              <Route exact path="/" component={Attendance} />
+              <Route exact path="/" component={Home} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/shop" component={Shop} />
 
-              <VolsigninProtectedRoute path="/volsignin" component={Attendance} />
+              <VolsigninProtectedRoute path="/volsignin" component={MemberMainContainer} />
               <VolsigninProtectedRoute path="/add" component={MemberAddContainer} />
 
               <PartsProtectedRoute path="/parts" component={Ordering} />
@@ -81,8 +84,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -96,8 +99,8 @@ const VolsigninProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -111,8 +114,8 @@ const PartsProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -126,8 +129,8 @@ const ServicingProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -141,8 +144,8 @@ const PayNowProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -161,8 +164,8 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )
@@ -176,8 +179,8 @@ const SuperAdminProtectedRoute = ({ component: Component, ...rest }) => (
       return isLogged && hasRights ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
     }}
   />
 )

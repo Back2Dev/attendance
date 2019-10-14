@@ -9,12 +9,12 @@ const AssessmentLayout = () => (
   <div className="assessment-wrapper">
     <title>Back 2 Bikes | Assessment</title>
     <Nav />
-        <div style={{ height: '100%' }}>
-          <Switch>
-            <Route path="/" component={Assessment} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
+    <div style={{ height: '100%' }}>
+      <Switch>
+        <Route path="/admin/assessment" component={Assessment} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
   </div>
 )
 
