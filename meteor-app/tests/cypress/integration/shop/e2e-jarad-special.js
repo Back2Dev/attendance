@@ -1,8 +1,8 @@
 const pin = '1234'
 
-describe('Shopping Payment', function() {
-  it('Choose Product', function() {
-    cy.visit('/userprofiles/')
+describe('Shopping Payment', function () {
+  it('Choose Product', function () {
+    cy.visit('/admin/userprofiles/')
     cy.get('button[about="Mike King"]')
       .contains('Add...')
       .click()
@@ -101,6 +101,6 @@ describe('Shopping Payment', function() {
     // Clear out last run (and this one)
     cy.get('button#rm_pa_casual').click()
     cy.get('button#continue').click()
-    cy.visit('/userprofiles/')
+    cy.visit('/admin/userprofiles/')
   })
 })

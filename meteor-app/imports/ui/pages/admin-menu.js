@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 const debug = require('debug')('tm:year-dropdown')
 
 const adminPages = [
+  { name: '', display: 'Admin' },
   { name: 'userprofiles', display: 'Users' },
   { name: 'wwcc', display: 'WWCC' },
   { name: 'slsa', display: 'SLSA' },

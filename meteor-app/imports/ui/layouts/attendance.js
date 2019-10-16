@@ -1,3 +1,7 @@
+/*
+ This file is obsolete, and will eventually go
+*/
+/*
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
@@ -14,7 +18,7 @@ import WwccContainer from '/imports/ui/wwcc'
 import SlsaContainer from '/imports/ui/slsa'
 import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
-import AppSelection from '/imports/ui/admin/app-selection'
+// import AppSelection from '/imports/ui/admin/app-selection'
 
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
 import Alert from 'react-s-alert'
@@ -63,3 +67,4 @@ const Attendance = () => {
 }
 
 export default Attendance
+*/

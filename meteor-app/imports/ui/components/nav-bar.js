@@ -93,6 +93,15 @@ class NavBar extends React.Component {
               exact
               to="/jobs"
               key="jobs"
+            />,
+            <Menu.Item
+              as={NavLink}
+              content="Job history"
+              icon="list alternate outline"
+              activeClassName="active"
+              exact
+              to="/job-history"
+              key="job-history"
             />
           ]
           : ''}

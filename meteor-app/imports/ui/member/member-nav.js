@@ -39,7 +39,7 @@ const Nav = props => {
       {admin && (
         <Menu.Item
           onClick={() => {
-            props.history.push('/userprofiles')
+            props.history.push('/admin/userprofiles')
           }}
         >
           <Button id="list_members" color="blue" content={memberWords} icon="group" />

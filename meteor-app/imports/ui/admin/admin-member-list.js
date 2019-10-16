@@ -14,7 +14,7 @@ const Admin = props => {
 
   const memberClick = id => {
     debug(`memberClick(${id})`)
-    props.history.push(`/userprofiles/${id}`)
+    props.history.push(`/admin/userprofiles/${id}`)
   }
 
   return (
