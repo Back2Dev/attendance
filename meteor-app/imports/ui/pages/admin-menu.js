@@ -11,6 +11,7 @@ const adminPages = [
   { name: 'slsa', display: 'SLSA' },
   { name: 'duplicates', display: 'Duplicates' },
   { name: 'renewals', display: 'Renewals' },
+  { name: 'matching', display: 'Matching' },
 ]
 
 const adminMenu = ({ current, goHome, history }) => {
