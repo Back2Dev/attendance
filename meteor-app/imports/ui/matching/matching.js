@@ -8,7 +8,7 @@ import './styles.css'
 const debug = require('debug')('b2b:reminders')
 
 
-const FormatDate = ({ value }) => <div>{moment(value).format('YYYY-MM-DD HH:MM')}</div>
+const FormatDate = ({ value }) => <div>{moment(value).format('YYYY-MM-DD hh:mm')}</div>
 const selectors = Data.Selectors
 
 
@@ -17,6 +17,12 @@ const cols = [
     name: 'Date',
     key: 'createdAt',
     formatter: FormatDate,
+    sortable: true,
+  },
+  {
+    name: 'Status',
+    key: 'status',
+    filterable: true,
     sortable: true,
   },
   {
@@ -33,10 +39,10 @@ const cols = [
     key: 'email'
   },
   {
-    name: 'payment email',
+    name: 'Payment name',
     filterable: true,
     sortable: true,
-    key: 'creditCard.email'
+    key: 'creditCard.name'
   },
   {
     name: 'payment address',
@@ -96,10 +102,10 @@ const getter = document.get = (key) => {
 }
 
 
-const CartList = ({ carts }) => {
+const CartList = ({ carts, status }) => {
 
   const [rows, setRows] = React.useState(carts)
-  const [filters, setFilters] = React.useState({})
+  const [filters, setFilters] = React.useState(status ? { status } : {})
   const filteredRows = getRows(rows, filters)
 
   const rowGetter = (rowIdx) => {
@@ -139,10 +145,10 @@ const CartList = ({ carts }) => {
 const Matching = ({ members, carts, purchases }) => {
   const panes = [
     {
-      menuItem: 'Completed',
+      menuItem: 'Complete',
       render: () => (
         <Tab.Pane attached={false}>
-          <CartList carts={carts} type="member" />
+          <CartList carts={carts} status="complete" />
         </Tab.Pane>
       )
     },
@@ -150,18 +156,10 @@ const Matching = ({ members, carts, purchases }) => {
       menuItem: 'Ready',
       render: () => (
         <Tab.Pane attached={false}>
-          <CartList carts={carts} type="pass" />
+          <CartList carts={carts} status="ready" />
         </Tab.Pane>
       )
     },
-    {
-      menuItem: 'Casual',
-      render: () => (
-        <Tab.Pane attached={false}>
-          <CartList carts={carts} type="casual" />
-        </Tab.Pane>
-      )
-    }
   ]
 
   return (

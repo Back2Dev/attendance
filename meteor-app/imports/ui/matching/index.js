@@ -34,12 +34,20 @@ export default withTracker(props => {
 
   const members = Members.find(filter(Session.get('searchQuery')), {
     sort: {
-      sessionCount: -1
+      createdAt: -1
     }
   }).fetch()
 
-  const carts = Carts.find({}).fetch()
-  const purchases = Purchases.find({}).fetch()
+  const carts = Carts.find({}, {
+    sort: {
+      createdAt: -1
+    }
+  }).fetch()
+  const purchases = Purchases.find({}, {
+    sort: {
+      createdAt: -1
+    }
+  }).fetch()
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
