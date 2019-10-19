@@ -80,9 +80,8 @@ const Checkout = ({ history }) => {
       setDP(state.price / 100 - disc)
     } else {
       const disc = parseInt(e.target.value)
-      if (disc) {
-        setDP(Math.floor(((100 - disc) * (state.price / 100)) / 100))
-      } else setDP(state.price / 100)
+      if (disc) setDP(state.price / 100 - disc)
+      else setDP(state.price / 100)
     }
   }
   const checkPromo = async () => {
@@ -252,11 +251,11 @@ const Checkout = ({ history }) => {
                       {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
                     </Form.Group>
                   </Form>
-                  <Button id="doit" type="button" onClick={adminDoIt}>
-                    Do it
-                  </Button>
-                  <Button id="cancel" type="button" onClick={adminCancel}>
+                  <Button id="cancel" type="button" color="red" inverted onClick={adminCancel}>
                     Cancel
+                  </Button>
+                  <Button id="doit" type="button" color="green" inverted onClick={adminDoIt}>
+                    Do it
                   </Button>
                 </Segment>
               </Grid.Column>

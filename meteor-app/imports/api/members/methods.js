@@ -205,7 +205,7 @@ db[res.result].find({value: {$gt: 1}});
         date: moment().format('DD/MM/YYYY'),
         name: member.name,
         email,
-        discount,
+        discount: priceFormat(discount * 100),
         description1: cart.products[0].name,
         description2: cart.products.length > 1 ? cart.products[1].name : '',
         description3: cart.products.length > 2 ? cart.products[2].name : '',
@@ -222,7 +222,7 @@ db[res.result].find({value: {$gt: 1}});
     )
   },
 
-  async 'slsa.load'(data) {
+  'slsa.load': function(data) {
     let countTotal = 0
     if (Meteor.isClient) return
     try {
@@ -244,6 +244,8 @@ db[res.result].find({value: {$gt: 1}});
             })
             .reduce((acc, member) => {
               debug(`Updating ${member.name}`)
+              if (!Members.findOne({ name: member.name })) debug(`Could not find ${member.name}`)
+              Members.find({ name: member.name }).map(m => debug(m.name))
               return acc + Members.update({ name: member.name }, { $set: { isSlsa: true } })
             }, 0)
           debug('updated', countTotal)
@@ -251,6 +253,7 @@ db[res.result].find({value: {$gt: 1}});
           console.error(`Couldn't update members from csv ${s}: `, e)
         }
       }
+      debug(`Updated ${countTotal} records`)
       return countTotal
     } catch (e) {
       debug(e)
