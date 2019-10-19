@@ -475,6 +475,113 @@ Meteor.methods({
       }
     })
     debug(`Created ${newCarts} carts`)
+  },
+
+  findMemberCart(memberId) {
+    const monthAgo = moment()
+      .subtract(30, 'day')
+      .toDate()
+    const cartQuery = {
+      memberId,
+      status: 'ready',
+      price: { $gt: 0 },
+      createdAt: { $gt: monthAgo }
+    }
+    const carts = Carts.find(cartQuery, { sort: { createdAt: -1 } }).fetch()
+    if (carts.length > 0) {
+      return carts[0]
+    } else {
+      // Couldn't find a cart - look for the last purchase and use that
+      const purchases = Purchases.find({ memberId }, { sort: { createdAt: -1 } }).fetch()
+      if (purchases.length === 0) return null
+      const purchase = purchases[0] // take the most recent one
+      const product = Products.findOne(purchase.productId)
+      if (product) {
+        delete product.createdAt
+        delete product.updatedAt
+        const newCart = {
+          memberId,
+          price: purchase.price,
+          totalqty: 1,
+          products: [product],
+          prodqty: {
+            [product._id]: 1
+          },
+          status: 'ready'
+        }
+        const cartId = Carts.insert(newCart)
+        debug(`cart found ${cartId}`, Carts.findOne(cartId))
+        return Carts.findOne(cartId)
+      } else {
+        debug(`Could not find a previous purchase or product for ${memberId}`)
+        throw new Meteor.Error('No PRODUCT ') // Like BREXIT, it's a NO DEAL CRASHOUT !!!
+      }
+    }
+  },
+
+  autoPayNotice() {
+    // Send Advance notice of auto-payment
+    const query = {
+      autoPay: true,
+      subsType: 'member',
+      paymentCustId: { $exists: true }
+    }
+    debug('Search for ', query)
+    Members.find(query).forEach(member => {
+      // Expiring within the next 3 days?
+      const expiry = moment(member.expiry)
+      const amount = `${price / 100}.00`
+      debug(`${member.name} expires ${member.expiry}`)
+      if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
+        // Membership has expired... find/create a shopping cart for them to use
+        const cart = Meteor.call('findMemberCart', member._id)
+        debug(`autoPayNotice for ${member.name} ${member.email}`)
+        Meteor.call(
+          'sendGenericInfoEmail',
+          member.email,
+          {
+            subject: 'Automatic payment due soon',
+            name: member.name,
+            message: `We will charge ${amount} your credit card on ${expiry.format('DD/MM/YYYY')}.
+
+No action is required, as you have elected to pay automatically, and we have your card details on file`,
+            headline: `Automatic membership renewal`
+          },
+          Meteor.settings.private.genericInfoID
+        )
+      }
+    })
+  },
+
+  autoPayComplete() {
+    // Make auto-payments when expired, and send email
+    const query = {
+      autoPay: true,
+      subsType: 'member',
+      paymentCustId: { $exists: true }
+    }
+    Members.find(query).forEach(member => {
+      // Expiring today?
+      const expiry = moment(member.expiry)
+      if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
+        Meteor.call(
+          'sendGenericInfoEmail',
+          member.email,
+          {
+            subject: 'Automatic remembership renewal complete',
+            name: member.name,
+            message: 'No action required as ',
+            headline: 'Read all about it!'
+          },
+          Meteor.settings.private.genericInfoID
+        )
+      }
+    })
+
+    try {
+    } catch (error) {
+      console.error(`Error ${error.message} encountered while checking memberships`)
+    }
   }
 })
 
@@ -529,61 +636,11 @@ const membershipTicker = () => {
   // - Auto-payment has been made
   // - Your membership has expired - please renew
 
-  // Send Advance notice of auto-payment
-  let query = {
-    autoPay: true,
-    subsType: 'member',
-    paymentCustId: { $exists: true }
-  }
-  Members.find(query).forEach(member => {
-    // Expiring within the next 3 days?
-    const expiry = moment(member.expiry)
-    if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
-      Meteor.call(
-        'sendGenericInfoEmail',
-        member.email,
-        {
-          subject: 'Automatic payment due soon',
-          name: member.name,
-          message:
-            'No action is required, as you have elected to pay automatically, and we have your card details on file',
-          headline: 'Payment',
-          action: '',
-          link: `${Meteor.absoluteUrl()}register`
-        },
-        Meteor.settings.private.genericID
-      )
-    }
-  })
+  // Warn of payments within 3 days'
+  Meteor.call('autoPayNotice')
 
-  // Make auto-payments when expired, and send email
-  query = {
-    autoPay: true,
-    subsType: 'member',
-    paymentCustId: { $exists: true }
-  }
-  Members.find(query).forEach(member => {
-    // Expiring today?
-    const expiry = moment(member.expiry)
-    if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
-      Meteor.call(
-        'sendGenericInfoEmail',
-        member.email,
-        {
-          subject: 'Automatic payment due soon',
-          name: member.name,
-          message: 'No action required as ',
-          headline: 'Read all about it!'
-        },
-        Meteor.settings.private.genericInfoID
-      )
-    }
-  })
-
-  try {
-  } catch (error) {
-    console.error(`Error ${error.message} encountered while checking memberships`)
-  }
+  // Auto-payment has been made'
+  Meteor.call('autoPayComplete')
 }
 //
 // These are cron-style time specifiers

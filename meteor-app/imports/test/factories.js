@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor'
 import faker from 'faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
+import moment from 'moment'
 
 import CONSTANTS from '/imports/api/constants'
 // publications
@@ -176,16 +177,18 @@ Factory.define('product', Products, {
   image: '/public/images/gym.jpg',
   active: true,
   autoRenew: true,
-  startDate: '2019-02-18T16:00:00Z',
-  endDate: '2019-05-18T16:00:00Z'
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
 })
 
 Factory.define('purchase', Purchases, {
-  memberId: 'SYdWnRL5LmZXT4GxE',
-  productId: 'SYdWnRL5LmZXT4GxE',
-  productName: 'Evening workshop',
-  price: 5000,
-  code: 'MISC'
+  price: 96000,
+  code: 'PA-MEMB-12',
+  expiry: faker.date.future(),
+  txnDate: faker.date.past(),
+  purchaser: 'Mike King',
+  productId: 'EKFJq9mrEjPer3PHW',
+  productName: 'PA 12 month membership'
 })
 
 Factory.define('event', Events, {
