@@ -4,6 +4,7 @@ import { resetDatabase } from '/imports/test/util-test'
 import Factory from '/imports/test/factories'
 import moment from 'moment'
 import './cron-jobs'
+import './cron-payment'
 import './email'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -22,7 +23,7 @@ const goodMember = Factory.build('member', {
 })
 
 if (Meteor.isServer) {
-  describe.only('Membership cron processing -', () => {
+  describe('Membership cron processing -', () => {
     // beforeEach(resetDatabase)
     resetDatabase()
     let memberId
@@ -94,7 +95,7 @@ if (Meteor.isServer) {
       expect(() => {
         cart = Meteor.call('findMemberCart', memberId)
       }).to.not.throw()
-      expect(cart).to.be.not.equal('xxx')
+      expect(cart).to.be.not.equal(null)
     })
 
     it('sends the autopay notice', () => {

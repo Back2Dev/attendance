@@ -193,6 +193,11 @@ export const CartsSchema = new SimpleSchema({
   },
   customerResponse: { type: Object, blackbox: true, optional: true },
   chargeResponse: { type: Object, blackbox: true, optional: true },
+  //
+  // This section is for managing
+  //
+  updatedWhen: { type: Date, optional: true },
+  //
   createdAt,
   updatedAt
 })
