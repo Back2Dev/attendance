@@ -22,7 +22,7 @@ const goodMember = Factory.build('member', {
 })
 
 if (Meteor.isServer) {
-  describe.only('Old cart retirement -', () => {
+  describe('Old cart retirement -', () => {
     // beforeEach(resetDatabase)
     resetDatabase()
     let memberId
