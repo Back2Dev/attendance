@@ -194,9 +194,12 @@ export const CartsSchema = new SimpleSchema({
   customerResponse: { type: Object, blackbox: true, optional: true },
   chargeResponse: { type: Object, blackbox: true, optional: true },
   //
-  // This section is for managing
+  // This section is for managing reminders, reconciliation etc
   //
-  updatedWhen: { type: Date, optional: true },
+  reconciled: { type: Boolean, defaultValue: false },
+  autoPayNoticeDate: { type: Date, optional: true },
+  manualPayReminderDate: { type: Date, optional: true },
+  paymentDate: { type: Date, optional: true },
   //
   createdAt,
   updatedAt

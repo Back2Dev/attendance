@@ -10,7 +10,7 @@ import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 
-const debug = require('debug')('b2b:test')
+const debug = require('debug')('b2b:test-autopay')
 
 const goodMember = Factory.build('member', {
   autoPay: true,
@@ -23,7 +23,7 @@ const goodMember = Factory.build('member', {
 })
 
 if (Meteor.isServer) {
-  describe('Membership cron processing -', () => {
+  describe.only('Membership cron processing -', () => {
     // beforeEach(resetDatabase)
     resetDatabase()
     let memberId
@@ -99,9 +99,14 @@ if (Meteor.isServer) {
     })
 
     it('sends the autopay notice', () => {
+      expect(cart.autoPayNoticeDate).to.be.equal(undefined)
       expect(() => {
         Meteor.call('autoPayNotice')
       }).to.not.throw()
+      expect(() => {
+        cart = Carts.findOne(cart._id)
+      }).to.not.throw()
+      expect(typeof cart.autoPayNoticeDate).to.be.equal('date')
     })
   })
 }

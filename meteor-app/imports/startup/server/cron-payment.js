@@ -84,6 +84,7 @@ No action is required, as you have elected to pay automatically, and we have you
           },
           Meteor.settings.private.genericInfoID
         )
+        Members.update(member._id, { $set: { autoPayNoticeDate: new Date() } })
       }
     })
   },
