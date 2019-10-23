@@ -40,6 +40,7 @@ const myProducts = {
       code: 'PA-CASUAL',
       autoRenew: true,
       active: true,
+      duration: 2,
       qty: 1,
       subsType: 'casual',
       image: '/images/pass.jpg'

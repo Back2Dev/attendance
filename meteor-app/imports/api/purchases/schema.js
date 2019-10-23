@@ -14,7 +14,8 @@ export const PurchasesSchema = new SimpleSchema({
   },
   memberId: {
     type: String,
-    label: 'Member Id'
+    label: 'Member Id',
+    optional: true
   },
   productName: {
     type: String,

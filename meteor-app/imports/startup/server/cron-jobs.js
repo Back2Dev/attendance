@@ -36,11 +36,11 @@ Meteor.methods({
             const purchaseDate = moment(cart.chargeResponse.created_at)
             // Find the last expiring purchase:
             const purchases = Purchases.find({ memberId: members[0]._id }, { sort: { expiry: -1 } }).fetch()
-            expiry = (purchases.length && purchases[0].expiry && purchaseDate.isBefore(purchases[0].expiry, 'day')) ? moment(purchases[0].expiry) : purchaseDate
+            const expiry = (purchases.length && purchases[0].expiry && purchaseDate.isBefore(purchases[0].expiry, 'day')) ? moment(purchases[0].expiry) : purchaseDate
             sub.expiry = expiry.add(sub.duration, 'month').toISOString()
           }
           if (sub.type === 'pass') {
-
+            sub.expiry = moment(cart.chargeResponse.created_at).add(sub.duration, 'month').toISOString()
           }
 
 
