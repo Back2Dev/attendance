@@ -9,7 +9,7 @@ const goodOrder = Factory.build('order')
 const orderId = goodOrder._id
 
 if (Meteor.isServer) {
-  describe.only('historial orders method', () => {
+  describe('historial orders method', () => {
     it('success on importing emails', () => {
       expect(() => Meteor.call('orders.email.read', data.mailbox)).to.not.throw()
     })
