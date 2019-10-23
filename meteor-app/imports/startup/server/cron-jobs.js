@@ -13,15 +13,17 @@ const cron = require('node-cron')
 const debug = require('debug')('b2b:cron')
 
 Meteor.methods({
-  reconcileCompletedCarts() {
+  reconcileCompletedCarts(cartId) {
     try {
-      Carts.find({ status: 'complete', memberId: { $exists: false } }).forEach(cart => {
-        // debug(`Cart ${cart._id} ${cart.products.map(p => p.code).join()} ${cart.price}`)
-        const members = Members.find({ email: cart.creditCard.email }).fetch()
-        if (members.length === 0) debug(`Could not find a member with email ${cart.creditCard.email}`)
-        if (members.length > 1) debug(`More than one member with the email ${cart.creditCard.email}`)
+      const query = cartId ? { _id: cartId } : { status: 'complete', memberId: { $exists: false } }
+      Carts.find(query).forEach(cart => {
+        const email = cart.creditCard.email || cart.chargeResponse.email
+        debug(`Reonciling completed cart ${cart._id} ${email} ${cart.products.map(p => p.code).join()} ${cart.price}`)
+        const members = Members.find({ email: email.toLowerCase() }).fetch()
+        if (members.length === 0) debug(`Could not find a member with email ${email}`)
+        if (members.length > 1) debug(`More than one member with the email ${email}`)
         if (members.length === 1) {
-          // debug(`Found member [${members[0].name}]`)
+          debug(`Found member [${members[0].name}]`)
           const sub = cart.products[0]
           sub.txnDate = cart.chargeResponse.created_at
           sub.purchaser = members[0].name
@@ -30,6 +32,17 @@ Meteor.methods({
           sub.memberId = members[0]._id
 
           delete sub._id
+          if (sub.type === 'membership') {
+            const purchaseDate = moment(cart.chargeResponse.created_at)
+            // Find the last expiring purchase:
+            const purchases = Purchases.find({ memberId: members[0]._id }, { sort: { expiry: -1 } }).fetch()
+            expiry = (purchases.length && purchases[0].expiry && purchaseDate.isBefore(purchases[0].expiry, 'day')) ? moment(purchases[0].expiry) : purchaseDate
+            sub.expiry = expiry.add(sub.duration, 'month').toISOString()
+          }
+          if (sub.type === 'pass') {
+
+          }
+
 
           // sub.expiry = moment(member.expiry).toISOString()
           // sub.remaining = member.remaining || 0

@@ -12,7 +12,7 @@ import SignOut from '/imports/ui/visit/sign-out'
 import EnterPin from './enter-pin'
 import { VisitContextProvider } from './context'
 
-const Main = props => {
+const VisitMain = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
@@ -85,11 +85,11 @@ const Main = props => {
   )
 }
 
-Main.propTypes = {
+VisitMain.propTypes = {
   member: PropTypes.object.isRequired,
   addCard: PropTypes.number.isRequired,
   logo: PropTypes.string.isRequired,
   org: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired
 }
-export default Main
+export default VisitMain

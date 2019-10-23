@@ -140,3 +140,8 @@ Tue 8 Oct 2019 12:22:12 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod 
 Tue 8 Oct 2019 12:24:00 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.12
 Tue 8 Oct 2019 17:25:51 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy 1.1.12
 Tue 8 Oct 2019 17:31:20 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig 1.1.12
+Tue 22 Oct 2019 09:06:09 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy 1.1.13
+Tue 22 Oct 2019 09:16:36 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy 1.1.13
+Tue 22 Oct 2019 09:18:25 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy 1.1.13
+Tue 22 Oct 2019 09:27:58 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging reconfig 1.1.13
+Tue 22 Oct 2019 17:18:52 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging reconfig 1.1.13
