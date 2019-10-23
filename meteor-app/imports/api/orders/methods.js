@@ -88,7 +88,6 @@ Meteor.methods({
 
       if (found == null && parsedEmail.subject === 'BPW Order Confirmation') {
         OrderEmails.insert(parsedEmail)
-        console.log('成功')
       }
     } catch (e) {
       log.error({ e })
