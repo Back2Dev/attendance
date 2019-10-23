@@ -20,9 +20,7 @@ if (Meteor.isServer) {
 
     it('success on updating an order', () => {
       const orderedPart = goodOrder.orderedParts
-      expect(() =>
-        Meteor.call('orders.addPart', orderId, orderedPart)
-      ).to.not.throw()
+      expect(() => Meteor.call('orders.addPart', orderId, orderedPart)).to.not.throw()
     })
   })
 }

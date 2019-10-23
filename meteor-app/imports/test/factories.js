@@ -24,6 +24,7 @@ import Services from '/imports/api/assessments/schema'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Events from '/imports/api/events/schema'
 import Logger from '/imports/api/assessments/logger'
+import OrderEmails from '/imports/api/orderemails/schema'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
@@ -224,6 +225,11 @@ Factory.define('promo', Promos, {
   discount: 50,
   admin: false,
   start: new Date()
+})
+
+Factory.define('orderemails', OrderEmails, {
+  name: 'order emails',
+  description: 'order emails'
 })
 
 export default Factory
