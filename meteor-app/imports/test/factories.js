@@ -164,7 +164,7 @@ Factory.define('part', Parts, {
   partNo: 'pt-123',
   name: 'carbonfibre frame',
   barcode: '22413000022413',
-  status: CONSTANTS.ORDER_STATUS_NEW
+  status: CONSTANTS.PART_STATUS_NEW
 })
 
 Factory.define('product', Products, {
