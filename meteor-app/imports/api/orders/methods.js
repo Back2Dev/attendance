@@ -6,7 +6,9 @@ import OrderEmails from '/imports/api/orderemails/schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 import Parts from '/imports/api/parts/schema'
 
+const emlformat = require('eml-format')
 const debug = require('debug')('b2b:orders')
+
 Meteor.methods({
   'orders.insert'(order) {
     try {
@@ -64,7 +66,7 @@ Meteor.methods({
     }
   },
 
-  'orders.email.read': function(mailbox) {
+  'orders.email.read': function (mailbox) {
     //Extract emails from Thunderbird into OrderEmails
     let emails = mailbox.split('From ')
 
@@ -72,10 +74,8 @@ Meteor.methods({
       let email = 'From ' + emails[num]
 
       //Parse the email
-      let fs = require('fs')
-      let emlformat = require('eml-format')
       let parsedEmail
-      emlformat.read(email, function(error, data) {
+      emlformat.read(email, function (error, data) {
         if (error) return console.log(error)
         parsedEmail = data
       })
@@ -83,8 +83,6 @@ Meteor.methods({
       //Save the email to the collection
       let found = 'Unknown'
       try {
-        // console.log(OrderEmails.find({}).fetch().)
-        //let dateInDatabase = new Date(parsedEmail['date']).toString()
         parsedEmail.date = parsedEmail.date.toString()
         found = OrderEmails.findOne({ date: parsedEmail.date })
 
