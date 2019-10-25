@@ -11,7 +11,7 @@ import data from '/imports/test/bpw-emails'
 // const orderId = goodOrder._id
 
 if (Meteor.isServer) {
-  describe.only('historial orders method', () => {
+  describe('historial orders method', () => {
     beforeEach(resetDatabase)
 
     it('success on importing emails', () => {
