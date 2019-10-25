@@ -41,13 +41,15 @@ export const headers = new SimpleSchema({
 const OrderEmails = new Mongo.Collection('orderemails')
 
 export const OrderEmailsSchema = new SimpleSchema({
+  _id: RegExId,
   date: { type: String, label: 'date' },
   subject: { type: String, label: 'subject' },
   from: contact,
   to: contact,
   headers: headers,
   text: { type: String, label: 'text in the email' },
-  html: { type: String, label: 'html in the email' }
+  html: { type: String, label: 'html in the email' },
+  status: { type: String, label: 'status' }
 })
 
 OrderEmails.attachSchema(OrderEmailsSchema)
