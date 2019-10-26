@@ -256,6 +256,7 @@ db[res.result].find({value: {$gt: 1}});
               const newRow = {}
               Object.keys(slsaMap).forEach(key => (newRow[slsaMap[key]] = row[key]))
               newRow.name = `${newRow.first} ${newRow.last}`
+              if (newRow.wwcc) newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
               return newRow
             })
             .reduce((acc, m) => {
