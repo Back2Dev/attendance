@@ -12,7 +12,7 @@ import { saveToArchive } from '/imports/api/archive'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  'members.insert': function (member) {
+  'members.insert': function(member) {
     try {
       return Members.insert(member)
     } catch (e) {
@@ -20,7 +20,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.remove': function (id) {
+  'members.remove': function(id) {
     try {
       log.info('removing member id: ', id)
       const data = {}
@@ -44,7 +44,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.removeDupe': function (id, merge) {
+  'members.removeDupe': function(id, merge) {
     const data = { merge }
     data.member = Members.findOne(id)
     if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
@@ -76,7 +76,7 @@ Meteor.methods({
     saveToArchive('member', data)
     Members.remove(id)
   },
-  'members.setPin': function (id, pin) {
+  'members.setPin': function(id, pin) {
     try {
       log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin } })
@@ -85,7 +85,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.rmPin': function (name) {
+  'members.rmPin': function(name) {
     try {
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
@@ -94,7 +94,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.rmEddie': function (name) {
+  'members.rmEddie': function(name) {
     try {
       log.info(`Removing member: Eddie Mercx ${name}`)
       return Members.remove({ name: 'Eddie Mercx' })
@@ -103,7 +103,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.update': function (id, formData) {
+  'members.update': function(id, formData) {
     try {
       log.info('updating member: ', id, formData)
       return Members.update({ _id: id }, { $set: { ...formData } })
@@ -113,7 +113,7 @@ Meteor.methods({
     }
   },
 
-  'members.forgotPin': function (id, method, to, remember) {
+  'members.forgotPin': function(id, method, to, remember) {
     log.info(`sending pin for member ${id} via ${method} to ${to} ${remember}`)
     try {
       // make DB query and grab the pin.
@@ -165,11 +165,11 @@ r = function (k, vals) {
 res = db.members.mapReduce(m,r, { out : "duplicates" });
 db[res.result].find({value: {$gt: 1}});
 */
-  'members.showDupes': function () {
-    const m = function () {
+  'members.showDupes': function() {
+    const m = function() {
       emit(this.name, 1)
     }
-    const r = function (k, vals) {
+    const r = function(k, vals) {
       return Array.sum(vals)
     }
 
@@ -189,7 +189,7 @@ db[res.result].find({value: {$gt: 1}});
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
   },
-  'member.email.invoice': function (cartId, email, discountedPrice, discount) {
+  'member.email.invoice': function(cartId, email, discountedPrice, discount) {
     const cart = Carts.findOne(cartId)
     if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
     const member = Members.findOne(cart.memberId)
@@ -222,8 +222,21 @@ db[res.result].find({value: {$gt: 1}});
     )
   },
 
-  'slsa.load': function (data, season) {
+  'slsa.load': function(data, season) {
+    const slsaMap = {
+      'Member ID': 'slsaId',
+      'First Name': 'first',
+      'Last Name': 'last',
+      Status: 'status',
+      Season: 'season',
+      'Email Address 1': 'email1',
+      'Email Address 2': 'email2',
+      'Working with Children Registration Expiry Date': 'wwccExpiry',
+      'Working with Children Registration No': 'wwcc'
+    }
+
     let countTotal = 0
+    let numRows = 0
     if (Meteor.isClient) return
     try {
       debug('Loading SLSA from csv data')
@@ -236,26 +249,44 @@ db[res.result].find({value: {$gt: 1}});
           const rows = XLSX.utils.sheet_to_json(wb[s], {
             raw: true
           })
+          numRows = rows.length
           countTotal = rows
             .filter(row => row.Status === 'Active' && row.Season === season)
-            .map(row => wanted.map(key => row[key]))
             .map(row => {
-              debug('row', row)
-              return { slsaId: row[0], name: `${row[2]} ${row[1]}` }
+              const newRow = {}
+              Object.keys(slsaMap).forEach(key => (newRow[slsaMap[key]] = row[key]))
+              newRow.name = `${newRow.first} ${newRow.last}`
+              return newRow
             })
-            .reduce((acc, member) => {
-              debug(`Updating ${member.name}`)
-              if (!Members.findOne({ name: member.name })) debug(`Could not find ${member.name}`)
-              Members.find({ name: member.name }).map(m => debug(m.name))
-              return acc + Members.update({ name: member.name }, { $set: { isSlsa: true } })
+            .reduce((acc, m) => {
+              debug(`Updating ${m.name}`)
+              const queries = [{ name: m.name }]
+              if (m.email1 && m.email2) {
+                queries.push({ $or: [{ email: m.email1 }, { email: m.email2 }] })
+              } else {
+                if (m.email1) queries.push({ email: m.email1 })
+              }
+              let member
+              let q
+              while (!member && (q = queries.pop())) {
+                member = Members.findOne(q)
+              }
+              if (member) {
+                Members.find(member._id).map(m => debug(m.name))
+                return acc + Members.update(member._id, { $set: { isSlsa: true, wwcc: m.wwcc } })
+              } else {
+                debug(`Could not find ${m.name}/${m.email1} ${m.email2}`)
+                return acc
+              }
             }, 0)
           debug('updated', countTotal)
         } catch (e) {
           console.error(`Couldn't update members from csv ${s}: `, e)
         }
       }
-      debug(`Updated ${countTotal} records`)
-      return countTotal
+      const message = `Updated ${countTotal} of ${numRows} records in file`
+      debug(message)
+      return message
     } catch (e) {
       debug(e)
       throw new Meteor.Error(500, e)

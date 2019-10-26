@@ -249,6 +249,10 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: false,
     optional: true
   },
+  slsaId: {
+    type: String,
+    optional: true
+  },
   privacy: {
     type: Boolean,
     label: 'I consent to storing my information',

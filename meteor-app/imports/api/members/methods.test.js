@@ -51,9 +51,9 @@ if (Meteor.isServer) {
         return name
       }).length
       expect(() => {
-        n = Meteor.call('slsa.load', slsaData, season)    // Call returns the number of records updated
+        msg = Meteor.call('slsa.load', slsaData, season)    // Call returns the number of records updated
       }).to.not.throw()
-      expect(n).to.be.equal(m)
+      expect(msg).to.be.equal(`Updated ${m} of ${slsaData.split(/\n/).length-2} records in file`)
     })
 
   })
