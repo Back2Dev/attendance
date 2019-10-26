@@ -223,6 +223,18 @@ db[res.result].find({value: {$gt: 1}});
   },
 
   'slsa.load': function(data) {
+    const slsaMap = {
+      'Member ID': 'slsaId',
+      'First Name': 'first',
+      'Last Name': 'last',
+      'Email Address 1': 'email1',
+      'Email Address 2': 'email2',
+      Status: 'status',
+      Season: 'season',
+      'Working with Children Registration Expiry Date': 'wwccExpiry',
+      'Working with Children Registration No': 'wwccNo'
+    }
+
     let countTotal = 0
     if (Meteor.isClient) return
     try {
