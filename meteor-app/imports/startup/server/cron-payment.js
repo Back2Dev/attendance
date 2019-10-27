@@ -156,7 +156,7 @@ const membershipTicker = () => {
   // - Auto-payment has been made
   // - Your membership has expired - please renew
 
-  // Retire old shopping carts
+  // Retire old shopping carts - TESTS OK
   Meteor.call('retireOldCarts')
 
   // Warn of payments within 3 days'

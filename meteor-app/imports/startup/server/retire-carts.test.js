@@ -11,6 +11,9 @@ import Products, { Carts } from '/imports/api/products/schema'
 
 const debug = require('debug')('b2b:test')
 
+// A list of retirement ages for the test
+const RETIREMENT_AGES = [90, 45, 10]
+
 const goodMember = Factory.build('member', {
   autoPay: true,
   subsType: 'member',
@@ -37,10 +40,9 @@ if (Meteor.isServer) {
       }).to.not.throw()
     })
 
-    const retirementAges = [90, 45, 10]
-    it(`inserts old carts at ${retirementAges.join()} days`, () => {
+    it(`inserts old carts at ${RETIREMENT_AGES.join()} days`, () => {
       expect(() => {
-        retirementAges.forEach(age => {
+        RETIREMENT_AGES.forEach(age => {
           const id = Carts.insert(
             Factory.build('cart', {
               memberId,
@@ -56,7 +58,7 @@ if (Meteor.isServer) {
           })
         })
       }).to.not.throw()
-      expect(Carts.find({ memberId }).count()).to.be.equal(retirementAges.length)
+      expect(Carts.find({ memberId }).count()).to.be.equal(RETIREMENT_AGES.length)
     })
     it('now it finds the only remaining cart', () => {
       expect(() => {

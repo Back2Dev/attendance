@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { resetDatabase } from '/imports/test/util-test'
 import Factory from '/imports/test/factories'
 import moment from 'moment'
+import { cloneDeep } from 'lodash'
 import './cron-payment'
 import './email'
 import Members from '/imports/api/members/schema'
@@ -16,7 +17,7 @@ const debug = require('debug')('b2b:test-payment-reconciliation')
 const goodMember = Factory.build('member', {
   autoPay: true,
   subsType: 'member',
-  paymentCustId: '1234',
+  paymentCustId: 'UNCHANGED',
   expiry: moment()
     .add('2', 'day')
     .toDate(),
@@ -24,22 +25,111 @@ const goodMember = Factory.build('member', {
 })
 
 if (Meteor.isServer) {
-  describe('Reconcile carts -', () => {
-    // beforeEach(resetDatabase)
-    resetDatabase()
+  //
+  // Test needs Members, Carts
+  //  Purchases will be inserted
+  //
+  describe.only('Reconcile good carts -', () => {
+    beforeEach(resetDatabase)
+    // resetDatabase()
     let memberId
-    let productId
-    let cart = null
 
-    it('populates the data', () => {
-      expect(() => {
-        // Create shop data
-        populateShop()
-        'products productTypes events promos'.split(/\s+/).forEach(collection => {
-          Meteor.call('seed.products', Meteor.settings.public.orgid, collection)
-        })
-        // debug('products', Members.find({}).fetch())
-      }).to.not.throw()
+    const sampleCart = Factory.build('cart', {
+      status: 'complete',
+      creditCard: { email: goodMember.email },
+      chargeResponse: { customerToken: 'SPECIAL-TOKEN' }
     })
+    delete sampleCart.memberId
+    const goodCarts = [{ cart: sampleCart, desc: 'cart.creditCard.email' }]
+    let newCart = cloneDeep(sampleCart)
+    newCart.chargeResponse.email = newCart.creditCard.email
+    delete newCart.creditCard.email
+    goodCarts.push({ cart: newCart, desc: 'cart.chargeResponse.email' })
+
+    const badCarts = cloneDeep(goodCarts)
+    badCarts[0].cart.creditCard.email = 'bogus-email@gigglebox.cox.tv'
+    badCarts[1].cart.chargeResponse.email = 'bogus-email@gigglebox.cox.tv'
+
+    //
+    // Loop through the tests
+    //
+    goodCarts.forEach(c => {
+      it(`Reconciles the cart to the member (from ${c.desc})`, () => {
+        expect(() => {
+          // Create a member
+          memberId = Members.insert(goodMember)
+          Carts.insert(c.cart)
+        }).to.not.throw()
+        // Pre-condition:
+        const b4 = Carts.find({ status: 'complete', memberId: { $exists: true } }).fetch().length
+        expect(b4).to.equal(0)
+        const p4 = Purchases.find({}).fetch().length
+        expect(p4).to.equal(0)
+        expect(() => {
+          Meteor.call('reconcileCompletedCarts')
+        }).to.not.throw()
+        // Post condition:
+        const afta = Carts.find({ status: 'complete', memberId: { $exists: true } }).fetch().length
+        expect(afta).to.equal(1)
+        const pafta = Purchases.find({}).fetch().length
+        expect(pafta).to.equal(1)
+        debug('Pucrhase', Purchases.find({}).fetch())
+        const member = Members.findOne(memberId)
+        expect(member.paymentCustId).to.equal('SPECIAL-TOKEN')
+        //
+        // Run it again
+        //
+        expect(() => {
+          Meteor.call('reconcileCompletedCarts')
+        }).to.not.throw()
+        expect(Carts.find({ status: 'complete', memberId: { $exists: true } }).fetch().length).to.equal(1)
+      })
+    })
+
+    badCarts.forEach(c => {
+      it(`Fails to reconciles the cart to the member (from ${c.desc})`, () => {
+        expect(() => {
+          // Create a member
+          memberId = Members.insert(goodMember)
+          Carts.insert(c.cart)
+        }).to.not.throw()
+        // Pre-condition:
+        const b4 = Carts.find({ status: 'complete', memberId: { $exists: true } }).fetch().length
+        expect(b4).to.equal(0)
+        const p4 = Purchases.find({}).fetch().length
+        expect(p4).to.equal(0)
+        expect(() => {
+          Meteor.call('reconcileCompletedCarts')
+        }).to.not.throw()
+        // Post condition:
+        const afta = Carts.find({ status: 'complete', memberId: { $exists: true } }).fetch().length
+        expect(afta).to.equal(0)
+        const pafta = Purchases.find({}).fetch().length
+        expect(pafta).to.equal(0)
+        debug('Pucrhase', Purchases.find({}).fetch())
+        const member = Members.findOne(memberId)
+        expect(member.paymentCustId).to.equal('UNCHANGED')
+        //
+        // Run it again
+        //
+        expect(() => {
+          Meteor.call('reconcileCompletedCarts')
+        }).to.not.throw()
+        expect(Carts.find({ status: 'complete', memberId: { $exists: true } }).fetch().length).to.equal(0)
+      })
+    })
+
+    //   it('populates the product data', () => {
+    //     expect(() => {
+    //       // Create shop data
+    //       populateShop()
+    //       // Loop through the various tables to seed the data
+    //       'products productTypes events promos'.split(/\s+/).forEach(collection => {
+    //         Meteor.call('seed.products', Meteor.settings.public.orgid, collection)
+    //       })
+    //       // debug('products', Members.find({}).fetch())
+    //     }).to.not.throw()
+    //   })
+    // })
   })
 }

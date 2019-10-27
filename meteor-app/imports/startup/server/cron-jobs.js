@@ -13,6 +13,7 @@ const cron = require('node-cron')
 const debug = require('debug')('b2b:cron')
 
 Meteor.methods({
+  // cartId is optional, if null, do all carts, otherwise just do that one cart
   reconcileCompletedCarts(cartId) {
     try {
       const query = cartId ? { _id: cartId } : { status: 'complete', memberId: { $exists: false } }
@@ -36,13 +37,17 @@ Meteor.methods({
             const purchaseDate = moment(cart.chargeResponse.created_at)
             // Find the last expiring purchase:
             const purchases = Purchases.find({ memberId: members[0]._id }, { sort: { expiry: -1 } }).fetch()
-            const expiry = (purchases.length && purchases[0].expiry && purchaseDate.isBefore(purchases[0].expiry, 'day')) ? moment(purchases[0].expiry) : purchaseDate
+            const expiry =
+              purchases.length && purchases[0].expiry && purchaseDate.isBefore(purchases[0].expiry, 'day')
+                ? moment(purchases[0].expiry)
+                : purchaseDate
             sub.expiry = expiry.add(sub.duration, 'month').toISOString()
           }
           if (sub.type === 'pass') {
-            sub.expiry = moment(cart.chargeResponse.created_at).add(sub.duration, 'month').toISOString()
+            sub.expiry = moment(cart.chargeResponse.created_at)
+              .add(sub.duration, 'month')
+              .toISOString()
           }
-
 
           // sub.expiry = moment(member.expiry).toISOString()
           // sub.remaining = member.remaining || 0
@@ -209,90 +214,93 @@ Meteor.methods({
   //   })
   // },
 
-  // update member status
-  updateMemberStatus(memberId, status) {
-    try {
-      Members.update(
-        { _id: memberId },
-        {
-          $set: {
-            status
-          }
-        }
-      )
-    } catch (e) {
-      debug(e)
-    }
-  },
+  // // update member status NOT USED?
+  // updateMemberStatus(memberId, status) {
+  //   try {
+  //     Members.update(
+  //       { _id: memberId },
+  //       {
+  //         $set: {
+  //           status
+  //         }
+  //       }
+  //     )
+  //   } catch (e) {
+  //     debug(e)
+  //   }
+  // },
 
-  // Update subscription type
-  updatesubsType(memberId, type) {
-    try {
-      Members.update(
-        { _id: memberId },
-        {
-          $set: {
-            subsType: type
-          }
-        }
-      )
-    } catch (e) {
-      debug(e)
-    }
-  },
+  // // Update subscription type NOT USED?
+  // updatesubsType(memberId, type) {
+  //   try {
+  //     Members.update(
+  //       { _id: memberId },
+  //       {
+  //         $set: {
+  //           subsType: type
+  //         }
+  //       }
+  //     )
+  //   } catch (e) {
+  //     debug(e)
+  //   }
+  // },
 
-  // update Remaining visits
-  updateRemaining(memberId, remainingVisits) {
-    try {
-      Members.update(
-        { _id: memberId },
-        {
-          $set: {
-            remaining: remainingVisits
-          }
-        }
-      )
-    } catch (e) {
-      debug(e)
-    }
-  },
+  // update Remaining visits NOT USED?
+  // updateRemaining(memberId, remainingVisits) {
+  //   try {
+  //     Members.update(
+  //       { _id: memberId },
+  //       {
+  //         $set: {
+  //           remaining: remainingVisits
+  //         }
+  //       }
+  //     )
+  //   } catch (e) {
+  //     debug(e)
+  //   }
+  // },
 
   // Update status values
   updateMemberStatusAll() {
     try {
       Members.find({}).forEach(member => {
+        //
+        // Look for expired purchases
+        //
         Purchases.find({
           memberId: member._id,
           expiry: { $lt: new Date() }
         }).forEach(purchase => {
           // debug(`Member ${member.name} is expired (${purchase.expiry})`)
-          Members.update(
-            { _id: purchase.memberId },
-            {
-              $set: {
-                status: 'expired',
-                expiry: purchase.expiry,
-                remaining: 0
-              }
+          Members.update(purchase.memberId, {
+            $set: {
+              status: 'expired',
+              expiry: purchase.expiry,
+              remaining: 0
             }
-          )
+          })
         })
+        //
+        // Look for current purchases
+        //
         Purchases.find({
           memberId: member._id,
           expiry: { $gt: new Date() }
         }).forEach(purchase => {
           // debug(`Member ${member.name} is current, expiring (${purchase.expiry})`)
-          Members.update(
-            { _id: purchase.memberId },
-            {
-              $set: {
-                status: 'current',
-                expiry: purchase.expiry
-              }
+          Members.update(purchase.memberId, {
+            $set: {
+              status: 'current',
+              expiry: purchase.expiry
             }
-          )
+          })
         })
       })
+      //
+      // Collect some counters of membership status
+      //
       Members.update({ status: null }, { $set: { status: 'expired' } }, { multi: true })
       const stats = Members.find({})
         .fetch()
