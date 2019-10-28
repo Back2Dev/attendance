@@ -55,6 +55,11 @@ export const PurchasesSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     optional: true
   },
+  qty: {
+    type: SimpleSchema.Integer,
+    label: 'Quantity',
+    defaultValue: 1
+  },
   createdAt,
   updatedAt
 })

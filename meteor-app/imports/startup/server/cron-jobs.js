@@ -14,6 +14,7 @@ const debug = require('debug')('b2b:cron')
 
 Meteor.methods({
   // cartId is optional, if null, do all carts, otherwise just do that one cart
+  // TESTED
   reconcileCompletedCarts(cartId) {
     try {
       const query = cartId ? { _id: cartId } : { status: 'complete', memberId: { $exists: false } }
@@ -31,6 +32,7 @@ Meteor.methods({
           sub.productId = cart.products[0]._id
           sub.productName = cart.products[0].name
           sub.memberId = members[0]._id
+          sub.qty = cart.prodqty[cart.products[0]._id] || 1
 
           delete sub._id
           if (sub.type === 'membership') {
@@ -178,42 +180,6 @@ Meteor.methods({
     })
   },
 
-  // // Send pass renewal email
-  // sendPassRenewals() {
-  //   Members.find({ $where: 'this.sessions.length >=5' }).forEach(member => {
-  //     Purchases.find({
-  //       memberId: member._id,
-  //       code: /-PASS-/,
-  //       expiry: { $lt: new Date() }
-  //     }).forEach(p => {
-  //       debug(`${p.purchaser} has expired PASS.... Sending Pass Renewal Email to ${member.email}`)
-  //       Meteor.call(
-  //         'sendPassEmail',
-  //         member.email,
-  //         member.name,
-  //         moment(member.expiry).format('DD MMM YYYY'),
-  //         `renew/${member._id}/${cart._id}`,
-  //         Meteor.settings.private.expiredPassID
-  //       )
-  //     })
-  //     Purchases.find({
-  //       memberId: member._id,
-  //       code: /-PASS-/,
-  //       expiry: { $gt: new Date() }
-  //     }).forEach(p => {
-  //       debug(`${p.purchaser} has valid PASS.... Sending Pass Reminder Email to ${member.email}`)
-  //       Meteor.call(
-  //         'sendPassEmail',
-  //         member.email,
-  //         member.name,
-  //         moment(member.expiry).format('DD MMM YYYY'),
-  //         `renew/${member._id}/${cart._id}`,
-  //         Meteor.settings.private.validPassID
-  //       )
-  //     })
-  //   })
-  // },
-
   // // update member status NOT USED?
   // updateMemberStatus(memberId, status) {
   //   try {
@@ -263,6 +229,7 @@ Meteor.methods({
   // },
 
   // Update status values
+  // TESTED
   updateMemberStatusAll() {
     try {
       Members.find({}).forEach(member => {
@@ -367,7 +334,9 @@ Meteor.methods({
   updateRemainingAll() {
     Members.find({ subsType: 'pass', status: 'current' }).forEach(member => {
       Purchases.find({ memberId: member._id }).forEach(purchase => {
-        remaining = (purchase.qty || 1) - member.sessionCount
+        const product = Products.findOne(purchase.productId)
+        if (!product) throw new Meteor.Error(`Product ${purchase.productId} not found`)
+        remaining = (product.qty || 1) * (purchase.qty || 1) - member.sessionCount
         status = remaining > 0 ? 'current' : 'expired'
       })
       // debug(`Current member update ${member.name} remaining: ${remaining}`)
@@ -375,10 +344,12 @@ Meteor.methods({
     })
     Members.find({ subsType: 'pass', status: 'expired' }).forEach(member => {
       Purchases.find({ memberId: member._id }).forEach(purchase => {
-        if (member.sessionCount == 0) {
+        const product = Products.findOne(purchase.productId)
+        if (!product) throw new Meteor.Error(`Product ${purchase.productId} not found`)
+        if (member.sessionCount === 0) {
           remaining = 0
         } else {
-          remaining = (purchase.qty || 1) - member.sessionCount
+          remaining = (product.qty || 1) * (purchase.qty || 1) - member.sessionCount
         }
       })
       // debug(`Expired member update ${member.name} remaining: ${remaining}`)
@@ -395,7 +366,7 @@ Meteor.methods({
         acc[member.remaining] = acc[member.remaining] ? acc[member.remaining] + 1 : 1
         return acc
       }, {})
-    // debug('Member remaining: ', stats)
+    debug('Member remaining: ', stats)
   },
 
   // NOT USED?
