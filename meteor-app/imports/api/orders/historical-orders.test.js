@@ -11,27 +11,27 @@ import data from '/imports/test/bpw-emails'
 // const orderId = goodOrder._id
 
 if (Meteor.isServer) {
-  describe('Historical orders method', () => {
+  describe.only('Historical orders method', () => {
     beforeEach(resetDatabase)
 
     it('success on importing emails', () => {
-      expect(() => Meteor.call('orders.email.read', data.mailbox)).to.not.throw()
+      expect(() => Meteor.call('orders.email.read.mike', data.mailbox)).to.not.throw()
       const n = OrderEmails.find({}).fetch().length
       expect(n).to.equal(4)
     })
 
-    it('detects existing orderemails and does not import them', () => {
-      let n = OrderEmails.find({}).fetch().length
-      expect(n).to.equal(0)
+    // it('detects existing orderemails and does  not import them', () => {
+    //   let n = OrderEmails.find({}).fetch().length
+    //   expect(n).to.equal(0)
 
-      expect(() => Meteor.call('orders.email.read', data.mailbox)).to.not.throw()
-      n = OrderEmails.find({}).fetch().length
-      expect(n).to.equal(4)
+    //   expect(() => Meteor.call('orders.email.read', data.mailbox)).to.not.throw()
+    //   n = OrderEmails.find({}).fetch().length
+    //   expect(n).to.equal(4)
 
-      expect(() => Meteor.call('orders.email.read', data.mailbox)).to.not.throw() //Second time should not add any more
-      n = OrderEmails.find({}).fetch().length
-      expect(n).to.equal(4)
-    })
+    //   expect(() => Meteor.call('orders.email.read', data.mailbox)).to.not.throw() //Second time should not add any more
+    //   n = OrderEmails.find({}).fetch().length
+    //   expect(n).to.equal(4)
+    // })
 
     // it('success on parsing an email', () => {
     //   expect(() => Meteor.call('orders.email.parse', data.single)).to.not.throw()

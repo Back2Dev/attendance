@@ -3,19 +3,95 @@ import Orders from '/imports/api/orders/schema'
 import log from '/imports/lib/server/log'
 import CONSTANTS from '/imports/api/constants.js'
 import OrderEmails from '/imports/api/orderemails/schema'
-import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 import Parts from '/imports/api/parts/schema'
+import { calcRetail } from '/imports/api/parts/methods'
+import testData from '/imports/test/bpw-emails'
 
 const emlformat = require('eml-format')
 const debug = require('debug')('b2b:orders')
 
+const toCents = amount => parseInt(Math.round(100 * parseFloat(amount)))
+//
+// Utility routine to unpack the order into an object
+// @params: text
+// @returns: order object
+const unpackOrder = text => {
+  // debug('Unpacking orders from', text)
+  const extractors = [
+    { regex: /^Order Number:\s+(\w+)/, target: 'orderNumber' },
+    { regex: /^Date Ordered:\s+(.+)$/, target: 'dateOrdered' },
+    { regex: /^Sub-Total:\s+[$]*(.*)$/, target: 'subTotal', type: 'cents' },
+    { regex: /^GST:\s+\$(.*)$/, target: 'gst', type: 'cents' },
+    { regex: /^Total:\s+\$(.*)$/, target: 'totalPrice', type: 'cents' },
+    { regex: /^Purchase Order No:\s+(.*)$/, target: 'poNo' },
+    // Parts extractor
+    //1 x BRAKE SHOES  V Brake Shoes, 70mm, BLACK (25 Pairs Per Box) (1585BULK) = $72.70
+    {
+      regex: /^(\d+) x (.*?) \((\w+)\) = \$(.*)$/,
+      target: 'parts',
+      unpacker: (acc, match) => {
+        acc.push({
+          qty: parseInt(match[1]),
+          name: match[2],
+          partNo: match[3],
+          price: Math.round(toCents(match[4]) / parseInt(match[1])),
+          // TODO: Make this real
+          addedAt: new Date()
+        })
+      }
+    }
+  ]
+  const order = {
+    orderedParts: [],
+    status: CONSTANTS.ORDER_STATUS_SENT
+  }
+  // const tmp = ''
+  const lines = text.split('\r\n')
+  lines.forEach((line, ix) => {
+    // console.log(`${ix + 1} ${line}`)
+    extractors.forEach(extractor => {
+      const matches = line.match(extractor.regex)
+      if (matches) {
+        if (extractor.target) {
+          if (extractor.unpacker) {
+            order[extractor.target] = extractor.unpacker(order.orderedParts, matches)
+          } else {
+            switch (extractor.type) {
+              case 'cents':
+                order[extractor.target] = toCents(matches[1])
+                break
+              case 'float':
+                order[extractor.target] = parseFloat(matches[1])
+                break
+              case 'int':
+                order[extractor.target] = parseInt(matches[1])
+                break
+              default:
+                order[extractor.target] = matches[1]
+            }
+          }
+        }
+      }
+    })
+  })
+
+  debug('Order', order)
+  return order
+}
+
 Meteor.methods({
+  'import.emails'() {
+    OrderEmails.remove({})
+    // Parts.remove({})
+    Orders.remove({})
+    Meteor.call('orders.email.read.mike', testData.mailbox)
+  },
   'orders.insert'(order) {
     try {
       return Orders.insert(order)
     } catch (e) {
       log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      throw new Meteor.Error(500, e.message)
     }
   },
 
@@ -66,21 +142,21 @@ Meteor.methods({
     }
   },
 
-  'orders.email.read': function (mailbox) {
-    //Extract emails from Thunderbird into OrderEmails
+  'orders.email.read': function(mailbox) {
+    // Extract emails from Thunderbird into OrderEmails
     let emails = mailbox.split('From ')
 
     for (let num = 1; num < emails.length; num++) {
       let email = 'From ' + emails[num]
 
-      //Parse the email
+      // Parse the email
       let parsedEmail
-      emlformat.read(email, function (error, data) {
+      emlformat.read(email, function(error, data) {
         if (error) return console.log(error)
         parsedEmail = data
       })
 
-      //Save the email to the collection
+      // Save the email to the collection
       let found = 'Unknown'
       try {
         parsedEmail.date = parsedEmail.date.toString()
@@ -175,6 +251,7 @@ Meteor.methods({
           //find parts
           for (let number = 0; number < parts.length; number++) {
             const foundPart = Parts.findOne({ partNo: parts[number]['partNo'] })
+            // TODO: put partId in partsOrdered
             if (foundPart == null) {
               //update status
               parts[number]['status'] = CONSTANTS.PART_STATUS_AUTO_CREATED
@@ -188,5 +265,83 @@ Meteor.methods({
         }
       }
     }
+  },
+
+  'orders.email.read.mike': function(mailbox) {
+    // Extract emails from Thunderbird into OrderEmails
+    let emails = mailbox.split('From ')
+
+    emails.forEach(msg => {
+      // Parse the email
+      // let parsedEmail
+
+      try {
+        emlformat.read(`From ${msg}`, function(error, parsedEmail) {
+          if (error) throw new Meteor.Error(error)
+
+          // Save the email to the collection
+          if (parsedEmail.date) {
+            parsedEmail.date = parsedEmail.date.toString()
+            const found = OrderEmails.findOne({ date: parsedEmail.date })
+
+            if (!found && parsedEmail.subject === 'BPW Order Confirmation') {
+              parsedEmail.status = 'unknown'
+              parsedEmail._id = OrderEmails.insert(parsedEmail)
+
+              // Unpack the text portion of the email into a raw order object
+              const order = unpackOrder(parsedEmail.text)
+
+              //
+              // Now we do a little post-processing to:
+              //   1) Check for consistency
+              //   2) Add more info
+              //
+              const total = order.orderedParts.reduce((acc, part) => (acc = acc + part.price * part.qty), 0)
+              if (total !== order.subTotal) {
+                OrderEmails.update(parsedEmail, { $set: { status: 'broken' } })
+              } else {
+                // Find partIds from DB
+                order.orderedParts.forEach(part => {
+                  const foundPart = Parts.findOne({ partNo: part.partNo })
+                  if (foundPart) {
+                    part.partId = foundPart._id
+                    part.userId = 'system'
+                    log.info(`Found part ${part.partNo} ${foundPart.wholesalePrice}/${foundPart.retailPrice}`)
+                  } else {
+                    // Create a new part with status 'auto-created'
+                    const newPart = {
+                      status: CONSTANTS.PART_STATUS_AUTO_CREATED,
+                      retailPrice: calcRetail(part.price),
+                      wholesalePrice: part.price,
+                      partNo: part.partNo,
+                      userId: 'system'
+                    }
+                    part.partId = Parts.insert(newPart)
+                    part.addedAt = new Date()
+                    part.userId = 'system'
+
+                    // name: {
+                    // partId: {
+                    // partNo: {
+                    // addedAt: {
+                    // price: {
+                    // qty: {
+                    // userId: {
+
+                    log.info(`A new part has been created: ${part.partNo}`)
+                  }
+                })
+                //TODO: MOdify the orders schema to have an optional orderEmailId
+                order['additionalNotes'] = parsedEmail._id
+                Orders.insert(order)
+              }
+            }
+          }
+        })
+      } catch (e) {
+        log.error(e.message)
+        // throw new Meteor.  Error(500, e.message)
+      }
+    })
   }
 })
