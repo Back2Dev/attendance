@@ -38,6 +38,24 @@ const cols = [
     key: 'email'
   },
   {
+    name: 'Amount',
+    filterable: true,
+    sortable: true,
+    key: 'chargeResponse.amount'
+  },
+  // {
+  //   name: 'Items',
+  //   filterable: true,
+  //   sortable: true,
+  //   key: 'chargeResponse.metadata.codes'
+  // },
+  {
+    name: 'Payment email',
+    filterable: true,
+    sortable: true,
+    key: 'chargeResponse.email'
+  },
+  {
     name: 'Payment name',
     filterable: true,
     sortable: true,

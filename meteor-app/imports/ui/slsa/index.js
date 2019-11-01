@@ -22,10 +22,11 @@ const uploadSLSAFile = (e, season) => {
   const msg = file ? `Processing member history file` : `Oops! Forgot to add the file? Try again uploading the file`
   Alert.info(msg)
   const reader = new FileReader()
-  reader.onloadend = async function () {
+  reader.onloadend = async function() {
     const data = reader.result
     const response = await Meteor.callAsync('slsa.load', data, season)
     debug('Response is ', response)
+    alert(response)
   }
   reader.readAsBinaryString(file)
 }
