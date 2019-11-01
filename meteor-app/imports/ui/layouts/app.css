@@ -11,6 +11,11 @@
   background-color: black;
 }
 
+#sidebar-none {
+  position: relative;
+  background-color: white;
+}
+
 #main {
   width: 100%;
   /* padding: 2% 2%; */
@@ -28,6 +33,15 @@
   @media (min-width: 768px) {
     #app-container {
       grid-template-columns: 15% 85%;
+    }
+  }
+  #iframe-container {
+    display: grid;
+    grid-template-columns: 10% 90%;
+  }
+  @media (min-width: 768px) {
+    #iframe-container {
+      grid-template-columns: 5% 95%;
     }
   }
 }
@@ -48,7 +62,7 @@
 }
 
 .tm-sidebar.ui.menu .item {
-  font-family: "lato-regular", sans-serif, serif;
+  font-family: 'lato-regular', sans-serif, serif;
 }
 
 .tm-sidebar.ui.menu .tm-sidebar-item__active {

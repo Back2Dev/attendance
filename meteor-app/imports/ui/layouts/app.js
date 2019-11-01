@@ -4,7 +4,8 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
-import { BrowserRouter as Router, Route, Switch, Redirect, } from 'react-router-dom'
+import isIframe from '/imports/helpers/isIframe'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import NavBar from '../components/nav-bar'
 import './app.css'
@@ -35,53 +36,52 @@ const Home = props => <div>Home is where the heart is (app.js)</div>
 const App = props => {
   console.log('Meteor.userId', Meteor.userId())
   console.log('Meteor.user', Meteor.user())
-  if (!Roles.subscription.ready())
-    return (<div>NOT READY</div>)
-  // if (Meteor.user() === undefined) {
-  //   return (<div>NOT HERE YET</div>)
-  // } else {
+  if (!Roles.subscription.ready()) return <div>NOT READY</div>
+  const containerId = isIframe() ? 'iframe-container' : 'app-container'
   return (
-    < Router >
-      <div id="app-container">
-        <div id="sidebar-container">
-          <NavBar />
-        </div>
+    <Router>
+      <div id={containerId}>
+        {!isIframe() && (
+          <div id="sidebar-container">
+            <NavBar />
+          </div>
+        )}
+        {isIframe() && <div id="sidebar-none"></div>}
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/shop" component={Shop} />
+            <Route path="/kiosk" component={MemberMainContainer} />
+            <Route path="/add" component={MemberAddContainer} />
 
-            <SecureRoute role='signin' path="/volsignin" component={MemberMainContainer} />
-            <SecureRoute role='signin' path="/add" component={MemberAddContainer} />
-            <SecureRoute role='signin' path="/visit/:id" component={Visit} />
-            <SecureRoute role='signin' path="/edit/:id" component={MemberEdit} />
+            <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
+            <SecureRoute role="signin" path="/visit/:id" component={Visit} />
+            <SecureRoute role="signin" path="/edit/:id" component={MemberEdit} />
 
-            <SecureRoute role='parts' path="/parts" component={Ordering} />
+            <SecureRoute role="parts" path="/parts" component={Ordering} />
 
-            <SecureRoute role='servicing' path="/assessment" component={Assessment} />
-            <SecureRoute role='servicing' path="/jobs" component={JobCardLister} />
-            <SecureRoute role='servicing' path="/job-history" component={JobHistory} />
+            <SecureRoute role="servicing" path="/assessment" component={Assessment} />
+            <SecureRoute role="servicing" path="/jobs" component={JobCardLister} />
+            <SecureRoute role="servicing" path="/job-history" component={JobHistory} />
 
-            <SecureRoute role='paynow' path="/paynow" component={PayNow} />
+            <SecureRoute role="paynow" path="/paynow" component={PayNow} />
 
             {/* <AdminProtectedRoute path="/admin" component={Admin} /> */}
-            <SecureRoute role='admin' path="/admin" component={Admin} />
+            <SecureRoute role="admin" path="/admin" component={Admin} />
 
-
-            <SecureRoute role='superadmin' path="/superadmin" component={SuperAdmin} />
+            <SecureRoute role="superadmin" path="/superadmin" component={SuperAdmin} />
 
             <SecureRoute path="/signout" component={Signout} />
             <Route component={NotFound} />
           </Switch>
         </div>
       </div>
-    </Router >
+    </Router>
   )
   // }
 }
-
 
 const GotoLogin = props => <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
 
@@ -95,23 +95,17 @@ const SecureRoute = ({ role, component: Component, ...rest }) => (
     {...rest}
     render={props => {
       const isLogged = Meteor.userId() !== null
-      const hasRights = (role) ? Roles.userIsInRole(Meteor.userId(), role) : true
-      return isLogged && hasRights ? (
-        <Component {...props} />
-      ) : (
-          <GotoLogin {...props} />
-        )
+      const hasRights = role ? Roles.userIsInRole(Meteor.userId(), role) : true
+      return isLogged && hasRights ? <Component {...props} /> : <GotoLogin {...props} />
     }}
   />
 )
-
 
 /** Require a component and location to be passed to each SecureRoute. */
 SecureRoute.propTypes = {
   component: PropTypes.func.isRequired,
   location: PropTypes.object
 }
-
 
 //
 // Add in a withTracker component, so that we end up waiting for the roles to be loaded before we render menus
@@ -123,6 +117,6 @@ const AppLoader = props => {
 
 export default withTracker(props => {
   return {
-    loading: !Roles.subscription.ready(),
+    loading: !Roles.subscription.ready()
   }
 })(AppLoader)

@@ -53,7 +53,7 @@ const Arrive = props => {
     const needMore = !props.member.email || !props.member.mobile
     if (!needMore) {
       const timer = setTimeout(() => {
-        props.history.push('/')
+        props.history.push('/kiosk')
       }, 5000)
       return function cleanup() {
         clearTimeout(timer)
@@ -72,12 +72,12 @@ const Arrive = props => {
         {needMore && <EmailMobile {...props} />}
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {needMore && (
-            <Button type="button" id="done" onClick={() => props.history.push(`/`)}>
+            <Button type="button" id="done" onClick={() => props.history.push(`/kiosk`)}>
               Not now
             </Button>
           )}
           {!needMore && (
-            <Button id="done" type="button" onClick={() => props.history.push(`/`)} color="orange">
+            <Button id="done" type="button" onClick={() => props.history.push(`/kiosk`)} color="orange">
               I'm done now
             </Button>
           )}

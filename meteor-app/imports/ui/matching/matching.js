@@ -2,35 +2,34 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Menu, Checkbox, Tab, Icon, Table } from 'semantic-ui-react'
 import moment from 'moment'
-import ReactDataGrid from 'react-data-grid'
-import { Toolbar, Data } from "react-data-grid-addons"
+// import ReactDataGrid from 'react-data-grid'
+// import { Toolbar, Data } from 'react-data-grid-addons'
 import './styles.css'
 const debug = require('debug')('b2b:reminders')
 
-
 const FormatDate = ({ value }) => <div>{moment(value).format('YYYY-MM-DD hh:mm')}</div>
+const Data = {}
 const selectors = Data.Selectors
-
 
 const cols = [
   {
     name: 'Date',
     key: 'createdAt',
     formatter: FormatDate,
-    sortable: true,
+    sortable: true
   },
   {
     name: 'Status',
     key: 'status',
     filterable: true,
-    sortable: true,
+    sortable: true
   },
   {
     name: 'Name',
     key: 'customerName',
     filterable: true,
     sortable: true,
-    editable: true,
+    editable: true
   },
   {
     name: 'Email',
@@ -49,13 +48,12 @@ const cols = [
     filterable: true,
     sortable: true,
     key: 'creditCard.address_line1'
-  },
+  }
   // {
   //   name: 'Actions',
   //   key: null,
   // },
 ]
-
 
 const handleFilterChange = filter => filters => {
   const newFilters = { ...filters }
@@ -71,25 +69,24 @@ function getRows(rows, filters) {
   return selectors.getRows({ rows, filters })
 }
 
-
 const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
   const comparer = (a, b) => {
-    if (sortDirection === "ASC") {
+    if (sortDirection === 'ASC') {
       return a[sortColumn] > b[sortColumn] ? 1 : -1
-    } else if (sortDirection === "DESC") {
+    } else if (sortDirection === 'DESC') {
       return a[sortColumn] < b[sortColumn] ? 1 : -1
     }
   }
-  return sortDirection === "NONE" ? initialRows : [...rows].sort(comparer)
+  return sortDirection === 'NONE' ? initialRows : [...rows].sort(comparer)
 }
 
-const getter = document.get = (key) => {
-  let splittedKey = key.split(".")
+const getter = (document.get = key => {
+  let splittedKey = key.split('.')
 
   if (document && key.includes('.')) {
     let current = document
 
-    splittedKey.forEach((splitKey) => {
+    splittedKey.forEach(splitKey => {
       if (current) {
         current = current[splitKey]
       }
@@ -99,23 +96,21 @@ const getter = document.get = (key) => {
   } else {
     return document[key]
   }
-}
-
+})
 
 const CartList = ({ carts, status }) => {
-
   const [rows, setRows] = React.useState(carts)
   const [filters, setFilters] = React.useState(status ? { status } : {})
   const filteredRows = getRows(rows, filters)
 
-  const rowGetter = (rowIdx) => {
+  const rowGetter = rowIdx => {
     let row = Object.assign({}, filteredRows[rowIdx])
 
     row.get = key => {
-      let splitKey = key.split(".")
+      let splitKey = key.split('.')
 
       if (key.includes('.')) {
-        return row[splitKey[0]] ? row[splitKey[0]][splitKey[1]] : ""
+        return row[splitKey[0]] ? row[splitKey[0]][splitKey[1]] : ''
       } else {
         return row[key]
       }
@@ -124,22 +119,19 @@ const CartList = ({ carts, status }) => {
     return row
   }
 
+  return <div>React-data-grid is missing</div>
   return (
     <ReactDataGrid
       columns={cols}
       rowGetter={rowGetter}
       rowsCount={50}
       minHeight={450}
-      onGridSort={(sortColumn, sortDirection) =>
-        setRows(sortRows(carts, sortColumn, sortDirection))
-      }
+      onGridSort={(sortColumn, sortDirection) => setRows(sortRows(carts, sortColumn, sortDirection))}
       toolbar={<Toolbar enableFilter={true} />}
       onAddFilter={filter => setFilters(handleFilterChange(filter))}
       onClearFilters={() => setFilters({})}
-
     />
   )
-
 }
 
 const Matching = ({ members, carts, purchases }) => {
@@ -159,7 +151,7 @@ const Matching = ({ members, carts, purchases }) => {
           <CartList carts={carts} status="ready" />
         </Tab.Pane>
       )
-    },
+    }
   ]
 
   return (
