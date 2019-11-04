@@ -35,6 +35,7 @@ Meteor.methods({
     debug(`Sending charge to ${paymentURL}`, request)
     try {
       const response = await axios(request)
+      debug(response.data.substr(0, 250))
       const data = JSON.parse(response.data)
       if (data.error) {
         const errText = `Payment error: ${data.error_description}`
@@ -49,7 +50,8 @@ Meteor.methods({
       Carts.update(chargeData.metadata.cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
-          chargeResponse: data.response
+          chargeResponse: data.response,
+          creditCard: data.response.card
         }
       })
 
@@ -61,6 +63,7 @@ Meteor.methods({
       return `Payment error: ${error.message}`
     }
   },
+
   createCustomer: async function(custData) {
     const customerURL = Meteor.settings.private.customerURL
     const customer = {

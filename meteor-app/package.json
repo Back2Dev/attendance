@@ -1,6 +1,6 @@
 {
   "name": "back2bikes-attendance",
-  "version": "1.1.12",
+  "version": "1.1.14",
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
@@ -25,7 +25,7 @@
     "test:unit": "mocha --opts tests/mocha.opts",
     "test:unit:watch": "mocha --opts tests/mocha.opts --watch",
     "test:integration": "TEST_CLIENT=0 meteor test --once --driver-package meteortesting:mocha --port 3040",
-    "test:integration:watch": "TEST_CLIENT=0 TEST_WATCH=1 meteor test --driver-package meteortesting:mocha --port 3040",
+    "test:integration:watch": "TEST_CLIENT=0 TEST_WATCH=1 meteor test --inspect --driver-package meteortesting:mocha --port 3040 --settings dev.pa.settings.json",
     "test:snapshots": "jest tests/snapshots/**",
     "test:snapshots:watch": "jest test/snapshots/** --watch",
     "storyshots": "jest test/snapshots/* --watch",
@@ -36,6 +36,7 @@
     "testall": "npm run test:unit && npm run test:snapshots && npm run test:storyspecs && npm run test:integration",
     "test:e2e:standalone": "node tests/cypress/run-on-circle.js 'meteor npm run ci-app' 'meteor npm run ci-test'",
     "cypress:open": "./node_modules/cypress/bin/cypress open",
+    "cypress:open:pa-shop": "./node_modules/cypress/bin/cypress open --config integrationFolder=tests/cypress/integration/shop",
     "cypress:run": "./node_modules/cypress/bin/cypress run",
     "cypress:record": "./node_modules/cypress/bin/cypress run --record --key 7f96e2e6-b3ad-4fdc-8b70-af7cfc31f7da"
   },

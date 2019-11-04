@@ -3,12 +3,8 @@ import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
 import { withInfo } from '@storybook/addon-info'
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react'
-import { specs, describe, it } from 'storybook-addon-specifications'
-import { mount } from 'enzyme'
-import { expect } from 'chai'
+import { withKnobs, boolean, text, number } from '@storybook/addon-knobs/react'
 
 import Card from './member-card'
 
@@ -27,6 +23,7 @@ storiesOf('Member.Card nosnap', module)
           <p>Use Knobs to show checked in/out status</p>
           <Card
             {...member}
+            name={text('Name', 'Homer Simpson')}
             isSuper={boolean('Is Supervisor', false)}
             isSlsa={boolean('SLSA?', false)}
             sessionCount={number('Session Count', 4)}

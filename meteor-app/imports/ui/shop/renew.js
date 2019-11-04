@@ -10,6 +10,8 @@ import { ProductCardOnly } from '/imports/ui/shop/product-card'
 import ProductButton from '/imports/ui/shop/product-button'
 import { CartContext } from './cart-data'
 
+const debug = require('debug')('b2b:renew')
+
 const Renew = props => {
   const [product, setProduct] = React.useState(props.cart.products[0] || props.myProduct)
   const { state, dispatch } = React.useContext(CartContext)

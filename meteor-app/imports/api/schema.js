@@ -39,7 +39,8 @@ export const updatedAt = {
       return new Date()
     }
     return {
-      $set: new Date()
+      // Allow a value to be passed in (for testing purposes only)
+      $set: this.value ? this.value : new Date()
     }
   },
   optional: true

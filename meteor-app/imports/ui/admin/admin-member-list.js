@@ -69,18 +69,16 @@ const Admin = props => {
             )}
             <Grid.Column style={{ textAlign: 'right' }} width={6}>
               <List.Content floated="right">
-                {memberPurchases.length > 0 && (
-                  <Button
-                    color="blue"
-                    onClick={e => {
-                      e.preventDefault()
-                      // props.extendMember(member._id, memberPurchases[0]._id)
-                      props.addProduct(member._id, member.name)
-                    }}
-                    content="Add..."
-                    about={member.name}
-                  />
-                )}
+                <Button
+                  color="blue"
+                  onClick={e => {
+                    e.preventDefault()
+                    // props.extendMember(member._id, memberPurchases[0]._id)
+                    props.addProduct(member._id, member.name)
+                  }}
+                  content="Add..."
+                  about={member.name}
+                />
                 &nbsp;
                 {false && (
                   <Button

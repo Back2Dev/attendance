@@ -31,7 +31,7 @@ const Dupes = props => {
       {(dupes.length === 0) && <h1>There are currently no duplicates</h1>}
       {dupes.map(dupe => (
         <React.Fragment key={dupe._id}>
-          {index[dupe._id].map(member => {
+          {index[dupe._id] && index[dupe._id].map(member => {
             return (
               <Grid.Row key={member._id}>
                 <Grid.Column>

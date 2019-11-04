@@ -177,6 +177,10 @@ export const MembersSchema = new SimpleSchema({
     label: 'Payment cust Id associated with customer',
     optional: true
   },
+  autoPay: {
+    type: Boolean,
+    optional: true
+  },
   cardToken: {
     type: String,
     label: 'Card token given to us from payments system',

@@ -119,7 +119,11 @@ export const CreditCardSchema = new SimpleSchema({
   address_postcode: { type: String, optional: true },
   address_state: { type: String, optional: true },
   address_country: { type: String, optional: true },
-  card_token: { type: String, optional: true }
+  card_token: { type: String, optional: true },
+  scheme: { type: String, optional: true },
+  display_number: { type: String, optional: true },
+  issuing_country: { type: String, optional: true },
+  name: { type: String, optional: true }
 })
 
 export const CardResponseSchema = new SimpleSchema({
@@ -189,6 +193,14 @@ export const CartsSchema = new SimpleSchema({
   },
   customerResponse: { type: Object, blackbox: true, optional: true },
   chargeResponse: { type: Object, blackbox: true, optional: true },
+  //
+  // This section is for managing reminders, reconciliation etc
+  //
+  reconciled: { type: Boolean, defaultValue: false },
+  autoPayNoticeDate: { type: Date, optional: true },
+  manualPayReminderDate: { type: Date, optional: true },
+  paymentDate: { type: Date, optional: true },
+  //
   createdAt,
   updatedAt
 })

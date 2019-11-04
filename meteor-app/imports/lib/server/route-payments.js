@@ -17,44 +17,48 @@ async function acceptPayment(req, res) {
       // First check the authentication, see here: https://pinpayments.com/developers/integration-guides/webhooks
       // req.body.data.metadata.cartId will contain the id of the cart.
       //Find the cart, and then create a purchase record from the contents of the cart
-      const cartId = req.body.data.metadata.cartid
-      const cart = Carts.findOne(cartId)
-      if (!cart) {
-        console.error(`Could not find cart with id ${cartId}`) // This is a kind-of normal condition
+      if (!req.body.data.metadata) {
+        console.error(`No metadata provided in incoming payment`, req.body.data)
       } else {
-        const member = Members.findOne(cart.memberId) || {}
-        debug(`Processing ${cart.products.length} products from cart ${cartId}`)
-        cart.products.forEach(prod => {
-          debug(prod)
-          // Work out the start date
-          const startDate = prod.expiry || moment()
-          // Calculate expiry from product duration (in months)
-          const expiry = moment(startDate)
-            .add(prod.duration, 'month')
-            .toDate()
-          const remaining = prod.qty || 1
-          const purchase = {
-            productName: prod.name,
-            memberId: cart.memberId,
-            price: prod.price,
-            code: prod.code,
-            productId: prod._id,
-            purchaser: member.name,
-            remaining,
-            expiry,
-            txnDate: new Date()
-          }
-          debug('Inserting purchase', purchase)
-          const n = Purchases.insert(purchase)
-          // Now update  the member status
-          Members.update(cart.memberId, {
-            $set: {
-              status: 'current',
-              subsType: prod.subsType,
-              expiry
+        const cartId = req.body.data.metadata.cartid
+        const cart = Carts.findOne(cartId)
+        if (!cart) {
+          console.error(`Could not find cart with id ${cartId}`) // This is a kind-of normal condition
+        } else {
+          const member = Members.findOne(cart.memberId) || {}
+          debug(`Processing ${cart.products.length} products from cart ${cartId}`)
+          cart.products.forEach(prod => {
+            debug(prod)
+            // Work out the start date
+            const startDate = prod.expiry || moment()
+            // Calculate expiry from product duration (in months)
+            const expiry = moment(startDate)
+              .add(prod.duration, 'month')
+              .toDate()
+            const remaining = prod.qty || 1
+            const purchase = {
+              productName: prod.name,
+              memberId: cart.memberId,
+              price: prod.price,
+              code: prod.code,
+              productId: prod._id,
+              purchaser: member.name,
+              remaining,
+              expiry,
+              txnDate: new Date()
             }
+            debug('Inserting purchase', purchase)
+            const n = Purchases.insert(purchase)
+            // Now update  the member status
+            Members.update(cart.memberId, {
+              $set: {
+                status: 'current',
+                subsType: prod.subsType,
+                expiry
+              }
+            })
           })
-        })
+        }
       }
     } catch (e) {
       console.error(e)

@@ -120,7 +120,7 @@ const CreditCard = props => {
         }
 
         debug(`Calculated card token as ${response.token}`, response)
-        state.card = response
+        state.creditCard = response
 
         /* Submit the form with the added card_token input. */
         debug('Submitting')

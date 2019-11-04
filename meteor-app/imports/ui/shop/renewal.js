@@ -17,17 +17,16 @@ export default withTracker(props => {
   const id = props.match.params.id
   const cartId = props.match.params.cartId
   if (cartId) sessionStorage.setItem('mycart', cartId)
-  const membersHandle = Meteor.subscribe('member.renew', id)
+  const membersHandle = Meteor.subscribe('member.renew', id, cartId)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
-  const carts = Carts.find(cartId, { sort: { createdAt: -1 } }).fetch()
+  const cart = Carts.findOne(cartId)
   const products = Products.find({ active: true }).fetch()
   let myProduct
   if (purchases.length) {
     myProduct = Products.findOne(purchases[0].productId)
   }
-  const cart = carts && carts.length ? carts[0] : {}
 
   return {
     org: Meteor.settings.public.org,

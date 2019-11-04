@@ -26,40 +26,51 @@ const Checkout = ({ history }) => {
   }
 
   const adminDoIt = async () => {
-    switch (method) {
-      case 'email':
-        // Send an email containing the cart
-        const status = await Meteor.callAsync(
-          'member.email.invoice',
-          state._id,
-          email,
-          discountedPrice * 100,
-          state.discount
-        )
-        sessionStorage.removeItem('myCart')
-        sessionStorage.removeItem('name')
-        Alert.info(`Sent invoice to ${email}`)
-        history.push('/shop/sent')
-        break
-      case 'charge':
-        // Go to the Charge my card page...
-        history.push('/shop/charge')
-        break
-      // it's paid already
-      case 'paypal':
-      case 'xero':
-      case 'cash':
-        history.push('/shop/paid')
+    try {
+      switch (method) {
+        case 'email':
+          // Send an email containing the cart
+          const status = await Meteor.callAsync(
+            'member.email.invoice',
+            state._id,
+            email,
+            discountedPrice * 100,
+            state.discount
+          )
+          sessionStorage.removeItem('myCart')
+          sessionStorage.removeItem('name')
+          Alert.info(`Sent invoice to ${email}`)
+          history.push(`/shop/sent/${email}`)
+          break
+        case 'charge':
+          // Go to the Charge my card page...
+          history.push(`/shop/charge/${member._id}/${state._id}`)
+          break
+        // it's paid already
+        case 'paypal':
+        case 'xero':
+        case 'cash':
+          history.push('/shop/paid/${member._id}')
 
-        break
-      default:
-        break
+          break
+        default:
+          break
+      }
+    } catch (e) {
+      console.error(`Something went wrong ${e.message}`)
     }
   }
 
   const changeMethod = e => {
     setMethod(e.target.value)
     setShowDate(NEED_DATE.includes(e.target.value))
+  }
+
+  const buyNow = () => {
+    state.discount = 0
+    if (state && state.member && state.member.paymentCustId)
+      history.push(`/shop/charge/${state.member._id}/${state._id}`)
+    else history.push('/shop/address')
   }
 
   const changeDiscount = e => {
@@ -69,9 +80,8 @@ const Checkout = ({ history }) => {
       setDP(state.price / 100 - disc)
     } else {
       const disc = parseInt(e.target.value)
-      if (disc) {
-        setDP(Math.floor(((100 - disc) * (state.price / 100)) / 100))
-      } else setDP(state.price / 100)
+      if (disc) setDP(state.price / 100 - disc)
+      else setDP(state.price / 100)
     }
   }
   const checkPromo = async () => {
@@ -79,14 +89,18 @@ const Checkout = ({ history }) => {
     debug(`Checking promo code ${code}`)
     // dispatch({ type: 'get-promo', payload: code })
     if (code) {
-      const { promo, member } = await Meteor.callAsync('getPromo', code, sessionStorage.getItem('memberId'))
+      const { promo, member } = await Meteor.callAsync(
+        'getPromo',
+        code,
+        sessionStorage.getItem('memberId') || state.memberId
+      )
       if (!promo) {
         setPromo({
           status: `Promo code "${code}" not found`
         })
         setIcon('cancel')
       } else {
-        debug('Promo', promo)
+        debug('Promo', promo, member)
         setPromo(promo)
         setMember(member)
         setEmail(member.email)
@@ -124,13 +138,7 @@ const Checkout = ({ history }) => {
           <SecurityModal />
         </Menu.Item>
         <Menu.Item position="right">
-          <Button
-            type="button"
-            color="green"
-            floated="right"
-            id="menu_buy_now"
-            onClick={() => history.push('/shop/address')}
-          >
+          <Button type="button" color="green" floated="right" id="menu_buy_now" onClick={buyNow}>
             Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
@@ -147,13 +155,7 @@ const Checkout = ({ history }) => {
         <Button id="continue" type="button" primary onClick={() => history.push('/shop/type/membership')}>
           Continue shopping
         </Button>
-        <Button
-          type="button"
-          color="green"
-          style={{ marginLeft: '16px' }}
-          onClick={() => history.push('/shop/address')}
-          id="buy_now"
-        >
+        <Button type="button" color="green" style={{ marginLeft: '16px' }} onClick={buyNow} id="buy_now">
           Buy now {!state._id && '!'}
         </Button>
         <Input
@@ -168,7 +170,7 @@ const Checkout = ({ history }) => {
         />
       </div>
       <div style={{ textAlign: 'center' }} />
-      {promo && promo.discount && !promo.admin && (
+      {promo && promo.discount > 0 && !promo.admin && (
         <Header style={{ textAlign: 'center' }}>
           <Icon name="flag checkered" color="green" style={{ display: 'inline' }} />
           Yay! You found...
@@ -195,8 +197,18 @@ const Checkout = ({ history }) => {
                       <Label>Charge: ${discountedPrice}</Label>
                       <br />
                       <Input name="discount" onChange={changeDiscount} placeholder="Discount % or $" />
+                      {member && member.paymentCustId && (
+                        <Form.Field
+                          label="&nbsp; Charge to credit card"
+                          control="input"
+                          type="radio"
+                          name="method"
+                          value="charge"
+                          onChange={changeMethod}
+                        />
+                      )}
                       <Form.Field
-                        label="Send invoice by email"
+                        label="&nbsp; Send invoice by email"
                         control="input"
                         type="radio"
                         name="method"
@@ -213,7 +225,7 @@ const Checkout = ({ history }) => {
                         />
                       )}
                       <Form.Field
-                        label="Paid via Paypal"
+                        label="&nbsp; Paid via Paypal"
                         control="input"
                         type="radio"
                         name="method"
@@ -221,7 +233,7 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       <Form.Field
-                        label="Paid in Xero"
+                        label="&nbsp; Paid in Xero"
                         control="input"
                         type="radio"
                         name="method"
@@ -229,7 +241,7 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       <Form.Field
-                        label="Paid in cash"
+                        label="&nbsp; Paid in cash"
                         control="input"
                         type="radio"
                         name="method"
@@ -237,23 +249,13 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
-                      {member && member.paymentCustId && (
-                        <Form.Field
-                          label={`Charge to credit card`}
-                          control="input"
-                          type="radio"
-                          name="method"
-                          value="charge"
-                          onChange={changeMethod}
-                        />
-                      )}
                     </Form.Group>
                   </Form>
-                  <Button id="doit" type="button" onClick={adminDoIt}>
-                    Do it
-                  </Button>
-                  <Button id="cancel" type="button" onClick={adminCancel}>
+                  <Button id="cancel" type="button" color="red" inverted onClick={adminCancel}>
                     Cancel
+                  </Button>
+                  <Button id="doit" type="button" color="green" inverted onClick={adminDoIt}>
+                    Do it
                   </Button>
                 </Segment>
               </Grid.Column>

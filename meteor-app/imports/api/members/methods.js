@@ -205,7 +205,7 @@ db[res.result].find({value: {$gt: 1}});
         date: moment().format('DD/MM/YYYY'),
         name: member.name,
         email,
-        discount,
+        discount: priceFormat(discount * 100),
         description1: cart.products[0].name,
         description2: cart.products.length > 1 ? cart.products[1].name : '',
         description3: cart.products.length > 2 ? cart.products[2].name : '',
@@ -222,17 +222,21 @@ db[res.result].find({value: {$gt: 1}});
     )
   },
 
+
   'slsa.load': function(data, season) {
+
     const slsaMap = {
       'Member ID': 'slsaId',
       'First Name': 'first',
       'Last Name': 'last',
+
       Status: 'status',
       Season: 'season',
       'Email Address 1': 'email1',
       'Email Address 2': 'email2',
       'Working with Children Registration Expiry Date': 'wwccExpiry',
       'Working with Children Registration No': 'wwcc'
+
     }
 
     let countTotal = 0
@@ -259,6 +263,7 @@ db[res.result].find({value: {$gt: 1}});
               if (newRow.wwcc) newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
               return newRow
             })
+
             .reduce((acc, m) => {
               debug(`Updating ${m.name}`)
               const queries = [{ name: m.name }]
