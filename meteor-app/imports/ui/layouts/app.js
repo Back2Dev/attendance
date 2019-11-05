@@ -34,53 +34,49 @@ const Home = props => <div>Home is where the heart is (app.js)</div>
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
 const App = props => {
-  console.log('Meteor.userId', Meteor.userId())
-  console.log('Meteor.user', Meteor.user())
   if (!Roles.subscription.ready()) return <div>NOT READY</div>
-  const containerId = isIframe() ? 'iframe-container' : 'app-container'
+  const showSide = !isIframe() && !location.pathname.match(/kiosk/)
+  const containerId = showSide ? 'app-container' : 'iframe-container'
   return (
-    <Router>
-      <div id={containerId}>
-        {!isIframe() && (
-          <div id="sidebar-container">
-            <NavBar />
-          </div>
-        )}
-        {isIframe() && <div id="sidebar-none"></div>}
-        <div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/login" component={Login} />
-            <Route path="/shop" component={Shop} />
-            <Route path="/kiosk" component={MemberMainContainer} />
-            <Route path="/add" component={MemberAddContainer} />
-
-            <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
-            <SecureRoute role="signin" path="/visit/:id" component={Visit} />
-            <SecureRoute role="signin" path="/edit/:id" component={MemberEdit} />
-
-            <SecureRoute role="parts" path="/parts" component={Ordering} />
-
-            <SecureRoute role="servicing" path="/assessment" component={Assessment} />
-            <SecureRoute role="servicing" path="/jobs" component={JobCardLister} />
-            <SecureRoute role="servicing" path="/job-history" component={JobHistory} />
-
-            <SecureRoute role="paynow" path="/paynow" component={PayNow} />
-
-            {/* <AdminProtectedRoute path="/admin" component={Admin} /> */}
-            <SecureRoute role="admin" path="/admin" component={Admin} />
-
-            <SecureRoute role="superadmin" path="/superadmin" component={SuperAdmin} />
-
-            <SecureRoute path="/signout" component={Signout} />
-            <Route component={NotFound} />
-          </Switch>
+    <div id={containerId}>
+      {showSide && (
+        <div id="sidebar-container">
+          <NavBar />
         </div>
+      )}
+      {!showSide && <div id="sidebar-none"></div>}
+      <div>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/shop" component={Shop} />
+          <Route path="/kiosk" component={MemberMainContainer} />
+          <Route path="/add" component={MemberAddContainer} />
+
+          <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
+          <SecureRoute role="signin" path="/visit/:id" component={Visit} />
+          <SecureRoute role="signin" path="/edit/:id" component={MemberEdit} />
+
+          <SecureRoute role="parts" path="/parts" component={Ordering} />
+
+          <SecureRoute role="servicing" path="/assessment" component={Assessment} />
+          <SecureRoute role="servicing" path="/jobs" component={JobCardLister} />
+          <SecureRoute role="servicing" path="/job-history" component={JobHistory} />
+
+          <SecureRoute role="paynow" path="/paynow" component={PayNow} />
+
+          {/* <AdminProtectedRoute path="/admin" component={Admin} /> */}
+          <SecureRoute role="admin" path="/admin" component={Admin} />
+
+          <SecureRoute role="superadmin" path="/superadmin" component={SuperAdmin} />
+
+          <SecureRoute path="/signout" component={Signout} />
+          <Route component={NotFound} />
+        </Switch>
       </div>
-    </Router>
+    </div>
   )
-  // }
 }
 
 const GotoLogin = props => <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
@@ -112,7 +108,11 @@ SecureRoute.propTypes = {
 //
 const AppLoader = props => {
   if (props.loading) return <div>Loading...</div>
-  return <App {...props} />
+  return (
+    <Router>
+      <App {...props} />
+    </Router>
+  )
 }
 
 export default withTracker(props => {
