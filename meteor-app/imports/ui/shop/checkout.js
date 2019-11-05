@@ -18,6 +18,7 @@ const Checkout = ({ history }) => {
   const [method, setMethod] = React.useState('')
   const [showDate, setShowDate] = React.useState(false)
   const [email, setEmail] = React.useState('')
+  const [note, setNote] = React.useState('')
   const [discountedPrice, setDP] = React.useState(state.price / 100)
 
   const adminCancel = () => {
@@ -34,6 +35,7 @@ const Checkout = ({ history }) => {
             'member.email.invoice',
             state._id,
             email,
+            note,
             discountedPrice * 100,
             state.discount
           )
@@ -196,7 +198,7 @@ const Checkout = ({ history }) => {
                     <Form.Group grouped>
                       <Label>Charge: ${discountedPrice}</Label>
                       <br />
-                      <Input name="discount" onChange={changeDiscount} placeholder="Discount % or $" />
+                      <Input name="discount" onChange={changeDiscount} placeholder="Discount amount" />
                       {member && member.paymentCustId && (
                         <Form.Field
                           label="&nbsp; Charge to credit card"
@@ -216,13 +218,22 @@ const Checkout = ({ history }) => {
                         onChange={changeMethod}
                       />
                       {method === 'email' && (
-                        <Input
-                          name="email"
-                          type="email"
-                          placeholder="Email"
-                          defaultValue={email}
-                          onChange={e => setEmail(e.target.value)}
-                        />
+                        <>
+                          <Form.TextArea
+                            name="note"
+                            type="note"
+                            placeholder="Note to add to email"
+                            onChange={e => setNote(e.target.value)}
+                          ></Form.TextArea>
+
+                          <Input
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            defaultValue={email}
+                            onChange={e => setEmail(e.target.value)}
+                          />
+                        </>
                       )}
                       <Form.Field
                         label="&nbsp; Paid via Paypal"

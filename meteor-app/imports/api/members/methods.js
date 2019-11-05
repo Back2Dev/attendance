@@ -189,11 +189,13 @@ db[res.result].find({value: {$gt: 1}});
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
   },
-  'member.email.invoice': function(cartId, email, discountedPrice, discount) {
+  'member.email.invoice': function(cartId, email, note, discountedPrice, discount) {
     const cart = Carts.findOne(cartId)
     if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
     const member = Members.findOne(cart.memberId)
     debug('Emailing invoice for cart', cart)
+    if (!note)
+      note = 'You are receiving this email because you train with Peak Adventure, and would like to make a payment.'
 
     const priceFormat = price => `${price / 100}.00`
 
@@ -205,6 +207,7 @@ db[res.result].find({value: {$gt: 1}});
         date: moment().format('DD/MM/YYYY'),
         name: member.name,
         email,
+        note,
         discount: priceFormat(discount * 100),
         description1: cart.products[0].name,
         description2: cart.products.length > 1 ? cart.products[1].name : '',
