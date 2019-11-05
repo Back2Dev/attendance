@@ -120,7 +120,7 @@ Meteor.methods({
       sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
       const options = {
         to,
-        bcc: 'mikkelking@hotmail.com',
+        bcc: Meteor.settings.private.bcc,
         from: Meteor.settings.private.fromEmail,
         templateId,
         dynamic_template_data: mergeData
