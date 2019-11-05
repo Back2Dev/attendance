@@ -43,7 +43,7 @@ const ShopFront = props => {
         <Route path="/shop/receipt" exact component={Receipt} />
         <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
-        <Route path="/renew/:id/:cartId" component={Renewal} />
+        <Route path="/shop/renew/:id/:cartId" component={Renewal} />
         <Route path="/shop/registered" exact component={CCRegistered} />
         <Route path="/shop/charge/:memberId/:cartId" exact component={CCCharge} />
         <Route path="/shop/sent/:email" exact component={EmailSent} />
