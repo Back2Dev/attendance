@@ -279,7 +279,7 @@ const CreditCard = props => {
         <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
           {price === 0 ? 'Register card' : 'Pay'}
         </Button>
-        {!memberId && (
+        {!memberId && price > 0 && (
           <>
             <Checkbox
               label="Keep my card on file for future payments"

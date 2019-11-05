@@ -27,7 +27,7 @@ import NotFound from '../pages/not-found'
 import Login from '../pages/login'
 import Signup from '../pages/signup'
 import Signout from '../pages/logout'
-import Admin from '../pages/admin-container'
+import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
 
 const Home = props => <div>Home is where the heart is (app.js)</div>

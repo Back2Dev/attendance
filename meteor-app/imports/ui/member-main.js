@@ -8,7 +8,7 @@ import MemberCardSmall from '/imports/ui/member/member-card-small'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberCardSmallLoading from '/imports/ui/member/member-card-small-loading'
-import Search from '/imports/ui/member/member-search-container'
+import MemberSearch from '/imports/ui/member/member-search-container'
 import MemberCounter from '/imports/ui/member/member-counter'
 import './member-main.css'
 
@@ -27,7 +27,7 @@ class MemberMain extends React.Component {
       <Grid>
         <Grid.Row>
           <Grid.Column width="13">
-            <Search memberWords={memberWords} />
+            <MemberSearch memberWords={memberWords} />
             <MemberList
               title={'Check In:'}
               members={this.props.membersOut}
