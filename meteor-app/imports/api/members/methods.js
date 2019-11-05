@@ -216,15 +216,13 @@ db[res.result].find({value: {$gt: 1}});
         gst: priceFormat(0),
         total: priceFormat(discountedPrice),
         terms: 'Payment within 14 days',
-        link: `${Meteor.absoluteUrl()}renew/${member._id}/${cartId}`
+        link: `${Meteor.absoluteUrl()}shop/renew/${member._id}/${cartId}`
       },
       Meteor.settings.private.invoiceID
     )
   },
 
-
   'slsa.load': function(data, season) {
-
     const slsaMap = {
       'Member ID': 'slsaId',
       'First Name': 'first',
@@ -236,7 +234,6 @@ db[res.result].find({value: {$gt: 1}});
       'Email Address 2': 'email2',
       'Working with Children Registration Expiry Date': 'wwccExpiry',
       'Working with Children Registration No': 'wwcc'
-
     }
 
     let countTotal = 0
