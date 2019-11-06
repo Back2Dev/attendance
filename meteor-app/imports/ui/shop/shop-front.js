@@ -38,13 +38,17 @@ const ShopFront = props => {
         <Route path="/shop/add/:code/:memberId" exact component={AddContainer} />
         <Route path="/shop/checkout" exact component={Checkout} />
         <Route path="/shop/address" exact component={Address} />
+        <Route path="/kiosk/address" exact component={Address} />
         <Route path="/shop/credit-card" exact component={CreditCard} />
+        <Route path="/kiosk/credit-card" exact component={CreditCard} />
         <Route path="/shop/register-card/:id" exact component={RegisterCard} />
+        <Route path="/kiosk/register-card/:id" exact component={RegisterCard} />
         <Route path="/shop/receipt" exact component={Receipt} />
         <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
         <Route path="/shop/renew/:id/:cartId" component={Renewal} />
         <Route path="/shop/registered" exact component={CCRegistered} />
+        <Route path="/kiosk/registered" exact component={CCRegistered} />
         <Route path="/shop/charge/:memberId/:cartId" exact component={CCCharge} />
         <Route path="/shop/sent/:email" exact component={EmailSent} />
       </Switch>

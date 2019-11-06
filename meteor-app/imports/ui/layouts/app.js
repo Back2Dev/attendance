@@ -52,10 +52,10 @@ const App = props => {
           <Route path="/login" component={Login} />
           <Route path="/shop" component={Shop} />
           <Route path="/kiosk" component={MemberMainContainer} />
+          <Route path="/visit/:id" component={Visit} />
           <Route path="/add" component={MemberAddContainer} />
 
           <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
-          <SecureRoute role="signin" path="/visit/:id" component={Visit} />
           <SecureRoute role="signin" path="/edit/:id" component={MemberEdit} />
 
           <SecureRoute role="parts" path="/parts" component={Ordering} />
