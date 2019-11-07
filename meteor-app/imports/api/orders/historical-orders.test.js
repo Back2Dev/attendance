@@ -7,7 +7,7 @@ import '/imports/api/orders/methods'
 import Factory from '/imports/test/factories'
 import data from '/imports/test/bpw-emails'
 
-// const goodOrder = Factory.build('order')
+// const goodOrder = Factory.build('o rder')
 // const orderId = goodOrder._id
 
 if (Meteor.isServer) {
@@ -15,7 +15,7 @@ if (Meteor.isServer) {
     beforeEach(resetDatabase)
 
     it('success on importing emails', () => {
-      expect(() => Meteor.call('orders.email.read.mike', data.mailbox)).to.not.throw()
+      expect(() => Meteor.call('orders.email.read.mike', data.mailbox, 'bpw')).to.not.throw()
       const n = OrderEmails.find({}).fetch().length
       expect(n).to.equal(4)
     })

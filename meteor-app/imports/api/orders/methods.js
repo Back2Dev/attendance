@@ -6,6 +6,7 @@ import OrderEmails from '/imports/api/orderemails/schema'
 import Parts from '/imports/api/parts/schema'
 import { calcRetail } from '/imports/api/parts/methods'
 import testData from '/imports/test/bpw-emails'
+import extractors from './order-extractors'
 
 const emlformat = require('eml-format')
 const debug = require('debug')('b2b:orders')
@@ -15,39 +16,14 @@ const toCents = amount => parseInt(Math.round(100 * parseFloat(amount)))
 // Utility routine to unpack the order into an object
 // @params: text
 // @returns: order object
-const unpackOrder = text => {
+const unpackOrder = (text, extractors) => {
   // debug('Unpacking orders from', text)
-  const extractors = [
-    { regex: /^Order Number:\s+(\w+)/, target: 'orderNumber' },
-    { regex: /^Date Ordered:\s+(.+)$/, target: 'dateOrdered' },
-    { regex: /^Sub-Total:\s+[$]*(.*)$/, target: 'subTotal', type: 'cents' },
-    { regex: /^GST:\s+\$(.*)$/, target: 'gst', type: 'cents' },
-    { regex: /^Total:\s+\$(.*)$/, target: 'totalPrice', type: 'cents' },
-    { regex: /^Purchase Order No:\s+(.*)$/, target: 'poNo' },
-    // Parts extractor
-    //1 x BRAKE SHOES  V Brake Shoes, 70mm, BLACK (25 Pairs Per Box) (1585BULK) = $72.70
-    {
-      regex: /^(\d+) x (.*?) \((\w+)\) = \$(.*)$/,
-      target: 'parts',
-      unpacker: (acc, match) => {
-        acc.push({
-          qty: parseInt(match[1]),
-          name: match[2],
-          partNo: match[3],
-          price: Math.round(toCents(match[4]) / parseInt(match[1])),
-          // TODO: Make this real
-          addedAt: new Date()
-        })
-      }
-    }
-  ]
   const order = {
     orderedParts: [],
     status: CONSTANTS.ORDER_STATUS_SENT
   }
   // const tmp = ''
-  const lines = text.split('\r\n')
-  lines.forEach((line, ix) => {
+  text.split('\r\n').forEach((line, ix) => {
     // console.log(`${ix + 1} ${line}`)
     extractors.forEach(extractor => {
       const matches = line.match(extractor.regex)
@@ -84,7 +60,7 @@ Meteor.methods({
     OrderEmails.remove({})
     // Parts.remove({})
     Orders.remove({})
-    Meteor.call('orders.email.read.mike', testData.mailbox)
+    Meteor.call('orders.email.read.mike', testData.mailbox, 'bpw')
   },
   'orders.insert'(order) {
     try {
@@ -267,7 +243,7 @@ Meteor.methods({
     }
   },
 
-  'orders.email.read.mike': function(mailbox) {
+  'orders.email.read.mike': function(mailbox, supplierCode) {
     // Extract emails from Thunderbird into OrderEmails
     let emails = mailbox.split('From ')
 
@@ -289,7 +265,7 @@ Meteor.methods({
               parsedEmail._id = OrderEmails.insert(parsedEmail)
 
               // Unpack the text portion of the email into a raw order object
-              const order = unpackOrder(parsedEmail.text)
+              const order = unpackOrder(parsedEmail.text, extractors[supplierCode])
 
               //
               // Now we do a little post-processing to:
