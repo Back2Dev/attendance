@@ -142,8 +142,7 @@ export default [
       },
       comments: {
         'ui:widget': 'textarea',
-        'ui:placeholder':
-          'Please enter any comments if there are any additional fees or services needed..',
+        'ui:placeholder': 'Please enter any comments if there are any additional fees or services needed..',
         'ui:options': {
           rows: 10
         }
@@ -182,6 +181,9 @@ export default [
           type: 'boolean',
           title: 'Is this bike being refurbished?',
           default: false
+        },
+        name: {
+          type: 'string'
         },
         pickUpDate: {
           type: 'string',

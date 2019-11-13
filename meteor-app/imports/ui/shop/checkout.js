@@ -80,10 +80,11 @@ const Checkout = ({ history }) => {
     if (e.target.value.match(/^\$\d+/)) {
       const disc = parseInt(e.target.value.replace('$', ''))
       setDP(state.price / 100 - disc)
+      dispatch({ type: 'discount', payload: disc })
     } else {
-      const disc = parseInt(e.target.value)
-      if (disc) setDP(state.price / 100 - disc)
-      else setDP(state.price / 100)
+      const disc = parseInt(e.target.value) || 0
+      setDP(state.price / 100 - disc)
+      dispatch({ type: 'discount', payload: disc })
     }
   }
   const checkPromo = async () => {

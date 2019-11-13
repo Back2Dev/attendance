@@ -23,9 +23,9 @@ const CCCharge = props => {
       .join(',')
 
     const result = await state.chargeCard({
+      price: state.chargeAmount,
       customer_token: state.member.paymentCustId,
       email: state.member.email,
-      price: state.price,
       metadata: { cartId: state._id, codes }
     })
     if (result.error) {
@@ -63,7 +63,7 @@ const CCCharge = props => {
             <Card.Content extra>
               <div>
                 <Button basic color="green" type="button" onClick={chargeCard}>
-                  Charge: <Price cents={state.price}></Price>
+                  Charge: <Price cents={state.chargeAmount}></Price>
                 </Button>
                 <Button basic color="red" type="button" onClick={gotoHome}>
                   Cancel

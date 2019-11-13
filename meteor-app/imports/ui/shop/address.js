@@ -156,7 +156,7 @@ const Address = props => {
             name="address_country"
           />
 
-          {e.length > 0 && <Message negative header="Oops, your address is missing:" content={e.join(', ')} />}
+          {e.length > 0 && <Message negative header="Oops, your address isn't quite right:" content={e.join(', ')} />}
         </Form>
         <Button size="mini" type="button" color="green" onClick={submitAddress} style={{ marginTop: '24px' }}>
           Next

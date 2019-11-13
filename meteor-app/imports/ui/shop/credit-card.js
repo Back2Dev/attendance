@@ -228,7 +228,9 @@ const CreditCard = props => {
   return (
     <Container text textAlign="center">
       <Segment textAlign="center">
-        <Header as="h2">Payment form - credit card</Header>
+        <Header as="h2">
+          Payment form - credit card <span style={{ color: 'white' }}>{cartId}</span>
+        </Header>
         <Header as="h2">
           <Image src={state.settings.logo} />
         </Header>

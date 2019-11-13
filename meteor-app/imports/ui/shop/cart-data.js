@@ -17,6 +17,7 @@ const initialState = {
 
 const recalc = state => {
   state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
+  state.chargeAmount = state.products.reduce((acc, product) => acc + product.qty * product.price, 0) - state.discount
   state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
   state.prodqty = {}
   state.products.forEach(prod => {
@@ -36,6 +37,7 @@ const saveCart = state => {
 
 const reducer = (state, action) => {
   debug(`Dispatch: ${action.type}`, action.payload)
+  let newState = cloneDeep(initialState)
   switch (action.type) {
     case 'reset':
       return cloneDeep(initialState)
@@ -44,6 +46,8 @@ const reducer = (state, action) => {
       clrS.prodqty = {}
       clrS.products = []
       clrS.price = 0
+      clrS.discount = 0
+      clrS.chargeAmount = 0
       clrS.totalqty = 0
       saveCart(clrS)
       return clrS
@@ -60,12 +64,16 @@ const reducer = (state, action) => {
       debug('save-address', newS)
       return newS
     case 'reset-add':
-      const newState = cloneDeep(initialState)
       action.payload.qty = 1
       newState.products.push(action.payload)
-
       recalc(newState)
       Alert.info(`Added ${action.payload.name} to cart`)
+      return { ...newState }
+    case 'discount':
+      newState = cloneDeep(state)
+      newState.discount = action.payload * 100 // Convert to cents
+      recalc(newState)
+      Alert.info(`Recalculated cart charge amount after discount ($action.payload)`)
       return { ...newState }
     case 'add':
       if (!state.products) state = cloneDeep(initialState)

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Container, Segment, Table, Header, Button, Icon, Image } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
@@ -84,4 +85,9 @@ const Receipt = props => {
   )
 }
 
+Receipt.propTypes = {
+  fields: PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired
+}
 export default Receipt
