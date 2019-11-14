@@ -47,11 +47,15 @@ export default withTracker(props => {
   }
 
   forgetCard = id => {
-    Meteor.callAsync()
+    Meteor.callAsync('members.forgetCard', id)
   }
 
   function save(id, formData) {
     Meteor.call('members.update', id, formData)
+  }
+
+  function updateAutoPay(id, value) {
+    Meteor.callAsync('members.updateAutoPay', id, value)
   }
 
   return {
@@ -66,6 +70,7 @@ export default withTracker(props => {
     setPin,
     forgotPin,
     forgetCard,
+    updateAutoPay,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo
   }

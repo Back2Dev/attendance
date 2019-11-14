@@ -7,14 +7,30 @@ import CartList from './cart-list'
 
 const debug = require('debug')('b2b:admin')
 
-const MemberDetails = ({ member, carts, sessions, purchases, forgetCard }) => {
+const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateAutoPay }) => {
+  const [autoPay, setAutoPay] = React.useState(member.autoPay)
+  const toggleAutoPay = e => {
+    setAutoPay(!autoPay)
+    updateAutoPay(member._id, !autoPay)
+  }
+  const forgetCC = () => {
+    forgetCard(member._id)
+  }
+
   debug('MemberDetails', member)
   return (
     <div style={{ textAlign: 'left' }}>
       <MemberCard member={member} />
       <hr></hr>
-      <Button>Forget credit card</Button>
-      <Checkbox label="Auto Pay" defaultChecked={member.autoPay} onChange={toggleAutoPay}></Checkbox>
+      {!member.paymentCustId && <span>No credit card on file</span>}
+      {member.paymentCustId && (
+        <>
+          <Button color="red" inverted onClick={forgetCC}>
+            Forget credit card
+          </Button>
+          <Checkbox label="Auto Pay" defaultChecked={member.autoPay} onChange={toggleAutoPay}></Checkbox>
+        </>
+      )}
       <hr></hr>
       Sessions ({sessions.length})
       {sessions.length === 0 ? (

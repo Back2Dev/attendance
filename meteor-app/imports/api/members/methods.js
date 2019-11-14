@@ -8,6 +8,7 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
+import memberAdd from '/imports/ui/member/member-add'
 
 const debug = require('debug')('b2b:server-methods')
 
@@ -296,6 +297,33 @@ db[res.result].find({value: {$gt: 1}});
     } catch (e) {
       debug(e)
       throw new Meteor.Error(500, e)
+    }
+  },
+  'members.forgetCard': function(memberId) {
+    debug(`Removing credit card for ${memberId}`)
+    const member = Members.findOne(memberId)
+    if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+    else {
+      const paymentCustId = { member }
+      Members.update(memberId, { $unset: { paymentCustId: 1 } })
+      eventLog({
+        who: 'Admin',
+        what: `Remove credit card for ${member.name} (${memberId})`,
+        object: { memberId, paymentCustId }
+      })
+    }
+  },
+  'members.updateAutoPay': function(memberId, value) {
+    debug(`Setting autopay for ${memberId} to ${value}`)
+    const member = Members.findOne(memberId)
+    if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+    else {
+      Members.update(memberId, { $set: { autoPay: value } })
+      eventLog({
+        who: 'Admin',
+        what: `Set autoPay: ${value} for ${member.name} (${memberId})`,
+        object: { memberId }
+      })
     }
   }
 })
