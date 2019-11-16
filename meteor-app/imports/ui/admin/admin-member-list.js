@@ -117,7 +117,8 @@ Admin.propTypes = {
   loading: PropTypes.bool.isRequired,
   removeMember: PropTypes.func.isRequired,
   extendMember: PropTypes.func.isRequired,
-  removeCart: PropTypes.func.isRequired
+  removeCart: PropTypes.func.isRequired,
+  addProduct: PropTypes.func.isRequired
 }
 
 export default Admin

@@ -12,7 +12,8 @@ const initialState = {
   totalqty: 0,
   products: [],
   prodqty: {},
-  creditCard: {}
+  creditCard: {},
+  discount: 0
 }
 
 const recalc = state => {

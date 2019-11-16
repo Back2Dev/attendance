@@ -35,9 +35,11 @@ const Home = props => <div>Home is where the heart is (app.js)</div>
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
 const App = props => {
   if (!Roles.subscription.ready()) return <div>NOT READY</div>
+  const isLogged = Meteor.userId() !== null
   const showSide =
-    !isIframe() &&
-    !(location.pathname.match(/kiosk/) || location.pathname.match(/shop/) || location.pathname.match(/visit/))
+    (!isIframe() &&
+      !(location.pathname.match(/kiosk/) || location.pathname.match(/shop/) || location.pathname.match(/visit/))) ||
+    isLogged
   const containerId = showSide ? 'app-container' : 'iframe-container'
   return (
     <div id={containerId}>
