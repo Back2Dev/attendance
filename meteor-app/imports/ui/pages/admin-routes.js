@@ -9,6 +9,11 @@ import RenewalsContainer from '/imports/ui/renewals/container'
 import MatchingContainer from '/imports/ui/matching'
 import MemberDetails from '/imports/ui/admin/member'
 import MemberList from '/imports/ui/admin/member-list'
+import EventContainer from '/imports/ui/events/lister'
+import ProductContainer from '/imports/ui/products/lister'
+import PromoContainer from '/imports/ui/promos/lister'
+import PartContainer from '/imports/ui/parts/lister'
+import ServiceItemContainer from '/imports/ui/service-items/lister'
 
 // const Home = props => <div>Home is where the heart is (admin-container.js)</div>
 
@@ -26,6 +31,12 @@ export default Admin = props => {
       <Route path="/admin/matching" component={MatchingContainer} />
 
       <Route path="/superadmin/users" component={AdminContainer} />
+
+      <Route path="/admin/events" component={EventContainer} />
+      <Route path="/admin/products" component={ProductContainer} />
+      <Route path="/admin/promos" component={PromoContainer} />
+      <Route path="/admin/parts" component={PartContainer} />
+      <Route path="/admin/service-items" component={ServiceItemContainer} />
     </Switch>
   )
 }

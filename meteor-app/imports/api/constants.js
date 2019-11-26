@@ -111,4 +111,14 @@ CONSTANTS.CART_STATUS = {
   ENUM: ['ready', 'denied', 'cancelled', 'complete']
 }
 
+CONSTANTS.DAYS_WEEK = [
+  { id: 0, value: 'Su' },
+  { id: 1, value: 'Mo' },
+  { id: 2, value: 'Tu' },
+  { id: 3, value: 'We' },
+  { id: 4, value: 'Th' },
+  { id: 5, value: 'Fr' },
+  { id: 6, value: 'Sa' }
+]
+
 export default CONSTANTS

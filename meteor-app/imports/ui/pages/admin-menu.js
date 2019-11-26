@@ -11,7 +11,12 @@ const adminPages = [
   { name: 'slsa', display: 'SLSA' },
   { name: 'duplicates', display: 'Duplicates' },
   { name: 'renewals', display: 'Renewals' },
-  { name: 'matching', display: 'Shopping carts' }
+  { name: 'matching', display: 'Shopping carts' },
+  { name: 'products', display: 'Products' },
+  { name: 'parts', display: 'Parts' },
+  { name: 'promos', display: 'Promos' },
+  { name: 'service-items', display: 'Service items' },
+  { name: 'events', display: 'Events' }
 ]
 
 const adminMenu = ({ current, goHome, history }) => {
