@@ -11,7 +11,10 @@ const update = form => Meteor.call('update.ServiceItems', form)
 
 const defaultObject = {
   name: 'Untitled',
-  markdown: 'Description'
+  price: 0,
+  code: 'XXX',
+  category: 'Category',
+  used: false
 }
 
 const columns = [
@@ -31,7 +34,7 @@ const columns = [
     title: 'Category',
     editor: true
   },
-  { field: 'used', title: 'Used', editor: true }
+  { field: 'used', title: 'Used', formatter: 'tickCross', editor: true, align: 'center' }
 ]
 
 const Loading = props => {
