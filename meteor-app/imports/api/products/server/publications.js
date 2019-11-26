@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import Products, { ProductTypes, Carts } from '../schema'
 import Members from '../../members/schema'
 
-Meteor.publish('all.products', () => Products.find({ active: true }))
+Meteor.publish('all.products', () => Products.find({}))
 
 Meteor.publish('product.types', () => ProductTypes.find({}))
 
