@@ -62,7 +62,7 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
   return (
     <div>
       <Segment>
-        Events list
+        Promos list
         <span style={{ float: 'right', right: '0px' }}>
           <Button size="mini" onClick={deleteRows} color="red" type="button">
             Delete

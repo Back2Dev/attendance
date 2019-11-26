@@ -9,8 +9,11 @@ const update = form => Meteor.call('update.Parts', form)
 const insert = form => Meteor.call('add.Parts', form)
 
 const defaultObject = {
-  name: 'Untitled',
-  active: false
+  imageUrl: 'Enter a URL',
+  retailPrice: 0,
+  wholesalePrice: 0,
+  partNo: 0,
+  name: 'Untitled'
 }
 
 const columns = [

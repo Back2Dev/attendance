@@ -13,7 +13,8 @@ const defaultObject = {
   code: 'Code',
   description: 'Description',
   discount: 0,
-  admin: 'Admin'
+  admin: false,
+  start: new Date()
 }
 
 const columns = [
