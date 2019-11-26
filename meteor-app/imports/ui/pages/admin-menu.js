@@ -11,41 +11,38 @@ const adminPages = [
   { name: 'slsa', display: 'SLSA' },
   { name: 'duplicates', display: 'Duplicates' },
   { name: 'renewals', display: 'Renewals' },
-  { name: 'matching', display: 'Matching' },
+  { name: 'matching', display: 'Shopping carts' }
 ]
 
 const adminMenu = ({ current, goHome, history }) => {
-
   const itemClick = name => {
     history.push(`/admin/${name}`)
-
   }
   return (
-    <div style={{
-      backgroundColor: '#222',
-      padding: '0 0 1em'
-    }}>
-      <Menu.Item
-        onClick={itemClick}
-        style={{ backgroundColor: '#222' }}
-        data-page={adminPages[0]}
-        key="admin"
-      >
+    <div
+      style={{
+        backgroundColor: '#222',
+        padding: '0 0 1em'
+      }}
+    >
+      <Menu.Item onClick={itemClick} style={{ backgroundColor: '#222' }} data-page={adminPages[0]} key="admin">
         Admin
-      <Icon name="cog" />
+        <Icon name="cog" />
       </Menu.Item>
-      <div style={{
-        cursor: 'pointer',
-        paddingLeft: '1.2em',
-        fontSize: '.9em',
-        backgroundColor: '#222'
-      }}>
+      <div
+        style={{
+          cursor: 'pointer',
+          paddingLeft: '1.2em',
+          fontSize: '.9em',
+          backgroundColor: '#222'
+        }}
+      >
         {adminPages.map(page => {
-          const active = false//!!current.match(new RegExp(`${page.name}$`, 'i'))
+          const active = false //!!current.match(new RegExp(`${page.name}$`, 'i'))
           return (
             <div
               style={{
-                color: active ? 'white' : '#aaa',
+                color: active ? 'white' : '#aaa'
               }}
               key={page.name}
               data-page={page.name}
@@ -58,12 +55,11 @@ const adminMenu = ({ current, goHome, history }) => {
       </div>
     </div>
   )
-
 }
 
 adminMenu.propTypes = {
   current: PropTypes.string.isRequired,
-  itemClick: PropTypes.func.isRequired,
+  itemClick: PropTypes.func.isRequired
 }
 
 export default withRouter(adminMenu)

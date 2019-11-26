@@ -161,7 +161,17 @@ export const CartsSchema = new SimpleSchema({
   userId: OptionalRegExId,
   price: {
     type: SimpleSchema.Integer,
-    label: 'Total Price in cents',
+    label: 'Total price in cents',
+    defaultValue: 0
+  },
+  discount: {
+    type: SimpleSchema.Integer,
+    label: 'Discount in cents',
+    defaultValue: 0
+  },
+  chargeAmount: {
+    type: SimpleSchema.Integer,
+    label: 'Charge amount in cents',
     defaultValue: 0
   },
   totalqty: {

@@ -209,6 +209,9 @@ export default [
         //
         // Documentation reference: https://github.com/nilportugues/react-jsonschema-form-semanticui#property-dependencies
         //
+        name: {
+          type: 'string'
+        },
         pickUpDate: {
           type: 'string',
           title: 'Pick-up Date',

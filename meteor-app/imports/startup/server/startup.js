@@ -39,7 +39,8 @@ const privateSchema = new SimpleSchema({
   forgotPINID: String,
   invoiceID: String,
   genericActionID: String,
-  genericInfoID: String
+  genericInfoID: String,
+  bcc: String
 })
 
 Meteor.startup(() => {
