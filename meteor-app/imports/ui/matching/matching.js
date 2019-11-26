@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Menu, Checkbox, Tab, Icon, Table } from 'semantic-ui-react'
 import moment from 'moment'
-// import ReactDataGrid from 'react-data-grid'
-// import { Toolbar, Data } from 'react-data-grid-addons'
+import ReactDataGrid from 'react-data-grid'
+import { Toolbar, Data } from 'react-data-grid-addons'
 import './styles.css'
 const debug = require('debug')('b2b:reminders')
 
 const FormatDate = ({ value }) => <div>{moment(value).format('YYYY-MM-DD hh:mm')}</div>
-const Data = {}
+// const Data = {}
 const selectors = Data.Selectors
 
 const cols = [
@@ -137,7 +137,7 @@ const CartList = ({ carts, status }) => {
     return row
   }
 
-  return <div>React-data-grid is missing</div>
+  // return <div>React-data-grid is missing</div>
   return (
     <ReactDataGrid
       columns={cols}
