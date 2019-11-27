@@ -6,17 +6,17 @@ const debug = require('debug')('tm:year-dropdown')
 
 const adminPages = [
   { name: '', display: 'Admin' },
-  { name: 'userprofiles', display: 'Users' },
-  { name: 'wwcc', display: 'WWCC' },
-  { name: 'slsa', display: 'SLSA' },
   { name: 'duplicates', display: 'Duplicates' },
-  { name: 'renewals', display: 'Renewals' },
-  { name: 'matching', display: 'Shopping carts' },
-  { name: 'products', display: 'Products' },
+  { name: 'events', display: 'Events' },
   { name: 'parts', display: 'Parts' },
+  { name: 'products', display: 'Products' },
   { name: 'promos', display: 'Promos' },
+  { name: 'renewals', display: 'Renewals' },
   { name: 'service-items', display: 'Service items' },
-  { name: 'events', display: 'Events' }
+  { name: 'matching', display: 'Shopping carts' },
+  { name: 'slsa', display: 'SLSA' },
+  { name: 'userprofiles', display: 'Users' },
+  { name: 'wwcc', display: 'WWCC' }
 ]
 
 const adminMenu = ({ current, goHome, history }) => {
