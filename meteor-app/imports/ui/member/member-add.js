@@ -90,6 +90,9 @@ class MemberAdd extends Component {
     if (this.props.member != null) {
       return true
     }
+    if (formData.name && formData.name.trim().split(' ').length === 1) {
+      errors.name.addError('Please enter your full name')
+    }
     if (formData.pin && formData.pin.length < 4) {
       errors.pin.addError('PIN number must be at least 4 digits long.')
     }
