@@ -415,11 +415,58 @@ Meteor.methods({
     })
   },
 
+  primeMemberRenewal(purchaseId, memberId) {
+    const member = Members.findOne(memberId)
+    if (!member) {
+      console.error('Could not find member ' + memberId)
+      return 0
+    }
+    const purchase = Purchases.findOne(purchaseId)
+    if (!purchase) {
+      console.error('Could not find purchase ' + purchaseId)
+      return 0
+    }
+    if (member.status === 'expired' && member.subsType !== 'casual') {
+      const product = Products.findOne(purchase.productId)
+      if (!product) {
+        console.error(`Could not find product to match previous purchase ${purchase.productName} ${purchase.productId}`)
+      } else {
+        product.qty = 1
+        if (product.code.match(/-PASS-/) && member.remaining < 0) {
+          product.qty = product.qty + Math.floor(Math.abs(member.remaining) / 10)
+        }
+        const creditCard = {}
+        Object.keys(pinAddressFieldMap).forEach(key => {
+          creditCard[key] = member[pinAddressFieldMap[key]]
+        })
+        if (!creditCard.address_country) {
+          creditCard.address_country = 'Australia'
+        }
+        const cart = {
+          memberId: member._id,
+          email: member.email,
+          customerName: member.name,
+          products: [product],
+          price: product.price,
+          totalqty: product.qty,
+          prodqty: { [purchase.productId]: product.qty },
+          creditCard,
+          status: 'ready'
+        }
+        const cartId = Carts.insert(cart)
+        debug(`Added cart for ${member.name} ${member.status} ${member.subsType}`)
+        return 1
+      }
+    }
+    return 0
+  },
+
   // Create shopping cart entries for previous offenders,
   // - only applicable to non-casuals who have expired
   primeRenewals() {
     // debug(`Deleted ${Carts.remove({ status: 'ready' })} carts`)
     let newCarts = 0
+    //TODO: be smarter about this, only the last purchase for each member should be primed
     Purchases.find({}).forEach(purchase => {
       const member = Members.findOne(purchase.memberId)
       if (!member) {
@@ -427,42 +474,9 @@ Meteor.methods({
       } else {
         const carts = Carts.find({ memberId: member._id, status: 'ready' })
         if (carts.length > 0) {
-          debug(`${member.name} has a cart already`)
+          debug(`${member.name} has a cart already`) // Should we just replace it though?
         } else {
-          if (member.status === 'expired' && member.subsType !== 'casual') {
-            const product = Products.findOne(purchase.productId)
-            if (!product) {
-              console.error(
-                `Could not find product to match previous purchase ${purchase.productName} ${purchase.productId}`
-              )
-            } else {
-              product.qty = 1
-              if (product.code.match(/-PASS-/) && member.remaining < 0) {
-                product.qty = product.qty + Math.floor(Math.abs(member.remaining) / 10)
-              }
-              const creditCard = {}
-              Object.keys(pinAddressFieldMap).forEach(key => {
-                creditCard[key] = member[pinAddressFieldMap[key]]
-              })
-              if (!creditCard.address_country) {
-                creditCard.address_country = 'Australia'
-              }
-              const cart = {
-                memberId: member._id,
-                email: member.email,
-                customerName: member.name,
-                products: [product],
-                price: product.price,
-                totalqty: product.qty,
-                prodqty: { [purchase.productId]: product.qty },
-                creditCard,
-                status: 'ready'
-              }
-              const cartId = Carts.insert(cart)
-              debug(`Added cart for ${member.name} ${member.status} ${member.subsType}`)
-              newCarts++
-            }
-          }
+          newCarts += Meteor.call('primeMemberRenewal', purchase._id, memberId)
         }
       }
     })
