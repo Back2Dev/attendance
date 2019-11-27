@@ -112,7 +112,10 @@ const NavBar = ({ currentUser, location }) => {
         <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
       ) : (
         /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
-        <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
+        <div>
+          <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
+          <Menu.Item content={currentUser} style={{ position: 'fixed', bottom: 0 }} />
+        </div>
       )}
     </Menu>
   )
