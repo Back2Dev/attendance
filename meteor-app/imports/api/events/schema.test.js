@@ -5,7 +5,7 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
-import Events from './schema'
+import Events, { defaultObject } from './schema'
 import Factory from '/imports/test/factories'
 
 const badEvents = [
@@ -37,8 +37,9 @@ const goodEvents = [
 ]
 
 goodEvents.push(Factory.build('event'))
+goodEvents.push(defaultObject)
 
-describe('events', () => {
+describe.only('events', () => {
   beforeEach(resetDatabase)
 
   goodEvents.forEach((good, i) => {
