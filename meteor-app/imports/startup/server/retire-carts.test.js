@@ -49,13 +49,17 @@ if (Meteor.isServer) {
               status: 'ready'
             })
           )
-          Carts.update(id, {
-            $set: {
-              updatedAt: moment()
-                .subtract(age, 'day')
-                .toDate()
-            }
-          })
+          Carts.update(
+            id,
+            {
+              $set: {
+                updatedAt: moment()
+                  .subtract(age, 'day')
+                  .toDate()
+              }
+            },
+            { bypassCollection2: true }
+          )
         })
       }).to.not.throw()
       expect(Carts.find({ memberId }).count()).to.be.equal(RETIREMENT_AGES.length)
