@@ -8,35 +8,38 @@
  *
  */
 
-import { Meteor } from 'meteor/meteor';
-import winston from 'winston';
-import 'winston-loggly-bulk';
-import raven from 'raven';
-import _ from 'lodash';
-import _debug from 'debug';
+import { Meteor } from 'meteor/meteor'
+import winston from 'winston'
+import 'winston-loggly-bulk'
+import raven from 'raven'
+import _ from 'lodash'
+import _debug from 'debug'
 
 // import { Profiles } from '/imports/api/collections';
-import { version } from '/imports/api/version';
+import { version } from '/imports/api/version'
 
-const debug = _debug('mentorloop:log');
+const debug = _debug('b2b:log')
 
-
-const environment = (Meteor.settings.env && Meteor.settings.env.environment) || 'unknown';
+const environment =
+  (Meteor &&
+    Meteor.settings &&
+    Meteor.settings.env &&
+    Meteor.settings.env.environment) ||
+  'unknown'
 if (!environment) {
-  console.warn('Unable to parse env.environment from Meteor.settings');
+  console.warn('Unable to parse env.environment from Meteor.settings')
 }
-const release = version();
-
+const release = version()
 
 /**
  * Attempt to get the current Meteor User
  * @return {Object|Null}
  */
-function getUser() {
+function getUser () {
   try {
-    return _.pick(Meteor.user(), ['_id', 'emails']);
+    return _.pick(Meteor.user(), ['_id', 'emails'])
   } catch (err) {
-    return null;
+    return null
   }
 }
 
@@ -44,80 +47,86 @@ function getUser() {
  * Configure a Winston instance that logs to the console
  * @return {Winston.Logger}
  */
-function configureWinston() {
-  const level = process.env.LOG_LEVEL || 'info';
+function configureWinston () {
+  const level = process.env.LOG_LEVEL || 'info'
   const log = new winston.Logger({
     level,
     transports: [
       new winston.transports.Console({
-        prettyPrint: true, // better json logging
-      }),
-    ],
-  });
-  log.log(level, `Winston is logging to console at level ${level}`);
-  return log;
+        prettyPrint: true // better json logging
+      })
+    ]
+  })
+  log.log(level, `Winston is logging to console at level ${level}`)
+  return log
 }
-
 
 /**
  * Add Loggly transport to a Winston logger
  */
-function configureLoggly(log) {
-  const { loggly } = Meteor.settings;
-  if (!loggly || ['token', 'subdomain'].some(x => !(x in loggly))) {
-    log.warn('Unable to find Loggly configuration in settings. Loggly is NOT running.');
-    return log;
+function configureLoggly (log) {
+  if (Meteor && Meteor.settings) {
+    const { loggly } = Meteor.settings
+    if (!loggly || ['token', 'subdomain'].some(x => !(x in loggly))) {
+      log.warn(
+        'Unable to find Loggly configuration in settings. Loggly is NOT running.'
+      )
+      return log
+    }
+
+    const { token, subdomain, level } = loggly
+
+    log.add(winston.transports.Loggly, {
+      inputToken: token,
+      subdomain,
+      tags: [`env-${environment}`, release],
+      json: true,
+      level: level || 'info'
+    })
+
+    log.info('Loggly configured')
+    return log
   }
-
-  const { token, subdomain, level } = loggly;
-
-  log.add(winston.transports.Loggly, {
-    inputToken: token,
-    subdomain,
-    tags: [`env-${environment}`, release],
-    json: true,
-    level: level || 'info',
-  });
-
-  log.info('Loggly configured');
-  return log;
 }
 
 /**
  * Configure Raven/Sentry
  */
-function configureSentry(log) {
-  const { sentry } = Meteor.settings;
-  if (!sentry || ['dsn'].some(x => !(x in sentry))) {
-    log.warn('Unable to find Sentry DSN. Sentry is NOT running.');
-    return;
+function configureSentry (log) {
+  if (Meteor && Meteor.settings) {
+    const { sentry } = Meteor.settings
+    if (!sentry || ['dsn'].some(x => !(x in sentry))) {
+      log.warn('Unable to find Sentry DSN. Sentry is NOT running.')
+      return
+    }
+
+    raven
+      .config(Meteor.settings.sentry.dsn, {
+        environment,
+        release
+      })
+      .install()
+
+    log.info('Sentry configured', {
+      environment,
+      release
+    })
   }
-
-  raven.config(Meteor.settings.sentry.dsn, {
-    environment,
-    release,
-  }).install();
-
-  log.info('Sentry configured', {
-    environment,
-    release,
-  });
 }
-
 
 /**
  * Hijack Meteor._debug to send errors to Sentry
  */
-function hijackDebug(log) {
+function hijackDebug (log) {
   // const legacyDebug = Meteor._debug;
-  Meteor._debug = function debugOverride(message, stack) {
+  Meteor._debug = function debugOverride (message, stack) {
     debug('hijackdebug intercepted an error with:', {
       message,
-      stack,
-    });
+      stack
+    })
 
     if (message || stack) {
-      log.error(message, stack);
+      log.error(message, stack)
     }
 
     // I've disabled this for now because all it seemed to do
@@ -126,12 +135,12 @@ function hijackDebug(log) {
     // Kadira registers first. Will leave it here in case we
     // run into race conditions...
     // legacyDebug.call(this, message, stack);
-  };
+  }
 
   // catch unhandled promise rejections
-  process.on('unhandledRejection', (reason) => {
-    log.error('Unhandled promise rejection', reason);
-  });
+  process.on('unhandledRejection', reason => {
+    log.error('Unhandled promise rejection', reason)
+  })
 }
 
 /**
@@ -142,56 +151,56 @@ function hijackDebug(log) {
  *   log.error(String, Error)
  *   log.error(String, Object)
  */
-function trackErrors(log) {
-  log.error = (...args) => { // eslint-disable-line no-param-reassign
-    const user = getUser();
-    const exception = args.find(arg => arg instanceof Error);
+function trackErrors (log) {
+  log.error = (...args) => {
+    // eslint-disable-line no-param-reassign
+    const user = getUser()
+    const exception = args.find(arg => arg instanceof Error)
 
     // use raven if it's been configured
     if (raven._enabled) {
       if (exception) {
-        debug('log.error was passed an exception');
+        debug('log.error was passed an exception')
         // we got passed an exception, capture it
-        const message = (typeof args[0] === 'string') ? args[0] : false;
-        const extra = message ? { message } : {};
+        const message = typeof args[0] === 'string' ? args[0] : false
+        const extra = message ? { message } : {}
         debug('calling raven.captureException() with', {
           exception,
           user,
-          extra,
-        });
+          extra
+        })
         raven.captureException(exception, {
           user,
-          extra,
-        });
+          extra
+        })
       } else {
         // no exception, use captureMessage instead
-        debug('log.error was not passed an exception');
-        const message = args[0];
+        debug('log.error was not passed an exception')
+        const message = args[0]
         const extra = {
-          data: args[1] || null,
-        };
+          data: args[1] || null
+        }
         debug('calling raven.captureMessage() with', {
           message,
           user,
-          extra,
-        });
+          extra
+        })
         raven.captureMessage(message, {
           user,
-          extra,
-        });
+          extra
+        })
       }
     }
-    return log.log('error', ...args);
-  };
+    return log.log('error', ...args)
+  }
 }
 
-
-const log = configureWinston();
-configureLoggly(log);
-configureSentry(log);
-trackErrors(log);
-hijackDebug(log);
-
+const log = configureWinston()
+configureLoggly(log)
+configureSentry(log)
+trackErrors(log)
+hijackDebug(log)
+console.log(`Starting up ${release}`)
 
 Meteor.methods({
   // triggerSentryError: () => {
@@ -202,7 +211,6 @@ Meteor.methods({
   //   log.error('This is a harmless test error');
   //   return true;
   // },
-});
+})
 
-
-export default log;
+export default log

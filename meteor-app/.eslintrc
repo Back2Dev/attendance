@@ -4,7 +4,6 @@
     "es6": true,
     "node": true
   },
-  "extends": "airbnb",
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -12,7 +11,9 @@
     },
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "meteor", "import"],
+  "extends": ["airbnb", "plugin:meteor/recommended", "plugin:import/errors", "plugin:import/warnings"],
+  "settings": { "import/resolver": "meteor" },
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "indent": ["error", 2],

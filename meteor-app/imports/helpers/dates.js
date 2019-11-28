@@ -7,8 +7,22 @@ export function humaniseDate(lastIn) {
   return moment.duration(hours, 'minutes').humanize()
 }
 
-export function humaniseDateDay(updatedAt) {
-  const date = moment(updatedAt).format("dddd, MMMM Do YYYY, h a")
-  return date
+export function fromNow(when) {
+  return moment(when).fromNow()
 }
 
+export function expires(when) {
+  return `expire${moment().diff(when) < 0 ? 's' : 'd'} ${moment(when).fromNow()}`
+}
+
+export function isPast(when) {
+  return moment().diff(when) > 0
+}
+
+export function humaniseDateDay(updatedAt) {
+  const date = moment(updatedAt).format('dddd, MMMM Do YYYY, h a')
+  return date
+}
+export function dateOnly(date) {
+  return moment(date).format('DD/MM/YYYY')
+}

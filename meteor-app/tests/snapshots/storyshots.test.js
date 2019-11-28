@@ -4,16 +4,17 @@
  */
 
 import initStoryshots, { snapshotWithOptions } from '@storybook/addon-storyshots'
-import {TextArea, Input} from 'semantic-ui-react'
+import { TextArea, Input } from 'semantic-ui-react'
 
 initStoryshots({
+  storyKindRegex: /^((?!.*?nosnap).)*$/gm,
   test: snapshotWithOptions({
-    createNodeMock: (element) => {
+    createNodeMock: element => {
       if (element.type === 'input' || element.type === 'textarea') {
         return {
-          focus(){},
+          focus() {}
         }
       }
-    },
-  }),
+    }
+  })
 })

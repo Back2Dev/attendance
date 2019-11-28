@@ -3,45 +3,45 @@ import React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
-import { Welcome } from '@storybook/react/demo'
-import { withInfo } from '@storybook/addon-info'
-import { withKnobs, number, boolean, select } from '@storybook/addon-knobs/react'
-import StoryRouter from 'storybook-router'
+import {
+  withKnobs,
+  number,
+  boolean,
+  select
+} from '@storybook/addon-knobs/react'
 
-import schemas from '/imports/ui/config/member-add-schemas'
 import MemberAddControl from './member-add-control'
 
 storiesOf('Member.Add', module)
-  .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
+// .addDecorator(withKnobs)
 
-  .add('MemberAddControl', (() => {
-// NB Select control only works with strings
-    let step = number("Step",1)
-//
-// This event handler fires ok, but doesn't update the control
-// I tried looking at the knobs code, but couldn't work out what
-// to call to trigger the update.
-//
-    const move = (delta) => {
+  .add('MemberAddControl', () => {
+    // NB Select control only works with strings
+    let step = number('Step', 1)
+    //
+    // This event handler fires ok, but doesn't update the control
+    // I tried looking at the knobs code, but couldn't work out what
+    // to call to trigger the update.
+    //
+    const move = delta => {
       try {
-        action("move")(delta)
-  // Updating the step does cause a refresh, methinks it should
+        action('move')(delta)
+        // Updating the step does cause a refresh, methinks it should
         step = step + delta
-      } catch(error) {
-        console.log("Error", error)
+      } catch (error) {
+        console.error('Error', error)
       }
     }
     const story = (
-      <div><p>Use Knobs to select step, currently on step {step}</p>
+      <div>
+        <p>Use Knobs to select step, currently on step {step}</p>
         <MemberAddControl
           step={step}
           backStep={() => move(-1)}
           nextStep={() => move(1)}
-          onSubmit={action("submit")}
+          onSubmit={action('submit')}
           totalSteps={4}
-          resetId={action("resetId")}
+          resetId={action('resetId')}
         />
       </div>
     )
@@ -55,4 +55,4 @@ storiesOf('Member.Add', module)
     //   })
     // )
     return story
-  }))
+  })

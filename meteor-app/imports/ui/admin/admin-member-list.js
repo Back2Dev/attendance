@@ -1,62 +1,124 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Image, List } from "semantic-ui-react";
-import { humaniseDate } from '/imports/helpers/dates'
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
-import './admin-member-list.css';
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Grid, Image, List } from 'semantic-ui-react'
+import './admin-member-list.css'
+import CartList from './cart-list'
+import PurchaseList from './purchase-list'
+import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
 
-class Admin extends Component {
-  constructor(props) {
-    super(props)
+const debug = require('debug')('b2b:admin')
+
+const Admin = props => {
+  const [showCarts, setCart] = React.useState(false)
+  const { members, carts, purchases, removeCart } = props
+
+  const memberClick = id => {
+    debug(`memberClick(${id})`)
+    props.history.push(`/admin/userprofiles/${id}`)
   }
 
-  render() {
-    const { members } = this.props
-    return (
-      <List divided verticalAlign='middle'>
-        <TransitionGroup className="list" component={null}>
-          {
-            members.map(member => (
-              <CSSTransition
-                key={member._id}
-                timeout={500}
-                classNames="fade"
-              >
-                <List.Item
-                  style={{ textAlign: 'left' }}
-                >
-                  <Image avatar size='tiny' spaced src={"/images/avatars/" + member.avatar} style={{ border: '3px solid white' }} />
-                  <List.Content>
-                    <List.Header>
-                      {member.name}
-                    </List.Header>
-                    <List.Description>
-                      <p>{member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago </p>
-                    </List.Description>
-                  </List.Content>
-                  <List.Content floated='right'>
-                    <Button
-                      onClick={() => this.props.removeMember(member._id)}
-                      content='Remove'
-                    />
-                  </List.Content>
-                </List.Item>
-              </CSSTransition>
-            ))
-          }
-        </TransitionGroup>
-      </List>
-    )
-  }
+  return (
+    <Grid columns={4}>
+      {members.map(member => {
+        const memberCarts = carts.filter(cart => cart.memberId === member._id)
+        const memberPurchases = purchases.filter(purchase => purchase.memberId === member._id)
+        return (
+          <Grid.Row key={member._id}>
+            <Grid.Column>
+              <table>
+                <tbody>
+                  <tr>
+                    <td onClick={e => memberClick(member._id)} style={{ cursor: 'pointer' }}>
+                      <Image
+                        avatar
+                        size="tiny"
+                        spaced
+                        src={'/images/avatars/' + member.avatar}
+                        style={{ border: '3px solid white' }}
+                      />
+                    </td>
+                    <td>
+                      <List.Content onClick={e => memberClick(member._id)}>
+                        <List.Header>{member.name}</List.Header>
+                        <List.Description>
+                          <p>
+                            {member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago <br />
+                            <span
+                              style={{
+                                color: isPast(member.expiry) ? 'red' : 'black'
+                              }}
+                            >
+                              {member.subsType} {expires(member.expiry)}
+                            </span>
+                          </p>
+                        </List.Description>
+                      </List.Content>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>{' '}
+            </Grid.Column>
+            <Grid.Column style={{ textAlign: 'left' }}>
+              {memberPurchases.length > 0 && <PurchaseList purchases={memberPurchases} />}
+              {memberPurchases.length === 0 && <span>No previous purchases</span>}
+            </Grid.Column>
+            {showCarts && (
+              <Grid.Column style={{ textAlign: 'left' }}>
+                <CartList carts={memberCarts} removeCart={removeCart} />
+              </Grid.Column>
+            )}
+            <Grid.Column style={{ textAlign: 'right' }} width={6}>
+              <List.Content floated="right">
+                <Button
+                  color="blue"
+                  onClick={e => {
+                    e.preventDefault()
+                    // props.extendMember(member._id, memberPurchases[0]._id)
+                    props.addProduct(member._id, member.name)
+                  }}
+                  content="Add..."
+                  about={member.name}
+                />
+                &nbsp;
+                {false && (
+                  <Button
+                    color="green"
+                    onClick={e => {
+                      e.preventDefault()
+                      memberClick(member._id)
+                    }}
+                    content="Invite..."
+                    about={member.name}
+                  />
+                )}
+                &nbsp;
+                <Button
+                  color="red"
+                  onClick={e => {
+                    e.preventDefault()
+                    props.removeMember(member._id)
+                  }}
+                  content="Delete"
+                  about={member.name}
+                />
+              </List.Content>
+            </Grid.Column>
+          </Grid.Row>
+        )
+      })}
+    </Grid>
+  )
 }
 
 Admin.propTypes = {
   members: PropTypes.array.isRequired,
+  carts: PropTypes.array.isRequired,
+  purchases: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   removeMember: PropTypes.func.isRequired,
-};
+  extendMember: PropTypes.func.isRequired,
+  removeCart: PropTypes.func.isRequired,
+  addProduct: PropTypes.func.isRequired
+}
 
 export default Admin

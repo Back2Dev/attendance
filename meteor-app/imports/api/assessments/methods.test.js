@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { Meteor } from 'meteor/meteor'
 import Factory from '/imports/test/factories'
 import '/imports/api/assessments/methods'
-import Assessment from '/imports/api/assessments/assessment'
+import Assessments from '/imports/api/assessments/schema'
 
 const goodAssessment = Factory.build('assessment')
 const updatedAssessment = Factory.build('assessment', { customerDetails: { name: 'Test Name' } })
@@ -21,7 +21,7 @@ if (Meteor.isServer) {
     })
 
     it('assessment.updateJobStatus', () => {
-      const jobId = Assessment.find({}).fetch()[0]._id
+      const jobId = Assessments.find({}).fetch()[0]._id
       expect(() => Meteor.call('assessment.updateJobStatus', jobId, 2)).to.not.throw()
     })
   })

@@ -1,0 +1,58 @@
+.member-card-container {
+  width: 80%;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  margin: auto !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px;
+  height: 275px;
+  min-width: 470px;
+  background-image: url('/images/card-background.jpg');
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #ff9900;
+}
+.card-header {
+  font-size: 40px;
+  padding-top: 10px !important;
+  padding-bottom: 0 !important;
+  text-align: center;
+  font-family: 'Arial', 'sans serif';
+}
+.card-avatar-container {
+  padding: 0 !important;
+  margin-left: 10px;
+  height: 100px;
+  text-align: center;
+}
+.card-avatar-img {
+  max-width: 80%;
+  border-radius: 50%;
+  border: 0.5 px solid black;
+}
+.card-details-attributes {
+  padding-top: 0 !important;
+  font-family: 'Arial', 'sans serif';
+}
+.title {
+  font-weight: normal;
+  font-size: 18px;
+  color: white;
+}
+.info {
+  text-align: right;
+}
+.card-content-container {
+  max-height: 200px;
+  margin-top: 0 !important;
+}
+.card-mc {
+  padding: 10px;
+  width: 80px;
+}

@@ -7,26 +7,26 @@ import { Meteor } from 'meteor/meteor'
 import _debug from 'debug'
 import { check } from 'meteor/check'
 
-import Members, { MembersSchema } from '/imports/api/members/members'
-import Sessions, { SessionsSchema } from '/imports/api/sessions/sessions'
-import Events, { EventsSchema } from '/imports/api/events'
+import Members, { MembersSchema } from '/imports/api/members/schema'
+import Sessions, { SessionsSchema } from '/imports/api/sessions/schema'
+import Eventlogs, { EventlogsSchema } from '/imports/api/eventlogs'
 // import { checkSuperAdmin } from '/imports/api/util-auth'
 
-const debug = _debug('att:validator')
+const debug = _debug('b2b:validator')
 
 const collectionSchemaMap = {
   members: {
     collection: Members,
-    schema: MembersSchema,
+    schema: MembersSchema
   },
   sessions: {
     collection: Sessions,
-    schema: SessionsSchema,
+    schema: SessionsSchema
   },
-  events: {
-    collection: Events,
-    schema: EventsSchema,
-  },
+  eventlogs: {
+    collection: Eventlogs,
+    schema: EventlogsSchema
+  }
 }
 
 /**
@@ -41,7 +41,7 @@ function validateCollection(collection, schema, collectionName) {
 
   const docs = collection.find()
   const invalidDocuments = []
-  docs.forEach((doc) => {
+  docs.forEach(doc => {
     // debug(`validating ${collectionName} ${doc._id}`)
     const context = schema.newContext()
     const result = context.validate(Object.assign({}, doc))
@@ -49,7 +49,7 @@ function validateCollection(collection, schema, collectionName) {
       debug(`validation failed for ${collectionName} _id: ${doc._id}`)
       invalidDocuments.push({
         _id: doc._id,
-        invalidKeys: context.validationErrors(),
+        invalidKeys: context.validationErrors()
       })
     }
   })
@@ -66,19 +66,19 @@ function validateCollection(collection, schema, collectionName) {
       })
       return acc
     }, {})
-    const legend = "How to read... the object below is like this:\n   '<fieldname> <errortype> <value>': <error-count>\n"
+    const legend =
+      "How to read... the object below is like this:\n   '<fieldname> <errortype> <value>': <error-count>\n"
     debug(legend, summary)
   }
 
   return {
     summary,
-    invalidDocuments,
+    invalidDocuments
   }
 }
 
-
 Meteor.methods({
-  validateCollection: (collectionName) => {
+  validateCollection: collectionName => {
     check(collectionName, String)
     // checkSuperAdmin()
 
@@ -89,7 +89,7 @@ Meteor.methods({
     if (Meteor.isClient) return false
 
     return validateCollection(collection, schema, collectionName)
-  },
+  }
 })
 
 export default validateCollection

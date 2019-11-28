@@ -1,15 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { Card, Header } from 'semantic-ui-react'
 import * as _ from 'lodash'
 
-const MemberList = (props) => {
-  const { members, title, Component, Loader, style, onCardClick } = props
+const MemberList = props => {
+  const { members, Component, style, onCardClick, list } = props
 
   return (
     <div style={style}>
-
-      {React.Children.map(props.children, (child) => child)}
+      {React.Children.map(props.children, child => child)}
 
       <div
         style={{
@@ -20,15 +19,13 @@ const MemberList = (props) => {
           justifyContent: 'center'
         }}
       >
-
-        {
-          (!props.loading && members) &&
+        {!props.loading &&
+          members &&
           members.map(member => (
-            <div key={member._id} onClick={() => onCardClick(member._id)}>
-              <Component className={props.componentClassName}  {...member} style={{ padding: '5px' }} />
+            <div key={member._id} onClick={() => onCardClick(member)}>
+              <Component className={props.componentClassName} list={list} {...member} style={{ padding: '5px' }} />
             </div>
-          ))
-        }
+          ))}
       </div>
     </div>
   )
@@ -39,7 +36,7 @@ MemberList.propTypes = {
   componentClassName: PropTypes.string,
   Loader: PropTypes.func.isRequired,
   members: PropTypes.array,
-  title: PropTypes.string,
-};
+  title: PropTypes.string
+}
 
 export default MemberList

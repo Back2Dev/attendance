@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "37517f77-f5ab-498e-ab56-48238c514b9f",
+		"name": "b2b",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "send sms",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "mikkel",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "Smsbroadcast.24",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "from",
+							"value": "0416988516",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "to",
+							"value": "0438002921",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "message",
+							"value": "Hello DUDE!",
+							"type": "text",
+							"description": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.smsbroadcast.com.au/api-adv.php",
+					"protocol": "https",
+					"host": [
+						"api",
+						"smsbroadcast",
+						"com",
+						"au"
+					],
+					"path": [
+						"api-adv.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Incoming payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cartId",
+							"value": "12345",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{appServer}}/payment",
+					"host": [
+						"{{appServer}}"
+					],
+					"path": [
+						"payment"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "57abbba2-0034-4c77-a18a-07b8477a5ee0",
+					"name": "Incoming payment",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"evt_W0cBi_46csyATTkHwR0W5A\",\n  \"type\": \"charge.captured\",\n  \"created_at\": \"2019-05-25T10:34:28Z\",\n  \"data\": {\n    \"token\": \"ch_pGHIZKyOJryiMhiFmEaMsA\",\n    \"success\": true,\n    \"amount\": 2000,\n    \"currency\": \"AUD\",\n    \"description\": \"Purchase\",\n    \"email\": \"mikkel@almsford.org\",\n    \"ip_address\": \"127.0.0.1\",\n    \"created_at\": \"2019-05-25T10:34:28Z\",\n    \"status_message\": \"Success\",\n    \"error_message\": null,\n    \"card\": {\n      \"token\": \"card_8hwnIGEzQCDP8dkovUxeVg\",\n      \"scheme\": \"visa\",\n      \"display_number\": \"XXXX-XXXX-XXXX-0000\",\n      \"issuing_country\": \"AU\",\n      \"expiry_month\": 2,\n      \"expiry_year\": 2021,\n      \"name\": \"Mike  Mkik\",\n      \"address_line1\": \"sdaasddasdsa\",\n      \"address_line2\": null,\n      \"address_city\": \"Middle Park\",\n      \"address_postcode\": \"3206\",\n      \"address_state\": \"VIC\",\n      \"address_country\": \"Australia\",\n      \"customer_token\": null,\n      \"primary\": null\n    },\n    \"transfer\": [],\n    \"amount_refunded\": 0,\n    \"total_fees\": 65,\n    \"merchant_entitlement\": 1935,\n    \"refund_pending\": false,\n    \"authorisation_expired\": false,\n    \"captured\": true,\n    \"captured_at\": \"2019-05-25T10:34:28Z\",\n    \"settlement_currency\": \"AUD\",\n    \"active_chargebacks\": false,\n    \"metadata\": { \"cartid\": \"jXJgezh8m4Tr9fQm2\", \"codes\": \"PA-PASS-CASUAL\" }\n  },\n  \"request_token\": \"whr_igqUru-m_eahpa2FLCgGxg\",\n  \"test\": true\n}\n"
+						},
+						"url": {
+							"raw": "{{appServer}}/payment",
+							"host": [
+								"{{appServer}}"
+							],
+							"path": [
+								"payment"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "connection",
+							"value": "keep-alive",
+							"name": "connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "content-length",
+							"value": "15",
+							"name": "content-length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "date",
+							"value": "Sat, 25 May 2019 11:21:53 GMT",
+							"name": "date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"f-VaSQ4oDUiZblZNAEkkN+sX+q3Sg\"",
+							"name": "etag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "vary",
+							"value": "Accept-Encoding",
+							"name": "vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express",
+							"name": "x-powered-by",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Thu Jan 21 2038 03:14:07 GMT+1100 (AEDT)",
+							"httpOnly": true,
+							"domain": "localhost",
+							"path": "/",
+							"secure": false,
+							"value": "s%3AkMjJ8zeChPDbwz5D6bVoMfODceAen0BL.iNKZ%2BRf%2Fw3l%2B1RliLVkx5QkXuE%2FlbBzICFe8x92D%2Fm0",
+							"key": "sails.sid"
+						}
+					],
+					"body": "{\"status\":\"ok\"}"
+				}
+			]
+		},
+		{
+			"name": "get webooks",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "WYDzy5lEFLpH3RwS-3F45w",
+						"disabled": true
+					},
+					{
+						"key": "password",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://WYDzy5lEFLpH3RwS-3F45w:@test-api.pinpayments.com/1/webhooks",
+					"protocol": "https",
+					"host": [
+						"test-api",
+						"pinpayments",
+						"com"
+					],
+					"auth": {
+						"user": "WYDzy5lEFLpH3RwS-3F45w",
+						"password": ""
+					},
+					"path": [
+						"1",
+						"webhooks"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "replay webook",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "username",
+						"value": "WYDzy5lEFLpH3RwS-3F45w",
+						"disabled": true
+					},
+					{
+						"key": "password",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://WYDzy5lEFLpH3RwS-3F45w:@test-api.pinpayments.com/1/webhooks/whr_UqmFvWYDO9rBgjY1JxFGKA/replay",
+					"protocol": "https",
+					"host": [
+						"test-api",
+						"pinpayments",
+						"com"
+					],
+					"auth": {
+						"user": "WYDzy5lEFLpH3RwS-3F45w",
+						"password": ""
+					},
+					"path": [
+						"1",
+						"webhooks",
+						"whr_UqmFvWYDO9rBgjY1JxFGKA",
+						"replay"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		}
+	]
+}

@@ -71,7 +71,7 @@ export default assessment => {
   })
   const tempBike = temporaryBike ? "A temporary bike has been provided to this customer." : ""
   const isUrgent = urgent ? `URGENT: This request must be completed by ${pickupDate.toDateString()}` : `Pickup Date: ${pickupDate.toDateString()}`
-  const name = customerDetails.name ? customerDetails.name : "Back2bikes"
+  const name = customerDetails.name ? customerDetails.name : "Refurb"
   const email = customerDetails.email ? customerDetails.email : "N/A"
   const phone = customerDetails.phone ? customerDetails.phone : "N/A"
   const bikeModel = bikeDetails.model ? ` - ${bikeDetails.model}` : ""
@@ -79,7 +79,7 @@ export default assessment => {
   var docDefinition = {
     pageSize: 'A4',
 
-    watermark: {text: 'back2bikes', color: '#8FDBB6', opacity: 0.3, bold: true },
+    watermark: {text: 'Refurb', color: '#8FDBB6', opacity: 0.3, bold: true },
 
     images: {
       R: 'data:image/png;base64,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',
@@ -164,7 +164,7 @@ export default assessment => {
   if (tempBike) {
     docDefinition.content.push({text: tempBike})
   }
-  if (!customerDetails.refurbishment) {
+  if (!customerDetails.isRefurbish) {
     docDefinition.watermark.text = customerDetails.name
     docDefinition.watermark.color = "cyan"
   }

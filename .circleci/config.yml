@@ -7,18 +7,21 @@ jobs:
   build:
     docker:
        # node 8.9
-      - image: circleci/node:8.9
+      - image: cypress/base:8
         # fix locale issues that cause mongodb to explode
         # see https://github.com/meteor/meteor/issues/4019
         environment:
           LC_ALL: C.UTF-8
           LANG: C
+          TZ: "/usr/share/zoneinfo/Australia/Melbourne"
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.0
 
     working_directory: ~/repo
+    environment:
+      TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     steps:
       - checkout
@@ -27,10 +30,10 @@ jobs:
       # ie, using describe.only() makes the test suite only run a subset of tests.
       - run:
           name: grep for naughty patterns
-          working_diretory: ~/repo/meteor-app
+          working_directory: ~/repo/meteor-app
           command: |
             set +e
-            grep -r --exclude-dir=node_modules --exclude-dir=.meteor "describe.only" ~/repo/meteor-app
+            grep -r --exclude-dir=node_modules --exclude-dir=.meteor --exclude=package-lock.json "describe.only\|debugger" ~/repo/meteor-app
             test $? -eq 1
 
       - run:
@@ -40,27 +43,22 @@ jobs:
       # restore npm and meteor package caches
       - restore_cache:
           keys:
-          - v1-node-modules-{{ checksum "meteor-app/package.json" }}
-          - v1-node-modules-
-      - restore_cache:
-          keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
           - v2-meteor-packages-
+
       - restore_cache:
           keys:
-          - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
-          - v2-meteor-local-
-
+            - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run:
           working_directory: ~/repo/meteor-app
-          command: npm install
-
-
-      # cache npm packages
+          command: meteor npm ci
       - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
-            - meteor-app/node_modules
-          key: v1-node-modules-{{ checksum "meteor-app/package.json" }}
+            - ~/.npm
+            - ~/.cache
 
       - run:
           name: create test-results folders
@@ -83,42 +81,51 @@ jobs:
       #    command: npm run "test:unit" -- --reporter mocha-junit-reporter --reporter-options mochaFile=/tmp/test-results/unit/unit.xml
 
       - run:
-          name: snapshot tests
+          name: Snapshot tests
           working_directory: ~/repo/meteor-app
           command: TEST_REPORT_PATH=/tmp/test-results/snapshots TEST_REPORT_FILENAME=snapshots.xml npm run "test:snapshots" -- --ci --testResultsProcessor="./node_modules/jest-junit-reporter"
 
       - run:
-          name: integration tests
+          name: Integration tests
           working_directory: ~/repo/meteor-app
-          command: SERVER_TEST_REPORTER=xunit XUNIT_FILE=/tmp/test-results/integration/integration.xml npm run "test:integration"
+          command: METEOR_ALLOW_SUPERUSER=1 SERVER_TEST_REPORTER=xunit XUNIT_FILE=/tmp/test-results/integration/integration.xml npm run "test:integration"
+
+      - run:
+          name: UI (end-2-end) tests
+          working_directory: ~/repo/meteor-app
+          command: npm run test:e2e:standalone
+          no_output_timeout: 5m
 
       - store_artifacts:
           path: /tmp/test-results/
-
       - store_test_results:
           path: /tmp/test-results/
+      - store_artifacts:
+          path: meteor-app/tests/cypress/videos
+      - store_artifacts:
+          path: meteor-app/tests/cypress/screenshots
 
       # save meteor package caches
       - save_cache:
           paths:
             - meteor-app/.meteor/local
-          key: v2-meteor-local-{{ checksum "meteor-app/.meteor/versions"}}
-      - save_cache:
-          paths:
             - ~/.meteor/packages
           key: v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
 
   deploy_staging:
     docker:
        # node 8.9
-      - image: circleci/node:8.9
+      - image: cypress/base:8
         # fix locale issues that cause mongodb to explode
         # see https://github.com/meteor/meteor/issues/4019
         environment:
           LC_ALL: C.UTF-8
           LANG: C
+          TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     working_directory: ~/repo
+    environment:
+      TZ: "/usr/share/zoneinfo/Australia/Melbourne"
 
     steps:
       - checkout
@@ -127,34 +134,26 @@ jobs:
           name: post changelog to slack
           working_directory: ~/repo
           command: |
-              awk '/---/{a=1;next}/^$/{a&&b=1}a&&!b{print}b{exit}' CHANGELOG-meteor-app.md > ~/changelog
+              awk '/---/{a=1;next}/^$/{a&&b=1}a&&!b{print}b{exit}' meteor-app/CHANGELOG.md > ~/changelog
               curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Tests passed, deploying develop to staging. <${CIRCLE_BUILD_URL}>\n\`\`\`\n$(cat ~/changelog)\n\`\`\`\n \", \"icon_emoji\": \":shipit:\"}" https://hooks.slack.com/services/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
 
       - run:
           name: install meteor
           command: curl https://install.meteor.com/ | sh
 
-      # restore npm and meteor package caches
-      - restore_cache:
-          keys:
-          - v1-node-modules-{{ checksum "meteor-app/package.json" }}
-          - v1-node-modules-
       - restore_cache:
           keys:
           - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
           - v2-meteor-packages-
+
       - restore_cache:
           keys:
-          - v2-meteor-local-{{checksum "meteor-app/.meteor/versions" }}
-          - v2-meteor-local-
-
-      - run:
-          working_directory: ~/repo
-          command: npm install
-
+            - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run:
           working_directory: ~/repo/meteor-app
-          command: npm install
+          command: meteor npm ci
 
       - add_ssh_keys:
           fingerprints:
@@ -164,7 +163,7 @@ jobs:
           name: mup deploy
           working_directory: ~/repo/deployment/b2b-staging
           no_output_timeout: 20m # this might take forever
-          command: npx mup deploy --verbose
+          command: METEOR_ALLOW_SUPERUSER=1 npx mup deploy --verbose
 
       # todo - remove this when we've figured out why staging deploys fail without it
       - run:

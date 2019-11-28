@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Segment } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import Form from "react-jsonschema-form-semanticui"
+import Form from 'react-jsonschema-form-semanticui'
 import Alert from 'react-s-alert'
 import moment from 'moment'
 
@@ -17,27 +17,26 @@ import AssessmentAddReview from '/imports/ui/assessment/assessment-add-review'
 const mapSchemaToState = schema => {
   // Filter through json form schema to filter out just the form fields
   return schema.reduce((state, step) => {
-    Object.keys(step.schema.properties)
-      .forEach(prop => {
-        if (prop === 'pickUpDate') return // Prevent this from showing in initial state to allow default value
-        const type = step.schema.properties[prop].type
-        switch(type) {
-          case 'string': 
-            state[prop] = '';
-            break;
-          case 'integer':
-            state[prop] = 0;
-            break;
-          case 'array':
-            state[prop] = [];
-            break;
-          case 'boolean':
-            state[prop] = false;
-            break;
-          default:
-            state[prop] = null;
-        }
-      })
+    Object.keys(step.schema.properties).forEach(prop => {
+      if (prop === 'pickUpDate') return // Prevent this from showing in initial state to allow default value
+      const type = step.schema.properties[prop].type
+      switch (type) {
+        case 'string':
+          state[prop] = ''
+          break
+        case 'integer':
+          state[prop] = 0
+          break
+        case 'array':
+          state[prop] = []
+          break
+        case 'boolean':
+          state[prop] = false
+          break
+        default:
+          state[prop] = null
+      }
+    })
     return state
   }, {})
 }
@@ -46,13 +45,14 @@ class AssessmentAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: (props.step) ? props.step : 0,
+      step: props.step ? props.step : 0,
       formData: mapSchemaToState(schemas),
       progress: 0,
       costData: {
         serviceCost: 0,
         partsCost: 0,
         additionalCost: 0,
+        discount: 0
       }
     }
   }
@@ -65,7 +65,7 @@ class AssessmentAdd extends Component {
 
   componentWillUnmount() {
     // prevents id from persisting between adding assessments
-      this.props.resetId()
+    this.props.resetId()
   }
 
   onSubmit = async ({ formData }) => {
@@ -73,73 +73,83 @@ class AssessmentAdd extends Component {
 
     const totalServiceCost = this.props.services
       .map(key => {
-        if (!formData) { return 0 }
+        if (!formData) {
+          return 0
+        }
         return formData.services.includes(key.name) ? key.price : 0
       })
       .reduce((a, b) => a + b)
     const totalPartsCost = this.props.serviceItems
       .map(key => {
-        if (!formData) { return 0 }
+        if (!formData) {
+          return 0
+        }
         const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
         return formattedParts.includes(key.name) ? key.price : 0 // Think about how to refactor this
       })
       .reduce((a, b) => a + b)
-    const totalCost = totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0)
-        
+    const totalCost =
+      totalServiceCost + totalPartsCost + (formData ? formData.additionalFee * 100 : 0) - formData.discount * 100
+
     if (lastStep) {
       const serviceItem = this.props.services
         .filter(key => {
-          if (!formData) { return 0 }
+          if (!formData) {
+            return 0
+          }
           return formData.services.includes(key.name)
         })
         .map(key => {
           return {
-            name: key.name, 
-            price: key.price, 
+            name: key.name,
+            price: key.price,
             package: key.package
           }
         })
       const partsItem = this.props.serviceItems
         .filter(key => {
-          if (!formData) { return 0 }
+          if (!formData) {
+            return 0
+          }
           const formattedParts = formData.parts.map(item => item.replace(/ \(\$\w+\)/, '').trim())
           return formattedParts.includes(key.name) ? key.price : 0
         })
         .map(key => {
           return {
-            name: key.name, 
+            name: key.name,
             price: key.price,
             code: key.code,
             category: key.category,
             used: key.used
           }
         })
-      const custName = formData.b2bRefurbish ? 'back2bikes' : formData.name.toLowerCase()
-      const search = Object.values(formData).join(" ")      // Structuring form submission to match collection schema
+      const custName = formData.isRefurbish ? 'Refurbish' : formData.name.toLowerCase()
+      const search = Object.values(formData).join(' ') // Structuring form submission to match collection schema
       const formResult = {
         customerDetails: {
           name: custName,
           phone: formData.phone,
           email: formData.email,
-          refurbishment: formData.b2bRefurbish,
+          isRefurbish: formData.isRefurbish
         },
         bikeDetails: {
           make: formData.bikeMake.toLowerCase(),
           model: formData.bikeModel.toLowerCase(),
           color: formData.bikeColor.toLowerCase(),
           bikeValue: formData.approxBikeValue * 100, // Value in cents
-          sentimentValue: formData.sentimentalValue,
+          sentimentValue: formData.sentimentalValue
         },
         services: {
           serviceItem: serviceItem,
           totalServiceCost: totalServiceCost,
-          baseService: formData.package,
+          baseService: formData.package
         },
         parts: {
           partsItem: partsItem,
-          totalPartsCost: totalPartsCost,
+          totalPartsCost: totalPartsCost
         },
         additionalFees: formData.additionalFee * 100, // Value in cents
+        discount: formData.discount * 100, // cents
         totalCost: totalCost,
         dropoffDate: new Date(),
         pickupDate: new Date(formData.pickUpDate),
@@ -149,7 +159,7 @@ class AssessmentAdd extends Component {
         comment: formData.comments.toLowerCase(),
         temporaryBike: formData.replacementBike,
         status: 1, // Default to 1: New Order
-        search: search,
+        search: search
       }
 
       await this.props.setAssessment(formResult)
@@ -166,10 +176,13 @@ class AssessmentAdd extends Component {
           ...prevState.formData,
           ...formData,
           serviceCost: totalServiceCost,
-          partsCost: totalPartsCost,
+          partsCost: totalPartsCost
         },
-        step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
-        progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+        step:
+          prevState.step === prevState.progress || prevState.step < prevState.progress
+            ? this.state.step + 1
+            : prevSate.step,
+        progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress
       }
     })
   }
@@ -190,18 +203,18 @@ class AssessmentAdd extends Component {
         return key.name
       })
     const minorServicesCost = this.props.services
-    .filter(item => {
-      return item.package === 'Minor'
-    })
-    .map(key => {
-      return key.price
-    })
-    .reduce((a, b) => a + b)
-    this.setState((prevState) => ({
+      .filter(item => {
+        return item.package === 'Minor'
+      })
+      .map(key => {
+        return key.price
+      })
+      .reduce((a, b) => a + b)
+    this.setState(prevState => ({
       formData: {
         ...prevState.formData,
         services: minorServices,
-        package: "Minor Service"
+        package: 'Minor Service'
       },
       costData: {
         serviceCost: minorServicesCost,
@@ -209,8 +222,11 @@ class AssessmentAdd extends Component {
         additionalCost: prevState.costData.additionalCost,
         estBikeValue: prevState.formData.approxBikeValue
       },
-      step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
-      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+      step:
+        prevState.step === prevState.progress || prevState.step < prevState.progress
+          ? this.state.step + 1
+          : prevSate.step,
+      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress
     }))
   }
 
@@ -224,18 +240,18 @@ class AssessmentAdd extends Component {
         return key.name
       })
     const majorServicesCost = this.props.services
-    .filter(item => {
-      return item.package === 'Major' || item.package === 'Minor'
-    })
-    .map(key => {
-      return key.price
-    })
-    .reduce((a, b) => a + b)
-    this.setState((prevState) => ({
+      .filter(item => {
+        return item.package === 'Major' || item.package === 'Minor'
+      })
+      .map(key => {
+        return key.price
+      })
+      .reduce((a, b) => a + b)
+    this.setState(prevState => ({
       formData: {
         ...prevState.formData,
         services: majorServices,
-        package: "Major Service"
+        package: 'Major Service'
       },
       costData: {
         serviceCost: majorServicesCost,
@@ -243,18 +259,21 @@ class AssessmentAdd extends Component {
         additionalCost: prevState.costData.additionalCost,
         estBikeValue: prevState.formData.approxBikeValue
       },
-      step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
-      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+      step:
+        prevState.step === prevState.progress || prevState.step < prevState.progress
+          ? this.state.step + 1
+          : prevSate.step,
+      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress
     }))
   }
 
   selectCustomService = () => {
     const formData = mapSchemaToState(schemas)
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       formData: {
         ...formData,
         services: [],
-        package: "Custom Services"
+        package: 'Custom Services'
       },
       costData: {
         serviceCost: 0,
@@ -262,12 +281,15 @@ class AssessmentAdd extends Component {
         additionalCost: prevState.costData.additionalCost,
         estBikeValue: prevState.formData.approxBikeValue
       },
-      step: prevState.step === prevState.progress || prevState.step < prevState.progress  ? this.state.step + 1 : prevSate.step,
-      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress,
+      step:
+        prevState.step === prevState.progress || prevState.step < prevState.progress
+          ? this.state.step + 1
+          : prevSate.step,
+      progress: prevState.progress === prevState.step ? this.state.progress + 1 : prevState.progress
     }))
   }
 
-  goToStep = (step) => {
+  goToStep = step => {
     if (step <= this.state.progress) {
       this.setState({
         step
@@ -296,11 +318,12 @@ class AssessmentAdd extends Component {
         serviceCost: totalServiceCost,
         partsCost: totalPartsCost,
         additionalCost: formData.additionalFee,
+        discount: formData.discount,
         estBikeValue: formData.approxBikeValue
       }
     })
   }
-  
+
   forwardStep = () => {
     this.setState({
       step: this.state.step + 1,
@@ -309,9 +332,11 @@ class AssessmentAdd extends Component {
   }
 
   renderForm = () => {
-    schemas[1].schema.properties.services.items.enum = this.props.services.map(key => key.name)
-    schemas[1].schema.properties.assessor.enum = this.props.members.map(key => key.name)
-    schemas[2].schema.properties.parts.items.enum = this.props.serviceItems.map(key => `${key.name} ($${key.price/100})`)
+    schemas[1].schema.properties.services.items.enum = [...new Set(this.props.services.map(key => key.name))]
+    schemas[1].schema.properties.assessor.enum = [...new Set(this.props.members.map(key => key.name))]
+    schemas[2].schema.properties.parts.items.enum = [
+      ...new Set(this.props.serviceItems.map(key => `${key.name} ($${key.price / 100})`))
+    ]
 
     // Default one week later for pickup date
     const date = new Date()
@@ -323,37 +348,34 @@ class AssessmentAdd extends Component {
 
     return (
       <span>
-        {
-          showPrice &&
-          <Segment padded='very' >
-            <h2>
-              Total Price
-            </h2>
+        {showPrice && (
+          <Segment padded="very">
+            <h2>Total Price</h2>
             <div>
-              <div><strong>Estimated Bike Value: ${data.estBikeValue || 0}</strong></div>
-              <div>Total Service Cost: ${data.serviceCost/100}</div>
-              <div>Total Parts Cost: ${data.partsCost/100}</div>
+              <div>
+                <strong>Estimated Bike Value: ${data.estBikeValue || 0}</strong>
+              </div>
+              <div>Total Service Cost: ${data.serviceCost / 100}</div>
+              <div>Total Parts Cost: ${data.partsCost / 100}</div>
               <div>Additional Fee: ${data.additionalCost}</div>
-              <div style={{borderTop: "1px solid black", margin: "5px 0px", padding: "5px 0px"}}><strong>Total Price = ${(data.serviceCost/100) + (data.partsCost/100) + (data.additionalCost)}</strong></div>
+              <div style={{ borderTop: '1px solid black', margin: '5px 0px', padding: '5px 0px' }}>
+                <strong>Total Price = ${data.serviceCost / 100 + data.partsCost / 100 + data.additionalCost}</strong>
+              </div>
             </div>
           </Segment>
-        }
+        )}
         <Form
           schema={schemas[this.state.step].schema}
           uiSchema={schemas[this.state.step].uiSchema}
           formData={this.state.formData}
           onSubmit={this.onSubmit}
-          showErrorList={false} 
+          showErrorList={false}
           onChange={this.handleFormChange}
         >
-          <Control
-            backStep={this.backStep}
-            step={this.state.step}
-            totalSteps={schemas.length}
-            onSubmit={f => f}
-          />
+          <Control backStep={this.backStep} step={this.state.step} totalSteps={schemas.length} onSubmit={f => f} />
         </Form>
-      </span>)
+      </span>
+    )
   }
 
   render() {
@@ -361,35 +383,24 @@ class AssessmentAdd extends Component {
     const serviceSelectorStep = this.state.step == 0
     const orderSubmittedStep = this.state.step == 5
     return (
-    <Grid divided='vertically' stackable>
-      <Alert stack={{limit: 3}} />
-      <Grid.Row centered>
-        <Steps
-          step={this.state.step}
-          steps={schemas}
-          goToStep={this.goToStep}
-          progress={this.state.progress}
-        />
-      </Grid.Row>
-        {
-          serviceSelectorStep &&
-            <ServiceList 
+      <Grid divided="vertically" stackable>
+        <Alert stack={{ limit: 3 }} />
+        <Grid.Row centered>
+          <Steps step={this.state.step} steps={schemas} goToStep={this.goToStep} progress={this.state.progress} />
+        </Grid.Row>
+        {serviceSelectorStep && (
+          <ServiceList
             formData={this.state.formData}
             selectMinor={this.selectMinor}
             selectMajor={this.selectMajor}
             selectCustomService={this.selectCustomService}
             services={this.props.services}
-            />   
-        }
-        {
-          reviewStep &&
+          />
+        )}
+        {reviewStep && (
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
-              <AssessmentAddReview
-                formData={this.state.formData}
-                steps={schemas}
-                goToStep={this.goToStep}
-              />
+              <AssessmentAddReview formData={this.state.formData} steps={schemas} goToStep={this.goToStep} />
               <Control
                 backStep={this.backStep}
                 step={this.state.step}
@@ -398,24 +409,18 @@ class AssessmentAdd extends Component {
               />
             </Grid.Column>
           </Grid.Row>
-        }
-        {
-          orderSubmittedStep &&
-
-            <Congratulations
-            formData={this.state.formData}
-            assessmentLastSaved={this.props.assessmentLastSaved}
-            />
-        }
-        {
-          (!reviewStep && !serviceSelectorStep && !orderSubmittedStep) &&
+        )}
+        {orderSubmittedStep && (
+          <Congratulations formData={this.state.formData} assessmentLastSaved={this.props.assessmentLastSaved} />
+        )}
+        {!reviewStep && !serviceSelectorStep && !orderSubmittedStep && (
           <Grid.Row centered>
             <Grid.Column mobile={14} style={{ maxWidth: '600px' }}>
               {this.renderForm()}
             </Grid.Column>
           </Grid.Row>
-        }
-    </Grid>
+        )}
+      </Grid>
     )
   }
 }
@@ -425,7 +430,7 @@ AssessmentAdd.propTypes = {
   resetId: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired
 }
 
 export default withRouter(AssessmentAdd)

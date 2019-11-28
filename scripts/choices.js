@@ -2,6 +2,12 @@
 // A list of targets for deployment
 //
 const choices = {
+  'pa-prod': {
+    app: 'meteor-app',
+    name: 'pa-prod',
+    level: 'minor',
+    branch: 'master'
+  },
   'b2b-prod': {
     app: 'meteor-app',
     name: 'b2b-prod',

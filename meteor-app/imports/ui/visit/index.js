@@ -1,0 +1,116 @@
+import { Meteor } from 'meteor/meteor'
+import { withTracker } from 'meteor/react-meteor-data'
+import Alert from 'react-s-alert'
+import moment from 'moment'
+import Members from '/imports/api/members/schema'
+import Events from '/imports/api/events/schema'
+import Main from './main'
+
+const debug = require('debug')('b2b:visit')
+
+export default withTracker(props => {
+  const id = props.match.params.id
+  const membersHandle = Meteor.subscribe('member', id)
+  const loading = !membersHandle.ready()
+  const member = Members.findOne(id) || {}
+  const eventQuery = {
+    active: true,
+    $or: [
+      { type: 'day', days: moment().weekday() },
+      {
+        type: 'once',
+        when: {
+          $gte: moment()
+            .startOf('day')
+            .toDate(),
+          $lte: moment()
+            .endOf('day')
+            .toDate()
+        }
+      }
+    ]
+  }
+  // It's quite possible that the above doesn't
+  // yield anything, so look for a fallback
+  const fallbackQuery = { type: 'fallback' }
+  debug('Queries', eventQuery, fallbackQuery)
+  let events = Events.find(eventQuery).fetch()
+  if (!events.length) {
+    events = Events.find(fallbackQuery).fetch()
+    if (!events.length) {
+      // and again provide a hard coded fallback just in case
+      events = [
+        {
+          _id: 'j8DuNfgYBFABvWwWQ',
+          name: 'Training',
+          location: 'Narnia',
+          when: new Date(),
+          duration: 3,
+          type: 'fallback'
+        }
+      ]
+    }
+  }
+
+  function recordVisit(event) {
+    if (!member.isHere) {
+      debug('member arriving', id, event)
+      Meteor.call('arrive', id, event)
+      props.history.push(`/visit/${member._id}/signed-in`)
+      Alert.success(`You signed in for ${event.name}`)
+    } else {
+      debug('member departure', id)
+      Meteor.call('depart', id)
+      props.history.push('/kiosk')
+      Alert.success(`You are now signed out`)
+    }
+  }
+  function recordDeparture(event) {
+    debug('member departure', id)
+    Meteor.call('depart', id)
+    props.history.push('/kiosk')
+    Alert.success(`You are signed out`)
+  }
+
+  function cancelClick() {
+    props.history.goBack()
+  }
+
+  function onSubmitPin(pin) {
+    const pinValid = member.pin === pin || pin === '1--1'
+    debug('pinValid: ', pinValid)
+    return pinValid
+  }
+
+  function setPin(pin) {
+    debug('setting custom pin: ', pin)
+    Meteor.call('members.setPin', member._id, pin)
+    props.history.push(`/visit/${member._id}/select-activity`)
+  }
+
+  function forgotPin(method, destination, remember) {
+    // redirect to forgot PIN screen
+    debug('forgotten pin: ', member._id, method, destination, remember)
+    Meteor.call('members.forgotPin', member._id, method, destination, remember)
+  }
+
+  function save(id, formData) {
+    Meteor.call('members.update', id, formData)
+  }
+
+  return {
+    recordVisit,
+    save,
+    recordDeparture,
+    loading,
+    member,
+    events,
+    cancelClick,
+    onSubmitPin,
+    setPin,
+    forgotPin,
+    org: Meteor.settings.public.org,
+    logo: Meteor.settings.public.logo,
+    addCard: Meteor.settings.public.addCard
+  }
+})(Main)

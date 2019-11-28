@@ -1,0 +1,1 @@
+../deploy/scripts/runb2b.sh

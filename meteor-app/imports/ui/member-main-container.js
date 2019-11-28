@@ -1,22 +1,22 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data'
 import { Session } from 'meteor/session'
 import { debounce, escapeRegExp } from 'lodash'
 
 import MemberMain from '/imports/ui/member-main'
-import Members from '/imports/api/members/members';
+import Members from '/imports/api/members/schema'
 
 Session.set('searchQuery', '')
 
-export default withTracker((props) => {
+export default withTracker(props => {
   const membersHandle = Meteor.subscribe('all.members')
-  
+
   // prevents search filter from persisting after checkin / out
   if (!membersHandle.ready()) {
     Session.set('searchQuery', '')
   }
 
-  const filter = (query) => {
+  const filter = query => {
     const searching = query != ''
     if (searching) {
       return {
@@ -28,18 +28,21 @@ export default withTracker((props) => {
     }
   }
 
+  document.title = `${Meteor.settings.public.org} - ${Meteor.settings.public.member} check in`
+
   return {
-    membersIn: Members.find({
-      isHere: true,
-    }, { sort: { joined: -1, lastIn: -1, name: 1 } }).fetch(),
-    membersOut: Members.find(
-      filter(Session.get('searchQuery')), {
-        sort: {
-          sessionCount: -1,
-        },
+    membersIn: Members.find(
+      {
+        isHere: true
       },
+      { sort: { joined: -1, lastIn: -1, name: 1 } }
     ).fetch(),
+    membersOut: Members.find(filter(Session.get('searchQuery')), {
+      sort: {
+        sessionCount: -1
+      }
+    }).fetch(),
     loading: !membersHandle.ready(),
-    searchQuery: Session.get('searchQuery'),
+    searchQuery: Session.get('searchQuery')
   }
 })(MemberMain)

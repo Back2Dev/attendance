@@ -1,10 +1,10 @@
 /**
- * Created by mikkel in June 2016.
+ * Created by mikkel in June 2017.
  */
 
 var versionService = {
   version: function() {
-    return "0.2.0"
+    return '1.1.14'
   }
 }
 

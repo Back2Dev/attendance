@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-const debug = require('debug')('att:admin')
+const debug = require('debug')('b2b:admin')
 
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
 

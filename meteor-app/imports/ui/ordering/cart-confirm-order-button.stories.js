@@ -6,7 +6,6 @@ import { linkTo } from '@storybook/addon-links'
 import { Welcome } from '@storybook/react/demo'
 import { withInfo } from '@storybook/addon-info'
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react'
-import StoryRouter from 'storybook-router'
 import { Icon, Button } from 'semantic-ui-react'
 import ConfirmOrder from './cart-confirm-order-button'
 
