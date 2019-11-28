@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Events from '/imports/api/events/schema'
+import Events, { defaultObject } from '/imports/api/events/schema'
 import List from './list'
 import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import CONSTANTS from '/imports/api/constants'
@@ -14,17 +14,6 @@ const update = form => {
   Meteor.call('update.Events', form)
 }
 const add = form => Meteor.call('add.Events', form)
-
-// Config data
-const defaultObject = {
-  name: 'Untitled',
-  description: 'Description',
-  location: 'Location',
-  type: 'day',
-  active: false,
-  duration: 0,
-  price: 0
-}
 
 const columns = [
   {
