@@ -23,7 +23,7 @@ const goodMember = Factory.build('member', {
 })
 
 if (Meteor.isServer) {
-  describe.only('Membership cron processing -', () => {
+  describe('Membership cron processing -', () => {
     // beforeEach(resetDatabase)
     resetDatabase()
     let memberId

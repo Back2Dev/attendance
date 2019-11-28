@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter, NavLink } from 'react-router-dom'
-import { Menu, Dropdown, Header, Icon } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
 
 import AdminMenu from '/imports/ui/pages/admin-menu'
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = ({ currentUser, location }) => {
-  const menuStyle = { marginBottom: '10px' }
   return (
-    <Menu vertical style={menuStyle} attached="top" inverted size="large" color="black" className="tm-sidebar">
+    <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
       <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
         <img src="/images/b2b150.jpg" className="ui small image" />
       </Menu.Item>
@@ -108,22 +107,15 @@ const NavBar = ({ currentUser, location }) => {
             />
           ]
         : ''}
-      <Menu.Item position="right">
-        {currentUser === '' ? (
-          <Dropdown text="Login" pointing="top right" icon={'user'}>
-            <Dropdown.Menu>
-              <Dropdown.Item icon="user" text="Sign In" as={NavLink} exact to="/login" />
-              {/* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */}
-            </Dropdown.Menu>
-          </Dropdown>
-        ) : (
-          <Dropdown text={currentUser} pointing="top right">
-            <Dropdown.Menu>
-              <Dropdown.Item icon="sign out" text="Sign Out" as={NavLink} exact to="/signout" />
-            </Dropdown.Menu>
-          </Dropdown>
-        )}
-      </Menu.Item>
+      {currentUser === '' ? (
+        <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
+      ) : (
+        /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
+        <div>
+          <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
+          <Menu.Item content={currentUser} style={{ position: 'absolute', bottom: 0 }} />
+        </div>
+      )}
     </Menu>
   )
 }

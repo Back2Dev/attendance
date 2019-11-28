@@ -296,7 +296,7 @@ const defaultSchema = [
     schema: {
       title: 'Details',
       type: 'object',
-      required: ['name', 'pin'],
+      required: ['name', 'email', 'mobile', 'pin'],
       properties: {
         name: { type: 'string', title: 'Name' },
         email: { type: 'string', format: 'email', title: 'Email' },

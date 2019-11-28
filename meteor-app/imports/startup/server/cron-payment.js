@@ -89,17 +89,27 @@ No action is required, as you have elected to pay automatically, and we have you
     })
   },
 
-  autoPayComplete() {
+  autoPayment() {
     // Make auto-payments when expired, and send email
     const query = {
       autoPay: true,
       subsType: 'member',
-      paymentCustId: { $exists: true }
+      paymentCustId: { $exists: true },
+      status: 'expired'
     }
     Members.find(query).forEach(member => {
       // Expiring today?
       const expiry = moment(member.expiry)
-      if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
+      if (expiry.isAfter(new Date())) {
+        //TODO: Prime a shopping cart first
+        const packet = {
+          amount: price.toString(),
+          currency: 'AUD',
+          description: 'Purchase',
+          email,
+          metadata: { cartId, codes }
+        }
+        const result = Meteor.call('makePayment', packet)
         Meteor.call(
           'sendGenericInfoEmail',
           member.email,

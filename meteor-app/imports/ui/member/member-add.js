@@ -43,7 +43,7 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep && this.props.newId) {
       Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : '/')
+      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : '/kiosk')
     }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message)
@@ -89,6 +89,9 @@ class MemberAdd extends Component {
   validate = (formData, errors) => {
     if (this.props.member != null) {
       return true
+    }
+    if (formData.name && formData.name.trim().split(' ').length === 1) {
+      errors.name.addError('Please enter your full name')
     }
     if (formData.pin && formData.pin.length < 4) {
       errors.pin.addError('PIN number must be at least 4 digits long.')
