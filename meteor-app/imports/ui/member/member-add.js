@@ -43,7 +43,7 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep && this.props.newId) {
       Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : '/')
+      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : '/kiosk')
     }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message)

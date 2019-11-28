@@ -38,7 +38,12 @@ const App = props => {
   const isLogged = Meteor.userId() !== null
   const showSide =
     (!isIframe() &&
-      !(location.pathname.match(/kiosk/) || location.pathname.match(/shop/) || location.pathname.match(/visit/))) ||
+      !(
+        location.pathname.match(/kiosk/) ||
+        location.pathname.match(/shop/) ||
+        location.pathname.match(/visit/) ||
+        location.pathname.match(/add/)
+      )) ||
     isLogged
   const containerId = showSide ? 'app-container' : 'iframe-container'
   return (
