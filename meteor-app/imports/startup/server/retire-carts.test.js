@@ -6,7 +6,6 @@ import moment from 'moment'
 import './cron-payment'
 import './email'
 import Members from '/imports/api/members/schema'
-import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 
 const debug = require('debug')('b2b:test')
