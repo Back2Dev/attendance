@@ -53,6 +53,16 @@ export const EventsSchema = new SimpleSchema({
   updatedAt
 })
 
+export const defaultObject = {
+  name: 'Untitled',
+  description: 'Description',
+  location: 'Location',
+  type: 'day',
+  active: false,
+  duration: 0,
+  price: 0
+}
+
 Events.attachSchema(EventsSchema)
 
 export default Events

@@ -11,6 +11,7 @@ import { saveToArchive } from '/imports/api/archive'
 import memberAdd from '/imports/ui/member/member-add'
 
 const debug = require('debug')('b2b:server-methods')
+const fs = require('fs')
 
 Meteor.methods({
   'members.insert': function(member) {
@@ -244,8 +245,18 @@ db[res.result].find({value: {$gt: 1}});
     let numRows = 0
     if (Meteor.isClient) return
     try {
-      debug('Loading SLSA from csv data')
-      const parse = XLSX.read(data, { type: 'string' })
+      let started = false
+      const lines = data
+        .split('\n')
+        .filter(line => {
+          if (line.match(/^Member ID/)) {
+            started = true
+          }
+          return started
+        })
+        .join('\n')
+      debug('Loading SLSA from csv data', lines)
+      const parse = XLSX.read(lines, { type: 'string' })
       const wb = parse.Sheets
       const sheets = Object.keys(wb)
       for (const s of sheets) {
