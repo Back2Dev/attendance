@@ -1,7 +1,9 @@
 # Changelog
 
 ## Next
+- Strip out unused lines from top of slsa file
 
+## 1.1.14
 - Added new collections for sales
 - Upgrade cypress to 3.1.5
 - Added shopping cart
