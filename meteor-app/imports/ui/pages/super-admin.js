@@ -5,6 +5,7 @@ import { Stuffs } from '/imports/api/stuff/stuff'
 import StuffItem from '/imports/ui/components/stuff-item'
 import { withTracker } from 'meteor/react-meteor-data'
 import ListStuff from './user-admin'
+import MultiValueFormatter from 'react-tabulator/lib/formatters/MultiValueFormatter'
 import MultiSelectEditor from 'react-tabulator/lib/editors/MultiSelectEditor'
 import { reactFormatter } from 'react-tabulator'
 
@@ -12,8 +13,10 @@ const addANewRole = id => Meteor.call('addANewRole', id)
 const removeARole = id => Meteor.call('removeARole', id)
 
 const updateUserRoles = user => Meteor.call('updateUserRoles', user)
+const deleteUsers = id => Meteor.call('deleteUsers', id)
+const updateUser = user => Meteor.call('updateUser', user)
 
-const userColumns = [
+const userColumns = roles => [
   {
     formatter: 'rowSelection',
     align: 'center',
@@ -22,9 +25,20 @@ const userColumns = [
       cell.getRow().toggleSelect()
     }
   },
-  { field: 'username', title: 'Username', editor: true, headerFilter: 'input' },
+  { field: 'username', title: 'Username', editor: 'input', headerFilter: 'input' },
   { field: 'emails', title: 'Email', headerFilter: 'input' },
-  { field: 'roles', title: 'Roles', editor: MultiSelectEditor, headerFilter: 'input' }
+  {
+    field: 'roles',
+    title: 'Roles',
+    headerFilter: 'input',
+    formatter: MultiValueFormatter,
+    formatterParams: { style: 'PILL' },
+    editor: MultiSelectEditor,
+    editorParams: cell => {
+      const values = roles.filter(role => !cell._cell.row.data.roles.includes(role))
+      return { values: values.map(value => ({ id: value, name: value })) }
+    }
+  }
 ]
 
 const roleColumns = [
@@ -53,6 +67,8 @@ export default withTracker(() => {
     roleColumns,
     addANewRole,
     removeARole,
-    updateUserRoles
+    updateUserRoles,
+    deleteUsers,
+    updateUser
   }
 })(ListStuff)

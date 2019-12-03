@@ -9,7 +9,15 @@ Meteor.publish('getAllUsers', () => {
 Meteor.methods({
   updateUserRoles(user) {
     Meteor.users.update(user._id, { $set: { roles: user.roles } })
+  },
+  deleteUsers(id) {
+    Meteor.users.remove(id)
+  },
+  updateUser(user) {
+    Meteor.users.update(user._id, { $set: user })
   }
 })
 
-Meteor.publish(' updateUserRoles')
+Meteor.publish('updateUserRoles')
+Meteor.publish('deleteUsers')
+Meteor.publish('updateUser')

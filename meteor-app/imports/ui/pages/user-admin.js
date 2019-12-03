@@ -7,21 +7,25 @@ import { ReactTabulator } from 'react-tabulator'
 import { Roles } from 'meteor/alanning:roles'
 
 export default ListStuff = props => {
-  let rows = props.users.map(({ username: username, emails: emails, roles: roles }) => {
-    let roleString = ' '
+  let rows = props.users.map(({ _id: id, username: username, emails: emails, roles: roles }) => {
+    let roleString = []
     Array.prototype.forEach.call(roles, role => {
-      roleString += role._id + ', '
+      roleString.push(role._id)
     })
-    return { username: username, emails: emails[0].address, roles: roleString }
+    return { _id: id, username: username, emails: emails[0].address, roles: roleString }
   })
 
   let newUsers = [...props.users]
+  let rolesForOptions = props.roles.map(role => role._id)
   const [users, setusers] = React.useState(rows)
   const [roles, setRoles] = React.useState(props.roles)
   const [popupStatus, setPopupStatus] = React.useState(false)
   const [usersRowsSelected, setUsersRowsSelected] = React.useState([])
   const [rolesRowsSelected, setRolesRowsSelected] = React.useState([])
-  const [buttonName, setButtonName] = React.useState('Add')
+
+  const deleteUsers = () => {
+    usersRowsSelected.forEach(userData => props.deleteUsers(userData))
+  }
 
   show = () => setPopupStatus(true)
   handleConfirm = () => setPopupStatus(false)
@@ -49,10 +53,14 @@ export default ListStuff = props => {
     setRoles(props.roles)
     setUsersRowsSelected([])
     setRolesRowsSelected([])
+    rolesForOptions = props.roles.map(role => role._id)
   }, [props.users, props.roles])
 
   const usersOnCellEdited = cell => {
-    // update(cell._cell.row.data)
+    const newUser = { ...cell._cell.row.data }
+    delete newUser.emails
+    newUser.roles = newUser.roles.map(role => ({ _id: role.id, scope: null, assigned: true }))
+    props.updateUser(newUser)
   }
 
   const usersTableOptions = {
@@ -85,11 +93,13 @@ export default ListStuff = props => {
   }
 
   let UsersContents = () => <Loader active>Getting data</Loader>
-  if (props.usersReady) {
+  if (props.usersReady && props.rolesReady) {
     if (!users.length) {
       UsersContents = () => <span>No data found</span>
     } else {
-      UsersContents = () => <ReactTabulator columns={props.userColumns} data={users} options={usersTableOptions} />
+      UsersContents = () => (
+        <ReactTabulator columns={props.userColumns(rolesForOptions)} data={users} options={usersTableOptions} />
+      )
     }
   }
 
@@ -118,10 +128,7 @@ export default ListStuff = props => {
       <Segment>
         Account Admin
         <span style={{ float: 'right', right: '0px' }}>
-          <Button size="mini" onClick={show} color="orange" type="button">
-            Edit
-          </Button>
-          <Button size="mini" onClick={show} color="red" type="button">
+          <Button size="mini" onClick={deleteUsers} color="red" type="button">
             Delete
           </Button>
           <Button size="mini" onClick={show} color="grey" type="button">
@@ -149,9 +156,10 @@ ListStuff.propTypes = {
   roles: PropTypes.array.isRequired,
   usersReady: PropTypes.bool.isRequired,
   rolesReady: PropTypes.bool.isRequired,
-  userColumns: PropTypes.array.isRequired,
+  userColumns: PropTypes.func,
   roleColumns: PropTypes.array.isRequired,
   addANewRole: PropTypes.func,
   removeARole: PropTypes.func,
-  updateUserRoles: PropTypes.func
+  updateUserRoles: PropTypes.func,
+  deleteUsers: PropTypes.func
 }
