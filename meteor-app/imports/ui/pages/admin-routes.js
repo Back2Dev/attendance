@@ -13,6 +13,7 @@ import EventContainer from '/imports/ui/events/lister'
 import ProductContainer from '/imports/ui/products/lister'
 import PromoContainer from '/imports/ui/promos/lister'
 import PartContainer from '/imports/ui/parts/lister'
+import SessionsContainer from '/imports/ui/sessions/lister'
 import ServiceItemContainer from '/imports/ui/service-items/lister'
 
 // const Home = props => <div>Home is where the heart is (admin-container.js)</div>
@@ -36,6 +37,7 @@ export default Admin = props => {
       <Route path="/admin/products" component={ProductContainer} />
       <Route path="/admin/promos" component={PromoContainer} />
       <Route path="/admin/parts" component={PartContainer} />
+      <Route path="/admin/sessions" component={SessionsContainer} />
       <Route path="/admin/service-items" component={ServiceItemContainer} />
     </Switch>
   )
