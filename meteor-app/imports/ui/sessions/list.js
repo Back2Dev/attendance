@@ -40,7 +40,7 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
 
   const inputChange = e => {
     rows[e.target.name] = e.target.value
-    setForm(rows)
+    setRows(rows)
   }
 
   const addANewRow = () => {
@@ -74,6 +74,7 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
             Delete
           </Button>
           <Modal
+            style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
             trigger={
               <Button size="mini" color="black">
                 Add
