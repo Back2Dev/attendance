@@ -11,7 +11,7 @@ const add = form => Meteor.call('add.Sessions', form)
 
 const defaultObject = {
   memberid: 2,
-  name: 'Code',
+  name: 'Name',
   duration: 0,
   timeIn: new Date(),
   timeOut: new Date(),
@@ -31,7 +31,7 @@ const columns = [
   { field: 'duration', title: 'Duration', editor: true },
   { field: 'timeIn', title: 'timeIn', editor: true, validator: 'integer' },
   { field: 'timeOut', title: 'timeOut', editor: true },
-  { field: 'price', title: 'price', editor: true }
+  { field: 'price', title: 'Price', editor: true }
 ]
 
 export default withTracker(props => {

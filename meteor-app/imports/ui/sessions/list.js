@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Segment } from 'semantic-ui-react'
+import { Button, Segment, Modal, Form, Image } from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
@@ -38,8 +38,14 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
     }
   }
 
+  const inputChange = e => {
+    rows[e.target.name] = e.target.value
+    setForm(rows)
+  }
+
   const addANewRow = () => {
-    add(defaultObject)
+    add({ ...rows })
+    this.closeModal()
   }
 
   const deleteRows = () => {
@@ -67,9 +73,27 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
           <Button size="mini" onClick={deleteRows} color="red" type="button">
             Delete
           </Button>
-          <Button size="mini" onClick={addANewRow} color="black" type="button">
-            Add
-          </Button>
+          <Modal
+            trigger={
+              <Button size="mini" color="black">
+                Add
+              </Button>
+            }
+          >
+            <Modal.Header>Add an attendee</Modal.Header>
+            <Modal.Content>
+              <Form>
+                <Form.Input label="Name" name="name" onChange={inputChange} />
+                <Form.Input label="Duration" name="duration" onChange={inputChange} />
+                <Form.Input type="time" label="TimeIn" />
+                <Form.Input type="time" label="Timeout" />
+                <Form.Input type="integer" label="Price (¢)" name="price" onChange={inputChange} />
+                <Button onClick={addANewRow} type="submit" color="green">
+                  Save
+                </Button>
+              </Form>
+            </Modal.Content>
+          </Modal>
         </span>
       </Segment>
       <Contents />
