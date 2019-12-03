@@ -10,6 +10,7 @@ const debug = require('debug')('manx:add')
 const List = ({ items, update, remove, add, columns, defaultObject, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
+  const [modalOpen, setModalOpen] = React.useState(false)
 
   React.useEffect(() => {
     setRows(items)
@@ -45,7 +46,7 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
 
   const addANewRow = () => {
     add({ ...rows })
-    this.closeModal()
+    setModalOpen(false)
   }
 
   const deleteRows = () => {
@@ -75,8 +76,10 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
           </Button>
           <Modal
             style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
             trigger={
-              <Button size="mini" color="black">
+              <Button size="mini" color="black" onClick={() => setModalOpen(true)}>
                 Add
               </Button>
             }
@@ -85,7 +88,7 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
             <Modal.Content>
               <Form>
                 <Form.Input label="Name" name="name" onChange={inputChange} />
-                <Form.Input label="Duration" name="duration" onChange={inputChange} />
+                <Form.Input type="integer" label="Duration" name="duration" onChange={inputChange} />
                 <Form.Input type="time" label="TimeIn" />
                 <Form.Input type="time" label="Timeout" />
                 <Form.Input type="integer" label="Price (¢)" name="price" onChange={inputChange} />
