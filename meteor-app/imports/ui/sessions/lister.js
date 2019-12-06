@@ -11,13 +11,10 @@ const remove = id => Meteor.call('rm.Sessions', id)
 const update = form => Meteor.call('update.Sessions', form)
 const add = form => Meteor.call('add.Sessions', form)
 
-const defaultObject = {
-  memberid: 2,
-  name: 'Name',
-  duration: 0,
-  timeIn: new Date(),
-  timeOut: new Date(),
-  price: 0
+const dateFormat = {
+  inputFormat: 'DD/MM/YY hh:mm',
+  outputFormat: 'DD/MM/YY h:mm A',
+  invalidPlaceholder: 'Invalid Date'
 }
 
 const columns = [
@@ -30,10 +27,16 @@ const columns = [
     }
   },
   { field: 'memberName', title: 'Member Name', editor: true },
-  { field: 'name', title: 'Name', editor: true },
+  { field: 'name', title: 'Session Name', editor: true },
   { field: 'duration', title: 'Duration', editor: true },
-  { field: 'timeIn', title: 'timeIn', editor: DateEditor },
-  { field: 'timeOut', title: 'timeOut', editor: DateEditor },
+  { field: 'timeIn', title: 'Start Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
+  {
+    field: 'timeOut',
+    title: 'End Time',
+    editor: DateEditor,
+    formatter: 'datetime',
+    formatterParams: dateFormat
+  },
   { field: 'price', title: 'Price', editor: true }
 ]
 
@@ -50,7 +53,6 @@ export default withTracker(props => {
     update,
     add,
     columns,
-    defaultObject,
     loading: !subsHandle.ready()
   }
 })(List)
