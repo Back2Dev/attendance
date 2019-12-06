@@ -83,18 +83,22 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     }
   }
 
-  const memberOptions = members.map(member => ({
-    key: member._id,
-    text: member.name,
-    value: member.name,
-    image: { avatar: true, src: '/images/avatars/' + member.avatar }
-  }))
+  const memberOptions = members
+    .map(member => ({
+      key: member._id,
+      text: member.name,
+      value: member.name,
+      image: { avatar: true, src: '/images/avatars/' + member.avatar }
+    }))
+    .sort((a, b) => a.text.localeCompare(b.text))
 
-  const eventOptions = events.map(event => ({
-    key: event._id,
-    text: event.name,
-    value: event._id
-  }))
+  const eventOptions = events
+    .map(event => ({
+      key: event._id,
+      text: event.name,
+      value: event._id
+    }))
+    .sort((a, b) => a.text.localeCompare(b.text))
 
   return (
     <div>
