@@ -52,7 +52,7 @@ const CCRegistered = props => {
       ]
 
   const gotoHome = e => {
-    sessionStorage.setItem('mycart', null)
+    sessionStorage.removeItem('mycart')
     props.history.push('/')
   }
 

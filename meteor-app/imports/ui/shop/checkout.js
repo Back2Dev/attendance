@@ -39,7 +39,7 @@ const Checkout = ({ history }) => {
             discountedPrice * 100,
             state.discount
           )
-          sessionStorage.removeItem('myCart')
+          sessionStorage.removeItem('mycart')
           sessionStorage.removeItem('name')
           Alert.info(`Sent invoice to ${email}`)
           history.push(`/shop/sent/${email}`)
@@ -52,8 +52,7 @@ const Checkout = ({ history }) => {
         case 'paypal':
         case 'xero':
         case 'cash':
-          history.push('/shop/paid/${member._id}')
-
+          markAsPaid()
           break
         default:
           break
@@ -112,6 +111,19 @@ const Checkout = ({ history }) => {
     } else {
       setPromo({ status: 'Please enter a discount code' })
       setIcon('meh outline')
+    }
+  }
+
+  const markAsPaid = async () => {
+    const result = await Meteor.callAsync(
+      'markAsPaid',
+      sessionStorage.getItem('memberId') || state.memberId,
+      sessionStorage.getItem('mycart') || state._id
+    )
+    if (result.status === 'ok') {
+      history.push(`/shop/paid/${member._id}`)
+    } else {
+      Alert.error(result.error)
     }
   }
 
