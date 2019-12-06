@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
+import moment from 'moment'
 
 const debug = require('debug')('manx:add')
 
@@ -42,23 +43,20 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     }
   }
 
-  const inputChange = e => {
-    console.log(events)
-    rows[e.target.name] = e.target.value
-    setRows(rows)
-  }
-
   const inputMember = (_, { value }) => {
     rows['memberName'] = value
     setRows(rows)
   }
 
   const inputEvent = (_, { value }) => {
-    rows['name'] = value
-    //Only works if name is unique
-    selectedEvent = events.find(event => event.name === value)
+    const selectedEvent = events.find(event => event._id === value)
+    rows['name'] = selectedEvent.name
     rows['duration'] = selectedEvent.duration
     rows['price'] = selectedEvent.price
+    const startDate = moment(sessionDate)
+    rows['timeOut'] = moment(startDate)
+      .add(selectedEvent.duration, 'hours')
+      .toDate()
     setRows(rows)
   }
 
@@ -86,16 +84,16 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
   }
 
   const memberOptions = members.map(member => ({
-    key: member.name,
+    key: member._id,
     text: member.name,
     value: member.name,
     image: { avatar: true, src: '/images/avatars/' + member.avatar }
   }))
 
   const eventOptions = events.map(event => ({
-    key: event.id,
+    key: event._id,
     text: event.name,
-    value: event.name
+    value: event._id
   }))
 
   return (

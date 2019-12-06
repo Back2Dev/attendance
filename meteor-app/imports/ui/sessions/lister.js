@@ -33,7 +33,7 @@ const columns = [
   { field: 'name', title: 'Name', editor: true },
   { field: 'duration', title: 'Duration', editor: true },
   { field: 'timeIn', title: 'timeIn', editor: DateEditor },
-  { field: 'timeOut', title: 'timeOut' },
+  { field: 'timeOut', title: 'timeOut', editor: DateEditor },
   { field: 'price', title: 'Price', editor: true }
 ]
 

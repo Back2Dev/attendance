@@ -28,11 +28,11 @@ export const SessionsSchema = new SimpleSchema({
     label: 'Visit start time',
     optional: false
   },
-  // timeOut: {
-  //   type: Date,
-  //   label: 'Visit end time',
-  //   optional: false
-  // },
+  timeOut: {
+    type: Date,
+    label: 'Visit end time',
+    optional: false
+  },
   price: {
     type: SimpleSchema.Integer,
     label: 'Session Price in cents',
