@@ -160,7 +160,7 @@ describe('Create member', () => {
       .click()
 
     // cy.get('div[list="away"]')
-    cy.get('.header')
+    cy.get('.content,header')
       .contains('Eddie Mercx')
       .should('exist')
     cy.visit('/admin/userprofiles')
