@@ -1,15 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Segment, Modal, Form, Image } from 'semantic-ui-react'
+import { Button, Segment, Modal, Form } from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
 
 const debug = require('debug')('manx:add')
 
-const List = ({ items, update, remove, add, columns, defaultObject, loading }) => {
+const List = ({ items, update, remove, add, columns, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
+  const [sessionDate, setSessionDate] = React.useState(new Date())
   const [modalOpen, setModalOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -45,6 +48,7 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
   }
 
   const addANewRow = () => {
+    rows['timeIn'] = sessionDate
     add({ ...rows })
     setModalOpen(false)
   }
@@ -71,6 +75,12 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
       <Segment>
         Sessions list
         <span style={{ float: 'right', right: '0px' }}>
+          <DatePicker
+            selected={sessionDate}
+            dateFormat="dd/MM/yyyy h:mm aa"
+            onChange={date => setSessionDate(date)}
+            showTimeSelect
+          />
           <Button size="mini" onClick={deleteRows} color="red" type="button">
             Delete
           </Button>
@@ -87,10 +97,9 @@ const List = ({ items, update, remove, add, columns, defaultObject, loading }) =
             <Modal.Header>Add an attendee</Modal.Header>
             <Modal.Content>
               <Form>
+                <Form.Input label="Member Name" name="memberName" onChange={inputChange} />
                 <Form.Input label="Name" name="name" onChange={inputChange} />
                 <Form.Input type="integer" label="Duration" name="duration" onChange={inputChange} />
-                <Form.Input type="time" label="TimeIn" />
-                <Form.Input type="time" label="Timeout" />
                 <Form.Input type="integer" label="Price (¢)" name="price" onChange={inputChange} />
                 <Button onClick={addANewRow} type="submit" color="green">
                   Save

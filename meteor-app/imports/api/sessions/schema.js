@@ -10,6 +10,10 @@ export const SessionsSchema = new SimpleSchema({
   // memberId: RegExId,
   // eventId: OptionalRegExId,
   // purchaseId: OptionalRegExId,
+  memberName: {
+    type: String,
+    label: 'Member name'
+  },
   name: {
     type: String,
     label: 'Session name'
@@ -19,11 +23,11 @@ export const SessionsSchema = new SimpleSchema({
     label: 'Duration in hours',
     optional: false
   },
-  // timeIn: {
-  //   type: Date,
-  //   label: 'Visit start time',
-  //   optional: false
-  // },
+  timeIn: {
+    type: Date,
+    label: 'Visit start time',
+    optional: false
+  },
   // timeOut: {
   //   type: Date,
   //   label: 'Visit end time',

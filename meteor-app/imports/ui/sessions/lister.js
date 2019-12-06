@@ -27,10 +27,11 @@ const columns = [
       cell.getRow().toggleSelect()
     }
   },
+  { field: 'memberName', title: 'Member Name', editor: true },
   { field: 'name', title: 'Name', editor: true },
   { field: 'duration', title: 'Duration', editor: true },
-  { field: 'timeIn', title: 'timeIn', editor: true, validator: 'integer' },
-  { field: 'timeOut', title: 'timeOut', editor: true },
+  { field: 'timeIn', title: 'timeIn', editor: DateEditor },
+  { field: 'timeOut', title: 'timeOut' },
   { field: 'price', title: 'Price', editor: true }
 ]
 
