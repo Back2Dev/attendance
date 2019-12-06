@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Segment, Modal, Form } from 'semantic-ui-react'
+import { Button, Segment, Modal, Form, Dropdown } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-tabulator/lib/styles.css'
@@ -9,7 +9,7 @@ import { ReactTabulator } from 'react-tabulator'
 
 const debug = require('debug')('manx:add')
 
-const List = ({ items, update, remove, add, columns, loading }) => {
+const List = ({ items, members, events, update, remove, add, columns, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
   const [sessionDate, setSessionDate] = React.useState(new Date())
@@ -43,7 +43,22 @@ const List = ({ items, update, remove, add, columns, loading }) => {
   }
 
   const inputChange = e => {
+    console.log(events)
     rows[e.target.name] = e.target.value
+    setRows(rows)
+  }
+
+  const inputMember = (_, { value }) => {
+    rows['memberName'] = value
+    setRows(rows)
+  }
+
+  const inputEvent = (_, { value }) => {
+    rows['name'] = value
+    //Only works if name is unique
+    selectedEvent = events.find(event => event.name === value)
+    rows['duration'] = selectedEvent.duration
+    rows['price'] = selectedEvent.price
     setRows(rows)
   }
 
@@ -69,6 +84,19 @@ const List = ({ items, update, remove, add, columns, loading }) => {
       )
     }
   }
+
+  const memberOptions = members.map(member => ({
+    key: member.name,
+    text: member.name,
+    value: member.name,
+    image: { avatar: true, src: '/images/avatars/' + member.avatar }
+  }))
+
+  const eventOptions = events.map(event => ({
+    key: event.id,
+    text: event.name,
+    value: event.name
+  }))
 
   return (
     <div>
@@ -97,10 +125,22 @@ const List = ({ items, update, remove, add, columns, loading }) => {
             <Modal.Header>Add an attendee</Modal.Header>
             <Modal.Content>
               <Form>
-                <Form.Input label="Member Name" name="memberName" onChange={inputChange} />
-                <Form.Input label="Name" name="name" onChange={inputChange} />
-                <Form.Input type="integer" label="Duration" name="duration" onChange={inputChange} />
-                <Form.Input type="integer" label="Price (¢)" name="price" onChange={inputChange} />
+                <Form.Dropdown
+                  label="Member Name"
+                  placeholder="Select Member"
+                  onChange={inputMember}
+                  options={memberOptions}
+                  search
+                  fluid
+                />
+                <Form.Dropdown
+                  label="Session Name"
+                  placeholder="Select Session"
+                  onChange={inputEvent}
+                  options={eventOptions}
+                  search
+                  fluid
+                />
                 <Button onClick={addANewRow} type="submit" color="green">
                   Save
                 </Button>
@@ -117,6 +157,8 @@ const List = ({ items, update, remove, add, columns, loading }) => {
 List.propTypes = {
   loading: PropTypes.bool.isRequired,
   items: PropTypes.array,
+  members: PropTypes.array,
+  events: PropTypes.array,
   remove: PropTypes.func.isRequired,
   update: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired
