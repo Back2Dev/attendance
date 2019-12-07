@@ -21,13 +21,12 @@ Meteor.methods({
     try {
       const cart = Carts.findOne(cartId)
       if (!cart) throw new Meteor.Error('Could not find cart ' + cartId)
-      const member = Members.findOne(memberId)
-      if (!member) throw new Meteor.Error('Could not find member ' + memberId)
       Carts.update(cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE
         }
       })
+      Meteor.call('acceptPayment', cartId)
       return { status: 'ok' }
     } catch (e) {
       return { error: e.message }
