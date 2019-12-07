@@ -10,7 +10,7 @@ import { Carts } from '/imports/api/products/schema'
 const debug = require('debug')('b2b:server-payments')
 
 Meteor.methods({
-  acceptPayment: function(cartId) {
+  acceptPayment: function(cartId, paymentMethod) {
     const cart = Carts.findOne(cartId)
     if (!cart) {
       console.error(`Could not find cart with id ${cartId}`) // This is a kind-of normal condition
@@ -35,6 +35,7 @@ Meteor.methods({
           productId: prod._id,
           purchaser: member.name,
           remaining,
+          paymentMethod,
           expiry,
           txnDate: new Date()
         }
@@ -69,7 +70,7 @@ function acceptPaymentHook(req, res) {
         status = 404
         responseData.status = 'No metadata provided in incoming payment'
       } else {
-        status = acceptPayment(req.body.data.metadata.cartid)
+        status = acceptPayment(req.body.data.metadata.cartid, 'credit')
         if (status != 200) responseData.status = 'fail'
       }
     } catch (e) {

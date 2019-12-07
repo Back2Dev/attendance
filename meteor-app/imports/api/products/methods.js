@@ -16,17 +16,18 @@ Meteor.methods({
     }
   },
 
-  markAsPaid: function(memberId, cartId) {
+  markAsPaid: function(cartId, paymentMethod) {
     debug('Setting cart to paid...', cartId)
     try {
       const cart = Carts.findOne(cartId)
       if (!cart) throw new Meteor.Error('Could not find cart ' + cartId)
       Carts.update(cartId, {
         $set: {
-          status: CONSTANTS.CART_STATUS.COMPLETE
+          status: CONSTANTS.CART_STATUS.COMPLETE,
+          paymentMethod
         }
       })
-      Meteor.call('acceptPayment', cartId)
+      Meteor.call('acceptPayment', cartId, paymentMethod)
       return { status: 'ok' }
     } catch (e) {
       return { error: e.message }
