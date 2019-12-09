@@ -11,10 +11,10 @@ Cypress.on(
 
 describe('Create member', () => {
   it('Open form - about you', () => {
-    cy.visit('/login')
+    cy.visit('/kiosk')
 
     // goes to the Assessment Webpage
-    cy.get('a')
+    cy.get('button')
       .contains('Register')
       .click()
 
@@ -159,16 +159,16 @@ describe('Create member', () => {
       .should('be.enabled')
       .click()
 
-    // cy.get('div[list="away"]')
-    cy.get('.content,header')
-      .contains('Eddie Mercx')
-      .should('exist')
+    // //cy.get('div[list="away"]')
+    //   // cy.get('.content,header')
+    //   .contains('Eddie Mercx')
+    //   .should('exist')
     cy.visit('/admin/userprofiles')
     cy.get('h1')
       .contains('Members')
       .should('exist')
-    //cy.get('button[about="Eddie Mercx"]')
-    cy.get('div:has("button")')
+    cy.get('.red ui button')
+      //  cy.get('')
       .contains('Delete')
       .click()
     cy.get('.s-alert-success').should('exist')
