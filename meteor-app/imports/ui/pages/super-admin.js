@@ -5,70 +5,63 @@ import { Stuffs } from '/imports/api/stuff/stuff'
 import StuffItem from '/imports/ui/components/stuff-item'
 import { withTracker } from 'meteor/react-meteor-data'
 import ListStuff from './user-admin'
-import MultiValueFormatter from 'react-tabulator/lib/formatters/MultiValueFormatter'
-import MultiSelectEditor from 'react-tabulator/lib/editors/MultiSelectEditor'
-import { reactFormatter } from 'react-tabulator'
+import CONSTANTS from '/imports/api/constants'
 
-const addANewRole = id => Meteor.call('addANewRole', id)
-const removeARole = id => Meteor.call('removeARole', id)
-
-const updateUserRoles = user => Meteor.call('updateUserRoles', user)
 const deleteUsers = id => Meteor.call('deleteUsers', id)
 const updateUser = user => Meteor.call('updateUser', user)
+const addNewUser = func => Meteor.call('addNewUser', func)
+const setPassword = (id, newPassword) => Meteor.call('setPassword', id, newPassword)
+const sendResetPasswordEmail = id => Meteor.call('sendResetPasswordEmail', id)
 
-const userColumns = roles => [
+const userColumns = [
   {
     formatter: 'rowSelection',
     align: 'center',
     headerSort: false,
+    width: 30,
     cellClick: function(e, cell) {
       cell.getRow().toggleSelect()
     }
   },
   { field: 'username', title: 'Username', editor: 'input', headerFilter: 'input' },
-  { field: 'emails', title: 'Email', headerFilter: 'input' },
-  {
-    field: 'roles',
-    title: 'Roles',
-    headerFilter: 'input',
-    formatter: MultiValueFormatter,
-    formatterParams: { style: 'PILL' },
-    editor: MultiSelectEditor,
-    editorParams: cell => {
-      const values = roles.filter(role => !cell._cell.row.data.roles.includes(role))
-      return { values: values.map(value => ({ id: value, name: value })) }
-    }
-  }
+  { field: 'emails', title: 'Email', editor: 'input', headerFilter: 'input' }
 ]
 
-const roleColumns = [
-  {
-    formatter: 'rowSelection',
+CONSTANTS.ROLES.forEach(role => {
+  userColumns.push({
+    field: role,
+    title: role,
+    formatter: 'tickCross',
+    editor: true,
     align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
-  },
-  { field: '_id', title: 'Roles' }
-]
+    width: 110
+  })
+})
+
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Stuff documents.
-  const rolesSubscription = Meteor.subscribe('getAllRoles')
   const usersSubscription = Meteor.subscribe('getAllUsers')
 
   return {
-    roles: Meteor.roles.find({}).fetch(),
-    users: Meteor.users.find({}).fetch(),
+    users: Meteor.users
+      .find({})
+      .fetch()
+      .map(item => {
+        if (item.roles) {
+          item.roles.forEach(role => {
+            item[role._id] = true
+          })
+        }
+        item.emails = item.emails[0].address
+        return item
+      }),
     usersReady: usersSubscription.ready(),
-    rolesReady: rolesSubscription.ready(),
     userColumns,
-    roleColumns,
-    addANewRole,
-    removeARole,
-    updateUserRoles,
     deleteUsers,
-    updateUser
+    updateUser,
+    addNewUser,
+    setPassword,
+    sendResetPasswordEmail
   }
 })(ListStuff)

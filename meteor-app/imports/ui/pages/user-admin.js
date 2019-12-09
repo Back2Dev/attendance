@@ -1,65 +1,94 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Table, Header, Loader, Segment, Button, Confirm } from 'semantic-ui-react'
+import {
+  Container,
+  Table,
+  Header,
+  Loader,
+  Segment,
+  Button,
+  Confirm,
+  Form,
+  Popup,
+  Grid,
+  Divider
+} from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
-import { Roles } from 'meteor/alanning:roles'
+import CONSTANTS from '/imports/api/constants'
+import Alert from 'react-s-alert'
 
 export default ListStuff = props => {
-  let rows = props.users.map(({ _id: id, username: username, emails: emails, roles: roles }) => {
-    let roleString = []
-    Array.prototype.forEach.call(roles, role => {
-      roleString.push(role._id)
-    })
-    return { _id: id, username: username, emails: emails[0].address, roles: roleString }
-  })
-
-  let newUsers = [...props.users]
-  let rolesForOptions = props.roles.map(role => role._id)
-  const [users, setusers] = React.useState(rows)
-  const [roles, setRoles] = React.useState(props.roles)
+  const [users, setusers] = React.useState(props.users)
   const [popupStatus, setPopupStatus] = React.useState(false)
   const [usersRowsSelected, setUsersRowsSelected] = React.useState([])
-  const [rolesRowsSelected, setRolesRowsSelected] = React.useState([])
+
+  React.useEffect(() => {
+    setusers(props.users)
+    setUsersRowsSelected([])
+  }, [props.users])
+
+  const addNewUser = () => {
+    props.addNewUser(error => {
+      if (error) {
+        Alert.error(error.reason)
+        console.log(error.reason)
+      }
+    })
+  }
 
   const deleteUsers = () => {
     usersRowsSelected.forEach(userData => props.deleteUsers(userData))
   }
 
-  show = () => setPopupStatus(true)
-  handleConfirm = () => setPopupStatus(false)
-
-  let textValue = ''
-  const handleChange = value => (textValue = value.target.value)
-
-  const addANewRole = () => {
-    props.addANewRole(textValue)
+  const show = () => {
+    if (usersRowsSelected.length === 1) {
+      setPopupStatus(true)
+    }
   }
-
-  const deleteRoles = () => {
-    rolesRowsSelected.forEach(roleData => {
-      props.removeARole(roleData)
-      newUsers = newUsers.map(newUser => {
-        newUser.roles = newUser.roles.filter(role => role._id !== roleData)
-        return newUser
-      })
-    })
-    newUsers.forEach(newUser => props.updateUserRoles(newUser))
-  }
-
-  React.useEffect(() => {
-    setusers(rows)
-    setRoles(props.roles)
+  const handleCancel = () => {
+    setPopupStatus(false)
     setUsersRowsSelected([])
-    setRolesRowsSelected([])
-    rolesForOptions = props.roles.map(role => role._id)
-  }, [props.users, props.roles])
+  }
+
+  const handleSendEmail = () => {
+    props.sendResetPasswordEmail(usersRowsSelected[0])
+    setPopupStatus(false)
+    setUsersRowsSelected([])
+    Alert.success('Email has been sent')
+  }
+
+  let newPassword = ''
+  let newPasswordAgain = ''
+
+  const handleChange = value => {
+    switch (value.target.placeholder) {
+      case 'New Password':
+        newPassword = value.target.value
+        break
+      case 'New Password Again':
+        newPasswordAgain = value.target.value
+        break
+    }
+  }
+
+  const handleSave = () => {
+    if (newPassword === newPasswordAgain && newPassword) {
+      props.setPassword(usersRowsSelected[0], newPassword)
+      setPopupStatus(false)
+      setUsersRowsSelected([])
+      Alert.success('New password has been set')
+    }
+  }
 
   const usersOnCellEdited = cell => {
     const newUser = { ...cell._cell.row.data }
-    delete newUser.emails
-    newUser.roles = newUser.roles.map(role => ({ _id: role.id, scope: null, assigned: true }))
+    newUser.roles = newUser.roles.map(role => ({ _id: role, scope: null, assigned: true }))
+    if (cell._cell.column.field === 'emails') {
+      newUser.oldValue = cell._cell.oldValue
+    }
+    newUser.roles = CONSTANTS.ROLES.filter(role => newUser[role])
     props.updateUser(newUser)
   }
 
@@ -78,72 +107,69 @@ export default ListStuff = props => {
     }
   }
 
-  const rolesTableOptions = {
-    width: 100,
-    rowSelected: function(row) {
-      rolesRowsSelected.push(row._row.data._id)
-    },
-    rowDeselected: function(row) {
-      for (i = 0; i < rolesRowsSelected.length; i++) {
-        if (rolesRowsSelected[i] === row._row.data._id) {
-          rolesRowsSelected.splice(i, 1)
-        }
-      }
-    }
-  }
-
   let UsersContents = () => <Loader active>Getting data</Loader>
-  if (props.usersReady && props.rolesReady) {
+  if (props.usersReady) {
     if (!users.length) {
       UsersContents = () => <span>No data found</span>
     } else {
-      UsersContents = () => (
-        <ReactTabulator columns={props.userColumns(rolesForOptions)} data={users} options={usersTableOptions} />
-      )
+      UsersContents = () => <ReactTabulator columns={props.userColumns} data={users} options={usersTableOptions} />
     }
   }
 
-  let RolesContents = () => <Loader active>Getting data</Loader>
-  if (props.rolesReady) {
-    if (!users.length) {
-      RolesContents = () => <span>No data found</span>
-    } else {
-      RolesContents = () => (
-        <div>
-          <ReactTabulator columns={props.roleColumns} data={roles} options={rolesTableOptions} />
+  let ManagePasswordContents = () => (
+    <Segment>
+      <Grid columns={2} relaxed="very">
+        <Grid.Column verticalAlign="middle">
+          <Button onClick={handleSendEmail}>Send Reset Password Email</Button>
+        </Grid.Column>
+        <Grid.Column>
+          <Form>
+            <Form.Field>
+              <label>New Password</label>
+              <input placeholder="New Password" onChange={handleChange} />
+            </Form.Field>
+            <Form.Field>
+              <label>New Password Again</label>
+              <input placeholder="New Password Again" onChange={handleChange} />
+            </Form.Field>
+            <Button content="Save" size="tiny" onClick={handleSave} />
+          </Form>
+        </Grid.Column>
+      </Grid>
 
-          <div className="ui action input" style={{ float: 'right', right: '0px' }}>
-            <input type="text" onChange={handleChange} size={45} />
-            <button className="ui button" onClick={addANewRole}>
-              Create Role
-            </button>
-          </div>
-        </div>
-      )
-    }
-  }
+      <Divider vertical>Or</Divider>
+    </Segment>
+  )
 
   return (
     <div>
       <Segment>
+        <Alert stack={{ limit: 3 }} />
         Account Admin
         <span style={{ float: 'right', right: '0px' }}>
+          <Button size="mini" onClick={addNewUser} color="black" type="button">
+            Add
+          </Button>
           <Button size="mini" onClick={deleteUsers} color="red" type="button">
             Delete
           </Button>
-          <Button size="mini" onClick={show} color="grey" type="button">
-            Manage Roles
-          </Button>
+          <Popup
+            content="Select one row before using this function"
+            disabled={false}
+            trigger={
+              <Button size="mini" onClick={show} color="grey" type="button">
+                Manage Password
+              </Button>
+            }
+          />
         </span>
       </Segment>
       <Confirm
         open={popupStatus}
-        header="Update Roles"
-        content={<RolesContents />}
-        onConfirm={handleConfirm}
-        confirmButton="Done"
-        onCancel={deleteRoles}
-        cancelButton="Delete"
+        header="Manage Password"
+        content={<ManagePasswordContents />}
+        onConfirm={handleCancel}
+        onCancel={handleCancel}
       />
       <UsersContents />
     </div>
@@ -153,13 +179,10 @@ export default ListStuff = props => {
 /** Require an array of Stuff documents in the props. */
 ListStuff.propTypes = {
   users: PropTypes.array.isRequired,
-  roles: PropTypes.array.isRequired,
   usersReady: PropTypes.bool.isRequired,
-  rolesReady: PropTypes.bool.isRequired,
-  userColumns: PropTypes.func,
-  roleColumns: PropTypes.array.isRequired,
-  addANewRole: PropTypes.func,
-  removeARole: PropTypes.func,
-  updateUserRoles: PropTypes.func,
-  deleteUsers: PropTypes.func
+  userColumns: PropTypes.array.isRequired,
+  deleteUsers: PropTypes.func,
+  addNewUser: PropTypes.func,
+  setPassword: PropTypes.func,
+  sendResetPasswordEmail: PropTypes.func
 }
