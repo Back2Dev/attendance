@@ -6,10 +6,10 @@ import { REGEX_ID, OptionalRegExId, RegExId, createdAt, updatedAt } from '/impor
 const Sessions = new Mongo.Collection('sessions')
 
 export const SessionsSchema = new SimpleSchema({
-  // _id: OptionalRegExId,
-  // memberId: RegExId,
-  // eventId: OptionalRegExId,
-  // purchaseId: OptionalRegExId,
+  _id: OptionalRegExId,
+  memberId: RegExId,
+  eventId: OptionalRegExId,
+  purchaseId: OptionalRegExId,
   memberName: {
     type: String,
     label: 'Member name'
