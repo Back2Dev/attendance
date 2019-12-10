@@ -49,7 +49,9 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
   }
 
   const inputMember = (_, { value }) => {
-    rows['memberName'] = value
+    rows['memberId'] = value
+    const selectedMember = members.find(member => member._id === value)
+    rows['memberName'] = selectedMember.name
     setRows(rows)
   }
 
@@ -96,7 +98,7 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     .map(member => ({
       key: member._id,
       text: member.name,
-      value: member.name,
+      value: member._id,
       image: { avatar: true, src: '/images/avatars/' + member.avatar }
     }))
     .sort((a, b) => a.text.localeCompare(b.text))
