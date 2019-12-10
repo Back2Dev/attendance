@@ -28,22 +28,17 @@ const columns = [
   },
   { field: 'memberName', title: 'Member Name', editor: true },
   { field: 'name', title: 'Session Name', editor: true },
-  { field: 'duration', title: 'Duration', editor: true },
   { field: 'timeIn', title: 'Start Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
-  {
-    field: 'timeOut',
-    title: 'End Time',
-    editor: DateEditor,
-    formatter: 'datetime',
-    formatterParams: dateFormat
-  },
+  { field: 'timeOut', title: 'End Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
+  { field: 'duration', title: 'Duration', editor: true },
   { field: 'price', title: 'Price', editor: true }
 ]
 
+let date = new Date()
+
 export default withTracker(props => {
-  const subsHandle = Meteor.subscribe('all.sessions')
-  const membersHandle = Meteor.subscribe('all.members')
-  const eventsHandle = Meteor.subscribe('all.events')
+  const filterSubs = Meteor.subscribe('sessions.date', date)
+  Meteor.subscribe('membersEvents')
 
   return {
     items: Sessions.find({}).fetch(),
@@ -53,6 +48,6 @@ export default withTracker(props => {
     update,
     add,
     columns,
-    loading: !subsHandle.ready()
+    loading: !filterSubs.ready()
   }
 })(List)

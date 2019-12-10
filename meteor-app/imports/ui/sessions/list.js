@@ -53,8 +53,7 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     rows['name'] = selectedEvent.name
     rows['duration'] = selectedEvent.duration
     rows['price'] = selectedEvent.price
-    const startDate = moment(sessionDate)
-    rows['timeOut'] = moment(startDate)
+    rows['timeOut'] = moment(sessionDate)
       .add(selectedEvent.duration, 'hours')
       .toDate()
     setRows(rows)
@@ -78,7 +77,12 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
       Contents = () => <span>No data found</span>
     } else {
       Contents = () => (
-        <ReactTabulator columns={columns} data={items} options={tableOptions} cellEdited={onCellEdited} />
+        <ReactTabulator
+          columns={columns}
+          data={items.sort((a, b) => b.createdAt - a.createdAt)}
+          options={tableOptions}
+          cellEdited={onCellEdited}
+        />
       )
     }
   }
