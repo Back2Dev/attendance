@@ -26,18 +26,17 @@ const columns = [
       cell.getRow().toggleSelect()
     }
   },
-  { field: 'memberName', title: 'Member Name', editor: true },
-  { field: 'name', title: 'Session Name', editor: true },
+  { field: 'memberName', title: 'Member Name' },
+  { field: 'name', title: 'Session Name' },
   { field: 'timeIn', title: 'Start Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
   { field: 'timeOut', title: 'End Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
-  { field: 'duration', title: 'Duration', editor: true },
-  { field: 'price', title: 'Price', editor: true }
+  { field: 'duration', title: 'Duration', editor: true }
 ]
 
-let date = new Date()
+Session.set('filterDate', new Date())
 
 export default withTracker(props => {
-  const filterSubs = Meteor.subscribe('sessions.date', date)
+  const filterSubs = Meteor.subscribe('sessions.date', Session.get('filterDate'))
   Meteor.subscribe('membersEvents')
 
   return {

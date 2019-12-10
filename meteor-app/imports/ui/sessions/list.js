@@ -13,7 +13,7 @@ const debug = require('debug')('manx:add')
 const List = ({ items, members, events, update, remove, add, columns, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
-  const [sessionDate, setSessionDate] = React.useState(new Date())
+  const [sessionDate, setSessionDate] = React.useState(Session.get('filterDate'))
   const [modalOpen, setModalOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -24,6 +24,11 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
   const onCellEdited = cell => {
     debug('cellEdited', cell)
     update(cell._cell.row.data)
+  }
+
+  const pickDate = date => {
+    setSessionDate(date)
+    Session.set('filterDate', date)
   }
 
   const tableOptions = {
@@ -112,7 +117,7 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
           <DatePicker
             selected={sessionDate}
             dateFormat="dd/MM/yyyy h:mm aa"
-            onChange={date => setSessionDate(date)}
+            onChange={date => pickDate(date)}
             showTimeSelect
           />
           <Button size="mini" onClick={deleteRows} color="red" type="button">
