@@ -6,6 +6,7 @@ import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { Session } from 'meteor/session'
 
 import NavBar from '../components/nav-bar'
 import './app.css'
@@ -30,7 +31,13 @@ import Signout from '../pages/logout'
 import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
 
-const Home = props => <div>Home is where the heart is (app.js)</div>
+const Home = props => {
+  const isLogged = Meteor.userId() !== null
+  if (isLogged) {
+    Session.set('mode', 'normal')
+  }
+  return <div>Home is where the heart is (app.js)</div>
+}
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
 const App = props => {
@@ -42,7 +49,8 @@ const App = props => {
         location.pathname.match(/kiosk/) ||
         location.pathname.match(/shop/) ||
         location.pathname.match(/visit/) ||
-        location.pathname.match(/add/)
+        location.pathname.match(/add/) ||
+        location.pathname.match(/edit/)
       )) ||
     isLogged
   const containerId = showSide ? 'app-container' : 'iframe-container'
@@ -63,9 +71,9 @@ const App = props => {
           <Route path="/kiosk" component={MemberMainContainer} />
           <Route path="/visit/:id" component={Visit} />
           <Route path="/add" component={MemberAddContainer} />
+          <Route path="/edit/:id" component={MemberEdit} />
 
           <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
-          <SecureRoute role="signin" path="/edit/:id" component={MemberEdit} />
 
           <SecureRoute role="parts" path="/parts" component={Ordering} />
 

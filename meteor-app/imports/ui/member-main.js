@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Grid, Button } from 'semantic-ui-react'
+import { Session } from 'meteor/session'
 
 import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'
@@ -15,6 +16,9 @@ import './member-main.css'
 const memberWords = 'Volunteers'
 
 const MemberMain = props => {
+  const isLogged = Meteor.userId() !== null
+  props.location.pathname === '/kiosk' && !isLogged ? Session.set('mode', '/kiosk') : Session.set('mode', 'normal')
+
   const onCardClick = member => {
     let action = member.pin ? 'arrive' : 'create-pin'
     if (member.pin === '----') action = 'select-activity'

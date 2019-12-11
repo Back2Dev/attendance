@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Header, Input } from 'semantic-ui-react'
+import { Session } from 'meteor/session'
 
 const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 
@@ -53,7 +54,7 @@ const Arrive = props => {
     const needMore = !props.member.email || !props.member.mobile
     if (!needMore) {
       const timer = setTimeout(() => {
-        props.history.push('/kiosk')
+        Session.equals('mode', 'normal') ? props.history.push('/volsignin') : props.history.push('/kiosk')
       }, 5000)
       return function cleanup() {
         clearTimeout(timer)
