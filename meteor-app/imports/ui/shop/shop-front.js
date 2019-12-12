@@ -21,7 +21,7 @@ import { Session } from 'meteor/session'
 
 const ShopFront = props => {
   if (props.location.pathname === '/shop') {
-    Session.set('mode', '/shop')
+    Session.set('mode', 'shop')
   }
 
   if (props.loading) return <div>Loading ...</div>

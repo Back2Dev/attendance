@@ -16,8 +16,7 @@ import './member-main.css'
 const memberWords = 'Volunteers'
 
 const MemberMain = props => {
-  const isLogged = Meteor.userId() !== null
-  props.location.pathname === '/kiosk' && !isLogged ? Session.set('mode', '/kiosk') : Session.set('mode', 'normal')
+  props.location.pathname === '/kiosk' && !props.isLogged ? Session.set('mode', 'kiosk') : Session.set('mode', 'normal')
 
   const onCardClick = member => {
     let action = member.pin ? 'arrive' : 'create-pin'
