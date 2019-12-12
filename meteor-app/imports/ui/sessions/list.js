@@ -48,10 +48,10 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     }
   }
 
-  const inputMember = (_, { value }) => {
+  const inputMember = (_, { value, options }) => {
     rows['memberId'] = value
-    const selectedMember = members.find(member => member._id === value)
-    rows['memberName'] = selectedMember.name
+    const selectedMember = options.find(member => member.value === value)
+    rows['memberName'] = selectedMember.text
     setRows(rows)
   }
 

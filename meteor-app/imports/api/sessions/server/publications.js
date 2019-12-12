@@ -8,21 +8,38 @@ Meteor.publish('all.sessions', () => {
   return Sessions.find({})
 })
 
-Meteor.publish('sessions.date', date => {
-  return Sessions.find({
-    timeIn: {
-      $gte: moment(date)
-        .startOf('day')
-        .toDate(),
-      $lte: moment(date)
-        .endOf('day')
-        .toDate()
-    }
-  })
-})
-
-Meteor.publish('membersEvents', () => {
-  return [Members.find({}), Events.find({})]
+Meteor.publish('membersEvents', date => {
+  const eventQuery = {
+    active: true,
+    $or: [
+      { type: 'day', days: moment(date).weekday() },
+      {
+        type: 'once',
+        when: {
+          $gte: moment(date)
+            .startOf('day')
+            .toDate(),
+          $lte: moment(date)
+            .endOf('day')
+            .toDate()
+        }
+      }
+    ]
+  }
+  return [
+    Sessions.find({
+      timeIn: {
+        $gte: moment(date)
+          .startOf('day')
+          .toDate(),
+        $lte: moment(date)
+          .endOf('day')
+          .toDate()
+      }
+    }),
+    Members.find({}, { fields: { name: 1, _id: 1, avatar: 1 }, sort: { name: 1 } }),
+    Events.find(eventQuery)
+  ]
 })
 
 Meteor.publish('session', id => {

@@ -21,10 +21,10 @@
     },
     {
       "type": "chrome",
-      "request": "attach",
+      "request": "launch",
       "sourceMaps": true,
-      "name": "Attach to matching",
-      "url": "http://localhost:3030/admin/matching/",
+      "name": "Attach to sessions",
+      "url": "http://localhost:3030/admin/sessions/",
       "webRoot": "${workspaceFolder}",
       "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
       "navigate to:": "http://localhost:3030/ (home page)",
