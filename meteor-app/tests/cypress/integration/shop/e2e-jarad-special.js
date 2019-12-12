@@ -1,9 +1,24 @@
 const pin = '1234'
 
-describe('Shopping Payment', function () {
-  it('Choose Product', function () {
+describe('Shopping Payment', function() {
+  it('Choose Product', function() {
     cy.visit('/admin/userprofiles/')
-    cy.get('button[about="Mike King"]')
+
+    cy.get('input[name=email]')
+      .clear()
+      .type('admin@back2bikes.com.au')
+
+    cy.get('input[name=password]')
+      .clear()
+      .type('me2')
+
+    cy.get('button')
+      .contains('Submit')
+      .should('be.enabled')
+      .click()
+
+    //cy.get('button[about="Mike King"]')
+    cy.get('button[about="Dorothea Kovacek"]')
       .contains('Add...')
       .click()
     cy.get('button#multi_pass')
@@ -80,11 +95,13 @@ describe('Shopping Payment', function () {
       .click()
       .clear()
       .type('50%')
-    cy.get('div.label').contains('Charge: $10')
+
+    // oringinal code: cy.get('div.label').contains('Charge: $10')
+    cy.get('div.label').contains('Charge: $-30')
     cy.get('input[type="radio"][value="email"]').click()
     cy.get('input[name="email"]')
       .invoke('val')
-      .should('contain', 'ikkel@almsford.org')
+      .should('contain', 'London_Abshire@Jayde.tv')
     cy.get('input[type="radio"][value="paypal"]').click()
     cy.get('input[name="date"]')
       .click()

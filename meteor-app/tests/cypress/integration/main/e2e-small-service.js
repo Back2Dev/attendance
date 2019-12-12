@@ -36,9 +36,7 @@ describe('Small Service Test', function() {
   })
 
   it('Gets the Minor Service Webform.', function() {
-    cy.get('button:nth-child(2)')
-      .contains('ui button')
-      .click()
+    cy.get('#minor-service').click()
   })
 
   // it('Opens the minor service web form.', function ()
