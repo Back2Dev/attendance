@@ -1,5 +1,5 @@
 // methods that affect more than one collection:
-import '/imports/api/methods
+import '/imports/api/methods'
 
 // roles
 import '/imports/api/members/methods'
