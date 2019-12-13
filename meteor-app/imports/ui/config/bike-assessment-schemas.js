@@ -29,7 +29,6 @@ export default [
         assessor: {
           type: 'string',
           title: 'Assessor',
-          enum: ['Mark', 'Mike', ''],
           default: ''
         },
         bikeMake: {

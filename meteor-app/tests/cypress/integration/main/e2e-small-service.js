@@ -31,12 +31,14 @@ describe('Small Service Test', function() {
       .click()
   })
 
-  it('checks if whether the correct page has loaded.', function() {
+  it('Checks that the correct page has loaded.', function() {
     cy.get('div:has(h2)').contains('Select Base Assessment')
   })
 
   it('Gets the Minor Service Webform.', function() {
-    cy.get('#minor-service').click()
+    cy.get(':nth-child(2)> .button')
+      .contains('Minor Service')
+      .click()
   })
 
   // it('Opens the minor service web form.', function ()
@@ -44,8 +46,8 @@ describe('Small Service Test', function() {
   //
 
   it('Assessor name and details of customers bike.', function() {
-    cy.get('input.search')
-      .click()
+    cy.get('#root_assessor')
+      .clear()
       .type('Pat Caramello')
     cy.get('#root_bikeMake')
       .clear()
@@ -79,11 +81,11 @@ describe('Small Service Test', function() {
       .click()
   })
 
-  it('checks if whether the correct page has loaded and whether button loaded the correct webpage.', function() {
-    cy.get('div:has(h2)').contains('Total Price')
+  it('checks if the correct page has loaded and whether button loaded the correct webpage.', function() {
+    cy.get('div.header').contains('Select Parts')
   })
 
-  it('Selects extra parts to complete service and gets from the Assessor about extra parts cost of the extra parts. Adds comments about if a bike needs more time to repair.', function() {
+  it('Selects extra parts to complete service and gets from the Assessor about extra parts cost of the extra parts.', function() {
     //cy.get('#root_parts_9').check() // checks the rear brake cable option.
     cy.get('#root_parts_5').check() // checks the V brake pad option.
     cy.get('#root_parts_13').check() //
@@ -154,13 +156,21 @@ describe('Small Service Test', function() {
   })
 
   it('Input customer data', function() {
-    cy.get('#root_pickUpDate').type('2019-11-12')
+    cy.get('#root_pickUpDate')
+      .clear()
+      .type('2019-11-12')
 
-    cy.get('#root_name').type('Roger dodson')
+    cy.get('#root_name')
+      .clear()
+      .type('Roger dodson')
 
-    cy.get('#root_email').type('R.dodson@bogus.arrival')
+    cy.get('input[type="email"]')
+      .clear()
+      .type('R.dodson@bogus.arrival')
 
-    cy.get('#root_phone').type('0461 9990 1043')
+    cy.get(':nth-child(5) > .ui > input')
+      .clear()
+      .type('0461 9990 1043')
 
     //gets the button checks whether it has the property next and goes to the next webpage
     cy.get('button')
@@ -168,5 +178,9 @@ describe('Small Service Test', function() {
       .should('exist')
       .should('be.enabled')
       .click()
+
+    // Check that the service was created ok
+    cy.get('.s-alert-success').should('exist')
+    cy.get('h1').contains('Congratulations')
   })
 })
