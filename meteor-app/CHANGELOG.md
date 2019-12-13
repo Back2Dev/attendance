@@ -2,6 +2,11 @@
 
 ## Next
 
+- fixed updatedAt definition
+- removed autoPay test (doesn't work in CI environment)
+
+## 1.1.14
+
 - Added new collections for sales
 - Upgrade cypress to 3.1.5
 - Added shopping cart

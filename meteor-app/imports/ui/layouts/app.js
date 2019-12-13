@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
+import Alert from 'react-s-alert'
 import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
@@ -84,6 +85,7 @@ const App = props => {
           <Route component={NotFound} />
         </Switch>
       </div>
+      <Alert stack={{ limit: 3 }}></Alert>
     </div>
   )
 }
