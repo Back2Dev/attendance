@@ -39,7 +39,7 @@ Meteor.methods({
     const data = {
       viewSequence: '1',
       language: 'en',
-      cardnumber: wwccNo,
+      cardnumber: wwccNo.replace(/-.*$/, ''),
       pageAction: 'Submit',
       Submit: 'submit',
       lastname: wwccSurname
