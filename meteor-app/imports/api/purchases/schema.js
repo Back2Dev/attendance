@@ -14,7 +14,8 @@ export const PurchasesSchema = new SimpleSchema({
   },
   memberId: {
     type: String,
-    label: 'Member Id'
+    label: 'Member Id',
+    optional: true
   },
   productName: {
     type: String,
@@ -53,6 +54,11 @@ export const PurchasesSchema = new SimpleSchema({
   remaining: {
     type: SimpleSchema.Integer,
     optional: true
+  },
+  qty: {
+    type: SimpleSchema.Integer,
+    label: 'Quantity',
+    defaultValue: 1
   },
   createdAt,
   updatedAt

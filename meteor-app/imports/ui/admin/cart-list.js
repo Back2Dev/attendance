@@ -7,9 +7,9 @@ const CartList = ({ carts, removeCart }) => {
     return {
       key: ix,
       description: cart.products.map((product, iy) => (
-        <span key={iy}>
+        <div key={iy}>
           {product.qty} x {product.code} <Price cents={product.price} />
-        </span>
+        </div>
       )),
       meta: `Created: ${moment(cart.createdAt).format('D MMM YYYY')} status: ${cart.status}`,
       header: (

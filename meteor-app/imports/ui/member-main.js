@@ -1,14 +1,18 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import { Grid } from 'semantic-ui-react'
+
 import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'
 import MemberCard from '/imports/ui/member/member-card'
 import MemberCardLoading from '/imports/ui/member/member-card-loading'
 import MemberCardSmallLoading from '/imports/ui/member/member-card-small-loading'
-import { Grid } from 'semantic-ui-react'
+import MemberSearch from '/imports/ui/member/member-search-container'
 import MemberCounter from '/imports/ui/member/member-counter'
-import '/imports/ui/member-main.css'
+import './member-main.css'
+
+const memberWords = 'Volunteers'
 
 class MemberMain extends React.Component {
   onCardClick = member => {
@@ -23,6 +27,7 @@ class MemberMain extends React.Component {
       <Grid>
         <Grid.Row>
           <Grid.Column width="13">
+            <MemberSearch memberWords={memberWords} />
             <MemberList
               title={'Check In:'}
               members={this.props.membersOut}

@@ -91,7 +91,7 @@ const ListMembers = ({ members, type }) => {
                 &nbsp;
                 {`${member.name} ${member.subsType} ${member.status} ${extras}`}
               </label>
-              <a href={`/userprofiles/${member._id}`} target="_blank">
+              <a href={`/admin/userprofiles/${member._id}`} target="_blank">
                 <Icon name="arrow right" />
               </a>
             </div>

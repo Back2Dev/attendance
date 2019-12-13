@@ -61,14 +61,14 @@ export default withTracker(props => {
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)
-      props.history.push('/')
+      props.history.push('/kiosk')
       Alert.success(`You are now signed out`)
     }
   }
   function recordDeparture(event) {
     debug('member departure', id)
     Meteor.call('depart', id)
-    props.history.push('/')
+    props.history.push('/kiosk')
     Alert.success(`You are signed out`)
   }
 

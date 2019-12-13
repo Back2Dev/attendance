@@ -11,8 +11,9 @@ import Depart from '/imports/ui/visit/depart'
 import SignOut from '/imports/ui/visit/sign-out'
 import EnterPin from './enter-pin'
 import { VisitContextProvider } from './context'
+import { humaniseDate } from '/imports/helpers/dates'
 
-const Main = props => {
+const VisitMain = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
@@ -48,6 +49,9 @@ const Main = props => {
               >
                 Edit your profile
               </Button>
+            )}
+            {props.member.subsType === 'member' && props.member.status !== 'expired' && (
+              <>(expires in {humaniseDate(props.member.expiry)})</>
             )}
             {props.addCard === 1 &&
               (props.member.isHere || window.location.pathname.match(/select-activity$/)) &&
@@ -85,11 +89,11 @@ const Main = props => {
   )
 }
 
-Main.propTypes = {
+VisitMain.propTypes = {
   member: PropTypes.object.isRequired,
   addCard: PropTypes.number.isRequired,
   logo: PropTypes.string.isRequired,
   org: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired
 }
-export default Main
+export default VisitMain

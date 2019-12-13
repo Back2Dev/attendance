@@ -41,6 +41,10 @@ export const PartsSchema = new SimpleSchema({
     allowedValues: Object.keys(CONSTANTS.PART_STATUS_READABLE).map(key => parseInt(key, 10)),
     optional: true
   },
+  active: {
+    type: Boolean,
+    defaultValue: true
+  },
   createdAt,
   updatedAt
 })

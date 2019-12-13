@@ -8,6 +8,7 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
+import memberAdd from '/imports/ui/member/member-add'
 
 const debug = require('debug')('b2b:server-methods')
 
@@ -189,11 +190,13 @@ db[res.result].find({value: {$gt: 1}});
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
   },
-  'member.email.invoice': function(cartId, email, discountedPrice, discount) {
+  'member.email.invoice': function(cartId, email, note, discountedPrice, discount) {
     const cart = Carts.findOne(cartId)
     if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
     const member = Members.findOne(cart.memberId)
     debug('Emailing invoice for cart', cart)
+    if (!note)
+      note = 'You are receiving this email because you train with Peak Adventure, and would like to make a payment.'
 
     const priceFormat = price => `${price / 100}.00`
 
@@ -205,7 +208,8 @@ db[res.result].find({value: {$gt: 1}});
         date: moment().format('DD/MM/YYYY'),
         name: member.name,
         email,
-        discount,
+        note,
+        discount: priceFormat(discount * 100),
         description1: cart.products[0].name,
         description2: cart.products.length > 1 ? cart.products[1].name : '',
         description3: cart.products.length > 2 ? cart.products[2].name : '',
@@ -216,14 +220,28 @@ db[res.result].find({value: {$gt: 1}});
         gst: priceFormat(0),
         total: priceFormat(discountedPrice),
         terms: 'Payment within 14 days',
-        link: `${Meteor.absoluteUrl()}renew/${member._id}/${cartId}`
+        link: `${Meteor.absoluteUrl()}shop/renew/${member._id}/${cartId}`
       },
       Meteor.settings.private.invoiceID
     )
   },
 
-  async 'slsa.load'(data) {
+  'slsa.load': function(data, season) {
+    const slsaMap = {
+      'Member ID': 'slsaId',
+      'First Name': 'first',
+      'Last Name': 'last',
+
+      Status: 'status',
+      Season: 'season',
+      'Email Address 1': 'email1',
+      'Email Address 2': 'email2',
+      'Working with Children Registration Expiry Date': 'wwccExpiry',
+      'Working with Children Registration No': 'wwcc'
+    }
+
     let countTotal = 0
+    let numRows = 0
     if (Meteor.isClient) return
     try {
       debug('Loading SLSA from csv data')
@@ -236,25 +254,76 @@ db[res.result].find({value: {$gt: 1}});
           const rows = XLSX.utils.sheet_to_json(wb[s], {
             raw: true
           })
+          numRows = rows.length
           countTotal = rows
-            .filter(row => row.Status === 'Active' && row.Season === '2019/2020')
-            .map(row => wanted.map(key => row[key]))
+            .filter(row => row.Status === 'Active' && row.Season === season)
             .map(row => {
-              return { slsaId: row[0], name: `${row[2]} ${row[1]}` }
+              const newRow = {}
+              Object.keys(slsaMap).forEach(key => (newRow[slsaMap[key]] = row[key]))
+              newRow.name = `${newRow.first} ${newRow.last}`
+              if (newRow.wwcc) newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
+              return newRow
             })
-            .reduce((acc, member) => {
-              debug(`Updating ${member.name}`)
-              return acc + Members.update({ name: member.name }, { $set: { isSlsa: true } })
+
+            .reduce((acc, m) => {
+              debug(`Updating ${m.name}`)
+              const queries = [{ name: m.name }]
+              if (m.email1 && m.email2) {
+                queries.push({ $or: [{ email: m.email1 }, { email: m.email2 }] })
+              } else {
+                if (m.email1) queries.push({ email: m.email1 })
+              }
+              let member
+              let q
+              while (!member && (q = queries.pop())) {
+                member = Members.findOne(q)
+              }
+              if (member) {
+                Members.find(member._id).map(m => debug(m.name))
+                return acc + Members.update(member._id, { $set: { isSlsa: true, wwcc: m.wwcc } })
+              } else {
+                debug(`Could not find ${m.name}/${m.email1} ${m.email2}`)
+                return acc
+              }
             }, 0)
           debug('updated', countTotal)
         } catch (e) {
           console.error(`Couldn't update members from csv ${s}: `, e)
         }
       }
-      return countTotal
+      const message = `Updated ${countTotal} of ${numRows} records in file`
+      debug(message)
+      return message
     } catch (e) {
       debug(e)
       throw new Meteor.Error(500, e)
+    }
+  },
+  'members.forgetCard': function(memberId) {
+    debug(`Removing credit card for ${memberId}`)
+    const member = Members.findOne(memberId)
+    if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+    else {
+      const paymentCustId = { member }
+      Members.update(memberId, { $unset: { paymentCustId: 1 } })
+      eventLog({
+        who: 'Admin',
+        what: `Remove credit card for ${member.name} (${memberId})`,
+        object: { memberId, paymentCustId }
+      })
+    }
+  },
+  'members.updateAutoPay': function(memberId, value) {
+    debug(`Setting autopay for ${memberId} to ${value}`)
+    const member = Members.findOne(memberId)
+    if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+    else {
+      Members.update(memberId, { $set: { autoPay: value } })
+      eventLog({
+        who: 'Admin',
+        what: `Set autoPay: ${value} for ${member.name} (${memberId})`,
+        object: { memberId }
+      })
     }
   }
 })

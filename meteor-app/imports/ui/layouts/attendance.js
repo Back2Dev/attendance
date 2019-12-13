@@ -1,3 +1,7 @@
+/*
+ This file is obsolete, and will eventually go
+*/
+/*
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
@@ -14,9 +18,9 @@ import WwccContainer from '/imports/ui/wwcc'
 import SlsaContainer from '/imports/ui/slsa'
 import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
-import AppSelection from '/imports/ui/admin/app-selection'
+// import AppSelection from '/imports/ui/admin/app-selection'
+
 import PaymentConfirm from '/imports/ui/shop/payment-confirm'
-import Nav from '/imports/ui/member/member-nav'
 import Alert from 'react-s-alert'
 import '/imports/ui/layouts/attendance.css'
 
@@ -28,7 +32,7 @@ const Attendance = () => {
     const msg = file ? 'Adding your parts' : 'Oops! Forgot to add the file? Try again uploading the file'
     Alert.info(msg)
     const reader = new FileReader()
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       const data = reader.result
       Meteor.callAsync('parts.load', data)
     }
@@ -38,7 +42,6 @@ const Attendance = () => {
   return (
     <div className="attendance-wrapper">
       <title>Back 2 Bikes | Attendance</title>
-      <Nav />
       <div style={{ marginTop: '70px', height: '100%' }}>
         <Switch>
           <Route path="/admin" component={props => <AppSelection uploadXL={uploadXL} {...props} />} />
@@ -48,6 +51,7 @@ const Attendance = () => {
           <Route path="/useradmin" component={AdminContainer} />
           <Route path="/duplicates" component={DupesContainer} />
           <Route path="/renewals" component={RenewalsContainer} />
+
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/assessment" component={AssessmentAddContainer} />
           <Route path="/payment-confirm" component={PaymentConfirm} />
@@ -63,3 +67,4 @@ const Attendance = () => {
 }
 
 export default Attendance
+*/

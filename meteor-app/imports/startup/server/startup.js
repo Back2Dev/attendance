@@ -30,12 +30,17 @@ const privateSchema = new SimpleSchema({
   paymentApiKey: String,
   sendgridApikey: String,
   fromEmail: String,
+  // All these email id's should really go into the DB
   expiredMembershipID: String,
   validMembershipID: String,
   expiredPassID: String,
   validPassID: String,
   registerCardID: String,
-  forgotPINID: String
+  forgotPINID: String,
+  invoiceID: String,
+  genericActionID: String,
+  genericInfoID: String,
+  bcc: String
 })
 
 Meteor.startup(() => {

@@ -15,16 +15,18 @@ const Loader = props => {
   return <Admin {...props} />
 }
 
-const uploadXL = e => {
+const uploadSLSAFile = (e, season) => {
   e.preventDefault()
 
   const file = e.target[0].files[0]
   const msg = file ? `Processing member history file` : `Oops! Forgot to add the file? Try again uploading the file`
   Alert.info(msg)
   const reader = new FileReader()
-  reader.onloadend = function() {
+  reader.onloadend = async function() {
     const data = reader.result
-    Meteor.callAsync('slsa.load', data)
+    const response = await Meteor.callAsync('slsa.load', data, season)
+    debug('Response is ', response)
+    alert(response)
   }
   reader.readAsBinaryString(file)
 }
@@ -57,6 +59,6 @@ export default withTracker(props => {
     loading,
     members,
     memberWords,
-    uploadXL
+    uploadMethod: uploadSLSAFile
   }
 })(Loader)

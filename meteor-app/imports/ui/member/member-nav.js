@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Menu, Image, Button } from 'semantic-ui-react'
 import { version } from '/imports/api/version'
-import Search from '/imports/ui/member/member-search-container'
+import MemberSearch from '/imports/ui/member/member-search-container'
 import Payment from '/imports/ui/member/member-payment'
 
 const Nav = props => {
@@ -39,7 +39,7 @@ const Nav = props => {
       {admin && (
         <Menu.Item
           onClick={() => {
-            props.history.push('/userprofiles')
+            props.history.push('/admin/userprofiles')
           }}
         >
           <Button id="list_members" color="blue" content={memberWords} icon="group" />
@@ -91,7 +91,7 @@ const Nav = props => {
         </Menu.Item>
       )}
       <Menu.Item position="right">
-        <Search memberWords={memberWords} />
+        <MemberSearch memberWords={memberWords} />
       </Menu.Item>
     </Menu>
   )

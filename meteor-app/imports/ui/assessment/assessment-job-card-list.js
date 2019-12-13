@@ -70,7 +70,6 @@ class JobCardList extends Component {
 
     return (
       <React.Fragment>
-        <Nav />
         <Grid stackable textAlign="center" style={{ marginLeft: '50px', marginRight: '50px', marginTop: '20px' }}>
           <Grid.Row columns={3}>
             <Grid.Column computer={10} tablet={16} textAlign="left">
@@ -112,7 +111,7 @@ class JobCardList extends Component {
               <Button
                 color="blue"
                 onClick={() => {
-                  this.props.history.push('/history')
+                  this.props.history.push('/job-history')
                 }}
               >
                 Old jobs

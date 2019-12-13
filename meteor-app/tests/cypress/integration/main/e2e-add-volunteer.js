@@ -16,7 +16,7 @@ describe('Create member', function() {
       .should('exist')
     cy.get('#root_bikesHousehold')
       .clear()
-      .type('5')
+      .type('7')
     cy.get('#root_reasons')
       .clear()
       .type('I just love riding my bike')

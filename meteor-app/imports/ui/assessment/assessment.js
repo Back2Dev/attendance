@@ -19,7 +19,7 @@ export default withTracker(props => {
   const newId = new ReactiveVar('')
 
   Meteor.subscribe('services.all')
-  Meteor.subscribe('serviceItems.all')
+  Meteor.subscribe('all.serviceItems')
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
 

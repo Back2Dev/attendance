@@ -48,7 +48,7 @@ const Ordering = props => {
   let noOfParts = 0
   const { parts = [] } = props
   const cartClick = () => {
-    props.history.push('/ordering/cart')
+    props.history.push('/parts/ordering/cart')
   }
 
   return (
@@ -116,8 +116,8 @@ const Ordering = props => {
             {addParts ? '' : <UploadXL uploadXL={props.uploadXL} toggleAddPart={toggleAddPart} />}
           </>
         ) : (
-          ''
-        )}
+            ''
+          )}
       </Grid.Row>
 
       {searchFor && !virgin && (

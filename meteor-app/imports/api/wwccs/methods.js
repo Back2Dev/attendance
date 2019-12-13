@@ -54,12 +54,12 @@ Meteor.methods({
       method: 'post',
 
       responseType: 'text',
-      validateStatus: function (status) {
+      validateStatus: function(status) {
         return status >= 200
       },
 
       transformResponse: [
-        function (data) {
+        function(data) {
           // Do whatever you want to transform the data
           // debug('intercepted data', data)
           return data
@@ -119,9 +119,9 @@ Meteor.methods({
       })
       return wwccError ? `Error: ${wwccError}` : `WWCC is valid, expires ${wwccExpiry}`
     } catch (error) {
-      debug(error)
+      debug(error.message)
       // throw new Meteor.Error(error.message)
-      return `WWCC error: ${error.message}`
+      return `Error: ${error.message}`
     }
   },
 

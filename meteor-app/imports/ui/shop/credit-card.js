@@ -120,7 +120,7 @@ const CreditCard = props => {
         }
 
         debug(`Calculated card token as ${response.token}`, response)
-        state.card = response
+        state.creditCard = response
 
         /* Submit the form with the added card_token input. */
         debug('Submitting')
@@ -228,7 +228,9 @@ const CreditCard = props => {
   return (
     <Container text textAlign="center">
       <Segment textAlign="center">
-        <Header as="h2">Payment form - credit card</Header>
+        <Header as="h2">
+          Payment form - credit card <span style={{ color: 'white' }}>{cartId}</span>
+        </Header>
         <Header as="h2">
           <Image src={state.settings.logo} />
         </Header>
@@ -279,7 +281,7 @@ const CreditCard = props => {
         <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
           {price === 0 ? 'Register card' : 'Pay'}
         </Button>
-        {!memberId && (
+        {!memberId && price > 0 && (
           <>
             <Checkbox
               label="Keep my card on file for future payments"

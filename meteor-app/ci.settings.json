@@ -14,7 +14,7 @@
     "admin": 1,
     "servicing": 1,
     "recruit": "b2b",
-    "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
+    "paymentApiKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
     "paymentTest": true,
     "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
     "shop": 1,

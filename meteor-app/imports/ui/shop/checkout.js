@@ -18,6 +18,7 @@ const Checkout = ({ history }) => {
   const [method, setMethod] = React.useState('')
   const [showDate, setShowDate] = React.useState(false)
   const [email, setEmail] = React.useState('')
+  const [note, setNote] = React.useState('')
   const [discountedPrice, setDP] = React.useState(state.price / 100)
 
   const adminCancel = () => {
@@ -26,34 +27,39 @@ const Checkout = ({ history }) => {
   }
 
   const adminDoIt = async () => {
-    switch (method) {
-      case 'email':
-        // Send an email containing the cart
-        const status = await Meteor.callAsync(
-          'member.email.invoice',
-          state._id,
-          email,
-          discountedPrice * 100,
-          state.discount
-        )
-        sessionStorage.removeItem('myCart')
-        sessionStorage.removeItem('name')
-        Alert.info(`Sent invoice to ${email}`)
-        history.push('/shop/sent')
-        break
-      case 'charge':
-        // Go to the Charge my card page...
-        history.push('/shop/charge')
-        break
-      // it's paid already
-      case 'paypal':
-      case 'xero':
-      case 'cash':
-        history.push('/shop/paid')
+    try {
+      switch (method) {
+        case 'email':
+          // Send an email containing the cart
+          const status = await Meteor.callAsync(
+            'member.email.invoice',
+            state._id,
+            email,
+            note,
+            discountedPrice * 100,
+            state.discount
+          )
+          sessionStorage.removeItem('myCart')
+          sessionStorage.removeItem('name')
+          Alert.info(`Sent invoice to ${email}`)
+          history.push(`/shop/sent/${email}`)
+          break
+        case 'charge':
+          // Go to the Charge my card page...
+          history.push(`/shop/charge/${member._id}/${state._id}`)
+          break
+        // it's paid already
+        case 'paypal':
+        case 'xero':
+        case 'cash':
+          history.push('/shop/paid/${member._id}')
 
-        break
-      default:
-        break
+          break
+        default:
+          break
+      }
+    } catch (e) {
+      console.error(`Something went wrong ${e.message}`)
     }
   }
 
@@ -62,16 +68,23 @@ const Checkout = ({ history }) => {
     setShowDate(NEED_DATE.includes(e.target.value))
   }
 
+  const buyNow = () => {
+    state.discount = 0
+    if (state && state.member && state.member.paymentCustId)
+      history.push(`/shop/charge/${state.member._id}/${state._id}`)
+    else history.push('/shop/address')
+  }
+
   const changeDiscount = e => {
     state.discount = e.target.value
     if (e.target.value.match(/^\$\d+/)) {
       const disc = parseInt(e.target.value.replace('$', ''))
       setDP(state.price / 100 - disc)
+      dispatch({ type: 'discount', payload: disc })
     } else {
-      const disc = parseInt(e.target.value)
-      if (disc) {
-        setDP(Math.floor(((100 - disc) * (state.price / 100)) / 100))
-      } else setDP(state.price / 100)
+      const disc = parseInt(e.target.value) || 0
+      setDP(state.price / 100 - disc)
+      dispatch({ type: 'discount', payload: disc })
     }
   }
   const checkPromo = async () => {
@@ -79,14 +92,18 @@ const Checkout = ({ history }) => {
     debug(`Checking promo code ${code}`)
     // dispatch({ type: 'get-promo', payload: code })
     if (code) {
-      const { promo, member } = await Meteor.callAsync('getPromo', code, sessionStorage.getItem('memberId'))
+      const { promo, member } = await Meteor.callAsync(
+        'getPromo',
+        code,
+        sessionStorage.getItem('memberId') || state.memberId
+      )
       if (!promo) {
         setPromo({
           status: `Promo code "${code}" not found`
         })
         setIcon('cancel')
       } else {
-        debug('Promo', promo)
+        debug('Promo', promo, member)
         setPromo(promo)
         setMember(member)
         setEmail(member.email)
@@ -124,13 +141,7 @@ const Checkout = ({ history }) => {
           <SecurityModal />
         </Menu.Item>
         <Menu.Item position="right">
-          <Button
-            type="button"
-            color="green"
-            floated="right"
-            id="menu_buy_now"
-            onClick={() => history.push('/shop/address')}
-          >
+          <Button type="button" color="green" floated="right" id="menu_buy_now" onClick={buyNow}>
             Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
@@ -147,13 +158,7 @@ const Checkout = ({ history }) => {
         <Button id="continue" type="button" primary onClick={() => history.push('/shop/type/membership')}>
           Continue shopping
         </Button>
-        <Button
-          type="button"
-          color="green"
-          style={{ marginLeft: '16px' }}
-          onClick={() => history.push('/shop/address')}
-          id="buy_now"
-        >
+        <Button type="button" color="green" style={{ marginLeft: '16px' }} onClick={buyNow} id="buy_now">
           Buy now {!state._id && '!'}
         </Button>
         <Input
@@ -168,7 +173,7 @@ const Checkout = ({ history }) => {
         />
       </div>
       <div style={{ textAlign: 'center' }} />
-      {promo && promo.discount && !promo.admin && (
+      {promo && promo.discount > 0 && !promo.admin && (
         <Header style={{ textAlign: 'center' }}>
           <Icon name="flag checkered" color="green" style={{ display: 'inline' }} />
           Yay! You found...
@@ -194,52 +199,10 @@ const Checkout = ({ history }) => {
                     <Form.Group grouped>
                       <Label>Charge: ${discountedPrice}</Label>
                       <br />
-                      <Input name="discount" onChange={changeDiscount} placeholder="Discount % or $" />
-                      <Form.Field
-                        label="Send invoice by email"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="email"
-                        onChange={changeMethod}
-                      />
-                      {method === 'email' && (
-                        <Input
-                          name="email"
-                          type="email"
-                          placeholder="Email"
-                          defaultValue={email}
-                          onChange={e => setEmail(e.target.value)}
-                        />
-                      )}
-                      <Form.Field
-                        label="Paid via Paypal"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="paypal"
-                        onChange={changeMethod}
-                      />
-                      <Form.Field
-                        label="Paid in Xero"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="xero"
-                        onChange={changeMethod}
-                      />
-                      <Form.Field
-                        label="Paid in cash"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="cash"
-                        onChange={changeMethod}
-                      />
-                      {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
+                      <Input name="discount" onChange={changeDiscount} placeholder="Discount amount" />
                       {member && member.paymentCustId && (
                         <Form.Field
-                          label={`Charge to credit card`}
+                          label="&nbsp; Charge to credit card"
                           control="input"
                           type="radio"
                           name="method"
@@ -247,13 +210,64 @@ const Checkout = ({ history }) => {
                           onChange={changeMethod}
                         />
                       )}
+                      <Form.Field
+                        label="&nbsp; Send invoice by email"
+                        control="input"
+                        type="radio"
+                        name="method"
+                        value="email"
+                        onChange={changeMethod}
+                      />
+                      {method === 'email' && (
+                        <>
+                          <Form.TextArea
+                            name="note"
+                            type="note"
+                            placeholder="Note to add to email"
+                            onChange={e => setNote(e.target.value)}
+                          ></Form.TextArea>
+
+                          <Input
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            defaultValue={email}
+                            onChange={e => setEmail(e.target.value)}
+                          />
+                        </>
+                      )}
+                      <Form.Field
+                        label="&nbsp; Paid via Paypal"
+                        control="input"
+                        type="radio"
+                        name="method"
+                        value="paypal"
+                        onChange={changeMethod}
+                      />
+                      <Form.Field
+                        label="&nbsp; Paid in Xero"
+                        control="input"
+                        type="radio"
+                        name="method"
+                        value="xero"
+                        onChange={changeMethod}
+                      />
+                      <Form.Field
+                        label="&nbsp; Paid in cash"
+                        control="input"
+                        type="radio"
+                        name="method"
+                        value="cash"
+                        onChange={changeMethod}
+                      />
+                      {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
                     </Form.Group>
                   </Form>
-                  <Button id="doit" type="button" onClick={adminDoIt}>
-                    Do it
-                  </Button>
-                  <Button id="cancel" type="button" onClick={adminCancel}>
+                  <Button id="cancel" type="button" color="red" inverted onClick={adminCancel}>
                     Cancel
+                  </Button>
+                  <Button id="doit" type="button" color="green" inverted onClick={adminDoIt}>
+                    Do it
                   </Button>
                 </Segment>
               </Grid.Column>
