@@ -43,6 +43,7 @@ export default withTracker(props => {
       }
     }).fetch(),
     loading: !membersHandle.ready(),
-    searchQuery: Session.get('searchQuery')
+    searchQuery: Session.get('searchQuery'),
+    isLogged: Meteor.userId() !== null
   }
 })(MemberMain)

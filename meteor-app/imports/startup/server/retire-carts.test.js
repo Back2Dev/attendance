@@ -6,7 +6,6 @@ import moment from 'moment'
 import './cron-payment'
 import './email'
 import Members from '/imports/api/members/schema'
-import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 
 const debug = require('debug')('b2b:test')
@@ -49,13 +48,17 @@ if (Meteor.isServer) {
               status: 'ready'
             })
           )
-          Carts.update(id, {
-            $set: {
-              updatedAt: moment()
-                .subtract(age, 'day')
-                .toDate()
-            }
-          })
+          Carts.update(
+            id,
+            {
+              $set: {
+                updatedAt: moment()
+                  .subtract(age, 'day')
+                  .toDate()
+              }
+            },
+            { bypassCollection2: true }
+          )
         })
       }).to.not.throw()
       expect(Carts.find({ memberId }).count()).to.be.equal(RETIREMENT_AGES.length)

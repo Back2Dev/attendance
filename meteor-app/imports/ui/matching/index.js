@@ -12,6 +12,64 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 const debug = require('debug')('b2b:admin')
 
+const columns = [
+  {
+    title: 'Date',
+    field: 'createdAt',
+    formatter: 'datetime',
+    formatterParams: {
+      inputFormat: 'YYYY-MM-DD',
+      outputFormat: ' YYYY-MM-DD hh:mm:ss a',
+      invalidPlaceholder: '(invalid date)'
+    }
+  },
+  {
+    title: 'Status',
+    field: 'status',
+    headerFilter: 'input'
+  },
+  {
+    title: 'Name',
+    field: 'customerName',
+    headerFilter: 'input'
+  },
+  {
+    title: 'Email',
+    field: 'email',
+    headerFilter: 'input'
+  },
+  {
+    title: 'Amount',
+    field: 'chargeResponse.amount',
+    headerFilter: 'input'
+  },
+  // {
+  //   title: 'Items',
+  //   filterable: true,
+  //   sortable: true,
+  //   field: 'chargeResponse.metadata.codes'
+  // },
+  {
+    title: 'Payment email',
+    field: 'chargeResponse.email',
+    headerFilter: 'input'
+  },
+  {
+    title: 'Payment name',
+    field: 'creditCard.name',
+    headerFilter: 'input'
+  },
+  {
+    title: 'payment address',
+    field: 'creditCard.address_line1',
+    headerFilter: 'input'
+  }
+  // {
+  //   title: 'Actions',
+  //   field: null,
+  // },
+]
+
 const MatchingLoader = props => {
   if (props.loading) return <div>Loading...</div>
   return <Matching {...props} />
@@ -38,16 +96,22 @@ export default withTracker(props => {
     }
   }).fetch()
 
-  const carts = Carts.find({}, {
-    sort: {
-      createdAt: -1
+  const carts = Carts.find(
+    {},
+    {
+      sort: {
+        createdAt: -1
+      }
     }
-  }).fetch()
-  const purchases = Purchases.find({}, {
-    sort: {
-      createdAt: -1
+  ).fetch()
+  const purchases = Purchases.find(
+    {},
+    {
+      sort: {
+        createdAt: -1
+      }
     }
-  }).fetch()
+  ).fetch()
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
@@ -95,6 +159,7 @@ export default withTracker(props => {
     purchases,
     extendMember,
     removeCart,
-    memberWords
+    memberWords,
+    columns
   }
 })(MatchingLoader)

@@ -20,12 +20,13 @@
       "navigate to:": "http://localhost:3030/ (home page)",
       "port": 9222
     },
+    ///Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --no-default-browser-check --user-data-dir=$(mktemp -d -t 'chrome-remote_data_dir')
     {
       "type": "chrome",
       "request": "attach",
       "sourceMaps": true,
       "name": "Attach to matching",
-      "url": "http://localhost:3030/admin/matching/",
+      "url": "http://localhost:3030/shop/registered",
       "webRoot": "${workspaceFolder}",
       "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
       "navigate to:": "http://localhost:3030/ (home page)",

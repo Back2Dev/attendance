@@ -54,3 +54,10 @@ import '/imports/api/wwccs/server/publications'
 import '/imports/api/orderemails/schema'
 import '/imports/api/orderemails/methods'
 import '/imports/api/orderemails/server/publications'
+
+//users
+import '/imports/api/users/server/publications'
+
+//roles
+import '/imports/api/roles/server/publications'
+
