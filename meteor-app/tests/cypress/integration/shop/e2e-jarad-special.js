@@ -107,6 +107,7 @@ describe('Shopping Payment', function() {
       .click()
       .clear()
       .type('12/13/2019')
+    // finds the radio buttons and selects them
     cy.get('input[type="radio"][value="xero"]').click()
     cy.get('input[name="date"')
     cy.get('input[type="radio"][value="cash"]').click()
