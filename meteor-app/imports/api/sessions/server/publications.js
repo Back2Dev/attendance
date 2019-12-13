@@ -8,7 +8,7 @@ Meteor.publish('all.sessions', () => {
   return Sessions.find({})
 })
 
-Meteor.publish('membersEvents', date => {
+Meteor.publish('memberSessions', date => {
   const eventQuery = {
     active: true,
     $or: [

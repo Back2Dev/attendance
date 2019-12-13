@@ -36,7 +36,7 @@ const columns = [
 Session.set('filterDate', new Date())
 
 export default withTracker(props => {
-  const filterSubs = Meteor.subscribe('membersEvents', Session.get('filterDate'))
+  const filterSubs = Meteor.subscribe('memberSessions', Session.get('filterDate'))
 
   return {
     items: Sessions.find({}).fetch(),
