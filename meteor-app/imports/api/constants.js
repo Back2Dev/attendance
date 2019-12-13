@@ -9,7 +9,12 @@ const CONSTANTS = {
   ORDER_STATUS_RECEIVED: 3,
   ORDER_STATUS_RECONCILED: 4,
   ORDER_STATUS_QUERIED: 5,
-  ORDER_STATUS_CANCELLED: 6
+  ORDER_STATUS_CANCELLED: 6,
+
+  // Part status values
+  PART_STATUS_OK: 101,
+  PART_STATUS_DELETED: 102,
+  PART_STATUS_AUTO_CREATED: 103
 }
 
 // Human readable lookup table:
@@ -20,6 +25,13 @@ CONSTANTS.ORDER_STATUS_READABLE = {
   4: 'Reconciled',
   5: 'Queried',
   6: 'Cancelled'
+}
+
+// Human readable lookup table:
+CONSTANTS.PART_STATUS_READABLE = {
+  101: 'OK',
+  102: 'Deleted',
+  103: 'Auto created'
 }
 
 export const JOB_STATUS = {

@@ -6,7 +6,8 @@
       "request": "attach",
       "name": "server",
       "restart": true,
-      "port": 9229
+      "port": 9229,
+      "timeout": 60000
     },
     {
       "type": "chrome",
