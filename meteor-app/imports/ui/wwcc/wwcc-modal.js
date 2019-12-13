@@ -45,6 +45,7 @@ class WwccModal extends Component {
         open={this.state.isOpen}
         trigger={
           <Button
+            about={`${this.props.member.name}-add`}
             className="ui button"
             color="blue"
             inverted

@@ -52,7 +52,7 @@ const reducer = (state, action) => {
       clrS.totalqty = 0
       saveCart(clrS)
       return clrS
-    case 'save-card':
+    case 'save-cart':
       saveCart(state)
       debug('save-cart', state)
       return state

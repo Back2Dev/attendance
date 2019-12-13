@@ -17,8 +17,13 @@ import CCCharge from './cc-charge'
 import EmailSent from './email-sent'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
+import { Session } from 'meteor/session'
 
 const ShopFront = props => {
+  if (props.location.pathname === '/shop') {
+    Session.set('mode', 'shop')
+  }
+
   if (props.loading) return <div>Loading ...</div>
   if (props.cart) {
     props.cart.member = {}

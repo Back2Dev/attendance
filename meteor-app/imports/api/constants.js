@@ -121,4 +121,6 @@ CONSTANTS.DAYS_WEEK = [
   { id: 6, value: 'Sa' }
 ]
 
+CONSTANTS.ROLES = ['superadmin', 'signin', 'servicing', 'paynow', 'parts', 'admin']
+
 export default CONSTANTS

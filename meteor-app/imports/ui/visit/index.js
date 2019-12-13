@@ -5,6 +5,7 @@ import moment from 'moment'
 import Members from '/imports/api/members/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
+import goHome from '/imports/ui/utils/nav'
 
 const debug = require('debug')('b2b:visit')
 
@@ -61,14 +62,14 @@ export default withTracker(props => {
     } else {
       debug('member departure', id)
       Meteor.call('depart', id)
-      props.history.push('/kiosk')
+      props.history.push(goHome())
       Alert.success(`You are now signed out`)
     }
   }
   function recordDeparture(event) {
     debug('member departure', id)
     Meteor.call('depart', id)
-    props.history.push('/kiosk')
+    props.history.push(goHome())
     Alert.success(`You are signed out`)
   }
 
