@@ -11,7 +11,6 @@ import { saveToArchive } from '/imports/api/archive'
 import memberAdd from '/imports/ui/member/member-add'
 
 const debug = require('debug')('b2b:server-methods')
-const fs = require('fs')
 
 Meteor.methods({
   'members.insert': function(member) {
