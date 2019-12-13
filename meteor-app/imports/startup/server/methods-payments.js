@@ -64,6 +64,69 @@ Meteor.methods({
     }
   },
 
+  mockMakePayment: async function(chargeData) {
+    try {
+      const response = {
+        success: true,
+        amount: 2000,
+        currency: 'AUD',
+        description: 'Purchase',
+        email: 'test@test.com',
+        ip_address: '127.0.0.1',
+        created_at: '2019-12-13T03:36:20Z',
+        status_message: 'Success',
+        error_message: null,
+        card: {
+          scheme: 'visa',
+          display_number: 'XXXX-XXXX-XXXX-0000',
+          issuing_country: 'AU',
+          name: 'Yunfeng S',
+          address_line1: '1',
+          address_line2: null,
+          address_city: '1',
+          address_postcode: '1',
+          address_state: '1',
+          address_country: 'Australia'
+        },
+        transfer: [],
+        amount_refunded: 0,
+        total_fees: 65,
+        merchant_entitlement: 1935,
+        refund_pending: false,
+        authorisation_expired: false,
+        captured: true,
+        captured_at: '2019-12-13T03:36:20Z',
+        settlement_currency: 'AUD',
+        active_chargebacks: false,
+        metadata: {
+          cartid: 'AKoeSGMPX3aYqprxc',
+          codes: 'PA-CASUAL'
+        },
+        status: 201,
+        statusText: 'Created',
+        customerToken: 'ch_ozlmTbMTrfaqiVEdtdgZ3w'
+      }
+      Carts.update(chargeData.metadata.cartId, {
+        $set: {
+          status: CONSTANTS.CART_STATUS.COMPLETE,
+          chargeResponse: response,
+          creditCard: response.card
+        }
+      })
+
+      return response
+    } catch (error) {
+      debug(error)
+      // throw new Meteor.Error(error.message)
+      return `Payment error: ${error.message}`
+    }
+  },
+  createMockCustomer: function(custData, token) {
+    const cart = Carts.findOne(custData.metadata.cartId)
+    if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: token } })
+    else Members.update({ email: custData.email }, { $set: { paymentCustId: token } })
+  },
+
   createCustomer: async function(custData) {
     const customerURL = Meteor.settings.private.customerURL
     const customer = {

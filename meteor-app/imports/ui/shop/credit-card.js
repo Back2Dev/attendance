@@ -94,6 +94,84 @@ const CreditCard = props => {
     }
   }, [])
 
+  async function tokenizeCallback(response) {
+    debug(`Calculated card token as ${response.token}`, response)
+    state.creditCard = response
+
+    /* Submit the form with the added card_token input. */
+    debug('Submitting')
+    const mapping = { token: 'card_token' }
+    const packet = {
+      amount: price.toString(),
+      currency: 'AUD',
+      description: 'Purchase',
+      email,
+      metadata: { cartId, codes }
+    }
+    Object.keys(response).forEach(key => {
+      packet[mapping[key] || key] = response[key]
+    })
+    if (keep) {
+      debug('Creating customer ', packet)
+      const result = await Meteor.callAsync('createCustomer', packet)
+      debug('Customer created ok', result)
+    }
+
+    if (price === 0) {
+      state.status = CONSTANTS.CART_STATUS.COMPLETE
+      dispatch({ type: 'save-cart', payload: null })
+      props.history.replace('/shop/registered')
+    } else {
+      debug('Making payment')
+      setStatus('Transmitting')
+      const result = await Meteor.callAsync('makePayment', packet)
+      setStatus('')
+      if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+        setErrors({ remote: result })
+        // props.history.push(`/shop/failed/${result}`)
+      } else {
+        // The cart gets updated with the response on the server
+        // So show the payment receipt now
+        Alert.success('Payment completed')
+        state.status = CONSTANTS.CART_STATUS.COMPLETE
+        props.history.replace('/shop/receipt')
+      }
+    }
+  }
+
+  async function mockPinpayment() {
+    const response = { cardToken: 'card-abc123', customerToken: 'customer-abc123' }
+    const packet = {
+      amount: price.toString(),
+      currency: 'AUD',
+      description: 'Purchase',
+      email,
+      metadata: { cartId, codes }
+    }
+
+    debug(`Calculated card token as ${response.token}`, response)
+    state.creditCard = response
+
+    debug('Creating customer ', packet)
+    let result = await Meteor.callAsync('createMockCustomer', packet, response.customerToken)
+    debug('Customer created ok', result)
+
+    debug('Making payment')
+    setStatus('Transmitting')
+    result = await Meteor.callAsync('mockMakePayment', packet)
+    setStatus('')
+    if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+      setErrors({ remote: result })
+      // props.history.push(`/shop/failed/${result}`)
+    } else {
+      // The cart gets updated with the response on the server
+      // So show the payment receipt now
+      Alert.success('Payment completed')
+      state.status = CONSTANTS.CART_STATUS.COMPLETE
+      props.history.replace('/shop/receipt')
+    }
+  }
+
   /*
     Tokenises the hosted fields. Appends a hidden field for card_token on success, adds
     error messages otherwise.
@@ -111,57 +189,20 @@ const CreditCard = props => {
     )
     console.log('tokenize')
     try {
-      fields.tokenize(address, async (err, response) => {
-        if (err) {
-          console.log('tokenize errors', err)
+      if (Meteor.settings.public.mockpinpayment) {
+        debug('mocking response')
+        mockPinpayment()
+      } else {
+        fields.tokenize(address, async (err, response) => {
+          if (err) {
+            console.log('tokenize errors', err)
 
-          handleErrors(err)
-          return
-        }
-
-        debug(`Calculated card token as ${response.token}`, response)
-        state.creditCard = response
-
-        /* Submit the form with the added card_token input. */
-        debug('Submitting')
-        const mapping = { token: 'card_token' }
-        const packet = {
-          amount: price.toString(),
-          currency: 'AUD',
-          description: 'Purchase',
-          email,
-          metadata: { cartId, codes }
-        }
-        Object.keys(response).forEach(key => {
-          packet[mapping[key] || key] = response[key]
-        })
-        if (keep) {
-          debug('Creating customer ', packet)
-          const result = await Meteor.callAsync('createCustomer', packet)
-          debug('Customer created ok', result)
-        }
-
-        if (price === 0) {
-          state.status = CONSTANTS.CART_STATUS.COMPLETE
-          dispatch({ type: 'save-cart', payload: null })
-          props.history.replace('/shop/registered')
-        } else {
-          debug('Making payment')
-          setStatus('Transmitting')
-          const result = await Meteor.callAsync('makePayment', packet)
-          setStatus('')
-          if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
-            setErrors({ remote: result })
-            // props.history.push(`/shop/failed/${result}`)
-          } else {
-            // The cart gets updated with the response on the server
-            // So show the payment receipt now
-            Alert.success('Payment completed')
-            state.status = CONSTANTS.CART_STATUS.COMPLETE
-            props.history.replace('/shop/receipt')
+            handleErrors(err)
+            return
           }
-        }
-      })
+          tokenizeCallback(response)
+        })
+      }
     } catch (err) {
       debug(`Error $err.message`, err)
     }
