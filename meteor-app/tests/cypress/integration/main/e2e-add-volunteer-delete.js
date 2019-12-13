@@ -11,8 +11,13 @@ Cypress.on(
 
 describe('Create member', () => {
   it('Open form - about you', () => {
-    cy.visit('/')
-    cy.get('#add_member').click()
+    cy.visit('/kiosk')
+
+    // goes to the Assessment Webpage
+    cy.get('button')
+      .contains('Register')
+      .click()
+
     cy.get('div')
       .contains('About You')
       .should('exist')
@@ -40,7 +45,15 @@ describe('Create member', () => {
     cy.get('#root_name')
       .clear()
       .type('Eddie Mercx')
+    // Still on this page add the email
+    cy.get('#root_email')
+      .clear()
+      .type('Lift@spam.bogus.cliff.Recluse')
 
+    // Still on this page add the mobile
+    cy.get('#root_mobile')
+      .clear()
+      .type('111111111111')
     // Still on this page add the pin
     cy.get('div')
       .contains('Contact')
@@ -118,8 +131,11 @@ describe('Create member', () => {
     cy.get('span')
       .contains('1-111-222')
       .should('exist')
+
     cy.get('button')
       .contains('Submit')
+      .should('exist')
+      .should('be.enabled')
       .click()
     // check success alert shows
     cy.get('.s-alert-success').should('exist')
@@ -128,17 +144,38 @@ describe('Create member', () => {
       .should('exist')
   })
   it('Can find and delete', () => {
-    cy.visit('/')
-    cy.get('div[list="away"]')
+    cy.visit('/admin/userprofiles')
+    cy.get('input[name=email]')
+      .clear()
+      .type('admin@back2bikes.com.au')
+
+    cy.get('input[name=password]')
+      .clear()
+      .type('me2')
+    // .contains('Password')
+
+    cy.get('button')
+      .contains('Submit')
+      .should('be.enabled')
+      .click()
+
+    //cy.get('div[list="away"]')
+    cy.get('.content,header')
       .contains('Eddie Mercx')
       .should('exist')
-    cy.visit('/useradmin')
+    cy.visit('/admin/userprofiles')
     cy.get('h1')
       .contains('Members')
       .should('exist')
     cy.get('button[about="Eddie Mercx"]')
+      //  cy.get('')
       .contains('Delete')
       .click()
     cy.get('.s-alert-success').should('exist')
+
+    // sign out of user profiles
+    cy.get('a')
+      .contains('Sign Out')
+      .click()
   })
 })

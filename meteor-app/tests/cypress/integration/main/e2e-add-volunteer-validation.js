@@ -11,8 +11,11 @@ Cypress.on(
 
 describe('Create member', () => {
   it('Open form - about you', () => {
-    cy.visit('/')
-    cy.get('#add_member').click()
+    cy.visit('/kiosk')
+    //cy.get('#add_member').click()
+    cy.get('button')
+      .contains('Register')
+      .click()
     cy.get('div')
       .contains('Lets get to know each other')
       .should('exist')
@@ -40,6 +43,28 @@ describe('Create member', () => {
     cy.get('#root_name')
       .clear()
       .type('Eddie Mercx')
+
+    // Still on this page add the mobile number
+    cy.get('h1')
+      .contains('Details')
+      .should('exist')
+    cy.get('div')
+      .contains('is a required property')
+      .should('exist')
+    cy.get('#root_mobile')
+      .clear()
+      .type('111111111111')
+
+    // Still on this page add the email
+    cy.get('h1')
+      .contains('Details')
+      .should('exist')
+    cy.get('div')
+      .contains('is a required property')
+      .should('exist')
+    cy.get('#root_email')
+      .clear()
+      .type('Lift@spam.bogus.cliff.Recluse')
 
     // Still on this page add the pin
     cy.get('h1')

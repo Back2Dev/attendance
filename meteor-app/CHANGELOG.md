@@ -4,6 +4,9 @@
 - Strip out unused lines from top of slsa file
 
 ## 1.1.14
+- fixed updatedAt definition
+- removed autoPay test (doesn't work in CI environment)
+
 - Added new collections for sales
 - Upgrade cypress to 3.1.5
 - Added shopping cart
@@ -22,26 +25,20 @@
 - Added image scraper
 - Fixed query for 'once' events (date range was broken)
 
-  0.11.0
-
----
+## 0.11.0
 
 - Made it configurable for PA use, put all menu items across the top
 
-  0.10.0
-
----
+## 0.10.0
 
 - Added special PIN = '----', meaning "I don't want a PIN Number"
 - Added supervisor PIN override '1--1'
 - Added more avatars
 - Added version number template
 
-  0.8.0
+## 0.8.0
 
----
-
-Fixed instant auto-logout
+- Fixed instant auto-logout
 
 ## 0.4.0
 

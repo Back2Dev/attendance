@@ -1,0 +1,39 @@
+{
+  "env": {
+    "environment": "test",
+    "ROOT_URL": "http://localhost:3030/"
+  },
+  "public": {
+    "logo": "/images/logo-tiny.jpg",
+    "member": "Member",
+    "parts": 1,
+    "register": "Register",
+    "paymentTest": true,
+    "payNow": 1,
+    "addCard": 1,
+    "admin": 1,
+    "servicing": 1,
+    "recruit": "pa",
+    "paymentApiKey": "pk_test_315Jrr5E4VK9O1motqWvTJ",
+    "paymentTest": true,
+    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
+    "shop": 1,
+    "orgid": "pa",
+    "org": "Peak Adventure",
+    "tagline": "Come paddle with us",
+    "welcome": "Welcome to the party"
+  },
+  "private": {
+    "paymentURL": "https://test-api.pinpayments.com/1/charges",
+    "customerURL": "https://test-api.pinpayments.com/1/customers",
+    "paymentApiKey": "WiqQbXG1P_pDwdnnDSpnGA",
+    "sendgridApikey": "NA",
+    "fromEmail": "info@peakadventure.com.au",
+    "expiredMembershipID": "xxx",
+    "validMembershipID": "xxx",
+    "expiredPassID": "xxx",
+    "validPassID": "xxx",
+    "registerCardID": "xxx",
+    "forgotPINID": "xxx"
+  }
+}
