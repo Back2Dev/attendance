@@ -2,10 +2,9 @@ import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
 // Don't mention ze war! (or ze debu g g e r!)
-
+import CONSTANTS from '/imports/api/constants'
 import Parts from '/imports/api/parts/schema'
 import Factory from '/imports/test/factories'
-import { RegExId } from '../schema'
 
 const badParts = [
   {
@@ -14,7 +13,7 @@ const badParts = [
     partNo: '12345',
     name: 'golden bell',
     barcode: '0001000010102345',
-    status: 1
+    status: CONSTANTS.PART_STATUS_OK
   },
 
   {
@@ -23,7 +22,7 @@ const badParts = [
     wholesalePrice: 33.4,
     name: 'golden bell',
     barcode: '0102345001000010',
-    status: 0
+    status: CONSTANTS.PART_STATUS_OK
   },
 
   {
@@ -32,7 +31,7 @@ const badParts = [
     partNo: '101',
     name: 'bmx pegs',
     barcode: '11100011102',
-    status: 'sent'
+    status: CONSTANTS.PART_STATUS_OK
   },
 
   {
@@ -41,7 +40,7 @@ const badParts = [
     partNo: '1010',
     name: 'brake line',
     barcode: '11100011102',
-    status: 'recieved'
+    status: CONSTANTS.PART_STATUS_OK
   },
 
   {
@@ -51,7 +50,7 @@ const badParts = [
     partNo: '12345',
     name: 'golden bell',
     barcode: '0001000010102345',
-    status: 1
+    status: CONSTANTS.PART_STATUS_OK
   }
 ]
 
@@ -63,7 +62,7 @@ const goodParts = [
     partNo: '12345',
     name: 'golden bell',
     barcode: '0001000010102345',
-    status: 1
+    status: CONSTANTS.PART_STATUS_OK
   },
 
   {
@@ -128,7 +127,15 @@ describe('schema', () => {
         expect(() => Parts.insert(l)).to.throw()
 
         l = Factory.build('part')
-        l.status = 1
+        l.status = CONSTANTS.PART_STATUS_OK
+        expect(() => Parts.insert(l)).not.to.throw()
+
+        l = Factory.build('part')
+        l.status = CONSTANTS.PART_STATUS_DELETED
+        expect(() => Parts.insert(l)).not.to.throw()
+
+        l = Factory.build('part')
+        l.status = CONSTANTS.PART_STATUS_AUTO_CREATED
         expect(() => Parts.insert(l)).not.to.throw()
       })
     })

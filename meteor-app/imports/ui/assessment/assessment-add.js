@@ -333,7 +333,7 @@ class AssessmentAdd extends Component {
 
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = [...new Set(this.props.services.map(key => key.name))]
-    schemas[1].schema.properties.assessor.enum = [...new Set(this.props.members.map(key => key.name))]
+    // schemas[1].schema.properties.assessor.enum = [...new Set(this.props.members.map(key => key.name))]
     schemas[2].schema.properties.parts.items.enum = [
       ...new Set(this.props.serviceItems.map(key => `${key.name} ($${key.price / 100})`))
     ]

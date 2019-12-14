@@ -4809,8 +4809,9 @@ exports[`Storyshots MyMember MembershipCard 1`] = `
       <div
         className="sixteen wide column card-details-attributes title"
       >
-        Expires 
-        14th Dec 2019
+        Expires
+         
+        N/A
       </div>
       <div
         className="sixteen wide column card-details-attributes title"

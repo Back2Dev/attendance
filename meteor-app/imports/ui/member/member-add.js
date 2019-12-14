@@ -9,6 +9,8 @@ import Control from '/imports/ui/member/member-add-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 import fields from '/imports/ui/member/member-add-fields'
+import { Session } from 'meteor/session'
+import goHome from '/imports/ui/utils/nav'
 
 const mapSchemaToState = schema => {
   return schema.reduce((state, step) => {
@@ -43,7 +45,7 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep && this.props.newId) {
       Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : '/kiosk')
+      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : goHome())
     }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message)

@@ -9,8 +9,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe('Create member', function() {
   it('Open form - about you', function() {
-    cy.visit('/')
-    cy.get('#add_member').click()
+    cy.visit('/kiosk')
+    cy.get
+    cy.get('button')
+      .contains('Register')
+      .click()
     cy.get('h1')
       .contains('Lets get to know each other')
       .should('exist')
@@ -122,7 +125,7 @@ describe('Create member', function() {
     cy.get('.s-alert-success').should('exist')
   })
   it('Find your name', function() {
-    cy.get('input[placeholder="Search Members"]').should('exist')
+    cy.get('input[placeholder="Search"]').should('exist')
     // cy.get('input[placeholder="Search Members"]')
     //   .clear()
     //   .type('Mercx')
@@ -142,16 +145,18 @@ describe('Create member', function() {
 
 describe('Clean up', function() {
   beforeEach(function() {
-    cy.visit('/')
+    cy.visit('/kiosk')
     // loadFixtures()
     rmEddie('Eddie Mercx')
   })
   it('Open form - about you', function() {
-    cy.get('#add_member').click()
+    cy.get('button')
+      .contains('Register')
+      .click()
     cy.get('h1')
       .contains('Lets get to know each other')
       .should('exist')
-    cy.visit('/')
+    cy.visit('/kiosk')
     cy.get('div[list="away"]').should('exist')
   })
 })
