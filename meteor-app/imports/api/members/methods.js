@@ -244,8 +244,18 @@ db[res.result].find({value: {$gt: 1}});
     let numRows = 0
     if (Meteor.isClient) return
     try {
-      debug('Loading SLSA from csv data')
-      const parse = XLSX.read(data, { type: 'string' })
+      let started = false
+      const lines = data
+        .split('\n')
+        .filter(line => {
+          if (line.match(/^Member ID/)) {
+            started = true
+          }
+          return started
+        })
+        .join('\n')
+      debug('Loading SLSA from csv data', lines)
+      const parse = XLSX.read(lines, { type: 'string' })
       const wb = parse.Sheets
       const sheets = Object.keys(wb)
       for (const s of sheets) {
@@ -261,7 +271,8 @@ db[res.result].find({value: {$gt: 1}});
               const newRow = {}
               Object.keys(slsaMap).forEach(key => (newRow[slsaMap[key]] = row[key]))
               newRow.name = `${newRow.first} ${newRow.last}`
-              if (newRow.wwcc) newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
+              // debug('wwcc', newRow.wwcc, typeof newRow.wwcc)
+              // if (newRow.wwcc && typeof newRow.wwcc === 'string') newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
               return newRow
             })
 
