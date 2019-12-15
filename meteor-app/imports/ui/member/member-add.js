@@ -9,7 +9,6 @@ import Control from '/imports/ui/member/member-add-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 import fields from '/imports/ui/member/member-add-fields'
-import { Session } from 'meteor/session'
 import goHome from '/imports/ui/utils/nav'
 
 const mapSchemaToState = schema => {

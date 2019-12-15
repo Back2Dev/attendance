@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import { Session } from 'meteor/session'
+import { context } from '/imports/ui/utils/nav'
 
 import NavBar from '../components/nav-bar'
 import './app.css'
@@ -35,7 +35,7 @@ import SuperAdmin from '../pages/super-admin'
 const Home = props => {
   const isLogged = Meteor.userId() !== null
   if (isLogged) {
-    Session.set('mode', 'normal')
+    context.set('mode', 'normal')
   }
   return <div>Home is where the heart is (app.js)</div>
 }

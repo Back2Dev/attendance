@@ -1,4 +1,12 @@
-import { Session } from 'meteor/session'
+//
+// This module acts as a replacement for meteor/session
+const sessionStore = {}
+
+const context = {
+  get: name => sessionStore[name],
+  set: (name, val) => (sessionStore[name] = val),
+  clear: name => delete sessionStore[name]
+}
 
 const destinations = {
   kiosk: '/kiosk',
@@ -8,9 +16,9 @@ const destinations = {
 }
 
 const goHome = () => {
-  const mode = Session.get('mode')
+  const mode = context.get('mode')
   const dest = destinations[mode] || destinations.default
   return dest
 }
 
-export default goHome
+export default context

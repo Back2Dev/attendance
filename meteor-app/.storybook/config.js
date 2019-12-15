@@ -1,6 +1,6 @@
 import { configure } from '@storybook/react'
 import { storiesOf, action, linkTo } from '@storybook/react'
-import { specs, describe, it } from 'storybook-addon-specifications'
+// import { specs, describe, it } from 'storybook-addon-specifications'
 import { expect } from 'chai'
 import { setOptions } from '@storybook/addon-options'
 import 'semantic-ui-css/semantic.min.css'
@@ -17,9 +17,9 @@ Enzyme.configure({ adapter: new Adapter() })
 global.storiesOf = storiesOf
 global.action = action
 global.linkTo = linkTo
-global.specs = specs
-global.describe = describe
-global.it = it
+// global.specs = specs
+// global.describe = describe
+// global.it = it
 global.mount = Enzyme.mount
 global.expect = expect
 
@@ -28,9 +28,9 @@ global.expect = expect
 // Had to remove this, addons was deprecated, but this fails with a 'There is no addons channel'
 // Knobs in stories also cause failure.
 
-  setOptions: ({
-    hierarchySeparator: /\./,
-    name: ' B A C K 2 B I K E S '
+setOptions: ({
+  hierarchySeparator: /\./,
+  name: ' B A C K 2 B I K E S '
 })
 
 // stories live in the codebase as {component-name}.stories.js
