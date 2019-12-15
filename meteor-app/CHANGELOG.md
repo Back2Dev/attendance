@@ -19,8 +19,11 @@
 - Show expired members in red
 - Added image scraper
 - Fixed query for 'once' events (date range was broken)
+- Added attendance page in admin menus
 
   0.11.0
+
+-
 
 ---
 
