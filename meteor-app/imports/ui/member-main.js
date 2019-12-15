@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Grid, Button } from 'semantic-ui-react'
-import { context } from '/imports/ui/utils/nav'
+import context from '/imports/ui/utils/nav'
 
 import MemberList from '/imports/ui/member/member-list'
 import MemberCardSmall from '/imports/ui/member/member-card-small'

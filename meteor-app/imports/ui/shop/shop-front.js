@@ -17,7 +17,7 @@ import CCCharge from './cc-charge'
 import EmailSent from './email-sent'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
-import { context } from '/imports/ui/utils/nav'
+import context from '/imports/ui/utils/nav'
 
 const ShopFront = props => {
   if (props.location.pathname === '/shop') {

@@ -2,6 +2,10 @@
 
 ## Next
 - Strip out unused lines from top of slsa file
+- Non-meteor context handling
+- Get storybook to work again
+- Restore snapshots
+- Had to remove storybook specs
 
 ## 1.1.14
 - fixed updatedAt definition

@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import { context } from '/imports/ui/utils/nav'
+import context from '/imports/ui/utils/nav'
 
 import NavBar from '../components/nav-bar'
 import './app.css'
