@@ -14,7 +14,7 @@ describe('Create member', () => {
     cy.visit('/kiosk')
 
     // goes to the Assessment Webpage
-    cy.get('button')
+    cy.get('a')
       .contains('Register')
       .click()
 

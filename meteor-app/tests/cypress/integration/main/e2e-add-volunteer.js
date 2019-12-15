@@ -11,7 +11,7 @@ describe('Create member', function() {
   it('Open form - about you', function() {
     cy.visit('/kiosk')
     cy.get
-    cy.get('button')
+    cy.get('a')
       .contains('Register')
       .click()
     cy.get('h1')
