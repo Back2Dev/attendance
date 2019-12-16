@@ -25,6 +25,7 @@ import Services from '/imports/api/assessments/schema'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Events from '/imports/api/events/schema'
 import Logger from '/imports/api/assessments/logger'
+import OrderEmails from '/imports/api/orderemails/schema'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
@@ -165,7 +166,7 @@ Factory.define('part', Parts, {
   partNo: 'pt-123',
   name: 'carbonfibre frame',
   barcode: '22413000022413',
-  status: CONSTANTS.ORDER_STATUS_NEW
+  status: CONSTANTS.PART_STATUS_NEW
 })
 
 Factory.define('product', Products, {
@@ -228,6 +229,11 @@ Factory.define('promo', Promos, {
   discount: 50,
   admin: false,
   start: new Date()
+})
+
+Factory.define('orderemails', OrderEmails, {
+  name: 'order emails',
+  description: 'order emails'
 })
 
 export default Factory

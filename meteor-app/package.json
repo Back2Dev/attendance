@@ -1,6 +1,6 @@
 {
   "name": "back2bikes-attendance",
-  "version": "1.1.14",
+  "version": "1.2.0",
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
@@ -16,6 +16,7 @@
     "start": "meteor run",
     "lint": "eslint .",
     "ci-app": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.settings.json",
+    "ci-pa": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.pa.settings.json",
     "ci-test": "./node_modules/cypress/bin/cypress run",
     "test:ui": "start-storybook -s public -p 6046",
     "storybook": "start-storybook -s public -p 6046",
@@ -59,6 +60,7 @@
     "cordova-plugin-statusbar": "^2.3.0",
     "debug": "^3.1.0",
     "dotenv": "^6.2.0",
+    "eml-format": "^0.6.1",
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "file-saver": "^2.0.2",
@@ -68,6 +70,7 @@
     "indexof": "0.0.1",
     "jspdf": "^1.4.1",
     "lodash": "^4.17.10",
+    "mailparser": "^2.7.1",
     "minimist": "^1.2.0",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.25",

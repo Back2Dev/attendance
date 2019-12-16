@@ -35,13 +35,7 @@ export const createdAt = {
 export const updatedAt = {
   type: Date,
   autoValue() {
-    if (this.isInsert) {
-      return new Date()
-    }
-    return {
-      // Allow a value to be passed in (for testing purposes only)
-      $set: this.value ? this.value : new Date()
-    }
+    return new Date()
   },
   optional: true
 }

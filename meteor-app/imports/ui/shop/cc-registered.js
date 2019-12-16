@@ -3,6 +3,7 @@ import moment from 'moment'
 import { Container, Segment, Table, Header, Button, Icon, Image } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 import Price from './price'
+import goHome from '/imports/ui/utils/nav'
 
 const CCRegistered = props => {
   const { state, dispatch } = React.useContext(CartContext)
@@ -53,7 +54,7 @@ const CCRegistered = props => {
 
   const gotoHome = e => {
     sessionStorage.setItem('mycart', null)
-    props.history.push('/')
+    props.history.push(goHome())
   }
 
   return (
