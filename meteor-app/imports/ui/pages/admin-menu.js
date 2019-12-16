@@ -20,7 +20,7 @@ const adminPages = [
   { name: 'wwcc', display: 'WWCC' }
 ]
 
-const adminMenu = ({ current, goHome, history }) => {
+const AdminMenu = ({ current, history }) => {
   const itemClick = name => {
     history.push(`/admin/${name}`)
   }
@@ -63,9 +63,9 @@ const adminMenu = ({ current, goHome, history }) => {
   )
 }
 
-adminMenu.propTypes = {
+AdminMenu.propTypes = {
   current: PropTypes.string.isRequired,
   itemClick: PropTypes.func.isRequired
 }
 
-export default withRouter(adminMenu)
+export default withRouter(AdminMenu)

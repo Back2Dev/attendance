@@ -16,9 +16,7 @@
               }
             ]
           }
-        ],
-       ["require-context-hook"],
-       ["macros"]
+        ]
       ]
     }
   }
