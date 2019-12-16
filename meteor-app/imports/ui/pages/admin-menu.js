@@ -13,6 +13,7 @@ const adminPages = [
   { name: 'promos', display: 'Promos' },
   { name: 'renewals', display: 'Renewals' },
   { name: 'service-items', display: 'Service items' },
+  { name: 'sessions', display: 'Sessions' },
   { name: 'matching', display: 'Shopping carts' },
   { name: 'slsa', display: 'SLSA' },
   { name: 'userprofiles', display: 'Users' },

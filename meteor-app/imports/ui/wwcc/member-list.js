@@ -73,7 +73,9 @@ const Admin = props => {
                   />
                 )}
                 <WwccModal {...props} member={member} />
-                <div style={{ color: 'red' }}>&nbsp;{member.wwccError}</div>
+                <div about={`${member.name}-err`} style={{ color: 'red' }}>
+                  &nbsp;{member.wwccError}
+                </div>
               </List.Content>
             </Grid.Column>
           </Grid.Row>

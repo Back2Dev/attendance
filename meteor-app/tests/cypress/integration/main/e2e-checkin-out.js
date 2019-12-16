@@ -10,12 +10,14 @@ const pin = '1234'
 
 describe('Checking in', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/kiosk')
     // loadFixtures()
   })
   it('Allows checkin', () => {
     rmPin('Dorothea Kovacek')
+
     cy.get('div[about="Dorothea Kovacek"]')
+
       .invoke('text')
       .as('visits') // This saves it for 'Ron
     cy.get('div[list="away"]')
@@ -23,8 +25,8 @@ describe('Checking in', () => {
       .click()
     // Create a PIN for the user
     // cy.get('#createPIN').click()
-    cy.get('input#pin1').type(pin)
-    cy.get('input#pin2').type(pin)
+    cy.get('#pin1').type(pin)
+    cy.get('#pin2').type(pin)
     // A change was made to auto-submit
     // cy.get('#setPIN').click()
     cy.get('#half_day').click()
@@ -35,7 +37,7 @@ describe('Checking in', () => {
   })
   it('Allows checkout', () => {
     cy.contains(/Dorothea K$/).click()
-    cy.get('input#pin').type(pin)
+    cy.get('#pin').type(pin)
     cy.get('#signIn').click() // button is used for both sign in and out
   })
   it('Available for checkin', () => {

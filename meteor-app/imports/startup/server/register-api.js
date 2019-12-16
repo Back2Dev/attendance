@@ -45,7 +45,19 @@ import '/imports/api/promos/schema'
 import '/imports/api/promos/methods'
 import '/imports/api/promos/server/publications'
 
-// Promos
+// WCCS
 import '/imports/api/wwccs/schema'
 import '/imports/api/wwccs/methods'
 import '/imports/api/wwccs/server/publications'
+
+// OrderEmails
+import '/imports/api/orderemails/schema'
+import '/imports/api/orderemails/methods'
+import '/imports/api/orderemails/server/publications'
+
+//users
+import '/imports/api/users/server/publications'
+
+//roles
+import '/imports/api/roles/server/publications'
+
