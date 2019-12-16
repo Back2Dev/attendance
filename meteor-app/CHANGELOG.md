@@ -1,6 +1,7 @@
 # Changelog
 
 ## Next
+
 - Strip out unused lines from top of slsa file
 - Non-meteor context handling
 - Get storybook to work again
@@ -8,6 +9,7 @@
 - Had to remove storybook specs
 
 ## 1.1.14
+
 - fixed updatedAt definition
 - removed autoPay test (doesn't work in CI environment)
 
@@ -28,6 +30,7 @@
 - Show expired members in red
 - Added image scraper
 - Fixed query for 'once' events (date range was broken)
+- Added attendance page in admin menus
 
 ## 0.11.0
 
