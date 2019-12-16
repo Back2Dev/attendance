@@ -11,6 +11,7 @@ Meteor.methods({
 Meteor.startup(() => {
   Sessions.find({ memberName: { $exists: false } }).forEach(session => {
     const member = Members.findOne(session.memberId)
-    Sessions.update(session._id, { $set: { memberName: member.name } })
+    if (member)
+      Sessions.update(session._id, { $set: { memberName: member.name } })
   })
 })
