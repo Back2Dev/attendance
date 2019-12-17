@@ -14,6 +14,7 @@ import Renewal from './renewal'
 import CCRegistered from './cc-registered'
 import CCCharge from './cc-charge'
 import EmailSent from './email-sent'
+import Paid from './paid'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 import { Session } from 'meteor/session'
@@ -54,6 +55,7 @@ const ShopFront = props => {
         <Route path="/kiosk/registered" exact component={CCRegistered} />
         <Route path="/shop/charge/:memberId/:cartId" exact component={CCCharge} />
         <Route path="/shop/sent/:email" exact component={EmailSent} />
+        <Route path="/shop/paid/:memberId" exact component={Paid} />
       </Switch>
     </CartContextProvider>
   )
