@@ -52,7 +52,7 @@ const Checkout = ({ history }) => {
         case 'paypal':
         case 'xero':
         case 'cash':
-          history.push('/shop/paid/${member._id}')
+          history.push(`/shop/paid/${member._id}`)
 
           break
         default:
