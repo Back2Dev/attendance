@@ -44,11 +44,10 @@ export default withTracker(props => {
       const result = await Meteor.callAsync('members.checkWwcc', id, wwcc, name)
       if (result.match(/error/i)) {
         console.error(result)
-        Alert.error('BAD DUDE')
-        Alert.error(result.message)
+        Alert.error(result)
       } else {
         console.log(result)
-        Alert.success(result.message)
+        Alert.success(result)
       }
     } catch (e) {
       Alert.error(e.message)
