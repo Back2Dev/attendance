@@ -35,14 +35,14 @@ global.school = () => {
   faker.seed(123)
   return {
     _id: faker.random.number(),
-    name: `${faker.address.city()  } School`,
+    name: `${faker.address.city()} School`,
     slug: faker.lorem.word(),
     schoolYear: '2018',
     termNo: 3,
     terms: 4,
     years: {},
     email: 'demo@tmap.me',
-    password: 'password',
+    password: 'password'
   }
 }
 
@@ -63,7 +63,7 @@ global.classy = () => {
     grade,
     letter,
     teacherName: teacherName.join(' '),
-    teacherEmail: 'dem7d@tmap.me',
+    teacherEmail: 'dem7d@tmap.me'
   }
 }
 
@@ -83,5 +83,6 @@ global.rmPin = name => {
 }
 
 global.rmEddie = name => {
+  console.log('removing eddie')
   cy.window().then(win => win.Meteor.call('members.rmEddie', name))
 }

@@ -28,15 +28,22 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Adds a wwcc number', function() {
-    cy.get('.button').contains('Add...')
-
-    cy.get('.button')
+    cy.get('button[about="Vernon King-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
 
-    cy.get('.button')
+    cy.get('input#surname')
+      .clear()
+      .type('KING')
+
+    cy.get('input#wwccno')
+      .clear()
+      .type('0834322A')
+
+    cy.get('button#check')
       .contains('Check')
       .click()
+    cy.get('.s-alert-success').should('exist')
   })
 })
