@@ -128,7 +128,6 @@ const CreditCard = props => {
       setStatus('')
       if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
         setErrors({ remote: result })
-        // props.history.push(`/shop/failed/${result}`)
       } else {
         // The cart gets updated with the response on the server
         // So show the payment receipt now
@@ -162,7 +161,6 @@ const CreditCard = props => {
     setStatus('')
     if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
       setErrors({ remote: result })
-      // props.history.push(`/shop/failed/${result}`)
     } else {
       // The cart gets updated with the response on the server
       // So show the payment receipt now
@@ -245,7 +243,7 @@ const CreditCard = props => {
   }
 
   const gotoShop = e => {
-    sessionStorage.setItem('mycart', null)
+    sessionStorage.removeItem('mycart')
     props.history.push('/shop')
   }
 
@@ -279,7 +277,7 @@ const CreditCard = props => {
           Cards accepted: &nbsp;&nbsp;
           <Image src="/images/cards.png" verticalAlign="middle" verticalAlign="middle" style={{ width: '200px' }} />
         </Header>
-        <Form id="payment_form" action="/payment-confirm" method="post" style={{ textAlign: 'left' }}>
+        <Form id="payment_form" method="post" style={{ textAlign: 'left' }}>
           <Header as="h2" style={{ textAlign: 'center' }}>
             {price > 0 && (
               <>

@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Alert from 'react-s-alert'
 import 'semantic-ui-css/semantic.css'
+import Alert from 'react-s-alert'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
@@ -93,7 +94,7 @@ const App = props => {
           <Route component={NotFound} />
         </Switch>
       </div>
-      <Alert stack={{ limit: 3 }}></Alert>
+      <Alert stack={{ limit: 3 }} />
     </div>
   )
 }

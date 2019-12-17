@@ -46,7 +46,6 @@ const chargeCard = async ({ price, email, customer_token, metadata }) => {
     // setStatus('')
     if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
       debug('Response', result)
-      // props.history.push(`/shop/failed/${result}`)
       return { error: result }
     } else {
       // The cart gets updated with the response on the server

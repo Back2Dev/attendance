@@ -10,7 +10,7 @@ import { alertsConfig } from '/imports/ui/config/alerts'
 const ShopIframe = props => {
   return (
     <div style={{ height: '100%' }}>
-      <Alert {...alertsConfig} />
+      {/* <Alert {...alertsConfig} /> */}
       <Switch>
         <Route path="/" component={Shop} />
       </Switch>

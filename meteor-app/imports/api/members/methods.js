@@ -104,6 +104,15 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
+  'members.addCard': function(name, paymentCustId) {
+    try {
+      log.info(`Adding card to member: ${name}`)
+      return Members.update({ name }, { $set: { paymentCustId } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
   'members.update': function(id, formData) {
     try {
       log.info('updating member: ', id, formData)

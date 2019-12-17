@@ -201,6 +201,11 @@ export const CartsSchema = new SimpleSchema({
     allowedValues: CONSTANTS.CART_STATUS.ENUM,
     defaultValue: 'ready'
   },
+  paymentMethod: {
+    label: 'Payment method',
+    type: String,
+    optional: true
+  },
   customerResponse: { type: Object, blackbox: true, optional: true },
   chargeResponse: { type: Object, blackbox: true, optional: true },
   //

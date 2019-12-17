@@ -1,6 +1,14 @@
 import React from 'react'
 import { Card, Segment, Button, Menu, Label, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
+import 'react-s-alert/dist/s-alert-default.css'
+import 'react-s-alert/dist/s-alert-css-effects/slide.css'
+import 'react-s-alert/dist/s-alert-css-effects/scale.css'
+import 'react-s-alert/dist/s-alert-css-effects/bouncyflip.css'
+import 'react-s-alert/dist/s-alert-css-effects/flip.css'
+import 'react-s-alert/dist/s-alert-css-effects/genie.css'
+import 'react-s-alert/dist/s-alert-css-effects/jelly.css'
+import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
@@ -26,7 +34,8 @@ const Checkout = ({ history }) => {
     setIcon('meh outline')
   }
 
-  const adminDoIt = async () => {
+  const adminDoIt = async e => {
+    e.preventDefault()
     try {
       switch (method) {
         case 'email':
@@ -39,7 +48,7 @@ const Checkout = ({ history }) => {
             discountedPrice * 100,
             state.discount
           )
-          sessionStorage.removeItem('myCart')
+          sessionStorage.removeItem('mycart')
           sessionStorage.removeItem('name')
           Alert.info(`Sent invoice to ${email}`)
           history.push(`/shop/sent/${email}`)
@@ -52,10 +61,11 @@ const Checkout = ({ history }) => {
         case 'paypal':
         case 'xero':
         case 'cash':
-          history.push(`/shop/paid/${member._id}`)
-
+          markAsPaid(method)
           break
         default:
+          Alert.error('Please choose an action')
+          debug('Please choose something!')
           break
       }
     } catch (e) {
@@ -112,6 +122,15 @@ const Checkout = ({ history }) => {
     } else {
       setPromo({ status: 'Please enter a discount code' })
       setIcon('meh outline')
+    }
+  }
+
+  const markAsPaid = async paymentMethod => {
+    const result = await Meteor.callAsync('markAsPaid', sessionStorage.getItem('mycart') || state._id, paymentMethod)
+    if (result.status === 'ok') {
+      history.push(`/shop/paid/${member._id}`)
+    } else {
+      Alert.error(result.error)
     }
   }
 

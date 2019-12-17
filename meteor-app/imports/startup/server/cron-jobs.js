@@ -58,7 +58,8 @@ Meteor.methods({
             $set: {
               memberId: members[0]._id,
               email: members[0].email,
-              customerName: members[0].name
+              customerName: members[0].name,
+              paymentMethod: 'credit card'
             }
           })
           Members.update(members[0]._id, { $set: { paymentCustId: cart.chargeResponse.customerToken } })
