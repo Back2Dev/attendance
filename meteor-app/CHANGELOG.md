@@ -1,9 +1,11 @@
 # Changelog
 
 ## Next
+
 - Strip out unused lines from top of slsa file
 
 ## 1.1.14
+
 - fixed updatedAt definition
 - removed autoPay test (doesn't work in CI environment)
 
@@ -24,6 +26,7 @@
 - Show expired members in red
 - Added image scraper
 - Fixed query for 'once' events (date range was broken)
+- Added attendance page in admin menus
 
 ## 0.11.0
 

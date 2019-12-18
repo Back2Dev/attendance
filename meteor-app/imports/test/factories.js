@@ -60,6 +60,7 @@ Factory.define('member', Members, {
 
 Factory.define('session', Sessions, {
   memberId: Random.id(),
+  memberName: 'Dave Smith',
   name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),

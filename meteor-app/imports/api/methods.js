@@ -37,6 +37,7 @@ Meteor.methods({
     const timeOut = moment(timeIn)
       .add(duration, 'h')
       .toDate()
+    const member = Members.findOne(memberId)
 
     try {
       const id = Sessions.insert({
@@ -46,6 +47,7 @@ Meteor.methods({
         timeIn,
         timeOut,
         duration,
+        memberName: member.name,
         name,
         price
       })
