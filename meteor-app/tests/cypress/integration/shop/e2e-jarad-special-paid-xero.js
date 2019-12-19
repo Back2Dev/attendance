@@ -51,6 +51,7 @@ describe('Shopping Payment', function() {
       .contains('Tough Guy')
       .should('exist')
       .click()
+    cy.get('div[class=meta').contains('xero')
     cy.get('div[class="content"]').contains('1 x PA-CASUAL')
     // Remove the tough guy at the end
     rmToughGuy()
