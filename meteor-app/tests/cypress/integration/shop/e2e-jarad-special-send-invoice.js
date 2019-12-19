@@ -3,6 +3,7 @@ const pin = '1234'
 describe('Shopping Payment', function() {
   it('Choose Product', function() {
     cy.visit('/admin/userprofiles/')
+    mkToughGuy()
 
     cy.get('input[name=email]')
       .clear()
@@ -16,7 +17,7 @@ describe('Shopping Payment', function() {
       .contains('Submit')
       .should('be.enabled')
       .click()
-    cy.get('button[about="Dorothea Kovacek"]')
+    cy.get('button[about="Tough Guy"]')
       .contains('Add...')
       .click()
     cy.get('button#multi_pass')
@@ -59,5 +60,7 @@ describe('Shopping Payment', function() {
     cy.get('button[id="doit"]')
       .should('exist')
       .click()
+    // Remove the tough guy at the end
+    rmToughGuy()
   })
 })

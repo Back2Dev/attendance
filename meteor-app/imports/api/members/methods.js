@@ -8,11 +8,47 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
-import memberAdd from '/imports/ui/member/member-add'
 
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
+  //
+  // These first methods are for testing purposes, to add/delete data
+  //
+  'members.rmEddie': function(name) {
+    try {
+      log.info(`Removing member: Eddie Mercx ${name}`)
+      return Members.remove({ name: 'Eddie Mercx' })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
+  'members.mkToughGuy': function(member) {
+    const m = Members.findOne({ name: 'Tough Guy' })
+    if (!m) {
+      member.name = 'Tough Guy' // Override the name
+      member.email = 'tough.guy@tough-guys.inc.inc'
+      const id = Members.insert(member)
+      if (!id) throw new Meteor.Error('Could not add a tough guy :(')
+    }
+  },
+  'members.rmToughGuy': function() {
+    const n = Members.remove({ name: 'Tough Guy' })
+    if (!n) throw new Meteor.Error('Could not remove the tough guy :(')
+  },
+  'members.addCard': function(name, paymentCustId) {
+    try {
+      log.info(`Adding card to member: ${name}`)
+      return Members.update({ name }, { $set: { paymentCustId } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
+  //
+  // Regular methods from here...
+  //
   'members.insert': function(member) {
     try {
       return Members.insert(member)
@@ -90,24 +126,6 @@ Meteor.methods({
     try {
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
-    }
-  },
-  'members.rmEddie': function(name) {
-    try {
-      log.info(`Removing member: Eddie Mercx ${name}`)
-      return Members.remove({ name: 'Eddie Mercx' })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
-    }
-  },
-  'members.addCard': function(name, paymentCustId) {
-    try {
-      log.info(`Adding card to member: ${name}`)
-      return Members.update({ name }, { $set: { paymentCustId } })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
