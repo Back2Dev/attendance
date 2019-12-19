@@ -41,7 +41,8 @@ const goodPurchases = [
     productId: 'asdf23asdf',
     productName: 'A random widget',
     price: 5000,
-    code: 'MISC'
+    code: 'MISC',
+    paymentMethod: 'credit card'
   }
 ]
 
