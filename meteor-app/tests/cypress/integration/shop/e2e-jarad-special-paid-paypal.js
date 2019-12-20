@@ -1,4 +1,4 @@
-const pin = '1234'
+// Checks paypal payment with Casual session and types date in date paid
 
 describe('Shopping Payment', function() {
   it('Choose Product', function() {
@@ -8,11 +8,9 @@ describe('Shopping Payment', function() {
     cy.get('input[name=email]')
       .clear()
       .type('admin@back2bikes.com.au')
-
     cy.get('input[name=password]')
       .clear()
       .type('me2')
-
     cy.get('button')
       .contains('Submit')
       .should('be.enabled')
@@ -42,17 +40,31 @@ describe('Shopping Payment', function() {
     cy.get('input[value="paypal"]')
       .should('exist')
       .click()
+    // Types yesterday's date in date input
+    cy.get('input[name="date"]')
+      .should('exist')
+      .type(
+        Cypress.moment()
+          .subtract('1', 'days')
+          .format('DD/MM/YY')
+      )
     cy.get('button[id="doit"]')
       .should('exist')
       .click()
-    cy.get('h2[class="ui header"').contains('Paid')
+    cy.get('h2[class="ui header"')
+      .contains('Paid')
+      .should('exist')
     cy.visit('/admin/userprofiles/')
     cy.get('div[class="content"]')
       .contains('Tough Guy')
       .should('exist')
       .click()
-    cy.get('div[class=meta').contains('paypal')
-    cy.get('div[class="content"]').contains('1 x PA-CASUAL')
+    cy.get('div[class=meta')
+      .contains('status: complete paypal')
+      .should('exist')
+    cy.get('div[class="content"]')
+      .contains('1 x PA-CASUAL')
+      .should('exist')
     // Remove the tough guy at the end
     rmToughGuy()
   })
