@@ -60,7 +60,7 @@ Meteor.methods({
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
-      return `Payment error: ${error.message}`
+      return `Payment exception: ${error.message}`
     }
   },
 
@@ -118,7 +118,7 @@ Meteor.methods({
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
-      return `Payment error: ${error.message}`
+      return `mockMakePayment error: ${error.message}`
     }
   },
   createMockCustomer: function(custData, token) {
