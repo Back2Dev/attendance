@@ -57,29 +57,27 @@ Meteor.methods({
 
 function acceptPaymentHook(req, res) {
   // We need to bind to the Meteor environment for this to work.
-  Meteor.bindEnvironment(() => {
-    if (req.body.data && req.body.data.metadata) debug('/payment hook, metadata', req.body.data.metadata)
-    let status = 200
-    const responseData = { status: 'ok' }
-    try {
-      // First check the authentication, see here: https://pinpayments.com/developers/integration-guides/webhooks
-      // req.body.data.metadata.cartId will contain the id of the cart.
-      //Find the cart, and then create a purchase record from the contents of the cart
-      if (!req.body.data.metadata) {
-        console.error(`No metadata provided in incoming payment`, req.body.data)
-        status = 404
-        responseData.status = 'No metadata provided in incoming payment'
-      } else {
-        status = acceptPayment(req.body.data.metadata.cartid, 'credit')
-        if (status != 200) responseData.status = 'fail'
-      }
-    } catch (e) {
-      console.error(e)
-      status = 500
-      responseData.status = e.message
+  if (req.body.data && req.body.data.metadata) debug('/payment hook, metadata', req.body.data.metadata)
+  let status = 200
+  const responseData = { status: 'ok' }
+  try {
+    // First check the authentication, see here: https://pinpayments.com/developers/integration-guides/webhooks
+    // req.body.data.metadata.cartId will contain the id of the cart.
+    //Find the cart, and then create a purchase record from the contents of the cart
+    if (!req.body.data.metadata) {
+      console.error(`No metadata provided in incoming payment`, req.body.data)
+      status = 404
+      responseData.status = 'No metadata provided in incoming payment'
+    } else {
+      status = acceptPayment(req.body.data.metadata.cartid, 'credit')
+      if (status != 200) responseData.status = 'fail'
     }
-    res.status(status).json(responseData)
-  })()
+  } catch (e) {
+    console.error(e)
+    status = 500
+    responseData.status = e.message
+  }
+  res.status(status).json(responseData)
 }
 
 export function setupPaymentsApi() {
@@ -87,7 +85,8 @@ export function setupPaymentsApi() {
   const app = express()
   app.use(bodyParser.json({ extended: false }))
 
-  app.post('/payment', acceptPaymentHook)
+  app.post('/payment', Meteor.bindEnvironment(acceptPaymentHook))
+
   app.get('/api', (req, res) => {
     res.status(200).json({ message: 'B2B Payments API' }) // Shouldn't call this, just for testing for now
   })
