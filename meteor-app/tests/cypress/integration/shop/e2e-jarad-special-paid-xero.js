@@ -1,4 +1,4 @@
-const pin = '1234'
+// Checks xero payment with yearly membership
 
 describe('Shopping Payment', function() {
   it('Choose Product', function() {
@@ -20,11 +20,11 @@ describe('Shopping Payment', function() {
     cy.get('button[about="Tough Guy"]')
       .contains('Add...')
       .click()
-    cy.get('button#multi_pass')
-      .contains('Multi pass')
+    cy.get('button#memberships')
+      .contains('Memberships')
       .should('exist')
       .click()
-    cy.get('button#pa_casual_session')
+    cy.get('button#pa_12_month_membership')
       .should('exist')
       .click()
     cy.get('button#checkout')
@@ -42,17 +42,33 @@ describe('Shopping Payment', function() {
     cy.get('input[value="xero"]')
       .should('exist')
       .click()
+    cy.get('input[name="date"]').should('exist')
     cy.get('button[id="doit"]')
       .should('exist')
       .click()
-    cy.get('h2[class="ui header"').contains('Paid')
+    cy.get('h2[class="ui header"')
+      .contains('Paid')
+      .should('exist')
     cy.visit('/admin/userprofiles/')
     cy.get('div[class="content"]')
       .contains('Tough Guy')
       .should('exist')
       .click()
-    cy.get('div[class=meta').contains('xero')
-    cy.get('div[class="content"]').contains('1 x PA-CASUAL')
+    cy.get('div[class="ui grid member-card-container"]')
+      .contains(
+        'Expires ' +
+          Cypress.moment()
+            .add(1, 'years')
+            .format('Do MMM YYYY')
+      )
+      .should('exist')
+    cy.get('div[class="ui grid member-card-container"]')
+      .contains('current member')
+      .should('exist')
+    cy.get('div[class=meta')
+      .contains('status: complete xero')
+      .should('exist')
+    cy.get('div[class="content"]').contains('1 x PA-MEMB-12')
     // Remove the tough guy at the end
     rmToughGuy()
   })
