@@ -103,6 +103,14 @@ describe('Make Payment', function() {
       .contains('150')
       .should('exist')
 
+    cy.get('div')
+      .contains(moment().format('DD MMM YYYY') + ' PA-PASS-MULTI-10 PA Multipass x 10')
+      .should('exist')
+
+    cy.get('div[class*="card-details-attributes"]')
+      .contains('Member Type current pass')
+      .should('exist')
+
     rmToughGuy()
   })
 })
