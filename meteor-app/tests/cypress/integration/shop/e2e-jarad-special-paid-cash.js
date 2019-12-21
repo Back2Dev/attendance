@@ -5,6 +5,7 @@ import moment from 'moment'
 describe('Make Payment', function() {
   it('cash payment', function() {
     cy.visit('/')
+    mkToughGuy()
     cy.contains('Login').click()
     cy.url().should('include', '/login')
 
@@ -28,7 +29,7 @@ describe('Make Payment', function() {
       .should('exist')
       .click()
 
-    cy.get('button[about="Dorothea Kovacek"]')
+    cy.get('button[about="Tough Guy"]')
       .should('exist')
       .contains('Add...')
       .click()
@@ -79,7 +80,7 @@ describe('Make Payment', function() {
     cy.url().should('include', '/admin/userprofiles')
 
     cy.get('div')
-      .contains('Dorothea Kovacek')
+      .contains('Tough Guy')
       .click()
 
     cy.get('div[class="ui card"]')
@@ -101,5 +102,15 @@ describe('Make Payment', function() {
       .last()
       .contains('150')
       .should('exist')
+
+    cy.get('div')
+      .contains(moment().format('DD MMM YYYY') + ' PA-PASS-MULTI-10 PA Multipass x 10')
+      .should('exist')
+
+    cy.get('div[class*="card-details-attributes"]')
+      .contains('Member Type current pass')
+      .should('exist')
+
+    rmToughGuy()
   })
 })
