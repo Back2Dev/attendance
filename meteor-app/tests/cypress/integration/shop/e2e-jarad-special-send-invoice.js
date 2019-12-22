@@ -1,3 +1,6 @@
+import faker from 'faker'
+import moment from 'moment'
+
 const pin = '1234'
 
 describe('Shopping Payment', function() {
