@@ -53,7 +53,24 @@ describe('Shopping Payment', function() {
       .should('exist')
       .click()
     cy.get('div[class="content"]').contains('1 x PA-CASUAL')
+
+    // Next steps:
+    // 1) logout
+    // 2) Click the link in the email sent to Tough Guy
+    cy.window().then(win => {
+      const cartId = win.sessionStorage.getItem('mycart')
+      const memberId = win.sessionStorage.getItem('memberId')
+      console.log(`member/cart ${memberId}/${cartId}`)
+      // Clear session storage
+      win.sessionStorage.clear()
+      cy.visit('/signout')
+      cy.visit(`/shop/renew/${memberId}/${cartId}`)
+      cy.get('button')
+        .contains('Next')
+        .click()
+    })
+
     // Remove the tough guy at the end
-    rmToughGuy()
+    // rmToughGuy()
   })
 })
