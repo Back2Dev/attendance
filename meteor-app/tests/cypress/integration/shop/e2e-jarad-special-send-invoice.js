@@ -1,18 +1,4 @@
-import 'cypress-sessionstorage-commands'
-import faker from 'faker'
-import moment from 'moment'
-
-const pin = '1234'
-let memberId
-let cartId
-
-describe('Shopping Payment', function() {
-  beforeEach(() => {
-    cartId = cy.getSessionStorage('mycart')
-    memberId = cy.getSessionStorage('memberId')
-    cy.log(`member/cart ${memberId}/${cartId}`)
-  })
-
+describe('Send invoice to Tough Guy', function() {
   it('Create a member, and send an invoice email', function() {
     cy.visit('/admin/userprofiles/')
     mkToughGuy()
@@ -39,6 +25,19 @@ describe('Shopping Payment', function() {
     cy.get('button#pa_casual_session')
       .should('exist')
       .click()
+    //
+    // At this point the cart is set up, and in sessionStorage
+    // So we save the details to a fixtures file, which is read
+    // by another test script (e2e-tough-guy-purchase.js)
+    //
+    cy.window().then(window => {
+      const contents = {
+        memberId: window.sessionStorage.getItem('memberId'),
+        cartId: window.sessionStorage.getItem('mycart')
+      }
+      cy.writeFile('tests/cypress/fixtures/tough-guy-cart.json', contents)
+    })
+
     cy.get('button#checkout')
       .should('exist')
       .click()
@@ -59,22 +58,23 @@ describe('Shopping Payment', function() {
       .should('exist')
       .click()
     cy.get('h2[class="ui header"').contains('tough.guy@tough-guys.inc.inc')
+    //
+    // At this point, we have sent an email to the member
+    // But before we go, go to the users admin page and check that the cart
+    // is setup for the member
+    //
     cy.visit('/admin/userprofiles/')
     cy.get('div[class="content"]')
       .contains('Tough Guy')
       .should('exist')
       .click()
-    cy.get('div[class="content"]').contains('1 x PA-CASUAL')
-  })
-  it('Sign out, and pretend the user clickd the link in the email', function() {
-    cy.log(`member/cart ${memberId}/${cartId}`)
+    cy.get('div[class="content"]')
+      .contains('1 x PA-CASUAL')
+      .should('exist')
+    //
+    // Our work as administrator is done, so sign off
+    //
     cy.visit('/signout')
-    cy.visit(`/shop/renew/${memberId}/${cartId}`)
-    cy.get('button')
-      .contains('Next')
-      .click()
+    cy.log('To be continued in e2e-tough-guy-purchase.js')
   })
-
-  // Remove the tough guy at the end
-  // rmToughGuy()
 })

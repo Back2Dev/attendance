@@ -3,6 +3,7 @@
 ## Next
 
 - Strip out unused lines from top of slsa file
+- PA shop testing - write fixtures when sending invites
 
 ## 1.1.14
 
