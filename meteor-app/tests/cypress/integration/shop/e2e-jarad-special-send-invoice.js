@@ -1,3 +1,4 @@
+import 'cypress-sessionstorage-commands'
 import faker from 'faker'
 import moment from 'moment'
 
@@ -7,11 +8,8 @@ let cartId
 
 describe('Shopping Payment', function() {
   beforeEach(() => {
-    cy.visit('/kiosk')
-    cy.window().then(win => {
-      cartId = win.sessionStorage.getItem('mycart')
-      memberId = win.sessionStorage.getItem('memberId')
-    })
+    cartId = cy.getSessionStorage('mycart')
+    memberId = cy.getSessionStorage('memberId')
     cy.log(`member/cart ${memberId}/${cartId}`)
   })
 

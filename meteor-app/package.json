@@ -58,6 +58,7 @@
     "casual": "^1.5.14",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-statusbar": "^2.3.0",
+    "cypress-sessionstorage-commands": "git+https://github.com/Back2bikes/cypress-sessionstorage-commands.git",
     "debug": "^3.1.0",
     "dotenv": "^6.2.0",
     "eml-format": "^0.6.1",
