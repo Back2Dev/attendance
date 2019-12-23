@@ -54,6 +54,7 @@ const CCRegistered = props => {
 
   const gotoHome = e => {
     sessionStorage.removeItem('mycart')
+    //  dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push(goHome())
   }
 

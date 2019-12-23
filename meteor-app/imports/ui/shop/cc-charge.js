@@ -11,6 +11,7 @@ const CCCharge = props => {
 
   const gotoHome = e => {
     sessionStorage.removeItem('mycart') // Forget the cart
+    //  dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/') // Go home
   }
 

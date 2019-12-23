@@ -7,6 +7,9 @@ const EmailSent = ({ history, match }) => {
 
   const gotoHome = e => {
     sessionStorage.removeItem('mycart')
+    dispatch({ type: 'clear' }) // Clear the cart ??
+    sessionStorage.removeItem('name')
+    sessionStorage.removeItem('memberId')
     history.push('/')
   }
 

@@ -244,6 +244,9 @@ const CreditCard = props => {
 
   const gotoShop = e => {
     sessionStorage.removeItem('mycart')
+    //  dispatch({ type: 'clear' }) // Clear the cart ??
+    sessionStorage.removeItem('name')
+    sessionStorage.removeItem('memberId')
     props.history.push('/shop')
   }
 
