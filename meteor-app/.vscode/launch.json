@@ -23,10 +23,10 @@
     ///Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --no-default-browser-check --user-data-dir=$(mktemp -d -t 'chrome-remote_data_dir')
     {
       "type": "chrome",
-      "request": "launch",
+      "request": "attach",
       "sourceMaps": true,
-      "name": "Attach to matching",
-      "url": "http://localhost:3030/shop/registered",
+      "name": "Attach to shop/type/membership",
+      "url": "http://localhost:3030/shop/type/membership",
       "webRoot": "${workspaceFolder}",
       "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
       "navigate to:": "http://localhost:3030/ (home page)",

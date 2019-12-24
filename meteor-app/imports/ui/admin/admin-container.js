@@ -11,6 +11,7 @@ import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import { saveToArchive } from '/imports/api/archive'
+
 const debug = require('debug')('b2b:admin')
 
 const Loader = props => {
@@ -77,11 +78,11 @@ export default withTracker(props => {
   }
 
   const addProduct = (memberId, name) => {
-    dispatch({ type: 'clear' }) // Clear the cart ??
-    // sessionStorage.removeItem('mycart')
+    sessionStorage.removeItem('mycart')
+    sessionStorage.setItem('reset-cart', 'true')
     sessionStorage.setItem('memberId', memberId)
     sessionStorage.setItem('name', name)
-    props.history.push('/shop')
+    props.history.push('/shop/')
   }
 
   const extendMember = async (memberId, purchaseId) => {

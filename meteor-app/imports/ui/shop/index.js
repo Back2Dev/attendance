@@ -23,6 +23,7 @@ const cartUpdate = data => {
       const id = Carts.insert(contents)
       debug(`New cart id is ${id}`)
       sessionStorage.setItem('mycart', id)
+      data._id = id // Remember to save the id back to the data
     }
   } catch (e) {
     console.error(`Error: [${e.message}] encountered while saving shopping cart`)

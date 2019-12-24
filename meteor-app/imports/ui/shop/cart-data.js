@@ -122,8 +122,18 @@ function CartContextProvider(props) {
   state.cartUpdate = props.cartUpdate
   state.getPromo = props.getPromo
   state.chargeCard = props.chargeCard
-  const value = { state, dispatch }
   cartUpdater = props.cartUpdate
+  if (sessionStorage.getItem('reset-cart')) {
+    debug('rm _id')
+    sessionStorage.removeItem('reset-cart')
+    // dispatch({ type: 'clear' }) // Clear the cart ??
+    delete state._id
+    Object.keys(initialState).forEach(key => {
+      state[key] = initialState[key]
+    })
+  }
+  const value = { state, dispatch }
+  debug('in CartContextProvider', props, state)
 
   return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
 }

@@ -17,6 +17,8 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
     forgetCard(member._id)
   }
   const addProduct = (memberId, name) => {
+    sessionStorage.removeItem('mycart')
+    sessionStorage.setItem('reset-cart', 'true')
     sessionStorage.setItem('memberId', memberId)
     sessionStorage.setItem('name', name)
     history.push('/shop')
