@@ -51,6 +51,9 @@ const reducer = (state, action) => {
       clrS.chargeAmount = 0
       clrS.totalqty = 0
       saveCart(clrS)
+      sessionStorage.removeItem('mycart')
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('memberId')
       return clrS
     case 'save-cart':
       saveCart(state)

@@ -23,8 +23,8 @@ const Address = props => {
 
   debug(state, a)
   const gotoShop = e => {
-    sessionStorage.removeItem('mycart')
-    //  dispatch({ type: 'clear' }) // Clear the cart ??
+    // sessionStorage.removeItem('mycart')
+    dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/shop')
   }
 

@@ -48,10 +48,10 @@ const Checkout = ({ history }) => {
             discountedPrice * 100,
             state.discount
           )
-          sessionStorage.removeItem('mycart')
-          //  dispatch({ type: 'clear' }) // Clear the cart ??
-          sessionStorage.removeItem('name')
-          sessionStorage.removeItem('memberId')
+          // sessionStorage.removeItem('mycart')
+          dispatch({ type: 'clear' }) // Clear the cart ??
+          // sessionStorage.removeItem('name')
+          // sessionStorage.removeItem('memberId')
           Alert.info(`Sent invoice to ${email}`)
           history.push(`/shop/sent/${email}`)
           break

@@ -77,8 +77,8 @@ export default withTracker(props => {
   }
 
   const addProduct = (memberId, name) => {
-    //  dispatch({ type: 'clear' }) // Clear the cart ??
-    sessionStorage.removeItem('mycart')
+    dispatch({ type: 'clear' }) // Clear the cart ??
+    // sessionStorage.removeItem('mycart')
     sessionStorage.setItem('memberId', memberId)
     sessionStorage.setItem('name', name)
     props.history.push('/shop')

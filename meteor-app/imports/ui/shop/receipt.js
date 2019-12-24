@@ -53,7 +53,8 @@ const Receipt = props => {
       ]
 
   const gotoShop = e => {
-    sessionStorage.removeItem('mycart')
+    // sessionStorage.removeItem('mycart')
+    dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/shop')
   }
 

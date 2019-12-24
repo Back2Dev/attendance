@@ -6,10 +6,10 @@ const EmailSent = ({ history, match }) => {
   const { state, dispatch } = React.useContext(CartContext)
 
   const gotoHome = e => {
-    sessionStorage.removeItem('mycart')
+    // sessionStorage.removeItem('mycart')
     dispatch({ type: 'clear' }) // Clear the cart ??
-    sessionStorage.removeItem('name')
-    sessionStorage.removeItem('memberId')
+    // sessionStorage.removeItem('name')
+    // sessionStorage.removeItem('memberId')
     history.push('/')
   }
 
