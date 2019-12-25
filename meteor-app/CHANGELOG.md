@@ -4,6 +4,7 @@
 
 - Strip out unused lines from top of slsa file
 - PA shop testing - write fixtures when sending invites
+- Meteor 1.8.3 update
 
 ## 1.1.14
 
