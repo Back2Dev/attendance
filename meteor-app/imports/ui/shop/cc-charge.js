@@ -10,7 +10,6 @@ const CCCharge = props => {
   const [status, setStatus] = React.useState('')
 
   const gotoHome = e => {
-    // sessionStorage.removeItem('mycart') // Forget the cart
     dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/') // Go home
   }
