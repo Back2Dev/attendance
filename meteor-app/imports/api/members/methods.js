@@ -24,13 +24,13 @@ Meteor.methods({
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
-  'members.mkToughGuy': function(member) {
-    const m = Members.findOne({ name: 'Tough Guy' })
+  'members.mkFakeUser': function(username, member) {
+    const m = Members.findOne({ name: username })
     if (!m) {
-      member.name = 'Tough Guy' // Override the name
-      member.email = 'tough.guy@tough-guys.inc.inc'
+      member.name = username // Override the name
+      member.email = `${username.replace(/ /g, '.')}@${username.replace(/ /g, '-')}s.inc.inc`.toLowerCase()
       const id = Members.insert(member)
-      if (!id) throw new Meteor.Error('Could not add a tough guy :(')
+      if (!id) throw new Meteor.Error(`Could not add a ${username} :(`)
     }
   },
   'members.rmToughGuy': function() {

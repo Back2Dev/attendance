@@ -17,7 +17,7 @@
 // import './commands'
 import faker from 'faker'
 
-const toughGuyData = {
+const fakeUserData = {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
   // TODO - the rest of these
@@ -88,10 +88,10 @@ global.addCard = (name, cardToken) => {
   })
 }
 
-global.mkToughGuy = () => {
+global.mkFakeUser = username => {
   cy.window().then(win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
-    else win.Meteor.call('members.mkToughGuy', toughGuyData)
+    else win.Meteor.call('members.mkFakeUser', username, fakeUserData)
   })
 }
 
