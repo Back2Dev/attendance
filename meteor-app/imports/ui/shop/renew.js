@@ -30,6 +30,7 @@ const Renew = props => {
 
   const remove = props => {}
   const selectOption = product => {
+    dispatch({ type: 'add', payload: product })
     setProduct(product)
   }
   const change = () => {

@@ -50,7 +50,7 @@ const reducer = (state, action) => {
       clrS.discount = 0
       clrS.chargeAmount = 0
       clrS.totalqty = 0
-      saveCart(clrS)
+      // saveCart(clrS)   // There seems to be little point in saving an empty cart
       sessionStorage.removeItem('mycart')
       sessionStorage.removeItem('name')
       sessionStorage.removeItem('memberId')

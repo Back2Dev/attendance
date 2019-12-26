@@ -20,6 +20,11 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member.renew', id, cartId)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
+  // Set up member context, then it will pick up credit card details
+  if (member) {
+    sessionStorage.setItem('name', member.name)
+    sessionStorage.setItem('memberId', member._id)
+  }
   const purchases = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
   const cart = Carts.findOne(cartId)
   const products = Products.find({ active: true }).fetch()
