@@ -101,3 +101,12 @@ global.rmToughGuy = () => {
     else win.Meteor.call('members.rmToughGuy')
   })
 }
+
+//
+// Common test data, stored here so we don't repeat ourselves
+//
+global.ratPack = [
+  { name: 'Tough Guy', memberType: ['Multi pass', 'PA Casual session'] },
+  { name: 'Bruce Lee', memberType: ['Memberships', 'PA 12 month membership'] },
+  { name: 'Jackie Chan', memberType: ['Multi pass', 'PA Casual signup'], change: 'PA Casual session' }
+]

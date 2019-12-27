@@ -1,23 +1,19 @@
 import moment from 'moment'
 import faker from 'faker'
+// ratPack is in cypress/support/index.js
 
-const testData = [
-  { name: 'Tough Guy', memberType: ['Multi pass', 'PA Casual session'] },
-  { name: 'Bruce Lee', memberType: ['Memberships', 'PA 12 month membership'] },
-  { name: 'Jackie Chan', memberType: ['Multi pass', 'PA Casual signup'] }
-]
-describe('Tough Guys take it in turn to make purchases', function() {
+describe('Rat Pack members take it in turn to make purchases', function() {
   //
   // Load up the fixture data, which references the member and the cart
   //
   it('Loops through rat pack', () => {
-    testData.forEach(data => {
+    ratPack.forEach(data => {
       cy.fixture(`${data.name.replace(/ /g, '-').toLowerCase()}-cart`).then(guy => {
         data.guy = guy // Hang on to the dude's data for now
       })
     })
   })
-  testData.forEach(data => {
+  ratPack.forEach(data => {
     it(`${data.name} clicks the link in the invoice email`, function() {
       cy.visit('/')
       cy.log(`member/cart ${data.guy.memberId}/${data.guy.cartId}`)
@@ -25,6 +21,19 @@ describe('Tough Guys take it in turn to make purchases', function() {
       // Check that the cart has the correct product that we chose for them
       cy.get('div.header')
         .contains(data.memberType[1])
+        .should('exist')
+      if (data.change) {
+        cy.get('button')
+          .contains('Change')
+          .should('exist')
+          .click()
+        cy.get('button')
+          .contains(data.change)
+          .should('exist')
+          .click()
+      }
+      cy.get('div.header')
+        .contains(data.change || data.memberType[1])
         .should('exist')
       cy.get('button')
         .contains('Next')

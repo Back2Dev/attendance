@@ -1,12 +1,8 @@
-const testData = [
-  { name: 'Tough Guy', memberType: ['Multi pass', 'PA Casual session'] },
-  { name: 'Bruce Lee', memberType: ['Memberships', 'PA 12 month membership'] },
-  { name: 'Jackie Chan', memberType: ['Multi pass', 'PA Casual signup'] }
-]
+// ratPack is in cypress/support/index.js
 
-describe('Send invoice to people in testData', function() {
+describe('Send invoice to people in ratPack', function() {
   it('Create a member, and send an invoice email', function() {
-    testData.forEach(data => {
+    ratPack.forEach(data => {
       cy.visit('/admin/userprofiles/')
       mkFakeUser(data.name)
 
