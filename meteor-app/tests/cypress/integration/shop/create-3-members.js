@@ -9,7 +9,11 @@ Cypress.on(
     // from a js library we are using
     false
 )
-const testData = ['Tough Guy', 'Jackie Chan', 'Bruce Lee']
+const testData = [
+  { name: 'Tough Guy', card: 4242000000000001 },
+  { name: 'Jackie Chan', card: 4242000000000002 },
+  { name: 'Bruce Lee', card: 4242000000000003 }
+]
 const pin = '1234'
 
 describe('fix bug', () => {
@@ -30,7 +34,7 @@ describe('fix bug', () => {
     //   .should('be.enabled')
     //   .click()
 
-    testData.forEach(name => {
+    testData.forEach(({ name, card }) => {
       cy.visit('/kiosk')
 
       cy.get('button')
@@ -129,7 +133,7 @@ describe('fix bug', () => {
 
       cy.wait(2000)
       cy.pinType('name', name)
-      cy.pinType('number', '4242000000000000')
+      cy.pinType('number', card)
       cy.pinType('cvc', '000')
       cy.pinType('expiry', '12/22')
 
