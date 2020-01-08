@@ -31,14 +31,14 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Adds a wwcc number that works', function() {
-    cy.get('button[about="Vernon King-add"]')
+    cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
 
     cy.get('input#surname')
       .clear()
-      .type('KING')
+      .type('King')
 
     cy.get('input#wwccno')
       .clear()
@@ -52,7 +52,7 @@ describe('Visit WWCC webpage', function() {
 
   // Click the main button (not in the modal)
   it('Clicks it again', function() {
-    cy.get('button[about="Vernon King"]')
+    cy.get('button[about="Cathrine King"]')
       .contains('Check')
       .should('be.enabled')
       .click()
@@ -60,7 +60,7 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Adds a wwcc number that fails - name mismatch', function() {
-    cy.get('button[about="Vernon King-add"]')
+    cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -83,7 +83,7 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Adds a wwcc number that fails - bad number', function() {
-    cy.get('button[about="Vernon King-add"]')
+    cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
