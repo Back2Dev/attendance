@@ -24,7 +24,10 @@ describe('Visit WWCC webpage', function() {
       .should('be.enabled')
       .click()
 
-    cy.visit('/admin/wwcc/')
+    // cy.visit('/admin/wwcc/')
+    cy.get('div[data-page="wwcc"]')
+      .should('exist')
+      .click()
   })
 
   it('Adds a wwcc number that works', function() {
