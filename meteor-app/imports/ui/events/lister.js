@@ -41,7 +41,13 @@ const columns = [
     editor: true,
     validator: ['required', 'integer']
   },
-  { field: 'price', title: 'Price(¢)', editor: true, validator: ['required', 'integer'] },
+  {
+    field: 'price',
+    title: 'Price',
+    editor: 'number',
+    mutatorEdit: value => value * 100,
+    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+  },
   {
     field: 'type',
     title: 'Type',

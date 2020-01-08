@@ -30,8 +30,20 @@ const columns = [
   { field: 'name', title: 'Name', editor: 'input' },
   { field: 'status', title: 'Status', editor: true },
   { field: 'active', title: 'Active', formatter: 'tickCross', editor: true, align: 'center' },
-  { field: 'retailPrice', title: 'Retail Price(ct)', editor: true },
-  { field: 'wholesalePrice', title: 'Wholesale Price(ct)', editor: true },
+  {
+    field: 'retailPrice',
+    title: 'Retail Price',
+    editor: 'number',
+    mutatorEdit: value => value * 100,
+    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+  },
+  {
+    field: 'wholesalePrice',
+    title: 'Wholesale Price',
+    editor: 'number',
+    mutatorEdit: value => value * 100,
+    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+  },
   { field: 'barcode', title: 'Barcode', editor: true },
   { field: 'imageUrl', title: 'Image Url', editor: true }
 ]

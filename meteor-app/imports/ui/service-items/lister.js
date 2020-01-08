@@ -27,7 +27,13 @@ const columns = [
     }
   },
   { field: 'name', title: 'Name', editor: true },
-  { field: 'price', title: 'Price', editor: true },
+  {
+    field: 'price',
+    title: 'Price',
+    editor: 'number',
+    mutatorEdit: value => value * 100,
+    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+  },
   { field: 'code', title: 'Code', editor: true },
   {
     field: 'category',

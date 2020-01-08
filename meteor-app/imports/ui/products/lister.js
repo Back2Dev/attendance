@@ -10,6 +10,76 @@ const update = form => Meteor.call('update.Products', form)
 const insert = form => Meteor.call('insert.Products', form)
 
 // Config data
+const dollarInput = function number(cell, onRendered, success, cancel, editorParams) {
+  var cellValue = cell.getValue(),
+    vertNav = editorParams.verticalNavigation || 'editor',
+    input = document.createElement('input')
+
+  input.setAttribute('type', 'number')
+
+  //create and style input
+  input.style.padding = '4px'
+  input.style.width = '100%'
+  input.style.boxSizing = 'border-box'
+
+  input.value = cellValue / 100
+
+  var blurFunc = function blurFunc(e) {
+    onChange()
+  }
+
+  onRendered(function() {
+    //submit new value on blur
+    input.removeEventListener('blur', blurFunc)
+
+    input.focus()
+    input.style.height = '100%'
+
+    //submit new value on blur
+    input.addEventListener('blur', blurFunc)
+  })
+
+  function onChange() {
+    var value = input.value
+
+    if (!isNaN(value) && value !== '') {
+      value = Number(value)
+    }
+
+    if (value != cellValue) {
+      if (success(value)) {
+        cellValue = value //persist value if successfully validated incase editor is used as header filter
+      }
+    } else {
+      cancel()
+    }
+  }
+
+  //submit new value on enter
+  input.addEventListener('keydown', function(e) {
+    switch (e.keyCode) {
+      case 13:
+        // case 9:
+        onChange()
+        break
+
+      case 27:
+        cancel()
+        break
+
+      case 38: //up arrow
+      case 40:
+        //down arrow
+        if (vertNav == 'editor') {
+          e.stopImmediatePropagation()
+          e.stopPropagation()
+        }
+        break
+    }
+  })
+
+  return input
+}
 
 const defaultObject = {
   name: 'Untitled',
@@ -49,7 +119,13 @@ const columns = [
   },
   { field: 'subsType', title: 'Subs type', editor: true },
   { field: 'duration', title: 'Duration(months)', editor: true, validator: ['integer'] },
-  { field: 'price', title: 'Price(¢)', editor: true, validator: ['integer'] },
+  {
+    field: 'price',
+    title: 'Price',
+    editor: dollarInput,
+    mutatorEdit: value => value * 100,
+    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+  },
   { field: 'qty', title: 'Qty', editor: true, validator: ['required', 'integer'] },
   { field: 'image', title: 'Image', editor: true },
   { field: 'active', title: 'Active', editor: true, formatter: 'tickCross', align: 'center' },
