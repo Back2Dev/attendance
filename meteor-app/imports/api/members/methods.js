@@ -34,8 +34,28 @@ Meteor.methods({
     }
   },
   'members.rmToughGuy': function() {
+    const result = Members.findOne({ name: 'Tough Guy' })
+    Purchases.remove({ memberId: result._id })
+    Carts.remove({ memberId: result._id })
+    Sessions.remove({ memberId: result._id })
     const n = Members.remove({ name: 'Tough Guy' })
     if (!n) throw new Meteor.Error('Could not remove the tough guy :(')
+  },
+  'members.rmJackieChan': function() {
+    const result = Members.findOne({ name: 'Jackie Chan' })
+    Purchases.remove({ memberId: result._id })
+    Carts.remove({ memberId: result._id })
+    Sessions.remove({ memberId: result._id })
+    const n = Members.remove({ name: 'Jackie Chan' })
+    if (!n) throw new Meteor.Error('Could not remove the Jackie Chan :(')
+  },
+  'members.rmBruceLee': function() {
+    const result = Members.findOne({ name: 'Bruce Lee' })
+    Purchases.remove({ memberId: result._id })
+    Carts.remove({ memberId: result._id })
+    Sessions.remove({ memberId: result._id })
+    const n = Members.remove({ name: 'Bruce Lee' })
+    if (!n) throw new Meteor.Error('Could not remove the Bruce Lee :(')
   },
   'members.addCard': function(name, paymentCustId) {
     try {

@@ -10,30 +10,14 @@ Cypress.on(
     false
 )
 const testData = [
-  { name: 'Tough Guy', card: 4242000000000001 },
-  { name: 'Jackie Chan', card: 4242000000000002 },
-  { name: 'Bruce Lee', card: 4242000000000003 }
+  { name: 'Tough Guy', card: '4242000000000001' },
+  { name: 'Jackie Chan', card: '4242000000000002' },
+  { name: 'Bruce Lee', card: '4242000000000003' }
 ]
 const pin = '1234'
 
 describe('fix bug', () => {
   it('create 3 members', () => {
-    // cy.contains('Login').click()
-    // cy.url().should('include', '/login')
-
-    // cy.get('input[name=email]')
-    //   .clear()
-    //   .type('admin@back2bikes.com.au')
-
-    // cy.get('input[name=password]')
-    //   .clear()
-    //   .type('me2')
-
-    // cy.get('button')
-    //   .contains('Submit')
-    //   .should('be.enabled')
-    //   .click()
-
     testData.forEach(({ name, card }) => {
       cy.visit('/kiosk')
 
@@ -80,6 +64,8 @@ describe('fix bug', () => {
         .contains('Submit')
         .click()
 
+      cy.wait(1000)
+
       cy.get('div')
         .contains(name)
         .click()
@@ -119,33 +105,39 @@ describe('fix bug', () => {
         .contains('Next')
         .click()
 
-      cy.wait(2000)
-      Cypress.Commands.add('pinType', (field, text) => {
-        cy.get('#' + field).within(() => {
-          cy.get(`iframe`).then($iframe => {
-            const body = $iframe.contents().find('body')
-            cy.wrap(body)
-              .find(`.${field}`)
-              .type(text)
-          })
-        })
-      })
-
-      cy.wait(2000)
-      cy.pinType('name', name)
-      cy.pinType('number', card)
-      cy.pinType('cvc', '000')
-      cy.pinType('expiry', '12/22')
+      cy.get('input[id=mockName]')
+        .clear()
+        .type(name)
+      cy.get('input[id=mockNumber]')
+        .clear()
+        .type(card)
+      cy.get('input[id=mockCvc]')
+        .clear()
+        .type('000')
+      cy.get('input[id=mockExpiry]')
+        .clear()
+        .type('12/22')
 
       cy.get('button')
         .contains('Register card')
         .click()
 
+      cy.get('td')
+        .contains(name)
+        .should('exist')
+
+      cy.get('td')
+        .contains('XXXX-XXXX-XXXX-' + card.slice(-4))
+        .should('exist')
       cy.wait(1000)
 
       cy.get('button')
         .contains('Back to the shop')
         .click()
     })
+
+    rmToughGuy()
+    rmJackieChan()
+    rmBruceLee()
   })
 })
