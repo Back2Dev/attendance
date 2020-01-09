@@ -60,30 +60,24 @@ describe('Visit WWCC webpage', function() {
     cy.get('.s-alert-success').should('exist')
   })
 
-  it('Retrieves the volsignin webpage', function() {
-    cy.visit('localhost:3030/volsignin')
-    cy.get('input[name=email]')
-      .clear()
-      .type('admin@back2bikes.com.au')
-
-    cy.get('input[name=password]')
-      .clear()
-      .type('me2')
-    // .contains('Password')
-
-    cy.get('button')
-      .contains('Submit')
-      .click()
+  it('Retrieves the kiosk webpage ', function() {
+    // cy.get('.item')
+    //   .contains('Login')
+    //   .should('exist')
+    //   .click()
+    cy.visit('/kiosk/')
   })
-
-  it('finds the member and the WWCC check mark', function() {
+  it('finds volunteer with wwcc number', function() {
     cy.get('.input').type('Cathrine King')
-    //   .contains('Search')
+    //  .contains('Search')
     //   .clear()
     //   .type('Cathrine')
   })
-
   it('Retrieves the WWCC webpage', function() {
+    cy.get('.input')
+      .contains('Cathrine King')
+      .clear()
+
     cy.visit('/admin/login/')
 
     cy.get('input[name=email]')
@@ -105,6 +99,7 @@ describe('Visit WWCC webpage', function() {
       .should('exist')
       .click()
   })
+
   it('Adds a wwcc number that fails - name mismatch', function() {
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
