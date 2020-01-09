@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import List from './list'
+import { dollarInput } from '/imports/ui/utils/editors'
 
 const remove = id => Meteor.call('rm.ServiceItems', id)
 const insert = form => Meteor.call('add.ServiceItems', form)
@@ -30,9 +31,13 @@ const columns = [
   {
     field: 'price',
     title: 'Price',
-    editor: 'number',
-    mutatorEdit: value => value * 100,
-    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+    editor: dollarInput,
+    mutatorEdit: value => Math.round(value * 100),
+    formatter: cell =>
+      (cell.getValue() / 100).toLocaleString('en-AU', {
+        style: 'currency',
+        currency: 'AUD'
+      })
   },
   { field: 'code', title: 'Code', editor: true },
   {

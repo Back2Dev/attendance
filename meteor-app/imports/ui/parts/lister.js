@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Parts from '/imports/api/parts/schema'
 import List from './list'
+import { dollarInput } from '/imports/ui/utils/editors'
 
 const remove = id => Meteor.call('rm.Parts', id)
 const update = form => Meteor.call('update.Parts', form)
@@ -33,9 +34,13 @@ const columns = [
   {
     field: 'retailPrice',
     title: 'Retail Price',
-    editor: 'number',
-    mutatorEdit: value => value * 100,
-    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+    editor: dollarInput,
+    mutatorEdit: value => Math.round(value * 100),
+    formatter: cell =>
+      (cell.getValue() / 100).toLocaleString('en-AU', {
+        style: 'currency',
+        currency: 'AUD'
+      })
   },
   {
     field: 'wholesalePrice',
