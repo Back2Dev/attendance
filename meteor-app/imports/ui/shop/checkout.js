@@ -13,6 +13,7 @@ import 'react-s-alert/dist/s-alert-css-effects/stackslide.css'
 import { CartContext } from './cart-data'
 import ProductCard from './product-card'
 import Privacy, { SecurityModal } from './privacy'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:checkout')
 const NEED_DATE = 'paypal cash xero'.split(/\s+/)
@@ -79,9 +80,13 @@ const Checkout = ({ history }) => {
 
   const buyNow = () => {
     state.discount = 0
-    if (state && state.member && state.member.paymentCustId)
+    if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {
+      history.push('/shop/already-paid')
+    } else if (state && state.member && state.member.paymentCustId)
       history.push(`/shop/charge/${state.member._id}/${state._id}`)
-    else history.push('/shop/address')
+    else {
+      history.push('/shop/address')
+    }
   }
 
   const changeDiscount = e => {

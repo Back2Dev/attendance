@@ -236,7 +236,7 @@ db[res.result].find({value: {$gt: 1}});
         name: member.name,
         email,
         note,
-        discount: priceFormat(discount * 100),
+        discount: priceFormat(discount),
         description1: cart.products[0].name,
         description2: cart.products.length > 1 ? cart.products[1].name : '',
         description3: cart.products.length > 2 ? cart.products[2].name : '',
