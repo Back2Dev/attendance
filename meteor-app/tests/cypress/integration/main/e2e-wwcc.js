@@ -91,7 +91,7 @@ describe('Visit WWCC webpage', function() {
       .clear()
       .type('Cathrine King')
 
-    cy.get('i:hidden').should('exist')
+    cy.get('[class="green check icon"]').should('exist')
   })
   it('Retrieves the WWCC webpage', function() {
     cy.get('[type="text"]').clear()
