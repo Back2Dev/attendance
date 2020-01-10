@@ -102,6 +102,20 @@ global.rmToughGuy = () => {
   })
 }
 
+global.rmJackieChan = () => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmJackieChan')
+  })
+}
+
+global.rmBruceLee = () => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmBruceLee')
+  })
+}
+
 //
 // Common test data, stored here so we don't repeat ourselves
 //

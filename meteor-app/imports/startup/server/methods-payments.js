@@ -64,7 +64,7 @@ Meteor.methods({
     }
   },
 
-  mockMakePayment: async function(chargeData) {
+  mockMakePayment: async function(chargeData, creditCardInfo) {
     try {
       const response = {
         success: true,
@@ -78,9 +78,9 @@ Meteor.methods({
         error_message: null,
         card: {
           scheme: 'visa',
-          display_number: 'XXXX-XXXX-XXXX-0000',
+          display_number: 'XXXX-XXXX-XXXX-' + creditCardInfo.mockNumber.slice(-4),
           issuing_country: 'AU',
-          name: 'Yunfeng S',
+          name: creditCardInfo.mockName,
           address_line1: '1',
           address_line2: null,
           address_city: '1',
@@ -121,6 +121,7 @@ Meteor.methods({
       return `mockMakePayment error: ${error.message}`
     }
   },
+
   createMockCustomer: function(custData, token) {
     const cart = Carts.findOne(custData.metadata.cartId)
     if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: token } })

@@ -20,6 +20,7 @@ const Receipt = props => {
         ))}
     </div>
   )
+
   const Purchased = props => (
     <span>
       {props.items.map((item, ix) => (

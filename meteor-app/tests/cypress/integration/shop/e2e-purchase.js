@@ -66,23 +66,18 @@ describe('Rat Pack members take it in turn to make purchases', function() {
         .contains('Next')
         .click()
 
-      cy.wait(2000)
-      Cypress.Commands.add('pinType', (field, text) => {
-        cy.get('#' + field).within(() => {
-          cy.get(`iframe`).then($iframe => {
-            const body = $iframe.contents().find('body')
-            cy.wrap(body)
-              .find(`.${field}`)
-              .type(text)
-          })
-        })
-      })
-
-      cy.wait(2000)
-      cy.pinType('name', 'Mickey Moto')
-      cy.pinType('number', '4242000000000000')
-      cy.pinType('cvc', '000')
-      cy.pinType('expiry', '12/22')
+      cy.get('input[id=mockName]')
+        .clear()
+        .type('Micky Mock')
+      cy.get('input[id=mockNumber]')
+        .clear()
+        .type('4242000000001234')
+      cy.get('input[id=mockCvc]')
+        .clear()
+        .type('000')
+      cy.get('input[id=mockExpiry]')
+        .clear()
+        .type('12/22')
 
       cy.get('button')
         .contains(data.memberType[1] !== 'PA Casual signup' ? 'Pay' : 'Register card')
