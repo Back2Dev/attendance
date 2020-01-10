@@ -1,3 +1,25 @@
+/*
+
+Open the application
+Login as administrator
+Navigate to /admin/wwcc
+Find test member
+Enter a valid WWCC, and check for success
+Navigate to the member sign in page
+Find test member
+Confirm that WWCC check mark is present
+
+9. Navigate to /admin/wwcc
+Find a test member
+Enter a valid WWCC, and Enter a invalid surname
+Check if error message is displayed, with info about wrong surname
+Confirm that error message has been displayed
+
+Find a test member
+enter a invalid WWCC, and check for error  message
+confirm that error message has been displayed, and has correct info
+*/
+
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test. We do this because of some ugly js errors
@@ -24,14 +46,12 @@ describe('Visit WWCC webpage', function() {
       .should('be.enabled')
       .click()
 
-    // cy.visit('/admin/wwcc/')
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
   })
 
   it('Adds a wwcc number that works', function() {
-    // cy.visit('/admin/wwcc/')
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
@@ -61,24 +81,20 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Retrieves the kiosk webpage ', function() {
-    // cy.get('.item')
-    //   .contains('Login')
-    //   .should('exist')
-    //   .click()
-    cy.visit('/kiosk/')
+    cy.get('a[href="/volsignin"]').click()
   })
+
   it('finds volunteer with wwcc number', function() {
-    cy.get('.input').type('Cathrine King')
-    //  .contains('Search')
-    //   .clear()
-    //   .type('Cathrine')
+    cy.get('[type="text"]')
+      .clear()
+      .type('Cathrine King')
+
+    cy.get('i:hidden').should('exist')
   })
   it('Retrieves the WWCC webpage', function() {
-    cy.get('.input')
-      .contains('Cathrine King')
-      .clear()
+    cy.get('[type="text"]').clear()
 
-    cy.visit('/admin/login/')
+    cy.get('a[href="/login"]').click()
 
     cy.get('input[name=email]')
       .clear()
@@ -94,7 +110,6 @@ describe('Visit WWCC webpage', function() {
       .should('be.enabled')
       .click()
 
-    // cy.visit('/admin/wwcc/')
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
