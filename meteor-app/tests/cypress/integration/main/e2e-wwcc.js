@@ -1,4 +1,4 @@
-/*
+/* Pseudo code for Working with Children Check (WWCC)
 
 Open the application
 Login as administrator
@@ -30,21 +30,22 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 // goes to the wwcc webpage
 describe('Visit WWCC webpage', function() {
   it('Retrieves the WWCC webpage', function() {
-    cy.visit('/admin/login/')
+    cy.visit('/admin/wwcc/')
+    login('admin@back2bikes.com.au', 'me2')
 
-    cy.get('input[name=email]')
-      .clear()
-      .type('admin@back2bikes.com.au')
+    // cy.get('input[name=email]')
+    //   .clear()
+    //   .type('admin@back2bikes.com.au')
 
-    cy.get('input[name=password]')
-      .clear()
-      .type('me2')
-    // .contains('Password')
+    // cy.get('input[name=password]')
+    //   .clear()
+    //   .type('me2')
+    // // .contains('Password')
 
-    cy.get('button')
-      .contains('Submit')
-      .should('be.enabled')
-      .click()
+    // cy.get('button')
+    //   .contains('Submit')
+    //   .should('be.enabled')
+    //   .click()
 
     cy.get('div[data-page="wwcc"]')
       .should('exist')
@@ -81,6 +82,7 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Retrieves the kiosk webpage ', function() {
+    login('admin@back2bikes.com.au', 'me2')
     cy.get('a[href="/volsignin"]').click()
   })
 
