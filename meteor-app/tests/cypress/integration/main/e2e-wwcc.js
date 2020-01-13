@@ -32,7 +32,6 @@ describe('Visit WWCC webpage', function() {
   it('Retrieves the WWCC webpage', function() {
     cy.visit('/admin/wwcc/')
     login('admin@back2bikes.com.au', 'me2')
-
     // cy.get('input[name=email]')
     //   .clear()
     //   .type('admin@back2bikes.com.au')
@@ -50,9 +49,8 @@ describe('Visit WWCC webpage', function() {
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
-  })
 
-  it('Adds a wwcc number that works', function() {
+    // Adds a wwcc number that works
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
@@ -70,10 +68,9 @@ describe('Visit WWCC webpage', function() {
       .contains('Check')
       .click()
     cy.get('.s-alert-success').should('exist')
-  })
 
-  // Click the main button (not in the modal)
-  it('Clicks it again', function() {
+    // Click the main button (not in the modal)
+    //Clicks it again
     cy.get('button[about="Cathrine King"]')
       .contains('Check')
       .should('be.enabled')
@@ -84,15 +81,15 @@ describe('Visit WWCC webpage', function() {
   it('Retrieves the kiosk webpage ', function() {
     login('admin@back2bikes.com.au', 'me2')
     cy.get('a[href="/volsignin"]').click()
-  })
 
-  it('finds volunteer with wwcc number', function() {
+    //  finds volunteer with wwcc number
     cy.get('[type="text"]')
       .clear()
       .type('Cathrine King')
 
     cy.get('[class="green check icon"]').should('exist')
   })
+  // can't run indpentandt on ly fail
   it('Retrieves the WWCC webpage', function() {
     cy.get('[type="text"]').clear()
 
@@ -115,9 +112,8 @@ describe('Visit WWCC webpage', function() {
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
-  })
 
-  it('Adds a wwcc number that fails - name mismatch', function() {
+    // Adds a wwcc number that fails - name mismatch
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
@@ -138,9 +134,9 @@ describe('Visit WWCC webpage', function() {
     cy.get('div')
       .contains('Error: This family name and application/card number combination do not match')
       .should('exist')
-  })
 
-  it('Adds a wwcc number that fails - bad number', function() {
+    // Adds a wwcc number that fails - bad number
+
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
