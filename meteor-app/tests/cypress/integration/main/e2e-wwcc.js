@@ -78,6 +78,9 @@ describe('Visit WWCC webpage', function() {
     // be shown, and it should show the green tick to denote a valid WWC
     cy.get('[class="green check icon"]').should('exist')
 
+    //loginAsAdmin()
+    //cy.get('a[href="/login"]').click()
+
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
