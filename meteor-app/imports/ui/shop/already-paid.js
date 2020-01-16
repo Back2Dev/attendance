@@ -17,10 +17,10 @@ const AlreadyPaid = props => {
         <Header as="h2">
           <Image src={state.settings.logo} />
         </Header>
-        <div>Transaction Date: {moment(state.chargeResponse.created_at).format('DD-MM-YY h:mm:ss a')}</div>
-        <div>Products: {state.products.map(product => product.name).join(', ')}</div>
-        <div>Amount: {'$' + state.chargeAmount / 100}</div>
-        <div>Card Number: {state.chargeResponse.card.display_number}</div>
+        <div>Transaction Date: {moment(props.cart.chargeResponse.created_at).format('DD/MM/YYYY h:mm:ss a')}</div>
+        <div>Products: {props.cart.products.map(product => product.name).join(', ')}</div>
+        <div>Amount: {'$' + props.cart.chargeAmount / 100}</div>
+        <div>Card Number: {props.cart.chargeResponse.card.display_number}</div>
         <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
           Back to the shop
         </Button>

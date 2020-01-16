@@ -5,12 +5,18 @@ import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Renew from './renew'
+import AlreadyPaid from './already-paid'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:renew')
 
 const Loader = props => {
   if (props.loading) return <div>Loading...</div>
-  return <Renew {...props} />
+  if (props.cart.status === CONSTANTS.CART_STATUS.COMPLETE) {
+    return <AlreadyPaid {...props} />
+  } else {
+    return <Renew {...props} />
+  }
 }
 
 export default withTracker(props => {

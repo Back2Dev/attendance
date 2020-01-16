@@ -80,9 +80,7 @@ const Checkout = ({ history }) => {
 
   const buyNow = () => {
     state.discount = 0
-    if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {
-      history.push('/shop/already-paid')
-    } else if (state && state.member && state.member.paymentCustId)
+    if (state && state.member && state.member.paymentCustId)
       history.push(`/shop/charge/${state.member._id}/${state._id}`)
     else {
       history.push('/shop/address')
