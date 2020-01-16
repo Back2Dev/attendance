@@ -28,7 +28,7 @@ const columns = [
   },
   { field: 'code', title: 'Code', editor: true },
   { field: 'description', title: 'Description', editor: true },
-  { field: 'discount', title: 'Discount', editor: true, validator: 'integer' },
+  { field: 'discount', title: 'Discount(%)', editor: true, validator: ['integer', 'min: 0', 'max:100'] },
   { field: 'admin', title: 'Admin', editor: true },
   { field: 'start', title: 'Start', editor: DateEditor },
   { field: 'expires', title: 'Expires', editor: DateEditor }

@@ -1,10 +1,8 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { cloneDeep } from 'lodash'
 import { Button, Image, Card, Segment, Grid, Header } from 'semantic-ui-react'
 
-import MemberCard from '/imports/ui/member/member-card-small'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import { ProductCardOnly } from '/imports/ui/shop/product-card'
 import ProductButton from '/imports/ui/shop/product-button'
@@ -32,6 +30,7 @@ const Renew = props => {
 
   const remove = props => {}
   const selectOption = product => {
+    dispatch({ type: 'add', payload: product })
     setProduct(product)
   }
   const change = () => {

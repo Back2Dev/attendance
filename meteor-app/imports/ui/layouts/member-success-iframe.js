@@ -8,7 +8,7 @@ import { alertsConfig } from '/imports/ui/config/alerts'
 const MemberSuccessIframe = () => {
   return (
     <div style={{ height: '100%' }}>
-      <Alert {...alertsConfig} />
+      {/* <Alert {...alertsConfig} /> */}
       <Switch>
         <Route path="/success/:id" component={MemberAddSuccessContainer} />
       </Switch>

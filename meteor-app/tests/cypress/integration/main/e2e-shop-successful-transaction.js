@@ -57,33 +57,32 @@ describe('Shopping Payment', function() {
   })
   // Stop here, because in CI, it's not possible to reach the
   // PIN Payments site
-  // it('fills out card details', () => {
-  //   Cypress.Commands.add('pinType', (field, text) => {
-  //     cy.get('#' + field).within(() => {
-  //       cy.get(`iframe`).then($iframe => {
-  //         const body = $iframe.contents().find('body')
-  //         cy.wrap(body)
-  //           .find(`.${field}`)
-  //           .type(text)
-  //       })
-  //     })
-  //   })
+  it('fills out card details', () => {
+    Cypress.Commands.add('pinType', (field, text) => {
+      cy.get('#' + field).within(() => {
+        cy.get(`iframe`).then($iframe => {
+          const body = $iframe.contents().find('body')
+          cy.wrap(body)
+            .find(`.${field}`)
+            .type(text)
+        })
+      })
+    })
 
-  //   cy.wait(2000)
-  //   cy.pinType('name', 'Mickey Moto')
-  //   cy.pinType('number', '4242000000000000')
-  //   cy.pinType('cvc', '000')
-  //   cy.pinType('expiry', '12/22')
-  //   cy.get('button')
-  //     .contains('Pay')
-  //     .click()
-  //   cy.log('on the way')
-  //   cy.get('span').contains('Preparing')
-  // Can't seem to get past here, some incompatibility between Cypress and Pinpayments
-  // cy.get('span').contains('Transmitting')
-  // cy.wait(20000)
-  // cy.get('h2').contains('Card payment receipt')
-  // })
+    cy.wait(2000)
+    cy.pinType('name', 'Mickey Moto')
+    cy.pinType('number', '4242000000000000')
+    cy.pinType('cvc', '000')
+    cy.pinType('expiry', '12/22')
+    cy.get('button')
+      .contains('Pay')
+      .click()
+    cy.log('on the way')
+    cy.get('span').contains('Preparing')
+    //Can't seem to get past here, some incompatibility between Cypress and Pinpayments
+    cy.get('span').contains('Transmitting')
+    cy.get('h2').contains('Card payment receipt')
+  })
   // it('Add Card Details', function() {
   //   cy.get('iframe.pin.name')
   //     .should('exist')

@@ -9,12 +9,13 @@ import Checkout from './checkout'
 import Address from './address'
 import CreditCard from './credit-card'
 import RegisterCard from './register-card'
-import Failed from './failed'
 import Receipt from './receipt'
 import Renewal from './renewal'
 import CCRegistered from './cc-registered'
 import CCCharge from './cc-charge'
 import EmailSent from './email-sent'
+import Paid from './paid'
+import AlreadyPaid from './already-paid'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
 import context from '/imports/ui/utils/nav'
@@ -49,13 +50,14 @@ const ShopFront = props => {
         <Route path="/shop/register-card/:id" exact component={RegisterCard} />
         <Route path="/kiosk/register-card/:id" exact component={RegisterCard} />
         <Route path="/shop/receipt" exact component={Receipt} />
-        <Route path="/shop/failed" exact component={Failed} />
         <Route path="/shop/type/:type" component={Department} />
         <Route path="/shop/renew/:id/:cartId" component={Renewal} />
         <Route path="/shop/registered" exact component={CCRegistered} />
         <Route path="/kiosk/registered" exact component={CCRegistered} />
         <Route path="/shop/charge/:memberId/:cartId" exact component={CCCharge} />
         <Route path="/shop/sent/:email" exact component={EmailSent} />
+        <Route path="/shop/paid/:memberId" exact component={Paid} />
+        <Route path="/shop/already-paid" exact component={AlreadyPaid} />
       </Switch>
     </CartContextProvider>
   )

@@ -1,9 +1,11 @@
+import MemberAddCard from '../../../../imports/ui/member/member-add-card'
+
 const pin = '1234'
 
 describe('Shopping Payment', function() {
   it('Choose Product', function() {
     cy.visit('/admin/userprofiles/')
-
+    addCard('Dorothea Kovacek', 'card-bogus')
     cy.get('input[name=email]')
       .clear()
       .type('admin@back2bikes.com.au')

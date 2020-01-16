@@ -5,12 +5,18 @@ import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Renew from './renew'
+import AlreadyPaid from './already-paid'
+import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:renew')
 
 const Loader = props => {
   if (props.loading) return <div>Loading...</div>
-  return <Renew {...props} />
+  if (props.cart.status === CONSTANTS.CART_STATUS.COMPLETE) {
+    return <AlreadyPaid {...props} />
+  } else {
+    return <Renew {...props} />
+  }
 }
 
 export default withTracker(props => {
@@ -20,6 +26,11 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member.renew', id, cartId)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
+  // Set up member context, then it will pick up credit card details
+  if (member) {
+    sessionStorage.setItem('name', member.name)
+    sessionStorage.setItem('memberId', member._id)
+  }
   const purchases = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
   const cart = Carts.findOne(cartId)
   const products = Products.find({ active: true }).fetch()

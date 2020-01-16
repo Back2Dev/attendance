@@ -93,7 +93,7 @@ const App = props => {
           <Route component={NotFound} />
         </Switch>
       </div>
-      <Alert stack={{ limit: 3 }}></Alert>
+      <Alert stack={{ limit: 3 }} />
     </div>
   )
 }

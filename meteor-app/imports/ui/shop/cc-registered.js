@@ -53,8 +53,8 @@ const CCRegistered = props => {
       ]
 
   const gotoHome = e => {
-    sessionStorage.setItem('mycart', null)
-    props.history.push(context.goHome())
+    dispatch({ type: 'clear' }) // Clear the cart ??
+    props.history.push(goHome())
   }
 
   return (

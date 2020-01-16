@@ -50,7 +50,10 @@ const reducer = (state, action) => {
       clrS.discount = 0
       clrS.chargeAmount = 0
       clrS.totalqty = 0
-      saveCart(clrS)
+      // saveCart(clrS)   // There seems to be little point in saving an empty cart
+      sessionStorage.removeItem('mycart')
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('memberId')
       return clrS
     case 'save-cart':
       saveCart(state)
@@ -114,13 +117,13 @@ const reducer = (state, action) => {
 }
 
 function CartContextProvider(props) {
-  const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
+  const [state, dispatch] = React.useReducer(reducer, props.cart || cloneDeep(initialState))
   state.settings = props.settings
   state.cartUpdate = props.cartUpdate
   state.getPromo = props.getPromo
   state.chargeCard = props.chargeCard
-  const value = { state, dispatch }
   cartUpdater = props.cartUpdate
+  const value = { state, dispatch }
 
   return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
 }

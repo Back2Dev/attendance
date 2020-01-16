@@ -6,8 +6,6 @@ import { Meteor } from 'meteor/meteor'
 import faker from 'faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
-import moment from 'moment'
-
 import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/schema'
@@ -190,7 +188,8 @@ Factory.define('purchase', Purchases, {
   txnDate: faker.date.past(),
   purchaser: 'Mike King',
   productId: 'EKFJq9mrEjPer3PHW',
-  productName: 'PA 12 month membership'
+  productName: 'PA 12 month membership',
+  paymentMethod: 'credit card'
 })
 
 Factory.define('event', Events, {

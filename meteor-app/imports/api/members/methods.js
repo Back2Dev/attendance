@@ -8,11 +8,67 @@ import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
-import memberAdd from '/imports/ui/member/member-add'
 
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
+  //
+  // These first methods are for testing purposes, to add/delete data
+  //
+  'members.rmEddie': function(name) {
+    try {
+      log.info(`Removing member: Eddie Mercx ${name}`)
+      return Members.remove({ name: 'Eddie Mercx' })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
+  'members.mkFakeUser': function(username, member) {
+    const m = Members.findOne({ name: username })
+    if (!m) {
+      member.name = username // Override the name
+      member.email = `${username.replace(/ /g, '.')}@${username.replace(/ /g, '-')}s.inc.inc`.toLowerCase()
+      const id = Members.insert(member)
+      if (!id) throw new Meteor.Error(`Could not add a ${username} :(`)
+    }
+  },
+  'members.rmToughGuy': function() {
+    const result = Members.findOne({ name: 'Tough Guy' })
+    Purchases.remove({ memberId: result._id })
+    Carts.remove({ memberId: result._id })
+    Sessions.remove({ memberId: result._id })
+    const n = Members.remove({ name: 'Tough Guy' })
+    if (!n) throw new Meteor.Error('Could not remove the tough guy :(')
+  },
+  'members.rmJackieChan': function() {
+    const result = Members.findOne({ name: 'Jackie Chan' })
+    Purchases.remove({ memberId: result._id })
+    Carts.remove({ memberId: result._id })
+    Sessions.remove({ memberId: result._id })
+    const n = Members.remove({ name: 'Jackie Chan' })
+    if (!n) throw new Meteor.Error('Could not remove the Jackie Chan :(')
+  },
+  'members.rmBruceLee': function() {
+    const result = Members.findOne({ name: 'Bruce Lee' })
+    Purchases.remove({ memberId: result._id })
+    Carts.remove({ memberId: result._id })
+    Sessions.remove({ memberId: result._id })
+    const n = Members.remove({ name: 'Bruce Lee' })
+    if (!n) throw new Meteor.Error('Could not remove the Bruce Lee :(')
+  },
+  'members.addCard': function(name, paymentCustId) {
+    try {
+      log.info(`Adding card to member: ${name}`)
+      return Members.update({ name }, { $set: { paymentCustId } })
+    } catch (e) {
+      log.error({ e })
+      throw new Meteor.Error(500, e.sanitizedError.reason)
+    }
+  },
+  //
+  // Regular methods from here...
+  //
   'members.insert': function(member) {
     try {
       return Members.insert(member)
@@ -90,15 +146,6 @@ Meteor.methods({
     try {
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
-    }
-  },
-  'members.rmEddie': function(name) {
-    try {
-      log.info(`Removing member: Eddie Mercx ${name}`)
-      return Members.remove({ name: 'Eddie Mercx' })
     } catch (e) {
       log.error({ e })
       throw new Meteor.Error(500, e.sanitizedError.reason)
@@ -209,7 +256,7 @@ db[res.result].find({value: {$gt: 1}});
         name: member.name,
         email,
         note,
-        discount: priceFormat(discount * 100),
+        discount: priceFormat(discount),
         description1: cart.products[0].name,
         description2: cart.products.length > 1 ? cart.products[1].name : '',
         description3: cart.products.length > 2 ? cart.products[2].name : '',
