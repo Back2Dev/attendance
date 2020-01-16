@@ -9,6 +9,10 @@
 - Added already-paid page.
 - Numerous bug fixes to do with the shopping cart handling.
 - Added some tests.
+- Non-meteor context handling
+- Get storybook to work again
+- Restore snapshots
+- Had to remove storybook specs
 
 ## 1.1.14
 

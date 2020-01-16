@@ -10,7 +10,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('Shopping Payment', function() {
   it('Choose Product', function() {
     cy.visit('/shop/')
-    cy.get('span').contains('Loading...')
+    cy.get('div').contains('Loading...')
     cy.get('#memberships').click()
     cy.get('button')
       .contains('Add to cart')

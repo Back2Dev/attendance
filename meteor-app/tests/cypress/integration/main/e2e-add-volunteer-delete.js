@@ -13,7 +13,7 @@ describe('Create member', () => {
   it('Open form - about you', () => {
     cy.visit('/kiosk')
 
-    // goes to the Assessment Webpage
+    // goes to the Register/Sign up page
     cy.get('button')
       .contains('Register')
       .click()

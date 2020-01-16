@@ -3,7 +3,7 @@ import moment from 'moment'
 import { Container, Segment, Table, Header, Button, Icon, Image } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 import Price from './price'
-import goHome from '/imports/ui/utils/nav'
+import context from '/imports/ui/utils/nav'
 
 const CCRegistered = props => {
   const { state, dispatch } = React.useContext(CartContext)

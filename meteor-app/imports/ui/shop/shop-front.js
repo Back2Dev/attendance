@@ -18,11 +18,11 @@ import Paid from './paid'
 import AlreadyPaid from './already-paid'
 import { CartContextProvider } from './cart-data'
 const debug = require('debug')('b2b:shop')
-import { Session } from 'meteor/session'
+import context from '/imports/ui/utils/nav'
 
 const ShopFront = props => {
   if (props.location.pathname === '/shop') {
-    Session.set('mode', 'shop')
+    context.set('mode', 'shop')
   }
 
   if (props.loading) return <div>Loading ...</div>
