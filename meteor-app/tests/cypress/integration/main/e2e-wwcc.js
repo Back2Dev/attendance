@@ -31,24 +31,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('Visit WWCC webpage', function() {
   it('Retrieves the WWCC webpage', function() {
     cy.visit('/admin/wwcc/')
-<<<<<<< HEAD
-    login('admin@back2bikes.com.au', 'me2')
-    // cy.get('input[name=email]')
-    //   .clear()
-    //   .type('admin@back2bikes.com.au')
-
-    // cy.get('input[name=password]')
-    //   .clear()
-    //   .type('me2')
-    // // .contains('Password')
-
-    // cy.get('button')
-    //   .contains('Submit')
-    //   .should('be.enabled')
-    //   .click()
-=======
     loginAsAdmin()
->>>>>>> 21db56f407264bc22c25687b99941705e913d11e
 
     cy.get('div[data-page="wwcc"]')
       .should('exist')
@@ -90,39 +73,16 @@ describe('Visit WWCC webpage', function() {
     cy.get('[type="text"]')
       .clear()
       .type('Cathrine King')
-<<<<<<< HEAD
-
-    cy.get('[class="green check icon"]').should('exist')
-  })
-  // can't run indpentandt on ly fail
-  it('Retrieves the WWCC webpage', function() {
-=======
->>>>>>> 21db56f407264bc22c25687b99941705e913d11e
     cy.get('[type="text"]').clear()
-
     // At this point, only the card for our test subject should
-    // be shown, and it should show the green tick to denote a valid WWCC
-
-<<<<<<< HEAD
-    cy.get('button')
-      .contains('Submit')
-      .should('be.enabled')
-      .click()
+    // be shown, and it should show the green tick to denote a valid WWC
+    cy.get('[class="green check icon"]').should('exist')
 
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
 
     // Adds a wwcc number that fails - name mismatch
-=======
-    cy.get('[class="green check icon"]').should('exist')
-    cy.get('[type="text"]').clear()
-  })
-
-  it('Adds a wwcc number that fails - name mismatch', function() {
-    cy.visit('/admin/wwcc/')
-    loginAsAdmin()
->>>>>>> 21db56f407264bc22c25687b99941705e913d11e
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')
