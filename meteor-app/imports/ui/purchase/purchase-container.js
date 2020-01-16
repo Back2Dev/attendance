@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Passes from '../products/passes'
 import Courses from '../products/courses'
 import Memberships from '../products/memberships'
-import Checkout from '../purchase/checkout'
 import './purchase-container.css'
 
 export default class PurchaseContainer extends Component {

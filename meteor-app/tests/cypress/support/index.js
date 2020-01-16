@@ -19,6 +19,37 @@ import faker from 'faker'
 const adminPassword = 'me2'
 const adminUser = 'admin@back2bikes.com.au'
 
+const fakeUserData = {
+  name: () => faker.name.findName(),
+  email: () => faker.internet.email(),
+  // TODO - the rest of these
+  isHere: true,
+  avatar: '7.jpg',
+  sessions: [],
+  // lastIn: new Date(),
+  // joined: new Date(),
+  addressPostcode: '3428',
+  addressState: 'VIC',
+  addressStreet: '199 Henderson Spur',
+  addressSuburb: 'South Melbourne',
+  bikesHousehold: 5,
+  email: 'Jelly.Belly@smells.nasty.com',
+  emergencyContact: 'Everett Mosciski',
+  emergencyEmail: 'Ibrahim.Flatley@gmail.com',
+  emergencyMobile: '848-220-5422',
+  emergencyPhone: '848-924-0182',
+  mobile: '352-485-4816',
+  name: 'Orie Kautzer',
+  phone: '144-467-2060',
+  workStatus: 'Student',
+  reasons: `My love of bikes started as a child. It was my transport growing up,
+      I had no money to pay for repairs, so I had to fix it myself. My best bike
+      was a white Sun 10 speed racer. I saved up for months to buy it. I saved
+      money from my paper round, and my dad threw some money in too.
+    `,
+  primaryBike: 'Racer'
+}
+
 function generate(times, cb) {
   const result = []
   for (let i = 0; i < times; i++) {
@@ -38,58 +69,68 @@ global.loginAsAdmin = () => {
   })
 }
 
-global.school = () => {
-  faker.seed(123)
-  return {
-    _id: faker.random.number(),
-    name: `${faker.address.city()} School`,
-    slug: faker.lorem.word(),
-    schoolYear: '2018',
-    termNo: 3,
-    terms: 4,
-    years: {},
-    email: 'demo@tmap.me',
-    password: 'password'
-  }
-}
-
-global.classy = () => {
-  faker.seed(123)
-  const letter = 'A'
-  const grade = faker.random.number(12)
-  const teacherName = [faker.name.firstName(), faker.name.lastName()]
-  return {
-    _id: faker.random.number(),
-    name: `${grade}${letter} Miss ${teacherName[1]}`,
-    slug: `dem${grade}${letter}`,
-    password: 'demo',
-    schoolYear: '2018',
-    termNo: 1,
-    terms: [],
-    schoolId: faker.random.number(),
-    grade,
-    letter,
-    teacherName: teacherName.join(' '),
-    teacherEmail: 'dem7d@tmap.me'
-  }
-}
-
-// for use when bulk adding a class
-global.fakeClassList = () => {
-  const n = generate(20, faker.name.findName)
-  return n.join('\n')
-}
-
 global.loadFixtures = () => {
   // cy.fixture('users.json').as('users')
   // cy.window().then(win => win.Meteor.call('loadFixtures'))
 }
 
 global.rmPin = name => {
-  cy.window().then(win => win.Meteor.call('members.rmPin', name))
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmPin', name)
+  })
+}
+
+global.rmEddie = name => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmEddie', name)
+  })
+}
+
+global.addCard = (name, cardToken) => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.addCard', name, cardToken)
+  })
+}
+
+global.mkFakeUser = username => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.mkFakeUser', username, fakeUserData)
+  })
 }
 
 global.rmEddie = name => {
   console.log('removing eddie')
   cy.window().then(win => win.Meteor.call('members.rmEddie', name))
+global.rmToughGuy = () => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmToughGuy')
+  })
 }
+
+global.rmJackieChan = () => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmJackieChan')
+  })
+}
+
+global.rmBruceLee = () => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmBruceLee')
+  })
+}
+
+//
+// Common test data, stored here so we don't repeat ourselves
+//
+global.ratPack = [
+  { name: 'Tough Guy', memberType: ['Multi pass', 'PA Casual session'] },
+  { name: 'Bruce Lee', memberType: ['Memberships', 'PA 12 month membership'] },
+  { name: 'Jackie Chan', memberType: ['Multi pass', 'PA Casual signup'], change: 'PA Casual session' }
+]

@@ -51,6 +51,10 @@ export const PurchasesSchema = new SimpleSchema({
     label: 'Transaction date',
     defaultValue: new Date()
   },
+  paymentMethod: {
+    label: 'Payment method',
+    type: String
+  },
   remaining: {
     type: SimpleSchema.Integer,
     optional: true

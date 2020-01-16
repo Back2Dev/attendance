@@ -20,6 +20,7 @@ const Receipt = props => {
         ))}
     </div>
   )
+
   const Purchased = props => (
     <span>
       {props.items.map((item, ix) => (
@@ -53,7 +54,7 @@ const Receipt = props => {
       ]
 
   const gotoShop = e => {
-    sessionStorage.setItem('mycart', null)
+    dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/shop')
   }
 

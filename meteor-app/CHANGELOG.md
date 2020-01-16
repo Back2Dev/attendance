@@ -3,6 +3,12 @@
 ## Next
 
 - Strip out unused lines from top of slsa file
+- PA shop testing - write fixtures when sending invites
+- Meteor 1.8.3 update
+- Mocking up the pinpayment interface.
+- Added already-paid page.
+- Numerous bug fixes to do with the shopping cart handling.
+- Added some tests.
 - Non-meteor context handling
 - Get storybook to work again
 - Restore snapshots

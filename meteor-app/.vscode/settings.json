@@ -1,5 +1,6 @@
 {
   "typescript.check.workspaceVersion": false,
   "editor.tabSize": 2,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "eslint.enable": false
 }

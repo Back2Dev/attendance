@@ -384,7 +384,6 @@ class AssessmentAdd extends Component {
     const orderSubmittedStep = this.state.step == 5
     return (
       <Grid divided="vertically" stackable>
-        <Alert stack={{ limit: 3 }} />
         <Grid.Row centered>
           <Steps step={this.state.step} steps={schemas} goToStep={this.goToStep} progress={this.state.progress} />
         </Grid.Row>

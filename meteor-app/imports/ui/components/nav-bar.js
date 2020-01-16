@@ -13,7 +13,7 @@ const NavBar = ({ currentUser, location }) => {
   return (
     <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
       <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
-        <img src="/images/b2b150.jpg" className="ui small image" />
+        <img src="/images/image.png" className="ui small image" />
       </Menu.Item>
 
       {Roles.userIsInRole(Meteor.userId(), 'signin') ? (
@@ -113,7 +113,7 @@ const NavBar = ({ currentUser, location }) => {
         /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
         <div>
           <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
-          <Menu.Item content={currentUser} style={{ position: 'absolute', bottom: 0 }} />
+          <Menu.Item content={currentUser} />
         </div>
       )}
     </Menu>

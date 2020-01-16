@@ -4,13 +4,13 @@ import React from 'react'
 import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import Products from '/imports/api/products/schema'
 import List from './list'
+import { dollarInput } from '/imports/ui/utils/editors'
 
 const remove = id => Meteor.call('rm.Products', id)
 const update = form => Meteor.call('update.Products', form)
 const insert = form => Meteor.call('insert.Products', form)
 
 // Config data
-
 const defaultObject = {
   name: 'Untitled',
   description: 'Description',
@@ -49,7 +49,17 @@ const columns = [
   },
   { field: 'subsType', title: 'Subs type', editor: true },
   { field: 'duration', title: 'Duration(months)', editor: true, validator: ['integer'] },
-  { field: 'price', title: 'Price(¢)', editor: true, validator: ['integer'] },
+  {
+    field: 'price',
+    title: 'Price',
+    editor: dollarInput,
+    mutatorEdit: value => Math.round(value * 100),
+    formatter: cell =>
+      (cell.getValue() / 100).toLocaleString('en-AU', {
+        style: 'currency',
+        currency: 'AUD'
+      })
+  },
   { field: 'qty', title: 'Qty', editor: true, validator: ['required', 'integer'] },
   { field: 'image', title: 'Image', editor: true },
   { field: 'active', title: 'Active', editor: true, formatter: 'tickCross', align: 'center' },

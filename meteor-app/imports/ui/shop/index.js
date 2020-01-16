@@ -23,6 +23,7 @@ const cartUpdate = data => {
       const id = Carts.insert(contents)
       debug(`New cart id is ${id}`)
       sessionStorage.setItem('mycart', id)
+      data._id = id // Remember to save the id back to the data
     }
   } catch (e) {
     console.error(`Error: [${e.message}] encountered while saving shopping cart`)
@@ -46,7 +47,6 @@ const chargeCard = async ({ price, email, customer_token, metadata }) => {
     // setStatus('')
     if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
       debug('Response', result)
-      // props.history.push(`/shop/failed/${result}`)
       return { error: result }
     } else {
       // The cart gets updated with the response on the server

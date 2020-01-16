@@ -17,6 +17,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
     forgetCard(member._id)
   }
   const addProduct = (memberId, name) => {
+    sessionStorage.removeItem('mycart')
     sessionStorage.setItem('memberId', memberId)
     sessionStorage.setItem('name', name)
     history.push('/shop')
@@ -66,7 +67,8 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
       ) : (
         purchases.map((purchase, ix) => (
           <div key={`p${ix}`}>
-            {moment(purchase.createdAt).format('D MMM YYYY')} {purchase.code} {purchase.productName}{' '}
+            {moment(purchase.createdAt).format('D MMM YYYY')} {purchase.code} {purchase.productName}&nbsp;
+            {purchase.paymentMethod} &nbsp;
             <Price cents={purchase.price} />
             &nbsp;[expires {moment(purchase.expiry).format('D MMM YYYY')}
             {'] '}

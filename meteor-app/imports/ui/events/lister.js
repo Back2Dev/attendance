@@ -5,6 +5,7 @@ import Events, { defaultObject } from '/imports/api/events/schema'
 import List from './list'
 import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import CONSTANTS from '/imports/api/constants'
+import { dollarInput } from '/imports/ui/utils/editors'
 
 const remove = id => Meteor.call('rm.Events', id)
 const update = form => {
@@ -41,7 +42,17 @@ const columns = [
     editor: true,
     validator: ['required', 'integer']
   },
-  { field: 'price', title: 'Price(¢)', editor: true, validator: ['required', 'integer'] },
+  {
+    field: 'price',
+    title: 'Price',
+    editor: dollarInput,
+    mutatorEdit: value => Math.round(value * 100),
+    formatter: cell =>
+      (cell.getValue() / 100).toLocaleString('en-AU', {
+        style: 'currency',
+        currency: 'AUD'
+      })
+  },
   {
     field: 'type',
     title: 'Type',
