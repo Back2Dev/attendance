@@ -1,23 +1,23 @@
 /* Pseudo code for Working with Children Check (WWCC)
 
-Open the application
-Login as administrator
-Navigate to /admin/wwcc
-Find test member
-Enter a valid WWCC, and check for success
-Navigate to the member sign in page
-Find test member
-Confirm that WWCC check mark is present
+  * Open the application
+  * Login as administrator
+  * Navigate to /admin/wwcc
+  * Find test member
+  * Enter a valid WWCC, and check for success
 
-9. Navigate to /admin/wwcc
-Find a test member
-Enter a valid WWCC, and Enter a invalid surname
-Check if error message is displayed, with info about wrong surname
-Confirm that error message has been displayed
+  * Navigate to the member sign in page
+  * Find test member
+  * Confirm that WWCC check mark is present
 
-Find a test member
-enter a invalid WWCC, and check for error  message
-confirm that error message has been displayed, and has correct info
+  * Navigate to /admin/wwcc
+  * Find a test member
+  * Enter a valid WWCC, and Enter a invalid surname
+  * Check if error message is displayed, with info about wrong surname
+
+  * Find a test member
+  * Enter a invalid WWCC
+  * Check for error message
 */
 
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -31,6 +31,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('Visit WWCC webpage', function() {
   it('Retrieves the WWCC webpage', function() {
     cy.visit('/admin/wwcc/')
+<<<<<<< HEAD
     login('admin@back2bikes.com.au', 'me2')
     // cy.get('input[name=email]')
     //   .clear()
@@ -45,6 +46,9 @@ describe('Visit WWCC webpage', function() {
     //   .contains('Submit')
     //   .should('be.enabled')
     //   .click()
+=======
+    loginAsAdmin()
+>>>>>>> 21db56f407264bc22c25687b99941705e913d11e
 
     cy.get('div[data-page="wwcc"]')
       .should('exist')
@@ -79,31 +83,27 @@ describe('Visit WWCC webpage', function() {
   })
 
   it('Retrieves the kiosk webpage ', function() {
-    login('admin@back2bikes.com.au', 'me2')
+    loginAsAdmin()
     cy.get('a[href="/volsignin"]').click()
 
     //  finds volunteer with wwcc number
     cy.get('[type="text"]')
       .clear()
       .type('Cathrine King')
+<<<<<<< HEAD
 
     cy.get('[class="green check icon"]').should('exist')
   })
   // can't run indpentandt on ly fail
   it('Retrieves the WWCC webpage', function() {
+=======
+>>>>>>> 21db56f407264bc22c25687b99941705e913d11e
     cy.get('[type="text"]').clear()
 
-    cy.get('a[href="/login"]').click()
+    // At this point, only the card for our test subject should
+    // be shown, and it should show the green tick to denote a valid WWCC
 
-    cy.get('input[name=email]')
-      .clear()
-      .type('admin@back2bikes.com.au')
-
-    cy.get('input[name=password]')
-      .clear()
-      .type('me2')
-    // .contains('Password')
-
+<<<<<<< HEAD
     cy.get('button')
       .contains('Submit')
       .should('be.enabled')
@@ -114,6 +114,15 @@ describe('Visit WWCC webpage', function() {
       .click()
 
     // Adds a wwcc number that fails - name mismatch
+=======
+    cy.get('[class="green check icon"]').should('exist')
+    cy.get('[type="text"]').clear()
+  })
+
+  it('Adds a wwcc number that fails - name mismatch', function() {
+    cy.visit('/admin/wwcc/')
+    loginAsAdmin()
+>>>>>>> 21db56f407264bc22c25687b99941705e913d11e
     cy.get('button[about="Cathrine King-add"]')
       .contains('Add...')
       .should('be.enabled')

@@ -16,6 +16,8 @@
 // Import commands.js using ES2015 syntax:
 // import './commands'
 import faker from 'faker'
+const adminPassword = 'me2'
+const adminUser = 'admin@back2bikes.com.au'
 
 function generate(times, cb) {
   const result = []
@@ -28,6 +30,11 @@ function generate(times, cb) {
 global.login = (username, password) => {
   cy.window().then(win => {
     win.Meteor.loginWithPassword(username, password)
+  })
+}
+global.loginAsAdmin = () => {
+  cy.window().then(win => {
+    win.Meteor.loginWithPassword(adminUser, adminPassword)
   })
 }
 
