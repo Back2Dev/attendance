@@ -15,7 +15,7 @@ import { saveToArchive } from '/imports/api/archive'
 const debug = require('debug')('b2b:admin')
 
 const Loader = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <div>Loading ...</div>
   return <Admin {...props} />
 }
 
