@@ -77,7 +77,6 @@ describe('Visit WWCC webpage', function() {
     // At this point, only the card for our test subject should
     // be shown, and it should show the green tick to denote a valid WWC
     cy.get('[class="green check icon"]').should('exist')
-
     //loginAsAdmin()
     //cy.get('a[href="/login"]').click()
 
