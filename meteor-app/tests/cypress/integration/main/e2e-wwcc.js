@@ -15,10 +15,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
-
-
+describe('Retrieve kiosk webpage', function() {
   it('Retrieves the kiosk webpage ', function() {
+    cy.visit('/admin/login/')
     loginAsAdmin()
+
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
