@@ -1,15 +1,4 @@
 /* Pseudo code for Working with Children Check (WWCC)
-
-  * Open the application
-  * Login as administrator
-  * Navigate to /admin/wwcc
-  * Find test member
-  * Enter a valid WWCC, and check for success
-
-  * Navigate to the member sign in page
-  * Find test member
-  * Confirm that WWCC check mark is present
-
   * Navigate to /admin/wwcc
   * Find a test member
   * Enter a valid WWCC, and Enter a invalid surname
@@ -27,59 +16,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-// goes to the wwcc webpage
-describe('Visit WWCC webpage', function() {
-  it('Retrieves the WWCC webpage', function() {
-    cy.visit('/admin/wwcc/')
-    loginAsAdmin()
-
-    cy.get('div[data-page="wwcc"]')
-      .should('exist')
-      .click()
-
-    // Adds a wwcc number that works
-    cy.get('button[about="Cathrine King-add"]')
-      .contains('Add...')
-      .should('be.enabled')
-      .click()
-
-    cy.get('input#surname')
-      .clear()
-      .type('King')
-
-    cy.get('input#wwccno')
-      .clear()
-      .type('01819845-02')
-
-    cy.get('button#check')
-      .contains('Check')
-      .click()
-    cy.get('.s-alert-success').should('exist')
-
-    // Click the main button (not in the modal)
-    //Clicks it again
-    cy.get('button[about="Cathrine King"]')
-      .contains('Check')
-      .should('be.enabled')
-      .click()
-    cy.get('.s-alert-success').should('exist')
-
-    loginAsAdmin()
-    cy.get('a[href="/volsignin"]').click()
-
-    //  finds volunteer with wwcc number
-    cy.get('[type="text"]')
-      .clear()
-      .type('Cathrine King')
-    cy.get('[type="text"]').clear()
-    // At this point, only the card for our test subject should
-    // be shown, and it should show the green tick to denote a valid WWC
-    cy.get('[class="green check icon"]').should('exist')
-    //loginAsAdmin()
-    //cy.get('a[href="/login"]').click()
-  })
 
   it('Retrieves the kiosk webpage ', function() {
+    loginAsAdmin()
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
