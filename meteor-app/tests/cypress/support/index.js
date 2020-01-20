@@ -104,7 +104,12 @@ global.mkFakeUser = username => {
 
 global.rmEddie = name => {
   console.log('removing eddie')
-  cy.window().then(win => win.Meteor.call('members.rmEddie', name))
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmEddie', username, fakeUserData)
+  })
+}
+
 global.rmToughGuy = () => {
   cy.window().then(win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
