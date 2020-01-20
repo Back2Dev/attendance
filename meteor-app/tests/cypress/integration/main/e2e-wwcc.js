@@ -63,9 +63,7 @@ describe('Visit WWCC webpage', function() {
       .should('be.enabled')
       .click()
     cy.get('.s-alert-success').should('exist')
-  })
 
-  it('Retrieves the kiosk webpage ', function() {
     loginAsAdmin()
     cy.get('a[href="/volsignin"]').click()
 
@@ -79,7 +77,9 @@ describe('Visit WWCC webpage', function() {
     cy.get('[class="green check icon"]').should('exist')
     //loginAsAdmin()
     //cy.get('a[href="/login"]').click()
+  })
 
+  it('Retrieves the kiosk webpage ', function() {
     cy.get('div[data-page="wwcc"]')
       .should('exist')
       .click()
