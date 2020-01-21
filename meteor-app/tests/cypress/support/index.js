@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 // import './commands'
 import faker from 'faker'
+import team from './test-data'
 
 const fakeUserData = {
   name: () => faker.name.findName(),
@@ -124,3 +125,13 @@ global.ratPack = [
   { name: 'Bruce Lee', memberType: ['Memberships', 'PA 12 month membership'] },
   { name: 'Jackie Chan', memberType: ['Multi pass', 'PA Casual signup'], change: 'PA Casual session' }
 ]
+
+global.addJackie = () => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('members.rmJackieChan')
+      await win.Meteor.callAsync('members.addDude', team.jackie)
+    }
+  })
+}

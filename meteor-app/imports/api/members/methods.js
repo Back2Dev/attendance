@@ -11,6 +11,15 @@ import { saveToArchive } from '/imports/api/archive'
 
 const debug = require('debug')('b2b:server-methods')
 
+const rmFighter = name => {
+  const member = Members.findOne({ name })
+  const memberId = member._id
+  Purchases.remove({ memberId })
+  Carts.remove({ memberId })
+  Sessions.remove({ memberId })
+  const n = Members.remove(memberId)
+  if (!n) throw new Meteor.Error(`Could not remove the ${name} :(`)
+}
 Meteor.methods({
   //
   // These first methods are for testing purposes, to add/delete data
@@ -34,28 +43,35 @@ Meteor.methods({
     }
   },
   'members.rmToughGuy': function() {
-    const result = Members.findOne({ name: 'Tough Guy' })
-    Purchases.remove({ memberId: result._id })
-    Carts.remove({ memberId: result._id })
-    Sessions.remove({ memberId: result._id })
-    const n = Members.remove({ name: 'Tough Guy' })
-    if (!n) throw new Meteor.Error('Could not remove the tough guy :(')
+    rmFighter('Tough Guy')
   },
   'members.rmJackieChan': function() {
-    const result = Members.findOne({ name: 'Jackie Chan' })
-    Purchases.remove({ memberId: result._id })
-    Carts.remove({ memberId: result._id })
-    Sessions.remove({ memberId: result._id })
-    const n = Members.remove({ name: 'Jackie Chan' })
-    if (!n) throw new Meteor.Error('Could not remove the Jackie Chan :(')
+    rmFighter('Jackie Chan')
   },
   'members.rmBruceLee': function() {
-    const result = Members.findOne({ name: 'Bruce Lee' })
-    Purchases.remove({ memberId: result._id })
-    Carts.remove({ memberId: result._id })
-    Sessions.remove({ memberId: result._id })
-    const n = Members.remove({ name: 'Bruce Lee' })
-    if (!n) throw new Meteor.Error('Could not remove the Bruce Lee :(')
+    rmFighter('Bruce Lee')
+  },
+  'members.addDude': function(dude) {
+    const memberId = Members.insert(dude.member)
+    if (!memberId) debug(`Error creating new dude ${dude.member.name}`)
+    else {
+      Members.update(memberId, { $set: { sessions: dude.sessions } })
+      dude.sessions.forEach(session => {
+        session.memberId = memberId
+        session.memberName = dude.member.name
+        session.createdAt = session.timeIn
+        session.updatedAt = session.timeIn
+        if (!Sessions.insert(session, { bypassCollection2: true })) debug(`Error inserting session ${session.name}`)
+      })
+      dude.carts.forEach(cart => {
+        cart.memberId = memberId
+        if (!Carts.insert(cart, { bypassCollection2: true })) debug(`Error inserting cart`)
+      })
+      dude.purchases.forEach(purchase => {
+        purchase.memberId = memberId
+        if (!Purchases.insert(purchase, { bypassCollection2: true })) debug(`Error inserting purchase`)
+      })
+    }
   },
   'members.addCard': function(name, paymentCustId) {
     try {
