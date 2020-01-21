@@ -72,6 +72,11 @@ export const PurchasesSchema = new SimpleSchema({
     label: 'Quantity',
     defaultValue: 1
   },
+  status: {
+    type: String,
+    label: 'Status',
+    defaultValue: 'current'
+  },
   createdAt,
   updatedAt
 })
