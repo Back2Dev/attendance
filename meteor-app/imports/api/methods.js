@@ -4,6 +4,7 @@ import moment from 'moment'
 
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
+import Purchases from '/imports/api/purchases/schema'
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:server-methods')
@@ -62,6 +63,16 @@ Meteor.methods({
         },
         $push: { sessions: session }
       })
+
+      const purchase = Purchases.findOne({ memberId: memberId })
+      if (purchase.status === 'current') {
+        Purchases.update(
+          { memberId: memberId },
+          {
+            $push: { sessions: session }
+          }
+        )
+      }
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error({ error })
