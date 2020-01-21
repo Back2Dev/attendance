@@ -10,15 +10,19 @@ import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
 
 const debug = require('debug')('b2b:server-methods')
+const fs = require('fs')
 
 const rmFighter = name => {
   const member = Members.findOne({ name })
-  const memberId = member._id
-  Purchases.remove({ memberId })
-  Carts.remove({ memberId })
-  Sessions.remove({ memberId })
-  const n = Members.remove(memberId)
-  if (!n) throw new Meteor.Error(`Could not remove the ${name} :(`)
+  if (!member) debug(`Could not find member ${name}`)
+  else {
+    const memberId = member._id
+    Purchases.remove({ memberId })
+    Carts.remove({ memberId })
+    Sessions.remove({ memberId })
+    const n = Members.remove(memberId)
+    if (!n) throw new Meteor.Error(`Could not remove the ${name} :(`)
+  }
 }
 Meteor.methods({
   //
@@ -44,6 +48,9 @@ Meteor.methods({
   },
   'members.rmToughGuy': function() {
     rmFighter('Tough Guy')
+  },
+  'members.rmEddieMercx': function() {
+    rmFighter('Eddie Mercx')
   },
   'members.rmJackieChan': function() {
     rmFighter('Jackie Chan')
@@ -398,6 +405,31 @@ db[res.result].find({value: {$gt: 1}});
         what: `Set autoPay: ${value} for ${member.name} (${memberId})`,
         object: { memberId }
       })
+    }
+  },
+  'members.extract': function(memberId, newName, filename) {
+    if (memberId && newName) {
+      const prefix = `const ISODate = date => date
+      const NumberInt = n => n
+      
+      const dude = `
+      const postfix = `
+      export default dude
+      `
+      const bucket = {}
+      const member = Members.findOne(memberId)
+      if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+      bucket.member = member
+      bucket.sessions = Sessions.find({ memberId }).fetch()
+      bucket.purchases = Purchases.find({ memberId }).fetch()
+      bucket.carts = Carts.find({ memberId }).fetch()
+      let contents = JSON.stringify(bucket, null, 2)
+      contents = contents.replace(new RegExp(member.name, 'g'), newName)
+      const newEmail = newName.replace(/[ '"\.\,]+/g, '.') + '@nomail.maybe.home'
+      contents = contents.replace(new RegExp(member.email, 'g'), newEmail)
+      fs.writeFileSync(filename, prefix + contents + postfix, { encoding: 'utf8' })
+    } else {
+      throw new Meteor.Error('memberId and newname are mandatory parameters')
     }
   }
 })

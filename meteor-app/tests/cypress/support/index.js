@@ -135,3 +135,33 @@ global.addJackie = () => {
     }
   })
 }
+
+global.addBruce = () => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('members.rmBruceLee')
+      await win.Meteor.callAsync('members.addDude', team.bruce)
+    }
+  })
+}
+
+global.addTough = () => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('members.rmToughGuy')
+      await win.Meteor.callAsync('members.addDude', team.tough)
+    }
+  })
+}
+
+global.addEddie = () => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('members.rmEddieMercx')
+      await win.Meteor.callAsync('members.addDude', team.eddie)
+    }
+  })
+}
