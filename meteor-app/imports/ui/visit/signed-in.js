@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Header, Input } from 'semantic-ui-react'
 import context from '/imports/ui/utils/nav'
+import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
 const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 
@@ -71,6 +72,8 @@ const Arrive = props => {
       <div>
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
+        <MultiVisitsCard />
+        &nbsp;
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {needMore && (
             <Button type="button" id="done" onClick={() => props.history.push(`/kiosk`)}>
