@@ -58,6 +58,9 @@ Meteor.methods({
   'members.rmBruceLee': function() {
     rmFighter('Bruce Lee')
   },
+  'members.rmCathrineKing': function() {
+    rmFighter('Cathrine King')
+  },
   'members.addDude': function(dude) {
     const memberId = Members.insert(dude.member)
     if (!memberId) debug(`Error creating new dude ${dude.member.name}`)
