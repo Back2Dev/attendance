@@ -126,7 +126,7 @@ SecureRoute.propTypes = {
 // Add in a withTracker component, so that we end up waiting for the roles to be loaded before we render menus
 //
 const AppLoader = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <div>Booting up ...</div>
   return (
     <Router>
       <App {...props} />
