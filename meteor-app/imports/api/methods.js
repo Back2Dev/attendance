@@ -64,18 +64,16 @@ Meteor.methods({
         $push: { sessions: session }
       })
 
-      const purchase = Purchases.findOne({ memberId: memberId })
+      const purchase = Purchases.findOne({ memberId, status: 'current' })
       if (purchase.status === 'current') {
-        Purchases.update(
-          { memberId: memberId },
-          {
-            $push: { sessions: session }
-          }
-        )
+        Purchases.update(purchase._id, {
+          $push: { sessions: session }
+        })
       }
+
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
-      log.error({ error })
+      log.error(error)
     }
   },
 
