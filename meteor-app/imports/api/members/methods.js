@@ -61,6 +61,9 @@ Meteor.methods({
   'members.rmCathrineKing': function() {
     rmFighter('Cathrine King')
   },
+  'members.rmRookiePaddler': function() {
+    rmFighter('Rookie Paddler')
+  },
   'members.addDude': function(dude) {
     const memberId = Members.insert(dude.member)
     if (!memberId) debug(`Error creating new dude ${dude.member.name}`)
@@ -421,6 +424,7 @@ db[res.result].find({value: {$gt: 1}});
       `
       const bucket = {}
       const member = Members.findOne(memberId)
+      if (!member.email) member.email = 'nobody@none.such'
       if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
       bucket.member = member
       bucket.sessions = Sessions.find({ memberId }).fetch()

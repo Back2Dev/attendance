@@ -124,6 +124,13 @@ global.rmCathrineKing = () => {
   })
 }
 
+global.rmRookiePaddler = () => {
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmRookiePaddler')
+  })
+}
+
 //
 // Common test data, stored here so we don't repeat ourselves
 //
@@ -179,6 +186,16 @@ global.addCathrine = () => {
     else {
       await win.Meteor.callAsync('members.rmCathrineKing')
       await win.Meteor.callAsync('members.addDude', team.cathrine)
+    }
+  })
+}
+
+global.addRookie = () => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('members.rmRookiePaddler')
+      await win.Meteor.callAsync('members.addDude', team.rookie)
     }
   })
 }

@@ -28,3 +28,10 @@ describe('Create an Eddie Mercx', function() {
     addEddie()
   })
 })
+
+describe('Create an Rookie Paddler', function() {
+  it(`Creates an Rookie`, function() {
+    cy.visit('/')
+    addRookie()
+  })
+})
