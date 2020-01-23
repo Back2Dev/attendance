@@ -7,6 +7,10 @@
   * Find a test member
   * Enter a invalid WWCC
   * Check for error message
+  * 
+  * find a test member
+  * Enter a WWCC which is expired
+  * Check for error message
 */
 
 Cypress.on('uncaught:exception', (err, runnable) => {
