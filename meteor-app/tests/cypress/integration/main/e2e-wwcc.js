@@ -68,5 +68,28 @@ describe('Retrieve kiosk webpage', function() {
     cy.get('div')
       .contains('Error: There was a problem submitting your request, one or more fields are missing or incorrect')
       .should('exist')
+
+    // Adds a wwcc number that fails - unsuccessful number
+
+    cy.get('button[about="Cathrine King-add"]')
+      .contains('Add...')
+      .should('be.enabled')
+      .click()
+
+    cy.get('input#surname')
+      .clear()
+      .type('King')
+
+    cy.get('input#wwccno')
+      .clear()
+      .type('01809845-02')
+
+    cy.get('button#check')
+      .contains('Check')
+      .click()
+    cy.get('.s-alert-error').should('exist')
+    cy.get('div')
+      .contains('Error: This family name and application/card number combination do not match')
+      .should('exist')
   })
 })
