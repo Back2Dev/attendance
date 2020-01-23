@@ -64,16 +64,57 @@ Meteor.methods({
         $push: { sessions: session }
       })
 
+      /* 
+        1. Purchase is current with more than 1 remaining
+            * add session
+            * if(!paid) send please pay email
+        2. Purchase sessions are 9/10
+            * add session
+            * new purchase
+            * if (auto pay) make payment
+            * else send please pay email
+            * paymentStatus="notified"
+        3. Purchase does not exist
+            * create purchase
+            * add session
+            * send please pay email
+      */
       const purchase = Purchases.findOne({ memberId, status: 'current' })
-      if (purchase.status === 'current') {
+      if (purchase) {
         Purchases.update(purchase._id, {
           $push: { sessions: session }
         })
+        const remaining = purchase.qty - purchase.sessions.length - 1
+        if (remaining <= 0) {
+          Purchases.update(purchase._id, {
+            $set: { status: 'complete' }
+          })
+          if (member.autoPay) {
+            const newPurchase = createNewPass(member)
+            autoPay(member, newPurchase)
+          } else {
+            const newPurchase = createNewPass(member)
+            sendPleasePayEmail(member, newPurchase)
+          }
+        } else {
+          if (purchase.paymentStatus !== 'paid') {
+            sendPleasePayEmail(member, purchase)
+          }
+        }
+      } else {
+        // 3. Purchase does not exist
+        // * create purchase
+        // * add session
+        // * send please pay email
+        const newPurchase = createNewPass(member)
+        Purchases.update(newPurchase._id, {
+          $push: { sessions: session }
+        })
+        sendPleasePayEmail(member, newPurchase)
       }
-
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
-      log.error(error)
+      log.error(error.message)
     }
   },
 
@@ -256,3 +297,48 @@ Meteor.methods({
     )
   }
 })
+
+const createNewPass = member => {
+  const code = 'PA-PASS-MULTI-10'
+  const product = Products.findOne({ code, active: true })
+  if (!product) {
+    throw new Meteor.Error(`Could not find product ${code}`)
+  }
+  const defaultPurchase = {
+    productName: product.name,
+    productId: product._id,
+    price: product.price,
+    remaining: product.qty,
+    expiry: moment()
+      .add(product.duration, 'month')
+      .toISOString(),
+    memberId: member._id,
+    purchaser: member.name,
+    code,
+    qty: 1,
+    status: 'current',
+    paymentMethod: 'pending'
+  }
+  const pid = Purchases.insert(defaultPurchase)
+  const purchase = Purchases.findOne(pid)
+  if (!purchase) {
+    throw new Meteor.Error('Could not create new purchase record')
+  }
+  return purchase
+}
+
+const sendPleasePayEmail = (member, purchase) => {
+  Meteor.call(
+    'sendGenericActionEmail',
+    member.email,
+    {
+      subject: 'Please pay for your pass',
+      name: member.name,
+      message: 'You did a session today, you need to pay for it ',
+      headline: 'Payment required',
+      link: Meteor.absoluteUrl('/shop'),
+      action: 'Pay Now'
+    },
+    Meteor.settings.private.genericActionID
+  )
+}

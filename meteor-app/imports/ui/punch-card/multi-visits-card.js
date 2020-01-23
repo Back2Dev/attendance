@@ -25,7 +25,6 @@ const MultiVisitsCard = props => {
         </div>
       )
   }
-
   return (
     <div className="multi-visit-card">
       <div className="Container">

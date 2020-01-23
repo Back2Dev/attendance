@@ -67,12 +67,13 @@ const Arrive = props => {
     setShow(!showEdit)
   }
   const but = needMore ? ", but your profile isn't complete" : ''
+  console.log(props)
   return (
     <div style={{ padding: '20px 0' }}>
       <div>
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
-        <MultiVisitsCard />
+        {props.member.subsType === 'pass' && <MultiVisitsCard />}
         &nbsp;
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {needMore && (
