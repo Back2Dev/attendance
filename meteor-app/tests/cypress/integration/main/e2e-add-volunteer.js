@@ -9,6 +9,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe('Create member', function() {
   it('Open form - about you', function() {
+    rmEddie('Eddie Mercx')
     cy.visit('/kiosk')
     cy.get
     cy.get('button')
@@ -147,7 +148,6 @@ describe('Clean up', function() {
   beforeEach(function() {
     cy.visit('/kiosk')
     // loadFixtures()
-    rmEddie('Eddie Mercx')
   })
   it('Open form - about you', function() {
     cy.get('button')
