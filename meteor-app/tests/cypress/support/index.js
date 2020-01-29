@@ -17,6 +17,8 @@
 // import './commands'
 import faker from 'faker'
 import team from './test-data'
+const adminPassword = 'me2'
+const adminUser = 'admin@back2bikes.com.au'
 
 const fakeUserData = {
   name: () => faker.name.findName(),
@@ -62,6 +64,11 @@ global.login = (username, password) => {
     win.Meteor.loginWithPassword(username, password)
   })
 }
+global.loginAsAdmin = () => {
+  cy.window().then(win => {
+    win.Meteor.loginWithPassword(adminUser, adminPassword)
+  })
+}
 
 global.loadFixtures = () => {
   // cy.fixture('users.json').as('users')
@@ -93,6 +100,14 @@ global.mkFakeUser = username => {
   cy.window().then(win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
     else win.Meteor.call('members.mkFakeUser', username, fakeUserData)
+  })
+}
+
+global.rmEddie = name => {
+  console.log('removing eddie')
+  cy.window().then(win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else win.Meteor.call('members.rmEddie', username, fakeUserData)
   })
 }
 

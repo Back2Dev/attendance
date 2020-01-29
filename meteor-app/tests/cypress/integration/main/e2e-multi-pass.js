@@ -48,5 +48,11 @@ describe('Login into Kiosk', function() {
         .should('be.enabled')
         .click()
     }
+
+    cy.visit('/admin/userprofiles/')
+
+    loginAsAdmin()
+
+    cy.get('img[src=')
   })
 })
