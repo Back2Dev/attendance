@@ -7,7 +7,7 @@ import CartList from './cart-list'
 
 const debug = require('debug')('b2b:admin')
 
-const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateAutoPay, history }) => {
+const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateAutoPay, history, migrateSessions }) => {
   const [autoPay, setAutoPay] = React.useState(member.autoPay)
   const toggleAutoPay = e => {
     setAutoPay(!autoPay)
@@ -47,6 +47,14 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         }}
         content="Add..."
         about={member.name}
+      />
+      <Button
+        color="red"
+        onClick={e => {
+          e.preventDefault()
+          migrateSessions(member._id)
+        }}
+        content="Merge"
       />
       &nbsp;
       <hr></hr>

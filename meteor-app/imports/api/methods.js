@@ -32,6 +32,42 @@ Meteor.methods({
     }
   },
 
+  migrateSessions(id) {
+    //find Members with subscription type pass or null
+    const members = Members.find({
+      $and: [{ $or: [{ subsType: 'pass' }, { subsType: null }] }, { _id: id }]
+    })
+    members.forEach(member => {
+      const purchases = Purchases.find({ memberId: member._id })
+      const sessions = member.sessions
+      //if they have a purchase
+      if (purchases) {
+        purchases.forEach(purchase => {
+          //if purchase.sessions doesn't exist create empty array and set remaining to 10
+          if (!purchase.sessions) {
+            Purchases.update(purchase._id, { $set: { sessions: [] } })
+            Purchases.update(purchase._id, { $set: { remaining: 10 } })
+          }
+          //fill the purchases with sessions
+          sessions.forEach(session => {
+            Purchases.update(purchase._id, { $addToSet: { sessions: session } })
+            Purchases.update(purchase._id, { $inc: { remaining: -1 } })
+          })
+          //if there are leftovers then email them the leftover purchases
+          debug(`sessions = ${purchase.sessions.length}, remaining = ${purchase.remaining}`)
+        })
+      }
+      // else make a purchase and push the sessions
+      else {
+        const newPurchase = createNewPass(member)
+        sessions.forEach(session => {
+          Purchases.update(purchase._id, { $push: { sessions: session } })
+        })
+        sendPleasePayEmail(member, newPurchase)
+      }
+    })
+  },
+
   arrive(memberId, event) {
     const { duration, name, price } = event
     const timeIn = new Date()
@@ -39,7 +75,6 @@ Meteor.methods({
       .add(duration, 'h')
       .toDate()
     const member = Members.findOne(memberId)
-
     try {
       const id = Sessions.insert({
         memberId,

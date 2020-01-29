@@ -67,7 +67,7 @@ const Arrive = props => {
     setShow(!showEdit)
   }
   const but = needMore ? ", but your profile isn't complete" : ''
-  console.log(props)
+
   return (
     <div style={{ padding: '20px 0' }}>
       <div>
