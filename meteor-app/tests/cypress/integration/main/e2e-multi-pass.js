@@ -50,9 +50,11 @@ describe('Login into Kiosk', function() {
     }
 
     cy.visit('/admin/userprofiles/')
-
     loginAsAdmin()
 
-    cy.get('img[src=')
+    cy.get('div[class="header"]')
+      .contains('Cathrine King')
+      .should('exist')
+      .click()
   })
 })
