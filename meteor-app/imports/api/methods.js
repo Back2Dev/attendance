@@ -40,31 +40,9 @@ Meteor.methods({
     members.forEach(member => {
       const purchases = Purchases.find({ memberId: member._id })
       const sessions = member.sessions
-      //if they have a purchase
-      if (purchases) {
-        purchases.forEach(purchase => {
-          //if purchase.sessions doesn't exist create empty array and set remaining to 10
-          if (!purchase.sessions) {
-            Purchases.update(purchase._id, { $set: { sessions: [] } })
-            Purchases.update(purchase._id, { $set: { remaining: 10 } })
-          }
-          //fill the purchases with sessions
-          sessions.forEach(session => {
-            Purchases.update(purchase._id, { $addToSet: { sessions: session } })
-            Purchases.update(purchase._id, { $inc: { remaining: -1 } })
-          })
-          //if there are leftovers then email them the leftover purchases
-          debug(`sessions = ${purchase.sessions.length}, remaining = ${purchase.remaining}`)
-        })
-      }
-      // else make a purchase and push the sessions
-      else {
-        const newPurchase = createNewPass(member)
-        sessions.forEach(session => {
-          Purchases.update(purchase._id, { $push: { sessions: session } })
-        })
-        sendPleasePayEmail(member, newPurchase)
-      }
+      sessions.forEach(session => {
+        addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
+      })
     })
   },
 
@@ -99,54 +77,8 @@ Meteor.methods({
         $push: { sessions: session }
       })
 
-      /* 
-        1. Purchase is current with more than 1 remaining
-            * add session
-            * if(!paid) send please pay email
-        2. Purchase sessions are 9/10
-            * add session
-            * new purchase
-            * if (auto pay) make payment
-            * else send please pay email
-            * paymentStatus="notified"
-        3. Purchase does not exist
-            * create purchase
-            * add session
-            * send please pay email
-      */
-      const purchase = Purchases.findOne({ memberId, status: 'current' })
-      if (purchase) {
-        Purchases.update(purchase._id, {
-          $push: { sessions: session }
-        })
-        const remaining = purchase.qty - purchase.sessions.length - 1
-        if (remaining <= 0) {
-          Purchases.update(purchase._id, {
-            $set: { status: 'complete' }
-          })
-          if (member.autoPay) {
-            const newPurchase = createNewPass(member)
-            autoPay(member, newPurchase)
-          } else {
-            const newPurchase = createNewPass(member)
-            sendPleasePayEmail(member, newPurchase)
-          }
-        } else {
-          if (purchase.paymentStatus !== 'paid') {
-            sendPleasePayEmail(member, purchase)
-          }
-        }
-      } else {
-        // 3. Purchase does not exist
-        // * create purchase
-        // * add session
-        // * send please pay email
-        const newPurchase = createNewPass(member)
-        Purchases.update(newPurchase._id, {
-          $push: { sessions: session }
-        })
-        sendPleasePayEmail(member, newPurchase)
-      }
+      addSession2Purchase({ member, session, doAutoPay: true, sendEmailtrue: true })
+
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error(error.message)
@@ -376,4 +308,55 @@ const sendPleasePayEmail = (member, purchase) => {
     },
     Meteor.settings.private.genericActionID
   )
+}
+
+const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
+  /* 
+        1. Purchase is current with more than 1 remaining
+            * add session
+            * if(!paid) send please pay email
+        2. Purchase sessions are 9/10
+            * add session
+            * new purchase
+            * if (auto pay) make payment
+            * else send please pay email
+            * paymentStatus="notified"
+        3. Purchase does not exist
+            * create purchase
+            * add session
+            * send please pay email
+      */
+  const purchase = Purchases.findOne({ memberId: member._id, status: 'current' })
+  if (purchase) {
+    Purchases.update(purchase._id, {
+      $push: { sessions: session }
+    })
+    const remaining = purchase.qty - purchase.sessions.length - 1
+    if (remaining <= 0) {
+      Purchases.update(purchase._id, {
+        $set: { status: 'complete' }
+      })
+      if (doAutoPay && member.autoPay) {
+        const newPurchase = createNewPass(member)
+        autoPay(member, newPurchase)
+      } else {
+        const newPurchase = createNewPass(member)
+        if (sendEmail) sendPleasePayEmail(member, newPurchase)
+      }
+    } else {
+      if (purchase.paymentStatus !== 'paid') {
+        if (sendEmail) sendPleasePayEmail(member, purchase)
+      }
+    }
+  } else {
+    // 3. Purchase does not exist
+    // * create purchase
+    // * add session
+    // * send please pay email
+    const newPurchase = createNewPass(member)
+    Purchases.update(newPurchase._id, {
+      $push: { sessions: session }
+    })
+    if (sendEmail) sendPleasePayEmail(member, newPurchase)
+  }
 }
