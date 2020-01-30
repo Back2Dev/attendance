@@ -22,7 +22,7 @@ describe('Login into Kiosk', function() {
 
       cy.get('input[name="pinInput"]')
         .clear()
-        .type('1234')
+        .type('2701')
 
       cy.get('button[id="sas_squad"]')
         .should('be.enabled')
@@ -41,7 +41,7 @@ describe('Login into Kiosk', function() {
 
       cy.get('input[name="pinInput"]')
         .clear()
-        .type('1234')
+        .type('2701')
 
       cy.get('#signIn')
         .should('exist')
@@ -56,5 +56,8 @@ describe('Login into Kiosk', function() {
       .contains('Cathrine King')
       .should('exist')
       .click()
+
+    cy.get('div').contains(/Purchases \(\d+\)/)
+    //   .should('exist')
   })
 })
