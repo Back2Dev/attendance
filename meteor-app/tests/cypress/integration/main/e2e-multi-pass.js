@@ -48,5 +48,13 @@ describe('Login into Kiosk', function() {
         .should('be.enabled')
         .click()
     }
+
+    cy.visit('/admin/userprofiles/')
+    loginAsAdmin()
+
+    cy.get('div[class="header"]')
+      .contains('Cathrine King')
+      .should('exist')
+      .click()
   })
 })
