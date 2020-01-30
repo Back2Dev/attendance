@@ -24,7 +24,7 @@ describe('Login into Kiosk', function() {
         .clear()
         .type('1234')
 
-      cy.get('button[id="sas_squad"]')
+      cy.get('button[id="group_kayak"]')
         .should('be.enabled')
         .should('exist')
         .click()
