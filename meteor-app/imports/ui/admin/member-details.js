@@ -80,6 +80,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
             <Price cents={purchase.price} />
             &nbsp;[expires {moment(purchase.expiry).format('D MMM YYYY')}
             {'] '}
+            {purchase.remaining && `${purchase.remaining} remaining`}
           </div>
         ))
       )}
