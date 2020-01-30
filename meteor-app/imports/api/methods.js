@@ -7,6 +7,7 @@ import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
+import { ProductTypes } from './products/schema'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -38,7 +39,11 @@ Meteor.methods({
       $and: [{ $or: [{ subsType: 'pass' }, { subsType: null }] }, { _id: id }]
     })
     members.forEach(member => {
-      const purchases = Purchases.find({ memberId: member._id })
+      Purchases.update(
+        { memberId: member._id, code: 'PA-PASS-MULTI-10' },
+        { $set: { status: 'current' } },
+        { multi: true }
+      )
       const sessions = member.sessions
       sessions.forEach(session => {
         addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
@@ -326,12 +331,21 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
             * add session
             * send please pay email
       */
-  const purchase = Purchases.findOne({ memberId: member._id, status: 'current' })
+  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
+  const purchase = purchases.length ? purchases[0] : null
   if (purchase) {
+    const product = Products.findOne({ code: purchase.code, active: true })
+    if (!product) {
+      throw new Meteor.Error(`Could not find product ${purchase.code}`)
+    }
+    let remaining = product.qty - 1
+    if (purchase.sessions) {
+      remaining = remaining - purchase.sessions.length
+    }
     Purchases.update(purchase._id, {
-      $push: { sessions: session }
+      $push: { sessions: session },
+      $set: { remaining }
     })
-    const remaining = purchase.qty - purchase.sessions.length - 1
     if (remaining <= 0) {
       Purchases.update(purchase._id, {
         $set: { status: 'complete' }
@@ -355,7 +369,8 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
     // * send please pay email
     const newPurchase = createNewPass(member)
     Purchases.update(newPurchase._id, {
-      $push: { sessions: session }
+      $push: { sessions: session },
+      $set: { remaining: newPurchase.remaining - 1 }
     })
     if (sendEmail) sendPleasePayEmail(member, newPurchase)
   }
