@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import Alert from 'react-s-alert'
 import moment from 'moment'
 import Members from '/imports/api/members/schema'
+import Purchases from '/imports/api/purchases/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
 import context from '/imports/ui/utils/nav'
@@ -14,6 +15,9 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
+  const purchases =
+    Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch() || {}
+  const purchase = purchases.length ? purchases[0] : null
   const eventQuery = {
     active: true,
     $or: [
@@ -105,6 +109,7 @@ export default withTracker(props => {
     recordDeparture,
     loading,
     member,
+    purchase,
     events,
     cancelClick,
     onSubmitPin,
