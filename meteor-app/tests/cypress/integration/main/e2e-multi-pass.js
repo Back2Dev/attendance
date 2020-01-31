@@ -10,23 +10,30 @@ import { createPublicKey } from 'crypto'
   * Create loop which will iterate 10 times for this
   */
 
+// This script is generic in nature. It only refers to the member object to get things
+// like name, pin, etc
+// So this is the only place where the code is specific to the person
+const { member } = team.cathrine
+const numVisits = 3
+
+// The rest of this code is generic...
+
 describe('Login into Kiosk', function() {
   beforeEach(() => {
     cy.visit('/kiosk')
-    rmSessions(team.cathrine.member._id)
+    rmSessions(member._id) // Remove any previous sessions, so that we know how many to expect at the end
   })
   it('Open form - about you', function() {
     cy.visit('/kiosk')
-    // cy.get('list=["away"]').click()
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < numVisits; i++) {
       cy.get('div[list="away"]')
-        .contains('Cathrine King')
+        .contains(member.name)
         .should('exist')
         .click()
 
       cy.get('input[name="pinInput"]')
         .clear()
-        .type('2701')
+        .type(member.pin)
 
       cy.get('button[id="group_kayak"]')
         .should('be.enabled')
@@ -39,13 +46,13 @@ describe('Login into Kiosk', function() {
         .click()
 
       cy.get('[list="present"] > .ui')
-        .contains('Cathrine K')
+        .contains(shortName(member.name))
         .should('exist')
         .click()
 
       cy.get('input[name="pinInput"]')
         .clear()
-        .type('2701')
+        .type(member.pin)
 
       cy.get('#signIn')
         .should('exist')
@@ -57,12 +64,14 @@ describe('Login into Kiosk', function() {
     loginAsAdmin()
 
     cy.get('div[class="header"]')
-      .contains('Cathrine King')
+      .contains(member.name)
       .should('exist')
       .click()
 
     cy.get('span[id="numPurchases"]').should('exist')
 
-    cy.get('span[id="numSessions"]').contains('10')
+    cy.get('span[id="numSessions"]')
+      .contains(numVisits)
+      .should('exist')
   })
 })

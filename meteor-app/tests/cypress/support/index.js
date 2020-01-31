@@ -219,3 +219,8 @@ global.rmSessions = id => {
     }
   })
 }
+
+global.shortName = function(name) {
+  const names = name ? name.split(' ') : ['Unknown']
+  return names[1] ? `${names[0]} ${names[1][0]}` : `${names[0]}`
+}
