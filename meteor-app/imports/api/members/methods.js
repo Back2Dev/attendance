@@ -438,5 +438,12 @@ db[res.result].find({value: {$gt: 1}});
     } else {
       throw new Meteor.Error('memberId and newname are mandatory parameters')
     }
+  },
+  'members.rmSessions'(id) {
+    Members.update(id, { $set: { sessions: [] } })
+    Sessions.remove({ memberId: id })
+    Purchases.find({ memberId: id }).forEach(purchase => {
+      Purchases.update(id, { $set: { sessions: [] } })
+    })
   }
 })

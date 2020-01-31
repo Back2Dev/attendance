@@ -59,6 +59,8 @@ function generate(times, cb) {
   return result
 }
 
+global.team = team // Make the team data available to the team
+
 global.login = (username, password) => {
   cy.window().then(win => {
     win.Meteor.loginWithPassword(username, password)
@@ -211,6 +213,15 @@ global.addRookie = () => {
     else {
       await win.Meteor.callAsync('members.rmRookiePaddler')
       await win.Meteor.callAsync('members.addDude', team.rookie)
+    }
+  })
+}
+
+global.rmSessions = id => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('members.rmSessions')
     }
   })
 }

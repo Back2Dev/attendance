@@ -11,6 +11,10 @@ import { createPublicKey } from 'crypto'
   */
 
 describe('Login into Kiosk', function() {
+  beforeEach(() => {
+    cy.visit('/kiosk')
+    rmSessions(team.cathrine._id)
+  })
   it('Open form - about you', function() {
     cy.visit('/kiosk')
     // cy.get('list=["away"]').click()
