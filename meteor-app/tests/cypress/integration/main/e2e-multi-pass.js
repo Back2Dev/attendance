@@ -63,6 +63,9 @@ describe('Login into Kiosk', function() {
 
     cy.get('span[id="numPurchases"]').should('exist')
 
-    cy.get('span[id="numSessions"]').should('exist')
+    cy
+      .get('span[id="numSessions"]')
+      .should('exist')
+      .should('equal')(10)
   })
 })

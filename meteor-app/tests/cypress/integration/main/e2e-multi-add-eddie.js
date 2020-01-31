@@ -23,7 +23,7 @@ describe('Login into Kiosk', function() {
         .should('exist')
         .click()
 
-      cy.get('input[name="pinInput"]')
+      cy.get('input[name=pinInput]')
         .clear()
         .type('2803')
 
@@ -42,17 +42,33 @@ describe('Login into Kiosk', function() {
         .should('exist')
         .click()
 
-      cy.get('input[name="pinInput"]')
+      cy.get('input[name=pinInput]')
         .clear()
-        .type('2803')
+
+        .clear()
+        .type(member.pin)
 
       cy.get('#signIn')
         .should('exist')
         .should('be.enabled')
         .click()
     }
-    cy.get('span[id="numPurchases"]').should('exist')
+    cy.visit('/admin/userprofiles/')
+    loginAsAdmin()
 
-    cy.get('span[id="numSessions"]').should('exist')
+    cy.get('div[class="header"]')
+      .contains('Eddie Mercx')
+      .should('exist')
+      .click()
+
+    cy.get('span[id="numPurchases"]')
+      .should('exist')
+      .should('equal') //(15)
+
+    cy.get('span[id="numSessions"]')
+      .should('exist')
+      .shoul((15).to.equal(15))
+
+    //  .should('equal') //(15)
   })
 })

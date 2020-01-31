@@ -23,7 +23,8 @@ describe('Login into Kiosk', function() {
         .should('exist')
         .click()
 
-      cy.get('input[name="pinInput"]')
+      cy.get('input[name=pinInput]')
+
         .clear()
         .type('2405')
 
@@ -42,7 +43,8 @@ describe('Login into Kiosk', function() {
         .should('exist')
         .click()
 
-      cy.get('input[name="pinInput"]')
+      cy.get('input[name=pinInput]')
+
         .clear()
         .type('2405')
 
@@ -51,8 +53,19 @@ describe('Login into Kiosk', function() {
         .should('be.enabled')
         .click()
     }
+    cy.visit('/admin/userprofiles/')
+    loginAsAdmin()
+
+    cy.get('div[class="header"]')
+      .contains('Bruce Lee')
+      .should('exist')
+      .click()
+
     cy.get('span[id="numPurchases"]').should('exist')
 
-    cy.get('span[id="numSessions"]').should('exist')
+    cy.get('span[id="numSessions"]')
+      .and('eq' == '15')
+      .should('exist')
+    //.should((15).to.equal(15))
   })
 })
