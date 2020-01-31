@@ -84,13 +84,6 @@ global.rmPin = name => {
   })
 }
 
-global.rmEddie = name => {
-  cy.window().then(win => {
-    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
-    else win.Meteor.call('members.rmEddie', name)
-  })
-}
-
 global.addCard = (name, cardToken) => {
   cy.window().then(win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
@@ -191,7 +184,7 @@ global.addEddie = () => {
   cy.window().then(async win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
     else {
-      await win.Meteor.callAsync('members.rmEddieMercx')
+      await win.Meteor.callAsync('members.rmEddie')
       await win.Meteor.callAsync('members.addDude', team.eddie)
     }
   })
@@ -218,10 +211,11 @@ global.addRookie = () => {
 }
 
 global.rmSessions = id => {
+  console.log('rmSessions', id)
   cy.window().then(async win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
     else {
-      await win.Meteor.callAsync('members.rmSessions')
+      await win.Meteor.callAsync('members.rmSessions', id)
     }
   })
 }

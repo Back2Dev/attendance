@@ -13,7 +13,7 @@ import { createPublicKey } from 'crypto'
 describe('Login into Kiosk', function() {
   beforeEach(() => {
     cy.visit('/kiosk')
-    rmSessions(team.cathrine._id)
+    rmSessions(team.cathrine.member._id)
   })
   it('Open form - about you', function() {
     cy.visit('/kiosk')
@@ -63,9 +63,6 @@ describe('Login into Kiosk', function() {
 
     cy.get('span[id="numPurchases"]').should('exist')
 
-    cy
-      .get('span[id="numSessions"]')
-      .should('exist')
-      .should('equal')(10)
+    cy.get('span[id="numSessions"]').contains('10')
   })
 })

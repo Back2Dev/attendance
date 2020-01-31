@@ -28,15 +28,6 @@ Meteor.methods({
   //
   // These first methods are for testing purposes, to add/delete data
   //
-  'members.rmEddie': function(name) {
-    try {
-      log.info(`Removing member: Eddie Mercx ${name}`)
-      return Members.remove({ name: 'Eddie Mercx' })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
-    }
-  },
   'members.mkFakeUser': function(username, member) {
     const m = Members.findOne({ name: username })
     if (!m) {
@@ -49,7 +40,7 @@ Meteor.methods({
   'members.rmToughGuy': function() {
     rmFighter('Tough Guy')
   },
-  'members.rmEddieMercx': function() {
+  'members.rmEddie': function() {
     rmFighter('Eddie Mercx')
   },
   'members.rmJackieChan': function() {
@@ -439,7 +430,10 @@ db[res.result].find({value: {$gt: 1}});
       throw new Meteor.Error('memberId and newname are mandatory parameters')
     }
   },
-  'members.rmSessions'(id) {
+  'members.rmSessions': function(id) {
+    const member = Members.findOne(id)
+    if (!member) throw new Meteor.Error('Could not find member ' + id)
+    debug(`Removing sessions for ${member.name} ${id}`)
     Members.update(id, { $set: { sessions: [] } })
     Sessions.remove({ memberId: id })
     Purchases.find({ memberId: id }).forEach(purchase => {
