@@ -267,13 +267,6 @@ Meteor.methods({
         }
       }
     )
-  },
-  rmSessions(id) {
-    Members.update(id, { $unset: { sessions: 1 } })
-    Sessions.remove({ memberId: id })
-    Purchases.find({ memberId: id }).forEach(purchase => {
-      Purchases.update(id, { $unset: { sessions: 1 } })
-    })
   }
 })
 
