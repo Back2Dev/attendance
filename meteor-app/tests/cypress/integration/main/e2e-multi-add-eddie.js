@@ -2,26 +2,30 @@
   * Open the application
   
   * Navigate to /kiosk
-  * Find test Bruce Lee
-  * login on Bruce Lee
+  * Find test Eddie Merx
+  * login on Eddie Merx
   * Add an event
-  * sign of Bruce Lee
+  * sign of Eddie Merx
   * Create loop which will iterate 15 times for this
   */
 
 describe('Login into Kiosk', function() {
-  it('Adds 15 sessions to Bruce lees profile', function() {
+  beforeEach(() => {
+    cy.visit('/kiosk')
+    rmSessions(team.eddie._id)
+  })
+  it('Adds 15 sessions to Eddie Mercxs profile', function() {
     cy.visit('/kiosk')
     // cy.get('list=["away"]').click()
     for (let i = 0; i < 15; i++) {
       cy.get('div[list="away"]')
-        .contains('Bruce Lee')
+        .contains('Eddie Mercx')
         .should('exist')
         .click()
 
       cy.get('input[name="pinInput"]')
         .clear()
-        .type('2405')
+        .type('2803')
 
       cy.get('button[id="group_kayak"]')
         .should('be.enabled')
@@ -34,13 +38,13 @@ describe('Login into Kiosk', function() {
         .click()
 
       cy.get('[list="present"] > .ui')
-        .contains('Bruce L')
+        .contains('Eddie M')
         .should('exist')
         .click()
 
       cy.get('input[name="pinInput"]')
         .clear()
-        .type('2405')
+        .type('2803')
 
       cy.get('#signIn')
         .should('exist')
