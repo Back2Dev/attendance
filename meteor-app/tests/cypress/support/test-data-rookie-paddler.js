@@ -22,7 +22,7 @@ const dude = {
     paymentCustId: 'cus_hr0DbLQirORuglqZ8PIRWw',
     email: 'Rookie.Paddler@nomail.maybe.home'
   },
-  sessions: [],
+  sessions: [[], [], [], [], [], [], [], [], []],
   purchases: [
     {
       _id: '5DML3bjXeY5K7AomA',

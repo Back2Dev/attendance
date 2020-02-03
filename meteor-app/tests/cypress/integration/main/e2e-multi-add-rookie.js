@@ -15,7 +15,7 @@ describe('Login into Kiosk', function() {
     cy.visit('/kiosk')
     rmSessions(member._id)
   })
-  it('Adds 15 sessions to Eddie Mercxs profile', function() {
+  it('Adds 15 sessions to Rookie Paddlers profile', function() {
     cy.visit('/kiosk')
     for (let i = 0; i < numVisits; i++) {
       cy.get('div[list="away"]')
