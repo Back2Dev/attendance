@@ -8,6 +8,7 @@ const NumberInt = n => {
 
 const jackie = {
   member: {
+    _id: 'LHTbJRicx4dJQSZTC',
     reasons: 'Habit 🤣',
     name: 'Jackie Chan',
     email: 'jackie@chan.movie.tx',
@@ -27,6 +28,7 @@ const jackie = {
     joined: ISODate('2019-04-12T06:27:01.307+10:00'),
     lastIn: ISODate('2020-01-09T06:23:47.293+11:00'),
     sessionCount: NumberInt(24),
+    sessions: [[], [], [], [], [], [], [], [], []],
     // createdAt: ISODate('2019-04-22T13:54:43.566+10:00'),
     // updatedAt: ISODate('2020-01-19T17:05:02.655+11:00'),
     status: 'expired',
