@@ -8,25 +8,24 @@
   * sign of Bruce Lee
   * Create loop which will iterate 15 times for this
   */
-
+const { member } = team.bruce
+const numVisits = 3
 describe('Login into Kiosk', function() {
   beforeEach(() => {
     cy.visit('/kiosk')
-    rmSessions(team.bruce._id)
+    rmSessions(member._id)
   })
   it('Adds 15 sessions to Bruce lees profile', function() {
     cy.visit('/kiosk')
-    // cy.get('list=["away"]').click()
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < numVisits; i++) {
       cy.get('div[list="away"]')
-        .contains('Bruce Lee')
+        .contains(member.name)
         .should('exist')
         .click()
 
       cy.get('input[name=pinInput]')
-
         .clear()
-        .type('2405')
+        .type(member.pin)
 
       cy.get('button[id="group_kayak"]')
         .should('be.enabled')
@@ -39,14 +38,13 @@ describe('Login into Kiosk', function() {
         .click()
 
       cy.get('[list="present"] > .ui')
-        .contains('Bruce L')
+        .contains(shortName(member.name))
         .should('exist')
         .click()
 
       cy.get('input[name=pinInput]')
-
         .clear()
-        .type('2405')
+        .type(member.pin)
 
       cy.get('#signIn')
         .should('exist')
@@ -57,15 +55,15 @@ describe('Login into Kiosk', function() {
     loginAsAdmin()
 
     cy.get('div[class="header"]')
-      .contains('Bruce Lee')
+      .contains(member.name)
       .should('exist')
       .click()
 
-    cy.get('span[id="numPurchases"]').should('exist')
+    cy.get('span[id="numPurchases"]')
+    .should('exist')
 
     cy.get('span[id="numSessions"]')
-      .and('eq' == '15')
+      .contains(numVisits)
       .should('exist')
-    //.should((15).to.equal(15))
   })
 })
