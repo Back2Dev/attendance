@@ -1,4 +1,4 @@
-/* Pseudo code for Multi Pass
+/* Pseudo code for Multi Pass Eddie
   * Open the application
   
   * Navigate to /kiosk
