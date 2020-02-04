@@ -44,10 +44,17 @@ Meteor.methods({
         { $set: { status: 'current' } },
         { multi: true }
       )
+      const existingSessions = Purchases.find({ memberId: member._id, code: 'PA-PASS-MULTI-10' })
+        .fetch()
+        .filter(purchase => purchase.sessions)
+        .map(purchase => purchase.sessions.map(session => session._id))
+        .flat()
       const sessions = member.sessions
-      sessions.forEach(session => {
-        addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
-      })
+      sessions
+        .filter(session => !existingSessions.includes(session._id))
+        .forEach(session => {
+          addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
+        })
     })
   },
 
@@ -82,7 +89,7 @@ Meteor.methods({
         $push: { sessions: session }
       })
 
-      addSession2Purchase({ member, session, doAutoPay: true, sendEmailtrue: true })
+      addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
 
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
@@ -354,8 +361,14 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
         const newPurchase = createNewPass(member)
         autoPay(member, newPurchase)
       } else {
-        const newPurchase = createNewPass(member)
-        if (sendEmail) sendPleasePayEmail(member, newPurchase)
+        const purchases = Purchases.find(
+          { memberId: member._id, status: 'current' },
+          { sort: { createdAt: 1 } }
+        ).fetch()
+        if (purchases.length === 0) {
+          const newPurchase = createNewPass(member)
+          if (sendEmail) sendPleasePayEmail(member, newPurchase)
+        }
       }
     } else {
       if (purchase.paymentStatus !== 'paid') {
