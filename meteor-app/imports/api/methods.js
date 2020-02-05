@@ -5,6 +5,7 @@ import moment from 'moment'
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
+
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
 import { ProductTypes } from './products/schema'
@@ -296,13 +297,48 @@ const createNewPass = member => {
     code,
     qty: 1,
     status: 'current',
-    paymentMethod: 'pending'
+    paymentMethod: 'pending',
+    sessions: []
   }
-  const pid = Purchases.insert(defaultPurchase)
-  const purchase = Purchases.findOne(pid)
+  const purchaseId = Purchases.insert(defaultPurchase)
+  const purchase = Purchases.findOne(purchaseId)
   if (!purchase) {
     throw new Meteor.Error('Could not create new purchase record')
   }
+
+  const carts = Carts.find({ memberId: member._id, status: 'ready' }, { sort: { createdAt: 1 } }).fetch()
+  if (carts.length) {
+    const cart = carts[0]
+    const newProdqty = {}
+    cart.prodqty[product._id]
+      ? (newProdqty[product._id] = cart.prodqty[product._id] + 1)
+      : (newProdqty[product._id] = 1)
+    const n = Carts.update(cart._id, {
+      $set: { prodqty: newProdqty },
+      $inc: { totalqty: 1, price: product.price },
+      $push: { purchases: purchaseId }
+    })
+    if (!n) {
+      throw new Meteor.Error('Could not update the cart')
+    }
+  } else {
+    const newCart = {
+      memberId: member._id,
+      price: purchase.price,
+      totalqty: 1,
+      products: [product],
+      purchases: [purchaseId],
+      prodqty: {
+        [product._id]: 1
+      },
+      status: 'ready'
+    }
+    const cartId = Carts.insert(newCart)
+    if (!cartId) {
+      throw new Meteor.Error('Could not insert a new cart')
+    }
+  }
+
   return purchase
 }
 
@@ -354,10 +390,8 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
       $set: { remaining }
     })
     if (remaining <= 0) {
-      Purchases.update(purchase._id, {
-        $set: { status: 'complete' }
-      })
       if (doAutoPay && member.autoPay) {
+        //why not check if there are still current purchases
         const newPurchase = createNewPass(member)
         autoPay(member, newPurchase)
       } else {
@@ -365,11 +399,15 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
           { memberId: member._id, status: 'current' },
           { sort: { createdAt: 1 } }
         ).fetch()
-        if (purchases.length === 0) {
+        if (purchases.length === 1) {
           const newPurchase = createNewPass(member)
+
           if (sendEmail) sendPleasePayEmail(member, newPurchase)
         }
       }
+      Purchases.update(purchase._id, {
+        $set: { status: 'complete' }
+      })
     } else {
       if (purchase.paymentStatus !== 'paid') {
         if (sendEmail) sendPleasePayEmail(member, purchase)

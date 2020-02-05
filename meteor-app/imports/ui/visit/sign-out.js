@@ -7,13 +7,13 @@ const SignOut = props => {
     <div>
       <Header as="h4">See you next time!</Header>
       <div>Member Type: {props.member.subsType}</div>
-      {props.member.subsType === 'pass' && (
+      {props.member.subsType === 'pass' && props.purchase && props.purchase.sessions.length && (
         <MultiVisitsCard
           usedVisits={props.purchase.sessions.length}
           totalVisits={props.purchase.sessions.length + props.purchase.remaining}
         />
       )}
-      {props.purchase.paymentStatus === 'unpaid' && <Button color="red">Pay Now</Button>}
+      {props.purchase && props.purchase.paymentStatus === 'unpaid' && <Button color="red">Pay Now</Button>}
       &nbsp;
       <Button onClick={() => props.recordDeparture()} positive fluid id="signIn" size="large">
         Sign Out

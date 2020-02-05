@@ -74,7 +74,7 @@ const Arrive = props => {
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
         <div>Member Type: {props.member.subsType}</div>
-        {props.member.subsType === 'pass' && props.purchase.sessions && (
+        {props.member.subsType === 'pass' && props.purchase && props.purchase.sessions.length && (
           <MultiVisitsCard
             usedVisits={props.purchase.sessions.length}
             totalVisits={props.purchase.sessions.length + props.purchase.remaining}
