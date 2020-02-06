@@ -46,7 +46,7 @@ describe('Chooses 5 stock choices and saves them', function() {
     cy.get('#pick2')
       .type('iri')
       .click()
-    cy.get('ul:even').click()
+    cy.get('.ant-select-dropdown-menu > :nth-child(1)').click()
 
     cy.get('#pick3')
       .type('ocl')
@@ -56,11 +56,13 @@ describe('Chooses 5 stock choices and saves them', function() {
     cy.get('#pick4')
       .type('nck')
       .click()
+
+    cy.get('.#a6466cd0-b4f0-49fc-833a-64f14d82b692 > .ant-select-dropdown-menu > .ant-select-dropdown-menu-item')
+    .click()
+
     cy.get('ul:even').click()
     cy.get('#pick5')
       .type('abc')
       .click()
-
-    cy.get('ul:odd').click()
   })
 })
