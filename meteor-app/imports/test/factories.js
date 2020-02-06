@@ -182,6 +182,20 @@ Factory.define('product', Products, {
   endDate: faker.date.future(1)
 })
 
+Factory.define('10pass', Products, {
+  name: '10 pass',
+  description: 'Passes allow you to use PA',
+  type: 'pass',
+  code: 'PA-PASS-MULTI-10',
+  duration: 3,
+  price: 15000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  autoRenew: true,
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
+})
+
 Factory.define('purchase', Purchases, {
   price: 96000,
   code: 'PA-MEMB-12',
