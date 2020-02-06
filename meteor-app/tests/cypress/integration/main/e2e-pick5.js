@@ -34,35 +34,41 @@ describe('Chooses 5 stock choices and saves them', function() {
 
     cy.get('input[id="pick_email"]').type('Edddie@mercx.phony.mail')
 
-    cy.get('#pick1')
-      .click()
-      .type('ctd')
-      .click('')
+    cy.get('#pick1').type('ctd')
 
-    cy.get('input[id="pick_reason"]')
-      .type('Very cheap right now')
+    cy.get('div')
+      .contains('CTD ')
       .click()
 
-    cy.get('#pick2')
-      .type('iri')
-      .click()
-    cy.get('.ant-select-dropdown-menu > :nth-child(1)').click()
+    cy.get('input[id="pick_reason"]').type('Very cheap right now')
 
-    cy.get('#pick3')
-      .type('ocl')
-      .click()
-    cy.get('ul:odd').click()
+    cy.get('#pick2').type('iri')
 
-    cy.get('#pick4')
-      .type('nck')
+    cy.get('div')
+      .contains('IRI ')
       .click()
 
-    cy.get('.#a6466cd0-b4f0-49fc-833a-64f14d82b692 > .ant-select-dropdown-menu > .ant-select-dropdown-menu-item')
-    .click()
+    cy.get('#pick3').type('ocl')
 
-    cy.get('ul:even').click()
-    cy.get('#pick5')
-      .type('abc')
+    cy.get('div')
+      .contains('OCL ')
       .click()
+
+    cy.get('#pick4').type('nck')
+
+    cy.get('div')
+      .contains('NCK ')
+      .click()
+
+    cy.get('#pick5').type('abc')
+    cy.get('div')
+      .contains('ABC ')
+      .click()
+
+    cy.get('button[id="save"')
+      .should('be.enabled')
+      .click()
+
+    cy.get('h1[id="thanks"]').should('exist')
   })
 })
