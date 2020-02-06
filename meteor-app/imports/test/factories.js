@@ -174,6 +174,7 @@ Factory.define('product', Products, {
   type: 'membership',
   code: 'B2B-MEMB-3',
   duration: 3,
+  qty: 10,
   price: 5000,
   image: '/public/images/gym.jpg',
   active: true,
