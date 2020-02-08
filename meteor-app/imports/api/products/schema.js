@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
-import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt } from '/imports/api/schema'
+import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt, RegExId } from '/imports/api/schema'
 import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
@@ -192,6 +192,11 @@ export const CartsSchema = new SimpleSchema({
     optional: true
   },
   'products.$': ProductListSchema,
+  purchases: {
+    type: Array,
+    optional: true
+  },
+  'purchases.$': RegExId,
   creditCard: {
     type: CreditCardSchema,
     optional: true

@@ -174,7 +174,22 @@ Factory.define('product', Products, {
   type: 'membership',
   code: 'B2B-MEMB-3',
   duration: 3,
+  qty: 10,
   price: 5000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  autoRenew: true,
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
+})
+
+Factory.define('10pass', Products, {
+  name: '10 pass',
+  description: 'Passes allow you to use PA',
+  type: 'pass',
+  code: 'PA-PASS-MULTI-10',
+  duration: 3,
+  price: 15000,
   image: '/public/images/gym.jpg',
   active: true,
   autoRenew: true,

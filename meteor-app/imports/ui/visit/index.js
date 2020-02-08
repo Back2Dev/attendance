@@ -15,8 +15,7 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
-  const purchases =
-    Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch() || {}
+  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
   const purchase = purchases.length ? purchases[0] : null
   const eventQuery = {
     active: true,
