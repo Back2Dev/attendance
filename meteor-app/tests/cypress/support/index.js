@@ -17,6 +17,8 @@
 // import './commands'
 import faker from 'faker'
 import team from './test-data'
+import Picks5 from './test-data-pick5'
+import { cy } from 'date-fns/locale'
 const adminPassword = 'me2'
 const adminUser = 'admin@back2bikes.com.au'
 
@@ -71,6 +73,7 @@ global.loginAsAdmin = () => {
     win.Meteor.loginWithPassword(adminUser, adminPassword)
   })
 }
+global.Picks5 = Picks5
 
 global.loadFixtures = () => {
   // cy.fixture('users.json').as('users')
@@ -149,6 +152,42 @@ global.ratPack = [
   { name: 'Bruce Lee', memberType: ['Memberships', 'PA 12 month membership'] },
   { name: 'Jackie Chan', memberType: ['Multi pass', 'PA Casual signup'], change: 'PA Casual session' }
 ]
+
+global.shares = [
+  {
+    memberName: 'Mike King',
+    email: 'mikkel@back2bikes.com.au',
+    pick1: 'CTD',
+    reason: 'Best price in 2 years',
+    pick2: 'IRI',
+    pick3: 'NCK',
+    pick4: 'ABC',
+    pick5: 'OTW'
+  },
+  {
+    memberName: 'Patty Caramello',
+    email: '[pato]@back2bikes.com.au',
+    pick1: 'CSL',
+    reason: 'Platinum plated stock',
+    pick2: 'ANZ',
+    pick3: 'BLD',
+    pick4: 'BHP',
+    pick5: 'RIO'
+  }
+]
+
+global.holders = () => {
+  cy.window().then(async win => {
+    if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')
+    else {
+      await win.Meteor.callAsync('holders.rmPattyCaramel')
+      await win.Meteor.callAsync('holders.addholdings', shares.holders)
+
+      await win.Meteor.callAsync('holders.rmMikeKing')
+      await win.Meteor.callAsync('holders.addholdings', shares.holders)
+    }
+  })
+}
 
 global.addJackie = () => {
   cy.window().then(async win => {
