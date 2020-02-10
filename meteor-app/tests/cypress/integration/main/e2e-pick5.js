@@ -34,7 +34,7 @@ describe('Chooses 5 stock choices and saves them', function() {
 
       cy.get('input[name="memberName"]')
         .clear()
-        .type()
+        .type(Picks5.)
 
       cy.get('input[id="pick_email"]').type('Edddie@mercx.phony.mail')
 

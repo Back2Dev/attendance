@@ -184,7 +184,7 @@ global.holders = () => {
       await win.Meteor.callAsync('holders.addholdings', shares.holders)
 
       await win.Meteor.callAsync('holders.rmMikeKing')
-      await win.Meteor.callAsync('holders.addholdings', shares.holders)
+      await win.Meteor.callAsync('holders.addholdings', shares.)
     }
   })
 }
