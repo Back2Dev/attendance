@@ -1,5 +1,4 @@
-const holdings = { Mike, Patty }
-;[
+const holdings = [
   {
     memberName: 'Mike King',
     email: 'mikkel@back2bikes.com.au',
