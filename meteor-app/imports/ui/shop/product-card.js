@@ -23,7 +23,7 @@ const PayNowButton = props => {
 
 export const ProductCardOnly = props => {
   const img = props.image || '/images/gym.jpg'
-  const { mode, takeAction, remove, color = 'green', name, description, price, code, qty } = props
+  const { mode, takeAction, remove, color = 'green', name, description, price, code, prodQty } = props
   return (
     <Card color={color}>
       <Card.Content>
@@ -47,6 +47,7 @@ export const ProductCardOnly = props => {
       <Card.Content extra>
         {mode === 'next' && (
           <div>
+            {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
             &nbsp;
             <Button type="button" onClick={takeAction} color={color}>
@@ -65,7 +66,7 @@ export const ProductCardOnly = props => {
         )}
         {mode === 'remove' && (
           <div>
-            {qty > 1 && <span>{qty} x </span>}
+            {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
             {/* <PayNowButton productCode={code} memberId={props.memberId} amount={(qty * price) / 100} /> */}
           </div>
