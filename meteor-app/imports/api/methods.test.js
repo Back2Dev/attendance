@@ -48,12 +48,13 @@ describe('Meteor methods /imports/api/methods-test', () => {
       }
 
       const sessions = Sessions.find({ memberId: member._id }).fetch()
-      expect(sessions.length).to.be.equal(10)
+      expect(sessions.length).to.be.equal(2)
       const purchases = Purchases.find({ memberId: member._id }).fetch()
       debug('purchases', purchases)
       expect(purchases.length).to.be.equal(2)
       const carts = Carts.find({ memberId: member._id }).fetch()
       expect(carts.length).to.be.equal(1)
+      expect(carts.purchases.length).to.be.equal(1)
     })
   })
 })

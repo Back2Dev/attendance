@@ -343,6 +343,8 @@ const createNewPass = member => {
 }
 
 const sendPleasePayEmail = (member, purchase) => {
+  const carts = Carts.find({ purchases: purchase._id }).fetch()
+  const cart = carts.length ? carts[0] : null
   Meteor.call(
     'sendGenericActionEmail',
     member.email,
@@ -351,7 +353,7 @@ const sendPleasePayEmail = (member, purchase) => {
       name: member.name,
       message: 'You did a session today, you need to pay for it ',
       headline: 'Payment required',
-      link: Meteor.absoluteUrl('/shop'),
+      link: Meteor.absoluteUrl(`/shop/renew/${member._id}/${cart._id}`),
       action: 'Pay Now'
     },
     Meteor.settings.private.genericActionID
@@ -393,7 +395,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
       if (doAutoPay && member.autoPay) {
         //why not check if there are still current purchases
         const newPurchase = createNewPass(member)
-        autoPay(member, newPurchase)
+        //autoPay(member, newPurchase)
       } else {
         const purchases = Purchases.find(
           { memberId: member._id, status: 'current' },
