@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Alert from 'react-s-alert'
 import moment from 'moment'
+import { Carts } from '/imports/api/products/schema'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Events from '/imports/api/events/schema'
@@ -12,11 +13,14 @@ const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
   const id = props.match.params.id
-  const membersHandle = Meteor.subscribe('member', id)
+  const membersHandle = Meteor.subscribe('member.all', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
   const purchase = purchases.length ? purchases[0] : null
+  const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
+  const cart = carts.length ? carts[0] : null
+
   const eventQuery = {
     active: true,
     $or: [
@@ -107,6 +111,7 @@ export default withTracker(props => {
     save,
     recordDeparture,
     loading,
+    cart,
     member,
     purchase,
     events,

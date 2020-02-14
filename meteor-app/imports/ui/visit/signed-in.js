@@ -69,7 +69,7 @@ const Arrive = props => {
   const but = needMore ? ", but your profile isn't complete" : ''
 
   return (
-    <div style={{ padding: '20px 0' }}>
+    <div style={{ padding: '20px 0', textAlign: 'center' }}>
       <div>
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
@@ -82,6 +82,11 @@ const Arrive = props => {
         )}
         &nbsp;
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          {props.purchase && props.purchase.paymentStatus === 'unpaid' && (
+            <Button color="red" onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}>
+              Pay Now
+            </Button>
+          )}
           {needMore && (
             <Button type="button" id="done" onClick={() => props.history.push(`/kiosk`)}>
               Not now
