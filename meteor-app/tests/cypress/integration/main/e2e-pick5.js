@@ -44,7 +44,7 @@ describe('Chooses 5 stock choices and saves them', function() {
       cy.get('#pick1').type(holding.pick1)
 
       cy.get('div')
-        .contains(holding.pick1)
+        .contains(holding.pick1 + ' ')
         .should('exist')
         .click({ force: true })
 
@@ -55,32 +55,34 @@ describe('Chooses 5 stock choices and saves them', function() {
       cy.get('#pick2').type(holding.pick2)
 
       cy.get('div')
-        .contains(holding.pick2)
+        .contains(holding.pick2 + ' ')
         .click({ force: true })
 
       cy.get('#pick3').type(holding.pick3)
 
       cy.get('div')
-        .contains(holding.pick3)
+        .contains(holding.pick3 + ' ')
         .click({ force: true })
 
       cy.get('#pick4').type(holding.pick4)
 
       cy.get('div')
-        .contains(holding.pick4)
+        .contains(holding.pick4 + ' ')
         .click({ force: true })
 
       cy.get('#pick5').type(holding.pick5)
 
       cy.get('div')
-        .contains(holding.pick5)
+        .contains(holding.pick5 + ' ')
         .click({ force: true })
 
       cy.get('button[id="save"]')
         .should('be.enabled')
         .click()
 
-      cy.get('h1[id="thanks"]').should('exist')
+      cy.get('div')
+        .contains('Thanks!')
+        .should('exist')
     })
   })
 })

@@ -11,7 +11,7 @@ const holdings = [
   },
   {
     memberName: 'Patty Caramello',
-    email: '[pato]@back2bikes.com.au',
+    email: 'pato@back2bikes.com.au',
     pick1: 'CSL',
     reason: 'Platinum plated stock',
     pick2: 'ANZ',
