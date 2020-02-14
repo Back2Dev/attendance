@@ -74,12 +74,13 @@ const Arrive = props => {
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
         <div>Member Type: {props.member.subsType}</div>
-        {props.member.subsType === 'pass' && props.purchase && props.purchase.sessions.length && (
+        {props.member.subsType === 'pass' && props.purchase && (
           <MultiVisitsCard
             usedVisits={props.purchase.sessions.length}
             totalVisits={props.purchase.sessions.length + props.purchase.remaining}
           />
         )}
+        {!props.purchase.sessions.length && 'You have used all your sessions for your previous pass'}
         &nbsp;
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {props.purchase && props.purchase.paymentStatus === 'unpaid' && (

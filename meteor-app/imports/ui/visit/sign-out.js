@@ -4,15 +4,16 @@ import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
 const SignOut = props => {
   return (
-    <div>
+    <div style={{ textAlign: 'center' }}>
       <Header as="h4">See you next time!</Header>
-      <div style={{ textAlign: 'center' }}>Member Type: {props.member.subsType}</div>
-      {props.member.subsType === 'pass' && props.purchase && props.purchase.sessions.length && (
+      <div>Member Type: {props.member.subsType}</div>
+      {props.member.subsType === 'pass' && props.purchase && (
         <MultiVisitsCard
           usedVisits={props.purchase.sessions.length}
           totalVisits={props.purchase.sessions.length + props.purchase.remaining}
         />
       )}
+      {!props.purchase.sessions.length && 'You have used all your sessions for your previous pass'}
       &nbsp;
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         {props.purchase && props.purchase.paymentStatus === 'unpaid' && (
