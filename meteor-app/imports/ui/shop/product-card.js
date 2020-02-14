@@ -79,7 +79,6 @@ export const ProductCard = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const add = () => {
     const product = cloneDeep(props)
-    product.qty = 0
     if (sessionStorage.getItem('memberId')) product.memberId = sessionStorage.getItem('memberId')
     dispatch({ type: 'add', payload: product })
   }
