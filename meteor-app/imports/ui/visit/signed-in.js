@@ -56,7 +56,7 @@ const Arrive = props => {
     if (!needMore) {
       const timer = setTimeout(() => {
         props.history.push(context.goHome())
-      }, 5000)
+      }, 7500)
       return function cleanup() {
         clearTimeout(timer)
       }
