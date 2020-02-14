@@ -18,7 +18,6 @@ Meteor.methods({
       const product = Products.findOne({ active: true, code })
       delete product.createdAt
       delete product.updatedAt
-      product.qty = 1
       const cart = {
         _id: memberId,
         memberId,
@@ -395,7 +394,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
       if (doAutoPay && member.autoPay) {
         //why not check if there are still current purchases
         const newPurchase = createNewPass(member)
-        //autoPay(member, newPurchase)
+        autoPay(member, newPurchase)
       } else {
         const purchases = Purchases.find(
           { memberId: member._id, status: 'current' },
