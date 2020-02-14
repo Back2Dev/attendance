@@ -9,6 +9,7 @@ import holdings from '../../support/test-data-pick5'
   * click the save button
  
   */
+
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test. We do this because of some ugly js errors
@@ -40,38 +41,42 @@ describe('Chooses 5 stock choices and saves them', function() {
         .clear()
         .type(holding.email)
 
-      cy.get('#pick1').type('ctd')
+      cy.get('#pick1').type(holding.pick1)
 
       cy.get('div')
-        .contains('CTD ')
-        .click()
+        .contains(holding.pick1)
+        .should('exist')
+        .click({ force: true })
 
-      cy.get('input[id="pick_reason"]').type('Very cheap right now')
+      cy.get('input[id="pick_reason"]')
+        .clear()
+        .type(holding.reason)
 
-      cy.get('#pick2').type('iri')
-
-      cy.get('div')
-        .contains('IRI ')
-        .click()
-
-      cy.get('#pick3').type('ocl')
+      cy.get('#pick2').type(holding.pick2)
 
       cy.get('div')
-        .contains('OCL ')
-        .click()
+        .contains(holding.pick2)
+        .click({ force: true })
 
-      cy.get('#pick4').type('nck')
+      cy.get('#pick3').type(holding.pick3)
 
       cy.get('div')
-        .contains('NCK ')
-        .click()
+        .contains(holding.pick3)
+        .click({ force: true })
 
-      cy.get('#pick5').type('abc')
+      cy.get('#pick4').type(holding.pick4)
+
       cy.get('div')
-        .contains('ABC ')
-        .click()
+        .contains(holding.pick4)
+        .click({ force: true })
 
-      cy.get('button[id="save"')
+      cy.get('#pick5').type(holding.pick5)
+
+      cy.get('div')
+        .contains(holding.pick5)
+        .click({ force: true })
+
+      cy.get('button[id="save"]')
         .should('be.enabled')
         .click()
 
