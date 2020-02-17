@@ -1,6 +1,3 @@
-import picksAll from '../../support/test-data-all-pick'
-import allPick from '../../support/test-data-all-pick'
-
 /* Pseudo code for pick5 stock test
   * navigate to the almsford application
   
@@ -18,7 +15,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 })
 describe('Chooses 5 stock choices and saves them', function() {
   it('Visits the  almsford webpage', function() {
-    Picks5.forEach(allPick => {
+    picksAll.forEach(allPick => {
       cy.visit('http://almsford.org/')
 
       // checks whether the it has  navigated to the correct website
@@ -64,16 +61,16 @@ describe('Chooses 5 stock choices and saves them', function() {
         .contains(allPick.pick3 + ' ')
         .click({ force: true })
 
-      cy.get('#pick4').type(allPick.pick4)
-
-      cy.get('div')
-        .contains(allPick.pick4 + ' ')
-        .click({ force: true })
-
       cy.get('#pick5').type(allPick.pick5)
 
       cy.get('div')
         .contains(allPick.pick5 + ' ')
+        .click({ force: true })
+
+      cy.get('#pick4').type(allPick.pick4)
+
+      cy.get('div')
+        .contains(allPick.pick4 + ' ')
         .click({ force: true })
 
       cy.get('button[id="save"]')
