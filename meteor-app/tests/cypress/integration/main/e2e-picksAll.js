@@ -61,16 +61,16 @@ describe('Chooses 5 stock choices and saves them', function() {
         .contains(allPick.pick3 + ' ')
         .click({ force: true })
 
-      cy.get('#pick5').type(allPick.pick5)
-
-      cy.get('div')
-        .contains(allPick.pick5 + ' ')
-        .click({ force: true })
-
       cy.get('#pick4').type(allPick.pick4)
 
       cy.get('div')
         .contains(allPick.pick4 + ' ')
+        .click({ force: true })
+
+      cy.get('#pick5').type(allPick.pick5)
+
+      cy.get('div')
+        .contains(allPick.pick5 + ' ')
         .click({ force: true })
 
       cy.get('button[id="save"]')
