@@ -1,5 +1,5 @@
-import allPick from '../../support/test-data-all-pick'
 import picksAll from '../../support/test-data-all-pick'
+import allPick from '../../support/test-data-all-pick'
 
 /* Pseudo code for pick5 stock test
   * navigate to the almsford application
@@ -35,45 +35,45 @@ describe('Chooses 5 stock choices and saves them', function() {
 
       cy.get('input[name="memberName"]')
         .clear()
-        .type(holding.memberName)
+        .type(allPick.memberName)
 
       cy.get('input[id="pick_email"]')
         .clear()
-        .type(holding.email)
+        .type(allPick.email)
 
-      cy.get('#pick1').type(holding.pick1)
+      cy.get('#pick1').type(allPick.pick1)
 
       cy.get('div')
-        .contains(holding.pick1 + ' ')
+        .contains(allPick.pick1 + ' ')
         .should('exist')
         .click({ force: true })
 
       cy.get('input[id="pick_reason"]')
         .clear()
-        .type(holding.reason)
+        .type(allPick.reason)
 
-      cy.get('#pick2').type(holding.pick2)
+      cy.get('#pick2').type(allPick.pick2)
 
       cy.get('div')
-        .contains(holding.pick2 + ' ')
+        .contains(allPick.pick2 + ' ')
         .click({ force: true })
 
-      cy.get('#pick3').type(holding.pick3)
+      cy.get('#pick3').type(allPick.pick3)
 
       cy.get('div')
-        .contains(holding.pick3 + ' ')
+        .contains(allPick.pick3 + ' ')
         .click({ force: true })
 
-      cy.get('#pick4').type(holding.pick4)
+      cy.get('#pick4').type(allPick.pick4)
 
       cy.get('div')
-        .contains(holding.pick4 + ' ')
+        .contains(allPick.pick4 + ' ')
         .click({ force: true })
 
-      cy.get('#pick5').type(holding.pick5)
+      cy.get('#pick5').type(allPick.pick5)
 
       cy.get('div')
-        .contains(holding.pick5 + ' ')
+        .contains(allPick.pick5 + ' ')
         .click({ force: true })
 
       cy.get('button[id="save"]')
