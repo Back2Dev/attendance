@@ -4,7 +4,7 @@ import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
 const SignOut = props => {
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div>
       <Header as="h4">See you next time!</Header>
       <div>Member Type: {props.member.subsType}</div>
       {props.member.subsType === 'pass' && props.purchase && (
