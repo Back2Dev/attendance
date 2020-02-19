@@ -17,6 +17,7 @@ const mapSchemaToState = schema => {
     return state
   }, {})
 }
+
 class MemberAdd extends Component {
   constructor(props) {
     super(props)
@@ -40,7 +41,6 @@ class MemberAdd extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
-
     const finalStep = this.schemas.length == this.state.step
     if (finalStep && this.props.newId) {
       Alert.success(this.props.message)
@@ -59,20 +59,34 @@ class MemberAdd extends Component {
   onSubmit = ({ formData }) => {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
+      console.log(this.state.formData)
       this.props.setMember(this.state.formData)
       return
+    } else if ({ formData }.formData._id === undefined) {
+      this.setState((prevState, props) => {
+        return {
+          formData: {
+            ...prevState.formData,
+            ...formData
+          },
+          step: prevState.step + 1,
+          progress: prevState.step + 1
+        }
+      })
+    } else {
+      this.setState(() => {
+        return {
+          formData: { formData }.formData
+        }
+      })
+      console.log(this.state.formData)
+      this.props.setMember(formData)
+      this.setState(() => {
+        return {
+          step: 5
+        }
+      })
     }
-    this.setState((prevState, props) => {
-      return {
-        formData: {
-          ...prevState.formData,
-          ...formData
-        },
-        step: prevState.step + 1,
-        progress: prevState.step + 1
-      }
-    })
-    // this.props.setMember(this.state.formData)
   }
 
   backStep = () => {
