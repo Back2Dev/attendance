@@ -6,6 +6,7 @@ import Form from 'react-jsonschema-form-semanticui'
 import Alert from 'react-s-alert'
 import Steps from '/imports/ui/member/member-add-steps'
 import Control from '/imports/ui/member/member-add-control'
+import EditControl from '/imports/ui/member/member-edit-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 import fields from '/imports/ui/member/member-add-fields'
@@ -59,7 +60,6 @@ class MemberAdd extends Component {
   onSubmit = ({ formData }) => {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
-      console.log(this.state.formData)
       this.props.setMember(this.state.formData)
       return
     } else if ({ formData }.formData._id === undefined) {
@@ -79,7 +79,6 @@ class MemberAdd extends Component {
           formData: { formData }.formData
         }
       })
-      console.log(this.state.formData)
       this.props.setMember(formData)
       this.setState(() => {
         return {
@@ -129,7 +128,16 @@ class MemberAdd extends Component {
         showErrorList={false}
         liveValidate={true}
       >
-        <Control backStep={this.backStep} step={this.state.step} totalSteps={this.schemas.length} onSubmit={f => f} />
+        {this.state.formData._id ? (
+          <EditControl
+            backStep={this.backStep}
+            step={this.state.step}
+            totalSteps={this.schemas.length}
+            onSubmit={f => f}
+          />
+        ) : (
+          <Control backStep={this.backStep} step={this.state.step} totalSteps={this.schemas.length} onSubmit={f => f} />
+        )}
       </Form>
     )
   }
