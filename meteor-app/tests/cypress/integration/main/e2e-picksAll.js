@@ -2,9 +2,9 @@
   * navigate to the almsford application
   
   * click the get started button
-  * add the stock choices and  user information
+  * add the stock choices and user info from data file
   * click the save button
- 
+  * loop 28 more times
   */
 
 Cypress.on('uncaught:exception', (err, runnable) => {
