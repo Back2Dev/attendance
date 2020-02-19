@@ -35,16 +35,23 @@ Meteor.methods({
 
   migrateSessions(id) {
     //find Members with subscription type pass or null
-    const members = Members.find({
-      $and: [{ $or: [{ subsType: 'pass' }, { subsType: null }] }, { _id: id }]
-    })
+    const members = Members.find({ _id: id })
     members.forEach(member => {
-      Purchases.update(
-        { memberId: member._id, code: 'PA-PASS-MULTI-10' },
-        { $set: { status: 'current' } },
-        { multi: true }
-      )
-      const existingSessions = Purchases.find({ memberId: member._id, code: 'PA-PASS-MULTI-10' })
+      switch (member.subsType) {
+        case 'pass':
+          code = 'PA-PASS-MULTI-10'
+          break
+        case 'member':
+          code = 'PA-MEMB-12'
+          break
+        case 'casual':
+          code = 'PA-CASUAL'
+          break
+        default:
+          code = 'PA-CASUAL'
+      }
+      Purchases.update({ memberId: member._id, code: code }, { $set: { status: 'current' } }, { multi: true })
+      const existingSessions = Purchases.find({ memberId: member._id, code: code })
         .fetch()
         .filter(purchase => purchase.sessions)
         .map(purchase => purchase.sessions.map(session => session._id))
@@ -89,7 +96,7 @@ Meteor.methods({
         $push: { sessions: session }
       })
 
-      addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
+      if (member.subsType === 'pass') addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
 
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
@@ -278,7 +285,19 @@ Meteor.methods({
 })
 
 const createNewPass = member => {
-  const code = 'PA-PASS-MULTI-10'
+  switch (member.subsType) {
+    case 'pass':
+      code = 'PA-PASS-MULTI-10'
+      break
+    case 'member':
+      code = 'PA-MEMB-12'
+      break
+    case 'casual':
+      code = 'PA-CASUAL'
+      break
+    default:
+      code = 'PA-CASUAL'
+  }
   const product = Products.findOne({ code, active: true })
   if (!product) {
     throw new Meteor.Error(`Could not find product ${code}`)
@@ -337,7 +356,6 @@ const createNewPass = member => {
       throw new Meteor.Error('Could not insert a new cart')
     }
   }
-
   return purchase
 }
 
@@ -402,7 +420,6 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
         ).fetch()
         if (purchases.length === 1) {
           const newPurchase = createNewPass(member)
-
           if (sendEmail) sendPleasePayEmail(member, newPurchase)
         }
       }
@@ -420,10 +437,17 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
     // * add session
     // * send please pay email
     const newPurchase = createNewPass(member)
-    Purchases.update(newPurchase._id, {
-      $push: { sessions: session },
-      $set: { remaining: newPurchase.remaining - 1 }
-    })
+    if (newPurchase.remaining === 1 && newPurchase.code === 'PA-CASUAL') {
+      Purchases.update(newPurchase._id, {
+        $push: { sessions: session },
+        $set: { remaining: newPurchase.remaining - 1, status: 'complete' }
+      })
+    } else {
+      Purchases.update(newPurchase._id, {
+        $push: { sessions: session },
+        $set: { remaining: newPurchase.remaining - 1 }
+      })
+    }
     if (sendEmail) sendPleasePayEmail(member, newPurchase)
   }
 }
