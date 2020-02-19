@@ -10,7 +10,7 @@ import { Carts } from '/imports/api/products/schema'
 const debug = require('debug')('b2b:methods-test')
 
 describe('Meteor methods /imports/api/methods-test', () => {
-  describe.only('member/session', () => {
+  describe('member/session', () => {
     beforeEach(resetDatabase)
 
     it('creates a member', () => {
