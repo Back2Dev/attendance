@@ -39,7 +39,7 @@ describe('Meteor methods /imports/api/methods-test', () => {
 
     it('creates 10 workout sessions', () => {
       const event = Factory.create('test-event')
-      const product = Factory.create('product', { code: 'PA-PASS-MULTI-10', type: 'pass' })
+      const product = Factory.create('product', { code: 'PA-PASS-MULTI-10', type: 'pass', qty: 10 })
       const member = Factory.create('member', { subsType: 'pass' })
 
       for (let i = 0; i < 10; i++) {
@@ -48,13 +48,13 @@ describe('Meteor methods /imports/api/methods-test', () => {
       }
 
       const sessions = Sessions.find({ memberId: member._id }).fetch()
-      expect(sessions.length).to.be.equal(2)
+      expect(sessions.length).to.be.equal(10)
       const purchases = Purchases.find({ memberId: member._id }).fetch()
       debug('purchases', purchases)
       expect(purchases.length).to.be.equal(2)
       const carts = Carts.find({ memberId: member._id }).fetch()
       expect(carts.length).to.be.equal(1)
-      expect(carts.purchases.length).to.be.equal(1)
+      expect(carts[0].totalqty).to.be.equal(2)
     })
   })
 })
