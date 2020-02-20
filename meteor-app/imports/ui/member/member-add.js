@@ -43,10 +43,6 @@ class MemberAdd extends Component {
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
     const finalStep = this.schemas.length == this.state.step
-    if (finalStep && this.props.newId) {
-      Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : context.goHome())
-    }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message)
     }
@@ -61,6 +57,9 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
       this.props.setMember(this.state.formData)
+      window.scrollTo(0, 0)
+      Alert.success(this.props.message)
+      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : context.goHome())
       return
     } else if ({ formData }.formData._id === undefined) {
       this.setState((prevState, props) => {
@@ -93,6 +92,7 @@ class MemberAdd extends Component {
       step: this.state.step - 1
     })
   }
+
   goToStep = step => {
     if (step <= this.state.progress) {
       this.setState({
@@ -100,6 +100,7 @@ class MemberAdd extends Component {
       })
     }
   }
+
   validate = (formData, errors) => {
     if (this.props.member != null) {
       return true
@@ -116,6 +117,7 @@ class MemberAdd extends Component {
     return errors
   }
   renderForm = () => {
+    console.log(this.props.member)
     return (
       <Form
         schema={this.schemas[this.state.step].schema}
