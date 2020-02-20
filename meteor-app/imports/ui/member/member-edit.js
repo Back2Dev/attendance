@@ -54,37 +54,17 @@ class MemberEditForm extends Component {
   }
 
   onSubmit = ({ formData }) => {
-    const finalStep = this.schemas.length == this.state.step
-    if (finalStep) {
-      this.props.setMember(this.state.formData)
-      window.scrollTo(0, 0)
-      Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : context.goHome())
-      return
-    } else if ({ formData }.formData._id === undefined) {
-      this.setState((prevState, props) => {
-        return {
-          formData: {
-            ...prevState.formData,
-            ...formData
-          },
-          step: prevState.step + 1,
-          progress: prevState.step + 1
-        }
-      })
-    } else {
-      this.setState(() => {
-        return {
-          formData: { formData }.formData
-        }
-      })
-      this.props.setMember(formData)
-      this.setState(() => {
-        return {
-          step: 5
-        }
-      })
-    }
+    this.setState(() => {
+      return {
+        formData: { formData }.formData
+      }
+    })
+    this.props.setMember(formData)
+    this.setState(() => {
+      return {
+        step: 5
+      }
+    })
   }
 
   backStep = () => {
