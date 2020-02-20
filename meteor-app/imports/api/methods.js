@@ -42,7 +42,9 @@ Meteor.methods({
           code = 'PA-PASS-MULTI-10'
           break
         case 'member':
-          code = 'PA-MEMB-12'
+          const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
+          const purchase = purchases.length ? purchases[0] : null
+          code = purchase.code
           break
         case 'casual':
           code = 'PA-CASUAL'
@@ -290,7 +292,9 @@ const createNewPass = member => {
       code = 'PA-PASS-MULTI-10'
       break
     case 'member':
-      code = 'PA-MEMB-12'
+      const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
+      const purchase = purchases.length ? purchases[0] : null
+      code = purchase.code
       break
     case 'casual':
       code = 'PA-CASUAL'
