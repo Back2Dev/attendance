@@ -5,7 +5,7 @@ import holdings from '../../support/test-data-pick5'
   * navigate to the almsford application
   
   * click the get started button
-  * add the stock choices and  user information
+  * add the stock choices and  user information 
   * click the save button
  
   */
