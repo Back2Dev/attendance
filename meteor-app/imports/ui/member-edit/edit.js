@@ -1,5 +1,5 @@
 // import React from 'react'
-// import MemberAdd from '/imports/ui/member/member-add-container'
+import MemberAdd from '/imports/ui/member/member-add-container'
 
 // const MemberEdit = props => {
 //   if (!props.member) return <h1>Person not found</h1>
@@ -15,7 +15,7 @@
 // export default MemberEdit
 
 import React from 'react'
-import MemberEditForm from '/imports/ui/member/member-edit'
+import MemberEditForm from '/imports/ui/member/member-edit-container'
 
 const MemberEdit = props => {
   if (!props.member) return <h1>Person not found</h1>
