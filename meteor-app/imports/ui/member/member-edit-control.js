@@ -4,24 +4,13 @@ import { Button, Icon } from 'semantic-ui-react'
 
 const MemberEditControl = props => {
   return (
-    <div style={{ marginTop: '50px' }}>
-      {props.step >= 1 && (
-        <Button type="button" floated="left" onClick={props.backStep}>
-          <Icon name="arrow left" />
-          Back
-        </Button>
-      )}
-      {props.step < props.totalSteps && (
-        <Button type="submit" floated="right">
+    <div style={{ marginTop: '50px', textAlign: 'center' }}>
+      <Button.Group>
+        <Button onClick={props.reviewStep}>Back</Button>
+        <Button positive type="submit" floated="right">
           Update
-          <Icon name="arrow right" />
         </Button>
-      )}
-      {props.step === props.totalSteps && (
-        <Button onClick={props.onSubmit} floated="right" positive>
-          Submit
-        </Button>
-      )}
+      </Button.Group>
     </div>
   )
 }

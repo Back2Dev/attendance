@@ -67,9 +67,9 @@ class MemberEditForm extends Component {
     })
   }
 
-  backStep = () => {
+  stepFive = () => {
     this.setState({
-      step: this.state.step - 1
+      step: 5
     })
   }
 
@@ -110,16 +110,12 @@ class MemberEditForm extends Component {
         showErrorList={false}
         liveValidate={true}
       >
-        {this.state.formData._id ? (
-          <EditControl
-            backStep={this.backStep}
-            step={this.state.step}
-            totalSteps={this.schemas.length}
-            onSubmit={f => f}
-          />
-        ) : (
-          <Control backStep={this.backStep} step={this.state.step} totalSteps={this.schemas.length} onSubmit={f => f} />
-        )}
+        <EditControl
+          reviewStep={this.stepFive}
+          step={this.state.step}
+          totalSteps={this.schemas.length}
+          onSubmit={f => f}
+        />
       </Form>
     )
   }
@@ -128,21 +124,12 @@ class MemberEditForm extends Component {
     const finalStep = this.schemas.length == this.state.step
     return (
       <Grid>
-        <Grid.Row centered>
-          <Steps step={this.state.step} steps={this.schemas} goToStep={this.goToStep} progress={this.state.progress} />
-        </Grid.Row>
+        <Grid.Row centered></Grid.Row>
         <Grid.Row centered>
           <Grid.Column style={{ maxWidth: '600px' }}>
             {finalStep && (
-              // this needs refactoring
               <div>
                 <MemberAddReview formData={this.state.formData} steps={this.schemas} goToStep={this.goToStep} />
-                <Control
-                  backStep={this.backStep}
-                  step={this.state.step}
-                  totalSteps={this.schemas.length}
-                  onSubmit={this.onSubmit}
-                />
               </div>
             )}
             {!finalStep && this.renderForm()}

@@ -6,7 +6,6 @@ import Form from 'react-jsonschema-form-semanticui'
 import Alert from 'react-s-alert'
 import Steps from '/imports/ui/member/member-add-steps'
 import Control from '/imports/ui/member/member-add-control'
-import EditControl from '/imports/ui/member/member-edit-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 import fields from '/imports/ui/member/member-add-fields'
@@ -18,7 +17,6 @@ const mapSchemaToState = schema => {
     return state
   }, {})
 }
-
 class MemberAdd extends Component {
   constructor(props) {
     super(props)
@@ -42,7 +40,12 @@ class MemberAdd extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     window.scrollTo(0, 0)
+
     const finalStep = this.schemas.length == this.state.step
+    if (finalStep && this.props.newId) {
+      Alert.success(this.props.message)
+      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : context.goHome())
+    }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message)
     }
@@ -57,34 +60,19 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
       this.props.setMember(this.state.formData)
-      window.scrollTo(0, 0)
-      Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : context.goHome())
       return
-    } else if ({ formData }.formData._id === undefined) {
-      this.setState((prevState, props) => {
-        return {
-          formData: {
-            ...prevState.formData,
-            ...formData
-          },
-          step: prevState.step + 1,
-          progress: prevState.step + 1
-        }
-      })
-    } else {
-      this.setState(() => {
-        return {
-          formData: { formData }.formData
-        }
-      })
-      this.props.setMember(formData)
-      this.setState(() => {
-        return {
-          step: 5
-        }
-      })
     }
+    this.setState((prevState, props) => {
+      return {
+        formData: {
+          ...prevState.formData,
+          ...formData
+        },
+        step: prevState.step + 1,
+        progress: prevState.step + 1
+      }
+    })
+    // this.props.setMember(this.state.formData)
   }
 
   backStep = () => {
@@ -92,7 +80,6 @@ class MemberAdd extends Component {
       step: this.state.step - 1
     })
   }
-
   goToStep = step => {
     if (step <= this.state.progress) {
       this.setState({
@@ -100,7 +87,6 @@ class MemberAdd extends Component {
       })
     }
   }
-
   validate = (formData, errors) => {
     if (this.props.member != null) {
       return true
@@ -117,7 +103,6 @@ class MemberAdd extends Component {
     return errors
   }
   renderForm = () => {
-    console.log(this.props.member)
     return (
       <Form
         schema={this.schemas[this.state.step].schema}
@@ -130,16 +115,7 @@ class MemberAdd extends Component {
         showErrorList={false}
         liveValidate={true}
       >
-        {this.state.formData._id ? (
-          <EditControl
-            backStep={this.backStep}
-            step={this.state.step}
-            totalSteps={this.schemas.length}
-            onSubmit={f => f}
-          />
-        ) : (
-          <Control backStep={this.backStep} step={this.state.step} totalSteps={this.schemas.length} onSubmit={f => f} />
-        )}
+        <Control backStep={this.backStep} step={this.state.step} totalSteps={this.schemas.length} onSubmit={f => f} />
       </Form>
     )
   }
