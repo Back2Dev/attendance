@@ -8,16 +8,13 @@
   * click the update button
   */
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from
-  // failing the test. We do this because of some ugly js errors
-  // from a js library we are using
-  return false
-})
-
 describe('Edit member profile', function() {
   it('Selects a member and edits profile', function() {
-    cy.visit('/login')
-    loginAsAdmin()
+    cy.visit('/admin/login')
+    cy.get('input[name="email"]')
+      .clear()
+      .type('admin@back2bikes.com.au')
+
+    cy.get()
   })
 })
