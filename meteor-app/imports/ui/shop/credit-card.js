@@ -233,7 +233,7 @@ const CreditCard = props => {
   }
 
   const submitForm = e => {
-    console.log('测试', fakeState)
+    
     debug('Tokenising fields')
     e.preventDefault()
     setErrors({})

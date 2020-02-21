@@ -36,10 +36,10 @@ const PunchCard = props => {
   return (
     <div className="Punch-Card">
       <div className="Container">
-        <h1 className="header">Maintenance Course</h1>
+        <h1 className="cardHeader">Maintenance Course</h1>
       </div>
       <div className="Container">{elements}</div>
-      <div className="footer">{Math.round((weeksDone / (weeksDone + weeksLeft)) * 100)}% Completed</div>
+      <div className="cardFooter">{Math.round((weeksDone / (weeksDone + weeksLeft)) * 100)}% Completed</div>
     </div>
   )
 }

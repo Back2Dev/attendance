@@ -7,7 +7,7 @@ import CartList from './cart-list'
 
 const debug = require('debug')('b2b:admin')
 
-const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateAutoPay, history }) => {
+const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateAutoPay, history, migrateSessions }) => {
   const [autoPay, setAutoPay] = React.useState(member.autoPay)
   const toggleAutoPay = e => {
     setAutoPay(!autoPay)
@@ -48,9 +48,17 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         content="Add..."
         about={member.name}
       />
+      <Button
+        color="red"
+        onClick={e => {
+          e.preventDefault()
+          migrateSessions(member._id)
+        }}
+        content="Merge"
+      />
       &nbsp;
       <hr></hr>
-      Sessions ({sessions.length})
+      Sessions (<span id="numSessions">{sessions.length}</span>)
       {sessions.length === 0 ? (
         <div>(none)</div>
       ) : (
@@ -61,7 +69,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         ))
       )}
       <hr />
-      Purchases ({purchases.length})
+      Purchases (<span id="numPurchases">{purchases.length}</span>)
       {purchases.length === 0 ? (
         <div>(none)</div>
       ) : (
@@ -72,11 +80,14 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
             <Price cents={purchase.price} />
             &nbsp;[expires {moment(purchase.expiry).format('D MMM YYYY')}
             {'] '}
+            {purchase.remaining && `${purchase.remaining} remaining`}
           </div>
         ))
       )}
       <hr />
-      <Header as="h5">Shopping carts ({carts.length})</Header>
+      <Header as="h5">
+        Shopping carts (<span id="numCarts">{carts.length}</span>)
+      </Header>
       {carts.length === 0 ? <div>(none)</div> : <CartList carts={carts} removeCart={() => {}} />}
     </div>
   )

@@ -42,7 +42,7 @@ const Counter = props => {
       {prodType.description}
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {products.map(item => (
-          <ProductCard {...item} key={item._id} mode="add" color={prodType.color} />
+          <ProductCard {...item} key={item._id} mode="add" color={prodType.color} prodQty={state.prodqty[item._id]} />
         ))}
       </div>
       {state.totalqty > 0 && (

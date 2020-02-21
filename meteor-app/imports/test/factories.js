@@ -59,6 +59,7 @@ Factory.define('member', Members, {
 Factory.define('session', Sessions, {
   memberId: Random.id(),
   memberName: 'Dave Smith',
+  // eventId:
   name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),
@@ -181,6 +182,20 @@ Factory.define('product', Products, {
   endDate: faker.date.future(1)
 })
 
+Factory.define('10pass', Products, {
+  name: '10 pass',
+  description: 'Passes allow you to use PA',
+  type: 'pass',
+  code: 'PA-PASS-MULTI-10',
+  duration: 3,
+  price: 15000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  autoRenew: true,
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
+})
+
 Factory.define('purchase', Purchases, {
   price: 96000,
   code: 'PA-MEMB-12',
@@ -200,6 +215,17 @@ Factory.define('event', Events, {
   duration: 2,
   price: 200,
   type: 'monthly'
+})
+
+Factory.define('test-event', Events, {
+  name: 'Squad training',
+  location: 'Sandridge',
+  when: new Date(),
+  active: true,
+  duration: 2,
+  type: 'day',
+  days: [1, 2, 3, 4, 5, 6, 7],
+  price: 3000
 })
 
 Factory.define('wwcc', Wwccs, {
