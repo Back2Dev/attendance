@@ -9,25 +9,17 @@ import { cloneDeep } from 'lodash'
 import Reports from './schema'
 import Factory from '/imports/test/factories'
 
-const okReport = {
-  code: 'RANDOM',
-  description: 'A random report',
-  admin: false,
-  discount: 20,
-  start: new Date()
-}
-
 let badReports = []
-const omit = 'code description admin discount start'
-badReports = omit.split(/\s+/).map(element => {
-  delete cloneDeep(okReport)[element]
-})
+// Provide a report with no name, and it should not pass the schema
+badReports.push(Factory.build('report', { name: null }))
+// Provide a report with no details, and it should not pass the schema
+badReports.push(Factory.build('report', { details: null }))
 
-const goodReports = [okReport]
+const goodReports = []
 
 goodReports.push(Factory.build('report'))
 
-describe('reports', () => {
+describe.only('reports', () => {
   beforeEach(resetDatabase)
 
   goodReports.forEach((good, i) => {
@@ -43,7 +35,7 @@ describe('reports', () => {
         const report = Reports.findOne(reportId)
 
         expect(report._id).to.equal(good._id)
-        const fields = 'memberId productId price productName'.split(/\s+/)
+        const fields = 'name details'.split(/\s+/)
         fields.forEach(field => {
           expect(report[field]).to.equal(good[field])
         })
