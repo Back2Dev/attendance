@@ -1,14 +1,13 @@
 // methods that affect both collections
 
 import moment from 'moment'
-
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
-
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
 import { ProductTypes } from './products/schema'
+
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -49,7 +48,7 @@ Meteor.methods({
         .forEach(session => {
           addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
         })
-      handleUnpaidSessions(id)
+      handleUnpaidSessions(member)
       //set status
       const currentPurchases = Purchases.find({ memberId: member._id }).fetch()
       if (currentPurchases.length) {
@@ -111,7 +110,7 @@ Meteor.methods({
         $push: { sessions: session }
       })
 
-      if (member.subsType === 'pass') addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
+      addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
 
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
@@ -302,7 +301,7 @@ Meteor.methods({
 const createNewPass = (member, productId, startDate = 'current') => {
   const product = Products.findOne({ _id: productId })
   if (!product) {
-    throw new Meteor.Error(`Could not find product ${code}`)
+    throw new Meteor.Error(`Could not find product ${productId}`)
   }
   const defaultPurchase = {
     productName: product.name,
@@ -320,7 +319,7 @@ const createNewPass = (member, productId, startDate = 'current') => {
             .toISOString(),
     memberId: member._id,
     purchaser: member.name,
-    code,
+    code: product.code,
     qty: 1,
     status: 'current',
     paymentMethod: 'pending',
@@ -503,7 +502,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
   }
 }
 
-const handleUnpaidSessions = id => {
+const handleUnpaidSessions = member => {
   existingSessions = Purchases.find({ memberId: member._id })
     .fetch()
     .filter(purchase => purchase.sessions)
