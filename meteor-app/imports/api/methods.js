@@ -334,12 +334,16 @@ const createNewPass = (member, productId, startDate = 'current') => {
   const carts = Carts.find({ memberId: member._id, status: 'ready' }, { sort: { createdAt: 1 } }).fetch()
   if (carts.length) {
     const cart = carts[0]
-    const newProdqty = {}
-    cart.prodqty[product._id]
-      ? (newProdqty[product._id] = cart.prodqty[product._id] + 1)
-      : (newProdqty[product._id] = 1)
+    let newProdqty = cart.prodqty ? cart.prodqty : {}
+    let newProducts = cart.products.length ? cart.products : []
+    newProdqty[product._id] = cart.prodqty[product._id] ? cart.prodqty[product._id] + 1 : 1
+    let found = false
+    newProducts.forEach(newProduct => {
+      newProduct._id === product._id && (found = true)
+    })
+    found || newProducts.push(product)
     const n = Carts.update(cart._id, {
-      $set: { prodqty: newProdqty },
+      $set: { prodqty: newProdqty, products: newProducts },
       $inc: { totalqty: 1, price: product.price },
       $push: { purchases: purchaseId }
     })
