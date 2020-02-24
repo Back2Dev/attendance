@@ -22,7 +22,6 @@ const adminPassword = 'me2'
 const adminUser = 'admin@back2bikes.com.au'
 import picksAll from './test-data-all-pick'
 import memberEdits from './test-data-edit-profile'
-//import memberEdit from '../../../imports/ui/member-edit/index'
 const fakeUserData = {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
