@@ -1,13 +1,14 @@
 import editMem from '../../support/test-data-edit-profile'
 
-/* Pseudo code for Edit profile test
+/* Pseudo code for Edit profile  and Emergency Contact test
   * navigate to the kisok/volsignin page
   
   * login into the user
   * click on the edit profile button
   * click on one of the edit buttons
-  * edit the data
+  * edit the emergency contact
   * click the update button
+  * go back into the  data to check if it is changed
   */
 
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -53,27 +54,13 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(4) > h2 > .ui')
-      .should('exist')
-      .click()
-
-    cy.get('input[id="root_addressSuburb"]')
-      .clear()
-      .type(editMem.newSuburb)
-
-    cy.get('button[type="submit"]')
-      .contains('Update')
-      .should('exist')
-      .should('be.enabled')
-      .click()
-
-    cy.get(':nth-child(4) > h2 > .ui')
+    cy.get(':nth-child(5) > h2 > .ui')
       .should('exist')
       .click()
 
     cy.get('input[id="root_name"]')
       .clear()
-      .type(editMem.newmemberName)
+      .type(editMem.emergencyContact)
 
     cy.get('button[type="submit"]')
       .contains('Update')
@@ -85,28 +72,6 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('input[id="root_emergencyContact"]')
-      .clear()
-      .type(editMem.emergencyContact)
-
-    cy.get('button[type="submit"]')
-      .contains('Update')
-      .should('exist')
-      .should('be.enabled')
-      .click()
-
-    cy.get(':nth-child(6) > h2 > .ui')
-      .should('exist')
-      .click()
-
-    cy.get('img[src="/images/avatars/13.jpg"]')
-      .should('exist')
-      .click()
-
-    cy.get('button[type="submit"]')
-      .contains('Update')
-      .should('exist')
-      .should('be.enabled')
-      .click()
+    cy.get('input[id="root_name"]').contains(editMem.emergencyContact)
   })
 })
