@@ -8,7 +8,7 @@ describe('Create a Bruce Lee', function() {
 })
 
 describe('Migrate Bruce', function() {
-  it('Migrates with no purchases', function() {
+  it('Migrates', function() {
     cy.visit(`/admin/userprofiles/${dude.member._id}`)
     cy.get('input[name=email]')
       .clear()
