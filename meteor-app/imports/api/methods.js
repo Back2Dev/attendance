@@ -49,7 +49,7 @@ Meteor.methods({
           addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
         })
       handleUnpaidSessions(member)
-      //set status
+      setPurchaseStatus(member)
     })
   },
 
@@ -593,17 +593,17 @@ const setPurchaseStatus = member => {
       if (product) {
         switch (product.subsType) {
           case 'casual': {
-            product.duration &&
-              currentPurchase.remaining <= 0 &&
+            if (product.duration && (currentPurchase.remaining <= 0 || moment(currentPurchase.expiry) < moment()))
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
           case 'pass': {
-            currentPurchase.remaining <= 0 && Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
+            if (currentPurchase.remaining <= 0 || moment(currentPurchase.expiry) < moment())
+              Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
           case 'member': {
-            moment(currentPurchase.expiry) < moment() &&
+            if (moment(currentPurchase.expiry) < moment())
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
