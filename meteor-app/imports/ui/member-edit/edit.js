@@ -1,6 +1,6 @@
 import React from 'react'
 import MemberEditForm from '/imports/ui/member/member-edit-container'
-import Kioskbutton from '/imports/ui/member/return-to-kiosk-button.js'
+import Kioskbutton from '/imports/ui/components/return-to-kiosk-button.js'
 
 const MemberEdit = props => {
   if (!props.member) return <h1>Person not found</h1>
