@@ -7,9 +7,9 @@ const MemberEdit = props => {
   const { member } = props
   return (
     <div>
+      <Kioskbutton />
       <h4>Edit page for {member.name}</h4>
       <MemberEditForm member={member} />
-      <Kioskbutton />
     </div>
   )
 }
