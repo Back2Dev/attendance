@@ -61,12 +61,19 @@ What seperates it from these stacks is that Meteor is run as a single product de
 The app consists of 8 high-level components. They are:
 
 1 . Display-user component
+
 2 . Admin Panel component
+
 3 . Service Selector Component
+
 4 . Bike assessment component
+
 5 . Bike assessment review component
+
 6 . Customer details component
+
 7 . Confirmation component
+
 8 . Current bike jobs component
 
 ---
