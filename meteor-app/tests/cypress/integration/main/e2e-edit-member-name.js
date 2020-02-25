@@ -72,6 +72,16 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('#root_name').contains(editMem.newmemberName)
+    cy.get('#root_name')
+      .clear()
+      .type(editMem.memberName)
+
+    cy.get('button[type="submit"]')
+      .contains('Update')
+      .should('exist')
+      .should('be.enabled')
+      .click()
+
+    cy.get('#root_name').contains(editMem.memberName)
   })
 })
