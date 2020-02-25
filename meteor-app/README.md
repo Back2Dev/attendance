@@ -5,7 +5,6 @@
 ## Contents
 - [Mission Statement](#Mission_Statement)
 - [Getting Started/ installation](#Getting_Started)
-- [What is Meteor?](#What_is_Meteor?)
 - [App Design](#App_Design)
 - [Styling](#Styling)
 - [Database](#Database)
