@@ -512,10 +512,10 @@ const handleUnpaidSessions = member => {
     .map(purchase => purchase.sessions.map(session => session._id))
     .flat()
   sessions = member.sessions
-  sessions.sort((a, b) => {
-    return moment(a.createdAt) > moment(b.createdAt) ? -1 : 1
-  })
   let unpaidSessions = sessions.filter(session => !existingSessions.includes(session._id))
+  unpaidSessions.sort((a, b) => {
+    return moment(a.timeIn) > moment(b.timeIn) ? -1 : 1
+  })
   if (unpaidSessions && unpaidSessions.length) {
     const purchasesDes = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
     const lastPurchase = purchasesDes.length ? purchasesDes[0] : null
