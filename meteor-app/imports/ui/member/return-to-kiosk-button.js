@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-console.log('test')
-
 class Kioskbutton extends React.Component {
   render() {
     return (
