@@ -4,22 +4,23 @@ This app's intention is to address this [Problem Statement](http://devblog.back2
 
 << I am unsure about the above statement so am not touching >>
 
+
 [![Build Status](https://travis-ci.org/Back2bikes/attendance.svg?branch=master)](https://travis-ci.org/Back2bikes/attendance) [![Coverage Status](https://coveralls.io/repos/github/Back2bikes/attendance/badge.svg?branch=master)](https://coveralls.io/github/Back2bikes/attendance?branch=master) ![GitHub repo size](https://img.shields.io/github/repo-size/Back2bikes/attendance) ![Packagist](https://img.shields.io/packagist/l/Back2bikes/attendance?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/Back2bikes/attendance)
 
 
-#Contents
-- [Mission Statement](#Back2Bikes Attendance App Mission Statement)
-- [Getting Started/ installation](#Getting Started)
-- [What is Meteor?](#What is Meteor?)
-- [App Design](#App Design)
+## Contents
+- [Mission Statement](#Mission_Statement)
+- [Getting Started/ installation](#Getting_Started)
+- [What is Meteor?](#What_is_Meteor?)
+- [App Design](#App_Design)
 - [Styling](#Styling)
 - [Database](#Database)
 - [Schemas](#Schemas)
-- [Information on how the App uses Meteor](#Information on how the App uses Meteor)
+- [Information on how the App uses Meteor](#Information_on_how_the_App_uses_Meteor)
 ---
 
-##Attendance App
-####Mission Statement
+# Attendance App
+#### Mission Statement
 
 As we have grown, we have realised the need to keep records, especially for insurance reasons.
 
@@ -27,7 +28,7 @@ We want to *Log attendance*
 
 This app provides a really easy way for volunteers to sign in, and this helps us to track who has come, recognise our regulars, and reach out to people who stop coming.
 
-####Getting Started
+#### Getting Started
 
 1. Install Meteor here: [https://www.meteor.com/install](https://www.meteor.com/install)
 
@@ -55,7 +56,7 @@ What seperates it from these stacks is that Meteor is run as a single product de
 
 [Information on how the App uses Meteor](#Information on how the App uses Meteor)
  
-####App Design
+#### App Design
  Meteor Apps are run off the [MVC design pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) and seperate where data can flow.
  
  **Components**
@@ -73,11 +74,12 @@ The app consists of 8 high-level components. They are:
 6 . Customer details component
 7 . Confirmation component
 8 . Current bike jobs component
+
 ---
- << THIS MAY NOT BE CORRECT ANY MORE >>
+ << THE ABOVE MAY NOT BE CORRECT ANY MORE >>
  ---
  
-####Styling
+#### Styling
  The Attendance App is using [Semantic UI](https://atmospherejs.com/semantic) for styling. 
  
  This package is automatically synced with the Semantic UI repo.
@@ -86,7 +88,7 @@ The app consists of 8 high-level components. They are:
  
  Each folder possesses it's own semantic.min.css file
 
-####Database
+#### Database
 Meteor integrates with MongoDB and creates a mini MongoDB that lives on the client side within their session.
 
 Any requests/ updates from them will impact on their session database only.
@@ -108,7 +110,7 @@ When you next run `meteor run` the startup script will repopulate the DB.
 > Remember to update this file when you update/ change data fields  that a user will need.
 
 
-####Schemas
+#### Schemas
 
 Some shared controller/methods for schema calls can be found here: `/imports/api/schema.js`
 
@@ -121,7 +123,7 @@ An individual session record will be created for user interactions.
 
 
 
-####Information on how the App uses Meteor
+#### Information on how the App uses Meteor
 
 Meteor controls how data is accessed 'under the hood' through it's functions:
 - `Meteor.publish`
@@ -146,22 +148,21 @@ Meteor.publish('all.members', () => {
 });
 ```
 
-####Testing
+#### Testing
 Tests are performed through a combination of JEST and [Cypress](https://www.cypress.io/)
 
 begin tests by cd'ing into the `attendance/meteor-app` folder and running:
 `meteor npm run debug.b2b`
+
 ---
 << Check on this part re: tests to run. There are too many scripts and many seem broken >>
 ---
 
-####Working With Children Checks
+#### Working With Children Checks
 All files to do with this can be found here:  `/imports/api/wwccs`
 including the Schema & Methods with Axios integration
 
 [Working With Children Checks - Application Process](https://www.workingwithchildren.vic.gov.au/individuals/applicants/how-to-apply)  |  [Check Status Online](https://online.justice.vic.gov.au/wwccu/checkstatus.doj#_ga=2.142958133.1872289877.1582606042-353645631.1582606042)
-
-
 
 
 << I Am unsure about the Below so am not touching >>
