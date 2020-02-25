@@ -13,7 +13,7 @@
 - [Working With Children Checks](#Working-With-Children-Checks)
 ---
 
-# 1. Attendance App
+# Attendance App
 ### Mission Statement
 
 As we have grown, we have realised the need to keep records, especially for insurance reasons.
