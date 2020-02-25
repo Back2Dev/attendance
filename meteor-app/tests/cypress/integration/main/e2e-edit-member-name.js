@@ -72,6 +72,6 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('input[id="root_name"]').contains(editMem.newmemberName)
+    cy.get('#root_name').contains(editMem.newmemberName)
   })
 })

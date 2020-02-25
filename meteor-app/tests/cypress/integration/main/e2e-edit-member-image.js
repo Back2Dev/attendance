@@ -1,7 +1,6 @@
 import editMem from '../../support/test-data-edit-profile'
 
-/* Pseudo code for Edit profile  and Emergency Contact test
-  * navigate to the kisok/volsignin page
+/* navigate to the kisok/volsignin page
   
   * login into the user
   * click on the edit profile button
@@ -54,13 +53,13 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(5) > h2 > .ui')
+    cy.get(':nth-child(6) > h2 > .ui')
       .should('exist')
       .click()
 
-    cy.get('input[id="root_emergencyContact"]')
-      .clear()
-      .type(editMem.emergencyContact)
+    cy.get('img[src="/images/avatars/9.jpg"]')
+      .should('exist')
+      .click()
 
     cy.get('button[type="submit"]')
       .contains('Update')
@@ -68,10 +67,10 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(5) > h2 > .ui')
+    cy.get(':nth-child(6) > h2 > .ui')
       .should('exist')
       .click()
 
-    cy.get('#root_emergencyContact').contains(editMem.emergencyContact)
+    cy.get('img[src="/images/avatars/9.jpg"]').should('exist')
   })
 })
