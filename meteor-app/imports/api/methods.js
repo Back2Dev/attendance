@@ -390,7 +390,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
       case 1: {
         const purchase = findPurchases[0]
         const product = Products.findOne({ code: purchase.code })
-        switch (product.subsType) {
+        switch (member.subsType) {
           case 'member':
             Purchases.update(purchase._id, {
               $push: { sessions: session }
@@ -464,7 +464,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
         }
         switch (purchase.subsType) {
           case 'member':
-            Purchases.update(ourchase._id, {
+            Purchases.update(purchase._id, {
               $push: { sessions: session }
             })
             break

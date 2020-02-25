@@ -1130,7 +1130,7 @@ const dude = {
       _id: 'SNLXztEawBkxMuXuD',
       price: 96000,
       code: 'PA-MEMB-12',
-      expiry: '2019-04-07T02:01:14.762Z',
+      expiry: '2020-04-07T02:01:14.762Z',
       txnDate: '2019-04-07T02:01:14.762Z',
       purchaser: 'Cathrine King',
       productId: 'EKFJq9mrEjPer3PHW',
