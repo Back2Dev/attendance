@@ -1,9 +1,3 @@
-# attendance-app
-Workshop attendance app for back2bikes volunteers.  
-This app's intention is to address this [Problem Statement](http://devblog.back2bikes.com.au:8080/blog/attendance/)
-
-<< I am unsure about the above statement so am not touching >>
-
 
 [![Build Status](https://travis-ci.org/Back2bikes/attendance.svg?branch=master)](https://travis-ci.org/Back2bikes/attendance) [![Coverage Status](https://coveralls.io/repos/github/Back2bikes/attendance/badge.svg?branch=master)](https://coveralls.io/github/Back2bikes/attendance?branch=master) ![GitHub repo size](https://img.shields.io/github/repo-size/Back2bikes/attendance) ![Packagist](https://img.shields.io/packagist/l/Back2bikes/attendance?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/Back2bikes/attendance)
 
@@ -20,7 +14,7 @@ This app's intention is to address this [Problem Statement](http://devblog.back2
 ---
 
 # Attendance App
-#### Mission Statement
+### Mission Statement
 
 As we have grown, we have realised the need to keep records, especially for insurance reasons.
 
@@ -28,7 +22,7 @@ We want to *Log attendance*
 
 This app provides a really easy way for volunteers to sign in, and this helps us to track who has come, recognise our regulars, and reach out to people who stop coming.
 
-#### Getting Started
+### Getting Started
 
 1. Install Meteor here: [https://www.meteor.com/install](https://www.meteor.com/install)
 
@@ -56,7 +50,7 @@ What seperates it from these stacks is that Meteor is run as a single product de
 
 [Information on how the App uses Meteor](#Information on how the App uses Meteor)
  
-#### App Design
+### App Design
  Meteor Apps are run off the [MVC design pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) and seperate where data can flow.
  
  **Components**
@@ -79,7 +73,7 @@ The app consists of 8 high-level components. They are:
  << THE ABOVE MAY NOT BE CORRECT ANY MORE >>
  ---
  
-#### Styling
+### Styling
  The Attendance App is using [Semantic UI](https://atmospherejs.com/semantic) for styling. 
  
  This package is automatically synced with the Semantic UI repo.
@@ -88,7 +82,7 @@ The app consists of 8 high-level components. They are:
  
  Each folder possesses it's own semantic.min.css file
 
-#### Database
+### Database
 Meteor integrates with MongoDB and creates a mini MongoDB that lives on the client side within their session.
 
 Any requests/ updates from them will impact on their session database only.
@@ -110,7 +104,7 @@ When you next run `meteor run` the startup script will repopulate the DB.
 > Remember to update this file when you update/ change data fields  that a user will need.
 
 
-#### Schemas
+### Schemas
 
 Some shared controller/methods for schema calls can be found here: `/imports/api/schema.js`
 
@@ -123,7 +117,7 @@ An individual session record will be created for user interactions.
 
 
 
-#### Information on how the App uses Meteor
+### Information on how the App uses Meteor
 
 Meteor controls how data is accessed 'under the hood' through it's functions:
 - `Meteor.publish`
@@ -148,7 +142,7 @@ Meteor.publish('all.members', () => {
 });
 ```
 
-#### Testing
+### Testing
 Tests are performed through a combination of JEST and [Cypress](https://www.cypress.io/)
 
 begin tests by cd'ing into the `attendance/meteor-app` folder and running:
@@ -163,33 +157,3 @@ All files to do with this can be found here:  `/imports/api/wwccs`
 including the Schema & Methods with Axios integration
 
 [Working With Children Checks - Application Process](https://www.workingwithchildren.vic.gov.au/individuals/applicants/how-to-apply)  |  [Check Status Online](https://online.justice.vic.gov.au/wwccu/checkstatus.doj#_ga=2.142958133.1872289877.1582606042-353645631.1582606042)
-
-
-<< I Am unsure about the Below so am not touching >>
-
-
-### Create publications 
-
-# User Interface
-The UI has been roughed out and the pics below are intended as a guide only.
-
-![main app](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/attenApp_Main.jpg)
-*Good work Joe!*
-
-![modal confirmation](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/attenApp_Modal.jpg)
-*I'm not sure if we have any fat cat volunteers*
-
-## Check-in Confirmation assumptions
-- Attendance is based on an honour system. No one really needs to sign in or out so ...
-- Attendance is more of a check in process
-- Attendees usually have a rough idea how long they're going to be in the work shop for, so when they check in they just need to indicate that up front - which obviates the need to "sign out". If they skip off home after half an hour, no biggie.
-
-#### For some reason github displays this horizontally not vertically ...
-![the picture](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/attenApp_bigPicture.jpg)
-It's because the orientation of the image is stored in the meta data, and github is respecting that :)
-
-## React Epiphany
-Plan to re-implement initial start using this overlay as the basis for react componentry:
-![the picture](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/ui-1-layout-component-markup.jpg)
-
-![modal confirmation](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/ui-1-layout-modal-component-markup.jpg)
