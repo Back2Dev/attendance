@@ -48,15 +48,17 @@ What seperates it from these stacks is that Meteor is run as a single product de
  
 [Documentation & Guide](https://guide.meteor.com/)  |  [Tutorial](https://www.meteor.com/tutorials/blaze/creating-an-app)  |  [Atmosphere, the Meteor Package Manager](https://atmospherejs.com/)
 
-[Information on how the App uses Meteor](#how-the-App-uses-Meteor)
+> [Information on how the App uses Meteor](#how-the-App-uses-Meteor)
  
 ### App Design
  Meteor Apps are run off the [MVC design pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) and seperate where data can flow.
  
- **Components**
- Re-usable Components are found within `/meteor-app/imports/ui/components`
+**Components**
+
+Re-usable Components are found within `/meteor-app/imports/ui/components`
  
- All other pages/ components are page specific within their own folder in: `/meteor-app/imports/ui/`.
+All other pages/ components are page specific within their own folder in: `/meteor-app/imports/ui/`.
+
 
 The app consists of 8 high-level components. They are:
 
