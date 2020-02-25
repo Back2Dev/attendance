@@ -3,18 +3,18 @@
 
 
 ## Contents
-- [Mission Statement](#Mission_Statement)
-- [Getting Started/ installation](#Getting_Started)
-- [App Design](#App_Design)
+- [Mission Statement](#Mission-Statement)
+- [Getting Started/ installation](#Getting-Started)
+- [App Design](#App-Design)
 - [Styling](#Styling)
 - [Database](#Database)
 - [Schemas](#Schemas)
-- [Information on how the App uses Meteor](#how_the_App_uses_Meteor)
-- [Working With Children Checks](#Working_With_Children_Checks)
+- [Information on how the App uses Meteor](#how-the-App-uses-Meteor)
+- [Working With Children Checks](#Working-With-Children-Checks)
 ---
 
-# Attendance App
-### Mission_Statement
+# 1. Attendance App
+### Mission Statement
 
 As we have grown, we have realised the need to keep records, especially for insurance reasons.
 
@@ -22,7 +22,7 @@ We want to *Log attendance*
 
 This app provides a really easy way for volunteers to sign in, and this helps us to track who has come, recognise our regulars, and reach out to people who stop coming.
 
-### Getting_Started
+### Getting Started
 
 1. Install Meteor here: [https://www.meteor.com/install](https://www.meteor.com/install)
 
@@ -50,7 +50,7 @@ What seperates it from these stacks is that Meteor is run as a single product de
 
 [Information on how the App uses Meteor](#Information on how the App uses Meteor)
  
-### App_Design
+### App Design
  Meteor Apps are run off the [MVC design pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) and seperate where data can flow.
  
  **Components**
@@ -117,7 +117,7 @@ An individual session record will be created for user interactions.
 
 
 
-### how_the_App_uses_Meteor
+### how the App uses Meteor
 
 Meteor controls how data is accessed 'under the hood' through it's functions:
 - `Meteor.publish`
@@ -152,7 +152,7 @@ begin tests by cd'ing into the `attendance/meteor-app` folder and running:
 << Check on this part re: tests to run. There are too many scripts and many seem broken >>
 ---
 
-#### Working_With_Children_Checks
+#### Working With Children Checks
 All files to do with this can be found here:  `/imports/api/wwccs`
 including the Schema & Methods with Axios integration
 
