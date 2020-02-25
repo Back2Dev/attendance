@@ -282,7 +282,7 @@ const createNewPass = (member, code, startDate = 'current') => {
     productName: product.name,
     productId: product._id,
     price: product.price,
-    remaining: product.qty,
+    remaining: product.qty ? product.qty : -1,
     expiry:
       startDate === 'current'
         ? moment()
@@ -399,7 +399,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
           case 'pass': {
             let remaining = product.qty
             purchase.sessions && (remaining = remaining - purchase.sessions.length)
-            if (purchase.remaining > 0) {
+            if (remaining > 0) {
               Purchases.update(purchase._id, {
                 $push: { sessions: session },
                 $set: { remaining: remaining - 1 }
@@ -412,7 +412,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
               //1 casual session
               let remaining = product.qty
               purchase.sessions && (remaining = remaining - purchase.sessions.length)
-              if (purchase.remaining > 0) {
+              if (remaining > 0) {
                 Purchases.update(purchase._id, {
                   $push: { sessions: session },
                   $set: { remaining: remaining - 1 }
@@ -424,8 +424,6 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
                 $push: { sessions: session }
               })
             }
-            break
-          default:
             break
         }
         break
@@ -439,7 +437,11 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
           const productB = Products.findOne({ code: b.code })
 
           if (productA.subsType === productB.subsType) {
-            return 0
+            if (moment(a.expiry) < moment(b.expiry)) {
+              return -1
+            } else {
+              return 1
+            }
           } else if (productA.subsType === 'member') {
             return -1
           } else if (productB.subsType === 'member') {
@@ -457,44 +459,45 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
           }
         })
 
-        const purchase = findPurchases[0]
-        const product = Products.findOne({ code: purchase.code })
-        if (!product) {
-          throw new Meteor.Error(`Could not find product ${purchase.code}`)
-        }
-        switch (purchase.subsType) {
-          case 'member':
-            Purchases.update(ourchase._id, {
-              $push: { sessions: session }
-            })
-            break
-          case 'pass': {
-            let remaining = product.qty
-            purchase.sessions && (remaining = remaining - purchase.sessions.length)
-            if (remaining > 0) {
-              Purchases.update(targetPurchase._id, {
-                $push: { sessions: session },
-                $set: { remaining: remaining - 1 }
-              })
-            }
-            break
+        findValidPurchase: for (let i = 0; i < findPurchases.length; i++) {
+          const product = Products.findOne({ code: findPurchases[i].code })
+          if (!product) {
+            throw new Meteor.Error(`Could not find product ${findPurchases[i].code}`)
           }
-          case 'casual': {
-            if (product.duration) {
+          switch (product.subsType) {
+            case 'member':
+              Purchases.update(findPurchases[i]._id, {
+                $push: { sessions: session }
+              })
+              break findValidPurchase
+            case 'pass': {
               let remaining = product.qty
-              purchase.sessions && (remaining = remaining - purchase.sessions.length)
+              findPurchases[i].sessions && (remaining = remaining - findPurchases[i].sessions.length)
               if (remaining > 0) {
-                Purchases.update(targetPurchase._id, {
+                Purchases.update(findPurchases[i]._id, {
                   $push: { sessions: session },
                   $set: { remaining: remaining - 1 }
                 })
               }
-            } else {
-              Purchases.update(targetPurchase._id, {
-                $push: { sessions: session }
-              })
+              break findValidPurchase
             }
-            break
+            case 'casual': {
+              if (product.duration) {
+                let remaining = product.qty
+                findPurchases[i].sessions && (remaining = remaining - findPurchases[i].sessions.length)
+                if (remaining > 0) {
+                  Purchases.update(findPurchases[i]._id, {
+                    $push: { sessions: session },
+                    $set: { remaining: remaining - 1 }
+                  })
+                }
+              } else {
+                Purchases.update(findPurchases[i]._id, {
+                  $push: { sessions: session }
+                })
+              }
+              break findValidPurchase
+            }
           }
         }
       }
