@@ -3,7 +3,7 @@ import dude from '../../support/test-data-eddie-mercx'
 const numSessions = dude.member.sessionCount
 
 describe('Create an Eddie Mercx', function() {
-  it(`Creates an Eddie`, function() {
+  it('Creates an Eddie', function() {
     cy.visit('/')
     addEddie()
   })
@@ -32,7 +32,7 @@ describe('Migrate Eddie', function() {
 })
 
 describe('Reset Eddie Mercx', function() {
-  it(`Creates an Eddie`, function() {
+  it('Creates an Eddie', function() {
     cy.visit('/')
     addEddie()
   })
