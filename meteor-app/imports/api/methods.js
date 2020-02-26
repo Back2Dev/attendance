@@ -36,7 +36,11 @@ Meteor.methods({
     //find Members with subscription type pass or null
     const members = Members.find({ _id: id })
     members.forEach(member => {
-      Purchases.update({ memberId: member._id }, { $set: { status: 'current' } }, { multi: true })
+      Purchases.update(
+        { memberId: member._id, status: { $exsit: false } },
+        { $set: { status: 'current' } },
+        { multi: true }
+      )
       let existingSessions = Purchases.find({ memberId: member._id })
         .fetch()
         .filter(purchase => purchase.sessions)
@@ -83,10 +87,7 @@ Meteor.methods({
         },
         $push: { sessions: session }
       })
-
-      addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
-      handleUnpaidSessions(memberId)
-      setPurchaseStatus(member)
+      migrateSessions(memberId)
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error(error.message)
