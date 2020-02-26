@@ -72,8 +72,12 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
+    // cy.get('#root_name')
+    //   .clear()
+    //   .type(editMem.memberName)
     cy.get('#root_name')
-      .clear()
+      .click()
+      .clear({ force: true })
       .type(editMem.memberName)
 
     cy.get('button[type="submit"]')
@@ -82,6 +86,9 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get('#root_name').contains(editMem.memberName)
+    cy.get(':nth-child(4) > h2 > .ui')
+      .should('exist')
+      .click()
+    cy.get('#root_name').should('have.value', 'Cathrine King')
   })
 })

@@ -1,8 +1,8 @@
 const editMem = {
-  memberName: 'General Lee Fishcake ',
+  memberName: 'Cathrine King',
   suburb: 'Middle Park',
   newSuburb: 'Jeju',
-  newmemberName: 'Cathrine King',
+  newmemberName: 'Bo-bo-bo',
   emergencyContact: 'Joe Fred',
   pinNo: '2701'
 }
