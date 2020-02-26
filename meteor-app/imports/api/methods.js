@@ -37,8 +37,8 @@ Meteor.methods({
     const members = Members.find({ _id: id })
     members.forEach(member => {
       Purchases.update(
-        { memberId: member._id, status: { $exsit: false } },
-        { $set: { status: 'current' } },
+        { memberId: member._id, status: { $exists: false } },
+        { $set: { status: 'current', sessions: [] } },
         { multi: true }
       )
       let existingSessions = Purchases.find({ memberId: member._id })
@@ -87,7 +87,7 @@ Meteor.methods({
         },
         $push: { sessions: session }
       })
-      migrateSessions(memberId)
+      Meteor.call('migrateSessions', memberId)
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error(error.message)
