@@ -89,6 +89,6 @@ describe('Edit member profile', function() {
     cy.get(':nth-child(4) > h2 > .ui')
       .should('exist')
       .click()
-    cy.get('#root_name').should('have.value', 'Cathrine King')
+    cy.get('#root_name').should('have.value', editMem.memberName)
   })
 })
