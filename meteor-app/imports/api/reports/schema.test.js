@@ -19,7 +19,7 @@ const goodReports = []
 
 goodReports.push(Factory.build('report'))
 
-describe.only('reports', () => {
+describe('reports', () => {
   beforeEach(resetDatabase)
 
   goodReports.forEach((good, i) => {
