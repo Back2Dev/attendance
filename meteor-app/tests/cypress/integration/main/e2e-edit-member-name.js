@@ -59,7 +59,7 @@ describe('Edit member profile', function() {
       .click()
 
     cy.get('input[id="root_name"]')
-      .clear()
+      .clear({ force: true })
       .type(editMem.newmemberName)
 
     cy.get('button[type="submit"]')
@@ -76,13 +76,8 @@ describe('Edit member profile', function() {
     //   .clear()
     //   .type(editMem.memberName)
     cy.get('#root_name')
-      .click()
       .clear({ force: true })
       .type(editMem.memberName)
-
-    cy.get('#root_addressSuburb')
-      .clear({ force: true })
-      .type(editMem.suburb)
 
     cy.get('button[type="submit"]')
       .contains('Update')
