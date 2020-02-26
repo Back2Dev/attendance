@@ -371,12 +371,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
       const product = Products.findOne({ code: purchase.code })
       if (
         product &&
-        moment(session.timeIn).isBetween(
-          moment(purchase.expiry).subtract(product.duration, 'month'),
-          moment(purchase.expiry),
-          null,
-          '[]'
-        )
+        moment(session.timeIn).isBetween(moment(purchase.createdAt), moment(purchase.expiry), null, '[]')
       ) {
         findPurchases.push(purchase)
       }
