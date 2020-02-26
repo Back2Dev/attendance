@@ -48,7 +48,7 @@ Meteor.methods({
         .forEach(session => {
           addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
         })
-      handleUnpaidSessions(member)
+      handleUnpaidSessions(id)
       setPurchaseStatus(member)
     })
   },
@@ -85,7 +85,7 @@ Meteor.methods({
       })
 
       addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
-      handleUnpaidSessions(member)
+      handleUnpaidSessions(memberId)
       setPurchaseStatus(member)
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
@@ -505,8 +505,13 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
   }
 }
 
-const handleUnpaidSessions = member => {
-  existingSessions = Purchases.find({ memberId: member._id })
+const handleUnpaidSessions = id => {
+  let members = Members.find(id).fetch()
+  if (members.length !== 1) {
+    throw new Meteor.Error(`The number of members found is ${members.length}`)
+  }
+  const member = members[0]
+  existingSessions = Purchases.find({ memberId: id })
     .fetch()
     .filter(purchase => purchase.sessions)
     .map(purchase => purchase.sessions.map(session => session._id))
@@ -517,7 +522,7 @@ const handleUnpaidSessions = member => {
     return moment(a.timeIn) > moment(b.timeIn) ? -1 : 1
   })
   if (unpaidSessions && unpaidSessions.length) {
-    const purchasesDes = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
+    const purchasesDes = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
     const lastPurchase = purchasesDes.length ? purchasesDes[0] : null
     const lastProduct = lastPurchase
       ? Products.findOne({ code: lastPurchase.code })
