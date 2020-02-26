@@ -72,6 +72,6 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('#root_emergencyContact').contains(editMem.emergencyContact)
+    cy.get('#root_emergencyContact').should('have.value', 'Joe Fred')
   })
 })
