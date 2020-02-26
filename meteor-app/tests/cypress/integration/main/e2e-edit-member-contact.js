@@ -87,5 +87,9 @@ describe('Edit member profile', function() {
       .click()
 
     cy.get('#root_emergencyContact').should('have.value', editMem.emergencyContact)
+
+    cy.get('#root_addressSuburb')
+      .should('exist')
+      .contains(editMem.suburb)
   })
 })
