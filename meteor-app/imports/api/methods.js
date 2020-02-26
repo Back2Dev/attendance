@@ -496,6 +496,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
             }
           }
         }
+        break
       }
     }
   }
