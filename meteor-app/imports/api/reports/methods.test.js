@@ -14,10 +14,37 @@ import Factory from '/imports/test/factories'
 describe.only('report.create', () => {
   beforeEach(resetDatabase)
 
-  it(`creates a report`, () => {
+  it(`creates a report with an `, () => {
     expect(() => {
-      const id = Meteor.call('report.create', 'Kristy')
-      const report = Reports.findOne(id)
+      const report = {
+        name: 'Minority report',
+        details: 'The peasants are revolting'
+      }
+
+    }).not.to.throw()
+  })
+
+  it(`creates a report with an invalid type `, () => {
+    expect(() => {
+      const report = {
+        name: 'Minority report',
+        details: 'The peasants are revolting'
+      }
+      const id = Meteor.call('report.create', report)
+      Meteor.call('report.push', id, 'Something has happened', null, "bogus")
+
+    }).to.throw()
+  })
+
+  it(`creates a report with an `, () => {
+    expect(() => {
+      const report = {
+        name: 'Minority report',
+        details: 'The peasants are revolting'
+      }
+      const id = Meteor.call('report.create', report)
+      Meteor.call('report.push', id, 'Something has happened', null, "section")
+
     }).not.to.throw()
   })
 })
