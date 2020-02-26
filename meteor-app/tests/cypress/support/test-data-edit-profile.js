@@ -3,7 +3,8 @@ const editMem = {
   suburb: 'Middle Park',
   newSuburb: 'Jeju',
   newmemberName: 'Bo-bo-bo',
-  emergencyContact: 'Joe Fred',
+  newemergencyContact: 'Joe Fred',
+  emgerncyContact: 'Jo King',
   pinNo: '2701'
 }
 

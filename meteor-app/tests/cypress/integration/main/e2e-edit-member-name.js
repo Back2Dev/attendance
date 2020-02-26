@@ -62,6 +62,10 @@ describe('Edit member profile', function() {
       .clear()
       .type(editMem.newmemberName)
 
+    cy.get('input[id="root_name"]')
+      .clear()
+      .type(editMem.newSuburb)
+
     cy.get('button[type="submit"]')
       .contains('Update')
       .should('exist')
@@ -80,6 +84,10 @@ describe('Edit member profile', function() {
       .clear({ force: true })
       .type(editMem.memberName)
 
+    cy.get('#root_addressSuburb')
+      .clear({ force: true })
+      .type(editMem.suburb)
+
     cy.get('button[type="submit"]')
       .contains('Update')
       .should('exist')
@@ -89,6 +97,10 @@ describe('Edit member profile', function() {
     cy.get(':nth-child(4) > h2 > .ui')
       .should('exist')
       .click()
+
     cy.get('#root_name').should('have.value', editMem.memberName)
+    cy.get('#root_addressSuburb')
+      .should('exist')
+      .contains('Middle Park')
   })
 })
