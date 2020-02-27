@@ -13,14 +13,16 @@ const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
   const id = props.match.params.id
-  const membersHandle = Meteor.subscribe('member.all', id)
+  const membersHandle = Meteor.subscribe('member.all', { userId: `${Meteor.userId()}` })
+  // const membersHandle = Meteor.subscribe('member.all', id)
   const loading = !membersHandle.ready()
-  const member = Members.findOne(id) || {}
+  const member = Members.findOne({ userId: `${Meteor.userId()}` }) || {}
+  // const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
   const purchase = purchases.length ? purchases[0] : null
   const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
   const cart = carts.length ? carts[0] : null
-
+  console.log(member)
   const eventQuery = {
     active: true,
     $or: [
