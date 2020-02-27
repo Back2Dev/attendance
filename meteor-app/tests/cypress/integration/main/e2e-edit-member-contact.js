@@ -58,8 +58,22 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('input[id="root_name"]')
-      .clear()
+    cy.get('input[id="root_emergencyContact"]')
+      .clear({ force: true })
+      .type(editMem.newemergencyContact)
+
+    cy.get('button[type="submit"]')
+      .contains('Update')
+      .should('exist')
+      .should('be.enabled')
+      .click()
+
+    cy.get(':nth-child(5) > h2 > .ui')
+      .should('exist')
+      .click()
+
+    cy.get('input[id="root_emergencyContact"]')
+      .clear({ force: true })
       .type(editMem.emergencyContact)
 
     cy.get('button[type="submit"]')
@@ -72,6 +86,8 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('input[id="root_name"]').contains(editMem.emergencyContact)
+    cy.get('#root_emergencyContact').should('have.value', editMem.emergencyContact)
+
+    cy.get('#root_addressSuburb').should('exist')
   })
 })
