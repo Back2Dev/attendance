@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
+import { Roles } from 'meteor/alanning:roles'
 
 import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
@@ -13,10 +14,11 @@ const Signup = location => {
   const [error, setError] = useState(null)
 
   submit = () => {
-    Accounts.createUser({ email, username: email, password, profile: { name: name } }, err => {
+    Accounts.createUser({ email, username: email, password }, err => {
       if (err) {
         setError(err.reason)
       } else {
+        Roles.addUsersToRoles(Meteor.userId(), ['signin'])
         location.history.goBack()
       }
     })

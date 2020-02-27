@@ -22,6 +22,7 @@ import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
+import MemberPortal from '/imports/ui/portal'
 
 // These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
@@ -31,7 +32,6 @@ import Signup from '../pages/signup'
 import Signout from '../pages/logout'
 import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
-import MembersPortal from '../pages/members-portal'
 
 const Home = props => {
   const isLogged = Meteor.userId() !== null
@@ -75,7 +75,7 @@ const App = props => {
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
 
-          <SecureRoute role="signin" path="/member-portal" component={MembersPortal} />
+          <Route path="/member-portal" component={MemberPortal} />
 
           <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
 
