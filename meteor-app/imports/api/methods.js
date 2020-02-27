@@ -595,17 +595,20 @@ const setPurchaseStatus = member => {
       if (product) {
         switch (product.subsType) {
           case 'casual': {
-            if (product.duration && (currentPurchase.remaining <= 0 || moment(currentPurchase.expiry) < moment()))
+            if (
+              product.duration &&
+              (currentPurchase.remaining <= 0 || (currentPurchase.expiry && moment(currentPurchase.expiry) < moment()))
+            )
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
           case 'pass': {
-            if (currentPurchase.remaining <= 0 || moment(currentPurchase.expiry) < moment())
+            if (currentPurchase.remaining <= 0 || (currentPurchase.expiry && moment(currentPurchase.expiry) < moment()))
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
           case 'member': {
-            if (moment(currentPurchase.expiry) < moment())
+            if (currentPurchase.expiry && moment(currentPurchase.expiry) < moment())
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
