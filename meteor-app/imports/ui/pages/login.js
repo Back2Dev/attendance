@@ -1,44 +1,43 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
-import { Meteor } from 'meteor/meteor';
-import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link, Redirect } from 'react-router-dom'
+import { Meteor } from 'meteor/meteor'
+import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 /**
  * Login page overrides the form’s submit event and call Meteor’s loginWithPassword().
  * Authentication errors modify the component’s state to be displayed
  */
 export default class Login extends React.Component {
-
   /** Initialize component state with properties for login and redirection. */
   constructor(props) {
-    super(props);
-    this.state = { email: '', password: '', error: '', redirectToReferer: false };
+    super(props)
+    this.state = { email: '', password: '', error: '', redirectToReferer: false }
   }
 
   /** Update the form controls each time the user interacts with them. */
   handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value });
+    this.setState({ [name]: value })
   }
 
   /** Handle Login submission using Meteor's account mechanism. */
   submit = () => {
-    const { email, password } = this.state;
-    Meteor.loginWithPassword(email, password, (err) => {
+    const { email, password } = this.state
+    Meteor.loginWithPassword(email, password, err => {
       if (err) {
-        this.setState({ error: err.reason });
+        this.setState({ error: err.reason })
       } else {
-        this.setState({ error: '', redirectToReferer: true });
+        this.setState({ error: '', redirectToReferer: true })
       }
-    });
+    })
   }
 
   /** Render the login form. */
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
-      return <Redirect to={from} />;
+      return <Redirect to={from} />
     }
     // Otherwise return the Login form.
     return (
@@ -74,20 +73,16 @@ export default class Login extends React.Component {
             {this.state.error === '' ? (
               ''
             ) : (
-                <Message
-                  error
-                  header="Login was not successful"
-                  content={this.state.error}
-                />
-              )}
+              <Message error header="Login was not successful" content={this.state.error} />
+            )}
           </Grid.Column>
         </Grid>
       </Container>
-    );
+    )
   }
 }
 
 /** Ensure that the React Router location object is available in case we need to redirect. */
 Login.propTypes = {
-  location: PropTypes.object,
-};
+  location: PropTypes.object
+}
