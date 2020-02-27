@@ -17,13 +17,11 @@ const initialState = {
 }
 
 const recalc = state => {
-  state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
-  state.chargeAmount = state.products.reduce((acc, product) => acc + product.qty * product.price, 0) - state.discount
-  state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
-  state.prodqty = {}
-  state.products.forEach(prod => {
-    state.prodqty[prod._id] = prod.qty
-  })
+  state.price = state.products.reduce((acc, product) => acc + state.prodqty[product._id] * product.price, 0)
+  state.chargeAmount =
+    state.products.reduce((acc, product) => acc + state.prodqty[product._id] * product.price, 0) - state.discount
+  state.totalqty = state.products.reduce((acc, product) => acc + state.prodqty[product._id], 0)
+
   // This looks like a good moment to save the cart to the db
   if (cartUpdater) {
     cartUpdater(state)
@@ -84,12 +82,12 @@ const reducer = (state, action) => {
       if (
         !state.products.find((prod, ix) => {
           if (prod._id === action.payload._id) {
-            state.products[ix].qty += 1
+            state.prodqty[action.payload._id] += 1
             return prod
           }
         })
       ) {
-        action.payload.qty = 1
+        state.prodqty[action.payload._id] = 1
         if (action.payload.memberId) state.memberId = action.payload.memberId
         if (action.payload.expiry) state.expiry = action.payload.expiry
         if (action.payload.email) state.email = action.payload.email

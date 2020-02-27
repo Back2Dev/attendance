@@ -4,8 +4,11 @@ import moment from 'moment'
 
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
+import Purchases from '/imports/api/purchases/schema'
+
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
+import { ProductTypes } from './products/schema'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -15,7 +18,6 @@ Meteor.methods({
       const product = Products.findOne({ active: true, code })
       delete product.createdAt
       delete product.updatedAt
-      product.qty = 1
       const cart = {
         _id: memberId,
         memberId,
@@ -31,6 +33,38 @@ Meteor.methods({
     }
   },
 
+  migrateSessions(id) {
+    //find Members with subscription type pass or null
+    const members = Members.find({ _id: id })
+    members.forEach(member => {
+      switch (member.subsType) {
+        case 'pass':
+          code = 'PA-PASS-MULTI-10'
+          break
+        case 'member':
+          code = 'PA-MEMB-12'
+          break
+        case 'casual':
+          code = 'PA-CASUAL'
+          break
+        default:
+          code = 'PA-CASUAL'
+      }
+      Purchases.update({ memberId: member._id, code: code }, { $set: { status: 'current' } }, { multi: true })
+      const existingSessions = Purchases.find({ memberId: member._id, code: code })
+        .fetch()
+        .filter(purchase => purchase.sessions)
+        .map(purchase => purchase.sessions.map(session => session._id))
+        .flat()
+      const sessions = member.sessions
+      sessions
+        .filter(session => !existingSessions.includes(session._id))
+        .forEach(session => {
+          addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
+        })
+    })
+  },
+
   arrive(memberId, event) {
     const { duration, name, price } = event
     const timeIn = new Date()
@@ -38,7 +72,6 @@ Meteor.methods({
       .add(duration, 'h')
       .toDate()
     const member = Members.findOne(memberId)
-
     try {
       const id = Sessions.insert({
         memberId,
@@ -62,9 +95,12 @@ Meteor.methods({
         },
         $push: { sessions: session }
       })
+
+      if (member.subsType === 'pass') addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
+
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
-      log.error({ error })
+      log.error(error.message)
     }
   },
 
@@ -247,3 +283,171 @@ Meteor.methods({
     )
   }
 })
+
+const createNewPass = member => {
+  switch (member.subsType) {
+    case 'pass':
+      code = 'PA-PASS-MULTI-10'
+      break
+    case 'member':
+      code = 'PA-MEMB-12'
+      break
+    case 'casual':
+      code = 'PA-CASUAL'
+      break
+    default:
+      code = 'PA-CASUAL'
+  }
+  const product = Products.findOne({ code, active: true })
+  if (!product) {
+    throw new Meteor.Error(`Could not find product ${code}`)
+  }
+  const defaultPurchase = {
+    productName: product.name,
+    productId: product._id,
+    price: product.price,
+    remaining: product.qty,
+    expiry: moment()
+      .add(product.duration, 'month')
+      .toISOString(),
+    memberId: member._id,
+    purchaser: member.name,
+    code,
+    qty: 1,
+    status: 'current',
+    paymentMethod: 'pending',
+    sessions: []
+  }
+  const purchaseId = Purchases.insert(defaultPurchase)
+  const purchase = Purchases.findOne(purchaseId)
+  if (!purchase) {
+    throw new Meteor.Error('Could not create new purchase record')
+  }
+
+  const carts = Carts.find({ memberId: member._id, status: 'ready' }, { sort: { createdAt: 1 } }).fetch()
+  if (carts.length) {
+    const cart = carts[0]
+    const newProdqty = {}
+    cart.prodqty[product._id]
+      ? (newProdqty[product._id] = cart.prodqty[product._id] + 1)
+      : (newProdqty[product._id] = 1)
+    const n = Carts.update(cart._id, {
+      $set: { prodqty: newProdqty },
+      $inc: { totalqty: 1, price: product.price },
+      $push: { purchases: purchaseId }
+    })
+    if (!n) {
+      throw new Meteor.Error('Could not update the cart')
+    }
+  } else {
+    const newCart = {
+      memberId: member._id,
+      price: purchase.price,
+      totalqty: 1,
+      products: [product],
+      purchases: [purchaseId],
+      prodqty: {
+        [product._id]: 1
+      },
+      status: 'ready'
+    }
+    const cartId = Carts.insert(newCart)
+    if (!cartId) {
+      throw new Meteor.Error('Could not insert a new cart')
+    }
+  }
+  return purchase
+}
+
+const sendPleasePayEmail = (member, purchase) => {
+  const carts = Carts.find({ purchases: purchase._id }).fetch()
+  const cart = carts.length ? carts[0] : null
+  Meteor.call(
+    'sendGenericActionEmail',
+    member.email,
+    {
+      subject: 'Please pay for your pass',
+      name: member.name,
+      message: 'You did a session today, you need to pay for it ',
+      headline: 'Payment required',
+      link: Meteor.absoluteUrl(`/shop/renew/${member._id}/${cart._id}`),
+      action: 'Pay Now'
+    },
+    Meteor.settings.private.genericActionID
+  )
+}
+
+const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
+  /* 
+        1. Purchase is current with more than 1 remaining
+            * add session
+            * if(!paid) send please pay email
+        2. Purchase sessions are 9/10
+            * add session
+            * new purchase
+            * if (auto pay) make payment
+            * else send please pay email
+            * paymentStatus="notified"
+        3. Purchase does not exist
+            * create purchase
+            * add session
+            * send please pay email
+      */
+  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
+  const purchase = purchases.length ? purchases[0] : null
+  if (purchase) {
+    const product = Products.findOne({ code: purchase.code, active: true })
+    if (!product) {
+      throw new Meteor.Error(`Could not find product ${purchase.code}`)
+    }
+    let remaining = product.qty - 1
+    if (purchase.sessions) {
+      remaining = remaining - purchase.sessions.length
+    }
+    Purchases.update(purchase._id, {
+      $push: { sessions: session },
+      $set: { remaining }
+    })
+    if (remaining <= 0) {
+      if (doAutoPay && member.autoPay) {
+        //why not check if there are still current purchases
+        const newPurchase = createNewPass(member)
+        autoPay(member, newPurchase)
+      } else {
+        const purchases = Purchases.find(
+          { memberId: member._id, status: 'current' },
+          { sort: { createdAt: 1 } }
+        ).fetch()
+        if (purchases.length === 1) {
+          const newPurchase = createNewPass(member)
+          if (sendEmail) sendPleasePayEmail(member, newPurchase)
+        }
+      }
+      Purchases.update(purchase._id, {
+        $set: { status: 'complete' }
+      })
+    } else {
+      if (purchase.paymentStatus !== 'paid') {
+        if (sendEmail) sendPleasePayEmail(member, purchase)
+      }
+    }
+  } else {
+    // 3. Purchase does not exist
+    // * create purchase
+    // * add session
+    // * send please pay email
+    const newPurchase = createNewPass(member)
+    if (newPurchase.remaining === 1 && newPurchase.code === 'PA-CASUAL') {
+      Purchases.update(newPurchase._id, {
+        $push: { sessions: session },
+        $set: { remaining: newPurchase.remaining - 1, status: 'complete' }
+      })
+    } else {
+      Purchases.update(newPurchase._id, {
+        $push: { sessions: session },
+        $set: { remaining: newPurchase.remaining - 1 }
+      })
+    }
+    if (sendEmail) sendPleasePayEmail(member, newPurchase)
+  }
+}

@@ -58,6 +58,10 @@ export default withTracker(props => {
     Meteor.callAsync('members.updateAutoPay', id, value)
   }
 
+  const migrateSessions = id => {
+    Meteor.call('migrateSessions', id)
+  }
+
   return {
     save,
     loading,
@@ -72,6 +76,7 @@ export default withTracker(props => {
     forgetCard,
     updateAutoPay,
     org: Meteor.settings.public.org,
-    logo: Meteor.settings.public.logo
+    logo: Meteor.settings.public.logo,
+    migrateSessions
   }
 })(Loader)

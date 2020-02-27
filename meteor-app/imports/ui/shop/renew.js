@@ -66,6 +66,7 @@ const Renew = props => {
                       key={p.name}
                       {...p}
                       onClick={() => selectOption(p)}
+                      prodQty={cart.prodqty[p._id]}
                     />
                   ))}
                 </div>
