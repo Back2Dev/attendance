@@ -1,12 +1,11 @@
 import editMem from '../../support/test-data-edit-profile'
 
-/* Pseudo code for Edit profile  and name test
-  * navigate to the kisok/volsignin page
+/* navigate to the kisok/volsignin page
   
   * login into the user
   * click on the edit profile button
   * click on one of the edit buttons
-  * edit the member name
+  * edit the emergency contact
   * click the update button
   * go back into the  data to check if it is changed
   */
@@ -54,13 +53,13 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(4) > h2 > .ui')
+    cy.get(':nth-child(6) > h2 > .ui')
       .should('exist')
       .click()
 
-    cy.get('input[id="root_name"]')
-      .clear({ force: true })
-      .type(editMem.newmemberName)
+    cy.get('img[src="/images/avatars/13.jpg"]')
+      .should('exist')
+      .click()
 
     cy.get('button[type="submit"]')
       .contains('Update')
@@ -68,16 +67,13 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(4) > h2 > .ui')
+    cy.get(':nth-child(6) > h2 > .ui')
       .should('exist')
       .click()
 
-    // cy.get('#root_name')
-    //   .clear()
-    //   .type(editMem.memberName)
-    cy.get('#root_name')
-      .clear({ force: true })
-      .type(editMem.memberName)
+    cy.get('img[src="/images/avatars/test21.jpg"]')
+      .should('exist')
+      .click()
 
     cy.get('button[type="submit"]')
       .contains('Update')
@@ -85,10 +81,6 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(4) > h2 > .ui')
-      .should('exist')
-      .click()
-
-    cy.get('#root_name').should('have.value', editMem.memberName)
+    cy.get('img[src="/images/avatars/9.jpg"]').should('exist')
   })
 })
