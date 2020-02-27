@@ -9,6 +9,8 @@
 - [Styling](#Styling)
 - [Database](#Database)
 - [Schemas](#Schemas)
+- [Story Book](#Story-Book)
+- [Testing](#Testing)
 - [Information on how the App uses Meteor](#how-the-App-uses-Meteor)
 - [Working With Children Checks](#Working-With-Children-Checks)
 ---
@@ -124,12 +126,39 @@ An individual session record will be created for user interactions.
 
 **Bike assessments/ Jobs** : `/imports/api/assessments/` 
 
+### Story Book
+
+Each Component within the App should be built Dumb/ Pure. It should render independant of any imports.
+
+Any logic should be created within a backend controller and passed to it as props.
+
+Story Book will need to be installed on your machine by running: `npx -p @storybook/cli sb init`
+
+
+|Component name| StoryBook name|
+|:---:|:---:|
+|`PascalCase.js` | `PascalCase.stories.js`|
+
+
+### Testing
+Tests are performed through a combination of JEST and [Cypress](https://www.cypress.io/)
+
+begin tests by cd'ing into the `attendance/meteor-app` folder and running:
+`meteor npm run debug.b2b`
+
+>Ensure that all Node Packages are up to date before running tests
+
+---
+<< Check on this part re: tests to run. There are too many scripts and many seem broken >>
+---
 
 
 ### how the App uses Meteor
 
 Meteor controls how data is accessed 'under the hood' through it's functions:
+
 - `Meteor.publish`
+
 and 
 - `Meteor.subscribe`
 
@@ -151,15 +180,7 @@ Meteor.publish('all.members', () => {
 });
 ```
 
-### Testing
-Tests are performed through a combination of JEST and [Cypress](https://www.cypress.io/)
 
-begin tests by cd'ing into the `attendance/meteor-app` folder and running:
-`meteor npm run debug.b2b`
-
----
-<< Check on this part re: tests to run. There are too many scripts and many seem broken >>
----
 
 #### Working With Children Checks
 All files to do with this can be found here:  `/imports/api/wwccs`
