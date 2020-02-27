@@ -113,7 +113,7 @@ Meteor.methods({
       .fetch()
       .pop()
 
-    debug(`Member ${id} is departing, session:`, session)
+    // debug(`Member ${id} is departing, session:`, session)
 
     if (session) {
       // lets recalculate the duration of session
@@ -157,7 +157,7 @@ Meteor.methods({
             }
           }
         )
-        debug('m=' + m + ', n=' + n)
+        // debug('m=' + m + ', n=' + n)
       } catch (error) {
         throw new Meteor.Error(error)
       }
