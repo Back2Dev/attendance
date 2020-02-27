@@ -31,6 +31,7 @@ import Signup from '../pages/signup'
 import Signout from '../pages/logout'
 import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
+import MembersPortal from '../pages/members-portal'
 
 const Home = props => {
   const isLogged = Meteor.userId() !== null
@@ -73,6 +74,8 @@ const App = props => {
           <Route path="/visit/:id" component={Visit} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
+
+          <SecureRoute role="signin" path="/member-portal" component={MembersPortal} />
 
           <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
 

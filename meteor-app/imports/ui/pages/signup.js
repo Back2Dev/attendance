@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Meteor } from 'meteor/meteor'
 
 import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
@@ -12,7 +13,7 @@ const Signup = location => {
   const [error, setError] = useState(null)
 
   submit = () => {
-    Accounts.createUser({ email, username: email, password, profile: { name: 'Chris' } }, err => {
+    Accounts.createUser({ email, username: email, password, profile: { name: name } }, err => {
       if (err) {
         setError(err.reason)
       } else {
@@ -82,8 +83,6 @@ const Signup = location => {
 //   /** Handle Signup submission. Create user account and a profile entry, then redirect to the home page. */
 //   submit = () => {
 //     const { email, password } = this.state
-//     console.log(email)
-//     console.log(password)
 //     // Accounts.createUser({ email, username: email, password }, err => {
 //     //   if (err) {
 //     //     this.setState({ error: err.reason })

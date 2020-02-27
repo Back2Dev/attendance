@@ -30,6 +30,7 @@ const VisitMain = props => {
         <Grid.Column width={10}>
           <VisitContextProvider {...props}>
             <Header as="h2">
+              {/* Peak Adventure Logo  */}
               <Image circular src={props.logo} /> {props.org} Sign {inOut}
             </Header>
             <Switch>
