@@ -64,7 +64,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
       ) : (
         sessions.map((session, ix) => (
           <div key={`s${ix}`}>
-            {moment(session.createdAt).format('D MMM YYYY')} {session.name}
+            {moment(session.timeIn).format('D MMM YYYY')} {session.name}
           </div>
         ))
       )}
