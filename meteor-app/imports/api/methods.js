@@ -372,7 +372,12 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
       const product = Products.findOne({ code: purchase.code })
       if (
         product &&
-        moment(session.timeIn).isBetween(moment(purchase.createdAt), moment(purchase.expiry), null, '[]')
+        moment(session.timeIn).isBetween(
+          moment(purchase.createdAt).startOf('day'),
+          moment(purchase.expiry).endOf('day'),
+          null,
+          '[]'
+        )
       ) {
         findPurchases.push(purchase)
       }
@@ -574,8 +579,10 @@ const handleUnpaidSessions = id => {
             const product = Products.findOne({ code: newPurchase.code })
             if (
               moment(session.timeIn).isBetween(
-                moment(newPurchase.expiry).subtract(product.duration, 'month'),
-                moment(newPurchase.expiry),
+                moment(newPurchase.expiry)
+                  .subtract(product.duration, 'month')
+                  .startOf('day'),
+                moment(newPurchase.expiry).endOf('day'),
                 null,
                 '[]'
               )
@@ -613,18 +620,22 @@ const setPurchaseStatus = member => {
           case 'casual': {
             if (
               product.duration &&
-              (currentPurchase.remaining <= 0 || (currentPurchase.expiry && moment(currentPurchase.expiry) < moment()))
+              (currentPurchase.remaining <= 0 ||
+                (currentPurchase.expiry && moment(currentPurchase.expiry).endOf('day') < moment()))
             )
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
           case 'pass': {
-            if (currentPurchase.remaining <= 0 || (currentPurchase.expiry && moment(currentPurchase.expiry) < moment()))
+            if (
+              currentPurchase.remaining <= 0 ||
+              (currentPurchase.expiry && moment(currentPurchase.expiry).endOf('day') < moment())
+            )
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
           case 'member': {
-            if (currentPurchase.expiry && moment(currentPurchase.expiry) < moment())
+            if (currentPurchase.expiry && moment(currentPurchase.expiry).endOf('day') < moment())
               Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
             break
           }
