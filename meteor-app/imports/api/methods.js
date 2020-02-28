@@ -1,14 +1,13 @@
 // methods that affect both collections
 
 import moment from 'moment'
-
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
-
 import Sessions from '/imports/api/sessions/schema'
 import log from '/imports/lib/server/log'
 import { ProductTypes } from './products/schema'
+
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
@@ -37,31 +36,27 @@ Meteor.methods({
     //find Members with subscription type pass or null
     const members = Members.find({ _id: id })
     members.forEach(member => {
-      switch (member.subsType) {
-        case 'pass':
-          code = 'PA-PASS-MULTI-10'
-          break
-        case 'member':
-          code = 'PA-MEMB-12'
-          break
-        case 'casual':
-          code = 'PA-CASUAL'
-          break
-        default:
-          code = 'PA-CASUAL'
-      }
-      Purchases.update({ memberId: member._id, code: code }, { $set: { status: 'current' } }, { multi: true })
-      const existingSessions = Purchases.find({ memberId: member._id, code: code })
-        .fetch()
+      Purchases.update(
+        { memberId: member._id, status: { $exists: false } },
+        { $set: { status: 'current', sessions: [] } },
+        { multi: true }
+      )
+      const purchases = Purchases.find({ memberId: member._id }).fetch()
+      const existingSessions = purchases
         .filter(purchase => purchase.sessions)
         .map(purchase => purchase.sessions.map(session => session._id))
         .flat()
-      const sessions = member.sessions
+      let sessions = Sessions.find({ memberId: member._id }).fetch()
       sessions
         .filter(session => !existingSessions.includes(session._id))
         .forEach(session => {
           addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
         })
+      //Need to set existing paid purchases to paid for this line to work
+      const unpaidPurchases = purchases.filter(purchase => purchase.paymentStatus !== 'paid')
+      const unpaidSessionsNo = handleUnpaidSessions(id)
+      setPurchaseStatus(member)
+      unpaidSessionsNo > 0 && sendPleasePayEmail(member, purchases, sessions, unpaidSessionsNo, unpaidPurchases)
     })
   },
 
@@ -95,9 +90,7 @@ Meteor.methods({
         },
         $push: { sessions: session }
       })
-
-      if (member.subsType === 'pass') addSession2Purchase({ member, session, doAutoPay: true, sendEmail: true })
-
+      Meteor.call('migrateSessions', memberId)
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error(error.message)
@@ -123,7 +116,7 @@ Meteor.methods({
       .fetch()
       .pop()
 
-    debug(`Member ${id} is departing, session:`, session)
+    // debug(`Member ${id} is departing, session:`, session)
 
     if (session) {
       // lets recalculate the duration of session
@@ -167,7 +160,7 @@ Meteor.methods({
             }
           }
         )
-        debug('m=' + m + ', n=' + n)
+        // debug('m=' + m + ', n=' + n)
       } catch (error) {
         throw new Meteor.Error(error)
       }
@@ -284,21 +277,8 @@ Meteor.methods({
   }
 })
 
-const createNewPass = member => {
-  switch (member.subsType) {
-    case 'pass':
-      code = 'PA-PASS-MULTI-10'
-      break
-    case 'member':
-      code = 'PA-MEMB-12'
-      break
-    case 'casual':
-      code = 'PA-CASUAL'
-      break
-    default:
-      code = 'PA-CASUAL'
-  }
-  const product = Products.findOne({ code, active: true })
+const createNewPass = (member, code, startDate = 'current') => {
+  const product = Products.findOne({ code: code })
   if (!product) {
     throw new Meteor.Error(`Could not find product ${code}`)
   }
@@ -306,13 +286,19 @@ const createNewPass = member => {
     productName: product.name,
     productId: product._id,
     price: product.price,
-    remaining: product.qty,
-    expiry: moment()
-      .add(product.duration, 'month')
-      .toISOString(),
+    remaining: product.qty ? product.qty : -1,
+    expiry:
+      startDate === 'current'
+        ? moment()
+            .add(product.duration, 'month')
+            .toISOString()
+        : moment(startDate)
+            .startOf('day')
+            .add(product.duration, 'month')
+            .toISOString(),
     memberId: member._id,
     purchaser: member.name,
-    code,
+    code: product.code,
     qty: 1,
     status: 'current',
     paymentMethod: 'pending',
@@ -327,12 +313,16 @@ const createNewPass = member => {
   const carts = Carts.find({ memberId: member._id, status: 'ready' }, { sort: { createdAt: 1 } }).fetch()
   if (carts.length) {
     const cart = carts[0]
-    const newProdqty = {}
-    cart.prodqty[product._id]
-      ? (newProdqty[product._id] = cart.prodqty[product._id] + 1)
-      : (newProdqty[product._id] = 1)
+    let newProdqty = cart.prodqty ? cart.prodqty : {}
+    let newProducts = cart.products.length ? cart.products : []
+    newProdqty[product._id] = cart.prodqty[product._id] ? cart.prodqty[product._id] + 1 : 1
+    let found = false
+    newProducts.forEach(newProduct => {
+      newProduct._id === product._id && (found = true)
+    })
+    found || newProducts.push(product)
     const n = Carts.update(cart._id, {
-      $set: { prodqty: newProdqty },
+      $set: { prodqty: newProdqty, products: newProducts },
       $inc: { totalqty: 1, price: product.price },
       $push: { purchases: purchaseId }
     })
@@ -359,7 +349,7 @@ const createNewPass = member => {
   return purchase
 }
 
-const sendPleasePayEmail = (member, purchase) => {
+const sendPleasePayEmail = (member, purchase, sessions, unpaidSessionsNo, unpaidPurchases) => {
   const carts = Carts.find({ purchases: purchase._id }).fetch()
   const cart = carts.length ? carts[0] : null
   Meteor.call(
@@ -368,7 +358,12 @@ const sendPleasePayEmail = (member, purchase) => {
     {
       subject: 'Please pay for your pass',
       name: member.name,
-      message: 'You did a session today, you need to pay for it ',
+      message: ` Since ${moment(member.createdAt).format('DD/MM/YY')}, you have attended ${
+        sessions.length
+      } sessions. You have paid for ${sessions.length -
+        unpaidSessionsNo} of them. The rest of the sessions were allocated to ${unpaidPurchases.length} x ${
+        unpaidPurchases[0].productName
+      }${unpaidPurchases.length > 1 && 's'}. Please click the link below to pay.`,
       headline: 'Payment required',
       link: Meteor.absoluteUrl(`/shop/renew/${member._id}/${cart._id}`),
       action: 'Pay Now'
@@ -378,6 +373,288 @@ const sendPleasePayEmail = (member, purchase) => {
 }
 
 const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
+  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
+  if (purchases.length) {
+    let findPurchases = []
+    purchases.forEach(purchase => {
+      const product = Products.findOne({ code: purchase.code })
+      if (
+        product &&
+        moment(session.timeIn).isBetween(
+          moment(purchase.createdAt).startOf('day'),
+          moment(purchase.expiry).endOf('day'),
+          null,
+          '[]'
+        )
+      ) {
+        findPurchases.push(purchase)
+      }
+    })
+
+    switch (findPurchases.length) {
+      case 0: {
+        //couldn't find any purchases
+        break
+      }
+      case 1: {
+        const purchase = findPurchases[0]
+        const product = Products.findOne({ code: purchase.code })
+        switch (product.subsType) {
+          case 'member':
+            debug(`member ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+            Purchases.update(purchase._id, {
+              $push: { sessions: session }
+            })
+            break
+          case 'pass': {
+            let remaining = product.qty
+            purchase.sessions && (remaining = remaining - purchase.sessions.length)
+            if (remaining > 0) {
+              debug(`pass ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+              Purchases.update(purchase._id, {
+                $push: { sessions: session },
+                $set: { remaining: remaining - 1 }
+              })
+            }
+            break
+          }
+          case 'casual':
+            if (product.duration) {
+              //1 casual session
+              let remaining = product.qty
+              purchase.sessions && (remaining = remaining - purchase.sessions.length)
+              if (remaining > 0) {
+                debug(`casual ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+                Purchases.update(purchase._id, {
+                  $push: { sessions: session },
+                  $set: { remaining: remaining - 1 }
+                })
+              }
+            } else {
+              // casual signup
+              Purchases.update(purchase._id, {
+                $push: { sessions: session }
+              })
+            }
+            break
+        }
+        break
+      }
+
+      default: {
+        //there are overlapping purchases.
+
+        findPurchases.sort((a, b) => {
+          const productA = Products.findOne({ code: a.code })
+          const productB = Products.findOne({ code: b.code })
+
+          if (productA.subsType === productB.subsType) {
+            if (moment(a.expiry) < moment(b.expiry)) {
+              return -1
+            } else {
+              return 1
+            }
+          } else if (productA.subsType === 'member') {
+            return -1
+          } else if (productB.subsType === 'member') {
+            return 1
+          } else if (productA.subsType === 'pass') {
+            return -1
+          } else if (productB.subsType === 'pass') {
+            return 1
+          } else if (productA.duration && productA.subsType === 'casual') {
+            return -1
+          } else if (productB.duration && productB.subsType === 'casual') {
+            return 1
+          } else {
+            return 0
+          }
+        })
+
+        findValidPurchase: for (let i = 0; i < findPurchases.length; i++) {
+          const product = Products.findOne({ code: findPurchases[i].code })
+          if (!product) {
+            throw new Meteor.Error(`Could not find product ${findPurchases[i].code}`)
+          }
+          switch (product.subsType) {
+            case 'member':
+              debug(`member ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+              Purchases.update(findPurchases[i]._id, {
+                $push: { sessions: session }
+              })
+              break findValidPurchase
+            case 'pass': {
+              let remaining = product.qty
+              findPurchases[i].sessions && (remaining = remaining - findPurchases[i].sessions.length)
+              if (remaining > 0) {
+                debug(`pass ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+                Purchases.update(findPurchases[i]._id, {
+                  $push: { sessions: session },
+                  $set: { remaining: remaining - 1 }
+                })
+              }
+              break findValidPurchase
+            }
+            case 'casual': {
+              if (product.duration) {
+                let remaining = product.qty
+                findPurchases[i].sessions && (remaining = remaining - findPurchases[i].sessions.length)
+                if (remaining > 0) {
+                  debug(`casual ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+                  Purchases.update(findPurchases[i]._id, {
+                    $push: { sessions: session },
+                    $set: { remaining: remaining - 1 }
+                  })
+                }
+              } else {
+                debug(`casual signup ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+                Purchases.update(findPurchases[i]._id, {
+                  $push: { sessions: session }
+                })
+              }
+              break findValidPurchase
+            }
+          }
+        }
+        break
+      }
+    }
+  }
+}
+
+const handleUnpaidSessions = id => {
+  let members = Members.find(id).fetch()
+  if (members.length !== 1) {
+    throw new Meteor.Error(`The number of members found is ${members.length}`)
+  }
+  const member = members[0]
+  const existingSessions = Purchases.find({ memberId: id })
+    .fetch()
+    .filter(purchase => purchase.sessions)
+    .map(purchase => purchase.sessions.map(session => session._id))
+    .flat()
+  const sessions = Sessions.find({ memberId: member._id }).fetch()
+  let unpaidSessions = sessions.filter(session => !existingSessions.includes(session._id))
+  unpaidSessions.sort((a, b) => {
+    return moment(a.timeIn) > moment(b.timeIn) ? -1 : 1
+  })
+  if (unpaidSessions && unpaidSessions.length) {
+    const purchasesAsc = Purchases.find({ memberId: id, remaining: { $gt: 0 } }, { sort: { createdAt: 1 } }).fetch()
+
+    const purchasesDes = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
+    const lastPurchase = purchasesDes.length ? purchasesDes[0] : null
+    const lastProduct = lastPurchase
+      ? Products.findOne({ code: lastPurchase.code })
+      : Products.findOne({ code: 'PA-CASUAL' })
+    switch (lastProduct.subsType) {
+      case 'casual': {
+        unpaidSessions.forEach(unpaidSession => {
+          debug(
+            `create new casual purchase ${member._id} pushing session ${moment(unpaidSession.timeIn).format(
+              'DD/MM/YY'
+            )}`
+          )
+          const newPurchase = createNewPass(member, lastProduct.code)
+          Purchases.update(newPurchase._id, {
+            $push: { sessions: unpaidSession },
+            $inc: { remaining: -1 }
+          })
+        })
+        break
+      }
+      case 'pass': {
+        let newPurchase = createNewPass(member, lastProduct.code)
+        while (unpaidSessions.length) {
+          let session = unpaidSessions.pop()
+          let purchase = Purchases.findOne(newPurchase._id)
+          if (purchase && purchase.remaining > 0) {
+            debug(`create new pass purchase ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+            Purchases.update(newPurchase._id, {
+              $push: { sessions: session },
+              $inc: { remaining: -1 }
+            })
+          } else {
+            newPurchase = createNewPass(member, lastProduct.code)
+          }
+        }
+        break
+      }
+      case 'member': {
+        let newPurchase
+        while (unpaidSessions.length) {
+          const session = unpaidSessions.pop()
+          if (newPurchase) {
+            const product = Products.findOne({ code: newPurchase.code })
+            if (
+              moment(session.timeIn).isBetween(
+                moment(newPurchase.expiry)
+                  .subtract(product.duration, 'month')
+                  .startOf('day'),
+                moment(newPurchase.expiry).endOf('day'),
+                null,
+                '[]'
+              )
+            ) {
+              debug(`push member session ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
+              Purchases.update(newPurchase._id, {
+                $push: { sessions: session }
+              })
+            } else {
+              newPurchase = createNewPass(member, lastProduct.code, session.timeIn)
+              Purchases.update(newPurchase._id, {
+                $push: { sessions: session }
+              })
+            }
+          } else {
+            newPurchase = createNewPass(member, lastProduct.code, session.timeIn)
+            Purchases.update(newPurchase._id, {
+              $push: { sessions: session }
+            })
+          }
+        }
+        break
+      }
+    }
+  }
+  return unpaidSessions.length
+}
+
+const setPurchaseStatus = member => {
+  const currentPurchases = Purchases.find({ memberId: member._id, status: 'current' }).fetch()
+  if (currentPurchases.length) {
+    currentPurchases.forEach(currentPurchase => {
+      const product = Products.findOne({ code: currentPurchase.code })
+      if (product) {
+        switch (product.subsType) {
+          case 'casual': {
+            if (
+              product.duration &&
+              (currentPurchase.remaining <= 0 ||
+                (currentPurchase.expiry && moment(currentPurchase.expiry).endOf('day') < moment()))
+            )
+              Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
+            break
+          }
+          case 'pass': {
+            if (
+              currentPurchase.remaining <= 0 ||
+              (currentPurchase.expiry && moment(currentPurchase.expiry).endOf('day') < moment())
+            )
+              Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
+            break
+          }
+          case 'member': {
+            if (currentPurchase.expiry && moment(currentPurchase.expiry).endOf('day') < moment())
+              Purchases.update(currentPurchase._id, { $set: { status: 'complete' } })
+            break
+          }
+        }
+      }
+    })
+  }
+}
+
+const a = ({ member, session, doAutoPay, sendEmail }) => {
   /* 
         1. Purchase is current with more than 1 remaining
             * add session
@@ -393,7 +670,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
             * add session
             * send please pay email
       */
-  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
+
   const purchase = purchases.length ? purchases[0] : null
   if (purchase) {
     const product = Products.findOne({ code: purchase.code, active: true })

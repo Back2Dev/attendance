@@ -204,7 +204,8 @@ Factory.define('purchase', Purchases, {
   purchaser: 'Mike King',
   productId: 'EKFJq9mrEjPer3PHW',
   productName: 'PA 12 month membership',
-  paymentMethod: 'credit card'
+  paymentMethod: 'credit card',
+  status: 'current'
 })
 
 Factory.define('event', Events, {

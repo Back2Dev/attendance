@@ -64,7 +64,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
       ) : (
         sessions.map((session, ix) => (
           <div key={`s${ix}`}>
-            {moment(session.createdAt).format('D MMM YYYY')} {session.name}
+            {moment(session.timeIn).format('D MMM YYYY')} {session.name}
           </div>
         ))
       )}
@@ -80,7 +80,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
             <Price cents={purchase.price} />
             &nbsp;[expires {moment(purchase.expiry).format('D MMM YYYY')}
             {'] '}
-            {purchase.remaining && `${purchase.remaining} remaining`}
+            {purchase.remaining >= 0 && `${purchase.remaining} remaining`}
           </div>
         ))
       )}

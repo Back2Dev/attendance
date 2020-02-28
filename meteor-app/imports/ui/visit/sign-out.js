@@ -13,9 +13,9 @@ const SignOut = props => {
           totalVisits={props.purchase.sessions.length + props.purchase.remaining}
         />
       )}
-      {props.member.subsType === 'pass' &&
+      {/* {props.member.subsType === 'pass' &&
         !props.purchase.sessions.length &&
-        'You have used all your sessions for your previous pass'}
+        'You have used all your sessions for your previous pass'} */}
       &nbsp;
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         {props.purchase && props.purchase.paymentStatus === 'unpaid' && (
