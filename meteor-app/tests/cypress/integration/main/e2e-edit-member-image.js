@@ -71,7 +71,7 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('img[src="/images/avatars/test21.jpg"]')
+    cy.get('.segment > div > [src="/images/avatars/9.jpg"]')
       .should('exist')
       .click()
 

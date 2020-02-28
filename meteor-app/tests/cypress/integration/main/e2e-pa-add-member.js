@@ -14,7 +14,7 @@ describe('Create member', function() {
     cy.get('button')
       .contains('Register')
       .click()
-    cy.get('p')
+    cy.get('h1')
       .contains('No need to register')
       .should('exist')
     cy.get('#root_sports_0').click()

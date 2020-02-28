@@ -8,7 +8,7 @@ const defaultAccounts = [
   {
     email: 'admin@back2bikes.com.au',
     password: 'me2',
-    role: ['signin', 'paynow', 'servicing', 'parts', 'admin']
+    role: ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
   },
   {
     email: 'workshop@back2bikes.com.au',

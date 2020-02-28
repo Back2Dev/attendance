@@ -108,7 +108,18 @@ const NavBar = ({ currentUser, location }) => {
           ]
         : ''}
       {currentUser === '' ? (
-        <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
+        <div>
+          <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
+          <Menu.Item
+            as={NavLink}
+            content="Sign Up"
+            icon="user"
+            activeClassName="active"
+            exact
+            to="/signup"
+            key="signup"
+          />
+        </div>
       ) : (
         /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
         <div>
