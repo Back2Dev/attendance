@@ -15,7 +15,7 @@ const defaultAccounts = [
     password: 'b2b525.24',
     role: ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
   },
-  { email: 'info@peakadventure.com.au', password: 'changeme', role: ['signin', 'admin'] }
+  { email: 'info@peakadventure.com.au', password: 'changeme', role: ['signin', 'member', 'admin'] }
 ]
 
 const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']

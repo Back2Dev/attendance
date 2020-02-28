@@ -1,6 +1,7 @@
 // methods that affect both collections
 
 import moment from 'moment'
+import { Accounts } from 'meteor/accounts-base'
 
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
@@ -12,6 +13,13 @@ import { ProductTypes } from './products/schema'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
+  addNewMemberUser(email, password) {
+    const id = Accounts.createUser({ email, username: email, password })
+
+    Roles.addUsersToRoles(id, ['member'])
+    return 'success'
+  },
+
   memberRenew(memberId, code) {
     try {
       Carts.remove({ _id: memberId })

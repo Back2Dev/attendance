@@ -14,14 +14,23 @@ const Signup = location => {
   const [error, setError] = useState(null)
 
   submit = () => {
-    Accounts.createUser({ email, username: email, password }, err => {
-      if (err) {
-        setError(err.reason)
-      } else {
-        Roles.addUsersToRoles(Meteor.userId(), ['signin'])
+    // const userDetail = { email, password }
+    Meteor.call('addNewMemberUser', email, password, function(error, result) {
+      if (result === 'success') {
         location.history.goBack()
+      } else {
+        setError(err.reason)
       }
     })
+
+    // Accounts.createUser({ email, username: email, password }, err => {
+    //   if (err) {
+    //     setError(err.reason)
+    //   } else {
+    //     Roles.addUsersToRoles(Meteor.userId(), ['member'])
+    //     location.history.goBack()
+    //   }
+    // })
   }
 
   return (
