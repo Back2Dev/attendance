@@ -34,18 +34,12 @@ const VisitMain = props => {
               <Image circular src={props.logo} /> {props.org} Sign {inOut}
             </Header>
             <Switch>
-              <Route path="/visit/arrive" render={() => <EnterPin {...props} next="select-activity" />} />
-              <Route path="/visit/create-pin" render={() => <CreatePin {...props} />} />
-              <Route path="/visit/select-activity" render={() => <SelectActivity {...props} />} />
-              <Route path="/visit/signed-in" render={() => <SignedIn {...props} />} />
-              <Route path="/visit/depart" render={() => <Depart {...props} />} />
-              <Route path="/visit/sign-out" render={() => <SignOut {...props} />} />
-              {/* <Route path="/visit/:id/arrive" render={() => <EnterPin {...props} next="select-activity" />} />
+              <Route path="/visit/:id/arrive" render={() => <EnterPin {...props} next="select-activity" />} />
               <Route path="/visit/:id/create-pin" render={() => <CreatePin {...props} />} />
               <Route path="/visit/:id/select-activity" render={() => <SelectActivity {...props} />} />
               <Route path="/visit/:id/signed-in" render={() => <SignedIn {...props} />} />
               <Route path="/visit/:id/depart" render={() => <Depart {...props} />} />
-              <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} /> */}
+              <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} />
             </Switch>
             {(props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
               <Button

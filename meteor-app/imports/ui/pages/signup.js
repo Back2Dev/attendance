@@ -17,7 +17,7 @@ const Signup = location => {
     // const userDetail = { email, password }
     Meteor.call('addNewMemberUser', email, password, function(error, result) {
       if (result === 'success') {
-        location.history.goBack()
+        location.history.push('/member-portal')
       } else {
         setError(result)
       }

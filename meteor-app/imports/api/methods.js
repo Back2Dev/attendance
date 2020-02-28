@@ -16,7 +16,6 @@ Meteor.methods({
   addNewMemberUser(email, password) {
     try {
       const id = Accounts.createUser({ email, username: email, password })
-
       Roles.addUsersToRoles(id, ['member'])
       return 'success'
     } catch (error) {
