@@ -41,8 +41,8 @@ Meteor.methods({
         { $set: { status: 'current', sessions: [] } },
         { multi: true }
       )
-      let existingSessions = Purchases.find({ memberId: member._id })
-        .fetch()
+      const purchases = Purchases.find({ memberId: member._id }).fetch()
+      const existingSessions = purchases
         .filter(purchase => purchase.sessions)
         .map(purchase => purchase.sessions.map(session => session._id))
         .flat()
@@ -52,8 +52,11 @@ Meteor.methods({
         .forEach(session => {
           addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
         })
-      handleUnpaidSessions(id)
+      //Need to set existing paid purchases to paid for this line to work
+      const unpaidPurchases = purchases.filter(purchase => purchase.paymentStatus !== 'paid')
+      const unpaidSessionsNo = handleUnpaidSessions(id)
       setPurchaseStatus(member)
+      unpaidSessionsNo > 0 && sendPleasePayEmail(member, purchases, sessions, unpaidSessionsNo, unpaidPurchases)
     })
   },
 
@@ -346,7 +349,7 @@ const createNewPass = (member, code, startDate = 'current') => {
   return purchase
 }
 
-const sendPleasePayEmail = (member, purchase) => {
+const sendPleasePayEmail = (member, purchase, sessions, unpaidSessionsNo, unpaidPurchases) => {
   const carts = Carts.find({ purchases: purchase._id }).fetch()
   const cart = carts.length ? carts[0] : null
   Meteor.call(
@@ -355,7 +358,12 @@ const sendPleasePayEmail = (member, purchase) => {
     {
       subject: 'Please pay for your pass',
       name: member.name,
-      message: 'You did a session today, you need to pay for it ',
+      message: ` Since ${moment(member.createdAt).format('DD/MM/YY')}, you have attended ${
+        sessions.length
+      } sessions. You have paid for ${sessions.length -
+        unpaidSessionsNo} of them. The rest of the sessions were allocated to ${unpaidPurchases.length} x ${
+        unpaidPurchases[0].productName
+      }${unpaidPurchases.length > 1 && 's'}. Please click the link below to pay.`,
       headline: 'Payment required',
       link: Meteor.absoluteUrl(`/shop/renew/${member._id}/${cart._id}`),
       action: 'Pay Now'
@@ -515,12 +523,12 @@ const handleUnpaidSessions = id => {
     throw new Meteor.Error(`The number of members found is ${members.length}`)
   }
   const member = members[0]
-  existingSessions = Purchases.find({ memberId: id })
+  const existingSessions = Purchases.find({ memberId: id })
     .fetch()
     .filter(purchase => purchase.sessions)
     .map(purchase => purchase.sessions.map(session => session._id))
     .flat()
-  sessions = Sessions.find({ memberId: member._id }).fetch()
+  const sessions = Sessions.find({ memberId: member._id }).fetch()
   let unpaidSessions = sessions.filter(session => !existingSessions.includes(session._id))
   unpaidSessions.sort((a, b) => {
     return moment(a.timeIn) > moment(b.timeIn) ? -1 : 1
@@ -601,6 +609,7 @@ const handleUnpaidSessions = id => {
       }
     }
   }
+  return unpaidSessions.length
 }
 
 const setPurchaseStatus = member => {
