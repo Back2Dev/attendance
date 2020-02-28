@@ -17,7 +17,8 @@ export default withTracker(props => {
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
-  const purchase = purchases.length ? purchases[0] : null
+  const allPurchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: 1 } }).fetch()
+  const purchase = purchases.length ? purchases[0] : allPurchases[0]
   const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
   const cart = carts.length ? carts[0] : null
 

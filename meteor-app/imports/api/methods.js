@@ -34,6 +34,7 @@ Meteor.methods({
 
   migrateSessions(id) {
     //find Members with subscription type pass or null
+<<<<<<< HEAD
     const members = Members.find({ _id: id })
     members.forEach(member => {
       Purchases.update(
@@ -55,6 +56,33 @@ Meteor.methods({
       handleUnpaidSessions(id)
       setPurchaseStatus(member)
     })
+=======
+    try {
+      const members = Members.find({ _id: id })
+      members.forEach(member => {
+        Purchases.update(
+          { memberId: member._id, status: { $exists: false } },
+          { $set: { status: 'current', sessions: [] } },
+          { multi: true }
+        )
+        let existingSessions = Purchases.find({ memberId: member._id })
+          .fetch()
+          .filter(purchase => purchase.sessions)
+          .map(purchase => purchase.sessions.map(session => session._id))
+          .flat()
+        let sessions = member.sessions
+        sessions
+          .filter(session => !existingSessions.includes(session._id))
+          .forEach(session => {
+            addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
+          })
+        handleUnpaidSessions(id)
+        setPurchaseStatus(member)
+      })
+    } catch (e) {
+      debug("Error", e)
+    }
+>>>>>>> ef57e2dafa2320fa043d5097b3f4c24476218a1e
   },
 
   arrive(memberId, event) {
@@ -113,7 +141,7 @@ Meteor.methods({
       .fetch()
       .pop()
 
-    debug(`Member ${id} is departing, session:`, session)
+    // debug(`Member ${id} is departing, session:`, session)
 
     if (session) {
       // lets recalculate the duration of session
@@ -157,7 +185,7 @@ Meteor.methods({
             }
           }
         )
-        debug('m=' + m + ', n=' + n)
+        // debug('m=' + m + ', n=' + n)
       } catch (error) {
         throw new Meteor.Error(error)
       }
@@ -287,12 +315,12 @@ const createNewPass = (member, code, startDate = 'current') => {
     expiry:
       startDate === 'current'
         ? moment()
-            .add(product.duration, 'month')
-            .toISOString()
+          .add(product.duration, 'month')
+          .toISOString()
         : moment(startDate)
-            .startOf('day')
-            .add(product.duration, 'month')
-            .toISOString(),
+          .startOf('day')
+          .add(product.duration, 'month')
+          .toISOString(),
     memberId: member._id,
     purchaser: member.name,
     code: product.code,
@@ -388,6 +416,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
         const product = Products.findOne({ code: purchase.code })
         switch (product.subsType) {
           case 'member':
+            debug(`member ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
             Purchases.update(purchase._id, {
               $push: { sessions: session }
             })
@@ -396,6 +425,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
             let remaining = product.qty
             purchase.sessions && (remaining = remaining - purchase.sessions.length)
             if (remaining > 0) {
+              debug(`pass ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
               Purchases.update(purchase._id, {
                 $push: { sessions: session },
                 $set: { remaining: remaining - 1 }
@@ -409,6 +439,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
               let remaining = product.qty
               purchase.sessions && (remaining = remaining - purchase.sessions.length)
               if (remaining > 0) {
+                debug(`casual ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
                 Purchases.update(purchase._id, {
                   $push: { sessions: session },
                   $set: { remaining: remaining - 1 }
@@ -462,6 +493,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
           }
           switch (product.subsType) {
             case 'member':
+              debug(`member ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
               Purchases.update(findPurchases[i]._id, {
                 $push: { sessions: session }
               })
@@ -470,6 +502,7 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
               let remaining = product.qty
               findPurchases[i].sessions && (remaining = remaining - findPurchases[i].sessions.length)
               if (remaining > 0) {
+                debug(`pass ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
                 Purchases.update(findPurchases[i]._id, {
                   $push: { sessions: session },
                   $set: { remaining: remaining - 1 }
@@ -482,12 +515,14 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
                 let remaining = product.qty
                 findPurchases[i].sessions && (remaining = remaining - findPurchases[i].sessions.length)
                 if (remaining > 0) {
+                  debug(`casual ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
                   Purchases.update(findPurchases[i]._id, {
                     $push: { sessions: session },
                     $set: { remaining: remaining - 1 }
                   })
                 }
               } else {
+                debug(`casual signup ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
                 Purchases.update(findPurchases[i]._id, {
                   $push: { sessions: session }
                 })
@@ -529,6 +564,7 @@ const handleUnpaidSessions = id => {
     switch (lastProduct.subsType) {
       case 'casual': {
         unpaidSessions.forEach(unpaidSession => {
+          debug(`create new casual purchase ${member._id} pushing session ${moment(unpaidSession.timeIn).format('DD/MM/YY')}`)
           const newPurchase = createNewPass(member, lastProduct.code)
           Purchases.update(newPurchase._id, {
             $push: { sessions: unpaidSession },
@@ -543,6 +579,7 @@ const handleUnpaidSessions = id => {
           let session = unpaidSessions.pop()
           let purchase = Purchases.findOne(newPurchase._id)
           if (purchase && purchase.remaining > 0) {
+            debug(`create new pass purchase ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
             Purchases.update(newPurchase._id, {
               $push: { sessions: session },
               $inc: { remaining: -1 }
@@ -567,6 +604,7 @@ const handleUnpaidSessions = id => {
                 '[]'
               )
             ) {
+              debug(`push member session ${member._id} pushing session ${moment(session.timeIn).format('DD/MM/YY')}`)
               Purchases.update(newPurchase._id, {
                 $push: { sessions: session }
               })
