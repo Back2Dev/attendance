@@ -60,13 +60,15 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
       this.props.setMember(this.state.formData)
+      console.log(this.state.formData)
       return
     }
     this.setState((prevState, props) => {
       return {
         formData: {
           ...prevState.formData,
-          ...formData
+          ...formData,
+          userId: Meteor.userId()
         },
         step: prevState.step + 1,
         progress: prevState.step + 1

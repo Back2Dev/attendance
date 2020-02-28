@@ -293,6 +293,11 @@ export const MembersSchema = new SimpleSchema({
     label: "Parental consent for U18's",
     optional: true
   },
+  userId: {
+    type: String,
+    label: 'userId',
+    optional: true
+  },
   //
   // End of payment system data
   //

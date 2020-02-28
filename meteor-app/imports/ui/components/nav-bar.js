@@ -114,6 +114,15 @@ const NavBar = ({ currentUser, location }) => {
       ) : (
         /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
         <div>
+          <Menu.Item
+            as={NavLink}
+            content="Your Portal"
+            icon="user"
+            activeClassName="active"
+            exact
+            to="/member-portal"
+            key="member-portal"
+          />
           <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
           <Menu.Item content={currentUser} />
         </div>

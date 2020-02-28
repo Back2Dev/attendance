@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Button, Card, Segment, Grid, Icon, Header, Image } from 'semantic-ui-react'
 
@@ -11,12 +11,28 @@ import Depart from '/imports/ui/visit/depart'
 import SignOut from '/imports/ui/visit/sign-out'
 import { VisitContextProvider } from './context'
 import { humaniseDate } from '/imports/helpers/dates'
+import MemberAddContainer from '/imports/ui/member/member-add-container'
 
 const MembersPortal = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
-  if (!props.member.name) return <h1>Person not found</h1>
+  if (!props.member._id)
+    return (
+      <div>
+        <Segment>
+          <h1>Welcome to Peak Adventures</h1>
+          <p>Complete your registration:</p>
+          <Button
+            onClick={() => {
+              props.history.push('/add')
+            }}
+          >
+            Register Your Membership
+          </Button>
+        </Segment>
+      </div>
+    )
   const inOut = 'in/out'
   return (
     <Segment>
@@ -32,15 +48,7 @@ const MembersPortal = props => {
               {/* Peak Adventure Logo  */}
               <Image circular src={props.logo} /> {props.org} Sign {inOut}
             </Header>
-            <Switch>
-              {/* <Route path="/member-portal/arrive" render={() => <EnterPin {...props} next="select-activity" />} /> */}
-              {/* <Route path="/visit/:id/arrive" render={() => <EnterPin {...props} next="select-activity" />} />
-              <Route path="/visit/:id/create-pin" render={() => <CreatePin {...props} />} />
-              <Route path="/visit/:id/select-activity" render={() => <SelectActivity {...props} />} />
-              <Route path="/visit/:id/signed-in" render={() => <SignedIn {...props} />} />
-              <Route path="/visit/:id/depart" render={() => <Depart {...props} />} />
-              <Route path="/visit/:id/sign-out" render={() => <SignOut {...props} />} /> */}
-            </Switch>
+            <Switch>{/* Add routes */}</Switch>
             {(props.member.isHere || window.location.pathname.match(/select-activity$/)) && (
               <Button
                 type="button"
