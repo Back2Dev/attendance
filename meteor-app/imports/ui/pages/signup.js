@@ -19,7 +19,7 @@ const Signup = location => {
       if (result === 'success') {
         location.history.goBack()
       } else {
-        setError(err.reason)
+        setError(result)
       }
     })
 

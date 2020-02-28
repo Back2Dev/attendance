@@ -14,10 +14,14 @@ const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
   addNewMemberUser(email, password) {
-    const id = Accounts.createUser({ email, username: email, password })
+    try {
+      const id = Accounts.createUser({ email, username: email, password })
 
-    Roles.addUsersToRoles(id, ['member'])
-    return 'success'
+      Roles.addUsersToRoles(id, ['member'])
+      return 'success'
+    } catch (error) {
+      return error.message
+    }
   },
 
   memberRenew(memberId, code) {
