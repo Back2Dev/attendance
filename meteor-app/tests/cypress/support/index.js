@@ -21,7 +21,7 @@ import Picks5 from './test-data-pick5'
 const adminPassword = 'me2'
 const adminUser = 'admin@back2bikes.com.au'
 import picksAll from './test-data-all-pick'
-
+import memberEdits from './test-data-edit-profile'
 const fakeUserData = {
   name: () => faker.name.findName(),
   email: () => faker.internet.email(),
@@ -62,6 +62,7 @@ function generate(times, cb) {
 }
 global.Picks5 = Picks5
 global.picksAll = picksAll
+global.memberEdits = memberEdits
 global.team = team // Make the team data available to the team
 
 global.login = (username, password) => {
