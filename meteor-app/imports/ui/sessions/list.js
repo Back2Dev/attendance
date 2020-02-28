@@ -4,7 +4,7 @@ import { Button, Segment, Modal, Form, Dropdown } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/tabulator.min.css'
+import 'react-tabulator/lib/css/semantic-ui/tabulator_semantic-ui.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import moment from 'moment'
 

@@ -43,6 +43,7 @@ Meteor.publish('member.all', id => {
     Members.find(id),
     Purchases.find({ memberId: id }),
     Carts.find({ memberId: id }),
-    Sessions.find({ memberId: id })
+    Sessions.find({ memberId: id }),
+    Events.find()
   ]
 })

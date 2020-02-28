@@ -17,6 +17,7 @@
 - Added functionality which displays an error when the number isn't similar to actual WWCC number
 - Added functionality checking whether volunteer has a working with childrens check number
 - Improved deployment logging
+- Added functionality for members to edit their details.
 
 ## 1.1.14
 
