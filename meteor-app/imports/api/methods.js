@@ -46,7 +46,7 @@ Meteor.methods({
         .filter(purchase => purchase.sessions)
         .map(purchase => purchase.sessions.map(session => session._id))
         .flat()
-      let sessions = member.sessions
+      let sessions = Sessions.find({ memberId: member._id }).fetch()
       sessions
         .filter(session => !existingSessions.includes(session._id))
         .forEach(session => {
@@ -513,12 +513,14 @@ const handleUnpaidSessions = id => {
     .filter(purchase => purchase.sessions)
     .map(purchase => purchase.sessions.map(session => session._id))
     .flat()
-  sessions = member.sessions
+  sessions = Sessions.find({ memberId: member._id }).fetch()
   let unpaidSessions = sessions.filter(session => !existingSessions.includes(session._id))
   unpaidSessions.sort((a, b) => {
     return moment(a.timeIn) > moment(b.timeIn) ? -1 : 1
   })
   if (unpaidSessions && unpaidSessions.length) {
+    const purchasesAsc = Purchases.find({ memberId: id, remaining: { $gt: 0 } }, { sort: { createdAt: 1 } }).fetch()
+
     const purchasesDes = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
     const lastPurchase = purchasesDes.length ? purchasesDes[0] : null
     const lastProduct = lastPurchase
