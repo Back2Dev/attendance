@@ -34,7 +34,6 @@ Meteor.methods({
 
   migrateSessions(id) {
     //find Members with subscription type pass or null
-<<<<<<< HEAD
     const members = Members.find({ _id: id })
     members.forEach(member => {
       Purchases.update(
@@ -56,33 +55,6 @@ Meteor.methods({
       handleUnpaidSessions(id)
       setPurchaseStatus(member)
     })
-=======
-    try {
-      const members = Members.find({ _id: id })
-      members.forEach(member => {
-        Purchases.update(
-          { memberId: member._id, status: { $exists: false } },
-          { $set: { status: 'current', sessions: [] } },
-          { multi: true }
-        )
-        let existingSessions = Purchases.find({ memberId: member._id })
-          .fetch()
-          .filter(purchase => purchase.sessions)
-          .map(purchase => purchase.sessions.map(session => session._id))
-          .flat()
-        let sessions = member.sessions
-        sessions
-          .filter(session => !existingSessions.includes(session._id))
-          .forEach(session => {
-            addSession2Purchase({ member, session, doAutoPay: false, sendEmailtrue: false })
-          })
-        handleUnpaidSessions(id)
-        setPurchaseStatus(member)
-      })
-    } catch (e) {
-      debug("Error", e)
-    }
->>>>>>> ef57e2dafa2320fa043d5097b3f4c24476218a1e
   },
 
   arrive(memberId, event) {
@@ -315,12 +287,12 @@ const createNewPass = (member, code, startDate = 'current') => {
     expiry:
       startDate === 'current'
         ? moment()
-          .add(product.duration, 'month')
-          .toISOString()
+            .add(product.duration, 'month')
+            .toISOString()
         : moment(startDate)
-          .startOf('day')
-          .add(product.duration, 'month')
-          .toISOString(),
+            .startOf('day')
+            .add(product.duration, 'month')
+            .toISOString(),
     memberId: member._id,
     purchaser: member.name,
     code: product.code,
@@ -564,7 +536,11 @@ const handleUnpaidSessions = id => {
     switch (lastProduct.subsType) {
       case 'casual': {
         unpaidSessions.forEach(unpaidSession => {
-          debug(`create new casual purchase ${member._id} pushing session ${moment(unpaidSession.timeIn).format('DD/MM/YY')}`)
+          debug(
+            `create new casual purchase ${member._id} pushing session ${moment(unpaidSession.timeIn).format(
+              'DD/MM/YY'
+            )}`
+          )
           const newPurchase = createNewPass(member, lastProduct.code)
           Purchases.update(newPurchase._id, {
             $push: { sessions: unpaidSession },
