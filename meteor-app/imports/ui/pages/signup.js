@@ -14,7 +14,6 @@ const Signup = location => {
   const [error, setError] = useState(null)
 
   submit = () => {
-    // const userDetail = { email, password }
     Meteor.call('addNewMemberUser', email, password, function(error, result) {
       if (result === 'success') {
         location.history.push('/member-portal')
@@ -22,15 +21,6 @@ const Signup = location => {
         setError(result)
       }
     })
-
-    // Accounts.createUser({ email, username: email, password }, err => {
-    //   if (err) {
-    //     setError(err.reason)
-    //   } else {
-    //     Roles.addUsersToRoles(Meteor.userId(), ['member'])
-    //     location.history.goBack()
-    //   }
-    // })
   }
 
   return (
