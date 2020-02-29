@@ -32,7 +32,7 @@ if (Meteor.isServer) {
   // Test needs Members, Carts
   //  Purchases will be inserted
   //
-  describe.only('Reconcile completed shopping carts -', () => {
+  describe('Reconcile completed shopping carts -', () => {
     beforeEach(resetDatabase)
     let memberId
 

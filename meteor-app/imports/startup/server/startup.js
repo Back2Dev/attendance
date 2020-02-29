@@ -49,13 +49,13 @@ Meteor.startup(() => {
   vContext.validate(Meteor.settings.public || {})
   if (!vContext.isValid()) {
     errs += vContext.validationErrors.length
-    console.error('Errors found in public section of settings.json\n', vContext.validationErrors())
+    if (!Meteor.isTest) console.error('Errors found in public section of settings.json\n', vContext.validationErrors())
   }
   vContext = privateSchema.newContext()
   vContext.validate(Meteor.settings.private || {})
   if (!vContext.isValid()) {
     errs += vContext.validationErrors.length
-    console.error('Errors found in private section of settings.json\n', vContext.validationErrors())
+    if (!Meteor.isTest) console.error('Errors found in private section of settings.json\n', vContext.validationErrors())
   }
   if (errs) throw new Meteor.Error(`Found ${errs} in settings file, aborting`)
 })
