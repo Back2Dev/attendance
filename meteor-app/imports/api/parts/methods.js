@@ -10,7 +10,7 @@ export function calcRetail(price) {
       const retailPrice = parseInt(price, 10) * 1.8
       return Math.round(retailPrice)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else if (price > 6000 && price <= 10000) {
@@ -18,7 +18,7 @@ export function calcRetail(price) {
       const retailPrice = parseInt(price, 10) * 1.4
       return Math.round(retailPrice)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else if (price > 10000) {
@@ -26,7 +26,7 @@ export function calcRetail(price) {
       const retailPrice = parseInt(price, 10) * 1.2
       return Math.round(retailPrice)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   } else {
@@ -87,7 +87,7 @@ Meteor.methods({
     try {
       return Parts.insert(part)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },

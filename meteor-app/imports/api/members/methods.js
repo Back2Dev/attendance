@@ -82,7 +82,7 @@ Meteor.methods({
       log.info(`Adding card to member: ${name}`)
       return Members.update({ name }, { $set: { paymentCustId } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -93,7 +93,7 @@ Meteor.methods({
     try {
       return Members.insert(member)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -117,7 +117,7 @@ Meteor.methods({
       Sessions.remove({ memberId: id })
       return Members.remove({ _id: id })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -158,7 +158,7 @@ Meteor.methods({
       log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -167,7 +167,7 @@ Meteor.methods({
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -176,7 +176,7 @@ Meteor.methods({
       log.info('updating member: ', id, formData)
       return Members.update({ _id: id }, { $set: { ...formData } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -217,7 +217,7 @@ ${Meteor.settings.public.org}
         if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: to } })
       }
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },

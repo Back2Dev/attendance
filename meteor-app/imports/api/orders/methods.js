@@ -66,7 +66,7 @@ Meteor.methods({
     try {
       return Orders.insert(order)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.message)
     }
   },
@@ -76,7 +76,7 @@ Meteor.methods({
       log.info('removing order: ', id)
       return Orders.remove({ _id: id })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -87,7 +87,7 @@ Meteor.methods({
       log.info('removing part from current order', part)
       return Orders.update({ _id: id }, { $pull: { orderedParts: { partId: part.partId } }, $set: { totalPrice } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -96,7 +96,7 @@ Meteor.methods({
       log.info('updating order: ', orderedPart)
       return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedPart } }, $set: { totalPrice } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -113,7 +113,7 @@ Meteor.methods({
         }
       )
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.sanitizedError.reason)
     }
   },
@@ -144,7 +144,7 @@ Meteor.methods({
           parsedEmail['_id'] = _id
         }
       } catch (e) {
-        log.error({ e })
+        log.error(e)
         throw new Meteor.Error(500, e.sanitizedError.reason)
       }
       if (found == null) {

@@ -20,12 +20,7 @@ import { version } from '/imports/api/version'
 
 const debug = _debug('b2b:log')
 
-const environment =
-  (Meteor &&
-    Meteor.settings &&
-    Meteor.settings.env &&
-    Meteor.settings.env.environment) ||
-  'unknown'
+const environment = (Meteor && Meteor.settings && Meteor.settings.env && Meteor.settings.env.environment) || 'unknown'
 if (!environment) {
   console.warn('Unable to parse env.environment from Meteor.settings')
 }
@@ -35,7 +30,7 @@ const release = version()
  * Attempt to get the current Meteor User
  * @return {Object|Null}
  */
-function getUser () {
+function getUser() {
   try {
     return _.pick(Meteor.user(), ['_id', 'emails'])
   } catch (err) {
@@ -47,7 +42,7 @@ function getUser () {
  * Configure a Winston instance that logs to the console
  * @return {Winston.Logger}
  */
-function configureWinston () {
+function configureWinston() {
   const level = process.env.LOG_LEVEL || 'info'
   const log = new winston.Logger({
     level,
@@ -64,13 +59,11 @@ function configureWinston () {
 /**
  * Add Loggly transport to a Winston logger
  */
-function configureLoggly (log) {
+function configureLoggly(log) {
   if (Meteor && Meteor.settings) {
     const { loggly } = Meteor.settings
     if (!loggly || ['token', 'subdomain'].some(x => !(x in loggly))) {
-      log.warn(
-        'Unable to find Loggly configuration in settings. Loggly is NOT running.'
-      )
+      log.warn('Unable to find Loggly configuration in settings. Loggly is NOT running.')
       return log
     }
 
@@ -92,7 +85,7 @@ function configureLoggly (log) {
 /**
  * Configure Raven/Sentry
  */
-function configureSentry (log) {
+function configureSentry(log) {
   if (Meteor && Meteor.settings) {
     const { sentry } = Meteor.settings
     if (!sentry || ['dsn'].some(x => !(x in sentry))) {
@@ -117,9 +110,9 @@ function configureSentry (log) {
 /**
  * Hijack Meteor._debug to send errors to Sentry
  */
-function hijackDebug (log) {
+function hijackDebug(log) {
   // const legacyDebug = Meteor._debug;
-  Meteor._debug = function debugOverride (message, stack) {
+  Meteor._debug = function debugOverride(message, stack) {
     debug('hijackdebug intercepted an error with:', {
       message,
       stack
@@ -151,7 +144,7 @@ function hijackDebug (log) {
  *   log.error(String, Error)
  *   log.error(String, Object)
  */
-function trackErrors (log) {
+function trackErrors(log) {
   log.error = (...args) => {
     // eslint-disable-line no-param-reassign
     const user = getUser()
@@ -191,6 +184,7 @@ function trackErrors (log) {
         })
       }
     }
+    console.log('logging error', args)
     return log.log('error', ...args)
   }
 }
