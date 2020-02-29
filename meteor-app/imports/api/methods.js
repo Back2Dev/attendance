@@ -33,9 +33,24 @@ Meteor.methods({
   },
 
   migrateSessions(id) {
-    //find Members with subscription type pass or null
     const members = Members.find({ _id: id })
     members.forEach(member => {
+      /* data cleaning
+      1. purchases table: some membership purchases have remaining value of 1
+      2. products table:  duration and qty are not correct for some casual product
+      */
+      let allPurchases = Purchases.find({ memberId: member._id }).fetch()
+      allPurchases.forEach(purchase => {
+        const product = Products.findOne(purchase.productId)
+        if (product && product.subsType === 'member' && purchase.remaining) {
+          Purchases.update(purchase._id, { $set: { remaining: 0 } })
+        }
+      })
+
+      Products.update({ code: 'PA-CASUAL' }, { $set: { qty: 1, duration: 2 } })
+      Products.update({ code: 'PA-CASUAL-SIGNUP' }, { $set: { qty: 0 } }, { $unset: { duration: '' } })
+
+      //start migration
       Purchases.update(
         { memberId: member._id, status: { $exists: false } },
         { $set: { status: 'current', sessions: [] } },
@@ -454,20 +469,14 @@ const addSession2Purchase = ({ member, session, doAutoPay, sendEmail }) => {
             } else {
               return 1
             }
-          } else if (productA.subsType === 'member') {
-            return -1
-          } else if (productB.subsType === 'member') {
+          } else if (!productA.duration) {
             return 1
-          } else if (productA.subsType === 'pass') {
+          } else if (!productB.duration) {
             return -1
-          } else if (productB.subsType === 'pass') {
-            return 1
-          } else if (productA.duration && productA.subsType === 'casual') {
+          } else if (moment(a.expiry) < moment(b.expiry)) {
             return -1
-          } else if (productB.duration && productB.subsType === 'casual') {
-            return 1
           } else {
-            return 0
+            return 1
           }
         })
 
@@ -539,8 +548,25 @@ const handleUnpaidSessions = id => {
     return moment(a.timeIn) > moment(b.timeIn) ? -1 : 1
   })
   if (unpaidSessions && unpaidSessions.length) {
-    const purchasesAsc = Purchases.find({ memberId: id, remaining: { $gt: 0 } }, { sort: { createdAt: 1 } }).fetch()
-
+    //being generous ignore the date and just push the sessions to existing 10 pass or 1 casual session
+    const purchasesAsc = Purchases.find({ memberId: id, remaining: { $gt: 0 } }, { sort: { expiry: 1 } }).fetch()
+    if (purchasesAsc.length) {
+      let purchase = purchasesAsc.pop()
+      do {
+        if (purchase.remaining > 0) {
+          session = unpaidSessions.pop()
+          purchase.remaining -= 1
+          Purchases.update(purchase._id, {
+            $push: { sessions: session },
+            $inc: { remaining: -1 }
+          })
+        } else {
+          purchase = purchasesAsc.pop()
+        }
+      } while (purchasesAsc.length && unpaidSessions.length)
+    }
+  }
+  if (unpaidSessions && unpaidSessions.length) {
     const purchasesDes = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
     const lastPurchase = purchasesDes.length ? purchasesDes[0] : null
     const lastProduct = lastPurchase

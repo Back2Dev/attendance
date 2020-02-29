@@ -4,6 +4,7 @@ import { Checkbox, Header, Button } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member-card/member-card'
 import Price from '/imports/ui/shop/price'
 import CartList from './cart-list'
+import Alert from 'react-s-alert'
 
 const debug = require('debug')('b2b:admin')
 
@@ -53,6 +54,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         onClick={e => {
           e.preventDefault()
           migrateSessions(member._id)
+          Alert.success(`All sessions have been migrated`)
         }}
         content="Merge"
       />
