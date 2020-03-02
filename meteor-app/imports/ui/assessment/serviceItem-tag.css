@@ -1,0 +1,23 @@
+.tag {
+  height: 30px;
+  border: 0.5px solid black;
+  margin: 10px;
+}
+
+.mjmn-tag {
+  height: 30px;
+  border: 0.5px solid black;
+  margin: 10px;
+}
+
+.item-name {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.remove-tag {
+  color: red;
+}
+.add-tag {
+  color: green;
+}
