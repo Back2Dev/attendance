@@ -15,6 +15,7 @@ import { humaniseDate } from '/imports/helpers/dates'
 
 const VisitMain = props => {
   const backClick = () => props.history.goBack()
+  console.log(props)
 
   if (props.loading) return <div>Loading...</div>
   if (!props.member.name) return <h1>Person not found</h1>

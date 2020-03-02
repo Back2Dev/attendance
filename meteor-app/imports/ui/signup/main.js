@@ -6,16 +6,31 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
-const Signup = ({ location, member }) => {
+const Signup = props => {
   const [email, setEmail] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const [password, setPassword] = useState(null)
   const [error, setError] = useState(null)
+  const [pin, setPin] = useState(null)
+  const [confirmPassword, setConfirmPassword] = useState(null)
 
   useEffect(() => {
-    setEmail('test@test.com')
-  }, [])
+    console.log(props)
+    if (props.member.email) {
+      setEmail(props.member.email)
+      setIsLoading(false)
+    }
+  }, [props])
 
-  submit = () => {
+  submit = e => {
+    e.preventDefault()
+    // console.log(props.member.email)
+    if (pin !== props.member.pin) {
+      return setError('Pin is incorrect.. please try again')
+    } else if (password !== confirmPassword) {
+      return setError('Your password does not match')
+    }
+
     Meteor.call('addNewMemberUser', email, password, function(error, result) {
       if (result === 'success') {
         location.history.goBack()
@@ -24,7 +39,9 @@ const Signup = ({ location, member }) => {
       }
     })
   }
-
+  if (isLoading) {
+    return <div>Loading..</div>
+  }
   return (
     <div>
       <Container>
@@ -43,17 +60,35 @@ const Signup = ({ location, member }) => {
                   type="email"
                   placeholder="E-mail address"
                   value={email}
-                  onChange={e => setEmail('test@test.com')}
+                  // onChange={e => setEmail(props.member.email)}
                   disabled
                 />
                 <Form.Input
-                  label="Password"
+                  label="Enter your pin"
+                  icon="lock"
+                  iconPosition="left"
+                  name="pin"
+                  placeholder="Pin Number"
+                  type="password"
+                  onChange={e => setPin(e.target.value)}
+                ></Form.Input>
+                <Form.Input
+                  label="Set A New Password"
                   icon="lock"
                   iconPosition="left"
                   name="password"
                   placeholder="Password"
                   type="password"
                   onChange={e => setPassword(e.target.value)}
+                />
+                <Form.Input
+                  label="Confirm your password"
+                  icon="lock"
+                  iconPosition="left"
+                  name="confirmation"
+                  placeholder="Please confirm your password"
+                  type="password"
+                  onChange={e => setConfirmPassword(e.target.value)}
                 />
                 <Form.Button content="Submit" />
               </Segment>

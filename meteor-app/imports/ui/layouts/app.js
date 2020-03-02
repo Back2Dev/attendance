@@ -22,6 +22,7 @@ import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
+import MemberSignUp from '/imports/ui/signup'
 import MemberPortal from '/imports/ui/portal'
 
 // These ones were created when initially setting up the new menu system,
@@ -67,7 +68,7 @@ const App = props => {
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/signup/:id" component={MemberSignUp} />
           <Route path="/login" component={Login} />
           <Route path="/shop" component={Shop} />
           <Route path="/kiosk" component={MemberMainContainer} />

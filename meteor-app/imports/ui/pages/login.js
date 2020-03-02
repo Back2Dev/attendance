@@ -70,9 +70,6 @@ export default class Login extends React.Component {
                 <Form.Button content="Submit" />
               </Segment>
             </Form>
-            <Segment>
-              New to Peak Adventure? <Link to="/signup">Sign Up Here</Link>{' '}
-            </Segment>
 
             {this.state.error === '' ? (
               ''

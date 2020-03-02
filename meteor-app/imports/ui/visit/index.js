@@ -13,6 +13,7 @@ const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
   const id = props.match.params.id
+  console.log(id)
   const membersHandle = Meteor.subscribe('member.all', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(id) || {}
