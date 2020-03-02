@@ -31,9 +31,11 @@ const Signup = props => {
       return setError('Your password does not match')
     }
 
-    Meteor.call('addNewMemberUser', email, password, function(error, result) {
+    const memberId = props.member._id
+
+    Meteor.call('addNewMemberUser', email, password, memberId, function(error, result) {
       if (result === 'success') {
-        location.history.goBack()
+        props.history.goBack()
       } else {
         setError(result)
       }
