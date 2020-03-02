@@ -36,7 +36,7 @@ const Signup = props => {
 
     Meteor.call('addNewMemberUser', email, password, memberId, function(error, result) {
       if (result === 'success') {
-        props.history.goBack()
+        props.history.push('/login')
       } else {
         setError(result)
       }
@@ -47,7 +47,9 @@ const Signup = props => {
   } else if (props.existUser) {
     return (
       <div>
-        <h1>User Already Exists.. Please Sign In</h1>
+        <h1>Looks like you've already registered.. Please Sign In Using The Link Below</h1>
+        <Link to="/login">Log In</Link>
+        <h3>If you believe this to be a mistake, please contact your administrator</h3>
       </div>
     )
   }
