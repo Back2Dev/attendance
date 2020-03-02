@@ -1,4 +1,3 @@
-// schema.test.js
 
 /* eslint-disable no-unused-expressions */
 
@@ -10,9 +9,8 @@ import Reports from './schema'
 import Factory from '/imports/test/factories'
 
 let badReports = []
-// Provide a report with no name, and it should not pass the schema
+
 badReports.push(Factory.build('report', { name: null }))
-// Provide a report with no details, and it should not pass the schema
 badReports.push(Factory.build('report', { details: null }))
 
 const goodReports = []
@@ -35,6 +33,7 @@ describe('reports', () => {
         const report = Reports.findOne(reportId)
 
         expect(report._id).to.equal(good._id)
+
         const fields = 'name details'.split(/\s+/)
         fields.forEach(field => {
           expect(report[field]).to.equal(good[field])

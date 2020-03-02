@@ -20,8 +20,8 @@ Meteor.methods({
       log.info(`Removing member: Eddie Mercx ${name}`)
       return Members.remove({ name: 'Eddie Mercx' })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.mkFakeUser': function(username, member) {
@@ -62,8 +62,8 @@ Meteor.methods({
       log.info(`Adding card to member: ${name}`)
       return Members.update({ name }, { $set: { paymentCustId } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   //
@@ -73,8 +73,8 @@ Meteor.methods({
     try {
       return Members.insert(member)
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.remove': function(id) {
@@ -97,8 +97,8 @@ Meteor.methods({
       Sessions.remove({ memberId: id })
       return Members.remove({ _id: id })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.removeDupe': function(id, merge) {
@@ -138,8 +138,8 @@ Meteor.methods({
       log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.rmPin': function(name) {
@@ -147,8 +147,8 @@ Meteor.methods({
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.update': function(id, formData) {
@@ -156,8 +156,8 @@ Meteor.methods({
       log.info('updating member: ', id, formData)
       return Members.update({ _id: id }, { $set: { ...formData } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
 
@@ -197,8 +197,8 @@ ${Meteor.settings.public.org}
         if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: to } })
       }
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   /* Duplicate member detection, started with this script,
@@ -353,8 +353,8 @@ db[res.result].find({value: {$gt: 1}});
       debug(message)
       return message
     } catch (e) {
-      debug(e)
-      throw new Meteor.Error(500, e)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.forgetCard': function(memberId) {

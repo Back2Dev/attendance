@@ -9,7 +9,7 @@ export const ReportEventsSchema = new SimpleSchema({
   timestamp: Date,
   type: {
     type: String,
-    allowedValues: ["normal", "section"]
+    allowedValues: ['normal', 'section']
   },
   description: String,
   object: {
@@ -30,7 +30,7 @@ export const ReportsSchema = new SimpleSchema({
   name: String,
   details: String,
   events: { type: Array, optional: true },
-  "events.$": { type: ReportEventsSchema },
+  'events.$': { type: ReportEventsSchema },
   createdAt,
   updatedAt
 })
