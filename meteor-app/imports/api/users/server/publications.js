@@ -9,6 +9,9 @@ Meteor.publish('getAllUsers', () => {
 })
 
 Meteor.methods({
+  allUsers() {
+    Meteor.users.find({})
+  },
   updateUserRoles(user) {
     Meteor.users.update(user._id, { $set: { roles: user.roles } })
   },

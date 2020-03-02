@@ -13,6 +13,7 @@ const Signup = props => {
   const [error, setError] = useState(null)
   const [pin, setPin] = useState(null)
   const [confirmPassword, setConfirmPassword] = useState(null)
+  const [existingUsers, setExistingUsers] = useState(null)
 
   useEffect(() => {
     console.log(props)
@@ -43,6 +44,12 @@ const Signup = props => {
   }
   if (isLoading) {
     return <div>Loading..</div>
+  } else if (props.existUser) {
+    return (
+      <div>
+        <h1>User Already Exists.. Please Sign In</h1>
+      </div>
+    )
   }
   return (
     <div>
