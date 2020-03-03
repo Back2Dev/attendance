@@ -34,6 +34,7 @@ export default class Login extends React.Component {
 
   /** Render the login form. */
   render() {
+    console.log(this.props.location)
     const { from } = this.props.location.state || { from: { pathname: '/member-portal' } }
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
