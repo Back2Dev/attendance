@@ -170,7 +170,7 @@ const Checkout = ({ history }) => {
       <Segment>
         <Card.Group centered>
           {state.products.map(p => {
-            return <ProductCard {...p} key={p._id} mode="remove" />
+            return <ProductCard {...p} key={p._id} mode="remove" prodQty={state.prodqty[p._id]} />
           })}
         </Card.Group>
       </Segment>

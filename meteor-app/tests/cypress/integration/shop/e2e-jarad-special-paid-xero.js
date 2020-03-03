@@ -3,7 +3,7 @@
 describe('Shopping Payment', function() {
   it('Choose Product', function() {
     cy.visit('/admin/userprofiles/')
-    mkToughGuy()
+    addTough()
 
     cy.get('input[name=email]')
       .clear()
