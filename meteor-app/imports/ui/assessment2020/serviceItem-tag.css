@@ -1,22 +1,19 @@
+.tag-wrapper {
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrapper > * {
+  margin: 10px 0;
+}
+
 .tag {
-  /* height: 20px; */
   border: 0.5px solid black;
   border-radius: 10%;
-  /* width: auto; */
   margin: 5px 5px;
-  /* margin-bottom: 5px; */
   padding: 0 5px;
 }
-
-.tag > * {
-  padding-right: 10px;
-}
-
-/* .mjmn-tag {
-  height: 30px;
-  border: 0.5px solid black;
-  margin: 10px;
-} */
 
 .item-name {
   font-family: sans-serif;
@@ -25,10 +22,11 @@
 
 .handle {
   color: blue;
-  padding: 3px;
+  padding: 0 10px;
   cursor: default;
 }
 
-/* .add-tag {
-  color: green;
-} */
+.mjmn {
+  display: flex;
+  flex-wrap: wrap;
+}
