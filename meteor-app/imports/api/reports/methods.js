@@ -1,4 +1,3 @@
-
 import { Meteor } from 'meteor/meteor'
 import Reports from './schema'
 const debug = require('debug')('b2b:reports')
@@ -15,7 +14,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e.message)
     }
   },
-  
+
   'report.push'(id, description, object, type) {
     try {
       const event = { description, object, type, timestamp: new Date() }
