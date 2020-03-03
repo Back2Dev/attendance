@@ -14,6 +14,21 @@ const data = [
     items: [
       { title: 'mj1', greyed: false },
       { title: 'mj2', greyed: false },
+      { title: 'mj1', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj1', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj1', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj1', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj1', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj2', greyed: false },
+      { title: 'mj2', greyed: false },
       { title: 'mj3', greyed: false }
     ]
   },
@@ -37,28 +52,14 @@ export default function ServiceItemTag() {
     setTags(newTags)
   }
 
-  function exclude(item) {
+  function toggleTag(item) {
     console.log(item)
     const newTags = [...tags]
     newTags.map(tag => {
       tag.items
         ? tag.items.map(serviceItem => {
             if (serviceItem.title === item.title) {
-              serviceItem.greyed = true
-            }
-          })
-        : null
-    })
-    setTags(newTags)
-  }
-  function include(item) {
-    console.log(item)
-    const newTags = [...tags]
-    newTags.map(tag => {
-      tag.items
-        ? tag.items.map(serviceItem => {
-            if (serviceItem.title === item.title) {
-              serviceItem.greyed = false
+              serviceItem.greyed = !serviceItem.greyed
             }
           })
         : null
@@ -66,43 +67,60 @@ export default function ServiceItemTag() {
     setTags(newTags)
   }
 
+  // dont need the below function any more
+
+  // function include(item) {
+  //   console.log(item)
+  //   const newTags = [...tags]
+  //   newTags.map(tag => {
+  //     tag.items
+  //       ? tag.items.map(serviceItem => {
+  //           if (serviceItem.title === item.title) {
+  //             serviceItem.greyed = false
+  //           }
+  //         })
+  //       : null
+  //   })
+  //   setTags(newTags)
+  // }
+
   return (
-    <div>
+    <div className="wrapper">
       {tags.map((tag, index) =>
         tag.title !== 'Major Service' && tag.title !== 'Minor Service' ? (
           <span className="tag" key={index}>
             <span className="item-name">{tag.title}</span>
-            <span className="remove-tag" onClick={() => removeTag(index)}>
-              X
+            <span className="handle" onClick={() => removeTag(index)}>
+              x
             </span>
           </span>
         ) : (
           <div key={index}>
-            <div className="tag">
+            <span className="tag">
               {tag.title}
-              <span className="remove-tag" onClick={() => removeTag(index)}>
-                X
+              <span className="handle" onClick={() => removeTag(index)}>
+                x
               </span>
-            </div>
+            </span>
             {tag.items.map((item, index) =>
               tag.title === 'Major Service' ? (
-                <span className="mjmn-tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  <span className="add-tag" onClick={() => include(item, index)}>
-                    +
-                  </span>
+                <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
+                  {/* <span className="add-tag" onClick={() => include(item, index)}>
+                    @
+                  </span> */}
                   {item.title}
-                  <span className="remove-tag" onClick={() => exclude(item, index)}>
-                    X
+                  <span className="handle" onClick={() => toggleTag(item, index)}>
+                    {item.greyed ? '+' : '-'}
                   </span>
                 </span>
               ) : (
-                <span className="mjmn-tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  <span className="add-tag" onClick={() => include(item, index)}>
+                <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
+                  {/* <span className="add-tag" onClick={() => include(item, index)}>
                     +
-                  </span>
+                  </span> */}
                   {item.title}
-                  <span className="remove-tag" onClick={() => exclude(item, index)}>
-                    X
+                  <span className="handle" onClick={() => toggleTag(item, index)}>
+                    {item.greyed ? '+' : '-'}
                   </span>
                 </span>
               )
