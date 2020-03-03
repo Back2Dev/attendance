@@ -18,11 +18,11 @@ const defaultAccounts = [
   { email: 'info@peakadventure.com.au', password: 'changeme', role: ['signin', 'member', 'admin'] }
 ]
 
-const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
+const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin', 'member']
 defaultRoles.map(name => {
-  if (!Meteor.roles.findOne({ name })) {
-    // console.log(`Adding role ${name}`)
-    // Roles.createRole(name})
+  if (!Meteor.roles.findOne({ _id: name })) {
+    console.log(`Adding role ${name}`)
+    Roles.createRole(name)
   }
 })
 
