@@ -9,7 +9,7 @@ const CartList = ({ carts, removeCart }) => {
       key: ix,
       description: cart.products.map((product, iy) => (
         <div key={iy}>
-          {product.qty} x {product.code} <Price cents={product.price} />
+          {cart.prodqty[product._id]} x {product.code} <Price cents={product.price} />
         </div>
       )),
       meta: `Created: ${moment(cart.createdAt).format('D MMM YYYY')} status: ${cart.status} ${method}`,

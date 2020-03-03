@@ -5,7 +5,7 @@ import moment from 'moment'
 describe('Make Payment', function() {
   it('cash payment', function() {
     cy.visit('/')
-    mkToughGuy()
+    addTough()
     cy.contains('Login').click()
     cy.url().should('include', '/login')
 
