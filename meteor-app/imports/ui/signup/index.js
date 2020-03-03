@@ -3,24 +3,30 @@ import { withTracker } from 'meteor/react-meteor-data'
 import Members from '/imports/api/members/schema'
 import Main from './main'
 
-const debug = require('debug')('b2b:visit')
+const Loading = props => {
+  if (props.loading) return <div>Loading...</div>
+}
 
 export default withTracker(props => {
   const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member.all', id)
   const member = Members.findOne(id) || {}
-  // console.log(member)
   const usersSubscription = Meteor.subscribe('getAllUsers')
-  const users = Meteor.users.find({}).fetch()
+  const checkUser = Meteor.users.find({ username: member.email }).fetch()
 
-  let existUser = false
-  users.map(user => {
-    if (user.username === member.email) {
-      return (existUser = true)
-    }
-  })
+  const add = form =>
+    Meteor.call('addNewMemberUser', form.email, form.password, member._id, function(error, result) {
+      if (result === 'success') {
+        props.history.push('/login')
+      } else {
+        setError(result)
+      }
+    })
+
   return {
-    existUser,
+    checkUser,
+    add,
+    loading: usersSubscription.ready(),
     usersReady: usersSubscription.ready(),
     member
   }

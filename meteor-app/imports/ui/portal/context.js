@@ -1,6 +1,4 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
-import Alert from 'react-s-alert'
 import { cloneDeep } from 'lodash'
 
 const debug = require('debug')('b2b:visit-context')

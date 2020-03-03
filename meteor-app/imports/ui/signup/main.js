@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
-
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
@@ -13,7 +12,6 @@ const Signup = props => {
   const [error, setError] = useState(null)
   const [pin, setPin] = useState(null)
   const [confirmPassword, setConfirmPassword] = useState(null)
-  const [existingUsers, setExistingUsers] = useState(null)
 
   useEffect(() => {
     console.log(props)
@@ -25,16 +23,14 @@ const Signup = props => {
 
   submit = e => {
     e.preventDefault()
-    // console.log(props.member.email)
     if (pin !== props.member.pin) {
       return setError('Pin is incorrect.. please try again')
     } else if (password !== confirmPassword) {
       return setError('Your password does not match')
     }
 
-    const memberId = props.member._id
-
-    Meteor.call('addNewMemberUser', email, password, memberId, function(error, result) {
+    props.add({ email, password })
+    Meteor.call('addNewMemberUser', email, password, props.member._id, function(error, result) {
       if (result === 'success') {
         props.history.push('/login')
       } else {
@@ -44,7 +40,7 @@ const Signup = props => {
   }
   if (isLoading) {
     return <div>Loading..</div>
-  } else if (props.existUser) {
+  } else if (props.checkUser.length > 0) {
     return (
       <div>
         <h1>Looks like you've already registered.. Please Sign In Using The Link Below</h1>
@@ -71,7 +67,6 @@ const Signup = props => {
                   type="email"
                   placeholder="E-mail address"
                   value={email}
-                  // onChange={e => setEmail(props.member.email)}
                   disabled
                 />
                 <Form.Input
