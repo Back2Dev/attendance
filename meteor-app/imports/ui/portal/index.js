@@ -12,7 +12,7 @@ import context from '/imports/ui/utils/nav'
 const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
-  const id = props.match.params.id
+  // const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member.all', Meteor.user().profile.memberId)
   // const membersHandle = Meteor.subscribe('member.all', id)
   const loading = !membersHandle.ready()

@@ -7,7 +7,7 @@ import MemberCard from '/imports/ui/member/member-card'
 import { VisitContextProvider } from './context'
 import { humaniseDate } from '/imports/helpers/dates'
 
-const MembersPortal = props => {
+const MemberPortal = props => {
   const backClick = () => props.history.goBack()
 
   if (props.loading) return <div>Loading...</div>
@@ -92,7 +92,7 @@ const MembersPortal = props => {
   )
 }
 
-MembersPortal.propTypes = {
+MemberPortal.propTypes = {
   member: PropTypes.object.isRequired,
   addCard: PropTypes.number.isRequired,
   logo: PropTypes.string.isRequired,
@@ -100,4 +100,4 @@ MembersPortal.propTypes = {
   history: PropTypes.object.isRequired
 }
 
-export default MembersPortal
+export default MemberPortal

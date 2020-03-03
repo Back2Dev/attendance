@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link, Redirect } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
