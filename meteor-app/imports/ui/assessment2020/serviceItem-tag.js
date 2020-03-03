@@ -96,23 +96,6 @@ export default function ServiceItemTag() {
     setTags(newTags)
   }
 
-  // dont need the below function any more
-
-  // function include(item) {
-  //   console.log(item)
-  //   const newTags = [...tags]
-  //   newTags.map(tag => {
-  //     tag.items
-  //       ? tag.items.map(serviceItem => {
-  //           if (serviceItem.title === item.title) {
-  //             serviceItem.greyed = false
-  //           }
-  //         })
-  //       : null
-  //   })
-  //   setTags(newTags)
-  // }
-
   return (
     <div className="wrapper">
       <div className="tag-wrapper">
@@ -140,9 +123,6 @@ export default function ServiceItemTag() {
             {tag.items.map((item, index) =>
               tag.title === 'Major Service' ? (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  {/* <span className="add-tag" onClick={() => include(item, index)}>
-                    @
-                  </span> */}
                   {item.title}
                   <span className="handle" onClick={() => toggleTag(item, index)}>
                     {item.greyed ? '+' : '-'}
@@ -150,9 +130,6 @@ export default function ServiceItemTag() {
                 </span>
               ) : (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  {/* <span className="add-tag" onClick={() => include(item, index)}>
-                    +
-                  </span> */}
                   {item.title}
                   <span className="handle" onClick={() => toggleTag(item, index)}>
                     {item.greyed ? '+' : '-'}
