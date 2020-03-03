@@ -22,7 +22,7 @@ export default withTracker(props => {
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: id }).fetch()
   const carts = Carts.find({ memberId: id }).fetch()
-  const sessions = Sessions.find({ memberId: id }).fetch()
+  const sessions = Sessions.find({ memberId: id }, { sort: { timeIn: 1 } }).fetch()
 
   function cancelClick() {
     props.history.goBack()
@@ -58,6 +58,10 @@ export default withTracker(props => {
     Meteor.callAsync('members.updateAutoPay', id, value)
   }
 
+  const migrateSessions = id => {
+    Meteor.call('migrateSessions', id)
+  }
+
   return {
     save,
     loading,
@@ -72,6 +76,7 @@ export default withTracker(props => {
     forgetCard,
     updateAutoPay,
     org: Meteor.settings.public.org,
-    logo: Meteor.settings.public.logo
+    logo: Meteor.settings.public.logo,
+    migrateSessions
   }
 })(Loader)

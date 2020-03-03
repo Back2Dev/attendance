@@ -42,7 +42,8 @@ const goodPurchases = [
     productName: 'A random widget',
     price: 5000,
     code: 'MISC',
-    paymentMethod: 'credit card'
+    paymentMethod: 'credit card',
+    status: 'current'
   }
 ]
 

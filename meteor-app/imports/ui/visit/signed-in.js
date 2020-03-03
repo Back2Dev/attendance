@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Header, Input } from 'semantic-ui-react'
 import context from '/imports/ui/utils/nav'
+import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
 const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 
@@ -55,7 +56,7 @@ const Arrive = props => {
     if (!needMore) {
       const timer = setTimeout(() => {
         props.history.push(context.goHome())
-      }, 5000)
+      }, 7500)
       return function cleanup() {
         clearTimeout(timer)
       }
@@ -66,12 +67,29 @@ const Arrive = props => {
     setShow(!showEdit)
   }
   const but = needMore ? ", but your profile isn't complete" : ''
+
   return (
-    <div style={{ padding: '20px 0' }}>
+    <div style={{ padding: '20px 0', textAlign: 'center' }}>
       <div>
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
+        <div>Member Type: {props.member.subsType}</div>
+        {props.member.subsType === 'pass' && props.purchase && (
+          <MultiVisitsCard
+            usedVisits={props.purchase.sessions.length}
+            totalVisits={props.purchase.sessions.length + props.purchase.remaining}
+          />
+        )}
+        {/* {props.member.subsType === 'pass' &&
+          !props.purchase.sessions.length &&
+          'You have used all your sessions for your previous pass'} */}
+        &nbsp;
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          {props.purchase && props.purchase.paymentStatus === 'unpaid' && (
+            <Button color="red" onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}>
+              Pay Now
+            </Button>
+          )}
           {needMore && (
             <Button type="button" id="done" onClick={() => props.history.push(`/kiosk`)}>
               Not now
