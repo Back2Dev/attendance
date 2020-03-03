@@ -4,14 +4,8 @@ import PropTypes from 'prop-types'
 import { Button, Card, Segment, Grid, Icon, Header, Image } from 'semantic-ui-react'
 
 import MemberCard from '/imports/ui/member/member-card'
-import CreatePin from '/imports/ui/visit/create-pin'
-import SelectActivity from '/imports/ui/visit/select-activity'
-import SignedIn from '/imports/ui/visit/signed-in'
-import Depart from '/imports/ui/visit/depart'
-import SignOut from '/imports/ui/visit/sign-out'
 import { VisitContextProvider } from './context'
 import { humaniseDate } from '/imports/helpers/dates'
-import MemberAddContainer from '/imports/ui/member/member-add-container'
 
 const MembersPortal = props => {
   const backClick = () => props.history.goBack()
