@@ -76,7 +76,7 @@ const App = props => {
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
 
-          <Route path="/member-portal" component={MemberPortal} />
+          <SecureRoute role="member" path="/member-portal" component={MemberPortal} />
 
           <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
 
