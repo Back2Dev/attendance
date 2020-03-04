@@ -4,6 +4,7 @@ import Alert from 'react-s-alert'
 import moment from 'moment'
 import { Carts } from '/imports/api/products/schema'
 import Members from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
@@ -17,8 +18,9 @@ export default withTracker(props => {
   const member = Members.findOne(Meteor.user().profile.memberId) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
   const purchase = purchases.length ? purchases[0] : null
-  const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
-  const cart = carts.length ? carts[0] : null
+  const carts = Carts.find({ memberId: member._id }).fetch()
+  const sessions = Sessions.find({ memberId: member._id }).fetch()
+
   console.log(member)
   const eventQuery = {
     active: true,
@@ -112,10 +114,11 @@ export default withTracker(props => {
     toEdit,
     recordDeparture,
     loading,
-    cart,
+    carts,
     member,
-    purchase,
+    purchases,
     events,
+    sessions,
     cancelClick,
     onSubmitPin,
     setPin,
