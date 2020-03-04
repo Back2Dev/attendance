@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Card, Segment, Grid, Header, Image } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
-import { VisitContextProvider } from './context'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
@@ -23,29 +22,27 @@ const MemberPortal = props => {
           </Card.Group>
         </Grid.Column>
         <Grid.Column width={10}>
-          <VisitContextProvider {...props}>
-            <Button type="button" size="small" onClick={() => props.toEdit()} style={{ marginTop: '24px' }}>
-              Edit your profile
-            </Button>
-            {props.member.subsType === 'member' && props.member.status !== 'expired' && (
-              <>(expires in {humaniseDate(props.member.expiry)})</>
-            )}
-            {props.addCard === 1 && !props.member.paymentCustId ? (
-              <span>
-                &nbsp; &nbsp;
-                <Button
-                  type="button"
-                  size="medium"
-                  onClick={() => props.history.push(`/shop/register-card/${props.member._id}`)}
-                  style={{ marginTop: '24px', marginLeft: '20px' }}
-                  color="green"
-                >
-                  <img className="card-mc" src={'/images/visa-mc.jpg'} align="middle" />
-                  Please register your credit card
-                </Button>
-              </span>
-            ) : null}
-          </VisitContextProvider>
+          <Button type="button" size="small" onClick={() => props.toEdit()} style={{ marginTop: '24px' }}>
+            Edit your profile
+          </Button>
+          {props.member.subsType === 'member' && props.member.status !== 'expired' && (
+            <>(expires in {humaniseDate(props.member.expiry)})</>
+          )}
+          {props.addCard === 1 && !props.member.paymentCustId ? (
+            <span>
+              &nbsp; &nbsp;
+              <Button
+                type="button"
+                size="medium"
+                onClick={() => props.history.push(`/shop/register-card/${props.member._id}`)}
+                style={{ marginTop: '24px', marginLeft: '20px' }}
+                color="green"
+              >
+                <img className="card-mc" src={'/images/visa-mc.jpg'} align="middle" />
+                Please register your credit card
+              </Button>
+            </span>
+          ) : null}
         </Grid.Column>
       </Grid>
     </Segment>
