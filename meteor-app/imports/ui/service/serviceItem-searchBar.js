@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Search, Grid, Header, Segment, Label } from 'semantic-ui-react'
-import _ from 'lodash'
+import React, { Component } from './react'
+import PropTypes from './prop-types'
+import { Search, Grid, Header, Segment, Label } from './semantic-ui-react'
+import _ from './lodash'
 
 const resultRenderer = ({ title }) => <Label content={title} />
 
