@@ -2,7 +2,5 @@
   "typescript.check.workspaceVersion": false,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "eslint.enable": false,
-  "files.autoSave": "onWindowChange",
-  "workbench.editor.enablePreview": false
+  "eslint.enable": false
 }
