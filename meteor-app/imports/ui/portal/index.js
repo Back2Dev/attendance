@@ -17,8 +17,8 @@ export default withTracker(props => {
   const loading = !membersHandle.ready()
   const member = Members.findOne(Meteor.user().profile.memberId) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
-  const purchase = purchases.length ? purchases[0] : null
   const carts = Carts.find({ memberId: member._id }).fetch()
+  const cart = carts.filter(cart => cart.status === 'ready')[0]
   const sessions = Sessions.find({ memberId: member._id }).fetch()
 
   console.log(member)
@@ -99,6 +99,7 @@ export default withTracker(props => {
     toEdit,
     recordDeparture,
     loading,
+    cart,
     carts,
     member,
     purchases,
