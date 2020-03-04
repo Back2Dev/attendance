@@ -30,16 +30,6 @@ const Signup = props => {
     }
 
     props.add({ email, password })
-<<<<<<< HEAD
-    // Meteor.call('addNewMemberUser', email, password, props.member._id, function(error, result) {
-    //   if (result === 'success') {
-    //     props.history.push('/login')
-    //   } else {
-    //     setError(result)
-    //   }
-    // })
-=======
->>>>>>> 993b13c19f70552c2b7d4641c2c2098f62d0d226
   }
   if (isLoading) {
     return <div>Loading..</div>

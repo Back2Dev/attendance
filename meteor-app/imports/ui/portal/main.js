@@ -27,7 +27,6 @@ const MemberPortal = props => {
             <Button type="button" size="small" onClick={() => props.toEdit()} style={{ marginTop: '24px' }}>
               Edit your profile
             </Button>
-            <Switch>{/* Add routes */}</Switch>
             {props.member.subsType === 'member' && props.member.status !== 'expired' && (
               <>(expires in {humaniseDate(props.member.expiry)})</>
             )}
