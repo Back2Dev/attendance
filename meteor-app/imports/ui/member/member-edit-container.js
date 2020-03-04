@@ -6,7 +6,7 @@ import isIframe from '/imports/helpers/isIframe'
 import getSchemas from '/imports/ui/config/member-add-schemas'
 
 const debug = require('debug')('b2b:addmember')
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 const success = new ReactiveVar(false)
 const error = new ReactiveVar(false)

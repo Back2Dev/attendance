@@ -20,7 +20,7 @@ import DupesContainer from '/imports/ui/dupes'
 import RenewalsContainer from '/imports/ui/renewals/container'
 // import AppSelection from '/imports/ui/admin/app-selection'
 
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import '/imports/ui/layouts/attendance.css'
 
 const Attendance = () => {

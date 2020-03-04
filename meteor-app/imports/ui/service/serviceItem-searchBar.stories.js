@@ -1,6 +1,6 @@
-import React, { Component } from './react'
-import { storiesOf } from './@storybook/react'
-import { action } from './@storybook/addon-actions'
+import React, { Component } from 'react'
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 import SearchBar from './serviceItem-searchBar'
 import faker from 'faker'
 
