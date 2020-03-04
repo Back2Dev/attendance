@@ -22,6 +22,7 @@ export default withTracker(props => {
   const sessions = Sessions.find({ memberId: member._id }).fetch()
 
   console.log(member)
+
   const eventQuery = {
     active: true,
     $or: [
@@ -80,22 +81,6 @@ export default withTracker(props => {
     Alert.success(`You are signed out`)
   }
 
-  function cancelClick() {
-    props.history.goBack()
-  }
-
-  function onSubmitPin(pin) {
-    const pinValid = member.pin === pin || pin === '1--1'
-    debug('pinValid: ', pinValid)
-    return pinValid
-  }
-
-  function setPin(pin) {
-    debug('setting custom pin: ', pin)
-    Meteor.call('members.setPin', member._id, pin)
-    props.history.push(`/visit/${member._id}/select-activity`)
-  }
-
   function forgotPin(method, destination, remember) {
     // redirect to forgot PIN screen
     debug('forgotten pin: ', member._id, method, destination, remember)
@@ -119,10 +104,6 @@ export default withTracker(props => {
     purchases,
     events,
     sessions,
-    cancelClick,
-    onSubmitPin,
-    setPin,
-    forgotPin,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
     addCard: Meteor.settings.public.addCard
