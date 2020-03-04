@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Meteor } from 'meteor/meteor'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 const Signup = props => {
   const [email, setEmail] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [password, setPassword] = useState(null)
   const [error, setError] = useState(null)
   const [pin, setPin] = useState(null)
@@ -17,7 +15,6 @@ const Signup = props => {
     console.log(props)
     if (props.member.email) {
       setEmail(props.member.email)
-      setIsLoading(false)
     }
   }, [props])
 
@@ -31,7 +28,7 @@ const Signup = props => {
 
     props.add({ email, password })
   }
-  if (isLoading) {
+  if (props.loading) {
     return <div>Loading..</div>
   } else if (props.checkUser.length > 0) {
     return (
@@ -105,7 +102,10 @@ const Signup = props => {
 
 /** Ensure that the React Router location object is available in case we need to redirect. */
 Signup.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
+  member: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  add: PropTypes.func.isRequired
 }
 
 export default withRouter(Signup)

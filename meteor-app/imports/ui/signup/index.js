@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Members from '/imports/api/members/schema'
 import Main from './main'
+import React from 'react'
 
 const Loading = props => {
   if (props.loading) return <div>Loading...</div>
@@ -23,10 +24,12 @@ export default withTracker(props => {
       }
     })
 
+  const loading = !membersHandle.ready()
+
   return {
     checkUser,
     add,
-    loading: usersSubscription.ready(),
+    loading,
     usersReady: usersSubscription.ready(),
     member
   }

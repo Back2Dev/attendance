@@ -15,11 +15,8 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member.all', Meteor.user().profile.memberId)
   const loading = !membersHandle.ready()
   const member = Members.findOne(Meteor.user().profile.memberId) || {}
-  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
-  const purchase = purchases.length ? purchases[0] : null
-  const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
-  const cart = carts.length ? carts[0] : null
   console.log(member)
+
   const eventQuery = {
     active: true,
     $or: [
@@ -78,22 +75,6 @@ export default withTracker(props => {
     Alert.success(`You are signed out`)
   }
 
-  function cancelClick() {
-    props.history.goBack()
-  }
-
-  function onSubmitPin(pin) {
-    const pinValid = member.pin === pin || pin === '1--1'
-    debug('pinValid: ', pinValid)
-    return pinValid
-  }
-
-  function setPin(pin) {
-    debug('setting custom pin: ', pin)
-    Meteor.call('members.setPin', member._id, pin)
-    props.history.push(`/visit/${member._id}/select-activity`)
-  }
-
   function forgotPin(method, destination, remember) {
     // redirect to forgot PIN screen
     debug('forgotten pin: ', member._id, method, destination, remember)
@@ -112,13 +93,8 @@ export default withTracker(props => {
     toEdit,
     recordDeparture,
     loading,
-    cart,
     member,
-    purchase,
     events,
-    cancelClick,
-    onSubmitPin,
-    setPin,
     forgotPin,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
