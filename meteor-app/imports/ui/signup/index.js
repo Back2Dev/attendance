@@ -1,11 +1,26 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Members from '/imports/api/members/schema'
-import Main from './main'
+import Signup from './main'
 import React from 'react'
+import Alert from 'react-s-alert'
+import Login from '/imports/ui/pages/login'
 
 const Loading = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) {
+    return <div>Loading...</div>
+  } else if (!props.member._id) {
+    return <div>User not found ...</div>
+  } else if (props.checkUser.length > 0) {
+    Alert.error("Looks like you've already registered..Please Sign In")
+    return (
+      <div>
+        <Login />
+        <p>If you believe this to be a mistake, please contact your administrator</p>
+      </div>
+    )
+  }
+  return <Signup {...props}></Signup>
 }
 
 export default withTracker(props => {
@@ -24,13 +39,10 @@ export default withTracker(props => {
       }
     })
 
-  const loading = !membersHandle.ready()
-
   return {
     checkUser,
     add,
-    loading,
-    usersReady: usersSubscription.ready(),
-    member
+    member,
+    loading: !membersHandle.ready() && !usersSubscription.ready()
   }
-})(Main)
+})(Loading)
