@@ -12,7 +12,6 @@ const Signup = props => {
   const [confirmPassword, setConfirmPassword] = useState(null)
 
   useEffect(() => {
-    console.log(props)
     if (props.member.email) {
       setEmail(props.member.email)
     }
@@ -27,17 +26,6 @@ const Signup = props => {
     }
 
     props.add({ email, password })
-  }
-  if (props.loading) {
-    return <div>Loading..</div>
-  } else if (props.checkUser.length > 0) {
-    return (
-      <div>
-        <h1>Looks like you've already registered.. Please Sign In Using The Link Below</h1>
-        <Link to="/login">Log In</Link>
-        <h3>If you believe this to be a mistake, please contact your administrator</h3>
-      </div>
-    )
   }
   return (
     <div>
@@ -102,7 +90,7 @@ const Signup = props => {
 
 /** Ensure that the React Router location object is available in case we need to redirect. */
 Signup.propTypes = {
-  location: PropTypes.object,
+  location: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   add: PropTypes.func.isRequired
