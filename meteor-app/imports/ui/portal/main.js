@@ -39,7 +39,12 @@ const MemberPortal = props => {
             Register your credit card
           </Button>
         ) : null}
-        <Button style={{ height: '50px' }} color="red" floated="right">
+        <Button
+          style={{ height: '50px' }}
+          color="red"
+          floated="right"
+          onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}
+        >
           Pay Now
         </Button>
       </Grid.Column>
@@ -73,7 +78,11 @@ const MemberPortal = props => {
           {props.purchases.length === 0 ? (
             <div>(None)</div>
           ) : (
-            props.purchases.map((purchase, ix) => <div key={`s${ix}`}>{purchase.productName}</div>)
+            props.purchases.map((purchase, ix) => (
+              <div key={`s${ix}`}>
+                {purchase.productName} - Status: {purchase.paymentStatus}
+              </div>
+            ))
           )}
         </Card.Content>
       </Card>
@@ -83,11 +92,7 @@ const MemberPortal = props => {
           {props.carts.length === 0 ? (
             <div>(None)</div>
           ) : (
-            props.carts.map((cart, ix) => (
-              <div key={`s${ix}`}>
-                {moment(cart.createdAt).format('D MMM YYYY')} - {cart.products[0]}
-              </div>
-            ))
+            props.carts.map((cart, ix) => <div key={`s${ix}`}>{moment(cart.createdAt).format('D MMM YYYY')}</div>)
           )}
         </Card.Content>
       </Card>
