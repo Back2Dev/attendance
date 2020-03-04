@@ -19,7 +19,7 @@
     "ci-pa": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.pa.settings.json",
     "ci-test": "./node_modules/cypress/bin/cypress run",
     "test:ui": "start-storybook -s public -p 6046",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6046",
     "test:build:ui": "BABEL_ENV=ui-test build-storybook",
     "pretestx": "npm run lint --silent",
     "parse": "node scripts/survey-parser.js docs/sample-survey.txt",
