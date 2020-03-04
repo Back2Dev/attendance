@@ -1,15 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Button, Card, Segment, Grid, Header, Image } from 'semantic-ui-react'
+import { Button, Card, Segment, Grid, Header, Image, Table } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
 
-  const goHome = () => {
-    props.history.push('/kiosk')
-  }
   return (
     <Segment>
       <Header as="h2" style={{ textAlign: 'center' }}>
@@ -21,9 +18,6 @@ const MemberPortal = props => {
         </Card.Group>
       </Grid.Column>
       <Grid.Column width={10}>
-        {props.member.subsType === 'member' && props.member.status !== 'expired' && (
-          <>(expires in {humaniseDate(props.member.expiry)})</>
-        )}
         <Button type="button" size="small" onClick={() => props.toEdit()} style={{ height: '50px' }}>
           Edit your profile
         </Button>
@@ -39,29 +33,66 @@ const MemberPortal = props => {
             Register your credit card
           </Button>
         ) : null}
-        <Button
-          style={{ height: '50px' }}
-          color="red"
-          floated="right"
-          onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}
-        >
-          Pay Now
-        </Button>
+        {props.cart && (
+          <Button
+            style={{ height: '50px' }}
+            color="red"
+            floated="right"
+            onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}
+          >
+            Pay Now
+          </Button>
+        )}
       </Grid.Column>
       <Card fluid>
         <Card.Content header="Member Details" />
         <Card.Content>
-          Name: {props.member.name} <br />
-          Address: {`${props.member.addressStreet} ${props.member.addressSuburb} ${props.member.addressPostcode}`}{' '}
-          <br />
-          Email: {props.member.email} <br />
-          Subscription Type: {props.member.subsType || 'Invalid'} <br />
+          <Table definition>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell width={2}>Name</Table.Cell>
+                <Table.Cell>{props.member.name}</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Adress</Table.Cell>
+                <Table.Cell>{`${props.member.addressStreet} ${props.member.addressSuburb} ${props.member.addressPostcode}`}</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Email</Table.Cell>
+                <Table.Cell>{props.member.email}</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Subscription</Table.Cell>
+                <Table.Cell>{props.member.subsType || 'Invalid'}</Table.Cell>
+              </Table.Row>
+              {props.member.subsType === 'member' && props.member.status !== 'expired' && (
+                <Table.Row>
+                  <Table.Cell>Expiry</Table.Cell>{' '}
+                  <Table.Cell>{moment(props.member.expiry).format('DD/MM/YY')}</Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table>
         </Card.Content>
       </Card>
       <Card fluid>
         <Card.Content header={`Sessions (${props.sessions.length})`} />
         <Card.Content>
-          {props.sessions.length === 0 ? (
+          <Table basic="very" celled>
+            <Table.Body>
+              {props.sessions.length === 0 ? (
+                <div>(none)</div>
+              ) : (
+                props.sessions.map((session, ix) => (
+                  <Table.Row>
+                    <Table.Cell>{session.name}</Table.Cell>
+                    <Table.Cell>{moment(session.createdAt).format('D MMM YYYY')}</Table.Cell>
+                  </Table.Row>
+                ))
+              )}
+            </Table.Body>
+          </Table>
+          {/* {props.sessions.length === 0 ? (
             <div>(none)</div>
           ) : (
             props.sessions.map((session, ix) => (
@@ -69,7 +100,7 @@ const MemberPortal = props => {
                 {moment(session.createdAt).format('D MMM YYYY')} - {session.name}
               </div>
             ))
-          )}
+          )} */}
         </Card.Content>
       </Card>
       <Card fluid>
@@ -83,16 +114,6 @@ const MemberPortal = props => {
                 {purchase.productName} - Status: {purchase.paymentStatus}
               </div>
             ))
-          )}
-        </Card.Content>
-      </Card>
-      <Card fluid>
-        <Card.Content header={`Carts (${props.carts.length})`} />
-        <Card.Content>
-          {props.carts.length === 0 ? (
-            <div>(None)</div>
-          ) : (
-            props.carts.map((cart, ix) => <div key={`s${ix}`}>{moment(cart.createdAt).format('D MMM YYYY')}</div>)
           )}
         </Card.Content>
       </Card>
