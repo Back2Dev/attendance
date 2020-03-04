@@ -1,14 +1,16 @@
 import React from 'react'
-import { Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Button, Card, Segment, Grid, Header, Image } from 'semantic-ui-react'
-
 import MemberCard from '/imports/ui/member/member-card'
 import { VisitContextProvider } from './context'
-import { humaniseDate } from '/imports/helpers/dates'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
+
+  const goHome = () => {
+    props.history.push('/kiosk')
+  }
+
   return (
     <Segment>
       <Header as="h2">
