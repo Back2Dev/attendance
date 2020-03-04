@@ -1,9 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './serviceItem-tag.css'
+import { ServiceContextProvider } from './service-context'
+import { ServiceContext } from './service-context'
 
 export default function ServiceItemTag(props) {
-  console.log(props)
-  const [tags, setTags] = useState(props.data)
+  const value = useContext(ServiceContext)
+
+  // data is available through context but props arent available in story render
+  console.log('data =', value)
+
+  // props are available in the story render but data not available which is coming from the context
+  console.log('props =', props)
+  const [tags, setTags] = useState(value)
 
   function removeTag(index) {
     const newTags = [...tags]
@@ -72,4 +80,10 @@ export default function ServiceItemTag(props) {
       )}
     </div>
   )
+}
+
+{
+  /* <serviceContext.Provider value={data}>
+  <div></div>
+</serviceContext.Provider> */
 }

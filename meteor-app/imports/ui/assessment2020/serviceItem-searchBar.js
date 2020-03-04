@@ -31,7 +31,7 @@ const SearchBar = props => {
       const re = new RegExp(_.escapeRegExp(value), 'i')
       const isMatch = result => re.test(result.title)
       setIsLoading(false)
-      setResults(_.filter(props.source, isMatch))
+      setResults(_.filter(props.data, isMatch))
     }, 300)
   }
 
