@@ -12,12 +12,9 @@ import context from '/imports/ui/utils/nav'
 const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
-  // const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member.all', Meteor.user().profile.memberId)
-  // const membersHandle = Meteor.subscribe('member.all', id)
   const loading = !membersHandle.ready()
   const member = Members.findOne(Meteor.user().profile.memberId) || {}
-  // const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
   const purchase = purchases.length ? purchases[0] : null
   const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
@@ -40,8 +37,7 @@ export default withTracker(props => {
       }
     ]
   }
-  // It's quite possible that the above doesn't
-  // yield anything, so look for a fallback
+
   const fallbackQuery = { type: 'fallback' }
   debug('Queries', eventQuery, fallbackQuery)
   let events = Events.find(eventQuery).fetch()
@@ -104,6 +100,8 @@ export default withTracker(props => {
     Meteor.call('members.forgotPin', member._id, method, destination, remember)
   }
 
+  const toEdit = () => props.history.push(`/edit/${member._id}`)
+
   function save(id, formData) {
     Meteor.call('members.update', id, formData)
   }
@@ -111,6 +109,7 @@ export default withTracker(props => {
   return {
     recordVisit,
     save,
+    toEdit,
     recordDeparture,
     loading,
     cart,
