@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Button, Card, Segment, Grid, Header, Image, Table } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member/member-card'
+import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
@@ -13,8 +14,15 @@ const MemberPortal = props => {
         <Image circular src={props.logo} /> {props.org}
       </Header>
       <Grid.Column width={6}>
-        <Card.Group centered>
+        <Card.Group>
           <MemberCard className="member-visit-card" {...props.member} onCardClick={f => f} />
+          {props.member.subsType === 'pass' && props.purchase && (
+            <MultiVisitsCard
+              style={{ marginLeft: 0 }}
+              usedVisits={props.purchase.sessions.length}
+              totalVisits={props.purchase.sessions.length + props.purchase.remaining}
+            />
+          )}
         </Card.Group>
       </Grid.Column>
       <Grid.Column width={10}>
