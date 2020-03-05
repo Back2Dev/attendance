@@ -92,6 +92,84 @@ const paSchema = {
       }
     }
   },
+  contactStep: {
+    schema: {
+      title: 'Details',
+      type: 'object',
+      required: ['name', 'email', 'mobile', 'pin', 'password'],
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        email: { type: 'string', format: 'email', title: 'Email' },
+        addressStreet: { type: 'string', title: 'Street Address' },
+        addressSuburb: { type: 'string', title: 'Suburb' },
+        addressState: {
+          type: 'string',
+          title: 'State',
+          default: 'VIC',
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+        },
+        addressPostcode: { type: 'string', title: 'Postcode' },
+        phone: { type: 'string', title: 'Phone number' },
+        mobile: { type: 'string', title: 'Mobile number' },
+        pin: { type: 'string', title: 'PIN number', maxLength: 4 },
+        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
+        password: { type: 'string', title: 'Password' },
+        confirmPassword: { type: 'string', title: 'Confirm Password' }
+      }
+    },
+    uiSchema: {
+      name: {
+        'ui:placeholder': 'Enter your name',
+        'ui:autofocus': true
+      },
+
+      email: {
+        'ui:placeholder': 'Enter your email address'
+      },
+      addressStreet: {
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+      },
+      addressSuburb: {
+        'ui:placeholder': 'Enter your suburb'
+      },
+      addressState: {
+        'ui:placeholder': 'Enter your state'
+      },
+      addressPostcode: {
+        'ui:placeholder': 'Enter your postcode'
+      },
+      phone: {
+        'ui:placeholder': 'Enter your phone number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      mobile: {
+        'ui:placeholder': 'Enter your mobile number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      pin: {
+        'ui:placeholder': 'Enter a PIN number for signing in and out.',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      pinConfirm: {
+        'ui:placeholder': 'Enter the same PIN number again to confirm.',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      password: {
+        'ui:placeholder': 'Enter a password for your account.'
+      },
+      confirmPassword: {
+        'ui:placeholder': 'Enter the same password again to confirm.'
+      }
+    }
+  },
   termsStep: {
     schema: {
       type: 'object',
@@ -550,6 +628,7 @@ const getSchemas = custom => {
     const newSchema = customSchemas[custom]
     const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
     steps.forEach((step, ix) => {
+      console.log(ix)
       const stepName = `${step}Step`
       if (newSchema[stepName] && newSchema[stepName].schema) {
         defaultSchema[ix].schema = newSchema[stepName].schema

@@ -21,7 +21,7 @@ Meteor.methods({
       Members.update(memberId, {
         $set: { userId: id }
       })
-      return 'success'
+      return id
     } catch (error) {
       return error.message
     }

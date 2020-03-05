@@ -26,7 +26,11 @@ const Loading = props => {
 export default withTracker(props => {
   const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member.all', id)
+
+  console.log(membersHandle.ready())
   const member = Members.findOne(id) || {}
+
+  console.log(member)
   const usersSubscription = Meteor.subscribe('getAllUsers')
   const checkUser = Meteor.users.find({ username: member.email }).fetch()
 

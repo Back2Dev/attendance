@@ -60,6 +60,7 @@ class MemberAdd extends Component {
     const data = this.state.formData
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
+      console.log(data)
       this.props.setMember(data)
       return
     }
@@ -73,7 +74,6 @@ class MemberAdd extends Component {
         progress: prevState.step + 1
       }
     })
-    // this.props.setMember(this.state.formData)
   }
 
   backStep = () => {
@@ -100,6 +100,9 @@ class MemberAdd extends Component {
     }
     if (formData.pin !== formData.pinConfirm) {
       errors.pinConfirm.addError("PIN numbers don't match")
+    }
+    if (formData.password !== formData.passwordConfirm) {
+      errors.passwordConfirm.addError("Passwords don't match")
     }
     return errors
   }
