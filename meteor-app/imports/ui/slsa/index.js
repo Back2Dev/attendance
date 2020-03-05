@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { escapeRegExp } from 'lodash'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 import Admin from './admin'
 import Members from '/imports/api/members/schema'

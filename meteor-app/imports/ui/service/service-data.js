@@ -8,7 +8,7 @@ import ServiceItems from '/imports/api/assessments/serviceItems'
 import Members from '/imports/api/members/schema'
 import Logger from '/imports/api/assessments/logger'
 import Assessment from '/imports/api/assessments/schema'
-import AssessmentAdd from '/imports/ui/assessment/assessment-add'
+import Index from '/imports/ui/service/index'
 
 const debug = require('debug')('b2b:addassessment')
 
@@ -19,7 +19,7 @@ export default withTracker(props => {
   const newId = new ReactiveVar('')
 
   Meteor.subscribe('services.all')
-  Meteor.subscribe('all.serviceItems')
+  const a = Meteor.subscribe('all.serviceItems')
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
 
@@ -64,6 +64,7 @@ export default withTracker(props => {
     serviceItems: ServiceItems.find().fetch(),
     log: Logger.find().fetch(),
     members: Members.find().fetch(),
-    assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
+    assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0],
+    loading: !a.ready()
   }
-})(AssessmentAdd)
+})(Index)

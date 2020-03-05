@@ -1,9 +1,6 @@
-import React from 'react'
+import React, { useState, createContext } from 'react'
 
-import { storiesOf } from '@storybook/react'
-// import { action } from '@storybook/addon-actions'
-
-import ServiceItemTag from './serviceItem-tag'
+export const ServiceContext = createContext()
 
 const data = [
   { title: 'item1', isMajMin: false },
@@ -76,4 +73,12 @@ const data = [
   }
 ]
 
-storiesOf('ServiceItemTag', module).add('ServiceItemTag', () => <ServiceItemTag data={data} />)
+const serviceState = {
+  data: data,
+  tags: []
+}
+
+export const ServiceContextProvider = props => {
+  const [state, setState] = useState(serviceState)
+  return <ServiceContext.Provider value={[state, setState]}>{props.children}</ServiceContext.Provider>
+}

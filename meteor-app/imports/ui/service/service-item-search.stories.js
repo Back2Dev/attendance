@@ -1,9 +1,8 @@
-import React from 'react'
-
+import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
-// import { action } from '@storybook/addon-actions'
-
-import ServiceItemTag from './serviceItem-tag'
+import { action } from '@storybook/addon-actions'
+import SearchBar from './service-item-search'
+import faker from 'faker'
 
 const data = [
   { title: 'item1', isMajMin: false },
@@ -76,4 +75,4 @@ const data = [
   }
 ]
 
-storiesOf('ServiceItemTag', module).add('ServiceItemTag', () => <ServiceItemTag data={data} />)
+storiesOf('SearchBar', module).add('SearchBar', () => <SearchBar data={data} />)
