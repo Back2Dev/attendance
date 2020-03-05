@@ -23,8 +23,8 @@ const meteorCall = async (method, description, param) => {
 }
 
 const remove = id => meteorCall('rm.sessions', 'Deleting', id)
-const update = form => Meteor.call('update.sessions', form)
-const add = form => Meteor.call('add.sessions', form)
+const update = form => meteorCall('update.sessions', 'Updating', form)
+const add = form => meteorCall('add.sessions', 'Adding', form)
 
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',

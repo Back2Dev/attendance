@@ -10,43 +10,6 @@ import moment from 'moment'
 
 const debug = require('debug')('manx:add')
 
-const AddModal = props => {
-  return (<Modal
-    style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
-    open={modalOpen}
-    onClose={() => setModalOpen(false)}
-    trigger={
-      <Button size="mini" color="black" onClick={() => setModalOpen(true)}>
-        Add
-      </Button>
-    }
-  >
-    <Modal.Header>Add an attendee</Modal.Header>
-    <Modal.Content>
-      <Form>
-        <Form.Dropdown
-          label="Member Name"
-          placeholder="Select Member"
-          onChange={inputMember}
-          options={memberOptions}
-          search
-          fluid
-        />
-        <Form.Dropdown
-          label="Session Name"
-          placeholder="Select Session"
-          onChange={inputEvent}
-          options={eventOptions}
-          search
-          fluid
-        />
-        <Button onClick={addANewRow} type="submit" color="green">
-          Save
-        </Button>
-      </Form>
-    </Modal.Content>
-  </Modal>)
-}
 const List = ({ items, members, events, update, remove, add, columns, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
@@ -134,7 +97,7 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
   const buttons = [
     { action: deleteRows, id: 'delete', caption: 'Delete', color: 'red' },
     // Not a standard button, as it is tied up with a modal form
-    { action: addANewRow, id: 'add', caption: 'Add', color: 'black', component }
+    // { action: addANewRow, id: 'add', caption: 'Add', color: 'black', component }
   ]
 
   const memberOptions = members
@@ -170,7 +133,41 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
               {btn.caption}
             </Button>
           ))}
-
+          <Modal
+            style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            trigger={
+              <Button size="mini" color="black" onClick={() => setModalOpen(true)}>
+                Add
+      </Button>
+            }
+          >
+            <Modal.Header>Add an attendee</Modal.Header>
+            <Modal.Content>
+              <Form>
+                <Form.Dropdown
+                  label="Member Name"
+                  placeholder="Select Member"
+                  onChange={inputMember}
+                  options={memberOptions}
+                  search
+                  fluid
+                />
+                <Form.Dropdown
+                  label="Session Name"
+                  placeholder="Select Session"
+                  onChange={inputEvent}
+                  options={eventOptions}
+                  search
+                  fluid
+                />
+                <Button onClick={addANewRow} type="submit" color="green">
+                  Save
+        </Button>
+              </Form>
+            </Modal.Content>
+          </Modal>
         </span>
       </Segment>
       <Contents />
