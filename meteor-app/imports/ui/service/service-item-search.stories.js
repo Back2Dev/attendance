@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import SearchBar from './serviceItem-searchBar'
+import SearchBar from './service-item-search'
 import faker from 'faker'
 
 export const task = {
