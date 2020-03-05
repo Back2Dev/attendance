@@ -6,6 +6,7 @@ import { Carts } from '/imports/api/products/schema'
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
+import Products from '/imports/api/products/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
 import context from '/imports/ui/utils/nav'
@@ -17,11 +18,10 @@ export default withTracker(props => {
   const loading = !membersHandle.ready()
   const member = Members.findOne(Meteor.user().profile.memberId) || {}
   const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
-  const purchase = purchases.length ? purchases[0] : null
+  const purchase = purchases[0]
   const carts = Carts.find({ memberId: member._id }).fetch()
   const cart = carts.filter(cart => cart.status === 'ready')[0]
   const sessions = Sessions.find({ memberId: member._id }).fetch()
-
   console.log(member)
 
   const eventQuery = {
@@ -80,12 +80,6 @@ export default withTracker(props => {
     Meteor.call('depart', id)
     props.history.push(context.goHome())
     Alert.success(`You are signed out`)
-  }
-
-  function forgotPin(method, destination, remember) {
-    // redirect to forgot PIN screen
-    debug('forgotten pin: ', member._id, method, destination, remember)
-    Meteor.call('members.forgotPin', member._id, method, destination, remember)
   }
 
   const toEdit = () => props.history.push(`/edit/${member._id}`)
