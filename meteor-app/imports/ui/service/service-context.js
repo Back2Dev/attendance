@@ -1,8 +1,6 @@
-import React, { Component } from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import SearchBar from './service-item-search'
-import faker from 'faker'
+import React, { useState, createContext } from 'react'
+
+export const ServiceContext = createContext()
 
 const data = [
   { title: 'item1', isMajMin: false },
@@ -75,4 +73,12 @@ const data = [
   }
 ]
 
-storiesOf('SearchBar', module).add('SearchBar', () => <SearchBar data={data} />)
+const serviceState = {
+  data: data,
+  tags: []
+}
+
+export const ServiceContextProvider = props => {
+  const [state, setState] = useState(serviceState)
+  return <ServiceContext.Provider value={[state, setState]}>{props.children}</ServiceContext.Provider>
+}
