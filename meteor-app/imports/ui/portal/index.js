@@ -14,15 +14,16 @@ import context from '/imports/ui/utils/nav'
 const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
-  const memberId = Meteor.subscribe('member.userid', Meteor.userId())
-  const loading = !memberId.ready()
+  const membersHandle = Meteor.subscribe('member.userid', Meteor.userId())
+  const loading = !membersHandle.ready()
   const member = Members.findOne({ userId: Meteor.userId() }) || {}
-  const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: 1 } }).fetch()
-  const purchase = purchases[0]
+  const memberData = Meteor.subscribe('member.all', member._id)
+  const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
+  const purchase = purchases.length ? purchases[0] : null
   const carts = Carts.find({ memberId: member._id }).fetch()
   const cart = carts.filter(cart => cart.status === 'ready')[0]
   const sessions = Sessions.find({ memberId: member._id }).fetch()
-  console.log(member)
+  console.log(purchases)
 
   const eventQuery = {
     active: true,
