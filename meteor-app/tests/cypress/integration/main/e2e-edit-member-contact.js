@@ -88,6 +88,6 @@ describe('Edit member profile', function() {
 
     cy.get('#root_emergencyContact').should('have.value', editMem.emergencyContact)
 
-    cy.get('#root_addressSuburb').should('exist')
+    //  cy.get('#root_addressSuburb').should('exist')
   })
 })
