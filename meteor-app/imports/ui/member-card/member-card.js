@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Grid, Image } from 'semantic-ui-react'
+import { Card, Image, Table } from 'semantic-ui-react'
 import './styles/member-card-styles.css'
 
 const dateFormat = dateValue => {
