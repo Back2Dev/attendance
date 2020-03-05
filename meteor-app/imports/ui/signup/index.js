@@ -35,7 +35,7 @@ export default withTracker(props => {
       if (result === 'success') {
         props.history.push('/login')
       } else {
-        setError(result)
+        console.log(error)
       }
     })
 
