@@ -10,6 +10,43 @@ import moment from 'moment'
 
 const debug = require('debug')('manx:add')
 
+const AddModal = props => {
+  return (<Modal
+    style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
+    open={modalOpen}
+    onClose={() => setModalOpen(false)}
+    trigger={
+      <Button size="mini" color="black" onClick={() => setModalOpen(true)}>
+        Add
+      </Button>
+    }
+  >
+    <Modal.Header>Add an attendee</Modal.Header>
+    <Modal.Content>
+      <Form>
+        <Form.Dropdown
+          label="Member Name"
+          placeholder="Select Member"
+          onChange={inputMember}
+          options={memberOptions}
+          search
+          fluid
+        />
+        <Form.Dropdown
+          label="Session Name"
+          placeholder="Select Session"
+          onChange={inputEvent}
+          options={eventOptions}
+          search
+          fluid
+        />
+        <Button onClick={addANewRow} type="submit" color="green">
+          Save
+        </Button>
+      </Form>
+    </Modal.Content>
+  </Modal>)
+}
 const List = ({ items, members, events, update, remove, add, columns, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
@@ -34,11 +71,11 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
   const tableOptions = {
     cellEdited: onCellEdited,
     width: 100,
-    rowSelected: function(row) {
+    rowSelected: function (row) {
       rowsSelected.push(row._row.data._id)
       setRowsSelected(rowsSelected)
     },
-    rowDeselected: function(row) {
+    rowDeselected: function (row) {
       for (i = 0; i < rowsSelected.length; i++) {
         if (rowsSelected[i] === row._row.data._id) {
           rowsSelected.splice(i, 1)
@@ -94,6 +131,12 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     }
   }
 
+  const buttons = [
+    { action: deleteRows, id: 'delete', caption: 'Delete', color: 'red' },
+    // Not a standard button, as it is tied up with a modal form
+    { action: addANewRow, id: 'add', caption: 'Add', color: 'black', component }
+  ]
+
   const memberOptions = members
     .map(member => ({
       key: member._id,
@@ -122,44 +165,12 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
             onChange={date => pickDate(date)}
             showTimeSelect
           />
-          <Button size="mini" onClick={deleteRows} color="red" type="button">
-            Delete
-          </Button>
-          <Modal
-            style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
-            open={modalOpen}
-            onClose={() => setModalOpen(false)}
-            trigger={
-              <Button size="mini" color="black" onClick={() => setModalOpen(true)}>
-                Add
-              </Button>
-            }
-          >
-            <Modal.Header>Add an attendee</Modal.Header>
-            <Modal.Content>
-              <Form>
-                <Form.Dropdown
-                  label="Member Name"
-                  placeholder="Select Member"
-                  onChange={inputMember}
-                  options={memberOptions}
-                  search
-                  fluid
-                />
-                <Form.Dropdown
-                  label="Session Name"
-                  placeholder="Select Session"
-                  onChange={inputEvent}
-                  options={eventOptions}
-                  search
-                  fluid
-                />
-                <Button onClick={addANewRow} type="submit" color="green">
-                  Save
-                </Button>
-              </Form>
-            </Modal.Content>
-          </Modal>
+          {buttons.map(btn => (
+            <Button id={btn.id} key={btn.id} size="mini" onClick={btn.action} color={btn.color} type="button">
+              {btn.caption}
+            </Button>
+          ))}
+
         </span>
       </Segment>
       <Contents />

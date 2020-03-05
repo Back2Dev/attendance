@@ -47,15 +47,15 @@ Meteor.publish('session', id => {
 })
 
 Meteor.methods({
-  'rm.Sessions': id => {
+  'rm.sessions': id => {
     Sessions.remove(id)
   },
-  'update.Sessions': form => {
+  'update.sessions': form => {
     const id = form._id
     delete form._id
     Sessions.update(id, { $set: form })
   },
-  'add.Sessions': form => {
+  'add.sessions': form => {
     Sessions.insert(form)
   }
 })

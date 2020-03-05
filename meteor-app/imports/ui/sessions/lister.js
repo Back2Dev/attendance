@@ -1,15 +1,30 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
+import Alert from '/imports/ui/utils/alert'
 import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Events from '/imports/api/events/schema'
 import List from './list'
 
-const remove = id => Meteor.call('rm.Sessions', id)
-const update = form => Meteor.call('update.Sessions', form)
-const add = form => Meteor.call('add.Sessions', form)
+const meteorCall = async (method, description, param) => {
+  try {
+    Alert.info(description || `Calling ${method}`)
+    const s = await Meteor.callAsync(method, param)
+    if (s.status === 'success') {
+      Alert.success(s.message)
+    } else {
+      Alert.error(`Error ${s.message}`)
+    }
+  } catch (e) {
+    Alert.error(`Error ${e.message}`)
+  }
+}
+
+const remove = id => meteorCall('rm.sessions', 'Deleting', id)
+const update = form => Meteor.call('update.sessions', form)
+const add = form => Meteor.call('add.sessions', form)
 
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
@@ -22,11 +37,17 @@ const columns = [
     formatter: 'rowSelection',
     align: 'center',
     headerSort: false,
-    cellClick: function(e, cell) {
+    cellClick: function (e, cell) {
       cell.getRow().toggleSelect()
     }
   },
-  { field: 'memberName', title: 'Member Name' },
+  {
+    field: 'url', title: 'Member', formatter: 'link',
+    formatterParams: {
+      labelField: "memberName",
+      target: "_blank",
+    }
+  },
   { field: 'name', title: 'Session Name' },
   { field: 'timeIn', title: 'Start Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
   { field: 'timeOut', title: 'End Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
@@ -34,12 +55,22 @@ const columns = [
 ]
 
 Session.set('filterDate', new Date())
+const Loading = props => {
+  if (props.loading) return <div>Loading...</div>
+  return <List {...props}></List>
+}
 
 export default withTracker(props => {
   const filterSubs = Meteor.subscribe('memberSessions', Session.get('filterDate'))
 
   return {
-    items: Sessions.find({}).fetch(),
+    items: Sessions
+      .find({})
+      .fetch()
+      .map(item => {
+        item.url = `/admin/userprofiles/${item.memberId}`
+        return item
+      }),
     members: Members.find({}).fetch(),
     events: Events.find({}).fetch(),
     remove,
@@ -48,4 +79,4 @@ export default withTracker(props => {
     columns,
     loading: !filterSubs.ready()
   }
-})(List)
+})(Loading)
