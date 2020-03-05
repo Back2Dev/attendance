@@ -11,19 +11,12 @@ const MemberPortal = props => {
 
   return (
     <Segment>
-      <Header as="h2" style={{ textAlign: 'center' }}>
+      <Header as="h1" style={{ textAlign: 'center' }}>
         <Image circular src={props.logo} /> {props.org}
       </Header>
       <Grid.Column width={6}>
         <Card.Group style={{ paddingBottom: '20px' }}>
-          <MembershipCard className="member-visit-card" member={props.member} />
-          {props.member.subsType === 'pass' && props.purchase && (
-            <MultiVisitsCard
-              style={{ marginLeft: 0 }}
-              usedVisits={props.purchase.sessions.length}
-              totalVisits={props.purchase.sessions.length + props.purchase.remaining}
-            />
-          )}
+          <MembershipCard className="member-visit-card" member={props.member} />)
           {props.member.subsType === 'member' && props.purchase && <MemberVisitsCard memberDuration={12} />}
         </Card.Group>
       </Grid.Column>
@@ -67,9 +60,11 @@ const MemberPortal = props => {
                       <Table.Cell>{'$' + purchase.price / 100}</Table.Cell>
                       <Table.Cell>{moment(purchase.createdAt).format('D MMM YYYY')}</Table.Cell>
                       <Table.Cell>
-                        {purchase.paymentStatus === 'unpaid'
-                          ? purchase.paymentStatus.toUpperCase()
-                          : purchase.paymentStatus}
+                        {purchase.paymentStatus === 'unpaid' ? (
+                          <b>{purchase.paymentStatus.toUpperCase()}</b>
+                        ) : (
+                          purchase.paymentStatus
+                        )}
                       </Table.Cell>
                     </Table.Row>
                   ))
@@ -98,6 +93,14 @@ const MemberPortal = props => {
           </Table>
         </Card.Content>
       </Card>
+      {props.member.subsType === 'pass' &&
+        props.purchases.map(purchase => (
+          <MultiVisitsCard
+            style={{ marginLeft: 0 }}
+            usedVisits={purchase.sessions.length}
+            totalVisits={purchase.sessions.length + purchase.remaining}
+          />
+        ))}
     </Segment>
   )
 }

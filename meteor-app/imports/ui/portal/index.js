@@ -17,7 +17,7 @@ export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member.all', Meteor.user().profile.memberId)
   const loading = !membersHandle.ready()
   const member = Members.findOne(Meteor.user().profile.memberId) || {}
-  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
+  const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: 1 } }).fetch()
   const purchase = purchases[0]
   const carts = Carts.find({ memberId: member._id }).fetch()
   const cart = carts.filter(cart => cart.status === 'ready')[0]
