@@ -114,7 +114,7 @@ const paSchema = {
         pin: { type: 'string', title: 'PIN number', maxLength: 4 },
         pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
         password: { type: 'string', title: 'Password' },
-        confirmPassword: { type: 'string', title: 'Confirm Password' }
+        passwordConfirm: { type: 'string', title: 'Confirm password' }
       }
     },
     uiSchema: {

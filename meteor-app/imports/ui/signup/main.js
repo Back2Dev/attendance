@@ -9,7 +9,7 @@ const Signup = props => {
   const [password, setPassword] = useState(null)
   const [error, setError] = useState(null)
   const [pin, setPin] = useState(null)
-  const [confirmPassword, setConfirmPassword] = useState(null)
+  const [passwordConfirm, setPasswordConfirm] = useState(null)
 
   useEffect(() => {
     if (props.member.email) {
@@ -21,7 +21,7 @@ const Signup = props => {
     e.preventDefault()
     if (pin !== props.member.pin) {
       return setError('Pin is incorrect.. please try again')
-    } else if (password !== confirmPassword) {
+    } else if (password !== passwordConfirm) {
       return setError('Your password does not match')
     }
 
@@ -69,10 +69,10 @@ const Signup = props => {
                   label="Confirm your password"
                   icon="lock"
                   iconPosition="left"
-                  name="confirmation"
+                  name="passwordConfirm"
                   placeholder="Please confirm your password"
                   type="password"
-                  onChange={e => setConfirmPassword(e.target.value)}
+                  onChange={e => setPasswordConfirm(e.target.value)}
                 />
                 <Form.Button content="Submit" />
               </Segment>
