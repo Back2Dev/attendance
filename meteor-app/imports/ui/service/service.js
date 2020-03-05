@@ -1,5 +1,5 @@
 import React from 'react'
-import SearchBar from './serviceItem-searchBar'
+import SearchBar from './service-item-search'
 import ServiceItemTag from './serviceItem-tag'
 import { ServiceContextProvider } from './service-context'
 
