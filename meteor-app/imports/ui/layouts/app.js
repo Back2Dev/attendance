@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import 'semantic-ui-css/semantic.css'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
@@ -15,7 +15,7 @@ import './app.css'
 import Shop from '/imports/ui/shop'
 import Ordering from '/imports/ui/layouts/ordering'
 import PayNow from '../pages/pay-now'
-import Assessment from '/imports/ui/assessment/assessment'
+import Service from '/imports/ui/service/service-data'
 import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
@@ -78,7 +78,7 @@ const App = props => {
 
           <SecureRoute role="parts" path="/parts" component={Ordering} />
 
-          <SecureRoute role="servicing" path="/assessment" component={Assessment} />
+          <SecureRoute role="servicing" path="/service" component={Service} />
           <SecureRoute role="servicing" path="/jobs" component={JobCardLister} />
           <SecureRoute role="servicing" path="/job-history" component={JobHistory} />
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { escapeRegExp } from 'lodash'
 import moment from 'moment'
 

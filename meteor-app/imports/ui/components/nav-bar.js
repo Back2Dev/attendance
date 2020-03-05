@@ -70,8 +70,8 @@ const NavBar = ({ currentUser, location }) => {
               icon="lock open"
               activeClassName="active"
               exact
-              to="/assessment"
-              key="assessment"
+              to="/service"
+              key="service"
             />,
             <Menu.Item
               as={NavLink}

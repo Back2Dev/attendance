@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ServiceContext } from './service-context'
 import PropTypes from 'prop-types'
-import { Search, Grid, Header, Segment, Label } from 'semantic-ui-react'
+import { Search, Label } from 'semantic-ui-react'
 import _ from 'lodash'
 
 const resultRenderer = ({ title }) => <Label content={title} />

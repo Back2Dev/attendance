@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Header, Icon, Input, Modal } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 const debug = require('debug')('b2b:sms')
 
