@@ -169,6 +169,11 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: true,
     optional: true
   },
+  userId: {
+    type: String,
+    label: 'userId',
+    optional: true
+  },
   //
   // Payment system attributes
   //

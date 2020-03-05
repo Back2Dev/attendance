@@ -15,8 +15,12 @@ const debug = require('debug')('b2b:server-methods')
 Meteor.methods({
   addNewMemberUser(email, password, memberId) {
     try {
-      const id = Accounts.createUser({ email, username: email, password, profile: { memberId: memberId } })
+      console.log(memberId)
+      const id = Accounts.createUser({ email, username: email, password })
       Roles.addUsersToRoles(id, ['member'])
+      Members.update(memberId, {
+        $set: { userId: id }
+      })
       return 'success'
     } catch (error) {
       return error.message
