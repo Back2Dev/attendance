@@ -44,63 +44,16 @@ const MemberPortal = props => {
           Pay Now
         </Button>
       )}
-
-      <Card fluid>
-        <Card.Content header={`Purchases (${props.purchases.length})`} />
-        <Card.Content>
-          <Card.Description>
-            <Table basic="very" celled>
-              <Table.Body>
-                {props.purchases.length === 0 ? (
-                  <div>(None)</div>
-                ) : (
-                  props.purchases.map((purchase, ix) => (
-                    <Table.Row negative={purchase.paymentStatus === 'unpaid'} key={`s${ix}`}>
-                      <Table.Cell>{purchase.productName}</Table.Cell>
-                      <Table.Cell>{'$' + purchase.price / 100}</Table.Cell>
-                      <Table.Cell>{moment(purchase.createdAt).format('D MMM YYYY')}</Table.Cell>
-                      <Table.Cell>
-                        {purchase.paymentStatus === 'unpaid' ? (
-                          <b>{purchase.paymentStatus.toUpperCase()}</b>
-                        ) : (
-                          purchase.paymentStatus
-                        )}
-                      </Table.Cell>
-                    </Table.Row>
-                  ))
-                )}{' '}
-              </Table.Body>
-            </Table>
-          </Card.Description>
-        </Card.Content>
-      </Card>
-      <Card fluid>
-        <Card.Content header={`Sessions (${props.sessions.length})`} />
-        <Card.Content>
-          <Table basic="very" celled>
-            <Table.Body>
-              {props.sessions.length === 0 ? (
-                <div>(none)</div>
-              ) : (
-                props.sessions.map((session, ix) => (
-                  <Table.Row key={`s${ix}`}>
-                    <Table.Cell>{session.name}</Table.Cell>
-                    <Table.Cell>{moment(session.createdAt).format('D MMM YYYY')}</Table.Cell>
-                  </Table.Row>
-                ))
-              )}
-            </Table.Body>
-          </Table>
-        </Card.Content>
-      </Card>
-      {props.member.subsType === 'pass' &&
-        props.purchases.map(purchase => (
-          <MultiVisitsCard
-            style={{ marginLeft: 0 }}
-            usedVisits={purchase.sessions.length}
-            totalVisits={purchase.sessions.length + purchase.remaining}
-          />
-        ))}
+      <div style={{ display: 'flex', padding: '20px' }}>
+        {props.member.subsType === 'pass' &&
+          props.purchases.map(purchase => (
+            <MultiVisitsCard
+              style={{ marginLeft: 0 }}
+              usedVisits={purchase.sessions.length}
+              totalVisits={purchase.sessions.length + purchase.remaining}
+            />
+          ))}
+      </div>
     </Segment>
   )
 }
