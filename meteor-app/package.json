@@ -87,6 +87,7 @@
     "react-data-grid-addons": "^6.1.0",
     "react-datepicker": "^2.10.1",
     "react-dom": "^16.8.6",
+    "react-hook-form": "^4.10.1",
     "react-jsonschema-form-semanticui": "^1.0.3",
     "react-modal": "^3.1.13",
     "react-radio-group": "^3.0.2",
