@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 .Punch-Card,
+.member-visit-card,
 .multi-visit-card {
   font-family: 'Lato', sans-serif;
   width: 460px;
-  margin: auto;
-  padding: auto;
-  background-color: rgb(255, 137, 0);
+  margin: 10px;
+  padding: 10px;
+  background-color: orange;
   border-radius: 6px;
 }
+
 .Container {
   display: flex;
   flex-direction: row;

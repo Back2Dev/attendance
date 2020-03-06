@@ -23,7 +23,6 @@ export default withTracker(props => {
   const carts = Carts.find({ memberId: member._id }).fetch()
   const cart = carts.filter(cart => cart.status === 'ready')[0]
   const sessions = Sessions.find({ memberId: member._id }).fetch()
-  console.log(purchases)
 
   const eventQuery = {
     active: true,
@@ -96,7 +95,6 @@ export default withTracker(props => {
     recordDeparture,
     loading,
     cart,
-    carts,
     member,
     purchase,
     purchases,

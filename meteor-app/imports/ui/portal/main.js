@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Button, Card, Segment, Grid, Header, Image, Table, Icon } from 'semantic-ui-react'
+import { Button, Card, Segment, Grid, Header, Image, Container, Icon } from 'semantic-ui-react'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 import MemberVisitsCard from '/imports/ui/punch-card/member-visits-card'
+import { startOfDay } from 'date-fns'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
@@ -17,7 +18,6 @@ const MemberPortal = props => {
       <Grid.Column width={6}>
         <Card.Group style={{ paddingBottom: '20px' }}>
           <MembershipCard className="member-visit-card" member={props.member} />)
-          {props.member.subsType === 'member' && props.purchase && <MemberVisitsCard memberDuration={12} />}
         </Card.Group>
       </Grid.Column>
       <Button type="button" onClick={() => props.toEdit()} style={{ height: '50px' }}>
@@ -38,27 +38,39 @@ const MemberPortal = props => {
         <Button
           style={{ height: '50px' }}
           color="red"
-          floated="right"
           onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}
         >
           Pay Now
         </Button>
       )}
-      <div style={{ display: 'flex', padding: '20px' }}>
-        {props.member.subsType === 'pass' &&
-          props.purchases.map(purchase => (
-            <MultiVisitsCard
-              style={{ marginLeft: 0 }}
-              usedVisits={purchase.sessions.length}
-              totalVisits={purchase.sessions.length + purchase.remaining}
-            />
-          ))}
-      </div>
+      <Container style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {props.purchases &&
+          props.purchases.map(purchase => {
+            if (purchase.code === 'PA-PASS-MULTI-10') {
+              return (
+                <MultiVisitsCard
+                  usedVisits={purchase.sessions.length}
+                  totalVisits={purchase.sessions.length + purchase.remaining}
+                  paid={props.purchase.paymentStatus === 'paid'}
+                />
+              )
+            } else if (purchase.code.includes('PA-MEMB')) {
+              return (
+                <MemberVisitsCard
+                  startDate={purchase.createdAt}
+                  expiryDate={purchase.expiry}
+                  paid={props.purchase.paymentStatus === 'paid'}
+                />
+              )
+            }
+          })}
+      </Container>
     </Segment>
   )
 }
 
 MemberPortal.propTypes = {
+  cart: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
   purchase: PropTypes.object.isRequired,
   purchases: PropTypes.array.isRequired,
