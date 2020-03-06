@@ -1,22 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './Digit.css'
-import { Icon } from 'semantic-ui-react'
 
-const MemberVisitsCard = props => {
+const MemberVisitsCard = ({ startDate, expiryDate, paid, sessions }) => {
   const digitClicked = () => {
     //Digit Clicked Code..
   }
-  const { startDate, expiryDate, paid } = props
+
   const elements = []
   let start = moment(startDate)
   let expiry = moment(expiryDate)
 
   while (expiry > start || start.format('M') === expiry.format('M')) {
-    console.log(start.format('MMM'))
     elements.push(
       <div className="digitParent">
-        <p className="multiDigit" onClick={() => digitClicked}></p> {start.format('MMM')}
+        <p className="multiDigit" onClick={() => digitClicked}>
+          {sessions.filter(session => moment(session.timeIn).format('M') === start.format('M')).length}
+        </p>{' '}
+        {start.format('MMM')}
       </div>
     )
     start.add(1, 'month')
@@ -28,6 +29,7 @@ const MemberVisitsCard = props => {
         <h1 className="header">Visits</h1>
       </div>
       <div className="Container">{elements}</div>
+      <div className="footer">Expiry: {expiry.format('DD/MM/YY')}</div>
     </div>
   )
 }
