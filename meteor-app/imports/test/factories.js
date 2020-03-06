@@ -209,6 +209,18 @@ Factory.define('purchase', Purchases, {
   status: 'current'
 })
 
+Factory.define('purchase10pass', Purchases, {
+  price: 96000,
+  code: 'PA-PASS-MULTI-10',
+  expiry: faker.date.future(),
+  txnDate: faker.date.past(),
+  purchaser: 'Mike King',
+  productId: 'EKFJq9mrEjPer3PHW',
+  productName: '10 session pass',
+  paymentMethod: 'credit card',
+  status: 'current'
+})
+
 Factory.define('event', Events, {
   name: 'Evening workshop',
   location: 'Back2bikes',

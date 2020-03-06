@@ -365,6 +365,10 @@ const createNewPass = (member, code, startDate = 'current') => {
 }
 
 const sendPleasePayEmail = (member, purchase, sessions, unpaidSessionsNo, unpaidPurchases) => {
+  if (unpaidPurchases.length === 0) {
+    console.error('Cannot send please pay email, as there are no unpaid purchases ')
+    return
+  }
   const carts = Carts.find({ purchases: purchase._id }).fetch()
   const cart = carts.length ? carts[0] : null
   Meteor.call(
@@ -569,9 +573,9 @@ const handleUnpaidSessions = id => {
   if (unpaidSessions && unpaidSessions.length) {
     const purchasesDes = Purchases.find({ memberId: id }, { sort: { createdAt: -1 } }).fetch()
     const lastPurchase = purchasesDes.length ? purchasesDes[0] : null
-    const lastProduct = lastPurchase
-      ? Products.findOne({ code: lastPurchase.code })
-      : Products.findOne({ code: 'PA-CASUAL' })
+    const code = lastPurchase ? lastPurchase.code : 'PA-CASUAL'
+    const lastProduct = Products.findOne({ code })
+    if (!lastProduct) throw new Meteor.Error(`Could not find product with code: ${code}`)
     switch (lastProduct.subsType) {
       case 'casual': {
         unpaidSessions.forEach(unpaidSession => {
