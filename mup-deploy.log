@@ -227,3 +227,8 @@ Thu 27 Feb 2020 21:53:16 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-stag
 Thu 27 Feb 2020 21:59:20 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy 1.2.0
 Thu 27 Feb 2020 22:13:03 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy 1.2.0
 >>>>>>> origin/develop
+Wed 4 Mar 2020 19:53:20 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging reconfig master https://pa-staging.back2bikes.com.au 1.2.0
+Wed 4 Mar 2020 19:55:51 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy master https://pa-staging.back2bikes.com.au 1.2.1
+Wed 4 Mar 2020 20:14:45 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy master https://pa-staging.back2bikes.com.au 1.2.1
+Wed 4 Mar 2020 20:30:26 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy master https://pa-staging.back2bikes.com.au 1.2.1
+Wed 4 Mar 2020 20:37:52 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging reconfig master https://pa-staging.back2bikes.com.au 1.2.1
