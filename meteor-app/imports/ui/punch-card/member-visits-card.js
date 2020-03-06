@@ -7,22 +7,27 @@ const MemberVisitsCard = props => {
   const digitClicked = () => {
     //Digit Clicked Code..
   }
-  const { memberDuration } = props
+  const { startDate, expiryDate, paid } = props
   const elements = []
+  let start = moment(startDate)
+  let expiry = moment(expiryDate)
+
+  while (expiry > start || start.format('M') === expiry.format('M')) {
+    console.log(start.format('MMM'))
+    elements.push(
+      <div className="digitParent">
+        <p className="multiDigit" onClick={() => digitClicked}></p> {start.format('MMM')}
+      </div>
+    )
+    start.add(1, 'month')
+  }
+
   return (
-    <div className="multi-visit-card">
+    <div className="member-visit-card" style={{ backgroundColor: paid ? 'orange' : 'red' }}>
       <div className="Container">
         <h1 className="header">Visits</h1>
       </div>
-      <div className="Container">
-        {
-          <div className="digitParent">
-            <p className="multiDigit" onClick={() => digitClicked}>
-              {memberDuration}
-            </p>
-          </div>
-        }
-      </div>
+      <div className="Container">{elements}</div>
     </div>
   )
 }

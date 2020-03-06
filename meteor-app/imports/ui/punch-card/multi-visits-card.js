@@ -7,7 +7,7 @@ const MultiVisitsCard = props => {
   const digitClicked = () => {
     //Digit Clicked Code..
   }
-  const { totalVisits, usedVisits } = props
+  const { totalVisits, usedVisits, paid } = props
   const elements = []
   for (let i = 1; i <= totalVisits; i++) {
     if (i > usedVisits)
@@ -26,7 +26,7 @@ const MultiVisitsCard = props => {
       )
   }
   return (
-    <div className="multi-visit-card">
+    <div className="multi-visit-card" style={{ backgroundColor: paid ? 'orange' : 'red' }}>
       <div className="Container">
         <h1 className="header">Visits</h1>
       </div>
