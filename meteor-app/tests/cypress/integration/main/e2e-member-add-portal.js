@@ -17,3 +17,52 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
+
+describe('Portal login', function() {
+  it('uses members login and views the member portal', function() {
+    cy.visit('/login')
+
+    cy.get('input[name="email"]')
+      .clear()
+      .type('test@test.com')
+
+    cy.get('input[name="password"]')
+      .clear()
+      .type('1234')
+
+    cy.get('button')
+      .contains('Submit')
+      .should('be.enabled')
+      .click()
+
+    cy.get('h1')
+      .contains('Peak Adventure')
+      .should('exist')
+
+    cy.get('div')
+      .contains('Cathrine King')
+      .should('exist')
+
+    cy.get('.card-avatar-img').should('exist')
+
+    cy.get('div')
+      .contains('Last seen' + ' ' + '4 hours ago')
+      .should('exist')
+
+    cy.get('div')
+      .contains('Email' + ' ' + 'test@test.com')
+      .should('exist')
+
+    cy.get('div')
+      .contains('Mobile' + ' ' + '0400 911 911')
+      .should('exist')
+
+    cy.get('div')
+      .contains('Expires' + ' ' + 'N/A')
+      .should('exist')
+
+    cy.get('button')
+      .contains('Register your credit card')
+      .should('exist')
+  })
+})
