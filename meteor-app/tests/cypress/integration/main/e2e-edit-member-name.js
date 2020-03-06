@@ -62,11 +62,15 @@ describe('Edit member profile', function() {
       .clear({ force: true })
       .type(editMem.newmemberName)
 
+    cy.get('#root_password')
+      .clear({ force: true })
+      .type('1234')
+
     cy.get('button[type="submit"]')
       .contains('Update')
       .should('exist')
       .should('be.enabled')
-      .click()
+      .click({ force: true })
 
     cy.get(':nth-child(4) > h2 > .ui')
       .should('exist')
