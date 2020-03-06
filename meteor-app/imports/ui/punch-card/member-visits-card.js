@@ -2,40 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Digit.css'
 
-const MemberVisitsCard = ({ startDate, expiryDate, paid, sessions }) => {
-  const digitClicked = () => {
-    //Digit Clicked Code..
-  }
-
-  const elements = []
-  let start = moment(startDate)
-  let expiry = moment(expiryDate)
-
-  while (expiry > start || start.format('M') === expiry.format('M')) {
-    elements.push(
-      <div className="digitParent">
-        <p className="multiDigit" onClick={() => digitClicked}>
-          {sessions.filter(session => moment(session.timeIn).format('M') === start.format('M')).length}
-        </p>
-        {start.format('MMM')}
-      </div>
-    )
-    start.add(1, 'month')
-  }
+const MemberVisitsCard = ({ months, title }) => {
+  const calMonths = 'Jan Feb Mar Apr May Jun Jul  Aug Sep Oct Nov Dec'.split(/\s+/)
 
   return (
-    <div className="member-visit-card" style={{ backgroundColor: paid ? 'orange' : 'red' }}>
+    <div className="member-visit-card">
       <div className="Container">
-        <h1 className="cardHeader">Visits</h1>
+        <h1 className="cardHeader">{title}</h1>
       </div>
-      <div className="Container">{elements}</div>
-      <div className="cardFooter">Expiry: {expiry.format('DD/MM/YY')}</div>
+      <div className="Container">
+        {months.map((visits, ix) => {
+          return (
+            <div className="digitParent" key={ix}>
+              <p className="multiDigit">{visits ? visits : ''}</p>
+              {calMonths[ix]}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
 MemberVisitsCard.propTypes = {
-  totalVisits: PropTypes.number.isRequired,
-  usedVisits: PropTypes.number.isRequired
+  months: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 export default MemberVisitsCard
