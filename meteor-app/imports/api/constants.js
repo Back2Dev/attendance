@@ -124,15 +124,15 @@ CONSTANTS.CART_STATUS = {
 }
 
 CONSTANTS.DAYS_WEEK = [
-  { id: 0, value: 'Su' },
-  { id: 1, value: 'Mo' },
-  { id: 2, value: 'Tu' },
-  { id: 3, value: 'We' },
-  { id: 4, value: 'Th' },
-  { id: 5, value: 'Fr' },
-  { id: 6, value: 'Sa' }
+  { id: 0, value: 'Sun' },
+  { id: 1, value: 'Mon' },
+  { id: 2, value: 'Tue' },
+  { id: 3, value: 'Wed' },
+  { id: 4, value: 'Thu' },
+  { id: 5, value: 'Fri' },
+  { id: 6, value: 'Sat' }
 ]
 
-CONSTANTS.ROLES = ['superadmin', 'register', 'signin', 'servicing', 'paynow', 'parts', 'admin', 'member']
+CONSTANTS.ROLES = ['superadmin', 'register', 'signin', 'servicing', 'paynow', 'parts', 'admin', 'member', 'shop']
 
 export default CONSTANTS
