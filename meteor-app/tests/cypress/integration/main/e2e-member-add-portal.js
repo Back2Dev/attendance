@@ -61,6 +61,10 @@ describe('Portal login', function() {
       .contains('Expires' + ' ' + 'N/A')
       .should('exist')
 
+    cy.get('div')
+      .contains('Member Type')
+      .should('exist')
+
     cy.get('button')
       .contains('Register your credit card')
       .should('exist')
