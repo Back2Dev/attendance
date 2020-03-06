@@ -29,11 +29,16 @@ const NavBar = ({ currentUser, location }) => {
           />
         </span>
       ) : (
-        ''
-      )}
+          ''
+        )}
 
       <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
-      <Menu.Item as={NavLink} content="Register" icon="plus" activeClassName="active" exact to="/add" key="add" />
+      {Roles.userIsInRole(Meteor.userId(), 'register') ? (
+        <Menu.Item as={NavLink} content="Register" icon="plus"
+          activeClassName="active" exact to="/add" key="add" />
+      ) : (
+          ''
+        )}
 
       {Roles.userIsInRole(Meteor.userId(), 'parts') ? (
         <Menu.Item
@@ -46,87 +51,87 @@ const NavBar = ({ currentUser, location }) => {
           key="parts"
         />
       ) : (
-        ''
-      )}
+          ''
+        )}
 
       {Roles.userIsInRole(Meteor.userId(), 'paynow')
         ? [
-            <Menu.Item
-              as={NavLink}
-              content="Pay now"
-              icon="payment"
-              activeClassName="active"
-              exact
-              to="/paynow"
-              key="paynow"
-            />
-          ]
+          <Menu.Item
+            as={NavLink}
+            content="Pay now"
+            icon="payment"
+            activeClassName="active"
+            exact
+            to="/paynow"
+            key="paynow"
+          />
+        ]
         : ''}
       {Roles.userIsInRole(Meteor.userId(), 'servicing')
         ? [
-            <Menu.Item
-              as={NavLink}
-              content="New service"
-              icon="lock open"
-              activeClassName="active"
-              exact
-              to="/assessment"
-              key="assessment"
-            />,
-            <Menu.Item
-              as={NavLink}
-              content="Current jobs"
-              icon="list alternate outline"
-              activeClassName="active"
-              exact
-              to="/jobs"
-              key="jobs"
-            />,
-            <Menu.Item
-              as={NavLink}
-              content="Job history"
-              icon="list alternate outline"
-              activeClassName="active"
-              exact
-              to="/job-history"
-              key="job-history"
-            />
-          ]
+          <Menu.Item
+            as={NavLink}
+            content="New service"
+            icon="lock open"
+            activeClassName="active"
+            exact
+            to="/assessment"
+            key="assessment"
+          />,
+          <Menu.Item
+            as={NavLink}
+            content="Current jobs"
+            icon="list alternate outline"
+            activeClassName="active"
+            exact
+            to="/jobs"
+            key="jobs"
+          />,
+          <Menu.Item
+            as={NavLink}
+            content="Job history"
+            icon="list alternate outline"
+            activeClassName="active"
+            exact
+            to="/job-history"
+            key="job-history"
+          />
+        ]
         : ''}
       {Roles.userIsInRole(Meteor.userId(), 'admin') ? <AdminMenu></AdminMenu> : ''}
       {Roles.userIsInRole(Meteor.userId(), 'superadmin')
         ? [
-            <Menu.Item
-              as={NavLink}
-              content="Super admin"
-              icon="user secret"
-              activeClassName="active"
-              exact
-              to="/superadmin"
-              key="superadmin"
-            />
-          ]
+          <Menu.Item
+            as={NavLink}
+            content="Super admin"
+            icon="user secret"
+            activeClassName="active"
+            exact
+            to="/superadmin"
+            key="superadmin"
+          />
+        ]
         : ''}
       {currentUser === '' ? (
         <div>
           <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
         </div>
       ) : (
-        /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
-        <div>
-          <Menu.Item
-            as={NavLink}
-            content="Your Portal"
-            icon="user"
-            activeClassName="active"
-            exact
-            to="/member-portal"
-            key="member-portal"
-          />
-          <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
-          <Menu.Item content={currentUser} />
-        </div>
-      )}
+          /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
+          <div>
+            <Menu.Item
+              as={NavLink}
+              content="Home"
+              icon="user"
+              activeClassName="active"
+              exact
+              to="/member-portal"
+              key="member-portal"
+            />
+            <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
+            <Menu.Item content={currentUser} />
+          </div>
+        )}
     </Menu>
   )
 }

@@ -8,14 +8,18 @@ const defaultAccounts = [
   {
     email: 'admin@back2bikes.com.au',
     password: 'me2',
-    role: ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
+    role: ['signin', 'register', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
   },
   {
     email: 'workshop@back2bikes.com.au',
     password: 'b2b525.24',
-    role: ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
+    role: ['signin', 'register', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
   },
-  { email: 'info@peakadventure.com.au', password: 'changeme', role: ['signin', 'member', 'admin'] }
+  {
+    email: 'info@peakadventure.com.au', password: 'changeme',
+    role: ['signin', 'register', 'member', 'admin']
+  },
+  { email: 'wookie@test.com', password: 'me2', role: ['member', 'shop'] }
 ]
 
 const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin', 'member']
