@@ -16,7 +16,7 @@ const MemberVisitsCard = ({ startDate, expiryDate, paid, sessions }) => {
       <div className="digitParent">
         <p className="multiDigit" onClick={() => digitClicked}>
           {sessions.filter(session => moment(session.timeIn).format('M') === start.format('M')).length}
-        </p>{' '}
+        </p>
         {start.format('MMM')}
       </div>
     )
@@ -26,10 +26,10 @@ const MemberVisitsCard = ({ startDate, expiryDate, paid, sessions }) => {
   return (
     <div className="member-visit-card" style={{ backgroundColor: paid ? 'orange' : 'red' }}>
       <div className="Container">
-        <h1 className="header">Visits</h1>
+        <h1 className="cardHeader">Visits</h1>
       </div>
       <div className="Container">{elements}</div>
-      <div className="footer">Expiry: {expiry.format('DD/MM/YY')}</div>
+      <div className="cardFooter">Expiry: {expiry.format('DD/MM/YY')}</div>
     </div>
   )
 }

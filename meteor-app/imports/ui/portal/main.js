@@ -51,7 +51,7 @@ const MemberPortal = props => {
                 <MultiVisitsCard
                   usedVisits={purchase.sessions.length}
                   totalVisits={purchase.sessions.length + purchase.remaining}
-                  paid={props.purchase.paymentStatus === 'paid'}
+                  paid={purchase.paymentStatus === 'paid'}
                 />
               )
             } else if (purchase.code.includes('PA-MEMB')) {
