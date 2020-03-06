@@ -1,6 +1,6 @@
 {
   "name": "back2bikes-attendance",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.settings.json",
@@ -14,7 +14,6 @@
     "debug.pa.ios-localdb": "DEBUG=b2b:* meteor run ios-device --inspect --port 3030 --settings dev.pa.settings.json ",
     "debug.b2b": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor --inspect --port 3030 --settings dev.b2b.settings.json",
     "start": "meteor run",
-    "lint": "eslint .",
     "ci-app": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.settings.json",
     "ci-pa": "DEBUG=tm:* METEOR_ALLOW_SUPERUSER=1 meteor --port 3030 --settings ci.pa.settings.json",
     "ci-test": "./node_modules/cypress/bin/cypress run",
@@ -53,18 +52,19 @@
     "@babel/runtime": "^7.7.4",
     "@sendgrid/mail": "^6.3.1",
     "axios": "^0.18.0",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.0.6",
     "babel-plugin-require-context-hook": "^1.0.0",
+    "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "bufferutil": "^3.0.5",
+    "body-parser": "^1.19.0",
+    "bufferutil": "^4.0.1",
     "casual": "^1.5.14",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-statusbar": "^2.3.0",
     "debug": "^3.1.0",
     "dotenv": "^6.2.0",
     "eml-format": "^0.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "faker": "^4.1.0",
     "file-saver": "^2.0.2",
     "form-data": "^2.5.1",
@@ -77,6 +77,7 @@
     "minimist": "^1.2.0",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.25",
+    "nan": "^2.14.0",
     "node-cron": "^1.2.1",
     "node-fetch": "^2.1.2",
     "pdfmake": "^0.1.53",
@@ -109,14 +110,14 @@
     "xlsx": "^0.13.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
-    "@babel/preset-env": "^7.2.3",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/register": "^7.0.0",
-    "@storybook/addon-actions": "^5.3.14",
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "@babel/register": "^7.7.0",
+    "@storybook/addon-actions": "=3.4.12",
     "@storybook/addon-info": "=3.4.12",
     "@storybook/addon-knobs": "=3.4.12",
     "@storybook/addon-links": "^5.3.14",
@@ -127,31 +128,20 @@
     "@storybook/react": "^5.3.14",
     "autoprefixer": "^6.5.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^6.1.2",
     "babel-jest": "^22.4.4",
     "babel-plugin-macros": "^2.6.1",
-    "babel-plugin-root-import": "^6.1.0",
-    "babel-preset-airbnb": "^2.4.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-es2016": "^6.24.1",
+    "babel-plugin-root-import": "^6.4.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "chai-enzyme": "^1.0.0-beta.1",
+    "chai-enzyme": "^0.8.0",
     "cheerio": "0.20.x",
     "cross-env": "^5.2.0",
     "css-loader": "^0.27.3",
     "cypress": "^3.8.0",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb": "^10.0.1",
-    "eslint-import-resolver-meteor": "^0.3.3",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-jsx-a11y": "^2.2.1",
-    "eslint-plugin-meteor": "^4.0.0",
-    "eslint-plugin-react": "^6.2.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "identity-obj-proxy": "^3.0.0",
     "ignore-styles": "^5.0.1",
     "jest": "^23.1.0",
@@ -179,34 +169,6 @@
           "last 2 versions"
         ]
       }
-    }
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "allowImportExportEverywhere": true
-    },
-    "plugins": [
-      "meteor"
-    ],
-    "extends": [
-      "airbnb",
-      "plugin:meteor/recommended"
-    ],
-    "settings": {
-      "import/resolver": "meteor"
-    },
-    "rules": {
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".js",
-            ".jsx"
-          ]
-        }
-      ],
-      "import/no-extraneous-dependencies": "off"
     }
   },
   "repository": {

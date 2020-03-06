@@ -79,10 +79,12 @@ Meteor.methods({
 })
 
 Meteor.startup(() => {
-  config.forEach(item => {
-    if (item.collection.find().count() === 0) {
-      Meteor.call('seed.products', Meteor.settings.public.orgid, item.element)
-    }
-  })
-  Meteor.call('update.products', Meteor.settings.public.orgid, 'products')
+  if (!Meteor.test) {
+    config.forEach(item => {
+      if (item.collection.find().count() === 0) {
+        Meteor.call('seed.products', Meteor.settings.public.orgid, item.element)
+      }
+    })
+    Meteor.call('update.products', Meteor.settings.public.orgid, 'products')
+  }
 })

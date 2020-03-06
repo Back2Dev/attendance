@@ -66,7 +66,7 @@ Meteor.methods({
     try {
       return Orders.insert(order)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.message)
     }
   },

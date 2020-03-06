@@ -31,6 +31,8 @@ Meteor.methods({
           sub.purchaser = members[0].name
           sub.productId = cart.products[0]._id
           sub.productName = cart.products[0].name
+          sub.paymentMethod = 'credit'
+          sub.status = 'complete'
           sub.memberId = members[0]._id
           sub.qty = cart.prodqty[cart.products[0]._id] || 1
 
