@@ -59,7 +59,8 @@ const MemberPortal = props => {
                 <MemberVisitsCard
                   startDate={purchase.createdAt}
                   expiryDate={purchase.expiry}
-                  paid={props.purchase.paymentStatus === 'paid'}
+                  paid={purchase.paymentStatus === 'paid'}
+                  sessions={purchase.sessions}
                 />
               )
             }
