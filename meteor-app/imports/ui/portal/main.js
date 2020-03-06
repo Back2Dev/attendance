@@ -9,7 +9,18 @@ import { startOfDay } from 'date-fns'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
+  const cards = {}
 
+  if (props.member.subsType === 'member') {
+    props.sessions.forEach(session => {
+      const y = moment(session.timeIn).year()
+      const m = moment(session.timeIn).month()
+      if (!cards[y]) {
+        cards[y] = { months: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      }
+      cards[y].months[m] += 1
+    })
+  }
   return (
     <Segment>
       <Header as="h1" style={{ textAlign: 'center' }}>
@@ -45,25 +56,19 @@ const MemberPortal = props => {
       )}
       <Container style={{ display: 'flex', flexWrap: 'wrap' }}>
         {props.purchases &&
-          props.purchases.map(purchase => {
-            if (purchase.code === 'PA-PASS-MULTI-10') {
-              return (
-                <MultiVisitsCard
-                  usedVisits={purchase.sessions.length}
-                  totalVisits={purchase.sessions.length + purchase.remaining}
-                  paid={purchase.paymentStatus === 'paid'}
-                />
-              )
-            } else if (purchase.code.includes('PA-MEMB')) {
-              return (
-                <MemberVisitsCard
-                  startDate={purchase.createdAt}
-                  expiryDate={purchase.expiry}
-                  paid={purchase.paymentStatus === 'paid'}
-                  sessions={purchase.sessions}
-                />
-              )
-            }
+          props.member.subsType === 'pass' &&
+          props.purchases.map((purchase, ix) => (
+            <MultiVisitsCard
+              key={ix}
+              usedVisits={purchase.sessions.length}
+              totalVisits={purchase.sessions.length + purchase.remaining}
+              paid={purchase.paymentStatus === 'paid'}
+            />
+          ))}
+        {props.sessions &&
+          props.member.subsType === 'member' &&
+          Object.keys(cards).map((year, ix) => {
+            return <MemberVisitsCard key={ix} months={cards[year].months} title={`Visits ${year}`} />
           })}
       </Container>
     </Segment>
@@ -71,9 +76,7 @@ const MemberPortal = props => {
 }
 
 MemberPortal.propTypes = {
-  cart: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
-  purchase: PropTypes.object.isRequired,
   purchases: PropTypes.array.isRequired,
   addCard: PropTypes.number.isRequired,
   logo: PropTypes.string.isRequired,

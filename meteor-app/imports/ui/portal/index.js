@@ -19,7 +19,6 @@ export default withTracker(props => {
   const member = Members.findOne({ userId: Meteor.userId() }) || {}
   const memberData = Meteor.subscribe('member.all', member._id)
   const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
-  const purchase = purchases.length ? purchases[0] : null
   const carts = Carts.find({ memberId: member._id }).fetch()
   const cart = carts.filter(cart => cart.status === 'ready')[0]
   const sessions = Sessions.find({ memberId: member._id }).fetch()
@@ -96,7 +95,6 @@ export default withTracker(props => {
     loading,
     cart,
     member,
-    purchase,
     purchases,
     events,
     sessions,
