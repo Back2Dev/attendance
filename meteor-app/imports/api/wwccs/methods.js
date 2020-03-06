@@ -129,8 +129,8 @@ Meteor.methods({
     try {
       return Wwccs.insert(wwcc)
     } catch (e) {
-      log.error(e)
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   }
 })

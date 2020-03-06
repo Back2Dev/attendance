@@ -45,6 +45,11 @@ import '/imports/api/promos/schema'
 import '/imports/api/promos/methods'
 import '/imports/api/promos/server/publications'
 
+// Reports
+import '/imports/api/reports/schema'
+import '/imports/api/reports/methods'
+import '/imports/api/reports/server/publications'
+
 // WCCS
 import '/imports/api/wwccs/schema'
 import '/imports/api/wwccs/methods'
@@ -60,4 +65,3 @@ import '/imports/api/users/server/publications'
 
 //roles
 import '/imports/api/roles/server/publications'
-

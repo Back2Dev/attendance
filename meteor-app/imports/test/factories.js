@@ -16,6 +16,7 @@ import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Wwccs from '/imports/api/wwccs/schema'
 import Promos from '/imports/api/promos/schema'
+import Reports from '/imports/api/reports/schema'
 // import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
@@ -41,7 +42,7 @@ Factory.define('member', Members, {
   bikesHousehold: 5,
   email: 'Jelly.Belly@smells.nasty.com',
   emergencyContact: 'Everett Mosciski',
-  emergencyEmail: 'Ibrahim.Flatley@gmail.com',
+  emergencyEmail: 'Ibrahim.Flatley@nomail.bs.bs',
   emergencyMobile: '848-220-5422',
   emergencyPhone: '848-924-0182',
   mobile: '352-485-4816',
@@ -267,6 +268,11 @@ Factory.define('promo', Promos, {
   discount: 50,
   admin: false,
   start: new Date()
+})
+
+Factory.define('report', Reports, {
+  name: 'This is a report',
+  details: 'This is the details of the report, blah, blah blah'
 })
 
 Factory.define('orderemails', OrderEmails, {
