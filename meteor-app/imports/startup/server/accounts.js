@@ -31,7 +31,7 @@ defaultRoles.map(name => {
 })
 
 function createUser(email, password, roles) {
-  console.log(`  Creating user ${email}.`)
+  // console.log(`  Creating user ${email}.`)
   const id = Accounts.createUser({
     username: email,
     email,
@@ -40,7 +40,7 @@ function createUser(email, password, roles) {
   if (roles.length > 0) {
     roles.forEach(role => {
       if (!Meteor.roles.findOne(role)) {
-        console.log(`Adding role  ${role}`)
+        // console.log(`Adding role  ${role}`)
         Roles.createRole(role, { unlessExists: true })
       }
     })

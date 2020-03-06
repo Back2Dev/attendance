@@ -22,7 +22,7 @@ export default withTracker(props => {
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: id }).fetch()
   const carts = Carts.find({ memberId: id }).fetch()
-  const sessions = Sessions.find({ memberId: id }).fetch()
+  const sessions = Sessions.find({ memberId: id }, { sort: { timeIn: 1 } }).fetch()
 
   function cancelClick() {
     props.history.goBack()

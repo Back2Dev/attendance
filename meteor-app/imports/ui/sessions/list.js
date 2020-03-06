@@ -34,11 +34,11 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
   const tableOptions = {
     cellEdited: onCellEdited,
     width: 100,
-    rowSelected: function(row) {
+    rowSelected: function (row) {
       rowsSelected.push(row._row.data._id)
       setRowsSelected(rowsSelected)
     },
-    rowDeselected: function(row) {
+    rowDeselected: function (row) {
       for (i = 0; i < rowsSelected.length; i++) {
         if (rowsSelected[i] === row._row.data._id) {
           rowsSelected.splice(i, 1)
@@ -94,6 +94,12 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
     }
   }
 
+  const buttons = [
+    { action: deleteRows, id: 'delete', caption: 'Delete', color: 'red' },
+    // Not a standard button, as it is tied up with a modal form
+    // { action: addANewRow, id: 'add', caption: 'Add', color: 'black', component }
+  ]
+
   const memberOptions = members
     .map(member => ({
       key: member._id,
@@ -122,9 +128,11 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
             onChange={date => pickDate(date)}
             showTimeSelect
           />
-          <Button size="mini" onClick={deleteRows} color="red" type="button">
-            Delete
-          </Button>
+          {buttons.map(btn => (
+            <Button id={btn.id} key={btn.id} size="mini" onClick={btn.action} color={btn.color} type="button">
+              {btn.caption}
+            </Button>
+          ))}
           <Modal
             style={{ marginTop: '0px', marginLeft: 'auto', marginRight: 'auto' }}
             open={modalOpen}
@@ -132,7 +140,7 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
             trigger={
               <Button size="mini" color="black" onClick={() => setModalOpen(true)}>
                 Add
-              </Button>
+      </Button>
             }
           >
             <Modal.Header>Add an attendee</Modal.Header>
@@ -156,7 +164,7 @@ const List = ({ items, members, events, update, remove, add, columns, loading })
                 />
                 <Button onClick={addANewRow} type="submit" color="green">
                   Save
-                </Button>
+        </Button>
               </Form>
             </Modal.Content>
           </Modal>

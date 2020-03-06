@@ -4,6 +4,7 @@ import { Checkbox, Header, Button } from 'semantic-ui-react'
 import MemberCard from '/imports/ui/member-card/member-card'
 import Price from '/imports/ui/shop/price'
 import CartList from './cart-list'
+import Alert from 'react-s-alert'
 
 const debug = require('debug')('b2b:admin')
 
@@ -53,6 +54,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         onClick={e => {
           e.preventDefault()
           migrateSessions(member._id)
+          Alert.success(`All sessions have been migrated`)
         }}
         content="Merge"
       />
@@ -64,7 +66,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
       ) : (
         sessions.map((session, ix) => (
           <div key={`s${ix}`}>
-            {moment(session.createdAt).format('D MMM YYYY')} {session.name}
+            {moment(session.timeIn).format('D MMM YYYY')} {session.name}
           </div>
         ))
       )}
@@ -80,7 +82,7 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
             <Price cents={purchase.price} />
             &nbsp;[expires {moment(purchase.expiry).format('D MMM YYYY')}
             {'] '}
-            {purchase.remaining && `${purchase.remaining} remaining`}
+            {purchase.remaining >= 0 && `${purchase.remaining} remaining`}
           </div>
         ))
       )}
