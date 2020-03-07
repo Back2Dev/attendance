@@ -12,7 +12,7 @@ const Loading = props => {
   } else if (!props.member._id) {
     return <div>User not found ...</div>
   } else if (props.checkUser.length > 0) {
-    Alert.error("Looks like you've already registered..Please Sign In")
+    Alert.info("Looks like you've already registered... Please Sign In")
     return (
       <div>
         <Login />
@@ -34,14 +34,14 @@ export default withTracker(props => {
   const usersSubscription = Meteor.subscribe('getAllUsers')
   const checkUser = Meteor.users.find({ username: member.email }).fetch()
 
-  const add = form =>
-    Meteor.call('addNewMemberUser', form.email, form.password, member._id, function(error, result) {
-      if (result === 'success') {
-        props.history.push('/login')
-      } else {
-        console.log(error)
-      }
-    })
+  const add = async form => {
+    const result = await Meteor.callAsync('addNewMemberUser', form.email, form.password, member._id)
+    if (result.status === 'success') {
+      props.history.push('/login')
+    } else {
+      Alert.error(result.message)
+    }
+  }
 
   return {
     checkUser,

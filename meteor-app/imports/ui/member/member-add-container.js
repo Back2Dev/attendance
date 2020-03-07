@@ -19,8 +19,8 @@ export default withTracker(props => {
     newId.set(null)
     error.set(true)
     success.set(false)
-    msg.set(e.reason)
-    Alert.error(e.reason)
+    msg.set(e.message)
+    Alert.error(e.message)
   }
 
   function setSuccess(message, id) {
@@ -48,11 +48,15 @@ export default withTracker(props => {
       try {
         debug('adding member', formData)
         // creates a user and returns an id for storing in member's collection
-        const id = await Meteor.callAsync('addNewMemberUser', formData.email, formData.password)
+        const response = await Meteor.callAsync('addNewMemberUser', formData.email, formData.password)
         // Stores the data into member's collection
-        const res = await Meteor.callAsync('members.insert', { ...formData, userId: id })
-        setSuccess('Details saved ok', res)
-        return res
+        if (response.status === 'success') {
+          const res = await Meteor.callAsync('members.insert', { ...formData, userId: id })
+          setSuccess('Details saved ok', res)
+          return res
+        } else {
+          setError(response)
+        }
       } catch (e) {
         setError(e)
       }

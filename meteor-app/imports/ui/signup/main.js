@@ -44,7 +44,7 @@ const Signup = props => {
                   name="email"
                   type="email"
                   placeholder="E-mail address"
-                  value={email}
+                  defaultValue={email}
                   disabled
                 />
                 <Form.Input

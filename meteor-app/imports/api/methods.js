@@ -21,9 +21,9 @@ Meteor.methods({
       Members.update(memberId, {
         $set: { userId: id }
       })
-      return id
+      return { status: 'success', message: 'Added user account', id }
     } catch (error) {
-      return error.message
+      return { status: 'failed', message: error.message }
     }
   },
 
