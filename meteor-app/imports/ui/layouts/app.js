@@ -29,7 +29,6 @@ import MemberPortal from '/imports/ui/portal'
 // and can probably go at some stage
 import NotFound from '../pages/not-found'
 import Login from '../pages/login'
-import Signup from '../pages/signup'
 import Signout from '../pages/logout'
 import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
