@@ -35,7 +35,7 @@ export default withTracker(props => {
   const checkUser = Meteor.users.find({ username: member.email }).fetch()
 
   const add = async form => {
-    const result = await Meteor.callAsync('addNewMemberUser', form.email, form.password, member._id)
+    const result = await Meteor.callAsync('addUser', form.email, form.password, member._id)
     if (result.status === 'success') {
       props.history.push('/login')
     } else {

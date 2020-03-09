@@ -2,7 +2,6 @@
 
 import moment from 'moment'
 import { Accounts } from 'meteor/accounts-base'
-
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -13,7 +12,7 @@ import { ProductTypes } from './products/schema'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  addNewMemberUser(email, password, memberId) {
+  addUser(email, password, memberId) {
     try {
       console.log(memberId)
       const id = Accounts.createUser({ email, username: email, password })

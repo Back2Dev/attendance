@@ -48,7 +48,7 @@ export default withTracker(props => {
       try {
         debug('adding member', formData)
         // creates a user and returns an id for storing in member's collection
-        const response = await Meteor.callAsync('addNewMemberUser', formData.email, formData.password)
+        const response = await Meteor.callAsync('addUser', formData.email, formData.password)
         // Stores the data into member's collection
         if (response.status === 'success') {
           const res = await Meteor.callAsync('members.insert', { ...formData, userId: id })
