@@ -8,9 +8,9 @@ export default function ServiceItemTag(props) {
     <div className="wrapper">
       <div className="tag-wrapper">
         {tags.map((tag, index) =>
-          tag.title !== 'Major Service' && tag.title !== 'Minor Service' ? (
+          tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
             <span className="tag" key={index}>
-              <span className="item-name">{tag.title}</span>
+              <span className="item-name">{tag.name}</span>
               <span className="handle" onClick={() => removeTag(index)}>
                 x
               </span>
@@ -20,26 +20,26 @@ export default function ServiceItemTag(props) {
       </div>
 
       {tags.map((tag, index) =>
-        tag.title === 'Major Service' || tag.title === 'Minor Service' ? (
+        tag.name === 'Major Service' || tag.name === 'Minor Service' ? (
           <div className="mjmn" key={index}>
             <span className="tag">
-              {tag.title}
+              {tag.name}
               <span className="handle" onClick={() => removeTag(index)}>
                 x
               </span>
             </span>
             {tag.items.map((item, index) =>
-              tag.title === 'Major Service' ? (
+              tag.name === 'Major Service' ? (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  {item.title}
-                  <span className="handle" onClick={() => toggleTag(item, index)}>
+                  {item.name}
+                  <span className="handle" onClick={() => toggleTag(item, tag)}>
                     {item.greyed ? '+' : '-'}
                   </span>
                 </span>
               ) : (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  {item.title}
-                  <span className="handle" onClick={() => toggleTag(item, index)}>
+                  {item.name}
+                  <span className="handle" onClick={() => toggleTag(item, tag)}>
                     {item.greyed ? '+' : '-'}
                   </span>
                 </span>

@@ -13,12 +13,12 @@ export default function ServiceItemTagContainer() {
     setState(newState)
   }
 
-  function toggleTag(item) {
+  function toggleTag(item, currentTag) {
     const newTags = [...tags]
     newTags.map(tag => {
       tag.items
         ? tag.items.map(serviceItem => {
-            if (serviceItem.title === item.title) {
+            if (serviceItem.name === item.name && tag.name === currentTag.name) {
               serviceItem.greyed = !serviceItem.greyed
             }
           })

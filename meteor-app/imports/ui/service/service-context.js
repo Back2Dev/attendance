@@ -1,5 +1,7 @@
 import React, { useState, createContext } from 'react'
 import ServiceItems from '/imports/api/assessments/serviceItems'
+import Services from '/imports/api/assessments/services'
+import service from './index'
 
 console.log(ServiceItems)
 
@@ -54,16 +56,41 @@ const serviceState = {
 }
 
 Tracker.autorun(() => {
-  let serviceHandle = Meteor.subscribe('all.serviceItems')
-  if (serviceHandle.ready()) {
-    let a = ServiceItems.find().fetch()
-    serviceState.data = a
+  let serviceItemsHandle = Meteor.subscribe('all.serviceItems')
+  let servicesHandle = Meteor.subscribe('services.all')
+  if (serviceItemsHandle.ready()) {
+    let serviceItems = ServiceItems.find().fetch()
+    serviceState.data = serviceItems
+  }
+  if (servicesHandle.ready()) {
+    let services = Services.find().fetch()
+
+    let majorService = {
+      name: 'Major Service',
+      items: []
+    }
+    let minorService = {
+      name: 'Minor Service',
+      items: []
+    }
+
+    services.map(service => {
+      service.greyed = false
+      if (service.package === 'Minor') {
+        const serviceCopy = { ...service }
+        minorService.items.push(serviceCopy)
+      }
+      majorService.items.push(service)
+    })
+
+    serviceState.data = [...serviceState.data, minorService, majorService]
   }
 })
 
 export const ServiceContextProvider = props => {
   const [state, setState] = useState(serviceState)
-  // console.log('state = ', state)
+
+  console.log('state =', state)
 
   return <ServiceContext.Provider value={[state, setState]}>{props.children}</ServiceContext.Provider>
 }
