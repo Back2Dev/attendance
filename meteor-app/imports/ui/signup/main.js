@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import ForgotPin from './forgot-pin'
+import { Container, Form, Grid, Header, Message, Segment, Modal, Button } from 'semantic-ui-react'
 
 const Signup = props => {
   const [email, setEmail] = useState(null)
@@ -10,6 +11,8 @@ const Signup = props => {
   const [error, setError] = useState(null)
   const [pin, setPin] = useState(null)
   const [passwordConfirm, setPasswordConfirm] = useState(null)
+  const [method, setMethod] = React.useState('email')
+  console.log(props)
 
   useEffect(() => {
     if (props.member.email) {
@@ -78,7 +81,9 @@ const Signup = props => {
               </Segment>
             </Form>
             <Message>
-              Already have an account? Login <Link to="/login">here</Link>
+              <Modal trigger={<Button size="small">Forgot Pin</Button>} basic size="small">
+                <ForgotPin member={props.member} forgotPin={props.forgotPin} />
+              </Modal>
             </Message>
             {error === null ? null : <Message error header="Registration was not successful" content={error} />}
           </Grid.Column>

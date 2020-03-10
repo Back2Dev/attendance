@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Members from '/imports/api/members/schema'
 import Signup from './main'
+import ForgotPin from './forgot-pin'
 import React from 'react'
 import Alert from 'react-s-alert'
 import Login from '/imports/ui/pages/login'
@@ -26,11 +27,7 @@ const Loading = props => {
 export default withTracker(props => {
   const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member.all', id)
-
-  console.log(membersHandle.ready())
   const member = Members.findOne(id) || {}
-
-  console.log(member)
   const usersSubscription = Meteor.subscribe('getAllUsers')
   const checkUser = Meteor.users.find({ username: member.email }).fetch()
 
@@ -43,10 +40,15 @@ export default withTracker(props => {
     }
   }
 
+  const forgotPin = (method, destination) => {
+    Meteor.call('members.forgotPin', member._id, method, destination)
+  }
+
   return {
     checkUser,
     add,
     member,
+    forgotPin,
     loading: !membersHandle.ready() && !usersSubscription.ready()
   }
 })(Loading)
