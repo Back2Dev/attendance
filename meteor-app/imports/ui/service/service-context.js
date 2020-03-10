@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Services from '/imports/api/assessments/services'
-import service from './index'
+// import service from './index'
 
 console.log(ServiceItems)
 
