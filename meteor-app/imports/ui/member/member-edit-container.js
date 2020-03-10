@@ -32,6 +32,7 @@ export default withTracker(props => {
   }
 
   const setMember = async formData => {
+    console.log(props.member)
     if (props.member != null) {
       // we are updating the member
       debug('updating member', formData)
@@ -41,16 +42,6 @@ export default withTracker(props => {
         return res
       } catch (e) {
         debug('error updating member', formData, e)
-        setError(e)
-      }
-    } else {
-      // we are adding a member
-      try {
-        debug('adding member', formData)
-        const res = await Meteor.callAsync('members.insert', formData)
-        setSuccess('Details saved ok', res)
-        return res
-      } catch (e) {
         setError(e)
       }
     }
@@ -67,6 +58,6 @@ export default withTracker(props => {
     newId: newId.get(),
     resetId: () => newId.set(''),
     member: props.member ? props.member : null,
-    schemas: getSchemas(Meteor.settings.public.recruit)
+    schemas: getSchemas(`${Meteor.settings.public.recruit}Edit`)
   }
 })(MemberEditForm)
