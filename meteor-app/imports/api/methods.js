@@ -12,14 +12,10 @@ import { ProductTypes } from './products/schema'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  addUser(email, password, memberId) {
+  addUser(email, password) {
     try {
-      console.log(memberId)
       const id = Accounts.createUser({ email, username: email, password })
       Roles.addUsersToRoles(id, ['member'])
-      Members.update(memberId, {
-        $set: { userId: id }
-      })
       return { status: 'success', message: 'Added user account', id }
     } catch (error) {
       return { status: 'failed', message: error.message }
