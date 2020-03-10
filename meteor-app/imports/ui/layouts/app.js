@@ -21,7 +21,7 @@ import JobHistory from '/imports/ui/assessment/assessment-job-history'
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberEdit from '/imports/ui/member-edit'
-import Visit from '/it'
+import Visit from '/imports/ui/visit'
 
 // These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
