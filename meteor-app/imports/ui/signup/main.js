@@ -11,8 +11,6 @@ const Signup = props => {
   const [error, setError] = useState(null)
   const [pin, setPin] = useState(null)
   const [passwordConfirm, setPasswordConfirm] = useState(null)
-  const [method, setMethod] = React.useState('email')
-  console.log(props)
 
   useEffect(() => {
     if (props.member.email) {
@@ -81,9 +79,7 @@ const Signup = props => {
               </Segment>
             </Form>
             <Message>
-              <Modal trigger={<Button size="small">Forgot Pin</Button>} basic size="small">
-                <ForgotPin member={props.member} forgotPin={props.forgotPin} />
-              </Modal>
+              <ForgotPin member={props.member} forgotPin={props.forgotPin} />
             </Message>
             {error === null ? null : <Message error header="Registration was not successful" content={error} />}
           </Grid.Column>
