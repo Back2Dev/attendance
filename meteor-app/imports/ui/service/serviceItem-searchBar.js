@@ -14,6 +14,8 @@ resultRenderer.propTypes = {
 const SearchBar = props => {
   const [state, setState] = useContext(ServiceContext)
 
+  console.log(state)
+
   const [isLoading, setIsLoading] = React.useState(false)
   const [results, setResults] = React.useState([])
   const [value, setValue] = React.useState('')
