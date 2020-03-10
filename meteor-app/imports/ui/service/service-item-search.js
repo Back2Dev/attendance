@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Search, Label } from 'semantic-ui-react'
 import _ from 'lodash'
 
-const resultRenderer = ({ title }) => <Label content={title} />
+const resultRenderer = ({ name }) => <Label content={name} />
 
 resultRenderer.propTypes = {
   title: PropTypes.string,

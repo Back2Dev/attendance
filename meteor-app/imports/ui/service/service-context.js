@@ -53,9 +53,17 @@ const serviceState = {
   tags: []
 }
 
+Tracker.autorun(() => {
+  let serviceHandle = Meteor.subscribe('all.serviceItems')
+  if (serviceHandle.ready()) {
+    let a = ServiceItems.find().fetch()
+    serviceState.data = a
+  }
+})
+
 export const ServiceContextProvider = props => {
   const [state, setState] = useState(serviceState)
-  // console.log('items = ', state)
+  // console.log('state = ', state)
 
   return <ServiceContext.Provider value={[state, setState]}>{props.children}</ServiceContext.Provider>
 }

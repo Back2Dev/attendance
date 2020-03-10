@@ -6,6 +6,8 @@ import _ from 'lodash'
 export default function ServiceItemSearchContainer() {
   const [state, setState] = useContext(ServiceContext)
 
+  console.log('state =', state)
+
   const [isLoading, setIsLoading] = React.useState(false)
   const [results, setResults] = React.useState([])
   const [value, setValue] = React.useState('')
@@ -29,7 +31,7 @@ export default function ServiceItemSearchContainer() {
       }
 
       const re = new RegExp(_.escapeRegExp(value), 'i')
-      const isMatch = result => re.test(result.title)
+      const isMatch = result => re.test(result.name)
       setIsLoading(false)
       setResults(_.filter(state.data, isMatch))
     }, 300)
