@@ -22,6 +22,7 @@
 - Added initial version of member's portal.
 - Added route for existing members to sign up for an account to access portal.
 - Reworked member's sign up form to include password field.
+- Added ability for existing members to request PIN number on sign up page
 
 ## 1.1.14
 
