@@ -36,11 +36,11 @@ describe('Visit WWCC webpage', function() {
 
     cy.get('input#surname')
       .clear()
-      .type('King')
+      .type('Carmel')
 
     cy.get('input#wwccno')
       .clear()
-      .type('01819845-02')
+      .type('04291284-02')
 
     cy.get('button#check')
       .contains('Check')

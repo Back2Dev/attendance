@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 import CartSummary from './cart-summary'
+import GoHome from '/imports/ui/components/go-home-button'
 
 const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
@@ -31,6 +32,7 @@ const ShopWindow = props => {
         productTypes &&
         productTypes.length &&
         productTypes.map(prodType => <ProdTypeCard key={prodType.type} history={props.history} {...prodType} />)}
+      <GoHome history={props.history} />
     </div>
   )
 }

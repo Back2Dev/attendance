@@ -82,7 +82,7 @@ describe('Retrieve kiosk webpage', function() {
 
     cy.get('input#surname')
       .clear()
-      .type('King')
+      .type('Carmel')
 
     cy.get('input#wwccno')
       .clear()
