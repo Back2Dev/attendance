@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Button, Input, Checkbox, Label, Modal } from 'semantic-ui-react'
+import { Form, Button, Input, Checkbox, Modal } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
 
 const fieldMap = {
