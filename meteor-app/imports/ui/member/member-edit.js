@@ -97,7 +97,6 @@ class MemberEditForm extends Component {
     return errors
   }
   renderForm = () => {
-    console.log(this.props.member)
     return (
       <Form
         schema={this.schemas[this.state.step].schema}
