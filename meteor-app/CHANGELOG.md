@@ -16,6 +16,12 @@
 - Added WWCC check
 - Added functionality which displays an error when the number isn't similar to actual WWCC number
 - Added functionality checking whether volunteer has a working with childrens check number
+- Improved deployment logging
+- Added functionality for members to edit their details.
+- User accounts are created on sign up for accessing member's portal.
+- Added initial version of member's portal.
+- Added route for existing members to sign up for an account to access portal.
+- Reworked member's sign up form to include password field.
 
 ## 1.1.14
 

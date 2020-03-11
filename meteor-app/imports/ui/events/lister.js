@@ -73,9 +73,11 @@ CONSTANTS.DAYS_WEEK.forEach(day => {
   columns.push({
     field: `day${day.id}`,
     title: day.value,
+    headerVertical: 'flip',
     formatter: 'tickCross',
     editor: true,
-    align: 'center'
+    align: 'center',
+    width: 40
   })
 })
 

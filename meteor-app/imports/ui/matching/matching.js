@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Menu, Checkbox, Tab, Icon, Table } from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/tabulator.min.css'
+import 'react-tabulator/lib/css/semantic-ui/tabulator_semantic-ui.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import './styles.css'
 const debug = require('debug')('b2b:reminders')

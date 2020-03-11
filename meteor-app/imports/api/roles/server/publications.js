@@ -9,14 +9,14 @@ Meteor.methods({
     try {
       return Meteor.roles.insert({ _id: id, children: [] })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
     }
   },
   removeARole(id) {
     try {
       return Meteor.roles.remove(id)
     } catch (e) {
-      log.error({ e })
+      log.error(e)
     }
   }
 })

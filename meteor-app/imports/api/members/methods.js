@@ -10,20 +10,24 @@ import log from '/imports/lib/server/log'
 import { saveToArchive } from '/imports/api/archive'
 
 const debug = require('debug')('b2b:server-methods')
+const fs = require('fs')
 
+const rmFighter = name => {
+  const member = Members.findOne({ name })
+  if (!member) debug(`Could not find member ${name}`)
+  else {
+    const memberId = member._id
+    Purchases.remove({ memberId })
+    Carts.remove({ memberId })
+    Sessions.remove({ memberId })
+    const n = Members.remove(memberId)
+    if (!n) throw new Meteor.Error(`Could not remove the ${name} :(`)
+  }
+}
 Meteor.methods({
   //
   // These first methods are for testing purposes, to add/delete data
   //
-  'members.rmEddie': function(name) {
-    try {
-      log.info(`Removing member: Eddie Mercx ${name}`)
-      return Members.remove({ name: 'Eddie Mercx' })
-    } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
-    }
-  },
   'members.mkFakeUser': function(username, member) {
     const m = Members.findOne({ name: username })
     if (!m) {
@@ -34,36 +38,52 @@ Meteor.methods({
     }
   },
   'members.rmToughGuy': function() {
-    const result = Members.findOne({ name: 'Tough Guy' })
-    Purchases.remove({ memberId: result._id })
-    Carts.remove({ memberId: result._id })
-    Sessions.remove({ memberId: result._id })
-    const n = Members.remove({ name: 'Tough Guy' })
-    if (!n) throw new Meteor.Error('Could not remove the tough guy :(')
+    rmFighter('Tough Guy')
+  },
+  'members.rmEddie': function() {
+    rmFighter('Eddie Mercx')
   },
   'members.rmJackieChan': function() {
-    const result = Members.findOne({ name: 'Jackie Chan' })
-    Purchases.remove({ memberId: result._id })
-    Carts.remove({ memberId: result._id })
-    Sessions.remove({ memberId: result._id })
-    const n = Members.remove({ name: 'Jackie Chan' })
-    if (!n) throw new Meteor.Error('Could not remove the Jackie Chan :(')
+    rmFighter('Jackie Chan')
   },
   'members.rmBruceLee': function() {
-    const result = Members.findOne({ name: 'Bruce Lee' })
-    Purchases.remove({ memberId: result._id })
-    Carts.remove({ memberId: result._id })
-    Sessions.remove({ memberId: result._id })
-    const n = Members.remove({ name: 'Bruce Lee' })
-    if (!n) throw new Meteor.Error('Could not remove the Bruce Lee :(')
+    rmFighter('Bruce Lee')
+  },
+  'members.rmCathrineKing': function() {
+    rmFighter('Cathrine King')
+  },
+  'members.rmRookiePaddler': function() {
+    rmFighter('Rookie Paddler')
+  },
+  'members.addDude': function(dude) {
+    const memberId = Members.insert(dude.member)
+    if (!memberId) debug(`Error creating new dude ${dude.member.name}`)
+    else {
+      Members.update(memberId, { $set: { sessions: dude.sessions } })
+      dude.sessions.forEach(session => {
+        session.memberId = memberId
+        session.memberName = dude.member.name
+        session.createdAt = session.timeIn
+        session.updatedAt = session.timeIn
+        if (!Sessions.insert(session, { bypassCollection2: true })) debug(`Error inserting session ${session.name}`)
+      })
+      dude.carts.forEach(cart => {
+        cart.memberId = memberId
+        if (!Carts.insert(cart, { bypassCollection2: true })) debug(`Error inserting cart`)
+      })
+      dude.purchases.forEach(purchase => {
+        purchase.memberId = memberId
+        if (!Purchases.insert(purchase, { bypassCollection2: true })) debug(`Error inserting purchase`)
+      })
+    }
   },
   'members.addCard': function(name, paymentCustId) {
     try {
       log.info(`Adding card to member: ${name}`)
       return Members.update({ name }, { $set: { paymentCustId } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   //
@@ -73,8 +93,8 @@ Meteor.methods({
     try {
       return Members.insert(member)
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.remove': function(id) {
@@ -97,8 +117,8 @@ Meteor.methods({
       Sessions.remove({ memberId: id })
       return Members.remove({ _id: id })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.removeDupe': function(id, merge) {
@@ -138,8 +158,8 @@ Meteor.methods({
       log.info('Setting pin: ', id, pin)
       return Members.update({ _id: id }, { $set: { pin } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.rmPin': function(name) {
@@ -147,8 +167,8 @@ Meteor.methods({
       log.info('Removing pin: ', name)
       return Members.update({ name }, { $unset: { pin: true } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.update': function(id, formData) {
@@ -156,8 +176,8 @@ Meteor.methods({
       log.info('updating member: ', id, formData)
       return Members.update({ _id: id }, { $set: { ...formData } })
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
 
@@ -197,8 +217,8 @@ ${Meteor.settings.public.org}
         if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: to } })
       }
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   /* Duplicate member detection, started with this script,
@@ -353,8 +373,8 @@ db[res.result].find({value: {$gt: 1}});
       debug(message)
       return message
     } catch (e) {
-      debug(e)
-      throw new Meteor.Error(500, e)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
   'members.forgetCard': function(memberId) {
@@ -383,5 +403,41 @@ db[res.result].find({value: {$gt: 1}});
         object: { memberId }
       })
     }
+  },
+  'members.extract': function(memberId, newName, filename) {
+    if (memberId && newName) {
+      const prefix = `const ISODate = date => date
+      const NumberInt = n => n
+      
+      const dude = `
+      const postfix = `
+      export default dude
+      `
+      const bucket = {}
+      const member = Members.findOne(memberId)
+      if (!member.email) member.email = 'nobody@none.such'
+      if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+      bucket.member = member
+      bucket.sessions = Sessions.find({ memberId }).fetch()
+      bucket.purchases = Purchases.find({ memberId }).fetch()
+      bucket.carts = Carts.find({ memberId }).fetch()
+      let contents = JSON.stringify(bucket, null, 2)
+      contents = contents.replace(new RegExp(member.name, 'g'), newName)
+      const newEmail = newName.replace(/[ '"\.\,]+/g, '.') + '@nomail.maybe.home'
+      contents = contents.replace(new RegExp(member.email, 'g'), newEmail)
+      fs.writeFileSync(filename, prefix + contents + postfix, { encoding: 'utf8' })
+    } else {
+      throw new Meteor.Error('memberId and newname are mandatory parameters')
+    }
+  },
+  'members.rmSessions': function(id) {
+    const member = Members.findOne(id)
+    if (!member) throw new Meteor.Error('Could not find member ' + id)
+    debug(`Removing sessions for ${member.name} ${id}`)
+    Members.update(id, { $set: { sessions: [] } })
+    Sessions.remove({ memberId: id })
+    Purchases.find({ memberId: id }).forEach(purchase => {
+      Purchases.update(id, { $set: { sessions: [] } })
+    })
   }
 })

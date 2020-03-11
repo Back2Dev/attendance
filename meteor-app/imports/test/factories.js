@@ -16,6 +16,7 @@ import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Wwccs from '/imports/api/wwccs/schema'
 import Promos from '/imports/api/promos/schema'
+import Reports from '/imports/api/reports/schema'
 // import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
@@ -41,7 +42,7 @@ Factory.define('member', Members, {
   bikesHousehold: 5,
   email: 'Jelly.Belly@smells.nasty.com',
   emergencyContact: 'Everett Mosciski',
-  emergencyEmail: 'Ibrahim.Flatley@gmail.com',
+  emergencyEmail: 'Ibrahim.Flatley@nomail.bs.bs',
   emergencyMobile: '848-220-5422',
   emergencyPhone: '848-924-0182',
   mobile: '352-485-4816',
@@ -59,6 +60,7 @@ Factory.define('member', Members, {
 Factory.define('session', Sessions, {
   memberId: Random.id(),
   memberName: 'Dave Smith',
+  // eventId:
   name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),
@@ -181,6 +183,20 @@ Factory.define('product', Products, {
   endDate: faker.date.future(1)
 })
 
+Factory.define('10pass', Products, {
+  name: '10 pass',
+  description: 'Passes allow you to use PA',
+  type: 'pass',
+  code: 'PA-PASS-MULTI-10',
+  duration: 3,
+  price: 15000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  autoRenew: true,
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
+})
+
 Factory.define('purchase', Purchases, {
   price: 96000,
   code: 'PA-MEMB-12',
@@ -189,7 +205,20 @@ Factory.define('purchase', Purchases, {
   purchaser: 'Mike King',
   productId: 'EKFJq9mrEjPer3PHW',
   productName: 'PA 12 month membership',
-  paymentMethod: 'credit card'
+  paymentMethod: 'credit card',
+  status: 'current'
+})
+
+Factory.define('purchase10pass', Purchases, {
+  price: 96000,
+  code: 'PA-PASS-MULTI-10',
+  expiry: faker.date.future(),
+  txnDate: faker.date.past(),
+  purchaser: 'Mike King',
+  productId: 'EKFJq9mrEjPer3PHW',
+  productName: '10 session pass',
+  paymentMethod: 'credit card',
+  status: 'current'
 })
 
 Factory.define('event', Events, {
@@ -200,6 +229,17 @@ Factory.define('event', Events, {
   duration: 2,
   price: 200,
   type: 'monthly'
+})
+
+Factory.define('test-event', Events, {
+  name: 'Squad training',
+  location: 'Sandridge',
+  when: new Date(),
+  active: true,
+  duration: 2,
+  type: 'day',
+  days: [1, 2, 3, 4, 5, 6, 7],
+  price: 3000
 })
 
 Factory.define('wwcc', Wwccs, {
@@ -228,6 +268,11 @@ Factory.define('promo', Promos, {
   discount: 50,
   admin: false,
   start: new Date()
+})
+
+Factory.define('report', Reports, {
+  name: 'This is a report',
+  details: 'This is the details of the report, blah, blah blah'
 })
 
 Factory.define('orderemails', OrderEmails, {

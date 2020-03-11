@@ -13,9 +13,27 @@ const NavBar = ({ currentUser, location }) => {
   return (
     <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
       <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
-        <img src="/images/image.png" className="ui small image" />
+        <img src="/images/image.png" className="ui center aligned container small image" />
       </Menu.Item>
 
+      {currentUser === '' ? (
+        <div>
+          <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
+        </div>
+      ) : (
+        /* <Dropdown.Item icon="add user" text="Sign up" as={NavLink} exact to="/signup" /> */
+        <div>
+          <Menu.Item
+            as={NavLink}
+            content="Home"
+            icon="user"
+            activeClassName="active"
+            exact
+            to="/member-portal"
+            key="member-portal"
+          />
+        </div>
+      )}
       {Roles.userIsInRole(Meteor.userId(), 'signin') ? (
         <span>
           <Menu.Item
@@ -32,8 +50,15 @@ const NavBar = ({ currentUser, location }) => {
         ''
       )}
 
-      <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
-      <Menu.Item as={NavLink} content="Register" icon="plus" activeClassName="active" exact to="/add" key="add" />
+      {(Roles.userIsInRole(Meteor.userId(), 'shop') || !currentUser) && (
+        <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
+      )}
+
+      {Roles.userIsInRole(Meteor.userId(), 'register') ? (
+        <Menu.Item as={NavLink} content="Register" icon="plus" activeClassName="active" exact to="/add" key="add" />
+      ) : (
+        ''
+      )}
 
       {Roles.userIsInRole(Meteor.userId(), 'parts') ? (
         <Menu.Item
@@ -107,14 +132,11 @@ const NavBar = ({ currentUser, location }) => {
             />
           ]
         : ''}
-      {currentUser === '' ? (
-        <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
-      ) : (
-        /* <Dropdown.Item icon="add user" text="Sign Up" as={NavLink} exact to="/signup" /> */
-        <div>
-          <Menu.Item as={NavLink} content="Sign Out" icon="sign out" activeClassName="active" exact to="/signout" />
+      {currentUser !== '' && (
+        <>
+          <Menu.Item as={NavLink} content="Sign out" icon="sign out" activeClassName="active" exact to="/signout" />
           <Menu.Item content={currentUser} />
-        </div>
+        </>
       )}
     </Menu>
   )

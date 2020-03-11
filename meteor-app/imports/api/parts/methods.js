@@ -10,24 +10,24 @@ export function calcRetail(price) {
       const retailPrice = parseInt(price, 10) * 1.8
       return Math.round(retailPrice)
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   } else if (price > 6000 && price <= 10000) {
     try {
       const retailPrice = parseInt(price, 10) * 1.4
       return Math.round(retailPrice)
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   } else if (price > 10000) {
     try {
       const retailPrice = parseInt(price, 10) * 1.2
       return Math.round(retailPrice)
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   } else {
     return console.error('Error, not a number')
@@ -87,8 +87,8 @@ Meteor.methods({
     try {
       return Parts.insert(part)
     } catch (e) {
-      log.error({ e })
-      throw new Meteor.Error(500, e.sanitizedError.reason)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   },
 
@@ -114,8 +114,8 @@ Meteor.methods({
       }
       return countTotal
     } catch (e) {
-      debug(e)
-      throw new Meteor.Error(500, e)
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
     }
   }
 })

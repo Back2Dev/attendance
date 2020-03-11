@@ -1,25 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Container,
-  Table,
-  Header,
-  Loader,
-  Segment,
-  Button,
-  Confirm,
-  Form,
-  Popup,
-  Grid,
-  Divider
-} from 'semantic-ui-react'
+import { Loader, Segment, Button, Confirm, Form, Popup, Grid, Divider } from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import CONSTANTS from '/imports/api/constants'
 import Alert from 'react-s-alert'
 
-export default ListStuff = props => {
+export default ListUsers = props => {
   const [users, setusers] = React.useState(props.users)
   const [popupStatus, setPopupStatus] = React.useState(false)
   const [usersRowsSelected, setUsersRowsSelected] = React.useState([])
@@ -177,7 +165,7 @@ export default ListStuff = props => {
 }
 
 /** Require an array of Stuff documents in the props. */
-ListStuff.propTypes = {
+ListUsers.propTypes = {
   users: PropTypes.array.isRequired,
   usersReady: PropTypes.bool.isRequired,
   userColumns: PropTypes.array.isRequired,

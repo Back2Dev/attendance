@@ -31,6 +31,8 @@ Meteor.methods({
           sub.purchaser = members[0].name
           sub.productId = cart.products[0]._id
           sub.productName = cart.products[0].name
+          sub.paymentMethod = 'credit'
+          sub.status = 'complete'
           sub.memberId = members[0]._id
           sub.qty = cart.prodqty[cart.products[0]._id] || 1
 
@@ -391,7 +393,6 @@ Meteor.methods({
     const product = Products.findOne({ code: 'PA-CASUAL-SIGNUP' })
     if (!product) throw new Error('Could not find product for PA-CASUAL-SIGNUP')
     Members.find({ subsType: 'casual' }).forEach(m => {
-      product.qty = 1
       const creditCard = {}
       Object.keys(pinAddressFieldMap).forEach(key => {
         creditCard[key] = m[pinAddressFieldMap[key]]
@@ -405,8 +406,8 @@ Meteor.methods({
         customerName: m.name,
         products: [product],
         price: product.price,
-        totalqty: product.qty,
-        prodqty: { [product._id]: product.qty },
+        totalqty: 1,
+        prodqty: { [product._id]: 1 },
         creditCard,
         status: 'ready'
       }
@@ -432,9 +433,9 @@ Meteor.methods({
       if (!product) {
         console.error(`Could not find product to match previous purchase ${purchase.productName} ${purchase.productId}`)
       } else {
-        product.qty = 1
+        let newQty = 1
         if (product.code.match(/-PASS-/) && member.remaining < 0) {
-          product.qty = product.qty + Math.floor(Math.abs(member.remaining) / 10)
+          newQty = newQty + Math.floor(Math.abs(member.remaining) / 10)
         }
         const creditCard = {}
         Object.keys(pinAddressFieldMap).forEach(key => {
@@ -449,8 +450,8 @@ Meteor.methods({
           customerName: member.name,
           products: [product],
           price: product.price,
-          totalqty: product.qty,
-          prodqty: { [purchase.productId]: product.qty },
+          totalqty: newQty,
+          prodqty: { [purchase.productId]: newQty },
           creditCard,
           status: 'ready'
         }
