@@ -41,23 +41,6 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating user: ${e.message}` }
     }
   },
-  addNewUser(func) {
-    try {
-      const id = Accounts.createUser(
-        {
-          username: 'new user',
-          email: 'newUser@peakadventure.com.au',
-          password: 'changeme'
-        },
-        func
-      )
-
-      Roles.addUsersToRoles(id, ['signin'])
-      return { status: 'success', message: `Added new user` }
-    } catch (e) {
-      return { status: 'failed', message: `Error adding user: ${e.message}` }
-    }
-  },
   setPassword({ id, newPassword }) {
     try {
       Accounts.setPassword(id, newPassword)

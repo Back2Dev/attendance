@@ -628,7 +628,6 @@ const getSchemas = custom => {
     const newSchema = customSchemas[custom]
     const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
     steps.forEach((step, ix) => {
-      console.log(ix)
       const stepName = `${step}Step`
       if (newSchema[stepName] && newSchema[stepName].schema) {
         defaultSchema[ix].schema = newSchema[stepName].schema

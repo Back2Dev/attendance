@@ -17,6 +17,7 @@ export const MembersSchema = new SimpleSchema({
   },
   userId: {
     type: String,
+    regEx: REGEX_ID,
     label: 'userId',
     optional: true
   },
