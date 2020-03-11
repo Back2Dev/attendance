@@ -6,8 +6,6 @@ import _ from 'lodash'
 export default function ServiceItemSearchContainer() {
   const [state, setState] = useContext(ServiceContext)
 
-  console.log('state =', state)
-
   const [isLoading, setIsLoading] = React.useState(false)
   const [results, setResults] = React.useState([])
   const [value, setValue] = React.useState('')
