@@ -73,7 +73,6 @@ const MemberPortal = props => {
 MemberPortal.propTypes = {
   cart: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
-  purchase: PropTypes.object.isRequired,
   purchases: PropTypes.array.isRequired,
   addCard: PropTypes.number.isRequired,
   logo: PropTypes.string.isRequired,
