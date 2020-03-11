@@ -8,21 +8,25 @@ const defaultAccounts = [
   {
     email: 'admin@back2bikes.com.au',
     password: 'me2',
-    role: ['signin', 'paynow', 'servicing', 'parts', 'admin']
+    role: ['signin', 'register', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
   },
   {
     email: 'workshop@back2bikes.com.au',
     password: 'b2b525.24',
-    role: ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
+    role: ['signin', 'register', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
   },
-  { email: 'info@peakadventure.com.au', password: 'changeme', role: ['signin', 'admin'] }
+  {
+    email: 'info@peakadventure.com.au', password: 'changeme',
+    role: ['signin', 'register', 'member', 'admin']
+  },
+  { email: 'wookie@test.com', password: 'me2', role: ['member', 'shop'] }
 ]
 
-const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin']
+const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin', 'member']
 defaultRoles.map(name => {
-  if (!Meteor.roles.findOne({ name })) {
-    // console.log(`Adding role ${name}`)
-    // Roles.createRole(name})
+  if (!Meteor.roles.findOne({ _id: name })) {
+    console.log(`Adding role ${name}`)
+    Roles.createRole(name)
   }
 })
 
@@ -45,7 +49,7 @@ function createUser(email, password, roles) {
   }
 }
 
-/** When running app for first time, pass a    settings file to set up a default user account. */
+/** When running app for first time, pass a settings file to set up a default user account. */
 if (Meteor.users.find().count() === 0) {
   if (defaultAccounts) {
     console.log('Creating the default user(s)')

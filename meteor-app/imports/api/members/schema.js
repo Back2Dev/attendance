@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
+import { REGEX_ID, createdAt, updatedAt, OptionalRegExId } from '/imports/api/schema'
 import { SessionsSchema } from '/imports/api/sessions/schema'
 
 const SessionListSchema = SessionsSchema.omit('memberId', 'createdAt', 'updatedAt')
@@ -15,6 +15,7 @@ export const MembersSchema = new SimpleSchema({
     label: 'Unique _id',
     optional: false
   },
+  userId: OptionalRegExId,
   name: {
     type: String,
     label: 'Name',
@@ -169,6 +170,7 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: true,
     optional: true
   },
+
   //
   // Payment system attributes
   //

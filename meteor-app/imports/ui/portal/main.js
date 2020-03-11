@@ -1,15 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Button, Card, Segment, Grid, Header, Image, Table, Icon } from 'semantic-ui-react'
+import GoHome from '/imports/ui/components/go-home-button'
+import { Button, Card, Segment, Grid, Header, Image, Container, Icon, Table } from 'semantic-ui-react'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 import MemberVisitsCard from '/imports/ui/punch-card/member-visits-card'
-import GoHome from '/imports/ui/components/return-home-button'
+import { startOfDay } from 'date-fns'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
+  const cards = {}
 
+  if (props.member.subsType === 'member') {
+    props.sessions.forEach(session => {
+      const y = moment(session.timeIn).year()
+      const m = moment(session.timeIn).month()
+      if (!cards[y]) {
+        cards[y] = { months: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      }
+      cards[y].months[m] += 1
+    })
+  }
   return (
     <Segment>
       <Header as="h1" style={{ textAlign: 'center' }}>
@@ -46,7 +58,23 @@ const MemberPortal = props => {
           Pay Now
         </Button>
       )}
-
+      <Container style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {props.purchases &&
+          props.member.subsType === 'pass' &&
+          props.purchases.map((purchase, ix) => (
+            <MultiVisitsCard
+              key={ix}
+              usedVisits={purchase.sessions.length}
+              totalVisits={purchase.sessions.length + purchase.remaining}
+              paid={purchase.paymentStatus === 'paid'}
+            />
+          ))}
+        {props.sessions &&
+          props.member.subsType === 'member' &&
+          Object.keys(cards).map((year, ix) => {
+            return <MemberVisitsCard key={ix} months={cards[year].months} title={`Visits ${year}`} />
+          })}
+      </Container>
       <Card fluid>
         <Card.Content header={`Purchases (${props.purchases.length})`} />
         <Card.Content>

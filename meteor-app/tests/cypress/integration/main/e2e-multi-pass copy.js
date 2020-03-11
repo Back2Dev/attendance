@@ -15,7 +15,7 @@ import { createPublicKey } from 'crypto'
 // So this is the only place where the code is specific to the person
 const { member } = team.cathrine
 const numVisits = 3
-member.pin = '0000'
+member.pin = '2701'
 // The rest of this code is generic...
 
 describe('Login into Kiosk', function() {

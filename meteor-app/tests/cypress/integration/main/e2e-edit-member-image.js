@@ -57,23 +57,23 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('img[src="/images/avatars/13.jpg"]')
+    cy.get('img[src="/images/avatars/12.jpg"]')
       .should('exist')
-      .click()
+      .click({ force: true })
 
     cy.get('button[type="submit"]')
       .contains('Update')
       .should('exist')
       .should('be.enabled')
-      .click()
+      .click({ force: true })
 
     cy.get(':nth-child(6) > h2 > .ui')
       .should('exist')
       .click()
 
-    cy.get('img[src="/images/avatars/test21.jpg"]')
+    cy.get('.segment > div > [src="/images/avatars/9.jpg"]')
       .should('exist')
-      .click()
+      .click({ force: true })
 
     cy.get('button[type="submit"]')
       .contains('Update')
