@@ -1,0 +1,32 @@
+.tag-wrapper {
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrapper > * {
+  margin: 10px 0;
+}
+
+.tag {
+  border: 0.5px solid black;
+  border-radius: 10%;
+  margin: 5px 5px;
+  padding: 0 5px;
+}
+
+.item-name {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.handle {
+  color: blue;
+  padding: 0 10px;
+  cursor: default;
+}
+
+.mjmn {
+  display: flex;
+  flex-wrap: wrap;
+}

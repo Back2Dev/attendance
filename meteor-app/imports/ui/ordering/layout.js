@@ -5,7 +5,7 @@ import Ordering from '/imports/ui/ordering/ordering'
 import Parts from '/imports/api/parts/schema'
 import Orders from '/imports/api/orders/schema'
 import { ReactiveVar } from 'meteor/reactive-var'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import CONSTANTS from '/imports/api/constants'
 import { escapeRegExp } from 'lodash'
 const success = new ReactiveVar(false)

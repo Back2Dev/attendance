@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import GoHome from '/imports/ui/components/go-home-button'
 import { Button, Card, Segment, Grid, Header, Image, Container, Icon, Table } from 'semantic-ui-react'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'

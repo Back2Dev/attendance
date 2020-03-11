@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Segment, Card, Header, Button, Image } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import CONSTANTS from '/imports/api/constants'
 import { CartContext } from './cart-data'
 import Price from './price'

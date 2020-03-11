@@ -5,7 +5,7 @@ import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import CONSTANTS from '/imports/api/constants'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 export default ListUsers = props => {
   const [users, setusers] = React.useState(props.users)
