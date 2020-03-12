@@ -15,6 +15,8 @@ export default UserDetailForm = props => {
       return setError('Pin does not match')
     }
     console.log(newPin)
+
+    // When updating email: Update email in member's collection and username + email in user's collection
   }
 
   return (
