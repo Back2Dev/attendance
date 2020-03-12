@@ -1,37 +1,34 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-<<<<<<< HEAD
 import { withTracker } from 'meteor/react-meteor-data'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Services from '/imports/api/assessments/services'
-=======
-import { Tab } from 'semantic-ui-react'
-import { Roles } from 'meteor/alanning:roles'
-
->>>>>>> a7e0104cad2d78811e3dcbd825bee5e3be59b3cf
 import Service from './service'
-import Summary from './summary-tab'
-import FromTrail from './clientOP2'
-import Client from './client'
 
-const panes = [
-  {
-    menuItem: 'Service',
-    render: () => (
-      <Tab.Pane>
-        <Service />
-      </Tab.Pane>
-    )
-  },
-  {
-    menuItem: 'Details',
-    render: () => (
-      <Tab.Pane>
-        <Client />
-      </Tab.Pane>
-    )
-  }
-]
+// this index file is jst going to provide the Service component data and we should make Service component the main component where all the sub-components are being rendered
+
+// import Summary from './summary-tab'
+// import FromTrail from './clientOP2'
+// import Client from './client'
+
+// const panes = [
+//   {
+//     menuItem: 'Service',
+//     render: () => (
+//       <Tab.Pane>
+//         <Service />
+//       </Tab.Pane>
+//     )
+//   },
+//   {
+//     menuItem: 'Details',
+//     render: () => (
+//       <Tab.Pane>
+//         <Client />
+//       </Tab.Pane>
+//     )
+//   }
+// ]
 
 const Loading = () => <div>Loading...</div>
 
