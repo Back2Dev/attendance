@@ -121,7 +121,12 @@ class MemberEditForm extends Component {
           <Grid.Column style={{ maxWidth: '600px' }}>
             {finalStep && (
               <div>
-                <MemberEditReview formData={this.state.formData} steps={this.schemas} goToStep={this.goToStep} />
+                <MemberEditReview
+                  formData={this.state.formData}
+                  setUser={this.props.setUser}
+                  steps={this.schemas}
+                  goToStep={this.goToStep}
+                />
               </div>
             )}
             {!finalStep && this.renderForm()}

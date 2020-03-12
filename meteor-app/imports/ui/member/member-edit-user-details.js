@@ -1,10 +1,11 @@
 import React from 'react'
 import { Form, Input, Message } from 'semantic-ui-react'
 
-export default UserDetailForm = props => {
-  const [email, setEmail] = React.useState(props.formData.email)
-  const [newPin, setNewPin] = React.useState(props.formData.pin)
+export default UserDetailForm = ({ formData, setUser }) => {
+  const [password, setPassword] = React.useState('')
+  const [newPin, setNewPin] = React.useState(formData.pin)
   const [matchPin, setMatchPin] = React.useState(null)
+  const [data, setData] = React.useState(formData)
   const [error, setError] = React.useState(null)
 
   const handleSubmit = (e, h) => {
@@ -14,8 +15,7 @@ export default UserDetailForm = props => {
     } else if (newPin !== matchPin) {
       return setError('Pin does not match')
     }
-    console.log(newPin)
-
+    setUser(data)
     // When updating email: Update email in member's collection and username + email in user's collection
   }
 
@@ -26,16 +26,21 @@ export default UserDetailForm = props => {
         <Form.Field>
           <label>Email</label>
           <input
-            value={email}
+            value={data.email}
             onChange={e => {
-              setEmail(e.target.value)
+              setData({ ...formData, email: e.target.value })
             }}
           />
         </Form.Field>
 
         <Form.Field>
           <label>Password</label>
-          <input />
+          <input
+            value={password}
+            onChange={e => {
+              setPassword(e.target.value)
+            }}
+          />
         </Form.Field>
 
         <Form.Field>

@@ -41,6 +41,18 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating user: ${e.message}` }
     }
   },
+  setUser(formData) {
+    const oldEmail = Meteor.user().emails
+    try {
+      Accounts.setUsername(formData.userId, formData.email)
+      if (oldEmail != null) {
+        Accounts.removeEmail(formData.userId, oldEmail[0].address)
+        Accounts.addEmail(formData.userId, formData.email)
+      }
+    } catch (e) {
+      return { status: 'failed', message: `Error updating user: ${e.message}` }
+    }
+  },
   setPassword({ id, newPassword }) {
     try {
       Accounts.setPassword(id, newPassword)

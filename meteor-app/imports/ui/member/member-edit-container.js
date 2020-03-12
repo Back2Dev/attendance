@@ -47,10 +47,27 @@ export default withTracker(props => {
     }
   }
 
+  const setUser = async formData => {
+    if (props.member != null) {
+      // we are updating the member
+      debug('updating member', formData)
+      try {
+        await Meteor.callAsync('members.update', formData._id, formData)
+        await Meteor.callAsync('setUser', formData)
+        setSuccess('Saved ok', formData._id)
+        return { status: 'success', message: 'updated member and user database' }
+      } catch (e) {
+        debug('error updating member', formData, e)
+        setError(e)
+      }
+    }
+  }
+
   document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
 
   return {
     setMember,
+    setUser,
     error: error.get(),
     success: success.get(),
     message: msg.get(),
