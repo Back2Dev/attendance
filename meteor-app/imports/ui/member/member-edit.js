@@ -121,6 +121,7 @@ class MemberEditForm extends Component {
               <div>
                 <MemberEditReview
                   formData={this.state.formData}
+                  setMember={this.props.setMember}
                   setUser={this.props.setUser}
                   steps={this.schemas}
                   goToStep={this.goToStep}

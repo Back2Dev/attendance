@@ -32,7 +32,6 @@ export default withTracker(props => {
   }
 
   const setMember = async formData => {
-    console.log(props.member)
     if (props.member != null) {
       // we are updating the member
       debug('updating member', formData)
@@ -52,12 +51,11 @@ export default withTracker(props => {
       // we are updating the member
       debug('updating member', formData)
       try {
-        await Meteor.callAsync('members.update', formData._id, formData)
-        await Meteor.callAsync('setUser', formData)
-        setSuccess('Saved ok', formData._id)
-        return { status: 'success', message: 'updated member and user database' }
+        const res = await Meteor.callAsync('setUser', formData)
+        setSuccess('Saved ok', formData.userId)
+        return res
       } catch (e) {
-        debug('error updating member', formData, e)
+        debug('error updating user', formData, e)
         setError(e)
       }
     }

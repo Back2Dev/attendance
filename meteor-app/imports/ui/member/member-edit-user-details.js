@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Message } from 'semantic-ui-react'
 
-export default UserDetailForm = ({ formData, setUser }) => {
+export default UserDetailForm = ({ formData, setUser, setMember }) => {
   const [password, setPassword] = React.useState('')
   const [newPin, setNewPin] = React.useState(formData.pin)
   const [data, setData] = React.useState(formData)
@@ -14,6 +14,7 @@ export default UserDetailForm = ({ formData, setUser }) => {
     } else if (newPin !== data.pin) {
       return setError('Pin does not match')
     }
+    setMember(data)
     setUser(data)
     // When updating email: Update email in member's collection and username + email in user's collection
   }
@@ -25,9 +26,8 @@ export default UserDetailForm = ({ formData, setUser }) => {
         <Form.Field>
           <label>Email</label>
           <input
-            value={data.email}
             onChange={e => {
-              setData({ ...formData, email: e.target.value })
+              setData({ ...data, email: e.target.value })
             }}
           />
         </Form.Field>
@@ -60,7 +60,7 @@ export default UserDetailForm = ({ formData, setUser }) => {
         <Form.Field
           label="Confirm New Pin"
           onChange={e => {
-            setData({ ...formData, pin: e.target.value })
+            setData({ ...data, pin: e.target.value })
           }}
           control={Input}
         />
