@@ -6,15 +6,39 @@ import { ServiceContextProvider } from './service-context'
 import ServiceItemTagContainer from './serviceItem-tag-container'
 import ServiceItemSearchContainer from './service-item-search-container'
 
+import Summary from './summary-tab'
+import FromTrail from './clientOP2'
+import Client from './client'
+import { Tab } from 'semantic-ui-react'
+
+const panes = props => {
+  return [
+    {
+      menuItem: 'Service',
+      render: () => (
+        <Tab.Pane>
+          <ServiceContextProvider {...props}>
+            <ServiceItemSearchContainer />
+            <ServiceItemTagContainer />
+          </ServiceContextProvider>
+        </Tab.Pane>
+      )
+    },
+    {
+      menuItem: 'Details',
+      render: () => (
+        <Tab.Pane>
+          <Client />
+        </Tab.Pane>
+      )
+    }
+  ]
+}
+
 function Service(props) {
   console.log('props from Service comp = ', props)
 
-  return (
-    <ServiceContextProvider {...props}>
-      <ServiceItemSearchContainer />
-      <ServiceItemTagContainer />
-    </ServiceContextProvider>
-  )
+  return <Tab panes={panes(props)} />
 }
 
 Service.propTypes = {

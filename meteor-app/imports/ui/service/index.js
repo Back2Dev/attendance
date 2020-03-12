@@ -5,31 +5,6 @@ import ServiceItems from '/imports/api/assessments/serviceItems'
 import Services from '/imports/api/assessments/services'
 import Service from './service'
 
-// this index file is jst going to provide the Service component data and we should make Service component the main component where all the sub-components are being rendered
-
-// import Summary from './summary-tab'
-// import FromTrail from './clientOP2'
-// import Client from './client'
-
-// const panes = [
-//   {
-//     menuItem: 'Service',
-//     render: () => (
-//       <Tab.Pane>
-//         <Service />
-//       </Tab.Pane>
-//     )
-//   },
-//   {
-//     menuItem: 'Details',
-//     render: () => (
-//       <Tab.Pane>
-//         <Client />
-//       </Tab.Pane>
-//     )
-//   }
-// ]
-
 const Loading = () => <div>Loading...</div>
 
 const Loader = props => {
