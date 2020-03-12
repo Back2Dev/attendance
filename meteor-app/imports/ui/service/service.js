@@ -7,8 +7,6 @@ import ServiceItemTagContainer from './serviceItem-tag-container'
 import ServiceItemSearchContainer from './service-item-search-container'
 
 function Service(props) {
-  console.log('props from Service comp = ', props)
-
   return (
     <ServiceContextProvider {...props}>
       <ServiceItemSearchContainer />

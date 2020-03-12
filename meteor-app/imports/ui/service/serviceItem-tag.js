@@ -4,6 +4,17 @@ import './serviceItem-tag.css'
 export default function ServiceItemTag(props) {
   const { removeTag, toggleTag, tags } = props
 
+  const totalPrice = 0
+
+  console.log('tags = ', tags)
+
+  const total = items => {
+    let sum = items.reduce((total, cur) => total + cur.price)
+
+    console.log('sum = ', sum)
+    // return sum
+  }
+
   return (
     <div className="wrapper">
       <div className="tag-wrapper">
@@ -11,6 +22,7 @@ export default function ServiceItemTag(props) {
           tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
             <span className="tag" key={index}>
               <span className="item-name">{tag.name}</span>
+              <span className="item-name"> ${tag.price}</span>
               <span className="handle" onClick={() => removeTag(index)}>
                 x
               </span>
@@ -24,6 +36,7 @@ export default function ServiceItemTag(props) {
           <div className="mjmn" key={index}>
             <span className="tag">
               {tag.name}
+              <span className="item-name"> ${total(tag.items)}</span>
               <span className="handle" onClick={() => removeTag(index)}>
                 x
               </span>
