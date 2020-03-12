@@ -7,7 +7,6 @@ const MemberEdit = props => {
   return (
     <div>
       <h4>Edit page for {member.name}</h4>
-
       <MemberEditForm member={member} />
     </div>
   )

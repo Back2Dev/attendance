@@ -45,7 +45,7 @@ describe('Chooses 5 stock choices and saves them', function() {
         .should('exist')
         .click({ force: true })
 
-      cy.get('input[id="pick_reason"]')
+      cy.get('textarea[id="pick_reason"]')
         .clear()
         .type(allPick.reason)
 
