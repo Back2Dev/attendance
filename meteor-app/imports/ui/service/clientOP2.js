@@ -2,7 +2,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 //import './client.scss'
-import * as yup from 'yup'
+//import * as yup from 'yup'
 
 {
   /*

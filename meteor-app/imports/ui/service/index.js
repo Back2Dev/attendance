@@ -23,7 +23,7 @@ const panes = [
     menuItem: 'Details',
     render: () => (
       <Tab.Pane>
-        <FromTrail />
+        <Client />
       </Tab.Pane>
     )
   }
