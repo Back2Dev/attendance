@@ -11,7 +11,7 @@ resultRenderer.propTypes = {
 }
 
 const SearchBar = props => {
-  const { handleResultSelect, handleSearchChange, isLoading, results, value } = props
+  const { handleResultSelect, handleSearchChange, isLoading, results, value } = props.data
 
   return (
     <Search
