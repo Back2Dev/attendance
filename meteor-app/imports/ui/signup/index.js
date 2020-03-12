@@ -26,27 +26,30 @@ const Loading = props => {
 export default withTracker(props => {
   const id = props.match.params.id
   const membersHandle = Meteor.subscribe('member.all', id)
-
-  console.log(membersHandle.ready())
   const member = Members.findOne(id) || {}
-
-  console.log(member)
   const usersSubscription = Meteor.subscribe('getAllUsers')
   const checkUser = Meteor.users.find({ username: member.email }).fetch()
 
   const add = async form => {
-    const result = await Meteor.callAsync('addUser', form.email, form.password, member._id)
-    if (result.status === 'success') {
+    const userData = await Meteor.callAsync('addUser', form.email, form.password, member._id)
+    const result = await Meteor.callAsync('members.userid.update', member._id, { ...member, userId: userData.id })
+    console.debug(result)
+    if (result == 'success') {
       props.history.push('/login')
     } else {
       Alert.error(result.message)
     }
   }
 
+  const forgotPin = (method, destination) => {
+    Meteor.call('members.forgotPin', member._id, method, destination)
+  }
+
   return {
     checkUser,
     add,
     member,
+    forgotPin,
     loading: !membersHandle.ready() && !usersSubscription.ready()
   }
 })(Loading)

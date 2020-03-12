@@ -171,6 +171,16 @@ Meteor.methods({
       throw new Meteor.Error(500, e.message)
     }
   },
+  'members.userid.update': function(id, formData) {
+    try {
+      log.info('updating member: ', id, formData)
+      Members.update({ _id: id }, { $set: { ...formData } })
+      return 'success'
+    } catch (e) {
+      debug(`Error`, e.message)
+      throw new Meteor.Error(500, e.message)
+    }
+  },
   'members.update': function(id, formData) {
     try {
       log.info('updating member: ', id, formData)
