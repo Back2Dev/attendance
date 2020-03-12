@@ -75,6 +75,15 @@ const NavBar = ({ currentUser, location }) => {
             />,
             <Menu.Item
               as={NavLink}
+              content="Service"
+              icon="lock open"
+              activeClassName="active"
+              exact
+              to="/service"
+              key="service"
+            />,
+            <Menu.Item
+              as={NavLink}
               content="Current jobs"
               icon="list alternate outline"
               activeClassName="active"
