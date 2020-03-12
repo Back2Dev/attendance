@@ -2,7 +2,17 @@ import React from 'react'
 import './serviceItem-tag.css'
 
 export default function ServiceItemTag(props) {
-  const { removeTag, toggleTag, tags } = props
+  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, tags } = props.data
+
+  // const total = items => {
+  //   let sum = items.reduce((total, item) => {
+  //     if (!item.greyed) {
+  //       total += item.price
+  //     }
+  //     return total
+  //   }, 0)
+  //   return sum
+  // }
 
   return (
     <div className="wrapper">
@@ -11,6 +21,7 @@ export default function ServiceItemTag(props) {
           tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
             <span className="tag" key={index}>
               <span className="item-name">{tag.name}</span>
+              <span className="item-name"> ${tag.price}</span>
               <span className="handle" onClick={() => removeTag(index)}>
                 x
               </span>
@@ -24,6 +35,7 @@ export default function ServiceItemTag(props) {
           <div className="mjmn" key={index}>
             <span className="tag">
               {tag.name}
+              <span className="item-name"> ${majorMinorTotal(tag.items)}</span>
               <span className="handle" onClick={() => removeTag(index)}>
                 x
               </span>
@@ -32,6 +44,7 @@ export default function ServiceItemTag(props) {
               tag.name === 'Major Service' ? (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                   {item.name}
+                  <span className="item-price"> ${item.price}</span>
                   <span className="handle" onClick={() => toggleTag(item, tag)}>
                     {item.greyed ? '+' : '-'}
                   </span>
@@ -39,6 +52,7 @@ export default function ServiceItemTag(props) {
               ) : (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                   {item.name}
+                  <span className="item-price"> ${item.price}</span>
                   <span className="handle" onClick={() => toggleTag(item, tag)}>
                     {item.greyed ? '+' : '-'}
                   </span>
@@ -48,6 +62,7 @@ export default function ServiceItemTag(props) {
           </div>
         ) : null
       )}
+      <div class="total-price">$$${totalServicePrice}</div>
     </div>
   )
 }

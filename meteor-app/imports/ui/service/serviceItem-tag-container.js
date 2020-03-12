@@ -5,6 +5,9 @@ import { ServiceContext } from './service-context'
 export default function ServiceItemTagContainer() {
   const [state, setState] = useContext(ServiceContext)
   const tags = state.tags
+  const totalServicePrice = state.totalServicePrice
+
+  console.log('state =', state)
 
   function removeTag(index) {
     const newTags = [...tags]
@@ -28,5 +31,23 @@ export default function ServiceItemTagContainer() {
     setState(newState)
   }
 
-  return <ServiceItemTag removeTag={removeTag} toggleTag={toggleTag} tags={tags} />
+  function majorMinorTotal(items) {
+    let sum = items.reduce((total, item) => {
+      if (!item.greyed) {
+        total += item.price
+      }
+      return total
+    }, 0)
+    return sum
+  }
+
+  return (
+    <ServiceItemTag
+      removeTag={removeTag}
+      toggleTag={toggleTag}
+      tags={tags}
+      majorMinorTotal={majorMinorTotal}
+      totalServicePrice={totalServicePrice}
+    />
+  )
 }

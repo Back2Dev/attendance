@@ -12,7 +12,7 @@ import Client from './client'
 import { Tab } from 'semantic-ui-react'
 
 const panes = props => {
-  return [
+  let foundationPanes = [
     {
       menuItem: 'Service',
       render: () => (
@@ -33,11 +33,28 @@ const panes = props => {
       )
     }
   ]
+
+  if (props.job && props.logs && props.updateStatus && props.currentJob && props.members) {
+    foundationPanes.push({
+      menuItem: 'Summary',
+      render: () => (
+        <Tab.Pane>
+          <Summary
+            job={props.job}
+            logs={props.logs}
+            updateStatus={props.updateStatus}
+            key={props.currentJob._id}
+            currentJob={props.currentJob}
+            members={props.members}
+          />
+        </Tab.Pane>
+      )
+    })
+  }
+  return foundationPanes
 }
 
 function Service(props) {
-  console.log('props from Service comp = ', props)
-
   return <Tab panes={panes(props)} />
 }
 

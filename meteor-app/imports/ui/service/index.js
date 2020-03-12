@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { withTracker } from 'meteor/react-meteor-data'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Services from '/imports/api/assessments/services'
@@ -16,12 +15,11 @@ const Loader = props => {
 
 export const serviceState = {
   data: [],
-  tags: []
+  tags: [],
+  totalServicePrice: 0
 }
 
 export default withTracker(props => {
-  console.log('its coming here')
-
   const allServicesHandle = Meteor.subscribe('all.services')
 
   if (allServicesHandle.ready()) {
