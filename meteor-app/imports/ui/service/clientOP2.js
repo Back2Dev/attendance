@@ -1,11 +1,12 @@
 /* eslint-disable no-lone-blocks */
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import './client.scss'
-import * as yup from "yup";
+// import './client.scss'
+// import * as yup from 'yup'
 import { ServiceContext } from './service-context'
 
-{/*
+{
+  /*
 
 considering running the below on an array of data to make the component/form extensible
 
