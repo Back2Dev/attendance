@@ -7,7 +7,7 @@ import ServiceItemTagContainer from './serviceItem-tag-container'
 import ServiceItemSearchContainer from './service-item-search-container'
 
 import Summary from './summary-tab'
-import FromTrail from './clientOP2'
+import FromTrail from './client'
 import Client from './client'
 import { Tab } from 'semantic-ui-react'
 

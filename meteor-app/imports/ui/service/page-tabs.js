@@ -1,5 +1,7 @@
 import React from 'react'
 import { Tab } from 'semantic-ui-react'
+import client from './client'
+import serviceDetails from './service'
 
 {
   /*
