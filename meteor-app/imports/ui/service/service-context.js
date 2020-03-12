@@ -1,10 +1,11 @@
 import React, { useState, createContext } from 'react'
-import { serviceState } from './service-context-data'
 
 export const ServiceContext = createContext()
 
-export const ServiceContextProvider = props => {
-  const [state, setState] = useState(serviceState)
+export const ServiceContextProvider = ({ data, tags, children }) => {
+  console.log('data and tag =')
 
-  return <ServiceContext.Provider value={[state, setState]}>{props.children}</ServiceContext.Provider>
+  const [state, setState] = useState({ data, tags })
+
+  return <ServiceContext.Provider value={[state, setState]}>{children}</ServiceContext.Provider>
 }

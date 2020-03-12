@@ -1,19 +1,57 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Grid, Segment } from 'semantic-ui-react'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
+import { withTracker } from 'meteor/react-meteor-data'
+import ServiceItems from '/imports/api/assessments/serviceItems'
+import Services from '/imports/api/assessments/services'
 import Service from './service'
 
-const ServiceAdd = props => {
-  return <Service />
+const Loading = () => <div>Loading...</div>
+
+const Loader = props => {
+  if (props.loading) {
+    return <Loading />
+  }
+  return <Service {...props} />
 }
 
-ServiceAdd.propTypes = {
-  setAssessment: PropTypes.func.isRequired,
-  resetId: PropTypes.func.isRequired,
-  error: PropTypes.bool.isRequired,
-  success: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired
+export const serviceState = {
+  data: [],
+  tags: []
 }
 
-export default withRouter(ServiceAdd)
+export default withTracker(props => {
+  console.log('its coming here')
+
+  const allServicesHandle = Meteor.subscribe('all.services')
+
+  if (allServicesHandle.ready()) {
+    const serviceItems = ServiceItems.find().fetch()
+    serviceState.data = serviceItems
+
+    const services = Services.find().fetch()
+
+    const majorService = {
+      name: 'Major Service',
+      items: []
+    }
+    const minorService = {
+      name: 'Minor Service',
+      items: []
+    }
+
+    services.map(service => {
+      service.greyed = false
+      if (service.package === 'Minor') {
+        const serviceCopy = { ...service }
+        minorService.items.push(serviceCopy)
+      }
+      majorService.items.push(service)
+    })
+
+    serviceState.data = [...serviceState.data, minorService, majorService]
+  }
+
+  serviceState.loading = !allServicesHandle.ready()
+
+  return serviceState
+})(Loader)
