@@ -10,7 +10,6 @@ import { startOfDay } from 'date-fns'
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
   const cards = {}
-
   if (props.member.subsType === 'member') {
     props.sessions.forEach(session => {
       const y = moment(session.timeIn).year()
@@ -76,6 +75,7 @@ const MemberPortal = props => {
 }
 
 MemberPortal.propTypes = {
+  cart: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
   purchases: PropTypes.array.isRequired,
   addCard: PropTypes.number.isRequired,

@@ -24,6 +24,7 @@ import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
 import MemberSignUp from '/imports/ui/signup'
 import MemberPortal from '/imports/ui/portal'
+import ForgotPin from '/imports/ui/signup/forgot-pin.js'
 
 // These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
@@ -74,6 +75,7 @@ const App = props => {
           <Route path="/visit/:id" component={Visit} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
+          <Route path="/forgotpin/:id" component={ForgotPin} />
 
           <SecureRoute role="member" path="/member-portal" component={MemberPortal} />
 
