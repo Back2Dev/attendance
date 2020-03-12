@@ -2,7 +2,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import './client.scss'
-// import * as yup from "yup";
+import * as yup from "yup";
 
 {
   /*
@@ -34,41 +34,41 @@ function inputElement(type, name, placeholder){
 
 function FormTrial() {
   const { register, handleSubmit, errors } = useForm({
-    // validationSchema: schema,
+    validationSchema: schema,
     //this will autofocus to the 1st invalid
     submitFocusError: true
   })
   const onSubmit = data => {
     console.log(data)
     let submissiondata = data
-    console.log(submissiondata)
+    console.log("submissiondata:", submissiondata)
+    console.log("errors:", errors)
     return submissiondata
   }
   console.log(errors)
 
-  // const schema = yup.object().shape(
-  //   {
-  //   CustomerName: yup.string().required(),
-  //   phone: yup
-  //     .number()
-  //     .min(6)
-  //     .required()
-  //     .positive()
-  //     .integer(),
-  //   email: yup.string().email().required(),
-  //   bikeBrand: yup.string().required(),
-  //   bikeName: yup.string().required(),
-  //   bikeColor: yup.string().required()
-  // }
-  // )
+  const schema = yup.object().shape(
+    {
+    CustomerName: yup.string().required(),
+    phone: yup
+      .number()
+      .min(6)
+      .required()
+      .positive()
+      .integer(),
+    email: yup.string().email().required(),
+    bikeBrand: yup.string().required(),
+    bikeName: yup.string().required(),
+    bikeColor: yup.string().required()
+  }
+  )
 
-  // const validate = (value) => {
-  //   if (!input.value) {
-  //     return !valid
-  //   }
-  // };
+  const validate = (value) => {
+    if (!input.value) {
+      return !valid
+    }
+  };
 
-  // const theform = document.getElementById("service-customer")
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="service-customer" novalidate>
       <section className="form-left">
@@ -173,7 +173,6 @@ function FormTrial() {
           </button>
         </article>
 
-        {/* <button onClick={theform.reset()}></button> */}
       </section>
     </form>
   )

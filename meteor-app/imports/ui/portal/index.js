@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import Alert from '/imports/ui/utils/alert'
+import Alert from 'react-s-alert'
 import moment from 'moment'
 import { Carts } from '/imports/api/products/schema'
 import Members from '/imports/api/members/schema'
+import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
+import Products from '/imports/api/products/schema'
 import Events from '/imports/api/events/schema'
 import Main from './main'
 import context from '/imports/ui/utils/nav'
@@ -12,16 +14,15 @@ import context from '/imports/ui/utils/nav'
 const debug = require('debug')('b2b:visit')
 
 export default withTracker(props => {
-  const id = props.match.params.id
-  console.debug(`memberId: ${id}`)
-  const membersHandle = Meteor.subscribe('member.all', id)
+  const membersHandle = Meteor.subscribe('member.userid', Meteor.userId())
   const loading = !membersHandle.ready()
-  const member = Members.findOne(id) || {}
-  const purchases = Purchases.find({ memberId: member._id, status: 'current' }, { sort: { createdAt: 1 } }).fetch()
-  const allPurchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: 1 } }).fetch()
-  const purchase = purchases.length ? purchases[0] : allPurchases[0]
-  const carts = purchase ? Carts.find({ purchases: purchase._id }).fetch() : []
-  const cart = carts.length ? carts[0] : null
+  const member = Members.findOne({ userId: Meteor.userId() }) || {}
+  const memberData = Meteor.subscribe('member.all', member._id)
+  const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
+  const carts = Carts.find({ memberId: member._id }).fetch()
+  const cart = carts.filter(cart => cart.status === 'ready')[0]
+  const sessions = Sessions.find({ memberId: member._id }).fetch()
+
   const eventQuery = {
     active: true,
     $or: [
@@ -39,8 +40,7 @@ export default withTracker(props => {
       }
     ]
   }
-  // It's quite possible that the above doesn't
-  // yield anything, so look for a fallback
+
   const fallbackQuery = { type: 'fallback' }
   debug('Queries', eventQuery, fallbackQuery)
   let events = Events.find(eventQuery).fetch()
@@ -81,27 +81,7 @@ export default withTracker(props => {
     Alert.success(`You are signed out`)
   }
 
-  function cancelClick() {
-    props.history.goBack()
-  }
-
-  function onSubmitPin(pin) {
-    const pinValid = member.pin === pin || pin === '1--1'
-    debug('pinValid: ', pinValid)
-    return pinValid
-  }
-
-  function setPin(pin) {
-    debug('setting custom pin: ', pin)
-    Meteor.call('members.setPin', member._id, pin)
-    props.history.push(`/visit/${member._id}/select-activity`)
-  }
-
-  function forgotPin(method, destination, remember) {
-    // redirect to forgot PIN screen
-    debug('forgotten pin: ', member._id, method, destination, remember)
-    Meteor.call('members.forgotPin', member._id, method, destination, remember)
-  }
+  const toEdit = () => props.history.push(`/edit/${member._id}`)
 
   function save(id, formData) {
     Meteor.call('members.update', id, formData)
@@ -110,16 +90,14 @@ export default withTracker(props => {
   return {
     recordVisit,
     save,
+    toEdit,
     recordDeparture,
     loading,
     cart,
     member,
-    purchase,
+    purchases,
     events,
-    cancelClick,
-    onSubmitPin,
-    setPin,
-    forgotPin,
+    sessions,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
     addCard: Meteor.settings.public.addCard

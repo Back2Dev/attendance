@@ -5,11 +5,7 @@ import { withRouter } from 'react-router-dom'
 import Service from './service'
 
 const ServiceAdd = props => {
-  return (
-    <div>
-      <Service />
-    </div>
-  )
+  return <Service />
 }
 
 ServiceAdd.propTypes = {

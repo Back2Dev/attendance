@@ -1,17 +1,15 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
-import { Container, Table, Header, Loader, Confirm } from 'semantic-ui-react'
-import { Stuffs } from '/imports/api/stuff/stuff'
-import StuffItem from '/imports/ui/components/stuff-item'
 import { withTracker } from 'meteor/react-meteor-data'
-import ListStuff from './user-admin'
+import ListUsers from './user-admin'
 import CONSTANTS from '/imports/api/constants'
+import { meteorCall } from '/imports/ui/utils/meteor'
 
-const deleteUsers = id => Meteor.call('deleteUsers', id)
-const updateUser = user => Meteor.call('updateUser', user)
-const addNewUser = func => Meteor.call('addNewUser', func)
-const setPassword = (id, newPassword) => Meteor.call('setPassword', id, newPassword)
-const sendResetPasswordEmail = id => Meteor.call('sendResetPasswordEmail', id)
+const deleteUsers = id => meteorCall('deleteUsers', 'Deleting', id)
+const updateUser = user => meteorCall('updateUser', 'Updating', user)
+const addNewUser = form => meteorCall('addNewUser', 'Adding', form)
+const setPassword = (id, newPassword) => meteorCall('setPassword', 'Set password', { id, newPassword })
+const sendResetPasswordEmail = id => meteorCall('sendResetPasswordEmail', 'Reset password', id)
 
 const userColumns = [
   {
@@ -32,9 +30,10 @@ CONSTANTS.ROLES.forEach(role => {
     field: role,
     title: role,
     formatter: 'tickCross',
+    headerVertical: 'flip',
     editor: true,
     align: 'center',
-    width: 110
+    width: 40
   })
 })
 
@@ -64,4 +63,4 @@ export default withTracker(() => {
     setPassword,
     sendResetPasswordEmail
   }
-})(ListStuff)
+})(ListUsers)

@@ -15,6 +15,9 @@ Meteor.publish('all.members', () => {
 Meteor.publish('all.members.carts', () => {
   return [Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } }), Carts.find({}), Purchases.find({})]
 })
+Meteor.publish('member.userid', id => {
+  return Members.find({ userId: id })
+})
 
 Meteor.publish('members.dupes', () => {
   const names = Dupes.find({ value: { $gt: 1 } }).map(name => name._id)

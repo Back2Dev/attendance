@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
-import { ServiceContext } from './service-context'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Search, Label } from 'semantic-ui-react'
 import _ from 'lodash'
 
-const resultRenderer = ({ title }) => <Label content={title} />
+const resultRenderer = ({ name }) => <Label content={name} />
 
 resultRenderer.propTypes = {
   title: PropTypes.string,
@@ -12,37 +11,7 @@ resultRenderer.propTypes = {
 }
 
 const SearchBar = props => {
-  const [state, setState] = useContext(ServiceContext)
-
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [results, setResults] = React.useState([])
-  const [value, setValue] = React.useState('')
-
-  // update this method to display tags instead of setting it on the search bar
-  const handleResultSelect = (e, { result }) => {
-    const newTags = [...state.tags, result]
-    const newState = { ...state, tags: newTags }
-    setState(newState)
-    setValue('')
-  }
-
-  const handleSearchChange = (e, { value }) => {
-    setIsLoading(true)
-    setValue(value)
-
-    setTimeout(() => {
-      if (value.length < 1) {
-        setIsLoading(false)
-        setResults([])
-        setValue('')
-      }
-
-      const re = new RegExp(_.escapeRegExp(value), 'i')
-      const isMatch = result => re.test(result.title)
-      setIsLoading(false)
-      setResults(_.filter(state.data, isMatch))
-    }, 300)
-  }
+  const { handleResultSelect, handleSearchChange, isLoading, results, value } = props
 
   return (
     <Search

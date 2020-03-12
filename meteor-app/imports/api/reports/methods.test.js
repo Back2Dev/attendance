@@ -6,7 +6,7 @@ import Reports from './schema'
 import Factory from '/imports/test/factories'
 const debug = require('debug')('b2b:reports-test')
 
-describe.only('report.create', () => {
+describe('report.create', () => {
   beforeEach(resetDatabase)
 
   it(`1. creates a report with name and details provided correctly`, () => {

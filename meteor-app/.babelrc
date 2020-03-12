@@ -1,11 +1,7 @@
 {
   "env": {
     "test": {
-      "presets": [
-        "env",
-        "react",
-        "stage-1"
-      ],
+      "presets": ["env", "react", "stage-1"],
       "plugins": [
         [
           "babel-plugin-root-import",
