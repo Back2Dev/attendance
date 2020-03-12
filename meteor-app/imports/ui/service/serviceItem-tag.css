@@ -9,21 +9,42 @@
 }
 
 .tag {
-  border: 0.5px solid black;
-  border-radius: 10%;
-  margin: 5px 5px;
-  padding: 0 5px;
+  border: .5px ridge rgb(89, 190, 106);
+  border-radius: 5%;
+  margin: 5px;
+  height: 2.5em;
+  padding: 5px 0 5px 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(122, 223, 139);
+box-shadow:  3px 3px 5px rgb(127, 151, 165);
+             
 }
 
 .item-name {
   font-family: sans-serif;
   text-align: center;
+  font-size: 1.5em;
 }
 
 .handle {
-  color: blue;
-  padding: 0 10px;
-  cursor: default;
+  box-sizing: border-box;
+  display: flex;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.575);
+  background-color: rgba(255,255,255,.4);
+  border: 1px solid rgb(89, 190, 106);
+margin-left: 3px;
+  align-items: center;
+  justify-content: center;
+  height: 2.5em;
+  width: 2em;
+  cursor: pointer;
+}
+.handle:active, .handle:hover{
+  /* transform: scale(.9); */
+  border: 1px solid rgb(177, 212, 182);
 }
 
 .mjmn {
