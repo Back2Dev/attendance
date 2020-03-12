@@ -22,12 +22,14 @@ import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberEdit from '/imports/ui/member-edit'
 import Visit from '/imports/ui/visit'
+import MemberSignUp from '/imports/ui/signup'
+import MemberPortal from '/imports/ui/portal'
+import ForgotPin from '/imports/ui/signup/forgot-pin.js'
 
 // These ones were created when initially setting up the new menu system,
 // and can probably go at some stage
 import NotFound from '../pages/not-found'
 import Login from '../pages/login'
-import Signup from '../pages/signup'
 import Signout from '../pages/logout'
 import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
@@ -66,13 +68,16 @@ const App = props => {
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/signup/:id" component={MemberSignUp} />
           <Route path="/login" component={Login} />
           <Route path="/shop" component={Shop} />
           <Route path="/kiosk" component={MemberMainContainer} />
           <Route path="/visit/:id" component={Visit} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
+          <Route path="/forgotpin/:id" component={ForgotPin} />
+
+          <SecureRoute role="member" path="/member-portal" component={MemberPortal} />
 
           <SecureRoute role="signin" path="/volsignin" component={MemberMainContainer} />
 
@@ -126,7 +131,7 @@ SecureRoute.propTypes = {
 // Add in a withTracker component, so that we end up waiting for the roles to be loaded before we render menus
 //
 const AppLoader = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <div>Booting up ...</div>
   return (
     <Router>
       <App {...props} />

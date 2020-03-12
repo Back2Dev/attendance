@@ -6,11 +6,35 @@ const SignOut = props => {
   return (
     <div>
       <Header as="h4">See you next time!</Header>
+<<<<<<< HEAD
       <MultiVisitsCard />
       &nbsp;
       <Button onClick={() => props.recordDeparture()} positive fluid id="signIn" size="large">
         Sign Out
       </Button>
+=======
+      <div>Member Type: {props.member.subsType}</div>
+      {props.member.subsType === 'pass' && props.purchase && (
+        <MultiVisitsCard
+          usedVisits={props.purchase.sessions.length}
+          totalVisits={props.purchase.sessions.length + props.purchase.remaining}
+        />
+      )}
+      {/* {props.member.subsType === 'pass' &&
+        !props.purchase.sessions.length &&
+        'You have used all your sessions for your previous pass'} */}
+      &nbsp;
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        {props.purchase && props.purchase.paymentStatus === 'unpaid' && (
+          <Button color="red" onClick={() => props.history.push(`/shop/renew/${props.member._id}/${props.cart._id}`)}>
+            Pay Now
+          </Button>
+        )}
+        <Button onClick={() => props.recordDeparture()} positive fluid id="signIn">
+          Sign Out
+        </Button>
+      </div>
+>>>>>>> 1a0b725b6aba24c7479f3425130a52c5af930ea3
     </div>
   )
 }

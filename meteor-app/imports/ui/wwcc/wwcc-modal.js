@@ -66,20 +66,20 @@ class WwccModal extends Component {
             <p />
             <label style={{ paddingBottom: '5px' }}>Last name</label>
             <div>
-              <Input onChange={this.updateSurname} defaultValue={surname} fluid />
+              <Input onChange={this.updateSurname} defaultValue={surname} fluid id="surname" />
             </div>
             <p />
             <label style={{ paddingBottom: '5px' }}>Wwcc No (8 digits)</label>
             <div>
-              <Input onChange={this.updateWwcc} defaultValue={wwcc} fluid />
+              <Input onChange={this.updateWwcc} defaultValue={wwcc} fluid id="wwccno" />
             </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic color="red" inverted onClick={() => this.setState({ isOpen: false })}>
+          <Button basic color="red" inverted onClick={() => this.setState({ isOpen: false })} id="cancel">
             <Icon name="remove" /> Cancel
           </Button>
-          <Button color="green" inverted onClick={this.submit}>
+          <Button color="green" inverted onClick={this.submit} id="check">
             <Icon name="checkmark" />
             Check
           </Button>

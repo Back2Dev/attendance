@@ -72,6 +72,15 @@ export const PurchasesSchema = new SimpleSchema({
     label: 'Quantity',
     defaultValue: 1
   },
+  status: {
+    type: String,
+    label: 'Status'
+  },
+  paymentStatus: {
+    type: String,
+    allowedValues: ['unpaid', 'notified', 'paid'],
+    defaultValue: 'unpaid'
+  },
   createdAt,
   updatedAt
 })

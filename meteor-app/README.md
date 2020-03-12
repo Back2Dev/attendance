@@ -1,188 +1,209 @@
-# attendance-app
-Workshop attendance app for back2bikes volunteers.  
-This app's intention is to address this [Problem Statement](http://devblog.back2bikes.com.au:8080/blog/attendance/)
+[![Build Status](https://travis-ci.org/Back2bikes/attendance.svg?branch=master)](https://travis-ci.org/Back2bikes/attendance) [![Coverage Status](https://coveralls.io/repos/github/Back2bikes/attendance/badge.svg?branch=master)](https://coveralls.io/github/Back2bikes/attendance?branch=master) ![GitHub repo size](https://img.shields.io/github/repo-size/Back2bikes/attendance) ![Packagist](https://img.shields.io/packagist/l/Back2bikes/attendance?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/Back2bikes/attendance)
 
-## Pre-requisites
+## Contents
 
-Install Meteor here https://www.meteor.com/install
+- [Mission Statement](#Mission-Statement)
+- [Getting Started/ installation](#Getting-Started)
+- [App Design](#App-Design)
+- [Styling](#Styling)
+- [Database](#Database)
+- [Schemas](#Schemas)
+- [Story Book](#Story-Book)
+- [Testing](#Testing)
+- [Information on how the App uses Meteor](#how-the-App-uses-Meteor)
+- [Working With Children Checks](#Working-With-Children-Checks)
 
-# Get up and running
-#### Clone this repo  
-`git clone https://github.com/Back2bikes/attendance.git`   
+---
 
-#### Move into the meteor app directory
+# Attendance App
+
+### Mission Statement
+
+As we have grown, we have realised the need to keep records, especially for insurance reasons.
+
+We want to _Log attendance_
+
+This app provides a really easy way for volunteers to sign in, and this helps us to track who has come, recognise our regulars, and reach out to people who stop coming.
+
+---
+### Getting Started
+
+1. Install Meteor here: [https://www.meteor.com/install](https://www.meteor.com/install)
+
+2. Run the following commands:
+
+`git clone https://github.com/Back2bikes/attendance.git`
+
 `cd attendance/meteor-app`
+`meteor npm install`
 
-#### Install the npm packages  
-`meteor npm i`  
-*running this command with `meteor` installs packages much like `npm i` does, but lets meteor know about it too.
+_*This next command can take a while the first time*_
+`meteor run`
 
-#### Start the app  
-`npm run start` or `meteor run`
+**What is Meteor?**
+Meteor is a JS based framework similar to the _*[MERN](https://www.freecodecamp.org/news/learn-the-mern-stack-tutorial/) / [MEAN](https://www.youtube.com/watch?v=fhRdqbEXp9Y)*_ stacks.
 
-Meteor will start up a client and a server running a MongoDB host. 
+Meteor uses Javascript for coding the front, back and server.
 
-Meteor will look in these directories at startup:  
-`meteor-app/server/`  
-`meteor-app/client/`  
+What seperates it from these stacks is that Meteor is run as a single product designed to ensure all parts work together.
 
-Other than that, The client loads much like a normal `Create-React-App` would if you are familiar with that.
+_*It takes functionality that you would ordinarily need to code and 'Magics ' it into the App from the start.*_
 
-#### Query the DB with mongo  
-When you start up your app in developement, Meteor creates a local database for you, stored in `meteor-app/.meteor/local`
+[Documentation & Guide](https://guide.meteor.com/) | [Tutorial](https://www.meteor.com/tutorials/blaze/creating-an-app) | [Atmosphere, the Meteor Package Manager](https://atmospherejs.com/)
 
-To interact with it, whilst meteor is running, in a new terminal run  
-`meteor mongo`  
-`show dbs`  
-You should see  
-```
-meteor:PRIMARY> show dbs
-admin   0.000GB
-config  0.000GB
-local   0.000GB
-meteor  0.000GB
-```  
+> Click here for specifics on [how the App uses Meteor](#how-the-App-uses-Meteor)
 
-`use meteor`  
-`show collections`
+---
+### App Design
 
-You should see  
-```
-meteor:PRIMARY> show collections
-members
-sessions
-```  
+Meteor Apps are run off the [MVC design pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) and seperate where data can flow.
 
-`db.members.find({})`  
-`db.sessions.find({})`  
+**Components**
 
-Note its not recommended to add records like this, as the ObjectId that Meteor gives the records is different to that of which MongoDb client would without some configuration.
+Re-usable Components are found within `/meteor-app/imports/ui/components`
 
-### Shape of the data currently
-#### Member record  
-```
-{
-	"_id" : "aPvgGf7C7KbtdvrZ3",
-	"avatar" : "7.jpg",
-	"sessionCount" : 7,
-	"sessions" : [ ],
-	"lastIn" : ISODate("2018-06-30T23:07:06.174Z"),
-	"addressPostcode" : "3227",
-	"addressState" : "VIC",
-	"addressStreet" : "991 Orville Wall Apt. 501",
-	"addressSuburb" : "Melbourne",
-	"bikesHousehold" : 5,
-	"email" : "Liza.Reynolds@Ibrahim.net",
-	"emergencyContact" : "Maude Huel",
-	"emergencyEmail" : "Lonny_Deckow@yahoo.com",
-	"emergencyMobile" : "422-284-8924",
-	"emergencyPhone" : "182-735-2485",
-	"mobile" : "816-274-8144",
-	"name" : "Herminio Blick",
-	"phone" : "060-334-2244",
-	"workStatus" : "Unemployed",
-	"reasons" : "Corporis voluptatem dolores esse. Et repudiandae magnam aut atque dolores voluptatibus ut. Iusto laborum placeat quia deleniti dolorem quibusdam.",
-	"primaryBike" : "Ladies",
-	"isHere" : false,
-	"isSuper" : false,
-	"joined" : ISODate("2018-07-04T00:07:05.651Z"),
-	"createdAt" : ISODate("2018-07-04T00:07:06.194Z")
-}
-```
-#### Session record  
-```
-{
-	"_id" : "PrrvqL2zg4sWAipvd",
-	"memberId" : "2syNbSYsd8C7WeMwF",
-	"timeIn" : ISODate("2018-07-04T00:34:08.930Z"),
-	"timeOut" : ISODate("2018-07-04T06:34:08.930Z"),
-	"duration" : 6,
-	"createdAt" : ISODate("2018-07-04T00:34:08.934Z")
-}
-```
+All other pages/ components are page specific within their own folder in: `/meteor-app/imports/ui/`.
 
-### Populating data  
-Currently there is a script that populates the Members collection with dummy data. This is only in use for development. The script is in  
-`meteor-app/imports/startup/server/members-data.js`  
-If you need to reset the data to the initial state populated with some random members, run  
-`meteor reset`  
-This blows all away all the DB data.
-When you next run `meteor run` the startup script will pick up that the collection is empty and repopulate.
-Remember to add any new columns to the dummy data function if you change the shape of the data, as the app grows.  
+The app consists of 8 high-level components. They are:
 
+1 . Display-user component
+
+2 . Admin Panel component
+
+3 . Service Selector Component
+
+4 . Bike assessment component
+
+5 . Bike assessment review component
+
+6 . Customer details component
+
+7 . Confirmation component
+
+8 . Current bike jobs component
+
+---
+
+<< THE ABOVE MAY NOT BE CORRECT ANY MORE >>
+
+---
+
+---
+### Styling
+
+The Attendance App is using [Semantic UI](https://atmospherejs.com/semantic) for styling.
+
+This package is automatically synced with the Semantic UI repo.
+
+[Learn Sematic](http://learnsemantic.com/) | [Official Repository](https://github.com/Semantic-Org/Semantic-UI) | [Semantic-UI Homepage](https://semantic-ui.com/)
+
+Each folder possesses it's own semantic.min.css file
+
+---
+### Database
+
+Meteor integrates with MongoDB and creates a mini MongoDB that lives on the client side within their session.
+
+Any requests/ updates from them will impact on their session database only.
+
+By providing a seperate DB to the user we limit any pull/push requests and ensure a seamless use of the website.
+
+Updates to the actual database will performed without impacting on website load times/ UX.
+
+[MongoDB Docs](https://docs.mongodb.com/) | [Tutorials](https://docs.mongodb.com/manual/tutorial/)
+
+**Dummy data** _*for development only*_
+The script to populate the app with dummy data is in `meteor-app/imports/startup/server/members-data.js`
+
+To reset the data to the initial state run: `meteor reset`
+
+When you next run `meteor run` the startup script will repopulate the DB.
+
+> Remember to update this file when you update/ change data fields that a user will need.
+
+---
 ### Schemas
-Schemas are located in `meteor-app/imports/api/`
 
-### Meteor Publish / Subscribe, a simple intro
-  
-The beauty of meteor is that serves up data that updates the client instantly via sockets. It does this via publications and subscriptions. You publish data on the server, and you subscribe in the client, any updates to data get dynamically updated in client.
+Some shared controller/methods for schema calls can be found here: `/imports/api/schema.js`
 
-### Collection model
+**Member records** :`/imports/api/members/`
+
+**Session records** : `/imports/api/sessions/`
+An individual session record will be created for user interactions.
+
+**Bike assessments/ Jobs** : `/imports/api/assessments/`
+
+---
+### Story Book
+
+Each Component within the App should be built Dumb/ Pure. It should render independant of any imports.
+
+Any logic should be created within a backend controller and passed to it as props.
+
+Story Book will need to be installed on your machine by running: `npx -p @storybook/cli sb init`
+
+| Component name  |     StoryBook name      |
+| :-------------: | :---------------------: |
+| `PascalCase.js` | `PascalCase.stories.js` |
+
+---
+### Testing
+
+Tests are performed through a combination of JEST and [Cypress](https://www.cypress.io/)
+
+begin tests by cd'ing into the `attendance/meteor-app` folder and running:
+`meteor npm run debug.b2b`
+
+> Ensure that all Node Packages are up to date before running tests
+
+---
+
+## << Check on this part re: tests to run. There are too many scripts and many seem broken >>
+
+---
+### how the App uses Meteor
+
+Meteor controls how data is accessed 'under the hood' through it's functions:
+
+- `Meteor.publish`
+
+and
+
+- `Meteor.subscribe`
+
+By default, everything that has been '_*published*_' is available to the entire project by using the '_*subscribe*_'.
+
+If you publish data, you can _*subscribe*_ to that data in any file.
+_*This is similar to a Redux Store.*_
+
+> This is convenient during development, but it’s a security issue that must be addressed in the code before launching the application.
+
+> More information on this can be found under [autopublish](https://www.meteor.com/tutorials/blaze/publish-and-subscribe)
+
+To share a Mongo Collection through-out the App
+i.e. `const Members = new Mongo.Collection('members')`
+
+*Publishing*
+you can do the below to share the newly created collection across the App.
+in the below example, all.members could be changed to anything as you are assigning a name to the data.
 ```
-// meteor-app/imports/api/members
-const Members = new Mongo.Collection('members')
-
-export const MembersSchema = new SimpleSchema({
-  name: {
-    type: String,
-    label: "Name",
-    max: 128,
-  },
-  // and so on...
+const members = Meteor.publish('all.members', () => {
+  return Members.find({})
+})
 ```
-### Publication  
-On the server, you return a mongoDB query
-```
-import Members from '../members';
+*Subscribing*
+To access the information inside a file, you can subscribe as below:
 
-Meteor.publish('all.members', () => {
-  return Members.find({});
-});
 ```
-### Subscription  
-In a container, you subscribe to the data and feed it in as props to the child components.  
-`withTracker` is meteors version of redux's `connect`, in which you create a container that is data aware, or connected, and you give the data to the presentational, or 'dumb' components following Reacts 'unidirectional' data flow. Read up about this in the React docs if this isnt clear. 
-https://reactjs.org/docs/thinking-in-react.html  
-
-Note that you have to use the same query on the client, that you used in the publication on the server.
-This is because if you have multiple publications going, with different projections, ie sorting, limiting etc, Meteor mashes them all together and keeps a cache of all of these on something called `MiniMongo`, a client side Mongo.  
-```
-const AdminContainer = withTracker((props) => {
-  const membersHandle = Meteor.subscribe('all.members')
-  const members = Members.find({}).fetch()
-  const loading = !membersHandle.ready()
-
-  return {
-    loading,
-    members,
-  }
-})(Admin)
+Meteor.subscribe(members')
 ```
 
+*It is recommended to read through the [tutorial](http://www.discovermeteor.com/blog/understanding-meteor-publications-and-subscriptions/) as you want to only subscribe to specific information to limit memory allocation*
 
+---
+#### Working With Children Checks
 
-### Create publications 
+All files to do with this can be found here: `/imports/api/wwccs`
+including the Schema & Methods with Axios integration
 
-# User Interface
-The UI has been roughed out and the pics below are intended as a guide only.
-
-![main app](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/attenApp_Main.jpg)
-*Good work Joe!*
-
-![modal confirmation](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/attenApp_Modal.jpg)
-*I'm not sure if we have any fat cat volunteers*
-
-## Check-in Confirmation assumptions
-- Attendance is based on an honour system. No one really needs to sign in or out so ...
-- Attendance is more of a check in process
-- Attendees usually have a rough idea how long they're going to be in the work shop for, so when they check in they just need to indicate that up front - which obviates the need to "sign out". If they skip off home after half an hour, no biggie.
-
-#### For some reason github displays this horizontally not vertically ...
-![the picture](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/attenApp_bigPicture.jpg)
-It's because the orientation of the image is stored in the meta data, and github is respecting that :)
-
-## React Epiphany
-Plan to re-implement initial start using this overlay as the basis for react componentry:
-![the picture](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/ui-1-layout-component-markup.jpg)
-
-![modal confirmation](https://github.com/Back2bikes/attendance-app/blob/master/docs/UI%20Pics/ui-1-layout-modal-component-markup.jpg)
+[Working With Children Checks - Application Process](https://www.workingwithchildren.vic.gov.au/individuals/applicants/how-to-apply) | [Check Status Online](https://online.justice.vic.gov.au/wwccu/checkstatus.doj#_ga=2.142958133.1872289877.1582606042-353645631.1582606042)

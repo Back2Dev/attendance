@@ -4,13 +4,33 @@ import SimpleSchema from 'simpl-schema'
 
 import log from '/imports/lib/log'
 const debug = require('debug')('b2b:email')
-const sgMail = require('@sendgrid/mail')
+const sendGrid = require('@sendgrid/mail')
 
 const DEFAULT_MESSAGE = 'Hello from back2bikes. Heres your pin'
 const DEFAULT_DESTINATION = 'mrslwiseman@gmail.com'
 const DEFAULT_SUBJECT = 'Back 2 Bikes PIN reminder.'
 
 const emailSettings = { enabled: false }
+let sgKey
+
+// A Wrapper for sendgrid - provide a centralised location, so we can decide whether to actually send or not
+const sgMail = {
+  setApiKey: apiKey => {
+    sgKey = apiKey
+    return sendGrid.setApiKey(apiKey)
+  },
+  send: options => {
+    if (Meteor.isTest) {
+      debug('Test mode, not sending email')
+      return null
+    }
+    if (!sgKey) {
+      debug('Sendgrid API key not set')
+      return null
+    }
+    return sendGrid.send(options)
+  }
+}
 
 Meteor.startup(() => {
   if (Meteor.settings.env && Meteor.settings.env.MAIL_URL) {

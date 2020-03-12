@@ -12,8 +12,11 @@ Meteor.methods({
       Members.update(memberId, { $set: { expiry: newExpiry, status: 'current' } })
       return Purchases.update(purchaseId, { $set: { expiry: newExpiry } })
     } catch (e) {
-      log.error({ e })
+      log.error(e)
       throw new Meteor.Error(500, e.message)
     }
   }
 })
+
+
+
