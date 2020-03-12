@@ -15,7 +15,8 @@ const Loader = props => {
 
 export const serviceState = {
   data: [],
-  tags: []
+  tags: [],
+  totalServicePrice: 0
 }
 
 export default withTracker(props => {

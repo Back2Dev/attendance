@@ -36,12 +36,6 @@ const panes = props => {
 }
 
 function Service(props) {
-  return (
-    <ServiceContextProvider {...props}>
-      <ServiceItemSearchContainer />
-      <ServiceItemTagContainer />
-    </ServiceContextProvider>
-  )
   console.log('props from Service comp = ', props)
 
   return <Tab panes={panes(props)} />

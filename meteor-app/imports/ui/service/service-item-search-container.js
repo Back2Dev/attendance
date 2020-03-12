@@ -11,8 +11,21 @@ export default function ServiceItemSearchContainer() {
   const [value, setValue] = React.useState('')
 
   const handleResultSelect = (e, { result }) => {
+    let totalServicePrice = state.totalServicePrice
+    if (result.price) {
+      totalServicePrice = state.totalServicePrice + result.price
+    } else {
+      totalServicePrice = result.items.reduce((total, item) => {
+        if (!item.greyed) {
+          total += item.price
+        }
+        return total
+      }, 0)
+      totalServicePrice = totalServicePrice + state.totalServicePrice
+    }
     const newTags = [...state.tags, result]
-    const newState = { ...state, tags: newTags }
+    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice }
+    console.log('newState = ', newState)
     setState(newState)
     setValue('')
   }
