@@ -24,7 +24,9 @@ const MemberEditReview = props => {
           <span>Change Email/Password</span>
           <Button basic circular icon="pencil" floated="right" />
         </h3>
-        {!disabled ? <UserDetailForm formData={props.formData} setUser={props.setUser} /> : null}
+        {!disabled ? (
+          <UserDetailForm formData={props.formData} setUser={props.setUser} setMember={props.setMember} />
+        ) : null}
       </Segment>
       {props.steps.map((step, ix) => {
         return (
