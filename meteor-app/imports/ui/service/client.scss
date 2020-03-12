@@ -27,6 +27,7 @@
       @include flex-column;
       flex-grow: 1;
       justify-content: space-between;
+
       & > *{
         margin: 10px 0;
       }
@@ -35,6 +36,8 @@
       margin-right: 5vw;
       .customer-details, .bike-details{
         justify-content: space-evenly;
+        border: 1px solid hsla(240, 79%, 65%, 0.63);
+        padding: 2em;
       }
     }
     .form-right{

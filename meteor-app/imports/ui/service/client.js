@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function client() {
   // Bike Details
@@ -24,27 +24,26 @@ function client() {
     <form onSubmit={handleSubmit}>
       <section>
         <article>
-        <legend>Bike Details</legend>
-        <label htmlFor="bikeDetails">
-          <span></span>
-          <input id="bikeDetails" type="text" value={brand} onChange={e => setBrand(e.target.value)} />
-          <input id="bikeDetails" type="text" value={bikeName} onChange={e => setBikeName(e.target.value)} />
-          <input id="bikeDetails" type="text" value={color} onChange={e => setColor(e.target.value)} />
-        </label>
+          <legend>Bike Details</legend>
+          <label htmlFor="bikeDetails">
+            <span></span>
+            <input id="bikeDetails" type="text" value={brand} onChange={e => setBrand(e.target.value)} />
+            <input id="bikeDetails" type="text" value={bikeName} onChange={e => setBikeName(e.target.value)} />
+            <input id="bikeDetails" type="text" value={color} onChange={e => setColor(e.target.value)} />
+          </label>
         </article>
         <article>
-        <legend>Customer Details</legend>
-        <label htmlFor="customerDetails">
-          <span></span>
-          <input id="customerDetails" type="text" value={name} onChange={e => setName(e.target.value)} />
-          <input id="customerDetails" type="text" value={email} onChange={e => setEmail(e.target.value)} />
-          <input id="customerDetails" type="text" value={phone} onChange={e => setPhone(e.target.value)} />
-        </label>
+          <legend>Customer Details</legend>
+          <label htmlFor="customerDetails">
+            <span></span>
+            <input id="customerDetails" type="text" value={name} onChange={e => setName(e.target.value)} />
+            <input id="customerDetails" type="text" value={email} onChange={e => setEmail(e.target.value)} />
+            <input id="customerDetails" type="text" value={phone} onChange={e => setPhone(e.target.value)} />
+          </label>
         </article>
       </section>
 
       <section>
-        
         <legend>Options</legend>
         <label htmlFor="optionDetails">
           <input type="checkbox" id="optionDetails" name="vehicle1" value="Bike" />
@@ -57,9 +56,8 @@ function client() {
         </label>
 
         <article>
-        <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" />
         </article>
-
       </section>
     </form>
   )
