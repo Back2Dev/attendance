@@ -14,6 +14,10 @@ Meteor.publish('all.serviceItems', () => {
   return ServiceItems.find({})
 })
 
+Meteor.publish('all.services', () => {
+  return [ServiceItems.find({}), Services.find({})]
+})
+
 Meteor.publish('assessments.all', () => {
   return Assessment.find({})
 })

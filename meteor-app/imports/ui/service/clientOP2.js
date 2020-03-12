@@ -42,14 +42,13 @@ function FormTrial() {
   const onSubmit = data => {
     console.log(data)
     let submissiondata = data
-    console.log("submissiondata:", submissiondata)
-    console.log("errors:", errors)
+    console.log('submissiondata:', submissiondata)
+    console.log('errors:', errors)
     return submissiondata
   }
   console.log(errors)
 
-  const schema = yup.object().shape(
-    {
+  const schema = yup.object().shape({
     CustomerName: yup.string().required(),
     phone: yup
       .number()
@@ -57,18 +56,20 @@ function FormTrial() {
       .required()
       .positive()
       .integer(),
-    email: yup.string().email().required(),
+    email: yup
+      .string()
+      .email()
+      .required(),
     bikeBrand: yup.string().required(),
     bikeName: yup.string().required(),
     bikeColor: yup.string().required()
-  }
-  )
+  })
 
-  const validate = (value) => {
+  const validate = value => {
     if (!input.value) {
       return !valid
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="service-customer" novalidate>
@@ -173,7 +174,6 @@ function FormTrial() {
             Submit{' '}
           </button>
         </article>
-
       </section>
     </form>
   )
