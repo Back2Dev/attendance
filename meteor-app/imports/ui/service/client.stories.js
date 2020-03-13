@@ -5,4 +5,4 @@ import { storiesOf } from '@storybook/react'
 
 import FormTrial from './client'
 
-storiesOf('Service.client', module).add('client', () => <FormTrial />)
+storiesOf('Service', module).add('client', () => <FormTrial />)
