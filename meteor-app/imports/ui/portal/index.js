@@ -81,8 +81,6 @@ export default withTracker(props => {
     Alert.success(`You are signed out`)
   }
 
-  const toEdit = () => props.history.push(`/edit/${member._id}`)
-
   function save(id, formData) {
     Meteor.call('members.update', id, formData)
   }
@@ -90,7 +88,6 @@ export default withTracker(props => {
   return {
     recordVisit,
     save,
-    toEdit,
     recordDeparture,
     loading,
     cart,
