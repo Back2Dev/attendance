@@ -1,6 +1,6 @@
 // Meteor utilities
 import { Meteor } from 'meteor/meteor'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 export const uploadPartsPrices = e => {
   e.preventDefault()

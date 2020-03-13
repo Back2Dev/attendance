@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import MemberAddSuccessContainer from '/imports/ui/member/member-add-success-container'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import { alertsConfig } from '/imports/ui/config/alerts'
 

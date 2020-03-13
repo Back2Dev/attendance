@@ -4,7 +4,7 @@ import Members from '/imports/api/members/schema'
 import MemberAddCard from './member-add-card'
 
 const debug = require('debug')('b2b:addcard')
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 export default withTracker(props => {
   const id = props.match.params.id
