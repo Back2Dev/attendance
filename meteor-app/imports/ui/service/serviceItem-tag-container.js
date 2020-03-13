@@ -7,8 +7,6 @@ export default function ServiceItemTagContainer() {
   const tags = state.tags
   let totalServicePrice = state.totalServicePrice
 
-  console.log('state =', state)
-
   function calcTotalDeduction(tag) {
     if (tag.price) {
       priceDeduction = tag.price / 100
@@ -21,6 +19,22 @@ export default function ServiceItemTagContainer() {
       }, 0)
     }
     return priceDeduction
+  }
+
+  function toggleExpand(tag) {
+    const newTags = [...tags]
+
+    console.log('tag passed as a parameter = ', tag)
+
+    newTags.map(currentTag => {
+      console.log('coming into toggle expand = ', currentTag)
+      if (tag.name === currentTag.name) {
+        currentTag.expanded = !currentTag.expanded
+      }
+    })
+
+    const newState = { ...state, tags: newTags }
+    setState(newState)
   }
 
   function removeTag(tag, index) {
@@ -72,6 +86,7 @@ export default function ServiceItemTagContainer() {
       tags={tags}
       majorMinorTotal={majorMinorTotal}
       totalServicePrice={totalServicePrice}
+      toggleExpand={toggleExpand}
     />
   )
 }

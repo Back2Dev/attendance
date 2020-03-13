@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import './serviceItem-tag.css'
 
 export default function ServiceItemTag(props) {
-  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, tags } = props
+  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, toggleExpand, tags } = props
 
   return (
     <div className="wrapper">
@@ -25,31 +25,35 @@ export default function ServiceItemTag(props) {
         tag.name === 'Major Service' || tag.name === 'Minor Service' ? (
           <div className="mjmn" key={index}>
             <span className="tag">
+              <span className="expand" onClick={() => toggleExpand(tag, index)}>
+                {tag.expanded ? '<' : '>'}
+              </span>
               {tag.name}
               <span className="item-name">- $ {majorMinorTotal(tag.items)}</span>
               <span className="handle" onClick={() => removeTag(tag, index)}>
                 x
               </span>
             </span>
-            {tag.items.map((item, index) =>
-              tag.name === 'Major Service' ? (
-                <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  {item.name}
-                  <span className="item-price">- $ {item.price / 100}</span>
-                  <span className="handle" onClick={() => toggleTag(item, tag)}>
-                    {item.greyed ? '+' : '-'}
+            {tag.expanded &&
+              tag.items.map((item, index) =>
+                tag.name === 'Major Service' ? (
+                  <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
+                    {item.name}
+                    <span className="item-price">- $ {item.price / 100}</span>
+                    <span className="handle" onClick={() => toggleTag(item, tag)}>
+                      {item.greyed ? '+' : '-'}
+                    </span>
                   </span>
-                </span>
-              ) : (
-                <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                  {item.name}
-                  <span className="item-price">- $ {item.price / 100}</span>
-                  <span className="handle" onClick={() => toggleTag(item, tag)}>
-                    {item.greyed ? '+' : '-'}
+                ) : (
+                  <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
+                    {item.name}
+                    <span className="item-price">- $ {item.price / 100}</span>
+                    <span className="handle" onClick={() => toggleTag(item, tag)}>
+                      {item.greyed ? '+' : '-'}
+                    </span>
                   </span>
-                </span>
-              )
-            )}
+                )
+              )}
           </div>
         ) : null
       )}
