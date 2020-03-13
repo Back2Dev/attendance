@@ -5,18 +5,42 @@ import { ServiceContext } from './service-context'
 export default function ServiceItemTagContainer() {
   const [state, setState] = useContext(ServiceContext)
   const tags = state.tags
-  const totalServicePrice = state.totalServicePrice
+  let totalServicePrice = state.totalServicePrice
 
   console.log('state =', state)
 
-  function removeTag(index) {
+  function calcTotalDeduction(tag) {
+    if (tag.price) {
+      priceDeduction = tag.price / 100
+    } else {
+      priceDeduction = tag.items.reduce((total, item) => {
+        if (!item.greyed) {
+          total += item.price / 100
+        }
+        return total
+      }, 0)
+    }
+    return priceDeduction
+  }
+
+  function removeTag(tag, index) {
+    let priceDeduction = calcTotalDeduction(tag)
+
+    console.log('priceDeduction = ', priceDeduction)
+
     const newTags = [...tags]
     newTags.splice(index, 1)
-    const newState = { ...state, tags: newTags }
+    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice - priceDeduction }
     setState(newState)
   }
 
   function toggleTag(item, currentTag) {
+    if (!item.greyed) {
+      totalServicePrice = totalServicePrice - item.price / 100
+    } else {
+      totalServicePrice = totalServicePrice + item.price / 100
+    }
+
     const newTags = [...tags]
     newTags.map(tag => {
       tag.items
@@ -27,14 +51,14 @@ export default function ServiceItemTagContainer() {
           })
         : null
     })
-    const newState = { ...state, tags: newTags }
+    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice }
     setState(newState)
   }
 
   function majorMinorTotal(items) {
     let sum = items.reduce((total, item) => {
       if (!item.greyed) {
-        total += item.price
+        total += item.price / 100
       }
       return total
     }, 0)

@@ -2,16 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './serviceItem-tag.css'
 
-const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePrice, tags }) => {
-  // const total = items => {
-  //   let sum = items.reduce((total, item) => {
-  //     if (!item.greyed) {
-  //       total += item.price
-  //     }
-  //     return total
-  //   }, 0)
-  //   return sum
-  // }
+export default function ServiceItemTag(props) {
+  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, tags } = props
 
   return (
     <div className="wrapper">
@@ -19,9 +11,9 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
         {tags.map((tag, index) =>
           tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
             <span className="tag" key={index}>
-              <span className="item-name">{tag.name}</span>
-              <span className="item-name"> ${tag.price}</span>
-              <span className="handle" onClick={() => removeTag(index)}>
+              <span className="item-name">{tag.name} </span>
+              <span className="item-name">- $ {tag.price / 100}</span>
+              <span className="handle" onClick={() => removeTag(tag, index)}>
                 x
               </span>
             </span>
@@ -34,8 +26,8 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
           <div className="mjmn" key={index}>
             <span className="tag">
               {tag.name}
-              <span className="item-name"> ${majorMinorTotal(tag.items)}</span>
-              <span className="handle" onClick={() => removeTag(index)}>
+              <span className="item-name">- $ {majorMinorTotal(tag.items)}</span>
+              <span className="handle" onClick={() => removeTag(tag, index)}>
                 x
               </span>
             </span>
@@ -43,7 +35,7 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
               tag.name === 'Major Service' ? (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                   {item.name}
-                  <span className="item-price"> ${item.price}</span>
+                  <span className="item-price">- $ {item.price / 100}</span>
                   <span className="handle" onClick={() => toggleTag(item, tag)}>
                     {item.greyed ? '+' : '-'}
                   </span>
@@ -51,7 +43,7 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
               ) : (
                 <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                   {item.name}
-                  <span className="item-price"> ${item.price}</span>
+                  <span className="item-price">- $ {item.price / 100}</span>
                   <span className="handle" onClick={() => toggleTag(item, tag)}>
                     {item.greyed ? '+' : '-'}
                   </span>
@@ -61,7 +53,7 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
           </div>
         ) : null
       )}
-      <div className="total-price">$$${totalServicePrice}</div>
+      <div className="total-price">${totalServicePrice}</div>
     </div>
   )
 }
@@ -73,5 +65,3 @@ ServiceItemTag.propTypes = {
   totalServicePrice: PropTypes.number.isRequired,
   tags: PropTypes.array.isRequired
 }
-
-export default ServiceItemTag
