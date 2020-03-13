@@ -20,8 +20,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-describe('Retrieve kiosk webpage', function() {
-  it('Retrieve kiosk webpage', function() {
+describe('Retrieve Login webpage', function() {
+  it('Retrieve Login webpage', function() {
     cy.visit('login')
 
     cy.get('input[name="email"]')
@@ -41,10 +41,7 @@ describe('Retrieve kiosk webpage', function() {
       .contains('Cathrine King')
       .should('exist')
 
-    cy.get('button')
-      .contains('Edit your profile')
-      .should('be.enabled')
-      .click()
+    cy.get('a[href="/edit/YNQQwrCTSsShAMqih"').click()
 
     cy.get('h1')
       .contains('Edit your details')
@@ -68,5 +65,59 @@ describe('Retrieve kiosk webpage', function() {
     cy.get('h2')
       .contains('Credit Card Registration')
       .should('exist')
+
+    cy.get('button')
+      .contains('Next')
+      .should('be.enabled')
+      .click()
+
+    cy.get('input[name="email"]')
+      .clear()
+      .type('test@test.com')
+
+    cy.get('input[name="address_line1"')
+      .clear()
+      .type('12 Lucky Street')
+
+    cy.get('input[name="address_city"]')
+      .clear()
+      .type('Middle Park')
+
+    cy.get('input[name="address_state"]')
+      .clear()
+      .type('VIC')
+
+    cy.get('input[name="address_postcode"]')
+      .clear()
+      .type('3000')
+
+    cy.get('input[name="address_country"]')
+      .clear()
+      .type('Australia')
+
+    cy.get('button')
+      .contains('Next')
+      .should('be.enabled')
+      .click()
+
+    cy.get('h2')
+      .contains('Payment form - credit card')
+      .should('exist')
+
+    cy.get('#mockName')
+      .clear()
+      .type('Cathrine King')
+
+    cy.get('#mockNumber')
+      .clear()
+      .type('4200000000000000')
+
+    cy.get('#mockCvc')
+      .clear()
+      .type('119')
+
+    cy.get('#mockExpiry')
+      .clear()
+      .type('01/09/2020')
   })
 })
