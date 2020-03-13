@@ -12,7 +12,7 @@ storiesOf('Service', module).add('ServiceItemTag', () => {
       tags={storiesData.tags}
       removeTag={action('removeTag')}
       toggleTag={action('toggleTag')}
-      majorMinorTotal={5}
+      majorMinorTotal={action('major/minor total')}
       totalServicePrice={5000}
     />
   )

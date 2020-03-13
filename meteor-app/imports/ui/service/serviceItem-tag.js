@@ -61,7 +61,7 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
           </div>
         ) : null
       )}
-      <div class="total-price">$$${totalServicePrice}</div>
+      <div className="total-price">$$${totalServicePrice}</div>
     </div>
   )
 }
@@ -69,7 +69,7 @@ const ServiceItemTag = ({ removeTag, toggleTag, majorMinorTotal, totalServicePri
 ServiceItemTag.propTypes = {
   removeTag: PropTypes.func.isRequired,
   toggleTag: PropTypes.func.isRequired,
-  majorMinorTotal: PropTypes.number.isRequired,
+  majorMinorTotal: PropTypes.func.isRequired,
   totalServicePrice: PropTypes.number.isRequired,
   tags: PropTypes.array.isRequired
 }
