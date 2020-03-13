@@ -8,4 +8,4 @@ import { storiesData } from './service-data-stories'
 
 console.log('servicedata from the item-tag stories', storiesData)
 
-storiesOf('ServiceItemTag', module).add('ServiceItemTag', () => <ServiceItemTag data={storiesData} />)
+storiesOf('Service.ServiceItemTag', module).add('ServiceItemTag', () => <ServiceItemTag data={storiesData} />)

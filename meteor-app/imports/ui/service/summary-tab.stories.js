@@ -34,7 +34,7 @@ const logs = [
   }
 ]
 
-storiesOf('Summary tab', module).add('default', () => (
+storiesOf('Service.Summary tab', module).add('default', () => (
   <Summary
     key={currentJob._id}
     currentJob={currentJob}

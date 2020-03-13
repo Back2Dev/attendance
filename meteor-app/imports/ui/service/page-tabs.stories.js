@@ -5,4 +5,4 @@ import { storiesOf } from '@storybook/react'
 
 import TabbedPages from './page-tabs'
 
-storiesOf('TabbedPages', module).add('TabbedPages', () => <TabbedPages />)
+storiesOf('Service.TabbedPages', module).add('TabbedPages', () => <TabbedPages />)

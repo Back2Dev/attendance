@@ -6,4 +6,4 @@ import { storiesData } from './service-data-stories'
 
 console.log('servicedata from the  search stories', storiesData)
 
-storiesOf('SearchBar', module).add('SearchBar', () => <SearchBar data={storiesData} />)
+storiesOf('Service.SearchBar', module).add('SearchBar', () => <SearchBar data={storiesData} />)
