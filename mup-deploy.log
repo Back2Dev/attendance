@@ -237,3 +237,4 @@ Fri 6 Mar 2020 22:01:25 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-stagi
 Fri 6 Mar 2020 22:10:35 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging reconfig master https://pa-staging.back2bikes.com.au 1.2.1
 Mon 9 Mar 2020 21:48:38 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy master https://pa-staging.back2bikes.com.au 1.2.1
 Tue 10 Mar 2020 06:28:34 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging reconfig master https://pa-staging.back2bikes.com.au 1.2.1
+Wed 11 Mar 2020 18:20:13 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig master https://app.back2bikes.com.au 1.2.1

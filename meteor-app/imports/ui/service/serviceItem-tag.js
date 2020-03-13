@@ -2,7 +2,7 @@ import React from 'react'
 import './serviceItem-tag.css'
 
 export default function ServiceItemTag(props) {
-  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, tags } = props.data
+  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, tags } = props
 
   // const total = items => {
   //   let sum = items.reduce((total, item) => {

@@ -35,8 +35,27 @@ function inputElement(type, name, placeholder){
 */
 }
 
-function Client() {
+let yup = require('yup')
+const schema = yup.object().shape({
+  CustomerName: yup.string().required(),
+  phone: yup
+    .number()
+    .min(6)
+    .required()
+    .positive()
+    .integer(),
+  email: yup
+    .string()
+    .email()
+    .required(),
+  bikeBrand: yup.string().required(),
+  bikeName: yup.string().required(),
+  bikeColor: yup.string().required()
+})
+
+function Client(props) {
   const [state, setState] = useContext(ServiceContext)
+  console.log('state from client = ', state)
   const { register, handleSubmit, errors } = useForm({
     validationSchema: schema,
     //SubmitFocusError autofocuses to the 1st invalid field when form submit
@@ -51,30 +70,11 @@ function Client() {
   }
   console.log(errors)
 
-  let yup = require('yup')
-  const schema = yup.object().shape({
-    CustomerName: yup.string().required(),
-    phone: yup
-      .number()
-      .min(6)
-      .required()
-      .positive()
-      .integer(),
-    email: yup
-      .string()
-      .email()
-      .required(),
-    bikeBrand: yup.string().required(),
-    bikeName: yup.string().required(),
-    bikeColor: yup.string().required()
-  })
-
   // const validate = value => {
   //   if (!input.value) {
   //     return !valid
   //   }
   // }
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} id="service-customer" novalidate>
       <section className="form-left">
