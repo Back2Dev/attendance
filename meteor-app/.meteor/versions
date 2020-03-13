@@ -21,10 +21,7 @@ dburles:factory@1.1.0
 ddp@1.4.0
 ddp-client@2.3.3
 ddp-common@1.4.0
-<<<<<<< HEAD
-=======
 ddp-rate-limiter@1.0.7
->>>>>>> origin/develop
 ddp-server@2.3.1
 deps@1.0.12
 diff-sequence@1.1.1
@@ -72,20 +69,13 @@ mobile-status-bar@1.1.0-rc110.4
 modern-browsers@0.1.5
 modules@0.15.0
 modules-runtime@0.12.0
-<<<<<<< HEAD
-momentjs:moment@2.22.2
-=======
 momentjs:moment@2.24.0
->>>>>>> origin/develop
 mongo@1.9.0-rc110.4
 mongo-decimal@0.1.1
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
 mongo-livedata@1.0.12
-<<<<<<< HEAD
-=======
 npm-bcrypt@0.9.3
->>>>>>> origin/develop
 npm-mongo@3.7.0-rc110.4
 observe-sequence@1.0.16
 ordered-dict@1.1.0
@@ -97,10 +87,7 @@ practicalmeteor:sinon@1.14.1_2
 promise@0.11.2
 raix:eventemitter@0.1.3
 random@1.2.0-rc110.4
-<<<<<<< HEAD
-=======
 rate-limit@1.0.9
->>>>>>> origin/develop
 react-meteor-data@0.2.16
 reactive-dict@1.3.0
 reactive-var@1.0.11
@@ -111,18 +98,12 @@ semantic:ui@2.3.1
 semantic:ui-data@2.3.1
 service-configuration@1.0.11
 session@1.2.0
-<<<<<<< HEAD
-=======
 sha@1.0.9
->>>>>>> origin/develop
 shell-server@0.5.0-rc110.4
 socket-stream-client@0.2.3
 spacebars@1.0.15
 spacebars-compiler@1.1.3
-<<<<<<< HEAD
-=======
 srp@1.0.12
->>>>>>> origin/develop
 standard-minifier-js@2.6.0
 static-html@1.2.2
 templating@1.3.2
