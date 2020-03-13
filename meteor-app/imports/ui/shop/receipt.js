@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Container, Segment, Table, Header, Button, Icon, Image } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
@@ -10,15 +11,16 @@ const Receipt = props => {
   const Address = props => (
     <div>
       {props.fields
-        .filter(part => state.card[`address_${part}`])
+        .filter(part => state.creditCard[`address_${part}`])
         .map(part => (
           <span key={part}>
-            {state.card[`address_${part}`]}
+            {state.creditCard[`address_${part}`]}
             <br />
           </span>
         ))}
     </div>
   )
+
   const Purchased = props => (
     <span>
       {props.items.map((item, ix) => (
@@ -29,19 +31,19 @@ const Receipt = props => {
     </span>
   )
 
-  const items = !state.card
+  const items = !state.creditCard
     ? [{ name: 'Status', value: <span>No data from server?</span> }]
     : [
         { name: 'Purchased', value: <Purchased items={state.products} /> },
         { name: 'Amount', value: <Price cents={state.price} /> },
-        { name: 'Name', value: state.card.name },
+        { name: 'Name', value: state.creditCard.name },
         {
           name: 'Card',
-          value: `${state.card.scheme} ${state.card.display_number}`
+          value: `${state.creditCard.scheme} ${state.creditCard.display_number}`
         },
         {
           name: 'Country of issue',
-          value: state.card.issuing_country
+          value: state.creditCard.issuing_country
         },
         {
           name: 'Billing address',
@@ -52,7 +54,7 @@ const Receipt = props => {
       ]
 
   const gotoShop = e => {
-    sessionStorage.setItem('mycart', null)
+    dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/shop')
   }
 
@@ -84,4 +86,9 @@ const Receipt = props => {
   )
 }
 
+Receipt.propTypes = {
+  fields: PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired
+}
 export default Receipt

@@ -18,7 +18,14 @@ const MemberCardSmall = props => {
         width: '100%'
       }}
     >
-      <Image size="tiny" avatar spaced src={'/images/avatars/' + avatar} style={{ border: '3px solid white' }} />
+      <Image
+        size="tiny"
+        avatar
+        spaced
+        src={'/images/avatars/' + avatar}
+        style={{ border: '3px solid white' }}
+        onClick={() => props.onCardClick(props._id, props.name)}
+      />
       <div list={list}>
         <Label size="big" color={color}>
           {shortName}

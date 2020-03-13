@@ -4,12 +4,11 @@ import { Button, Card, Image } from 'semantic-ui-react'
 import { cloneDeep } from 'lodash'
 import { CartContext } from './cart-data'
 import Price from './price'
+const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
 const PayNowButton = props => {
   const { productCode, memberId, amount } = props
-  const paymentUrl = `${
-    Meteor.settings.public.paymentSite
-  }?amount=${amount}&description=${productCode}%2F${memberId}&amount_editable=false&success_url=https%3A%2F%2Fpa.almsford.org%2Fshop%2Fpaid`
+  const paymentUrl = `${Meteor.settings.public.paymentSite}?amount=${amount}&description=${productCode}%2F${memberId}&amount_editable=false&success_url=https%3A%2F%2Fpa.almsford.org%2Fshop%2Fpaid`
   const options =
     'location=no,toolbar=no,footer=yes,footercolor=#cccccc,closebuttoncaption=Close,closebuttoncolor=#888888'
   const openPayment = () => {
@@ -24,12 +23,20 @@ const PayNowButton = props => {
 
 export const ProductCardOnly = props => {
   const img = props.image || '/images/gym.jpg'
-  const { mode, takeAction, remove, color = 'green', name, description, price, code, qty } = props
+  const { mode, takeAction, remove, color = 'green', name, description, price, code, prodQty } = props
   return (
     <Card color={color}>
       <Card.Content>
         {mode === 'remove' && (
-          <Button size="mini" floated="right" type="button" onClick={remove} color="red" title="Remove this item">
+          <Button
+            size="mini"
+            floated="right"
+            type="button"
+            onClick={remove}
+            color="red"
+            id={mkid(`rm ${code}`)}
+            title="Remove this item"
+          >
             X
           </Button>
         )}
@@ -40,6 +47,7 @@ export const ProductCardOnly = props => {
       <Card.Content extra>
         {mode === 'next' && (
           <div>
+            {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
             &nbsp;
             <Button type="button" onClick={takeAction} color={color}>
@@ -51,14 +59,14 @@ export const ProductCardOnly = props => {
           <div>
             <Price cents={price} />
             &nbsp;
-            <Button type="button" onClick={takeAction} color={color}>
+            <Button id={mkid(name)} type="button" onClick={takeAction} color={color}>
               Add to cart
             </Button>
           </div>
         )}
         {mode === 'remove' && (
           <div>
-            {qty > 1 && <span>{qty} x </span>}
+            {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
             {/* <PayNowButton productCode={code} memberId={props.memberId} amount={(qty * price) / 100} /> */}
           </div>
@@ -71,7 +79,7 @@ export const ProductCard = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const add = () => {
     const product = cloneDeep(props)
-    product.qty = 0
+    if (sessionStorage.getItem('memberId')) product.memberId = sessionStorage.getItem('memberId')
     dispatch({ type: 'add', payload: product })
   }
 

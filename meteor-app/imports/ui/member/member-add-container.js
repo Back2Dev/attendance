@@ -6,7 +6,7 @@ import isIframe from '/imports/helpers/isIframe'
 import getSchemas from '/imports/ui/config/member-add-schemas'
 
 const debug = require('debug')('b2b:addmember')
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 const success = new ReactiveVar(false)
 const error = new ReactiveVar(false)
@@ -19,8 +19,8 @@ export default withTracker(props => {
     newId.set(null)
     error.set(true)
     success.set(false)
-    msg.set(e.reason)
-    Alert.error(e.reason)
+    msg.set(e.message)
+    Alert.error(e.message)
   }
 
   function setSuccess(message, id) {
@@ -47,9 +47,16 @@ export default withTracker(props => {
       // we are adding a member
       try {
         debug('adding member', formData)
-        const res = await Meteor.callAsync('members.insert', formData)
-        setSuccess('Details saved ok', res)
-        return res
+        // creates a user and returns an id for storing in member's collection
+        const response = await Meteor.callAsync('addUser', formData.email, formData.password)
+        // Stores the data into member's collection
+        if (response.status === 'success') {
+          const res = await Meteor.callAsync('members.insert', { ...formData, userId: response.id })
+          setSuccess('Details saved ok', res)
+          return res
+        } else {
+          setError(response)
+        }
       } catch (e) {
         setError(e)
       }

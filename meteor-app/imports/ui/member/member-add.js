@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from 'react-jsonschema-form-semanticui'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import Steps from '/imports/ui/member/member-add-steps'
 import Control from '/imports/ui/member/member-add-control'
 import MemberAddReview from '/imports/ui/member/member-add-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 import fields from '/imports/ui/member/member-add-fields'
+import context from '/imports/ui/utils/nav'
 
 const mapSchemaToState = schema => {
   return schema.reduce((state, step) => {
@@ -43,7 +44,7 @@ class MemberAdd extends Component {
     const finalStep = this.schemas.length == this.state.step
     if (finalStep && this.props.newId) {
       Alert.success(this.props.message)
-      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : '/')
+      this.props.history.push(this.props.isIframe ? `/success/${this.props.newId}` : context.goHome())
     }
     if (finalStep && this.props.error) {
       Alert.error(this.props.message)
@@ -56,9 +57,11 @@ class MemberAdd extends Component {
   }
 
   onSubmit = ({ formData }) => {
+    const data = this.state.formData
     const finalStep = this.schemas.length == this.state.step
     if (finalStep) {
-      this.props.setMember(this.state.formData)
+      console.log(data)
+      this.props.setMember(data)
       return
     }
     this.setState((prevState, props) => {
@@ -71,7 +74,6 @@ class MemberAdd extends Component {
         progress: prevState.step + 1
       }
     })
-    // this.props.setMember(this.state.formData)
   }
 
   backStep = () => {
@@ -90,11 +92,17 @@ class MemberAdd extends Component {
     if (this.props.member != null) {
       return true
     }
+    if (formData.name && formData.name.trim().split(' ').length === 1) {
+      errors.name.addError('Please enter your full name')
+    }
     if (formData.pin && formData.pin.length < 4) {
       errors.pin.addError('PIN number must be at least 4 digits long.')
     }
     if (formData.pin !== formData.pinConfirm) {
       errors.pinConfirm.addError("PIN numbers don't match")
+    }
+    if (formData.password !== formData.passwordConfirm) {
+      errors.passwordConfirm.addError("Passwords don't match")
     }
     return errors
   }

@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
-import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt } from '/imports/api/schema'
+import { OptionalRegExId, OptionalString, OptionalInteger, createdAt, updatedAt, RegExId } from '/imports/api/schema'
 import CONSTANTS from '../constants'
 
 const Products = new Mongo.Collection('products')
@@ -119,7 +119,11 @@ export const CreditCardSchema = new SimpleSchema({
   address_postcode: { type: String, optional: true },
   address_state: { type: String, optional: true },
   address_country: { type: String, optional: true },
-  card_token: { type: String, optional: true }
+  card_token: { type: String, optional: true },
+  scheme: { type: String, optional: true },
+  display_number: { type: String, optional: true },
+  issuing_country: { type: String, optional: true },
+  name: { type: String, optional: true }
 })
 
 export const CardResponseSchema = new SimpleSchema({
@@ -157,7 +161,17 @@ export const CartsSchema = new SimpleSchema({
   userId: OptionalRegExId,
   price: {
     type: SimpleSchema.Integer,
-    label: 'Total Price in cents',
+    label: 'Total price in cents',
+    defaultValue: 0
+  },
+  discount: {
+    type: SimpleSchema.Integer,
+    label: 'Discount in cents',
+    defaultValue: 0
+  },
+  chargeAmount: {
+    type: SimpleSchema.Integer,
+    label: 'Charge amount in cents',
     defaultValue: 0
   },
   totalqty: {
@@ -165,6 +179,9 @@ export const CartsSchema = new SimpleSchema({
     label: 'Total quantity',
     defaultValue: 0
   },
+  promo: OptionalString,
+  promoStatus: OptionalString,
+  promoId: OptionalRegExId,
   prodqty: {
     type: Object,
     label: 'Product quantities',
@@ -175,6 +192,11 @@ export const CartsSchema = new SimpleSchema({
     optional: true
   },
   'products.$': ProductListSchema,
+  purchases: {
+    type: Array,
+    optional: true
+  },
+  'purchases.$': RegExId,
   creditCard: {
     type: CreditCardSchema,
     optional: true
@@ -184,8 +206,21 @@ export const CartsSchema = new SimpleSchema({
     allowedValues: CONSTANTS.CART_STATUS.ENUM,
     defaultValue: 'ready'
   },
+  paymentMethod: {
+    label: 'Payment method',
+    type: String,
+    optional: true
+  },
   customerResponse: { type: Object, blackbox: true, optional: true },
   chargeResponse: { type: Object, blackbox: true, optional: true },
+  //
+  // This section is for managing reminders, reconciliation etc
+  //
+  reconciled: { type: Boolean, defaultValue: false },
+  autoPayNoticeDate: { type: Date, optional: true },
+  manualPayReminderDate: { type: Date, optional: true },
+  paymentDate: { type: Date, optional: true },
+  //
   createdAt,
   updatedAt
 })

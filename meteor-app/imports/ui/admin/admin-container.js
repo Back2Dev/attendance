@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { escapeRegExp } from 'lodash'
 import moment from 'moment'
 
@@ -11,10 +11,11 @@ import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 import { eventLog } from '/imports/api/eventlogs'
 import { saveToArchive } from '/imports/api/archive'
+
 const debug = require('debug')('b2b:admin')
 
 const Loader = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <div>Loading ...</div>
   return <Admin {...props} />
 }
 
@@ -58,6 +59,7 @@ export default withTracker(props => {
 
   const memberWord = Meteor.settings.public.member || 'Volunteer'
   const memberWords = memberWord + 's'
+  const orgid = Meteor.settings.public.orgid || 'b2b'
 
   const removeCart = id => {
     const cart = Carts.findOne(id)
@@ -73,6 +75,13 @@ export default withTracker(props => {
         })
       }
     })
+  }
+
+  const addProduct = (memberId, name) => {
+    sessionStorage.removeItem('mycart')
+    sessionStorage.setItem('memberId', memberId)
+    sessionStorage.setItem('name', name)
+    props.history.push('/shop/')
   }
 
   const extendMember = async (memberId, purchaseId) => {
@@ -100,7 +109,7 @@ export default withTracker(props => {
       if (err) {
         Alert.error('error whilst removing member')
       } else {
-        Alert.success(`successfully removed ${res} member`)
+        Alert.success(`successfully removed ${res} member `)
         eventLog({
           who: 'Admin',
           what: `removed member id: ${id}`,
@@ -111,6 +120,10 @@ export default withTracker(props => {
     })
   }
 
+  const getAllSessions = async () => {
+    return await Meteor.callAsync('getAllSessions')
+  }
+
   return {
     loading,
     members,
@@ -118,8 +131,11 @@ export default withTracker(props => {
     purchases,
     removeMember,
     extendMember,
+    addProduct,
     removeCart,
     uploadXL,
-    memberWords
+    memberWords,
+    orgid,
+    getAllSessions
   }
 })(Loader)

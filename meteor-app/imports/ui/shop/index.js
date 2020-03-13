@@ -2,9 +2,14 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { cloneDeep } from 'lodash'
 import { Carts } from '/imports/api/products/schema'
+import Members from '/imports/api/members/schema'
 import ShopFront from './shop-front'
 
 const debug = require('debug')('b2b:shop')
+
+const getPromo = async code => {
+  return await Meteor.callAsync('getPromo', code)
+}
 
 const cartUpdate = data => {
   try {
@@ -18,21 +23,54 @@ const cartUpdate = data => {
       const id = Carts.insert(contents)
       debug(`New cart id is ${id}`)
       sessionStorage.setItem('mycart', id)
+      data._id = id // Remember to save the id back to the data
     }
   } catch (e) {
     console.error(`Error: [${e.message}] encountered while saving shopping cart`)
   }
 }
 
+const chargeCard = async ({ price, email, customer_token, metadata }) => {
+  try {
+    /* Submit the payment  */
+    debug('Charging credit card')
+    const packet = {
+      amount: price.toString(),
+      currency: 'AUD',
+      description: 'Purchase',
+      email,
+      customer_token,
+      metadata
+    }
+
+    const result = await Meteor.callAsync('makePayment', packet)
+    // setStatus('')
+    if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+      debug('Response', result)
+      return { error: result }
+    } else {
+      // The cart gets updated with the response on the server
+      return result
+    }
+  } catch (err) {
+    debug(`Error $err.message`, err)
+    return { error: err.message }
+  }
+}
+
 export default withTracker(props => {
   document.title = `${Meteor.settings.public.org} - shop`
   cartId = sessionStorage.getItem('mycart')
+  memberId = sessionStorage.getItem('memberId')
   debug(`Cart id is ${cartId}`)
-  const cartSub = Meteor.subscribe('cart', cartId)
+  const cartSub = Meteor.subscribe('cart', cartId, memberId)
   return {
-    carts: Carts.find(cartId).fetch(),
+    cart: Carts.findOne(cartId),
+    member: Members.findOne(memberId),
     loading: !cartSub.ready(),
     cartUpdate,
+    chargeCard,
+    getPromo,
     settings: Meteor.settings.public
   }
 })(ShopFront)

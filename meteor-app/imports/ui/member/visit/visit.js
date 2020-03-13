@@ -12,7 +12,7 @@ import './visit.css'
 // import { Meteor } from 'meteor/meteor'
 
 const RenewButton = props => {
-  const renew = async function() {
+  const renew = async function () {
     // await Meteor.call('memberRenew', props.memberId, props.code)
     alert('COmmented out Meteor.call(memberRenew)')
     sessionStorage.setItem('mycart', props.memberId)
@@ -132,9 +132,9 @@ class MemberVisit extends React.Component {
             </Card.Group>
           </Grid.Column>
           <Grid.Column>
-            {/* {!this.props.memberHasPhoneEmail && (
+            {!this.props.memberHasPhoneEmail && (
               <MemberEmailPhone email={this.props.member.email} mobile={this.props.member.mobile} />
-            )} */}
+            )}
             {this.state.showForgotPinForm && (
               <MemberVisitPinForgot
                 member={this.props.member}

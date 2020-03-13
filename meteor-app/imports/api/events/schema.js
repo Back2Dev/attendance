@@ -16,10 +16,12 @@ export const EventsSchema = new SimpleSchema({
     label: 'Description',
     optional: true
   },
+  //select
   type: {
     type: String,
     allowedValues: ['day', 'monthly', 'once', 'fallback']
   },
+  //checkbox
   days: { type: Array, optional: true },
   'days.$': { type: SimpleSchema.Integer },
   location: {
@@ -27,17 +29,21 @@ export const EventsSchema = new SimpleSchema({
     label: 'Location',
     optional: true
   },
+  //date picker
   when: {
     type: Date,
     optional: true
   },
+  //checkbox
   active: {
     type: Boolean
   },
+  //number field
   duration: {
     type: SimpleSchema.Integer,
     label: 'Event duration (hours)'
   },
+  //number field (cents)
   price: {
     type: SimpleSchema.Integer,
     label: 'Event Price in cents',
@@ -46,6 +52,16 @@ export const EventsSchema = new SimpleSchema({
   createdAt,
   updatedAt
 })
+
+export const defaultObject = {
+  name: 'Untitled',
+  description: 'Description',
+  location: 'Location',
+  type: 'day',
+  active: false,
+  duration: 0,
+  price: 0
+}
 
 Events.attachSchema(EventsSchema)
 

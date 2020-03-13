@@ -1,6 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { cloneDeep } from 'lodash'
 
 const debug = require('debug')('b2b:cart-data')
@@ -12,16 +12,16 @@ const initialState = {
   totalqty: 0,
   products: [],
   prodqty: {},
-  creditCard: {}
+  creditCard: {},
+  discount: 0
 }
 
 const recalc = state => {
-  state.price = state.products.reduce((acc, product) => acc + product.qty * product.price, 0)
-  state.totalqty = state.products.reduce((acc, product) => acc + product.qty, 0)
-  state.prodqty = {}
-  state.products.forEach(prod => {
-    state.prodqty[prod._id] = prod.qty
-  })
+  state.price = state.products.reduce((acc, product) => acc + state.prodqty[product._id] * product.price, 0)
+  state.chargeAmount =
+    state.products.reduce((acc, product) => acc + state.prodqty[product._id] * product.price, 0) - state.discount
+  state.totalqty = state.products.reduce((acc, product) => acc + state.prodqty[product._id], 0)
+
   // This looks like a good moment to save the cart to the db
   if (cartUpdater) {
     cartUpdater(state)
@@ -36,6 +36,7 @@ const saveCart = state => {
 
 const reducer = (state, action) => {
   debug(`Dispatch: ${action.type}`, action.payload)
+  let newState = cloneDeep(initialState)
   switch (action.type) {
     case 'reset':
       return cloneDeep(initialState)
@@ -44,10 +45,15 @@ const reducer = (state, action) => {
       clrS.prodqty = {}
       clrS.products = []
       clrS.price = 0
+      clrS.discount = 0
+      clrS.chargeAmount = 0
       clrS.totalqty = 0
-      saveCart(clrS)
+      // saveCart(clrS)   // There seems to be little point in saving an empty cart
+      sessionStorage.removeItem('mycart')
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('memberId')
       return clrS
-    case 'save-card':
+    case 'save-cart':
       saveCart(state)
       debug('save-cart', state)
       return state
@@ -60,23 +66,28 @@ const reducer = (state, action) => {
       debug('save-address', newS)
       return newS
     case 'reset-add':
-      const newState = cloneDeep(initialState)
       action.payload.qty = 1
       newState.products.push(action.payload)
-
       recalc(newState)
       Alert.info(`Added ${action.payload.name} to cart`)
       return { ...newState }
+    case 'discount':
+      newState = cloneDeep(state)
+      newState.discount = action.payload * 100 // Convert to cents
+      recalc(newState)
+      Alert.info(`Recalculated cart charge amount after discount ($action.payload)`)
+      return { ...newState }
     case 'add':
+      if (!state.products) state = cloneDeep(initialState)
       if (
         !state.products.find((prod, ix) => {
           if (prod._id === action.payload._id) {
-            state.products[ix].qty += 1
+            state.prodqty[action.payload._id] += 1
             return prod
           }
         })
       ) {
-        action.payload.qty = 1
+        state.prodqty[action.payload._id] = 1
         if (action.payload.memberId) state.memberId = action.payload.memberId
         if (action.payload.expiry) state.expiry = action.payload.expiry
         if (action.payload.email) state.email = action.payload.email
@@ -104,18 +115,21 @@ const reducer = (state, action) => {
 }
 
 function CartContextProvider(props) {
-  const [state, dispatch] = React.useReducer(reducer, props.cart || initialState)
+  const [state, dispatch] = React.useReducer(reducer, props.cart || cloneDeep(initialState))
   state.settings = props.settings
   state.cartUpdate = props.cartUpdate
-  const value = { state, dispatch }
+  state.getPromo = props.getPromo
+  state.chargeCard = props.chargeCard
   cartUpdater = props.cartUpdate
+  const value = { state, dispatch }
 
   return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>
 }
 
 CartContextProvider.propTypes = {
   cartUpdate: PropTypes.func.isRequired,
-  cart: PropTypes.object
+  cart: PropTypes.object,
+  chargeCard: PropTypes.func.isRequired
 }
 
 const CartContextConsumer = CartContext.Consumer

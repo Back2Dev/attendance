@@ -18,3 +18,26 @@ Meteor.publish('find.parts', searchFor => {
     Orders.find({})
   ]
 })
+
+
+Meteor.publish('id.parts', id => {
+  return [Parts.find(id), ]
+})
+
+Meteor.publish('add.parts', () => {
+  return []
+})
+
+Meteor.methods({
+  'rm.Parts': id => {
+    Parts.remove(id)
+  },
+  'update.Parts': form => {
+    const id = form._id
+    delete form._id
+    Parts.update(id, { $set: form })
+  },
+  'add.Parts': form => {
+    Parts.insert(form)
+  }
+})

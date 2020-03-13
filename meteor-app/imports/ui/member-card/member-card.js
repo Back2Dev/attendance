@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Grid, Image } from 'semantic-ui-react'
+import { Card, Image, Table } from 'semantic-ui-react'
 import './styles/member-card-styles.css'
 
 const dateFormat = dateValue => {
@@ -13,7 +13,20 @@ const recentFormat = dateValue => {
 }
 
 function MembershipCard(props) {
-  const { name, mobile, email, avatar, lastIn, expiry, status, subsType, remaining, paymentCustId } = props.member
+  const {
+    name,
+    mobile,
+    email,
+    avatar,
+    lastIn,
+    expiry,
+    status,
+    subsType,
+    remaining,
+    paymentCustId,
+    autopay,
+    cardToken
+  } = props.member
   return (
     <div className="ui grid member-card-container">
       <div className="sixteen wide column ui grid card-header">
@@ -29,7 +42,14 @@ function MembershipCard(props) {
           <div className="sixteen wide column card-details-attributes title">Email {email}</div>
           <div className="sixteen wide column card-details-attributes title">Mobile {mobile}</div>
           {subsType !== 'casual' && (
-            <div className="sixteen wide column card-details-attributes title">Expires {dateFormat(expiry)}</div>
+            <div className="sixteen wide column card-details-attributes title">
+              Expires{' '}
+              {expiry === undefined
+                ? autopay === true && cardToken !== undefined
+                  ? 'Automatic payment'
+                  : 'N/A'
+                : dateFormat(expiry)}
+            </div>
           )}
           <div className="sixteen wide column card-details-attributes title">
             Member Type {subsType !== 'casual' ? status : ''} {subsType} {subsType === 'pass' ? remaining : ''}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { Button, List, Accordion, Icon, Grid, Loader } from 'semantic-ui-react'
 
 import '/imports/ui/layouts/assessment.css'

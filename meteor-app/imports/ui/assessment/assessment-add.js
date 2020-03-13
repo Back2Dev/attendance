@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Grid, Segment } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from 'react-jsonschema-form-semanticui'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import moment from 'moment'
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
@@ -333,7 +333,7 @@ class AssessmentAdd extends Component {
 
   renderForm = () => {
     schemas[1].schema.properties.services.items.enum = [...new Set(this.props.services.map(key => key.name))]
-    schemas[1].schema.properties.assessor.enum = [...new Set(this.props.members.map(key => key.name))]
+    // schemas[1].schema.properties.assessor.enum = [...new Set(this.props.members.map(key => key.name))]
     schemas[2].schema.properties.parts.items.enum = [
       ...new Set(this.props.serviceItems.map(key => `${key.name} ($${key.price / 100})`))
     ]
@@ -384,7 +384,6 @@ class AssessmentAdd extends Component {
     const orderSubmittedStep = this.state.step == 5
     return (
       <Grid divided="vertically" stackable>
-        <Alert stack={{ limit: 3 }} />
         <Grid.Row centered>
           <Steps step={this.state.step} steps={schemas} goToStep={this.goToStep} progress={this.state.progress} />
         </Grid.Row>

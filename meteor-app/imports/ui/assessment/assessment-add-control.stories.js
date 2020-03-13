@@ -6,7 +6,7 @@ import { withKnobs, number } from '@storybook/addon-knobs/react'
 
 import AssessmentAddControl from './assessment-add-control'
 
-storiesOf('Assessment.Add', module)
+storiesOf('Assessment.Add ', module)
   .addDecorator(withKnobs)
 
   .add('AssessmentAddControl', () => {

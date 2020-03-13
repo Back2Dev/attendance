@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
+import { REGEX_ID, createdAt, updatedAt, OptionalRegExId } from '/imports/api/schema'
 import { SessionsSchema } from '/imports/api/sessions/schema'
 
 const SessionListSchema = SessionsSchema.omit('memberId', 'createdAt', 'updatedAt')
@@ -15,6 +15,7 @@ export const MembersSchema = new SimpleSchema({
     label: 'Unique _id',
     optional: false
   },
+  userId: OptionalRegExId,
   name: {
     type: String,
     label: 'Name',
@@ -169,12 +170,17 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: true,
     optional: true
   },
+
   //
   // Payment system attributes
   //
   paymentCustId: {
     type: String,
     label: 'Payment cust Id associated with customer',
+    optional: true
+  },
+  autoPay: {
+    type: Boolean,
     optional: true
   },
   cardToken: {
@@ -228,6 +234,31 @@ export const MembersSchema = new SimpleSchema({
     defaultValue: false,
     optional: true
   },
+  wwccExpiry: {
+    type: Date,
+    label: '(WWCC) expiry date',
+    optional: true
+  },
+  wwccError: {
+    type: String,
+    label: '(WWCC) error message',
+    optional: true
+  },
+  wwccSurname: {
+    type: String,
+    label: '(WWCC) surname',
+    optional: true
+  },
+  isSlsa: {
+    type: Boolean,
+    label: 'is a Surf Life Saver',
+    defaultValue: false,
+    optional: true
+  },
+  slsaId: {
+    type: String,
+    optional: true
+  },
   privacy: {
     type: Boolean,
     label: 'I consent to storing my information',
@@ -243,6 +274,12 @@ export const MembersSchema = new SimpleSchema({
     label: 'I consent to take and use photos for publicity',
     optional: true
   },
+  sports: {
+    type: Array,
+    label: 'Sports participation',
+    defaultValue: []
+  },
+  'sports.$': String,
   swim: {
     type: Boolean,
     label: 'I can swim 200 metres unassisted',

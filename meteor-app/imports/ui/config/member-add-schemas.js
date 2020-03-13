@@ -4,6 +4,9 @@
 const b2bSchema = {
   aboutStep: {
     schema: {
+      title: 'Back2bikes volunteer registration',
+      description:
+        'No need to register if you are already signing in on the computer. Keep going until the end to make sure it saves',
       type: 'object',
       title: 'Lets get to know each other.',
       // required: ["bikesHousehold", "reasons"],
@@ -50,12 +53,12 @@ const b2bSchema = {
     }
   }
 }
-//
-// Peak Adventure schema overrides
-//
-const paSchema = {
+// Peak Adventure Edit schema overrides
+const paEditSchema = {
   aboutStep: {
     schema: {
+      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      description: 'Keep going until the end to make sure it saves',
       type: 'object',
       required: [],
       properties: {
@@ -70,7 +73,7 @@ const paSchema = {
         },
         reasons: {
           type: 'string',
-          title: 'Tell us why you come to Peak Adventure sessions?'
+          title: 'Please tell us why you come to Peak Adventure sessions'
         }
       }
     },
@@ -84,6 +87,205 @@ const paSchema = {
         'ui:options': {
           rows: 12
         }
+      }
+    }
+  },
+  contactStep: {
+    schema: {
+      title: 'Details',
+      type: 'object',
+      required: ['name', 'email', 'mobile'],
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        email: { type: 'string', format: 'email', title: 'Email' },
+        addressStreet: { type: 'string', title: 'Street Address' },
+        addressSuburb: { type: 'string', title: 'Suburb' },
+        addressState: {
+          type: 'string',
+          title: 'State',
+          default: 'VIC',
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+        },
+        addressPostcode: { type: 'string', title: 'Postcode' },
+        phone: { type: 'string', title: 'Phone number' },
+        mobile: { type: 'string', title: 'Mobile number' }
+      }
+    },
+    uiSchema: {
+      name: {
+        'ui:placeholder': 'Enter your name',
+        'ui:autofocus': true
+      },
+
+      email: {
+        'ui:placeholder': 'Enter your email address'
+      },
+      addressStreet: {
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+      },
+      addressSuburb: {
+        'ui:placeholder': 'Enter your suburb'
+      },
+      addressState: {
+        'ui:placeholder': 'Enter your state'
+      },
+      addressPostcode: {
+        'ui:placeholder': 'Enter your postcode'
+      },
+      phone: {
+        'ui:placeholder': 'Enter your phone number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      mobile: {
+        'ui:placeholder': 'Enter your mobile number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      }
+    }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['swim', 'terms', 'fitness'],
+      properties: {
+        swim: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title: 'I can swim 200 metres unassisted'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree to the Terms & Conditions'
+        },
+        fitness: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I declare I am medically fit and capable of undertaking this physical activity'
+        }
+      }
+    },
+    uiSchema: {}
+  }
+}
+//
+// Peak Adventure schema overrides
+//
+const paSchema = {
+  aboutStep: {
+    schema: {
+      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      description: 'Keep going until the end to make sure it saves',
+      type: 'object',
+      required: [],
+      properties: {
+        sports: {
+          type: 'array',
+          title: 'Which of these sports are you active in?',
+          uniqueItems: true,
+          items: {
+            type: 'string',
+            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport']
+          }
+        },
+        reasons: {
+          type: 'string',
+          title: 'Please tell us why you come to Peak Adventure sessions'
+        }
+      }
+    },
+    uiSchema: {
+      sports: {
+        'ui:widget': 'checkboxes'
+      },
+      reasons: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': '',
+        'ui:options': {
+          rows: 12
+        }
+      }
+    }
+  },
+  contactStep: {
+    schema: {
+      title: 'Details',
+      type: 'object',
+      required: ['name', 'email', 'mobile', 'pin', 'password'],
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        email: { type: 'string', format: 'email', title: 'Email' },
+        addressStreet: { type: 'string', title: 'Street Address' },
+        addressSuburb: { type: 'string', title: 'Suburb' },
+        addressState: {
+          type: 'string',
+          title: 'State',
+          default: 'VIC',
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+        },
+        addressPostcode: { type: 'string', title: 'Postcode' },
+        phone: { type: 'string', title: 'Phone number' },
+        mobile: { type: 'string', title: 'Mobile number' },
+        pin: { type: 'string', title: 'PIN number', maxLength: 4 },
+        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
+        password: { type: 'string', title: 'Password' },
+        confirmPassword: { type: 'string', title: 'Confirm password' }
+      }
+    },
+    uiSchema: {
+      name: {
+        'ui:placeholder': 'Enter your name',
+        'ui:autofocus': true
+      },
+
+      email: {
+        'ui:placeholder': 'Enter your email address'
+      },
+      addressStreet: {
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+      },
+      addressSuburb: {
+        'ui:placeholder': 'Enter your suburb'
+      },
+      addressState: {
+        'ui:placeholder': 'Enter your state'
+      },
+      addressPostcode: {
+        'ui:placeholder': 'Enter your postcode'
+      },
+      phone: {
+        'ui:placeholder': 'Enter your phone number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      mobile: {
+        'ui:placeholder': 'Enter your mobile number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      pin: {
+        'ui:placeholder': 'Enter a PIN number for signing in and out.',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      pinConfirm: {
+        'ui:placeholder': 'Enter the same PIN number again to confirm.',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      password: {
+        'ui:placeholder': 'Enter a password for your account.'
+      },
+      confirmPassword: {
+        'ui:placeholder': 'Enter the same password again to confirm.'
       }
     }
   },
@@ -120,6 +322,8 @@ const paSchema = {
 const b4hSchema = {
   aboutStep: {
     schema: {
+      title: 'Bicycles for Humanity Volunteer registration',
+      description: 'Keep going until the end to make sure it saves',
       type: 'object',
       required: [],
       properties: {
@@ -177,10 +381,61 @@ const b4hSchema = {
   }
 }
 
+//
+// WeCycle (WC) schema overrides
+//
+const wcSchema = {
+  aboutStep: {
+    schema: {
+      type: 'object',
+      required: [],
+      properties: {
+        reasons: {
+          type: 'string',
+          title: 'Tell us why you volunteer for WeCycle?'
+        }
+      }
+    },
+    uiSchema: {
+      reasons: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': '',
+        'ui:options': {
+          rows: 12
+        }
+      }
+    }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['permission', 'privacy'],
+      properties: {
+        permission: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to WeCycle to take, use and distribute photographs and video in order to promote volunteering or the organisation'
+        },
+        privacy: {
+          type: 'boolean',
+          enum: [true],
+          title:
+            'I consent to WeCycle for Humanity Melbourne storing the information I have provided above. I understand that WeCycle will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+        }
+      }
+    },
+    uiSchema: {}
+  }
+}
+
 const customSchemas = {
   b2b: b2bSchema,
   pa: paSchema,
-  b4h: b4hSchema
+  b4h: b4hSchema,
+  wc: wcSchema,
+  paEdit: paEditSchema
 }
 
 const defaultSchema = [
@@ -239,7 +494,7 @@ const defaultSchema = [
     schema: {
       title: 'Details',
       type: 'object',
-      required: ['name', 'pin'],
+      required: ['name', 'email', 'mobile', 'pin'],
       properties: {
         name: { type: 'string', title: 'Name' },
         email: { type: 'string', format: 'email', title: 'Email' },
@@ -472,7 +727,21 @@ if (custom && customSchemas[custom]) {
   })
 }
 
-// export default defaultSchema
+const filters = [/Id$/, /^pin/, /avatar/]
+export const getExportMap = custom => {
+  const exportMap = {}
+  const schema = getSchemas(custom)
+  schema.forEach(step => {
+    Object.keys(step.schema.properties)
+      .filter(key => !filters.some(f => key.match(f)))
+      .forEach(key => {
+        exportMap[key] = key
+      })
+  })
+  exportMap.lastIn = 'last in'
+  exportMap.sessionCount = 'Session count'
+  return exportMap
+}
 
 const getSchemas = custom => {
   if (custom && customSchemas[custom]) {

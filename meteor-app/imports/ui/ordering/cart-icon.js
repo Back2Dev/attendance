@@ -8,7 +8,7 @@ const CartIcon = props => {
     if (props.onClick) props.onClick()
   }
   return (
-    <span to="/ordering/cart">
+    <span to="/parts/ordering/cart">
       <Button as="div" labelPosition="right">
         <Button icon="cart" content={true ? 'Total items' : 'View Order'} primary onClick={cartClick} />
         <Label basic pointing="left">

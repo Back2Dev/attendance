@@ -6,16 +6,17 @@ import { Meteor } from 'meteor/meteor'
 import faker from 'faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
-
 import CONSTANTS from '/imports/api/constants'
 // publications
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Orders from '/imports/api/orders/schema'
 import Parts from '/imports/api/parts/schema'
-import Products from '/imports/api/products/schema'
+import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Wwccs from '/imports/api/wwccs/schema'
+import Promos from '/imports/api/promos/schema'
+import Reports from '/imports/api/reports/schema'
 // import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
@@ -23,6 +24,7 @@ import Services from '/imports/api/assessments/schema'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import Events from '/imports/api/events/schema'
 import Logger from '/imports/api/assessments/logger'
+import OrderEmails from '/imports/api/orderemails/schema'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
@@ -40,7 +42,7 @@ Factory.define('member', Members, {
   bikesHousehold: 5,
   email: 'Jelly.Belly@smells.nasty.com',
   emergencyContact: 'Everett Mosciski',
-  emergencyEmail: 'Ibrahim.Flatley@gmail.com',
+  emergencyEmail: 'Ibrahim.Flatley@nomail.bs.bs',
   emergencyMobile: '848-220-5422',
   emergencyPhone: '848-924-0182',
   mobile: '352-485-4816',
@@ -57,6 +59,8 @@ Factory.define('member', Members, {
 
 Factory.define('session', Sessions, {
   memberId: Random.id(),
+  memberName: 'Dave Smith',
+  // eventId:
   name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),
@@ -162,7 +166,7 @@ Factory.define('part', Parts, {
   partNo: 'pt-123',
   name: 'carbonfibre frame',
   barcode: '22413000022413',
-  status: CONSTANTS.ORDER_STATUS_NEW
+  status: CONSTANTS.PART_STATUS_NEW
 })
 
 Factory.define('product', Products, {
@@ -175,16 +179,46 @@ Factory.define('product', Products, {
   image: '/public/images/gym.jpg',
   active: true,
   autoRenew: true,
-  startDate: '2019-02-18T16:00:00Z',
-  endDate: '2019-05-18T16:00:00Z'
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
+})
+
+Factory.define('10pass', Products, {
+  name: '10 pass',
+  description: 'Passes allow you to use PA',
+  type: 'pass',
+  code: 'PA-PASS-MULTI-10',
+  duration: 3,
+  price: 15000,
+  image: '/public/images/gym.jpg',
+  active: true,
+  autoRenew: true,
+  startDate: faker.date.past(1),
+  endDate: faker.date.future(1)
 })
 
 Factory.define('purchase', Purchases, {
-  memberId: 'SYdWnRL5LmZXT4GxE',
-  productId: 'SYdWnRL5LmZXT4GxE',
-  productName: 'Evening workshop',
-  price: 5000,
-  code: 'MISC'
+  price: 96000,
+  code: 'PA-MEMB-12',
+  expiry: faker.date.future(),
+  txnDate: faker.date.past(),
+  purchaser: 'Mike King',
+  productId: 'EKFJq9mrEjPer3PHW',
+  productName: 'PA 12 month membership',
+  paymentMethod: 'credit card',
+  status: 'current'
+})
+
+Factory.define('purchase10pass', Purchases, {
+  price: 96000,
+  code: 'PA-PASS-MULTI-10',
+  expiry: faker.date.future(),
+  txnDate: faker.date.past(),
+  purchaser: 'Mike King',
+  productId: 'EKFJq9mrEjPer3PHW',
+  productName: '10 session pass',
+  paymentMethod: 'credit card',
+  status: 'current'
 })
 
 Factory.define('event', Events, {
@@ -197,11 +231,53 @@ Factory.define('event', Events, {
   type: 'monthly'
 })
 
-Factory.define('wwcc', Events, {
+Factory.define('test-event', Events, {
+  name: 'Squad training',
+  location: 'Sandridge',
+  when: new Date(),
+  active: true,
+  duration: 2,
+  type: 'day',
+  days: [1, 2, 3, 4, 5, 6, 7],
+  price: 3000
+})
+
+Factory.define('wwcc', Wwccs, {
   wwcc: '01819845',
-  surname: 'King',
+  wwccSurname: 'King',
   memberId: 'SYdWnRL5LmZXT4GxE',
-  responses: []
+  wwccOk: true
+})
+
+Factory.define('cart', Carts, {
+  memberId: 'SYdWnRL5LmZXT4GxE',
+  email: 'mike@nesmith.com',
+  customerName: 'Mike Nesmith',
+  price: 5000,
+  totalqty: 1,
+  prodqty: {},
+  products: [Factory.create('product')],
+  status: 'complete',
+  customerResponse: {},
+  chargeResponse: {}
+})
+
+Factory.define('promo', Promos, {
+  code: 'BLACK-FRIDAY',
+  description: 'Black Friday 50% off',
+  discount: 50,
+  admin: false,
+  start: new Date()
+})
+
+Factory.define('report', Reports, {
+  name: 'This is a report',
+  details: 'This is the details of the report, blah, blah blah'
+})
+
+Factory.define('orderemails', OrderEmails, {
+  name: 'order emails',
+  description: 'order emails'
 })
 
 export default Factory

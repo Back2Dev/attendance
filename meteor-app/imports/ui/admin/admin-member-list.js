@@ -14,7 +14,7 @@ const Admin = props => {
 
   const memberClick = id => {
     debug(`memberClick(${id})`)
-    props.history.push(`/userprofiles/${id}`)
+    props.history.push(`/admin/userprofiles/${id}`)
   }
 
   return (
@@ -69,17 +69,16 @@ const Admin = props => {
             )}
             <Grid.Column style={{ textAlign: 'right' }} width={6}>
               <List.Content floated="right">
-                {memberPurchases.length > 0 && (
-                  <Button
-                    color="blue"
-                    onClick={e => {
-                      e.preventDefault()
-                      props.extendMember(member._id, memberPurchases[0]._id)
-                    }}
-                    content="Extend"
-                    about={member.name}
-                  />
-                )}
+                <Button
+                  color="blue"
+                  onClick={e => {
+                    e.preventDefault()
+                    // props.extendMember(member._id, memberPurchases[0]._id)
+                    props.addProduct(member._id, member.name)
+                  }}
+                  content="Add..."
+                  about={member.name}
+                />
                 &nbsp;
                 {false && (
                   <Button
@@ -118,7 +117,8 @@ Admin.propTypes = {
   loading: PropTypes.bool.isRequired,
   removeMember: PropTypes.func.isRequired,
   extendMember: PropTypes.func.isRequired,
-  removeCart: PropTypes.func.isRequired
+  removeCart: PropTypes.func.isRequired,
+  addProduct: PropTypes.func.isRequired
 }
 
 export default Admin

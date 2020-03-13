@@ -18,13 +18,16 @@ const MemberCard = props => {
     isHere,
     sessionCount,
     subsType,
+    wwccOk,
+    isSlsa,
     remaining,
     sessions = [],
-    lastIn = null
+    lastIn = null,
+    status,
+    expiry
   } = props
   const rookie = sessionCount <= 5
-  const isExpired = props.status === 'expired'
-  const isSlsa = false
+  const isExpired = status === 'expired'
 
   const ribbon = isSuper
     ? {
@@ -35,6 +38,7 @@ const MemberCard = props => {
     : null
   const subsColor = isExpired ? 'red' : 'orange'
   const togo = subsType === 'pass' ? `(${remaining})` : ''
+  const expiryText = props.expiry ? moment(props.expiry).format('DD/MM/YY') : ''
   return (
     <Card style={{ textAlign: 'center' }} className={props.className} key={_id}>
       <Image src={'/images/avatars/' + avatar} style={{ opacity: isExpired ? '0.25' : '1' }} />
@@ -42,10 +46,16 @@ const MemberCard = props => {
         <Card.Header list={list}>
           {isSlsa && <Image src="/images/slsa.png" width="25px" alt="Surf Life Saving" />}
           &nbsp;
-          {name} {isExpired ? '(expired)' : ''}
+          {name} <br></br>
+          {isExpired ? `(expired ${expiryText})` : ``}
         </Card.Header>
         <Card.Content>
           {isSuper && <Label corner="left" icon="student" color="orange" />}
+          {wwccOk && (
+            <Label corner="right">
+              <Icon name="check" color="green"></Icon>
+            </Label>
+          )}
           <div
             style={{
               padding: '10px 0'

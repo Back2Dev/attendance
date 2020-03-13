@@ -1,13 +1,13 @@
 import React from 'react'
-import MemberAdd from '/imports/ui/member/member-add-container'
+import MemberEditForm from '/imports/ui/member/member-edit-container'
 
 const MemberEdit = props => {
-  if (!props.member) return null
+  if (!props.member) return <h1>Person not found</h1>
   const { member } = props
   return (
     <div>
       <h4>Edit page for {member.name}</h4>
-      <MemberAdd member={member} />
+      <MemberEditForm member={member} />
     </div>
   )
 }

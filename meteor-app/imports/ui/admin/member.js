@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Sessions from '/imports/api/sessions/schema'
@@ -22,32 +22,44 @@ export default withTracker(props => {
   const member = Members.findOne(id) || {}
   const purchases = Purchases.find({ memberId: id }).fetch()
   const carts = Carts.find({ memberId: id }).fetch()
-  const sessions = Sessions.find({ memberId: id }).fetch()
+  const sessions = Sessions.find({ memberId: id }, { sort: { timeIn: 1 } }).fetch()
 
-  function cancelClick () {
+  function cancelClick() {
     props.history.goBack()
   }
 
-  function onSubmitPin (pin) {
+  function onSubmitPin(pin) {
     const pinValid = member.pin === pin || pin === '1--1'
     debug('pinValid: ', pinValid)
     return pinValid
   }
 
-  function setPin (pin) {
+  function setPin(pin) {
     debug('setting custom pin: ', pin)
     Meteor.call('members.setPin', member._id, pin)
     props.history.push(`/visit/${member._id}/select-activity`)
   }
 
-  function forgotPin (method, destination, remember) {
+  function forgotPin(method, destination, remember) {
     // redirect to forgot PIN screen
     debug('forgotten pin: ', member._id, method, destination, remember)
     Meteor.call('members.forgotPin', member._id, method, destination, remember)
   }
 
-  function save (id, formData) {
+  forgetCard = id => {
+    Meteor.callAsync('members.forgetCard', id)
+  }
+
+  function save(id, formData) {
     Meteor.call('members.update', id, formData)
+  }
+
+  function updateAutoPay(id, value) {
+    Meteor.callAsync('members.updateAutoPay', id, value)
+  }
+
+  const migrateSessions = id => {
+    Meteor.call('migrateSessions', id)
   }
 
   return {
@@ -61,7 +73,10 @@ export default withTracker(props => {
     onSubmitPin,
     setPin,
     forgotPin,
+    forgetCard,
+    updateAutoPay,
     org: Meteor.settings.public.org,
-    logo: Meteor.settings.public.logo
+    logo: Meteor.settings.public.logo,
+    migrateSessions
   }
 })(Loader)

@@ -2,6 +2,35 @@
 
 ## Next
 
+## 1.2.4
+
+- Strip out unused lines from top of slsa file
+- PA shop testing - write fixtures when sending invites
+- Meteor 1.8.3 update
+- Mocking up the pinpayment interface.
+- Added already-paid page.
+- Numerous bug fixes to do with the shopping cart handling.
+- Added some tests.
+- Non-meteor context handling
+- Get storybook to work again
+- Restore snapshots
+- Had to remove storybook specs
+- Added WWCC check
+- Added functionality which displays an error when the number isn't similar to actual WWCC number
+- Added functionality checking whether volunteer has a working with childrens check number
+- Improved deployment logging
+- Added functionality for members to edit their details.
+- User accounts are created on sign up for accessing member's portal.
+- Added initial version of member's portal.
+- Added route for existing members to sign up for an account to access portal.
+- Reworked member's sign up form to include password field.
+- Added ability for existing members to request PIN number on sign up page
+
+## 1.1.14
+
+- fixed updatedAt definition
+- removed autoPay test (doesn't work in CI environment)
+
 - Added new collections for sales
 - Upgrade cypress to 3.1.5
 - Added shopping cart
@@ -19,27 +48,22 @@
 - Show expired members in red
 - Added image scraper
 - Fixed query for 'once' events (date range was broken)
+- Added attendance page in admin menus
 
-  0.11.0
-
----
+## 0.11.0
 
 - Made it configurable for PA use, put all menu items across the top
 
-  0.10.0
-
----
+## 0.10.0
 
 - Added special PIN = '----', meaning "I don't want a PIN Number"
 - Added supervisor PIN override '1--1'
 - Added more avatars
 - Added version number template
 
-  0.8.0
+## 0.8.0
 
----
-
-Fixed instant auto-logout
+- Fixed instant auto-logout
 
 ## 0.4.0
 

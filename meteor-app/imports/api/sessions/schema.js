@@ -10,32 +10,36 @@ export const SessionsSchema = new SimpleSchema({
   memberId: RegExId,
   eventId: OptionalRegExId,
   purchaseId: OptionalRegExId,
+  memberName: {
+    type: String,
+    label: 'Member name'
+  },
   name: {
     type: String,
-    label: 'Session name',
+    label: 'Session name'
   },
   duration: {
     type: Number,
     label: 'Duration in hours',
-    optional: false,
+    optional: false
   },
   timeIn: {
     type: Date,
     label: 'Visit start time',
-    optional: false,
+    optional: false
   },
   timeOut: {
     type: Date,
     label: 'Visit end time',
-    optional: false,
+    optional: false
   },
   price: {
     type: SimpleSchema.Integer,
     label: 'Session Price in cents',
-    defaultValue: 0,
+    defaultValue: 0
   },
   createdAt,
-  updatedAt,
+  updatedAt
 })
 
 Sessions.attachSchema(SessionsSchema)

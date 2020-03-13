@@ -29,7 +29,6 @@ export default [
         assessor: {
           type: 'string',
           title: 'Assessor',
-          enum: ['Mark', 'Mike', ''],
           default: ''
         },
         bikeMake: {
@@ -142,8 +141,7 @@ export default [
       },
       comments: {
         'ui:widget': 'textarea',
-        'ui:placeholder':
-          'Please enter any comments if there are any additional fees or services needed..',
+        'ui:placeholder': 'Please enter any comments if there are any additional fees or services needed..',
         'ui:options': {
           rows: 10
         }
@@ -182,6 +180,36 @@ export default [
           type: 'boolean',
           title: 'Is this bike being refurbished?',
           default: false
+        },
+        // *** Notes for Pat: ***
+        // The fields
+        //   - name
+        //   - phone
+        //   - replacementBike
+        //   - sentimentalValue
+        //   - requestUrgent
+        // don't appear at this point in this schema, although they do appear
+        // they do appear below in 'dependencies'. The UI works ok,
+        // but the generated input fields don't have id's on the fields, so
+        // the tests don't work.
+        //
+        // We can add them in here, like this:
+        // name: {type: 'string'},  // One of these for each of the above
+        //
+        // This fixes the id problem, but I'm not sure what this
+        // does to the UI, as these fields don't need to appear for a refurb
+        //
+        // There is, however a case where we are doing a refurb for a customer
+        // - basically they are buying a bike that isn't fixed yet
+        // - in this case they are not paying for the repairs, they
+        // will be paying for the bike (probably more than the cost of the repairs)
+        // So I think it's ok that these fields are still shown. Ideally we should
+        // have some kind of indicator to tell the user that these fields don't apply
+        //
+        // Documentation reference: https://github.com/nilportugues/react-jsonschema-form-semanticui#property-dependencies
+        //
+        name: {
+          type: 'string'
         },
         pickUpDate: {
           type: 'string',

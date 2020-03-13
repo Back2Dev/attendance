@@ -30,6 +30,7 @@ const ForgotPin = props => {
 
   const rememberChange = (e, data) => {
     setRemember(data.checked)
+    console.log(data)
   }
 
   const message = method == 'email' ? 'email address' : 'mobile phone number'

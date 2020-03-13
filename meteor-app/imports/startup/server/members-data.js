@@ -15,7 +15,7 @@ const debug = require('debug')('b2b:members')
 casual.seed(+new Date()) // Just use the current time as a seed
 const specialMember = casual.full_name
 // const specialMember='Jayne Rutherford'
-debug(`Special member = ${specialMember}`)
+debug(`The special member for ${Meteor.settings.public.org} is ${specialMember}`)
 
 Meteor.methods({
   'import.members'(secret) {

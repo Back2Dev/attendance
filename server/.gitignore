@@ -1,7 +1,0 @@
-node_modules
-.DS_STORE
-thumbs.db
-.vscode/
-.deploy/
-dist
-mounts/

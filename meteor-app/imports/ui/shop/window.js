@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 import CartSummary from './cart-summary'
+import GoHome from '/imports/ui/components/go-home-button'
+
+const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
 const ProdTypeCard = props => {
   const go = () => {
@@ -9,7 +12,7 @@ const ProdTypeCard = props => {
   }
   return (
     <p key={props.type}>
-      <Button type="button" onClick={go} color={props.color} icon labelPosition="left">
+      <Button id={mkid(props.name)} type="button" onClick={go} color={props.color} icon labelPosition="left">
         <Icon name={props.icon} />
         {props.name}
       </Button>
@@ -29,6 +32,7 @@ const ShopWindow = props => {
         productTypes &&
         productTypes.length &&
         productTypes.map(prodType => <ProdTypeCard key={prodType.type} history={props.history} {...prodType} />)}
+      <GoHome history={props.history} />
     </div>
   )
 }

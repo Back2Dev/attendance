@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { Button, Icon, Image, Header, Segment } from 'semantic-ui-react'
 
 const MemberAddReview = props => {
+  if (props.formData.avatar === undefined) {
+    props.formData.avatar = 'default.jpg'
+  }
   return (
     <Segment style={{ textAlign: 'left' }}>
       <Header as="h1" content="Review your details:" textAlign="center" />
@@ -27,8 +30,8 @@ const MemberAddReview = props => {
                     <Segment key={iy}>
                       <strong>{step.schema.properties[key].title}</strong>
                       <span style={{ paddingLeft: '1em' }}>
-                        {key == 'avatar' && <Image avatar src={`/images/avatars/${props.formData.avatar}`} />}
-                        {key != 'avatar' && <span>{props.formData[key]}</span>}
+                        {key === 'avatar' && <Image avatar src={`/images/avatars/${props.formData.avatar}`} />}
+                        {key !== 'avatar' && <span>{props.formData[key]}</span>}
                       </span>
                     </Segment>
                   )

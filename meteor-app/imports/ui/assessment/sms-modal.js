@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Header, Icon, Input, Modal } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { SEND_SMS } from '/imports/api/constants'
 const debug = require('debug')('b2b:sms')
 

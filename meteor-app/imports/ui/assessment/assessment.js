@@ -1,6 +1,6 @@
 import { withTracker } from 'meteor/react-meteor-data'
 import { ReactiveVar } from 'meteor/reactive-var'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 import Services from '/imports/api/assessments/services'
@@ -19,7 +19,7 @@ export default withTracker(props => {
   const newId = new ReactiveVar('')
 
   Meteor.subscribe('services.all')
-  Meteor.subscribe('serviceItems.all')
+  Meteor.subscribe('all.serviceItems')
   Meteor.subscribe('assessments.all')
   Meteor.subscribe('all.members')
 

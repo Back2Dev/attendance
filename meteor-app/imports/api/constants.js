@@ -9,7 +9,12 @@ const CONSTANTS = {
   ORDER_STATUS_RECEIVED: 3,
   ORDER_STATUS_RECONCILED: 4,
   ORDER_STATUS_QUERIED: 5,
-  ORDER_STATUS_CANCELLED: 6
+  ORDER_STATUS_CANCELLED: 6,
+
+  // Part status values
+  PART_STATUS_OK: 101,
+  PART_STATUS_DELETED: 102,
+  PART_STATUS_AUTO_CREATED: 103
 }
 
 // Human readable lookup table:
@@ -20,6 +25,13 @@ CONSTANTS.ORDER_STATUS_READABLE = {
   4: 'Reconciled',
   5: 'Queried',
   6: 'Cancelled'
+}
+
+// Human readable lookup table:
+CONSTANTS.PART_STATUS_READABLE = {
+  101: 'OK',
+  102: 'Deleted',
+  103: 'Auto created'
 }
 
 export const JOB_STATUS = {
@@ -110,5 +122,17 @@ CONSTANTS.CART_STATUS = {
   COMPLETE: 'complete',
   ENUM: ['ready', 'denied', 'cancelled', 'complete']
 }
+
+CONSTANTS.DAYS_WEEK = [
+  { id: 0, value: 'Sun' },
+  { id: 1, value: 'Mon' },
+  { id: 2, value: 'Tue' },
+  { id: 3, value: 'Wed' },
+  { id: 4, value: 'Thu' },
+  { id: 5, value: 'Fri' },
+  { id: 6, value: 'Sat' }
+]
+
+CONSTANTS.ROLES = ['superadmin', 'register', 'signin', 'servicing', 'paynow', 'parts', 'admin', 'member', 'shop']
 
 export default CONSTANTS
