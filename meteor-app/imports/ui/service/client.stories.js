@@ -5,4 +5,4 @@ import { storiesOf } from '@storybook/react'
 
 import Client from './client'
 
-storiesOf('Service.client', module).add('client', () => <Client />)
+storiesOf('Service', module).add('client', () => <Client />)
