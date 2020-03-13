@@ -45,17 +45,18 @@ Meteor.methods({
     const oldEmail = Meteor.user().emails
     try {
       Accounts.setUsername(formData.userId, formData.email)
-      if (oldEmail != null) {
+      if (oldEmail) {
         Accounts.removeEmail(formData.userId, oldEmail[0].address)
         Accounts.addEmail(formData.userId, formData.email)
       }
+      return { status: 'success', message: `Updated user` }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }
     }
   },
-  setPassword({ id, newPassword }) {
+  setPassword({ id, newPassword }, logout = true) {
     try {
-      Accounts.setPassword(id, newPassword)
+      Accounts.setPassword(id, newPassword, { logout: logout })
       return { status: 'success', message: `Updated password` }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }
