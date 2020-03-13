@@ -37,22 +37,40 @@ export default withTracker(props => {
       debug('updating member', formData)
       try {
         const res = await Meteor.callAsync('members.update', formData._id, formData)
-        setSuccess('Saved ok', formData._id)
+        setSuccess('Member Saved', formData._id)
         return res
       } catch (e) {
         debug('error updating member', formData, e)
         setError(e)
       }
-    } else {
-      // we are adding a member
+    }
+  }
+
+  const setUser = async formData => {
+    if (props.member != null) {
+      debug('updating member', formData)
       try {
-        debug('adding member', formData)
-        const res = await Meteor.callAsync('members.insert', formData)
-        setSuccess('Details saved ok', res)
+        const res = await Meteor.callAsync('setUser', formData)
+        setSuccess('User Saved', formData.userId)
         return res
       } catch (e) {
+        debug('error updating user', formData, e)
         setError(e)
       }
+    }
+  }
+
+  const setPassword = async (formData, newPassword) => {
+    debug('updating password', formData)
+    const id = formData.userId
+    try {
+      console.log(formData.userId)
+      const res = await Meteor.call('setPassword', { id, newPassword }, false)
+      setSuccess('Password Saved', formData)
+      return res
+    } catch (e) {
+      debug('error updating password', formData, e)
+      setError(e)
     }
   }
 
@@ -60,6 +78,8 @@ export default withTracker(props => {
 
   return {
     setMember,
+    setUser,
+    setPassword,
     error: error.get(),
     success: success.get(),
     message: msg.get(),
@@ -67,6 +87,6 @@ export default withTracker(props => {
     newId: newId.get(),
     resetId: () => newId.set(''),
     member: props.member ? props.member : null,
-    schemas: getSchemas(Meteor.settings.public.recruit)
+    schemas: getSchemas(`${Meteor.settings.public.recruit}Edit`)
   }
 })(MemberEditForm)

@@ -6,7 +6,6 @@ import { Button, Card, Segment, Grid, Header, Image, Container, Icon } from 'sem
 import MembershipCard from '/imports/ui/member-card/member-card'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 import MemberVisitsCard from '/imports/ui/punch-card/member-visits-card'
-import { startOfDay } from 'date-fns'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
@@ -31,9 +30,6 @@ const MemberPortal = props => {
           <MembershipCard className="member-visit-card" member={props.member} />)
         </Card.Group>
       </Grid.Column>
-      <Button type="button" onClick={() => props.toEdit()} style={{ height: '50px' }}>
-        Edit your profile
-      </Button>
       {props.addCard === 1 && !props.member.paymentCustId ? (
         <Button
           type="button"

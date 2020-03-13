@@ -53,6 +53,125 @@ const b2bSchema = {
     }
   }
 }
+// Peak Adventure Edit schema overrides
+const paEditSchema = {
+  aboutStep: {
+    schema: {
+      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      description: 'Keep going until the end to make sure it saves',
+      type: 'object',
+      required: [],
+      properties: {
+        sports: {
+          type: 'array',
+          title: 'Which of these sports are you active in?',
+          uniqueItems: true,
+          items: {
+            type: 'string',
+            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport']
+          }
+        },
+        reasons: {
+          type: 'string',
+          title: 'Please tell us why you come to Peak Adventure sessions'
+        }
+      }
+    },
+    uiSchema: {
+      sports: {
+        'ui:widget': 'checkboxes'
+      },
+      reasons: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': '',
+        'ui:options': {
+          rows: 12
+        }
+      }
+    }
+  },
+  contactStep: {
+    schema: {
+      title: 'Details',
+      type: 'object',
+      required: ['name', 'email', 'mobile'],
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        email: { type: 'string', format: 'email', title: 'Email' },
+        addressStreet: { type: 'string', title: 'Street Address' },
+        addressSuburb: { type: 'string', title: 'Suburb' },
+        addressState: {
+          type: 'string',
+          title: 'State',
+          default: 'VIC',
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+        },
+        addressPostcode: { type: 'string', title: 'Postcode' },
+        phone: { type: 'string', title: 'Phone number' },
+        mobile: { type: 'string', title: 'Mobile number' }
+      }
+    },
+    uiSchema: {
+      name: {
+        'ui:placeholder': 'Enter your name',
+        'ui:autofocus': true
+      },
+
+      email: {
+        'ui:placeholder': 'Enter your email address'
+      },
+      addressStreet: {
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+      },
+      addressSuburb: {
+        'ui:placeholder': 'Enter your suburb'
+      },
+      addressState: {
+        'ui:placeholder': 'Enter your state'
+      },
+      addressPostcode: {
+        'ui:placeholder': 'Enter your postcode'
+      },
+      phone: {
+        'ui:placeholder': 'Enter your phone number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      },
+      mobile: {
+        'ui:placeholder': 'Enter your mobile number',
+        'ui:options': {
+          inputType: 'tel'
+        }
+      }
+    }
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['swim', 'terms', 'fitness'],
+      properties: {
+        swim: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title: 'I can swim 200 metres unassisted'
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree to the Terms & Conditions'
+        },
+        fitness: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I declare I am medically fit and capable of undertaking this physical activity'
+        }
+      }
+    },
+    uiSchema: {}
+  }
+}
 //
 // Peak Adventure schema overrides
 //
@@ -114,7 +233,7 @@ const paSchema = {
         pin: { type: 'string', title: 'PIN number', maxLength: 4 },
         pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
         password: { type: 'string', title: 'Password' },
-        passwordConfirm: { type: 'string', title: 'Confirm password' }
+        confirmPassword: { type: 'string', title: 'Confirm password' }
       }
     },
     uiSchema: {
@@ -315,7 +434,8 @@ const customSchemas = {
   b2b: b2bSchema,
   pa: paSchema,
   b4h: b4hSchema,
-  wc: wcSchema
+  wc: wcSchema,
+  paEdit: paEditSchema
 }
 
 const defaultSchema = [
