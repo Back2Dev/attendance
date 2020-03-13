@@ -80,6 +80,7 @@
     "nan": "^2.14.0",
     "node-cron": "^1.2.1",
     "node-fetch": "^2.1.2",
+    "node-sass": "^4.13.1",
     "pdfmake": "^0.1.53",
     "raven": "^2.6.1",
     "rc-slider": "^8.1.3",
