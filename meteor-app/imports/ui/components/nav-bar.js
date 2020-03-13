@@ -3,13 +3,17 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter, NavLink } from 'react-router-dom'
-import { Menu } from 'semantic-ui-react'
+import Members from '/imports/api/members/schema'
+import { Menu, Loader } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
 
 import AdminMenu from '/imports/ui/pages/admin-menu'
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
-const NavBar = ({ currentUser, location }) => {
+const NavBar = ({ currentUser, currentMember, location, loading }) => {
+  if (loading) {
+    return <Loader active />
+  }
   return (
     <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
       <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
@@ -52,6 +56,19 @@ const NavBar = ({ currentUser, location }) => {
 
       {(Roles.userIsInRole(Meteor.userId(), 'shop') || !currentUser) && (
         <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
+      )}
+      {Roles.userIsInRole(Meteor.userId(), 'member') ? (
+        <Menu.Item
+          as={NavLink}
+          content="Edit"
+          icon="edit"
+          activeClassName="edit"
+          exact
+          to={`/edit/${currentMember._id}`}
+          key="edit"
+        />
+      ) : (
+        ''
       )}
 
       {Roles.userIsInRole(Meteor.userId(), 'register') ? (
@@ -148,9 +165,17 @@ NavBar.propTypes = {
 }
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
-const NavBarContainer = withTracker(() => ({
-  currentUser: Meteor.user() ? Meteor.user().username : ''
-}))(NavBar)
+const NavBarContainer = withTracker(() => {
+  const membersSub = Meteor.subscribe('all.members')
+  const loading = !membersSub.ready()
+  const currentMember = Members.find({ userId: Meteor.userId() }).fetch()[0]
+
+  return {
+    loading,
+    currentUser: Meteor.user() ? Meteor.user().username : '',
+    currentMember: currentMember
+  }
+})(NavBar)
 
 /** Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter */
 export default withRouter(NavBarContainer)
