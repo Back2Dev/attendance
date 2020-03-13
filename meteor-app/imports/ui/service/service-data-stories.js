@@ -392,7 +392,12 @@ const parts = [
   }
 ]
 
-export const storiesData = {
+const storiesData = {
   data: [...parts, ...services],
-  tags: []
+  tags: [
+    { name: 'Front Tyre (second hand)', price: 500, code: 'F', category: 'tyre', used: true },
+    { name: 'Rear Tyre (second hand)', price: 500, code: 'R', category: 'tyre', used: true }
+  ]
 }
+
+export default storiesData

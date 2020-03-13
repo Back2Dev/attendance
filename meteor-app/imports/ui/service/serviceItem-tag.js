@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './serviceItem-tag.css'
 
 export default function ServiceItemTag(props) {
@@ -55,4 +56,12 @@ export default function ServiceItemTag(props) {
       <div class="total-price"> $ {totalServicePrice}</div>
     </div>
   )
+}
+
+ServiceItemTag.propTypes = {
+  removeTag: PropTypes.func.isRequired,
+  toggleTag: PropTypes.func.isRequired,
+  majorMinorTotal: PropTypes.number.isRequired,
+  totalServicePrice: PropTypes.number.isRequired,
+  tags: PropTypes.array.isRequired
 }
