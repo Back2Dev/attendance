@@ -16,18 +16,16 @@ const panes = props => {
     {
       menuItem: 'Service',
       render: () => (
-        <Tab.Pane>
-          <ServiceContextProvider {...props}>
-            <ServiceItemSearchContainer />
-            <ServiceItemTagContainer />
-          </ServiceContextProvider>
+        <Tab.Pane props={props}>
+          <ServiceItemSearchContainer />
+          <ServiceItemTagContainer />
         </Tab.Pane>
       )
     },
     {
       menuItem: 'Details',
       render: () => (
-        <Tab.Pane>
+        <Tab.Pane props={props}>
           <Client />
         </Tab.Pane>
       )
@@ -55,7 +53,11 @@ const panes = props => {
 }
 
 function Service(props) {
-  return <Tab panes={panes(props)} />
+  return (
+    <ServiceContextProvider {...props}>
+      <Tab panes={panes(props)} />
+    </ServiceContextProvider>
+  )
 }
 
 Service.propTypes = {
