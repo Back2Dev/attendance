@@ -31,11 +31,13 @@ export default withTracker(props => {
 
     const majorService = {
       name: 'Major Service',
-      items: []
+      items: [],
+      expanded: false
     }
     const minorService = {
       name: 'Minor Service',
-      items: []
+      items: [],
+      expanded: false
     }
 
     services.map(service => {
