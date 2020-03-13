@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import ForgotPin from './forgot-pin'
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 const Signup = props => {
@@ -78,7 +78,7 @@ const Signup = props => {
               </Segment>
             </Form>
             <Message>
-              Already have an account? Login <Link to="/login">here</Link>
+              <ForgotPin member={props.member} forgotPin={props.forgotPin} />
             </Message>
             {error === null ? null : <Message error header="Registration was not successful" content={error} />}
           </Grid.Column>
@@ -90,6 +90,7 @@ const Signup = props => {
 
 /** Ensure that the React Router location object is available in case we need to redirect. */
 Signup.propTypes = {
+  forgotPin: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
