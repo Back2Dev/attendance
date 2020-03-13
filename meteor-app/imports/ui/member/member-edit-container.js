@@ -37,7 +37,7 @@ export default withTracker(props => {
       debug('updating member', formData)
       try {
         const res = await Meteor.callAsync('members.update', formData._id, formData)
-        setSuccess('Saved ok', formData._id)
+        setSuccess('Member Saved', formData._id)
         return res
       } catch (e) {
         debug('error updating member', formData, e)
@@ -48,11 +48,10 @@ export default withTracker(props => {
 
   const setUser = async formData => {
     if (props.member != null) {
-      // we are updating the member
       debug('updating member', formData)
       try {
         const res = await Meteor.callAsync('setUser', formData)
-        setSuccess('Saved ok', formData.userId)
+        setSuccess('User Saved', formData.userId)
         return res
       } catch (e) {
         debug('error updating user', formData, e)
@@ -61,11 +60,26 @@ export default withTracker(props => {
     }
   }
 
+  const setPassword = async (formData, newPassword) => {
+    debug('updating password', formData)
+    const id = formData.userId
+    try {
+      console.log(formData.userId)
+      const res = await Meteor.call('setPassword', { id, newPassword }, false)
+      setSuccess('Password Saved', formData)
+      return res
+    } catch (e) {
+      debug('error updating password', formData, e)
+      setError(e)
+    }
+  }
+
   document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
 
   return {
     setMember,
     setUser,
+    setPassword,
     error: error.get(),
     success: success.get(),
     message: msg.get(),

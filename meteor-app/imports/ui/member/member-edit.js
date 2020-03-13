@@ -125,6 +125,7 @@ class MemberEditForm extends Component {
                   formData={this.state.formData}
                   setMember={this.props.setMember}
                   setUser={this.props.setUser}
+                  setPassword={this.props.setPassword}
                   steps={this.schemas}
                   goToStep={this.goToStep}
                 />

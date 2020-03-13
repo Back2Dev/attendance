@@ -1,10 +1,11 @@
 import React from 'react'
-import { Form, Input, Message } from 'semantic-ui-react'
+import { Form, Input, Message, Button } from 'semantic-ui-react'
 
-export default UserDetailForm = ({ formData, setUser, setMember }) => {
-  const [password, setPassword] = React.useState('')
-  const [newPin, setNewPin] = React.useState(formData.pin)
+export default UserDetailForm = ({ formData, setUser, setMember, setPassword }) => {
   const [data, setData] = React.useState(formData)
+  const [newPin, setNewPin] = React.useState(formData.pin)
+  const [newPassword, setNewPassword] = React.useState('')
+  const [confirmPass, setConfirmPass] = React.useState('')
   const [error, setError] = React.useState(null)
 
   const handleSubmit = (e, h) => {
@@ -14,8 +15,12 @@ export default UserDetailForm = ({ formData, setUser, setMember }) => {
     } else if (newPin !== data.pin) {
       return setError('Pin does not match')
     }
+    if (newPassword !== confirmPass) {
+      return setError('Passwords must be the same ')
+    }
     setMember(data)
     setUser(data)
+    setPassword(data, confirmPass)
     // When updating email: Update email in member's collection and username + email in user's collection
   }
 
@@ -26,6 +31,7 @@ export default UserDetailForm = ({ formData, setUser, setMember }) => {
         <Form.Field>
           <label>Email</label>
           <input
+            value={data.email}
             onChange={e => {
               setData({ ...data, email: e.target.value })
             }}
@@ -35,16 +41,21 @@ export default UserDetailForm = ({ formData, setUser, setMember }) => {
         <Form.Field>
           <label>Password</label>
           <input
-            value={password}
+            value={newPassword}
             onChange={e => {
-              setPassword(e.target.value)
+              setNewPassword(e.target.value)
             }}
           />
         </Form.Field>
 
         <Form.Field>
           <label>Confirm Password</label>
-          <input />
+          <input
+            value={confirmPass}
+            onChange={e => {
+              setConfirmPass(e.target.value)
+            }}
+          />
         </Form.Field>
 
         <Form.Field
@@ -65,7 +76,7 @@ export default UserDetailForm = ({ formData, setUser, setMember }) => {
           control={Input}
         />
 
-        <button type="submit">Submit Changes</button>
+        <Button type="submit">Submit</Button>
       </Form>
     </>
   )
