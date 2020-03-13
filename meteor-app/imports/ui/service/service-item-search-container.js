@@ -3,7 +3,7 @@ import _ from 'lodash'
 import SearchBar from './service-item-search'
 import { ServiceContext } from './service-context'
 
-export default function ServiceItemSearchContainer() {
+const ServiceItemSearchContainer = () => {
   const [state, setState] = useContext(ServiceContext)
 
   const [isLoading, setIsLoading] = React.useState(false)
@@ -58,3 +58,7 @@ export default function ServiceItemSearchContainer() {
     />
   )
 }
+
+ServiceItemSearchContainer.propTypes = {}
+
+export default ServiceItemSearchContainer
