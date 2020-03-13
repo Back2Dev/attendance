@@ -26,4 +26,12 @@ const SearchBar = props => {
   )
 }
 
+SearchBar.propTypes = {
+  handleResultSelect: PropTypes.func.isRequired,
+  handleSearchChange: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  results: PropTypes.array.isRequired,
+  value: PropTypes.string.isRequired
+}
+
 export default SearchBar

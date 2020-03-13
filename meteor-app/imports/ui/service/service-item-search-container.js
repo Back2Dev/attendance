@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
+import _ from 'lodash'
 import SearchBar from './service-item-search'
 import { ServiceContext } from './service-context'
-import _ from 'lodash'
 
 export default function ServiceItemSearchContainer() {
   const [state, setState] = useContext(ServiceContext)
