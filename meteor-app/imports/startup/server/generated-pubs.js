@@ -8,5 +8,9 @@
 // GENERATED PUBS GO HERE
 
 import '/imports/api/events/server/publications'
+import '/imports/api/promos/server/publications'
+import '/imports/api/products/server/publications'
+import '/imports/api/sessions/server/publications'
+import '/imports/api/parts/server/publications'
 
 // END GENERATED PUBS
