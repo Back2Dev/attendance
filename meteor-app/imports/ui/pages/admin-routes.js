@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import GeneratedRoutes from '/imports/ui/generated-routes'
 
 import AdminContainer from '/imports/ui/admin/admin-container'
 import WwccContainer from '/imports/ui/wwcc'
@@ -9,7 +10,7 @@ import RenewalsContainer from '/imports/ui/renewals/container'
 import MatchingContainer from '/imports/ui/matching'
 import MemberDetails from '/imports/ui/admin/member'
 import MemberList from '/imports/ui/admin/member-list'
-import EventContainer from '/imports/ui/events/lister'
+// import EventContainer from '/imports/ui/events/lister'
 import ProductContainer from '/imports/ui/products/lister'
 import PromoContainer from '/imports/ui/promos/lister'
 import PartContainer from '/imports/ui/parts/lister'
@@ -33,12 +34,13 @@ export default Admin = props => {
 
       <Route path="/superadmin/users" component={AdminContainer} />
 
-      <Route path="/admin/events" component={EventContainer} />
+      {/* <Route path="/admin/events" component={EventContainer} /> */}
       <Route path="/admin/products" component={ProductContainer} />
       <Route path="/admin/promos" component={PromoContainer} />
       <Route path="/admin/parts" component={PartContainer} />
       <Route path="/admin/sessions" component={SessionsContainer} />
       <Route path="/admin/service-items" component={ServiceItemContainer} />
+      <GeneratedRoutes></GeneratedRoutes>
     </Switch>
   )
 }
