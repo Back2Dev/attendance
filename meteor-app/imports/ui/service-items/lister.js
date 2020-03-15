@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import ServiceItems from '/imports/api/assessments/serviceItems'
+import ServiceItems from '/imports/api/service-items/schema'
 import List from './list'
 import { dollarInput } from '/imports/ui/utils/editors'
 

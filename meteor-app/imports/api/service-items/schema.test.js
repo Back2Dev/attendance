@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import faker from 'faker'
 import Factory from '/imports/test/factories'
 
-import ServiceItems from '/imports/api/assessments/serviceItems'
+import ServiceItems from './schema'
 
 const badParts = []
 
@@ -18,11 +18,10 @@ goodParts.push(Factory.build('parts'))
 goodParts.push(Factory.build('parts'))
 
 describe('parts/schema', () => {
-
   beforeEach(resetDatabase)
 
   badParts.forEach((bad, i) => {
-    describe(`Bad parts (${i+1})`, () => {
+    describe(`Bad parts (${i + 1})`, () => {
       it('will not save to database', () => {
         // Fail validation, throw
         expect(() => ServiceItems.insert(bad)).to.throw()
@@ -31,7 +30,7 @@ describe('parts/schema', () => {
   })
 
   goodParts.forEach((good, i) => {
-    describe(`Good parts (${i+1})`, () => {
+    describe(`Good parts (${i + 1})`, () => {
       it('will save to database', () => {
         // Passes, doesn't throw
         expect(() => ServiceItems.insert(good)).to.not.throw()
