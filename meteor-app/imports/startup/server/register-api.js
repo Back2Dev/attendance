@@ -13,7 +13,6 @@ import '/imports/api/orders/server/publications'
 // Assessments
 import '/imports/api/assessments/schema'
 import '/imports/api/assessments/services'
-import '/imports/api/assessments/serviceItems'
 import '/imports/api/assessments/methods'
 import '/imports/api/assessments/server/publications'
 

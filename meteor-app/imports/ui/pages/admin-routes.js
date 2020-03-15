@@ -34,12 +34,6 @@ export default Admin = props => {
 
       <Route path="/superadmin/users" component={AdminContainer} />
 
-      {/* <Route path="/admin/events" component={EventContainer} /> */}
-      <Route path="/admin/products" component={ProductContainer} />
-      <Route path="/admin/promos" component={PromoContainer} />
-      <Route path="/admin/parts" component={PartContainer} />
-      <Route path="/admin/sessions" component={SessionsContainer} />
-      <Route path="/admin/service-items" component={ServiceItemContainer} />
       <GeneratedRoutes></GeneratedRoutes>
     </Switch>
   )
