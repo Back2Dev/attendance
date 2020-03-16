@@ -9,8 +9,9 @@
   * Determine whether it retrieves the edit profile webpage
   * 
   * Click on the register your credit card button
-  * 
-  * Check for error message
+  * Enter the test members details
+  * Enter fake credit card from the mock api credit card website
+  * Click on the register card button
 */
 
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -119,5 +120,15 @@ describe('Retrieve Login webpage', function() {
     cy.get('#mockExpiry')
       .clear()
       .type('01/09/2020')
+
+    cy.get('button')
+      .contains('Register card')
+      .should('exist')
+      .should('be.enabled')
+      .click()
+
+    cy.get('h2')
+      .contains('Card payment receipt')
+      .should('exist')
   })
 })
