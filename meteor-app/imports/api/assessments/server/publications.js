@@ -26,6 +26,10 @@ Meteor.publish('assessments.current', () => {
   return Assessment.find({ status: { $in: JOB_STATUS_ALL } })
 })
 
+Meteor.publish('assessments.jobNo', jobNo => {
+  return Assessment.find({ jobNo })
+})
+
 Meteor.publish('assessments.archive', () => {
   return Assessment.find({ status: { $in: JOB_STATUS_COMPLETE } })
 })

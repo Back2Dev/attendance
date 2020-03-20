@@ -15,6 +15,7 @@ const context = {
 
 const destinations = {
   kiosk: '/kiosk',
+  pay: '/pay',
   normal: '/volsignin',
   shop: '/shop',
   default: '/'

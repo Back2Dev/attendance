@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Grid, Segment } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from 'react-jsonschema-form-semanticui'
-import Alert from '/imports/ui/utils/alert'
 import moment from 'moment'
 
 import schemas from '/imports/ui/config/bike-assessment-schemas'
