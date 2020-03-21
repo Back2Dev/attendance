@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
+import { Loader } from 'semantic-ui-react'
 import Events, { defaultObject } from '/imports/api/events/schema'
 import List from './list'
 import DateEditor from 'react-tabulator/lib/editors/DateEditor'
@@ -82,7 +83,12 @@ CONSTANTS.DAYS_WEEK.forEach(day => {
 })
 
 const Loading = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading)
+    return (
+      <Loader active inline="centered" size="massive">
+        Loading
+      </Loader>
+    )
   return <List {...props}></List>
 }
 

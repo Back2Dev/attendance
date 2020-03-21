@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Alert from '/imports/ui/utils/alert'
 import 'semantic-ui-css/semantic.css'
+import { Dimmer, Loader } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
@@ -54,6 +55,7 @@ const App = props => {
       !(
         location.pathname.match(/kiosk/) ||
         location.pathname.match(/pay/) ||
+        location.pathname.match(/paid/) ||
         location.pathname.match(/shop/) ||
         location.pathname.match(/visit/) ||
         location.pathname.match(/add/) ||
@@ -138,7 +140,14 @@ SecureRoute.propTypes = {
 // Add in a withTracker component, so that we end up waiting for the roles to be loaded before we render menus
 //
 const AppLoader = props => {
-  if (props.loading) return <div>Booting up ...</div>
+  if (props.loading)
+    return (
+      <div>
+        <Dimmer active>
+          <Loader size="massive">Loading</Loader>
+        </Dimmer>
+      </div>
+    )
   return (
     <Router>
       <App {...props} />
