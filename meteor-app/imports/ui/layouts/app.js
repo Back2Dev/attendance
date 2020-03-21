@@ -16,6 +16,7 @@ import Shop from '/imports/ui/shop'
 import Ordering from '/imports/ui/layouts/ordering'
 import PayNow from '../pages/pay-now'
 import Payment from '/imports/ui/pay'
+import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Service from '/imports/ui/service/service-data'
 import Assessment from '/imports/ui/assessment/assessment'
 import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
@@ -80,6 +81,7 @@ const App = props => {
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
           <Route path="/forgotpin/:id" component={ForgotPin} />
+          <Route path="/payment" component={PaymentThankyou} />
 
           <SecureRoute role="member" path="/member-portal" component={MemberPortal} />
 
