@@ -81,7 +81,7 @@ const App = props => {
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
           <Route path="/forgotpin/:id" component={ForgotPin} />
-          <Route path="/payment" component={PaymentThankyou} />
+          <Route path="/paid/:jobNo" component={PaymentThankyou} />
 
           <SecureRoute role="member" path="/member-portal" component={MemberPortal} />
 

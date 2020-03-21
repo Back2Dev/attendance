@@ -110,6 +110,7 @@ export const AssessmentsSchema = new SimpleSchema({
   },
   search: { type: String, label: 'Concat of customer name, bike make and color for search functionality' },
   paid: { type: Boolean, defaultValue: false },
+  charge_token: { type: String, optional: true },
   createdAt,
   updatedAt
 })
