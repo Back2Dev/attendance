@@ -13,12 +13,24 @@ const Loading = props => {
 
 export default withTracker(props => {
   const jobNo = props.match.params.jobNo
-  debug(`jobNo ${jobNo}`)
 
   const subsHandle = Meteor.subscribe('assessments.jobNo', jobNo)
   const job = Assessments.findOne({ jobNo })
+  let ccUrl = `${Meteor.settings.public.paymentSite}?`
+  if (job) {
+    const params = {
+      amount: job.totalCost / 100,
+      description: `Bike service ${job.jobNo}`,
+      editable: 'false',
+      success_url: Meteor.absoluteUrl(`/paid/${job.jobNo}`)
+    }
+    ccUrl += Object.keys(params)
+      .map(param => `${param}=${params[param]}`)
+      .join('&')
+  }
   return {
     job,
+    ccUrl,
     loading: !subsHandle.ready()
   }
 })(Loading)
