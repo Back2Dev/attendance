@@ -6,6 +6,11 @@ import Counters from '/imports/api/counters/schema'
 import Logger from './logger'
 import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB, PAID, UNPAID } from '/imports/api/constants'
 
+const debug = require('debug')('b2b:assessment-methods')
+
+const myThrow = message => {
+  throw new Meteor.Error(message)
+}
 if (Meteor.isServer) {
   Meteor.methods({
     getNextJobNo() {
@@ -34,6 +39,35 @@ if (Meteor.isServer) {
         status: updatedStatus,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
       })
+    },
+    'service.paid'(jobNo, search) {
+      try {
+        check(jobNo, String)
+        check(search, String)
+        debug(`service.paid(${jobNo},${search})`)
+        const m = search.match(/\?charge_token=(.*)$/)
+        if (!m) myThrow(`Could not extract charge_token from ${search}`)
+        const charge_token = m[1]
+        const job = Assessment.findOne({ jobNo })
+        if (!job) myThrow('Could not find job with jobNo ' + jobNo)
+        const n = Assessment.update(job._id, { $set: { paid: true, charge_token } })
+        if (n)
+          Logger.insert({
+            user: 'Anonymous',
+            aId: job._id,
+            status: job.status,
+            eventType: LOG_EVENT_TYPES[PAID]
+          })
+        // Ideally we should call the pinpayments API
+        // to check that the charge_token is valid
+        const result = { status: 'success', message: 'Payment recorded' }
+        debug(result)
+        return result
+      } catch (e) {
+        const result = { status: 'failed', message: e.message }
+        debug(result)
+        return result
+      }
     },
     'assessment.updatePaid'(jobId) {
       check(jobId, String)

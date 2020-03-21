@@ -39,6 +39,14 @@ const Payment = ({ job, ccUrl }) => {
       <p>This means that bike pick-up is simpler, and less personal interaction is required.</p>
       <h3> Payment options</h3>
       <Item.Group>
+        <Item onClick={creditCard}>
+          <Item.Image size="tiny" src="/images/cc-card.png" />
+          <Item.Content>
+            <Item.Header as="a">Credit card</Item.Header>
+            <Item.Meta>Click to go to secure payment site</Item.Meta>
+            <Item.Description></Item.Description>
+          </Item.Content>
+        </Item>
         <Item onClick={toggleBank}>
           <Item.Image size="tiny" src="/images/cc-generic.png" />
           <Item.Content>
@@ -61,14 +69,6 @@ const Payment = ({ job, ccUrl }) => {
                 />
               )}
             </Item.Description>
-          </Item.Content>
-        </Item>
-        <Item onClick={creditCard}>
-          <Item.Image size="tiny" src="/images/cc-card.png" />
-          <Item.Content>
-            <Item.Header as="a">Credit card</Item.Header>
-            <Item.Meta>Click to go to secure payment site</Item.Meta>
-            <Item.Description></Item.Description>
           </Item.Content>
         </Item>
         {/* <Item onClick={paypal}>
