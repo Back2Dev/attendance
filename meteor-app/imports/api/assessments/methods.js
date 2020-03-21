@@ -4,7 +4,7 @@ import { check } from 'meteor/check'
 import Assessment from './schema'
 import Counters from '/imports/api/counters/schema'
 import Logger from './logger'
-import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB } from '/imports/api/constants'
+import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB, PAID, UNPAID } from '/imports/api/constants'
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -33,6 +33,19 @@ if (Meteor.isServer) {
         aId: jobId,
         status: updatedStatus,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
+      })
+    },
+    'assessment.updatePaid'(jobId) {
+      check(jobId, String)
+
+      const job = Assessment.findOne(jobId)
+      if (!job) throw new Meteor.Error('Could not find job with id ' + jobId)
+      Assessment.update(jobId, { $set: { paid: !job.paid } })
+      Logger.insert({
+        user: 'Anonymous',
+        aId: jobId,
+        status: job.status,
+        eventType: LOG_EVENT_TYPES[job.paid ? UNPAID : PAID]
       })
     },
     'logger.insert'(log) {

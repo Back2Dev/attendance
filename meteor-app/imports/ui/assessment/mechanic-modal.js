@@ -49,7 +49,7 @@ class MechanicModal extends Component {
             title="Assign mechanic"
           >
             <h1>{!this.props.currentJob.mechanic ? <Icon name="add user" /> : <Icon name="doctor" />}</h1>
-            {shorten_name(this.props.job.mechanic)}
+            {shorten_name(this.props.currentJob.mechanic)}
           </Button>
         }
         onClose={this.handleClose}
