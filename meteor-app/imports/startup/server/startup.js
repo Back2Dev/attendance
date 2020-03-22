@@ -27,7 +27,6 @@ const publicSchema = new SimpleSchema({
 const privateSchema = new SimpleSchema({
   paymentURL: String,
   customerURL: String,
-  chargeURL: String,
   paymentApiKey: String,
   sendgridApikey: String,
   fromEmail: String,

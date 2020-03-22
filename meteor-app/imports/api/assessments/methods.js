@@ -14,7 +14,7 @@ const myThrow = message => {
 }
 
 const emailReceipt = async ({ job, charge_token }) => {
-  const chargeURL = `${Meteor.settings.private.chargeURL}/${charge_token}`
+  const chargeURL = `${Meteor.settings.private.paymentURL}/${charge_token}`
   const request = {
     url: chargeURL,
     method: 'get',
@@ -34,7 +34,8 @@ const emailReceipt = async ({ job, charge_token }) => {
     Assessments.update(job._id, {
       $set: {
         email: data.response.email,
-        card: data.response.card
+        card: data.response.card,
+        paidAt: data.response.captured_at
       }
     })
     const bike = `${job.bikeDetails.color} ${job.bikeDetails.make} ${job.bikeDetails.model}`
@@ -100,6 +101,7 @@ if (Meteor.isServer) {
         const charge_token = m[1]
         const job = Assessments.findOne({ jobNo })
         if (!job) myThrow('Could not find job with jobNo ' + jobNo)
+        if (job.paid && job.charge_token && job.card) return { status: 'success', message: 'Already paid' }
         const n = Assessments.update(job._id, { $set: { paid: true, charge_token } })
         if (n) {
           Logger.insert({
@@ -125,7 +127,7 @@ if (Meteor.isServer) {
     'assessment.updatePaid'(jobId) {
       check(jobId, String)
 
-      const job = Assessment.findOne(jobId)
+      const job = Assessments.findOne(jobId)
       if (!job) throw new Meteor.Error('Could not find job with id ' + jobId)
       Assessments.update(jobId, { $set: { paid: !job.paid } })
       Logger.insert({

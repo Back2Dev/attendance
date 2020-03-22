@@ -112,6 +112,7 @@ export const AssessmentsSchema = new SimpleSchema({
   paid: { type: Boolean, defaultValue: false },
   charge_token: { type: String, optional: true },
   card: { type: Object, optional: true, blackbox: true },
+  paidAt: { type: Date, optional: true },
   createdAt,
   updatedAt
 })

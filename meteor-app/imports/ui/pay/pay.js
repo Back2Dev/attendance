@@ -1,9 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Header, Button, Message, Item } from 'semantic-ui-react'
+import { Container, Header, Image, Message, Item, Table, Segment } from 'semantic-ui-react'
 import Price from '/imports/ui/utils/price'
+import { Address } from '/imports/ui/utils'
 
-const Payment = ({ job, ccUrl }) => {
+const Receipt = ({ job, logo, org }) => {
+  const bike = `${job.bikeDetails.color} ${job.bikeDetails.make} ${job.bikeDetails.model}`
+  const expires = `(expires ${job.card.expiry_month}/${job.card.expiry_year})`
+  const items = [
+    { name: 'Bike', value: ` ${bike}` },
+    { name: 'Amount', value: <Price cents={job.totalCost} /> },
+    { name: 'Name', value: job.card.name },
+    {
+      name: 'Card',
+      value: `${job.card.scheme} ${job.card.display_number} ${expires}`
+    },
+    {
+      name: 'Country of issue',
+      value: job.card.issuing_country
+    },
+    {
+      name: 'Billing address',
+      value: <Address fields={'line1 line2 city state postcode country'.split(/\s+/)} card={job.card} />
+    },
+    { name: 'Transaction Date', value: moment(job.paidAt).format('DD/MM/YYYY HH:MM:SS') }
+  ]
+  return (
+    <Container text textAlign="center">
+      <Segment textAlign="center">
+        <Header as="h2">
+          <Image src={logo} />
+        </Header>
+        <Header as="h5">{org}</Header>
+        <Header as="h2">You have paid for bike service {job.jobNo}</Header>
+        <Table basic="very" celled collapsing>
+          <Table.Body>
+            {items.map(item => (
+              <Table.Row key={item.name}>
+                <Table.Cell valign="top">
+                  <Header as="h4">{item.name}</Header>
+                </Table.Cell>
+                <Table.Cell>{item.value}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Segment>
+    </Container>
+  )
+}
+const Payment = ({ job, ccUrl, logo, org }) => {
   const [showBank, setBank] = React.useState(false)
   const [showPP, setPP] = React.useState(false)
 
@@ -23,7 +69,9 @@ const Payment = ({ job, ccUrl }) => {
     // history.push(ccUrl)
     window.location.href = ccUrl
   }
+
   if (!job) return <h3>Job not found</h3>
+  if (job.paid && job.card && job.charge_token) return <Receipt job={job} logo={logo} org={org}></Receipt>
   return (
     <Container>
       <Header as="h2" textAlign="center">
@@ -98,7 +146,9 @@ const Payment = ({ job, ccUrl }) => {
 }
 
 Payment.propTypes = {
-  job: PropTypes.object.isRequired
+  job: PropTypes.object.isRequired,
+  logo: PropTypes.string.isRequired,
+  org: PropTypes.string.isRequired
 }
 
 export default Payment

@@ -17,6 +17,8 @@ export default withTracker(props => {
   const subsHandle = Meteor.subscribe('assessments.jobNo', jobNo)
   const job = Assessments.findOne({ jobNo })
   let ccUrl = `${Meteor.settings.public.paymentSite}?`
+  const org = Meteor.settings.public.org
+  const logo = Meteor.settings.public.logo
   if (job) {
     const params = {
       amount: job.totalCost / 100,
@@ -31,6 +33,8 @@ export default withTracker(props => {
   return {
     job,
     ccUrl,
+    logo,
+    org,
     loading: !subsHandle.ready()
   }
 })(Loading)
