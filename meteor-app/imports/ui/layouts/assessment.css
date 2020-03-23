@@ -45,10 +45,3 @@ h3 {
 .ui[class*='vertically divided'].grid > .row:before {
   box-shadow: none !important;
 }
-
-.completer {
-  color: darkred;
-}
-.completer:hover {
-  color: red;
-}
