@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Alert from '/imports/ui/utils/alert'
@@ -16,29 +16,39 @@ import {
   JOB_STATUS_READABLE,
   JOB_STATUS_BUTTON,
   JOB_STATUS_STYLES,
-  LOG_EVENT_TYPES
+  LOG_EVENT_TYPES,
+  PAID,
+  UNPAID
 } from '/imports/api/constants'
 import printJobCard from '/imports/ui/assessment/assessment-print-job'
 import MechanicModal from './mechanic-modal'
 import SmsModal from './sms-modal'
 import PhoneModal from './phone-modal'
 
-class JobCard extends Component {
-  state = {
-    activeIndex: -1
-  }
+const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, selectedaId }) => {
+  const [activeIndex, setActive] = React.useState(-1)
+  React.useEffect(() => {
+    if (selectedaId !== job._id) setActive(-1)
+  }, [selectedaId])
 
-  handleClick = (e, titleProps) => {
+  const handleClick = (e, titleProps) => {
     const { index } = titleProps
-    const { activeIndex } = this.state
     const newIndex = activeIndex === index ? -1 : index
-
-    this.setState({ activeIndex: newIndex })
+    setActive(newIndex)
   }
 
-  updateButton = () => {
-    const jobId = this.props.job._id
-    const statusValue = this.props.job.status
+  const markAsPaid = job => {
+    updatePaid(job._id)
+  }
+
+  const completeItem = (e, id) => {
+    e.preventDefault()
+    completeJob(id)
+  }
+
+  const updateButton = () => {
+    const jobId = job._id
+    const statusValue = job.status
     const statusList = Object.keys(JOB_STATUS)
     const status = statusList.find(key => JOB_STATUS[key] === statusValue) // Find key/name of current status
     const statusIndex = statusList.findIndex(element => element === status)
@@ -47,26 +57,26 @@ class JobCard extends Component {
 
     try {
       if (statusValue >= JOB_STATUS.PICKED_UP) return
-      this.props.updateStatus(jobId, updatedStatus)
+      updateStatus(jobId, updatedStatus)
       Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[updatedStatus]}`)
     } catch (error) {
       Alert.error(error.message)
     }
   }
 
-  cancelButton = () => {
-    const jobId = this.props.job._id
-    const status = this.props.job.status
+  const cancelButton = () => {
+    const jobId = job._id
+    const status = job.status
     const cancelStatus = JOB_STATUS.CANCELLED
     const completeStatus = JOB_STATUS.PICKED_UP
     const reopenStatus = JOB_STATUS.NEW
     const bikePickedUpStatus = JOB_STATUS.PICKED_UP
     try {
       if (status < bikePickedUpStatus) {
-        this.props.updateStatus(jobId, cancelStatus)
+        updateStatus(jobId, cancelStatus)
         Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[cancelStatus]}`)
       } else if (status === cancelStatus || status === completeStatus) {
-        this.props.updateStatus(jobId, reopenStatus)
+        updateStatus(jobId, reopenStatus)
         Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[reopenStatus]}`)
       }
       return
@@ -75,13 +85,13 @@ class JobCard extends Component {
     }
   }
 
-  sendSMS = cost => {}
+  const sendSMS = cost => {}
 
-  callCustomer = cost => {
-    const jobId = this.props.job._id
+  const callCustomer = cost => {
+    const jobId = job._id
   }
 
-  titleCase(str) {
+  const titleCase = str => {
     if (!str) return
     return str
       .toLowerCase()
@@ -90,7 +100,7 @@ class JobCard extends Component {
       .join(' ')
   }
 
-  renderLogs(logs) {
+  const renderLogs = logs => {
     if (!logs.length) {
       return <Loader active inline size="mini" />
     }
@@ -108,6 +118,10 @@ class JobCard extends Component {
             return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[PHONE_CALL]]}: ${log.data}`
           case LOG_EVENT_TYPES[SEND_SMS]:
             return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[SEND_SMS]]}: ${log.data}`
+          case LOG_EVENT_TYPES[PAID]:
+            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[PAID]]}`
+          case LOG_EVENT_TYPES[UNPAID]:
+            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[UNPAID]]}`
           default:
             return JOB_STATUS_READABLE[log.status]
         }
@@ -116,124 +130,139 @@ class JobCard extends Component {
     })
   }
 
-  render() {
-    const { activeIndex } = this.state
-    // Pulling data from props (assessment collection)
-    const { status, jobNo, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = this.props.job
-    const make = bikeDetails.make
-    const model = bikeDetails.model
-    const color = bikeDetails.color
-    const pickupDisplay = moment(pickupDate).format('D/M/YYYY')
-    const totalRepairCost = totalCost / 100
-    const jobStatus = JOB_STATUS_READABLE[status]
-    const customerName = customerDetails.isRefurbish ? 'Refurbish' : customerDetails.name
-    // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
-    const servicePackage = services.baseService
+  // Pulling data from props (assessment collection)
+  const { _id, status, jobNo, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = job
+  const make = bikeDetails.make
+  const model = bikeDetails.model
+  const color = bikeDetails.color
+  const pickupDisplay = moment(pickupDate).format('D/M/YYYY')
+  const totalRepairCost = totalCost / 100
+  const jobStatus = JOB_STATUS_READABLE[status]
+  const customerName = customerDetails.isRefurbish ? 'Refurbish' : customerDetails.name
+  // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
+  const servicePackage = services.baseService
 
-    // Dynamic button name
-    const statusText = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
-    const cancelText = status <= JOB_STATUS.READY_FOR_PICK_UP ? 'Cancel Job' : 'Re-open Job'
-    const name = `${jobNo} ${this.titleCase(color)} ${make} ${model}`
+  // Dynamic button name
+  const statusText = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
+  const cancelText = status <= JOB_STATUS.READY_FOR_PICK_UP ? 'Cancel Job' : 'Re-open Job'
+  const name = `${jobNo} ${titleCase(color)} ${make} ${model}`
 
-    return (
-      <Accordion className="job-card-container" styled fluid>
-        <Accordion.Title
-          active={activeIndex === 0}
-          index={0}
-          onClick={this.handleClick}
-          style={JOB_STATUS_STYLES[status]}
-        >
-          <Grid stackable>
-            <Grid.Row columns={5} mobile={2}>
-              <Grid.Column width={1}>
-                <Icon name="dropdown" />
-              </Grid.Column>
+  return (
+    <Accordion className="job-card-container" styled fluid>
+      <Accordion.Title active={activeIndex === 0} index={0} onClick={handleClick} style={JOB_STATUS_STYLES[status]}>
+        <Grid stackable>
+          <Grid.Row columns={5} mobile={2}>
+            <Grid.Column width={1}>
+              <Icon name="dropdown" />
+            </Grid.Column>
 
-              <Grid.Column width={3}>
-                <div>
-                  <strong>{jobStatus}</strong>
-                </div>
-              </Grid.Column>
+            <Grid.Column width={3}>
+              <div>
+                <strong>{jobStatus}</strong>
+              </div>
+            </Grid.Column>
 
-              <Grid.Column width={6}>
-                <List.Item>{name}</List.Item>
-              </Grid.Column>
+            <Grid.Column width={6}>
+              <List.Item>{name}</List.Item>
+            </Grid.Column>
 
-              <Grid.Column width={4}>
-                <List.Item>{this.titleCase(customerName)}</List.Item>
-              </Grid.Column>
+            <Grid.Column width={4}>
+              <List.Item>{titleCase(customerName)}</List.Item>
+            </Grid.Column>
 
-              <Grid.Column width={2}>
-                <List.Item>${totalRepairCost}</List.Item>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Accordion.Title>
+            <Grid.Column width={2}>
+              <List.Item align="right">${totalRepairCost}</List.Item>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Accordion.Title>
 
-        <Accordion.Content active={activeIndex === 0} style={{ fontSize: '1em', marginLeft: '28px' }}>
-          <Grid stackable>
-            <Grid.Row columns={2} style={{ marginTop: '20px' }}>
-              <Grid.Column style={{ fontSize: '1.2em' }}>
-                <List.Item>
-                  <strong>{servicePackage} </strong> Due: {pickupDisplay} <strong>Mechanic: </strong>
-                  {mechanic}
-                </List.Item>
-                <ul>
-                  <strong>Activity: </strong>
-                  {this.renderLogs(this.props.logs)}
-                </ul>
-                <br />
-                <Button.Group>
+      <Accordion.Content active={activeIndex === 0} style={{ fontSize: '1em', marginLeft: '28px' }}>
+        <Grid stackable>
+          <Grid.Row columns={2} style={{ marginTop: '20px' }}>
+            <Grid.Column style={{ fontSize: '1.2em' }}>
+              <List.Item>
+                <strong>{servicePackage} </strong> Due: {pickupDisplay} <strong>Mechanic: </strong>
+                {mechanic}
+              </List.Item>
+              <ul>
+                <strong>Activity: </strong>
+                {renderLogs(logs)}
+              </ul>
+              <br />
+              <Button.Group>
+                <Button
+                  className="ui button"
+                  color="green"
+                  style={{ textAlign: 'center', borderRadius: '5px', width: '200px' }}
+                  onClick={updateButton}
+                >
+                  <h2>{statusText}</h2>
+                </Button>
+                <Button
+                  className="ui button"
+                  color="red"
+                  style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
+                  onClick={cancelButton}
+                >
+                  <h2>{cancelText}</h2>
+                </Button>
+                {job.status < JOB_STATUS.PICKED_UP && (
                   <Button
-                    className="ui button"
-                    color="green"
-                    style={{ textAlign: 'center', borderRadius: '5px', width: '200px' }}
-                    onClick={this.updateButton}
-                  >
-                    <h2>{statusText}</h2>
-                  </Button>
-                  <Button
+                    enabled={!job.paid}
                     className="ui button"
                     color="red"
                     style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
-                    onClick={this.cancelButton}
+                    onClick={e => completeItem(e, _id)}
                   >
-                    <h2>{cancelText}</h2>
+                    <h2>Complete Job</h2>
+                  </Button>
+                )}
+              </Button.Group>
+            </Grid.Column>
+
+            <Grid.Column style={{ textAlign: 'right' }}>
+              <Grid.Row>
+                <Button.Group>
+                  <Button
+                    enabled={!job.paid}
+                    className="ui button"
+                    color={job.paid ? 'green' : 'red'}
+                    style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                    onClick={() => markAsPaid(job)}
+                  >
+                    <h1>
+                      <Icon name={job.paid ? 'check' : 'dollar'} />
+                    </h1>
+                    {job.paid ? 'Paid' : 'Mark as paid'}
+                  </Button>
+                  <MechanicModal currentJob={job} members={members} />
+                  <Button
+                    className="ui button"
+                    color="blue"
+                    style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                    onClick={() => printJobCard(job)}
+                  >
+                    <h1>
+                      <Icon name="print" />
+                    </h1>
+                    Job Card
                   </Button>
                 </Button.Group>
-              </Grid.Column>
+              </Grid.Row>
 
-              <Grid.Column style={{ textAlign: 'right' }}>
-                <Grid.Row>
-                  <Button.Group>
-                    <MechanicModal {...this.props} />
-                    <Button
-                      className="ui button"
-                      color="blue"
-                      style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
-                      onClick={() => printJobCard(this.props.job)}
-                    >
-                      <h1>
-                        <Icon name="print" />
-                      </h1>
-                      Job Card
-                    </Button>
-                  </Button.Group>
-                </Grid.Row>
-
-                <Grid.Row>
-                  <Button.Group>
-                    <PhoneModal job={this.props.job} />
-                    <SmsModal job={this.props.job} />
-                  </Button.Group>
-                </Grid.Row>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Accordion.Content>
-      </Accordion>
-    )
-  }
+              <Grid.Row>
+                <Button.Group>
+                  <PhoneModal job={job} />
+                  <SmsModal job={job} />
+                </Button.Group>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Accordion.Content>
+    </Accordion>
+  )
 }
 
 JobCard.propTypes = {
@@ -242,7 +271,9 @@ JobCard.propTypes = {
     status: PropTypes.number.isRequired
   }),
   updateStatus: PropTypes.func.isRequired,
-  logs: PropTypes.array.isRequired
+  completeJob: PropTypes.func.isRequired,
+  logs: PropTypes.array.isRequired,
+  selectedaId: PropTypes.string
 }
 
 export default JobCard

@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
 
@@ -9,7 +9,7 @@ export const customerSchema = new SimpleSchema({
   name: { type: String, optional: true, label: 'Customer name' },
   phone: { type: String, optional: true, label: 'Customer phone number' },
   email: { type: String, optional: true, label: 'Customer email' },
-  isRefurbish: { type: Boolean, label: 'Stating whether this job is a refurbishment' },
+  isRefurbish: { type: Boolean, label: 'Stating whether this job is a refurbishment' }
 })
 
 export const bikeSchema = new SimpleSchema({
@@ -25,7 +25,7 @@ export const servicesSchema = new SimpleSchema({
   'serviceItem.$': Object,
   'serviceItem.$.name': { type: String, label: 'Service description' },
   'serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single service item in cents' },
-  baseService: { type: String, label: 'Base service selection'},
+  baseService: { type: String, label: 'Base service selection' },
   totalServiceCost: {
     type: SimpleSchema.Integer,
     label: 'Price of service in cents',
@@ -51,8 +51,8 @@ export const partsSchema = new SimpleSchema({
   'partsItem.$.code': { type: String, label: 'Code to indicate if item is for front or back of bike' },
   'partsItem.$.category': { type: String, label: 'Parts category' },
   'partsItem.$.used': { type: Boolean, label: 'Is item new or used' },
-  totalPartsCost: { 
-    type: SimpleSchema.Integer, 
+  totalPartsCost: {
+    type: SimpleSchema.Integer,
     label: 'Price of parts in cents',
     custom() {
       // Validation to ensure that sum of all parts costs is equal total parts cost
@@ -64,7 +64,7 @@ export const partsSchema = new SimpleSchema({
       if (!check) {
         return new Meteor.Error('Total parts cost not equal the sum of its parts!')
       }
-    } 
+    }
   }
 })
 
@@ -78,8 +78,8 @@ export const AssessmentsSchema = new SimpleSchema({
   parts: { type: partsSchema, label: 'Details of parts required' },
   additionalFees: { type: SimpleSchema.Integer, label: 'Additional cost in cents' },
   discount: { type: SimpleSchema.Integer, label: 'Discount in cents' },
-  totalCost: { 
-    type: SimpleSchema.Integer, 
+  totalCost: {
+    type: SimpleSchema.Integer,
     label: 'Total cost in cents',
     custom() {
       // Validation to ensure that sum of all costs is equal total cost
@@ -90,9 +90,11 @@ export const AssessmentsSchema = new SimpleSchema({
 
       const check = services + parts + additional - discount === this.value
       if (!check) {
-        return new Meteor.Error(`Total repair cost ${this.value} not equal sum of services ${services}, parts ${parts} and additional fees ${additional}, less discount ${discount}`)
+        return new Meteor.Error(
+          `Total repair cost ${this.value} not equal sum of services ${services}, parts ${parts} and additional fees ${additional}, less discount ${discount}`
+        )
       }
-    } 
+    }
   },
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
@@ -101,10 +103,18 @@ export const AssessmentsSchema = new SimpleSchema({
   mechanic: { type: String, optional: true, label: 'Mechanic name' },
   comment: { type: String, optional: true, label: 'Field for putting in notes or additional services required' },
   temporaryBike: { type: Boolean, label: 'Field to indicate if a temporary bike was provided' },
-  status: { type: SimpleSchema.Integer, allowedValues: Object.keys(JOB_STATUS_READABLE).map(key => parseInt(key, 10)), label: 'Status of job in status id or key' },
+  status: {
+    type: SimpleSchema.Integer,
+    allowedValues: Object.keys(JOB_STATUS_READABLE).map(key => parseInt(key, 10)),
+    label: 'Status of job in status id or key'
+  },
   search: { type: String, label: 'Concat of customer name, bike make and color for search functionality' },
+  paid: { type: Boolean, defaultValue: false },
+  charge_token: { type: String, optional: true },
+  card: { type: Object, optional: true, blackbox: true },
+  paidAt: { type: Date, optional: true },
   createdAt,
-  updatedAt,
+  updatedAt
 })
 
 Assessments.attachSchema(AssessmentsSchema)
