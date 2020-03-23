@@ -99,8 +99,8 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               icon="payment"
               activeClassName="active"
               exact
-              to="/paynow"
-              key="paynow"
+              to="/options"
+              key="options"
             />
           ]
         : ''}

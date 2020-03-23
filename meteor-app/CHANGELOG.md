@@ -1,6 +1,8 @@
 # Changelog
 
 ## Next
+- B2B generic info and actionemail templates
+- Send receipt email
 
 ## 1.2.4
 

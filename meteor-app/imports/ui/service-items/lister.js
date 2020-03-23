@@ -1,6 +1,7 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
+import { Loader } from 'semantic-ui-react'
 import ServiceItems from '/imports/api/assessments/serviceItems'
 import List from './list'
 import { dollarInput } from '/imports/ui/utils/editors'
@@ -49,7 +50,12 @@ const columns = [
 ]
 
 const Loading = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading)
+    return (
+      <Loader active inline="centered" size="massive">
+        Loading
+      </Loader>
+    )
   return <List {...props}></List>
 }
 

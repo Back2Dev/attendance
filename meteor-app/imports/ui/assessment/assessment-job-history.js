@@ -46,6 +46,10 @@ export default withTracker(props => {
     Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
   }
 
+  const updatePaid = jobId => {
+    Meteor.call('assessment.updatePaid', jobId)
+  }
+
   const renderJob = () => {
     const search = searchVar.get()
     const status = statusVar.get()
@@ -68,6 +72,7 @@ export default withTracker(props => {
     searchFind,
     statusFilter,
     updateStatus,
+    updatePaid,
     resetStatus,
     logs,
     selectedaId: selectedaId.get(),
