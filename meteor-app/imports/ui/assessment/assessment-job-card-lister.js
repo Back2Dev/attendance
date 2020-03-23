@@ -49,13 +49,10 @@ export default withTracker(props => {
     Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
   }
 
-<<<<<<< HEAD
   const updatePaid = jobId => {
     Meteor.call('assessment.updatePaid', jobId)
   }
 
-=======
->>>>>>> fc922ccb82f2838fa3b6d1089eea0801378d55ad
   const completeJob = jobId => {
     Meteor.call('assessment.completeJob', jobId)
   }
