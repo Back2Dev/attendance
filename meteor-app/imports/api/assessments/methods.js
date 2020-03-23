@@ -4,7 +4,9 @@ import { check } from 'meteor/check'
 import Assessment from './schema'
 import Counters from '/imports/api/counters/schema'
 import Logger from './logger'
-import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB } from '/imports/api/constants'
+import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB, JOB_STATUS } from '/imports/api/constants'
+
+const debug = require('debug')('b2b:methods')
 
 if (Meteor.isServer) {
   Meteor.methods({
@@ -32,6 +34,17 @@ if (Meteor.isServer) {
         user: 'Anonymous',
         aId: jobId,
         status: updatedStatus,
+        eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
+      })
+    },
+    'assessment.completeJob'(jobId) {
+      check(jobId, String)
+      debug(`Completing job ${jobId}`)
+      Assessment.update(jobId, { $set: { status: JOB_STATUS.PICKED_UP } })
+      Logger.insert({
+        user: 'Anonymous',
+        aId: jobId,
+        status: JOB_STATUS.PICKED_UP,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
       })
     },
