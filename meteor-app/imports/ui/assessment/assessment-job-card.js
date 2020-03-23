@@ -25,7 +25,7 @@ import MechanicModal from './mechanic-modal'
 import SmsModal from './sms-modal'
 import PhoneModal from './phone-modal'
 
-const JobCard = ({ job, updatePaid, updateStatus, logs, members, selectedaId }) => {
+const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, selectedaId }) => {
   const [activeIndex, setActive] = React.useState(-1)
   React.useEffect(() => {
     if (selectedaId !== job._id) setActive(-1)

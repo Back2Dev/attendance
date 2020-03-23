@@ -5,7 +5,15 @@ import axios from 'axios'
 import Assessments from './schema'
 import Counters from '/imports/api/counters/schema'
 import Logger from './logger'
-import { LOG_EVENT_TYPES, STATUS_UPDATE, MECHANIC_UPDATE, NEW_JOB, PAID, UNPAID } from '/imports/api/constants'
+import {
+  LOG_EVENT_TYPES,
+  STATUS_UPDATE,
+  MECHANIC_UPDATE,
+  NEW_JOB,
+  PAID,
+  UNPAID,
+  JOB_STATUS
+} from '/imports/api/constants'
 
 const debug = require('debug')('b2b:assessment-methods')
 
@@ -140,7 +148,7 @@ if (Meteor.isServer) {
     'assessment.completeJob'(jobId) {
       check(jobId, String)
       debug(`Completing job ${jobId}`)
-      Assessment.update(jobId, { $set: { status: JOB_STATUS.PICKED_UP } })
+      Assessments.update(jobId, { $set: { status: JOB_STATUS.PICKED_UP } })
       Logger.insert({
         user: 'Anonymous',
         aId: jobId,
