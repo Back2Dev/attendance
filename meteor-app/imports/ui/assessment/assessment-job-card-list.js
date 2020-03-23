@@ -134,9 +134,11 @@ class JobCardList extends Component {
                   key={job._id}
                   updateStatus={this.props.updateStatus}
                   updatePaid={this.props.updatePaid}
+                  completeJob={this.props.completeJob}
                   logs={this.props.logs}
                   currentJob={this.state.job}
                   members={this.props.members}
+                  selectedaId={this.props.selectedaId}
                 />
               </Grid.Row>
             ))}
