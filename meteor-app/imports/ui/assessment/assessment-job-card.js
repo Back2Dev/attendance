@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Alert from '/imports/ui/utils/alert'
@@ -25,8 +25,11 @@ import MechanicModal from './mechanic-modal'
 import SmsModal from './sms-modal'
 import PhoneModal from './phone-modal'
 
-const JobCard = ({ job, updatePaid, updateStatus, logs, members }) => {
+const JobCard = ({ job, updatePaid, updateStatus, logs, members, selectedaId }) => {
   const [activeIndex, setActive] = React.useState(-1)
+  React.useEffect(() => {
+    if (selectedaId !== job._id) setActive(-1)
+  }, [selectedaId])
 
   const handleClick = (e, titleProps) => {
     const { index } = titleProps
@@ -36,6 +39,11 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members }) => {
 
   const markAsPaid = job => {
     updatePaid(job._id)
+  }
+
+  const completeItem = (e, id) => {
+    e.preventDefault()
+    completeJob(id)
   }
 
   const updateButton = () => {
@@ -123,7 +131,7 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members }) => {
   }
 
   // Pulling data from props (assessment collection)
-  const { status, jobNo, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = job
+  const { _id, status, jobNo, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = job
   const make = bikeDetails.make
   const model = bikeDetails.model
   const color = bikeDetails.color
@@ -163,7 +171,7 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members }) => {
             </Grid.Column>
 
             <Grid.Column width={2}>
-              <List.Item>${totalRepairCost}</List.Item>
+              <List.Item align="right">${totalRepairCost}</List.Item>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -199,6 +207,17 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members }) => {
                 >
                   <h2>{cancelText}</h2>
                 </Button>
+                {job.status < JOB_STATUS.PICKED_UP && (
+                  <Button
+                    enabled={!job.paid}
+                    className="ui button"
+                    color="red"
+                    style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
+                    onClick={e => completeItem(e, _id)}
+                  >
+                    <h2>Complete Job</h2>
+                  </Button>
+                )}
               </Button.Group>
             </Grid.Column>
 
@@ -217,7 +236,6 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members }) => {
                     </h1>
                     {job.paid ? 'Paid' : 'Mark as paid'}
                   </Button>
-
                   <MechanicModal currentJob={job} members={members} />
                   <Button
                     className="ui button"
@@ -253,7 +271,9 @@ JobCard.propTypes = {
     status: PropTypes.number.isRequired
   }),
   updateStatus: PropTypes.func.isRequired,
-  logs: PropTypes.array.isRequired
+  completeJob: PropTypes.func.isRequired,
+  logs: PropTypes.array.isRequired,
+  selectedaId: PropTypes.string
 }
 
 export default JobCard

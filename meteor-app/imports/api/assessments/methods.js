@@ -137,6 +137,17 @@ if (Meteor.isServer) {
         eventType: LOG_EVENT_TYPES[job.paid ? UNPAID : PAID]
       })
     },
+    'assessment.completeJob'(jobId) {
+      check(jobId, String)
+      debug(`Completing job ${jobId}`)
+      Assessment.update(jobId, { $set: { status: JOB_STATUS.PICKED_UP } })
+      Logger.insert({
+        user: 'Anonymous',
+        aId: jobId,
+        status: JOB_STATUS.PICKED_UP,
+        eventType: LOG_EVENT_TYPES[STATUS_UPDATE]
+      })
+    },
     'logger.insert'(log) {
       check(log, Object)
     },
