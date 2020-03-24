@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Services from '/imports/api/assessments/services'
-import ServiceItems from '/imports/api/assessments/serviceItems'
+import ServiceItems from '/imports/api/service-items/schema'
 import Assessments from '/imports/api/assessments/schema'
 import Logger from '/imports/api/assessments/logger'
 import { fakeJob, fakeLogs } from '/imports/test/fake-data'
@@ -15,67 +15,67 @@ Meteor.methods({
         name: 'Safety check / adjust brakes and gears',
         price: 1000,
         package: 'Minor',
-        code: 'FR',
+        code: 'FR'
       },
       {
         name: 'Check hubs for wear/play',
         price: 1000,
         package: 'Minor',
-        code: 'FR',
+        code: 'FR'
       },
       {
         name: 'Remove, clean and oil chain',
         price: 1000,
-        package: 'Minor',
+        package: 'Minor'
       },
       {
         name: 'Clean rear cassette',
         price: 1000,
-        package: 'Minor',
+        package: 'Minor'
       },
       {
         name: 'Check tyre pressure',
         price: 500,
         package: 'Minor',
-        code: 'FR',
+        code: 'FR'
       },
       {
         name: 'Lube derailleurs',
         price: 500,
         package: 'Minor',
-        code: 'FR',
+        code: 'FR'
       },
       {
         name: 'Check/tighten bolts on cranks, headset, wheels and bottom bracket',
         price: 1000,
-        package: 'Minor',
+        package: 'Minor'
       },
       {
         name: 'Check wheels are true',
         price: 1200,
         package: 'Major',
-        code: 'FR',
+        code: 'FR'
       },
       {
         name: 'Clean and re-grease wheel bearings',
         price: 1200,
         package: 'Major',
-        code: 'FR',
+        code: 'FR'
       },
       {
         name: 'Clean and re-grease headset',
         price: 1200,
-        package: 'Major',
+        package: 'Major'
       },
       {
         name: 'Clean and re-grease bottom bracket',
         price: 1200,
-        package: 'Major',
+        package: 'Major'
       },
       {
         name: 'Clean and re-grease seat post and clamps',
         price: 1200,
-        package: 'Major',
+        package: 'Major'
       }
     ]
 
@@ -141,7 +141,7 @@ Meteor.methods({
         code: 'O',
         category: 'other',
         used: false
-      },     
+      },
       {
         name: 'Front brake cable fitted',
         price: 1000,
@@ -407,7 +407,7 @@ Meteor.methods({
         code: 'O',
         category: 'other',
         used: false
-      },
+      }
     ]
 
     for (let i = 0; i < parts.length; i++) {
@@ -416,12 +416,11 @@ Meteor.methods({
   },
 
   'seed.assessments'() {
-
     const n = 10
     // seed ensures same data is generated
-    faker.seed(123) 
+    faker.seed(123)
 
-    const array_of = function (times, generator) {
+    const array_of = function(times, generator) {
       let result = []
       for (let i = 0; i < times; ++i) {
         result.push(generator())
@@ -429,20 +428,18 @@ Meteor.methods({
       return result
     }
 
-    array_of(n, () => fakeJob())
-      .forEach(r => {
-        r.jobNo = ((r.customerDetails.isRefurbish) ? 'R' : 'C') + Meteor.call('getNextJobNo')
-        const id = Assessments.insert(r)
-        const logs = fakeLogs(id, r)
-        logs.forEach(l => {
-          Logger.insert(l)
-        })
+    array_of(n, () => fakeJob()).forEach(r => {
+      r.jobNo = (r.customerDetails.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
+      const id = Assessments.insert(r)
+      const logs = fakeLogs(id, r)
+      logs.forEach(l => {
+        Logger.insert(l)
       })
-  },
+    })
+  }
 })
 
 Meteor.startup(() => {
-
   if (Services.find().count() === 0) {
     Meteor.call('seed.services')
   }

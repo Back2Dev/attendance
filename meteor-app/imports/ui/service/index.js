@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
-import ServiceItems from '/imports/api/assessments/serviceItems'
+import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
 import Service from './service'
 
