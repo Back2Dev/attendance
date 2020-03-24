@@ -28,52 +28,46 @@ export default UserDetailForm = ({ formData, setUser, setMember, setPassword }) 
     <>
       {error ? <Message error header={error} /> : null}
       <Form onSubmit={handleSubmit}>
-        <Form.Field>
-          <label>Email</label>
-          <input
-            value={data.email}
-            onChange={e => {
-              setData({ ...data, email: e.target.value })
-            }}
-          />
-        </Form.Field>
+        <Form.Input
+          label="Email"
+          value={data.email}
+          onChange={e => {
+            setData({ ...data, email: e.target.value })
+          }}
+        />
 
-        <Form.Field>
-          <label>Password</label>
-          <input
-            value={newPassword}
-            onChange={e => {
-              setNewPassword(e.target.value)
-            }}
-          />
-        </Form.Field>
+        <Form.Input
+          label="Password"
+          type="password"
+          value={newPassword}
+          onChange={e => {
+            setNewPassword(e.target.value)
+          }}
+        />
 
-        <Form.Field>
-          <label>Confirm Password</label>
-          <input
-            value={confirmPass}
-            onChange={e => {
-              setConfirmPass(e.target.value)
-            }}
-          />
-        </Form.Field>
+        <Form.Input
+          label="Confirm Password"
+          type="password"
+          value={confirmPass}
+          onChange={e => {
+            setConfirmPass(e.target.value)
+          }}
+        />
 
-        <Form.Field
+        <Form.Input
           id="form-pin"
           label="Pin"
           value={newPin}
           onChange={e => {
             setNewPin(e.target.value)
           }}
-          control={Input}
         />
 
-        <Form.Field
+        <Form.Input
           label="Confirm New Pin"
           onChange={e => {
             setData({ ...data, pin: e.target.value })
           }}
-          control={Input}
         />
 
         <Button type="submit">Submit</Button>

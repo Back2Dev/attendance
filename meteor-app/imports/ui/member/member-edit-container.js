@@ -48,7 +48,7 @@ export default withTracker(props => {
 
   const setUser = async formData => {
     if (props.member != null) {
-      debug('updating member', formData)
+      debug('updating user', formData)
       try {
         const res = await Meteor.callAsync('setUser', formData)
         setSuccess('User Saved', formData.userId)
