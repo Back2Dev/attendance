@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form, Input, Message, Button } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
-export default UserDetailForm = ({ formData, setUser, setMember, setPassword }) => {
+export default UserDetailForm = ({ formData, updateMemberPassword }) => {
   const [data, setData] = React.useState(formData)
   const [newPin, setNewPin] = React.useState(formData.pin)
   const [newPassword, setNewPassword] = React.useState('')
@@ -18,9 +19,7 @@ export default UserDetailForm = ({ formData, setUser, setMember, setPassword }) 
     if (newPassword !== confirmPass) {
       return setError('Passwords must be the same ')
     }
-    setMember(data)
-    setUser(data)
-    setPassword(data, confirmPass)
+    updateMemberPassword(data, confirmPass)
     // When updating email: Update email in member's collection and username + email in user's collection
   }
 
@@ -74,4 +73,9 @@ export default UserDetailForm = ({ formData, setUser, setMember, setPassword }) 
       </Form>
     </>
   )
+}
+
+UserDetailForm.propTypes = {
+  formData: PropTypes.object.isRequired,
+  updateMemberPassword: PropTypes.func.isRequired
 }
