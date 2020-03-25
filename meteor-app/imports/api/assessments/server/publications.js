@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Assessment from '../schema'
+import Assessments from '../schema'
 import Services from '../services'
 import ServiceItems from '../../service-items/schema'
 import Logger from '../logger'
@@ -15,19 +15,19 @@ Meteor.publish('all.services', () => {
 })
 
 Meteor.publish('assessments.all', () => {
-  return Assessment.find({})
+  return Assessments.find({})
 })
 
 Meteor.publish('assessments.current', () => {
-  return Assessment.find({ status: { $in: JOB_STATUS_ALL } })
+  return Assessments.find({ status: { $in: JOB_STATUS_ALL } })
 })
 
 Meteor.publish('assessments.jobNo', jobNo => {
-  return Assessment.find({ jobNo })
+  return Assessments.find({ jobNo })
 })
 
 Meteor.publish('assessments.archive', () => {
-  return Assessment.find({ status: { $in: JOB_STATUS_COMPLETE } })
+  return Assessments.find({ status: { $in: JOB_STATUS_COMPLETE } })
 })
 
 Meteor.publish('logger.assessment', aId => {
