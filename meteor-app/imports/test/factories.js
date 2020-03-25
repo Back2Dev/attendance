@@ -21,7 +21,7 @@ import Reports from '/imports/api/reports/schema'
 
 import Assessments from '/imports/api/assessments/schema'
 import Services from '/imports/api/assessments/schema'
-import ServiceItems from '/imports/api/assessments/serviceItems'
+import ServiceItems from '/imports/api/service-items/schema'
 import Events from '/imports/api/events/schema'
 import Logger from '/imports/api/assessments/logger'
 import OrderEmails from '/imports/api/orderemails/schema'
