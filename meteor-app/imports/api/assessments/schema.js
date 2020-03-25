@@ -9,7 +9,7 @@ export const customerSchema = new SimpleSchema({
   name: { type: String, optional: true, label: 'Customer name' },
   phone: { type: String, optional: true, label: 'Customer phone number' },
   email: { type: String, optional: true, label: 'Customer email' },
-  isRefurbish: { type: Boolean, label: 'Stating whether this job is a refurbishment' }
+  isRefurbish: { type: Boolean, label: 'Is a refurbishment' }
 })
 
 export const bikeSchema = new SimpleSchema({
@@ -17,14 +17,14 @@ export const bikeSchema = new SimpleSchema({
   model: { type: String, optional: true, label: 'Bike model' },
   color: { type: String, label: 'Bike color' },
   bikeValue: { type: SimpleSchema.Integer, label: 'Estimated bike value in cents' },
-  sentimentValue: { type: Boolean, optional: true, label: 'Field to indicate if bike holds sentimental value' }
+  sentimentValue: { type: Boolean, optional: true, label: 'Bike holds sentimental value' }
 })
 
 export const servicesSchema = new SimpleSchema({
   serviceItem: Array,
   'serviceItem.$': Object,
   'serviceItem.$.name': { type: String, label: 'Service description' },
-  'serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single service item in cents' },
+  'serviceItem.$.price': { type: SimpleSchema.Integer, label: 'Price in cents' },
   baseService: { type: String, label: 'Base service selection' },
   totalServiceCost: {
     type: SimpleSchema.Integer,
@@ -48,9 +48,9 @@ export const partsSchema = new SimpleSchema({
   'partsItem.$': Object,
   'partsItem.$.name': { type: String, label: 'Parts name/description' },
   'partsItem.$.price': { type: SimpleSchema.Integer, label: 'Price of single parts item in cents' },
-  'partsItem.$.code': { type: String, label: 'Code to indicate if item is for front or back of bike' },
+  'partsItem.$.code': { type: String, label: '(F)ront or (B)ack of bike, or (O)ther' },
   'partsItem.$.category': { type: String, label: 'Parts category' },
-  'partsItem.$.used': { type: Boolean, label: 'Is item new or used' },
+  'partsItem.$.used': { type: Boolean, label: 'Is used' },
   totalPartsCost: {
     type: SimpleSchema.Integer,
     label: 'Price of parts in cents',
@@ -106,9 +106,9 @@ export const AssessmentsSchema = new SimpleSchema({
   status: {
     type: SimpleSchema.Integer,
     allowedValues: Object.keys(JOB_STATUS_READABLE).map(key => parseInt(key, 10)),
-    label: 'Status of job in status id or key'
+    label: 'Status of job'
   },
-  search: { type: String, label: 'Concat of customer name, bike make and color for search functionality' },
+  search: { type: String, label: 'Combination of searchable data' },
   paid: { type: Boolean, defaultValue: false },
   charge_token: { type: String, optional: true },
   card: { type: Object, optional: true, blackbox: true },
