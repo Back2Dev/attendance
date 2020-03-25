@@ -36,7 +36,7 @@ export default withTracker(props => {
       debug('updating member password', formData)
       try {
         const res = await Meteor.callAsync('updateMemberPassword', formData, confirmPass)
-        setSuccess('member password saved', formData.userId)
+        setSuccess('Member password saved', formData.userId)
         return res
       } catch (e) {
         debug('error updating member password', formData, e)

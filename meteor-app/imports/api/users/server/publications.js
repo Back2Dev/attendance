@@ -45,8 +45,11 @@ Meteor.methods({
     const userId = formData.userId
     const oldEmail = Meteor.user().emails
     try {
+      // update member form
       Meteor.call('members.update', formData._id, formData)
+      // update user password
       Accounts.setPassword(userId, confirmPass, { logout: false })
+      // update user email
       Accounts.setUsername(userId, formData.email)
       if (oldEmail) {
         Accounts.removeEmail(userId, oldEmail[0].address)
