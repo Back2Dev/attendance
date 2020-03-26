@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Carts } from '/imports/api/products/schema'
 import CONSTANTS from '/imports/api/constants'
 import Members from '/imports/api/members/schema'
+import Charges from '/imports/api/charges/schema'
 
 const debug = require('debug')('b2b:payments')
 
@@ -173,6 +174,36 @@ Meteor.methods({
       if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: data.response.customerToken } })
       else Members.update({ email: custData.email }, { $set: { paymentCustId: data.response.customerToken } })
       return data
+    } catch (error) {
+      debug(error)
+      // throw new Meteor.Error(error.message)
+      return error.message
+    }
+  },
+  'refresh.charges': async function() {
+    const chargeURL = `${Meteor.settings.private.paymentURL}`
+    const request = {
+      url: chargeURL,
+      method: 'get',
+      validateStatus: function(status) {
+        return status >= 200
+      },
+      auth: {
+        username: Meteor.settings.private.paymentApiKey,
+        password: ''
+      }
+    }
+    debug(`Fetching charges from ${chargeURL}`, request)
+    try {
+      const r = await axios(request)
+      const { data } = r
+      debug(`status: ${r.status} ${r.statusText}`, data.response)
+      data.response.forEach(charge => {
+        const c = Charges.findOne({ token: charge.token })
+        if (!c) {
+          Charges.insert(charge)
+        }
+      })
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)

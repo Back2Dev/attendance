@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Alert from '/imports/ui/utils/alert'
 import Charges from '/imports/api/charges/schema'
+import { centFormatter, dateFormat } from '/imports/ui/utils/formatters'
 import List from './list'
 
 const meteorCall = async (method, description, param) => {
@@ -19,6 +20,7 @@ const meteorCall = async (method, description, param) => {
   }
 }
 
+const refresh = id => meteorCall('refresh.charges', 'Refreshing', id)
 const remove = id => meteorCall('rm.charges', 'Deleting', id)
 const update = form => meteorCall('update.charges', 'updating', form)
 const insert = form => meteorCall('insert.charges', 'adding', form)
@@ -39,28 +41,38 @@ const columns = [
       cell.getRow().toggleSelect()
     }
   },
-  { field: 'token', title: 'token', editor: true },
-  { field: 'success', title: 'success', editor: true },
-  { field: 'amount', title: 'amount', editor: true },
-  { field: 'currency', title: 'currency', editor: true },
-  { field: 'description', title: 'description', editor: true },
-  { field: 'email', title: 'email', editor: true },
-  { field: 'ip_address', title: 'ipAddress', editor: true },
-  { field: 'created_at', title: 'createdAt', editor: true },
-  { field: 'status_message', title: 'statusMessage', editor: true },
-  { field: 'error_message', title: 'errorMessage', editor: true },
-  { field: 'card', title: 'card', editor: true },
-  { field: 'transfer', title: 'transfer', editor: true },
-  { field: 'amount_refunded', title: 'amountRefunded', editor: true },
-  { field: 'total_fees', title: 'totalFees', editor: true },
-  { field: 'merchant_entitlement', title: 'merchantEntitlement', editor: true },
-  { field: 'refund_pending', title: 'refundPending', editor: true },
-  { field: 'authorisation_expired', title: 'authorisationExpired', editor: true },
-  { field: 'captured', title: 'captured', editor: true },
-  { field: 'captured_at', title: 'capturedAt', editor: true },
-  { field: 'settlement_currency', title: 'settlementCurrency', editor: true },
-  { field: 'active_chargebacks', title: 'activeChargebacks', editor: true },
-  { field: 'metadata', title: 'metadata', editor: true }
+  { field: 'created_at', title: 'Date', formatter: 'datetime', formatterParams: dateFormat },
+  { field: 'description', title: 'description' },
+  { field: 'amount', title: 'amount', formatter: centFormatter, formatterParams: { decimals: 2 } },
+  {
+    field: 'card',
+    title: 'Card details',
+    columns: [
+      { field: 'card.name', title: 'Name' },
+      { field: 'card.scheme', title: 'Type' },
+      { field: 'card.display_number', title: 'Card' },
+      { field: 'card.issuing_country', title: 'Country' },
+      { field: 'card.expiry_month', title: 'month' },
+      { field: 'card.expiry_year', title: 'year' },
+      { field: 'card.address_line1', title: 'Address' }
+    ]
+  },
+  // { field: 'token', title: 'token' },
+  { field: 'success', title: 'success' },
+  { field: 'currency', title: 'currency' },
+  { field: 'email', title: 'email' },
+  { field: 'status_message', title: 'statusMessage' },
+  { field: 'error_message', title: 'errorMessage' },
+  { field: 'amount_refunded', title: 'amountRefunded' },
+  { field: 'total_fees', title: 'totalFees' },
+  // { field: 'merchant_entitlement', title: 'merchantEntitlement' },
+  // { field: 'refund_pending', title: 'refundPending' },
+  // { field: 'authorisation_expired', title: 'authorisationExpired' },
+  // { field: 'captured', title: 'captured' },
+  // { field: 'captured_at', title: 'capturedAt' },
+  // { field: 'settlement_currency', title: 'settlementCurrency' },
+  // { field: 'active_chargebacks', title: 'activeChargebacks' },
+  { field: 'metadata', title: 'metadata' }
 ]
 const Loading = props => {
   if (props.loading) return <div>Loading...</div>
@@ -69,10 +81,11 @@ const Loading = props => {
 export default withTracker(props => {
   const subsHandle = Meteor.subscribe('all.charges')
   return {
-    items: Charges.find({}).fetch(),
+    items: Charges.find({}, { sort: { created_at: -1 } }).fetch(),
     remove,
     update,
     insert,
+    refresh,
     columns,
     defaultObject,
     loading: !subsHandle.ready()

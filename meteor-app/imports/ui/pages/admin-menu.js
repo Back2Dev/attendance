@@ -8,6 +8,7 @@ const adminPages = [
   { name: '', display: 'Admin' },
   { name: 'duplicates', display: 'Duplicates' },
   { name: 'events', display: 'Events' },
+  { name: 'charges', display: 'Charges' },
   { name: 'parts', display: 'Parts' },
   { name: 'products', display: 'Products' },
   { name: 'promos', display: 'Promos' },

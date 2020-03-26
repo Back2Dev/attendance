@@ -1,38 +1,10 @@
 import React from 'react'
-import { Sparklines, SparklinesLine } from 'react-sparklines'
 
 // Formatters suitable for use with React-tabulator
 
 //
 
 // How to use - imports
-/* 
-  import { reactFormatter } from 'react-tabulator'
-  import { Spark} from '/imports/ui/utils/formatters'
-*/
-// How to use - in the list of field definitions,
-// pass in the formatter.
-// The <Spark> component assumes you have key/value pairs in a history object
-//
-/*
-{
-  field: 'history',
-  title: 'History',
-  formatter: reactFormatter(<Spark />)
-},
-*/
-
-export const Spark = props => {
-  const cellData = props.cell._cell.row.data.history
-  const colour = props.cell._cell.row.data.profit > 0 ? 'green' : 'red'
-
-  return (
-    <Sparklines data={Object.values(cellData).reverse()}>
-      <SparklinesLine color={colour} />
-    </Sparklines>
-  )
-}
-
 export const profitFormatter = (cell, formatterParams, onRendered) => {
   const colour = cell.getValue() > 0 ? 'green' : 'red'
   // const perc = cell.getValue() ? sprintf('%#,##0.1f', cell.getValue()) + '%' : ''
@@ -78,4 +50,10 @@ export const centFormatter = (cell, formatterParams, onRendered) => {
     return `<span style="color:${colour}">${value}</span>`
   }
   return value
+}
+
+export const dateFormat = {
+  inputFormat: 'DD/MM/YY hh:mm',
+  outputFormat: 'DD/MM/YY h:mm A',
+  invalidPlaceholder: 'Invalid Date'
 }

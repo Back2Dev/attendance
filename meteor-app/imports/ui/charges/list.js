@@ -7,7 +7,7 @@ import { ReactTabulator } from 'react-tabulator'
 
 const debug = require('debug')('manx:add')
 
-const List = ({ items, update, remove, insert, columns, defaultObject, loading }) => {
+const List = ({ items, update, remove, insert, refresh, columns, defaultObject, loading }) => {
   const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
 
@@ -39,6 +39,10 @@ const List = ({ items, update, remove, insert, columns, defaultObject, loading }
     }
   }
 
+  const refreshRows = () => {
+    refresh()
+  }
+
   const deleteRows = () => {
     if (rowsSelected.length === 0) alert('Please select one or more items to delete')
     rowsSelected.forEach(id => remove(id))
@@ -58,6 +62,7 @@ const List = ({ items, update, remove, insert, columns, defaultObject, loading }
   }
 
   const buttons = [
+    { action: refreshRows, id: 'refresh', caption: 'Refresh', color: 'green' },
     { action: deleteRows, id: 'delete', caption: 'Delete', color: 'red' },
     { action: addANewRow, id: 'add', caption: 'Add', color: 'black' }
   ]
@@ -84,6 +89,7 @@ List.propTypes = {
   remove: PropTypes.func.isRequired,
   update: PropTypes.func.isRequired,
   insert: PropTypes.func.isRequired,
+  refresh: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
   defaultObject: PropTypes.object.isRequired
 }
