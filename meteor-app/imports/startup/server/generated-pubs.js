@@ -13,5 +13,6 @@ import '/imports/api/products/server/publications'
 import '/imports/api/sessions/server/publications'
 import '/imports/api/parts/server/publications'
 import '/imports/api/service-items/server/publications'
+import '/imports/api/charges/server/publications'
 
 // END GENERATED PUBS

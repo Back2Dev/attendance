@@ -3,6 +3,8 @@
 ## Next
 - B2B generic info and actionemail templates
 - Send receipt email
+- Import charges from pinpayments
+- Added view of charges with 'refresh' button
 
 ## 1.2.4
 

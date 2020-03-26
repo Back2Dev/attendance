@@ -21,7 +21,6 @@ const SearchBar = props => {
       })}
       results={results}
       value={value}
-      resultRenderer={resultRenderer}
     />
   )
 }

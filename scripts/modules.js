@@ -6,7 +6,8 @@ const modules = {
   products: "Products",
   sessions: "Sessions",
   parts: "Parts",
-  "service-items": "ServiceItems"
+  "service-items": "ServiceItems",
+  charges: "Charges"
 };
 module.exports = modules;
 
