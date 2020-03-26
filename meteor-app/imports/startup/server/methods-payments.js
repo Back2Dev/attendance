@@ -195,19 +195,22 @@ Meteor.methods({
     }
     debug(`Fetching charges from ${chargeURL}`, request)
     try {
+      let n = 0
       const r = await axios(request)
       const { data } = r
       debug(`status: ${r.status} ${r.statusText}`, data.response)
       data.response.forEach(charge => {
         const c = Charges.findOne({ token: charge.token })
         if (!c) {
-          Charges.insert(charge)
+          const id = Charges.insert(charge)
+          if (id) n = n + 1
         }
       })
+      return { status: 'success', message: `Added ${n} charges` }
     } catch (error) {
       debug(error)
       // throw new Meteor.Error(error.message)
-      return error.message
+      return { status: 'failed', message: error.message }
     }
   }
 })

@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Alert from '/imports/ui/utils/alert'
 import Charges from '/imports/api/charges/schema'
-import { centFormatter, dateFormat } from '/imports/ui/utils/formatters'
+import { centFormatter, dateFormat, expiryFormatter, objectFormatter } from '/imports/ui/utils/formatters'
 import List from './list'
 
 const meteorCall = async (method, description, param) => {
@@ -43,6 +43,8 @@ const columns = [
   },
   { field: 'created_at', title: 'Date', formatter: 'datetime', formatterParams: dateFormat },
   { field: 'description', title: 'description' },
+  { field: 'success', title: 'success', formatter: 'tickCross' },
+  { field: 'error_message', title: 'errorMessage' },
   { field: 'amount', title: 'amount', formatter: centFormatter, formatterParams: { decimals: 2 } },
   {
     field: 'card',
@@ -51,18 +53,16 @@ const columns = [
       { field: 'card.name', title: 'Name' },
       { field: 'card.scheme', title: 'Type' },
       { field: 'card.display_number', title: 'Card' },
-      { field: 'card.issuing_country', title: 'Country' },
-      { field: 'card.expiry_month', title: 'month' },
-      { field: 'card.expiry_year', title: 'year' },
-      { field: 'card.address_line1', title: 'Address' }
+      // { field: 'card.issuing_country', title: 'Country' },
+      { field: 'card.expiry_month', title: 'Expiry', formatter: expiryFormatter }
+      // { field: 'card.address_line1', title: 'Address' }
     ]
   },
   // { field: 'token', title: 'token' },
-  { field: 'success', title: 'success' },
+
   { field: 'currency', title: 'currency' },
   { field: 'email', title: 'email' },
-  { field: 'status_message', title: 'statusMessage' },
-  { field: 'error_message', title: 'errorMessage' },
+  // { field: 'status_message', title: 'statusMessage' },
   { field: 'amount_refunded', title: 'amountRefunded' },
   { field: 'total_fees', title: 'totalFees' },
   // { field: 'merchant_entitlement', title: 'merchantEntitlement' },
@@ -72,7 +72,7 @@ const columns = [
   // { field: 'captured_at', title: 'capturedAt' },
   // { field: 'settlement_currency', title: 'settlementCurrency' },
   // { field: 'active_chargebacks', title: 'activeChargebacks' },
-  { field: 'metadata', title: 'metadata' }
+  { field: 'metadata', title: 'metadata', formatter: objectFormatter }
 ]
 const Loading = props => {
   if (props.loading) return <div>Loading...</div>
