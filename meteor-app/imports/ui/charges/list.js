@@ -16,6 +16,12 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
     setRowsSelected([])
   }, [items])
 
+  const tableRef = React.useRef(null)
+
+  const downloadCSV = () => {
+    tableRef.current.table.download('csv', 'charges.csv')
+  }
+
   const onCellEdited = cell => {
     debug('cellEdited', cell)
     update(cell._cell.row.data)
@@ -36,7 +42,9 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
           setRowsSelected(rowsSelected)
         }
       }
-    }
+    },
+    downloadDataFormatter: data => data,
+    downloadReady: (fileContents, blob) => blob
   }
 
   const refreshRows = () => {
@@ -57,12 +65,15 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
     if (!rows.length) {
       Contents = () => <span>No data found</span>
     } else {
-      Contents = () => <ReactTabulator columns={columns} data={rows} options={tableOptions} cellEdited={onCellEdited} />
+      Contents = () => (
+        <ReactTabulator ref={tableRef} columns={columns} data={rows} options={tableOptions} cellEdited={onCellEdited} />
+      )
     }
   }
 
   const buttons = [
     { action: refreshRows, id: 'refresh', caption: 'Refresh', color: 'green' },
+    { action: downloadCSV, id: 'csv', caption: 'Download CSV', color: 'black' },
     { action: deleteRows, id: 'delete', caption: 'Delete', color: 'red' },
     { action: addANewRow, id: 'add', caption: 'Add', color: 'black' }
   ]
