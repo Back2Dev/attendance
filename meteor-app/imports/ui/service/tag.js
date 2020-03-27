@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './service-item-tag.css'
+import './tag.css'
 
 export default function ServiceItemTag(props) {
-  const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, toggleExpand, tags } = props
+  const { removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags } = props
 
   return (
     <div className="wrapper">
@@ -57,7 +57,7 @@ export default function ServiceItemTag(props) {
           </div>
         ) : null
       )}
-      <div className="total-price">${totalServicePrice}</div>
+      <div className="total-price">${totalPrice}</div>
     </div>
   )
 }
@@ -66,6 +66,6 @@ ServiceItemTag.propTypes = {
   removeTag: PropTypes.func.isRequired,
   toggleTag: PropTypes.func.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,
-  totalServicePrice: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number.isRequired,
   tags: PropTypes.array.isRequired
 }

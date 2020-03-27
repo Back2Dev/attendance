@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
-// import { action } from '@storybook/addon-actions'
 import { ServiceContextProvider } from './service-context'
+import SearchBar from './item-search'
+
 import storiesData from '/imports/test/service-data'
 
-import Client from './client'
+console.log('servicedata from the  search stories', storiesData)
 
-storiesOf('Service', module).add('client', () => {
+storiesOf('Service', module).add('SearchBar', () => {
   return (
     <ServiceContextProvider {...storiesData}>
-      <Client />
+      <SearchBar></SearchBar>
     </ServiceContextProvider>
   )
 })

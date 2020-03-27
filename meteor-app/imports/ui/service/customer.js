@@ -1,7 +1,7 @@
 /* eslint-disable no-lone-blocks */
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import './client.css'
+import './customer.css'
 import { string, object } from 'yup'
 import { ServiceContext } from './service-context'
 

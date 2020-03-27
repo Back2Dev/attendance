@@ -4,5 +4,5 @@ import Service from './service'
 import storiesData from '/imports/test/service-data'
 
 storiesOf('Service', module).add('Service', () => {
-  return <Service tags={[]} data={storiesData.data} totalServicePrice={0} />
+  return <Service tags={[]} data={storiesData.data} totalPrice={0} />
 })

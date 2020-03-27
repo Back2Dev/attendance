@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import ServiceItemTag from './service-item-tag'
+import ServiceItemTag from './tag'
 import { ServiceContext } from './service-context'
 
 export default function ServiceItemTagContainer() {
   const [state, setState] = useContext(ServiceContext)
   const tags = state.tags
-  let totalServicePrice = state.totalServicePrice
+  let totalPrice = state.totalPrice
 
   function calcTotalDeduction(tag) {
     if (tag.price) {
@@ -44,15 +44,15 @@ export default function ServiceItemTagContainer() {
 
     const newTags = [...tags]
     newTags.splice(index, 1)
-    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice - priceDeduction }
+    const newState = { ...state, tags: newTags, totalPrice: totalPrice - priceDeduction }
     setState(newState)
   }
 
   function toggleTag(item, currentTag) {
     if (!item.greyed) {
-      totalServicePrice = totalServicePrice - item.price / 100
+      totalPrice = totalPrice - item.price / 100
     } else {
-      totalServicePrice = totalServicePrice + item.price / 100
+      totalPrice = totalPrice + item.price / 100
     }
 
     const newTags = [...tags]
@@ -65,7 +65,7 @@ export default function ServiceItemTagContainer() {
           })
         : null
     })
-    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice }
+    const newState = { ...state, tags: newTags, totalPrice: totalPrice }
     setState(newState)
   }
 
@@ -85,7 +85,7 @@ export default function ServiceItemTagContainer() {
       toggleTag={toggleTag}
       tags={tags}
       majorMinorTotal={majorMinorTotal}
-      totalServicePrice={totalServicePrice}
+      totalPrice={totalPrice}
       toggleExpand={toggleExpand}
     />
   )

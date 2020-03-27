@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import ServiceItemTag from './service-item-tag'
+import ServiceItemTag from './tag'
 import storiesData from '/imports/test/service-data'
 import { action } from '@storybook/addon-actions'
 
@@ -13,7 +13,7 @@ storiesOf('Service', module).add('ServiceItemTag', () => {
       removeTag={action('removeTag')}
       toggleTag={action('toggleTag')}
       majorMinorTotal={action('major/minor total')}
-      totalServicePrice={5000}
+      totalPrice={5000}
     />
   )
 })

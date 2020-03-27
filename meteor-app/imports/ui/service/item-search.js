@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import _ from 'lodash'
-import SearchBar from './service-item-search'
+import SearchBar from './search-bar'
 import { ServiceContext } from './service-context'
 
 const ServiceItemSearchContainer = () => {
@@ -11,20 +11,20 @@ const ServiceItemSearchContainer = () => {
   const [value, setValue] = React.useState('')
 
   const handleResultSelect = (e, { result }) => {
-    let totalServicePrice = state.totalServicePrice
+    let totalPrice = state.totalPrice
     if (result.price) {
-      totalServicePrice = state.totalServicePrice + result.price / 100
+      totalPrice = state.totalPrice + result.price / 100
     } else {
-      totalServicePrice = result.items.reduce((total, item) => {
+      totalPrice = result.items.reduce((total, item) => {
         if (!item.greyed) {
           total += item.price / 100
         }
         return total
       }, 0)
-      totalServicePrice = totalServicePrice + state.totalServicePrice
+      totalPrice = totalPrice + state.totalPrice
     }
     const newTags = [...state.tags, result]
-    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice }
+    const newState = { ...state, tags: newTags, totalPrice: totalPrice }
     console.log('newState = ', newState)
     setState(newState)
     setValue('')
@@ -44,7 +44,7 @@ const ServiceItemSearchContainer = () => {
       const re = new RegExp(_.escapeRegExp(value), 'i')
       const isMatch = result => re.test(result.name)
       setIsLoading(false)
-      setResults(_.filter(state.data, isMatch))
+      setResults(_.filter(state.serviceItems, isMatch))
     }, 300)
   }
 

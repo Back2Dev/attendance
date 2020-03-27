@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Summary from './summary-tab'
+import Summary from './summary'
 import { action } from '@storybook/addon-actions'
 import { fakeJob } from '/imports/test/fake-data'
 import { withKnobs, number } from '@storybook/addon-knobs/react'
