@@ -31,8 +31,14 @@ export default ListUsers = props => {
   }
 
   const show = () => {
-    if (usersRowsSelected.length === 1) {
-      setPopupStatus(true)
+    if (usersRowsSelected.length === 0) {
+      Alert.error('Please select a user to manage')
+    } else {
+      if (usersRowsSelected.length === 1) {
+        setPopupStatus(true)
+      } else {
+        Alert.error('Please select only one user to manage')
+      }
     }
   }
   const handleCancel = () => {
@@ -61,12 +67,13 @@ export default ListUsers = props => {
     }
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (newPassword === newPasswordAgain && newPassword) {
-      props.setPassword(usersRowsSelected[0], newPassword)
-      setPopupStatus(false)
-      setUsersRowsSelected([])
-      Alert.success('New password has been set')
+      const s = await props.setPassword(usersRowsSelected[0], newPassword)
+      if (s.status === 'success') {
+        setPopupStatus(false)
+        setUsersRowsSelected([])
+      }
     }
   }
 

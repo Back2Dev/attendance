@@ -17,7 +17,9 @@ export const meteorCall = async (method, description, params, slow) => {
     } else {
       Alert.error(`Error ${s.message}`)
     }
+    return s
   } catch (e) {
     Alert.error(`Error ${e.message}`)
+    return { status: 'failed', message: e.message }
   }
 }
