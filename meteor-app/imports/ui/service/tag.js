@@ -12,7 +12,7 @@ export default function ServiceItemTag(props) {
           tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
             <span className="tag" key={index}>
               <span className="item-name">{tag.name} </span>
-              <span className="item-name">- $ {tag.price / 100}</span>
+              <span className="item-name">&nbsp;${tag.price}</span>
               <span className="handle" onClick={() => removeTag(tag, index)}>
                 x
               </span>
@@ -29,7 +29,7 @@ export default function ServiceItemTag(props) {
                 {tag.expanded ? '<' : '>'}
               </span>
               {tag.name}
-              <span className="item-name">- $ {majorMinorTotal(tag.items)}</span>
+              <span className="item-name">&nbsp;${majorMinorTotal(tag.items)}</span>
               <span className="handle" onClick={() => removeTag(tag, index)}>
                 x
               </span>
@@ -39,7 +39,7 @@ export default function ServiceItemTag(props) {
                 tag.name === 'Major Service' ? (
                   <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                     {item.name}
-                    <span className="item-price">- $ {item.price / 100}</span>
+                    <span className="item-price">&nbsp;${item.price}</span>
                     <span className="handle" onClick={() => toggleTag(item, tag)}>
                       {item.greyed ? '+' : '-'}
                     </span>
@@ -47,7 +47,7 @@ export default function ServiceItemTag(props) {
                 ) : (
                   <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                     {item.name}
-                    <span className="item-price">- $ {item.price / 100}</span>
+                    <span className="item-price">&nbsp;${item.price}</span>
                     <span className="handle" onClick={() => toggleTag(item, tag)}>
                       {item.greyed ? '+' : '-'}
                     </span>

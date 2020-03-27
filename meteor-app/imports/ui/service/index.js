@@ -26,31 +26,41 @@ export default withTracker(props => {
 
   const majorService = {
     name: 'Major Service',
+    title: 'Major Service',
     items: [],
-    expanded: false
+    expanded: false,
+    price: 120,
+    cents: 12000
   }
   const minorService = {
     name: 'Minor Service',
+    title: 'Minor Service',
     items: [],
-    expanded: false
+    expanded: false,
+    price: 60,
+    cents: 6000
   }
 
-  services.map(service => {
-    service.greyed = false
-    if (service.package === 'Minor') {
-      const serviceCopy = { ...service }
-      minorService.items.push(serviceCopy)
-    }
-    majorService.items.push(service)
-  })
-
-  serviceItems.push(minorService)
-  serviceItems.push(majorService)
   serviceItems.forEach(item => {
     item.title = item.name
     item.cents = item.price
     item.price = item.cents / 100
   })
+
+  services.map(item => {
+    item.greyed = false
+    item.cents = item.price
+    item.price = item.cents / 100
+    if (item.package === 'Minor') {
+      const itemCopy = { ...item }
+      minorService.items.push(itemCopy)
+    }
+    majorService.items.push(item)
+  })
+
+  serviceItems.push(minorService)
+  serviceItems.push(majorService)
+
   const loading = !subsHandle.ready()
   const tags = []
   let totalPrice = 0

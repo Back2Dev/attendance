@@ -13,11 +13,11 @@ const ServiceItemSearchContainer = () => {
   const handleResultSelect = (e, { result }) => {
     let totalPrice = state.totalPrice
     if (result.price) {
-      totalPrice = state.totalPrice + result.price / 100
+      totalPrice = state.totalPrice + result.price
     } else {
       totalPrice = result.items.reduce((total, item) => {
         if (!item.greyed) {
-          total += item.price / 100
+          total += item.price
         }
         return total
       }, 0)

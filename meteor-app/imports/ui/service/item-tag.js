@@ -1,19 +1,19 @@
 import React, { useContext } from 'react'
-import ServiceItemTag from './tag'
+import Tag from './tag'
 import { ServiceContext } from './service-context'
 
-export default function ServiceItemTagContainer() {
+export default function ItemTag() {
   const [state, setState] = useContext(ServiceContext)
   const tags = state.tags
   let totalPrice = state.totalPrice
 
   function calcTotalDeduction(tag) {
     if (tag.price) {
-      priceDeduction = tag.price / 100
+      priceDeduction = tag.price
     } else {
       priceDeduction = tag.items.reduce((total, item) => {
         if (!item.greyed) {
-          total += item.price / 100
+          total += item.price
         }
         return total
       }, 0)
@@ -50,9 +50,9 @@ export default function ServiceItemTagContainer() {
 
   function toggleTag(item, currentTag) {
     if (!item.greyed) {
-      totalPrice = totalPrice - item.price / 100
+      totalPrice = totalPrice - item.price
     } else {
-      totalPrice = totalPrice + item.price / 100
+      totalPrice = totalPrice + item.price
     }
 
     const newTags = [...tags]
@@ -72,7 +72,7 @@ export default function ServiceItemTagContainer() {
   function majorMinorTotal(items) {
     let sum = items.reduce((total, item) => {
       if (!item.greyed) {
-        total += item.price / 100
+        total += item.price
       }
       return total
     }, 0)
@@ -80,7 +80,7 @@ export default function ServiceItemTagContainer() {
   }
 
   return (
-    <ServiceItemTag
+    <Tag
       removeTag={removeTag}
       toggleTag={toggleTag}
       tags={tags}
