@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Alert from '/imports/ui/utils/alert'
 import { Button, List, Accordion, Icon, Grid, Loader } from 'semantic-ui-react'
+import Alert from '/imports/ui/utils/alert'
 
 import '/imports/ui/layouts/assessment.css'
 import {
@@ -161,4 +161,14 @@ const Summary = props => {
   )
 }
 
+Summary.propTypes = {
+  status: PropTypes.string.isRequired,
+  jobNo: PropTypes.string.isRequired,
+  bikeDetails: PropTypes.object.isRequired,
+  services: PropTypes.array.isRequired,
+  mechanic: PropTypes.string.isRequired,
+  // pickupDate: PropTypes.date.isRequired,
+  totalCost: PropTypes.number.isRequired,
+  customerDetails: PropTypes.object.isRequired
+}
 export default Summary

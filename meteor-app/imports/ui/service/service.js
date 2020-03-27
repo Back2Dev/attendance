@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ServiceContextProvider } from './service-context'
 import ServiceItemTagContainer from './item-tag'
-import ServiceItemSearchContainer from './item-search'
+import ServiceItemSearchContainer from './search'
 
 import Summary from './summary'
 import Customer from './customer'

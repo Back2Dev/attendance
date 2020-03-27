@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import _ from 'lodash'
-import SearchBar from './search-bar'
+import { Search, Label } from 'semantic-ui-react'
 import { ServiceContext } from './service-context'
 
-const ServiceItemSearchContainer = () => {
+const ItemSearch = () => {
   const [state, setState] = useContext(ServiceContext)
 
   const [isLoading, setIsLoading] = React.useState(false)
@@ -49,16 +49,18 @@ const ServiceItemSearchContainer = () => {
   }
 
   return (
-    <SearchBar
-      handleResultSelect={handleResultSelect}
-      handleSearchChange={handleSearchChange}
-      isLoading={isLoading}
+    <Search
+      loading={isLoading}
+      onResultSelect={handleResultSelect}
+      onSearchChange={_.debounce(handleSearchChange, 500, {
+        leading: true
+      })}
       results={results}
       value={value}
     />
   )
 }
 
-ServiceItemSearchContainer.propTypes = {}
+ItemSearch.propTypes = {}
 
-export default ServiceItemSearchContainer
+export default ItemSearch

@@ -6,7 +6,7 @@ import storiesData from '/imports/test/service-data'
 
 import Client from './customer'
 
-storiesOf('Service', module).add('client', () => {
+storiesOf('Service', module).add('Customer details', () => {
   return (
     <ServiceContextProvider {...storiesData}>
       <Client />

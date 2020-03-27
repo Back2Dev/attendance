@@ -392,12 +392,25 @@ const parts = [
   }
 ]
 
+services.forEach(service => {
+  service.cents = service.price
+  service.price = service.cents / 100
+})
+
+parts.forEach(part => {
+  part.cents = part.price
+  part.price = part.cents / 100
+})
+
 const storiesData = {
   data: [...parts, ...services],
   tags: [
-    { name: 'Front Tyre (second hand)', price: 500, code: 'F', category: 'tyre', used: true },
-    { name: 'Rear Tyre (second hand)', price: 500, code: 'R', category: 'tyre', used: true }
+    { name: 'Front Tyre (second hand)', price: 5, code: 'F', category: 'tyre', used: true },
+    { name: 'Rear Tyre (second hand)', price: 5, code: 'R', category: 'tyre', used: true }
   ]
 }
+storiesData.totalPrice = storiesData.tags.reduce((acc, item) => {
+  return acc + item.price
+}, 0)
 
 export default storiesData
