@@ -15,6 +15,7 @@ const adminPages = [
   { name: 'renewals', display: 'Renewals' },
   { name: 'service-items', display: 'Service items' },
   { name: 'sessions', display: 'Sessions' },
+  { name: 'settings', display: 'Settings' },
   { name: 'matching', display: 'Shopping carts' },
   { name: 'slsa', display: 'SLSA' },
   { name: 'userprofiles', display: 'Users' },
