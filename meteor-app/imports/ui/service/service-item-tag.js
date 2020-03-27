@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './serviceItem-tag.css'
+import './service-item-tag.css'
 
 export default function ServiceItemTag(props) {
   const { removeTag, toggleTag, majorMinorTotal, totalServicePrice, toggleExpand, tags } = props

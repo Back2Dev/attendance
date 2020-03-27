@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { ServiceContext } from './service-context'
-import Summary from './summary-tab'
+import Summary from './summary'
 
 import {
   LOG_EVENT_READABLE,

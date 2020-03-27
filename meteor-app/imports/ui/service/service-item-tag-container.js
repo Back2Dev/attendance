@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import ServiceItemTag from './serviceItem-tag'
+import ServiceItemTag from './service-item-tag'
 import { ServiceContext } from './service-context'
 
 export default function ServiceItemTagContainer() {

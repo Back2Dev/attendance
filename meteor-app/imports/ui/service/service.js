@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SearchBar from './service-item-search'
-import ServiceItemTag from './serviceItem-tag'
+import ServiceItemTag from './service-item-tag'
 import { ServiceContextProvider } from './service-context'
-import ServiceItemTagContainer from './serviceItem-tag-container'
+import ServiceItemTagContainer from './service-item-tag-container'
 import ServiceItemSearchContainer from './service-item-search-container'
 
 import Summary from './summary-tab'

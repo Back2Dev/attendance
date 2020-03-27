@@ -2,13 +2,12 @@ import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
+import { Loader } from 'semantic-ui-react'
 import Service from './service'
 
-const Loading = () => <div>Loading...</div>
-
-const Loader = props => {
+const Loading = props => {
   if (props.loading) {
-    return <Loading />
+    return <Loader />
   }
   return <Service {...props} />
 }
@@ -55,4 +54,4 @@ export default withTracker(props => {
   serviceState.loading = !allServicesHandle.ready()
 
   return serviceState
-})(Loader)
+})(Loading)
