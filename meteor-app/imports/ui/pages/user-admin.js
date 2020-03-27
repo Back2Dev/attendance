@@ -11,6 +11,7 @@ export default ListUsers = props => {
   const [users, setusers] = React.useState(props.users)
   const [popupStatus, setPopupStatus] = React.useState(false)
   const [usersRowsSelected, setUsersRowsSelected] = React.useState([])
+  const [passwordError, setPasswordError] = React.useState('')
 
   React.useEffect(() => {
     setusers(props.users)
@@ -42,6 +43,7 @@ export default ListUsers = props => {
     }
   }
   const handleCancel = () => {
+    setPasswordError('')
     setPopupStatus(false)
     setUsersRowsSelected([])
   }
@@ -50,6 +52,7 @@ export default ListUsers = props => {
     props.sendResetPasswordEmail(usersRowsSelected[0])
     setPopupStatus(false)
     setUsersRowsSelected([])
+    setPasswordError('')
     Alert.success('Email has been sent')
   }
 
@@ -74,6 +77,8 @@ export default ListUsers = props => {
         setPopupStatus(false)
         setUsersRowsSelected([])
       }
+    } else {
+      setPasswordError('Passwords must be the same')
     }
   }
 
@@ -114,20 +119,19 @@ export default ListUsers = props => {
   let ManagePasswordContents = () => (
     <Segment>
       <Grid columns={2} relaxed="very">
-        <Grid.Column verticalAlign="middle">
-          <Button onClick={handleSendEmail}>Send Reset Password Email</Button>
+        <Grid.Column verticalAlign="middle" style={{ textAlign: 'center' }}>
+          <Button onClick={handleSendEmail} content="Send Reset Password Email" />
         </Grid.Column>
         <Grid.Column>
           <Form>
-            <Form.Field>
-              <label>New Password</label>
-              <input placeholder="New Password" onChange={handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>New Password Again</label>
-              <input placeholder="New Password Again" onChange={handleChange} />
-            </Form.Field>
-            <Button content="Save" size="tiny" onClick={handleSave} />
+            <Form.Input type="password" label="New Password" placeholder="New Password" onChange={handleChange} />
+            <Form.Input
+              type="password"
+              label="New Password Again"
+              placeholder="New Password Again"
+              onChange={handleChange}
+            />
+            <div style={{ padding: 0, color: 'red' }}>{passwordError}</div>
           </Form>
         </Grid.Column>
       </Grid>
@@ -163,7 +167,7 @@ export default ListUsers = props => {
         open={popupStatus}
         header="Manage Password"
         content={<ManagePasswordContents />}
-        onConfirm={handleCancel}
+        onConfirm={handleSave}
         onCancel={handleCancel}
       />
       <UsersContents />
