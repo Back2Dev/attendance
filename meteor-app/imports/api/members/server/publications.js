@@ -16,7 +16,8 @@ Meteor.publish('all.members.carts', () => {
   return [Members.find({}, { sort: { joined: -1, lastIn: -1, name: 1 } }), Carts.find({}), Purchases.find({})]
 })
 Meteor.publish('member.userid', id => {
-  return Members.find({ userId: id })
+  if (!id) return Members.find({ rubbish: true })
+  else return Members.find({ userId: id })
 })
 
 Meteor.publish('members.dupes', () => {

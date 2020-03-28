@@ -9,6 +9,7 @@ import MemberVisitsCard from '/imports/ui/punch-card/member-visits-card'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
+  if (props.member && !props.member._id) return <div>You are not logged in</div>
   const cards = {}
   if (props.member.subsType === 'member') {
     props.sessions.forEach(session => {

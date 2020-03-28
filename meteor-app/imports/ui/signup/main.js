@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ForgotPin from './forgot-pin'
-import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import { Container, Form, Input, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 const Signup = props => {
   const [email, setEmail] = useState(null)
@@ -37,25 +37,20 @@ const Signup = props => {
             </Header>
             <Form onSubmit={submit}>
               <Segment stacked>
-                <Form.Input
-                  label="Email"
-                  icon="user"
-                  iconPosition="left"
-                  name="email"
-                  type="email"
-                  placeholder="E-mail address"
-                  defaultValue={email}
-                  disabled
-                />
-                <Form.Input
-                  label="Enter your pin"
-                  icon="lock"
-                  iconPosition="left"
-                  name="pin"
-                  placeholder="Pin Number"
-                  type="password"
-                  onChange={e => setPin(e.target.value)}
-                ></Form.Input>
+                <Header>Welcome {props.member.name + '!'}</Header>
+                <Container style={{ marginBottom: '10px' }}>
+                  Enter Your Pin
+                  <Input
+                    icon="lock"
+                    iconPosition="left"
+                    name="pin"
+                    placeholder="Pin Number"
+                    type="password"
+                    onChange={e => setPin(e.target.value)}
+                    fluid
+                  />
+                  <ForgotPin style={{ marginBottom: '20px' }} member={props.member} forgotPin={props.forgotPin} />
+                </Container>
                 <Form.Input
                   label="Set A New Password"
                   icon="lock"
@@ -74,12 +69,9 @@ const Signup = props => {
                   type="password"
                   onChange={e => setPasswordConfirm(e.target.value)}
                 />
-                <Form.Button content="Submit" />
+                <Form.Button content="Submit" color="blue" />
               </Segment>
             </Form>
-            <Message>
-              <ForgotPin member={props.member} forgotPin={props.forgotPin} />
-            </Message>
             {error === null ? null : <Message error header="Registration was not successful" content={error} />}
           </Grid.Column>
         </Grid>
