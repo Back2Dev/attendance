@@ -31,55 +31,24 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setMember = async formData => {
+  const updateMemberPassword = async (formData, confirmPass) => {
     if (props.member != null) {
-      // we are updating the member
-      debug('updating member', formData)
+      debug('updating member password', formData)
       try {
-        const res = await Meteor.callAsync('members.update', formData._id, formData)
-        setSuccess('Member Saved', formData._id)
+        const res = await Meteor.callAsync('updateMemberPassword', formData, confirmPass)
+        setSuccess('Member password saved', formData.userId)
         return res
       } catch (e) {
-        debug('error updating member', formData, e)
+        debug('error updating member password', formData, e)
         setError(e)
       }
-    }
-  }
-
-  const setUser = async formData => {
-    if (props.member != null) {
-      debug('updating member', formData)
-      try {
-        const res = await Meteor.callAsync('setUser', formData)
-        setSuccess('User Saved', formData.userId)
-        return res
-      } catch (e) {
-        debug('error updating user', formData, e)
-        setError(e)
-      }
-    }
-  }
-
-  const setPassword = async (formData, newPassword) => {
-    debug('updating password', formData)
-    const id = formData.userId
-    try {
-      console.log(formData.userId)
-      const res = await Meteor.call('setPassword', { id, newPassword }, false)
-      setSuccess('Password Saved', formData)
-      return res
-    } catch (e) {
-      debug('error updating password', formData, e)
-      setError(e)
     }
   }
 
   document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
 
   return {
-    setMember,
-    setUser,
-    setPassword,
+    updateMemberPassword,
     error: error.get(),
     success: success.get(),
     message: msg.get(),

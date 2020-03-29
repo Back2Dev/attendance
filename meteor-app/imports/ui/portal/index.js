@@ -16,12 +16,11 @@ const debug = require('debug')('b2b:visit')
 export default withTracker(props => {
   const membersHandle = Meteor.subscribe('member.userid', Meteor.userId())
   const loading = !membersHandle.ready()
-  const member = Members.findOne({ userId: Meteor.userId() }) || {}
-  const memberData = Meteor.subscribe('member.all', member._id)
-  const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
-  const carts = Carts.find({ memberId: member._id }).fetch()
-  const cart = carts.filter(cart => cart.status === 'ready')[0]
-  const sessions = Sessions.find({ memberId: member._id }).fetch()
+  const member = !Meteor.userId() ? {} : Members.findOne({ userId: Meteor.userId() })
+  // const purchases = Purchases.find({ memberId: member._id }, { sort: { createdAt: -1 } }).fetch()
+  // const carts = Carts.find({ memberId: member._id }).fetch()
+  // const cart = carts.filter(cart => cart.status === 'ready')[0]
+  // const sessions = Sessions.find({ memberId: member._id }).fetch()
 
   const eventQuery = {
     active: true,
@@ -90,11 +89,11 @@ export default withTracker(props => {
     save,
     recordDeparture,
     loading,
-    cart,
+    // cart,
     member,
-    purchases,
-    events,
-    sessions,
+    // purchases,
+    // events,
+    // sessions,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
     addCard: Meteor.settings.public.addCard
