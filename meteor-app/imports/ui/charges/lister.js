@@ -4,21 +4,8 @@ import React from 'react'
 import Alert from '/imports/ui/utils/alert'
 import Charges from '/imports/api/charges/schema'
 import { centFormatter, dateFormat, expiryFormatter, objectFormatter } from '/imports/ui/utils/formatters'
+import { meteorCall } from '/imports/ui/utils/meteor'
 import List from './list'
-
-const meteorCall = async (method, description, param) => {
-  try {
-    Alert.info(description || `Calling ${method}`)
-    const s = await Meteor.callAsync(method, param)
-    if (s.status === 'success') {
-      Alert.success(s.message)
-    } else {
-      Alert.error(`Error ${s.message}`)
-    }
-  } catch (e) {
-    Alert.error(`Error ${e.message}`)
-  }
-}
 
 const refresh = id => meteorCall('refresh.charges', 'Refreshing', id)
 const remove = id => meteorCall('rm.charges', 'Deleting', id)

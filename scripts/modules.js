@@ -7,7 +7,8 @@ const modules = {
   sessions: "Sessions",
   parts: "Parts",
   "service-items": "ServiceItems",
-  charges: "Charges"
+  charges: "Charges",
+  settings: "Settings"
 };
 module.exports = modules;
 
