@@ -1,13 +1,13 @@
 import { withTracker } from 'meteor/react-meteor-data'
 import { ReactiveVar } from 'meteor/reactive-var'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 import Services from '/imports/api/assessments/services'
-import ServiceItems from '/imports/api/assessments/serviceItems'
+import ServiceItems from '/imports/api/service-items/schema'
 import Members from '/imports/api/members/schema'
 import Logger from '/imports/api/assessments/logger'
-import Assessment from '/imports/api/assessments/schema'
+import Assessments from '/imports/api/assessments/schema'
 import AssessmentAdd from '/imports/ui/assessment/assessment-add'
 
 const debug = require('debug')('b2b:addassessment')
@@ -64,6 +64,6 @@ export default withTracker(props => {
     serviceItems: ServiceItems.find().fetch(),
     log: Logger.find().fetch(),
     members: Members.find().fetch(),
-    assessmentLastSaved: Assessment.find({}, { sort: { createdAt: -1 } }).fetch()[0]
+    assessmentLastSaved: Assessments.find({}, { sort: { createdAt: -1 } }).fetch()[0]
   }
 })(AssessmentAdd)

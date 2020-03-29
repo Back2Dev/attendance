@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Header, Icon, Input, Modal } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { PHONE_CALL } from '/imports/api/constants'
 
 class Element extends Component {

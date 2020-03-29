@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 import { Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from 'react-jsonschema-form-semanticui'
-import Alert from 'react-s-alert'
-import Steps from '/imports/ui/member/member-add-steps'
-import Control from '/imports/ui/member/member-add-control'
+import Alert from '/imports/ui/utils/alert'
 import EditControl from '/imports/ui/member/member-edit-control'
-import MemberAddReview from '/imports/ui/member/member-add-review'
+import MemberEditReview from '/imports/ui/member/member-edit-review'
 import widgets from '/imports/ui/member/member-add-widgets'
 import fields from '/imports/ui/member/member-add-fields'
-import context from '/imports/ui/utils/nav'
 
 const mapSchemaToState = schema => {
   return schema.reduce((state, step) => {
@@ -88,12 +85,6 @@ class MemberEditForm extends Component {
     if (formData.name && formData.name.trim().split(' ').length === 1) {
       errors.name.addError('Please enter your full name')
     }
-    if (formData.pin && formData.pin.length < 4) {
-      errors.pin.addError('PIN number must be at least 4 digits long.')
-    }
-    if (formData.pin !== formData.pinConfirm) {
-      errors.pinConfirm.addError("PIN numbers don't match")
-    }
     return errors
   }
   renderForm = () => {
@@ -128,7 +119,12 @@ class MemberEditForm extends Component {
           <Grid.Column style={{ maxWidth: '600px' }}>
             {finalStep && (
               <div>
-                <MemberAddReview formData={this.state.formData} steps={this.schemas} goToStep={this.goToStep} />
+                <MemberEditReview
+                  formData={this.state.formData}
+                  updateMemberPassword={this.props.updateMemberPassword}
+                  steps={this.schemas}
+                  goToStep={this.goToStep}
+                />
               </div>
             )}
             {!finalStep && this.renderForm()}

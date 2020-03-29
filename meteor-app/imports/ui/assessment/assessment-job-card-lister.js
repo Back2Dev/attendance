@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { ReactiveVar } from 'meteor/reactive-var'
 import Logger from '/imports/api/assessments/logger'
-import Assessment from '/imports/api/assessments/schema'
+import Assessments from '/imports/api/assessments/schema'
 import Members from '/imports/api/members/schema'
 import JobCardList from '/imports/ui/assessment/assessment-job-card-list'
 
@@ -49,16 +49,24 @@ export default withTracker(props => {
     Meteor.call('assessment.updateJobStatus', jobId, updatedStatus)
   }
 
+  const updatePaid = jobId => {
+    Meteor.call('assessment.updatePaid', jobId)
+  }
+
+  const completeJob = jobId => {
+    Meteor.call('assessment.completeJob', jobId)
+  }
+
   const renderJob = () => {
     const search = searchVar.get()
     const status = statusVar.get()
     if (status == '') {
-      return Assessment.find(
+      return Assessments.find(
         { search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' } },
         { sort: { createdAt: -1 } }
       ).fetch()
     }
-    return Assessment.find(
+    return Assessments.find(
       { search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' }, status: { $in: status } },
       { sort: { createdAt: -1 } }
     ).fetch()
@@ -71,6 +79,8 @@ export default withTracker(props => {
     searchFind,
     statusFilter,
     updateStatus,
+    updatePaid,
+    completeJob,
     resetStatus,
     logs,
     selectedaId: selectedaId.get(),

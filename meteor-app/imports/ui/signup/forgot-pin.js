@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Button, Input, Checkbox, Modal } from 'semantic-ui-react'
+import { Form, Button, Label, Input, Checkbox, Modal } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
 
 const fieldMap = {
@@ -36,16 +36,18 @@ const ForgotPin = props => {
   return (
     <Modal
       trigger={
-        <Button
-          size="small"
+        <a
+          pointing
           onClick={() => {
             setModalOpen(true)
           }}
+          style={{ cursor: 'pointer' }}
         >
-          Forgot Pin
-        </Button>
+          Forgotten Pin
+        </a>
       }
       open={modalOpen}
+      onClose={() => setModalOpen(false)}
       basic
       size="small"
     >

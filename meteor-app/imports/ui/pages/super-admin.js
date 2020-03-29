@@ -8,7 +8,9 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 const deleteUsers = id => meteorCall('deleteUsers', 'Deleting', id)
 const updateUser = user => meteorCall('updateUser', 'Updating', user)
 const addNewUser = form => meteorCall('addNewUser', 'Adding', form)
-const setPassword = (id, newPassword) => meteorCall('setPassword', 'Set password', { id, newPassword })
+const setPassword = (id, newPassword) => {
+  return meteorCall('setPassword', 'Set password', { id, newPassword })
+}
 const sendResetPasswordEmail = id => meteorCall('sendResetPasswordEmail', 'Reset password', id)
 
 const userColumns = [

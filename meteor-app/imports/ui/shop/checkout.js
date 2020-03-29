@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Segment, Button, Menu, Label, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 import 'react-s-alert/dist/s-alert-css-effects/scale.css'

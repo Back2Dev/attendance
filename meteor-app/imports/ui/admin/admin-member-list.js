@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Grid, Image, List } from 'semantic-ui-react'
+import { Button, Grid, Image, List, Icon } from 'semantic-ui-react'
 import './admin-member-list.css'
+import { shorten_name } from '/imports/api/utils'
 import CartList from './cart-list'
 import PurchaseList from './purchase-list'
 import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
@@ -28,7 +29,7 @@ const Admin = props => {
               <table>
                 <tbody>
                   <tr>
-                    <td onClick={e => memberClick(member._id)} style={{ cursor: 'pointer' }}>
+                    <td onClick={e => memberClick(member._id)} style={{ cursor: 'pointer' }} align="center">
                       <Image
                         avatar
                         size="tiny"
@@ -36,10 +37,24 @@ const Admin = props => {
                         src={'/images/avatars/' + member.avatar}
                         style={{ border: '3px solid white' }}
                       />
+                      {shorten_name(member.name)}&nbsp;
                     </td>
                     <td>
                       <List.Content onClick={e => memberClick(member._id)}>
-                        <List.Header>{member.name}</List.Header>
+                        <List.Header>
+                          {member.paymentCustId && <Icon color="green" name="credit card outline"></Icon>}
+                          {member.wwccOk && (
+                            <>
+                              &nbsp;<Icon color="green" name="child"></Icon>
+                            </>
+                          )}
+                          {member.isSlsa && (
+                            <>
+                              &nbsp;
+                              <Icon color="green" name="life ring"></Icon>
+                            </>
+                          )}
+                        </List.Header>
                         <List.Description>
                           <p>
                             {member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago <br />

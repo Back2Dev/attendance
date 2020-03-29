@@ -4784,7 +4784,7 @@ exports[`Storyshots MyMember MembershipCard 1`] = `
     >
       <img
         className="card-avatar-img"
-        src="/images/avatars/./images/avatars/test10.png"
+        src="avatars/test10.png"
       />
     </div>
     <div

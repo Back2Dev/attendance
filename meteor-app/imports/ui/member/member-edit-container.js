@@ -6,7 +6,7 @@ import isIframe from '/imports/helpers/isIframe'
 import getSchemas from '/imports/ui/config/member-add-schemas'
 
 const debug = require('debug')('b2b:addmember')
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 const success = new ReactiveVar(false)
 const error = new ReactiveVar(false)
@@ -31,26 +31,15 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setMember = async formData => {
+  const updateMemberPassword = async (formData, confirmPass) => {
     if (props.member != null) {
-      // we are updating the member
-      debug('updating member', formData)
+      debug('updating member password', formData)
       try {
-        const res = await Meteor.callAsync('members.update', formData._id, formData)
-        setSuccess('Saved ok', formData._id)
+        const res = await Meteor.callAsync('updateMemberPassword', formData, confirmPass)
+        setSuccess('Member password saved', formData.userId)
         return res
       } catch (e) {
-        debug('error updating member', formData, e)
-        setError(e)
-      }
-    } else {
-      // we are adding a member
-      try {
-        debug('adding member', formData)
-        const res = await Meteor.callAsync('members.insert', formData)
-        setSuccess('Details saved ok', res)
-        return res
-      } catch (e) {
+        debug('error updating member password', formData, e)
         setError(e)
       }
     }
@@ -59,7 +48,7 @@ export default withTracker(props => {
   document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
 
   return {
-    setMember,
+    updateMemberPassword,
     error: error.get(),
     success: success.get(),
     message: msg.get(),
@@ -67,6 +56,6 @@ export default withTracker(props => {
     newId: newId.get(),
     resetId: () => newId.set(''),
     member: props.member ? props.member : null,
-    schemas: getSchemas(Meteor.settings.public.recruit)
+    schemas: getSchemas(`${Meteor.settings.public.recruit}Edit`)
   }
 })(MemberEditForm)

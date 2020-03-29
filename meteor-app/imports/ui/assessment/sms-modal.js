@@ -1,84 +1,80 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Button, Header, Icon, Input, Modal } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
 import { SEND_SMS } from '/imports/api/constants'
 const debug = require('debug')('b2b:sms')
 
-class SmsModal extends Component {
-  state = {
-    message: `Your bike is ready for pickup. Cost is $${this.props.job.totalCost / 100}`,
-    isOpen: false
+const SmsModal = ({ job }) => {
+  const cost = job.totalCost / 100
+  const payUrl = Meteor.absoluteUrl(`/pay/${job.jobNo}`)
+  const [isOpen, setOpen] = React.useState(false)
+  const [message, setMessage] = React.useState(
+    `Your bike is ready for pickup. Cost is $${cost}. Please pay at ${payUrl}`
+  )
+
+  const updateMessage = e => {
+    setMessage: e.target.value
   }
 
-  updateMessage = e => {
-    this.setState({
-      message: e.target.value
-    })
-  }
-
-  submit = () => {
-    if (!this.state.message) {
+  const submit = () => {
+    if (!message) {
       // todo: fix Alert.error so that it displays above modal
       alert('Please enter a message to send')
     } else {
-      Meteor.call('assessment.update', this.props.job, SEND_SMS, this.state.message)
-      Meteor.call('sendPINSms', this.state.message, this.props.job.customerDetails.phone)
-      debug('sending pickup message via sms.', this.state.message)
-      this.setState({ isOpen: false })
+      Meteor.call('assessment.update', job, SEND_SMS, message)
+      Meteor.call('sendPINSms', message, job.customerDetails.phone)
+      debug('sending pickup message via sms.', message)
+      setOpen(false)
     }
   }
 
-  render(props) {
-    const { job } = this.props
-    return (
-      <Modal
-        open
-        basic
-        size="small"
-        open={this.state.isOpen}
-        trigger={
-          <Button
-            className="ui button"
-            color={job.customerDetails.isRefurbish ? 'grey' : 'purple'}
-            style={{
-              textAlign: 'center',
-              margin: '5px',
-              borderRadius: '5px'
-            }}
-            onClick={() => this.setState({ isOpen: true })}
-            disabled={!!job.customerDetails.isRefurbish}
-          >
-            <h1>
-              <Icon name="talk" />
-            </h1>
-            Send SMS
-          </Button>
-        }
-      >
-        <Header
-          icon="arrow right"
-          content={`Send 'pickup' SMS to customer ${job.customerDetails.name} on number: ${job.customerDetails.phone}`}
-        />
-        <Modal.Content>
+  return (
+    <Modal
+      open
+      basic
+      size="small"
+      open={isOpen}
+      trigger={
+        <Button
+          className="ui button"
+          color={job.customerDetails.isRefurbish ? 'grey' : 'purple'}
+          style={{
+            textAlign: 'center',
+            margin: '5px',
+            borderRadius: '5px'
+          }}
+          onClick={() => setOpen(true)}
+          disabled={!!job.customerDetails.isRefurbish}
+        >
+          <h1>
+            <Icon name="talk" />
+          </h1>
+          Send SMS
+        </Button>
+      }
+    >
+      <Header
+        icon="arrow right"
+        content={`Send 'pickup' SMS to customer ${job.customerDetails.name} on number: ${job.customerDetails.phone}`}
+      />
+      <Modal.Content>
+        <div>
+          <p />
+          <label style={{ paddingBottom: '5px' }}>Message to send</label>
           <div>
-            <p />
-            <label style={{ paddingBottom: '5px' }}>Message to send</label>
-            <div>
-              <Input onChange={this.updateMessage} defaultValue={this.state.message} fluid />
-            </div>
+            <Input onChange={updateMessage} defaultValue={message} fluid />
           </div>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button basic color="red" inverted onClick={() => this.setState({ isOpen: false })}>
-            <Icon name="remove" /> Cancel
-          </Button>
-          <Button color="green" inverted onClick={this.submit}>
-            <Icon name="checkmark" />
-            Send
-          </Button>
-        </Modal.Actions>
-      </Modal>
-    )
-  }
+        </div>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic color="red" inverted onClick={() => setOpen(!isOpen)}>
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="green" inverted onClick={submit}>
+          <Icon name="checkmark" />
+          Send
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  )
 }
 export default SmsModal

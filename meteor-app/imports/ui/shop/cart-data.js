@@ -1,6 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import { cloneDeep } from 'lodash'
 
 const debug = require('debug')('b2b:cart-data')

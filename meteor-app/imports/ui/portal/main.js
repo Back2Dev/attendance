@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import GoHome from '/imports/ui/components/go-home-button'
 import { Button, Card, Segment, Grid, Header, Image, Container, Icon } from 'semantic-ui-react'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 import MemberVisitsCard from '/imports/ui/punch-card/member-visits-card'
-import { startOfDay } from 'date-fns'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
+  if (props.member && !props.member._id) return <div>You are not logged in</div>
   const cards = {}
   if (props.member.subsType === 'member') {
     props.sessions.forEach(session => {
@@ -30,9 +31,6 @@ const MemberPortal = props => {
           <MembershipCard className="member-visit-card" member={props.member} />)
         </Card.Group>
       </Grid.Column>
-      <Button type="button" onClick={() => props.toEdit()} style={{ height: '50px' }}>
-        Edit your profile
-      </Button>
       {props.addCard === 1 && !props.member.paymentCustId ? (
         <Button
           type="button"

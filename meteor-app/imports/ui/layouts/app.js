@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import 'semantic-ui-css/semantic.css'
+import { Dimmer, Loader } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
 import isIframe from '/imports/helpers/isIframe'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
@@ -15,6 +16,9 @@ import './app.css'
 import Shop from '/imports/ui/shop'
 import Ordering from '/imports/ui/layouts/ordering'
 import PayNow from '../pages/pay-now'
+import Payment from '/imports/ui/pay'
+import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
+import Service from '/imports/ui/service'
 import Assessment from '/imports/ui/assessment/assessment'
 import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
 import JobHistory from '/imports/ui/assessment/assessment-job-history'
@@ -50,6 +54,8 @@ const App = props => {
     (!isIframe() &&
       !(
         location.pathname.match(/kiosk/) ||
+        location.pathname.match(/pay/) ||
+        location.pathname.match(/paid/) ||
         location.pathname.match(/shop/) ||
         location.pathname.match(/visit/) ||
         location.pathname.match(/add/) ||
@@ -72,10 +78,12 @@ const App = props => {
           <Route path="/login" component={Login} />
           <Route path="/shop" component={Shop} />
           <Route path="/kiosk" component={MemberMainContainer} />
+          <Route path="/pay/:jobNo" component={Payment} />
           <Route path="/visit/:id" component={Visit} />
           <Route path="/add" component={MemberAddContainer} />
           <Route path="/edit/:id" component={MemberEdit} />
           <Route path="/forgotpin/:id" component={ForgotPin} />
+          <Route path="/paid/:jobNo" component={PaymentThankyou} />
 
           <SecureRoute role="member" path="/member-portal" component={MemberPortal} />
 
@@ -83,11 +91,12 @@ const App = props => {
 
           <SecureRoute role="parts" path="/parts" component={Ordering} />
 
+          <SecureRoute role="servicing" path="/service" component={Service} />
           <SecureRoute role="servicing" path="/assessment" component={Assessment} />
           <SecureRoute role="servicing" path="/jobs" component={JobCardLister} />
           <SecureRoute role="servicing" path="/job-history" component={JobHistory} />
 
-          <SecureRoute role="paynow" path="/paynow" component={PayNow} />
+          <SecureRoute role="paynow" path="/options" component={PayNow} />
 
           {/* <AdminProtectedRoute path="/admin" component={Admin} /> */}
           <SecureRoute role="admin" path="/admin" component={Admin} />
@@ -131,7 +140,14 @@ SecureRoute.propTypes = {
 // Add in a withTracker component, so that we end up waiting for the roles to be loaded before we render menus
 //
 const AppLoader = props => {
-  if (props.loading) return <div>Booting up ...</div>
+  if (props.loading)
+    return (
+      <div>
+        <Dimmer active>
+          <Loader size="massive">Loading</Loader>
+        </Dimmer>
+      </div>
+    )
   return (
     <Router>
       <App {...props} />

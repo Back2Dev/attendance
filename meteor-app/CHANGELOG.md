@@ -1,6 +1,12 @@
 # Changelog
 
 ## Next
+- B2B generic info and actionemail templates
+- Send receipt email
+- Import charges from pinpayments
+- Added view of charges with 'refresh' button
+
+## 1.2.4
 
 - Strip out unused lines from top of slsa file
 - PA shop testing - write fixtures when sending invites
@@ -22,6 +28,7 @@
 - Added initial version of member's portal.
 - Added route for existing members to sign up for an account to access portal.
 - Reworked member's sign up form to include password field.
+- Added ability for existing members to request PIN number on sign up page
 
 ## 1.1.14
 

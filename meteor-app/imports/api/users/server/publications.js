@@ -41,9 +41,28 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating user: ${e.message}` }
     }
   },
-  setPassword({ id, newPassword }) {
+  updateMemberPassword(formData, confirmPass) {
+    const userId = formData.userId
+    const oldEmail = Meteor.user().emails
     try {
-      Accounts.setPassword(id, newPassword)
+      // update member form
+      Meteor.call('members.update', formData._id, formData)
+      // update user password
+      Accounts.setPassword(userId, confirmPass, { logout: false })
+      // update user email
+      Accounts.setUsername(userId, formData.email)
+      if (oldEmail) {
+        Accounts.removeEmail(userId, oldEmail[0].address)
+        Accounts.addEmail(userId, formData.email)
+      }
+      return { status: 'success', message: `Updated user` }
+    } catch (e) {
+      return { status: 'failed', message: `Error updating user: ${e.message}` }
+    }
+  },
+  setPassword({ id, newPassword }, logout = true) {
+    try {
+      Accounts.setPassword(id, newPassword, { logout: logout })
       return { status: 'success', message: `Updated password` }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }
