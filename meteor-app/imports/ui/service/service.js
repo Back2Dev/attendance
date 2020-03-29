@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SearchBar from './service-item-search'
-import ServiceItemTag from './serviceItem-tag'
 import { ServiceContextProvider } from './service-context'
-import ServiceItemTagContainer from './serviceItem-tag-container'
-import ServiceItemSearchContainer from './service-item-search-container'
+import Edit from './edit'
+import Search from './search'
 
-import Summary from './summary-tab'
-import FromTrail from './client'
-import Client from './client'
+import Summary from './summary'
+import Customer from './customer'
 import { Tab } from 'semantic-ui-react'
 
 const panes = props => {
@@ -17,8 +14,8 @@ const panes = props => {
       menuItem: 'Service',
       render: () => (
         <Tab.Pane props={props}>
-          <ServiceItemSearchContainer />
-          <ServiceItemTagContainer />
+          <Search />
+          <Edit />
         </Tab.Pane>
       )
     },
@@ -26,7 +23,7 @@ const panes = props => {
       menuItem: 'Details',
       render: () => (
         <Tab.Pane props={props}>
-          <Client />
+          <Customer />
         </Tab.Pane>
       )
     }
@@ -61,7 +58,7 @@ function Service(props) {
 }
 
 Service.propTypes = {
-  data: PropTypes.array.isRequired,
+  serviceItems: PropTypes.array.isRequired,
   tags: PropTypes.array.isRequired
 }
 

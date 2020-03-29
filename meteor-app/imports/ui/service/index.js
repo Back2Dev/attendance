@@ -1,58 +1,76 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
+import { Loader } from 'semantic-ui-react'
 import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
 import Service from './service'
 
-const Loading = () => <div>Loading...</div>
+// This is a container component.
+// It is allowed to access things like
+// Meteor methods
+// API Calls to remote systems
+// Meteor.settings (deprecated)
 
-const Loader = props => {
+const ServiceIndex = props => {
   if (props.loading) {
-    return <Loading />
+    return <Loader />
   }
   return <Service {...props} />
 }
 
-export const serviceState = {
-  data: [],
-  tags: [],
-  totalServicePrice: 0,
-  formData: {}
-}
-
 export default withTracker(props => {
-  const allServicesHandle = Meteor.subscribe('all.services')
+  const subsHandle = Meteor.subscribe('all.services')
 
-  if (allServicesHandle.ready()) {
-    const serviceItems = ServiceItems.find().fetch()
-    serviceState.data = serviceItems
+  const serviceItems = ServiceItems.find().fetch()
+  const services = Services.find().fetch()
 
-    const services = Services.find().fetch()
-
-    const majorService = {
-      name: 'Major Service',
-      items: [],
-      expanded: false
-    }
-    const minorService = {
-      name: 'Minor Service',
-      items: [],
-      expanded: false
-    }
-
-    services.map(service => {
-      service.greyed = false
-      if (service.package === 'Minor') {
-        const serviceCopy = { ...service }
-        minorService.items.push(serviceCopy)
-      }
-      majorService.items.push(service)
-    })
-
-    serviceState.data = [...serviceState.data, minorService, majorService]
+  const majorService = {
+    name: 'Major Service',
+    title: 'Major Service',
+    items: [],
+    expanded: false,
+    price: 120,
+    cents: 12000
+  }
+  const minorService = {
+    name: 'Minor Service',
+    title: 'Minor Service',
+    items: [],
+    expanded: false,
+    price: 60,
+    cents: 6000
   }
 
-  serviceState.loading = !allServicesHandle.ready()
+  serviceItems.forEach(item => {
+    item.title = item.name
+    item.cents = item.price
+    item.price = item.cents / 100
+  })
 
-  return serviceState
-})(Loader)
+  services.map(item => {
+    item.greyed = false
+    item.cents = item.price
+    item.price = item.cents / 100
+    if (item.package === 'Minor') {
+      const itemCopy = { ...item }
+      minorService.items.push(itemCopy)
+    }
+    majorService.items.push(item)
+  })
+
+  serviceItems.push(minorService)
+  serviceItems.push(majorService)
+
+  const loading = !subsHandle.ready()
+  const tags = []
+  let totalPrice = 0
+  const formData = {}
+
+  return {
+    serviceItems,
+    tags,
+    totalPrice,
+    formData,
+    loading
+  }
+})(ServiceIndex)

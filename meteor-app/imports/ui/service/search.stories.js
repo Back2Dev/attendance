@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
 import { ServiceContextProvider } from './service-context'
-import SearchBar from './service-item-search-container'
+import Search from './search'
 
-import storiesData from './service-data-stories'
+import storiesData from '/imports/test/service-data'
 
 console.log('servicedata from the  search stories', storiesData)
 
-storiesOf('Service', module).add('SearchBar', () => {
+storiesData.serviceItems = storiesData.data
+
+storiesOf('Service', module).add('Search', () => {
   return (
     <ServiceContextProvider {...storiesData}>
-      <SearchBar></SearchBar>
+      <Search></Search>
     </ServiceContextProvider>
   )
 })

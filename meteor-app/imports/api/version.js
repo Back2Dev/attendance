@@ -5,7 +5,7 @@
 var versionService = {
 
   version: function() {
-    return "1.2.5"
+    return "1.2.6"
   }
 
 };

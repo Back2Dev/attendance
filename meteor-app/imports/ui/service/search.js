@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import _ from 'lodash'
-import SearchBar from './service-item-search'
+import { Search } from 'semantic-ui-react'
 import { ServiceContext } from './service-context'
 
-const ServiceItemSearchContainer = () => {
+const ItemSearch = () => {
   const [state, setState] = useContext(ServiceContext)
 
   const [isLoading, setIsLoading] = React.useState(false)
@@ -11,20 +11,20 @@ const ServiceItemSearchContainer = () => {
   const [value, setValue] = React.useState('')
 
   const handleResultSelect = (e, { result }) => {
-    let totalServicePrice = state.totalServicePrice
+    let totalPrice = state.totalPrice
     if (result.price) {
-      totalServicePrice = state.totalServicePrice + result.price / 100
+      totalPrice = state.totalPrice + result.price
     } else {
-      totalServicePrice = result.items.reduce((total, item) => {
+      totalPrice = result.items.reduce((total, item) => {
         if (!item.greyed) {
-          total += item.price / 100
+          total += item.price
         }
         return total
       }, 0)
-      totalServicePrice = totalServicePrice + state.totalServicePrice
+      totalPrice = totalPrice + state.totalPrice
     }
     const newTags = [...state.tags, result]
-    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice }
+    const newState = { ...state, tags: newTags, totalPrice: totalPrice }
     console.log('newState = ', newState)
     setState(newState)
     setValue('')
@@ -44,21 +44,23 @@ const ServiceItemSearchContainer = () => {
       const re = new RegExp(_.escapeRegExp(value), 'i')
       const isMatch = result => re.test(result.name)
       setIsLoading(false)
-      setResults(_.filter(state.data, isMatch))
+      setResults(_.filter(state.serviceItems, isMatch))
     }, 300)
   }
 
   return (
-    <SearchBar
-      handleResultSelect={handleResultSelect}
-      handleSearchChange={handleSearchChange}
-      isLoading={isLoading}
+    <Search
+      loading={isLoading}
+      onResultSelect={handleResultSelect}
+      onSearchChange={_.debounce(handleSearchChange, 500, {
+        leading: true
+      })}
       results={results}
       value={value}
     />
   )
 }
 
-ServiceItemSearchContainer.propTypes = {}
+ItemSearch.propTypes = {}
 
-export default ServiceItemSearchContainer
+export default ItemSearch

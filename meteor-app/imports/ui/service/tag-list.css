@@ -57,7 +57,7 @@
   box-sizing: border-box;
   display: flex;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.575);
+  color: rgb(238, 80, 80);
   background-color: rgba(255, 255, 255, 0.4);
   border: 1px solid rgb(89, 190, 106);
   margin-left: 3px;

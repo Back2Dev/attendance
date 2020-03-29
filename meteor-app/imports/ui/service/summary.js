@@ -1,7 +1,10 @@
-import React, { useContext } from 'react'
-import { ServiceContext } from './service-context'
-import Summary from './summary-tab'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import { Button, List, Accordion, Icon, Grid, Loader } from 'semantic-ui-react'
+import Alert from '/imports/ui/utils/alert'
 
+import '/imports/ui/layouts/assessment.css'
 import {
   LOG_EVENT_READABLE,
   STATUS_UPDATE,
@@ -15,9 +18,13 @@ import {
   JOB_STATUS_STYLES,
   LOG_EVENT_TYPES
 } from '/imports/api/constants'
+import printJobCard from '/imports/ui/assessment/assessment-print-job'
+import MechanicModal from '../assessment/mechanic-modal'
+import SmsModal from '../assessment/sms-modal'
+import PhoneModal from '../assessment/phone-modal'
 
-export default function SummaryTabContainer() {
-  const [state, setState] = useContext(ServiceContext)
+const Summary = props => {
+  const { status, jobNo, bikeDetails, services, mechanic, pickupDate, totalCost, customerDetails } = props.job
 
   const servicePackage = services.baseService
   const pickupDisplay = moment(pickupDate).format('D/M/YYYY')
@@ -89,5 +96,79 @@ export default function SummaryTabContainer() {
     })
   }
 
-  return <Summary renderLogs={renderLogs} updateButton={updateButton} cancelButton={cancelButton} />
+  return (
+    <div>
+      <Grid stackable>
+        <Grid.Row columns={2} style={{ marginTop: '20px' }}>
+          <Grid.Column style={{ fontSize: '1.2em' }}>
+            <List.Item>
+              <strong>{servicePackage} </strong> Due: {pickupDisplay} <strong>Mechanic: </strong>
+              {mechanic}
+            </List.Item>
+            <ul>
+              <strong>Activity: </strong>
+              {renderLogs(props.logs)}
+            </ul>
+            <br />
+            <Button.Group>
+              <Button
+                className="ui button"
+                color="green"
+                style={{ textAlign: 'center', borderRadius: '5px', width: '200px' }}
+                onClick={updateButton}
+              >
+                <h2>{statusText}</h2>
+              </Button>
+              <Button
+                className="ui button"
+                color="red"
+                style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
+                onClick={cancelButton}
+              >
+                <h2>{cancelText}</h2>
+              </Button>
+            </Button.Group>
+          </Grid.Column>
+
+          <Grid.Column style={{ textAlign: 'right' }}>
+            <Grid.Row>
+              <Button.Group>
+                <MechanicModal {...props} />
+                <Button
+                  className="ui button"
+                  color="blue"
+                  style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                  onClick={() => printJobCard(props.job)}
+                >
+                  <h1>
+                    <Icon name="print" />
+                  </h1>
+                  Job Card
+                </Button>
+              </Button.Group>
+            </Grid.Row>
+
+            <Grid.Row>
+              <Button.Group>
+                <PhoneModal job={props.job} />
+                <SmsModal job={props.job} />
+              </Button.Group>
+            </Grid.Row>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </div>
+  )
 }
+
+Summary.propTypes = {
+  status: PropTypes.string.isRequired,
+  jobNo: PropTypes.string.isRequired,
+  bikeDetails: PropTypes.object.isRequired,
+  services: PropTypes.array.isRequired,
+  mechanic: PropTypes.string.isRequired,
+  // pickupDate: PropTypes.date.isRequired,
+  totalCost: PropTypes.number.isRequired,
+  customerDetails: PropTypes.object.isRequired
+}
+export default Summary

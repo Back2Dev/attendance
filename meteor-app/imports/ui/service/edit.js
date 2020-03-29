@@ -1,19 +1,22 @@
 import React, { useContext } from 'react'
-import ServiceItemTag from './serviceItem-tag'
+import PropTypes from 'prop-types'
+import TagList from './tag-list'
 import { ServiceContext } from './service-context'
 
-export default function ServiceItemTagContainer() {
+const debug = require('debug')('b2b:service')
+
+export default function ItemTag() {
   const [state, setState] = useContext(ServiceContext)
-  const tags = state.tags
-  let totalServicePrice = state.totalServicePrice
+  const { tags } = state
+  let { totalPrice } = state
 
   function calcTotalDeduction(tag) {
     if (tag.price) {
-      priceDeduction = tag.price / 100
+      priceDeduction = tag.price
     } else {
       priceDeduction = tag.items.reduce((total, item) => {
         if (!item.greyed) {
-          total += item.price / 100
+          total += item.price
         }
         return total
       }, 0)
@@ -24,10 +27,10 @@ export default function ServiceItemTagContainer() {
   function toggleExpand(tag) {
     const newTags = [...tags]
 
-    console.log('tag passed as a parameter = ', tag)
+    debug('tag passed as a parameter = ', tag)
 
     newTags.map(currentTag => {
-      console.log('coming into toggle expand = ', currentTag)
+      debug('coming into toggle expand = ', currentTag)
       if (tag.name === currentTag.name) {
         currentTag.expanded = !currentTag.expanded
       }
@@ -40,19 +43,19 @@ export default function ServiceItemTagContainer() {
   function removeTag(tag, index) {
     let priceDeduction = calcTotalDeduction(tag)
 
-    console.log('priceDeduction = ', priceDeduction)
+    debug('priceDeduction = ', priceDeduction)
 
     const newTags = [...tags]
     newTags.splice(index, 1)
-    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice - priceDeduction }
+    const newState = { ...state, tags: newTags, totalPrice: totalPrice - priceDeduction }
     setState(newState)
   }
 
   function toggleTag(item, currentTag) {
     if (!item.greyed) {
-      totalServicePrice = totalServicePrice - item.price / 100
+      totalPrice = totalPrice - item.price
     } else {
-      totalServicePrice = totalServicePrice + item.price / 100
+      totalPrice = totalPrice + item.price
     }
 
     const newTags = [...tags]
@@ -65,14 +68,14 @@ export default function ServiceItemTagContainer() {
           })
         : null
     })
-    const newState = { ...state, tags: newTags, totalServicePrice: totalServicePrice }
+    const newState = { ...state, tags: newTags, totalPrice }
     setState(newState)
   }
 
   function majorMinorTotal(items) {
     let sum = items.reduce((total, item) => {
       if (!item.greyed) {
-        total += item.price / 100
+        total += item.price
       }
       return total
     }, 0)
@@ -80,13 +83,22 @@ export default function ServiceItemTagContainer() {
   }
 
   return (
-    <ServiceItemTag
+    <TagList
       removeTag={removeTag}
       toggleTag={toggleTag}
       tags={tags}
       majorMinorTotal={majorMinorTotal}
-      totalServicePrice={totalServicePrice}
+      totalPrice={totalPrice}
       toggleExpand={toggleExpand}
     />
   )
+}
+
+TagList.propTypes = {
+  removeTag: PropTypes.func.isRequired,
+  toggleTag: PropTypes.func.isRequired,
+  tags: PropTypes.array.isRequired,
+  majorMinorTotal: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  toggleExpand: PropTypes.func.isRequired
 }
