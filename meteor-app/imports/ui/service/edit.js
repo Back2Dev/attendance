@@ -1,11 +1,14 @@
 import React, { useContext } from 'react'
-import Tag from './tag'
+import PropTypes from 'prop-types'
+import TagList from './tag-list'
 import { ServiceContext } from './service-context'
+
+const debug = require('debug')('b2b:service')
 
 export default function ItemTag() {
   const [state, setState] = useContext(ServiceContext)
-  const tags = state.tags
-  let totalPrice = state.totalPrice
+  const { tags } = state
+  let { totalPrice } = state
 
   function calcTotalDeduction(tag) {
     if (tag.price) {
@@ -24,10 +27,10 @@ export default function ItemTag() {
   function toggleExpand(tag) {
     const newTags = [...tags]
 
-    console.log('tag passed as a parameter = ', tag)
+    debug('tag passed as a parameter = ', tag)
 
     newTags.map(currentTag => {
-      console.log('coming into toggle expand = ', currentTag)
+      debug('coming into toggle expand = ', currentTag)
       if (tag.name === currentTag.name) {
         currentTag.expanded = !currentTag.expanded
       }
@@ -40,7 +43,7 @@ export default function ItemTag() {
   function removeTag(tag, index) {
     let priceDeduction = calcTotalDeduction(tag)
 
-    console.log('priceDeduction = ', priceDeduction)
+    debug('priceDeduction = ', priceDeduction)
 
     const newTags = [...tags]
     newTags.splice(index, 1)
@@ -65,7 +68,7 @@ export default function ItemTag() {
           })
         : null
     })
-    const newState = { ...state, tags: newTags, totalPrice: totalPrice }
+    const newState = { ...state, tags: newTags, totalPrice }
     setState(newState)
   }
 
@@ -80,7 +83,7 @@ export default function ItemTag() {
   }
 
   return (
-    <Tag
+    <TagList
       removeTag={removeTag}
       toggleTag={toggleTag}
       tags={tags}
@@ -89,4 +92,13 @@ export default function ItemTag() {
       toggleExpand={toggleExpand}
     />
   )
+}
+
+TagList.propTypes = {
+  removeTag: PropTypes.func.isRequired,
+  toggleTag: PropTypes.func.isRequired,
+  tags: PropTypes.array.isRequired,
+  majorMinorTotal: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  toggleExpand: PropTypes.func.isRequired
 }

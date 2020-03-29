@@ -11,7 +11,7 @@ import Service from './service'
 // API Calls to remote systems
 // Meteor.settings (deprecated)
 
-const Servizio = props => {
+const ServiceIndex = props => {
   if (props.loading) {
     return <Loader />
   }
@@ -73,4 +73,4 @@ export default withTracker(props => {
     formData,
     loading
   }
-})(Servizio)
+})(ServiceIndex)

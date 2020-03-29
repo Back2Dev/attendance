@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import _ from 'lodash'
-import { Search, Label } from 'semantic-ui-react'
+import { Search } from 'semantic-ui-react'
 import { ServiceContext } from './service-context'
 
 const ItemSearch = () => {

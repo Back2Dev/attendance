@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './tag.css'
+import './tag-list.css'
 
-export default function ServiceItemTag(props) {
+export default function TagList(props) {
   const { removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags } = props
 
   return (
@@ -11,9 +11,13 @@ export default function ServiceItemTag(props) {
         {tags.map((tag, index) =>
           tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
             <span className="tag" key={index}>
-              <span className="item-name">{tag.name} </span>
-              <span className="item-name">&nbsp;${tag.price}</span>
-              <span className="handle" onClick={() => removeTag(tag, index)}>
+              <span className="item-name" key={'a'}>
+                {tag.name}{' '}
+              </span>
+              <span className="item-name" key={'b'}>
+                &nbsp;${tag.price}
+              </span>
+              <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>
                 x
               </span>
             </span>
@@ -23,33 +27,39 @@ export default function ServiceItemTag(props) {
 
       {tags.map((tag, index) =>
         tag.name === 'Major Service' || tag.name === 'Minor Service' ? (
-          <div className="mjmn" key={index}>
+          <div className="mjmn" key={`minor${index}`}>
             <span className="tag">
-              <span className="expand" onClick={() => toggleExpand(tag, index)}>
+              <span className="expand" key={'a'} onClick={() => toggleExpand(tag, index)}>
                 {tag.expanded ? '<' : '>'}
               </span>
               {tag.name}
-              <span className="item-name">&nbsp;${majorMinorTotal(tag.items)}</span>
-              <span className="handle" onClick={() => removeTag(tag, index)}>
+              <span className="item-name" key={'b'}>
+                &nbsp;${majorMinorTotal(tag.items)}
+              </span>
+              <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>
                 x
               </span>
             </span>
             {tag.expanded &&
               tag.items.map((item, index) =>
                 tag.name === 'Major Service' ? (
-                  <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
+                  <span className="tag" key={`major${index}`} style={item.greyed ? { background: 'grey' } : {}}>
                     {item.name}
-                    <span className="item-price">&nbsp;${item.price}</span>
-                    <span className="handle" onClick={() => toggleTag(item, tag)}>
+                    <span className="item-price" key={'a'}>
+                      &nbsp;${item.price}
+                    </span>
+                    <span className="handle" key={'b'} onClick={() => toggleTag(item, tag)}>
                       {item.greyed ? '+' : '-'}
                     </span>
                   </span>
                 ) : (
                   <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
                     {item.name}
-                    <span className="item-price">&nbsp;${item.price}</span>
-                    <span className="handle" onClick={() => toggleTag(item, tag)}>
-                      {item.greyed ? '+' : '-'}
+                    <span className="item-price" key={'a'}>
+                      &nbsp;${item.price}
+                    </span>
+                    <span className="handle" key={'b'} onClick={() => toggleTag(item, tag)}>
+                      {item.greyed ? 'O' : 'X'}
                     </span>
                   </span>
                 )
@@ -62,7 +72,7 @@ export default function ServiceItemTag(props) {
   )
 }
 
-ServiceItemTag.propTypes = {
+TagList.propTypes = {
   removeTag: PropTypes.func.isRequired,
   toggleTag: PropTypes.func.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,

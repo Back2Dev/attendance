@@ -393,11 +393,13 @@ const parts = [
 ]
 
 services.forEach(service => {
+  service.title = service.name
   service.cents = service.price
   service.price = service.cents / 100
 })
 
 parts.forEach(part => {
+  part.title = part.name
   part.cents = part.price
   part.price = part.cents / 100
 })

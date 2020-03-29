@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ServiceContextProvider } from './service-context'
-import ServiceItemTagContainer from './item-tag'
-import ServiceItemSearchContainer from './search'
+import Edit from './edit'
+import Search from './search'
 
 import Summary from './summary'
 import Customer from './customer'
@@ -14,8 +14,8 @@ const panes = props => {
       menuItem: 'Service',
       render: () => (
         <Tab.Pane props={props}>
-          <ServiceItemSearchContainer />
-          <ServiceItemTagContainer />
+          <Search />
+          <Edit />
         </Tab.Pane>
       )
     },
