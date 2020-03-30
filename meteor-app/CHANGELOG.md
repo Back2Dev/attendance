@@ -1,6 +1,12 @@
 # Changelog
 
 ## Next
+- B2B generic info and actionemail templates
+- Send receipt email
+- Import charges from pinpayments
+- Added view of charges with 'refresh' button
+
+## 1.2.4
 
 - Strip out unused lines from top of slsa file
 - PA shop testing - write fixtures when sending invites

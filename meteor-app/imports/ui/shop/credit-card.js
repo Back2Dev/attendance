@@ -1,5 +1,5 @@
 import React from 'react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import HostedFields from './pin'
 import { Link } from 'react-router-dom'
 import { Form, Image, Container, Segment, Header, Button, Modal, Checkbox, Icon, Input } from 'semantic-ui-react'

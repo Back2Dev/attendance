@@ -11,6 +11,7 @@ import AdminMenu from '/imports/ui/pages/admin-menu'
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = ({ currentUser, currentMember, location, loading }) => {
+  const id = currentMember ? currentMember._id : ''
   if (loading) {
     return <Loader active />
   }
@@ -58,15 +59,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
         <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
       )}
       {Roles.userIsInRole(Meteor.userId(), 'member') ? (
-        <Menu.Item
-          as={NavLink}
-          content="Edit"
-          icon="edit"
-          activeClassName="edit"
-          exact
-          to={`/edit/${currentMember._id}`}
-          key="edit"
-        />
+        <Menu.Item as={NavLink} content="Edit" icon="edit" activeClassName="edit" exact to={`/edit/${id}`} key="edit" />
       ) : (
         ''
       )}
@@ -99,8 +92,8 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               icon="payment"
               activeClassName="active"
               exact
-              to="/paynow"
-              key="paynow"
+              to="/options"
+              key="options"
             />
           ]
         : ''}
@@ -114,6 +107,15 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               exact
               to="/assessment"
               key="assessment"
+            />,
+            <Menu.Item
+              as={NavLink}
+              content="Service"
+              icon="lock open"
+              activeClassName="active"
+              exact
+              to="/service"
+              key="service"
             />,
             <Menu.Item
               as={NavLink}
@@ -173,7 +175,7 @@ const NavBarContainer = withTracker(() => {
   return {
     loading,
     currentUser: Meteor.user() ? Meteor.user().username : '',
-    currentMember: currentMember
+    currentMember
   }
 })(NavBar)
 

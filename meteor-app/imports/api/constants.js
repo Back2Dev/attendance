@@ -79,7 +79,9 @@ export const LOG_EVENT_READABLE = {
   21: 'Update Mechanic',
   22: 'New Job Created By',
   23: 'Phone call',
-  24: 'SMS sent'
+  24: 'SMS sent',
+  26: 'Paid',
+  27: 'Unpaid'
 }
 
 export const STATUS_UPDATE = 'STATUS_UPDATE'
@@ -87,13 +89,17 @@ export const MECHANIC_UPDATE = 'MECHANIC_UPDATE'
 export const NEW_JOB = 'NEW_JOB'
 export const PHONE_CALL = 'PHONE_CALL'
 export const SEND_SMS = 'SEND_SMS'
+export const PAID = 'PAID'
+export const UNPAID = 'UNPAID'
 
 export const LOG_EVENT_TYPES = {
   [STATUS_UPDATE]: 20,
   [MECHANIC_UPDATE]: 21,
   [NEW_JOB]: 22,
   [PHONE_CALL]: 23,
-  [SEND_SMS]: 24
+  [SEND_SMS]: 24,
+  [PAID]: 26,
+  [UNPAID]: 27
 }
 
 CONSTANTS.SERVICE_TYPES = {

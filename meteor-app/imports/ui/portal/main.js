@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import GoHome from '/imports/ui/components/go-home-button'
 import { Button, Card, Segment, Grid, Header, Image, Container, Icon } from 'semantic-ui-react'
 import MembershipCard from '/imports/ui/member-card/member-card'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
@@ -8,6 +9,7 @@ import MemberVisitsCard from '/imports/ui/punch-card/member-visits-card'
 
 const MemberPortal = props => {
   if (props.loading) return <div>Loading...</div>
+  if (props.member && !props.member._id) return <div>You are not logged in</div>
   const cards = {}
   if (props.member.subsType === 'member') {
     props.sessions.forEach(session => {
