@@ -8,8 +8,7 @@ import SessionsList from '/imports/ui/sessions/lister'
 import PartsList from '/imports/ui/parts/lister'
 import ServiceItemsList from '/imports/ui/service-items/lister'
 import ChargesList from '/imports/ui/charges/lister'
-// import SettingsList from '/imports/ui/setings/lister'
-import SettingsList from '../ui/charges/lister'
+import SettingsList from '/imports/ui/configs/lister'
 
 //
 // This file contains a list of routes for database admin pages
