@@ -57,7 +57,6 @@ typings/
 # dotenv environment variables file
 
 b2b-private
-deploy
-settings
+/deploy
+/settings
 .DS_Store
-deploy
