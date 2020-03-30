@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from '/imports/ui/utils/alert'
-import Settings from '/imports/api/setings/schema'
+import Settings from '/imports/api/settings/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import List from './list'
 
