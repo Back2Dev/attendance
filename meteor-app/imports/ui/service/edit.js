@@ -77,7 +77,7 @@ export default function ItemTag() {
     const newState = { ...state }
 
     const tag = newState.tags.find(t => id === t._id)
-    if (tag) {
+    if (tag && tag.price !== null) {
       newState.totalPrice -= parseFloat(tag.price)
       tag.price = parseFloat(newValue)
       newState.totalPrice += parseFloat(newValue)

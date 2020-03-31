@@ -24,6 +24,7 @@ export default Tag = ({ index, tag, adjustPrice, removeTag }) => {
           <span>
             &nbsp;$
             <input
+              type="number"
               defaultValue={tag.price}
               className="tag-input"
               onChange={e => adjustPrice(tag._id, e.target.value)}
