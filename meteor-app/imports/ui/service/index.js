@@ -20,9 +20,21 @@ const ServiceIndex = props => {
 
 export default withTracker(props => {
   const subsHandle = Meteor.subscribe('all.services')
-
   const serviceItems = ServiceItems.find().fetch()
   const services = Services.find().fetch()
+
+  Meteor.subscribe('assessments.all')
+
+  const setAssessment = async formData => {
+    // Adding an assessment
+    try {
+      debug('adding assessment', formData)
+      const res = await Meteor.callAsync('assessment.insert', formData)
+      return res
+    } catch (e) {
+      console.log('error')
+    }
+  }
 
   const majorService = {
     name: 'Major Service',
@@ -71,6 +83,7 @@ export default withTracker(props => {
     tags,
     totalPrice,
     formData,
+    setAssessment,
     loading
   }
 })(ServiceIndex)

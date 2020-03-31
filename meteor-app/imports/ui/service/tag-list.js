@@ -1,76 +1,56 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './tag-list.css'
 import Tag from './tag'
+import { Container, Label, Icon, Header } from 'semantic-ui-react'
 
-export default function TagList(props) {
-  const { removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags, adjustPrice } = props
-
+export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags, adjustPrice }) => {
   return (
-    <div className="wrapper">
-      <div className="tag-wrapper">
-        {tags.map((tag, index) =>
-          tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
-            // <span className="tag" key={index}>
-            //   <span className="item-name" key={'a'}>
-            //     {tag.name}{' '}
-            //   </span>
-            //   <span className="item-name" key={'b'}>
-            //     &nbsp;${tag.price}
-            //   </span>
-            //   <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>
-            //     x
-            //   </span>
-            // </span>
+    <Container id="pill-container" style={{ marginTop: '10px' }}>
+      {tags &&
+        tags.map((tag, index) =>
+          tag.items ? (
+            <Container>
+              <Label id="item-pill" key={index} style={{ margin: '5px' }} size="big" color="blue">
+                <Icon
+                  id="collapse-icon"
+                  name={tag.expanded ? 'angle double left' : 'angle double right'}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => toggleExpand(tag, index)}
+                />
+                {tag.name}
+                <Label.Detail>${majorMinorTotal(tag.items)}</Label.Detail>
+                <Icon id="delete-icon" name="delete" onClick={() => removeTag(tag, index)} />
+              </Label>
+              {tag.expanded &&
+                tag.items.map(item => (
+                  <Label
+                    id="item-pill-small"
+                    key={item.name}
+                    style={{ margin: '5px' }}
+                    size="large"
+                    color={item.greyed ? null : 'teal'}
+                  >
+                    {item.name}
+                    <Label.Detail>${item.price}</Label.Detail>
+                    <Label.Detail>
+                      <Icon
+                        id="plus-icon"
+                        name={item.greyed ? 'plus' : 'minus'}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => toggleTag(item, tag)}
+                      />
+                    </Label.Detail>
+                  </Label>
+                ))}
+            </Container>
+          ) : (
             <Tag index={index} tag={tag} adjustPrice={adjustPrice} removeTag={removeTag} />
-          ) : null
+          )
         )}
-      </div>
-
-      {tags.map((tag, index) =>
-        tag.name === 'Major Service' || tag.name === 'Minor Service' ? (
-          <div className="mjmn" key={`minor${index}`}>
-            <span className="tag">
-              <span className="expand" key={'a'} onClick={() => toggleExpand(tag, index)}>
-                {tag.expanded ? '<' : '>'}
-              </span>
-              {tag.name}
-              <span className="item-name" key={'b'}>
-                &nbsp;${majorMinorTotal(tag.items)}
-              </span>
-              <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>
-                x
-              </span>
-            </span>
-            {tag.expanded &&
-              tag.items.map((item, index) =>
-                tag.name === 'Major Service' ? (
-                  <span className="tag" key={`major${index}`} style={item.greyed ? { background: 'grey' } : {}}>
-                    {item.name}
-                    <span className="item-price" key={'a'}>
-                      &nbsp;${item.price}
-                    </span>
-                    <span className="handle" key={'b'} onClick={() => toggleTag(item, tag)}>
-                      {item.greyed ? '+' : '-'}
-                    </span>
-                  </span>
-                ) : (
-                  <span className="tag" key={index} style={item.greyed ? { background: 'grey' } : {}}>
-                    {item.name}
-                    <span className="item-price" key={'a'}>
-                      &nbsp;${item.price}
-                    </span>
-                    <span className="handle" key={'b'} onClick={() => toggleTag(item, tag)}>
-                      {item.greyed ? 'O' : 'X'}
-                    </span>
-                  </span>
-                )
-              )}
-          </div>
-        ) : null
-      )}
-      <div className="total-price">${totalPrice}</div>
-    </div>
+      <Header style={{ margin: '10px' }} id="total-price">
+        {'Total: $' + (tags ? totalPrice(tags) : '0')}
+      </Header>
+    </Container>
   )
 }
 

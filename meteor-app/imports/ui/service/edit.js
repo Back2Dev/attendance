@@ -8,23 +8,9 @@ const debug = require('debug')('b2b:service')
 export default function ItemTag() {
   const [state, setState] = useContext(ServiceContext)
   const { tags } = state
-  let { totalPrice } = state
-
-  function calcTotalDeduction(tag) {
-    if (tag.price) {
-      priceDeduction = tag.price
-    } else {
-      priceDeduction = tag.items.reduce((total, item) => {
-        if (!item.greyed) {
-          total += item.price
-        }
-        return total
-      }, 0)
-    }
-    return priceDeduction
-  }
 
   function toggleExpand(tag) {
+    console.log(tag)
     const newTags = [...tags]
 
     debug('tag passed as a parameter = ', tag)
@@ -36,26 +22,25 @@ export default function ItemTag() {
       }
     })
 
-    const newState = { ...state, tags: newTags }
-    setState(newState)
+    setState({ ...state, tags: newTags })
   }
 
   function removeTag(tag, index) {
-    let priceDeduction = calcTotalDeduction(tag)
-
-    debug('priceDeduction = ', priceDeduction)
-
+    //reset items to unselected
+    tag.items &&
+      tag.items.map(serviceItem => {
+        serviceItem.greyed = false
+      })
     const newTags = [...tags]
     newTags.splice(index, 1)
-    const newState = { ...state, tags: newTags, totalPrice: totalPrice - priceDeduction }
-    setState(newState)
+    setState({ ...state, tags: newTags })
   }
 
   function toggleTag(item, currentTag) {
     if (!item.greyed) {
-      totalPrice = totalPrice - item.price
+      currentTag.price -= item.price
     } else {
-      totalPrice = totalPrice + item.price
+      currentTag.price += item.price
     }
 
     const newTags = [...tags]
@@ -68,8 +53,15 @@ export default function ItemTag() {
           })
         : null
     })
-    const newState = { ...state, tags: newTags, totalPrice }
-    setState(newState)
+    setState({ ...state, tags: newTags, totalPrice })
+  }
+
+  const totalPrice = tags => {
+    let total = 0
+    tags.map(tag => {
+      total += tag.price
+    })
+    return total
   }
 
   const adjustPrice = (id, newValue) => {
