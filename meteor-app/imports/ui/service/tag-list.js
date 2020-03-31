@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './tag-list.css'
+import Tag from './tag'
 
 export default function TagList(props) {
   const { removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags } = props
@@ -10,17 +11,18 @@ export default function TagList(props) {
       <div className="tag-wrapper">
         {tags.map((tag, index) =>
           tag.name !== 'Major Service' && tag.name !== 'Minor Service' ? (
-            <span className="tag" key={index}>
-              <span className="item-name" key={'a'}>
-                {tag.name}{' '}
-              </span>
-              <span className="item-name" key={'b'}>
-                &nbsp;${tag.price}
-              </span>
-              <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>
-                x
-              </span>
-            </span>
+            // <span className="tag" key={index}>
+            //   <span className="item-name" key={'a'}>
+            //     {tag.name}{' '}
+            //   </span>
+            //   <span className="item-name" key={'b'}>
+            //     &nbsp;${tag.price}
+            //   </span>
+            //   <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>
+            //     x
+            //   </span>
+            // </span>
+            <Tag index={index} tag={tag} />
           ) : null
         )}
       </div>
