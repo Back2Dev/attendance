@@ -11,20 +11,9 @@ const ItemSearch = () => {
   const [value, setValue] = React.useState('')
 
   const handleResultSelect = (e, { result }) => {
-    let totalPrice = state.totalPrice
-    if (result.price) {
-      totalPrice = state.totalPrice + result.price
-    } else {
-      totalPrice = result.items.reduce((total, item) => {
-        if (!item.greyed) {
-          total += item.price
-        }
-        return total
-      }, 0)
-      totalPrice = totalPrice + state.totalPrice
-    }
-    const newTags = [...state.tags, result]
-    const newState = { ...state, tags: newTags, totalPrice: totalPrice }
+    const item = { ...result }
+
+    const newState = { ...state, tags: [...state.tags, item] }
     console.log('newState = ', newState)
     setState(newState)
     setValue('')
