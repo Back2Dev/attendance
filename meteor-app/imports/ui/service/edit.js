@@ -72,6 +72,19 @@ export default function ItemTag() {
     setState(newState)
   }
 
+  const adjustPrice = (id, newValue) => {
+    debug(`adjust price: ${newValue}`)
+    const newState = { ...state }
+
+    const tag = newState.tags.find(t => id === t._id)
+    if (tag) {
+      newState.totalPrice -= parseFloat(tag.price)
+      tag.price = parseFloat(newValue)
+      newState.totalPrice += parseFloat(newValue)
+      setState(newState)
+    }
+  }
+
   function majorMinorTotal(items) {
     let sum = items.reduce((total, item) => {
       if (!item.greyed) {
@@ -84,6 +97,7 @@ export default function ItemTag() {
 
   return (
     <TagList
+      adjustPrice={adjustPrice}
       removeTag={removeTag}
       toggleTag={toggleTag}
       tags={tags}

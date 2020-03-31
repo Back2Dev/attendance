@@ -1,8 +1,7 @@
 import React from 'react'
 import './tag-list.css'
 
-export default Tag = ({ index, tag }) => {
-  const [newPrice, setNewPrice] = React.useState(null)
+export default Tag = ({ index, tag, adjustPrice, removeTag }) => {
   const [disableToggle, setDisableToggle] = React.useState(false)
 
   return (
@@ -22,7 +21,9 @@ export default Tag = ({ index, tag }) => {
             &nbsp;${tag.price}
           </span>
         ) : (
-          <input onBlur={e => setNewPrice(e.target.value)}></input>
+          <span>
+            &nbsp;$<input className="tag-input" onChange={e => adjustPrice(tag._id, e.target.value)}></input>
+          </span>
         )}
 
         <span className="handle" key={'c'} onClick={() => removeTag(tag, index)}>

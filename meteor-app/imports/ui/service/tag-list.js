@@ -4,7 +4,7 @@ import './tag-list.css'
 import Tag from './tag'
 
 export default function TagList(props) {
-  const { removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags } = props
+  const { removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags, adjustPrice } = props
 
   return (
     <div className="wrapper">
@@ -22,7 +22,7 @@ export default function TagList(props) {
             //     x
             //   </span>
             // </span>
-            <Tag index={index} tag={tag} />
+            <Tag index={index} tag={tag} adjustPrice={adjustPrice} removeTag={removeTag} />
           ) : null
         )}
       </div>
