@@ -22,7 +22,13 @@ export default Tag = ({ index, tag, adjustPrice, removeTag }) => {
           </span>
         ) : (
           <span>
-            &nbsp;$<input className="tag-input" onChange={e => adjustPrice(tag._id, e.target.value)}></input>
+            &nbsp;$
+            <input
+              defaultValue={tag.price}
+              className="tag-input"
+              onChange={e => adjustPrice(tag._id, e.target.value)}
+              onBlur={() => setDisableToggle(!disableToggle)}
+            />
           </span>
         )}
 
