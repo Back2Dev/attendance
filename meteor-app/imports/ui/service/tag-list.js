@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Tag from './tag'
-import { Container, Label, Icon, Header } from 'semantic-ui-react'
+import { Label, Icon, Header } from 'semantic-ui-react'
 
 export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags, adjustPrice }) => {
   return (
-    <Container id="pill-container" style={{ marginTop: '10px' }}>
+    <div id="pill-container" style={{ marginTop: '10px' }}>
       {tags &&
         tags.map((tag, index) =>
           tag.items ? (
-            <Container>
+            <>
               <Label id="item-pill" key={index} style={{ margin: '5px' }} size="big" color="blue">
                 <Icon
                   id="collapse-icon"
@@ -42,7 +42,7 @@ export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, t
                     </Label.Detail>
                   </Label>
                 ))}
-            </Container>
+            </>
           ) : (
             <Tag index={index} tag={tag} adjustPrice={adjustPrice} removeTag={removeTag} />
           )
@@ -50,7 +50,7 @@ export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, t
       <Header style={{ margin: '10px' }} id="total-price">
         {'Total: $' + (tags ? totalPrice(tags) : '0')}
       </Header>
-    </Container>
+    </div>
   )
 }
 
