@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import _ from 'lodash'
+import _, { cloneDeep } from 'lodash'
 import { Search } from 'semantic-ui-react'
 import { ServiceContext } from './service-context'
 
@@ -11,11 +11,8 @@ const ItemSearch = () => {
   const [value, setValue] = React.useState('')
 
   const handleResultSelect = (e, { result }) => {
-    const item = { ...result }
-
-    const newState = { ...state, tags: [...state.tags, item] }
-    console.log('newState = ', newState)
-    setState(newState)
+    const item = cloneDeep(result)
+    setState({ ...state, tags: [...state.tags, item] })
     setValue('')
   }
 

@@ -26,11 +26,6 @@ export default function ItemTag() {
   }
 
   function removeTag(tag, index) {
-    //reset items to unselected
-    tag.items &&
-      tag.items.map(serviceItem => {
-        serviceItem.greyed = false
-      })
     const newTags = [...tags]
     newTags.splice(index, 1)
     setState({ ...state, tags: newTags })
