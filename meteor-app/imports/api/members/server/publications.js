@@ -51,3 +51,16 @@ Meteor.publish('member.all', id => {
     Events.find()
   ]
 })
+
+Meteor.publish('member.all.userid', id => {
+  const mQuery = !id ? { rubbish: true } : { userId: id }
+  const m = Members.findOne(mQuery) || {}
+  const mid = m._id
+  return [
+    Members.find(mQuery),
+    Purchases.find({ memberId: mid }),
+    Carts.find({ memberId: mid }),
+    Sessions.find({ memberId: mid }),
+    Events.find()
+  ]
+})

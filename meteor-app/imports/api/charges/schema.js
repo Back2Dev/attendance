@@ -99,6 +99,8 @@ export const ChargesSchema = new SimpleSchema({
     blackbox: true,
     optional: true
   },
+  reconciled: Boolean,
+  matched: Boolean,
   createdAt,
   updatedAt
 })

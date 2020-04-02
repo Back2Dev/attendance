@@ -181,36 +181,42 @@ Meteor.methods({
     }
   },
   'refresh.charges': async function() {
-    const chargeURL = `${Meteor.settings.private.paymentURL}`
-    const request = {
-      url: chargeURL,
-      method: 'get',
-      validateStatus: function(status) {
-        return status >= 200
-      },
-      auth: {
-        username: Meteor.settings.private.paymentApiKey,
-        password: ''
-      }
-    }
-    debug(`Fetching charges from ${chargeURL}`, request)
-    try {
-      let n = 0
-      const r = await axios(request)
-      const { data } = r
-      debug(`status: ${r.status} ${r.statusText}`, data.response)
-      data.response.forEach(charge => {
-        const c = Charges.findOne({ token: charge.token })
-        if (!c) {
-          const id = Charges.insert(charge)
-          if (id) n = n + 1
+    let page = '1'
+    let n = 0
+    do {
+      const chargeURL = `${Meteor.settings.private.paymentURL}?page=${page}`
+      const request = {
+        url: chargeURL,
+        method: 'get',
+        validateStatus: function(status) {
+          return status >= 200
+        },
+        auth: {
+          username: Meteor.settings.private.paymentApiKey,
+          password: ''
         }
-      })
-      return { status: 'success', message: `Added ${n} charges` }
-    } catch (error) {
-      debug(error)
-      // throw new Meteor.Error(error.message)
-      return { status: 'failed', message: error.message }
-    }
+      }
+      debug(`Fetching charges from ${chargeURL}`, request)
+      try {
+        const r = await axios(request)
+        const { data } = r
+        debug(`status: ${r.status} ${r.statusText}`, data.pagination)
+        data.response.forEach(charge => {
+          const c = Charges.findOne({ token: charge.token })
+          if (!c) {
+            charge.reconciled = false
+            charge.matched = false
+            const id = Charges.insert(charge)
+            if (id) n = n + 1
+          }
+        })
+        page = data.pagination.next
+      } catch (error) {
+        debug(error)
+        // throw new Meteor.Error(error.message)
+        return { status: 'failed', message: error.message }
+      }
+    } while (page)
+    return { status: 'success', message: `Added ${n} charges` }
   }
 })

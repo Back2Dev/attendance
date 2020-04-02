@@ -73,3 +73,7 @@ export const objectFormatter = cell => {
   }
   return r
 }
+
+export const cardFormatter = cell => {
+  return cell.getValue().replace(/XXXX-XXXX-XX/, '')
+}
