@@ -16,7 +16,15 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
     return <Loader active />
   }
   return (
-    <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
+    <Menu
+      vertical
+      attached="top"
+      inverted
+      size="large"
+      color="black"
+      className="tm-sidebar"
+      style={{ background: Meteor.settings.public.background }}
+    >
       <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
         <img src={Meteor.settings.public.logo} title={version()} className="ui center aligned container small image" />
       </Menu.Item>
