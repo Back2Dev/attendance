@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { ServiceContext } from './service-context'
 import { Formik, Form, useField } from 'formik'
 import * as Yup from 'yup'
-import { Header, Segment, Input, Button, Checkbox, Icon } from 'semantic-ui-react'
+import { Header, Segment, Input, Button, Checkbox } from 'semantic-ui-react'
 
 const Client = () => {
   const [state, setState] = useContext(ServiceContext)
@@ -11,7 +11,7 @@ const Client = () => {
     name: Yup.string().required('Required'),
     email: Yup.string().required('Required'),
     phone: Yup.string().required('Required'),
-    brand: Yup.string().required('Required')
+    make: Yup.string().required('Required')
   })
 
   const TextInput = ({ label, ...props }) => {
@@ -32,19 +32,12 @@ const Client = () => {
   return (
     <Formik
       initialValues={{
-        name: '',
-        email: '',
-        phone: '',
-        brand: '',
-        model: '',
-        colour: '',
-        replacement: false,
-        urgent: false,
-        sentimental: false
+        ...state.formData
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setState({ ...state, formData: values })
+        state.setAssessment(values)
         setSubmitting(false)
         // resetForm({})
       }}
@@ -58,9 +51,9 @@ const Client = () => {
         </Segment>
         <Segment>
           <Header content="Bike Details" dividing />
-          <TextInput id="brand-input" label="Brand" name="brand" />
+          <TextInput id="make-input" label="Make" name="make" />
           <TextInput id="model-input" label="Model" name="model" />
-          <TextInput id="colour-input" label="Colour" name="colour" />
+          <TextInput id="colour-input" label="Colour" name="color" />
         </Segment>
         <Segment>
           <Header content="Misc" dividing />

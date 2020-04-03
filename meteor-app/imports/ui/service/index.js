@@ -76,7 +76,17 @@ export default withTracker(props => {
   const loading = !subsHandle.ready()
   const tags = []
   let totalPrice = 0
-  const formData = {}
+  const formData = {
+    name: '',
+    email: '',
+    phone: '',
+    make: '',
+    model: '',
+    color: '',
+    replacement: false,
+    urgent: false,
+    sentimental: false
+  }
 
   return {
     serviceItems,

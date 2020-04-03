@@ -23,6 +23,7 @@ export default Tag = ({ index, tag, adjustPrice, removeTag }) => {
             &nbsp;$
             <Input
               type="number"
+              id="pill-price-input"
               size="mini"
               style={{ width: `60px`, height: '10px' }}
               defaultValue={tag.price}
@@ -36,7 +37,7 @@ export default Tag = ({ index, tag, adjustPrice, removeTag }) => {
             />
           </>
         )}
-        <Icon name="delete" onClick={() => removeTag(tag, index)} />
+        <Icon id="delete-pill" name="delete" onClick={() => removeTag(tag, index)} />
       </Label>
     </>
   )
