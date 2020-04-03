@@ -20,7 +20,7 @@ Meteor.methods({
       const query = cartId ? { _id: cartId } : { status: 'complete', memberId: { $exists: false } }
       Carts.find(query).forEach(cart => {
         const email = cart.creditCard.email || cart.chargeResponse.email
-        debug(`Reonciling completed cart ${cart._id} ${email} ${cart.products.map(p => p.code).join()} ${cart.price}`)
+        debug(`Reconciling completed cart ${cart._id} ${email} ${cart.products.map(p => p.code).join()} ${cart.price}`)
         const members = Members.find({ email: email.toLowerCase() }).fetch()
         if (members.length === 0) debug(`Could not find a member with email ${email}`)
         if (members.length > 1) debug(`More than one member with the email ${email}`)
@@ -53,8 +53,7 @@ Meteor.methods({
               .toISOString()
           }
 
-          // sub.expiry = moment(member.expiry).toISOString()
-          // sub.remaining = member.remaining || 0
+          // Need to check if purchases exist here already
           Purchases.insert(sub)
           Carts.update(cart._id, {
             $set: {

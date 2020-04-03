@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from '/imports/ui/utils/alert'
+import { withTracker } from 'meteor/react-meteor-data'
+import { Loader } from 'semantic-ui-react'
 import Charges from '/imports/api/charges/schema'
+import Alert from '/imports/ui/utils/alert'
 import {
   centFormatter,
   dateFormat,
@@ -86,7 +87,7 @@ const columns = [
   { field: 'error_message', title: 'errorMessage' }
 ]
 const Loading = props => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <Loader>Loading</Loader>
   return <List {...props}></List>
 }
 export default withTracker(props => {

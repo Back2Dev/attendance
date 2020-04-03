@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Segment } from 'semantic-ui-react'
+import { Button, Segment, Loader } from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
@@ -60,7 +60,7 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
     insert(defaultObject)
   }
 
-  let Contents = () => <span>Loading...</span>
+  let Contents = () => <Loader>Loading</Loader>
   if (!loading) {
     if (!rows.length) {
       Contents = () => <span>No data found</span>

@@ -59,6 +59,10 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         content="Merge"
       />
       &nbsp;
+      <a href={`/edit/${member._id}`} target="_blank">
+        <Button color="purple">Edit...</Button>
+      </a>
+      &nbsp;
       <hr></hr>
       Sessions (<span id="numSessions">{sessions.length}</span>)
       {sessions.length === 0 ? (
