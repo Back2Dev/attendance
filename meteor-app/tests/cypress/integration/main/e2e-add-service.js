@@ -83,5 +83,9 @@ describe('Retrieve Login webpage', function() {
     cy.get('.tag-wrapper > :nth-child(1) > .handle')
       .should('exist')
       .click()
+
+    cy.get(':nth-child(1) > .handle')
+      .should('exist')
+      .click()
   })
 })
