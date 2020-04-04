@@ -31,6 +31,9 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
     cellEdited: onCellEdited,
     //width: 100,
     layout: 'fitData',
+    pagination: 'local', //enable local pagination.
+    paginationSize: 20,
+
     rowSelected: function(row) {
       rowsSelected.push(row._row.data._id)
       setRowsSelected(rowsSelected)
@@ -80,7 +83,7 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
   return (
     <div>
       <Segment>
-        Charges list
+        Credit card charges
         <span style={{ float: 'right', right: '0px' }}>
           {buttons.map(btn => (
             <Button id={btn.id} key={btn.id} size="mini" onClick={btn.action} color={btn.color} type="button">

@@ -83,7 +83,7 @@ async function updateParts(parts) {
 }
 
 Meteor.methods({
-  'parts.insert'(part) {
+  'parts.insert': part => {
     try {
       return Parts.insert(part)
     } catch (e) {
@@ -92,7 +92,7 @@ Meteor.methods({
     }
   },
 
-  async 'parts.load'(data) {
+  'parts.load': async data => {
     let countTotal = 0
     if (Meteor.isClient) return
     try {
@@ -117,5 +117,19 @@ Meteor.methods({
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
+  },
+
+  'rm.Parts': id => {
+    Parts.remove(id)
+  },
+
+  'update.Parts': form => {
+    const id = form._id
+    delete form._id
+    Parts.update(id, { $set: form })
+  },
+
+  'add.Parts': form => {
+    Parts.insert(form)
   }
 })

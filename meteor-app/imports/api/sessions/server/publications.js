@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import Sessions from '../schema'
+import moment from 'moment'
 import Members from '/imports/api/members/schema'
-import '../methods'
 import Events from '/imports/api/events/schema'
-import moment from '../../../../node_modules/moment/moment'
+import '../methods'
 
 Meteor.publish('all.sessions', () => {
   return Sessions.find({})
@@ -46,4 +46,3 @@ Meteor.publish('memberSessions', date => {
 Meteor.publish('session', id => {
   return Sessions.findOne(id)
 })
-

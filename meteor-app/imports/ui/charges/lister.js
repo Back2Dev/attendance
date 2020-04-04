@@ -37,7 +37,18 @@ const columns = [
       cell.getRow().toggleSelect()
     }
   },
-  { field: 'created_at', title: 'Date', width: 80, formatter: 'datetime', formatterParams: dateFormat },
+  {
+    field: 'created_at',
+    title: 'Date',
+    width: 80,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    },
+    formatter: 'datetime',
+    formatterParams: dateFormat
+  },
   { field: 'description', title: 'description', width: 80, headerFilter: 'input' },
   { field: 'success', title: 'success', formatter: 'tickCross', headerVertical: 'flip', align: 'center' },
   { field: 'matched', title: 'Matched', formatter: 'tickCross', headerVertical: 'flip', align: 'center' },

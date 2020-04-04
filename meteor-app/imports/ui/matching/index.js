@@ -32,6 +32,11 @@ const columns = [
     title: 'Date',
     field: 'createdAt',
     width: 80,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    },
     formatter: 'datetime',
     formatterParams: {
       inputFormat: 'DD/MM/YYYY',
