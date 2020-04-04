@@ -10,13 +10,7 @@ import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 import Alert from '/imports/ui/utils/alert'
-import {
-  centFormatter,
-  dateFormat,
-  expiryFormatter,
-  cardFormatter,
-  objectFormatter
-} from '/imports/ui/utils/formatters'
+import { centFormatter } from '/imports/ui/utils/formatters'
 import CartList from './matching'
 const debug = require('debug')('b2b:admin')
 
@@ -24,10 +18,7 @@ const columns = [
   {
     formatter: 'rowSelection',
     align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
+    headerSort: false
   },
   {
     field: 'memberId',
@@ -53,16 +44,16 @@ const columns = [
     field: 'status',
     headerFilter: 'input'
   },
-  // {
-  //   title: 'Name',
-  //   field: 'customerName',
-  //   headerFilter: 'input'
-  // },
-  // {
-  //   title: 'Email',
-  //   field: 'email',
-  //   headerFilter: 'input'
-  // },
+  {
+    title: 'Name',
+    field: 'customerName',
+    headerFilter: 'input'
+  },
+  {
+    title: 'Email',
+    field: 'email',
+    headerFilter: 'input'
+  },
   {
     title: 'Amount',
     field: 'chargeResponse.amount',
@@ -91,10 +82,6 @@ const columns = [
     field: 'creditCard.address_line1',
     headerFilter: 'input'
   }
-  // {
-  //   title: 'Actions',
-  //   field: null,
-  // },
 ]
 
 const MatchingLoader = props => {
@@ -165,7 +152,7 @@ export default withTracker(props => {
       if (err) {
         Alert.error(`Error whilst reconciling cart: ${err.message} `)
       } else {
-        Alert.success(`successfully matched ${res} cart`)
+        Alert.success(res.message)
         eventLog({
           who: 'Admin',
           what: `removed cart id: ${id}`,

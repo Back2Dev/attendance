@@ -69,3 +69,5 @@ Thu 2 Apr 2020 23:45:34 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod 
 Fri 3 Apr 2020 00:08:58 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig catchup https://shop.peakadventure.com.au 1.2.6
 Sat 4 Apr 2020 07:15:30 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod deploy catchup https://shop.peakadventure.com.au 1.2.7
 Sat 4 Apr 2020 07:38:30 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-prod reconfig catchup https://shop.peakadventure.com.au 1.2.7
+Sat 4 Apr 2020 13:49:02 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy catchup https://pa-staging.back2bikes.com.au 1.2.7
+Sat 4 Apr 2020 15:14:01 AEDT /Users/mikkel/back2bikes/attendance/deploy/pa-staging deploy catchup https://pa-staging.back2bikes.com.au 1.2.7

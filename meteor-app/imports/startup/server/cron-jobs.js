@@ -16,14 +16,16 @@ Meteor.methods({
   // cartId is optional, if null, do all carts, otherwise just do that one cart
   // TESTED
   reconcileCompletedCarts(cartId) {
+    let n = 0
     try {
       const query = cartId ? { _id: cartId } : { status: 'complete', memberId: { $exists: false } }
+      debug(`reconcile ${cartId} `, query)
       Carts.find(query).forEach(cart => {
         const email = cart.creditCard.email || cart.chargeResponse.email
         debug(`Reconciling completed cart ${cart._id} ${email} ${cart.products.map(p => p.code).join()} ${cart.price}`)
         const members = Members.find({ email: email.toLowerCase() }).fetch()
-        if (members.length === 0) debug(`Could not find a member with email ${email}`)
-        if (members.length > 1) debug(`More than one member with the email ${email}`)
+        if (members.length === 0) throw new Meteor.Error(`Could not find a member with email ${email}`)
+        if (members.length > 1) throw new Meteor.Error(`More than one member with the email ${email}`)
         if (members.length === 1) {
           debug(`Found member [${members[0].name}]`)
           const sub = cart.products[0]
@@ -55,20 +57,24 @@ Meteor.methods({
 
           // Need to check if purchases exist here already
           Purchases.insert(sub)
-          Carts.update(cart._id, {
-            $set: {
-              memberId: members[0]._id,
-              email: members[0].email,
-              customerName: members[0].name,
-              paymentMethod: 'credit card'
-            }
-          })
+          n =
+            n +
+            Carts.update(cart._id, {
+              $set: {
+                memberId: members[0]._id,
+                email: members[0].email,
+                customerName: members[0].name,
+                paymentMethod: 'credit card'
+              }
+            })
+          // Save the customer token to the member record as well:
           Members.update(members[0]._id, { $set: { paymentCustId: cart.chargeResponse.customerToken } })
         }
       })
     } catch (e) {
-      debug(`Error [${e.message}] encountered while matching completed carts`)
+      return { status: 'failed', message: e.message }
     }
+    return { status: 'success', message: `Matched ${n} cart(s)` }
   },
 
   //----------
