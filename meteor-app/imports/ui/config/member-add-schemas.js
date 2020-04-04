@@ -215,7 +215,7 @@ const paSchema = {
     schema: {
       title: 'Details',
       type: 'object',
-      required: ['name', 'email', 'mobile', 'pin', 'password'],
+      required: ['name', 'email', 'mobile', 'pin'],
       properties: {
         name: { type: 'string', title: 'Name' },
         email: { type: 'string', format: 'email', title: 'Email' },
@@ -233,7 +233,7 @@ const paSchema = {
         pin: { type: 'string', title: 'PIN number', maxLength: 4 },
         pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
         password: { type: 'string', title: 'Password' },
-        confirmPassword: { type: 'string', title: 'Confirm password' }
+        passwordConfirm: { type: 'string', title: 'Confirm password' }
       }
     },
     uiSchema: {
