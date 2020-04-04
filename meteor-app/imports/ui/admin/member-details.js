@@ -8,7 +8,17 @@ import Alert from '/imports/ui/utils/alert'
 
 const debug = require('debug')('b2b:admin')
 
-const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateAutoPay, history, migrateSessions }) => {
+const MemberDetails = ({
+  member,
+  carts,
+  sessions,
+  purchases,
+  forgetCard,
+  updateAutoPay,
+  history,
+  migrateSessions,
+  addPaymentEmail
+}) => {
   const [autoPay, setAutoPay] = React.useState(member.autoPay)
   const toggleAutoPay = e => {
     setAutoPay(!autoPay)
@@ -63,6 +73,22 @@ const MemberDetails = ({ member, carts, sessions, purchases, forgetCard, updateA
         <Button color="purple">Edit...</Button>
       </a>
       &nbsp;
+      <Button
+        color="cyan"
+        type="button"
+        onClick={e => {
+          e.preventDefault()
+          const email = prompt('Please enter email to add')
+          if (email) {
+            addPaymentEmail(member._id, email)
+          }
+        }}
+        content="Add billing email"
+      />
+      &nbsp;
+      <span>
+        Billing emails: {member.paymentEmails && member.paymentEmails.map((email, ix) => <span key={ix}>{email}</span>)}
+      </span>
       <hr></hr>
       Sessions (<span id="numSessions">{sessions.length}</span>)
       {sessions.length === 0 ? (

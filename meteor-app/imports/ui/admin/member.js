@@ -67,6 +67,10 @@ export default withTracker(props => {
     Meteor.call('migrateSessions', id)
   }
 
+  const addPaymentEmail = (id, email) => {
+    Meteor.call('members.addPaymentEmail', id, email)
+  }
+
   return {
     save,
     loading,
@@ -82,6 +86,7 @@ export default withTracker(props => {
     updateAutoPay,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
-    migrateSessions
+    migrateSessions,
+    addPaymentEmail
   }
 })(Loading)

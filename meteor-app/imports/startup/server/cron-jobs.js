@@ -23,7 +23,9 @@ Meteor.methods({
       Carts.find(query).forEach(cart => {
         const email = cart.creditCard.email || cart.chargeResponse.email
         debug(`Reconciling completed cart ${cart._id} ${email} ${cart.products.map(p => p.code).join()} ${cart.price}`)
-        const members = Members.find({ email: email.toLowerCase() }).fetch()
+        const lcem = email.toLowerCase()
+        const mQuery = { $or: [{ email: lcem }, { paymentEmails: lcem }] }
+        const members = Members.find(mQuery).fetch()
         if (members.length === 0) throw new Meteor.Error(`Could not find a member with email ${email}`)
         if (members.length > 1) throw new Meteor.Error(`More than one member with the email ${email}`)
         if (members.length === 1) {

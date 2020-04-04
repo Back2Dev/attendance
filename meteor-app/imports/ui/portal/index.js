@@ -7,7 +7,6 @@ import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Products from '/imports/api/products/schema'
-import Events from '/imports/api/events/schema'
 import Main from './main'
 import context from '/imports/ui/utils/nav'
 
@@ -45,59 +44,16 @@ export default withTracker(props => {
     ]
   }
 
-  const fallbackQuery = { type: 'fallback' }
-  debug('Queries', eventQuery, fallbackQuery)
-  let events = Events.find(eventQuery).fetch()
-  if (!events.length) {
-    events = Events.find(fallbackQuery).fetch()
-    if (!events.length) {
-      // and again provide a hard coded fallback just in case
-      events = [
-        {
-          _id: 'j8DuNfgYBFABvWwWQ',
-          name: 'Training',
-          location: 'Narnia',
-          when: new Date(),
-          duration: 3,
-          type: 'fallback'
-        }
-      ]
-    }
-  }
-
-  function recordVisit(event) {
-    if (!member.isHere) {
-      debug('member arriving', id, event)
-      Meteor.call('arrive', id, event)
-      props.history.push(`/visit/${member._id}/signed-in`)
-      Alert.success(`You signed in for ${event.name}`)
-    } else {
-      debug('member departure', id)
-      Meteor.call('depart', id)
-      props.history.push(context.goHome())
-      Alert.success(`You are now signed out`)
-    }
-  }
-  function recordDeparture(event) {
-    debug('member departure', id)
-    Meteor.call('depart', id)
-    props.history.push(context.goHome())
-    Alert.success(`You are signed out`)
-  }
-
   function save(id, formData) {
     Meteor.call('members.update', id, formData)
   }
 
   return {
-    recordVisit,
     save,
-    recordDeparture,
     loading,
     cart,
     member,
     purchases,
-    events,
     sessions,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
