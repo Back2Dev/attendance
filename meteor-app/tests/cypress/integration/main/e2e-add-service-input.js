@@ -75,14 +75,9 @@ describe('Retrieve Login webpage', function() {
       .clear({ force: true })
       .type('Magenta')
 
-    cy.get('input[name="replacement"]')
-      .should('exist')
-      .click()
-
     cy.get('button')
       .contains('Submit')
       .should('exist')
       .should('be.enabled')
-      .click()
   })
 })
