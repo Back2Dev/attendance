@@ -10,20 +10,20 @@ export const SettingsSchema = new SimpleSchema({
   // Templated replacement...
 
   name: {
-    type: String,
-    optional: true
+    type: String
+    // optional: true
   },
   type: {
-    type: String,
-    optional: true
+    type: String
+    // optional: true
   },
   key: {
-    type: String,
-    optional: true
+    type: String
+    // optional: true
   },
   value: {
-    type: String,
-    optional: true
+    type: String
+    // optional: true
   },
   createdAt,
   updatedAt
