@@ -31,8 +31,7 @@ function doTemplating(pkg, dry_run, choice, tdir, willDo, nextFunc) {
     // if (opts.debug)
     //   console.log(files);
     files.forEach(function(f) {
-      let destf = f.replace("templates/", basedir);
-      if ()
+      const destf = f.replace("templates/", basedir);
       console.info(`${willDo}Templating file ${f} => ${destf}`);
       const t = fs.readFileSync(f, "utf8");
       // if (opts.debug)
@@ -44,11 +43,8 @@ function doTemplating(pkg, dry_run, choice, tdir, willDo, nextFunc) {
           .map(key => `import '/imports/api/${key}/server/publications'`)
           .join("\n"),
         factoryImports: Object.keys(modules)
-          .map(
-            key => `import ${modules[key]} from '/imports/api/${key}/schema'`
-          )
+          .map(key => `import './factory.${key}'`)
           .join("\n"),
-        factoryMarkup: "",
         routeImports: Object.keys(modules)
           .map(
             key => `import ${modules[key]}List from '/imports/ui/${key}/lister'`
