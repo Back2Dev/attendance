@@ -55,6 +55,10 @@ describe('Retrieve Login webpage', function() {
       .should('exist')
       .click()
 
+    cy.get('div[class="total-price"]')
+      .contains('$' + '120')
+      .should('exist')
+
     cy.get('span[class="expand"]')
       .should('exist')
       .click()
@@ -63,13 +67,25 @@ describe('Retrieve Login webpage', function() {
       .should('exist')
       .click()
 
+    cy.get('div[class="total-price"]')
+      .contains('$' + '108')
+      .should('exist')
+
     cy.get(':nth-child(4) > .handle')
       .should('exist')
       .click()
 
+    cy.get('div[class="total-price"]')
+      .contains('$' + '98')
+      .should('exist')
+
     cy.get(':nth-child(2) > .handle')
       .should('exist')
       .click()
+
+    cy.get('div[class="total-price"]')
+      .contains('$' + '88')
+      .should('exist')
 
     cy.get('input[type="text"]')
       .should('exist')
@@ -87,5 +103,9 @@ describe('Retrieve Login webpage', function() {
     cy.get(':nth-child(1) > .handle')
       .should('exist')
       .click()
+
+    cy.get('div[class="total-price"]')
+      .contains('$' + '-32')
+      .should('exist')
   })
 })
