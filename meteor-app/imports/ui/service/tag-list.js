@@ -3,7 +3,16 @@ import PropTypes from 'prop-types'
 import Tag from './tag'
 import { Label, Icon, Header } from 'semantic-ui-react'
 
-export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags, adjustPrice }) => {
+export default TagList = ({
+  removeTag,
+  toggleTag,
+  majorMinorTotal,
+  totalPrice,
+  toggleExpand,
+  tags,
+  adjustPrice,
+  changeTagName
+}) => {
   return (
     <div id="pill-container" style={{ marginTop: '10px' }}>
       {tags &&
@@ -44,7 +53,7 @@ export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, t
                 ))}
             </>
           ) : (
-            <Tag index={index} tag={tag} adjustPrice={adjustPrice} removeTag={removeTag} />
+            <Tag index={index} tag={tag} adjustPrice={adjustPrice} newTagName={changeTagName} removeTag={removeTag} />
           )
         )}
       <Header style={{ margin: '10px' }} id="total-price">

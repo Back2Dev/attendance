@@ -72,6 +72,15 @@ export default function ItemTag() {
     }
   }
 
+  const changeTagName = (id, newTagName) => {
+    debug(`new name: ${newTagName}`)
+    const newState = { ...state }
+    const tag = newState.tags.find(t => id === t._id)
+    if (tag) {
+      tag.name = newTagName
+    }
+  }
+
   function majorMinorTotal(items) {
     let sum = items.reduce((total, item) => {
       if (!item.greyed) {
@@ -85,6 +94,7 @@ export default function ItemTag() {
   return (
     <TagList
       adjustPrice={adjustPrice}
+      changeTagName={changeTagName}
       removeTag={removeTag}
       toggleTag={toggleTag}
       tags={tags}

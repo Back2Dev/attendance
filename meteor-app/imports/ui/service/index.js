@@ -11,6 +11,8 @@ import Service from './service'
 // API Calls to remote systems
 // Meteor.settings (deprecated)
 
+const debug = require('debug')('b2b:service')
+
 const ServiceIndex = props => {
   if (props.loading) {
     return <Loader />
@@ -29,10 +31,11 @@ export default withTracker(props => {
     // Adding an assessment
     try {
       debug('adding assessment', formData)
+      debug('checking if tags exist', tags)
       const res = await Meteor.callAsync('assessment.insert', formData)
       return res
     } catch (e) {
-      console.log('error')
+      console.log(`error: ${e}`)
     }
   }
 
