@@ -15,7 +15,7 @@ export default function ItemTag() {
 
     debug('tag passed as a parameter = ', tag)
 
-    newTags.map(currentTag => {
+    newTags.map((currentTag) => {
       debug('coming into toggle expand = ', currentTag)
       if (tag.name === currentTag.name) {
         currentTag.expanded = !currentTag.expanded
@@ -39,9 +39,9 @@ export default function ItemTag() {
     }
 
     const newTags = [...tags]
-    newTags.map(tag => {
+    newTags.map((tag) => {
       tag.items
-        ? tag.items.map(serviceItem => {
+        ? tag.items.map((serviceItem) => {
             if (serviceItem.name === item.name && tag.name === currentTag.name) {
               serviceItem.greyed = !serviceItem.greyed
             }
@@ -51,19 +51,20 @@ export default function ItemTag() {
     setState({ ...state, tags: newTags, totalPrice })
   }
 
-  const totalPrice = tags => {
-    let total = 0
-    tags.map(tag => {
-      total += tag.price
-    })
-    return total
+  const totalPrice = (tags) => {
+    const newPrice = tags.reduce((total, tag) => {
+      return total + tag.price
+    }, 0)
+    // setState({ ...state, totalPrice: newPrice })
+    // state.updateJob(state)
+    return newPrice
   }
 
   const adjustPrice = (id, newValue) => {
     debug(`adjust price: ${newValue}`)
     const newState = { ...state }
 
-    const tag = newState.tags.find(t => id === t._id)
+    const tag = newState.tags.find((t) => id === t._id)
     if (tag && tag.price !== null) {
       newState.totalPrice -= parseFloat(tag.price)
       tag.price = parseFloat(newValue)
@@ -100,6 +101,6 @@ TagList.propTypes = {
   toggleTag: PropTypes.func.isRequired,
   tags: PropTypes.array.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,
-  totalPrice: PropTypes.number.isRequired,
-  toggleExpand: PropTypes.func.isRequired
+  totalPrice: PropTypes.func.isRequired,
+  toggleExpand: PropTypes.func.isRequired,
 }

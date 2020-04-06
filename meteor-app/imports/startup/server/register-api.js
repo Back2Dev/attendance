@@ -16,6 +16,11 @@ import '/imports/api/assessments/services'
 import '/imports/api/assessments/methods'
 import '/imports/api/assessments/server/publications'
 
+// Jobs
+import '/imports/api/jobs/schema'
+import '/imports/api/jobs/methods'
+import '/imports/api/jobs/server/publications'
+
 // Purchases
 import '/imports/api/purchases/schema'
 import '/imports/api/purchases/methods'
