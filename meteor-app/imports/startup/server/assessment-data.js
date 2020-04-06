@@ -407,6 +407,12 @@ Meteor.methods({
         code: 'O',
         category: 'other',
         used: false
+      },
+      {
+        name: 'Others',
+        price: 1000,
+        category: 'other',
+        used: false
       }
     ]
 

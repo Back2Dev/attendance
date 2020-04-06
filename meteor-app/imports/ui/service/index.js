@@ -31,7 +31,6 @@ export default withTracker(props => {
     // Adding an assessment
     try {
       debug('adding assessment', formData)
-      debug('checking if tags exist', tags)
       const res = await Meteor.callAsync('assessment.insert', formData)
       return res
     } catch (e) {
