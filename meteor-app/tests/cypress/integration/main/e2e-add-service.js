@@ -104,6 +104,10 @@ describe('Retrieve Login webpage', function() {
       .should('exist')
       .click()
 
+    cy.get('div[class="total-price"]')
+      .contains('$' + '88')
+      .should('exist')
+
     cy.get(':nth-child(1) > .handle')
       .should('exist')
       .click()
