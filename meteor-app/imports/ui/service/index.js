@@ -1,6 +1,7 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Loader } from 'semantic-ui-react'
+import Jobs from '/imports/api/jobs/schema'
 import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
 import Service from './service'
@@ -12,7 +13,6 @@ import Service from './service'
 // Meteor.settings (deprecated)
 
 const debug = require('debug')('b2b:service')
-
 const ServiceIndex = props => {
   if (props.loading) {
     return <Loader />
@@ -20,22 +20,23 @@ const ServiceIndex = props => {
   return <Service {...props} />
 }
 
-export default withTracker(props => {
+export default withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.services')
   const serviceItems = ServiceItems.find().fetch()
   const services = Services.find().fetch()
 
-  Meteor.subscribe('assessments.all')
+  Meteor.subscribe('jobs.all')
 
-  const setAssessment = async formData => {
-    // Adding an assessment
-    try {
-      debug('adding assessment', formData)
-      const res = await Meteor.callAsync('assessment.insert', formData)
-      return res
-    } catch (e) {
-      console.log(`error: ${e}`)
-    }
+
+  const updateJob = async (state) => {
+    // // Adding an job
+    // try {
+    //   debug('adding job', state)
+    //   const res = await Meteor.callAsync('job.save', state)
+    //   return res
+    // } catch (e) {
+    //   console.log('error')
+    // }
   }
 
   const majorService = {
@@ -44,7 +45,7 @@ export default withTracker(props => {
     items: [],
     expanded: false,
     price: 120,
-    cents: 12000
+    cents: 12000,
   }
   const minorService = {
     name: 'Minor Service',
@@ -52,16 +53,16 @@ export default withTracker(props => {
     items: [],
     expanded: false,
     price: 60,
-    cents: 6000
+    cents: 6000,
   }
 
-  serviceItems.forEach(item => {
+  serviceItems.forEach((item) => {
     item.title = item.name
     item.cents = item.price
     item.price = item.cents / 100
   })
 
-  services.map(item => {
+  services.map((item) => {
     item.greyed = false
     item.cents = item.price
     item.price = item.cents / 100
@@ -78,24 +79,30 @@ export default withTracker(props => {
   const loading = !subsHandle.ready()
   const tags = []
   let totalPrice = 0
-  const formData = {
-    name: '',
-    email: '',
-    phone: '',
-    make: '',
-    model: '',
-    color: '',
-    replacement: false,
-    urgent: false,
-    sentimental: false
-  }
+  let name = ''
+  let email = ''
+  let phone = ''
+  let make = ''
+  let model = ''
+  let color = ''
+  let replacement = false
+  let urgent = false
+  let sentimental = false
 
   return {
     serviceItems,
     tags,
     totalPrice,
-    formData,
-    setAssessment,
-    loading
+    name,
+    email,
+    phone,
+    make,
+    model,
+    color,
+    replacement,
+    urgent,
+    sentimental,
+    updateJob,
+    loading,
   }
 })(ServiceIndex)
