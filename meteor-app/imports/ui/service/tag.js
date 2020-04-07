@@ -48,7 +48,6 @@ export default Tag = ({ index, tag, adjustPrice, newTagName, removeTag }) => {
             <input
               type="number"
               className="tag-number-input"
-              // style={{ width: `70px`, height: '35px' }}
               defaultValue={tag.price}
               onChange={(e) => adjustPrice(tag._id, e.target.value)}
               onBlur={() => setDisableToggle(!disableToggle)}
