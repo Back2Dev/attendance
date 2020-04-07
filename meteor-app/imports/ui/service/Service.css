@@ -1,6 +1,5 @@
 .tag-input {
-  height: 24px;
-  width: auto;
+  height: 18px;
   font-size: 1.28571429rem;
   background: #219ed0;
   border: none;
@@ -10,7 +9,7 @@
 }
 
 .tag-number-input {
-  height: 24px;
+  height: 18px;
   width: 40px;
   font-size: 1.28571429rem;
   background: #219ed0;

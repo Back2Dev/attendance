@@ -11,7 +11,7 @@ export default TagList = ({
   toggleExpand,
   tags,
   adjustPrice,
-  changeTagName
+  changeTagName,
 }) => {
   return (
     <div id="pill-container" style={{ marginTop: '10px' }}>
@@ -31,7 +31,7 @@ export default TagList = ({
                 <Icon id="delete-icon" name="delete" onClick={() => removeTag(tag, index)} />
               </Label>
               {tag.expanded &&
-                tag.items.map(item => (
+                tag.items.map((item) => (
                   <Label
                     id="item-pill-small"
                     key={item.name}
@@ -68,5 +68,5 @@ TagList.propTypes = {
   toggleTag: PropTypes.func.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,
   totalPrice: PropTypes.number.isRequired,
-  tags: PropTypes.array.isRequired
+  tags: PropTypes.array.isRequired,
 }

@@ -21,26 +21,15 @@ export default Tag = ({ index, tag, adjustPrice, newTagName, removeTag }) => {
           <input
             className="tag-input"
             defaultValue={tag.name}
+            style={{ width: `${(tag.name.length + 1) * 8.5}px` }}
             onBlur={() => setDisableToggle(!disableToggle)}
-            onChange={e => newTagName(tag._id, e.target.value)}
-            onKeyPress={e => {
+            onChange={(e) => newTagName(tag._id, e.target.value)}
+            onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 setDisableToggle(!disableToggle)
               }
             }}
           />
-
-          // <Input
-          //   size="mini"
-          //   defaultValue={tag.name}
-          //   onBlur={() => setDisableToggle(!disableToggle)}
-          //   onChange={e => newTagName(tag._id, e.target.value)}
-          //   onKeyPress={e => {
-          //     if (e.key === 'Enter') {
-          //       setDisableToggle(!disableToggle)
-          //     }
-          //   }}
-          // />
         )}
 
         {!disableToggle ? (
@@ -61,28 +50,14 @@ export default Tag = ({ index, tag, adjustPrice, newTagName, removeTag }) => {
               className="tag-number-input"
               // style={{ width: `70px`, height: '35px' }}
               defaultValue={tag.price}
-              onChange={e => adjustPrice(tag._id, e.target.value)}
+              onChange={(e) => adjustPrice(tag._id, e.target.value)}
               onBlur={() => setDisableToggle(!disableToggle)}
-              onKeyPress={e => {
+              onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   setDisableToggle(!disableToggle)
                 }
               }}
             />
-            {/* <Input
-              type="number"
-              size="mini"
-              className="tag-input"
-              // style={{ width: `70px`, height: '35px' }}
-              defaultValue={tag.price}
-              onChange={e => adjustPrice(tag._id, e.target.value)}
-              onBlur={() => setDisableToggle(!disableToggle)}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  setDisableToggle(!disableToggle)
-                }
-              }}
-            /> */}
           </>
         )}
         <Icon name="delete" onClick={() => removeTag(tag, index)} />
