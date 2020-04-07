@@ -5,7 +5,7 @@ export const ServiceContext = createContext()
 export const ServiceContextProvider = ({
   serviceItems,
   tags,
-  totalPrice,
+  totalCost,
   name,
   email,
   phone,
@@ -15,13 +15,15 @@ export const ServiceContextProvider = ({
   replacement,
   urgent,
   sentimental,
+  isRefurbish,
   updateJob,
+  calculateTotal,
   children,
 }) => {
   const [state, setState] = useState({
     serviceItems,
     tags,
-    totalPrice,
+    totalCost,
     name,
     email,
     phone,
@@ -31,7 +33,9 @@ export const ServiceContextProvider = ({
     replacement,
     urgent,
     sentimental,
+    isRefurbish,
     updateJob,
+    calculateTotal,
   })
 
   return <ServiceContext.Provider value={[state, setState]}>{children}</ServiceContext.Provider>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Tag from './tag'
 import { Label, Icon, Header } from 'semantic-ui-react'
 
-export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, toggleExpand, tags, adjustPrice }) => {
+export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalCost, toggleExpand, tags, adjustPrice }) => {
   return (
     <div id="pill-container" style={{ marginTop: '10px' }}>
       {tags &&
@@ -22,7 +22,7 @@ export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, t
                 <Icon id="delete-icon" name="delete" onClick={() => removeTag(tag, index)} />
               </Label>
               {tag.expanded &&
-                tag.items.map(item => (
+                tag.items.map((item) => (
                   <Label
                     id="item-pill-small"
                     key={item.name}
@@ -48,7 +48,7 @@ export default TagList = ({ removeTag, toggleTag, majorMinorTotal, totalPrice, t
           )
         )}
       <Header style={{ margin: '10px' }} id="total-price">
-        {'Total: $' + (tags ? totalPrice(tags) : '0')}
+        {'Total: $' + totalCost}
       </Header>
     </div>
   )
@@ -58,6 +58,6 @@ TagList.propTypes = {
   removeTag: PropTypes.func.isRequired,
   toggleTag: PropTypes.func.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,
-  totalPrice: PropTypes.number.isRequired,
-  tags: PropTypes.array.isRequired
+  totalCost: PropTypes.number.isRequired,
+  tags: PropTypes.array.isRequired,
 }
