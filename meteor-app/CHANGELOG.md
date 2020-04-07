@@ -5,6 +5,7 @@
 - Send receipt email
 - Import charges from pinpayments
 - Added view of charges with 'refresh' button
+- Added the ability to adjust name or prices on service tags for custom jobs.
 
 ## 1.2.4
 
