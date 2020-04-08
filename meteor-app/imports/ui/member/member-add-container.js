@@ -13,7 +13,7 @@ const error = new ReactiveVar(false)
 const msg = new ReactiveVar('')
 const newId = new ReactiveVar('')
 
-export default withTracker(props => {
+export default withTracker((props) => {
   // need to do something smarter than this...
   function setError(e) {
     newId.set(null)
@@ -31,7 +31,7 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setMember = async formData => {
+  const setMember = async (formData) => {
     if (props.member != null) {
       // we are updating the member
       debug('updating member', formData)
@@ -49,10 +49,15 @@ export default withTracker(props => {
         debug('adding member', formData)
         formData.email = formData.email.toLowerCase()
         // creates a user and returns an id for storing in member's collection
-        const response = await Meteor.callAsync('addUser', formData.email, formData.password)
+        let ok = true
+        if (formData.password) {
+          const response = await Meteor.callAsync('addUser', formData.email, formData.password)
+          ok = response.status === 'success'
+          formData.userId = response.id
+        }
         // Stores the data into member's collection
-        if (response.status === 'success') {
-          const res = await Meteor.callAsync('members.insert', { ...formData, userId: response.id })
+        if (ok) {
+          const res = await Meteor.callAsync('members.insert', formData)
           setSuccess('Details saved ok', res)
           return res
         } else {
@@ -75,6 +80,6 @@ export default withTracker(props => {
     newId: newId.get(),
     resetId: () => newId.set(''),
     member: props.member ? props.member : null,
-    schemas: getSchemas(Meteor.settings.public.recruit)
+    schemas: getSchemas(Meteor.settings.public.recruit),
   }
 })(MemberAdd)
