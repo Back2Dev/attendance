@@ -9,15 +9,15 @@ import {
   dateFormat,
   expiryFormatter,
   cardFormatter,
-  objectFormatter
+  objectFormatter,
 } from '/imports/ui/utils/formatters'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import List from './list'
 
-const refresh = id => meteorCall('refresh.charges', 'Refreshing', id)
-const remove = id => meteorCall('rm.charges', 'Deleting', id)
-const update = form => meteorCall('update.charges', 'updating', form)
-const insert = form => meteorCall('insert.charges', 'adding', form)
+const refresh = (id) => meteorCall('refresh.charges', 'Refreshing', id)
+const remove = (id) => meteorCall('rm.charges', 'Deleting', id)
+const update = (form) => meteorCall('update.charges', 'updating', form)
+const insert = (form) => meteorCall('insert.charges', 'adding', form)
 
 // Config data
 
@@ -26,16 +26,16 @@ const defaultObject = {
   description: 'Description',
   code: 'XXX',
   reconciled: false,
-  matched: false
+  matched: false,
 }
 const columns = [
   {
     formatter: 'rowSelection',
     align: 'center',
     headerSort: false,
-    cellClick: function(e, cell) {
+    cellClick: function (e, cell) {
       cell.getRow().toggleSelect()
-    }
+    },
   },
   {
     field: 'created_at',
@@ -44,10 +44,10 @@ const columns = [
     sorter: 'date',
     sorterParams: {
       format: 'YYYY-MM-DD',
-      alignEmptyValues: 'top'
+      alignEmptyValues: 'top',
     },
     formatter: 'datetime',
-    formatterParams: dateFormat
+    formatterParams: dateFormat,
   },
   { field: 'description', title: 'description', width: 80, headerFilter: 'input' },
   { field: 'success', title: 'success', formatter: 'tickCross', headerVertical: 'flip', align: 'center' },
@@ -58,15 +58,17 @@ const columns = [
     formatter: 'tickCross',
     headerVertical: 'flip',
     editor: true,
-    align: 'center'
+    align: 'center',
   },
   {
     field: 'amount',
     title: 'amount',
     formatter: centFormatter,
     formatterParams: { decimals: 2 },
-    headerFilter: 'input'
+    headerFilter: 'input',
   },
+  { field: 'total_fees', title: 'Fees', formatter: centFormatter, formatterParams: { decimals: 2 } },
+  { field: 'merchant_entitlement', title: 'Payable', formatter: centFormatter, formatterParams: { decimals: 2 } },
 
   { field: 'email', title: 'email', headerFilter: 'input' },
   {
@@ -75,11 +77,11 @@ const columns = [
     columns: [
       { field: 'card.name', title: 'Name', headerFilter: 'input' },
       // { field: 'card.scheme', title: 'Type' },
-      { field: 'card.display_number', title: 'Card', width: 80, formatter: cardFormatter }
+      { field: 'card.display_number', title: 'Card', width: 80, formatter: cardFormatter },
       // { field: 'card.issuing_country', title: 'Country' },
       // { field: 'card.expiry_month', title: 'Expiry', formatter: expiryFormatter }
       // { field: 'card.address_line1', title: 'Address' }
-    ]
+    ],
   },
   { field: 'metadata', title: 'metadata', formatter: objectFormatter },
   // { field: 'token', title: 'token' },
@@ -87,21 +89,19 @@ const columns = [
   // { field: 'currency', title: 'currency' },
   // { field: 'status_message', title: 'statusMessage' },
   // { field: 'amount_refunded', title: 'amountRefunded' },
-  // { field: 'total_fees', title: 'totalFees' },
-  // { field: 'merchant_entitlement', title: 'merchantEntitlement' },
   // { field: 'refund_pending', title: 'refundPending' },
   // { field: 'authorisation_expired', title: 'authorisationExpired' },
   // { field: 'captured', title: 'captured' },
   // { field: 'captured_at', title: 'capturedAt' },
   // { field: 'settlement_currency', title: 'settlementCurrency' },
   // { field: 'active_chargebacks', title: 'activeChargebacks' },
-  { field: 'error_message', title: 'errorMessage' }
+  { field: 'error_message', title: 'errorMessage' },
 ]
-const Loading = props => {
+const Loading = (props) => {
   if (props.loading) return <Loader>Loading</Loader>
   return <List {...props}></List>
 }
-export default withTracker(props => {
+export default withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.charges')
   return {
     items: Charges.find({}, { sort: { created_at: -1 } }).fetch(),
@@ -111,6 +111,6 @@ export default withTracker(props => {
     refresh,
     columns,
     defaultObject,
-    loading: !subsHandle.ready()
+    loading: !subsHandle.ready(),
   }
 })(Loading)
