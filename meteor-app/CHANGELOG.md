@@ -7,6 +7,10 @@
 - Added view of charges with 'refresh' button
 - Add reconciliation to charges and carts, improved layouts
 - Add admin button to edit user details
+- Refactor factories code
+- Added member.paymentEmails array
+- Fix email to be lower case
+
 
 ## 1.2.4
 
