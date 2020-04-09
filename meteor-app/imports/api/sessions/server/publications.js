@@ -9,7 +9,7 @@ Meteor.publish('all.sessions', () => {
   return Sessions.find({})
 })
 
-Meteor.publish('memberSessions', date => {
+Meteor.publish('memberSessions', (date) => {
   const eventQuery = {
     active: true,
     $or: [
@@ -17,32 +17,24 @@ Meteor.publish('memberSessions', date => {
       {
         type: 'once',
         when: {
-          $gte: moment(date)
-            .startOf('day')
-            .toDate(),
-          $lte: moment(date)
-            .endOf('day')
-            .toDate()
-        }
-      }
-    ]
+          $gte: moment(date).startOf('day').toDate(),
+          $lte: moment(date).endOf('day').toDate(),
+        },
+      },
+    ],
   }
   return [
     Sessions.find({
       timeIn: {
-        $gte: moment(date)
-          .startOf('day')
-          .toDate(),
-        $lte: moment(date)
-          .endOf('day')
-          .toDate()
-      }
+        $gte: moment(date).startOf('day').toDate(),
+        $lte: moment(date).endOf('day').toDate(),
+      },
     }),
     Members.find({}, { fields: { name: 1, _id: 1, avatar: 1 }, sort: { name: 1 } }),
-    Events.find(eventQuery)
+    Events.find(eventQuery),
   ]
 })
 
-Meteor.publish('session', id => {
+Meteor.publish('session', (id) => {
   return Sessions.findOne(id)
 })
