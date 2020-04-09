@@ -6,6 +6,22 @@ import log from '/imports/lib/server/log'
 const debug = require('debug')('b2b:cart')
 
 Meteor.methods({
+  'rm.Products': id => {
+    Products.remove(id)
+  },
+
+  'update.Products': form => {
+    const id = form._id
+    delete form._id
+    Products.update(id, { $set: form })
+  },
+
+  'insert.Products': form => {
+    console.log('Inserting product', form)
+    const id = Products.insert(form)
+    console.log('Added ', id)
+  },
+
   'cart.remove': function(id) {
     try {
       log.info('removing cart id: ', id)

@@ -13,7 +13,7 @@ const badSettings = [
   {}
 ]
 
-const goodSettings = [{}]
+const goodSettings = []
 
 goodSettings.push(Factory.build('settings'))
 
@@ -33,7 +33,7 @@ describe('settings', () => {
         const thing = Settings.findOne(id)
         expect(thing._id).to.equal(good._id)
         // Templated replacement...
-        const fields = ["name","type","key","value"] || []
+        const fields = ['name', 'type', 'key', 'value'] || []
         fields.forEach(field => {
           expect(thing[field]).to.equal(good[field])
         })

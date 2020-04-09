@@ -24,6 +24,7 @@ const columns = [
     formatter: 'rowSelection',
     align: 'center',
     headerSort: false,
+    width: 50,
     cellClick: function(e, cell) {
       cell.getRow().toggleSelect()
     }
@@ -38,8 +39,30 @@ const columns = [
     }
   },
   { field: 'name', title: 'Session Name' },
-  { field: 'timeIn', title: 'Start Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
-  { field: 'timeOut', title: 'End Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
+  {
+    field: 'timeIn',
+    title: 'Start Time',
+    editor: DateEditor,
+    formatter: 'datetime',
+    formatterParams: dateFormat,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    }
+  },
+  {
+    field: 'timeOut',
+    title: 'End Time',
+    editor: DateEditor,
+    formatter: 'datetime',
+    formatterParams: dateFormat,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    }
+  },
   { field: 'duration', title: 'Duration', editor: true }
 ]
 

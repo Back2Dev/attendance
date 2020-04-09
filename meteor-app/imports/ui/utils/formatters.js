@@ -17,7 +17,10 @@ export const profitFormatter = (cell, formatterParams, onRendered) => {
   return `<span style="color:${colour}">${perc}</span>`
 }
 
-const dollars = (cents, decimals) => `$${(cents / 100).toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`
+const dollars = (cents, decimals) => {
+  if (cents) return `$${(cents / 100).toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`
+  return ''
+}
 
 //
 // How to use - imports
@@ -72,4 +75,8 @@ export const objectFormatter = cell => {
       .join(', ')
   }
   return r
+}
+
+export const cardFormatter = cell => {
+  return cell.getValue().replace(/XXXX-XXXX-XX/, '')
 }
