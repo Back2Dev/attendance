@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
 import axios from 'axios'
-
+import { cloneDeep } from 'lodash'
 import Jobs from './schema'
 import Counters from '/imports/api/counters/schema'
 import Logger from '/imports/api/assessments/logger'
@@ -107,6 +107,24 @@ if (Meteor.isServer) {
         status: JOB_STATUS.PICKED_UP,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE],
       })
+    },
+    'job.save'(data) {
+      try {
+        const contents = cloneDeep(data)
+        const id = contents._id
+        if (id) {
+          delete contents._id
+          debug(`Saving job id ${id}`)
+          Jobs.update(id, { $set: { ...contents } })
+        } else {
+          const id = Jobs.insert(contents)
+          debug(`New job id is ${id}`)
+          sessionStorage.setItem('myjob', id)
+          data._id = id // Remember to save the id back to the data
+        }
+      } catch (e) {
+        console.error(`Error: [${e.message}] encountered while saving job`)
+      }
     },
     'job.update'(job, action, data) {
       const { _id, status } = job

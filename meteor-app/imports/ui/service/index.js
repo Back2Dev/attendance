@@ -13,7 +13,8 @@ import Service from './service'
 // Meteor.settings (deprecated)
 
 const debug = require('debug')('b2b:service')
-const ServiceIndex = props => {
+
+const ServiceIndex = (props) => {
   if (props.loading) {
     return <Loader />
   }
@@ -27,16 +28,40 @@ export default withTracker((props) => {
 
   Meteor.subscribe('jobs.all')
 
+  const updateJob = async (data) => {
+    // Adding an job
+    const totalPartsCost = data.tags.reduce((total, tag) => total + tag.cents)
 
-  const updateJob = async (state) => {
-    // // Adding an job
-    // try {
-    //   debug('adding job', state)
-    //   const res = await Meteor.callAsync('job.save', state)
-    //   return res
-    // } catch (e) {
-    //   console.log('error')
-    // }
+    console.log(totalPartsCost)
+    const partsItem = tags
+      .filter((key) => {
+        if (!formData) {
+          return 0
+        }
+        const formattedParts = formData.parts.map((item) => item.replace(/ \(\$\w+\)/, '').trim())
+        return formattedParts.includes(key.name) ? key.price : 0
+      })
+      .map((key) => {
+        return {
+          name: key.name,
+          price: key.price,
+          code: key.code,
+          category: key.category,
+          used: key.used,
+        }
+      })
+    try {
+      debug('adding job', data)
+      data.jobNo = (data.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
+      data.bikeValue = 23
+      data.totalCost *= 100
+      data.parts = { partsItem: partsItem, totalPartsCost: totalPartsCost }
+      const res = await Meteor.callAsync('job.save', data)
+      console.log(data)
+      return res
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   const majorService = {
@@ -73,12 +98,18 @@ export default withTracker((props) => {
     majorService.items.push(item)
   })
 
+  const calculateTotal = (tags) => {
+    return tags.reduce((total, tag) => {
+      return total + tag.price
+    }, 0)
+  }
+
   serviceItems.push(minorService)
   serviceItems.push(majorService)
 
   const loading = !subsHandle.ready()
   const tags = []
-  let totalPrice = 0
+  let totalCost = 0
   let name = ''
   let email = ''
   let phone = ''
@@ -88,11 +119,12 @@ export default withTracker((props) => {
   let replacement = false
   let urgent = false
   let sentimental = false
+  let isRefurbish = false
 
   return {
     serviceItems,
     tags,
-    totalPrice,
+    totalCost,
     name,
     email,
     phone,
@@ -102,7 +134,9 @@ export default withTracker((props) => {
     replacement,
     urgent,
     sentimental,
+    isRefurbish,
     updateJob,
+    calculateTotal,
     loading,
   }
 })(ServiceIndex)

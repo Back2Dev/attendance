@@ -8,6 +8,7 @@ const debug = require('debug')('b2b:service')
 export default function ItemTag() {
   const [state, setState] = useContext(ServiceContext)
   const { tags } = state
+  let totalCost = state.totalCost
 
   function toggleExpand(tag) {
     console.log(tag)
@@ -28,7 +29,8 @@ export default function ItemTag() {
   function removeTag(tag, index) {
     const newTags = [...tags]
     newTags.splice(index, 1)
-    setState({ ...state, tags: newTags })
+    const newTotal = state.calculateTotal(tags)
+    setState({ ...state, tags: newTags, totalCost: newTotal })
   }
 
   function toggleTag(item, currentTag) {
@@ -48,28 +50,18 @@ export default function ItemTag() {
           })
         : null
     })
-    setState({ ...state, tags: newTags, totalPrice })
-  }
-
-  const totalPrice = (tags) => {
-    const newPrice = tags.reduce((total, tag) => {
-      return total + tag.price
-    }, 0)
-    // setState({ ...state, totalPrice: newPrice })
-    // state.updateJob(state)
-    return newPrice
+    const newTotal = state.calculateTotal(tags)
+    setState({ ...state, tags: newTags, totalCost: newTotal })
   }
 
   const adjustPrice = (id, newValue) => {
     debug(`adjust price: ${newValue}`)
     const newState = { ...state }
-
     const tag = newState.tags.find((t) => id === t._id)
     if (tag && tag.price !== null) {
-      newState.totalPrice -= parseFloat(tag.price)
       tag.price = parseFloat(newValue)
-      newState.totalPrice += parseFloat(newValue)
-      setState(newState)
+      const newTotal = state.calculateTotal(tags)
+      setState({ ...newState, totalCost: newTotal })
     }
   }
 
@@ -100,7 +92,7 @@ export default function ItemTag() {
       toggleTag={toggleTag}
       tags={tags}
       majorMinorTotal={majorMinorTotal}
-      totalPrice={totalPrice}
+      totalCost={totalCost}
       toggleExpand={toggleExpand}
     />
   )
@@ -111,6 +103,6 @@ TagList.propTypes = {
   toggleTag: PropTypes.func.isRequired,
   tags: PropTypes.array.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,
-  totalPrice: PropTypes.func.isRequired,
+  totalCost: PropTypes.func.isRequired,
   toggleExpand: PropTypes.func.isRequired,
 }

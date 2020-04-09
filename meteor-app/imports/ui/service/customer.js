@@ -6,7 +6,7 @@ import { Header, Segment, Input, Button, Checkbox } from 'semantic-ui-react'
 
 const Client = () => {
   const [state, setState] = useContext(ServiceContext)
-  const { name, email, phone, make, model, color, replacement, urgent, sentimental } = state
+  const { name, email, phone, make, model, color, replacement, urgent, sentimental, isRefurbish } = state
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
     email: Yup.string().required('Required'),
@@ -41,12 +41,12 @@ const Client = () => {
         replacement,
         urgent,
         sentimental,
+        isRefurbish,
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        console.log(values)
         setState({ ...state, ...values })
-        state.updateAssessment(values)
+        state.updateJob({ ...state })
         setSubmitting(false)
         // resetForm({})
       }}
@@ -74,9 +74,26 @@ const Client = () => {
               onChange={() => setFieldValue('replacement', !values.replacement)}
             />
             <br />
-            <Checkbox label="Urgent" name="urgent" />
+            <Checkbox
+              defaultChecked={urgent}
+              label="Urgent"
+              name="urgent"
+              onChange={() => setFieldValue('urgent', !values.urgent)}
+            />
             <br />
-            <Checkbox label="Sentimental" name="sentimental" />
+            <Checkbox
+              defaultChecked={sentimental}
+              label="Sentimental"
+              name="sentimental"
+              onChange={() => setFieldValue('sentimental', !values.sentimental)}
+            />
+            <br />
+            <Checkbox
+              defaultChecked={isRefurbish}
+              label="Refurbished"
+              name="isRefurbish"
+              onChange={() => setFieldValue('isRefurbish', !values.isRefurbish)}
+            />
           </Segment>
           <Button type="submit" id="service-form-button" content="Submit" color="blue" />
         </Form>
