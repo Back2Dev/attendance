@@ -441,6 +441,7 @@ const customSchemas = {
 const defaultSchema = [
   {
     stepTitle: 'About You',
+    stepId: 'edit-about',
     stepDescription: 'About',
     schema: {
       type: 'object',
@@ -490,6 +491,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Contact',
+    stepId:'edit-contact',
     stepDescription: 'Contact',
     schema: {
       title: 'Details',
@@ -562,6 +564,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Emergency',
+    stepId:'edit-emergency',
     stepDescription: 'Emerg',
     schema: {
       type: 'object',
@@ -594,6 +597,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Avatar',
+    stepId: 'edit-avatar',
     stepDescription: 'Avatar',
     schema: {
       type: 'object',
@@ -686,6 +690,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Terms',
+    stepId:'edit-terms',
     stepDescription: 'Terms',
     schema: {
       type: 'object',
