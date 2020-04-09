@@ -8,12 +8,10 @@ import { expect } from 'chai'
 import Charges from './schema'
 import Factory from '/imports/test/factories'
 
-const badCharges = [
-  // no name
-  {}
-]
+const badCharges = []
+badCharges.push(Factory.build('charges', { created_at: null }))
 
-const goodCharges = [{}]
+const goodCharges = []
 
 goodCharges.push(Factory.build('charges'))
 
@@ -33,7 +31,31 @@ describe('charges', () => {
         const thing = Charges.findOne(id)
         expect(thing._id).to.equal(good._id)
         // Templated replacement...
-        const fields = ["token","success","amount","currency","description","email","ip_address","created_at","status_message","error_message","card","transfer","amount_refunded","total_fees","merchant_entitlement","refund_pending","authorisation_expired","captured","captured_at","settlement_currency","active_chargebacks","metadata"] || []
+        const fields =
+          [
+            'token',
+            'success',
+            'amount',
+            'currency',
+            'description',
+            'email',
+            'ip_address',
+            // 'created_at',
+            'status_message',
+            'error_message',
+            // 'card',
+            // 'transfer',
+            'amount_refunded',
+            'total_fees',
+            'merchant_entitlement',
+            'refund_pending',
+            'authorisation_expired',
+            'captured',
+            'captured_at',
+            'settlement_currency',
+            'active_chargebacks'
+            // 'metadata'
+          ] || []
         fields.forEach(field => {
           expect(thing[field]).to.equal(good[field])
         })

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Input } from 'semantic-ui-react'
+
 import './member-search.css'
 
 const MemberSearch = props => {

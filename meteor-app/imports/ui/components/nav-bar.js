@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter, NavLink } from 'react-router-dom'
-import Members from '/imports/api/members/schema'
 import { Menu, Loader } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
-
+import Members from '/imports/api/members/schema'
+import { version } from '/imports/api/version'
 import AdminMenu from '/imports/ui/pages/admin-menu'
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -16,9 +16,17 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
     return <Loader active />
   }
   return (
-    <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
+    <Menu
+      vertical
+      attached="top"
+      inverted
+      size="large"
+      color="black"
+      className="tm-sidebar"
+      style={{ background: Meteor.settings.public.background }}
+    >
       <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
-        <img src="/images/image.png" className="ui center aligned container small image" />
+        <img src={Meteor.settings.public.logo} title={version()} className="ui center aligned container small image" />
       </Menu.Item>
 
       {currentUser === '' ? (

@@ -5,6 +5,8 @@
 - Send receipt email
 - Import charges from pinpayments
 - Added view of charges with 'refresh' button
+- Add reconciliation to charges and carts, improved layouts
+- Add admin button to edit user details
 
 ## 1.2.4
 

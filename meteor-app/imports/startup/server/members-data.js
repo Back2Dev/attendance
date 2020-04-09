@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor' // base
 import Members from '/imports/api/members/schema'
+import { Carts } from '/imports/api/products/schema'
 import Rejects from '/imports/api/members/rejects'
 import casual from 'casual' // casual random data generator
 import moment from 'moment'
@@ -128,4 +129,10 @@ Meteor.startup(() => {
   //   { "pin": { $exists: false } },
   //   { $set: { pin: '12         34' } }
   // )
+  Members.find({ email: /[A-Z]/ }).forEach(m => {
+    Members.update(m._id, { $set: { email: m.email.toLowerCase() } })
+  })
+  Carts.find({ 'chargeResponse.email': /[A-Z]/ }).forEach(c => {
+    Carts.update(c._id, { $set: { 'chargeResponse.email': c.chargeResponse.email.toLowerCase() } })
+  })
 })
