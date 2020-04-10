@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 import { JOB_STATUS_READABLE } from '/imports/api/constants'
-import { partsSchema, servicesSchema } from '/imports/api/assessments/schema'
+import { ServiceItemsSchema } from '../service-items/schema'
 
 const Jobs = new Mongo.Collection('jobs')
 
@@ -19,25 +19,20 @@ export const JobsSchema = new SimpleSchema({
   color: { type: String, label: 'Bike color' },
   bikeValue: { type: SimpleSchema.Integer, label: 'Estimated bike value in cents' },
   sentimentValue: { type: Boolean, optional: true, label: 'Bike holds sentimental value' },
-  services: { type: servicesSchema, label: 'Details of services required' },
-  parts: { type: partsSchema, label: 'Details of parts required' },
-  additionalFees: { type: SimpleSchema.Integer, label: 'Additional cost in cents' },
-  discount: { type: SimpleSchema.Integer, label: 'Discount in cents' },
+  serviceItems: { type: Array, label: 'Details of services/parts required' },
+  'serviceItems.$': { type: ServiceItemsSchema },
   totalCost: {
     type: SimpleSchema.Integer,
     label: 'Total cost in cents',
     custom() {
-      // Validation to ensure that sum of all costs is equal total cost
-      const services = this.siblingField('services.totalServiceCost').value
-      const parts = this.siblingField('parts.totalPartsCost').value
-      const additional = this.siblingField('additionalFees').value
-      const discount = this.siblingField('discount').value
-
-      const check = services + parts + additional - discount === this.value
+      // Validation to ensure that sum of all service item costs is equal total service item cost
+      const serviceItems = this.siblingField('serviceItems').value
+      const calcServicesCost = serviceItems.reduce((a, b) => {
+        return a + b.price
+      }, 0)
+      const check = calcServicesCost === this.value
       if (!check) {
-        return new Meteor.Error(
-          `Total repair cost ${this.value} not equal sum of services ${services}, parts ${parts} and additional fees ${additional}, less discount ${discount}`
-        )
+        return new Meteor.Error('Total services/parts cost not equal the sum of its parts!')
       }
     },
   },

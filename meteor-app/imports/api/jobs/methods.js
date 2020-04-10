@@ -109,6 +109,7 @@ if (Meteor.isServer) {
       })
     },
     'job.save'(data) {
+      data.jobNo = (data.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
       try {
         const contents = cloneDeep(data)
         const id = contents._id

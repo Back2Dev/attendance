@@ -54,10 +54,9 @@ export default function ItemTag() {
     setState({ ...state, tags: newTags, totalCost: newTotal })
   }
 
-  const adjustPrice = (id, newValue) => {
+  const adjustPrice = (tag, newValue) => {
     debug(`adjust price: ${newValue}`)
     const newState = { ...state }
-    const tag = newState.tags.find((t) => id === t._id)
     if (tag && tag.price !== null) {
       tag.price = parseFloat(newValue)
       const newTotal = state.calculateTotal(tags)
@@ -68,7 +67,7 @@ export default function ItemTag() {
   const changeTagName = (id, newTagName) => {
     debug(`new name: ${newTagName}`)
     const newState = { ...state }
-    const tag = newState.tags.find(t => id === t._id)
+    const tag = newState.tags.find((t) => id === t._id)
     if (tag) {
       tag.name = newTagName
     }

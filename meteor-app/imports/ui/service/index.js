@@ -29,35 +29,33 @@ export default withTracker((props) => {
   Meteor.subscribe('jobs.all')
 
   const updateJob = async (data) => {
-    // Adding an job
-    const totalPartsCost = data.tags.reduce((total, tag) => total + tag.cents)
-
-    console.log(totalPartsCost)
-    const partsItem = tags
-      .filter((key) => {
-        if (!formData) {
-          return 0
-        }
-        const formattedParts = formData.parts.map((item) => item.replace(/ \(\$\w+\)/, '').trim())
-        return formattedParts.includes(key.name) ? key.price : 0
-      })
-      .map((key) => {
+    // Adding a job
+    const job = {}
+    const tags = data.tags
+      // .filter((key) => {
+      //   if (!data) {
+      //     return 0
+      //   }
+      //   const formattedParts = data.tags.map((item) => item.replace(/ \(\$\w+\)/, '').trim())
+      //   return formattedParts.includes(key.name) ? key.price : 0
+      // })
+      .map((tag) => {
         return {
-          name: key.name,
-          price: key.price,
-          code: key.code,
-          category: key.category,
-          used: key.used,
+          name: tag.name,
+          price: tag.price,
+          code: tag.code,
+          category: tag.category,
+          used: tag.used,
         }
       })
+    job.serviceItems = tags
+    job.bikeValue = 23
+    job.totalCost = data.totalCost * 100
+    console.log(tags)
+    console.log(job.totalCost)
     try {
-      debug('adding job', data)
-      data.jobNo = (data.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
-      data.bikeValue = 23
-      data.totalCost *= 100
-      data.parts = { partsItem: partsItem, totalPartsCost: totalPartsCost }
-      const res = await Meteor.callAsync('job.save', data)
-      console.log(data)
+      debug('adding job', job)
+      const res = await Meteor.callAsync('job.save', job)
       return res
     } catch (e) {
       console.log(e.message)
