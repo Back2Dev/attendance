@@ -48,7 +48,7 @@ export const JobsSchema = new SimpleSchema({
     allowedValues: Object.keys(JOB_STATUS_READABLE).map((key) => parseInt(key, 10)),
     label: 'Status of job',
   },
-  search: { type: String, label: 'Combination of searchable data' },
+  // search: { type: String, label: 'Combination of searchable data' },
   paid: { type: Boolean, defaultValue: false },
   charge_token: { type: String, optional: true },
   card: { type: Object, optional: true, blackbox: true },

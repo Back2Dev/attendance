@@ -2,7 +2,6 @@ import React, { useState, createContext } from 'react'
 
 export const ServiceContext = createContext()
 
-
 export const ServiceContextProvider = ({
   serviceItems,
   tags,
@@ -13,10 +12,14 @@ export const ServiceContextProvider = ({
   make,
   model,
   color,
-  replacement,
+  assessor,
+  bikeValue,
+  pickupDate,
+  temporaryBike,
   urgent,
   sentimental,
   isRefurbish,
+  paid,
   updateJob,
   calculateTotal,
   children,
@@ -31,10 +34,14 @@ export const ServiceContextProvider = ({
     make,
     model,
     color,
-    replacement,
+    assessor,
+    bikeValue,
+    pickupDate,
+    temporaryBike,
     urgent,
     sentimental,
     isRefurbish,
+    paid,
     updateJob,
     calculateTotal,
   })

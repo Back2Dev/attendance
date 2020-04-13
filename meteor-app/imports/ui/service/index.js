@@ -30,29 +30,32 @@ export default withTracker((props) => {
 
   const updateJob = async (data) => {
     // Adding a job
+    console.log(data)
     const job = {}
-    const tags = data.tags
-      // .filter((key) => {
-      //   if (!data) {
-      //     return 0
-      //   }
-      //   const formattedParts = data.tags.map((item) => item.replace(/ \(\$\w+\)/, '').trim())
-      //   return formattedParts.includes(key.name) ? key.price : 0
-      // })
-      .map((tag) => {
-        return {
-          name: tag.name,
-          price: tag.price,
-          code: tag.code,
-          category: tag.category,
-          used: tag.used,
-        }
-      })
+    const tags = data.tags.map((tag) => {
+      return {
+        name: tag.name,
+        price: tag.cents,
+        code: tag.code,
+        category: tag.category,
+        used: tag.used,
+      }
+    })
     job.serviceItems = tags
-    job.bikeValue = 23
     job.totalCost = data.totalCost * 100
-    console.log(tags)
-    console.log(job.totalCost)
+    job.make = data.make
+    job.model = data.model
+    job.color = data.color
+    job.bikeValue = data.bikeValue
+    job.urgent = data.urgent
+    job.isRefurbish = data.isRefurbish
+    job.temporaryBike = data.temporaryBike
+    job.status = 1
+    job.dropoffDate = new Date()
+    job.pickupDate = data.pickupDate
+    job.assessor = data.assessor
+    job.paid = data.paid
+
     try {
       debug('adding job', job)
       const res = await Meteor.callAsync('job.save', job)
@@ -114,10 +117,14 @@ export default withTracker((props) => {
   let make = ''
   let model = ''
   let color = ''
-  let replacement = false
+  let assessor = ''
+  let bikeValue = ''
+  let pickupDate = new Date()
+  let temporaryBike = false
   let urgent = false
   let sentimental = false
   let isRefurbish = false
+  let paid = false
 
   return {
     serviceItems,
@@ -129,10 +136,14 @@ export default withTracker((props) => {
     make,
     model,
     color,
-    replacement,
+    assessor,
+    bikeValue,
+    pickupDate,
+    temporaryBike,
     urgent,
     sentimental,
     isRefurbish,
+    paid,
     updateJob,
     calculateTotal,
     loading,
