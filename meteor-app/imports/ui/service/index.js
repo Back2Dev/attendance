@@ -30,7 +30,6 @@ export default withTracker((props) => {
 
   const updateJob = async (data) => {
     // Adding a job
-    console.log(data)
     const job = {}
     const tags = data.tags.map((tag) => {
       return {
@@ -55,7 +54,6 @@ export default withTracker((props) => {
     job.pickupDate = data.pickupDate
     job.assessor = data.assessor
     job.paid = data.paid
-
     try {
       debug('adding job', job)
       const res = await Meteor.callAsync('job.save', job)

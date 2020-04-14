@@ -101,7 +101,11 @@ const Client = () => {
                 <Header content="Misc" dividing />
                 <b>Pick Up Date</b>
                 <br />
-                <DatePicker selected={pickupDate} onChange={(e) => setFieldValue('bikeValue', e.target.value)} />
+                <DatePicker
+                  selected={values.pickupDate}
+                  minDate={new Date()}
+                  onChange={(date) => setFieldValue('pickupDate', date)}
+                />
                 <TextInput id="assessor" label="Assessor" name="assessor" />
                 <br />
                 <Checkbox
