@@ -41,6 +41,7 @@
     "cypress:open": "./node_modules/cypress/bin/cypress open",
     "cypress:open:pa-shop": "./node_modules/cypress/bin/cypress open --config integrationFolder=tests/cypress/integration/shop",
     "cypress:open:b2b": "./node_modules/cypress/bin/cypress open --config integrationFolder=tests/cypress/integration/b2b",
+    "cypress:open:pa": "./node_modules/cypress/bin/cypress open --config integrationFolder=tests/cypress/integration/pa",
     "cypress:run": "./node_modules/cypress/bin/cypress run",
     "cypress:record": "./node_modules/cypress/bin/cypress run --record --key 7f96e2e6-b3ad-4fdc-8b70-af7cfc31f7da",
     "build-storybook": "build-storybook"
