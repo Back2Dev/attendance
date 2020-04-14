@@ -26,10 +26,16 @@ const Client = () => {
   } = state
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    email: Yup.string().required('Required'),
-    phone: Yup.string().required('Required'),
+    name: Yup.string().max(49, 'Name must be less than 50 characters'),
+    email: Yup.string().email('Email must be a valid email format'),
+    phone: Yup.string()
+      .min(3, 'Phone number must be greater than 2 characters')
+      .max(49, 'Phone number must be less than 50 characters'),
     make: Yup.string().required('Required'),
+    model: Yup.string(),
+    color: Yup.string().required('Required'),
+    bikeValue: Yup.number().required('Required'),
+    assessor: Yup.string().required('Required').max(49, 'Name must be less than 50 characters'),
   })
 
   useEffect(() => {
@@ -77,7 +83,7 @@ const Client = () => {
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form>
+        <Form onChange={(e) => console.log(values)}>
           <Grid columns={3}>
             <Grid.Column>
               <Segment>
