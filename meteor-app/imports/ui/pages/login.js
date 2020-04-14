@@ -7,19 +7,23 @@ import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-rea
  * Login page overrides the form’s submit event and call Meteor’s loginWithPassword().
  * Authentication errors modify the component’s state to be displayed
  */
-export default Login = props => {
+export default Login = (props) => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState('')
 
   /** Handle Login submission using Meteor's account mechanism. */
   submit = () => {
-    Meteor.loginWithPassword(email, password, err => {
+    Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         setError(err.reason)
       } else {
         setError('')
-        props.history.push('/member-portal')
+        if (Meteor.user().username === 'admin@back2bikes.com.au') {
+          props.history.push('/')
+        } else {
+          props.history.push('/member-portal')
+        }
       }
     })
   }
@@ -41,7 +45,7 @@ export default Login = props => {
                 name="email"
                 type="email"
                 placeholder="E-mail address"
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Form.Input
                 label="Password"
@@ -50,7 +54,7 @@ export default Login = props => {
                 name="password"
                 placeholder="Password"
                 type="password"
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Form.Button content="Submit" />
             </Segment>
@@ -65,5 +69,5 @@ export default Login = props => {
 
 /** Ensure that the React Router location object is available in case we need to redirect. */
 Login.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
 }

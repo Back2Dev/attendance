@@ -5,11 +5,10 @@ import Alert from 'react-s-alert'
 
 const fieldMap = {
   email: 'email',
-  sms: 'mobile'
+  sms: 'mobile',
 }
 
-const ForgotPin = props => {
-  console.log(props)
+const ForgotPin = (props) => {
   const [value, setValue] = useState('')
   const [method, setMethod] = useState('email')
   const [remember, setRemember] = useState(true)
@@ -103,7 +102,7 @@ const ForgotPin = props => {
 }
 
 ForgotPin.propTypes = {
-  onPinReminderSent: PropTypes.func.isRequired
+  onPinReminderSent: PropTypes.func.isRequired,
 }
 
 export default ForgotPin
