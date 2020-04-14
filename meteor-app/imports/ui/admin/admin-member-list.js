@@ -9,27 +9,27 @@ import { expires, humaniseDate, isPast } from '/imports/helpers/dates'
 
 const debug = require('debug')('b2b:admin')
 
-const Admin = props => {
+const Admin = (props) => {
   const [showCarts, setCart] = React.useState(false)
   const { members, carts, purchases, removeCart } = props
 
-  const memberClick = id => {
+  const memberClick = (id) => {
     debug(`memberClick(${id})`)
     props.history.push(`/admin/userprofiles/${id}`)
   }
 
   return (
-    <Grid columns={4}>
-      {members.map(member => {
-        const memberCarts = carts.filter(cart => cart.memberId === member._id)
-        const memberPurchases = purchases.filter(purchase => purchase.memberId === member._id)
+    <Grid columns={4} data-testid="members-list">
+      {members.map((member) => {
+        const memberCarts = carts.filter((cart) => cart.memberId === member._id)
+        const memberPurchases = purchases.filter((purchase) => purchase.memberId === member._id)
         return (
-          <Grid.Row key={member._id}>
+          <Grid.Row key={member._id} data-cy={member.name}>
             <Grid.Column>
               <table>
                 <tbody>
                   <tr>
-                    <td onClick={e => memberClick(member._id)} style={{ cursor: 'pointer' }} align="center">
+                    <td onClick={(e) => memberClick(member._id)} style={{ cursor: 'pointer' }} align="center">
                       <Image
                         avatar
                         size="tiny"
@@ -40,7 +40,7 @@ const Admin = props => {
                       {shorten_name(member.name)}&nbsp;
                     </td>
                     <td>
-                      <List.Content onClick={e => memberClick(member._id)}>
+                      <List.Content onClick={(e) => memberClick(member._id)}>
                         <List.Header>
                           {member.paymentCustId && <Icon color="green" name="credit card outline"></Icon>}
                           {member.wwccOk && (
@@ -60,7 +60,7 @@ const Admin = props => {
                             {member.isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(member.lastIn)} ago <br />
                             <span
                               style={{
-                                color: isPast(member.expiry) ? 'red' : 'black'
+                                color: isPast(member.expiry) ? 'red' : 'black',
                               }}
                             >
                               {member.subsType} {expires(member.expiry)}
@@ -86,7 +86,7 @@ const Admin = props => {
               <List.Content floated="right">
                 <Button
                   color="blue"
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault()
                     // props.extendMember(member._id, memberPurchases[0]._id)
                     props.addProduct(member._id, member.name)
@@ -98,7 +98,7 @@ const Admin = props => {
                 {false && (
                   <Button
                     color="green"
-                    onClick={e => {
+                    onClick={(e) => {
                       e.preventDefault()
                       memberClick(member._id)
                     }}
@@ -109,7 +109,7 @@ const Admin = props => {
                 &nbsp;
                 <Button
                   color="red"
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault()
                     props.removeMember(member._id)
                   }}
@@ -133,7 +133,7 @@ Admin.propTypes = {
   removeMember: PropTypes.func.isRequired,
   extendMember: PropTypes.func.isRequired,
   removeCart: PropTypes.func.isRequired,
-  addProduct: PropTypes.func.isRequired
+  addProduct: PropTypes.func.isRequired,
 }
 
 export default Admin
