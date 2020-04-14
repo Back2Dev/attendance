@@ -231,7 +231,7 @@ const paSchema = {
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
         pin: { type: 'string', title: 'PIN number for sign in', maxLength: 4 },
-        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
+        pinConfirm: { type: 'string', title: 'confirm PIN number', maxLength: 4 },
         password: { type: 'string', title: 'Password for member portal' },
         passwordConfirm: { type: 'string', title: 'Confirm password' },
       },
@@ -282,9 +282,11 @@ const paSchema = {
         },
       },
       password: {
+        'ui:widget': 'password',
         'ui:placeholder': 'Enter a password for your member portal.',
       },
-      confirmPassword: {
+      passwordConfirm: {
+        'ui:widget': 'password',
         'ui:placeholder': 'Enter the same password again to confirm.',
       },
     },
