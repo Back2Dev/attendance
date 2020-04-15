@@ -47,6 +47,7 @@ Meteor.methods({
     try {
       // update member form
       Meteor.call('members.update', formData._id, formData)
+
       // update user password
       Accounts.setPassword(userId, confirmPass, { logout: false })
       // update user email
@@ -76,5 +77,5 @@ Meteor.methods({
     } catch (e) {
       return { status: 'failed', message: `Error sending password reset: ${e.message}` }
     }
-  }
+  },
 })
