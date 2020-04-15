@@ -57,7 +57,7 @@ describe('Adds Member to portal', function() {
 
     cy.get('#root_email')
       .clear()
-      .type('gin.beer@test.com.RX')
+      .type('test@test.com')
 
     cy.get('#root_addressStreet')
       .clear()
@@ -123,5 +123,43 @@ describe('Adds Member to portal', function() {
       .contains('Next')
       .should('be.enabled')
       .click()
+
+    cy.get('button')
+      .contains('Submit')
+      .should('be.enabled')
+      .click()
+
+    cy.get('div[list="away"]')
+      .contains('Ginny Tonic')
+      .should('exist')
+      .click()
+
+    cy.get('#pin')
+      .clear()
+      .type('2713')
+
+    cy.get('button')
+      .contains('Edit your profile')
+      .should('be.enabled')
+      .should('exist')
+      .click()
+
+    cy.get('button[id="edit-password"]')
+      .should('be.enabled')
+      .should('exist')
+      .click()
+
+    cy.get(':nth-child(2) > .ui > input')
+      .clear()
+      .type('pattyg123')
+
+    cy.get(':nth-child(3) > .ui > input')
+      .clear()
+      .type('pattyg123')
+
+    cy.get('button')
+      .contains('Submit')
+      .should('be.enabled')
+      .click({ force: true })
   })
 })
