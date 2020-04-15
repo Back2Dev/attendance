@@ -18,13 +18,13 @@ import LogsList from '/imports/ui/logs/lister'
 export default GeneratedRoute = () => (
   <>
     <Route path="/admin/events" component={EventsList} />
-<Route path="/admin/promos" component={PromosList} />
-<Route path="/admin/products" component={ProductsList} />
-<Route path="/admin/sessions" component={SessionsList} />
-<Route path="/admin/parts" component={PartsList} />
-<Route path="/admin/service-items" component={ServiceItemsList} />
-<Route path="/admin/charges" component={ChargesList} />
-<Route path="/admin/settings" component={SettingsList} />
-<Route path="/admin/logs" component={LogsList} />
+    <Route path="/admin/promos" component={PromosList} />
+    <Route path="/admin/products" component={ProductsList} />
+    <Route path="/admin/sessions" component={SessionsList} />
+    <Route path="/admin/parts" component={PartsList} />
+    <Route path="/admin/service-items" component={ServiceItemsList} />
+    <Route path="/admin/charges" component={ChargesList} />
+    <Route path="/admin/settings" component={SettingsList} />
+    <Route path="/admin/logs" component={LogsList} />
   </>
 )
