@@ -9,6 +9,7 @@ import PartsList from '/imports/ui/parts/lister'
 import ServiceItemsList from '/imports/ui/service-items/lister'
 import ChargesList from '/imports/ui/charges/lister'
 import SettingsList from '/imports/ui/settings/lister'
+import LogsList from '/imports/ui/logs/lister'
 
 //
 // This file contains a list of routes for database admin pages
@@ -24,5 +25,6 @@ export default GeneratedRoute = () => (
 <Route path="/admin/service-items" component={ServiceItemsList} />
 <Route path="/admin/charges" component={ChargesList} />
 <Route path="/admin/settings" component={SettingsList} />
+<Route path="/admin/logs" component={LogsList} />
   </>
 )
