@@ -54,13 +54,12 @@ describe('Login into Kiosk', function() {
     cy.visit('/admin/userprofiles/')
     loginAsAdmin()
 
-    cy.get('div[class="header"]')
+    cy.get('td')
       .contains(member.name)
       .should('exist')
       .click()
 
-    cy.get('span[id="numPurchases"]')
-    .should('exist')
+    cy.get('span[id="numPurchases"]').should('exist')
 
     cy.get('span[id="numSessions"]')
       .contains(numVisits)
