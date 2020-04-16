@@ -182,7 +182,7 @@ describe('Adds Member to portal', function() {
     cy.get('#edit-contact').click()
 
     cy.get('button')
-      .contains('Back')
+      .contains('Update')
       .should('exist')
       .should('be.enabled')
       .click()
