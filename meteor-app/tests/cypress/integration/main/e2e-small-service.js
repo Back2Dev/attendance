@@ -32,6 +32,10 @@ describe('Small Service Test', function() {
   })
 
   it('Checks that the correct page has loaded.', function() {
+    cy.get('a[href="/assessment"]')
+      .should('exist')
+      .click()
+
     cy.get('div:has(h2)').contains('Select Base Assessment')
   })
 
