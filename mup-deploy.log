@@ -93,3 +93,6 @@ Wed 8 Apr 2020 20:20:26 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod
 Wed 8 Apr 2020 20:49:59 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig catchup https://app.back2bikes.com.au 1.2.7
 Thu 9 Apr 2020 09:42:34 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy catchup https://app.back2bikes.com.au 1.2.7
 Thu 9 Apr 2020 10:08:38 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig catchup https://app.back2bikes.com.au 1.2.7
+Thu 16 Apr 2020 15:07:57 AEST /Users/triton/back2bikes/attendance/deploy/b2b-staging deploy easter-bunny https://staging.back2bikes.com.au 1.2.7
+Thu 16 Apr 2020 20:13:02 AEST /Users/triton/back2bikes/attendance/deploy/b2b-staging deploy easter-bunny https://staging.back2bikes.com.au 1.2.7
+Thu 16 Apr 2020 20:37:20 AEST /Users/triton/back2bikes/attendance/deploy/b2b-staging reconfig easter-bunny https://staging.back2bikes.com.au 1.2.7
