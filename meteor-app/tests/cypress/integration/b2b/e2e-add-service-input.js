@@ -16,8 +16,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-describe('Retrieve Login webpage', function() {
-  it('Retrieve Login webpage', function() {
+describe('Retrieve Login webpage', function () {
+  it('Retrieve Login webpage', function () {
     cy.visit('login')
 
     cy.get('input[type="email"]')
@@ -36,13 +36,10 @@ describe('Retrieve Login webpage', function() {
       .should('be.enabled')
       .click()
 
-    cy.get('a[href="/service"]')
-      .should('exist')
-      .click()
+    cy.get('a[href="/service"]').should('exist').click()
 
-    cy.get('.tabular :nth-child(2)')
-      .should('exist')
-      .click()
+    // TODO: eliminate use of nth-child
+    cy.get('.tabular :nth-child(2)').should('exist').click()
 
     cy.get('input[name="CustomerName"]')
       .should('exist')
@@ -75,17 +72,11 @@ describe('Retrieve Login webpage', function() {
       .clear({ force: true })
       .type('Magenta')
 
-    cy.get('input[name="sentimental"]')
-      .should('exist')
-      .click()
+    cy.get('input[name="sentimental"]').should('exist').click()
 
-    cy.get('input[name="urgent"]')
-      .should('exist')
-      .click()
+    cy.get('input[name="urgent"]').should('exist').click()
 
-    cy.get('input[name="replacement"]')
-      .should('exist')
-      .click()
+    cy.get('input[name="replacement"]').should('exist').click()
 
     cy.get('button')
       .contains('Submit')
