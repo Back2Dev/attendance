@@ -5,7 +5,7 @@ import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 const ServiceItems = new Mongo.Collection('serviceItems')
 
 export const ServiceItemsSchema = new SimpleSchema({
-  // _id: RegExId,
+  _id: RegExId,
   name: { type: String, label: 'Parts description' },
   price: { type: SimpleSchema.Integer, label: 'Price in cents' },
   code: { type: String, label: 'Code to indicate if item is for front or back of bike' },

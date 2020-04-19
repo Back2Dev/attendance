@@ -1,6 +1,7 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Loader } from 'semantic-ui-react'
+import { cloneDeep } from 'lodash'
 import Jobs from '/imports/api/jobs/schema'
 import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
@@ -28,18 +29,45 @@ export default withTracker((props) => {
 
   Meteor.subscribe('jobs.all')
 
+  const jobId = sessionStorage.getItem('myjob')
+  if (jobId) {
+    const job = Jobs.findOne({ jobId })
+  } else {
+    const tags = []
+    let totalCost = 0
+    let name = ''
+    let email = ''
+    let phone = ''
+    let make = ''
+    let model = ''
+    let color = ''
+    let assessor = ''
+    let bikeValue = ''
+    let pickupDate = new Date()
+    let temporaryBike = false
+    let urgent = false
+    let sentimental = false
+    let isRefurbish = false
+    let paid = false
+  }
+
   const updateJob = async (data) => {
     // Adding a job
     const job = {}
+
     const tags = data.tags.map((tag) => {
       return {
+        _id: tag._id,
         name: tag.name,
         price: tag.cents,
         code: tag.code,
         category: tag.category,
         used: tag.used,
+        createdAt: tag.createdAt,
+        updatedAt: tag.updatedAt,
       }
     })
+    console.log(data)
     job.serviceItems = tags
     job.totalCost = data.totalCost * 100
     job.make = data.make
@@ -57,6 +85,7 @@ export default withTracker((props) => {
     try {
       debug('adding job', job)
       const res = await Meteor.callAsync('job.save', job)
+      sessionStorage.setItem('myjob', res)
       return res
     } catch (e) {
       console.log(e.message)
@@ -107,6 +136,7 @@ export default withTracker((props) => {
   serviceItems.push(majorService)
 
   const loading = !subsHandle.ready()
+
   const tags = []
   let totalCost = 0
   let name = ''

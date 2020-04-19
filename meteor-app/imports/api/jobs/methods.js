@@ -120,8 +120,7 @@ if (Meteor.isServer) {
         } else {
           const id = Jobs.insert(contents)
           debug(`New job id is ${id}`)
-          // sessionStorage.setItem('myjob', id)
-          data._id = id // Remember to save the id back to the data
+          return id
         }
       } catch (e) {
         console.error(`Error: [${e.message}] encountered while saving job`)
