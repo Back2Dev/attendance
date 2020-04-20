@@ -1,6 +1,7 @@
 # Changelog
 
 ## Next
+
 - B2B generic info and actionemail templates
 - Send receipt email
 - Import charges from pinpayments
@@ -10,6 +11,8 @@
 - Refactor factories code
 - Added member.paymentEmails array
 - Fix email to be lower case
+- Remove settings symlinks, adjust package.json
+- Fix the event import
 
 
 ## 1.2.4
