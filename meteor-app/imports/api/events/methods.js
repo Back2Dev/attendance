@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Events from '../schema'
+import Events from './schema'
 
 Meteor.methods({
   'rm.Events': id => {
