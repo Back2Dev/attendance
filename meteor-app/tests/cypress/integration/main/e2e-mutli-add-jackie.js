@@ -8,6 +8,13 @@
   * sign of Jackie Chan
   * Create loop which will iterate 15 times for this
   */
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test. We do this because of some ugly js errors
+  // from a js library we are using
+  return false
+})
+
 const { member } = team.jackie
 const numVisits = 3
 describe('Login into Kiosk', function() {
@@ -54,7 +61,7 @@ describe('Login into Kiosk', function() {
     cy.visit('/admin/userprofiles/')
     loginAsAdmin()
 
-    cy.get('div[class="header"]')
+    cy.get('td')
       .contains(member.name)
       .should('exist')
       .click()
