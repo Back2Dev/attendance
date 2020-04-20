@@ -46,6 +46,7 @@ const columns = [
   { field: 'status', title: 'status', editor: true },
   { field: 'type', title: 'type', editor: true },
   { field: 'description', title: 'description', editor: true },
+  { field: 'eventTime', title: 'eventTime', editor: false },
 ]
 const Loading = (props) => {
   if (props.loading) return <div>Loading...</div>

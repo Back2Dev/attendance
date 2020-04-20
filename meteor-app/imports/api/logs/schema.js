@@ -31,6 +31,9 @@ export const LogsSchema = new SimpleSchema({
   description: {
     type: String,
   },
+  eventTime: {
+    type: Date,
+  },
   createdAt,
   updatedAt,
 })

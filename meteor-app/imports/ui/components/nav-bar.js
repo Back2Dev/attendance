@@ -15,6 +15,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
   if (loading) {
     return <Loader active />
   }
+
   return (
     <Menu
       vertical

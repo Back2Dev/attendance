@@ -218,6 +218,8 @@ Meteor.methods({
         return { status: 'failed', message: error.message }
       }
     } while (page)
+
+    // Default code for inserting logs into logs collection
     const o = {
       userId: Meteor.userId(),
       type: 'charge-add',

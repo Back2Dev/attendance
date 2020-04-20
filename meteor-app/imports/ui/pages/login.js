@@ -12,16 +12,35 @@ export default Login = (props) => {
   const [password, setPassword] = React.useState('')
   const [error, setError] = React.useState('')
 
+  const eventLogger = () => {
+    const logEvent = {
+      userId: Meteor.user().username,
+      type: 'user-logggedIn',
+      description: `${Meteor.user().username} successfully logged In`,
+      eventTime: Date.now(),
+    }
+    Meteor.call('insert.logs', logEvent)
+  }
+
   /** Handle Login submission using Meteor's account mechanism. */
   submit = () => {
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         setError(err.reason)
+        const logEvent = {
+          userId: email,
+          type: 'user-SignIn-Error',
+          description: `${email} attempted to sign in but failed due to ${err.reason}`,
+          eventTime: Date.now(),
+        }
+        Meteor.call('insert.logs', logEvent)
       } else {
         setError('')
         if (Meteor.user().username === 'admin@back2bikes.com.au') {
-          props.history.push('/')
+          eventLogger()
+          props.history.push('/admin/')
         } else {
+          eventLogger()
           props.history.push('/member-portal')
         }
       }
