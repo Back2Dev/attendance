@@ -178,9 +178,9 @@ describe('Adds Member to portal', function() {
       .should('exist')
       .click()
 
-    cy.get(':nth-child(5) > .ui > input')
-      .clear()
-      .type('2713')
+    cy.get('input[data-cypress-el="true"]')
+    //    .clear()
+    //    .type('2713')
 
     cy.get('button')
       .contains('Submit')
@@ -204,12 +204,12 @@ describe('Adds Member to portal', function() {
     cy.get('input[type="email"]')
       .should('exist')
       .clear()
-      .type('admin@back2bikes.com.au')
+      .type('tests@test.com')
 
     cy.get('input[type="password"]')
       .should('exist')
       .clear()
-      .type('me2')
+      .type('2713')
 
     cy.get('button')
       .contains('Submit')

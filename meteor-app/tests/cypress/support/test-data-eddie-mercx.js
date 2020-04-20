@@ -4,7 +4,7 @@ const NumberInt = n => n
 const dude = {
   member: {
     _id: 'P6TrxZFqRQ5La3aYj',
-    name: 'Eddie Mercx',
+    name: 'Eddie M',
     email: 'Eddie.Mercx@nomail.maybe.home',
     addressStreet: '2/29 Belair Ave',
     addressSuburb: 'Glenroy',
