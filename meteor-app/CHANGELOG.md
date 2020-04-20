@@ -9,6 +9,7 @@
 - Add reconciliation to charges and carts, improved layouts
 - Add admin button to edit user details
 - Remove settings symlinks, adjust package.json
+- Fix the event import
 
 ## 1.2.4
 
