@@ -13,6 +13,13 @@ import { createPublicKey } from 'crypto'
 // This script is generic in nature. It only refers to the member object to get things
 // like name, pin, etc
 // So this is the only place where the code is specific to the person
+
+describe('Create an Cathrine King', function() {
+  it(`Creates an Cathrine`, function() {
+    cy.visit('/')
+    addCathrine()
+  })
+})
 const { member } = team.cathrine
 const numVisits = 3
 member.pin = '2701'
@@ -72,5 +79,6 @@ describe('Login into Kiosk', function() {
     cy.get('span[id="numSessions"]')
       .contains(numVisits)
       .should('exist')
+    rmCathrineKing()
   })
 })
