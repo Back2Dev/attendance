@@ -1,12 +1,16 @@
 # Changelog
 
 ## Next
+
 - B2B generic info and actionemail templates
 - Send receipt email
 - Import charges from pinpayments
 - Added view of charges with 'refresh' button
 - Add reconciliation to charges and carts, improved layouts
 - Add admin button to edit user details
+- Add b2b member portal
+- Fix coding problems with certain test scripts
+- Add new service test scripts for input and UI
 
 ## 1.2.4
 
