@@ -178,9 +178,17 @@ describe('Adds Member to portal', function() {
       .should('exist')
       .click()
 
-    cy.get('input[data-cypress-el="true"]')
-    //    .clear()
-    //    .type('2713')
+    cy.get(':nth-child(2) > .ui > input')
+      .clear()
+      .type('2713')
+
+    cy.get(':nth-child(3) > .ui > input')
+      .clear()
+      .type('2713')
+
+    cy.get('  :nth-child(5) > .ui > input')
+      .clear()
+      .type('2713')
 
     cy.get('button')
       .contains('Submit')
