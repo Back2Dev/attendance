@@ -18,6 +18,13 @@ const numVisits = 3
 
 // The rest of this code is generic...
 
+describe('Create an Cathrine King', function() {
+  it(`Creates an Cathrine`, function() {
+    cy.visit('/')
+    addCathrine()
+  })
+})
+
 describe('Login into Kiosk', function() {
   beforeEach(() => {
     cy.visit('/kiosk')
@@ -63,7 +70,7 @@ describe('Login into Kiosk', function() {
     cy.visit('/admin/userprofiles/')
     loginAsAdmin()
 
-    cy.get('div[class="header"]')
+    cy.get('td')
       .contains(member.name)
       .should('exist')
       .click()
@@ -73,5 +80,6 @@ describe('Login into Kiosk', function() {
     cy.get('span[id="numSessions"]')
       .contains(numVisits)
       .should('exist')
+    rmCathrineKing()
   })
 })

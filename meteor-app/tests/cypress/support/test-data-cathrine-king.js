@@ -6,7 +6,7 @@ const dude = {
     _id: '3zoJ9PxfYis4B75np',
     mobile: '0438 002 921',
     email: 'Cathrine.King@nomail.maybe.home',
-    name: 'Cathrine Carmel',
+    name: 'Cathrine C',
     avatar: 'test21.png',
     isHere: false,
     isSuper: false,
