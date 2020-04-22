@@ -17,6 +17,12 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
+describe('Create an Cathrine King', function() {
+  it(`Creates an Cathrine`, function() {
+    cy.visit('/')
+    addCathrine()
+  })
+})
 
 // goes to the wwcc webpage
 describe('Visit WWCC webpage', function() {
@@ -65,5 +71,6 @@ describe('Visit WWCC webpage', function() {
     // At this point, only the card for our test subject should
     // be shown, and it should show the green tick to denote a valid WWC
     cy.get('[class="green check icon"]').should('exist')
+    rmCathrineKing()
   })
 })
