@@ -11,6 +11,12 @@
 - Add b2b member portal
 - Fix coding problems with certain test scripts
 - Add new service test scripts for input and UI
+- Refactor factories code
+- Added member.paymentEmails array
+- Fix email to be lower case
+- Remove settings symlinks, adjust package.json
+- Fix the event import
+
 
 ## 1.2.4
 
