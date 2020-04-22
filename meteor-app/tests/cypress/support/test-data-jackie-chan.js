@@ -10,7 +10,7 @@ const jackie = {
   member: {
     _id: 'LHTbJRicx4dJQSZTC',
     reasons: 'Habit 🤣',
-    name: 'Jackie Chan',
+    name: 'Jackie C',
     email: 'jackie@chan.movie.tx',
     addressStreet: '94 Coventry st',
     addressSuburb: 'Southbank',

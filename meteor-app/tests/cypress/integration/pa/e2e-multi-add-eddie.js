@@ -1,21 +1,21 @@
-/* Pseudo code for Multi Pass
+/* Pseudo code for Multi Pass Eddie
   * Open the application
   
   * Navigate to /kiosk
-  * Find test Bruce Lee
-  * login on Bruce Lee
+  * Find test Eddie Merx
+  * login on Eddie Merx
   * Add an event
-  * sign of Bruce Lee
+  * sign of Eddie Merx
   * Create loop which will iterate 15 times for this
   */
-const { member } = team.bruce
+const { member } = team.eddie
 const numVisits = 3
 describe('Login into Kiosk', function() {
   beforeEach(() => {
     cy.visit('/kiosk')
     rmSessions(member._id)
   })
-  it('Adds 15 sessions to Bruce lees profile', function() {
+  it('Adds 15 sessions to Eddie Mercxs profile', function() {
     cy.visit('/kiosk')
     for (let i = 0; i < numVisits; i++) {
       cy.get('div[list="away"]')
@@ -54,13 +54,12 @@ describe('Login into Kiosk', function() {
     cy.visit('/admin/userprofiles/')
     loginAsAdmin()
 
-    cy.get('div[class="header"]')
+    cy.get('td')
       .contains(member.name)
       .should('exist')
       .click()
 
-    cy.get('span[id="numPurchases"]')
-    .should('exist')
+    cy.get('span[id="numPurchases"]').should('exist')
 
     cy.get('span[id="numSessions"]')
       .contains(numVisits)

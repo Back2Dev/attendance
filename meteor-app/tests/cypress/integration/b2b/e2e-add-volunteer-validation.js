@@ -12,14 +12,13 @@ Cypress.on(
 describe('Create member', () => {
   it('Open form - about you', () => {
     cy.visit('/kiosk')
-
-    // goes to the Register/Sign up page
+    //cy.get('#add_member').click()
     cy.get('button')
       .contains('Register')
       .click()
-
     cy.get('div')
-      .contains('About You')
+      .contains('Lets get to know each other')
+      //.contains('No need to register')
       .should('exist')
     // Nothing mandatory on the first page
     cy.get('button')
@@ -27,8 +26,8 @@ describe('Create member', () => {
       .click()
   })
   it('Contact details', () => {
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     // Try to move on
     cy.get('button')
@@ -36,8 +35,8 @@ describe('Create member', () => {
       .click()
 
     // Still on this page - add the name
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     cy.get('div')
       .contains('is a required property')
@@ -45,18 +44,32 @@ describe('Create member', () => {
     cy.get('#root_name')
       .clear()
       .type('Eddie Mercx')
+
+    // Still on this page add the mobile number
+    cy.get('h1')
+      .contains('Details')
+      .should('exist')
+    cy.get('div')
+      .contains('is a required property')
+      .should('exist')
+    cy.get('#root_mobile')
+      .clear()
+      .type('111111111111')
+
     // Still on this page add the email
+    cy.get('h1')
+      .contains('Details')
+      .should('exist')
+    cy.get('div')
+      .contains('is a required property')
+      .should('exist')
     cy.get('#root_email')
       .clear()
       .type('Lift@spam.bogus.cliff.Recluse')
 
-    // Still on this page add the mobile
-    cy.get('#root_mobile')
-      .clear()
-      .type('111111111111')
     // Still on this page add the pin
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     cy.get('div')
       .contains('is a required property')
@@ -66,8 +79,8 @@ describe('Create member', () => {
       .type(pin)
 
     // Still on this page add the second (wrong) pin
-    cy.get('div')
-      .contains('Contact')
+    cy.get('h1')
+      .contains('Details')
       .should('exist')
     cy.get('div')
       .contains("PIN numbers don't match")
@@ -115,7 +128,10 @@ describe('Create member', () => {
     cy.get('h1')
       .contains('Terms and Conditions')
       .should('exist')
-    cy.get('#root_privacy').click({ force: true })
+    cy.get('input[id="root_privacy"]').click({ force: true })
+    // cy.get('#root_swim').click({ force: true })
+    // cy.get('#root_terms').click({ force: true })
+    // cy.get('#root_fitness').click({ force: true })
     cy.get('button')
       .contains('Next')
       .click()
@@ -131,51 +147,13 @@ describe('Create member', () => {
     cy.get('span')
       .contains('1-111-222')
       .should('exist')
-
     cy.get('button')
       .contains('Submit')
-      .should('exist')
-      .should('be.enabled')
       .click()
     // check success alert shows
     cy.get('.s-alert-success').should('exist')
     cy.get('div[list="away"]')
       .contains('Eddie Mercx')
       .should('exist')
-  })
-  it('Can find and delete', () => {
-    cy.visit('/admin/userprofiles')
-    cy.get('input[name=email]')
-      .clear()
-      .type('admin@back2bikes.com.au')
-
-    cy.get('input[name=password]')
-      .clear()
-      .type('me2')
-    // .contains('Password')
-
-    cy.get('button')
-      .contains('Submit')
-      .should('be.enabled')
-      .click()
-
-    //cy.get('div[list="away"]')
-    cy.get('.content,header')
-      .contains('Eddie Mercx')
-      .should('exist')
-    cy.visit('/admin/userprofiles')
-    cy.get('h1')
-      .contains('Members')
-      .should('exist')
-    cy.get('button[about="Eddie Mercx"]')
-      //  cy.get('')
-      .contains('Delete')
-      .click()
-    cy.get('.s-alert-success').should('exist')
-
-    // sign out of user profiles
-    cy.get('a')
-      .contains('Sign Out')
-      .click()
   })
 })

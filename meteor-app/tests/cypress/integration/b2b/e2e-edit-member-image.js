@@ -53,7 +53,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(6) > h2 > .ui')
+    cy.get('#edit-avatar')
       .should('exist')
       .click()
 
@@ -67,7 +67,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click({ force: true })
 
-    cy.get(':nth-child(6) > h2 > .ui')
+    cy.get('#edit-avatar')
       .should('exist')
       .click()
 

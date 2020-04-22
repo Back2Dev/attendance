@@ -32,10 +32,15 @@ describe('Small Service Test', function() {
   })
 
   it('Checks that the correct page has loaded.', function() {
+    cy.get('a[href="/assessment"]')
+      .should('exist')
+      .click()
+
     cy.get('div:has(h2)').contains('Select Base Assessment')
   })
 
   it('Gets the Minor Service Webform.', function() {
+    // TODO: eliminate use of nth-child
     cy.get(':nth-child(2)> .button')
       .contains('Minor Service')
       .click()
@@ -126,21 +131,27 @@ describe('Small Service Test', function() {
     // checks what the bike needs fixed.
     cy.get('div:has(li)').contains('Check tyre pressure')
     cy.get('div:has(li)').contains('Lube derailleurs')
-    cy.get('div:has(li)').contains('Check/tighten bolts on cranks, headset, wheels and bottom bracket')
+    cy.get('div:has(li)').contains(
+      'Check/tighten bolts on cranks, headset, wheels and bottom bracket'
+    )
     cy.get('div:has(li)').contains('Check wheels are true')
     cy.get('div:has(li)').contains('Clean and re-grease headset')
     // checks if the correct parts are displayed on the confirmation web page.
     cy.get('div:has(li)').contains('Brake pads - V brakes ($10)')
     cy.get('div:has(li)').contains('Cable fitting x 2 ($30)')
-    cy.get('div:has(li)').contains('Had to wait for more parts to come in.')
+    cy.get('div:has(li)').contains(
+      'Had to wait for more parts to come in.'
+    )
     cy.get('ul:has(li)').contains('50')
     cy.get('div:has(li)').contains('No discount')
     // checks if the service is the one selected
     cy.get('div:has(li)').contains('Minor Service')
     // Total Price
     cy.get('div:last-child').contains('Less Discount: $0')
-    cy.get('div:nth-child(3)').contains('Additional Fee: $50')
-    cy.get('div:nth-child(2)').contains('Total Parts Cost: $40')
+    cy.get('div:last-child').contains('Less Discount: $0')
+
+    cy.get('div').contains('Additional Fee: $50')
+    cy.get('div').contains('Total Parts Cost: $' + '40')
     cy.get('div:even').contains('Total Price = $134')
 
     // hits next button to Customer details page and check if button exists

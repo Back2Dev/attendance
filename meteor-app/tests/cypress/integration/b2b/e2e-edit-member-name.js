@@ -54,7 +54,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(4) > h2 > .ui')
+    cy.get('#edit-contact')
       .should('exist')
       .click()
 
@@ -62,7 +62,7 @@ describe('Edit member profile', function() {
       .clear({ force: true })
       .type(editMem.newmemberName)
 
-    cy.get('#root_password')
+    cy.get('#root_pin')
       .clear({ force: true })
       .type('1234')
 
@@ -72,13 +72,14 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click({ force: true })
 
-    cy.get(':nth-child(4) > h2 > .ui')
+    cy.get('#edit-contact')
       .should('exist')
       .click()
 
-    // cy.get('#root_name')
-    //   .clear()
-    //   .type(editMem.memberName)
+    cy.get('#root_pin')
+      .clear()
+      .type('2701')
+
     cy.get('#root_name')
       .clear({ force: true })
       .type(editMem.memberName)
@@ -89,7 +90,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(4) > h2 > .ui')
+    cy.get('#edit-contact')
       .should('exist')
       .click()
 

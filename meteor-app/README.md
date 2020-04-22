@@ -26,6 +26,7 @@ We want to _Log attendance_
 This app provides a really easy way for volunteers to sign in, and this helps us to track who has come, recognise our regulars, and reach out to people who stop coming.
 
 ---
+
 ### Getting Started
 
 1. Install Meteor here: [https://www.meteor.com/install](https://www.meteor.com/install)
@@ -54,6 +55,7 @@ _*It takes functionality that you would ordinarily need to code and 'Magics ' it
 > Click here for specifics on [how the App uses Meteor](#how-the-App-uses-Meteor)
 
 ---
+
 ### App Design
 
 Meteor Apps are run off the [MVC design pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) and seperate where data can flow.
@@ -89,6 +91,7 @@ The app consists of 8 high-level components. They are:
 ---
 
 ---
+
 ### Styling
 
 The Attendance App is using [Semantic UI](https://atmospherejs.com/semantic) for styling.
@@ -100,6 +103,7 @@ This package is automatically synced with the Semantic UI repo.
 Each folder possesses it's own semantic.min.css file
 
 ---
+
 ### Database
 
 Meteor integrates with MongoDB and creates a mini MongoDB that lives on the client side within their session.
@@ -122,6 +126,7 @@ When you next run `meteor run` the startup script will repopulate the DB.
 > Remember to update this file when you update/ change data fields that a user will need.
 
 ---
+
 ### Schemas
 
 Some shared controller/methods for schema calls can be found here: `/imports/api/schema.js`
@@ -134,6 +139,7 @@ An individual session record will be created for user interactions.
 **Bike assessments/ Jobs** : `/imports/api/assessments/`
 
 ---
+
 ### Story Book
 
 Each Component within the App should be built Dumb/ Pure. It should render independant of any imports.
@@ -147,12 +153,16 @@ Story Book will need to be installed on your machine by running: `npx -p @storyb
 | `PascalCase.js` | `PascalCase.stories.js` |
 
 ---
+
 ### Testing
 
 Tests are performed through a combination of JEST and [Cypress](https://www.cypress.io/)
 
 begin tests by cd'ing into the `attendance/meteor-app` folder and running:
+
 `meteor npm run debug.b2b`
+
+`npm run cypress:open`
 
 > Ensure that all Node Packages are up to date before running tests
 
@@ -161,6 +171,7 @@ begin tests by cd'ing into the `attendance/meteor-app` folder and running:
 ## << Check on this part re: tests to run. There are too many scripts and many seem broken >>
 
 ---
+
 ### how the App uses Meteor
 
 Meteor controls how data is accessed 'under the hood' through it's functions:
@@ -183,24 +194,27 @@ _*This is similar to a Redux Store.*_
 To share a Mongo Collection through-out the App
 i.e. `const Members = new Mongo.Collection('members')`
 
-*Publishing*
+_Publishing_
 you can do the below to share the newly created collection across the App.
 in the below example, all.members could be changed to anything as you are assigning a name to the data.
+
 ```
 const members = Meteor.publish('all.members', () => {
   return Members.find({})
 })
 ```
-*Subscribing*
+
+_Subscribing_
 To access the information inside a file, you can subscribe as below:
 
 ```
 Meteor.subscribe(members')
 ```
 
-*It is recommended to read through the [tutorial](http://www.discovermeteor.com/blog/understanding-meteor-publications-and-subscriptions/) as you want to only subscribe to specific information to limit memory allocation*
+_It is recommended to read through the [tutorial](http://www.discovermeteor.com/blog/understanding-meteor-publications-and-subscriptions/) as you want to only subscribe to specific information to limit memory allocation_
 
 ---
+
 #### Working With Children Checks
 
 All files to do with this can be found here: `/imports/api/wwccs`
