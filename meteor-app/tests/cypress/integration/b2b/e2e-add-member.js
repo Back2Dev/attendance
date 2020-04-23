@@ -38,13 +38,13 @@ describe('Adds Member to portal', function() {
   })
 
   it('creates a volunteer', function() {
-    cy.visit('/kiosk')
+    cy.visit('/add')
 
-    cy.get('button')
-      .contains('Register')
-      .should('exist')
-      .should('be.enabled')
-      .click()
+    // cy.get('button')
+    //   .contains('Register')
+    //   .should('exist')
+    //   .should('be.enabled')
+    //   .click()
 
     cy.get('#root_bikesHousehold')
       .clear()
@@ -158,6 +158,30 @@ describe('Adds Member to portal', function() {
       .should('be.enabled')
       .click()
 
+    cy.get('a[href="/login"]')
+      .should('exist')
+      .click()
+
+    cy.get('input[type="email"]')
+      .should('exist')
+      .clear()
+      .type('admin@back2bikes.com.au')
+
+    cy.get('input[type="password"]')
+      .should('exist')
+      .clear()
+      .type('me2')
+
+    cy.get('button')
+      .contains('Submit')
+      .should('exist')
+      .should('be.enabled')
+      .click()
+
+    cy.get('a[href="/volsignin"]')
+      .should('exist')
+      .click()
+
     cy.get('div[list="away"]')
       .contains('Ginny Tonic')
       .should('exist')
@@ -210,14 +234,14 @@ describe('Adds Member to portal', function() {
       .click()
 
     cy.get('input[type="email"]')
-      .should('exist')
       .clear()
       .type('tests@test.com')
+      .should('exist')
 
     cy.get('input[type="password"]')
-      .should('exist')
       .clear()
       .type('2713')
+      .should('exist')
 
     cy.get('button')
       .contains('Submit')
