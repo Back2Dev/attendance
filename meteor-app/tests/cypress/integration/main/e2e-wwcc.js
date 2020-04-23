@@ -20,12 +20,12 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-describe('Create an Cathrine King', function() {
-  it(`Creates an Cathrine`, function() {
-    cy.visit('/')
-    addCathrine()
-  })
-})
+// describe('Create an Cathrine King', function() {
+//   it(`Creates an Cathrine`, function() {
+//     cy.visit('/')
+//     addCathrine()
+//   })
+// })
 describe('Retrieve kiosk webpage', function() {
   it('Retrieves the kiosk webpage ', function() {
     cy.visit('/admin/login/')
@@ -36,7 +36,7 @@ describe('Retrieve kiosk webpage', function() {
       .click()
 
     // Adds a wwcc number that fails - name mismatch
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -61,7 +61,7 @@ describe('Retrieve kiosk webpage', function() {
 
     // Adds a wwcc number that fails - bad number
 
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -86,7 +86,7 @@ describe('Retrieve kiosk webpage', function() {
 
     // Adds a wwcc number that fails - unsuccessful number
 
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()

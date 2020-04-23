@@ -35,7 +35,7 @@ describe('Visit WWCC webpage', function() {
       .click()
 
     // Adds a wwcc number that works
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -55,7 +55,7 @@ describe('Visit WWCC webpage', function() {
 
     // Click the main button (not in the modal)
     //Clicks it again
-    cy.get('button[about="Cathrine King"]')
+    cy.get('button[about="Cathrine Carmel"]')
       .contains('Check')
       .should('be.enabled')
       .click()
@@ -66,7 +66,7 @@ describe('Visit WWCC webpage', function() {
     //  finds volunteer with wwcc number
     cy.get('[type="text"]')
       .clear()
-      .type('Cathrine King')
+      .type('Cathrine Carmel')
     cy.get('[type="text"]').clear()
     // At this point, only the card for our test subject should
     // be shown, and it should show the green tick to denote a valid WWC
