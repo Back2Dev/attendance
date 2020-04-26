@@ -1,7 +1,6 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Loader } from 'semantic-ui-react'
-import { cloneDeep } from 'lodash'
 import Jobs from '/imports/api/jobs/schema'
 import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
@@ -24,37 +23,30 @@ const ServiceIndex = (props) => {
 
 export default withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.services')
+  const jobSub = Meteor.subscribe('jobs.all')
+  const jobId = localStorage.getItem('job-form')
   const serviceItems = ServiceItems.find().fetch()
   const services = Services.find().fetch()
 
-  Meteor.subscribe('jobs.all')
-
-  const jobId = sessionStorage.getItem('myjob')
-  if (jobId) {
-    const job = Jobs.findOne({ jobId })
-  } else {
-    const tags = []
-    let totalCost = 0
-    let name = ''
-    let email = ''
-    let phone = ''
-    let make = ''
-    let model = ''
-    let color = ''
-    let assessor = ''
-    let bikeValue = ''
-    let pickupDate = new Date()
-    let temporaryBike = false
-    let urgent = false
-    let sentimental = false
-    let isRefurbish = false
-    let paid = false
-  }
+  let tags = []
+  let totalCost = 0
+  let name = ''
+  let email = ''
+  let phone = ''
+  let make = ''
+  let model = ''
+  let color = ''
+  let assessor = ''
+  let bikeValue = ''
+  let pickupDate = new Date()
+  let temporaryBike = false
+  let urgent = false
+  let sentimental = false
+  let isRefurbish = false
+  let paid = false
 
   const updateJob = async (data) => {
     // Adding a job
-    const job = {}
-
     const tags = data.tags.map((tag) => {
       return {
         _id: tag._id,
@@ -67,28 +59,24 @@ export default withTracker((props) => {
         updatedAt: tag.updatedAt,
       }
     })
-    console.log(data)
+    delete data.calculateTotal
+    delete data.updateJob
+    delete data.tags
+    job = data
     job.serviceItems = tags
     job.totalCost = data.totalCost * 100
-    job.make = data.make
-    job.model = data.model
-    job.color = data.color
-    job.bikeValue = data.bikeValue
-    job.urgent = data.urgent
-    job.isRefurbish = data.isRefurbish
-    job.temporaryBike = data.temporaryBike
     job.status = 1
     job.dropoffDate = new Date()
-    job.pickupDate = data.pickupDate
-    job.assessor = data.assessor
-    job.paid = data.paid
+    if (jobId) {
+      job._id = jobId
+    }
     try {
       debug('adding job', job)
       const res = await Meteor.callAsync('job.save', job)
       sessionStorage.setItem('myjob', res)
       return res
     } catch (e) {
-      console.log(e.message)
+      debug(e.message)
     }
   }
 
@@ -135,24 +123,7 @@ export default withTracker((props) => {
   serviceItems.push(minorService)
   serviceItems.push(majorService)
 
-  const loading = !subsHandle.ready()
-
-  const tags = []
-  let totalCost = 0
-  let name = ''
-  let email = ''
-  let phone = ''
-  let make = ''
-  let model = ''
-  let color = ''
-  let assessor = ''
-  let bikeValue = ''
-  let pickupDate = new Date()
-  let temporaryBike = false
-  let urgent = false
-  let sentimental = false
-  let isRefurbish = false
-  let paid = false
+  const loading = !subsHandle.ready() && !jobSub.ready()
 
   return {
     serviceItems,

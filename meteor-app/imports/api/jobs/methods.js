@@ -113,6 +113,7 @@ if (Meteor.isServer) {
       try {
         const contents = cloneDeep(data)
         const id = contents._id
+        console.log(id)
         if (id) {
           delete contents._id
           debug(`Saving job id ${id}`)

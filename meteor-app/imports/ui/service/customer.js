@@ -1,29 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { ServiceContext } from './service-context'
 import { Formik, Form, useField } from 'formik'
+import { Persist } from 'formik-persist'
 import * as Yup from 'yup'
+import moment from 'moment'
 import { Header, Segment, Grid, Input, Button, Checkbox } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const Client = () => {
   const [state, setState] = useContext(ServiceContext)
-  const {
-    name,
-    email,
-    phone,
-    make,
-    model,
-    color,
-    assessor,
-    bikeValue,
-    pickupDate,
-    temporaryBike,
-    urgent,
-    sentimental,
-    isRefurbish,
-    paid,
-  } = state
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().max(49, 'Name must be less than 50 characters'),
@@ -59,22 +45,7 @@ const Client = () => {
 
   return (
     <Formik
-      initialValues={{
-        name,
-        email,
-        phone,
-        make,
-        model,
-        color,
-        assessor,
-        bikeValue,
-        pickupDate,
-        temporaryBike,
-        urgent,
-        sentimental,
-        isRefurbish,
-        paid,
-      }}
+      initialValues={state}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setState({ ...state, ...values })
@@ -83,7 +54,7 @@ const Client = () => {
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form onChange={(e) => console.log(values)}>
+        <Form>
           <Grid columns={3}>
             <Grid.Column>
               <Segment>
@@ -108,42 +79,42 @@ const Client = () => {
                 <b>Pick Up Date</b>
                 <br />
                 <DatePicker
-                  selected={values.pickupDate}
+                  selected={moment(values.pickupDate).toDate()}
                   minDate={new Date()}
                   onChange={(date) => setFieldValue('pickupDate', date)}
                 />
                 <TextInput id="assessor" label="Assessor" name="assessor" />
                 <br />
                 <Checkbox
-                  defaultChecked={temporaryBike}
+                  defaultChecked={state.temporaryBike}
                   label="Temporary Bike"
                   name="temporaryBike"
                   onChange={() => setFieldValue('temporaryBike', !values.temporaryBike)}
                 />
                 <br />
                 <Checkbox
-                  defaultChecked={urgent}
+                  defaultChecked={state.urgent}
                   label="Urgent"
                   name="urgent"
                   onChange={() => setFieldValue('urgent', !values.urgent)}
                 />
                 <br />
                 <Checkbox
-                  defaultChecked={sentimental}
+                  defaultChecked={state.sentimental}
                   label="Sentimental"
                   name="sentimental"
                   onChange={() => setFieldValue('sentimental', !values.sentimental)}
                 />
                 <br />
                 <Checkbox
-                  defaultChecked={isRefurbish}
+                  defaultChecked={state.isRefurbish}
                   label="Refurbished"
                   name="isRefurbish"
                   onChange={() => setFieldValue('isRefurbish', !values.isRefurbish)}
                 />
                 <br />
                 <Checkbox
-                  defaultChecked={paid}
+                  defaultChecked={state.paid}
                   label="Paid"
                   name="paid"
                   onChange={() => setFieldValue('paid', !values.paid)}
@@ -151,6 +122,7 @@ const Client = () => {
               </Segment>
             </Grid.Column>
           </Grid>
+          <Persist name="job-form" />
           <Button type="submit" id="service-form-button" content="Submit" color="blue" />
         </Form>
       )}
