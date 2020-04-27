@@ -11,8 +11,8 @@ const SmsModal = ({ job }) => {
     `Your bike is ready for pickup. Cost is $${cost}. Please pay at ${payUrl}`
   )
 
-  const updateMessage = e => {
-    setMessage: e.target.value
+  const updateMessage = (e) => {
+    setMessage(e.target.value)
   }
 
   const submit = () => {
@@ -40,7 +40,7 @@ const SmsModal = ({ job }) => {
           style={{
             textAlign: 'center',
             margin: '5px',
-            borderRadius: '5px'
+            borderRadius: '5px',
           }}
           onClick={() => setOpen(true)}
           disabled={!!job.customerDetails.isRefurbish}
@@ -59,14 +59,25 @@ const SmsModal = ({ job }) => {
       <Modal.Content>
         <div>
           <p />
-          <label style={{ paddingBottom: '5px' }}>Message to send</label>
+          <label style={{ paddingBottom: '5px' }}>
+            Message to send
+          </label>
           <div>
-            <Input onChange={updateMessage} defaultValue={message} fluid />
+            <Input
+              onChange={updateMessage}
+              defaultValue={message}
+              fluid
+            />
           </div>
         </div>
       </Modal.Content>
       <Modal.Actions>
-        <Button basic color="red" inverted onClick={() => setOpen(!isOpen)}>
+        <Button
+          basic
+          color="red"
+          inverted
+          onClick={() => setOpen(!isOpen)}
+        >
           <Icon name="remove" /> Cancel
         </Button>
         <Button color="green" inverted onClick={submit}>

@@ -16,6 +16,8 @@
 - Fix email to be lower case
 - Remove settings symlinks, adjust package.json
 - Fix the event import
+- Fix SMS sending to send message as typed
+- Fix SMS sending to detect price change and update DB to suit
 
 
 ## 1.2.4
