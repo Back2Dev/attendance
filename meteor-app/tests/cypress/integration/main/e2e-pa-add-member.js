@@ -63,7 +63,7 @@ describe('Create member', function() {
       .type('1234')
     cy.get('button')
       .contains('Next')
-      .click()
+      .click({ force: true })
   })
   it('Emergency contact details', function() {
     cy.get('h1')
@@ -92,7 +92,9 @@ describe('Create member', function() {
       .click()
   })
   it('Accepts terms and agreements', () => {
-    cy.get('.field-description').contains('You must tick all of these')
+    cy.get('.field-description').contains(
+      'You must tick all of these'
+    )
     cy.get(':nth-child(1) > :nth-child(1) > .ui > label').click()
     cy.get(':nth-child(2) > :nth-child(1) > .ui > label').click()
     cy.get(':nth-child(3) > :nth-child(1) > .ui > label').click()
@@ -119,7 +121,7 @@ describe('Create member', function() {
       .should('exist')
     cy.get('button')
       .contains('Submit')
-      .click()
+      .click({ force: true })
     // check success alert shows
     cy.get('.s-alert-success').should('exist')
   })
@@ -144,9 +146,13 @@ describe('Clean up', () => {
       .contains('Register')
       .click()
     cy.get('h1')
-      .contains('No need to register if you are already signing in on the ipad at Sandridge')
+      .contains(
+        'No need to register if you are already signing in on the ipad at Sandridge'
+      )
       .should('exist')
     cy.visit('/kiosk')
     cy.get('div[list="away"]').should('exist')
+
+    // TODO: Currently it doesn't go back to /kiosk - this is a bug, when it is fixed, we can add a check to make sure it has gone back to the kiosk
   })
 })

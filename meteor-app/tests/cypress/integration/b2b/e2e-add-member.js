@@ -18,33 +18,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 })
 
 describe('Adds Member to portal', function() {
-  this.beforeEach(() => {
-    cy.visit('/login')
-    cy.get('input[type="email"]') // Email
-      .should('exist')
-      .clear()
-      .type('admin@back2bikes.com.au')
-
-    cy.get('input[type="password"]')
-      .should('exist')
-      .clear()
-      .type('me2')
-
-    cy.get('button')
-      .contains('Submit')
-      .should('exist')
-      .should('be.enabled')
-      .click()
-  })
-
   it('creates a volunteer', function() {
     cy.visit('/add')
-
-    // cy.get('button')
-    //   .contains('Register')
-    //   .should('exist')
-    //   .should('be.enabled')
-    //   .click()
 
     cy.get('#root_bikesHousehold')
       .clear()
@@ -158,29 +133,7 @@ describe('Adds Member to portal', function() {
       .should('be.enabled')
       .click()
 
-    cy.get('a[href="/login"]')
-      .should('exist')
-      .click()
-
-    cy.get('input[type="email"]')
-      .should('exist')
-      .clear()
-      .type('admin@back2bikes.com.au')
-
-    cy.get('input[type="password"]')
-      .should('exist')
-      .clear()
-      .type('me2')
-
-    cy.get('button')
-      .contains('Submit')
-      .should('exist')
-      .should('be.enabled')
-      .click()
-
-    cy.get('a[href="/volsignin"]')
-      .should('exist')
-      .click()
+    cy.visit('/kiosk')
 
     cy.get('div[list="away"]')
       .contains('Ginny Tonic')
@@ -228,25 +181,6 @@ describe('Adds Member to portal', function() {
       .should('be.enabled')
       .click()
 
-    // TODO: Why are we logging in again here? I don't think it's achieving anything
-    cy.get('a')
-      .contains('Home')
-      .click()
-
-    cy.get('input[type="email"]')
-      .clear()
-      .type('tests@test.com')
-      .should('exist')
-
-    cy.get('input[type="password"]')
-      .clear()
-      .type('2713')
-      .should('exist')
-
-    cy.get('button')
-      .contains('Submit')
-      .should('exist')
-      .should('be.enabled')
-      .click()
+    // TODO: Currently it doesn't go back to /kiosk - this is a bug, when it is fixed, we can add a check to make sure it has gone back to the kiosk
   })
 })
