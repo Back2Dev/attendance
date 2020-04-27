@@ -9,7 +9,6 @@ const ItemSearch = () => {
   const [results, setResults] = useState([])
   const [value, setValue] = useState('')
   const { tags } = state
-  let totalCost = state.totalCost
 
   useEffect(() => {
     const newTotal = state.calculateTotal(state.tags)
@@ -36,7 +35,7 @@ const ItemSearch = () => {
       const re = new RegExp(_.escapeRegExp(value), 'i')
       const isMatch = (result) => re.test(result.name)
       setIsLoading(false)
-      setResults(_.filter(state.serviceItems, isMatch))
+      setResults(_.filter(state.serviceOptions, isMatch))
     }, 300)
   }
 

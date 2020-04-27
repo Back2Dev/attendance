@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { ServiceContext } from './service-context'
 import { Formik, Form, useField } from 'formik'
-import { Persist } from 'formik-persist'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { Header, Segment, Grid, Input, Button, Checkbox } from 'semantic-ui-react'
@@ -24,10 +23,6 @@ const Client = () => {
     assessor: Yup.string().required('Required').max(49, 'Name must be less than 50 characters'),
   })
 
-  useEffect(() => {
-    state.updateJob({ ...state })
-  }, [state])
-
   const TextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props)
     return (
@@ -47,14 +42,38 @@ const Client = () => {
     <Formik
       initialValues={state}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        setState({ ...state, ...values })
-        setSubmitting(false)
-        // resetForm({})
+      onSubmit={(values, { resetForm }) => {
+        state.updateJob({ ...state })
+        sessionStorage.removeItem('myjob')
+        setState({
+          ...state,
+          tags: [],
+          totalCost: 0,
+          name: '',
+          email: '',
+          phone: '',
+          make: '',
+          model: '',
+          color: '',
+          assessor: '',
+          bikeValue: '',
+          pickupDate: new Date(),
+          temporaryBike: false,
+          urgent: false,
+          sentimental: false,
+          isRefurbish: false,
+          paid: false,
+        })
+        resetForm({})
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form>
+        <Form
+          onBlur={() => {
+            setState({ ...state, ...values })
+            state.updateJob({ ...state })
+          }}
+        >
           <Grid columns={3}>
             <Grid.Column>
               <Segment>
@@ -122,7 +141,6 @@ const Client = () => {
               </Segment>
             </Grid.Column>
           </Grid>
-          <Persist name="job-form" />
           <Button type="submit" id="service-form-button" content="Submit" color="blue" />
         </Form>
       )}

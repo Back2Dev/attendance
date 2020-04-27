@@ -24,8 +24,9 @@ const ServiceIndex = (props) => {
 export default withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.services')
   const jobSub = Meteor.subscribe('jobs.all')
-  const jobId = localStorage.getItem('job-form')
-  const serviceItems = ServiceItems.find().fetch()
+  const jobId = sessionStorage.getItem('myjob')
+  const currentJob = jobId != 'undefined' && Jobs.findOne({ _id: jobId })
+  const serviceOptions = ServiceItems.find().fetch()
   const services = Services.find().fetch()
 
   let tags = []
@@ -45,30 +46,53 @@ export default withTracker((props) => {
   let isRefurbish = false
   let paid = false
 
+  if (currentJob) {
+    tags = currentJob.serviceItems
+    totalCost = currentJob.totalCost
+    name = currentJob.name
+    email = currentJob.email
+    phone = currentJob.phone
+    make = currentJob.make
+    model = currentJob.model
+    color = currentJob.color
+    assessor = currentJob.assessor
+    bikeValue = currentJob.bikeValue
+    pickupDate = currentJob.pickupDate
+    temporaryBike = currentJob.temporaryBike
+    urgent = currentJob.urgent
+    sentimental = currentJob.sentimental
+    isRefurbish = currentJob.isRefurbish
+    paid = currentJob.paid
+  }
+
   const updateJob = async (data) => {
     // Adding a job
-    const tags = data.tags.map((tag) => {
-      return {
-        _id: tag._id,
-        name: tag.name,
-        price: tag.cents,
-        code: tag.code,
-        category: tag.category,
-        used: tag.used,
-        createdAt: tag.createdAt,
-        updatedAt: tag.updatedAt,
-      }
-    })
     delete data.calculateTotal
     delete data.updateJob
-    delete data.tags
     job = data
-    job.serviceItems = tags
+    if (data.tags) {
+      tags = data.tags.map((tag) => {
+        return {
+          _id: tag._id,
+          name: tag.name,
+          price: tag.cents,
+          code: tag.code,
+          category: tag.category,
+          used: tag.used,
+          createdAt: tag.createdAt,
+          updatedAt: tag.updatedAt,
+        }
+      })
+      job.serviceItems = tags
+    } else {
+      job.serviceItems = []
+    }
     job.totalCost = data.totalCost * 100
     job.status = 1
     job.dropoffDate = new Date()
-    if (jobId) {
-      job._id = jobId
+    console.log(sessionStorage.getItem('myjob'))
+    if (sessionStorage.getItem('myjob') != 'undefined') {
+      job._id = sessionStorage.getItem('myjob')
     }
     try {
       debug('adding job', job)
@@ -97,7 +121,7 @@ export default withTracker((props) => {
     cents: 6000,
   }
 
-  serviceItems.forEach((item) => {
+  serviceOptions.forEach((item) => {
     item.title = item.name
     item.cents = item.price
     item.price = item.cents / 100
@@ -115,18 +139,21 @@ export default withTracker((props) => {
   })
 
   const calculateTotal = (tags) => {
-    return tags.reduce((total, tag) => {
-      return total + tag.price
-    }, 0)
+    if (tags) {
+      return tags.reduce((total, tag) => {
+        return total + tag.price
+      }, 0)
+    }
+    return 0
   }
 
-  serviceItems.push(minorService)
-  serviceItems.push(majorService)
+  serviceOptions.push(minorService)
+  serviceOptions.push(majorService)
 
   const loading = !subsHandle.ready() && !jobSub.ready()
 
   return {
-    serviceItems,
+    serviceOptions,
     tags,
     totalCost,
     name,

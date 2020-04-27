@@ -68,7 +68,6 @@
     "file-saver": "^2.0.2",
     "form-data": "^2.5.1",
     "formik": "^2.1.4",
-    "formik-persist": "^1.1.0",
     "gender-detection": "^0.1.0",
     "gender-guess": "^1.0.4",
     "indexof": "0.0.1",

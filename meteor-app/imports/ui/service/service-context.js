@@ -3,7 +3,7 @@ import React, { useState, createContext } from 'react'
 export const ServiceContext = createContext()
 
 export const ServiceContextProvider = ({
-  serviceItems,
+  serviceOptions,
   tags,
   totalCost,
   name,
@@ -25,7 +25,7 @@ export const ServiceContextProvider = ({
   children,
 }) => {
   const [state, setState] = useState({
-    serviceItems,
+    serviceOptions,
     tags,
     totalCost,
     name,
