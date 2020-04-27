@@ -1,6 +1,7 @@
 const editMem = {
   memberName: 'Cathrine King',
   suburb: 'Middle Park',
+  postCode: '3206',
   newSuburb: 'Jeju',
   newmemberName: 'Bo-bo-bo',
   newemergencyContact: 'Joe Fred',
