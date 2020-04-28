@@ -24,8 +24,6 @@ const ServiceIndex = (props) => {
 export default withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.services')
   const jobSub = Meteor.subscribe('jobs.all')
-  const jobId = sessionStorage.getItem('myjob')
-  const currentJob = jobId != 'undefined' && Jobs.findOne({ _id: jobId })
   const serviceOptions = ServiceItems.find().fetch()
   const services = Services.find().fetch()
 
@@ -45,25 +43,6 @@ export default withTracker((props) => {
   let sentimental = false
   let isRefurbish = false
   let paid = false
-
-  if (currentJob) {
-    tags = currentJob.serviceItems
-    totalCost = currentJob.totalCost
-    name = currentJob.name
-    email = currentJob.email
-    phone = currentJob.phone
-    make = currentJob.make
-    model = currentJob.model
-    color = currentJob.color
-    assessor = currentJob.assessor
-    bikeValue = currentJob.bikeValue
-    pickupDate = currentJob.pickupDate
-    temporaryBike = currentJob.temporaryBike
-    urgent = currentJob.urgent
-    sentimental = currentJob.sentimental
-    isRefurbish = currentJob.isRefurbish
-    paid = currentJob.paid
-  }
 
   const updateJob = async (data) => {
     // Adding a job
@@ -97,7 +76,6 @@ export default withTracker((props) => {
     try {
       debug('adding job', job)
       const res = await Meteor.callAsync('job.save', job)
-      sessionStorage.setItem('myjob', res)
       return res
     } catch (e) {
       debug(e.message)

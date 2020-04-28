@@ -44,34 +44,13 @@ const Client = () => {
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
         state.updateJob({ ...state })
-        sessionStorage.removeItem('myjob')
-        setState({
-          ...state,
-          tags: [],
-          totalCost: 0,
-          name: '',
-          email: '',
-          phone: '',
-          make: '',
-          model: '',
-          color: '',
-          assessor: '',
-          bikeValue: '',
-          pickupDate: new Date(),
-          temporaryBike: false,
-          urgent: false,
-          sentimental: false,
-          isRefurbish: false,
-          paid: false,
-        })
         resetForm({})
       }}
     >
       {({ values, setFieldValue }) => (
         <Form
-          onBlur={() => {
+          onChange={() => {
             setState({ ...state, ...values })
-            state.updateJob({ ...state })
           }}
         >
           <Grid columns={3}>
