@@ -38,6 +38,9 @@ const Client = () => {
     )
   }
 
+  const handleChange = (values) => {
+    setState({ ...state, ...values })
+  }
   return (
     <Formik
       initialValues={state}
@@ -48,11 +51,7 @@ const Client = () => {
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form
-          onChange={() => {
-            setState({ ...state, ...values })
-          }}
-        >
+        <Form onBlur={() => handleChange(values)}>
           <Grid columns={3}>
             <Grid.Column>
               <Segment>
@@ -84,6 +83,7 @@ const Client = () => {
                 <TextInput id="assessor" label="Assessor" name="assessor" />
                 <br />
                 <Checkbox
+                  id="temp-bike-checkbox"
                   defaultChecked={state.temporaryBike}
                   label="Temporary Bike"
                   name="temporaryBike"
@@ -91,6 +91,7 @@ const Client = () => {
                 />
                 <br />
                 <Checkbox
+                  id="urgent-checkbox"
                   defaultChecked={state.urgent}
                   label="Urgent"
                   name="urgent"
@@ -98,6 +99,7 @@ const Client = () => {
                 />
                 <br />
                 <Checkbox
+                  id="sentimental-checkbox"
                   defaultChecked={state.sentimental}
                   label="Sentimental"
                   name="sentimental"
@@ -105,6 +107,7 @@ const Client = () => {
                 />
                 <br />
                 <Checkbox
+                  id="refurbish-checkbox"
                   defaultChecked={state.isRefurbish}
                   label="Refurbished"
                   name="isRefurbish"

@@ -9,7 +9,7 @@ import Client from './customer'
 storiesOf('Service', module).add('Customer details', () => {
   return (
     <ServiceContextProvider {...storiesData}>
-      <Client key="customer-form" />
+      <Client />
     </ServiceContextProvider>
   )
 })
