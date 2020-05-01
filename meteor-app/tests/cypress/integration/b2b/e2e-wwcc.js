@@ -36,7 +36,7 @@ describe('Retrieve kiosk webpage', function() {
       .click()
 
     // Adds a wwcc number that fails - name mismatch
-    cy.get('button[about="Cathrine Carmel-add"]')
+    cy.get('button[about="Cathrine C-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -61,7 +61,7 @@ describe('Retrieve kiosk webpage', function() {
 
     // Adds a wwcc number that fails - bad number
 
-    cy.get('button[about="Cathrine Carmel-add"]')
+    cy.get('button[about="Cathrine C-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -86,7 +86,7 @@ describe('Retrieve kiosk webpage', function() {
 
     // Adds a wwcc number that fails - unsuccessful number
 
-    cy.get('button[about="Cathrine Carmel-add"]')
+    cy.get('button[about="Cathrine C-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
