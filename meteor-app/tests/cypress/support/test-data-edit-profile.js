@@ -1,5 +1,5 @@
 const editMem = {
-  memberName: 'Cathrine King',
+  memberName: 'Cathrine Carmel',
   suburb: 'Middle Park',
   postCode: '3206',
   newSuburb: 'Jeju',

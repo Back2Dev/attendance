@@ -18,6 +18,13 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
+describe('Create an Cathrine King', function() {
+  it(`Creates an Cathrine`, function() {
+    cy.visit('/')
+    addCathrine()
+  })
+})
+
 describe('Edit member profile', function() {
   it('Selects a member and edits profile', function() {
     cy.visit('/login')
