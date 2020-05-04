@@ -124,7 +124,7 @@ export const AssessmentsSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Total cost in cents',
     custom() {
-      console.log('This', this)
+      // console.log('This', this)
       // Validation to ensure that sum of all costs is equal total cost
       const services =
         this.siblingField('services.totalServiceCost').value || 0
@@ -136,7 +136,7 @@ export const AssessmentsSchema = new SimpleSchema({
 
       const check =
         services + parts + additional - discount === this.value
-      if (!check) {
+      if (!check && this.operator !== '$set') {
         return new Meteor.Error(
           `Total repair cost ${this.value} not equal sum of services ${services}, parts ${parts} and additional fees ${additional}, less discount ${discount}`
         )
