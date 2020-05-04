@@ -96,7 +96,7 @@ describe('Edit member profile', function() {
       'have.value',
       editMem.emergencyContact
     )
-
+    rmCathrineKing()
     //  cy.get('#root_addressSuburb').should('exist')
   })
 })

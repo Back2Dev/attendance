@@ -102,5 +102,6 @@ describe('Edit member profile', function() {
       .click()
 
     cy.get('#root_name').should('have.value', editMem.memberName)
+    rmCathrineKing()
   })
 })

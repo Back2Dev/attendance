@@ -88,5 +88,6 @@ describe('Edit member profile', function() {
       .click()
 
     cy.get('img[src="/images/avatars/test21.png"]').should('exist')
+    rmCathrineKing()
   })
 })
