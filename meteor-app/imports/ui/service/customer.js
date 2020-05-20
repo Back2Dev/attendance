@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const Client = () => {
   const [state, setState] = useContext(ServiceContext)
+  const initialState = { ...state }
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().max(49, 'Name must be less than 50 characters'),
@@ -40,6 +41,7 @@ const Client = () => {
 
   const handleChange = (values) => {
     setState({ ...state, ...values })
+    console.log(initialState)
   }
   return (
     <Formik
@@ -47,7 +49,6 @@ const Client = () => {
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
         state.updateJob({ ...state })
-        resetForm({})
       }}
     >
       {({ values, setFieldValue }) => (
@@ -78,7 +79,10 @@ const Client = () => {
                 <DatePicker
                   selected={moment(values.pickupDate).toDate()}
                   minDate={new Date()}
-                  onChange={(date) => setFieldValue('pickupDate', date)}
+                  onChange={(date) => {
+                    console.log(values.pickupDate)
+                    setFieldValue('pickupDate', date)
+                  }}
                 />
                 <TextInput id="assessor" label="Assessor" name="assessor" />
                 <br />

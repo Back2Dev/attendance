@@ -2,6 +2,7 @@ import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { Loader } from 'semantic-ui-react'
 import Jobs from '/imports/api/jobs/schema'
+import Alert from '/imports/ui/utils/alert'
 import ServiceItems from '/imports/api/service-items/schema'
 import Services from '/imports/api/assessments/services'
 import Service from './service'
@@ -69,16 +70,16 @@ export default withTracker((props) => {
     job.totalCost = data.totalCost * 100
     job.status = 1
     job.dropoffDate = new Date()
-    console.log(sessionStorage.getItem('myjob'))
-    if (sessionStorage.getItem('myjob') != 'undefined') {
-      job._id = sessionStorage.getItem('myjob')
-    }
     try {
       debug('adding job', job)
       const res = await Meteor.callAsync('job.save', job)
+      if (res !== null) {
+        Alert.success('Successfully submitted form')
+      }
       return res
     } catch (e) {
       debug(e.message)
+      Alert.error('Error while submitting form')
     }
   }
 
