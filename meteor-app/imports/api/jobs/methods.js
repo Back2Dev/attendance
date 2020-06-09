@@ -13,6 +13,7 @@ import {
   PAID,
   UNPAID,
   JOB_STATUS,
+  JOB_STATUS_READABLE,
 } from '/imports/api/constants'
 
 const debug = require('debug')('b2b:job-methods')
@@ -87,7 +88,7 @@ if (Meteor.isServer) {
         objectId: jobId,
         status: updatedStatus,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE],
-        what: `Status is now ${updatedStatus}`,
+        what: `Status is now ${JOB_STATUS_READABLE[updatedStatus]}`,
       })
     },
     'job.updatePaid'(jobId) {
