@@ -20,7 +20,12 @@ class Element extends Component {
       // todo: fix Alert.error so that it displays above modal
       alert('Please enter the gist of the phone call')
     } else {
-      Meteor.call('assessment.update', this.props.job, PHONE_CALL, this.state.message)
+      Meteor.call(
+        'job.updatePhone',
+        this.props.job,
+        PHONE_CALL,
+        this.state.message
+      )
       this.setState({ isOpen: false })
     }
   }
@@ -28,7 +33,9 @@ class Element extends Component {
   render(props) {
     const { job } = this.props
     const disabled = !!job.isRefurbish
-    const reason = job.isRefurbish ? 'This is a refurbish, there is no customer to call' : 'Call customer'
+    const reason = job.isRefurbish
+      ? 'This is a refurbish, there is no customer to call'
+      : 'Call customer'
     return (
       <Modal
         open
@@ -39,7 +46,11 @@ class Element extends Component {
           <Button
             className="ui button"
             color={job.isRefurbish ? 'grey' : 'pink'}
-            style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+            style={{
+              textAlign: 'center',
+              margin: '5px',
+              borderRadius: '5px',
+            }}
             onClick={() => this.setState({ isOpen: true })}
             disabled={disabled}
             title={reason}
@@ -51,18 +62,32 @@ class Element extends Component {
           </Button>
         }
       >
-        <Header icon="arrow right" content={`Call customer ${job.name} on number: ${job.phone}`} />
+        <Header
+          icon="arrow right"
+          content={`Call customer ${job.name} on number: ${job.phone}`}
+        />
         <Modal.Content>
           <div>
             <p />
-            <label style={{ paddingBottom: '5px' }}>Gist of conversation</label>
+            <label style={{ paddingBottom: '5px' }}>
+              Gist of conversation
+            </label>
             <div>
-              <Input onChange={this.updateMessage} defaultValue={this.state.message} fluid />
+              <Input
+                onChange={this.updateMessage}
+                defaultValue={this.state.message}
+                fluid
+              />
             </div>
           </div>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic color="red" inverted onClick={() => this.setState({ isOpen: false })}>
+          <Button
+            basic
+            color="red"
+            inverted
+            onClick={() => this.setState({ isOpen: false })}
+          >
             <Icon name="remove" /> Cancel
           </Button>
           <Button color="green" inverted onClick={this.submit}>

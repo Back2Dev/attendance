@@ -1,13 +1,16 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { ReactiveVar } from 'meteor/reactive-var'
-import Logger from '/imports/api/assessments/logger'
+import Eventlogs from '/imports/api/eventlogs'
 import Assessments from '/imports/api/assessments/schema'
 import Jobs from '/imports/api/jobs/schema'
 import Members from '/imports/api/members/schema'
 import JobCardList from '/imports/ui/jobs/assessment-job-card-list'
 
-import { JOB_STATUS_ALL, JOB_STATUS_READABLE } from '/imports/api/constants'
+import {
+  JOB_STATUS_ALL,
+  JOB_STATUS_READABLE,
+} from '/imports/api/constants'
 
 const searchVar = new ReactiveVar('')
 const statusVar = new ReactiveVar('')
@@ -18,12 +21,13 @@ const selectedaId = new ReactiveVar('')
 export default withTracker((props) => {
   const jobSub = Meteor.subscribe('jobs.current')
   const membersSub = Meteor.subscribe('all.members')
-  const logSub = Meteor.subscribe('logger.assessment', selectedaId.get())
-  const loading = !jobSub.ready() && !membersSub.ready() && !logSub.ready()
+  const logSub = Meteor.subscribe('jobs.eventlogs', selectedaId.get())
+  const loading =
+    !jobSub.ready() && !membersSub.ready() && !logSub.ready()
   function changeAssId(aId) {
     selectedaId.set(aId)
   }
-  const logs = Logger.find({ aId: selectedaId.get() }).fetch()
+  const logs = Eventlogs.find({ objectId: selectedaId.get() }).fetch()
 
   const searchFind = (search) => {
     resetStatus()
@@ -63,12 +67,23 @@ export default withTracker((props) => {
     const status = statusVar.get()
     if (status == '') {
       return Jobs.find(
-        { search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' } },
+        {
+          search: {
+            $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+            $options: 'i',
+          },
+        },
         { sort: { createdAt: -1 } }
       ).fetch()
     }
     return Jobs.find(
-      { search: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' }, status: { $in: status } },
+      {
+        search: {
+          $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+          $options: 'i',
+        },
+        status: { $in: status },
+      },
       { sort: { createdAt: -1 } }
     ).fetch()
   }
@@ -78,7 +93,10 @@ export default withTracker((props) => {
   return {
     loading,
     jobs,
-    members: Members.find({}, { fields: { name: 1 }, sort: { name: 1 } }).fetch(),
+    members: Members.find(
+      {},
+      { fields: { name: 1 }, sort: { name: 1 } }
+    ).fetch(),
     searchFind,
     statusFilter,
     updateStatus,

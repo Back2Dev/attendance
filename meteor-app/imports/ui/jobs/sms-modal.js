@@ -20,7 +20,7 @@ const SmsModal = ({ job }) => {
       // todo: fix Alert.error so that it displays above modal
       alert('Please enter a message to send')
     } else {
-      Meteor.call('assessment.update', job, SEND_SMS, message)
+      Meteor.call('job.updateSms', job, SEND_SMS, message)
       Meteor.call('sendPINSms', message, job.phone)
       debug('sending pickup message via sms.', message)
       setOpen(false)
@@ -52,18 +52,32 @@ const SmsModal = ({ job }) => {
         </Button>
       }
     >
-      <Header icon="arrow right" content={`Send 'pickup' SMS to customer ${job.name} on number: ${job.phone}`} />
+      <Header
+        icon="arrow right"
+        content={`Send 'pickup' SMS to customer ${job.name} on number: ${job.phone}`}
+      />
       <Modal.Content>
         <div>
           <p />
-          <label style={{ paddingBottom: '5px' }}>Message to send</label>
+          <label style={{ paddingBottom: '5px' }}>
+            Message to send
+          </label>
           <div>
-            <Input onChange={updateMessage} defaultValue={message} fluid />
+            <Input
+              onChange={updateMessage}
+              defaultValue={message}
+              fluid
+            />
           </div>
         </div>
       </Modal.Content>
       <Modal.Actions>
-        <Button basic color="red" inverted onClick={() => setOpen(!isOpen)}>
+        <Button
+          basic
+          color="red"
+          inverted
+          onClick={() => setOpen(!isOpen)}
+        >
           <Icon name="remove" /> Cancel
         </Button>
         <Button color="green" inverted onClick={submit}>

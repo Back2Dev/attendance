@@ -21,7 +21,7 @@ class MechanicModal extends Component {
 
   handleSave(job, mechanic) {
     // event.preventDefault()
-    Meteor.call('job.update', job, MECHANIC_UPDATE, mechanic)
+    Meteor.call('job.updateMechanic', job, MECHANIC_UPDATE, mechanic)
     //code to save mechanic to db here
     this.handleClose()
   }
@@ -42,13 +42,23 @@ class MechanicModal extends Component {
         trigger={
           <Button
             id="add_mechanic"
-            style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+            style={{
+              textAlign: 'center',
+              margin: '5px',
+              borderRadius: '5px',
+            }}
             className="ui button"
             color="teal"
             onClick={this.handleOpen}
             title="Assign mechanic"
           >
-            <h1>{!this.props.currentJob.mechanic ? <Icon name="add user" /> : <Icon name="doctor" />}</h1>
+            <h1>
+              {!this.props.currentJob.mechanic ? (
+                <Icon name="add user" />
+              ) : (
+                <Icon name="doctor" />
+              )}
+            </h1>
             {shorten_name(this.props.currentJob.mechanic)}
           </Button>
         }
@@ -73,13 +83,20 @@ class MechanicModal extends Component {
         <Modal.Actions>
           <Button
             color="green"
-            onClick={() => this.handleSave(this.props.currentJob, mechanic)}
+            onClick={() =>
+              this.handleSave(this.props.currentJob, mechanic)
+            }
             inverted
             id="assign_mechanic"
           >
             <Icon name="checkmark" /> Add
           </Button>
-          <Button color="red" onClick={this.handleClose} inverted id="cancel">
+          <Button
+            color="red"
+            onClick={this.handleClose}
+            inverted
+            id="cancel"
+          >
             <Icon name="delete" /> Close
           </Button>
         </Modal.Actions>

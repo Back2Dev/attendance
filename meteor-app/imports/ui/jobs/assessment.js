@@ -6,13 +6,13 @@ import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/service-items/schema'
 import Members from '/imports/api/members/schema'
-import Logger from '/imports/api/assessments/logger'
+import Eventlogs from '/imports/api/eventlogs'
 import Assessments from '/imports/api/assessments/schema'
 import AssessmentAdd from '/imports/ui/assessment/assessment-add'
 
 const debug = require('debug')('b2b:addassessment')
 
-export default withTracker(props => {
+export default withTracker((props) => {
   const success = new ReactiveVar(false)
   const error = new ReactiveVar(false)
   const msg = new ReactiveVar('')
@@ -40,11 +40,14 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setAssessment = async formData => {
+  const setAssessment = async (formData) => {
     // Adding an assessment
     try {
       debug('adding assessment', formData)
-      const res = await Meteor.callAsync('assessment.insert', formData)
+      const res = await Meteor.callAsync(
+        'assessment.insert',
+        formData
+      )
       setSuccess('Successfully added new assessment', res)
       return res
     } catch (e) {
@@ -62,8 +65,11 @@ export default withTracker(props => {
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
     serviceItems: ServiceItems.find().fetch(),
-    log: Logger.find().fetch(),
+    log: Eventlogs.find().fetch(),
     members: Members.find().fetch(),
-    assessmentLastSaved: Assessments.find({}, { sort: { createdAt: -1 } }).fetch()[0]
+    assessmentLastSaved: Assessments.find(
+      {},
+      { sort: { createdAt: -1 } }
+    ).fetch()[0],
   }
 })(AssessmentAdd)

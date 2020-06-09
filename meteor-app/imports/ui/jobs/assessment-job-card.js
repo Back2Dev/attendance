@@ -2,7 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Alert from '/imports/ui/utils/alert'
-import { Button, List, Accordion, Icon, Grid, Loader } from 'semantic-ui-react'
+import {
+  Button,
+  List,
+  Accordion,
+  Icon,
+  Grid,
+} from 'semantic-ui-react'
 
 import '/imports/ui/layouts/assessment.css'
 import {
@@ -25,7 +31,15 @@ import MechanicModal from './mechanic-modal'
 import SmsModal from './sms-modal'
 import PhoneModal from './phone-modal'
 
-const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, selectedaId }) => {
+const JobCard = ({
+  job,
+  updatePaid,
+  updateStatus,
+  logs,
+  members,
+  completeJob,
+  selectedaId,
+}) => {
   const [activeIndex, setActive] = React.useState(-1)
   React.useEffect(() => {
     if (selectedaId !== job._id) setActive(-1)
@@ -50,15 +64,21 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
     const jobId = job._id
     const statusValue = job.status
     const statusList = Object.keys(JOB_STATUS)
-    const status = statusList.find((key) => JOB_STATUS[key] === statusValue) // Find key/name of current status
-    const statusIndex = statusList.findIndex((element) => element === status)
+    const status = statusList.find(
+      (key) => JOB_STATUS[key] === statusValue
+    ) // Find key/name of current status
+    const statusIndex = statusList.findIndex(
+      (element) => element === status
+    )
     const updatedStatusKey = statusList[statusIndex + 1] // Find key/name of next status
     const updatedStatus = JOB_STATUS[updatedStatusKey] // Update to the next status
 
     try {
       if (statusValue >= JOB_STATUS.PICKED_UP) return
       updateStatus(jobId, updatedStatus)
-      Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[updatedStatus]}`)
+      Alert.success(
+        `Successfully changed job status to ${JOB_STATUS_READABLE[updatedStatus]}`
+      )
     } catch (error) {
       Alert.error(error.message)
     }
@@ -74,10 +94,17 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
     try {
       if (status < bikePickedUpStatus) {
         updateStatus(jobId, cancelStatus)
-        Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[cancelStatus]}`)
-      } else if (status === cancelStatus || status === completeStatus) {
+        Alert.success(
+          `Successfully changed job status to ${JOB_STATUS_READABLE[cancelStatus]}`
+        )
+      } else if (
+        status === cancelStatus ||
+        status === completeStatus
+      ) {
         updateStatus(jobId, reopenStatus)
-        Alert.success(`Successfully changed job status to ${JOB_STATUS_READABLE[reopenStatus]}`)
+        Alert.success(
+          `Successfully changed job status to ${JOB_STATUS_READABLE[reopenStatus]}`
+        )
       }
       return
     } catch (error) {
@@ -101,37 +128,26 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
   }
 
   const renderLogs = (logs) => {
-    if (!logs.length) {
-      return <Loader active inline size="mini" />
-    }
     return logs.map((log, ix) => {
       const date = moment(log.createdAt).format('ddd Do MMM, h:mm a')
-      const message = (status) => {
-        switch (status) {
-          case LOG_EVENT_TYPES[STATUS_UPDATE]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[STATUS_UPDATE]]}: ${JOB_STATUS_READABLE[log.status]}`
-          case LOG_EVENT_TYPES[MECHANIC_UPDATE]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[MECHANIC_UPDATE]]}: ${log.data}`
-          case LOG_EVENT_TYPES[NEW_JOB]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[NEW_JOB]]} ${log.user}`
-          case LOG_EVENT_TYPES[PHONE_CALL]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[PHONE_CALL]]}: ${log.data}`
-          case LOG_EVENT_TYPES[SEND_SMS]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[SEND_SMS]]}: ${log.data}`
-          case LOG_EVENT_TYPES[PAID]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[PAID]]}`
-          case LOG_EVENT_TYPES[UNPAID]:
-            return `${LOG_EVENT_READABLE[LOG_EVENT_TYPES[UNPAID]]}`
-          default:
-            return JOB_STATUS_READABLE[log.status]
-        }
-      }
-      return <li key={ix}>{`${date} - ${message(log.eventType)}`}</li>
+      return <li key={ix}>{`${date} - ${log.what}`}</li>
     })
   }
 
   // Pulling data from props (assessment collection)
-  const { _id, status, jobNo, make, model, color, assessor, serviceItems, pickupDate, totalCost, isRefurbish } = job
+  const {
+    _id,
+    status,
+    jobNo,
+    make,
+    model,
+    color,
+    assessor,
+    serviceItems,
+    pickupDate,
+    totalCost,
+    isRefurbish,
+  } = job
   const pickupDisplay = moment(pickupDate).format('D/M/YYYY')
   const totalRepairCost = totalCost / 100
   const jobStatus = JOB_STATUS_READABLE[status]
@@ -139,14 +155,25 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
   // const serviceList = services.serviceItem.map(item => (<li key={item.name} style={{textIndent: "10px"}}>{item.name}</li>))
 
   // Dynamic button name
-  const statusText = status <= JOB_STATUS.PICKED_UP ? JOB_STATUS_BUTTON[status] : 'Cancelled'
-  const cancelText = status <= JOB_STATUS.READY_FOR_PICK_UP ? 'Cancel Job' : 'Re-open Job'
+  const statusText =
+    status <= JOB_STATUS.PICKED_UP
+      ? JOB_STATUS_BUTTON[status]
+      : 'Cancelled'
+  const cancelText =
+    status <= JOB_STATUS.READY_FOR_PICK_UP
+      ? 'Cancel Job'
+      : 'Re-open Job'
   const name = `${jobNo} ${titleCase(color)} ${make} ${model}`
   const servicePackage = serviceItems.map((item) => item.name)
 
   return (
     <Accordion className="job-card-container" styled fluid>
-      <Accordion.Title active={activeIndex === 0} index={0} onClick={handleClick} style={JOB_STATUS_STYLES[status]}>
+      <Accordion.Title
+        active={activeIndex === 0}
+        index={0}
+        onClick={handleClick}
+        style={JOB_STATUS_STYLES[status]}
+      >
         <Grid stackable>
           <Grid.Row columns={5} mobile={2}>
             <Grid.Column width={1}>
@@ -174,7 +201,10 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
         </Grid>
       </Accordion.Title>
 
-      <Accordion.Content active={activeIndex === 0} style={{ fontSize: '1em', marginLeft: '28px' }}>
+      <Accordion.Content
+        active={activeIndex === 0}
+        style={{ fontSize: '1em', marginLeft: '28px' }}
+      >
         <Grid stackable>
           <Grid.Row columns={2} style={{ marginTop: '20px' }}>
             <Grid.Column style={{ fontSize: '1.2em' }}>
@@ -195,7 +225,11 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
                 <Button
                   className="ui button"
                   color="green"
-                  style={{ textAlign: 'center', borderRadius: '5px', width: '200px' }}
+                  style={{
+                    textAlign: 'center',
+                    borderRadius: '5px',
+                    width: '200px',
+                  }}
                   onClick={updateButton}
                 >
                   <h2>{statusText}</h2>
@@ -203,7 +237,11 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
                 <Button
                   className="ui button"
                   color="red"
-                  style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
+                  style={{
+                    textAlign: 'center',
+                    marginLeft: '10px',
+                    borderRadius: '5px',
+                  }}
                   onClick={cancelButton}
                 >
                   <h2>{cancelText}</h2>
@@ -213,7 +251,11 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
                     enabled={!job.paid}
                     className="ui button"
                     color="red"
-                    style={{ textAlign: 'center', marginLeft: '10px', borderRadius: '5px' }}
+                    style={{
+                      textAlign: 'center',
+                      marginLeft: '10px',
+                      borderRadius: '5px',
+                    }}
                     onClick={(e) => completeItem(e, _id)}
                   >
                     <h2>Complete Job</h2>
@@ -229,7 +271,11 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
                     enabled={!job.paid}
                     className="ui button"
                     color={job.paid ? 'green' : 'red'}
-                    style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                    style={{
+                      textAlign: 'center',
+                      margin: '5px',
+                      borderRadius: '5px',
+                    }}
                     onClick={() => markAsPaid(job)}
                   >
                     <h1>
@@ -241,7 +287,11 @@ const JobCard = ({ job, updatePaid, updateStatus, logs, members, completeJob, se
                   <Button
                     className="ui button"
                     color="blue"
-                    style={{ textAlign: 'center', margin: '5px', borderRadius: '5px' }}
+                    style={{
+                      textAlign: 'center',
+                      margin: '5px',
+                      borderRadius: '5px',
+                    }}
                     onClick={() => printJobCard(job)}
                   >
                     <h1>

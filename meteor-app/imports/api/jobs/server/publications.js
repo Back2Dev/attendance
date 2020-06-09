@@ -1,6 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import Jobs from '../schema'
-import { JOB_STATUS_ALL, JOB_STATUS_COMPLETE } from '/imports/api/constants'
+import {
+  JOB_STATUS_ALL,
+  JOB_STATUS_COMPLETE,
+} from '/imports/api/constants'
+import Eventlogs from '/imports/api/eventlogs'
 
 // Mainly to get updated changes reflected in job cart
 Meteor.publish('jobs.all', () => {
@@ -17,4 +21,8 @@ Meteor.publish('jobs.jobNo', (jobNo) => {
 
 Meteor.publish('jobs.archive', () => {
   return Jobs.find({ status: { $in: JOB_STATUS_COMPLETE } })
+})
+
+Meteor.publish('jobs.eventlogs', (id) => {
+  return Eventlogs.find({ objectId: id })
 })
