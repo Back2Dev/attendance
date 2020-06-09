@@ -6,7 +6,7 @@ import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
 const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 
-const EmailMobile = props => {
+const EmailMobile = (props) => {
   const { email = '', mobile = '' } = props.member
   const [form, setForm] = React.useState({ mobile, email })
   const [disabled, setDisabled] = React.useState(true)
@@ -48,7 +48,7 @@ const EmailMobile = props => {
   )
 }
 
-const Arrive = props => {
+const Arrive = (props) => {
   const [showEdit, setShow] = React.useState(false)
   const needMore = !props.member.email || !props.member.mobile
   React.useEffect(() => {
@@ -63,7 +63,7 @@ const Arrive = props => {
     }
   }),
     []
-  const toggleEdit = e => {
+  const toggleEdit = (e) => {
     setShow(!showEdit)
   }
   const but = needMore ? ", but your profile isn't complete" : ''
@@ -73,9 +73,6 @@ const Arrive = props => {
       <div>
         <Header as="h3">You are now signed in{but}</Header>
         {needMore && <EmailMobile {...props} />}
-<<<<<<< HEAD
-        <MultiVisitsCard />
-=======
         <div>Member Type: {props.member.subsType}</div>
         {props.member.subsType === 'pass' && props.purchase && (
           <MultiVisitsCard
@@ -86,7 +83,6 @@ const Arrive = props => {
         {/* {props.member.subsType === 'pass' &&
           !props.purchase.sessions.length &&
           'You have used all your sessions for your previous pass'} */}
->>>>>>> 1a0b725b6aba24c7479f3425130a52c5af930ea3
         &nbsp;
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           {props.purchase && props.purchase.paymentStatus === 'unpaid' && (
