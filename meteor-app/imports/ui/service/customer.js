@@ -179,14 +179,15 @@ const Client = () => {
                   onChange={() => setFieldValue('paid', !values.paid)}
                 />
               </Segment>
+              <Button
+                type="submit"
+                id="service-form-button"
+                content="Submit"
+                color="blue"
+                floated="right"
+              />
             </Grid.Column>
           </Grid>
-          <Button
-            type="submit"
-            id="service-form-button"
-            content="Submit"
-            color="blue"
-          />
         </Form>
       )}
     </Formik>
