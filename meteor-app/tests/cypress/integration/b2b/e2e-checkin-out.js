@@ -14,15 +14,13 @@ describe('Checking in', () => {
     // loadFixtures()
   })
   it('Allows checkin', () => {
+    cy.visit('/kiosk')
     rmPin('Dorothea Kovacek')
-
     cy.get('div[about="Dorothea Kovacek"]')
 
       .invoke('text')
       .as('visits') // This saves it for 'Ron
-    cy.get('div[list="away"]')
-      .contains('Dorothea Kovacek')
-      .click()
+    cy.get('div[list="away"]').contains('Dorothea Kovacek').click()
     // Create a PIN for the user
     // cy.get('#createPIN').click()
     cy.get('#pin1').type(pin)

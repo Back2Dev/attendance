@@ -54,7 +54,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(5) > h2 > .ui')
+    cy.get('#edit-emergency')
       .should('exist')
       .click()
 
@@ -68,7 +68,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(5) > h2 > .ui')
+    cy.get('#edit-emergency')
       .should('exist')
       .click()
 
@@ -82,7 +82,7 @@ describe('Edit member profile', function() {
       .should('be.enabled')
       .click()
 
-    cy.get(':nth-child(5) > h2 > .ui')
+    cy.get('#edit-emergency')
       .should('exist')
       .click()
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Segment } from 'semantic-ui-react'
+import { Button, Segment, Loader } from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
@@ -31,6 +31,9 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
     cellEdited: onCellEdited,
     //width: 100,
     layout: 'fitData',
+    pagination: 'local', //enable local pagination.
+    paginationSize: 20,
+
     rowSelected: function(row) {
       rowsSelected.push(row._row.data._id)
       setRowsSelected(rowsSelected)
@@ -60,7 +63,7 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
     insert(defaultObject)
   }
 
-  let Contents = () => <span>Loading...</span>
+  let Contents = () => <Loader>Loading</Loader>
   if (!loading) {
     if (!rows.length) {
       Contents = () => <span>No data found</span>
@@ -80,7 +83,7 @@ const List = ({ items, update, remove, insert, refresh, columns, defaultObject, 
   return (
     <div>
       <Segment>
-        Charges list
+        Credit card charges
         <span style={{ float: 'right', right: '0px' }}>
           {buttons.map(btn => (
             <Button id={btn.id} key={btn.id} size="mini" onClick={btn.action} color={btn.color} type="button">

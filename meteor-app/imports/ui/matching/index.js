@@ -1,25 +1,46 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from '/imports/ui/utils/alert'
 import { escapeRegExp } from 'lodash'
 import moment from 'moment'
+import { Loader } from 'semantic-ui-react'
 
-import Matching from './matching'
+import { eventLog } from '/imports/api/eventlogs'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
-import { eventLog } from '/imports/api/eventlogs'
+import Alert from '/imports/ui/utils/alert'
+import { centFormatter } from '/imports/ui/utils/formatters'
+import CartList from './matching'
 const debug = require('debug')('b2b:admin')
 
 const columns = [
   {
+    formatter: 'rowSelection',
+    align: 'center',
+    headerSort: false
+  },
+  {
+    field: 'memberId',
+    title: 'Matched',
+    formatter: 'tickCross',
+    headerVertical: 'flip',
+    align: 'center',
+    formatterParams: { allowTruthy: true }
+  },
+  {
     title: 'Date',
     field: 'createdAt',
+    width: 80,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    },
     formatter: 'datetime',
     formatterParams: {
-      inputFormat: 'YYYY-MM-DD',
-      outputFormat: ' YYYY-MM-DD hh:mm:ss a',
+      inputFormat: 'DD/MM/YYYY',
+      outputFormat: 'DD/MM/YY hh:mm a',
       invalidPlaceholder: '(invalid date)'
     }
   },
@@ -41,14 +62,16 @@ const columns = [
   {
     title: 'Amount',
     field: 'chargeResponse.amount',
+    formatter: centFormatter,
+    formatterParams: { decimals: 2 },
     headerFilter: 'input'
   },
-  // {
-  //   title: 'Items',
-  //   filterable: true,
-  //   sortable: true,
-  //   field: 'chargeResponse.metadata.codes'
-  // },
+  {
+    title: 'Items',
+    filterable: true,
+    sortable: true,
+    field: 'chargeResponse.metadata.codes'
+  },
   {
     title: 'Payment email',
     field: 'chargeResponse.email',
@@ -64,15 +87,11 @@ const columns = [
     field: 'creditCard.address_line1',
     headerFilter: 'input'
   }
-  // {
-  //   title: 'Actions',
-  //   field: null,
-  // },
 ]
 
 const MatchingLoader = props => {
-  if (props.loading) return <div>Loading...</div>
-  return <Matching {...props} />
+  if (props.loading) return <Loader>Loading</Loader>
+  return <CartList {...props} />
 }
 
 export default withTracker(props => {
@@ -120,9 +139,25 @@ export default withTracker(props => {
     const cart = Carts.findOne(id)
     Meteor.call('cart.remove', id, (err, res) => {
       if (err) {
-        Alert.error('error whilst removing cart')
+        Alert.error(`error whilst removing cart: ${err.message} `)
       } else {
         Alert.success(`successfully removed ${res} cart`)
+        eventLog({
+          who: 'Admin',
+          what: `removed cart id: ${id}`,
+          object: cart
+        })
+      }
+    })
+  }
+
+  const reconcile = id => {
+    const cart = Carts.findOne(id)
+    Meteor.call('reconcileCompletedCarts', id, (err, res) => {
+      if (err) {
+        Alert.error(`Error whilst reconciling cart: ${err.message} `)
+      } else {
+        Alert.success(res.message)
         eventLog({
           who: 'Admin',
           what: `removed cart id: ${id}`,
@@ -158,7 +193,8 @@ export default withTracker(props => {
     carts,
     purchases,
     extendMember,
-    removeCart,
+    reconcile,
+    remove: removeCart,
     memberWords,
     columns
   }

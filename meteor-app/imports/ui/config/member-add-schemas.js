@@ -13,45 +13,45 @@ const b2bSchema = {
       properties: {
         bikesHousehold: {
           type: 'number',
-          title: 'How many bikes in your household?'
+          title: 'How many bikes in your household?',
         },
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed']
+          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed'],
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired']
+          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired'],
         },
-        reasons: { type: 'string', title: 'Reasons for volunteering' }
-      }
+        reasons: { type: 'string', title: 'Reasons for volunteering' },
+      },
     },
     uiSchema: {
       bikesHousehold: {
         'ui:widget': 'updown',
         'ui:placeholder': 'Enter the number of bikes you own',
-        'ui:autofocus': true
+        'ui:autofocus': true,
       },
       primaryBike: {
         'ui:widget': 'select',
-        'ui:placeholder': 'Select a type of bike'
+        'ui:placeholder': 'Select a type of bike',
       },
       workStatus: {
         'ui:widget': 'select',
-        'ui:placeholder': 'Select your employment status'
+        'ui:placeholder': 'Select your employment status',
       },
       reasons: {
         'ui:widget': 'textarea',
         'ui:placeholder':
           'Some good starting points:\nWhat makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?',
         'ui:options': {
-          rows: 12
-        }
-      }
-    }
-  }
+          rows: 12,
+        },
+      },
+    },
+  },
 }
 // Peak Adventure Edit schema overrides
 const paEditSchema = {
@@ -68,27 +68,27 @@ const paEditSchema = {
           uniqueItems: true,
           items: {
             type: 'string',
-            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport']
-          }
+            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport'],
+          },
         },
         reasons: {
           type: 'string',
-          title: 'Please tell us why you come to Peak Adventure sessions'
-        }
-      }
+          title: 'Please tell us why you come to Peak Adventure sessions',
+        },
+      },
     },
     uiSchema: {
       sports: {
-        'ui:widget': 'checkboxes'
+        'ui:widget': 'checkboxes',
       },
       reasons: {
         'ui:widget': 'textarea',
         'ui:placeholder': '',
         'ui:options': {
-          rows: 12
-        }
-      }
-    }
+          rows: 12,
+        },
+      },
+    },
   },
   contactStep: {
     schema: {
@@ -104,47 +104,47 @@ const paEditSchema = {
           type: 'string',
           title: 'State',
           default: 'VIC',
-          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS'],
         },
         addressPostcode: { type: 'string', title: 'Postcode' },
         phone: { type: 'string', title: 'Phone number' },
-        mobile: { type: 'string', title: 'Mobile number' }
-      }
+        mobile: { type: 'string', title: 'Mobile number' },
+      },
     },
     uiSchema: {
       name: {
         'ui:placeholder': 'Enter your name',
-        'ui:autofocus': true
+        'ui:autofocus': true,
       },
 
       email: {
-        'ui:placeholder': 'Enter your email address'
+        'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
-        'ui:placeholder': 'Enter your suburb'
+        'ui:placeholder': 'Enter your suburb',
       },
       addressState: {
-        'ui:placeholder': 'Enter your state'
+        'ui:placeholder': 'Enter your state',
       },
       addressPostcode: {
-        'ui:placeholder': 'Enter your postcode'
+        'ui:placeholder': 'Enter your postcode',
       },
       phone: {
         'ui:placeholder': 'Enter your phone number',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       mobile: {
         'ui:placeholder': 'Enter your mobile number',
         'ui:options': {
-          inputType: 'tel'
-        }
-      }
-    }
+          inputType: 'tel',
+        },
+      },
+    },
   },
   termsStep: {
     schema: {
@@ -155,22 +155,22 @@ const paEditSchema = {
           description: 'You must tick all of these',
           type: 'boolean',
           enum: [true],
-          title: 'I can swim 200 metres unassisted'
+          title: 'I can swim 200 metres unassisted',
         },
         terms: {
           type: 'boolean',
           enum: [true],
-          title: 'I have read and agree to the Terms & Conditions'
+          title: 'I have read and agree to the Terms & Conditions',
         },
         fitness: {
           type: 'boolean',
           enum: [true],
-          title: 'I declare I am medically fit and capable of undertaking this physical activity'
-        }
-      }
+          title: 'I declare I am medically fit and capable of undertaking this physical activity',
+        },
+      },
     },
-    uiSchema: {}
-  }
+    uiSchema: {},
+  },
 }
 //
 // Peak Adventure schema overrides
@@ -189,33 +189,33 @@ const paSchema = {
           uniqueItems: true,
           items: {
             type: 'string',
-            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport']
-          }
+            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport'],
+          },
         },
         reasons: {
           type: 'string',
-          title: 'Please tell us why you come to Peak Adventure sessions'
-        }
-      }
+          title: 'Please tell us why you come to Peak Adventure sessions',
+        },
+      },
     },
     uiSchema: {
       sports: {
-        'ui:widget': 'checkboxes'
+        'ui:widget': 'checkboxes',
       },
       reasons: {
         'ui:widget': 'textarea',
         'ui:placeholder': '',
         'ui:options': {
-          rows: 12
-        }
-      }
-    }
+          rows: 12,
+        },
+      },
+    },
   },
   contactStep: {
     schema: {
       title: 'Details',
       type: 'object',
-      required: ['name', 'email', 'mobile', 'pin', 'password'],
+      required: ['name', 'email', 'mobile', 'pin'],
       properties: {
         name: { type: 'string', title: 'Name' },
         email: { type: 'string', format: 'email', title: 'Email' },
@@ -225,69 +225,69 @@ const paSchema = {
           type: 'string',
           title: 'State',
           default: 'VIC',
-          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS'],
         },
         addressPostcode: { type: 'string', title: 'Postcode' },
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
-        pin: { type: 'string', title: 'PIN number', maxLength: 4 },
+        pin: { type: 'string', title: 'PIN number for sign in', maxLength: 4 },
         pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
-        password: { type: 'string', title: 'Password' },
-        confirmPassword: { type: 'string', title: 'Confirm password' }
-      }
+        password: { type: 'string', title: 'Password for member portal' },
+        passwordConfirm: { type: 'string', title: 'Confirm password' },
+      },
     },
     uiSchema: {
       name: {
         'ui:placeholder': 'Enter your name',
-        'ui:autofocus': true
+        'ui:autofocus': true,
       },
 
       email: {
-        'ui:placeholder': 'Enter your email address'
+        'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
-        'ui:placeholder': 'Enter your suburb'
+        'ui:placeholder': 'Enter your suburb',
       },
       addressState: {
-        'ui:placeholder': 'Enter your state'
+        'ui:placeholder': 'Enter your state',
       },
       addressPostcode: {
-        'ui:placeholder': 'Enter your postcode'
+        'ui:placeholder': 'Enter your postcode',
       },
       phone: {
         'ui:placeholder': 'Enter your phone number',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       mobile: {
         'ui:placeholder': 'Enter your mobile number',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       pin: {
         'ui:placeholder': 'Enter a PIN number for signing in and out.',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       pinConfirm: {
         'ui:placeholder': 'Enter the same PIN number again to confirm.',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       password: {
-        'ui:placeholder': 'Enter a password for your account.'
+        'ui:placeholder': 'Enter a password for your member portal.',
       },
       confirmPassword: {
-        'ui:placeholder': 'Enter the same password again to confirm.'
-      }
-    }
+        'ui:placeholder': 'Enter the same password again to confirm.',
+      },
+    },
   },
   termsStep: {
     schema: {
@@ -298,22 +298,22 @@ const paSchema = {
           description: 'You must tick all of these',
           type: 'boolean',
           enum: [true],
-          title: 'I can swim 200 metres unassisted'
+          title: 'I can swim 200 metres unassisted',
         },
         terms: {
           type: 'boolean',
           enum: [true],
-          title: 'I have read and agree to the Terms & Conditions'
+          title: 'I have read and agree to the Terms & Conditions',
         },
         fitness: {
           type: 'boolean',
           enum: [true],
-          title: 'I declare I am medically fit and capable of undertaking this physical activity'
-        }
-      }
+          title: 'I declare I am medically fit and capable of undertaking this physical activity',
+        },
+      },
     },
-    uiSchema: {}
-  }
+    uiSchema: {},
+  },
 }
 
 //
@@ -329,19 +329,19 @@ const b4hSchema = {
       properties: {
         reasons: {
           type: 'string',
-          title: 'Tell us why you volunteer for Bicycles For Humanity?'
-        }
-      }
+          title: 'Tell us why you volunteer for Bicycles For Humanity?',
+        },
+      },
     },
     uiSchema: {
       reasons: {
         'ui:widget': 'textarea',
         'ui:placeholder': '',
         'ui:options': {
-          rows: 12
-        }
-      }
-    }
+          rows: 12,
+        },
+      },
+    },
   },
   termsStep: {
     schema: {
@@ -351,34 +351,34 @@ const b4hSchema = {
         wwcc: {
           type: 'string',
           title:
-            'Please enter your Working With Children Check (WWCC) number (if you have one). 8 digits, no need for the -01 or -02 at the end.'
+            'Please enter your Working With Children Check (WWCC) number (if you have one). 8 digits, no need for the -01 or -02 at the end.',
         },
         permission: {
           description: 'You must tick all of these',
           type: 'boolean',
           enum: [true],
           title:
-            'I consent to Bicycles for Humanity Melbourne to take, use and distribute photographs and video in order to promote volunteering or the organisation'
+            'I consent to Bicycles for Humanity Melbourne to take, use and distribute photographs and video in order to promote volunteering or the organisation',
         },
         privacy: {
           type: 'boolean',
           enum: [true],
           title:
-            'I consent to Bicycles for Humanity Melbourne storing the information I have provided above. I understand that Bicycles for Humanity Melbourne will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
+            'I consent to Bicycles for Humanity Melbourne storing the information I have provided above. I understand that Bicycles for Humanity Melbourne will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.',
         },
         terms: {
           type: 'boolean',
           enum: [true],
-          title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook'
+          title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook',
         },
         parental: {
           type: 'boolean',
-          title: 'I am under 18 and have received permission for all the above from a parent/guardian'
-        }
-      }
+          title: 'I am under 18 and have received permission for all the above from a parent/guardian',
+        },
+      },
     },
-    uiSchema: {}
-  }
+    uiSchema: {},
+  },
 }
 
 //
@@ -392,19 +392,19 @@ const wcSchema = {
       properties: {
         reasons: {
           type: 'string',
-          title: 'Tell us why you volunteer for WeCycle?'
-        }
-      }
+          title: 'Tell us why you volunteer for WeCycle?',
+        },
+      },
     },
     uiSchema: {
       reasons: {
         'ui:widget': 'textarea',
         'ui:placeholder': '',
         'ui:options': {
-          rows: 12
-        }
-      }
-    }
+          rows: 12,
+        },
+      },
+    },
   },
   termsStep: {
     schema: {
@@ -416,18 +416,18 @@ const wcSchema = {
           type: 'boolean',
           enum: [true],
           title:
-            'I consent to WeCycle to take, use and distribute photographs and video in order to promote volunteering or the organisation'
+            'I consent to WeCycle to take, use and distribute photographs and video in order to promote volunteering or the organisation',
         },
         privacy: {
           type: 'boolean',
           enum: [true],
           title:
-            'I consent to WeCycle for Humanity Melbourne storing the information I have provided above. I understand that WeCycle will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
-        }
-      }
+            'I consent to WeCycle for Humanity Melbourne storing the information I have provided above. I understand that WeCycle will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.',
+        },
+      },
     },
-    uiSchema: {}
-  }
+    uiSchema: {},
+  },
 }
 
 const customSchemas = {
@@ -435,12 +435,13 @@ const customSchemas = {
   pa: paSchema,
   b4h: b4hSchema,
   wc: wcSchema,
-  paEdit: paEditSchema
+  paEdit: paEditSchema,
 }
 
 const defaultSchema = [
   {
     stepTitle: 'About You',
+    stepId: 'edit-about',
     stepDescription: 'About',
     schema: {
       type: 'object',
@@ -449,47 +450,48 @@ const defaultSchema = [
       properties: {
         bikesHousehold: {
           type: 'number',
-          title: 'How many bikes in your household?'
+          title: 'How many bikes in your household?',
         },
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed']
+          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed'],
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired']
+          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired'],
         },
-        reasons: { type: 'string', title: 'Reasons for volunteering' }
-      }
+        reasons: { type: 'string', title: 'Reasons for volunteering' },
+      },
     },
     uiSchema: {
       bikesHousehold: {
         'ui:widget': 'updown',
         'ui:placeholder': 'Enter the number of bikes you own',
-        'ui:autofocus': true
+        'ui:autofocus': true,
       },
       primaryBike: {
         'ui:widget': 'select',
-        'ui:placeholder': 'Select a type of bike'
+        'ui:placeholder': 'Select a type of bike',
       },
       workStatus: {
         'ui:widget': 'select',
-        'ui:placeholder': 'Select your employment status'
+        'ui:placeholder': 'Select your employment status',
       },
       reasons: {
         'ui:widget': 'textarea',
         'ui:placeholder':
           'Some good starting points:\nWhat makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?',
         'ui:options': {
-          rows: 12
-        }
-      }
-    }
+          rows: 12,
+        },
+      },
+    },
   },
   {
     stepTitle: 'Contact',
+    stepId:'edit-contact',
     stepDescription: 'Contact',
     schema: {
       title: 'Details',
@@ -504,64 +506,65 @@ const defaultSchema = [
           type: 'string',
           title: 'State',
           default: 'VIC',
-          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS']
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS'],
         },
         addressPostcode: { type: 'string', title: 'Postcode' },
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
         pin: { type: 'string', title: 'PIN number', maxLength: 4 },
-        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 }
-      }
+        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
+      },
     },
     uiSchema: {
       name: {
         'ui:placeholder': 'Enter your name',
-        'ui:autofocus': true
+        'ui:autofocus': true,
       },
 
       email: {
-        'ui:placeholder': 'Enter your email address'
+        'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street'
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
-        'ui:placeholder': 'Enter your suburb'
+        'ui:placeholder': 'Enter your suburb',
       },
       addressState: {
-        'ui:placeholder': 'Enter your state'
+        'ui:placeholder': 'Enter your state',
       },
       addressPostcode: {
-        'ui:placeholder': 'Enter your postcode'
+        'ui:placeholder': 'Enter your postcode',
       },
       phone: {
         'ui:placeholder': 'Enter your phone number',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       mobile: {
         'ui:placeholder': 'Enter your mobile number',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       pin: {
         'ui:placeholder': 'Enter a PIN number for signing in and out.',
         'ui:options': {
-          inputType: 'tel'
-        }
+          inputType: 'tel',
+        },
       },
       pinConfirm: {
         'ui:placeholder': 'Enter the same PIN number again to confirm.',
         'ui:options': {
-          inputType: 'tel'
-        }
-      }
-    }
+          inputType: 'tel',
+        },
+      },
+    },
   },
   {
     stepTitle: 'Emergency',
+    stepId:'edit-emergency',
     stepDescription: 'Emerg',
     schema: {
       type: 'object',
@@ -572,28 +575,29 @@ const defaultSchema = [
         emergencyEmail: { type: 'string', title: 'Emergency Contact Email' },
         emergencyPhone: {
           type: 'string',
-          title: 'Emergency Contact Mobile number'
-        }
-      }
+          title: 'Emergency Contact Mobile number',
+        },
+      },
     },
     uiSchema: {
       emergencyContact: {
         'ui:placeholder': "Enter your emergency contact's full name",
-        'ui:autofocus': true
+        'ui:autofocus': true,
       },
       emergencyEmail: {
-        'ui:placeholder': "Enter your emergency contact's email"
+        'ui:placeholder': "Enter your emergency contact's email",
       },
       emergencyPhone: {
         'ui:placeholder': "Enter your emergency contact's mobile or phone number",
         'ui:options': {
-          inputType: 'tel'
-        }
-      }
-    }
+          inputType: 'tel',
+        },
+      },
+    },
   },
   {
     stepTitle: 'Avatar',
+    stepId: 'edit-avatar',
     stepDescription: 'Avatar',
     schema: {
       type: 'object',
@@ -634,7 +638,7 @@ const defaultSchema = [
             'test25.png',
             'test26.png',
             'test28.png',
-            'test29.png'
+            'test29.png',
           ],
           enumNames: [
             'default',
@@ -670,22 +674,23 @@ const defaultSchema = [
             't24',
             't25',
             't26',
-            't27'
-          ]
-        }
-      }
+            't27',
+          ],
+        },
+      },
     },
     uiSchema: {
       avatar: {
         'ui:widget': 'avatarWidget',
         'ui:options': {
-          label: false
-        }
-      }
-    }
+          label: false,
+        },
+      },
+    },
   },
   {
     stepTitle: 'Terms',
+    stepId:'edit-terms',
     stepDescription: 'Terms',
     schema: {
       type: 'object',
@@ -696,19 +701,19 @@ const defaultSchema = [
           type: 'boolean',
           enum: [true],
           title:
-            'I consent to Back2bikes storing the information I have provided above. I understand that Back2bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.'
-        }
-      }
+            'I consent to Back2bikes storing the information I have provided above. I understand that Back2bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer.',
+        },
+      },
     },
     uiSchema: {
       avatar: {
         'ui:widget': 'avatarWidget',
         'ui:options': {
-          label: false
-        }
-      }
-    }
-  }
+          label: false,
+        },
+      },
+    },
+  },
 ]
 
 //
@@ -728,13 +733,13 @@ if (custom && customSchemas[custom]) {
 }
 
 const filters = [/Id$/, /^pin/, /avatar/]
-export const getExportMap = custom => {
+export const getExportMap = (custom) => {
   const exportMap = {}
   const schema = getSchemas(custom)
-  schema.forEach(step => {
+  schema.forEach((step) => {
     Object.keys(step.schema.properties)
-      .filter(key => !filters.some(f => key.match(f)))
-      .forEach(key => {
+      .filter((key) => !filters.some((f) => key.match(f)))
+      .forEach((key) => {
         exportMap[key] = key
       })
   })
@@ -743,7 +748,7 @@ export const getExportMap = custom => {
   return exportMap
 }
 
-const getSchemas = custom => {
+const getSchemas = (custom) => {
   if (custom && customSchemas[custom]) {
     const newSchema = customSchemas[custom]
     const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']

@@ -449,5 +449,11 @@ db[res.result].find({value: {$gt: 1}});
     Purchases.find({ memberId: id }).forEach(purchase => {
       Purchases.update(id, { $set: { sessions: [] } })
     })
+  },
+  'members.addPaymentEmail': function(id, email) {
+    const member = Members.findOne(id)
+    if (!member) throw new Meteor.Error('Could not find member ' + id)
+    debug(`Adding payment email for ${member.name} ${id}`)
+    Members.update(id, { $push: { paymentEmails: email } })
   }
 })

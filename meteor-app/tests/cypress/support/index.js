@@ -102,7 +102,7 @@ global.mkFakeUser = username => {
   })
 }
 
-global.rmEddie = name => {
+global.rmEddie = username => {
   console.log('removing eddie')
   cy.window().then(win => {
     if (!win.Meteor) alert('Meteor is not defined, did you forget to load the meteor page first?')

@@ -40,4 +40,5 @@ mikkelking:mongo-counter
 fentas:mapreduce
 meteorhacks:aggregate
 accounts-password@1.6.0
-alanning:roles
+alanning:roles@2.1.0
+rocketchat:streamer

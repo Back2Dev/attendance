@@ -1,21 +1,21 @@
-/* Pseudo code for Multi Pass Jackie 
+/* Pseudo code for Multi Pass Rookie
   * Open the application
   
   * Navigate to /kiosk
-  * Find test member Jackie Chan
-  * login on Jackie Chan
+  * Find test Rookie Paddler
+  * login on Rookie Paddler
   * Add an event
-  * sign of Jackie Chan
+  * sign of Rookie Paddler
   * Create loop which will iterate 15 times for this
   */
-const { member } = team.jackie
+const { member } = team.rookie
 const numVisits = 3
 describe('Login into Kiosk', function() {
   beforeEach(() => {
     cy.visit('/kiosk')
     rmSessions(member._id)
   })
-  it('Adds 15 sessions to Jackie Chans profile', function() {
+  it('Adds 15 sessions to Rookie Paddlers profile', function() {
     cy.visit('/kiosk')
     for (let i = 0; i < numVisits; i++) {
       cy.get('div[list="away"]')
@@ -54,7 +54,7 @@ describe('Login into Kiosk', function() {
     cy.visit('/admin/userprofiles/')
     loginAsAdmin()
 
-    cy.get('div[class="header"]')
+    cy.get('td')
       .contains(member.name)
       .should('exist')
       .click()

@@ -4,6 +4,7 @@ import React from 'react'
 import Alert from '/imports/ui/utils/alert'
 import { escapeRegExp } from 'lodash'
 import moment from 'moment'
+import { Loader } from 'semantic-ui-react'
 
 import Admin from './admin'
 import Members from '/imports/api/members/schema'
@@ -14,8 +15,8 @@ import { saveToArchive } from '/imports/api/archive'
 
 const debug = require('debug')('b2b:admin')
 
-const Loader = props => {
-  if (props.loading) return <div>Loading ...</div>
+const Loading = props => {
+  if (props.loading) return <Loader>Loading</Loader>
   return <Admin {...props} />
 }
 
@@ -138,4 +139,4 @@ export default withTracker(props => {
     orgid,
     getAllSessions
   }
-})(Loader)
+})(Loading)

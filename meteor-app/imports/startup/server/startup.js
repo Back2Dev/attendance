@@ -5,6 +5,7 @@ const debug = require('debug')('b2b:startup')
 
 const publicSchema = new SimpleSchema({
   logo: String,
+  background: String,
   member: String,
   parts: SimpleSchema.Integer,
   servicing: SimpleSchema.Integer,
