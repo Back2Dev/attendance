@@ -6,6 +6,13 @@ const SignOut = props => {
   return (
     <div>
       <Header as="h4">See you next time!</Header>
+<<<<<<< HEAD
+      <MultiVisitsCard />
+      &nbsp;
+      <Button onClick={() => props.recordDeparture()} positive fluid id="signIn" size="large">
+        Sign Out
+      </Button>
+=======
       <div>Member Type: {props.member.subsType}</div>
       {props.member.subsType === 'pass' && props.purchase && (
         <MultiVisitsCard
@@ -27,6 +34,7 @@ const SignOut = props => {
           Sign Out
         </Button>
       </div>
+>>>>>>> 1a0b725b6aba24c7479f3425130a52c5af930ea3
     </div>
   )
 }

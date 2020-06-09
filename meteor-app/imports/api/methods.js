@@ -3,6 +3,7 @@
 import moment from 'moment'
 import { Accounts } from 'meteor/accounts-base'
 import Members from '/imports/api/members/schema'
+import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Sessions from '/imports/api/sessions/schema'
@@ -116,7 +117,20 @@ Meteor.methods({
         },
         $push: { sessions: session }
       })
+<<<<<<< HEAD
+
+      const purchase = Purchases.findOne({ memberId: memberId })
+      if (purchase.status === 'current') {
+        Purchases.update(
+          { memberId: memberId },
+          {
+            $push: { sessions: session }
+          }
+        )
+      }
+=======
       Meteor.call('migrateSessions', memberId)
+>>>>>>> 1a0b725b6aba24c7479f3425130a52c5af930ea3
       debug('member arrive update', id, session, sessionCount, memberId, duration, timeOut)
     } catch (error) {
       log.error(error.message)
