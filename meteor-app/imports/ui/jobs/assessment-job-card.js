@@ -143,6 +143,7 @@ const JobCard = ({
     model,
     color,
     assessor,
+    mechanic,
     serviceItems,
     pickupDate,
     totalCost,
@@ -214,7 +215,7 @@ const JobCard = ({
                 <strong>Due: </strong> {pickupDisplay}
                 <br />
                 <strong>Mechanic: </strong>
-                {assessor}
+                {mechanic}
               </List.Item>
               <ul>
                 <strong>Activity: </strong>
