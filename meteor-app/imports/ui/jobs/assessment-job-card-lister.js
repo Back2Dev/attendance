@@ -66,33 +66,33 @@ export default withTracker((props) => {
     const search = searchVar.get()
     const status = statusVar.get()
     if (status == '') {
-      return Jobs.find(
-        {
-          search: {
-            $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-            $options: 'i',
-          },
-        },
-        { sort: { createdAt: -1 } }
-      ).fetch()
+      return Jobs
+        .find
+        // {
+        //   search: {
+        //     $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+        //     $options: 'i',
+        //   },
+        // },
+        // { sort: { createdAt: -1 } }
+        ()
+        .fetch()
     }
     return Jobs.find(
       {
-        search: {
-          $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-          $options: 'i',
-        },
+        // search: {
+        //   $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+        //   $options: 'i',
+        // },
         status: { $in: status },
       },
       { sort: { createdAt: -1 } }
     ).fetch()
   }
 
-  const jobs = Jobs.find().fetch()
-
   return {
     loading,
-    jobs,
+    jobs: renderJob(),
     members: Members.find(
       {},
       { fields: { name: 1 }, sort: { name: 1 } }

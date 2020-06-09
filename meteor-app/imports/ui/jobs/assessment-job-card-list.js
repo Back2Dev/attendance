@@ -3,7 +3,10 @@ import { Component } from 'react'
 import { Grid, Search, Button, Loader } from 'semantic-ui-react'
 import JobCard from '/imports/ui/jobs/assessment-job-card'
 import Nav from '/imports/ui/member/member-nav'
-import { JOB_STATUS_READABLE, JOB_STATUS } from '/imports/api/constants'
+import {
+  JOB_STATUS_READABLE,
+  JOB_STATUS,
+} from '/imports/api/constants'
 import './assessment-job-card-list.css'
 
 class JobCardList extends Component {
@@ -70,10 +73,22 @@ class JobCardList extends Component {
 
     return (
       <React.Fragment>
-        <Grid stackable textAlign="center" style={{ marginLeft: '50px', marginRight: '50px', marginTop: '20px' }}>
+        <Grid
+          stackable
+          textAlign="center"
+          style={{
+            marginLeft: '50px',
+            marginRight: '50px',
+            marginTop: '20px',
+          }}
+        >
           <Grid.Row columns={3}>
             <Grid.Column computer={10} tablet={16} textAlign="left">
-              <Button.Group basic id="button-parent" className="ui stackable buttons">
+              <Button.Group
+                basic
+                id="button-parent"
+                className="ui stackable buttons"
+              >
                 <Button
                   toggle
                   className={this.state.showAll ? 'active' : ''}
@@ -85,7 +100,9 @@ class JobCardList extends Component {
                 {statusOptions.map((status) => (
                   <Button
                     toggle
-                    className={this.state.active === status.key ? 'active' : ''}
+                    className={
+                      this.state.active === status.key ? 'active' : ''
+                    }
                     key={status.key}
                     value={status.value}
                     onClick={() => this.setButtonState(status)}
@@ -126,9 +143,14 @@ class JobCardList extends Component {
           </Grid.Row>
 
           {this.props.jobs
-            .filter((job) => job.status <= JOB_STATUS.READY_FOR_PICK_UP)
+            .filter(
+              (job) => job.status <= JOB_STATUS.READY_FOR_PICK_UP
+            )
             .map((job) => (
-              <Grid.Row key={job._id} onClick={() => this.setCurrentJob(job)}>
+              <Grid.Row
+                key={job._id}
+                onClick={() => this.setCurrentJob(job)}
+              >
                 <JobCard
                   job={job}
                   key={job._id}
