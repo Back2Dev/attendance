@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-       # node 8.9
+      # node 8.9
       - image: cypress/base:8
         # fix locale issues that cause mongodb to explode
         # see https://github.com/meteor/meteor/issues/4019
@@ -43,8 +43,8 @@ jobs:
       # restore npm and meteor package caches
       - restore_cache:
           keys:
-          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
-          - v2-meteor-packages-
+            - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+            - v2-meteor-packages-
 
       - restore_cache:
           keys:
@@ -68,7 +68,6 @@ jobs:
             mkdir -p /tmp/test-results/snapshots
             mkdir -p /tmp/test-results/integration
 
-
       # won't currently trigger a failure (appended || true to prevent status code 1)
       #- run:
       #    name: eslint
@@ -91,9 +90,15 @@ jobs:
           command: METEOR_ALLOW_SUPERUSER=1 SERVER_TEST_REPORTER=xunit XUNIT_FILE=/tmp/test-results/integration/integration.xml NODE_ENV=development npm run "test:integration"
 
       - run:
-          name: UI (end-2-end) tests
+          name: UI B2B (end-2-end) tests
           working_directory: ~/repo/meteor-app
-          command: npm run test:e2e:standalone
+          command: npm run test:e2e:standalone:b2b
+          no_output_timeout: 5m
+
+      - run:
+          name: UI PA (end-2-end) tests
+          working_directory: ~/repo/meteor-app
+          command: npm run test:e2e:standalone:pa
           no_output_timeout: 5m
 
       - store_artifacts:
@@ -114,7 +119,7 @@ jobs:
 
   deploy_staging:
     docker:
-       # node 8.9
+      # node 8.9
       - image: cypress/base:8
         # fix locale issues that cause mongodb to explode
         # see https://github.com/meteor/meteor/issues/4019
@@ -134,8 +139,8 @@ jobs:
           name: post changelog to slack
           working_directory: ~/repo
           command: |
-              awk '/---/{a=1;next}/^$/{a&&b=1}a&&!b{print}b{exit}' meteor-app/CHANGELOG.md > ~/changelog
-              curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Tests passed, deploying develop to staging. <${CIRCLE_BUILD_URL}>\n\`\`\`\n$(cat ~/changelog)\n\`\`\`\n \", \"icon_emoji\": \":shipit:\"}" https://hooks.slack.com/services/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
+            awk '/---/{a=1;next}/^$/{a&&b=1}a&&!b{print}b{exit}' meteor-app/CHANGELOG.md > ~/changelog
+            curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Tests passed, deploying develop to staging. <${CIRCLE_BUILD_URL}>\n\`\`\`\n$(cat ~/changelog)\n\`\`\`\n \", \"icon_emoji\": \":shipit:\"}" https://hooks.slack.com/services/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
 
       - run:
           name: install meteor
@@ -143,8 +148,8 @@ jobs:
 
       - restore_cache:
           keys:
-          - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
-          - v2-meteor-packages-
+            - v2-meteor-packages-{{ checksum "meteor-app/.meteor/versions"}}
+            - v2-meteor-packages-
 
       - restore_cache:
           keys:
@@ -175,8 +180,6 @@ jobs:
           name: post success message to slack
           command: |
             curl -X POST --data-urlencode "payload={\"channel\": \"#engineering\", \"username\": \"deploybot\", \"text\": \"Develop has been deployed to staging. <https://staging.back2bikes.com.au>\", \"icon_emoji\": \":sunglasses:\"}" https://hooks.slack.com/services/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
-
-
 
 workflows:
   version: 2

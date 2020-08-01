@@ -32,9 +32,13 @@ Meteor.methods({
     const m = Members.findOne({ name: username })
     if (!m) {
       member.name = username // Override the name
-      member.email = `${username.replace(/ /g, '.')}@${username.replace(/ /g, '-')}s.inc.inc`.toLowerCase()
+      member.email = `${username.replace(
+        / /g,
+        '.'
+      )}@${username.replace(/ /g, '-')}s.inc.inc`.toLowerCase()
       const id = Members.insert(member)
-      if (!id) throw new Meteor.Error(`Could not add a ${username} :(`)
+      if (!id)
+        throw new Meteor.Error(`Could not add a ${username} :(`)
     }
   },
   'members.rmToughGuy': function() {
@@ -56,8 +60,10 @@ Meteor.methods({
     rmFighter('Rookie Paddler')
   },
   'members.addDude': function(dude) {
+    debug('dude', dude.wwccExpiry)
     const memberId = Members.insert(dude.member)
-    if (!memberId) debug(`Error creating new dude ${dude.member.name}`)
+    if (!memberId)
+      debug(`Error creating new dude ${dude.member.name}`)
     else {
       Members.update(memberId, { $set: { sessions: dude.sessions } })
       dude.sessions.forEach(session => {
@@ -65,15 +71,18 @@ Meteor.methods({
         session.memberName = dude.member.name
         session.createdAt = session.timeIn
         session.updatedAt = session.timeIn
-        if (!Sessions.insert(session, { bypassCollection2: true })) debug(`Error inserting session ${session.name}`)
+        if (!Sessions.insert(session, { bypassCollection2: true }))
+          debug(`Error inserting session ${session.name}`)
       })
       dude.carts.forEach(cart => {
         cart.memberId = memberId
-        if (!Carts.insert(cart, { bypassCollection2: true })) debug(`Error inserting cart`)
+        if (!Carts.insert(cart, { bypassCollection2: true }))
+          debug(`Error inserting cart`)
       })
       dude.purchases.forEach(purchase => {
         purchase.memberId = memberId
-        if (!Purchases.insert(purchase, { bypassCollection2: true })) debug(`Error inserting purchase`)
+        if (!Purchases.insert(purchase, { bypassCollection2: true }))
+          debug(`Error inserting purchase`)
       })
     }
   },
@@ -102,7 +111,8 @@ Meteor.methods({
       log.info('removing member id: ', id)
       const data = {}
       data.member = Members.findOne(id)
-      if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
+      if (!data.member)
+        throw new Meteor.Error(`Could not find member ${id}`)
       data.purchases = Purchases.find({ memberId: id }).fetch()
       data.carts = Carts.find({ memberId: id }).fetch()
       data.sessions = Sessions.find({ memberId: id }).fetch()
@@ -124,7 +134,8 @@ Meteor.methods({
   'members.removeDupe': function(id, merge) {
     const data = { merge }
     data.member = Members.findOne(id)
-    if (!data.member) throw new Meteor.Error(`Could not find member ${id}`)
+    if (!data.member)
+      throw new Meteor.Error(`Could not find member ${id}`)
     data.purchases = Purchases.find({ memberId: id }).fetch()
     data.carts = Carts.find({ memberId: id }).fetch()
     data.sessions = Sessions.find({ memberId: id }).fetch()
@@ -135,14 +146,22 @@ Meteor.methods({
     })
     // If merging, find another member with same name for transfer
     if (merge) {
-      const members = Members.find({ name: data.member.name, _id: { $ne: id } }, { sort: { sessionCount: -1 } }).fetch()
+      const members = Members.find(
+        { name: data.member.name, _id: { $ne: id } },
+        { sort: { sessionCount: -1 } }
+      ).fetch()
       if (members.length) {
         const memberId = members[0]._id
         Purchases.update({ memberId: id }, { $set: { memberId } })
         Carts.update({ memberId: id }, { $set: { memberId } })
         Sessions.update({ memberId: id }, { $set: { memberId } })
-        const sessions = Sessions.find({ memberId }, { sort: { createdAt: 1 } }).fetch()
-        Members.update(memberId, { $set: { sessions, sessionCount: sessions.length } })
+        const sessions = Sessions.find(
+          { memberId },
+          { sort: { createdAt: 1 } }
+        ).fetch()
+        Members.update(memberId, {
+          $set: { sessions, sessionCount: sessions.length }
+        })
       }
     } else {
       Purchases.remove({ memberId: id })
@@ -192,7 +211,9 @@ Meteor.methods({
   },
 
   'members.forgotPin': function(id, method, to, remember) {
-    log.info(`sending pin for member ${id} via ${method} to ${to} ${remember}`)
+    log.info(
+      `sending pin for member ${id} via ${method} to ${to} ${remember}`
+    )
     try {
       // make DB query and grab the pin.
       const member = Members.findOne(id)
@@ -218,13 +239,21 @@ ${Meteor.settings.public.org}
 `
       if (method == 'email') {
         debug('sending PIN reminder via email ', to)
-        if (!member.email && remember) Members.update(member._id, { $set: { email: to } })
-        return Meteor.call('sendPINEmail', to, pin, message, `${Meteor.settings.public.org} Pin Reminder`)
+        if (!member.email && remember)
+          Members.update(member._id, { $set: { email: to } })
+        return Meteor.call(
+          'sendPINEmail',
+          to,
+          pin,
+          message,
+          `${Meteor.settings.public.org} Pin Reminder`
+        )
       } else {
         message = `Your PIN for the ${Meteor.settings.public.org} sign in app is: ${pin}`
         Meteor.call('sendPINSms', message, to)
         debug('sending PIN via sms.', message)
-        if (!member.mobile && remember) Members.update(member._id, { $set: { mobile: to } })
+        if (!member.mobile && remember)
+          Members.update(member._id, { $set: { mobile: to } })
       }
     } catch (e) {
       debug(`Error`, e.message)
@@ -253,7 +282,10 @@ db[res.result].find({value: {$gt: 1}});
 
     // convert mapReduce to synchronous function
     const rawMembers = Members.rawCollection()
-    const syncMapReduce = Meteor.wrapAsync(rawMembers.mapReduce, rawMembers)
+    const syncMapReduce = Meteor.wrapAsync(
+      rawMembers.mapReduce,
+      rawMembers
+    )
 
     // CollectionName will be overwritten after each mapReduce call
     // Reactive performance is a little better by using a second collection
@@ -263,17 +295,27 @@ db[res.result].find({value: {$gt: 1}});
 
     // Refresh the collection
     Dupes.remove({})
-    RawDupes.find({ value: { $gt: 1 } }).forEach(rec => Dupes.insert(rec))
+    RawDupes.find({ value: { $gt: 1 } }).forEach(rec =>
+      Dupes.insert(rec)
+    )
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
   },
-  'member.email.invoice': function(cartId, email, note, discountedPrice, discount) {
+  'member.email.invoice': function(
+    cartId,
+    email,
+    note,
+    discountedPrice,
+    discount
+  ) {
     const cart = Carts.findOne(cartId)
-    if (!cart) throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
+    if (!cart)
+      throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
     const member = Members.findOne(cart.memberId)
     debug('Emailing invoice for cart', cart)
     if (!note)
-      note = 'You are receiving this email because you train with Peak Adventure, and would like to make a payment.'
+      note =
+        'You are receiving this email because you train with Peak Adventure, and would like to make a payment.'
 
     const priceFormat = price => `${price / 100}.00`
 
@@ -288,16 +330,26 @@ db[res.result].find({value: {$gt: 1}});
         note,
         discount: priceFormat(discount),
         description1: cart.products[0].name,
-        description2: cart.products.length > 1 ? cart.products[1].name : '',
-        description3: cart.products.length > 2 ? cart.products[2].name : '',
+        description2:
+          cart.products.length > 1 ? cart.products[1].name : '',
+        description3:
+          cart.products.length > 2 ? cart.products[2].name : '',
         amount1: priceFormat(cart.products[0].price),
-        amount2: cart.products.length > 1 ? priceFormat(cart.products[1].price) : '',
-        amount3: cart.products.length > 2 ? priceFormat(cart.products[2].price) : '',
+        amount2:
+          cart.products.length > 1
+            ? priceFormat(cart.products[1].price)
+            : '',
+        amount3:
+          cart.products.length > 2
+            ? priceFormat(cart.products[2].price)
+            : '',
         subtotal: priceFormat(cart.price),
         gst: priceFormat(0),
         total: priceFormat(discountedPrice),
         terms: 'Payment within 14 days',
-        link: `${Meteor.absoluteUrl()}shop/renew/${member._id}/${cartId}`
+        link: `${Meteor.absoluteUrl()}shop/renew/${
+          member._id
+        }/${cartId}`
       },
       Meteor.settings.private.invoiceID
     )
@@ -343,10 +395,14 @@ db[res.result].find({value: {$gt: 1}});
           })
           numRows = rows.length
           countTotal = rows
-            .filter(row => row.Status === 'Active' && row.Season === season)
+            .filter(
+              row => row.Status === 'Active' && row.Season === season
+            )
             .map(row => {
               const newRow = {}
-              Object.keys(slsaMap).forEach(key => (newRow[slsaMap[key]] = row[key]))
+              Object.keys(slsaMap).forEach(
+                key => (newRow[slsaMap[key]] = row[key])
+              )
               newRow.name = `${newRow.first} ${newRow.last}`
               // debug('wwcc', newRow.wwcc, typeof newRow.wwcc)
               // if (newRow.wwcc && typeof newRow.wwcc === 'string') newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
@@ -357,7 +413,9 @@ db[res.result].find({value: {$gt: 1}});
               debug(`Updating ${m.name}`)
               const queries = [{ name: m.name }]
               if (m.email1 && m.email2) {
-                queries.push({ $or: [{ email: m.email1 }, { email: m.email2 }] })
+                queries.push({
+                  $or: [{ email: m.email1 }, { email: m.email2 }]
+                })
               } else {
                 if (m.email1) queries.push({ email: m.email1 })
               }
@@ -368,9 +426,16 @@ db[res.result].find({value: {$gt: 1}});
               }
               if (member) {
                 Members.find(member._id).map(m => debug(m.name))
-                return acc + Members.update(member._id, { $set: { isSlsa: true, wwcc: m.wwcc } })
+                return (
+                  acc +
+                  Members.update(member._id, {
+                    $set: { isSlsa: true, wwcc: m.wwcc }
+                  })
+                )
               } else {
-                debug(`Could not find ${m.name}/${m.email1} ${m.email2}`)
+                debug(
+                  `Could not find ${m.name}/${m.email1} ${m.email2}`
+                )
                 return acc
               }
             }, 0)
@@ -390,7 +455,8 @@ db[res.result].find({value: {$gt: 1}});
   'members.forgetCard': function(memberId) {
     debug(`Removing credit card for ${memberId}`)
     const member = Members.findOne(memberId)
-    if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+    if (!member)
+      throw new Meteor.Error(`Could not find member ${memberId}`)
     else {
       const paymentCustId = { member }
       Members.update(memberId, { $unset: { paymentCustId: 1 } })
@@ -404,7 +470,8 @@ db[res.result].find({value: {$gt: 1}});
   'members.updateAutoPay': function(memberId, value) {
     debug(`Setting autopay for ${memberId} to ${value}`)
     const member = Members.findOne(memberId)
-    if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+    if (!member)
+      throw new Meteor.Error(`Could not find member ${memberId}`)
     else {
       Members.update(memberId, { $set: { autoPay: value } })
       eventLog({
@@ -426,18 +493,30 @@ db[res.result].find({value: {$gt: 1}});
       const bucket = {}
       const member = Members.findOne(memberId)
       if (!member.email) member.email = 'nobody@none.such'
-      if (!member) throw new Meteor.Error(`Could not find member ${memberId}`)
+      if (!member)
+        throw new Meteor.Error(`Could not find member ${memberId}`)
       bucket.member = member
       bucket.sessions = Sessions.find({ memberId }).fetch()
       bucket.purchases = Purchases.find({ memberId }).fetch()
       bucket.carts = Carts.find({ memberId }).fetch()
       let contents = JSON.stringify(bucket, null, 2)
-      contents = contents.replace(new RegExp(member.name, 'g'), newName)
-      const newEmail = newName.replace(/[ '"\.\,]+/g, '.') + '@nomail.maybe.home'
-      contents = contents.replace(new RegExp(member.email, 'g'), newEmail)
-      fs.writeFileSync(filename, prefix + contents + postfix, { encoding: 'utf8' })
+      contents = contents.replace(
+        new RegExp(member.name, 'g'),
+        newName
+      )
+      const newEmail =
+        newName.replace(/[ '"\.\,]+/g, '.') + '@nomail.maybe.home'
+      contents = contents.replace(
+        new RegExp(member.email, 'g'),
+        newEmail
+      )
+      fs.writeFileSync(filename, prefix + contents + postfix, {
+        encoding: 'utf8'
+      })
     } else {
-      throw new Meteor.Error('memberId and newname are mandatory parameters')
+      throw new Meteor.Error(
+        'memberId and newname are mandatory parameters'
+      )
     }
   },
   'members.rmSessions': function(id) {
