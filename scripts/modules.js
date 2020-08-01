@@ -8,7 +8,8 @@ const modules = {
   parts: "Parts",
   "service-items": "ServiceItems",
   charges: "Charges",
-  settings: "Settings"
+  settings: "Settings",
+  logs: "Logs"
 };
 module.exports = modules;
 

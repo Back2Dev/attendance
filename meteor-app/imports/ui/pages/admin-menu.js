@@ -9,6 +9,7 @@ const adminPages = [
   { name: 'duplicates', display: 'Duplicates' },
   { name: 'events', display: 'Events' },
   { name: 'charges', display: 'Charges' },
+  { name: 'logs', display: 'Logs' },
   { name: 'parts', display: 'Parts' },
   { name: 'products', display: 'Products' },
   { name: 'promos', display: 'Promos' },
@@ -19,18 +20,18 @@ const adminPages = [
   { name: 'matching', display: 'Shopping carts' },
   { name: 'slsa', display: 'SLSA' },
   { name: 'userprofiles', display: 'Users' },
-  { name: 'wwcc', display: 'WWCC' }
+  { name: 'wwcc', display: 'WWCC' },
 ]
 
 const AdminMenu = ({ current, history }) => {
-  const itemClick = name => {
+  const itemClick = (name) => {
     history.push(`/admin/${name}`)
   }
   return (
     <div
       style={{
         backgroundColor: '#222',
-        padding: '0 0 1em'
+        padding: '0 0 1em',
       }}
     >
       <Menu.Item onClick={itemClick} style={{ backgroundColor: '#222' }} data-page={adminPages[0]} key="admin">
@@ -42,15 +43,15 @@ const AdminMenu = ({ current, history }) => {
           cursor: 'pointer',
           paddingLeft: '1.2em',
           fontSize: '.9em',
-          backgroundColor: '#222'
+          backgroundColor: '#222',
         }}
       >
-        {adminPages.map(page => {
+        {adminPages.map((page) => {
           const active = false //!!current.match(new RegExp(`${page.name}$`, 'i'))
           return (
             <div
               style={{
-                color: active ? 'white' : '#aaa'
+                color: active ? 'white' : '#aaa',
               }}
               key={page.name}
               data-page={page.name}
@@ -67,7 +68,7 @@ const AdminMenu = ({ current, history }) => {
 
 AdminMenu.propTypes = {
   current: PropTypes.string.isRequired,
-  itemClick: PropTypes.func.isRequired
+  itemClick: PropTypes.func.isRequired,
 }
 
 export default withRouter(AdminMenu)
