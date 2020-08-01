@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ForgotPin from './forgot-pin'
 import { Container, Form, Input, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
-const Signup = props => {
+const Signup = (props) => {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [error, setError] = useState(null)
@@ -15,9 +15,9 @@ const Signup = props => {
     if (props.member.email) {
       setEmail(props.member.email)
     }
-  }, [props])
+  }, [props.member.email])
 
-  submit = e => {
+  submit = (e) => {
     e.preventDefault()
     if (pin !== props.member.pin) {
       return setError('Pin is incorrect.. please try again')
@@ -46,7 +46,7 @@ const Signup = props => {
                     name="pin"
                     placeholder="Pin Number"
                     type="password"
-                    onChange={e => setPin(e.target.value)}
+                    onChange={(e) => setPin(e.target.value)}
                     fluid
                   />
                   <ForgotPin style={{ marginBottom: '20px' }} member={props.member} forgotPin={props.forgotPin} />
@@ -58,7 +58,7 @@ const Signup = props => {
                   name="password"
                   placeholder="Password"
                   type="password"
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <Form.Input
                   label="Confirm your password"
@@ -67,7 +67,7 @@ const Signup = props => {
                   name="passwordConfirm"
                   placeholder="Please confirm your password"
                   type="password"
-                  onChange={e => setPasswordConfirm(e.target.value)}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
                 />
                 <Form.Button content="Submit" color="blue" />
               </Segment>
@@ -86,7 +86,7 @@ Signup.propTypes = {
   location: PropTypes.object.isRequired,
   member: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
-  add: PropTypes.func.isRequired
+  add: PropTypes.func.isRequired,
 }
 
 export default withRouter(Signup)

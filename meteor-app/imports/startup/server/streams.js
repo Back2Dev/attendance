@@ -7,7 +7,7 @@ export default setupStreams = () => {
     streamer.allowRead('all')
     streamer.allowWrite('all')
     streamer.on('message', function (message) {
-      console.log('user: ', message)
+      // console.log('user: ', message)
     })
     streamer.emit('message', 'messages from server')
   }

@@ -161,6 +161,8 @@ Tests are performed through a combination of JEST and [Cypress](https://www.cypr
 begin tests by cd'ing into the `attendance/meteor-app` folder and running:
 
 `meteor npm run debug.b2b`
+Also run:
+`npm run cypress:open`
 
 `npm run cypress:open`
 
