@@ -9,11 +9,11 @@ import Logs from './schema'
 import Factory from '/imports/test/factories'
 
 const badLogs = [
-  // no name
-  {}
+  //  no name
+  {},
 ]
 
-const goodLogs = [{}]
+const goodLogs = []
 
 goodLogs.push(Factory.build('logs'))
 
@@ -33,8 +33,16 @@ describe('logs', () => {
         const thing = Logs.findOne(id)
         expect(thing._id).to.equal(good._id)
         // Templated replacement...
-        const fields = ["userId","memberId","oId","status","type","description"] || []
-        fields.forEach(field => {
+        const fields =
+          [
+            'userId',
+            'memberId',
+            'oId',
+            'status',
+            'type',
+            'description',
+          ] || []
+        fields.forEach((field) => {
           expect(thing[field]).to.equal(good[field])
         })
       })

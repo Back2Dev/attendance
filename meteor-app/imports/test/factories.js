@@ -29,7 +29,10 @@ Factory.define('member', Members, {
   // TODO - the rest of these
   isHere: true,
   avatar: '7.jpg',
-  sessions: [{ memberId: 'randomSession' }, { memberId: 'randomSession' }],
+  sessions: [
+    { memberId: 'randomSession' },
+    { memberId: 'randomSession' },
+  ],
   lastIn: new Date(),
   joined: new Date(),
   addressPostcode: '3428',
@@ -51,7 +54,7 @@ Factory.define('member', Members, {
     was a white Sun 10 speed racer. I saved up for months to buy it. I saved
     money from my paper round, and my dad threw some money in too.
   `,
-  primaryBike: 'Racer'
+  primaryBike: 'Racer',
 })
 
 Factory.define('order', Orders, {
@@ -64,10 +67,10 @@ Factory.define('order', Orders, {
       partId: 'frame',
       partNo: 'sadasd',
       addedAt: new Date(),
-      userId: '2ueueoaje'
-    }
+      userId: '2ueueoaje',
+    },
   ],
-  totalPrice: 9900 // This is in cents
+  totalPrice: 9900, // This is in cents
 })
 
 Factory.define('assessment', Assessments, {
@@ -75,28 +78,28 @@ Factory.define('assessment', Assessments, {
     name: faker.name.findName(),
     phone: faker.phone.phoneNumber(),
     email: faker.internet.email(),
-    isRefurbish: faker.random.boolean()
+    isRefurbish: faker.random.boolean(),
   },
   bikeDetails: {
     make: faker.commerce.productName(),
     model: 'TX-1234',
     color: faker.commerce.color(),
     bikeValue: Math.round(faker.finance.amount()),
-    sentimentValue: faker.random.boolean()
+    sentimentValue: faker.random.boolean(),
   },
   services: {
     serviceItem: [
       {
         name: 'Fix tyre',
-        price: 5000
+        price: 5000,
       },
       {
         name: 'Fix handle bar',
-        price: 3000
-      }
+        price: 3000,
+      },
     ],
     baseService: 'Minor Service',
-    totalServiceCost: 8000
+    totalServiceCost: 8000,
   },
   parts: {
     partsItem: [
@@ -105,10 +108,10 @@ Factory.define('assessment', Assessments, {
         price: 2000,
         code: 'F',
         category: 'Other',
-        used: false
-      }
+        used: false,
+      },
     ],
-    totalPartsCost: 2000
+    totalPartsCost: 2000,
   },
   additionalFees: 1500,
   discount: 2000,
@@ -122,20 +125,20 @@ Factory.define('assessment', Assessments, {
   comment: 'Thorough cleaning of the bike is required',
   temporaryBike: faker.random.boolean(),
   status: 2,
-  search: faker.name.findName()
+  search: faker.name.findName(),
 })
 
-Factory.define('logs', Logger, {
+Factory.define('logger', Logger, {
   user: faker.name.findName(),
   aId: '34G5785heY6262',
   status: 1,
-  eventType: 2
+  eventType: 2,
 })
 
 Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
-  package: 'Minor'
+  package: 'Minor',
 })
 
 Factory.define('product', Products, {
@@ -149,7 +152,7 @@ Factory.define('product', Products, {
   active: true,
   autoRenew: true,
   startDate: faker.date.past(1),
-  endDate: faker.date.future(1)
+  endDate: faker.date.future(1),
 })
 
 Factory.define('purchase', Purchases, {
@@ -161,7 +164,7 @@ Factory.define('purchase', Purchases, {
   productId: 'EKFJq9mrEjPer3PHW',
   productName: 'PA 12 month membership',
   paymentMethod: 'credit card',
-  status: 'current'
+  status: 'current',
 })
 
 Factory.define('purchase10pass', Purchases, {
@@ -173,14 +176,14 @@ Factory.define('purchase10pass', Purchases, {
   productId: 'EKFJq9mrEjPer3PHW',
   productName: '10 session pass',
   paymentMethod: 'credit card',
-  status: 'current'
+  status: 'current',
 })
 
 Factory.define('wwcc', Wwccs, {
   wwcc: '01819845',
   wwccSurname: 'King',
   memberId: 'SYdWnRL5LmZXT4GxE',
-  wwccOk: true
+  wwccOk: true,
 })
 
 Factory.define('cart', Carts, {
@@ -193,17 +196,17 @@ Factory.define('cart', Carts, {
   products: [Factory.create('product')],
   status: 'complete',
   customerResponse: {},
-  chargeResponse: {}
+  chargeResponse: {},
 })
 
 Factory.define('report', Reports, {
   name: 'This is a report',
-  details: 'This is the details of the report, blah, blah blah'
+  details: 'This is the details of the report, blah, blah blah',
 })
 
 Factory.define('orderemails', OrderEmails, {
   name: 'order emails',
-  description: 'order emails'
+  description: 'order emails',
 })
 
 export default Factory
