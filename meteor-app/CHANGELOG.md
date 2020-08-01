@@ -9,6 +9,18 @@
 - Add reconciliation to charges and carts, improved layouts
 - Add admin button to edit user details
 - Changed input in add form to hid password
+- Add b2b member portal
+- Fix coding problems with certain test scripts
+- Add new service test scripts for input and UI
+- Refactor factories code
+- Added member.paymentEmails array
+- Fix email to be lower case
+- Remove settings symlinks, adjust package.json
+- Fix the event import
+- Fix SMS sending to send message as typed
+- Fix SMS sending to detect price change and update DB to suit
+
+>>>>>>> origin/develop
 
 ## 1.2.4
 

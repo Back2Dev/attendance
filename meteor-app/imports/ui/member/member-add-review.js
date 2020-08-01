@@ -21,7 +21,7 @@ const MemberAddReview = (props) => {
           <Segment padded="very" key={ix}>
             <h2 onClick={() => props.goToStep(ix)}>
               <span>{step.stepTitle}</span>
-              <Button basic circular icon="pencil" floated="right" />
+              <Button basic circular icon="pencil" id={step.stepId} floated="right" />
             </h2>
             <Segment.Group>
               {Object.keys(step.schema.properties).map((key, iy) => {

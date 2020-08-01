@@ -13,7 +13,7 @@ const error = new ReactiveVar(false)
 const msg = new ReactiveVar('')
 const newId = new ReactiveVar('')
 
-export default withTracker(props => {
+export default withTracker((props) => {
   // need to do something smarter than this...
   function setError(e) {
     newId.set(null)
@@ -31,7 +31,7 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setMember = async formData => {
+  const setMember = async (formData) => {
     if (props.member != null) {
       // we are updating the member
       debug('updating member', formData)
@@ -48,7 +48,7 @@ export default withTracker(props => {
 
   const updateMemberPassword = async (formData, confirmPass) => {
     if (props.member != null) {
-      debug('updating member password', formData)
+      // debug('updating member password', formData)
       try {
         const res = await Meteor.callAsync('updateMemberPassword', formData, confirmPass)
         setSuccess('Member password saved', formData.userId)
@@ -72,6 +72,6 @@ export default withTracker(props => {
     newId: newId.get(),
     resetId: () => newId.set(''),
     member: props.member ? props.member : null,
-    schemas: getSchemas(`${Meteor.settings.public.recruit}Edit`)
+    schemas: getSchemas(`${Meteor.settings.public.recruit}Edit`),
   }
 })(MemberEditForm)

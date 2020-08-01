@@ -30,7 +30,7 @@ export default UserDetailForm = ({ formData, updateMemberPassword }) => {
         <Form.Input
           label="Email"
           value={data.email}
-          onChange={e => {
+          onChange={(e) => {
             setData({ ...data, email: e.target.value })
           }}
         />
@@ -39,7 +39,7 @@ export default UserDetailForm = ({ formData, updateMemberPassword }) => {
           label="Password"
           type="password"
           value={newPassword}
-          onChange={e => {
+          onChange={(e) => {
             setNewPassword(e.target.value)
           }}
         />
@@ -48,7 +48,7 @@ export default UserDetailForm = ({ formData, updateMemberPassword }) => {
           label="Confirm Password"
           type="password"
           value={confirmPass}
-          onChange={e => {
+          onChange={(e) => {
             setConfirmPass(e.target.value)
           }}
         />
@@ -57,14 +57,14 @@ export default UserDetailForm = ({ formData, updateMemberPassword }) => {
           id="form-pin"
           label="Pin"
           value={newPin}
-          onChange={e => {
+          onChange={(e) => {
             setNewPin(e.target.value)
           }}
         />
 
         <Form.Input
           label="Confirm New Pin"
-          onChange={e => {
+          onChange={(e) => {
             setData({ ...data, pin: e.target.value })
           }}
         />
@@ -77,5 +77,5 @@ export default UserDetailForm = ({ formData, updateMemberPassword }) => {
 
 UserDetailForm.propTypes = {
   formData: PropTypes.object.isRequired,
-  updateMemberPassword: PropTypes.func.isRequired
+  updateMemberPassword: PropTypes.func.isRequired,
 }

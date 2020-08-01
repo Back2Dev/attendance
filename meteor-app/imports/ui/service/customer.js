@@ -38,30 +38,22 @@ function inputElement(type, name, placeholder){
 let yup = require('yup')
 const schema = yup.object().shape({
   CustomerName: yup.string().required(),
-  phone: yup
-    .number()
-    .min(6)
-    .required()
-    .positive()
-    .integer(),
-  email: yup
-    .string()
-    .email()
-    .required(),
+  phone: yup.number().min(6).required().positive().integer(),
+  email: yup.string().email().required(),
   bikeBrand: yup.string().required(),
   bikeName: yup.string().required(),
-  bikeColor: yup.string().required()
+  bikeColor: yup.string().required(),
 })
 
 function Client(props) {
   const [state, setState] = useContext(ServiceContext)
-  console.log('state from client = ', state)
+  // console.log('state from client = ', state)
   const { register, handleSubmit, errors } = useForm({
     validationSchema: schema,
     //SubmitFocusError autofocuses to the 1st invalid field when form submit
-    submitFocusError: true
+    submitFocusError: true,
   })
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log(data)
     let submissiondata = data
     console.log('submissiondata:', submissiondata)
@@ -76,7 +68,11 @@ function Client(props) {
   //   }
   // }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} id="service-customer" novalidate>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      id="service-customer"
+      novalidate
+    >
       <section className="form-left">
         <article className="form customer-details">
           <legend>Customer Details</legend>
@@ -87,36 +83,50 @@ function Client(props) {
               ref={register({
                 message: 'Customer Name is required',
                 pattern: /\W+/,
-                required: true
+                required: true,
               })}
               className="service-form-input"
             />
 
             <span className="placeholder"> Customer Name</span>
           </label>
-          {errors.CustomerName && errors.CustomerName === 'required'(<p>{errors.CustomerName.message}</p>)}
+          {errors.CustomerName &&
+            errors.CustomerName ===
+              'required'(<p>{errors.CustomerName.message}</p>)}
 
           <label className="service-form-label">
             <input
               type="email"
               name="email"
-              ref={register({ message: 'email is required', pattern: /\W+/, required: true })}
+              ref={register({
+                message: 'email is required',
+                pattern: /\W+/,
+                required: true,
+              })}
               className="service-form-input"
             />
             <span className="placeholder"> email</span>
           </label>
-          {errors.email && errors.email === 'required'(<p>{errors.email.message}</p>)}
+          {errors.email &&
+            errors.email ===
+              'required'(<p>{errors.email.message}</p>)}
 
           <label className="service-form-label">
             <input
               type="text"
               name="phone"
-              ref={register({ message: 'a phone number is required', minLength: 8, required: true })}
+              ref={register({
+                message: 'a phone number is required',
+                minLength: 8,
+                required: true,
+              })}
               className="service-form-input"
             />
             <span className="placeholder"> phone</span>
           </label>
-          {errors.phone && errors.phone === 'required'(<p>{errors.phone.message}</p>)}
+          {errors.phone &&
+            errors.phone ===
+              'required'(<p>{errors.phone.message}</p>)}
         </article>
 
         <article className="form bike-details">
@@ -125,7 +135,10 @@ function Client(props) {
             <input
               type="text"
               name="bikeBrand"
-              ref={register({ message: 'A Brand is required', required: true })}
+              ref={register({
+                message: 'A Brand is required',
+                required: true,
+              })}
               className="service-form-input"
             />
             <span className="placeholder"> Bike Brand</span>
@@ -136,7 +149,10 @@ function Client(props) {
             <input
               type="text"
               name="bikeName"
-              ref={register({ message: 'The Name is required', required: true })}
+              ref={register({
+                message: 'The Name is required',
+                required: true,
+              })}
               className="service-form-input"
             />
             <span className="placeholder"> Bike Name</span>
@@ -147,7 +163,10 @@ function Client(props) {
             <input
               type="text"
               name="bikeColor"
-              ref={register({ message: 'Bike Color is required', required: true })}
+              ref={register({
+                message: 'Bike Color is required',
+                required: true,
+              })}
               className="service-form-input"
             />
             <span className="placeholder"> Bike Color</span>
@@ -163,15 +182,30 @@ function Client(props) {
         <article className="form misc-details">
           <legend>Misc</legend>
           <label>
-            <input type="checkbox" placeholder="replacement" name="replacement" ref={register} />
+            <input
+              type="checkbox"
+              placeholder="replacement"
+              name="replacement"
+              ref={register}
+            />
             Replacement Bike Requested:
           </label>
           <label>
-            <input type="checkbox" placeholder="urgent" name="urgent" ref={register} />
+            <input
+              type="checkbox"
+              placeholder="urgent"
+              name="urgent"
+              ref={register}
+            />
             Urgent?
           </label>
           <label>
-            <input type="checkbox" placeholder="sentimental" name="sentimental" ref={register} />
+            <input
+              type="checkbox"
+              placeholder="sentimental"
+              name="sentimental"
+              ref={register}
+            />
             Sentimental?
           </label>
           <button type="submit" id="service-form-button">

@@ -9,7 +9,7 @@ const dude = {
     addressState: 'VIC',
     addressPostcode: '3207',
     email: 'Bruce.Lee@nomail.maybe.home',
-    name: 'Bruce Lee',
+    name: 'Bruce L',
     avatar: '4.jpg',
     isHere: false,
     isSuper: false,

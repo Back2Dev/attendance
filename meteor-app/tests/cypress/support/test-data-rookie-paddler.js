@@ -4,7 +4,7 @@ const NumberInt = n => n
 const dude = {
   member: {
     _id: 'S5TqwLR9AvZSZ8kk7',
-    name: 'Rookie Paddler',
+    name: 'Rookie P',
     avatar: 'test11.png',
     isHere: false,
     isSuper: false,
