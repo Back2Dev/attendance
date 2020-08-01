@@ -111,4 +111,3 @@ Mon 6 Jul 2020 16:48:39 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod
 Mon 6 Jul 2020 17:08:25 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy develop https://app.back2bikes.com.au 1.2.7
 Mon 6 Jul 2020 17:15:39 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy develop https://app.back2bikes.com.au 1.2.7
 Mon 6 Jul 2020 17:42:37 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig develop https://app.back2bikes.com.au 1.2.7
->>>>>>> develop
