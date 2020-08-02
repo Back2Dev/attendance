@@ -19,8 +19,7 @@
 - Fix the event import
 - Fix SMS sending to send message as typed
 - Fix SMS sending to detect price change and update DB to suit
-
->>>>>>> origin/develop
+- Fix integration tests
 
 ## 1.2.4
 
