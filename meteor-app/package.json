@@ -61,7 +61,7 @@
     "axios": "^0.18.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-require-context-hook": "^1.0.0",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "bufferutil": "^4.0.1",
     "casual": "^1.5.14",
