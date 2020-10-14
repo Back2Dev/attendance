@@ -117,3 +117,5 @@ Sat 1 Aug 2020 19:53:05 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-stag
 Sat 1 Aug 2020 20:13:57 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-staging reconfig jobs-performance https://staging.back2bikes.com.au 1.2.7
 Sat 1 Aug 2020 22:14:21 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig jobs-performance https://app.back2bikes.com.au 1.2.7
 Sat 1 Aug 2020 22:28:57 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig jobs-performance https://app.back2bikes.com.au 1.2.7
+Thu 15 Oct 2020 08:27:46 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy jobs-performance https://app.back2bikes.com.au 1.2.8
+Thu 15 Oct 2020 08:37:43 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig jobs-performance https://app.back2bikes.com.au 1.2.8
