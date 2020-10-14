@@ -5,36 +5,38 @@ import Settings from '/imports/api/settings/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import List from './list'
 
-const remove = id => meteorCall('rm.settings', 'Deleting', id)
-const update = form => meteorCall('update.settings', 'updating', form)
-const insert = form => meteorCall('insert.settings', 'adding', form)
+const remove = (id) => meteorCall('rm.settings', 'Deleting', id)
+const update = (form) =>
+  meteorCall('update.settings', 'updating', form)
+const insert = (form) => meteorCall('insert.settings', 'adding', form)
 
 // Config data
 
 const defaultObject = {
-  name: 'Untitled',
-  description: 'Description',
-  code: 'XXX'
+  name: 'My setting',
+  type: 'string',
+  key: 'XXX',
+  value: '1',
 }
 const columns = [
   {
     formatter: 'rowSelection',
     align: 'center',
     headerSort: false,
-    cellClick: function(e, cell) {
+    cellClick: function (e, cell) {
       cell.getRow().toggleSelect()
-    }
+    },
   },
   { field: 'name', title: 'name', editor: true },
   { field: 'type', title: 'type', editor: true },
   { field: 'key', title: 'key', editor: true },
-  { field: 'value', title: 'value', editor: true }
+  { field: 'value', title: 'value', editor: true },
 ]
-const Loading = props => {
+const Loading = (props) => {
   if (props.loading) return <div>Loading...</div>
   return <List {...props}></List>
 }
-export default withTracker(props => {
+export default withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.settings')
   return {
     items: Settings.find({}).fetch(),
@@ -43,6 +45,6 @@ export default withTracker(props => {
     insert,
     columns,
     defaultObject,
-    loading: !subsHandle.ready()
+    loading: !subsHandle.ready(),
   }
 })(Loading)
