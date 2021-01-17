@@ -8,8 +8,10 @@ const SmsModal = ({ job }) => {
   const payUrl = Meteor.absoluteUrl(`/pay/${job.jobNo}`)
   const [isOpen, setOpen] = React.useState(false)
   const [message, setMessage] = React.useState(
-    `Your bike is ready for pickup. Cost is $${cost}. Please pay at ${payUrl}`
-  )
+    `Hi ${job.customerDetails.name}, Your bike is ready for pickup. Cost is $${cost}. Please pay at ${payUrl} (from workshop at Back2bikes)`
+//TODO: cc B2B phone
+//TODO: Booking confirmation SMS
+    )
 
   const updateMessage = (e) => {
     setMessage(e.target.value)
