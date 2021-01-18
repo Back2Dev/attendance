@@ -326,7 +326,7 @@ db[res.result].find({value: {$gt: 1}});
       const lines = data
         .split('\n')
         .filter(line => {
-          if (line.match(/^Member ID/)) {
+          if (line.match(/Member ID/)) {
             started = true
           }
           return started
@@ -354,7 +354,7 @@ db[res.result].find({value: {$gt: 1}});
                 )
                 const expiry = row['Working with Children Registration Expiry Date']
                 if (expiry)
-              newRow.wwccExpiry = moment(expiry,"DD/MM/YY")
+              // newRow.wwccExpiry = moment(expiry,"DD/MM/YY")
               newRow.name = `${newRow.first} ${newRow.last}`
               newRow.wwccSurname= newRow.last
               isSlsa=true
@@ -382,12 +382,15 @@ db[res.result].find({value: {$gt: 1}});
                 acc.updated = acc.updated + Members.update(member._id, { $set: { isSlsa: true, wwcc: m.wwcc } })
               } else {
                 if( autocreate){
+                  try {
                   Members.insert(m)
                   acc.added = acc.added+1
+                  } catch(e) {
+                    debug(`Failed to insert member ${m.name}: ${e.message}`)
+                  }
                 }
                 else 
                 debug(`Could not find ${m.name}/${m.email1} ${m.email2}`)
-
               }
               return acc
             }, {updated:0, added:0})
