@@ -19,6 +19,13 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
+
+// describe('Create an Cathrine King', function() {
+//   it(`Creates an Cathrine`, function() {
+//     cy.visit('/')
+//     addCathrine()
+//   })
+// })
 describe('Retrieve kiosk webpage', function() {
   it('Retrieves the kiosk webpage ', function() {
     cy.visit('/admin/login/')
@@ -29,7 +36,7 @@ describe('Retrieve kiosk webpage', function() {
       .click()
 
     // Adds a wwcc number that fails - name mismatch
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -47,12 +54,14 @@ describe('Retrieve kiosk webpage', function() {
       .click()
     cy.get('.s-alert-error').should('exist')
     cy.get('div')
-      .contains('Error: This family name and application/card number combination do not match')
+      .contains(
+        'Error: This family name and application/card number combination do not match'
+      )
       .should('exist')
 
     // Adds a wwcc number that fails - bad number
 
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -70,12 +79,14 @@ describe('Retrieve kiosk webpage', function() {
       .click()
     cy.get('.s-alert-error').should('exist')
     cy.get('div')
-      .contains('Error: There was a problem submitting your request, one or more fields are missing or incorrect')
+      .contains(
+        'Error: There was a problem submitting your request, one or more fields are missing or incorrect'
+      )
       .should('exist')
 
     // Adds a wwcc number that fails - unsuccessful number
 
-    cy.get('button[about="Cathrine King-add"]')
+    cy.get('button[about="Cathrine Carmel-add"]')
       .contains('Add...')
       .should('be.enabled')
       .click()
@@ -93,7 +104,10 @@ describe('Retrieve kiosk webpage', function() {
       .click()
     cy.get('.s-alert-error').should('exist')
     cy.get('div')
-      .contains('Error: This family name and application/card number combination do not match')
+      .contains(
+        'Error: This family name and application/card number combination do not match'
+      )
       .should('exist')
+    rmCathrineKing()
   })
 })

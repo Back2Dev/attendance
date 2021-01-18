@@ -12,4 +12,5 @@ import './factory.parts'
 import './factory.service-items'
 import './factory.charges'
 import './factory.settings'
+import './factory.logs'
 

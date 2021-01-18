@@ -7,30 +7,29 @@ import Logger from '/imports/api/assessments/logger'
 
 const badLogs = []
 
-badLogs.push(Factory.build('logs', { aId: [] }))
-badLogs.push(Factory.build('logs', { user: '' }))
+badLogs.push(Factory.build('logger', { aId: [] }))
+badLogs.push(Factory.build('logger', { user: '' }))
 
 const goodLogs = []
 
-goodLogs.push(Factory.build('logs'))
-goodLogs.push(Factory.build('logs'))
-goodLogs.push(Factory.build('logs'))
+goodLogs.push(Factory.build('logger'))
+goodLogs.push(Factory.build('logger'))
+goodLogs.push(Factory.build('logger'))
 
 describe('logger/schema', () => {
-
   beforeEach(resetDatabase)
 
   badLogs.forEach((bad, i) => {
-    describe(`Bad logs (${i+1})`, () => {
+    describe(`Bad logs (${i + 1})`, () => {
       it('will not save to database', () => {
         // Fail validation, throw
-        expect(() => Logger.insert(bad)).to.throw() 
+        expect(() => Logger.insert(bad)).to.throw()
       })
     })
   })
 
   goodLogs.forEach((good, i) => {
-    describe(`Good logs (${i+1})`, () => {
+    describe(`Good logs (${i + 1})`, () => {
       it('will save to database', () => {
         // Passes, doesn't throw
         expect(() => Logger.insert(good)).to.not.throw()

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Icon, Image, Header, Segment } from 'semantic-ui-react'
+import { Button, Image, Header, Segment } from 'semantic-ui-react'
 
-const MemberAddReview = props => {
+const MemberAddReview = (props) => {
   if (props.formData.avatar === undefined) {
     props.formData.avatar = 'default.jpg'
   }
@@ -29,10 +29,15 @@ const MemberAddReview = props => {
                   return (
                     <Segment key={iy}>
                       <strong>{step.schema.properties[key].title}</strong>
-                      <span style={{ paddingLeft: '1em' }}>
-                        {key === 'avatar' && <Image avatar src={`/images/avatars/${props.formData.avatar}`} />}
-                        {key !== 'avatar' && <span>{props.formData[key]}</span>}
-                      </span>
+                      {step.schema.properties[key].title === 'Password for member portal' ||
+                      step.schema.properties[key].title === 'Confirm password' ? (
+                        <span style={{ paddingLeft: '1em' }}>Hidden</span>
+                      ) : (
+                        <span style={{ paddingLeft: '1em' }}>
+                          {key === 'avatar' && <Image avatar src={`/images/avatars/${props.formData.avatar}`} />}
+                          {key !== 'avatar' && <span>{props.formData[key]}</span>}
+                        </span>
+                      )}
                     </Segment>
                   )
                 }
@@ -47,15 +52,7 @@ const MemberAddReview = props => {
 
 MemberAddReview.propTypes = {
   formData: PropTypes.object.isRequired,
-  goToStep: PropTypes.func.isRequired
+  goToStep: PropTypes.func.isRequired,
 }
 
 export default MemberAddReview
-
-// {
-//   Object.keys(props.formData).map(key => {
-//     if (props.formData[key]) {
-//       return <div>{key}: {props.formData[key]}</div>
-//     }
-//   })
-// }

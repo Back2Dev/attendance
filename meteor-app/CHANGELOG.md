@@ -9,6 +9,7 @@
 - Added the ability to adjust name or prices on service tags for custom jobs.
 - Add reconciliation to charges and carts, improved layouts
 - Add admin button to edit user details
+- Changed input in add form to hid password
 - Add b2b member portal
 - Fix coding problems with certain test scripts
 - Add new service test scripts for input and UI
@@ -19,6 +20,7 @@
 - Fix the event import
 - Fix SMS sending to send message as typed
 - Fix SMS sending to detect price change and update DB to suit
+- Fix integration tests
 
 ## 1.2.4
 
