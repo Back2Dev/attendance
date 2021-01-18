@@ -8,7 +8,8 @@ const MemberAddReview = props => {
   }
   return (
     <Segment style={{ textAlign: 'left' }}>
-      <Header as="h1" content="Review your details:" textAlign="center" />
+      <Header as="h1" content="Review your details" textAlign="center" />
+      <p><i>Your profile will be created when you click the "Submit" button at the bottom of the page</i></p>
       <Image
         circular
         centered

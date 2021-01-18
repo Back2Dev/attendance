@@ -273,7 +273,7 @@ db[res.result].find({value: {$gt: 1}});
     const member = Members.findOne(cart.memberId)
     debug('Emailing invoice for cart', cart)
     if (!note)
-      note = 'You are receiving this email because you train with Peak Adventure, and would like to make a payment.'
+      note = 'You are receiving this email because you train with Sandridge, and would like to make a payment.'
 
     const priceFormat = price => `${price / 100}.00`
 
@@ -304,6 +304,7 @@ db[res.result].find({value: {$gt: 1}});
   },
 
   'slsa.load': function(data, season) {
+    const autocreate = true
     const slsaMap = {
       'Member ID': 'slsaId',
       'First Name': 'first',
@@ -313,11 +314,11 @@ db[res.result].find({value: {$gt: 1}});
       Season: 'season',
       'Email Address 1': 'email1',
       'Email Address 2': 'email2',
-      'Working with Children Registration Expiry Date': 'wwccExpiry',
+      // 'Working with Children Registration Expiry Date': 'wwccExpiry',
       'Working with Children Registration No': 'wwcc'
     }
 
-    let countTotal = 0
+    let totals = {added:0,updated:0}
     let numRows = 0
     if (Meteor.isClient) return
     try {
@@ -342,12 +343,22 @@ db[res.result].find({value: {$gt: 1}});
             raw: true
           })
           numRows = rows.length
-          countTotal = rows
+         totals = rows
             .filter(row => row.Status === 'Active' && row.Season === season)
             .map(row => {
               const newRow = {}
-              Object.keys(slsaMap).forEach(key => (newRow[slsaMap[key]] = row[key]))
+              Object.keys(slsaMap).forEach(key => {
+                if (row[key])
+                newRow[slsaMap[key]] = row[key]
+              }
+                )
+                const expiry = row['Working with Children Registration Expiry Date']
+                if (expiry)
+              newRow.wwccExpiry = moment(expiry,"DD/MM/YY")
               newRow.name = `${newRow.first} ${newRow.last}`
+              newRow.wwccSurname= newRow.last
+              isSlsa=true
+
               // debug('wwcc', newRow.wwcc, typeof newRow.wwcc)
               // if (newRow.wwcc && typeof newRow.wwcc === 'string') newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
               return newRow
@@ -368,18 +379,24 @@ db[res.result].find({value: {$gt: 1}});
               }
               if (member) {
                 Members.find(member._id).map(m => debug(m.name))
-                return acc + Members.update(member._id, { $set: { isSlsa: true, wwcc: m.wwcc } })
+                acc.updated = acc.updated + Members.update(member._id, { $set: { isSlsa: true, wwcc: m.wwcc } })
               } else {
+                if( autocreate){
+                  Members.insert(m)
+                  acc.added = acc.added+1
+                }
+                else 
                 debug(`Could not find ${m.name}/${m.email1} ${m.email2}`)
-                return acc
+
               }
-            }, 0)
-          debug('updated', countTotal)
+              return acc
+            }, {updated:0, added:0})
+          debug(`Updated ${totals.updated}, added ${totals.added}`)
         } catch (e) {
           console.error(`Couldn't update members from csv ${s}: `, e)
         }
       }
-      const message = `Updated ${countTotal} of ${numRows} records in file`
+      const message = `Updated ${totals.updated} of ${numRows} records in file`
       debug(message)
       return message
     } catch (e) {

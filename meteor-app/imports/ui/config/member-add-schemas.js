@@ -6,7 +6,7 @@ const b2bSchema = {
     schema: {
       title: 'Back2bikes volunteer registration',
       description:
-        'No need to register if you are already signing in on the computer. Keep going until the end to make sure it saves',
+        'No need to register if you are already signing in on the computer.',
       type: 'object',
       title: 'Lets get to know each other.',
       // required: ["bikesHousehold", "reasons"],
@@ -58,7 +58,7 @@ const paEditSchema = {
   aboutStep: {
     schema: {
       title: 'No need to register if you are already signing in on the ipad at Sandridge',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -179,7 +179,7 @@ const paSchema = {
   aboutStep: {
     schema: {
       title: 'No need to register if you are already signing in on the ipad at Sandridge',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -323,7 +323,7 @@ const b4hSchema = {
   aboutStep: {
     schema: {
       title: 'Bicycles for Humanity Volunteer registration',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -436,7 +436,7 @@ const srSchema = {
   aboutStep: {
     schema: {
       title: 'No need to register if you are already signing in on the ipad at Sandridge',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -486,7 +486,7 @@ const srSchema = {
     },
     uiSchema: {
       name: {
-        'ui:placeholder': 'Enter your name',
+        'ui:placeholder': 'Enter your full name (first and last names)',
         'ui:autofocus': true,
       },
 
@@ -556,7 +556,7 @@ const srSchema = {
         fitness: {
           type: 'boolean',
           enum: [true],
-          title: 'I declare I am medically fit and capable of undertaking this physical activity',
+          title: 'I declare I am medically fit and capable of undertaking  this physical activity',
         },
       },
     },
@@ -853,7 +853,7 @@ const defaultSchema = [
 //
 // Copy in the schema overrides
 //
-const custom = 'b2b' // Meteor.settings.public.recruit || "b2b"
+const custom =  Meteor.settings.public.recruit || "b2b"
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
   const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
