@@ -105,3 +105,5 @@ Sun 17 Jan 2021 14:17:31 AEDT /Users/mikkel/back2bikes/attendance/deploy/sr-prod
 Tue 19 Jan 2021 21:47:14 AEDT /Users/mikkel/back2bikes/attendance/deploy/sr-prod deploy fix/sms https://paddle.almsford.org 1.2.7
 Tue 19 Jan 2021 21:54:49 AEDT /Users/mikkel/back2bikes/attendance/deploy/sr-prod reconfig fix/sms https://paddle.almsford.org 1.2.7
 Tue 19 Jan 2021 21:57:48 AEDT /Users/mikkel/back2bikes/attendance/deploy/sr-prod reconfig fix/sms https://paddle.almsford.org 1.2.7
+Tue 19 Jan 2021 23:49:45 AEDT /Users/mikkel/back2bikes/attendance/deploy/paddle-prod deploy fix/sms https://paddle.almsford.org 1.2.7
+Tue 19 Jan 2021 23:56:57 AEDT /Users/mikkel/back2bikes/attendance/deploy/paddle-prod reconfig fix/sms https://paddle.almsford.org 1.2.7
