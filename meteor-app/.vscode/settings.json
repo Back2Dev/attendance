@@ -7,5 +7,6 @@
   "prettier.tabWidth": 2,
   "prettier.useTabs": false,
   "prettier.arrowParens": "avoid",
-  "prettier.semi": false
+  "prettier.semi": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

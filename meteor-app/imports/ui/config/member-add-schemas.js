@@ -6,7 +6,7 @@ const b2bSchema = {
     schema: {
       title: 'Back2bikes volunteer registration',
       description:
-        'No need to register if you are already signing in on the computer. Keep going until the end to make sure it saves',
+        'No need to register if you are already signing in on the computer.',
       type: 'object',
       title: 'Lets get to know each other.',
       // required: ["bikesHousehold", "reasons"],
@@ -58,7 +58,7 @@ const paEditSchema = {
   aboutStep: {
     schema: {
       title: 'No need to register if you are already signing in on the ipad at Sandridge',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -179,7 +179,7 @@ const paSchema = {
   aboutStep: {
     schema: {
       title: 'No need to register if you are already signing in on the ipad at Sandridge',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -325,7 +325,7 @@ const b4hSchema = {
   aboutStep: {
     schema: {
       title: 'Bicycles for Humanity Volunteer registration',
-      description: 'Keep going until the end to make sure it saves',
+      description: '',
       type: 'object',
       required: [],
       properties: {
@@ -431,10 +431,144 @@ const wcSchema = {
     uiSchema: {},
   },
 }
+//
+// Peak Adventure schema overrides
+//
+const srSchema = {
+  aboutStep: {
+    schema: {
+      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      description: '',
+      type: 'object',
+      required: [],
+      properties: {
+        reasons: {
+          type: 'string',
+          title: 'Please tell us why you come to Sandridge sessions',
+        },
+      },
+    },
+    uiSchema: {
+      sports: {
+        'ui:widget': 'checkboxes',
+      },
+      reasons: {
+        'ui:widget': 'textarea',
+        'ui:placeholder': '',
+        'ui:options': {
+          rows: 12,
+        },
+      },
+    },
+  },
+  contactStep: {
+    schema: {
+      title: 'Details',
+      type: 'object',
+      required: ['name', 'email', 'mobile', 'pin'],
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        email: { type: 'string', format: 'email', title: 'Email' },
+        addressStreet: { type: 'string', title: 'Street Address' },
+        addressSuburb: { type: 'string', title: 'Suburb' },
+        addressState: {
+          type: 'string',
+          title: 'State',
+          default: 'VIC',
+          enum: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS'],
+        },
+        addressPostcode: { type: 'string', title: 'Postcode' },
+        phone: { type: 'string', title: 'Phone number' },
+        mobile: { type: 'string', title: 'Mobile number' },
+        pin: { type: 'string', title: 'PIN number for sign in', maxLength: 4 },
+        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
+        password: { type: 'string', title: 'Password for member portal' },
+        passwordConfirm: { type: 'string', title: 'Confirm password' },
+      },
+    },
+    uiSchema: {
+      name: {
+        'ui:placeholder': 'Enter your full name (first and last names)',
+        'ui:autofocus': true,
+      },
+
+      email: {
+        'ui:placeholder': 'Enter your email address',
+      },
+      addressStreet: {
+        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
+      },
+      addressSuburb: {
+        'ui:placeholder': 'Enter your suburb',
+      },
+      addressState: {
+        'ui:placeholder': 'Enter your state',
+      },
+      addressPostcode: {
+        'ui:placeholder': 'Enter your postcode',
+      },
+      phone: {
+        'ui:placeholder': 'Enter your phone number',
+        'ui:options': {
+          inputType: 'tel',
+        },
+      },
+      mobile: {
+        'ui:placeholder': 'Enter your mobile number',
+        'ui:options': {
+          inputType: 'tel',
+        },
+      },
+      pin: {
+        'ui:placeholder': 'Enter a PIN number for signing in and out.',
+        'ui:options': {
+          inputType: 'tel',
+        },
+      },
+      pinConfirm: {
+        'ui:placeholder': 'Enter the same PIN number again to confirm.',
+        'ui:options': {
+          inputType: 'tel',
+        },
+      },
+      password: {
+        'ui:placeholder': 'Enter a password for your member portal.',
+      },
+      confirmPassword: {
+        'ui:placeholder': 'Enter the same password again to confirm.',
+      },
+    },
+  },
+  termsStep: {
+    schema: {
+      type: 'object',
+      required: ['swim', 'terms', 'fitness'],
+      properties: {
+        swim: {
+          description: 'You must tick all of these',
+          type: 'boolean',
+          enum: [true],
+          title: 'I can swim 200 metres unassisted',
+        },
+        terms: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I have read and agree to the Terms & Conditions',
+        },
+        fitness: {
+          type: 'boolean',
+          enum: [true],
+          title: 'I declare I am medically fit and capable of undertaking  this physical activity',
+        },
+      },
+    },
+    uiSchema: {},
+  },
+}
 
 const customSchemas = {
   b2b: b2bSchema,
-  pa: paSchema,
+  sr: srSchema,
   b4h: b4hSchema,
   wc: wcSchema,
   paEdit: paEditSchema,
@@ -721,7 +855,7 @@ const defaultSchema = [
 //
 // Copy in the schema overrides
 //
-const custom = 'b2b' // Meteor.settings.public.recruit || "b2b"
+const custom =  Meteor.settings.public.recruit || "b2b"
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
   const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']

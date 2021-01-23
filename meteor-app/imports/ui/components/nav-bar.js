@@ -68,7 +68,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
         <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
       )}
       {Roles.userIsInRole(Meteor.userId(), 'member') ? (
-        <Menu.Item as={NavLink} content="Edit" icon="edit" activeClassName="edit" exact to={`/edit/${id}`} key="edit" />
+        <Menu.Item as={NavLink} content="Profile" icon="edit" activeClassName="edit" exact to={`/edit/${id}`} key="edit" />
       ) : (
         ''
       )}

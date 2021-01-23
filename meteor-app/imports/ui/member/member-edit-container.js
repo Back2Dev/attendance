@@ -60,7 +60,7 @@ export default withTracker((props) => {
     }
   }
 
-  document.title = `${Meteor.settings.public.org} - add ${Meteor.settings.public.member}`
+  document.title = `${Meteor.settings.public.org} - ${Meteor.settings.public.member} portal`
 
   return {
     updateMemberPassword,

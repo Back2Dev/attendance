@@ -60,7 +60,6 @@ Meteor.methods({
     rmFighter('Rookie Paddler')
   },
   'members.addDude': function (dude) {
-    debug('dude', dude.wwccExpiry)
     const memberId = Members.insert(dude.member)
     if (!memberId)
       debug(`Error creating new dude ${dude.member.name}`)
@@ -315,7 +314,7 @@ db[res.result].find({value: {$gt: 1}});
     debug('Emailing invoice for cart', cart)
     if (!note)
       note =
-        'You are receiving this email because you train with Peak Adventure, and would like to make a payment.'
+        'You are receiving this email because you train with Sandridge, and would like to make a payment.'
 
     const priceFormat = (price) => `${price / 100}.00`
 
@@ -356,6 +355,7 @@ db[res.result].find({value: {$gt: 1}});
   },
 
   'slsa.load': function (data, season) {
+    const autocreate = true
     const slsaMap = {
       'Member ID': 'slsaId',
       'First Name': 'first',
@@ -365,11 +365,11 @@ db[res.result].find({value: {$gt: 1}});
       Season: 'season',
       'Email Address 1': 'email1',
       'Email Address 2': 'email2',
-      'Working with Children Registration Expiry Date': 'wwccExpiry',
+      // 'Working with Children Registration Expiry Date': 'wwccExpiry',
       'Working with Children Registration No': 'wwcc',
     }
 
-    let countTotal = 0
+    let totals = { added: 0, updated: 0 }
     let numRows = 0
     if (Meteor.isClient) return
     try {
@@ -377,7 +377,7 @@ db[res.result].find({value: {$gt: 1}});
       const lines = data
         .split('\n')
         .filter((line) => {
-          if (line.match(/^Member ID/)) {
+          if (line.match(/Member ID/)) {
             started = true
           }
           return started
@@ -394,58 +394,78 @@ db[res.result].find({value: {$gt: 1}});
             raw: true,
           })
           numRows = rows.length
-          countTotal = rows
+          totals = rows
             .filter(
               (row) =>
                 row.Status === 'Active' && row.Season === season
             )
             .map((row) => {
               const newRow = {}
-              Object.keys(slsaMap).forEach(
-                (key) => (newRow[slsaMap[key]] = row[key])
-              )
+              Object.keys(slsaMap).forEach((key) => {
+                if (row[key]) newRow[slsaMap[key]] = row[key]
+              })
+              const expiry =
+                row['Working with Children Registration Expiry Date']
               newRow.name = `${newRow.first} ${newRow.last}`
+              newRow.email = newRow.email1 || newRow.email2
+              newRow.wwccSurname = newRow.last
+              isSlsa = true
+
               // debug('wwcc', newRow.wwcc, typeof newRow.wwcc)
               // if (newRow.wwcc && typeof newRow.wwcc === 'string') newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
               return newRow
             })
 
-            .reduce((acc, m) => {
-              debug(`Updating ${m.name}`)
-              const queries = [{ name: m.name }]
-              if (m.email1 && m.email2) {
-                queries.push({
-                  $or: [{ email: m.email1 }, { email: m.email2 }],
-                })
-              } else {
-                if (m.email1) queries.push({ email: m.email1 })
-              }
-              let member
-              let q
-              while (!member && (q = queries.pop())) {
-                member = Members.findOne(q)
-              }
-              if (member) {
-                Members.find(member._id).map((m) => debug(m.name))
-                return (
-                  acc +
-                  Members.update(member._id, {
-                    $set: { isSlsa: true, wwcc: m.wwcc },
-                  })
-                )
-              } else {
-                debug(
-                  `Could not find ${m.name}/${m.email1} ${m.email2}`
-                )
+            .reduce(
+              (acc, m, ix) => {
+                debug(`Checking ${ix} ${m.name}`)
+                const queries = [{ name: m.name }]
+                // Don't check emails, as there can be duplicates
+                // if (m.email1 && m.email2) {
+                //   queries.push({
+                //     $or: [{ email: m.email1 }, { email: m.email2 }],
+                //   })
+                // } else {
+                //   if (m.email1) queries.push({ email: m.email1 })
+                // }
+                let member
+                let q
+                while (!member && (q = queries.pop())) {
+                  member = Members.findOne(q)
+                }
+                if (member) {
+                  // Members.find(member._id).map(m => debug(m.name))
+                  acc.updated =
+                    acc.updated +
+                    Members.update(member._id, {
+                      $set: { isSlsa: true, wwcc: m.wwcc },
+                    })
+                } else {
+                  if (autocreate) {
+                    try {
+                      Members.insert(m)
+                      acc.added = acc.added + 1
+                    } catch (e) {
+                      debug(
+                        `Failed to insert member ${m.name}: ${e.message}`
+                      )
+                    }
+                  } else
+                    debug(
+                      `Could not find ${m.name}/${m.email1} ${m.email2}`
+                    )
+                }
+
                 return acc
-              }
-            }, 0)
-          debug('updated', countTotal)
+              },
+              { updated: 0, added: 0 }
+            )
+          debug(`Updated ${totals.updated}, added ${totals.added}`)
         } catch (e) {
           console.error(`Couldn't update members from csv ${s}: `, e)
         }
       }
-      const message = `Updated ${countTotal} of ${numRows} records in file`
+      const message = `Added  ${totals.added}, updated ${totals.updated} of ${numRows} records in file`
       debug(message)
       return message
     } catch (e) {

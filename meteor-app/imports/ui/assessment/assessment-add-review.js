@@ -11,7 +11,7 @@ const AssessmentAddReview = (props) => {
   const totalPrice = (props.formData.serviceCost/100) + (props.formData.partsCost/100) + (props.formData.additionalFee) - (props.formData.discount)
   return (
     <Segment id="toPrint" style={{ textAlign: 'left'}}>
-      <Header as='h1' content='Review your details:' textAlign='center' />
+      <Header as='h1' content='Review your service:' textAlign='center' />
       <Segment padded='very' >
         <h2>
           Total Price
