@@ -1,6 +1,6 @@
 {
   "name": "back2bikes-attendance",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b meteor  --exclude-archs web.cordova,web.browser.legacy --inspect --port 3030 --settings ../settings/dev.settings.json",
