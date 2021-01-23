@@ -15,6 +15,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
   if (loading) {
     return <Loader active />
   }
+
   return (
     <Menu
       vertical
@@ -102,7 +103,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               exact
               to="/options"
               key="options"
-            />
+            />,
           ]
         : ''}
       {Roles.userIsInRole(Meteor.userId(), 'servicing')
@@ -118,7 +119,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
             />,
             <Menu.Item
               as={NavLink}
-              content="Service"
+              content="New Job"
               icon="lock open"
               activeClassName="active"
               exact
@@ -142,7 +143,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               exact
               to="/job-history"
               key="job-history"
-            />
+            />,
           ]
         : ''}
       {Roles.userIsInRole(Meteor.userId(), 'admin') ? <AdminMenu></AdminMenu> : ''}
@@ -156,7 +157,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               exact
               to="/superadmin"
               key="superadmin"
-            />
+            />,
           ]
         : ''}
       {currentUser !== '' && (
@@ -171,7 +172,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
 
 /** Declare the types of all properties. */
 NavBar.propTypes = {
-  currentUser: PropTypes.string
+  currentUser: PropTypes.string,
 }
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
@@ -183,7 +184,7 @@ const NavBarContainer = withTracker(() => {
   return {
     loading,
     currentUser: Meteor.user() ? Meteor.user().username : '',
-    currentMember
+    currentMember,
   }
 })(NavBar)
 

@@ -17,6 +17,12 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
+describe('Create an Cathrine King', function() {
+  it(`Creates an Cathrine`, function() {
+    cy.visit('/')
+    addCathrine()
+  })
+})
 
 describe('Edit member profile', function() {
   it('Selects a member and edits profile', function() {
@@ -86,8 +92,11 @@ describe('Edit member profile', function() {
       .should('exist')
       .click()
 
-    cy.get('#root_emergencyContact').should('have.value', editMem.emergencyContact)
-
+    cy.get('#root_emergencyContact').should(
+      'have.value',
+      editMem.emergencyContact
+    )
+    rmCathrineKing()
     //  cy.get('#root_addressSuburb').should('exist')
   })
 })

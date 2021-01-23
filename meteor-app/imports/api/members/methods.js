@@ -191,7 +191,7 @@ Meteor.methods({
   },
   'members.userid.update': function (id, formData) {
     try {
-      log.info('updating member: ', id, formData)
+      log.info('updating member: ', id)
       Members.update({ _id: id }, { $set: { ...formData } })
       return 'success'
     } catch (e) {
@@ -201,7 +201,7 @@ Meteor.methods({
   },
   'members.update': function (id, formData) {
     try {
-      log.info('updating member: ', id, formData)
+      log.info('updating member: ', id)
       return Members.update({ _id: id }, { $set: { ...formData } })
     } catch (e) {
       debug(`Error`, e.message)
@@ -455,6 +455,7 @@ db[res.result].find({value: {$gt: 1}});
                       `Could not find ${m.name}/${m.email1} ${m.email2}`
                     )
                 }
+
                 return acc
               },
               { updated: 0, added: 0 }

@@ -18,33 +18,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 })
 
 describe('Adds Member to portal', function() {
-  this.beforeEach(() => {
-    cy.visit('/login')
-    cy.get('input[type="email"]') // Email
-      .should('exist')
-      .clear()
-      .type('admin@back2bikes.com.au')
-
-    cy.get('input[type="password"]')
-      .should('exist')
-      .clear()
-      .type('me2')
-
-    cy.get('button')
-      .contains('Submit')
-      .should('exist')
-      .should('be.enabled')
-      .click()
-  })
-
   it('creates a volunteer', function() {
-    cy.visit('/kiosk')
-
-    cy.get('button')
-      .contains('Register')
-      .should('exist')
-      .should('be.enabled')
-      .click()
+    cy.visit('/add')
 
     cy.get('#root_bikesHousehold')
       .clear()
@@ -158,6 +133,8 @@ describe('Adds Member to portal', function() {
       .should('be.enabled')
       .click()
 
+    cy.visit('/kiosk')
+
     cy.get('div[list="away"]')
       .contains('Ginny Tonic')
       .should('exist')
@@ -178,9 +155,17 @@ describe('Adds Member to portal', function() {
       .should('exist')
       .click()
 
-    cy.get('input[data-cypress-el="true"]')
-    //    .clear()
-    //    .type('2713')
+    cy.get(':nth-child(2) > .ui > input')
+      .clear()
+      .type('2713')
+
+    cy.get(':nth-child(3) > .ui > input')
+      .clear()
+      .type('2713')
+
+    cy.get('  :nth-child(5) > .ui > input')
+      .clear()
+      .type('2713')
 
     cy.get('button')
       .contains('Submit')
@@ -196,25 +181,6 @@ describe('Adds Member to portal', function() {
       .should('be.enabled')
       .click()
 
-    // TODO: Why are we logging in again here? I don't think it's achieving anything
-    cy.get('a')
-      .contains('Home')
-      .click()
-
-    cy.get('input[type="email"]')
-      .should('exist')
-      .clear()
-      .type('tests@test.com')
-
-    cy.get('input[type="password"]')
-      .should('exist')
-      .clear()
-      .type('2713')
-
-    cy.get('button')
-      .contains('Submit')
-      .should('exist')
-      .should('be.enabled')
-      .click()
+    // TODO: Currently it doesn't go back to /kiosk - this is a bug, when it is fixed, we can add a check to make sure it has gone back to the kiosk
   })
 })

@@ -164,7 +164,7 @@ const dude = {
     wwcc: '1080637A',
     paymentCustId: 'ch_kQGIRaaRKVO5hPxf7BphNw',
     wwccOk: true,
-    wwccExpiry: '2022-08-07T00:00:00.000Z',
+    wwccExpiry: new Date(),
     wwccSurname: 'McAlpine'
   },
   sessions: [
