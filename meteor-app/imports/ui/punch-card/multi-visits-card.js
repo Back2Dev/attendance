@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import './Digit.css'
 import { Icon } from 'semantic-ui-react'
 
-const MultiVisitsCard = props => {
+const MultiVisitsCard = (props) => {
   const digitClicked = () => {
     //Digit Clicked Code..
   }
@@ -41,6 +41,6 @@ const MultiVisitsCard = props => {
 }
 MultiVisitsCard.propTypes = {
   totalVisits: PropTypes.number.isRequired,
-  usedVisits: PropTypes.number.isRequired
+  usedVisits: PropTypes.number.isRequired,
 }
 export default MultiVisitsCard

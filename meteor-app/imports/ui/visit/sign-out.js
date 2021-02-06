@@ -2,7 +2,7 @@ import React from 'react'
 import { Header, Button } from 'semantic-ui-react'
 import MultiVisitsCard from '/imports/ui/punch-card/multi-visits-card'
 
-const SignOut = props => {
+const SignOut = (props) => {
   return (
     <div>
       <Header as="h4">See you next time!</Header>

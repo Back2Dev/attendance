@@ -19,9 +19,14 @@ import PayNow from '../pages/pay-now'
 import Payment from '/imports/ui/pay'
 import PaymentThankyou from '/imports/ui/layouts/payment-thankyou'
 import Service from '/imports/ui/service'
-import Assessment from '/imports/ui/assessment/assessment'
-import JobCardLister from '/imports/ui/assessment/assessment-job-card-lister'
-import JobHistory from '/imports/ui/assessment/assessment-job-history'
+import Assessment from '/imports/ui/jobs/assessment'
+import JobCardLister from '/imports/ui/jobs/assessment-job-card-lister'
+import JobHistory from '/imports/ui/jobs/assessment-job-history'
+
+import AssessmentCopy from '/imports/ui/assessment/assessment'
+import JobCardListerCopy from '/imports/ui/assessment/assessment-job-card-lister'
+import JobHistoryCopy from '/imports/ui/assessment/assessment-job-history'
+
 import MemberAddContainer from '/imports/ui/member/member-add-container'
 import MemberMainContainer from '/imports/ui/member-main-container'
 import MemberEdit from '/imports/ui/member-edit'
@@ -38,7 +43,7 @@ import Signout from '../pages/logout'
 import Admin from '../pages/admin-routes'
 import SuperAdmin from '../pages/super-admin'
 
-const Home = props => {
+const Home = (props) => {
   const isLogged = Meteor.userId() !== null
   if (isLogged) {
     context.set('mode', 'normal')
@@ -47,7 +52,7 @@ const Home = props => {
 }
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
-const App = props => {
+const App = (props) => {
   if (!Roles.subscription.ready()) return <div>NOT READY</div>
   const isLogged = Meteor.userId() !== null
   const showSide =
@@ -92,6 +97,11 @@ const App = props => {
           <SecureRoute role="parts" path="/parts" component={Ordering} />
 
           <SecureRoute role="servicing" path="/service" component={Service} />
+
+          <SecureRoute role="servicing" path="/assessmentcopy" component={AssessmentCopy} />
+          <SecureRoute role="servicing" path="/jobscopy" component={JobCardListerCopy} />
+          <SecureRoute role="servicing" path="/job-historycopy" component={JobHistoryCopy} />
+
           <SecureRoute role="servicing" path="/assessment" component={Assessment} />
           <SecureRoute role="servicing" path="/jobs" component={JobCardLister} />
           <SecureRoute role="servicing" path="/job-history" component={JobHistory} />
@@ -112,7 +122,7 @@ const App = props => {
   )
 }
 
-const GotoLogin = props => <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+const GotoLogin = (props) => <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
 
 /**
  * SecureRoute (see React Router v4 sample)
@@ -122,7 +132,7 @@ const GotoLogin = props => <Redirect to={{ pathname: '/login', state: { from: pr
 const SecureRoute = ({ role, component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={(props) => {
       const isLogged = Meteor.userId() !== null
       const hasRights = role ? Roles.userIsInRole(Meteor.userId(), role) : true
       return isLogged && hasRights ? <Component {...props} /> : <GotoLogin {...props} />
@@ -133,13 +143,13 @@ const SecureRoute = ({ role, component: Component, ...rest }) => (
 /** Require a component and location to be passed to each SecureRoute. */
 SecureRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  location: PropTypes.object
+  location: PropTypes.object,
 }
 
 //
 // Add in a withTracker component, so that we end up waiting for the roles to be loaded before we render menus
 //
-const AppLoader = props => {
+const AppLoader = (props) => {
   if (props.loading)
     return (
       <div>
@@ -155,8 +165,8 @@ const AppLoader = props => {
   )
 }
 
-export default withTracker(props => {
+export default withTracker((props) => {
   return {
-    loading: !Roles.subscription.ready()
+    loading: !Roles.subscription.ready(),
   }
 })(AppLoader)
