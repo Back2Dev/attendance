@@ -142,3 +142,7 @@ Tue 19 Jan 2021 23:49:45 AEDT /Users/mikkel/back2bikes/attendance/deploy/paddle-
 Tue 19 Jan 2021 23:56:57 AEDT /Users/mikkel/back2bikes/attendance/deploy/paddle-prod reconfig fix/sms https://paddle.almsford.org 1.2.7
 Tue 19 Jan 2021 07:12:04 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-staging deploy service-name-edit https://staging.back2bikes.com.au 1.2.7
 Tue 19 Jan 2021 07:20:30 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-staging reconfig service-name-edit https://staging.back2bikes.com.au 1.2.7
+Sun 7 Feb 2021 11:03:46 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy meteor-2.0 https://app.back2bikes.com.au 1.2.8
+Sun 7 Feb 2021 11:24:16 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig meteor-2.0 https://app.back2bikes.com.au 1.2.8
+Sun 7 Feb 2021 12:00:00 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy meteor-2.0 https://app.back2bikes.com.au 1.2.8
+Sun 7 Feb 2021 12:19:57 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig meteor-2.0 https://app.back2bikes.com.au 1.2.8
