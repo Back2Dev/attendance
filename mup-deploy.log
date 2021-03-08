@@ -146,3 +146,4 @@ Sun 7 Feb 2021 11:03:46 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod
 Sun 7 Feb 2021 11:24:16 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig meteor-2.0 https://app.back2bikes.com.au 1.2.8
 Sun 7 Feb 2021 12:00:00 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy meteor-2.0 https://app.back2bikes.com.au 1.2.8
 Sun 7 Feb 2021 12:19:57 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig meteor-2.0 https://app.back2bikes.com.au 1.2.8
+Mon 8 Mar 2021 20:23:42 AEDT /Users/mikkel/back2bikes/attendance/deploy/paddle-prod reconfig meteor-2.0 https://paddle.almsford.org 1.2.8
