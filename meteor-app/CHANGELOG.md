@@ -6,6 +6,7 @@
 - Send receipt email
 - Import charges from pinpayments
 - Added view of charges with 'refresh' button
+- Added the ability to adjust name or prices on service tags for custom jobs.
 - Add reconciliation to charges and carts, improved layouts
 - Add admin button to edit user details
 - Changed input in add form to hid password

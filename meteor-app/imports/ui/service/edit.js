@@ -8,68 +8,69 @@ const debug = require('debug')('b2b:service')
 export default function ItemTag() {
   const [state, setState] = useContext(ServiceContext)
   const { tags } = state
-  let { totalPrice } = state
-
-  function calcTotalDeduction(tag) {
-    if (tag.price) {
-      priceDeduction = tag.price
-    } else {
-      priceDeduction = tag.items.reduce((total, item) => {
-        if (!item.greyed) {
-          total += item.price
-        }
-        return total
-      }, 0)
-    }
-    return priceDeduction
-  }
+  let totalCost = state.totalCost
 
   function toggleExpand(tag) {
+    console.log(tag)
     const newTags = [...tags]
 
     debug('tag passed as a parameter = ', tag)
 
-    newTags.map(currentTag => {
+    newTags.map((currentTag) => {
       debug('coming into toggle expand = ', currentTag)
       if (tag.name === currentTag.name) {
         currentTag.expanded = !currentTag.expanded
       }
     })
 
-    const newState = { ...state, tags: newTags }
-    setState(newState)
+    setState({ ...state, tags: newTags })
   }
 
   function removeTag(tag, index) {
-    let priceDeduction = calcTotalDeduction(tag)
-
-    debug('priceDeduction = ', priceDeduction)
-
     const newTags = [...tags]
     newTags.splice(index, 1)
-    const newState = { ...state, tags: newTags, totalPrice: totalPrice - priceDeduction }
-    setState(newState)
+    const newTotal = state.calculateTotal(tags)
+    setState({ ...state, tags: newTags, totalCost: newTotal })
   }
 
   function toggleTag(item, currentTag) {
     if (!item.greyed) {
-      totalPrice = totalPrice - item.price
+      currentTag.price -= item.price
     } else {
-      totalPrice = totalPrice + item.price
+      currentTag.price += item.price
     }
 
     const newTags = [...tags]
-    newTags.map(tag => {
+    newTags.map((tag) => {
       tag.items
-        ? tag.items.map(serviceItem => {
+        ? tag.items.map((serviceItem) => {
             if (serviceItem.name === item.name && tag.name === currentTag.name) {
               serviceItem.greyed = !serviceItem.greyed
             }
           })
         : null
     })
-    const newState = { ...state, tags: newTags, totalPrice }
-    setState(newState)
+    const newTotal = state.calculateTotal(tags)
+    setState({ ...state, tags: newTags, totalCost: newTotal })
+  }
+
+  const adjustPrice = (tag, newValue) => {
+    debug(`adjust price: ${newValue}`)
+    const newState = { ...state }
+    if (tag && tag.price !== null) {
+      tag.price = parseFloat(newValue)
+      const newTotal = state.calculateTotal(tags)
+      setState({ ...newState, totalCost: newTotal })
+    }
+  }
+
+  const changeTagName = (id, newTagName) => {
+    debug(`new name: ${newTagName}`)
+    const newState = { ...state }
+    const tag = newState.tags.find((t) => id === t._id)
+    if (tag) {
+      tag.name = newTagName
+    }
   }
 
   function majorMinorTotal(items) {
@@ -84,11 +85,13 @@ export default function ItemTag() {
 
   return (
     <TagList
+      adjustPrice={adjustPrice}
+      changeTagName={changeTagName}
       removeTag={removeTag}
       toggleTag={toggleTag}
       tags={tags}
       majorMinorTotal={majorMinorTotal}
-      totalPrice={totalPrice}
+      totalCost={totalCost}
       toggleExpand={toggleExpand}
     />
   )
@@ -99,6 +102,6 @@ TagList.propTypes = {
   toggleTag: PropTypes.func.isRequired,
   tags: PropTypes.array.isRequired,
   majorMinorTotal: PropTypes.func.isRequired,
-  totalPrice: PropTypes.number.isRequired,
-  toggleExpand: PropTypes.func.isRequired
+  totalCost: PropTypes.func.isRequired,
+  toggleExpand: PropTypes.func.isRequired,
 }
