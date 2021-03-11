@@ -18,14 +18,32 @@ const b2bSchema = {
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed'],
+          enum: [
+            'Road/racer',
+            'Hybrid',
+            'Mountain',
+            'Cruiser',
+            'Ladies',
+            'Gents',
+            'Fixie/Single Speed',
+          ],
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired'],
+          enum: [
+            'Full Time',
+            'Part Time',
+            'Pension/Disability',
+            'Unemployed',
+            'Student',
+            'Retired',
+          ],
         },
-        reasons: { type: 'string', title: 'Reasons for volunteering' },
+        reasons: {
+          type: 'string',
+          title: 'Reasons for volunteering',
+        },
       },
     },
     uiSchema: {
@@ -57,7 +75,8 @@ const b2bSchema = {
 const paEditSchema = {
   aboutStep: {
     schema: {
-      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      title:
+        'No need to register if you are already signing in on the ipad at Sandridge',
       description: '',
       type: 'object',
       required: [],
@@ -68,12 +87,21 @@ const paEditSchema = {
           uniqueItems: true,
           items: {
             type: 'string',
-            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport'],
+            enum: [
+              'Kayaking',
+              'Road cycling',
+              'MTB',
+              'Running',
+              'Swimming',
+              'Triathlon',
+              'Multisport',
+            ],
           },
         },
         reasons: {
           type: 'string',
-          title: 'Please tell us why you come to Peak Adventure sessions',
+          title:
+            'Please tell us why you come to Peak Adventure sessions',
         },
       },
     },
@@ -121,7 +149,8 @@ const paEditSchema = {
         'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
+        'ui:placeholder':
+          'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
         'ui:placeholder': 'Enter your suburb',
@@ -165,7 +194,8 @@ const paEditSchema = {
         fitness: {
           type: 'boolean',
           enum: [true],
-          title: 'I declare I am medically fit and capable of undertaking this physical activity',
+          title:
+            'I declare I am medically fit and capable of undertaking this physical activity',
         },
       },
     },
@@ -178,7 +208,8 @@ const paEditSchema = {
 const paSchema = {
   aboutStep: {
     schema: {
-      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      title:
+        'No need to register if you are already signing in on the ipad at Sandridge',
       description: '',
       type: 'object',
       required: [],
@@ -189,12 +220,21 @@ const paSchema = {
           uniqueItems: true,
           items: {
             type: 'string',
-            enum: ['Kayaking', 'Road cycling', 'MTB', 'Running', 'Swimming', 'Triathlon', 'Multisport'],
+            enum: [
+              'Kayaking',
+              'Road cycling',
+              'MTB',
+              'Running',
+              'Swimming',
+              'Triathlon',
+              'Multisport',
+            ],
           },
         },
         reasons: {
           type: 'string',
-          title: 'Please tell us why you come to Peak Adventure sessions',
+          title:
+            'Please tell us why you come to Peak Adventure sessions',
         },
       },
     },
@@ -230,10 +270,24 @@ const paSchema = {
         addressPostcode: { type: 'string', title: 'Postcode' },
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
-        pin: { type: 'string', title: 'PIN number for sign in', maxLength: 4 },
-        pinConfirm: { type: 'string', title: 'confirm PIN number', maxLength: 4 },
-        password: { type: 'string', title: 'Password for member portal' },
-        passwordConfirm: { type: 'string', title: 'Confirm password' },
+        pin: {
+          type: 'string',
+          title: 'PIN number for sign in',
+          maxLength: 4,
+        },
+        pinConfirm: {
+          type: 'string',
+          title: 'confirm PIN number',
+          maxLength: 4,
+        },
+        password: {
+          type: 'string',
+          title: 'Password for member portal',
+        },
+        passwordConfirm: {
+          type: 'string',
+          title: 'Confirm password',
+        },
       },
     },
     uiSchema: {
@@ -246,7 +300,8 @@ const paSchema = {
         'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
+        'ui:placeholder':
+          'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
         'ui:placeholder': 'Enter your suburb',
@@ -270,13 +325,15 @@ const paSchema = {
         },
       },
       pin: {
-        'ui:placeholder': 'Enter a PIN number for signing in and out.',
+        'ui:placeholder':
+          'Enter a PIN number for signing in and out.',
         'ui:options': {
           inputType: 'tel',
         },
       },
       pinConfirm: {
-        'ui:placeholder': 'Enter the same PIN number again to confirm.',
+        'ui:placeholder':
+          'Enter the same PIN number again to confirm.',
         'ui:options': {
           inputType: 'tel',
         },
@@ -310,7 +367,8 @@ const paSchema = {
         fitness: {
           type: 'boolean',
           enum: [true],
-          title: 'I declare I am medically fit and capable of undertaking this physical activity',
+          title:
+            'I declare I am medically fit and capable of undertaking this physical activity',
         },
       },
     },
@@ -331,7 +389,8 @@ const b4hSchema = {
       properties: {
         reasons: {
           type: 'string',
-          title: 'Tell us why you volunteer for Bicycles For Humanity?',
+          title:
+            'Tell us why you volunteer for Bicycles For Humanity?',
         },
       },
     },
@@ -371,11 +430,13 @@ const b4hSchema = {
         terms: {
           type: 'boolean',
           enum: [true],
-          title: 'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook',
+          title:
+            'I have read and agree with the Terms & Conditions in the Bicycles For Humanity Volunteer Handbook',
         },
         parental: {
           type: 'boolean',
-          title: 'I am under 18 and have received permission for all the above from a parent/guardian',
+          title:
+            'I am under 18 and have received permission for all the above from a parent/guardian',
         },
       },
     },
@@ -434,23 +495,41 @@ const wcSchema = {
 //
 // Peak Adventure schema overrides
 //
-const srSchema = {
+const paddleSchema = {
   aboutStep: {
     schema: {
-      title: 'No need to register if you are already signing in on the ipad at Sandridge',
+      title:
+        'Welcome to the Sandridge Life Saving Club Membership form',
       description: '',
       type: 'object',
       required: [],
       properties: {
+        memberType: {
+          type: 'string',
+          title: 'Membership type',
+          enum: ['Day only', 'Associate/social', 'Active'],
+        },
+        experience: {
+          type: 'string',
+          title: 'Experience in surf ski paddling',
+          enum: ['None', 'Minimal', 'Moderate', 'Plenty'],
+        },
         reasons: {
           type: 'string',
-          title: 'Please tell us why you come to Sandridge sessions',
+          title:
+            'Please tell us why you are interested in becoming a Sandridge member',
         },
       },
     },
     uiSchema: {
       sports: {
         'ui:widget': 'checkboxes',
+      },
+      experience: {
+        'ui:widget': 'radio',
+      },
+      memberType: {
+        'ui:widget': 'radio',
       },
       reasons: {
         'ui:widget': 'textarea',
@@ -480,15 +559,30 @@ const srSchema = {
         addressPostcode: { type: 'string', title: 'Postcode' },
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
-        pin: { type: 'string', title: 'PIN number for sign in', maxLength: 4 },
-        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
-        password: { type: 'string', title: 'Password for member portal' },
-        passwordConfirm: { type: 'string', title: 'Confirm password' },
+        pin: {
+          type: 'string',
+          title: 'PIN number for sign in',
+          maxLength: 4,
+        },
+        pinConfirm: {
+          type: 'string',
+          title: 'PIN number',
+          maxLength: 4,
+        },
+        password: {
+          type: 'string',
+          title: 'Password for member portal',
+        },
+        passwordConfirm: {
+          type: 'string',
+          title: 'Confirm password',
+        },
       },
     },
     uiSchema: {
       name: {
-        'ui:placeholder': 'Enter your full name (first and last names)',
+        'ui:placeholder':
+          'Enter your full name (first and last names)',
         'ui:autofocus': true,
       },
 
@@ -496,7 +590,8 @@ const srSchema = {
         'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
+        'ui:placeholder':
+          'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
         'ui:placeholder': 'Enter your suburb',
@@ -520,13 +615,15 @@ const srSchema = {
         },
       },
       pin: {
-        'ui:placeholder': 'Enter a PIN number for signing in and out.',
+        'ui:placeholder':
+          'Enter a PIN number for signing in and out.',
         'ui:options': {
           inputType: 'tel',
         },
       },
       pinConfirm: {
-        'ui:placeholder': 'Enter the same PIN number again to confirm.',
+        'ui:placeholder':
+          'Enter the same PIN number again to confirm.',
         'ui:options': {
           inputType: 'tel',
         },
@@ -558,7 +655,8 @@ const srSchema = {
         fitness: {
           type: 'boolean',
           enum: [true],
-          title: 'I declare I am medically fit and capable of undertaking  this physical activity',
+          title:
+            'I declare I am medically fit and capable of undertaking  this physical activity',
         },
       },
     },
@@ -568,7 +666,7 @@ const srSchema = {
 
 const customSchemas = {
   b2b: b2bSchema,
-  sr: srSchema,
+  paddle: paddleSchema,
   b4h: b4hSchema,
   wc: wcSchema,
   paEdit: paEditSchema,
@@ -591,14 +689,32 @@ const defaultSchema = [
         primaryBike: {
           type: 'string',
           title: 'What type of bike do you ride the most?',
-          enum: ['Road/racer', 'Hybrid', 'Mountain', 'Cruiser', 'Ladies', 'Gents', 'Fixie/Single Speed'],
+          enum: [
+            'Road/racer',
+            'Hybrid',
+            'Mountain',
+            'Cruiser',
+            'Ladies',
+            'Gents',
+            'Fixie/Single Speed',
+          ],
         },
         workStatus: {
           type: 'string',
           title: 'Work status',
-          enum: ['Full Time', 'Part Time', 'Pension/Disability', 'Unemployed', 'Student', 'Retired'],
+          enum: [
+            'Full Time',
+            'Part Time',
+            'Pension/Disability',
+            'Unemployed',
+            'Student',
+            'Retired',
+          ],
         },
-        reasons: { type: 'string', title: 'Reasons for volunteering' },
+        reasons: {
+          type: 'string',
+          title: 'Reasons for volunteering',
+        },
       },
     },
     uiSchema: {
@@ -627,7 +743,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Contact',
-    stepId:'edit-contact',
+    stepId: 'edit-contact',
     stepDescription: 'Contact',
     schema: {
       title: 'Details',
@@ -648,7 +764,11 @@ const defaultSchema = [
         phone: { type: 'string', title: 'Phone number' },
         mobile: { type: 'string', title: 'Mobile number' },
         pin: { type: 'string', title: 'PIN number', maxLength: 4 },
-        pinConfirm: { type: 'string', title: 'PIN number', maxLength: 4 },
+        pinConfirm: {
+          type: 'string',
+          title: 'PIN number',
+          maxLength: 4,
+        },
       },
     },
     uiSchema: {
@@ -661,7 +781,8 @@ const defaultSchema = [
         'ui:placeholder': 'Enter your email address',
       },
       addressStreet: {
-        'ui:placeholder': 'Enter your street address e.g. 12 Luck Street',
+        'ui:placeholder':
+          'Enter your street address e.g. 12 Luck Street',
       },
       addressSuburb: {
         'ui:placeholder': 'Enter your suburb',
@@ -685,13 +806,15 @@ const defaultSchema = [
         },
       },
       pin: {
-        'ui:placeholder': 'Enter a PIN number for signing in and out.',
+        'ui:placeholder':
+          'Enter a PIN number for signing in and out.',
         'ui:options': {
           inputType: 'tel',
         },
       },
       pinConfirm: {
-        'ui:placeholder': 'Enter the same PIN number again to confirm.',
+        'ui:placeholder':
+          'Enter the same PIN number again to confirm.',
         'ui:options': {
           inputType: 'tel',
         },
@@ -700,15 +823,21 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Emergency',
-    stepId:'edit-emergency',
+    stepId: 'edit-emergency',
     stepDescription: 'Emerg',
     schema: {
       type: 'object',
       title: 'Who should we contact in an emergency?',
       required: ['emergencyContact', 'emergencyPhone'],
       properties: {
-        emergencyContact: { type: 'string', title: 'Emergency Contact Name' },
-        emergencyEmail: { type: 'string', title: 'Emergency Contact Email' },
+        emergencyContact: {
+          type: 'string',
+          title: 'Emergency Contact Name',
+        },
+        emergencyEmail: {
+          type: 'string',
+          title: 'Emergency Contact Email',
+        },
         emergencyPhone: {
           type: 'string',
           title: 'Emergency Contact Mobile number',
@@ -724,7 +853,8 @@ const defaultSchema = [
         'ui:placeholder': "Enter your emergency contact's email",
       },
       emergencyPhone: {
-        'ui:placeholder': "Enter your emergency contact's mobile or phone number",
+        'ui:placeholder':
+          "Enter your emergency contact's mobile or phone number",
         'ui:options': {
           inputType: 'tel',
         },
@@ -826,7 +956,7 @@ const defaultSchema = [
   },
   {
     stepTitle: 'Terms',
-    stepId:'edit-terms',
+    stepId: 'edit-terms',
     stepDescription: 'Terms',
     schema: {
       type: 'object',
@@ -855,7 +985,7 @@ const defaultSchema = [
 //
 // Copy in the schema overrides
 //
-const custom =  Meteor.settings.public.recruit || "b2b"
+const custom = Meteor.settings.public.recruit || 'b2b'
 if (custom && customSchemas[custom]) {
   const newSchema = customSchemas[custom]
   const steps = ['about', 'contact', 'emergency', 'avatar', 'terms']
