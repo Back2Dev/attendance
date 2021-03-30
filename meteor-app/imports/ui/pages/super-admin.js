@@ -5,11 +5,23 @@ import ListUsers from './user-admin'
 import CONSTANTS from '/imports/api/constants'
 import { meteorCall } from '/imports/ui/utils/meteor'
 
-const deleteUsers = id => meteorCall('deleteUsers', 'Deleting', id)
-const updateUser = user => meteorCall('updateUser', 'Updating', user)
-const addNewUser = form => meteorCall('addNewUser', 'Adding', form)
-const setPassword = (id, newPassword) => meteorCall('setPassword', 'Set password', { id, newPassword })
-const sendResetPasswordEmail = id => meteorCall('sendResetPasswordEmail', 'Reset password', id)
+const deleteUsers = (id) => meteorCall('deleteUsers', 'Deleting', id)
+const updateUser = (user) =>
+  meteorCall('updateUser', 'Updating', user)
+const addNewUser = (username, email, password) =>
+  meteorCall('addNewUser', 'Adding', {
+    username,
+    email,
+    password,
+  })
+const setPassword = (id, newPassword) => {
+  return meteorCall('setPassword', 'Set password', {
+    id,
+    newPassword,
+  })
+}
+const sendResetPasswordEmail = (id) =>
+  meteorCall('sendResetPasswordEmail', 'Reset password', id)
 
 const userColumns = [
   {
@@ -17,15 +29,25 @@ const userColumns = [
     align: 'center',
     headerSort: false,
     width: 30,
-    cellClick: function(e, cell) {
+    cellClick: function (e, cell) {
       cell.getRow().toggleSelect()
-    }
+    },
   },
-  { field: 'username', title: 'Username', editor: 'input', headerFilter: 'input' },
-  { field: 'emails', title: 'Email', editor: 'input', headerFilter: 'input' }
+  {
+    field: 'username',
+    title: 'Username',
+    editor: 'input',
+    headerFilter: 'input',
+  },
+  {
+    field: 'emails',
+    title: 'Email',
+    editor: 'input',
+    headerFilter: 'input',
+  },
 ]
 
-CONSTANTS.ROLES.forEach(role => {
+CONSTANTS.ROLES.forEach((role) => {
   userColumns.push({
     field: role,
     title: role,
@@ -33,7 +55,7 @@ CONSTANTS.ROLES.forEach(role => {
     headerVertical: 'flip',
     editor: true,
     align: 'center',
-    width: 40
+    width: 40,
   })
 })
 
@@ -46,9 +68,9 @@ export default withTracker(() => {
     users: Meteor.users
       .find({})
       .fetch()
-      .map(item => {
+      .map((item) => {
         if (item.roles) {
-          item.roles.forEach(role => {
+          item.roles.forEach((role) => {
             item[role._id] = true
           })
         }
@@ -61,6 +83,6 @@ export default withTracker(() => {
     updateUser,
     addNewUser,
     setPassword,
-    sendResetPasswordEmail
+    sendResetPasswordEmail,
   }
 })(ListUsers)

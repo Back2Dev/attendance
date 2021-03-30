@@ -1,38 +1,10 @@
 import React from 'react'
-import { Sparklines, SparklinesLine } from 'react-sparklines'
 
 // Formatters suitable for use with React-tabulator
 
 //
 
 // How to use - imports
-/* 
-  import { reactFormatter } from 'react-tabulator'
-  import { Spark} from '/imports/ui/utils/formatters'
-*/
-// How to use - in the list of field definitions,
-// pass in the formatter.
-// The <Spark> component assumes you have key/value pairs in a history object
-//
-/*
-{
-  field: 'history',
-  title: 'History',
-  formatter: reactFormatter(<Spark />)
-},
-*/
-
-export const Spark = props => {
-  const cellData = props.cell._cell.row.data.history
-  const colour = props.cell._cell.row.data.profit > 0 ? 'green' : 'red'
-
-  return (
-    <Sparklines data={Object.values(cellData).reverse()}>
-      <SparklinesLine color={colour} />
-    </Sparklines>
-  )
-}
-
 export const profitFormatter = (cell, formatterParams, onRendered) => {
   const colour = cell.getValue() > 0 ? 'green' : 'red'
   // const perc = cell.getValue() ? sprintf('%#,##0.1f', cell.getValue()) + '%' : ''
@@ -45,7 +17,10 @@ export const profitFormatter = (cell, formatterParams, onRendered) => {
   return `<span style="color:${colour}">${perc}</span>`
 }
 
-const dollars = (cents, decimals) => `$${(cents / 100).toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`
+const dollars = (cents, decimals) => {
+  if (cents) return `$${(cents / 100).toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`
+  return ''
+}
 
 //
 // How to use - imports
@@ -78,4 +53,30 @@ export const centFormatter = (cell, formatterParams, onRendered) => {
     return `<span style="color:${colour}">${value}</span>`
   }
   return value
+}
+
+export const dateFormat = {
+  inputFormat: 'DD/MM/YY hh:mm',
+  outputFormat: 'DD/MM/YY h:mm A',
+  invalidPlaceholder: 'Invalid Date'
+}
+
+export const expiryFormatter = (cell, formatterParams, onRendered) => {
+  const expiry = `${cell._cell.row.data.card.expiry_month}/${cell._cell.row.data.card.expiry_year - 2000}`
+  return `<span >${expiry}</span>`
+}
+
+export const objectFormatter = cell => {
+  let r = ''
+  const o = cell.getValue()
+  if (o) {
+    r = Object.keys(o)
+      .map(k => `${k}: ${o[k]}`)
+      .join(', ')
+  }
+  return r
+}
+
+export const cardFormatter = cell => {
+  return cell.getValue().replace(/XXXX-XXXX-XX/, '')
 }

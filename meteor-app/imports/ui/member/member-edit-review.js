@@ -22,15 +22,10 @@ const MemberEditReview = props => {
       <Segment padded="very">
         <h3 onClick={() => setDisabled(!disabled)}>
           <span>Change Email/Password</span>
-          <Button basic circular icon="pencil" floated="right" />
+          <Button basic circular icon="pencil" id="edit-password" floated="right" />
         </h3>
         {!disabled ? (
-          <UserDetailForm
-            formData={props.formData}
-            setUser={props.setUser}
-            setMember={props.setMember}
-            setPassword={props.setPassword}
-          />
+          <UserDetailForm formData={props.formData} updateMemberPassword={props.updateMemberPassword} />
         ) : null}
       </Segment>
       {props.steps.map((step, ix) => {
@@ -38,7 +33,7 @@ const MemberEditReview = props => {
           <Segment padded="very" key={ix}>
             <h2 onClick={() => props.goToStep(ix)}>
               <span>{step.stepTitle}</span>
-              <Button basic circular icon="pencil" floated="right" />
+              <Button basic circular icon="pencil" id={step.stepId} floated="right" />
             </h2>
             <Segment.Group>
               {Object.keys(step.schema.properties).map((key, iy) => {

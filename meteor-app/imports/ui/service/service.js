@@ -1,35 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SearchBar from './service-item-search'
-import ServiceItemTag from './serviceItem-tag'
 import { ServiceContextProvider } from './service-context'
-import ServiceItemTagContainer from './serviceItem-tag-container'
-import ServiceItemSearchContainer from './service-item-search-container'
+import Edit from './edit'
+import Search from './search'
 
-import Summary from './summary-tab'
-import FromTrail from './client'
-import Client from './client'
+import Summary from './summary'
+import Customer from './customer'
 import { Tab } from 'semantic-ui-react'
 
-const panes = props => {
+const panes = (props) => {
   let foundationPanes = [
     {
       menuItem: 'Service',
       render: () => (
         <Tab.Pane props={props}>
-          <ServiceItemSearchContainer />
-          <ServiceItemTagContainer />
+          <Search />
+          <Edit />
         </Tab.Pane>
-      )
+      ),
     },
     {
       menuItem: 'Details',
       render: () => (
         <Tab.Pane props={props}>
-          <Client />
+          <Customer />
         </Tab.Pane>
-      )
-    }
+      ),
+    },
   ]
 
   if (props.job && props.logs && props.updateStatus && props.currentJob && props.members) {
@@ -46,7 +43,7 @@ const panes = props => {
             members={props.members}
           />
         </Tab.Pane>
-      )
+      ),
     })
   }
   return foundationPanes
@@ -61,8 +58,8 @@ function Service(props) {
 }
 
 Service.propTypes = {
-  data: PropTypes.array.isRequired,
-  tags: PropTypes.array.isRequired
+  serviceOptions: PropTypes.array.isRequired,
+  tags: PropTypes.array.isRequired,
 }
 
 export default Service

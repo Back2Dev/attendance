@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Parts from '../schema'
 import Orders from '/imports/api/orders/schema'
+import '../methods'
 
 Meteor.publish('all.parts', () => {
   return Parts.find({}, { limit: 50 })
@@ -19,25 +20,10 @@ Meteor.publish('find.parts', searchFor => {
   ]
 })
 
-
 Meteor.publish('id.parts', id => {
-  return [Parts.find(id), ]
+  return [Parts.find(id)]
 })
 
 Meteor.publish('add.parts', () => {
   return []
-})
-
-Meteor.methods({
-  'rm.Parts': id => {
-    Parts.remove(id)
-  },
-  'update.Parts': form => {
-    const id = form._id
-    delete form._id
-    Parts.update(id, { $set: form })
-  },
-  'add.Parts': form => {
-    Parts.insert(form)
-  }
 })

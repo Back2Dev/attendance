@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from '/imports/ui/utils/alert'
+import { Loader } from 'semantic-ui-react'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Sessions from '/imports/api/sessions/schema'
@@ -10,8 +10,13 @@ import MemberDetails from './member-details'
 
 const debug = require('debug')('b2b:admin')
 
-const Loader = props => {
-  if (props.loading) return <div>Loading...</div>
+const Loading = props => {
+  if (props.loading)
+    return (
+      <Loader active inline="centered" size="massive">
+        Loading
+      </Loader>
+    )
   return <MemberDetails {...props} />
 }
 
@@ -62,6 +67,10 @@ export default withTracker(props => {
     Meteor.call('migrateSessions', id)
   }
 
+  const addPaymentEmail = (id, email) => {
+    Meteor.call('members.addPaymentEmail', id, email)
+  }
+
   return {
     save,
     loading,
@@ -77,6 +86,7 @@ export default withTracker(props => {
     updateAutoPay,
     org: Meteor.settings.public.org,
     logo: Meteor.settings.public.logo,
-    migrateSessions
+    migrateSessions,
+    addPaymentEmail
   }
-})(Loader)
+})(Loading)

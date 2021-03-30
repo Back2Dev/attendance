@@ -75,7 +75,7 @@ const reducer = (state, action) => {
       newState = cloneDeep(state)
       newState.discount = action.payload * 100 // Convert to cents
       recalc(newState)
-      Alert.info(`Recalculated cart charge amount after discount ($action.payload)`)
+      // Alert.info(`Recalculated cart charge amount after discount (${action.payload})`)
       return { ...newState }
     case 'add':
       if (!state.products) state = cloneDeep(initialState)

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Header } from 'semantic-ui-react'
-import * as _ from 'lodash'
 
 const MemberList = props => {
   const { members, Component, style, onCardClick, list } = props

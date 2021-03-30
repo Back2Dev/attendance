@@ -6,21 +6,8 @@ import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Events from '/imports/api/events/schema'
+import { meteorCall } from '/imports/ui/utils/meteor'
 import List from './list'
-
-const meteorCall = async (method, description, param) => {
-  try {
-    Alert.info(description || `Calling ${method}`)
-    const s = await Meteor.callAsync(method, param)
-    if (s.status === 'success') {
-      Alert.success(s.message)
-    } else {
-      Alert.error(`Error ${s.message}`)
-    }
-  } catch (e) {
-    Alert.error(`Error ${e.message}`)
-  }
-}
 
 const remove = id => meteorCall('rm.sessions', 'Deleting', id)
 const update = form => meteorCall('update.sessions', 'Updating', form)
@@ -37,20 +24,45 @@ const columns = [
     formatter: 'rowSelection',
     align: 'center',
     headerSort: false,
-    cellClick: function (e, cell) {
+    width: 50,
+    cellClick: function(e, cell) {
       cell.getRow().toggleSelect()
     }
   },
   {
-    field: 'url', title: 'Member', formatter: 'link',
+    field: 'url',
+    title: 'Member',
+    formatter: 'link',
     formatterParams: {
-      labelField: "memberName",
-      target: "_blank",
+      labelField: 'memberName',
+      target: '_blank'
     }
   },
   { field: 'name', title: 'Session Name' },
-  { field: 'timeIn', title: 'Start Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
-  { field: 'timeOut', title: 'End Time', editor: DateEditor, formatter: 'datetime', formatterParams: dateFormat },
+  {
+    field: 'timeIn',
+    title: 'Start Time',
+    editor: DateEditor,
+    formatter: 'datetime',
+    formatterParams: dateFormat,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    }
+  },
+  {
+    field: 'timeOut',
+    title: 'End Time',
+    editor: DateEditor,
+    formatter: 'datetime',
+    formatterParams: dateFormat,
+    sorter: 'date',
+    sorterParams: {
+      format: 'YYYY-MM-DD',
+      alignEmptyValues: 'top'
+    }
+  },
   { field: 'duration', title: 'Duration', editor: true }
 ]
 
@@ -64,8 +76,7 @@ export default withTracker(props => {
   const filterSubs = Meteor.subscribe('memberSessions', Session.get('filterDate'))
 
   return {
-    items: Sessions
-      .find({})
+    items: Sessions.find({})
       .fetch()
       .map(item => {
         item.url = `/admin/userprofiles/${item.memberId}`

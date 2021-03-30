@@ -17,8 +17,9 @@ import EmailSent from './email-sent'
 import Paid from './paid'
 import AlreadyPaid from './already-paid'
 import { CartContextProvider } from './cart-data'
-const debug = require('debug')('b2b:shop')
 import context from '/imports/ui/utils/nav'
+
+const debug = require('debug')('b2b:shop')
 
 const ShopFront = props => {
   if (props.location.pathname === '/shop') {

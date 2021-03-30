@@ -2,5 +2,11 @@
   "typescript.check.workspaceVersion": false,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "eslint.enable": false
+  "eslint.enable": false,
+  "prettier.printWidth": 70,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.arrowParens": "avoid",
+  "prettier.semi": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

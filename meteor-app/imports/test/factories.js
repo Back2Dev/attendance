@@ -2,29 +2,26 @@
  * test factories.
  * configure our factories here and return the Factory module.
  */
-import { Meteor } from 'meteor/meteor'
 import faker from 'faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
-// publications
+// import { RegExId } from '/imports/api/schema'
+
+// database schemas
 import Members from '/imports/api/members/schema'
-import Sessions from '/imports/api/sessions/schema'
 import Orders from '/imports/api/orders/schema'
-import Parts from '/imports/api/parts/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Wwccs from '/imports/api/wwccs/schema'
-import Promos from '/imports/api/promos/schema'
 import Reports from '/imports/api/reports/schema'
-// import { RegExId } from '/imports/api/schema'
 
 import Assessments from '/imports/api/assessments/schema'
 import Services from '/imports/api/assessments/schema'
-import ServiceItems from '/imports/api/assessments/serviceItems'
-import Events from '/imports/api/events/schema'
 import Logger from '/imports/api/assessments/logger'
 import OrderEmails from '/imports/api/orderemails/schema'
+
+import './generated-factories'
 
 Factory.define('member', Members, {
   name: () => faker.name.findName(),
@@ -32,7 +29,10 @@ Factory.define('member', Members, {
   // TODO - the rest of these
   isHere: true,
   avatar: '7.jpg',
-  sessions: [{ memberId: 'randomSession' }, { memberId: 'randomSession' }],
+  sessions: [
+    { memberId: 'randomSession' },
+    { memberId: 'randomSession' },
+  ],
   lastIn: new Date(),
   joined: new Date(),
   addressPostcode: '3428',
@@ -54,17 +54,7 @@ Factory.define('member', Members, {
     was a white Sun 10 speed racer. I saved up for months to buy it. I saved
     money from my paper round, and my dad threw some money in too.
   `,
-  primaryBike: 'Racer'
-})
-
-Factory.define('session', Sessions, {
-  memberId: Random.id(),
-  memberName: 'Dave Smith',
-  // eventId:
-  name: 'Daily volunteering',
-  timeIn: new Date(),
-  timeOut: new Date(),
-  duration: faker.random.number(6)
+  primaryBike: 'Racer',
 })
 
 Factory.define('order', Orders, {
@@ -77,10 +67,10 @@ Factory.define('order', Orders, {
       partId: 'frame',
       partNo: 'sadasd',
       addedAt: new Date(),
-      userId: '2ueueoaje'
-    }
+      userId: '2ueueoaje',
+    },
   ],
-  totalPrice: 9900 // This is in cents
+  totalPrice: 9900, // This is in cents
 })
 
 Factory.define('assessment', Assessments, {
@@ -88,28 +78,28 @@ Factory.define('assessment', Assessments, {
     name: faker.name.findName(),
     phone: faker.phone.phoneNumber(),
     email: faker.internet.email(),
-    isRefurbish: faker.random.boolean()
+    isRefurbish: faker.random.boolean(),
   },
   bikeDetails: {
     make: faker.commerce.productName(),
     model: 'TX-1234',
     color: faker.commerce.color(),
     bikeValue: Math.round(faker.finance.amount()),
-    sentimentValue: faker.random.boolean()
+    sentimentValue: faker.random.boolean(),
   },
   services: {
     serviceItem: [
       {
         name: 'Fix tyre',
-        price: 5000
+        price: 5000,
       },
       {
         name: 'Fix handle bar',
-        price: 3000
-      }
+        price: 3000,
+      },
     ],
     baseService: 'Minor Service',
-    totalServiceCost: 8000
+    totalServiceCost: 8000,
   },
   parts: {
     partsItem: [
@@ -118,10 +108,10 @@ Factory.define('assessment', Assessments, {
         price: 2000,
         code: 'F',
         category: 'Other',
-        used: false
-      }
+        used: false,
+      },
     ],
-    totalPartsCost: 2000
+    totalPartsCost: 2000,
   },
   additionalFees: 1500,
   discount: 2000,
@@ -135,38 +125,20 @@ Factory.define('assessment', Assessments, {
   comment: 'Thorough cleaning of the bike is required',
   temporaryBike: faker.random.boolean(),
   status: 2,
-  search: faker.name.findName()
+  search: faker.name.findName(),
 })
 
-Factory.define('logs', Logger, {
+Factory.define('logger', Logger, {
   user: faker.name.findName(),
   aId: '34G5785heY6262',
   status: 1,
-  eventType: 2
-})
-
-Factory.define('parts', ServiceItems, {
-  name: faker.commerce.productName(),
-  price: Math.round(faker.commerce.price() * 100),
-  code: 'F',
-  category: 'Other',
-  used: false
+  eventType: 2,
 })
 
 Factory.define('services', Services, {
   name: faker.commerce.productName(),
   price: Math.round(faker.commerce.price()),
-  package: 'Minor'
-})
-
-Factory.define('part', Parts, {
-  imageUrl: '/public/images/logo-large.jpg',
-  retailPrice: 6666, // This is in cents
-  wholesalePrice: 3333,
-  partNo: 'pt-123',
-  name: 'carbonfibre frame',
-  barcode: '22413000022413',
-  status: CONSTANTS.PART_STATUS_NEW
+  package: 'Minor',
 })
 
 Factory.define('product', Products, {
@@ -180,21 +152,7 @@ Factory.define('product', Products, {
   active: true,
   autoRenew: true,
   startDate: faker.date.past(1),
-  endDate: faker.date.future(1)
-})
-
-Factory.define('10pass', Products, {
-  name: '10 pass',
-  description: 'Passes allow you to use PA',
-  type: 'pass',
-  code: 'PA-PASS-MULTI-10',
-  duration: 3,
-  price: 15000,
-  image: '/public/images/gym.jpg',
-  active: true,
-  autoRenew: true,
-  startDate: faker.date.past(1),
-  endDate: faker.date.future(1)
+  endDate: faker.date.future(1),
 })
 
 Factory.define('purchase', Purchases, {
@@ -206,7 +164,7 @@ Factory.define('purchase', Purchases, {
   productId: 'EKFJq9mrEjPer3PHW',
   productName: 'PA 12 month membership',
   paymentMethod: 'credit card',
-  status: 'current'
+  status: 'current',
 })
 
 Factory.define('purchase10pass', Purchases, {
@@ -218,35 +176,14 @@ Factory.define('purchase10pass', Purchases, {
   productId: 'EKFJq9mrEjPer3PHW',
   productName: '10 session pass',
   paymentMethod: 'credit card',
-  status: 'current'
-})
-
-Factory.define('event', Events, {
-  name: 'Evening workshop',
-  location: 'Back2bikes',
-  when: new Date(),
-  active: true,
-  duration: 2,
-  price: 200,
-  type: 'monthly'
-})
-
-Factory.define('test-event', Events, {
-  name: 'Squad training',
-  location: 'Sandridge',
-  when: new Date(),
-  active: true,
-  duration: 2,
-  type: 'day',
-  days: [1, 2, 3, 4, 5, 6, 7],
-  price: 3000
+  status: 'current',
 })
 
 Factory.define('wwcc', Wwccs, {
   wwcc: '01819845',
   wwccSurname: 'King',
   memberId: 'SYdWnRL5LmZXT4GxE',
-  wwccOk: true
+  wwccOk: true,
 })
 
 Factory.define('cart', Carts, {
@@ -259,25 +196,17 @@ Factory.define('cart', Carts, {
   products: [Factory.create('product')],
   status: 'complete',
   customerResponse: {},
-  chargeResponse: {}
-})
-
-Factory.define('promo', Promos, {
-  code: 'BLACK-FRIDAY',
-  description: 'Black Friday 50% off',
-  discount: 50,
-  admin: false,
-  start: new Date()
+  chargeResponse: {},
 })
 
 Factory.define('report', Reports, {
   name: 'This is a report',
-  details: 'This is the details of the report, blah, blah blah'
+  details: 'This is the details of the report, blah, blah blah',
 })
 
 Factory.define('orderemails', OrderEmails, {
   name: 'order emails',
-  description: 'order emails'
+  description: 'order emails',
 })
 
 export default Factory

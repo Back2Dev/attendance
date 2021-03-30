@@ -298,6 +298,12 @@ export const MembersSchema = new SimpleSchema({
   //
   // End of payment system data
   //
+  paymentEmails: {
+    type: Array,
+    label: 'Array of payment emails',
+    defaultValue: []
+  },
+  'paymentEmails.$': String,
   createdAt,
   updatedAt
 })

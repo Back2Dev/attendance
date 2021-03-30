@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Button, Input, Checkbox, Modal } from 'semantic-ui-react'
+import { Form, Button, Label, Input, Checkbox, Modal } from 'semantic-ui-react'
 import Alert from 'react-s-alert'
 
 const fieldMap = {
   email: 'email',
-  sms: 'mobile'
+  sms: 'mobile',
 }
 
-const ForgotPin = props => {
-  console.log(props)
+const ForgotPin = (props) => {
   const [value, setValue] = useState('')
   const [method, setMethod] = useState('email')
   const [remember, setRemember] = useState(true)
@@ -36,16 +35,18 @@ const ForgotPin = props => {
   return (
     <Modal
       trigger={
-        <Button
-          size="small"
+        <a
+          pointing
           onClick={() => {
             setModalOpen(true)
           }}
+          style={{ cursor: 'pointer' }}
         >
-          Forgot Pin
-        </Button>
+          Forgotten Pin
+        </a>
       }
       open={modalOpen}
+      onClose={() => setModalOpen(false)}
       basic
       size="small"
     >
@@ -101,7 +102,7 @@ const ForgotPin = props => {
 }
 
 ForgotPin.propTypes = {
-  onPinReminderSent: PropTypes.func.isRequired
+  onPinReminderSent: PropTypes.func.isRequired,
 }
 
 export default ForgotPin

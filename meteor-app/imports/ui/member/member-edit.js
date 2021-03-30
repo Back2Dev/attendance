@@ -4,8 +4,6 @@ import { Grid } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import Form from 'react-jsonschema-form-semanticui'
 import Alert from '/imports/ui/utils/alert'
-import Steps from '/imports/ui/member/member-add-steps'
-import Control from '/imports/ui/member/member-add-control'
 import EditControl from '/imports/ui/member/member-edit-control'
 import MemberEditReview from '/imports/ui/member/member-edit-review'
 import widgets from '/imports/ui/member/member-add-widgets'
@@ -123,9 +121,7 @@ class MemberEditForm extends Component {
               <div>
                 <MemberEditReview
                   formData={this.state.formData}
-                  setMember={this.props.setMember}
-                  setUser={this.props.setUser}
-                  setPassword={this.props.setPassword}
+                  updateMemberPassword={this.props.updateMemberPassword}
                   steps={this.schemas}
                   goToStep={this.goToStep}
                 />

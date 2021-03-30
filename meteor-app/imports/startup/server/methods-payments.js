@@ -3,11 +3,12 @@ import axios from 'axios'
 import { Carts } from '/imports/api/products/schema'
 import CONSTANTS from '/imports/api/constants'
 import Members from '/imports/api/members/schema'
+import Charges from '/imports/api/charges/schema'
 
 const debug = require('debug')('b2b:payments')
 
 Meteor.methods({
-  makePayment: async function(chargeData) {
+  makePayment: async function (chargeData) {
     const paymentURL = Meteor.settings.private.paymentURL
     chargeData.ip_address = this.connection.clientAddress
 
@@ -16,21 +17,21 @@ Meteor.methods({
       method: 'post',
       data: chargeData,
       responseType: 'json',
-      validateStatus: function(status) {
+      validateStatus: function (status) {
         return status >= 200
       },
 
       transformResponse: [
-        function(data) {
+        function (data) {
           // Do whatever you want to transform the data
           // debug('intercepted data', data)
           return data
-        }
+        },
       ],
       auth: {
         username: Meteor.settings.private.paymentApiKey,
-        password: ''
-      }
+        password: '',
+      },
     }
     debug(`Sending charge to ${paymentURL}`, request)
     try {
@@ -51,8 +52,8 @@ Meteor.methods({
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
           chargeResponse: data.response,
-          creditCard: data.response.card
-        }
+          creditCard: data.response.card,
+        },
       })
 
       debug(data.response)
@@ -64,7 +65,7 @@ Meteor.methods({
     }
   },
 
-  mockMakePayment: async function(chargeData, creditCardInfo) {
+  mockMakePayment: async function (chargeData, creditCardInfo) {
     try {
       const response = {
         success: true,
@@ -86,7 +87,7 @@ Meteor.methods({
           address_city: '1',
           address_postcode: '1',
           address_state: '1',
-          address_country: 'Australia'
+          address_country: 'Australia',
         },
         transfer: [],
         amount_refunded: 0,
@@ -100,18 +101,18 @@ Meteor.methods({
         active_chargebacks: false,
         metadata: {
           cartid: 'AKoeSGMPX3aYqprxc',
-          codes: 'PA-CASUAL'
+          codes: 'PA-CASUAL',
         },
         status: 201,
         statusText: 'Created',
-        customerToken: 'ch_ozlmTbMTrfaqiVEdtdgZ3w'
+        customerToken: 'ch_ozlmTbMTrfaqiVEdtdgZ3w',
       }
       Carts.update(chargeData.metadata.cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
           chargeResponse: response,
-          creditCard: response.card
-        }
+          creditCard: response.card,
+        },
       })
 
       return response
@@ -122,38 +123,39 @@ Meteor.methods({
     }
   },
 
-  createMockCustomer: function(custData, token) {
+  createMockCustomer: function (custData, token) {
     const cart = Carts.findOne(custData.metadata.cartId)
     if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: token } })
     else Members.update({ email: custData.email }, { $set: { paymentCustId: token } })
+    // TODO: detect an error and log it
   },
 
-  createCustomer: async function(custData) {
+  createCustomer: async function (custData) {
     const customerURL = Meteor.settings.private.customerURL
     const customer = {
       email: custData.email,
       card_token: custData.card_token,
-      ip_address: this.connection.clientAddress
+      ip_address: this.connection.clientAddress,
     }
     const request = {
       url: customerURL,
       method: 'post',
       data: customer,
-      validateStatus: function(status) {
+      validateStatus: function (status) {
         return status >= 200
       },
 
       transformResponse: [
-        function(data) {
+        function (data) {
           // Do whatever you want to transform the data
           // debug('intercepted data', data)
           return data
-        }
+        },
       ],
       auth: {
         username: Meteor.settings.private.paymentApiKey,
-        password: ''
-      }
+        password: '',
+      },
     }
     debug(`Creating customer at ${customerURL}`, request)
     try {
@@ -178,5 +180,52 @@ Meteor.methods({
       // throw new Meteor.Error(error.message)
       return error.message
     }
-  }
+  },
+  'refresh.charges': async function () {
+    let page = '1'
+    let n = 0
+    do {
+      const chargeURL = `${Meteor.settings.private.paymentURL}?page=${page}`
+      const request = {
+        url: chargeURL,
+        method: 'get',
+        validateStatus: function (status) {
+          return status >= 200
+        },
+        auth: {
+          username: Meteor.settings.private.paymentApiKey,
+          password: '',
+        },
+      }
+      debug(`Fetching charges from ${chargeURL}`, request)
+      try {
+        const r = await axios(request)
+        const { data } = r
+        debug(`status: ${r.status} ${r.statusText}`, data.pagination)
+        data.response.forEach((charge) => {
+          const c = Charges.findOne({ token: charge.token })
+          if (!c) {
+            charge.reconciled = false
+            charge.matched = false
+            const id = Charges.insert(charge)
+            if (id) n = n + 1
+          }
+        })
+        page = data.pagination.next
+      } catch (error) {
+        debug(error)
+        // throw new Meteor.Error(error.message)
+        return { status: 'failed', message: error.message }
+      }
+    } while (page)
+
+    // Default code for inserting logs into logs collection
+    const o = {
+      userId: Meteor.userId(),
+      type: 'charge-add',
+      description: `Added ${n} charges`,
+    }
+    Meteor.call('insert.logs', o)
+    return { status: 'success', message: `Added ${n} charges` }
+  },
 })

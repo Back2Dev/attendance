@@ -6,7 +6,7 @@ const dude = {
     _id: '3zoJ9PxfYis4B75np',
     mobile: '0438 002 921',
     email: 'Cathrine.King@nomail.maybe.home',
-    name: 'Cathrine King',
+    name: 'Cathrine Carmel',
     avatar: 'test21.png',
     isHere: false,
     isSuper: false,
@@ -391,7 +391,7 @@ const dude = {
     terms: true,
     fitness: true,
     wwccOk: true,
-    wwccExpiry: '25-03-2024T00:00:00.000Z',
+    wwccExpiry: ISODate('2023-02-05T11:00:00.000+11:00'),
     wwccSurname: 'Carmel',
     isSlsa: true,
     autoPay: true

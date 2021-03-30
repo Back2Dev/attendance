@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from  'simpl-schema'
+import SimpleSchema from 'simpl-schema'
 import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
 
 const Logger = new Mongo.Collection('logger')
@@ -22,9 +22,15 @@ export const LoggerSchema = new SimpleSchema({
     optional: true
   },
   createdAt,
-  updatedAt,
+  updatedAt
 })
 
-Logger.attachSchema(LoggerSchema);
+Logger.attachSchema(LoggerSchema)
 
 export default Logger
+
+Meteor.startup(() => {
+  if (Meteor.isServer) {
+    Logger.rawCollection().ensureIndex({ aId: 1 })
+  }
+})

@@ -3,26 +3,59 @@ import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter, NavLink } from 'react-router-dom'
-import Members from '/imports/api/members/schema'
 import { Menu, Loader } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
-
+import Members from '/imports/api/members/schema'
+import { version } from '/imports/api/version'
 import AdminMenu from '/imports/ui/pages/admin-menu'
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
-const NavBar = ({ currentUser, currentMember, location, loading }) => {
+const NavBar = ({
+  currentUser,
+  currentMember,
+  location,
+  loading,
+}) => {
+  const id = currentMember ? currentMember._id : ''
   if (loading) {
     return <Loader active />
   }
+
   return (
-    <Menu vertical attached="top" inverted size="large" color="black" className="tm-sidebar">
-      <Menu.Item as={NavLink} activeClassName="" exact to="/" style={{ textAlign: 'center' }}>
-        <img src="/images/image.png" className="ui center aligned container small image" />
+    <Menu
+      vertical
+      attached="top"
+      inverted
+      size="large"
+      color="black"
+      className="tm-sidebar"
+      style={{ background: Meteor.settings.public.background }}
+    >
+      <Menu.Item
+        as={NavLink}
+        activeClassName=""
+        exact
+        to="/"
+        style={{ textAlign: 'center' }}
+      >
+        <img
+          src={Meteor.settings.public.logo}
+          title={version()}
+          className="ui center aligned container small image"
+        />
       </Menu.Item>
 
       {currentUser === '' ? (
         <div>
-          <Menu.Item as={NavLink} content="Login" icon="user" activeClassName="active" exact to="/login" key="login" />
+          <Menu.Item
+            as={NavLink}
+            content="Login"
+            icon="user"
+            activeClassName="active"
+            exact
+            to="/login"
+            key="login"
+          />
         </div>
       ) : (
         /* <Dropdown.Item icon="add user" text="Sign up" as={NavLink} exact to="/signup" /> */
@@ -54,8 +87,17 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
         ''
       )}
 
-      {(Roles.userIsInRole(Meteor.userId(), 'shop') || !currentUser) && (
-        <Menu.Item as={NavLink} content="Shop" icon="shop" activeClassName="active" exact to="/shop" key="shop" />
+      {(Roles.userIsInRole(Meteor.userId(), 'shop') ||
+        !currentUser) && (
+        <Menu.Item
+          as={NavLink}
+          content="Shop"
+          icon="shop"
+          activeClassName="active"
+          exact
+          to="/shop"
+          key="shop"
+        />
       )}
       {Roles.userIsInRole(Meteor.userId(), 'member') ? (
         <Menu.Item
@@ -64,7 +106,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
           icon="edit"
           activeClassName="edit"
           exact
-          to={`/edit/${currentMember._id}`}
+          to={`/edit/${id}`}
           key="edit"
         />
       ) : (
@@ -72,7 +114,15 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
       )}
 
       {Roles.userIsInRole(Meteor.userId(), 'register') ? (
-        <Menu.Item as={NavLink} content="Register" icon="plus" activeClassName="active" exact to="/add" key="add" />
+        <Menu.Item
+          as={NavLink}
+          content="Register"
+          icon="plus"
+          activeClassName="active"
+          exact
+          to="/add"
+          key="add"
+        />
       ) : (
         ''
       )}
@@ -99,9 +149,9 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               icon="payment"
               activeClassName="active"
               exact
-              to="/paynow"
-              key="paynow"
-            />
+              to="/options"
+              key="options"
+            />,
           ]
         : ''}
       {Roles.userIsInRole(Meteor.userId(), 'servicing')
@@ -117,7 +167,16 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
             />,
             <Menu.Item
               as={NavLink}
-              content="Service"
+              content="Current Services"
+              icon="list alternate outline"
+              activeClassName="active"
+              exact
+              to="/jobscopy"
+              key="jobscopy"
+            />,
+            <Menu.Item
+              as={NavLink}
+              content="New Job"
               icon="lock open"
               activeClassName="active"
               exact
@@ -126,7 +185,7 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
             />,
             <Menu.Item
               as={NavLink}
-              content="Current jobs"
+              content="Current Jobs"
               icon="list alternate outline"
               activeClassName="active"
               exact
@@ -141,10 +200,14 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               exact
               to="/job-history"
               key="job-history"
-            />
+            />,
           ]
         : ''}
-      {Roles.userIsInRole(Meteor.userId(), 'admin') ? <AdminMenu></AdminMenu> : ''}
+      {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
+        <AdminMenu></AdminMenu>
+      ) : (
+        ''
+      )}
       {Roles.userIsInRole(Meteor.userId(), 'superadmin')
         ? [
             <Menu.Item
@@ -155,12 +218,19 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
               exact
               to="/superadmin"
               key="superadmin"
-            />
+            />,
           ]
         : ''}
       {currentUser !== '' && (
         <>
-          <Menu.Item as={NavLink} content="Sign out" icon="sign out" activeClassName="active" exact to="/signout" />
+          <Menu.Item
+            as={NavLink}
+            content="Sign out"
+            icon="sign out"
+            activeClassName="active"
+            exact
+            to="/signout"
+          />
           <Menu.Item content={currentUser} />
         </>
       )}
@@ -170,19 +240,21 @@ const NavBar = ({ currentUser, currentMember, location, loading }) => {
 
 /** Declare the types of all properties. */
 NavBar.propTypes = {
-  currentUser: PropTypes.string
+  currentUser: PropTypes.string,
 }
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const NavBarContainer = withTracker(() => {
   const membersSub = Meteor.subscribe('all.members')
   const loading = !membersSub.ready()
-  const currentMember = Members.find({ userId: Meteor.userId() }).fetch()[0]
+  const currentMember = Members.find({
+    userId: Meteor.userId(),
+  }).fetch()[0]
 
   return {
     loading,
     currentUser: Meteor.user() ? Meteor.user().username : '',
-    currentMember: currentMember
+    currentMember,
   }
 })(NavBar)
 
