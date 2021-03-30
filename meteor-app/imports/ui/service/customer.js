@@ -1,219 +1,196 @@
-/* eslint-disable no-lone-blocks */
-import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import './customer.css'
-import { string, object } from 'yup'
+import React, { useContext, useEffect } from 'react'
 import { ServiceContext } from './service-context'
+import { Formik, Form, useField } from 'formik'
+import * as Yup from 'yup'
+import moment from 'moment'
+import {
+  Header,
+  Segment,
+  Grid,
+  Input,
+  Button,
+  Checkbox,
+} from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
-// let yup = require('yup')
-
-{
-  /*
-
-considering running the below on an array of data to make the component/form extensible
-
-function inputElement(type, name, placeholder){
-  return(
-  <label className="service-form-label">
-  <input type={type} name={name} ref={register({required: true, message: `Please confirm the ${placeholder} `})}  className="service-form-input"/>
-        <span className="placeholder"> {placeholder}</span>
-  </label>
-  )
-  {errors.{name} && errors.{name} === "required" (<p>{errors.{name}.message}</p>)}
-}
-
-
-  const customerQuestions = SOMETHING.customer.map(inputElement(type, name, placeholder){
-    return <inputEle type={type} name={name} placeholder{placeholder} key={name}/>
-  })
-
-  const bikeQuestions = SOMETHING.bike.map(inputElement(type, name, placeholder){
-    return <inputEle type={type} name={name} placeholder{placeholder} key={name}/>
-  })
-
-
-*/
-}
-
-let yup = require('yup')
-const schema = yup.object().shape({
-  CustomerName: yup.string().required(),
-  phone: yup.number().min(6).required().positive().integer(),
-  email: yup.string().email().required(),
-  bikeBrand: yup.string().required(),
-  bikeName: yup.string().required(),
-  bikeColor: yup.string().required(),
-})
-
-function Client(props) {
+const Client = () => {
   const [state, setState] = useContext(ServiceContext)
-  // console.log('state from client = ', state)
-  const { register, handleSubmit, errors } = useForm({
-    validationSchema: schema,
-    //SubmitFocusError autofocuses to the 1st invalid field when form submit
-    submitFocusError: true,
+  const initialState = { ...state }
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().max(
+      49,
+      'Name must be less than 50 characters'
+    ),
+    email: Yup.string().email('Email must be a valid email format'),
+    phone: Yup.string()
+      .min(3, 'Phone number must be greater than 2 characters')
+      .max(49, 'Phone number must be less than 50 characters'),
+    make: Yup.string().required('Required'),
+    model: Yup.string(),
+    color: Yup.string().required('Required'),
+    bikeValue: Yup.number().required('Required'),
+    assessor: Yup.string()
+      .required('Required')
+      .max(49, 'Name must be less than 50 characters'),
   })
-  const onSubmit = (data) => {
-    console.log(data)
-    let submissiondata = data
-    console.log('submissiondata:', submissiondata)
-    console.log('errors:', errors)
-    return submissiondata
+
+  const TextInput = ({ label, ...props }) => {
+    const [field, meta] = useField(props)
+    return (
+      <div style={{ marginTop: '10px' }}>
+        <b>{label}</b>
+        <Input
+          className="text-input"
+          placeholder={label}
+          {...field}
+          {...props}
+          fluid
+        />
+        {meta.touched && meta.error ? (
+          <div className="error" style={{ color: 'red' }}>
+            {meta.error}
+          </div>
+        ) : null}
+      </div>
+    )
   }
-  console.log(errors)
 
-  // const validate = value => {
-  //   if (!input.value) {
-  //     return !valid
-  //   }
-  // }
+  const handleChange = (values) => {
+    setState({ ...state, ...values })
+    console.log(initialState)
+  }
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      id="service-customer"
-      novalidate
+    <Formik
+      initialValues={state}
+      validationSchema={validationSchema}
+      onSubmit={(values, { resetForm }) => {
+        state.updateJob({ ...state })
+      }}
     >
-      <section className="form-left">
-        <article className="form customer-details">
-          <legend>Customer Details</legend>
-          <label className="service-form-label">
-            <input
-              type="text"
-              name="CustomerName"
-              ref={register({
-                message: 'Customer Name is required',
-                pattern: /\W+/,
-                required: true,
-              })}
-              className="service-form-input"
-            />
-
-            <span className="placeholder"> Customer Name</span>
-          </label>
-          {errors.CustomerName &&
-            errors.CustomerName ===
-              'required'(<p>{errors.CustomerName.message}</p>)}
-
-          <label className="service-form-label">
-            <input
-              type="email"
-              name="email"
-              ref={register({
-                message: 'email is required',
-                pattern: /\W+/,
-                required: true,
-              })}
-              className="service-form-input"
-            />
-            <span className="placeholder"> email</span>
-          </label>
-          {errors.email &&
-            errors.email ===
-              'required'(<p>{errors.email.message}</p>)}
-
-          <label className="service-form-label">
-            <input
-              type="text"
-              name="phone"
-              ref={register({
-                message: 'a phone number is required',
-                minLength: 8,
-                required: true,
-              })}
-              className="service-form-input"
-            />
-            <span className="placeholder"> phone</span>
-          </label>
-          {errors.phone &&
-            errors.phone ===
-              'required'(<p>{errors.phone.message}</p>)}
-        </article>
-
-        <article className="form bike-details">
-          <legend>Bike Details</legend>
-          <label className="service-form-label">
-            <input
-              type="text"
-              name="bikeBrand"
-              ref={register({
-                message: 'A Brand is required',
-                required: true,
-              })}
-              className="service-form-input"
-            />
-            <span className="placeholder"> Bike Brand</span>
-          </label>
-          {errors.bikeBrand && <p>{errors.bikeBrand.message}</p>}
-
-          <label className="service-form-label">
-            <input
-              type="text"
-              name="bikeName"
-              ref={register({
-                message: 'The Name is required',
-                required: true,
-              })}
-              className="service-form-input"
-            />
-            <span className="placeholder"> Bike Name</span>
-          </label>
-          {errors.bikeName && <p>{errors.bikeName.message}</p>}
-
-          <label className="service-form-label">
-            <input
-              type="text"
-              name="bikeColor"
-              ref={register({
-                message: 'Bike Color is required',
-                required: true,
-              })}
-              className="service-form-input"
-            />
-            <span className="placeholder"> Bike Color</span>
-          </label>
-          {errors.bikeColor && <p>{errors.bikeColor.message}</p>}
-        </article>
-      </section>
-      <section className="form-right">
-        <article className="user-details">
-          <h3>User allocated: </h3>
-          <div className="user-image" />
-        </article>
-        <article className="form misc-details">
-          <legend>Misc</legend>
-          <label>
-            <input
-              type="checkbox"
-              placeholder="replacement"
-              name="replacement"
-              ref={register}
-            />
-            Replacement Bike Requested:
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              placeholder="urgent"
-              name="urgent"
-              ref={register}
-            />
-            Urgent?
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              placeholder="sentimental"
-              name="sentimental"
-              ref={register}
-            />
-            Sentimental?
-          </label>
-          <button type="submit" id="service-form-button">
-            Submit{' '}
-          </button>
-        </article>
-      </section>
-    </form>
+      {({ values, setFieldValue }) => (
+        <Form onBlur={() => handleChange(values)}>
+          <Grid columns={3}>
+            <Grid.Column>
+              <Segment>
+                <Header content="Customer Details" dividing />
+                <TextInput id="name-input" label="Name" name="name" />
+                <TextInput
+                  id="email-input"
+                  label="Email"
+                  name="email"
+                />
+                <TextInput
+                  id="phone-input"
+                  label="Phone"
+                  name="phone"
+                />
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Header content="Bike Details" dividing />
+                <TextInput id="make-input" label="Make" name="make" />
+                <TextInput
+                  id="model-input"
+                  label="Model"
+                  name="model"
+                />
+                <TextInput
+                  id="colour-input"
+                  label="Colour"
+                  name="color"
+                />
+                <TextInput
+                  id="value-input"
+                  label="Value"
+                  name="bikeValue"
+                  type="number"
+                />
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Header content="Misc" dividing />
+                <b>Pick Up Date</b>
+                <br />
+                <DatePicker
+                  selected={moment(values.pickupDate).toDate()}
+                  minDate={new Date()}
+                  onChange={(date) => {
+                    console.log(values.pickupDate)
+                    setFieldValue('pickupDate', date)
+                  }}
+                />
+                <TextInput
+                  id="assessor"
+                  label="Assessor"
+                  name="assessor"
+                />
+                <br />
+                <Checkbox
+                  id="temp-bike-checkbox"
+                  defaultChecked={state.temporaryBike}
+                  label="Temporary Bike"
+                  name="temporaryBike"
+                  onChange={() =>
+                    setFieldValue(
+                      'temporaryBike',
+                      !values.temporaryBike
+                    )
+                  }
+                />
+                <br />
+                <Checkbox
+                  id="urgent-checkbox"
+                  defaultChecked={state.urgent}
+                  label="Urgent"
+                  name="urgent"
+                  onChange={() =>
+                    setFieldValue('urgent', !values.urgent)
+                  }
+                />
+                <br />
+                <Checkbox
+                  id="sentimental-checkbox"
+                  defaultChecked={state.sentimental}
+                  label="Sentimental"
+                  name="sentimental"
+                  onChange={() =>
+                    setFieldValue('sentimental', !values.sentimental)
+                  }
+                />
+                <br />
+                <Checkbox
+                  id="refurbish-checkbox"
+                  defaultChecked={state.isRefurbish}
+                  label="Refurbished"
+                  name="isRefurbish"
+                  onChange={() =>
+                    setFieldValue('isRefurbish', !values.isRefurbish)
+                  }
+                />
+                <br />
+                <Checkbox
+                  defaultChecked={state.paid}
+                  label="Paid"
+                  name="paid"
+                  onChange={() => setFieldValue('paid', !values.paid)}
+                />
+              </Segment>
+              <Button
+                type="submit"
+                id="service-form-button"
+                content="Submit"
+                color="blue"
+                floated="right"
+              />
+            </Grid.Column>
+          </Grid>
+        </Form>
+      )}
+    </Formik>
   )
 }
 

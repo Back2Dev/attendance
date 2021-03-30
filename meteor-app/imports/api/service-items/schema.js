@@ -12,7 +12,7 @@ export const ServiceItemsSchema = new SimpleSchema({
   category: { type: String, label: 'Parts category' },
   used: { type: Boolean, label: 'Is item new or used' },
   createdAt,
-  updatedAt
+  updatedAt,
 })
 
 ServiceItems.attachSchema(ServiceItemsSchema)

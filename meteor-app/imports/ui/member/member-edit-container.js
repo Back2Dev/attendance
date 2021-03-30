@@ -36,7 +36,11 @@ export default withTracker((props) => {
       // we are updating the member
       debug('updating member', formData)
       try {
-        const res = await Meteor.callAsync('members.update', formData._id, formData)
+        const res = await Meteor.callAsync(
+          'members.update',
+          formData._id,
+          formData
+        )
         setSuccess('Member Saved', formData._id)
         return res
       } catch (e) {
@@ -50,7 +54,11 @@ export default withTracker((props) => {
     if (props.member != null) {
       // debug('updating member password', formData)
       try {
-        const res = await Meteor.callAsync('updateMemberPassword', formData, confirmPass)
+        const res = await Meteor.callAsync(
+          'updateMemberPassword',
+          formData,
+          confirmPass
+        )
         setSuccess('Member password saved', formData.userId)
         return res
       } catch (e) {
@@ -63,6 +71,7 @@ export default withTracker((props) => {
   document.title = `${Meteor.settings.public.org} - ${Meteor.settings.public.member} portal`
 
   return {
+    setMember,
     updateMemberPassword,
     setMember,
     error: error.get(),

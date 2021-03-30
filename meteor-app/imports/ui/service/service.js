@@ -8,7 +8,7 @@ import Summary from './summary'
 import Customer from './customer'
 import { Tab } from 'semantic-ui-react'
 
-const panes = props => {
+const panes = (props) => {
   let foundationPanes = [
     {
       menuItem: 'Service',
@@ -17,7 +17,7 @@ const panes = props => {
           <Search />
           <Edit />
         </Tab.Pane>
-      )
+      ),
     },
     {
       menuItem: 'Details',
@@ -25,8 +25,8 @@ const panes = props => {
         <Tab.Pane props={props}>
           <Customer />
         </Tab.Pane>
-      )
-    }
+      ),
+    },
   ]
 
   if (props.job && props.logs && props.updateStatus && props.currentJob && props.members) {
@@ -43,7 +43,7 @@ const panes = props => {
             members={props.members}
           />
         </Tab.Pane>
-      )
+      ),
     })
   }
   return foundationPanes
@@ -58,8 +58,8 @@ function Service(props) {
 }
 
 Service.propTypes = {
-  serviceItems: PropTypes.array.isRequired,
-  tags: PropTypes.array.isRequired
+  serviceOptions: PropTypes.array.isRequired,
+  tags: PropTypes.array.isRequired,
 }
 
 export default Service

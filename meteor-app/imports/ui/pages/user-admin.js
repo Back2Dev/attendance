@@ -1,13 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Loader, Segment, Button, Confirm, Form, Popup, Grid, Divider } from 'semantic-ui-react'
+import {
+  Loader,
+  Segment,
+  Button,
+  Confirm,
+  Form,
+  Popup,
+  Grid,
+  Divider,
+} from 'semantic-ui-react'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/tabulator.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import CONSTANTS from '/imports/api/constants'
 import Alert from '/imports/ui/utils/alert'
+import AddUserModal from './add-user-modal'
 
-export default ListUsers = props => {
+export default ListUsers = (props) => {
   const [users, setusers] = React.useState(props.users)
   const [popupStatus, setPopupStatus] = React.useState(false)
   const [usersRowsSelected, setUsersRowsSelected] = React.useState([])
@@ -18,17 +28,14 @@ export default ListUsers = props => {
     setUsersRowsSelected([])
   }, [props.users])
 
-  const addNewUser = () => {
-    props.addNewUser(error => {
-      if (error) {
-        Alert.error(error.reason)
-        console.log(error.reason)
-      }
-    })
+  const addNewUser = (username, email, password) => {
+    props.addNewUser(username, email, password)
   }
 
   const deleteUsers = () => {
-    usersRowsSelected.forEach(userData => props.deleteUsers(userData))
+    usersRowsSelected.forEach((userData) =>
+      props.deleteUsers(userData)
+    )
   }
 
   const show = () => {
@@ -59,7 +66,7 @@ export default ListUsers = props => {
   let newPassword = ''
   let newPasswordAgain = ''
 
-  const handleChange = value => {
+  const handleChange = (value) => {
     switch (value.target.placeholder) {
       case 'New Password':
         newPassword = value.target.value
@@ -72,7 +79,10 @@ export default ListUsers = props => {
 
   const handleSave = async () => {
     if (newPassword === newPasswordAgain && newPassword) {
-      const s = await props.setPassword(usersRowsSelected[0], newPassword)
+      const s = await props.setPassword(
+        usersRowsSelected[0],
+        newPassword
+      )
       if (s.status === 'success') {
         setPopupStatus(false)
         setUsersRowsSelected([])
@@ -82,29 +92,33 @@ export default ListUsers = props => {
     }
   }
 
-  const usersOnCellEdited = cell => {
+  const usersOnCellEdited = (cell) => {
     const newUser = { ...cell._cell.row.data }
-    newUser.roles = newUser.roles.map(role => ({ _id: role, scope: null, assigned: true }))
+    newUser.roles = newUser.roles.map((role) => ({
+      _id: role,
+      scope: null,
+      assigned: true,
+    }))
     if (cell._cell.column.field === 'emails') {
       newUser.oldValue = cell._cell.oldValue
     }
-    newUser.roles = CONSTANTS.ROLES.filter(role => newUser[role])
+    newUser.roles = CONSTANTS.ROLES.filter((role) => newUser[role])
     props.updateUser(newUser)
   }
 
   const usersTableOptions = {
     cellEdited: usersOnCellEdited,
     width: 100,
-    rowSelected: function(row) {
+    rowSelected: function (row) {
       usersRowsSelected.push(row._row.data._id)
     },
-    rowDeselected: function(row) {
+    rowDeselected: function (row) {
       for (i = 0; i < usersRowsSelected.length; i++) {
         if (usersRowsSelected[i] === row._row.data._id) {
           usersRowsSelected.splice(i, 1)
         }
       }
-    }
+    },
   }
 
   let UsersContents = () => <Loader active>Getting data</Loader>
@@ -112,26 +126,45 @@ export default ListUsers = props => {
     if (!users.length) {
       UsersContents = () => <span>No data found</span>
     } else {
-      UsersContents = () => <ReactTabulator columns={props.userColumns} data={users} options={usersTableOptions} />
+      UsersContents = () => (
+        <ReactTabulator
+          columns={props.userColumns}
+          data={users}
+          options={usersTableOptions}
+        />
+      )
     }
   }
 
   let ManagePasswordContents = () => (
     <Segment>
       <Grid columns={2} relaxed="very">
-        <Grid.Column verticalAlign="middle" style={{ textAlign: 'center' }}>
-          <Button onClick={handleSendEmail} content="Send Reset Password Email" />
+        <Grid.Column
+          verticalAlign="middle"
+          style={{ textAlign: 'center' }}
+        >
+          <Button
+            onClick={handleSendEmail}
+            content="Send Reset Password Email"
+          />
         </Grid.Column>
         <Grid.Column>
           <Form>
-            <Form.Input type="password" label="New Password" placeholder="New Password" onChange={handleChange} />
+            <Form.Input
+              type="password"
+              label="New Password"
+              placeholder="New Password"
+              onChange={handleChange}
+            />
             <Form.Input
               type="password"
               label="New Password Again"
               placeholder="New Password Again"
               onChange={handleChange}
             />
-            <div style={{ padding: 0, color: 'red' }}>{passwordError}</div>
+            <div style={{ padding: 0, color: 'red' }}>
+              {passwordError}
+            </div>
           </Form>
         </Grid.Column>
       </Grid>
@@ -146,17 +179,25 @@ export default ListUsers = props => {
         <Alert stack={{ limit: 3 }} />
         Account Admin
         <span style={{ float: 'right', right: '0px' }}>
-          <Button size="mini" onClick={addNewUser} color="black" type="button">
-            Add
-          </Button>
-          <Button size="mini" onClick={deleteUsers} color="red" type="button">
+          <AddUserModal addNewUser={addNewUser} />
+          <Button
+            size="mini"
+            onClick={deleteUsers}
+            color="red"
+            type="button"
+          >
             Delete
           </Button>
           <Popup
             content="Select one row before using this function"
             disabled={false}
             trigger={
-              <Button size="mini" onClick={show} color="grey" type="button">
+              <Button
+                size="mini"
+                onClick={show}
+                color="grey"
+                type="button"
+              >
                 Manage Password
               </Button>
             }
@@ -183,5 +224,5 @@ ListUsers.propTypes = {
   deleteUsers: PropTypes.func,
   addNewUser: PropTypes.func,
   setPassword: PropTypes.func,
-  sendResetPasswordEmail: PropTypes.func
+  sendResetPasswordEmail: PropTypes.func,
 }

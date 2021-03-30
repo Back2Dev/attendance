@@ -7,7 +7,7 @@ import storiesData from '/imports/test/service-data'
 
 console.log('servicedata from the  search stories', storiesData)
 
-storiesData.serviceItems = storiesData.data
+storiesData.serviceOptions = storiesData.data
 
 storiesOf('Service', module).add('Search', () => {
   return (
