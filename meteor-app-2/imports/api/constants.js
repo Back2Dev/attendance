@@ -30,6 +30,16 @@ CONSTANTS.DAYS_WEEK = [
   { id: 6, value: 'Sa' },
 ]
 
+CONSTANTS.TRIGGERS = {
+  create: 'Create',
+  ready: 'Ready',
+  open: 'Open',
+  complete: 'Complete',
+  cancel: 'Cancel',
+  reject: 'Reject',
+  reopen: 'Re-open',
+}
+
 CONSTANTS.USER_STATUS = {
   active: 'Active',
   suspended: 'Suspended',

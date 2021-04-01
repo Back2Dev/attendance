@@ -1,16 +1,12 @@
 // methods.js
-import CONSTANTS from '/imports/api/constants'
 import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
 import SimpleSchema from 'simpl-schema'
 //
 // Importing the data api's makes sure collections are set up properly.
 //
-import MessageTemplates from '/imports/api/message-templates/schema'
+import CONSTANTS from '/imports/api/constants'
 import log, { createLog } from '/imports/lib/log'
-import { push } from '/imports/api/notifications/server/helper.js'
-import { convertMergeTags, convertLink } from '/imports/api/util.js'
-import moment from 'moment'
-import HTMLTemplate from '/imports/api/email-template'
 
 const debug = require('debug')('b2b:methods')
 
