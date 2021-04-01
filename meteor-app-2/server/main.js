@@ -1,6 +1,4 @@
 import { Meteor } from 'meteor/meteor'
-import { Picker } from 'meteor/meteorhacks:picker'
-var bodyParser = require('body-parser')
 const cron = require('node-cron')
 const debug = require('debug')('b2b:server')
 
@@ -11,7 +9,6 @@ import '/imports/lib/validator'
 import './fixtures'
 import './pubs'
 import './methods'
-import './search'
 import './slingshot'
 import './cron-jobs'
 import './settings'
@@ -38,18 +35,8 @@ Meteor.startup(() => {
   })
 })
 
-Meteor.startup(() => {
-  // runs up ncc api
-  Picker.middleware(bodyParser.json())
-  Picker.route('/restapi/voi', function (params, req, res, next) {
-    logger.audit('receiving ncc data', req.body) // logs the webhook request
-    Meteor.call('update.voi', req.body)
-    res.end()
-  })
-})
-
 // We won't log certain methods, for fear of exposing their contents and causing a security meltdown
-const dontLog = ['login']
+// const dontLog = ['login']
 Meteor.beforeAllMethods(function (...args) {
   // The first element in the args array is the method name
   // const [methodName, ...rest] = args
