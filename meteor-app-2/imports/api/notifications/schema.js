@@ -8,7 +8,7 @@ import {
   createdAt,
   updatedAt,
   OptionalString,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 export const Notifications = new Mongo.Collection('notifications_2')
 if (Meteor.isServer) {

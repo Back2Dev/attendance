@@ -6,7 +6,7 @@ import {
   RegExId,
   createdAt,
   updatedAt,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const Cronjobs = new Mongo.Collection('cronjobs')
 

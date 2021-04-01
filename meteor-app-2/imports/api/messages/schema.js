@@ -8,7 +8,7 @@ import {
   createdAt,
   updatedAt,
   OptionalString,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const Messages = new Mongo.Collection('messages')
 if (Meteor.isServer) {

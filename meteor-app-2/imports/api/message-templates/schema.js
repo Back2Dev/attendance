@@ -6,7 +6,7 @@ import {
   createdAt,
   updatedAt,
   OptionalString,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const MessageTemplates = new Mongo.Collection('messageTemplates')
 

@@ -6,7 +6,7 @@ import {
   createdAt,
   updatedAt,
   Blackbox,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const Audits = new Mongo.Collection('audits')
 
