@@ -71,12 +71,14 @@ Accounts.onCreateUser((options, user) => {
 
   const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
 
-  Meteor.call('sendEvent', {
-    profile,
-    user,
-    slug: 'new-user',
-    people: admins,
-  })
+  // TODO: Find a neater way of preventing emails going out when fixtures are inserted
+  if (Meteor.settings.env.enironment === 'prod')
+    Meteor.call('sendEvent', {
+      profile,
+      user,
+      slug: 'new-user',
+      people: admins,
+    })
 
   return user
 })

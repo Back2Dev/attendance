@@ -11,7 +11,14 @@
     "name": "Mike King",
     "username": "mike.king@mydomain.com.au",
     "email": "mike.king@mydomain.com.au",
-    "roles": ["ADM", "PM", "CON"],
+    "roles": ["ADM", "CON"],
+    "se": true
+  },
+  {
+    "name": "Minh Nguyen",
+    "username": "minh.nguyen@mydomain.com.au",
+    "email": "minh.nguyen@mydomain.com.au",
+    "roles": ["ADM"],
     "se": true
   },
   {
@@ -19,55 +26,6 @@
     "username": "pat.carmel@mydomain.com.au",
     "email": "pat.carmel@mydomain.com.au",
     "roles": ["ADM"],
-    "se": true
-  },
-  {
-    "name": "Jack Yang",
-    "username": "jack.yang@mydomain.com.au",
-    "email": "jack.yang@mydomain.com.au",
-    "roles": ["ADM"],
-    "se": true
-  },
-  {
-    "name": "Chris Tri",
-    "username": "chris.tri@mydomain.com.au",
-    "email": "chris.tri@mydomain.com.au",
-    "roles": ["ADM", "PM"],
-    "se": true
-  },
-  {
-    "name": "Mirella Rice",
-    "username": "mirella.rice@mydomain.com.au",
-    "email": "mirella.rice@mydomain.com.au",
-    "roles": ["ADM", "CON", "PM"],
-    "se": true
-  },
-  {
-    "name": "Fletcher Adam",
-    "username": "fletcher.adam@mydomain.com.au",
-    "email": "fletcher.adam@mydomain.com.au",
-    "roles": ["ADM", "CON"],
-    "se": true
-  },
-  {
-    "name": "Sam Almaliki",
-    "username": "sam.almaliki@mydomain.com.au",
-    "email": "sam.almaliki@mydomain.com.au",
-    "roles": ["ADM", "CUS"],
-    "se": true
-  },
-  {
-    "name": "Practice Manager",
-    "username": "practice.manager@tmydomain.com.au",
-    "email": "practice.manager@tmydomain.com.au",
-    "roles": ["PM"],
-    "se": true
-  },
-  {
-    "name": "Catherine Andrews",
-    "username": "catherine.andrews@mydomain.com.au",
-    "email": "catherine.andrews@mydomain.com.au",
-    "roles": ["ADM", "CUS", "PM", "CON"],
     "se": true
   },
   {
@@ -79,33 +37,11 @@
     "se": true
   },
   {
-    "name": "Geronimo Yawns",
-    "username": "geronimo.yawns@test.com",
-    "email": "geronimo.yawns@test.com",
-    "roles": ["PM"],
-    "se": true
-  },
-  {
     "name": "Charlie Customer",
     "username": "charlie.customer@test.com",
     "email": "charlie.customer@test.com",
     "mobile": "+61400000000",
     "roles": ["CUS"],
-    "se": true
-  },
-  {
-    "name": "Constantine Veya",
-    "username": "Constantine.Veya@test.com",
-    "email": "Constantine.Veya@test.com",
-    "mobile": "+61400000000",
-    "roles": ["CON"],
-    "se": true
-  },
-  {
-    "name": "Agent Orange",
-    "username": "Agent.Orange@test.com",
-    "email": "Agent.Orange@test.com",
-    "roles": ["AGT"],
     "se": true
   }
 ]
