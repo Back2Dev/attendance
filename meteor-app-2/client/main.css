@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'GothamRoundedMedium';
+  src: url('/fonts/Gotham-Rounded-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'GothamRoundedLight';
+  src: url('/fonts/Gotham-Rounded-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'GothamLight';
+  src: url('/fonts/Gotham-Light.ttf') format('truetype');
+}
+
+body {
+  padding: 0;
+  font-family: 'GothamRoundedLight', sans-serif;
+}
+
+.tabulator-page {
+  font-family: 'GothamRoundedLight';
+}
+
+.Toastify__toast-body {
+  font-family: 'GothamRoundedMedium';
+}
+
+.Toastify__toast {
+  border-radius: 4px !important;
+}
+
+.Toastify__toast--error {
+  background: #ea4435;
+}
+
+.Toastify__toast--success {
+  background: #31a750;
+}
+
+.Toastify__toast--info {
+  background: #4794fc;
+}

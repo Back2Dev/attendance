@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/welcome",
+    "roles": ["admin"]
+  },
+  {
+    "path": "/docs",
+    "roles": ["admin"]
+  },
+  {
+    "path": "/admin",
+    "roles": ["admin"]
+  },
+  {
+    "path": "/upload",
+    "roles": ["admin"]
+  }
+]

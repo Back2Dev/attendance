@@ -1,0 +1,19 @@
+/* Generated file DO NOT EDIT !!!*/
+//
+// This file contains a list of publications for database admin pages
+// It is generated from a list of modules
+//
+// Note that no code is necessary here, each api declares its own publications.
+// This file is to bring them together, and in the darkness bind them.
+//
+// GENERATED PUBS GO HERE
+
+import '/imports/api/profiles/server/publications'
+import '/imports/api/settings/server/publications'
+import '/imports/api/messages/server/publications'
+import '/imports/api/message-templates/server/publications'
+import '/imports/api/audits/server/publications'
+import '/imports/api/notifications/server/publications'
+import '/imports/api/cronjobs/server/publications'
+
+// END GENERATED PUBS

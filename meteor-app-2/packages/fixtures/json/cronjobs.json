@@ -1,0 +1,8 @@
+[
+  { "name": "voi/ncc", "frequency": "1 hour", "type": "bot.voi" },
+  { "name": "api notifications", "frequency": "5 minutes", "type": "bot.message.api" },
+  { "name": "email sending", "frequency": "2 minutes", "type": "bot.message.email" },
+  { "name": "sms sending", "frequency": "2 minutes", "type": "bot.message.sms" },
+  { "name": "check bot tasks", "frequency": "1 minutes", "type": "bot.check.tasks" },
+  { "name": "check workflow tasks", "frequency": "1 minutes", "type": "bot.workflow" }
+]

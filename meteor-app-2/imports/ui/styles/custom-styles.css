@@ -1,0 +1,53 @@
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  font-family: 'GothamRoundedLight';
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eeeeee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+}
+
+canvas {
+  margin-left: auto;
+  margin-right: auto;
+}
+.react-pdf__Page__canvas {
+  height: 100%;
+}
+
+.hover-button {
+  cursor: pointer;
+  padding-top: 10px;
+}
+
+.icons {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.notification-zone {
+  border: 4px black;
+}

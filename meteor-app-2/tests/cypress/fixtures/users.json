@@ -1,0 +1,60 @@
+{
+  "explain": "These users are referred to in our tests",
+  "admin": {
+    "name": "Super Mario",
+    "nickname": "Super!",
+    "username": "super.mario@mario.com",
+    "password": "i-like-turTles-27",
+    "newPassword": "Test1234!",
+    "phone": "461234567"
+  },
+  "customer": {
+    "name": "Charlie Customer",
+    "nickname": "Charlie",
+    "username": "charlie.customer@test.com",
+    "password": "me2",
+    "phone": "461234567"
+  },
+  "conveyancer": {
+    "name": "Constantine Veya",
+    "nickname": "Connie",
+    "username": "Constantine.Veya@test.com",
+    "password": "me2",
+    "phone": "461234567"
+  },
+  "existingCustomer": {
+    "name": "Cathy Customer",
+    "nickname": "Testie",
+    "username": "cathy.customer@mydomain.com.au",
+    "password": "me2",
+    "phone": "0461234567"
+  },
+  "newCustomer": {
+    "name": "Terry Nova",
+    "nickname": "Tez",
+    "username": "terra.nova@mydomain.com.au",
+    "password": "me2",
+    "phone": "0461234567"
+  },
+  "pm": {
+    "name": "Geronimo",
+    "nickname": "The one who yawns",
+    "username": "geronimo.yawns@test.com",
+    "password": "me2",
+    "phone": "461234567"
+  },
+  "mirella": {
+    "name": "Mirella Rice",
+    "nickname": "Mirella",
+    "username": "mirella.rice@mydomain.com.au",
+    "password": "me2",
+    "phone": "461234567"
+  },
+  "agent": {
+    "name": "Agent Orange",
+    "nickname": "Carrot-top",
+    "username": "Agent.Orange@test.com",
+    "password": "me2",
+    "phone": "461234567"
+  }
+}

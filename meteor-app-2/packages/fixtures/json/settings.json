@@ -1,0 +1,53 @@
+[
+  {
+    "name": "messages_enabled",
+    "key": "messages_enabled",
+    "value": true
+  },
+  {
+    "name": "messages_maxRetries",
+    "key": "messages_maxRetries",
+    "value": 10
+  },
+  {
+    "name": "messagesMaxSend",
+    "key": "messagesMaxSend",
+    "value": 10
+  },
+
+  {
+    "name": "emailEnabled",
+    "key": "emailEnabled",
+    "value": true
+  },
+  {
+    "name": "emailMaxRetries",
+    "key": "emailMaxRetries",
+    "value": 10
+  },
+  {
+    "name": "smsEnabled",
+    "key": "smsEnabled",
+    "value": true
+  },
+  {
+    "name": "smsMaxRetries",
+    "key": "smsMaxRetries",
+    "value": 10
+  },
+  {
+    "name": "messages_webhook_enabled",
+    "key": "messages_webhook_enabled",
+    "value": true
+  },
+  {
+    "name": "messages_webhook_maxRetries",
+    "key": "messages_webhook_maxRetries",
+    "value": 10
+  },
+  {
+    "name": "Geocoding Api Key",
+    "key": "geocoding_api_key",
+    "value": "AIzaSyASTKBiuCiBKLzyJYY1u03zaB0Q8XqfVqw"
+  }
+]

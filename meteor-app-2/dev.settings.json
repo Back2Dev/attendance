@@ -1,0 +1,23 @@
+{
+  "listen": null,
+  "private": {
+    "API_SECRET": "YOUR_KEY_HERE",
+    "NCC_API_SECRET": "YOUR_KEY_HERE",
+    "S3_REGION": "ap-southeast-2",
+    "S3_ACCESS_KEY_ID": "YOUR_KEY_HERE",
+    "S3_SECRET_ACCESS_KEY": "YOUR_KEY_HERE",
+    "UPLOAD_BUCKET": "staging-docs.mydomain.com.au",
+    "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au.s3-website-ap-southeast-2.amazonaws.com",
+    "EMAIL_INFO_TO": "mike.king+dev-notify@mydomain.com.au",
+    "EMAIL_TO_ADMIN": "mike.king+dev-admin@mydomain.com.au",
+    "INVITE_USER": "http://localhost:3000/signup-from-link/?token=",
+    "DOCUMENTS_BUCKET": "staging-docs.mydomain.com.au"
+  },
+  "env": {
+    "environment": "dev",
+    "ROOT_URL": "http://localhost:3070/"
+  },
+  "public": {
+    "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au.s3-website-ap-southeast-2.amazonaws.com/"
+  }
+}
