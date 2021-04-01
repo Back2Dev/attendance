@@ -158,7 +158,7 @@ Meteor.methods({
                     template.subject || ''
                   ),
                   subject: template.subject,
-                  from_email: 'do-not-reply@settleeasy.com.au',
+                  from_email: 'do-not-reply@mydomain.com.au',
                   from_name: 'Settle Easy',
                   to: [
                     {
@@ -167,13 +167,13 @@ Meteor.methods({
                     },
                   ],
                   headers: {
-                    'Reply-To': 'do-not-reply@settleeasy.com.au',
+                    'Reply-To': 'do-not-reply@mydomain.com.au',
                   },
                   important: true,
-                  // bcc_address: 'do-not-reply@settleeasy.com.au',
+                  // bcc_address: 'do-not-reply@mydomain.com.au',
                   tags: [event.slug],
                   recipient_metadata: [
-                    { rcpt: 'do-not-reply@settleeasy.com.au', values: { some: 'value' } },
+                    { rcpt: 'do-not-reply@mydomain.com.au', values: { some: 'value' } },
                   ],
                 },
               }
@@ -194,11 +194,11 @@ Meteor.methods({
               form = {
                 type: 'sms',
                 to: recipient.mobile,
-                subject: 'message from SettleEasy',
+                subject: 'message from Mydomain',
                 body: body,
                 data: {
                   recipient: recipient.mobile,
-                  sender: 'SettleEasy',
+                  sender: 'Mydomain',
                   message: body,
                 },
               }
