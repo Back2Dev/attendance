@@ -1,45 +1,55 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { REGEX_ID, createdAt, updatedAt } from '/imports/api/schema'
+import {
+  OptionalRegExId,
+  createdAt,
+  updatedAt,
+} from '/imports/api/schema'
 
 const Eventlogs = new Mongo.Collection('eventlogs')
 
 export const EventlogsSchema = new SimpleSchema({
-  _id: {
+  _id: OptionalRegExId,
+  eventType: {
     type: String,
-    regEx: REGEX_ID,
-    label: 'Unique _id',
-    optional: false
+    optional: true,
+  },
+  status: {
+    type: String,
+    optional: true,
   },
   who: {
     type: String,
-    label: 'Who'
+    label: 'Who',
   },
   what: {
     type: String,
-    label: 'What'
+    label: 'What',
   },
   where: {
     type: String,
     label: 'Where',
-    optional: true
+    optional: true,
+  },
+  objectId: {
+    type: OptionalRegExId,
   },
   object: {
     type: Object,
     label: 'Associated data (if any)',
     optional: true,
-    blackbox: true
+    blackbox: true,
   },
   createdAt,
-  updatedAt
+  updatedAt,
 })
 
 Eventlogs.attachSchema(EventlogsSchema)
 
 export default Eventlogs
 
-export const eventLog = params => {
+export const eventLog = (params) => {
   Eventlogs.insert(params)
 }
 
@@ -52,5 +62,5 @@ Eventlogs.allow({
   },
   remove() {
     return false
-  }
+  },
 })
