@@ -168,7 +168,7 @@ Meteor.methods({
       })
 
       const purchase = Purchases.findOne({ memberId: memberId })
-      if (purchase.status === 'current') {
+      if (purchase?.status === 'current') {
         Purchases.update(
           { memberId: memberId },
           {
