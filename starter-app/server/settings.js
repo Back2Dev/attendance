@@ -5,7 +5,7 @@ const debug = require('debug')('b2b:startup')
 
 const publicSchema = new SimpleSchema({
   S3_PUBLIC_URL: String,
-  LIVECHAT: SimpleSchema.Integer,
+  // LIVECHAT: SimpleSchema.Integer,
 })
 
 const sentrySchema = new SimpleSchema({
@@ -19,19 +19,17 @@ const loggySchema = new SimpleSchema({
 })
 
 const privateSchema = new SimpleSchema({
-  API_SECRET: String,
   S3_REGION: String,
   S3_ACCESS_KEY_ID: String,
   S3_SECRET_ACCESS_KEY: String,
-  UPLOAD_BUCKET: String,
   S3_PUBLIC_URL: String,
+  UPLOAD_BUCKET: String,
   DOCUMENTS_BUCKET: String,
   MANDRILL_API_KEY: String,
   GOOGLE_SECRET: String,
   FACEBOOK_SECRET: String,
-  NCC_API_SECRET: String,
-  sentry: sentrySchema,
-  loggly: loggySchema,
+  sentry: { type: sentrySchema },
+  loggly: { type: loggySchema },
 })
 
 Meteor.startup(() => {
@@ -48,6 +46,10 @@ Meteor.startup(() => {
       )
   }
   vContext = privateSchema.newContext()
+  if (Meteor.settings.env.environment !== 'prod') {
+    privateSchema._schema.sentry.optional = true
+    privateSchema._schema.loggly.optional = true
+  }
   vContext.validate(Meteor.settings.private || {})
   if (!vContext.isValid()) {
     errs += vContext.validationErrors.length

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Super Mario",
+    "username": "super.mario@mario.com",
+    "password": "i-like-turTles-27",
+    "email": "super.mario@mario.com",
+    "roles": ["ADM", "PM", "CON"],
+    "se": true
+  },
+  {
+    "name": "Mike King",
+    "username": "mike.king@mydomain.com.au",
+    "email": "mike.king@mydomain.com.au",
+    "roles": ["ADM", "CON"],
+    "se": true
+  },
+  {
+    "name": "Minh Nguyen",
+    "username": "minh.nguyen@mydomain.com.au",
+    "email": "minh.nguyen@mydomain.com.au",
+    "roles": ["ADM"],
+    "se": true
+  },
+  {
+    "name": "Pat Carmel",
+    "username": "pat.carmel@mydomain.com.au",
+    "email": "pat.carmel@mydomain.com.au",
+    "roles": ["ADM"],
+    "se": true
+  },
+  {
+    "name": "Cathy Customer",
+    "username": "cathy.customer@mydomain.com.au",
+    "email": "cathy.customer@mydomain.com.au",
+    "mobile": "+61400000000",
+    "roles": ["CUS"],
+    "se": true
+  },
+  {
+    "name": "Charlie Customer",
+    "username": "charlie.customer@test.com",
+    "email": "charlie.customer@test.com",
+    "mobile": "+61400000000",
+    "roles": ["CUS"],
+    "se": true
+  }
+]

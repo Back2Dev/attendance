@@ -18,37 +18,37 @@
       "type": "chrome",
       "request": "attach",
       "name": "Attach Chrome",
-      "url": "http://localhost:3080/reports",
+      "url": "http://localhost:4080/reports",
       "webRoot": "${workspaceFolder}",
       "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
-      "navigate to:": "http://localhost:3080/admin",
+      "navigate to:": "http://localhost:4080/admin",
       "port": 9222
     },
     {
       "type": "chrome",
       "request": "attach",
       "name": "Attach webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
-      "url": "http://localhost:3080/webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
+      "url": "http://localhost:4080/webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
       "webRoot": "${workspaceFolder}",
       "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
-      "navigate to:": "http://localhost:3080/webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
+      "navigate to:": "http://localhost:4080/webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
       "port": 9222
     },
     {
       "type": "chrome",
       "request": "attach",
-      "name": "Attach Chrome 3080",
-      "url": "http://localhost:3080/reports",
+      "name": "Attach Chrome 4080",
+      "url": "http://localhost:4080/reports",
       "webRoot": "${workspaceFolder}",
       "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
-      "navigate to:": "http://localhost:3080/ (login page)",
+      "navigate to:": "http://localhost:4080/ (login page)",
       "port": 9222
     },
     {
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome",
-      "url": "http://localhost:3080/hacks/transporter",
+      "url": "http://localhost:4080/hacks/transporter",
       "webRoot": "${workspaceFolder}"
     },
     {
