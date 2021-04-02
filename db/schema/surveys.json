@@ -1,0 +1,20 @@
+{
+  "collection": "surveys",
+  "generate": "CRUD",
+  "fields": {
+    "name": {
+      "type": "String",
+      "optional": true
+    },
+    "survey": {
+      "type": "Object",
+      "blackbox": true
+    },
+    "version": {
+      "type": "String"
+    },
+    "active": {
+      "type": "Boolean"
+    }
+  }
+}
