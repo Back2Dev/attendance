@@ -104,7 +104,7 @@ function SupportForm() {
               </AutoForm>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1" align="center">
+              <div align="center">
                 <div className="contact-details">Telephone:</div>
                 <div>
                   <a href="tel:+1800-STARTUP">1800-STARTUP</a>
@@ -113,7 +113,7 @@ function SupportForm() {
                 <div>
                   <a href="mailto:support@mydomain.com.au">support@mydomain.com.au</a>
                 </div>
-              </Typography>
+              </div>
             </Grid>
           </Grid>
         </Paper>
