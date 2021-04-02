@@ -6,7 +6,7 @@ import {
   RegExId,
   createdAt,
   updatedAt,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants'
 const Profiles = new Mongo.Collection('profiles')
 

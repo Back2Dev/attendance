@@ -8,12 +8,13 @@
 //
 // GENERATED PUBS GO HERE
 
+import '/imports/api/audits/server/publications'
+import '/imports/api/cronjobs/server/publications'
+import '/imports/api/events/server/publications'
+import '/imports/api/message-templates/server/publications'
+import '/imports/api/messages/server/publications'
+import '/imports/api/notifications/server/publications'
 import '/imports/api/profiles/server/publications'
 import '/imports/api/settings/server/publications'
-import '/imports/api/messages/server/publications'
-import '/imports/api/message-templates/server/publications'
-import '/imports/api/audits/server/publications'
-import '/imports/api/notifications/server/publications'
-import '/imports/api/cronjobs/server/publications'
 
 // END GENERATED PUBS

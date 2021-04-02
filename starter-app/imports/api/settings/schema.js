@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/schemas/schema-util'
+import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/utils/schema-util'
 
 const Settings = new Mongo.Collection('settings')
 if (Meteor.isServer) {
