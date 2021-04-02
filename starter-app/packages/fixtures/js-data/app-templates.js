@@ -456,7 +456,7 @@ module.exports = [
     slug: 'app-315-settle-reminder',
     name: 'app-315-settle-reminder',
     body:
-      'Property at *|address|* is now settling. Purchaser will collect keys after settlement.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'Property at *|address|* is now settling. Purchaser will collect keys after settlement.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -583,7 +583,7 @@ module.exports = [
     slug: 'app-101-assign-conv',
     name: 'app-101-assign-conv',
     body:
-      'Your Settle Easy conveyancer will contact you soon. Please expect a call from *|conveyancer|*.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'Your Startup Inc conveyancer will contact you soon. Please expect a call from *|conveyancer|*.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -603,7 +603,7 @@ module.exports = [
     slug: 'app-301-assign-conv',
     name: 'app-301-assign-conv',
     body:
-      'We received instructions to act in the sale of *|address|*. The assigned Conveyancer is *|conveyancer|*.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'We received instructions to act in the sale of *|address|*. The assigned Conveyancer is *|conveyancer|*.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -613,7 +613,7 @@ module.exports = [
     slug: 'app-105-review-cos',
     name: 'app-105-review-cos',
     body:
-      'Your contract review has been completed. Please check your email.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'Your contract review has been completed. Please check your email.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -623,7 +623,7 @@ module.exports = [
     slug: 'app-240-client-auth',
     name: 'app-240-client-auth',
     body:
-      '*|buyer|* has completed the Client Authorisation Form. Please begin property searches and enquiries for *|address|*. If other documents remain outstanding, please follow up.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      '*|buyer|* has completed the Client Authorisation Form. Please begin property searches and enquiries for *|address|*. If other documents remain outstanding, please follow up.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -633,7 +633,7 @@ module.exports = [
     slug: 'app-256-move-pos',
     name: 'app-256-move-pos',
     body:
-      'It is now time to prepare for settlement of *|address|*. If applicable, please check that your customer’s finance is ready for settlement.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'It is now time to prepare for settlement of *|address|*. If applicable, please check that your customer’s finance is ready for settlement.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -643,7 +643,7 @@ module.exports = [
     slug: 'app-110-move-pos',
     name: 'app-110-move-pos',
     body:
-      'The settlement of your property is fast approaching. We have just emailed you.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'The settlement of your property is fast approaching. We have just emailed you.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -664,7 +664,7 @@ module.exports = [
     slug: 'app-108-alert-buyer',
     name: 'app-108-alert-buyer',
     body:
-      'The settlement of your property is fast approaching. We have just emailed you.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'The settlement of your property is fast approaching. We have just emailed you.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
 
@@ -675,7 +675,7 @@ module.exports = [
     slug: 'app-111-upload-inv',
     name: 'app-111-upload-inv',
     body:
-      'We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -685,7 +685,7 @@ module.exports = [
     slug: 'app-312-remind-inspect',
     name: 'app-312-remind-inspect',
     body:
-      'Settlement of *|address|* is due on *|settlement_date|* at *|settlement_time|*. Please organise final inspection.\n\nCheers,\nSettle Easy\n\nThis is an automated App, please do not reply.',
+      'Settlement of *|address|* is due on *|settlement_date|* at *|settlement_time|*. Please organise final inspection.\n\nCheers,\nStartup Inc\n\nThis is an automated App, please do not reply.',
     type: 'APP',
   },
   {
@@ -705,7 +705,7 @@ module.exports = [
     slug: 'app-119-assign-con',
     name: 'app-119-assign-con',
     body:
-      'Re: *|address|*\nYour Settle Easy conveyancer will contact you soon. Please expect a call from *|conveyancer|*.',
+      'Re: *|address|*\nYour Startup Inc conveyancer will contact you soon. Please expect a call from *|conveyancer|*.',
     type: 'APP',
   },
   {

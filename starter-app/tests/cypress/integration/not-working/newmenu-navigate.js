@@ -72,7 +72,7 @@ describe('goes to the new platform menu and navigates to different webpages', ()
     //checks if the script is on the signature tab on the user preferences page
     cy.get('h6').contains('Editing')
 
-    //settle easy logo button
+    //startup inc logo button
     cy.get('.MuiToolbar-root > [href="/"]').should('exist').click()
 
     cy.get('#support-nav-item').click()
@@ -213,7 +213,7 @@ describe('goes to the new platform menu and navigates to different webpages', ()
 
     //checks if test script is on practices web page
     cy.get('.tabulator-row-odd > [tabulator-field="name"]')
-      .contains('Settle Easy VIC')
+      .contains('Startup Inc VIC')
       .should('exist')
 
     //sidebar

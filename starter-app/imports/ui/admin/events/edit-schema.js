@@ -7,7 +7,26 @@ import {
   OptionalBlackbox,
   OptionalInteger,
 } from '/imports/api/schemas/schema-util'
-import { StepsNotificationSchema } from '/imports/api/workflows/schema'
+import CONSTANTS from '/imports/api/constants'
+
+const StepsNotificationSchema = new SimpleSchema({
+  number: { type: SimpleSchema.Integer, defaultValue: 999 },
+  trigger: {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.TRIGGERS),
+    defaultValue: 'complete',
+  },
+  text: String, // This is the slug of the MessageTemplate
+  // body: OptionalString, // TODO - remove this
+  recipients: { type: Array, optional: true },
+  'recipients.$': {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.NOTIFY_ROLES),
+  },
+  delay: OptionalString,
+  method: { type: String, allowedValues: Object.keys(CONSTANTS.NOTIFICATION_METHODS) },
+  userInfo: { type: Boolean, optional: true },
+})
 
 const schema = new SimpleSchema({
   name: {

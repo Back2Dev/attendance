@@ -12,6 +12,7 @@ const UserList = lazy(() => import('/imports/ui/admin/users/lister.js'))
 const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs'))
 const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
 const Events = lazy(() => import('/imports/ui/admin/events'))
+const Surveys = lazy(() => import('/imports/ui/admin/surveys'))
 const NotFoundComponent = lazy(() =>
   import('/imports/ui/components/commons/not-found.js')
 )
@@ -42,11 +43,11 @@ function AdminPage() {
           <Suspense fallback={<Loading loading />}>
             <Switch>
               <Route path="/admin/message-templates" component={MessageTemplates} />
-              <Route path="/admin/profiles" exact component={Profiles} />
               <Route path="/admin/settings" exact component={SettingsList} />
               <Route path="/admin/users" exact component={UserList} />
               <Route path="/admin/cronjobs" component={Cronjobs} />
               <Route path="/admin/events" component={Events} />
+              <Route path="/admin/surveys" component={Surveys} />
               <Route component={NotFoundComponent} />
             </Switch>
           </Suspense>

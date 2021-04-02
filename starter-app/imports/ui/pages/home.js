@@ -48,7 +48,7 @@ const Home = () => {
         <>
           <div className={classes.desktop}>
             <Typography variant="h1" color="inherit">
-              Welcome to Settle Easy
+              Welcome to Startup Inc
             </Typography>
             <br />
             <GoogleLogin label="Sign up with Google" redirect="/dashboard" />
@@ -71,7 +71,7 @@ const Home = () => {
           </div>
           <div className={classes.mobile}>
             <Typography variant="h1" color="inherit">
-              Welcome to Settle Easy
+              Welcome to Startup Inc
             </Typography>
             <br />
             <GoogleLogin
@@ -102,7 +102,7 @@ const Home = () => {
     return (
       <div className="signedin-home">
         <Typography variant="h1" color="inherit">
-          Welcome to Settle Easy
+          Welcome to Startup Inc
         </Typography>
       </div>
     )

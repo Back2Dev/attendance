@@ -16,5 +16,6 @@ import '/imports/api/messages/server/publications'
 import '/imports/api/notifications/server/publications'
 import '/imports/api/profiles/server/publications'
 import '/imports/api/settings/server/publications'
+import '/imports/api/surveys/server/publications'
 
 // END GENERATED PUBS

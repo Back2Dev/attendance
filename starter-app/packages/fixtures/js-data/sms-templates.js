@@ -1,7 +1,7 @@
 module.exports = [
   {
     body:
-      'Re: *|address|*\nPlease expect a call from *|conveyancer|*, your Settle Easy conveyancer.',
+      'Re: *|address|*\nPlease expect a call from *|conveyancer|*, your Startup Inc conveyancer.',
     name: 'S. Alert customer that assigned conveyancer will call soon.',
     number: 101,
     recipients: ['CUS'],
@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     body:
-      'Re: *|address|*\nPlease expect a call from *|conveyancer|*, your Settle Easy conveyancer.',
+      'Re: *|address|*\nPlease expect a call from *|conveyancer|*, your Startup Inc conveyancer.',
     name: 'S. Customer alert that assigned conveyancer will call soon.',
     number: 102,
     recipients: ['CUS'],
@@ -81,7 +81,7 @@ module.exports = [
   },
   {
     body:
-      'We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nSettle Easy\n\nThis is an automated SMS, please do not reply.',
+      'We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.',
     name: '111-upload-inv',
     number: 111,
     recipients: ['CUS'],
@@ -129,7 +129,7 @@ module.exports = [
   },
   {
     body:
-      '(property address) - Australia - Settlement costs has been approved by your Chief Practice Manager. Cheers, Settle Easy',
+      '(property address) - Australia - Settlement costs has been approved by your Chief Practice Manager. Cheers, Startup Inc',
     name: '118-upload-soc',
     number: 118,
     recipients: ['CUS'],
@@ -198,7 +198,7 @@ module.exports = [
   },
   {
     body:
-      'We are almost ready to settle and have just sent you an important email.\n\nCheers,\nSettle Easy\n\nThis is an automated SMS, please do not reply.',
+      'We are almost ready to settle and have just sent you an important email.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.',
     name: '131-inspect-remind',
     number: 131,
     recipients: ['CUS'],
@@ -228,7 +228,7 @@ module.exports = [
   },
   {
     body:
-      'Reminder from Settle Easy. Your conveyancing bill is now due. Please pay here *|url|*.\n\nCheers,\nSettle Easy\n\nThis is an automated SMS, please do not reply.',
+      'Reminder from Startup Inc. Your conveyancing bill is now due. Please pay here *|url|*.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.',
     name: '134-email-inv',
     number: 134,
     recipients: ['CUS'],
@@ -452,7 +452,7 @@ module.exports = [
   },
   {
     body:
-      'The Tax Invoice for *|address|* has now been paid. Please adjust the Settlement Costs Statement accordingly.\n\nCheers,\nSettle Easy\n\nThis is an automated SMS, please do not reply.',
+      'The Tax Invoice for *|address|* has now been paid. Please adjust the Settlement Costs Statement accordingly.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.',
     name: '260-pay-inv',
     number: 260,
     recipients: ['CON'],
@@ -591,7 +591,7 @@ module.exports = [
   },
   {
     body:
-      'Settlement of *|address|* is due on *|settlement_date|* at *|settlement_time|*. Please organise final inspection.\n\nCheers,\nSettle Easy\n\nThis is an automated SMS, please do not reply.',
+      'Settlement of *|address|* is due on *|settlement_date|* at *|settlement_time|*. Please organise final inspection.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.',
     name: '312-remind-inspect',
     number: 312,
     recipients: ['AGT'],
@@ -601,7 +601,7 @@ module.exports = [
   },
   {
     body:
-      'Property at *|address|* is now settling. Purchaser will collect keys after settlement.\n\nCheers,\nSettle Easy\n\nThis is an automated SMS, please do not reply.',
+      'Property at *|address|* is now settling. Purchaser will collect keys after settlement.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.',
     name: '315-settle-reminder',
     number: 315,
     recipients: ['AGT'],

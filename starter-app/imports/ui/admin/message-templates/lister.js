@@ -4,7 +4,6 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { reactFormatter } from 'react-tabulator'
 import MessageTemplates from '/imports/api/message-templates/schema'
-import Workflows from '/imports/api/workflows/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
 import Eye from '@material-ui/icons/Visibility'
@@ -113,25 +112,7 @@ const Loading = (props) => {
 }
 const MessageTemplatesLister = withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.messageTemplates.uses')
-  const refs = {}
-  Workflows.find({ slug: /^vic/ }).forEach((wf) => {
-    wf.stages.forEach((stg) => {
-      stg.steps.forEach((step) => {
-        step.notifications?.forEach((notif, ix) => {
-          const slugPath = [wf.slug, stg.slug, step.slug].join('/')
-          if (notif.text?.length > 15) {
-            debug(`naked notification text in ${slugPath}: [notif.text]`)
-          } else {
-            if (!refs[notif.text]) refs[notif.text] = []
-
-            refs[notif.text].push(slugPath)
-          }
-        })
-      })
-    })
-  })
   const items = MessageTemplates.find({}).map((row) => {
-    row.uses = refs[row.slug]?.join('\n')
     row.search = obj2Search(row)
     return row
   })

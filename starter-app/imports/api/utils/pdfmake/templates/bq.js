@@ -66,7 +66,7 @@ const bq = ({ data, signatures }) => {
       {
         columns: [
           { width: 5, stack: [{ svg: CONSTANTS.SE_LOGO_SVG }] },
-          { text: "Settle Easy Buyer's Questionnaire", style: 'header', margin: [0, 20] },
+          { text: "Startup Inc Buyer's Questionnaire", style: 'header', margin: [0, 20] },
         ],
       },
 

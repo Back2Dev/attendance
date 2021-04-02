@@ -37,7 +37,7 @@ describe('adds a property from the landing page (new user)', () => {
     cy.get('button#start-form').contains('Start form').should('exist').click()
     cy.get('button#start-webform').should('exist').click()
     // STEP 1 - PRACTICE DETAILS
-    cy.get('input#practice-name').should('have.value', 'Settle Easy VIC')
+    cy.get('input#practice-name').should('have.value', 'Startup Inc VIC')
     cy.get('button[type="submit"]').contains('Next').last().click()
     // STEP 2 - CUSTOMER
     cy.get('input#customer-email').should('have.value', 'charlie.customer@test.com')
@@ -82,7 +82,7 @@ describe('adds a property from the landing page (new user)', () => {
     cy.get('button#start-form').contains('Review and approve').should('exist').click()
     cy.get('button#start-webform').should('exist').click()
     // STEP 1 - PRACTICE DETAILS
-    cy.get('input#practice-name').should('have.value', 'Settle Easy VIC')
+    cy.get('input#practice-name').should('have.value', 'Startup Inc VIC')
     cy.get('button[type="submit"]').contains('Next').last().click()
     // STEP 2 - CUSTOMER
     cy.get('input#customer-email').should('have.value', 'charlie.customer@test.com')
