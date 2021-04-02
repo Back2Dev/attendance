@@ -20,7 +20,7 @@ Package.onUse(function (api) {
   api.use('ecmascript')
 
   //
-  // Loop through the things...
+  // Loop through the things ...
   //
   things.forEach(function (thing) {
     try {
