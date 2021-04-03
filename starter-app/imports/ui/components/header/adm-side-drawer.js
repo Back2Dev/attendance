@@ -40,7 +40,7 @@ const adminMenus = [
       { display: 'Settings', link: '/admin/settings' },
       { display: 'Users', link: '/admin/users' },
       { display: 'Messages', link: '/admin/message-templates' },
-      { display: 'Events', link: '/admin/events' },
+      { display: 'Triggers', link: '/admin/triggers' },
     ],
   },
 ]

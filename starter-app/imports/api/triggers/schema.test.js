@@ -5,27 +5,27 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
-import Events from './schema'
+import Triggers from './schema'
 import Factory from '/imports/test/factories'
-import '/imports/test/factory.events'
+import '/imports/test/factory.triggers'
 
-const badEvents = [
+const badTriggers = [
   // no name
   {},
 ]
 
-const goodEvents = []
+const goodTriggers = []
 
-goodEvents.push(Factory.build('events'))
+goodTriggers.push(Factory.build('triggers'))
 
-describe('events', () => {
-  goodEvents.forEach((good, i) => {
-    describe('query database good events', () => {
+describe('triggers', () => {
+  goodTriggers.forEach((good, i) => {
+    describe('query database good triggers', () => {
       // beforeEach(resetDatabase)
       it('success if database query matches', () => {
-        const id = Events.insert(good)
+        const id = Triggers.insert(good)
         if (!id) throw 'Event insert failed'
-        const thing = Events.findOne(id)
+        const thing = Triggers.findOne(id)
         if (!thing) throw 'Event not found after insert'
         const fields = ['name', 'slug'] || []
         fields.forEach((field) => {
@@ -34,10 +34,10 @@ describe('events', () => {
       })
     })
   })
-  badEvents.forEach((bad, i) => {
-    describe('EventsSchema bad events', () => {
-      it(`Succeeds on BAD Events insert ${i + 1}`, () => {
-        expect(() => Events.insert(bad)).to.throw()
+  badTriggers.forEach((bad, i) => {
+    describe('TriggersSchema bad triggers', () => {
+      it(`Succeeds on BAD Triggers insert ${i + 1}`, () => {
+        expect(() => Triggers.insert(bad)).to.throw()
       })
     })
   })

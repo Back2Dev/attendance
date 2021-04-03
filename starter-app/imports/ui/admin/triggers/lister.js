@@ -3,12 +3,12 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { reactFormatter } from 'react-tabulator'
-import Events from '/imports/api/events/schema'
+import Triggers from '/imports/api/triggers/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
 import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
-import EventsList from './list'
+import TriggersList from './list'
 import config from './config'
 
 const debug = require('debug')('se:lister')
@@ -20,19 +20,19 @@ const dateFormat = {
   invalidPlaceholder: '',
 }
 
-const remove = (id) => meteorCall('rm.events', 'Deleting', id)
-const update = (form) => meteorCall('update.events', 'updating', form)
-const insert = (form) => meteorCall('insert.events', 'adding', form)
-const edit = (id) => push(`/admin/events/edit/${id}`)
-const view = (id) => push(`/admin/events/view/${id}`)
+const remove = (id) => meteorCall('rm.triggers', 'Deleting', id)
+const update = (form) => meteorCall('update.triggers', 'updating', form)
+const insert = (form) => meteorCall('insert.triggers', 'adding', form)
+const edit = (id) => push(`/admin/triggers/edit/${id}`)
+const view = (id) => push(`/admin/triggers/view/${id}`)
 const archive = async (rowids) => {
   const name = prompt('Please enter a name for the archive')
   const text = confirm(
-    `Are you sure you want to archive this Events and related entities?`
+    `Are you sure you want to archive this Triggers and related entities?`
   )
 
   if (name && text) {
-    meteorCall('archive.events', `Archiving Events to ${name}`, {
+    meteorCall('archive.triggers', `Archiving Triggers to ${name}`, {
       name,
       ids: rowids,
     })
@@ -85,15 +85,15 @@ const stdCols = [
   },
 ]
 
-const EventsWrapper = (props) => {
+const TriggersWrapper = (props) => {
   push = useHistory()?.push
   if (props.loading) return <div>Loading...</div>
-  return <EventsList {...props}></EventsList>
+  return <TriggersList {...props}></TriggersList>
 }
 
-const EventsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.events')
-  const items = Events.find({}).map((row) => {
+const TriggersLister = withTracker((props) => {
+  const subsHandle = Meteor.subscribe('all.triggers')
+  const items = Triggers.find({}).map((row) => {
     row.search = obj2Search(row)
     return row
   })
@@ -106,6 +106,6 @@ const EventsLister = withTracker((props) => {
     defaultObject,
     loading: !subsHandle.ready(),
   }
-})(EventsWrapper)
+})(TriggersWrapper)
 
-export default EventsLister
+export default TriggersLister

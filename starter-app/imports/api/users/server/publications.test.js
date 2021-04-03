@@ -14,7 +14,7 @@ describe('User publications', () => {
       name: 'Connie Vey',
       emails: [{ address: 'connie.convey@test.com', verified: false }],
     })
-    Factory.create('events', {
+    Factory.create('triggers', {
       slug: 'reset-password',
       name: 'Reset password',
       notifications: [

@@ -24,7 +24,7 @@ const MarkdownEdit = (props) => {
       },
     })
 
-    // Listen to StackEdit events and apply the changes to the textarea.
+    // Listen to StackEdit triggers and apply the changes to the textarea.
     se.on('fileChange', (file) => {
       el.value = file.content.text
       setMD(file.content.text)
@@ -93,7 +93,13 @@ const Edit = (props) => {
         </span>
         Name:
         <br />
-        <Input type="text" name="name" defaultValue={src.name} onChange={inputChange} fluid />
+        <Input
+          type="text"
+          name="name"
+          defaultValue={src.name}
+          onChange={inputChange}
+          fluid
+        />
         <br />
         Markdown: <br />
         <MarkdownEdit defaultValue={src.markdown} name="markdown" onChange={mdChange} />

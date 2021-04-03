@@ -19,7 +19,7 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
       return null
     }
 
-    tableRef.current.table.download('csv', 'Events.csv')
+    tableRef.current.table.download('csv', 'Triggers.csv')
   }
 
   const onCellEdited = (cell) => {

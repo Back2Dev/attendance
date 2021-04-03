@@ -2,9 +2,9 @@ import faker from 'faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
-import Events from '/imports/api/events/schema'
+import Triggers from '/imports/api/triggers/schema'
 
-Factory.define('events', Events, {
+Factory.define('triggers', Triggers, {
   name: 'something happened',
   slug: 'some-thing',
   notifications: [],

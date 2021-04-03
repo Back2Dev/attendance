@@ -9,7 +9,7 @@ import {
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants'
 
-const Events = new Mongo.Collection('events')
+const Triggers = new Mongo.Collection('triggers')
 
 export const NotificationSchema = new SimpleSchema({
   number: String,
@@ -20,7 +20,7 @@ export const NotificationSchema = new SimpleSchema({
   method: OptionalString,
 })
 
-export const EventsSchema = new SimpleSchema({
+export const TriggersSchema = new SimpleSchema({
   _id: OptionalRegExId,
 
   name: {
@@ -40,6 +40,6 @@ export const EventsSchema = new SimpleSchema({
   updatedAt,
 })
 
-Events.attachSchema(EventsSchema)
+Triggers.attachSchema(TriggersSchema)
 
-export default Events
+export default Triggers

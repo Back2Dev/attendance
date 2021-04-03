@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Events from '/imports/api/events/schema'
+import Triggers from '/imports/api/triggers/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
 
@@ -14,10 +14,10 @@ const dateFormat = {
 }
 let history
 
-const remove = (id) => meteorCall('rm.events', 'Deleting', id)
+const remove = (id) => meteorCall('rm.triggers', 'Deleting', id)
 const update = (id, form) => {
-  meteorCall('update.events', 'updating', form )
-  history.push('/admin/events')
+  meteorCall('update.triggers', 'updating', form)
+  history.push('/admin/triggers')
 }
 const methods = { remove, update }
 
@@ -28,8 +28,8 @@ const Loading = (props) => {
 const Editor = withTracker((props) => {
   history = props.history
   const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.events', id)
-  const item = Events.findOne(id) || {}
+  const subsHandle = Meteor.subscribe('id.triggers', id)
+  const item = Triggers.findOne(id) || {}
   return {
     id,
     item,
@@ -51,7 +51,7 @@ export default Editor
 
 //   React.useEffect(() => {
 //     const fetchData = async () => {
-//       const response = await meteorCall('fetch.id.events', null, id)
+//       const response = await meteorCall('fetch.id.triggers', null, id)
 //       if (response.status === 'success') {
 //         setItem(response.item)
 //         setLoading(false)

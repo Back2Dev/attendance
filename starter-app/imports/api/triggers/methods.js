@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
 
-import Events from './schema'
+import Triggers from './schema'
 import CONSTANTS from '/imports/api/constants'
 import log, { createLog } from '/imports/lib/log'
 import MessageTemplates from '/imports/api/message-templates/schema'
@@ -9,57 +9,58 @@ import { convertMergeTags, convertLink } from '/imports/api/util.js'
 import { push } from '/imports/api/notifications/server/helper.js'
 import HTMLTemplate from '/imports/api/email-template'
 
-const debug = require('debug')('target:events')
+const debug = require('debug')('target:triggers')
 
 Meteor.methods({
-  'rm.events': (id) => {
+  'rm.triggers': (id) => {
     try {
-      const n = Events.remove(id)
-      return { status: 'success', message: 'Removed event' }
+      const n = Triggers.remove(id)
+      return { status: 'success', message: 'Removed trigger' }
     } catch (e) {
       return {
         status: 'failed',
-        message: `Error removing event: ${e.message}`,
+        message: `Error removing trigger: ${e.message}`,
       }
     }
   },
-  'update.events': (form) => {
+  'update.triggers': (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Events.update(id, { $set: form })
-      return { status: 'success', message: `Updated ${n} event(s)` }
+      const n = Triggers.update(id, { $set: form })
+      return { status: 'success', message: `Updated ${n} trigger(s)` }
     } catch (e) {
       return {
         status: 'failed',
-        message: `Error updating event: ${e.message}`,
+        message: `Error updating trigger: ${e.message}`,
       }
     }
   },
-  'insert.events': (form) => {
+  'insert.triggers': (form) => {
     try {
-      const id = Events.insert(form)
-      return { status: 'success', message: 'Added event' }
+      const id = Triggers.insert(form)
+      return { status: 'success', message: 'Added trigger' }
     } catch (e) {
       return {
         status: 'failed',
-        message: `Error adding event: ${e.message}`,
+        message: `Error adding trigger: ${e.message}`,
       }
     }
   },
-  sendEvent({
+  sendTrigger({
     user,
     profile,
     people = [],
-    slug = CONSTANTS.UNKNOWN_EVENT,
+    slug = CONSTANTS.UNKNOWN_TRIGGER,
     emailLink,
     emailMessage,
   }) {
     try {
-      const event =
-        Events.findOne({ slug }) || Events.findOne({ slug: CONSTANTS.UNKNOWN_EVENT })
-      if (!event) {
-        log.error(`Could not find event ${slug}`)
+      const trigger =
+        Triggers.findOne({ slug }) ||
+        Triggers.findOne({ slug: CONSTANTS.UNKNOWN_TRIGGER })
+      if (!trigger) {
+        log.error(`Could not find trigger ${slug}`)
         return null
       }
       // 'user' is the user doing the action
@@ -78,7 +79,7 @@ Meteor.methods({
         user.roles = [{ _id: 'USR' }]
         people.push(user)
       }
-      const { notifications } = event
+      const { notifications } = trigger
       notifications.forEach((notification) => {
         // Find the corresponding template (recipients are in the notification)
         const template = MessageTemplates.findOne({ slug: notification.text })
@@ -171,7 +172,7 @@ Meteor.methods({
                   },
                   important: true,
                   // bcc_address: 'do-not-reply@mydomain.com.au',
-                  tags: [event.slug],
+                  tags: [trigger.slug],
                   recipient_metadata: [
                     { rcpt: 'do-not-reply@mydomain.com.au', values: { some: 'value' } },
                   ],
@@ -213,7 +214,7 @@ Meteor.methods({
       })
     } catch (e) {
       // Log the error, but don't rethrow it
-      log.error(`Error in sendEvent: ${e.message}`)
+      log.error(`Error in sendTrigger: ${e.message}`)
     }
   },
 })

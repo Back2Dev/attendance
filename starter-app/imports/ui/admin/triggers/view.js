@@ -26,7 +26,7 @@ const View = ({ item }) => {
   return (
     <div>
       <Typography color="primary" variant="h5">
-        Events: {item.name} (Revision {item.revision}: &nbsp;
+        Triggers: {item.name} (Revision {item.revision}: &nbsp;
         {moment(item.updatedAt).format('DD/MM/YY HH:mm')} )
       </Typography>
       <TableContainer component={Paper}>

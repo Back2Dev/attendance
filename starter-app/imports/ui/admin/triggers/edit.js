@@ -21,7 +21,7 @@ const Edit = ({ id, item, methods }) => {
 
   return (
     <div>
-      <div>Edit Events - {data.name}</div>
+      <div>Edit Triggers - {data.name}</div>
       <AutoForm
         schema={schemaBridge}
         model={item}

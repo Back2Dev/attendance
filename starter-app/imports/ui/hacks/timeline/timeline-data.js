@@ -29,8 +29,8 @@ The existing platform notifications page is dysfunctional, for a number of reaso
   * All data is loaded onto page - creeping performance problem
   * Data structure means searching is not possible
   * Data displayed is constructed dynamically (ie it is not a record of what was sent out)
-  * Emails and SMS events are stored in different locations
-  * Recording of events is not centralised in the code (many places to change the code)
+  * Emails and SMS triggers are stored in different locations
+  * Recording of triggers is not centralised in the code (many places to change the code)
     
     
 ##### Objectives
