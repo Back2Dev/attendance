@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { resetDatabase } from '/imports/api/cleaner'
 import { expect } from 'chai'
-import { createTeam } from '/imports/test/factory.users'
 import { Factory } from 'meteor/dburles:factory'
 import Messages from '/imports/api/messages/schema'
+import '/imports/api/triggers/methods'
 
 const debug = require('debug')('b2b:userpubs')
 
@@ -20,9 +20,10 @@ describe('User publications', () => {
       notifications: [
         {
           text: 'forgot-password',
-          recipients: ['USR'],
+          recipients: 'USR',
           trigger: 'complete',
           method: 'EMAIL',
+          number: 999,
         },
       ],
     })

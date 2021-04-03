@@ -73,7 +73,7 @@ Accounts.onCreateUser((options, user) => {
 
   // TODO: Find a neater way of preventing emails going out when fixtures are inserted
   if (Meteor.settings.env.enironment === 'prod')
-    Meteor.call('sendEvent', {
+    Meteor.call('sendTrigger', {
       profile,
       user,
       slug: 'new-user',

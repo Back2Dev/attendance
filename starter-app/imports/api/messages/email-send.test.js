@@ -30,9 +30,12 @@ const message = {
   ],
 }
 
-describe('sending emails', () => {
-  it('sends an example email', async () => {
-    const result = await sendEmail(message)
-    expect(result[0].status).to.be.equal('sent')
-  })
-})
+//
+// This is a pointless test, removed it
+//
+// describe('sending emails', () => {
+//   it('sends an example email', async () => {
+//     const result = await sendEmail(message)
+//     expect(result[0].status).to.be.equal('sent')
+//   })
+// })

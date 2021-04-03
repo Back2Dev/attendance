@@ -169,7 +169,7 @@ Meteor.methods({
       Accounts.setPassword(userId, password, { logout: logout })
       const user = Meteor.user()
       const profile = Profiles.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
-      Meteor.call('sendEvent', { slug: 'password-changed', user, profile })
+      Meteor.call('sendTrigger', { slug: 'password-changed', user, profile })
     } catch (e) {
       throw new Meteor.Error(e.message)
     }
@@ -214,7 +214,7 @@ Meteor.methods({
           { _id: user._id },
           { $set: { 'services.password.forgotPassToken': tokenRecord } }
         )
-        return Meteor.call('sendEvent', {
+        return Meteor.call('sendTrigger', {
           profile,
           user,
           slug: 'reset-password',
@@ -225,7 +225,7 @@ Meteor.methods({
         debug(`Reset password: Could not find user ${email}`)
       }
     } catch (e) {
-      throw new Meteor.Error(`User not found ${e.message}`)
+      throw new Meteor.Error(`method sendResetPasswordEmail failed: ${e.message}`)
     }
   },
   resetUserPassword: function (password, userId, token) {
@@ -244,7 +244,7 @@ Meteor.methods({
         )
         const profile = Profiles.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
 
-        Meteor.call('sendEvent', { slug: 'password-changed', user, profile })
+        Meteor.call('sendTrigger', { slug: 'password-changed', user, profile })
       }
     } catch (e) {
       throw new Meteor.Error('Your email link may have expired')
@@ -335,7 +335,7 @@ Meteor.methods({
         const profile = Profiles.findOne({ userId })
         const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
 
-        Meteor.call('sendEvent', {
+        Meteor.call('sendTrigger', {
           profile,
           user,
           slug: 'signup',

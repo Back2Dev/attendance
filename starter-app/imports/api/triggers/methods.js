@@ -47,14 +47,14 @@ Meteor.methods({
       }
     }
   },
-  sendTrigger({
+  sendTrigger: ({
     user,
     profile,
     people = [],
     slug = CONSTANTS.UNKNOWN_TRIGGER,
     emailLink,
     emailMessage,
-  }) {
+  }) => {
     try {
       const trigger =
         Triggers.findOne({ slug }) ||

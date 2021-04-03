@@ -15,7 +15,7 @@ export const NotificationSchema = new SimpleSchema({
   number: String,
   trigger: { type: String, allowedValues: Object.keys(CONSTANTS.TRIGGERS) },
   text: String,
-  recipients: { type: String, allowedValues: Object.keys(CONSTANTS.ROLES) },
+  recipients: { type: String, allowedValues: Object.keys(CONSTANTS.NOTIFY_ROLES) },
   delay: OptionalString,
   method: OptionalString,
 })
