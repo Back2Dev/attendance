@@ -159,7 +159,7 @@ Meteor.methods({
                   ),
                   subject: template.subject,
                   from_email: 'do-not-reply@mydomain.com.au',
-                  from_name: 'Settle Easy',
+                  from_name: 'Back2bikes',
                   to: [
                     {
                       email: recipient.emails[0].address,

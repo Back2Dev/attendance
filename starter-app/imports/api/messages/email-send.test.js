@@ -6,7 +6,7 @@ const message = {
   text: 'Example text content',
   subject: 'example subject',
   from_email: 'do-not-reply@mydomain.com.au',
-  from_name: 'Settle Easy',
+  from_name: 'Back2bikes',
   to: [
     {
       email: 'test@mydomain.com.au',

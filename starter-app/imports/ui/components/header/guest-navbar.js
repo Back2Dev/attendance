@@ -143,7 +143,7 @@ export default function UserNavbar() {
           <img
             className={classes.logo}
             src="/images/Mydomain_logo_PRIMARY_REV_RGB.png"
-            alt="settle_easy_logo"
+            alt="back2bikes_logo"
           />
         </Link>
         {guestMenu &&
