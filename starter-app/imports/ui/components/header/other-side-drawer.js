@@ -74,7 +74,7 @@ export default function SideDrawer() {
       <List
         subheader={
           <ListSubheader component="div" id="admin-menu-subheader">
-            Back2bikes
+            Startup Inc
           </ListSubheader>
         }
         className={classes.sideDrawer}

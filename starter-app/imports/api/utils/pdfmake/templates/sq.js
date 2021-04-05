@@ -80,7 +80,7 @@ const sq = ({ data, signatures }) => {
         columns: [
           { width: 5, stack: [{ svg: CONSTANTS.SE_LOGO_SVG }] },
           {
-            text: "Back2bikes Seller's Questionnaire",
+            text: "Startup Inc Seller's Questionnaire",
             style: 'header',
             margin: [0, 20],
           },

@@ -5,6 +5,8 @@ import SecureRoute from '/imports/ui/utils/secure-route.js'
 import Loading from '/imports/ui/components/commons/loading.js'
 
 const HomePage = lazy(() => import('/imports/ui/pages/home.js'))
+const AdminPage = lazy(() => import('/imports/ui/pages/admin.js'))
+const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
 const Dashboard = lazy(() => import('/imports/ui/pages/dashboard/dash-container.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
@@ -28,6 +30,7 @@ const ResetPassword = lazy(() =>
   import('/imports/ui/pages/forgot-password/reset-password.js')
 )
 
+const SupportPage = lazy(() => import('/imports/ui/pages/support.js'))
 const UserPreferences = lazy(() =>
   import('/imports/ui/pages/user-preferences/user-preferences.js')
 )
@@ -36,6 +39,8 @@ export default function MainRoutes() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Switch>
+        <SecureRoute roles={['ADM']} path="/admin" component={AdminPage} />
+        <SecureRoute roles={['ADM']} path="/hacks" component={HacksPage} />
         <Route path="/" exact component={HomePage} />
         <Route path="/logged-out" exact component={LoggedOut} />
         {/* Onboarding routes */}
@@ -57,6 +62,7 @@ export default function MainRoutes() {
         <SecureRoute path="/profile" component={UserPreferences} />
 
         <SecureRoute path="/dashboard" exact component={Dashboard} />
+        <SecureRoute path="/support" component={SupportPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </Suspense>

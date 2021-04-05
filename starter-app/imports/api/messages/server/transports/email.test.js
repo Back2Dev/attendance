@@ -11,7 +11,7 @@ const goodMessages = [
       html: '<p>Example HTML content</p>',
       subject: 'example subject',
       from_email: 'do-not-reply@mydomain.com.au',
-      from_name: 'Back2bikes',
+      from_name: 'Startup Inc',
       to: [
         {
           email: 'test@mydomain.com.au',

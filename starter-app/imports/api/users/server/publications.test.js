@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { resetDatabase } from '/imports/api/cleaner'
 import { expect } from 'chai'
-import { createTeam } from '/imports/test/factory.users'
 import { Factory } from 'meteor/dburles:factory'
 import Messages from '/imports/api/messages/schema'
+import '/imports/api/triggers/methods'
 
 const debug = require('debug')('b2b:userpubs')
 
@@ -14,15 +14,16 @@ describe('User publications', () => {
       name: 'Connie Vey',
       emails: [{ address: 'connie.convey@test.com', verified: false }],
     })
-    Factory.create('events', {
+    Factory.create('triggers', {
       slug: 'reset-password',
       name: 'Reset password',
       notifications: [
         {
           text: 'forgot-password',
-          recipients: ['USR'],
+          recipients: 'USR',
           trigger: 'complete',
           method: 'EMAIL',
+          number: 999,
         },
       ],
     })

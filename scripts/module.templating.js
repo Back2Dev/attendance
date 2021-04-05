@@ -12,8 +12,8 @@ const gitStatus = require('git-status')
 
 const doTemplating = require('./deploy-lib.js')
 
-/* * * * * * * * * * * * * * * * * * 
- * 
+/* * * * * * * * * * * * * * * * * *
+ *
  * This file does the job of generating code to import each of the templated modules
  *
  * * * * * * * * * * * * * * * * * */
@@ -29,12 +29,14 @@ const opts = require('minimist')(process.argv.slice(2))
 if (opts['dry-run']) opts.dry_run = true
 const willDo = opts.dry_run ? '(Not) ' : ''
 
+const prog = process.argv.length > 1 ? process.argv[1] : process.argv[0]
 if (opts.help) {
   console.log(`
 #Usage:
-	node ${0} -- [--help] [--minor|major] [--all] [--dry_run] --dev
+	node ${prog} -- [--help]  [--dry_run] [--legacy]
 Where
-	--dry_run will go through the motions, but not actually execute any commands 
+  --dry_run will go through the motions, but not actually execute any commands
+  --legacy will generate legacy files/folders 
 
 #Prerequisites
 	- Development environment, eg node/git etc
@@ -84,12 +86,12 @@ if (!choice.app) choice.app = 'app' // Provide a default to be safe
 //
 const pkg = require(process.cwd() + `/${choice.app}/package.json`) // eslint-disable-line global-require
 pkg.when = new Date()
-git.long(function(str) {
+git.long(function (str) {
   pkg.commit = str
 })
 
 console.log('Templating...')
-doTemplating(pkg, opts.dry_run, choice, tdir, willDo, mainGame)
+doTemplating(pkg, opts.dry_run, choice, tdir, willDo, opts.legacy, mainGame)
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // The main game....
@@ -103,7 +105,7 @@ function mainGame() {
   //
   // Run all the commands in sequence
   //
-  cmds.forEach(cmd => {
+  cmds.forEach((cmd) => {
     doCmd(cmd)
   })
 }

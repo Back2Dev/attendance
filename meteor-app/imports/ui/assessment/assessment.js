@@ -12,7 +12,7 @@ import AssessmentAdd from '/imports/ui/assessment/assessment-add'
 
 const debug = require('debug')('b2b:addassessment')
 
-export default withTracker(props => {
+export default withTracker((props) => {
   const success = new ReactiveVar(false)
   const error = new ReactiveVar(false)
   const msg = new ReactiveVar('')
@@ -40,11 +40,14 @@ export default withTracker(props => {
     Alert.success(message)
   }
 
-  const setAssessment = async formData => {
+  const setAssessment = async (formData) => {
     // Adding an assessment
     try {
       debug('adding assessment', formData)
-      const res = await Meteor.callAsync('assessment.insert', formData)
+      const res = await Meteor.callAsync(
+        'assessment.insert',
+        formData
+      )
       setSuccess('Successfully added new assessment', res)
       return res
     } catch (e) {
@@ -61,9 +64,15 @@ export default withTracker(props => {
     resetId: () => newId.set(''),
     assessment: props.assessment ? props.assessment : null,
     services: Services.find().fetch(),
-    serviceItems: ServiceItems.find().fetch(),
+    serviceItems: ServiceItems.find(
+      {},
+      { sort: { name: 1 } }
+    ).fetch(),
     log: Logger.find().fetch(),
     members: Members.find().fetch(),
-    assessmentLastSaved: Assessments.find({}, { sort: { createdAt: -1 } }).fetch()[0]
+    assessmentLastSaved: Assessments.find(
+      {},
+      { sort: { createdAt: -1 } }
+    ).fetch()[0],
   }
 })(AssessmentAdd)

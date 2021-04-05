@@ -7,7 +7,7 @@ const confirmMessage = {
   title: 'Check your email',
   body: (
     <>
-      Thank you for registering to use Back2bikes.
+      Thank you for registering to use Startup Inc.
       <br />
       <br />
       Before we get started, we'll just need to verify your email address.

@@ -6,7 +6,7 @@ const message = {
   text: 'Example text content',
   subject: 'example subject',
   from_email: 'do-not-reply@mydomain.com.au',
-  from_name: 'Back2bikes',
+  from_name: 'Startup Inc',
   to: [
     {
       email: 'test@mydomain.com.au',
@@ -30,9 +30,12 @@ const message = {
   ],
 }
 
-describe('sending emails', () => {
-  it('sends an example email', async () => {
-    const result = await sendEmail(message)
-    expect(result[0].status).to.be.equal('sent')
-  })
-})
+//
+// This is a pointless test, removed it
+//
+// describe('sending emails', () => {
+//   it('sends an example email', async () => {
+//     const result = await sendEmail(message)
+//     expect(result[0].status).to.be.equal('sent')
+//   })
+// })

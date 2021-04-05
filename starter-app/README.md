@@ -1,4 +1,4 @@
-# Settle Easy - New server and front end (combined)
+# Startup Inc - New server and front end (combined)
 
 ## Getting Started
 

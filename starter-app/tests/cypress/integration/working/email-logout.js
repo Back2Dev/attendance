@@ -10,7 +10,7 @@ describe('navigates to the landing page', () => {
     freshDatabase()
   })
 
-  it('navigates to  settle easy homepage and enters information and clicks sign in', function () {
+  it('navigates to  startup inc homepage and enters information and clicks sign in', function () {
     cy.visit('/properties')
     login(this.users.pm.username, this.users.pm.password)
     cy.get('[data-cy=primary-search-account-menu]').first().click()

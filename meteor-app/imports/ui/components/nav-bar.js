@@ -102,7 +102,7 @@ const NavBar = ({
       {Roles.userIsInRole(Meteor.userId(), 'member') ? (
         <Menu.Item
           as={NavLink}
-          content="Edit"
+          content="Profile"
           icon="edit"
           activeClassName="edit"
           exact
@@ -167,15 +167,6 @@ const NavBar = ({
             />,
             <Menu.Item
               as={NavLink}
-              content="Current Services"
-              icon="list alternate outline"
-              activeClassName="active"
-              exact
-              to="/jobscopy"
-              key="jobscopy"
-            />,
-            <Menu.Item
-              as={NavLink}
               content="New Job"
               icon="lock open"
               activeClassName="active"
@@ -185,7 +176,7 @@ const NavBar = ({
             />,
             <Menu.Item
               as={NavLink}
-              content="Current Jobs"
+              content="Current jobs"
               icon="list alternate outline"
               activeClassName="active"
               exact

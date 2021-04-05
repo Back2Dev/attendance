@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 
 const algorithm = 'aes-256-ctr'
-const secretKey = Meteor.settings.private.API_SECRET
+const secretKey = Meteor.settings.private.API_SECRET || 'BPNBEMPGOFOWUMHB72265WL3Y04ENQ5X'
 const iv = crypto.randomBytes(16)
 
 const encrypt = (text) => {

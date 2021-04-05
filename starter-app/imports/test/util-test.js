@@ -9,7 +9,7 @@ import * as cleaner from 'meteor/xolvio:cleaner'
 // call in beforeEach() when running integration tests.
 export function resetDatabase(options) {
   // exclude kadira collections to prevent errors
-  let excludedCollections = ['__kdtraces', '__kdtimeevents']
+  let excludedCollections = ['__kdtraces', '__kdtimetriggers']
   if (options && options.excludedCollections)
     excludedCollections = excludedCollections.concat(options.excludedCollections)
   return cleaner.resetDatabase({ excludedCollections })

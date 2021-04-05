@@ -27,11 +27,7 @@ const adminMenus = [
     icon: () => <Build />,
     items: [
       { display: 'Messages', link: '/hacks/transporter' },
-      { display: 'Workflows', link: '/admin/workflows' },
-      { display: 'Launch', link: '/hacks/launch' },
-      { display: 'Notes', link: '/hacks/notes' },
       { display: 'Surveys', link: '/hacks/surveys' },
-      { display: 'VOI', link: '/hacks/voi' },
       { display: 'Timeline', link: '/hacks/timeline' },
       // { display: 'Release notes', link: '/hacks/releases' },
     ],
@@ -41,25 +37,10 @@ const adminMenus = [
     id: 'admin',
     icon: () => <Tune />,
     items: [
-      { display: 'Listings', link: '/admin/listings' },
-      { display: 'Practices', link: '/admin/practices' },
-      // { display: 'Reports', link: `/reports` },
       { display: 'Settings', link: '/admin/settings' },
       { display: 'Users', link: '/admin/users' },
       { display: 'Messages', link: '/admin/message-templates' },
-      { display: 'Organisations', link: '/admin/organisations' },
-      { display: 'Events', link: '/admin/events' },
-    ],
-  },
-  {
-    display: 'API Admin',
-    id: 'api-admin',
-    icon: () => <SettingsEthernet />,
-    items: [
-      { display: 'Field Mapping', link: '/api-admin/field-maps' },
-      { display: 'Incoming', link: '/api-admin/listing-imports' },
-      { display: 'Remote systems', link: '/api-admin/source-systems' },
-      { display: 'Webhooks', link: '/api-admin/webhooks' },
+      { display: 'Triggers', link: '/admin/triggers' },
     ],
   },
 ]

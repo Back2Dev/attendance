@@ -38,6 +38,8 @@ CONSTANTS.TRIGGERS = {
   cancel: 'Cancel',
   reject: 'Reject',
   reopen: 'Re-open',
+  skip: 'Skip',
+  skipall: 'Skip all',
 }
 
 CONSTANTS.USER_STATUS = {
@@ -49,4 +51,6 @@ CONSTANTS.USER_STATUS = {
 
 CONSTANTS.DEFAULT_AVATAR = '/images/default-avatar.png'
 
+// Use this message if no event was specified - it emails ADM, so that we get to know about it
+CONSTANTS.UNKNOWN_EVENT = 'unknown-event'
 export default CONSTANTS
