@@ -17,10 +17,10 @@ const files = [
   { file: 'lister', dest: '/imports/ui/admin/my-collection' },
   { file: 'index', dest: '/imports/ui/admin/my-collection' },
   { file: 'edit', dest: '/imports/ui/admin/my-collection' },
-  { file: 'edit-schema', dest: '/imports/ui/admin/my-collection', replace: false },
+  // { file: 'edit-schema', dest: '/imports/ui/admin/my-collection', replace: false },
   { file: 'editor', dest: '/imports/ui/admin/my-collection' },
-  //{ file: 'add', dest: '/imports/ui/admin/my-collection' },
-  //{ file: 'adder', dest: '/imports/ui/admin/my-collection' },
+  { file: 'add', dest: '/imports/ui/admin/my-collection' },
+  { file: 'adder', dest: '/imports/ui/admin/my-collection' },
   { file: 'config', dest: '/imports/ui/admin/my-collection', replace: false },
   { file: 'view', dest: '/imports/ui/admin/my-collection' },
   { file: 'viewer', dest: '/imports/ui/admin/my-collection' },
@@ -45,7 +45,7 @@ const files = [
 ]
 
 const coldefs2String = (coldefs) => {
-  const fixers = 'String Date Number Array Boolean Object OptionalRegExId OptionalBlackbox RegExId createdAt updatedAt SimpleSchema.Integer OptionalInteger'.split(
+  const fixers = 'String Date Number Array Boolean Object OptionalRegExId OptionalBlackbox RegExId createdAt updatedAt SimpleSchema.Integer OptionalInteger OptionalString'.split(
     /\s+/
   )
   let coldefsJSON = JSON.stringify(coldefs, null, 2)

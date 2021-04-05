@@ -5,9 +5,10 @@ import moment from 'moment'
 import Button from '@material-ui/core/Button'
 import { Box, Container, Grid, Typography } from '@material-ui/core'
 import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-material'
+import { CustomAutoField } from '/imports/ui/components/forms'
+import config from './config'
 
-import { schemaBridge } from './edit-schema'
-
+const schemaBridge = config.edit.schema
 const debug = require('debug')('target:add')
 
 const Add = ({ item, methods }) => {

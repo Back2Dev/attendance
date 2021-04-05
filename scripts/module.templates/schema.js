@@ -5,6 +5,7 @@ import {
   OptionalRegExId,
   OptionalBlackbox,
   OptionalInteger,
+  OptionalString,
   createdAt,
   updatedAt,
 } from '/imports/api/schemas/schema-util'

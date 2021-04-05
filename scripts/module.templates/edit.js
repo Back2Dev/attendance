@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
 import { CustomAutoField } from '/imports/ui/components/forms'
+import config from './config'
 
-import { schemaBridge } from './edit-schema'
+const schemaBridge = config.edit.schema
 
 const debug = require('debug')('se:edit')
 

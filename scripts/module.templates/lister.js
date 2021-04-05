@@ -23,7 +23,7 @@ const dateFormat = {
 const remove = (id) => meteorCall('rm.myCollection', 'Deleting', id)
 const update = (form) => meteorCall('update.myCollection', 'updating', form)
 const insert = (form) => meteorCall('insert.myCollection', 'adding', form)
-const add = () => push(`/admin/message-templates/add`)
+const add = () => push(`/admin/my-collection/add`)
 const edit = (id) => push(`/admin/my-collection/edit/${id}`)
 const view = (id) => push(`/admin/my-collection/view/${id}`)
 const archive = async (rowids) => {
