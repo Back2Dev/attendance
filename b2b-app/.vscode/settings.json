@@ -1,0 +1,10 @@
+{
+  "typescript.check.workspaceVersion": false,
+  "editor.tabSize": 2,
+  "git.ignoreLimitWarning": true,
+  "editor.formatOnSave": true,
+  "search.exclude": {
+    "**/.meteor": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

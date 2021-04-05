@@ -1,0 +1,952 @@
+[
+  {
+    "name": "BP Ballarat",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-ballarat",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50YmFsbGFyYXQuYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "726c-76ff-9814-ec51-2340-c33b-37ff-8ffe-3fb7-a116"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Epping",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-epping",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50ZXBwaW5nLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "b86d-7ab0-adad-4259-a8ac-a43b-001d-9512-0d71-0dfa"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Rowville",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-rowville",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9yb3d2aWxsZS1iYXJyeXBsYW50LmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "407c-cdf6-c35f-5d3f-3874-b67f-5223-469d-93d8-ea46"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Pakenham",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-pakenham",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9wYWtlbmhhbS1kcm91aW4tYmFycnlwbGFudC5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "1091-e376-bb88-42f4-b964-bb53-63fd-6909-0567-3e18"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Oakleigh",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-oakleigh",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9vYWtsZWlnaC1iYXJyeXBsYW50LmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "62f2-d182-6652-b9a2-4838-edf6-c0a5-e352-ea3b-6cff"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Highton",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-highton",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50aGlnaHRvbi5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "715f-0179-fe51-11cd-0c3e-083d-f368-5a7a-6e28-94d7"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Commercial",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-commercial",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Y29tbWVyY2lhbC5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "fc8f-2e0f-f9de-bda0-135c-e806-f2eb-e583-5ea4-9d1e"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Shepparton",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-shepparton",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50LXNoZXBwYXJ0b24uYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "7b68-129a-49bc-605e-b5d3-a0ab-9346-0572-e3f8-e1bf"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Narre Warren",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-narre-warren",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bncuYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "67cf-d00e-3991-8d3e-e933-4abe-7fc3-fbb1-b7ad-5fe6"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Diamond Creek",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-diamond-creek",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50ZGlhbW9uZGNyZWVrLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "492d-6c3f-4bda-3d51-3a67-9c17-6a3c-fbb2-557e-02df"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Wantirna",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-wantirna",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50d2FudGlybmEuYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "28c3-47d0-a5dd-940e-27a0-8fb5-c888-3087-8789-9957"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Cranbourne",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-cranbourne",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Y3JhbmJvdXJuZS5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "d1d2-230a-5703-846f-9c52-d5fd-adf7-0d77-67e0-b277"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Frankston",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-frankston",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50ZnJhbmtzdG9uLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "2a17-1d98-1b88-76ef-5ffb-6448-07f0-4c6a-ad1d-efb1"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Norwood",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-norwood",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bm9yd29vZC5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "c2ba-2e2b-8796-472e-3673-65d6-7ebf-ddd6-7b7d-60ce"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Preston",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-preston",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50cHJlc3Rvbi5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "b844-2337-827d-37fc-de12-3bff-9c99-2363-64ee-4a28"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Reservoir",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-reservoir",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50cmVzZXJ2b2lyLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "0933-1335-babd-8b03-ccfc-d9c2-5824-4a30-7f5f-f416"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Glenroy",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-glenroy",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Z2xlbnJveS5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "b47c-fd59-7f64-a88a-d7ef-2024-66d6-ec34-9a2b-d172"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Bendigo",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-bendigo",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50YmVuZGlnby5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "92d8-235f-53ad-ec8e-d67e-02b3-4ce9-6c81-7fbb-ec40"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Bundoora, Greensborough & Mill Park",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-bundoora,-greensborough-&-mill-park",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50YnVuZG9vcmEuYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "fa36-ce8f-946a-634f-53b9-cfc2-0794-e6b6-58d1-3739"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Berwick",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-berwick",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50YmVyd2ljay5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "daaf-031a-c35c-a209-7b77-b57d-648d-0ebd-9b2e-d9dd"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Docklands",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-docklands",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50ZG9ja2xhbmRzLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "01cb-9805-557f-93e1-8f9b-0f11-6179-a33e-8728-6129"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Noble Park, Keysborough & Dandenong",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-noble-park,-keysborough-&-dandenong",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bm9ibGVwYXJrLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "bd4d-202c-4ceb-4ad6-4b2f-39d0-3054-0dea-002e-7333"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Coburg",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-coburg",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Y29idXJnLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "7e9e-1cb0-4f0a-217d-d76c-6e3e-3a0c-d6e6-fc8c-52b2"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Thomastown",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-thomastown",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50dGhvbWFzdG93bi5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "4f22-09a5-ba36-79f0-7442-ce5a-f35f-da83-c76f-542f"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Craigieburn",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-craigieburn",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Y3JhaWdpZWJ1cm4uYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "2553-84d6-8c75-2f8f-c485-4b2d-b47f-de10-7bad-66f7"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Manningham Group",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-manningham-group",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bWFubmluZ2hhbS5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "9af1-04f3-5192-d5e5-cabb-6af9-2a9d-40f0-51b0-9254"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Mildura",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-mildura",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bWlsZHVyYS5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "721f-6d40-9f90-9c42-2a2d-9e4f-543e-849e-c044-6ae2"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Taylors Lakes",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-taylors-lakes",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50dGF5bG9yc2xha2VzLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "5d84-bde2-d714-1533-8b9e-d388-b43b-ea0f-7085-9d0c"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Caroline Springs",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-caroline-springs",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Y2Fyb2xpbmVzcHJpbmdzLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "ee7d-6c2f-43b9-f092-72ea-4272-8ff2-4cba-d0b6-ad93"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP St Albans",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-st-albans",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50c3RhbGJhbnMuYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "1ac4-366c-645b-9a3d-58a6-26d3-e8e6-d31e-48f5-e433"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Point Cook",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-point-cook",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50cG9pbnRjb29rLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "cc4b-8f00-9535-9f36-ee20-30ba-5633-a018-db1c-ec2e"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Heathmont & Ringwood",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-heathmont-&-ringwood",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50aGVhdGhtb250LmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "42e2-24c5-5445-a164-f71e-dd91-249b-1d61-e66c-2385"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Melton",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-melton",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bWVsdG9uLmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "1667-2af4-5cac-4cff-17af-55ed-132a-4589-caba-1c67"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Glen Waverley & Wheelers Hill",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-glen-waverley-&-wheelers-hill",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Z2xlbndhdmVybGV5LmFnZW50Ym94Y3JtLmNvbS5hdS9hZG1pbi8=",
+      "X-API-Key": "1912-d4f6-4530-cb78-d5d1-469e-f76b-6cce-80ac-52e9"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Mount Waverley",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-mount-waverley",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50bW91bnR3YXZlcmxleS5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "fba7-1e2b-3303-3a42-fcd6-b755-ba00-bda0-7d1f-968c"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Gladstone Park",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-gladstone-park",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Z2xhZHN0b25lcGFyay5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "d195-0893-9687-9113-c3d7-f886-309f-f86a-b190-d21c"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Boronia",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-boronia",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50Ym9yb25pYS5hZ2VudGJveGNybS5jb20uYXUvYWRtaW4v",
+      "X-API-Key": "6ec6-3634-3ce2-a311-fa1e-688b-78e5-2318-377e-9af1"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  },
+  {
+    "name": "BP Werribee",
+    "organisation": "Barry Plant",
+    "mappings": "agentbox",
+    "slug": "bp-werribee",
+    "apiKey": "123AAAxxx123AAAxxx123AAXXX",
+    "secret": "I-am-another-well-kept-secret",
+    "listingsUrl": "https://api.agentboxcrm.com.au/listings",
+    "staffUrl": "https://api.agentboxcrm.com.au/staff",
+    "contactsUrl": "https://api.agentboxcrm.com.au/contacts",
+    "headers": {
+      "X-Client-ID": "aHR0cHM6Ly9iYXJyeXBsYW50d2VycmliZWUuYWdlbnRib3hjcm0uY29tLmF1L2FkbWluLw==",
+      "X-API-Key": "c594-5731-ae1e-b0d0-cd81-65a7-5dfe-7c91-adfc-0b44"
+    },
+    "active": false,
+    "poll": true,
+    "params": {
+      "version": 2,
+      "limit": 50,
+      "orderBy": "lastModified",
+      "order": "DESC",
+      "filter[features]": "SE_Buyer,SE_Vendor",
+      "include": "relatedContacts,relatedStaffMembers,contractDetails,internalInformation,inspectionDates,mainImage,documents,mainDescription"
+    }
+  }
+]

@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+.vs
+imports/temp/*
+prod.settings.json
+runprod.sh
+runstg.sh
+sb-build
+x
+dev.*.settings.json
