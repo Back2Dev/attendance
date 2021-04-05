@@ -1,0 +1,19 @@
+{
+  "private": {
+    "S3_REGION": "ap-southeast-2",
+    "S3_ACCESS_KEY_ID": "YOUR_KEY_HERE",
+    "S3_SECRET_ACCESS_KEY": "YOUR_KEY_HERE",
+    "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au",
+    "DOCUMENTS_BUCKET": "staging-docs.mydomain.com.au",
+    "UPLOAD_BUCKET": "staging-docs.mydomain.com.au",
+    "GOOGLE_SECRET": "YOUR-SECRET",
+    "FACEBOOK_SECRET": "YOUR-SECRET",
+    "MANDRILL_API_KEY": "YOUR-SECRET"
+  },
+  "env": {
+    "environment": "dev"
+  },
+  "public": {
+    "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au/"
+  }
+}

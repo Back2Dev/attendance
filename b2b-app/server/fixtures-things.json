@@ -1,0 +1,28 @@
+[
+  {
+    "table": "users",
+    "name": "users",
+    "key": "username",
+    "env": ["all"]
+  },
+
+  {
+    "table": "cronjobs",
+    "name": "cronjobs",
+    "key": "name",
+    "env": ["all"]
+  },
+  {
+    "table": "messageTemplates",
+    "name": "message-templates",
+    "key": "name",
+    "env": ["all"]
+  },
+
+  {
+    "table": "settings",
+    "name": "settings",
+    "key": "key",
+    "env": ["all"]
+  }
+]

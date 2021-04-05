@@ -1,0 +1,78 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "server",
+      "restart": true,
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+        "${workspaceFolder}/node_modules/**/*.js",
+        "${workspaceFolder}/.meteor/**/*.js",
+        "/Users/mikkel/.meteor/packages/*/.*/**/*.js"
+      ],
+      "port": 9229
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach Chrome",
+      "url": "http://localhost:4080/reports",
+      "webRoot": "${workspaceFolder}",
+      "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
+      "navigate to:": "http://localhost:4080/admin",
+      "port": 9222
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
+      "url": "http://localhost:4080/webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
+      "webRoot": "${workspaceFolder}",
+      "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
+      "navigate to:": "http://localhost:4080/webform/2wBXPdpkf82tmMrEQ/PKAd7CWJd5d5KA6HE",
+      "port": 9222
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach Chrome 4080",
+      "url": "http://localhost:4080/reports",
+      "webRoot": "${workspaceFolder}",
+      "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
+      "navigate to:": "http://localhost:4080/ (login page)",
+      "port": 9222
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome",
+      "url": "http://localhost:4080/hacks/transporter",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Meteor: Tests 9229",
+      "restart": true,
+      "port": 9229
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Meteor: Server Tests",
+      "runtimeExecutable": "npm",
+      "restart": true,
+      "runtimeArgs": ["run", "test:integration:debug"],
+      "port": 9230,
+      "timeout": 240000
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Meteor: All",
+      "configurations": ["server", "Attach Chrome"]
+    }
+  ]
+}
