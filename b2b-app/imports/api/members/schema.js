@@ -8,9 +8,9 @@ import {
   updatedAt,
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants'
-const Profiles = new Mongo.Collection('profiles')
+const Members = new Mongo.Collection('members')
 
-export const ProfilesSchema = new SimpleSchema({
+export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
   userId: RegExId,
   // Historical id's saved here for now
@@ -78,6 +78,6 @@ export const ProfilesSchema = new SimpleSchema({
   updatedAt,
 })
 
-Profiles.attachSchema(ProfilesSchema)
+Members.attachSchema(MembersSchema)
 
-export default Profiles
+export default Members
