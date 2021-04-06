@@ -52,34 +52,34 @@ const useStyles = makeStyles((theme) => ({
 export default function UserPreferences() {
   const classes = useStyles()
 
-  const { profile, user } = useContext(AccountContext)
-  const userProfile = Object.assign({}, profile, user)
-  userProfile.sms = userProfile?.notifyBy?.includes('SMS')
+  const { member, user } = useContext(AccountContext)
+  const userMember = Object.assign({}, member, user)
+  userMember.sms = userMember?.notifyBy?.includes('SMS')
 
-  const editUserProfile = (form) => {
-    Meteor.call('editUserProfile', form, (err) => {
+  const editUserMember = (form) => {
+    Meteor.call('editUserMember', form, (err) => {
       if (err) {
         showError(err)
       } else {
-        showSuccess('Profile updated')
+        showSuccess('Member updated')
       }
     })
   }
 
   return (
     <Container>
-      {userProfile && (
+      {userMember && (
         <AutoForm
           schema={userSchema}
-          onSubmit={(form) => editUserProfile(form)}
-          model={userProfile}
+          onSubmit={(form) => editUserMember(form)}
+          model={userMember}
         >
           <Typography variant="h5">Personal information</Typography>
           <AutoField name="name" fullWidth />
           <AutoField name="nickname" fullWidth />
           <AutoField name="username" fullWidth disabled />
           <div className={classes.mobile}>
-            <AutoField name="mobile" defaultValue={userProfile.mobile} fullWidth />
+            <AutoField name="mobile" defaultValue={userMember.mobile} fullWidth />
           </div>
           <AutoField name="sms" />
           <ErrorsField />

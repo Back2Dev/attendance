@@ -244,10 +244,10 @@ Meteor.methods({
   },
   triggerException: () => {
     // Members is not imported, so this will  fail
-    const userProfile = Members.findOne({
+    const userMember = Members.findOne({
       userIds: getUserId(),
     })
-    if (!userProfile.admin) return false
+    if (!userMember.admin) return false
     log.error('This will never be reached', {
       data: { email: 'mike@me.me', role: 'admin' },
     })

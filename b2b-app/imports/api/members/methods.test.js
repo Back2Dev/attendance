@@ -12,7 +12,7 @@ const debug = require('debug')('b2b:messages:test')
 
 // prepare data for testing
 
-describe('Test profile methods', () => {
+describe('Test member methods', () => {
   before(() => {
     resetDatabase()
   })

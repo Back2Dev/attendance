@@ -14,7 +14,7 @@ export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
   userId: RegExId,
   // Historical id's saved here for now
-  profile_id: {
+  member_id: {
     type: SimpleSchema.Integer,
     optional: true, // set to optional for migrated users only
   },

@@ -6,11 +6,11 @@ Meteor.methods({
   'rm.members': (id) => {
     try {
       Members.remove(id)
-      logger.audit('Removed profile', { id })
-      return { status: 'success', message: 'Removed profile' }
+      logger.audit('Removed member', { id })
+      return { status: 'success', message: 'Removed member' }
     } catch (e) {
-      logger.error(`Error removing profile: ${e.message}`, { id })
-      return { status: 'failed', message: `Error removing profile: ${e.message}` }
+      logger.error(`Error removing member: ${e.message}`, { id })
+      return { status: 'failed', message: `Error removing member: ${e.message}` }
     }
   },
   'id.members': (id) => {
@@ -21,21 +21,21 @@ Meteor.methods({
       const id = form._id
       delete form._id
       const n = Members.update(id, { $set: form })
-      logger.audit('Updated profile', { id, form })
-      return { status: 'success', message: `Updated ${n} profile(s)` }
+      logger.audit('Updated member', { id, form })
+      return { status: 'success', message: `Updated ${n} member(s)` }
     } catch (e) {
-      logger.error(`Error updating profile: ${e.message}`, { form })
-      return { status: 'failed', message: `Error updating profile: ${e.message}` }
+      logger.error(`Error updating member: ${e.message}`, { form })
+      return { status: 'failed', message: `Error updating member: ${e.message}` }
     }
   },
   'insert.members': (form) => {
     try {
       Members.insert(form)
-      logger.audit('profile added', form)
-      return { status: 'success', message: 'Added profile' }
+      logger.audit('member added', form)
+      return { status: 'success', message: 'Added member' }
     } catch (e) {
-      logger.error(`Error adding profile: ${e.message}`, form)
-      return { status: 'failed', message: `Error adding profile: ${e.message}` }
+      logger.error(`Error adding member: ${e.message}`, form)
+      return { status: 'failed', message: `Error adding member: ${e.message}` }
     }
   },
 })

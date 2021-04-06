@@ -149,7 +149,7 @@ export default function UserNavbar() {
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
-  const { profile, user, viewas } = useContext(AccountContext)
+  const { member, user, viewas } = useContext(AccountContext)
   const { push } = useHistory()
 
   const isAdmin =
@@ -232,7 +232,7 @@ export default function UserNavbar() {
         key="prefs"
         data-cy="a-tag-profile"
       >
-        Profile
+        Member
       </MenuItem>
       {user.roles.length > 1 && (
         <MenuItem
@@ -290,9 +290,9 @@ export default function UserNavbar() {
           aria-haspopup="true"
           color="inherit"
         >
-          <Avatar src={convertAvatar(profile?.avatar)} className={classes.small} />
+          <Avatar src={convertAvatar(member?.avatar)} className={classes.small} />
         </IconButton>
-        Profile
+        Member
       </MenuItem>
       <MenuItem onClick={() => setExpanded(!expanded)} key="switch">
         <IconButton aria-label="set-role" color="inherit">
@@ -377,7 +377,7 @@ export default function UserNavbar() {
               onClick={profileMenuOpen}
               color="inherit"
             >
-              <Avatar src={convertAvatar(profile?.avatar)} className={classes.small} />
+              <Avatar src={convertAvatar(member?.avatar)} className={classes.small} />
             </IconButton>
           </div>
           <div className={classes.sectionMobile} key="2">

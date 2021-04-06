@@ -10,11 +10,11 @@ import { hasRole } from '/imports/api/users/utils.js'
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
 
-Meteor.publish('currentProfile', function () {
+Meteor.publish('currentMember', function () {
   if (!this.userId) {
     return this.ready()
   }
-  //This also contains logic to set profile to online which we may or may not need for something like chat
+  //This also contains logic to set member to online which we may or may not need for something like chat
   // const ONLINE_STATUS_DELAY_IN_SECONDS = 1
   const UsersHelper = {
     updateOnlineStatus({ userId, online = true }) {

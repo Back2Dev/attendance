@@ -7,8 +7,8 @@ import faker from 'faker'
 // import CONSTANTS from '/imports/api/constants'
 import Members from '/imports/api/members/schema.js'
 
-const createProfile = (doc) => {
-  // create user profile
+const createMember = (doc) => {
+  // create user member
   Members.insert({
     userId: doc._id,
     name: faker.name.findName(),
@@ -31,7 +31,7 @@ Factory.define('user', Meteor.users, {
     ]
   },
   roles: [],
-}).after(createProfile)
+}).after(createMember)
 
 Factory.define(
   'UserAGT',
@@ -45,7 +45,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 Factory.define(
   'UserADM',
@@ -59,7 +59,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 Factory.define(
   'UserBRK',
@@ -73,7 +73,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 Factory.define(
   'UserCON',
@@ -87,7 +87,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 Factory.define(
   'UserPM',
@@ -101,7 +101,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 Factory.define(
   'UserCUS',
@@ -115,7 +115,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 Factory.define(
   'UserRAD',
@@ -129,7 +129,7 @@ Factory.define(
       },
     ],
   })
-).after(createProfile)
+).after(createMember)
 
 export const createTeam = (roles) => {
   const connie = Factory.create('user', { name: 'Connie Vey' })

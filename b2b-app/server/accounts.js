@@ -15,9 +15,9 @@ import Members from '/imports/api/members/schema.js'
  */
 
 Accounts.onCreateUser((options, user) => {
-  const profile = {
+  const member = {
     userId: user._id,
-    profile_id: 1,
+    member_id: 1,
     user_id: 1,
     notifyBy: ['EMAIL', 'SMS'],
   }
@@ -35,8 +35,8 @@ Accounts.onCreateUser((options, user) => {
       user.roles = [{ _id: 'CUS' }]
       user.username = email
 
-      profile.name = name
-      profile.avatar = picture
+      member.name = name
+      member.avatar = picture
     }
   }
   if (facebook) {
@@ -53,18 +53,18 @@ Accounts.onCreateUser((options, user) => {
       user.roles = [{ _id: 'CUS' }]
       user.username = email
 
-      profile.name = name
-      profile.avatar = picture.data.url
+      member.name = name
+      member.avatar = picture.data.url
     }
   }
 
-  // this user should not have profile record at this moment, but let do a double check
-  const existingProfile = Members.findOne({ userId: profile.userId })
-  if (!existingProfile && profile.name) {
+  // this user should not have member record at this moment, but let do a double check
+  const existingMember = Members.findOne({ userId: member.userId })
+  if (!existingMember && member.name) {
     // calculate the nickname
-    profile.nickname = profile.name.split(' ')[0] || profile.name
+    member.nickname = member.name.split(' ')[0] || member.name
 
-    Meteor.call('insert.members', profile, (err) => {
+    Meteor.call('insert.members', member, (err) => {
       console.log(err)
     })
   }
@@ -74,7 +74,7 @@ Accounts.onCreateUser((options, user) => {
   // TODO: Find a neater way of preventing emails going out when fixtures are inserted
   if (Meteor.settings.env.enironment === 'prod')
     Meteor.call('sendTrigger', {
-      profile,
+      member,
       user,
       slug: 'new-user',
       people: admins,
@@ -132,7 +132,7 @@ Accounts.onLogin(function updateLastLoggedIn() {
   // 'resume' logins. you can introspect the argument to differentiate
   // 'hard' logins but for this purpose it's probably useful to update
   // each time.
-  // return Meteor.call('profileTouchLastLoggedIn')
+  // return Meteor.call('memberTouchLastLoggedIn')
 })
 
 Accounts.urls.resetPassword = function (token) {

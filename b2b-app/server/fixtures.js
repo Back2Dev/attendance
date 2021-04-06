@@ -53,7 +53,7 @@ Meteor.startup(function () {
         nickname = uc1(matches[1])
         name = [uc1(matches[1]), uc1(matches[2])].join(' ')
       }
-      // debug(`Adding profile for ${name} (AKA ${nickname})`)
+      // debug(`Adding member for ${name} (AKA ${nickname})`)
       Members.insert({
         name,
         nickname,
@@ -90,7 +90,7 @@ Meteor.methods({
         } else {
           nickname = 'Hey you'
         }
-        // debug(`Adding profile for ${user.username}`)
+        // debug(`Adding member for ${user.username}`)
         Members.insert({
           name,
           userId: user._id,
