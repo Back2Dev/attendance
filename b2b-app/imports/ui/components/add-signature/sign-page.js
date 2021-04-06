@@ -78,7 +78,7 @@ const Sign = () => {
       const uploader = new Slingshot.Upload('publicUploads', metaContext)
       uploader.send(blob, function (error, downloadUrl) {
         if (error) {
-          showError(err)
+          showError(error)
         } else {
           if (editing === 'signature') {
             Meteor.call('uploaded.signature', { fileName, folder }, (err) => {
