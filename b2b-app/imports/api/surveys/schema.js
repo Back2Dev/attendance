@@ -8,7 +8,7 @@ import {
   Blackbox,
   createdAt,
   updatedAt,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const Surveys = new Mongo.Collection('surveys')
 
