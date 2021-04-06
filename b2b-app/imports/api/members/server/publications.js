@@ -90,10 +90,10 @@ Meteor.publish('currentProfile', function () {
   return Members.find({ userId: this.userId, status: 'active' })
 })
 
-Meteor.publish('all.profiles', () => {
+Meteor.publish('all.members', () => {
   return Members.find({})
 })
-Meteor.publish('profiles.limit.role', (role) => {
+Meteor.publish('members.limit.role', (role) => {
   const user = Meteor.users.findOne({ _id: Meteor.userId() })
   if (hasRole(user, role)) {
     return Members.find({})
@@ -101,7 +101,7 @@ Meteor.publish('profiles.limit.role', (role) => {
     return []
   }
 })
-Meteor.publish('id.profiles', (id) => {
+Meteor.publish('id.members', (id) => {
   return [
     Members.find(id),
     /* Commented out related publications (if any) - best to add these in manually as required

@@ -64,7 +64,7 @@ Accounts.onCreateUser((options, user) => {
     // calculate the nickname
     profile.nickname = profile.name.split(' ')[0] || profile.name
 
-    Meteor.call('insert.profiles', profile, (err) => {
+    Meteor.call('insert.members', profile, (err) => {
       console.log(err)
     })
   }

@@ -68,7 +68,7 @@ global.resetCollections = () => {
     await win.Meteor.callAsync('resetCollections')
   })
   // const collections =
-  //   'users listings profiles jobs tasks notifications_2 property_issues notifications_items'
+  //   'users listings members jobs tasks notifications_2 property_issues notifications_items'
   // collections.split(/\s/g).forEach((collection) => {
   //   cy.exec(`mongo ${MongoURL} --eval "db.${collection}.remove({})"`)
   // })

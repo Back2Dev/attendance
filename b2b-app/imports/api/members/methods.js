@@ -3,7 +3,7 @@ import logger from '/imports/lib/log'
 import Members from './schema'
 
 Meteor.methods({
-  'rm.profiles': (id) => {
+  'rm.members': (id) => {
     try {
       Members.remove(id)
       logger.audit('Removed profile', { id })
@@ -13,10 +13,10 @@ Meteor.methods({
       return { status: 'failed', message: `Error removing profile: ${e.message}` }
     }
   },
-  'id.profiles': (id) => {
+  'id.members': (id) => {
     return [Members.find(id)]
   },
-  'update.profiles': (form) => {
+  'update.members': (form) => {
     try {
       const id = form._id
       delete form._id
@@ -28,7 +28,7 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating profile: ${e.message}` }
     }
   },
-  'insert.profiles': (form) => {
+  'insert.members': (form) => {
     try {
       Members.insert(form)
       logger.audit('profile added', form)

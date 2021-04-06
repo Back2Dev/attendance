@@ -4,4 +4,4 @@ import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
 import Members from '/imports/api/members/schema'
 
-Factory.define('profiles', Members, {})
+Factory.define('members', Members, {})

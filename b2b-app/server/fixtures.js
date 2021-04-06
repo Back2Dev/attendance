@@ -41,8 +41,8 @@ Meteor.startup(function () {
   ])
 
   Fixtures.loadBootThings() // Load (boot-time)  fixtures
-  // Fix the profiles
-  // TODO: Add profiles to fixtures data and remove this
+  // Fix the members
+  // TODO: Add members to fixtures data and remove this
   Meteor.users.find({}).forEach((user) => {
     const p = Members.findOne({ userId: user._id })
     if (!p) {
@@ -76,8 +76,8 @@ Meteor.methods({
       ...Fixtures.config.boot.map((t) => t.name),
     ])
     Fixtures.loadBootThings() // Load (boot-time) fixtures
-    // Fix the profiles
-    // TODO: Add profiles to fixtures data and remove this
+    // Fix the members
+    // TODO: Add members to fixtures data and remove this
     Meteor.users.find({}).forEach((user) => {
       const p = Members.findOne({ userId: user._id })
       if (!p) {
