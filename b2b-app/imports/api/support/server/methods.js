@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
 import { getCfg } from '/imports/api/settings/server/helper.js'
-import Profiles from '/imports/api/profiles/schema'
+import Profiles from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 // import { push } from '/imports/api/notifications/server/helper.js'
 

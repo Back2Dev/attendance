@@ -5,7 +5,7 @@ import { ServiceConfiguration } from 'meteor/service-configuration'
 
 import log from '/imports/lib/log'
 
-import Profiles from '/imports/api/profiles/schema.js'
+import Profiles from '/imports/api/members/schema.js'
 
 /**
  * Lowercase and trim user email(s)

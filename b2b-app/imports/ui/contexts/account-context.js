@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
-import Profiles from '/imports/api/profiles/schema.js'
+import Profiles from '/imports/api/members/schema.js'
 
 export const AccountContext = React.createContext('account')
 

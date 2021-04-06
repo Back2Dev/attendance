@@ -1,4 +1,4 @@
-import Profiles from '/imports/api/profiles/schema'
+import Profiles from '/imports/api/members/schema'
 
 /**
  * get user email address

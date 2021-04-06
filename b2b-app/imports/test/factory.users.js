@@ -5,7 +5,7 @@ import { Factory } from 'meteor/dburles:factory'
 import faker from 'faker'
 
 // import CONSTANTS from '/imports/api/constants'
-import Profiles from '/imports/api/profiles/schema.js'
+import Profiles from '/imports/api/members/schema.js'
 
 const createProfile = (doc) => {
   // create user profile

@@ -14,7 +14,7 @@ import '/imports/api/triggers/server/publications'
 import '/imports/api/message-templates/server/publications'
 import '/imports/api/messages/server/publications'
 import '/imports/api/notifications/server/publications'
-import '/imports/api/profiles/server/publications'
+import '/imports/api/members/server/publications'
 import '/imports/api/settings/server/publications'
 import '/imports/api/surveys/server/publications'
 

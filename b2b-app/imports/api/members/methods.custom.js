@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import logger from '/imports/lib/log'
 import { Promise } from 'meteor/promise'
 
-import Profiles from '/imports/api/profiles/schema'
+import Profiles from '/imports/api/members/schema'
 const debug = require('debug')('b2b:profiles')
 // AWS Configs
 const aws = require('aws-sdk')

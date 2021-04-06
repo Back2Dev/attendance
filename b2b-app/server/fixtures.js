@@ -2,7 +2,7 @@
 // dummy.data.js
 import { Meteor } from 'meteor/meteor'
 import things from './fixtures-things.json'
-import Profiles from '/imports/api/profiles/schema'
+import Profiles from '/imports/api/members/schema'
 import Messages from '/imports/api/messages/schema'
 import { Notifications, NotificationItems } from '/imports/api/notifications/schema'
 
