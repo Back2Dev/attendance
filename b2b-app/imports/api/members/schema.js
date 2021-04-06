@@ -13,11 +13,6 @@ const Members = new Mongo.Collection('members')
 export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
   userId: RegExId,
-  // Historical id's saved here for now
-  member_id: {
-    type: SimpleSchema.Integer,
-    optional: true, // set to optional for migrated users only
-  },
   user_id: {
     type: SimpleSchema.Integer,
     label: 'FKEY to userLogins',
