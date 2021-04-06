@@ -13,11 +13,6 @@ const Members = new Mongo.Collection('members')
 export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
   userId: RegExId,
-  user_id: {
-    type: SimpleSchema.Integer,
-    label: 'FKEY to userLogins',
-    optional: true, // set to optional for migrated users only
-  },
   // Combine first and last name
   name: {
     type: String,

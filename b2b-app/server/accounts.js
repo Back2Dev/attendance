@@ -17,7 +17,6 @@ import Members from '/imports/api/members/schema.js'
 Accounts.onCreateUser((options, user) => {
   const member = {
     userId: user._id,
-    user_id: 1,
     notifyBy: ['EMAIL', 'SMS'],
   }
   const { google, facebook, twitter } = user.services
