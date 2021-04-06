@@ -5,8 +5,8 @@
   "scripts": {
     "visualize": "meteor --production --extra-packages bundle-visualizer --settings dev.mikkel.settings.json",
     "newman": "newman run tests/agentbox/postman/webhooks.postman_collection.json -e tests/agentbox/postman/se-webhooks.postman_environment.json",
-    "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost/b2b_2 meteor --port 4090 --exclude-archs web.cordova,web.browser.legacy --settings dev.settings.json --inspect",
-    "nodebug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost/b2b_2 meteor --port 4090 --exclude-archs web.cordova,web.browser.legacy --settings dev.settings.json ",
+    "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost/b2b meteor --port 4090 --exclude-archs web.cordova,web.browser.legacy --settings dev.settings.json --inspect",
+    "nodebug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost/b2b meteor --port 4090 --exclude-archs web.cordova,web.browser.legacy --settings dev.settings.json ",
     "debug-local": "DEBUG=b2b:* meteor --inspect --port 4090 --settings dev.settings.json",
     "build": "meteor build ../builds/",
     "ci-app": "DEBUG=b2b:* METEOR_ALLOW_SUPERUSER=1 meteor --port 4090 --settings dev.circleci.settings.json",
