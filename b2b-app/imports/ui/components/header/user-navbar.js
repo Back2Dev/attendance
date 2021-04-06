@@ -189,8 +189,6 @@ export default function UserNavbar() {
 
   const changeRole = (event) => {
     setRole(event.target.value)
-    //Whenever we switch roles we view properties
-    push('/properties')
     Session.set('viewas', event.target.value)
     localStorage.setItem('viewas', event.target.value)
     showInfo(`Role switched to ${CONSTANTS.ROLES[event.target.value]}`, {
