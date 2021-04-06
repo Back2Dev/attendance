@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
 import { getCfg } from '/imports/api/settings/server/helper.js'
-import Profiles from '/imports/api/members/schema'
+import Members from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 // import { push } from '/imports/api/notifications/server/helper.js'
 
@@ -29,7 +29,7 @@ Meteor.methods({
     }
 
     const user = Meteor.users.findOne(userId)
-    const profile = Profiles.findOne({ userId })
+    const profile = Members.findOne({ userId })
     if (!user || !profile) {
       return { status: 'failed', message: 'Please login and complete your user profile' }
     }

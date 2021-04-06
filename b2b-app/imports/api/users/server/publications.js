@@ -3,7 +3,7 @@ import { Match } from 'meteor/check'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
 import { Roles } from 'meteor/alanning:roles'
-import Profiles from '/imports/api/members/schema'
+import Members from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 import moment from 'moment'
 import log from '/imports/lib/log'
@@ -31,7 +31,7 @@ Meteor.methods({
     if (!user) {
       return { status: 'failed', message: `Failed to find user with token${token}` }
     }
-    const profile = Profiles.findOne(
+    const profile = Members.findOne(
       { userId: user._id },
       { fields: { name: 1, mobile: 1 } }
     )
@@ -84,7 +84,7 @@ Meteor.methods({
           },
         }
       )
-      Profiles.update({ userId }, { $set: { status: 'active' } })
+      Members.update({ userId }, { $set: { status: 'active' } })
       return { status: 'success', message: 'Confirmed email and password' }
     }
   },
@@ -168,7 +168,7 @@ Meteor.methods({
     try {
       Accounts.setPassword(userId, password, { logout: logout })
       const user = Meteor.user()
-      const profile = Profiles.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
+      const profile = Members.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
       Meteor.call('sendTrigger', { slug: 'password-changed', user, profile })
     } catch (e) {
       throw new Meteor.Error(e.message)
@@ -207,7 +207,7 @@ Meteor.methods({
           expiryAt: moment().add(1, 'days').toDate(),
         }
         const profile =
-          Profiles.findOne({ userId: user._id }, { fields: { name: 1 } }) || []
+          Members.findOne({ userId: user._id }, { fields: { name: 1 } }) || []
         user.name = profile.name || 'User'
 
         Meteor.users.update(
@@ -242,7 +242,7 @@ Meteor.methods({
           { _id: userId },
           { $unset: { 'services.password.forgotPassToken': '' } }
         )
-        const profile = Profiles.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
+        const profile = Members.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
 
         Meteor.call('sendTrigger', { slug: 'password-changed', user, profile })
       }
@@ -260,7 +260,7 @@ Meteor.methods({
       const userId = Accounts.createUser({ email, username: email, password })
       if (userId) {
         Roles.addUsersToRoles(userId, roles)
-        Profiles.insert({
+        Members.insert({
           userId,
           name: name,
           nickname: name.split(' ')[0] || name,
@@ -278,7 +278,7 @@ Meteor.methods({
     try {
       const user = Meteor.user()
       const userId = user._id
-      const profile = Profiles.findOne({ userId })
+      const profile = Members.findOne({ userId })
       const newProfile = {
         userId,
         name,
@@ -287,7 +287,7 @@ Meteor.methods({
         notifyBy: sms ? ['EMAIL', 'SMS'] : ['EMAIL'],
       }
       if (profile) {
-        Profiles.update(
+        Members.update(
           { userId },
           {
             $set: newProfile,
@@ -297,7 +297,7 @@ Meteor.methods({
         if (!newProfile.nickname) {
           newProfile.nickname = newProfile.name.split(' ')[0] || newProfile.name
         }
-        Profiles.insert(newProfile)
+        Members.insert(newProfile)
       }
       return { status: 'success', message: 'Added user account' }
     } catch (error) {
@@ -324,7 +324,7 @@ Meteor.methods({
           { $set: { 'services.email.confirmationToken': tokenRecord } }
         )
         Roles.addUsersToRoles(userId, roles)
-        Profiles.insert({
+        Members.insert({
           userId,
           name,
           nickname: name.split(' ')[0] || name,
@@ -332,7 +332,7 @@ Meteor.methods({
           notifyBy: ['EMAIL', 'SMS'],
         })
         const user = Meteor.users.findOne({ _id: userId })
-        const profile = Profiles.findOne({ userId })
+        const profile = Members.findOne({ userId })
         const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
 
         Meteor.call('sendTrigger', {

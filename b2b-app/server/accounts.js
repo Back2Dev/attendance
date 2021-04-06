@@ -5,7 +5,7 @@ import { ServiceConfiguration } from 'meteor/service-configuration'
 
 import log from '/imports/lib/log'
 
-import Profiles from '/imports/api/members/schema.js'
+import Members from '/imports/api/members/schema.js'
 
 /**
  * Lowercase and trim user email(s)
@@ -59,7 +59,7 @@ Accounts.onCreateUser((options, user) => {
   }
 
   // this user should not have profile record at this moment, but let do a double check
-  const existingProfile = Profiles.findOne({ userId: profile.userId })
+  const existingProfile = Members.findOne({ userId: profile.userId })
   if (!existingProfile && profile.name) {
     // calculate the nickname
     profile.nickname = profile.name.split(' ')[0] || profile.name

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import logger from '/imports/lib/log'
 import { Promise } from 'meteor/promise'
 
-import Profiles from '/imports/api/members/schema'
+import Members from '/imports/api/members/schema'
 const debug = require('debug')('b2b:profiles')
 // AWS Configs
 const aws = require('aws-sdk')
@@ -39,7 +39,7 @@ Meteor.methods({
         })
       }
       Promise.await(uploadFile(s3params))
-      Profiles.update(
+      Members.update(
         { userId: user_id },
         {
           $set: {
@@ -57,7 +57,7 @@ Meteor.methods({
   'uploaded.signature': ({ folder, fileName }) => {
     try {
       const userId = Meteor.userId()
-      Profiles.update(
+      Members.update(
         { userId },
         {
           $set: {
@@ -77,7 +77,7 @@ Meteor.methods({
   'uploaded.initials': ({ folder, fileName }) => {
     try {
       const userId = Meteor.userId()
-      Profiles.update(
+      Members.update(
         { userId },
         {
           $set: {

@@ -2,7 +2,7 @@
 // dummy.data.js
 import { Meteor } from 'meteor/meteor'
 import things from './fixtures-things.json'
-import Profiles from '/imports/api/members/schema'
+import Members from '/imports/api/members/schema'
 import Messages from '/imports/api/messages/schema'
 import { Notifications, NotificationItems } from '/imports/api/notifications/schema'
 
@@ -44,7 +44,7 @@ Meteor.startup(function () {
   // Fix the profiles
   // TODO: Add profiles to fixtures data and remove this
   Meteor.users.find({}).forEach((user) => {
-    const p = Profiles.findOne({ userId: user._id })
+    const p = Members.findOne({ userId: user._id })
     if (!p) {
       let name = user.username
       let nickname = user.name.split(' ')[0] || 'Hey you'
@@ -54,7 +54,7 @@ Meteor.startup(function () {
         name = [uc1(matches[1]), uc1(matches[2])].join(' ')
       }
       // debug(`Adding profile for ${name} (AKA ${nickname})`)
-      Profiles.insert({
+      Members.insert({
         name,
         nickname,
         userId: user._id,
@@ -79,7 +79,7 @@ Meteor.methods({
     // Fix the profiles
     // TODO: Add profiles to fixtures data and remove this
     Meteor.users.find({}).forEach((user) => {
-      const p = Profiles.findOne({ userId: user._id })
+      const p = Members.findOne({ userId: user._id })
       if (!p) {
         let name = user.name
         let nickname
@@ -91,7 +91,7 @@ Meteor.methods({
           nickname = 'Hey you'
         }
         // debug(`Adding profile for ${user.username}`)
-        Profiles.insert({
+        Members.insert({
           name,
           userId: user._id,
           nickname,
@@ -112,7 +112,7 @@ Meteor.methods({
   },
   resetCollections() {
     // Meteor.users.remove({})
-    // Profiles.remove({})
+    // Members.remove({})
     Messages.remove({})
     Notifications.remove({})
     NotificationItems.remove({})

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Profiles from '../schema'
+import Members from '../schema'
 import '../methods'
 import '../methods.custom'
 import { hasRole } from '/imports/api/users/utils.js'
@@ -22,7 +22,7 @@ Meteor.publish('currentProfile', function () {
       if (online === false) {
         // set user offline
         // first, update the offlineTimeoutAt value
-        Profiles.update(
+        Members.update(
           {
             userId,
           },
@@ -34,7 +34,7 @@ Meteor.publish('currentProfile', function () {
         )
         // then delay update the online status
         // Meteor.setTimeout(() => {
-        //   const me = Profiles.findOne(
+        //   const me = Members.findOne(
         //     { userId },
         //     {
         //       fields: { onlineStatus: 1 },
@@ -47,7 +47,7 @@ Meteor.publish('currentProfile', function () {
         //       )
         //     ) {
         //       // mark user is offline
-        //       Profiles.update(
+        //       Members.update(
         //         {
         //           userId,
         //         },
@@ -66,7 +66,7 @@ Meteor.publish('currentProfile', function () {
         // }, ONLINE_STATUS_DELAY_IN_SECONDS)
       } else {
         // set user online
-        Profiles.update(
+        Members.update(
           {
             userId,
           },
@@ -87,23 +87,23 @@ Meteor.publish('currentProfile', function () {
     // update the user online status
     UsersHelper.updateOnlineStatus({ userId: this.userId, online: false })
   })
-  return Profiles.find({ userId: this.userId, status: 'active' })
+  return Members.find({ userId: this.userId, status: 'active' })
 })
 
 Meteor.publish('all.profiles', () => {
-  return Profiles.find({})
+  return Members.find({})
 })
 Meteor.publish('profiles.limit.role', (role) => {
   const user = Meteor.users.findOne({ _id: Meteor.userId() })
   if (hasRole(user, role)) {
-    return Profiles.find({})
+    return Members.find({})
   } else {
     return []
   }
 })
 Meteor.publish('id.profiles', (id) => {
   return [
-    Profiles.find(id),
+    Members.find(id),
     /* Commented out related publications (if any) - best to add these in manually as required
      
     */

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import MessageTemplates from '/imports/api/message-templates/schema'
-import Profiles from '/imports/api/members/schema'
+import Members from '/imports/api/members/schema'
 
 const debug = require('debug')('b2b:migrations')
 
@@ -23,7 +23,7 @@ const debug = require('debug')('b2b:migrations')
 Meteor.startup(() => {
   if (Meteor.isServer) {
     // MK 25/1/2021 - Added status, `deleted` is deprecated
-    Profiles.update(
+    Members.update(
       { status: { $exists: false } },
       {
         $set: { status: 'active' },
