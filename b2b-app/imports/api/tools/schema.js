@@ -2,7 +2,12 @@ import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/utils/schema-util'
+import {
+  OptionalRegExId,
+  OptionalString,
+  createdAt,
+  updatedAt,
+} from '/imports/api/utils/schema-util'
 
 const Tools = new Mongo.Collection('tools')
 if (Meteor.isServer) {
@@ -18,6 +23,8 @@ if (Meteor.isServer) {
 export const ToolsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   name: String,
+  location: OptionalString,
+  description: OptionalString,
   status: {
     type: SimpleSchema.Integer,
     defaultValue: 1,
