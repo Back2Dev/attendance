@@ -7,6 +7,7 @@
 // This file contains a list of factories for testing
 // It is generated from a list of modules
 //
+import './factory.events'
 import './factory.members'
 import './factory.settings'
 import './factory.messages'
