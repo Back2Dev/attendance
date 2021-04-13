@@ -22,8 +22,7 @@ if (Meteor.isServer) {
 export const SessionsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: RegExId,
-  eventId: OptionalRegExId,
-  purchaseId: OptionalRegExId,
+  eventId: RegExId,
   memberName: {
     type: String,
     label: 'Member name',
@@ -34,14 +33,20 @@ export const SessionsSchema = new SimpleSchema({
   },
   status: {
     type: SimpleSchema.Integer,
+    allowedValues: [
+      1, // booked
+      0, // canceled
+      2, // attended?
+    ],
     defaultValue: 1,
   },
+  // array of tools selected
   tools: {
     type: Array,
     optional: true,
   },
   'tools.$': {
-    _id: OptionalRegExId,
+    _id: RegExId,
     name: String,
   },
   // the date/time in the future
@@ -54,29 +59,6 @@ export const SessionsSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  /**
-   * TODO: We may run into problems with these fields. the current meteor-app needs these fields but in this app, we don't have data yet
-   */
-  // duration: {
-  //   type: Number,
-  //   label: 'Duration in hours',
-  //   optional: false
-  // },
-  // timeIn: {
-  //   type: Date,
-  //   label: 'Visit start time',
-  //   optional: false
-  // },
-  // timeOut: {
-  //   type: Date,
-  //   label: 'Visit end time',
-  //   optional: false
-  // },
-  // price: {
-  //   type: SimpleSchema.Integer,
-  //   label: 'Session Price in cents',
-  //   defaultValue: 0
-  // },
   createdAt,
   updatedAt,
 })
