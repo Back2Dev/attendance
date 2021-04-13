@@ -1,7 +1,14 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/utils/schema-util'
+import {
+  RegExId,
+  OptionalRegExId,
+  OptionalInteger,
+  OptionalString,
+  createdAt,
+  updatedAt,
+} from '/imports/api/utils/schema-util'
 
 const Events = new Mongo.Collection('events')
 
@@ -14,6 +21,17 @@ export const EventsSchema = new SimpleSchema({
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
   coachId: OptionalRegExId,
+  maxNumbersOfTools: OptionalInteger, // Limit numbers of equipments/tools
+  // the available tools for select
+  tools: {
+    type: Array,
+    optional: true,
+  },
+  'tools.$': {
+    _id: RegExId,
+    name: String,
+    location: OptionalString,
+  },
   description: {
     type: String,
     label: 'Description',
