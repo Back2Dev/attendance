@@ -19,17 +19,23 @@ if (Meteor.isServer) {
   )
 }
 
+const ToolItem = new SimpleSchema({
+  _id: RegExId,
+  name: String,
+})
+
 export const SessionsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: RegExId,
   eventId: RegExId,
-  memberName: {
-    type: String,
-    label: 'Member name',
-  },
+  // event name
   name: {
     type: String,
     label: 'Session name',
+  },
+  memberName: {
+    type: String,
+    label: 'Member name',
   },
   status: {
     type: SimpleSchema.Integer,
@@ -45,10 +51,7 @@ export const SessionsSchema = new SimpleSchema({
     type: Array,
     optional: true,
   },
-  'tools.$': {
-    _id: RegExId,
-    name: String,
-  },
+  'tools.$': ToolItem,
   // the date/time in the future
   bookedDate: {
     type: Date,

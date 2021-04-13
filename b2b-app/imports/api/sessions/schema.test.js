@@ -1,27 +1,41 @@
+import { Random } from 'meteor/random'
 import { expect } from 'chai'
+import faker from 'faker'
 
 import Sessions from './schema'
 
 export const goodSessions = [
   {
-    title: 'string',
+    memberId: Random.id(),
+    eventId: Random.id(),
+    memberName: faker.name.findName(),
+    name: faker.address.cityName(),
     map: 'string',
     description: 'string',
     difficulty: 'string',
     status: 1,
   },
   {
-    title: 'string',
+    memberId: Random.id(),
+    eventId: Random.id(),
+    memberName: faker.name.findName(),
+    name: faker.address.cityName(),
     description: 'string',
     difficulty: 'string',
     status: 0,
   },
   {
-    title: 'string',
+    memberId: Random.id(),
+    eventId: Random.id(),
+    memberName: faker.name.findName(),
+    name: faker.address.cityName(),
     description: 'string',
   },
   {
-    title: 'string',
+    memberId: Random.id(),
+    eventId: Random.id(),
+    memberName: faker.name.findName(),
+    name: faker.address.cityName(),
   },
 ]
 
@@ -45,7 +59,7 @@ describe('Sessions Schema', () => {
         }).not.to.throw()
         if (insertedId) {
           // because of unique index, we should remove these test items
-          Sessions.remove({ _id: insertedId })
+          // Sessions.remove({ _id: insertedId })
         }
       })
     })
@@ -59,7 +73,7 @@ describe('Sessions Schema', () => {
         }).to.throw()
         if (insertedId) {
           // because of unique index, we should remove these test items
-          Sessions.remove({ _id: insertedId })
+          // Sessions.remove({ _id: insertedId })
         }
       })
     })
