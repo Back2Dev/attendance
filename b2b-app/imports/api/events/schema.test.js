@@ -39,8 +39,11 @@ const goodEvents = [
 goodEvents.push(Factory.build('event'))
 goodEvents.push(defaultObject)
 
-describe('events', () => {
-  beforeEach(resetDatabase)
+describe.only('events', () => {
+  beforeEach(async (done) => {
+    await resetDatabase()
+    done()
+  })
 
   goodEvents.forEach((good, i) => {
     describe('EventsSchema good events', () => {

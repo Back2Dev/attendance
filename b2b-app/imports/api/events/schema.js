@@ -12,6 +12,12 @@ import {
 
 const Events = new Mongo.Collection('events')
 
+const ToolItem = new SimpleSchema({
+  _id: RegExId,
+  name: String,
+  location: OptionalString,
+})
+
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   name: {
@@ -27,11 +33,7 @@ export const EventsSchema = new SimpleSchema({
     type: Array,
     optional: true,
   },
-  'tools.$': {
-    _id: RegExId,
-    name: String,
-    location: OptionalString,
-  },
+  'tools.$': ToolItem,
   description: {
     type: String,
     label: 'Description',
