@@ -39,7 +39,7 @@ export const badCourses = [
   },
 ]
 
-describe.only('Courses Schema', () => {
+describe('Courses Schema', () => {
   describe('Check good courses', () => {
     goodCourses.map((item) => {
       it(`Should success on good courses insert ${item.title || ''}`, () => {
