@@ -6,7 +6,7 @@ import {
   OptionalString,
   OptionalBlackbox,
   OptionalInteger,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
