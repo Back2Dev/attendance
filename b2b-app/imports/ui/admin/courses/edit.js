@@ -30,7 +30,7 @@ const Edit = ({ id, item, methods }) => {
 
   return (
     <div>
-      <div>Edit MyCollection - {data.name}</div>
+      <div>Edit Courses - {data.name}</div>
       <AutoForm
         schema={schemaBridge}
         model={item}

@@ -9,14 +9,14 @@ const Viewer = lazy(() => import('./viewer.js'))
 const Adder = lazy(() => import('./adder.js'))
 const NotFound = lazy(() => import('/imports/ui/components/commons/not-found.js'))
 
-export default function MyCollection() {
+export default function Events() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Switch>
-        <Route path="/admin/my-collection/edit/:id" exact component={Editor} />
-        <Route path="/admin/my-collection/add/" exact component={Adder} />
-        <Route path="/admin/my-collection/view/:id" exact component={Viewer} />
-        <Route path="/admin/my-collection" exact component={Lister} />
+        <Route path="/admin/events/edit/:id" exact component={Editor} />
+        <Route path="/admin/events/add/" exact component={Adder} />
+        <Route path="/admin/events/view/:id" exact component={Viewer} />
+        <Route path="/admin/events" exact component={Lister} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>

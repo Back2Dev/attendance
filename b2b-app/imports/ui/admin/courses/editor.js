@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import MyCollection from '/imports/api/my-collection/schema'
+import Courses from '/imports/api/courses/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
 import config from './config'
@@ -15,10 +15,10 @@ const dateFormat = {
 }
 let history
 
-const remove = (id) => meteorCall('rm.myCollection', 'Deleting', id)
+const remove = (id) => meteorCall('rm.courses', 'Deleting', id)
 const update = (id, form) => {
-  meteorCall('update.myCollection', 'updating', form)
-  history.push('/admin/my-collection')
+  meteorCall('update.courses', 'updating', form)
+  history.push('/admin/courses')
 }
 const methods = { remove, update }
 
@@ -29,8 +29,8 @@ const Loading = (props) => {
 const Editor = withTracker((props) => {
   history = props.history
   const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.myCollection', id)
-  const item = MyCollection.findOne(id) || {}
+  const subsHandle = Meteor.subscribe('id.courses', id)
+  const item = Courses.findOne(id) || {}
   return {
     id,
     item,
@@ -43,7 +43,7 @@ export default Editor
 /* 
   This section is for legacy (mysql) db. Uncomment it to use it, and comment out the "export default" above
  */
-// const idField = 'ID_FIELD'
+// const idField = '_id'
 // const LegacyEditor = (props) => {
 //   const [loading, setLoading] = React.useState(true)
 //   const [item, setItem] = React.useState({})
@@ -52,7 +52,7 @@ export default Editor
 
 //   React.useEffect(() => {
 //     const fetchData = async () => {
-//       const response = await meteorCall('fetch.id.myCollection', null, id)
+//       const response = await meteorCall('fetch.id.courses', null, id)
 //       if (response.status === 'success') {
 //         setItem(response.item)
 //         setLoading(false)

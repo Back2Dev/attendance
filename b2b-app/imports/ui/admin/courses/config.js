@@ -15,7 +15,17 @@ const dateFormat = {
 }
 
 const editSchema = new SimpleSchema({
-  EDITABLE_COLUMNS,
+  title: String,
+  description: OptionalString,
+  difficulty: {
+    type: String,
+    allowedValues: ['beginner', 'intermediate', 'advanced'],
+    defaultValue: 'beginner',
+  },
+  active: {
+    type: Boolean,
+    defaultValue: true,
+  },
 })
 
 //
@@ -31,9 +41,19 @@ export default config = {
   },
   edit: { schema: new SimpleSchema2Bridge(editSchema) },
   list: {
-    columns: [TEMPLATED_COLUMN_GRID],
+    columns: [
+      { field: 'title', title: 'title', editor: true, formatter: null },
+      { field: 'map', title: 'map', editor: true, formatter: null },
+      { field: 'description', title: 'description', editor: true, formatter: null },
+      { field: 'difficulty', title: 'difficulty', editor: true, formatter: null },
+      { field: 'active', title: 'active', editor: true, formatter: null },
+    ],
   },
   add: {
-    defaultObject: defObject,
+    defaultObject: {
+      name: 'Untitled',
+      description: 'Description',
+      code: 'XXX',
+    },
   },
 }

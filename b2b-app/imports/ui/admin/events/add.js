@@ -33,7 +33,7 @@ const Add = ({ item, methods }) => {
   return (
     <Container>
       <Box my={7}>
-        <Typography variant="h1">My Collection: {item.name}</Typography>
+        <Typography variant="h1">Events: {item.name}</Typography>
         <Typography color="primary" variant="h5">
           {item.type} (Revision {item.revision}: &nbsp;
           {moment(item.updatedAt).format('DD/MM/YY HH:mm')} )
