@@ -39,7 +39,7 @@ const goodEvents = [
 goodEvents.push(Factory.build('event'))
 goodEvents.push(defaultObject)
 
-describe.only('events', () => {
+describe('events', () => {
   beforeEach(async (done) => {
     await resetDatabase()
     done()

@@ -12,7 +12,7 @@ import {
 
 const Events = new Mongo.Collection('events')
 
-const ToolItem = new SimpleSchema({
+const ToolItemSchema = new SimpleSchema({
   _id: RegExId,
   name: String,
   location: OptionalString,
@@ -26,14 +26,13 @@ export const EventsSchema = new SimpleSchema({
   },
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
-  coachId: OptionalRegExId,
-  maxNumbersOfTools: OptionalInteger, // Limit numbers of equipments/tools
+  coachId: OptionalRegExId, // members id
   // the available tools for select
   tools: {
     type: Array,
     optional: true,
   },
-  'tools.$': ToolItem,
+  'tools.$': ToolItemSchema,
   description: {
     type: String,
     label: 'Description',

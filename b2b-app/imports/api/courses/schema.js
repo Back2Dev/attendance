@@ -10,24 +10,29 @@ import {
 } from '/imports/api/utils/schema-util'
 
 const Courses = new Mongo.Collection('courses')
-if (Meteor.isServer) {
-  Courses._ensureIndex(
-    {
-      status: 1,
-    },
-    { name: 'status' }
-  )
-}
+
+const MapSchema = new SimpleSchema({
+  title: String,
+  imageUrl: String,
+})
 
 export const CoursesSchema = new SimpleSchema({
   _id: OptionalRegExId,
   title: String,
-  map: OptionalString,
+  map: {
+    type: Array,
+    optional: true,
+  },
+  'map.$': MapSchema,
   description: OptionalString,
-  difficulty: OptionalString,
-  status: {
-    type: SimpleSchema.Integer,
-    defaultValue: 1,
+  difficulty: {
+    type: String,
+    allowedValues: ['beginner', 'intermediate', 'advanced'],
+    defaultValue: 'beginner',
+  },
+  active: {
+    type: Boolean,
+    defaultValue: true,
   },
   createdAt,
   updatedAt,
