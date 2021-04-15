@@ -7,7 +7,7 @@ import Loading from '/imports/ui/components/commons/loading.js'
 const HomePage = lazy(() => import('/imports/ui/pages/home.js'))
 const AdminPage = lazy(() => import('/imports/ui/pages/admin.js'))
 const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
-const Dashboard = lazy(() => import('/imports/ui/pages/dashboard/dash-container.js'))
+const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
 const Signup = lazy(() => import('/imports/ui/pages/signup/signup.js'))

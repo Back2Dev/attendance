@@ -21,7 +21,7 @@
 - Refactor roles
 - Add task.skipall, workflow bot
 - Remove deleted flag
-- Add status to listing and profile
+- Add status to listing and member
 - Calculate progress from job, last step/next steps
 - Add customer and conveyancer dashboards
 - Added results cache for testing

@@ -49,7 +49,7 @@ Meteor.methods({
   },
   sendTrigger: ({
     user,
-    profile,
+    member,
     people = [],
     slug = CONSTANTS.UNKNOWN_TRIGGER,
     emailLink,
@@ -73,9 +73,9 @@ Meteor.methods({
           }
         })
       } else {
-        user.name = profile?.name
-        user.mobile = profile?.mobile
-        user.avatar = profile?.avatar
+        user.name = member?.name
+        user.mobile = member?.mobile
+        user.avatar = member?.avatar
         user.roles = [{ _id: 'USR' }]
         people.push(user)
       }

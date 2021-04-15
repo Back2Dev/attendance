@@ -5,6 +5,7 @@ import React from 'react'
 import MyCollection from '/imports/api/my-collection/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
+import config from './config'
 
 const debug = require('debug')('se:editor')
 const dateFormat = {
@@ -16,7 +17,7 @@ let history
 
 const remove = (id) => meteorCall('rm.myCollection', 'Deleting', id)
 const update = (id, form) => {
-  meteorCall('update.myCollection', 'updating', form )
+  meteorCall('update.myCollection', 'updating', form)
   history.push('/admin/my-collection')
 }
 const methods = { remove, update }

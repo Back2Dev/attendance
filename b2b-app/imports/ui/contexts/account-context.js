@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
-import Profiles from '/imports/api/profiles/schema.js'
+import Members from '/imports/api/members/schema.js'
 
 export const AccountContext = React.createContext('account')
 
@@ -19,14 +19,14 @@ export const AccountProvider = (props) => {
     return { loading: !sub.ready(), user: Meteor.user() }
   }, [])
 
-  const { loadingProfile, profile } = useTracker(() => {
+  const { loadingMember, member } = useTracker(() => {
     if (!user || Meteor.isServer) {
-      return { loadingProfile: false, profile: null }
+      return { loadingMember: false, member: null }
     }
-    const sub = Meteor.subscribe('currentProfile')
+    const sub = Meteor.subscribe('currentMember')
     return {
-      loadingProfile: !sub.ready(),
-      profile: Profiles.findOne({ userId: user._id }),
+      loadingMember: !sub.ready(),
+      member: Members.findOne({ userId: user._id }),
     }
   }, [user])
 
@@ -34,9 +34,9 @@ export const AccountProvider = (props) => {
     isLoggedIn: !!user,
     currentUser: user,
     loading,
-    loadingProfile,
+    loadingMember,
     user,
-    profile,
+    member,
     viewas: Session.get('viewas'),
   }
 

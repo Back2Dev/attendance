@@ -1,0 +1,22 @@
+{
+  "collection": "courses",
+  "generate": "CRUD",
+  "fields": {
+    "title": "String",
+    "map": {
+      "type": "Array",
+      "optional": true
+    },
+    "map.$": "MapSchema",
+    "description": "OptionalString",
+    "difficulty": {
+      "type": "String",
+      "allowedValues": ["beginner", "intermediate", "advanced"],
+      "defaultValue": "beginner"
+    },
+    "active": {
+      "type": "Boolean",
+      "defaultValue": true
+    }
+  }
+}

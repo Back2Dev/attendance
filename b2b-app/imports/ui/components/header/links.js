@@ -1,9 +1,6 @@
 import React from 'react'
 import Dashboard from '@material-ui/icons/Dashboard'
 import HelpIcon from '@material-ui/icons/Help'
-import CalendarToday from '@material-ui/icons/CalendarToday'
-import FileCopy from '@material-ui/icons/FileCopy'
-import Apartment from '@material-ui/icons/Apartment'
 import HomeIcon from '@material-ui/icons/Home'
 import InfoIcon from '@material-ui/icons/Info'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
@@ -14,11 +11,6 @@ export const userMenu = [
     display: 'Dashboard',
     link: '/dashboard',
     icon: () => <Dashboard fontSize="small" />,
-  },
-  {
-    display: 'Properties',
-    link: '/properties',
-    icon: () => <Apartment fontSize="small" />,
   },
   {
     display: 'Support',

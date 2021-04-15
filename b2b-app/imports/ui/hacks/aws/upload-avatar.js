@@ -20,7 +20,7 @@ const Avatar = ({ save }) => {
   const preview = null
   const width = 200
   const height = 200
-  const { profile, loading } = useContext(AccountContext)
+  const { member, loading } = useContext(AccountContext)
 
   const avatarRef = React.useRef(null)
   const [img, setImg] = React.useState('')
@@ -30,8 +30,8 @@ const Avatar = ({ save }) => {
   const [filename, setFilename] = React.useState('avatar.jpg')
 
   // React.useEffect(() => {
-  //   if (!loading && profile) {
-  //     setImg(profile.avatar)
+  //   if (!loading && member) {
+  //     setImg(member.avatar)
   //   }
   // })
 

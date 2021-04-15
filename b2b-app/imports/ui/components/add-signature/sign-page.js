@@ -38,24 +38,24 @@ const useStyles = makeStyles((theme) => ({
 const Sign = () => {
   const [editing, setEditing] = useState('signature')
 
-  const { profile } = useContext(AccountContext)
+  const { member } = useContext(AccountContext)
   const sigRef = useRef()
   const classes = useStyles()
 
-  const [userProfile, setUserProfile] = useState(profile)
+  const [userMember, setUserMember] = useState(member)
 
   useEffect(() => {
     // this is not a real fix
-    setTimeout(() => setUserProfile(profile), 500)
-  }, [profile, userProfile])
+    setTimeout(() => setUserMember(member), 500)
+  }, [member, userMember])
 
   const clear = () => {
     sigRef.current && sigRef.current.clear()
   }
 
   useEffect(() => {
-    setUserProfile(profile)
-  }, [profile])
+    setUserMember(member)
+  }, [member])
 
   const save = () => {
     const canvas = sigRef.current.getCanvas()
@@ -78,7 +78,7 @@ const Sign = () => {
       const uploader = new Slingshot.Upload('publicUploads', metaContext)
       uploader.send(blob, function (error, downloadUrl) {
         if (error) {
-          showError(err)
+          showError(error)
         } else {
           if (editing === 'signature') {
             Meteor.call('uploaded.signature', { fileName, folder }, (err) => {
@@ -111,10 +111,10 @@ const Sign = () => {
           <Typography variant="h6" className={classes.typeTitle}>
             Signature
           </Typography>
-          {profile?.signature && (
+          {member?.signature && (
             <img
               className={classes.sigImage}
-              src={profile && Meteor.settings.public.S3_PUBLIC_URL + profile.signature}
+              src={member && Meteor.settings.public.S3_PUBLIC_URL + member.signature}
             />
           )}
           <br />
@@ -134,10 +134,10 @@ const Sign = () => {
           <Typography variant="h6" className={classes.typeTitle}>
             Initials
           </Typography>
-          {profile?.initials && (
+          {member?.initials && (
             <img
               className={classes.sigImage}
-              src={profile && Meteor.settings.public.S3_PUBLIC_URL + profile.initials}
+              src={member && Meteor.settings.public.S3_PUBLIC_URL + member.initials}
             />
           )}
           <br />

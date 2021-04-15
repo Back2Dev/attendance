@@ -5,7 +5,7 @@ import {
   RegExId,
   OptionalString,
   OptionalBlackbox,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const editSchema = new SimpleSchema({
   name: {

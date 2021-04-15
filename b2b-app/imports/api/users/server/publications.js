@@ -3,7 +3,7 @@ import { Match } from 'meteor/check'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
 import { Roles } from 'meteor/alanning:roles'
-import Profiles from '/imports/api/profiles/schema'
+import Members from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 import moment from 'moment'
 import log from '/imports/lib/log'
@@ -31,22 +31,22 @@ Meteor.methods({
     if (!user) {
       return { status: 'failed', message: `Failed to find user with token${token}` }
     }
-    const profile = Profiles.findOne(
+    const member = Members.findOne(
       { userId: user._id },
       { fields: { name: 1, mobile: 1 } }
     )
 
-    if (!profile) {
+    if (!member) {
       return {
         status: 'failed',
-        message: `Failed to find profile with user id ${user._id}`,
+        message: `Failed to find member with user id ${user._id}`,
       }
     }
 
     let userId = user._id
     email = user.username
-    name = profile.name
-    mobile = profile.mobile
+    name = member.name
+    mobile = member.mobile
 
     return {
       status: 'success',
@@ -84,7 +84,7 @@ Meteor.methods({
           },
         }
       )
-      Profiles.update({ userId }, { $set: { status: 'active' } })
+      Members.update({ userId }, { $set: { status: 'active' } })
       return { status: 'success', message: 'Confirmed email and password' }
     }
   },
@@ -168,8 +168,8 @@ Meteor.methods({
     try {
       Accounts.setPassword(userId, password, { logout: logout })
       const user = Meteor.user()
-      const profile = Profiles.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
-      Meteor.call('sendTrigger', { slug: 'password-changed', user, profile })
+      const member = Members.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
+      Meteor.call('sendTrigger', { slug: 'password-changed', user, member })
     } catch (e) {
       throw new Meteor.Error(e.message)
     }
@@ -206,16 +206,16 @@ Meteor.methods({
           createdAt: new Date(),
           expiryAt: moment().add(1, 'days').toDate(),
         }
-        const profile =
-          Profiles.findOne({ userId: user._id }, { fields: { name: 1 } }) || []
-        user.name = profile.name || 'User'
+        const member =
+          Members.findOne({ userId: user._id }, { fields: { name: 1 } }) || []
+        user.name = member.name || 'User'
 
         Meteor.users.update(
           { _id: user._id },
           { $set: { 'services.password.forgotPassToken': tokenRecord } }
         )
         return Meteor.call('sendTrigger', {
-          profile,
+          member,
           user,
           slug: 'reset-password',
           emailLink: Meteor.absoluteUrl(`reset-password/${user._id}/${token}`),
@@ -242,9 +242,9 @@ Meteor.methods({
           { _id: userId },
           { $unset: { 'services.password.forgotPassToken': '' } }
         )
-        const profile = Profiles.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
+        const member = Members.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
 
-        Meteor.call('sendTrigger', { slug: 'password-changed', user, profile })
+        Meteor.call('sendTrigger', { slug: 'password-changed', user, member })
       }
     } catch (e) {
       throw new Meteor.Error('Your email link may have expired')
@@ -260,7 +260,7 @@ Meteor.methods({
       const userId = Accounts.createUser({ email, username: email, password })
       if (userId) {
         Roles.addUsersToRoles(userId, roles)
-        Profiles.insert({
+        Members.insert({
           userId,
           name: name,
           nickname: name.split(' ')[0] || name,
@@ -274,30 +274,30 @@ Meteor.methods({
       return { status: 'failed', message: error.message }
     }
   },
-  editUserProfile({ name, nickname, mobile, sms }) {
+  editUserMember({ name, nickname, mobile, sms }) {
     try {
       const user = Meteor.user()
       const userId = user._id
-      const profile = Profiles.findOne({ userId })
-      const newProfile = {
+      const member = Members.findOne({ userId })
+      const newMember = {
         userId,
         name,
         nickname,
         mobile,
         notifyBy: sms ? ['EMAIL', 'SMS'] : ['EMAIL'],
       }
-      if (profile) {
-        Profiles.update(
+      if (member) {
+        Members.update(
           { userId },
           {
-            $set: newProfile,
+            $set: newMember,
           }
         )
       } else {
-        if (!newProfile.nickname) {
-          newProfile.nickname = newProfile.name.split(' ')[0] || newProfile.name
+        if (!newMember.nickname) {
+          newMember.nickname = newMember.name.split(' ')[0] || newMember.name
         }
-        Profiles.insert(newProfile)
+        Members.insert(newMember)
       }
       return { status: 'success', message: 'Added user account' }
     } catch (error) {
@@ -324,7 +324,7 @@ Meteor.methods({
           { $set: { 'services.email.confirmationToken': tokenRecord } }
         )
         Roles.addUsersToRoles(userId, roles)
-        Profiles.insert({
+        Members.insert({
           userId,
           name,
           nickname: name.split(' ')[0] || name,
@@ -332,11 +332,11 @@ Meteor.methods({
           notifyBy: ['EMAIL', 'SMS'],
         })
         const user = Meteor.users.findOne({ _id: userId })
-        const profile = Profiles.findOne({ userId })
+        const member = Members.findOne({ userId })
         const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
 
         Meteor.call('sendTrigger', {
-          profile,
+          member,
           user,
           slug: 'signup',
           people: admins,

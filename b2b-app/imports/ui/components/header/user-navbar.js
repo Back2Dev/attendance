@@ -149,7 +149,7 @@ export default function UserNavbar() {
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
-  const { profile, user, viewas } = useContext(AccountContext)
+  const { member, user, viewas } = useContext(AccountContext)
   const { push } = useHistory()
 
   const isAdmin =
@@ -188,12 +188,11 @@ export default function UserNavbar() {
   }
 
   const changeRole = (event) => {
-    setRole(event.target.value)
-    //Whenever we switch roles we view properties
-    push('/properties')
-    Session.set('viewas', event.target.value)
-    localStorage.setItem('viewas', event.target.value)
-    showInfo(`Role switched to ${CONSTANTS.ROLES[event.target.value]}`, {
+    const newRole = event.target.value
+    setRole(newRole)
+    Session.set('viewas', newRole)
+    localStorage.setItem('viewas', newRole)
+    showInfo(`Role switched to ${CONSTANTS.ROLES[newRole] || newRole}`, {
       autoClose: 2000,
     })
     closeMenu()
@@ -234,7 +233,7 @@ export default function UserNavbar() {
         key="prefs"
         data-cy="a-tag-profile"
       >
-        Profile
+        Member
       </MenuItem>
       {user.roles.length > 1 && (
         <MenuItem
@@ -254,12 +253,15 @@ export default function UserNavbar() {
             onChange={changeRole}
           >
             {user.roles.map((_role) => {
+              // if (!CONSTANTS.ROLES[_role._id]) {
+              //   return null
+              // }
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
                   value={_role._id}
                   control={<Radio />}
-                  label={CONSTANTS.ROLES[_role._id]}
+                  label={CONSTANTS.ROLES[_role._id] || _role._id}
                   key={_role._id}
                 />
               )
@@ -292,9 +294,9 @@ export default function UserNavbar() {
           aria-haspopup="true"
           color="inherit"
         >
-          <Avatar src={convertAvatar(profile?.avatar)} className={classes.small} />
+          <Avatar src={convertAvatar(member?.avatar)} className={classes.small} />
         </IconButton>
-        Profile
+        Member
       </MenuItem>
       <MenuItem onClick={() => setExpanded(!expanded)} key="switch">
         <IconButton aria-label="set-role" color="inherit">
@@ -379,7 +381,7 @@ export default function UserNavbar() {
               onClick={profileMenuOpen}
               color="inherit"
             >
-              <Avatar src={convertAvatar(profile?.avatar)} className={classes.small} />
+              <Avatar src={convertAvatar(member?.avatar)} className={classes.small} />
             </IconButton>
           </div>
           <div className={classes.sectionMobile} key="2">

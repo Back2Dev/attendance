@@ -68,7 +68,7 @@ export default UserPreferences = () => {
 
   const classes = useStyles()
 
-  const { profile, user, loading } = useContext(AccountContext)
+  const { member, user, loading } = useContext(AccountContext)
 
   const userPrefMenu = [
     {
@@ -109,12 +109,12 @@ export default UserPreferences = () => {
                 <ListItem>
                   <ListItemAvatar>
                     <Avatar
-                      src={convertAvatar(profile?.avatar)}
+                      src={convertAvatar(member?.avatar)}
                       className={classes.avatar}
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={profile && profile.name}
+                    primary={member && member.name}
                     secondary={user && user.username}
                     primaryTypographyProps={{ variant: 'h5', noWrap: true }}
                     secondaryTypographyProps={{ noWrap: true }}

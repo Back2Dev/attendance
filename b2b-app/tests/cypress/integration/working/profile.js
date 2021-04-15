@@ -32,7 +32,7 @@ describe('Testing user profile functions', () => {
     cy.get('input[name="nickname"]').clear().type(users.admin.nickname)
     cy.get('input[type="tel"]').should('exist').type(users.admin.phone).blur()
     cy.get('#next-button').click()
-    cy.get('.Toastify__toast-body').should('exist').should('contain', 'Profile updated')
+    cy.get('.Toastify__toast-body').should('exist').should('contain', 'Member updated')
   })
   it("changes the user's password", () => {
     cy.contains('Password').should('exist').click()

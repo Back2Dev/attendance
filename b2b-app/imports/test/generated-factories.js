@@ -7,9 +7,13 @@
 // This file contains a list of factories for testing
 // It is generated from a list of modules
 //
-import './factory.profiles'
+import './factory.members'
 import './factory.settings'
 import './factory.messages'
 import './factory.audits'
 import './factory.users'
 import './factory.triggers'
+import './factory.events'
+import './factory.courses'
+import './factory.tools'
+import './factory.sessions'

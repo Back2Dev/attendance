@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
 import { getCfg } from '/imports/api/settings/server/helper.js'
-import Profiles from '/imports/api/profiles/schema'
+import Members from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 // import { push } from '/imports/api/notifications/server/helper.js'
 
@@ -29,23 +29,23 @@ Meteor.methods({
     }
 
     const user = Meteor.users.findOne(userId)
-    const profile = Profiles.findOne({ userId })
-    if (!user || !profile) {
-      return { status: 'failed', message: 'Please login and complete your user profile' }
+    const member = Members.findOne({ userId })
+    if (!user || !member) {
+      return { status: 'failed', message: 'Please login and complete your user member' }
     }
 
     const toEmail = getCfg('support_email', 'support@mydomain.com.au')
     const fromEmail = getUserEmailAddress(user)
-    const theSubject = `Support message from ${profile.name || fromEmail}`
+    const theSubject = `Support message from ${member.name || fromEmail}`
     const theMessage = `
       <p>Subject: ${subject}</p>
       <p>Message: ${message}</p>
       <p>
         User Info:<br />
         user ID: ${user._id}<br />
-        Name: ${profile.name || 'N/A'}<br />
+        Name: ${member.name || 'N/A'}<br />
         Email: ${fromEmail}<br />
-        Phone Number: ${profile.mobile || 'N/A'}
+        Phone Number: ${member.mobile || 'N/A'}
       </p>
     `
     const form = {
