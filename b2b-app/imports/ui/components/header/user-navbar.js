@@ -188,10 +188,11 @@ export default function UserNavbar() {
   }
 
   const changeRole = (event) => {
-    setRole(event.target.value)
-    Session.set('viewas', event.target.value)
-    localStorage.setItem('viewas', event.target.value)
-    showInfo(`Role switched to ${CONSTANTS.ROLES[event.target.value]}`, {
+    const newRole = event.target.value
+    setRole(newRole)
+    Session.set('viewas', newRole)
+    localStorage.setItem('viewas', newRole)
+    showInfo(`Role switched to ${CONSTANTS.ROLES[newRole] || newRole}`, {
       autoClose: 2000,
     })
     closeMenu()
@@ -252,12 +253,15 @@ export default function UserNavbar() {
             onChange={changeRole}
           >
             {user.roles.map((_role) => {
+              // if (!CONSTANTS.ROLES[_role._id]) {
+              //   return null
+              // }
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
                   value={_role._id}
                   control={<Radio />}
-                  label={CONSTANTS.ROLES[_role._id]}
+                  label={CONSTANTS.ROLES[_role._id] || _role._id}
                   key={_role._id}
                 />
               )
