@@ -80,15 +80,16 @@ This is the set of files that are generated
 | |____ui
 | | |____admin
 | | | |____personal-widgets
+| | | | |____add.js
+| | | | |____adder.js
 | | | | |____edit.js
+| | | | |____editor.js
 | | | | |____index.js
 | | | | |____config.js
 | | | | |____list.js
-| | | | |____viewer.js
-| | | | |____edit-schema.js
-| | | | |____editor.js
 | | | | |____lister.js
 | | | | |____view.js
+| | | | |____viewer.js
 | |____test
 | | |____factory.personal-widgets.js
 | |____api
@@ -101,6 +102,14 @@ This is the set of files that are generated
 |____packages
 | |____fixtures
 | | |____personal-widgets.json
+```
+
+### Plumbing the new files into the app
+
+```
+imports/startup/server/generated-pubs.js
+imports/test/generated-factories.js
+imports/ui/pages/admin.js
 ```
 
 The heart of this lives in the `scripts` folder at the top level of the project
