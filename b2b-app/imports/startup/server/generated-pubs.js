@@ -19,5 +19,7 @@ import '/imports/api/settings/server/publications'
 import '/imports/api/surveys/server/publications'
 import '/imports/api/events/server/publications'
 import '/imports/api/courses/server/publications'
+import '/imports/api/tools/server/publications'
+import '/imports/api/sessions/server/publications'
 
 // END GENERATED PUBS
