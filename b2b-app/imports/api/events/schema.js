@@ -12,7 +12,7 @@ import {
 
 const Events = new Mongo.Collection('events')
 
-const ToolItemSchema = new SimpleSchema({
+export const ToolItemSchema = new SimpleSchema({
   _id: RegExId,
   name: String,
   location: OptionalString,
