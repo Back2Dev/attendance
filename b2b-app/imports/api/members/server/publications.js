@@ -10,6 +10,23 @@ import { hasRole } from '/imports/api/users/utils.js'
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
 
+Meteor.publish('members.byIds', function (memberIds) {
+  console.log({ memberIds })
+  return Members.find(
+    {
+      _id: { $in: memberIds },
+    },
+    {
+      fields: {
+        name: 1,
+        userId: 1,
+        mobile: 1,
+        avatar: 1,
+      },
+    }
+  )
+})
+
 Meteor.publish('currentMember', function () {
   if (!this.userId) {
     return this.ready()
