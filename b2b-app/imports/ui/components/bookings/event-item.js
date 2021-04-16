@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
 
@@ -21,6 +22,22 @@ const StyledEventItem = styled.div`
   .right-col {
   }
   .list-tools-wrapper {
+    .tools-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      .MuiFormControl-root {
+        border: 1px solid #cccccc;
+        .MuiFormLabel-root {
+          margin-left: 20px;
+          padding: 5px;
+        }
+        .MuiFormGroup-root {
+          flex-direction: row;
+          padding: 0 10px;
+        }
+      }
+    }
   }
 `
 
@@ -30,6 +47,10 @@ function EventItem({ event }) {
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState(null)
 
+  const onBook = () => {
+    console.log('book', { selectedTool })
+  }
+
   const renderStatus = () => {
     if (!session) {
       return null
@@ -38,67 +59,78 @@ function EventItem({ event }) {
   }
 
   const renderTool = () => {
+    if (!session) {
+      return null
+    }
     return 'selected tool'
   }
 
   const renderCancelBtn = () => {
-    return null
+    if (!session) {
+      return null
+    }
   }
 
   const renderBookBtn = () => {
-    return 'book btn'
+    if (session) {
+      return null
+    }
+    return (
+      <Button className="book-btn" variant="contained" onClick={onBook}>
+        Book
+      </Button>
+    )
   }
 
   const renderAddToolBtn = () => {
+    if (session) {
+      return null
+    }
     return (
       <Button
         className="add-tool-btn"
         variant="contained"
-        onClick={() => setDisplayTools(true)}
+        onClick={() => {
+          if (displayTools) {
+            setSelectedTool(null)
+          }
+          setDisplayTools(!displayTools)
+        }}
       >
-        Add equipment
+        {!displayTools ? 'Add equipment' : 'Cancel'}
       </Button>
     )
   }
 
   const renderListOfTools = () => {
+    if (session) {
+      return null
+    }
     if (!tools?.length) {
       return null
     }
+    if (!displayTools) {
+      return null
+    }
+    // TODO: handle disabled tools
     return (
       <div className="tools-container">
         <FormControl component="fieldset">
           <FormLabel component="legend">Add equipment</FormLabel>
           <RadioGroup
-            aria-label="gender"
+            aria-label="tool"
             value={selectedTool}
             onChange={(e) => setSelectedTool(e.target.value)}
           >
-            <FormControlLabel
-              value="female"
-              control={<Radio />}
-              label="Female"
-              labelPlacement="right"
-            />
-            <FormControlLabel
-              value="male"
-              control={<Radio />}
-              label="Male"
-              labelPlacement="right"
-            />
-            <FormControlLabel
-              value="other"
-              control={<Radio />}
-              label="Other"
-              labelPlacement="right"
-            />
-            <FormControlLabel
-              value="disabled"
-              disabled
-              control={<Radio />}
-              label="(Disabled option)"
-              labelPlacement="right"
-            />
+            {tools.map((tool) => (
+              <FormControlLabel
+                key={tool._id}
+                value={tool._id}
+                control={<Radio />}
+                label={tool.name}
+                labelPlacement="end"
+              />
+            ))}
           </RadioGroup>
         </FormControl>
       </div>
@@ -110,8 +142,8 @@ function EventItem({ event }) {
       <div className="item-wrapper">
         <div className="left-col">
           <div>
-            <span className="event-date">{moment(event.when).format('ddd D MMM')}</span>{' '}
-            <span className="event-name">{event.name}</span>
+            <span className="event-date">{moment(when).format('ddd D MMM')}</span>{' '}
+            <span className="event-name">{name}</span>
           </div>
           <div className="course-info">some course name and coach name</div>
         </div>
@@ -126,6 +158,20 @@ function EventItem({ event }) {
       <div className="list-tools-wrapper">{renderListOfTools()}</div>
     </StyledEventItem>
   )
+}
+
+EventItem.propTypes = {
+  event: PropTypes.shape({
+    when: PropTypes.instanceOf(Date).isRequired,
+    name: PropTypes.string.isRequired,
+    session: PropTypes.object,
+    tools: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+      })
+    ),
+  }).isRequired,
 }
 
 export default EventItem
