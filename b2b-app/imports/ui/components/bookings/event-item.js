@@ -42,7 +42,7 @@ const StyledEventItem = styled.div`
 `
 
 function EventItem({ event }) {
-  const { when, name, session, tools } = event
+  const { when, name, session, tools, course, coach } = event
 
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState(null)
@@ -145,7 +145,10 @@ function EventItem({ event }) {
             <span className="event-date">{moment(when).format('ddd D MMM')}</span>{' '}
             <span className="event-name">{name}</span>
           </div>
-          <div className="course-info">some course name and coach name</div>
+          <div className="course-info">
+            <div className="course-name">{course?.title}</div>
+            <div className="coach-name">{coach?.name}</div>
+          </div>
         </div>
         <div className="right-col">
           {renderStatus()}
@@ -171,6 +174,12 @@ EventItem.propTypes = {
         name: PropTypes.string,
       })
     ),
+    course: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    }),
+    coach: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
   }).isRequired,
 }
 

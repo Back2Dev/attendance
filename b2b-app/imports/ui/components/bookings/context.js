@@ -6,7 +6,8 @@ import { useTracker } from 'meteor/react-meteor-data'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
 import Members from '/imports/api/members/schema.js'
-import Sessions from '../../../api/sessions/schema'
+import Sessions from '/imports/api/sessions/schema.js'
+import Courses from '/imports/api/courses/schema.js'
 
 export const BookingsContext = React.createContext('bookings')
 
@@ -17,11 +18,16 @@ export const BookingsProvider = (props) => {
 
   const eventIds = useRef([])
   const coachIds = useRef([])
+  const courseIds = useRef([])
 
   const [eventsWithExtraData, setEventsWithExtraData] = useState([])
 
   const getCoachByCoachId = (coachId) => {
     return Members.findOne({ _id: coachId })
+  }
+
+  const getCourseByCourseId = (courseId) => {
+    return Courses.findOne({ _id: courseId })
   }
 
   const getMySessionByEventId = (eventId) => {
@@ -43,12 +49,18 @@ export const BookingsProvider = (props) => {
   useEffect(() => {
     const newEventIds = []
     const newCoachIds = []
+    const newCourseIds = []
     events.map((item) => {
       newEventIds.push(item._id)
       newCoachIds.push(item.coachId)
+      newCourseIds.push(item.courseId)
+      if (item.backupCourseId) {
+        newCourseIds.push(item.backupCourseId)
+      }
     })
     eventIds.current = newEventIds
     coachIds.current = newCoachIds
+    courseIds.current = newCourseIds
   }, [events])
 
   const { loading: loadingCoaches } = useTracker(() => {
@@ -72,6 +84,13 @@ export const BookingsProvider = (props) => {
     }
   }, [eventIds.current])
 
+  const { loading: loadingCourses } = useTracker(() => {
+    const sub = Meteor.subscribe('courses.byIds', courseIds.current)
+    return {
+      loading: !sub.ready(),
+    }
+  }, [courseIds.current])
+
   useEffect(() => {
     setEventsWithExtraData(
       events?.map((item) => {
@@ -79,10 +98,12 @@ export const BookingsProvider = (props) => {
           ...item,
           coach: getCoachByCoachId(item.coachId),
           session: getMySessionByEventId(item._id),
+          course: getCourseByCourseId(item.courseId),
+          backupCourse: getCourseByCourseId(item.backupCourseId),
         }
       })
     )
-  }, [events, loadingCoaches, loadingSessions])
+  }, [events, loadingCoaches, loadingSessions, loadingCourses])
 
   return (
     <BookingsContext.Provider
@@ -90,9 +111,11 @@ export const BookingsProvider = (props) => {
         loading,
         loadingCoaches,
         loadingSessions,
+        loadingCourses,
         events: eventsWithExtraData,
         getCoachByCoachId,
         getMySessionByEventId,
+        getCourseByCourseId,
       }}
     >
       {children}

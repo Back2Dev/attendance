@@ -5,6 +5,10 @@ import '../methods'
  
 */
 
+Meteor.publish('courses.byIds', function (courseIds) {
+  return Courses.find({ _id: { $in: courseIds } })
+})
+
 Meteor.publish('all.courses', () => {
   return Courses.find({})
 })
