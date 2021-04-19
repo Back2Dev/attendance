@@ -48,13 +48,17 @@ const StyledEventItem = styled.div`
 
 function EventItem({ event }) {
   const { when, name, session, tools, course, coach } = event
-  const { book, submiting } = useContext(BookingsContext)
+  const { book, cancel, submiting } = useContext(BookingsContext)
 
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState(null)
 
   const onBook = () => {
     book({ eventId: event._id, toolId: selectedTool })
+  }
+
+  const onCancel = () => {
+    cancel({ sessionId: session._id })
   }
 
   const renderStatus = () => {
@@ -75,6 +79,19 @@ function EventItem({ event }) {
     if (!session) {
       return null
     }
+    if (session.status !== 'booked') {
+      return null
+    }
+    return (
+      <Button
+        className="cancel-btn"
+        variant="contained"
+        onClick={onCancel}
+        disabled={submiting}
+      >
+        Cancel
+      </Button>
+    )
   }
 
   const renderBookBtn = () => {

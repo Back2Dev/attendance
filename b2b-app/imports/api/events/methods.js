@@ -2,10 +2,57 @@ import { Meteor } from 'meteor/meteor'
 import Sessions from '/imports/api/sessions/schema.js'
 import Members from '/imports/api/members/schema.js'
 import Courses from '/imports/api/courses/schema.js'
-import Events, { BookParamsSchema } from './schema'
+import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
 const debug = require('debug')('b2b:events')
 
 Meteor.methods({
+  'cancel.events'({ sessionId }) {
+    debug({ sessionId })
+    try {
+      CancelBookingParamsSchema.validate({ sessionId })
+    } catch (error) {
+      debug(error)
+      return { status: 'failed', message: error.message }
+    }
+
+    // check for login user
+    const user = Meteor.user()
+    if (!user) {
+      return { status: 'failed', message: 'Please login' }
+    }
+
+    const member = Members.findOne({ userId: user._id })
+    if (!member) {
+      return { status: 'failed', message: `Member was not found with userId ${user._id}` }
+    }
+
+    // select the session
+    const session = Sessions.findOne({ _id: sessionId, memberId: member._id })
+    if (!session) {
+      return {
+        status: 'failed',
+        message: `Your session was not found with id ${sessionId}`,
+      }
+    }
+
+    try {
+      const updated = Sessions.update(
+        {
+          _id: session._id,
+        },
+        {
+          $set: { status: 'cancelled' },
+        }
+      )
+      if (!updated) {
+        return { status: 'failed', message: 'Unable to update session' }
+      }
+    } catch (e) {
+      return { status: 'failed', message: `Error updating session ${e.message}` }
+    }
+
+    return { status: 'success' }
+  },
   'book.events'({ eventId, toolId }) {
     debug({ eventId, toolId })
     try {

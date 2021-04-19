@@ -26,6 +26,10 @@ export const BookParamsSchema = new SimpleSchema({
   toolId: OptionalRegExId,
 })
 
+export const CancelBookingParamsSchema = new SimpleSchema({
+  sessionId: RegExId,
+})
+
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   name: {

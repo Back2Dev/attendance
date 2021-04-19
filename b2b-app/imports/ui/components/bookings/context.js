@@ -118,6 +118,7 @@ export const BookingsProvider = (props) => {
   }, [events, courses, sessions, coaches])
 
   const [submiting, setSubmiting] = useState(false)
+  // book action
   const book = ({ eventId, toolId }) => {
     setSubmiting(true)
     Meteor.call('book.events', { eventId, toolId }, (error, result) => {
@@ -136,7 +137,26 @@ export const BookingsProvider = (props) => {
         }
       }
     })
-    console.log({ eventId, toolId })
+  }
+  // cancel action
+  const cancel = ({ sessionId }) => {
+    setSubmiting(true)
+    Meteor.call('cancel.events', { sessionId }, (error, result) => {
+      if (!mounted.current) {
+        return
+      }
+      setSubmiting(false)
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'success') {
+          showSuccess('Event booking cancelled successfully')
+        } else {
+          showError(result.message || 'Unknown error')
+        }
+      }
+    })
   }
 
   return (
@@ -151,6 +171,7 @@ export const BookingsProvider = (props) => {
         getMySessionByEventId,
         getCourseByCourseId,
         book,
+        cancel,
         submiting,
       }}
     >
