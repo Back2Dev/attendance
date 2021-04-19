@@ -71,8 +71,10 @@ Meteor.methods({
     let foundTool
     if (toolId) {
       if (event.tools?.length) {
-        foundTool = event.tools.some((tool) => {
-          return tool._id === toolId && tool.available !== false
+        event.tools.map((tool) => {
+          if (tool._id === toolId && tool.available !== false) {
+            foundTool = tool
+          }
         })
       }
       if (!foundTool) {
@@ -82,6 +84,7 @@ Meteor.methods({
         }
       }
     }
+    debug({ foundTool })
 
     // check for login user
     const user = Meteor.user()
