@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -12,6 +12,8 @@ import {
   Radio,
 } from '@material-ui/core'
 
+import { BookingsContext } from './context.js'
+
 const StyledEventItem = styled.div`
   .item-wrapper {
     display: flex;
@@ -20,6 +22,9 @@ const StyledEventItem = styled.div`
     flex: 1;
   }
   .right-col {
+    .add-tool-btn {
+      margin-left: 8px;
+    }
   }
   .list-tools-wrapper {
     .tools-container {
@@ -43,12 +48,13 @@ const StyledEventItem = styled.div`
 
 function EventItem({ event }) {
   const { when, name, session, tools, course, coach } = event
+  const { book, submiting } = useContext(BookingsContext)
 
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState(null)
 
   const onBook = () => {
-    console.log('book', { selectedTool })
+    book({ eventId: event._id, tools: selectedTool ? [selectedTool] : [] })
   }
 
   const renderStatus = () => {
@@ -76,7 +82,12 @@ function EventItem({ event }) {
       return null
     }
     return (
-      <Button className="book-btn" variant="contained" onClick={onBook}>
+      <Button
+        className="book-btn"
+        variant="contained"
+        onClick={onBook}
+        disabled={submiting}
+      >
         Book
       </Button>
     )
@@ -165,6 +176,7 @@ function EventItem({ event }) {
 
 EventItem.propTypes = {
   event: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     when: PropTypes.instanceOf(Date).isRequired,
     name: PropTypes.string.isRequired,
     session: PropTypes.object,

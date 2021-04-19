@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
+import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
+
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
 import Members from '/imports/api/members/schema.js'
@@ -15,6 +17,9 @@ export const BookingsProvider = (props) => {
   const { children } = props
 
   const { member } = useContext(AccountContext)
+
+  const mounted = useRef(true)
+  useEffect(() => () => (mounted.current = false), [])
 
   const eventIds = useRef([])
   const coachIds = useRef([])
@@ -105,6 +110,24 @@ export const BookingsProvider = (props) => {
     )
   }, [events, loadingCoaches, loadingSessions, loadingCourses])
 
+  const [submiting, setSubmiting] = useState(false)
+  const book = ({ eventId, tools }) => {
+    setSubmiting(true)
+    Meteor.call('book.events', { eventId, tools }, (error, result) => {
+      if (!mounted.current) {
+        return
+      }
+      setSubmiting(false)
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        showSuccess('Event booked successfully')
+      }
+    })
+    console.log({ eventId, tools })
+  }
+
   return (
     <BookingsContext.Provider
       value={{
@@ -116,6 +139,8 @@ export const BookingsProvider = (props) => {
         getCoachByCoachId,
         getMySessionByEventId,
         getCourseByCourseId,
+        book,
+        submiting,
       }}
     >
       {children}
