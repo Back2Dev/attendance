@@ -4,7 +4,6 @@ import SimpleSchema from 'simpl-schema'
 import {
   RegExId,
   OptionalRegExId,
-  OptionalInteger,
   OptionalString,
   createdAt,
   updatedAt,
@@ -16,6 +15,15 @@ export const ToolItemSchema = new SimpleSchema({
   _id: RegExId,
   name: String,
   location: OptionalString,
+  available: {
+    type: Boolean,
+    defaultValue: true,
+  },
+})
+
+export const BookParamsSchema = new SimpleSchema({
+  eventId: RegExId,
+  toolId: OptionalRegExId,
 })
 
 export const EventsSchema = new SimpleSchema({

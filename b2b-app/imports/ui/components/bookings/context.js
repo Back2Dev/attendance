@@ -111,9 +111,9 @@ export const BookingsProvider = (props) => {
   }, [events, loadingCoaches, loadingSessions, loadingCourses])
 
   const [submiting, setSubmiting] = useState(false)
-  const book = ({ eventId, tools }) => {
+  const book = ({ eventId, toolId }) => {
     setSubmiting(true)
-    Meteor.call('book.events', { eventId, tools }, (error, result) => {
+    Meteor.call('book.events', { eventId, toolId }, (error, result) => {
       if (!mounted.current) {
         return
       }
@@ -122,10 +122,14 @@ export const BookingsProvider = (props) => {
         showError(error.message)
       }
       if (result) {
-        showSuccess('Event booked successfully')
+        if (result.status === 'success') {
+          showSuccess('Event booked successfully')
+        } else {
+          showError(result.message || 'Unknown error')
+        }
       }
     })
-    console.log({ eventId, tools })
+    console.log({ eventId, toolId })
   }
 
   return (

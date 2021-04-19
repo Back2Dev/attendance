@@ -54,7 +54,7 @@ function EventItem({ event }) {
   const [selectedTool, setSelectedTool] = useState(null)
 
   const onBook = () => {
-    book({ eventId: event._id, tools: selectedTool ? [selectedTool] : [] })
+    book({ eventId: event._id, toolId: selectedTool })
   }
 
   const renderStatus = () => {
