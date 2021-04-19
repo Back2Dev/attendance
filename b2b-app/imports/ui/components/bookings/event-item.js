@@ -25,6 +25,9 @@ const StyledEventItem = styled.div`
     .add-tool-btn {
       margin-left: 8px;
     }
+    .cancel-btn {
+      margin-left: 8px;
+    }
   }
   .list-tools-wrapper {
     .tools-container {
@@ -72,7 +75,11 @@ function EventItem({ event }) {
     if (!session) {
       return null
     }
-    return 'selected tool'
+    const { status, toolName } = session
+    if (status !== 'booked' || !toolName) {
+      return null
+    }
+    return ` + ${toolName}`
   }
 
   const renderCancelBtn = () => {
