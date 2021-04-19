@@ -16,12 +16,7 @@ function ListEvents() {
     return events.map((item) => <EventItem key={item._id} event={item} />)
   }
 
-  return (
-    <StyledListEvents>
-      {renderItems()}
-      {JSON.stringify(events, null, 2)}
-    </StyledListEvents>
-  )
+  return <StyledListEvents>{renderItems()}</StyledListEvents>
 }
 
 export default ListEvents
