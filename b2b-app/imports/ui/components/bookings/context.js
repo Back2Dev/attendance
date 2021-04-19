@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -68,7 +68,7 @@ export const BookingsProvider = (props) => {
     courseIds.current = newCourseIds
   }, [events])
 
-  const { loading: loadingCoaches } = useTracker(() => {
+  const { loading: loadingCoaches, coaches } = useTracker(() => {
     if (!coachIds.current.length) {
       return { loading: false }
     }
@@ -76,27 +76,30 @@ export const BookingsProvider = (props) => {
     const sub = Meteor.subscribe('members.byIds', coachIds.current)
     return {
       loading: !sub.ready(),
+      coaches: Members.find({ _id: { $in: coachIds.current } }).fetch(),
     }
   }, [coachIds.current])
 
-  const { loading: loadingSessions } = useTracker(() => {
+  const { loading: loadingSessions, sessions } = useTracker(() => {
     if (!eventIds.current.length) {
       return { loading: false }
     }
     const sub = Meteor.subscribe('sessions.mineByEventIds', eventIds.current)
     return {
       loading: !sub.ready(),
+      sessions: Sessions.find({ eventId: { $in: eventIds.current } }).fetch(),
     }
   }, [eventIds.current])
 
-  const { loading: loadingCourses } = useTracker(() => {
+  const { loading: loadingCourses, courses } = useTracker(() => {
     const sub = Meteor.subscribe('courses.byIds', courseIds.current)
     return {
       loading: !sub.ready(),
+      courses: Courses.find({ _id: { $in: courseIds.current } }).fetch(),
     }
   }, [courseIds.current])
 
-  useEffect(() => {
+  const buildEventsData = useCallback(() => {
     setEventsWithExtraData(
       events?.map((item) => {
         return {
@@ -108,7 +111,11 @@ export const BookingsProvider = (props) => {
         }
       })
     )
-  }, [events, loadingCoaches, loadingSessions, loadingCourses])
+  }, [events])
+
+  useEffect(() => {
+    buildEventsData()
+  }, [events, courses, sessions, coaches])
 
   const [submiting, setSubmiting] = useState(false)
   const book = ({ eventId, toolId }) => {
