@@ -54,7 +54,7 @@ function EventItem({ event }) {
   const { book, cancel, submiting } = useContext(BookingsContext)
 
   const [displayTools, setDisplayTools] = useState(false)
-  const [selectedTool, setSelectedTool] = useState(null)
+  const [selectedTool, setSelectedTool] = useState('')
 
   const onBook = () => {
     book({ eventId: event._id, toolId: selectedTool })
@@ -127,7 +127,7 @@ function EventItem({ event }) {
         variant="contained"
         onClick={() => {
           if (displayTools) {
-            setSelectedTool(null)
+            setSelectedTool('')
           }
           setDisplayTools(!displayTools)
         }}
@@ -157,6 +157,12 @@ function EventItem({ event }) {
             value={selectedTool}
             onChange={(e) => setSelectedTool(e.target.value)}
           >
+            <FormControlLabel
+              value=""
+              control={<Radio />}
+              label="None"
+              labelPlacement="end"
+            />
             {tools.map((tool) => (
               <FormControlLabel
                 key={tool._id}
