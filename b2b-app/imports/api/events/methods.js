@@ -142,6 +142,16 @@ Meteor.methods({
       return { status: 'failed', message: `Error inserting new session ${e.message}` }
     }
 
+    // disable the booked tool
+    if (foundTool) {
+      Events.update(
+        { _id: eventId, tools: { $elemMatch: { _id: foundTool._id } } },
+        {
+          $set: { 'tools.$.available': false },
+        }
+      )
+    }
+
     return { status: 'success', sessionId }
   },
   'rm.events': (id) => {

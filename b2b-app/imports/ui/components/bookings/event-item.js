@@ -175,6 +175,7 @@ function EventItem({ event }) {
                 control={<Radio />}
                 label={tool.name}
                 labelPlacement="end"
+                disabled={tool.available === false}
               />
             ))}
           </RadioGroup>
