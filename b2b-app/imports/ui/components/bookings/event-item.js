@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
 
+import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
+
 import {
   Button,
   FormControl,
@@ -52,12 +54,13 @@ const StyledEventItem = styled.div`
 function EventItem({ event }) {
   const { when, name, session, tools, course, coach } = event
   const { book, cancel, submiting } = useContext(BookingsContext)
+  const { showConfirm } = useConfirm()
 
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState('')
 
   const onBook = () => {
-    book({ eventId: event._id, toolId: selectedTool })
+    book({ eventId: event._id, toolId: selectedTool || null })
   }
 
   const onCancel = () => {
@@ -93,7 +96,13 @@ function EventItem({ event }) {
       <Button
         className="cancel-btn"
         variant="contained"
-        onClick={onCancel}
+        onClick={() => {
+          showConfirm({
+            onConfirm: onCancel,
+            title: 'Are you sure?',
+            message: `You're going to cancel booked event: ${name}`,
+          })
+        }}
         disabled={submiting}
       >
         Cancel
