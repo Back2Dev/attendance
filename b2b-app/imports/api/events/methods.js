@@ -6,6 +6,13 @@ import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
 const debug = require('debug')('b2b:events')
 
 Meteor.methods({
+  /**
+   * Cancel booked session
+   * @param {String} sessionId
+   * @returns {Object} result
+   * @returns {String} result.status
+   * @returns {String} result.message
+   */
   'cancel.events'({ sessionId }) {
     debug({ sessionId })
     try {
@@ -16,14 +23,16 @@ Meteor.methods({
     }
 
     // check for login user
-    const user = Meteor.user()
-    if (!user) {
+    if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
 
-    const member = Members.findOne({ userId: user._id })
+    const member = Members.findOne({ userId: this.userId })
     if (!member) {
-      return { status: 'failed', message: `Member was not found with userId ${user._id}` }
+      return {
+        status: 'failed',
+        message: `Member was not found with userId ${this.userId}`,
+      }
     }
 
     // select the session
@@ -53,12 +62,21 @@ Meteor.methods({
 
     return { status: 'success' }
   },
+  /**
+   * Book an event
+   * @param {String} eventId
+   * @param {String} toolId
+   * @returns {Object} result
+   * @returns {String} result.status
+   * @returns {String} result.message
+   * @returns {String} result.sessionId, the session id just created
+   */
   'book.events'({ eventId, toolId }) {
-    debug({ eventId, toolId })
+    // debug({ eventId, toolId })
     try {
       BookParamsSchema.validate({ eventId, toolId })
     } catch (error) {
-      debug(error)
+      // debug(error)
       return { status: 'failed', message: error.message }
     }
 
@@ -87,20 +105,25 @@ Meteor.methods({
     debug({ foundTool })
 
     // check for login user
-    const user = Meteor.user()
-    if (!user) {
+    if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const member = Members.findOne({ userId: user._id })
+    const member = Members.findOne({ userId: this.userId })
     if (!member) {
-      return { status: 'failed', message: `Member was not found with userId ${user._id}` }
+      return {
+        status: 'failed',
+        message: `Member was not found with userId ${this.userId}`,
+      }
     }
 
-    // get the course
-    const course = Courses.findOne({ _id: event.courseId })
-
     // now everything looks good, create a new session
-    const sessionName = `${event.name}: ${course.title}`
+    let sessionName = `${event.name}`
+
+    // get the course
+    if (event.courseId) {
+      const course = Courses.findOne({ _id: event.courseId })
+      sessionName += `: ${course.title}`
+    }
 
     let sessionId
     try {
