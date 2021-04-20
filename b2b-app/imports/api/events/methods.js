@@ -36,7 +36,11 @@ Meteor.methods({
     }
 
     // select the session
-    const session = Sessions.findOne({ _id: sessionId, memberId: member._id })
+    const session = Sessions.findOne({
+      _id: sessionId,
+      memberId: member._id,
+      status: 'booked',
+    })
     if (!session) {
       return {
         status: 'failed',
@@ -58,6 +62,16 @@ Meteor.methods({
       }
     } catch (e) {
       return { status: 'failed', message: `Error updating session ${e.message}` }
+    }
+
+    // enable selected tool in the event
+    if (session.toolId) {
+      Events.update(
+        { _id: session.eventId, tools: { $elemMatch: { _id: session.toolId } } },
+        {
+          $set: { 'tools.$.available': true },
+        }
+      )
     }
 
     return { status: 'success' }
