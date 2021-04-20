@@ -24,28 +24,32 @@ const StyledEventItem = styled.div`
     flex: 1;
   }
   .right-col {
+    display: flex;
+    align-items: center;
+
     .add-tool-btn {
       margin-left: 8px;
     }
     .cancel-btn {
       margin-left: 8px;
     }
+    .book-btn {
+      margin-left: 8px;
+    }
   }
-  .list-tools-wrapper {
-    .tools-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      .MuiFormControl-root {
-        border: 1px solid #cccccc;
-        .MuiFormLabel-root {
-          margin-left: 20px;
-          padding: 5px;
-        }
-        .MuiFormGroup-root {
-          flex-direction: row;
-          padding: 0 10px;
-        }
+  .tools-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    .MuiFormControl-root {
+      border: 1px solid #cccccc;
+      .MuiFormLabel-root {
+        margin-left: 20px;
+        padding: 5px;
+      }
+      .MuiFormGroup-root {
+        flex-direction: row;
+        padding: 0 10px;
       }
     }
   }
@@ -59,8 +63,20 @@ function EventItem({ event }) {
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState('')
 
-  const onBook = () => {
+  const onBookBtnClick = () => {
+    if (!tools?.length) {
+      // no option for tools selection, just call book function
+      book({ eventId: event._id, toolId: selectedTool || null })
+      return
+    }
+    // check if the tools block are displayed already
+    if (!displayTools) {
+      setDisplayTools(true)
+      return
+    }
+    // finally just book the event
     book({ eventId: event._id, toolId: selectedTool || null })
+    setDisplayTools(false)
   }
 
   const onCancel = () => {
@@ -118,30 +134,10 @@ function EventItem({ event }) {
       <Button
         className="book-btn"
         variant="contained"
-        onClick={onBook}
+        onClick={onBookBtnClick}
         disabled={submiting}
       >
         Book
-      </Button>
-    )
-  }
-
-  const renderAddToolBtn = () => {
-    if (session) {
-      return null
-    }
-    return (
-      <Button
-        className="add-tool-btn"
-        variant="contained"
-        onClick={() => {
-          if (displayTools) {
-            setSelectedTool('')
-          }
-          setDisplayTools(!displayTools)
-        }}
-      >
-        {!displayTools ? 'Add equipment' : 'Cancel'}
       </Button>
     )
   }
@@ -204,11 +200,10 @@ function EventItem({ event }) {
           {renderStatus()}
           {renderTool()}
           {renderCancelBtn()}
+          {renderListOfTools()}
           {renderBookBtn()}
-          {renderAddToolBtn()}
         </div>
       </div>
-      <div className="list-tools-wrapper">{renderListOfTools()}</div>
     </StyledEventItem>
   )
 }
