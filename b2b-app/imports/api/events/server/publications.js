@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Match } from 'meteor/check'
 
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema.js'
@@ -7,6 +8,15 @@ import '../methods'
 
 Meteor.publish('all.events', () => {
   return Events.find({})
+})
+
+Meteor.publish('events.byIds', function (eventIds) {
+  if (!Match.test(eventIds, [String])) {
+    return this.ready()
+  }
+  return Events.find({
+    _id: { $in: eventIds },
+  })
 })
 
 /**
