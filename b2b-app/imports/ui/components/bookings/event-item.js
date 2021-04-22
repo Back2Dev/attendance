@@ -6,6 +6,7 @@ import moment from 'moment'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 import {
+  Paper,
   Button,
   FormControl,
   FormLabel,
@@ -13,15 +14,35 @@ import {
   FormControlLabel,
   Radio,
 } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 
 import { BookingsContext } from './context.js'
 
-const StyledEventItem = styled.div`
+const StyledEventItem = styled(Paper)`
+  padding: 10px 20px;
+  margin-top: 20px;
+
   .item-wrapper {
     display: flex;
   }
   .left-col {
     flex: 1;
+    .event-date {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+    .event-name {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+    .course-info {
+      .course-name {
+        font-size: 1.2rem;
+      }
+      .coach-name {
+        font-weight: bold;
+      }
+    }
   }
   .right-col {
     display: flex;
@@ -112,6 +133,8 @@ function EventItem({ event }) {
       <Button
         className="cancel-btn"
         variant="contained"
+        startIcon={<CloseIcon />}
+        color="secondary"
         onClick={() => {
           showConfirm({
             onConfirm: onCancel,
@@ -185,11 +208,11 @@ function EventItem({ event }) {
   }
 
   return (
-    <StyledEventItem>
+    <StyledEventItem elevation={1}>
       <div className="item-wrapper">
         <div className="left-col">
           <div>
-            <span className="event-date">{moment(when).format('ddd D MMM')}</span>{' '}
+            <span className="event-date">{moment(when).format('ddd D MMM')},</span>{' '}
             <span className="event-name">{name}</span>
           </div>
           <div className="course-info">
