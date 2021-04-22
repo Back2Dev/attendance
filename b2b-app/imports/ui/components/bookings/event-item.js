@@ -74,6 +74,17 @@ const StyledEventItem = styled(Paper)`
       }
     }
   }
+  ${({ theme }) => `
+    ${theme.breakpoints.down('sm')} {
+      .item-wrapper {
+        display: block;
+      }
+      .right-col {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+    }
+  `}
 `
 
 function EventItem({ event }) {
