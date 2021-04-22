@@ -5,23 +5,23 @@ import styled from 'styled-components'
 
 import { Container } from '@material-ui/core'
 
-import Bookings from '/imports/ui/components/bookings.js'
+import MemberPortal from '/imports/ui/components/portal.js'
 
-const StyledBookingsPage = styled.div``
+const StyledMemberPortalPage = styled.div``
 
-function BookingsPage() {
+function MemberPortalPage() {
   return (
-    <StyledBookingsPage>
+    <StyledMemberPortalPage>
       <Helmet>
-        <title>Bookings</title>
+        <title>Member Portal</title>
       </Helmet>
       <Container maxWidth="lg">
         <Switch>
-          <Route component={Bookings} />
+          <Route component={MemberPortal} />
         </Switch>
       </Container>
-    </StyledBookingsPage>
+    </StyledMemberPortalPage>
   )
 }
 
-export default BookingsPage
+export default MemberPortalPage
