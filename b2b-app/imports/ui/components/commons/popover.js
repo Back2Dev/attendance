@@ -40,7 +40,6 @@ function PopoverUtil({
         }}
         onMouseLeave={(e) => {
           if (showOnHover) {
-            console.log('mouse leave')
             handlePopoverClose(e)
           }
         }}

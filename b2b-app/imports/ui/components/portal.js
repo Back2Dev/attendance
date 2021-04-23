@@ -13,6 +13,19 @@ const StyledMemberPortal = styled.div`
   h1 {
     margin: 20px 0;
   }
+  .sessions-wrapper {
+    margin: 40px 0;
+  }
+  ${({ theme }) => `
+    ${theme.breakpoints.up('sm')} {
+      .recent-sessions-wrapper {
+        padding-right: 10px;
+      }
+      .upcoming-sessions-wrapper {
+        padding-left: 10px;
+      }
+    }
+  `}
 `
 
 function MemberPortal() {

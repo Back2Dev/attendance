@@ -134,8 +134,10 @@ export const MySessionsProvider = (props) => {
     )
   }, [events])
 
+  const buildTimeout = useRef(null)
   useEffect(() => {
-    buildSessionsData()
+    Meteor.clearTimeout(buildTimeout.current)
+    buildTimeout.current = Meteor.setTimeout(buildSessionsData, 100)
   }, [recentSessions, upcomingSessions, events, courses, coaches])
 
   return (
