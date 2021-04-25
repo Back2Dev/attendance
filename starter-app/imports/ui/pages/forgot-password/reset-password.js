@@ -74,24 +74,6 @@ const ResetPassword = (props) => {
         </>
       )
     }
-    return (
-      <div className="logout-form">
-        <Typography variant="h1" color="inherit" noWrap>
-          Account
-        </Typography>
-        <p>You are logged in</p>
-        <div className="center-align">
-          <Button
-            variant="contained"
-            color="primary"
-            className="logout-btn"
-            onClick={onLogout}
-          >
-            Logout
-          </Button>
-        </div>
-      </div>
-    )
   }
 
   return <OnboardingModal renderForm={renderForm} />

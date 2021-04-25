@@ -42,17 +42,32 @@ const evaluate = (context, condition) => {
   return false
 }
 
+const getOptionalFunc = (q, uniforms, optional) => {
+  // If the question is conditional, create a function instead of the regular "optional" property
+  if (q.condition && !optional) {
+    uniforms.condition = q.condition
+    return function () {
+      debug('evaluating', this.obj, this.validationContext?._schema)
+      return !evaluate(
+        this.obj,
+        this.validationContext?._schema[this.key].uniforms.condition
+      )
+    }
+  }
+  return optional
+}
+
 const getSchemas = (survey) => {
   survey.steps.forEach((step, ix) => {
-    let required = [] // Not sure if we need this at all any more
+    // let required = [] // Not sure if we need this at all any more
     step.schema = {}
     if (!step.questions) console.error(`Step ${ix} ${step.id} has no questions`)
     else {
       // step.schema.fieldOrder = step.questions.map((q) => q.id)
-      required = step.questions
-        .filter((q) => !q.optional && q.qtype === 'single')
-        .map((q) => q.id)
-      debug(`${step.id} required`, required)
+      // required = step.questions
+      //   .filter((q) => !q.optional && q.qtype === 'single')
+      //   .map((q) => q.id)
+      // debug(`${step.id} required`, required)
       step.questions.forEach((q) => {
         step.schema[q.id] = {
           type: String,
@@ -61,27 +76,18 @@ const getSchemas = (survey) => {
         }
         const qSchema = step.schema[q.id]
         switch (q.qtype) {
+          case 'array':
+            delete step.schema[q.id]
           case 'text':
             delete step.schema[q.id]
-            required = required.concat(
-              q.answers.filter((a) => !a.optional).map((a) => `${q.id}-${a.id}`)
-            )
+            // required = required.concat(
+            //   q.answers.filter((a) => !a.optional).map((a) => `${q.id}-${a.id}`)
+            // )
             q.answers.forEach((a) => {
               const qaId = `${q.id}-${a.id}`
               let optional = !!a.optional
               const uniforms = {}
-              if (q.condition && !optional) {
-                uniforms.condition = q.condition
-                // condition: ['buyerType', 'equal', 'individual']  // This is an expression
-                // condition: ['buyerType'] // This just wants the value to be truthy
-                optional = function () {
-                  console.log('evaluating', this.obj, this.validationContext?._schema)
-                  return !evaluate(
-                    this.obj,
-                    this.validationContext?._schema[this.key].uniforms.condition
-                  )
-                }
-              }
+              optional = getOptionalFunc(q, uniforms, optional)
 
               step.schema[qaId] = {
                 type: String,
@@ -116,51 +122,63 @@ const getSchemas = (survey) => {
             delete step.schema[q.id]
             q.answers.forEach((a) => {
               const id = `${q.id}-${a.id}`
+              const uniforms = {}
+              const optional = getOptionalFunc(q, uniforms, true)
               step.schema[id] = {
                 type: Boolean,
                 label: a.name,
-                optional: true, // Need a way to count these and set a minimum #required
+                optional, // Need a way to count these and set a minimum #required
+                uniforms,
               }
             })
-            required = required.concat(
-              q.answers
-                .filter((a) => a.specify)
-                .map((a) => {
-                  const specifyId = `${q.id}-${a.id}-specify`
-                  step.schema[specifyId] = {
-                    type: String,
-                    label: a.specify,
-                    optional: true,
-                  }
-                  return specifyId
-                })
-            )
+            // required = required.concat(
+            q.answers
+              .filter((a) => a.specify)
+              .map((a) => {
+                const specifyId = `${q.id}-${a.id}-specify`
+                const uniforms = {}
+                const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                step.schema[specifyId] = {
+                  type: String,
+                  label: a.specify,
+                  optional,
+                  uniforms,
+                }
+                return specifyId
+              })
+            // )
             break
           case 'single':
             qSchema.uniforms.checkboxes = true
             qSchema.uniforms.options = q.answers.map((a) => {
               return { label: a.name, value: a.value || a.id }
             })
-            required = required.concat(
-              q.answers
-                .filter((a) => a.specify)
-                .map((a) => {
-                  const specifyId = `${q.id}-${a.id}-specify`
-                  step.schema[specifyId] = {
-                    type: String,
-                    label: a.specify,
-                    optional: true,
-                  }
-                  return specifyId
-                })
-            )
+            qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+            // required = required.concat(
+            q.answers
+              .filter((a) => a.specify)
+              .map((a) => {
+                const specifyId = `${q.id}-${a.id}-specify`
+                const uniforms = {}
+                const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                step.schema[specifyId] = {
+                  type: String,
+                  label: a.specify,
+                  optional,
+                  uniforms,
+                }
+                return specifyId
+              })
+            // )
             break
-          case 'boolean':
-            qSchema.type = Boolean
-            qSchema.uniforms.options = q.answers.map((a) => {
-              return { label: a.name, value: a.value }
-            })
-            break
+          // I don't know if we'll ever need this, just 'multi' instead
+          // case 'boolean':
+          //   qSchema.type = Boolean
+          //   qSchema.uniforms.options = q.answers.map((a) => {
+          //     return { label: a.name, value: a.value }
+          //   })
+          //   break
           case 'address':
             // delete step.schema[q.id]
             debug(`Rendering address field ${q.id}`)
@@ -172,6 +190,7 @@ const getSchemas = (survey) => {
             delete step.schema[q.id]
             break
           case 'upload':
+            delete step.schema[q.id]
             break
           case 'date':
             delete step.schema[q.id]
@@ -192,7 +211,7 @@ const getSchemas = (survey) => {
             console.error(`Unsupported question type: ${q.qtype}`)
         }
       })
-      debug(`${step.id} required`, required)
+      // debug(`${step.id} required`, required)
 
       debug('schema', step.schema)
       step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))

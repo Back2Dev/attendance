@@ -59,13 +59,14 @@ function infoReducer(state, action) {
       }
     }
     case 'setData': {
-      const { userId, email, name, mobile } = payload
+      const { userId, email, name, mobile, nickname } = payload
       return {
         ...state,
         userId,
         invitedEmail: email,
         invitedName: name,
         invitedMobile: mobile,
+        invitedNickname: nickname,
       }
     }
     default:
@@ -85,8 +86,11 @@ const InvitedSignup = (props) => {
     invitedEmail: '',
     invitedName: '',
     invitedMobile: '',
+    invitedNickname: '',
   })
-  const { userId, invitedEmail, invitedName, invitedMobile } = state
+  const { userId, invitedEmail, invitedName, invitedMobile, invitedNickname } = state
+
+  console.log(invitedNickname)
 
   useEffect(() => {
     Meteor.call('getUserFromToken', token, (error, result) => {
@@ -95,11 +99,15 @@ const InvitedSignup = (props) => {
         dispatch({ type: 'setLoading', payload: false })
       }
       if (result) {
-        const { status, message, userId, email, name, mobile } = result
+        const { status, message, userId, email, name, mobile, nickname } = result
+        console.log(result)
         if (status === 'failed') {
           return showError(message)
         }
-        return dispatch({ type: 'setData', payload: { userId, email, name, mobile } })
+        return dispatch({
+          type: 'setData',
+          payload: { userId, email, name, mobile, nickname },
+        })
       }
     })
   }, [])
@@ -141,7 +149,8 @@ const InvitedSignup = (props) => {
             onSubmit={(e) => signup(e)}
             model={{ name: invitedName, email: invitedEmail, mobile: invitedMobile }}
           >
-            <Typography variant="h1">Sign up</Typography>
+            <Typography variant="h1">{`Welcome ${invitedNickname || 'User'}`}</Typography>
+            <Typography>Please confirm your details and click submit</Typography>
             <AutoField name="name" fullWidth />
             <AutoField name="email" fullWidth />
             <br />
@@ -152,7 +161,7 @@ const InvitedSignup = (props) => {
             <br />
             By clicking submit you are agreeing to the{' '}
             <a
-              href="https://mydomain.com.au/terms-of-use/"
+              href="https://settleeasy.com.au/terms-of-use/"
               className={classes.link}
               target="_blank"
               rel="noreferrer"
@@ -177,9 +186,12 @@ const InvitedSignup = (props) => {
     return (
       <div className="logout-form">
         <Typography variant="h1" color="inherit" noWrap>
-          Account
+          Welcome
         </Typography>
-        <p>You are logged in</p>
+        <p>
+          You are logged in. <br />
+          Please take a minute to complete your profile <a href="/profile">here</a>.
+        </p>
         <div className="center-align">
           <Button
             variant="contained"
