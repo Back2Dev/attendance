@@ -31,13 +31,13 @@ body {
 }
 
 .Toastify__toast--error {
-  background: #ea4435;
+  background: #ea4435 !important;
 }
 
 .Toastify__toast--success {
-  background: #31a750;
+  background: #31a750 !important;
 }
 
 .Toastify__toast--info {
-  background: #4794fc;
+  background: #4794fc !important;
 }

@@ -74,7 +74,7 @@ The objectives of this sprint are to provide a simpler and less confusing custom
 
   * Improved onboarding will create a significantly better initial impression of the platform, and increase the likelihood of referrals.
   * Simple forms that collect the minimum required information. 
-  * The data can be emailed to the server, which will trigger personal contact from Settle Easy to welcome them to the conveyancing process, and reassure them that they have made a good decision.
+  * The data can be emailed to the server, which will trigger personal contact from Startup Inc to welcome them to the conveyancing process, and reassure them that they have made a good decision.
 
 ##### Deliverables
 
@@ -112,7 +112,7 @@ The primary users of the system are as follows
 | Practice Manager | The practice manager is interested in ensuring work is dispatched to conveyancers, and making sure that conveyancers are keeping on top of their workload |
 | Agent/admin | The agent admin will need to provide account sales |
 | Agent | The agent will probably not login to the system regularly, but will be interested in being notified as the matter progresses |
-| SE Admin | The Settle Easy admin is interested in the health of the system, and has some super powers not available to practice mgr/conveyancer |
+| SE Admin | The Startup Inc admin is interested in the health of the system, and has some super powers not available to practice mgr/conveyancer |
 | Partner | Partners are interested in getting reporting information from the system |
 
 ##### Objectives

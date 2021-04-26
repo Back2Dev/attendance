@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { OptionalRegExId } from '/imports/api/schemas/schema-util'
+import { OptionalRegExId } from '/imports/api/utils/schema-util'
 
 const schema = new SimpleSchema({
   slug: {

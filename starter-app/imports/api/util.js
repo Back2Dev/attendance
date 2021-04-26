@@ -99,6 +99,8 @@ export const convertAvatar = (avatar) => {
   const re = /^(https)/
   if (re.test(avatar)) {
     return avatar
+  } else if (!avatar) {
+    return null
   } else {
     return Meteor.settings.public.S3_PUBLIC_URL + avatar
   }

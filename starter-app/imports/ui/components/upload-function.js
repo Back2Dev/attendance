@@ -4,7 +4,7 @@ const debug = require('debug')('b2b:upload')
 
 const slingshotUpload = ({ metaContext, file }) => {
   try {
-    const uploader = new Slingshot.Upload('publicUploads', metaContext)
+    const uploader = new Slingshot.Upload('documentUploads', metaContext)
     uploader.send(file, function (error, downloadUrl) {
       if (error) {
         debug('Error uploading', error)
