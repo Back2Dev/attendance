@@ -6,7 +6,14 @@ import { hasRole } from '/imports/api/users/utils.js'
 
 const debug = require('debug')('b2b:members:publications')
 
-const publicFields = { username: 1, emails: 1, roles: 1 }
+const publicFields = {
+  name: 1,
+  nickname: 1,
+  userId: 1,
+  mobile: 1,
+  avatar: 1,
+  badges: { $elemMatch: { private: { $ne: true } } },
+}
 
 Meteor.publish('members.byIds', function (memberIds) {
   debug({ memberIds })
@@ -16,10 +23,7 @@ Meteor.publish('members.byIds', function (memberIds) {
     },
     {
       fields: {
-        name: 1,
-        userId: 1,
-        mobile: 1,
-        avatar: 1,
+        ...publicFields,
       },
     }
   )
