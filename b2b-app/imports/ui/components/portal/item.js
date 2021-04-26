@@ -18,6 +18,9 @@ function SessionItem({ item }) {
   const { bookedDate, name, toolName, status } = item
 
   const renderSelectedTool = () => {
+    if (!toolName) {
+      return null
+    }
     return (
       <div className="selected-tool">
         <div className="tool">Tool: {toolName}</div>

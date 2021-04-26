@@ -42,10 +42,13 @@ export const MySessionsProvider = (props) => {
   }
 
   const { loadingRecentSessions, recentSessions } = useTracker(() => {
-    const sub = Meteor.subscribe('sessions.myRecent')
+    const sub = Meteor.subscribe('sessions.myRecent', {})
     return {
       loadingRecentSessions: !sub.ready(),
-      recentSessions: Sessions.find({ bookedDate: { $lt: new Date() } }).fetch(),
+      recentSessions: Sessions.find(
+        { bookedDate: { $lt: new Date() } },
+        { sort: { bookedDate: -1 } }
+      ).fetch(),
     }
   }, [])
 
@@ -53,7 +56,10 @@ export const MySessionsProvider = (props) => {
     const sub = Meteor.subscribe('sessions.myUpcoming')
     return {
       loadingUpcomingSessions: !sub.ready(),
-      upcomingSessions: Sessions.find({ bookedDate: { $gt: new Date() } }).fetch(),
+      upcomingSessions: Sessions.find(
+        { bookedDate: { $gt: new Date() } },
+        { sort: { bookedDate: 1 } }
+      ).fetch(),
     }
   }, [])
 
