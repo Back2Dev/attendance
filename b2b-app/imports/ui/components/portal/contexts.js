@@ -66,10 +66,14 @@ export const MySessionsProvider = (props) => {
   useEffect(() => {
     const newEventIds = []
     recentSessions.map((item) => {
-      newEventIds.push(item.eventId)
+      if (!newEventIds.includes(item.eventId)) {
+        newEventIds.push(item.eventId)
+      }
     })
     upcomingSessions.map((item) => {
-      newEventIds.push(item.eventId)
+      if (!newEventIds.includes(item.eventId)) {
+        newEventIds.push(item.eventId)
+      }
     })
     eventIds.current = newEventIds
   }, [recentSessions, upcomingSessions])
@@ -89,9 +93,13 @@ export const MySessionsProvider = (props) => {
     const newCoachIds = []
     const newCourseIds = []
     events.map((item) => {
-      newCoachIds.push(item.coachId)
-      newCourseIds.push(item.courseId)
-      if (item.backupCourseId) {
+      if (!newCoachIds.includes(item.coachId)) {
+        newCoachIds.push(item.coachId)
+      }
+      if (!newCourseIds.includes(item.courseId)) {
+        newCourseIds.push(item.courseId)
+      }
+      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
         newCourseIds.push(item.backupCourseId)
       }
     })

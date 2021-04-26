@@ -56,10 +56,16 @@ export const BookingsProvider = (props) => {
     const newCoachIds = []
     const newCourseIds = []
     events.map((item) => {
-      newEventIds.push(item._id)
-      newCoachIds.push(item.coachId)
-      newCourseIds.push(item.courseId)
-      if (item.backupCourseId) {
+      if (!newEventIds.includes(item._id)) {
+        newEventIds.push(item._id)
+      }
+      if (!newCoachIds.includes(item.coachId)) {
+        newCoachIds.push(item.coachId)
+      }
+      if (!newCourseIds.includes(item.courseId)) {
+        newCourseIds.push(item.courseId)
+      }
+      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
         newCourseIds.push(item.backupCourseId)
       }
     })
