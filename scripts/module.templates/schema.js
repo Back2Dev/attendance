@@ -5,9 +5,10 @@ import {
   OptionalRegExId,
   OptionalBlackbox,
   OptionalInteger,
+  OptionalString,
   createdAt,
   updatedAt,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const MyCollection = new Mongo.Collection('myCollection')
 

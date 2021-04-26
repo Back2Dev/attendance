@@ -13,6 +13,10 @@ const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs'))
 const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
 const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
 const Surveys = lazy(() => import('/imports/ui/admin/surveys'))
+const Events = lazy(() => import('/imports/ui/admin/events'))
+const Courses = lazy(() => import('/imports/ui/admin/courses'))
+const Tools = lazy(() => import('/imports/ui/admin/tools'))
+const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
 const NotFoundComponent = lazy(() =>
   import('/imports/ui/components/commons/not-found.js')
 )
@@ -48,6 +52,10 @@ function AdminPage() {
               <Route path="/admin/cronjobs" component={Cronjobs} />
               <Route path="/admin/triggers" component={Triggers} />
               <Route path="/admin/surveys" component={Surveys} />
+              <Route path="/admin/events" component={Events} />
+              <Route path="/admin/courses" component={Courses} />
+              <Route path="/admin/tools" component={Tools} />
+              <Route path="/admin/sessions" component={Sessions} />
               <Route component={NotFoundComponent} />
             </Switch>
           </Suspense>

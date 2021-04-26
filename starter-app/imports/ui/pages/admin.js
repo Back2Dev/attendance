@@ -30,14 +30,6 @@ function AdminPage() {
 
   return (
     <StyledAdminPage className="admin-page-container">
-      {/* include moment.js here because react-tabulator needs it to handle datetime formater */}
-      <Helmet>
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-          integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-          crossorigin="anonymous"
-        ></script>
-      </Helmet>
       <Grid container>
         <Grid item xs={12}>
           <Suspense fallback={<Loading loading />}>

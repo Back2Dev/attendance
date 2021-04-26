@@ -24,7 +24,7 @@ const renderFields = (body) => {
       from: {
         type: String,
         label: 'From (no spaces allowed)',
-        defaultValue: 'SettleEasy',
+        defaultValue: 'Startup Inc',
       },
       to: { type: String, label: 'To (Mobile no)', defaultValue: '+61' },
     }
@@ -35,7 +35,7 @@ const renderFields = (body) => {
       from: {
         type: String,
         label: 'From (no spaces allowed)',
-        defaultValue: 'SettleEasy',
+        defaultValue: 'Startup Inc',
       },
       to: { type: String, label: 'To (Mobile no)', defaultValue: '+61' },
     }

@@ -53,4 +53,42 @@ CONSTANTS.DEFAULT_AVATAR = '/images/default-avatar.png'
 
 // Use this message if no event was specified - it emails ADM, so that we get to know about it
 CONSTANTS.UNKNOWN_EVENT = 'unknown-event'
+
+// Consider to move these badges to a database collection
+// We may have a badge for every event? or monthly badge?
+CONSTANTS.BADGES = [
+  {
+    code: 'card',
+    title: 'Credit card',
+    icon: '/badges/card.png',
+    url: '/support',
+    private: true,
+  },
+  {
+    code: 'cup',
+    title: 'You won a cup',
+    icon: '/badges/cup.jpg',
+  },
+  {
+    code: 'facebook',
+    title: 'Linked facebook profile',
+    icon: '/badges/facebook.jpg',
+  },
+  {
+    code: 'flag',
+    title: 'Has some flags?',
+    icon: '/badges/flag.png',
+  },
+  {
+    code: 'google',
+    title: 'Linked google email',
+    icon: '/badges/google.jpg',
+  },
+  {
+    code: 'star',
+    title: 'Must be very famous?',
+    icon: '/badges/star.png',
+  },
+]
+
 export default CONSTANTS

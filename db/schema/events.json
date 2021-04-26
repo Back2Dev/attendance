@@ -1,0 +1,65 @@
+{
+  "collection": "events",
+  "generate": "CRUD",
+  "fields": {
+    "_id": "OptionalRegExId",
+    "name": {
+      "type": "String",
+      "label": "Event name"
+    },
+    "courseId": "OptionalRegExId",
+    "backupCourseId": "OptionalRegExId",
+    "coachId": "OptionalRegExId",
+    "tools": {
+      "type": "Array",
+      "optional": true
+    },
+    "tools.$": "ToolItemSchema",
+    "description": {
+      "type": "String",
+      "label": "Description",
+      "optional": true
+    },
+    "type": {
+      "type": "String",
+      "allowedValues": ["day", "monthly", "once", "fallback"]
+    },
+    "days": {
+      "type": "Array",
+      "optional": true
+    },
+    "days.$": {
+      "type": "SimpleSchema.Integer"
+    },
+    "location": {
+      "type": "String",
+      "label": "Location",
+      "optional": true
+    },
+    "when": {
+      "type": "Date",
+      "optional": true
+    },
+    "active": {
+      "type": "Boolean"
+    },
+    "duration": {
+      "type": "SimpleSchema.Integer",
+      "label": "Event duration (hours)"
+    },
+    "price": {
+      "type": "SimpleSchema.Integer",
+      "label": "Event Price in cents",
+      "defaultValue": 0
+    }
+  },
+  "defaultObject": {
+    "name": "Untitled",
+    "description": "Description",
+    "location": "Location",
+    "type": "day",
+    "active": false,
+    "duration": 0,
+    "price": 0
+  }
+}

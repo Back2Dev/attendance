@@ -1,0 +1,25 @@
+{
+  "collection": "sessions",
+  "generate": "CRUD",
+  "fields": {
+    "memberId": "RegExId",
+    "eventId": "RegExId",
+    "name": "String",
+    "memberName": "String",
+    "status": {
+      "type": "String",
+      "allowedValues": ["booked", "cancelled", "attended", "missed"],
+      "defaultValue": "booked"
+    },
+    "toolName": "OptionalString",
+    "toolId": "OptionalRegExId",
+    "bookedDate": {
+      "type": "Date",
+      "optional": true
+    },
+    "bookedAt": {
+      "type": "Date",
+      "optional": true
+    }
+  }
+}

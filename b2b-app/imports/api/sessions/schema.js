@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
 import {
+  OptionalString,
   RegExId,
   OptionalRegExId,
   createdAt,
@@ -19,11 +20,6 @@ if (Meteor.isServer) {
   )
 }
 
-const ToolItem = new SimpleSchema({
-  _id: RegExId,
-  name: String,
-})
-
 export const SessionsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   memberId: RegExId,
@@ -38,20 +34,13 @@ export const SessionsSchema = new SimpleSchema({
     label: 'Member name',
   },
   status: {
-    type: SimpleSchema.Integer,
-    allowedValues: [
-      1, // booked
-      0, // canceled
-      2, // attended?
-    ],
-    defaultValue: 1,
+    type: String,
+    allowedValues: ['booked', 'cancelled', 'attended', 'missed'],
+    defaultValue: 'booked',
   },
-  // array of tools selected
-  tools: {
-    type: Array,
-    optional: true,
-  },
-  'tools.$': ToolItem,
+  // tool selected
+  toolName: OptionalString,
+  toolId: OptionalRegExId,
   // the date/time in the future
   bookedDate: {
     type: Date,

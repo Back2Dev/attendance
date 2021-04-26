@@ -2,20 +2,30 @@ import React from 'react'
 import Dashboard from '@material-ui/icons/Dashboard'
 import HelpIcon from '@material-ui/icons/Help'
 import HomeIcon from '@material-ui/icons/Home'
-import InfoIcon from '@material-ui/icons/Info'
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import PhoneIcon from '@material-ui/icons/Phone'
+import EventIcon from '@material-ui/icons/Event'
+
+const DashBoardMenuIcon = () => <Dashboard fontSize="small" />
+const BookingsMenuIcon = () => <EventIcon fontSize="small" />
+const SupportMenuIcon = () => <HelpIcon fontSize="small" />
+const HomeMenuIcon = () => <HomeIcon fontSize="small" />
+const ContactMenuIcon = () => <PhoneIcon fontSize="small" />
 
 export const userMenu = [
   {
     display: 'Dashboard',
     link: '/dashboard',
-    icon: () => <Dashboard fontSize="small" />,
+    icon: DashBoardMenuIcon,
+  },
+  {
+    display: 'Bookings',
+    link: '/bookings',
+    icon: BookingsMenuIcon,
   },
   {
     display: 'Support',
     link: '/support',
-    icon: () => <HelpIcon fontSize="small" />,
+    icon: SupportMenuIcon,
   },
 ]
 
@@ -23,25 +33,13 @@ export const guestMenu = [
   {
     display: 'Home',
     link: '/',
-    icon: () => <HomeIcon fontSize="small" />,
+    icon: HomeMenuIcon,
     external: false,
-  },
-  {
-    display: 'About',
-    link: 'https://mydomain.com.au/about-us/',
-    icon: () => <InfoIcon fontSize="small" />,
-    external: true,
-  },
-  {
-    display: 'News',
-    link: 'https://mydomain.com.au/news/',
-    icon: () => <LibraryBooksIcon fontSize="small" />,
-    external: true,
   },
   {
     display: 'Contact',
     link: 'https://mydomain.com.au/contact/',
-    icon: () => <PhoneIcon fontSize="small" />,
+    icon: ContactMenuIcon,
     external: true,
   },
 ]

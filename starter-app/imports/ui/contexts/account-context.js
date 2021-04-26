@@ -30,6 +30,8 @@ export const AccountProvider = (props) => {
     }
   }, [user])
 
+  const profileIncomplete = !loadingProfile && !(profile?.signature && profile?.mobile)
+
   const account = {
     isLoggedIn: !!user,
     currentUser: user,
@@ -37,6 +39,7 @@ export const AccountProvider = (props) => {
     loadingProfile,
     user,
     profile,
+    profileIncomplete,
     viewas: Session.get('viewas'),
   }
 

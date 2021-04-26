@@ -4,11 +4,12 @@ import SimpleSchema from 'simpl-schema'
 import {
   OptionalRegExId,
   OptionalString,
+  OptionalBlackbox,
   RegExId,
   Blackbox,
   createdAt,
   updatedAt,
-} from '/imports/api/schemas/schema-util'
+} from '/imports/api/utils/schema-util'
 
 const Surveys = new Mongo.Collection('surveys')
 
@@ -55,6 +56,7 @@ export const SurveysSchema = new SimpleSchema({
   // Filling instructions for the other persons (secondary, tertiary)
   secondary: { type: Array, optional: true },
   'secondary.$': SurveyCoordsSchema,
+  signatures: OptionalBlackbox,
   version: {
     type: String,
   },

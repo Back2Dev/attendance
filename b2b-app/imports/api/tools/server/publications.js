@@ -8,3 +8,12 @@ import '../methods'
 Meteor.publish('all.tools', () => {
   return Tools.find({})
 })
+
+Meteor.publish('id.tools', (id) => {
+  return [
+    Tools.find(id),
+    /* Commented out related publications (if any) - best to add these in manually as required
+     
+    */
+  ]
+})

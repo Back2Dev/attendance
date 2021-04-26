@@ -4,7 +4,6 @@ import SimpleSchema from 'simpl-schema'
 import {
   RegExId,
   OptionalRegExId,
-  OptionalInteger,
   OptionalString,
   createdAt,
   updatedAt,
@@ -12,10 +11,23 @@ import {
 
 const Events = new Mongo.Collection('events')
 
-const ToolItem = new SimpleSchema({
+export const ToolItemSchema = new SimpleSchema({
   _id: RegExId,
   name: String,
   location: OptionalString,
+  available: {
+    type: Boolean,
+    defaultValue: true,
+  },
+})
+
+export const BookParamsSchema = new SimpleSchema({
+  eventId: RegExId,
+  toolId: OptionalRegExId,
+})
+
+export const CancelBookingParamsSchema = new SimpleSchema({
+  sessionId: RegExId,
 })
 
 export const EventsSchema = new SimpleSchema({
@@ -26,14 +38,13 @@ export const EventsSchema = new SimpleSchema({
   },
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
-  coachId: OptionalRegExId,
-  maxNumbersOfTools: OptionalInteger, // Limit numbers of equipments/tools
+  coachId: OptionalRegExId, // members id
   // the available tools for select
   tools: {
     type: Array,
     optional: true,
   },
-  'tools.$': ToolItem,
+  'tools.$': ToolItemSchema,
   description: {
     type: String,
     label: 'Description',

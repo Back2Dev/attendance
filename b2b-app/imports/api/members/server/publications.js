@@ -4,11 +4,30 @@ import '../methods'
 import '../methods.custom'
 import { hasRole } from '/imports/api/users/utils.js'
 
-/* Commented out related publications (if any) - best to add these in manually as required
- 
-*/
+const debug = require('debug')('b2b:members:publications')
 
-const publicFields = { username: 1, emails: 1, roles: 1 }
+const publicFields = {
+  name: 1,
+  nickname: 1,
+  userId: 1,
+  mobile: 1,
+  avatar: 1,
+  badges: { $elemMatch: { private: { $ne: true } } },
+}
+
+Meteor.publish('members.byIds', function (memberIds) {
+  debug({ memberIds })
+  return Members.find(
+    {
+      _id: { $in: memberIds },
+    },
+    {
+      fields: {
+        ...publicFields,
+      },
+    }
+  )
+})
 
 Meteor.publish('currentMember', function () {
   if (!this.userId) {

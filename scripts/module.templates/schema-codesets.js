@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/schemas/schema-util'
+import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/utils/schema-util'
 
 // Define a common schema for all codesets
 
@@ -11,7 +11,7 @@ export const CodesetSchema = new SimpleSchema({
   display: String,
   sortOrder: SimpleSchema.Integer,
   createdAt,
-  updatedAt
+  updatedAt,
 })
 
 const codesets = []

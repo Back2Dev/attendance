@@ -10,32 +10,27 @@ export const goodSessions = [
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),
-    map: 'string',
-    description: 'string',
-    difficulty: 'string',
-    status: 1,
+    status: 'booked',
+    toolName: faker.vehicle.model(),
+    toolId: Random.id(),
+    bookedDate: faker.date.future(),
+    bookedAt: new Date(),
   },
   {
     memberId: Random.id(),
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),
-    description: 'string',
-    difficulty: 'string',
-    status: 0,
+    status: 'cancelled',
+    toolName: faker.vehicle.model(),
+    toolId: Random.id(),
   },
   {
     memberId: Random.id(),
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),
-    description: 'string',
-  },
-  {
-    memberId: Random.id(),
-    eventId: Random.id(),
-    memberName: faker.name.findName(),
-    name: faker.address.cityName(),
+    status: 'attended',
   },
 ]
 
@@ -44,8 +39,11 @@ export const badSessions = [
     // empty
   },
   {
-    map: 'string',
-    status: 0.5,
+    // memberId: Random.id(),
+    eventId: Random.id(),
+    memberName: faker.name.findName(),
+    name: faker.address.cityName(),
+    status: 'missed',
   },
 ]
 
@@ -69,7 +67,7 @@ describe('Sessions Schema', () => {
       it(`Should fail on bad sessions insert ${item.title || ''}`, () => {
         let insertedId
         expect(() => {
-          insertedId = insertedId = Sessions.insert(item)
+          insertedId = Sessions.insert(item)
         }).to.throw()
         if (insertedId) {
           // because of unique index, we should remove these test items

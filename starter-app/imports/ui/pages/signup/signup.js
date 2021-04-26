@@ -74,7 +74,7 @@ const Signup = () => {
     setSubmitEnabled(false)
     Meteor.call('userExists', form.email, function (err) {
       if (err) {
-        showError(err)
+        showError(err.error)
         setSubmitEnabled(true)
       }
     })
@@ -114,7 +114,7 @@ const Signup = () => {
             <br />
             By clicking submit you are agreeing to the{' '}
             <a
-              href="https://mydomain.com.au/terms-of-use/"
+              href="https://settleeasy.com.au/terms-of-use/"
               className={classes.link}
               target="_blank"
               rel="noreferrer"
@@ -141,24 +141,6 @@ const Signup = () => {
         </Grid>
       )
     }
-    return (
-      <div className="logout-form">
-        <Typography variant="h1" color="inherit" noWrap>
-          Account
-        </Typography>
-        <p>You are logged in</p>
-        <div className="center-align">
-          <Button
-            variant="contained"
-            color="primary"
-            className="logout-btn"
-            onClick={onLogout}
-          >
-            Logout
-          </Button>
-        </div>
-      </div>
-    )
   }
 
   return <OnboardingModal renderForm={renderForm} />

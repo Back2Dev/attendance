@@ -10,6 +10,20 @@ import {
 import CONSTANTS from '/imports/api/constants'
 const Members = new Mongo.Collection('members')
 
+export const AddBadgeParamsSchema = new SimpleSchema({
+  memberId: RegExId,
+  code: String,
+})
+
+export const BadgeItemSchema = new SimpleSchema({
+  code: String,
+  private: {
+    type: Boolean,
+    optional: true,
+  },
+  createdAt: Date,
+})
+
 export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
   userId: RegExId,
@@ -31,6 +45,11 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  badges: {
+    type: Array,
+    optional: true,
+  },
+  'badges.$': BadgeItemSchema,
   // Fields that were in the user record
   mobile: {
     type: String,

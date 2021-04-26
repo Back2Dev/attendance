@@ -1,0 +1,13 @@
+{
+  "collection": "tools",
+  "generate": "CRUD",
+  "fields": {
+    "name": "String",
+    "location": "OptionalString",
+    "description": "OptionalString",
+    "active": {
+      "type": "Boolean",
+      "defaultValue": true
+    }
+  }
+}
