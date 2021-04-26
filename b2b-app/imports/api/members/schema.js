@@ -10,13 +10,18 @@ import {
 import CONSTANTS from '/imports/api/constants'
 const Members = new Mongo.Collection('members')
 
+export const AddBadgeParamsSchema = new SimpleSchema({
+  memberId: RegExId,
+  code: String,
+})
+
 export const BadgeItemSchema = new SimpleSchema({
   code: String,
   private: {
     type: Boolean,
     optional: true,
   },
-  createdAt,
+  createdAt: Date,
 })
 
 export const MembersSchema = new SimpleSchema({
