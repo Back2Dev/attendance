@@ -58,7 +58,7 @@ CONSTANTS.UNKNOWN_EVENT = 'unknown-event'
 // We may have a badge for every event? or monthly badge?
 CONSTANTS.BADGES = [
   {
-    code: 'cc',
+    code: 'card',
     title: 'Credit card',
     icon: '/badges/card.png',
     url: '/support',
