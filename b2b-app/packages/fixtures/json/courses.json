@@ -1,0 +1,43 @@
+[
+  {
+    "slug": "trav",
+    "description": "Travis Minns has naming rights over a warm up loop, often used by paddlers who arrive early and want to get warmed up before the main session.",
+    "difficulty": "beginner",
+    "title": "Trav's triangle"
+  },
+
+  {
+    "slug": "river",
+    "description": "Intervals between the markers along the river, under the Westgate bridge, turning around just before Docklands",
+    "difficulty": "intermediate",
+    "title": "River workout"
+  },
+
+  {
+    "slug": "bumble",
+    "description": "The \"Bumble bee\" is the name for a (black and yellow) cardinal marker that marks the meeting of the Spirit of Tasmania's path, and the path from the Yarra out into the bay. It is about 3km from the club to the bumble bee. The run goes straight out, turn around the marker and play with waves on the way back to the club. Usually quite choppy beyond the end of the rock groin.",
+    "difficulty": "advanced",
+    "title": "Bumble bee"
+  },
+
+  {
+    "slug": "brad",
+    "description": "Brad Cummins lends his name to a short circuit from the club to the lighthouse and back",
+    "difficulty": "beginner",
+    "title": "Brad's bash"
+  },
+
+  {
+    "slug": "stk",
+    "description": "An easy trip around the Spirit of Tassie, and along the yellow markers all the way to the St Kilda marina at the end of Fitzroy St. Usually done in calm conditions in the evening",
+    "difficulty": "intermediate",
+    "title": "St Kilda cruise"
+  },
+
+  {
+    "slug": "willy",
+    "description": "A simple trip across the mouth of the river to see the moorings on the Strand in Williamstown, and possibly the Rainbow Warrior",
+    "difficulty": "intermediate",
+    "title": "Williamstown crossing"
+  }
+]

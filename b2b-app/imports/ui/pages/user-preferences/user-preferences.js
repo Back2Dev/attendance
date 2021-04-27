@@ -103,7 +103,7 @@ export default UserPreferences = () => {
                 className={classes.title}
                 align="center"
               >
-                User account
+                User profile
               </Typography>
               <List className={classes.userInfo}>
                 <ListItem>

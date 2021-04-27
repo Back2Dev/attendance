@@ -24,5 +24,17 @@
     "name": "settings",
     "key": "key",
     "env": ["all"]
+  },
+  {
+    "table": "courses",
+    "name": "courses",
+    "key": "slug",
+    "env": ["all"]
+  },
+  {
+    "table": "events",
+    "name": "events",
+    "key": "name",
+    "env": ["all"]
   }
 ]

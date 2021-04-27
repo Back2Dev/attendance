@@ -233,7 +233,7 @@ export default function UserNavbar() {
         key="prefs"
         data-cy="a-tag-profile"
       >
-        Member
+        Profile
       </MenuItem>
       {user.roles.length > 1 && (
         <MenuItem
@@ -241,7 +241,7 @@ export default function UserNavbar() {
           onClick={() => setExpanded(!expanded)}
           key="switch"
         >
-          Switch roles
+          Switch role
         </MenuItem>
       )}
       <Collapse in={expanded} timeout="auto" unmountOnExit key="submenu">
@@ -302,7 +302,7 @@ export default function UserNavbar() {
         <IconButton aria-label="set-role" color="inherit">
           <GroupIcon />
         </IconButton>
-        Switch Roles
+        Switch role
       </MenuItem>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <FormControl component="fieldset">
