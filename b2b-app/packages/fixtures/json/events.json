@@ -1,13 +1,13 @@
 [
-  "name": "Friday bootcamp",
-        "description": "Friday bootcamp, paddle, run, burpees",
-        "location": "Sandridge",
-        "type": "once",
-        "active": true,
-        "duration": 2,
-        "price":0),
-        "when": "2021-04-30T10:04:00.000+10:00",
-        "days": [
-            null
-        ],
+  {
+    "name": "Friday bootcamp",
+    "description": "Friday bootcamp, paddle, run, burpees",
+    "location": "Sandridge",
+    "type": "once",
+    "active": true,
+    "duration": 2,
+    "price": 0,
+    "when": "2021-04-30T10:04:00.000+10:00",
+    "days": [null]
+  }
 ]
