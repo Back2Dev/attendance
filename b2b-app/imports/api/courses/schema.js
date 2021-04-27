@@ -18,6 +18,7 @@ const MapSchema = new SimpleSchema({
 
 export const CoursesSchema = new SimpleSchema({
   _id: OptionalRegExId,
+  slug: String,
   title: String,
   map: {
     type: Array,

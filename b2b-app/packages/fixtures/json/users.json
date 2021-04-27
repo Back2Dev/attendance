@@ -29,19 +29,73 @@
     "se": true
   },
   {
-    "name": "Cathy Customer",
-    "username": "cathy.customer@mydomain.com.au",
-    "email": "cathy.customer@mydomain.com.au",
-    "mobile": "+61400000000",
-    "roles": ["CUS"],
+    "email": "vernon.wiza@testa.rossa",
+    "name": "Vernon Wiza",
+    "username": "vernon.wiza@testa.rossa",
+    "roles": ["MEM"],
     "se": true
   },
   {
-    "name": "Charlie Customer",
-    "username": "charlie.customer@test.com",
-    "email": "charlie.customer@test.com",
-    "mobile": "+61400000000",
-    "roles": ["CUS"],
+    "email": "mekhi.emmerich@testa.rossa",
+    "name": "Mekhi Emmerich",
+    "username": "mekhi.emmerich@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "broderick.larkin@testa.rossa",
+    "name": "Broderick Larkin",
+    "username": "broderick.larkin@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "franco.walsh@testa.rossa",
+    "name": "Franco Walsh",
+    "username": "franco.walsh@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "dorothea.kovacek@testa.rossa",
+    "name": "Dorothea Kovacek",
+    "username": "dorothea.kovacek@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "herminio.blick@testa.rossa",
+    "name": "Herminio Blick",
+    "username": "herminio.blick@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "cathrine.medhurst@testa.rossa",
+    "name": "Cathrine Medhurst",
+    "username": "cathrine.medhurst@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "hope.cartwright@testa.rossa",
+    "name": "Hope Cartwright",
+    "username": "hope.cartwright@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "giles.jenkins@testa.rossa",
+    "name": "Giles Jenkins",
+    "username": "giles.jenkins@testa.rossa",
+    "roles": ["MEM"],
+    "se": true
+  },
+  {
+    "email": "haleigh.baumbach@testa.rossa",
+    "name": "Haleigh Baumbach",
+    "username": "haleigh.baumbach@testa.rossa",
+    "roles": ["MEM"],
     "se": true
   }
 ]
