@@ -40,10 +40,10 @@ function MemberPortal() {
       <MySessionsProvider>
         <Grid container className="sessions-wrapper">
           <Grid item xs={12} sm={6} className="recent-sessions-wrapper">
-            <RecentSessions />
+            <UpcomingSessions />
           </Grid>
           <Grid item xs={12} sm={6} className="upcoming-sessions-wrapper">
-            <UpcomingSessions />
+            <RecentSessions />
           </Grid>
         </Grid>
       </MySessionsProvider>
