@@ -1,26 +1,27 @@
 import { Meteor } from 'meteor/meteor'
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
+import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
 import Members from '/imports/api/members/schema.js'
 import Sessions from '/imports/api/sessions/schema.js'
 import Courses from '/imports/api/courses/schema.js'
 
-export const MySessionsContext = React.createContext('my-sessions')
+export const BookingsHistoryContext = React.createContext('bookingshistory')
 
-export const MySessionsProvider = (props) => {
+export const BookingsHistoryProvider = (props) => {
   const { children } = props
+
+  const { member } = useContext(AccountContext)
+  const [sessionsWData, setSessionsWData] = useState([])
 
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
   const [eventIds, setEventIds] = useState([])
   const [ccIds, setCcIds] = useState({ coachIds: [], courseIds: [] })
-
-  const [recentSessionsWData, setRecentSessionsWData] = useState([])
-  const [upcomingSessionsWData, setUpcomingSessionsWData] = useState([])
 
   const getCoachByCoachId = (coachId) => {
     return Members.findOne({ _id: coachId })
@@ -40,48 +41,35 @@ export const MySessionsProvider = (props) => {
     return event
   }
 
-  const { loadingRecentSessions, recentSessions } = useTracker(() => {
-    const sub = Meteor.subscribe('sessions.myRecent', {})
+  const { loadingSessions, sessions } = useTracker(() => {
+    const sub = Meteor.subscribe('sessions.myAll', {})
     return {
-      loadingRecentSessions: !sub.ready(),
-      recentSessions: Sessions.find(
-        { bookedDate: { $lt: new Date() } },
+      loadingSessions: !sub.ready(),
+      sessions: Sessions.find(
+        { memberId: member._id },
         { sort: { bookedDate: -1 } }
       ).fetch(),
     }
   }, [])
 
-  const { loadingUpcomingSessions, upcomingSessions } = useTracker(() => {
-    const sub = Meteor.subscribe('sessions.myUpcoming')
-    return {
-      loadingUpcomingSessions: !sub.ready(),
-      upcomingSessions: Sessions.find(
-        { bookedDate: { $gt: new Date() } },
-        { sort: { bookedDate: 1 } }
-      ).fetch(),
-    }
-  }, [])
-
-  const setEventIdsTimeout = useRef(null)
+  const updateEventIdsTimeout = useRef(null)
   useEffect(() => {
-    Meteor.clearTimeout(setEventIdsTimeout.current)
-    setEventIdsTimeout.current = Meteor.setTimeout(() => {
+    Meteor.clearTimeout(updateEventIdsTimeout.current)
+    updateEventIdsTimeout.current = Meteor.setTimeout(() => {
       const newEventIds = []
-      recentSessions?.map((item) => {
+      sessions?.map((item) => {
         if (!newEventIds.includes(item.eventId)) {
           newEventIds.push(item.eventId)
         }
       })
-      upcomingSessions?.map((item) => {
-        if (!newEventIds.includes(item.eventId)) {
-          newEventIds.push(item.eventId)
-        }
-      })
-      setEventIds(newEventIds)
+      if (newEventIds.length) {
+        setEventIds(newEventIds)
+      }
     }, 100)
-  }, [recentSessions, upcomingSessions])
+  }, [sessions])
 
   const { loadingEvents = false, events = [] } = useTracker(() => {
+    // console.log(eventIds)
     if (!eventIds.length) {
       return { loadingEvents: false }
     }
@@ -119,57 +107,39 @@ export const MySessionsProvider = (props) => {
     return coachSub.ready() && courseSub.ready()
   }, [ccIds])
 
-  const buildSessionsData = useCallback(() => {
-    setRecentSessionsWData(
-      recentSessions?.map((item) => {
-        const event = getEventById(item.eventId)
-        return {
-          ...item,
-          event,
-        }
-      })
-    )
-    setUpcomingSessionsWData(
-      upcomingSessions?.map((item) => {
-        const event = getEventById(item.eventId)
-        return {
-          ...item,
-          event,
-        }
-      })
-    )
-  }, [recentSessions, upcomingSessions])
-
   const buildTimeout = useRef(null)
   useEffect(() => {
     Meteor.clearTimeout(buildTimeout.current)
     if (!events.length) {
       return
     }
-    buildTimeout.current = Meteor.setTimeout(buildSessionsData, 100)
-  }, [recentSessions, upcomingSessions, events, loadingCC])
+    buildTimeout.current = Meteor.setTimeout(() => {
+      const newData = sessions?.map((item) => {
+        const event = getEventById(item.eventId)
+        return {
+          ...item,
+          event,
+        }
+      })
+      setSessionsWData(newData)
+    }, 100)
+  }, [sessions, events, loadingCC])
 
   return (
-    <MySessionsContext.Provider
+    <BookingsHistoryContext.Provider
       value={{
+        loadingSessions,
         loadingEvents,
-        loadingCC,
-        loadingRecentSessions,
-        loadingUpcomingSessions,
-        recentSessionsWData,
-        upcomingSessionsWData,
-        getEventById,
-        getCoachByCoachId,
-        getCourseByCourseId,
+        sessionsWData,
       }}
     >
       {children}
-    </MySessionsContext.Provider>
+    </BookingsHistoryContext.Provider>
   )
 }
 
-MySessionsProvider.propTypes = {
+BookingsHistoryProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export const MySessionsConsumer = MySessionsContext.Consumer
+export const BookingsHistoryConsumer = BookingsHistoryContext.Consumer

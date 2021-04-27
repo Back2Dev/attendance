@@ -22,21 +22,5 @@ const debug = require('debug')('b2b:migrations')
  */
 Meteor.startup(() => {
   if (Meteor.isServer) {
-    // MK 25/1/2021 - Added status, `deleted` is deprecated
-    Members.update(
-      { status: { $exists: false } },
-      {
-        $set: { status: 'active' },
-      },
-      { multi: true }
-    )
   }
-  // END MK 25/1/2021
-  // MK 28/2/2021 - Fix email subjects
-  MessageTemplates.find({ type: 'EMAIL', subject: { $exists: false } }).forEach((msg) => {
-    MessageTemplates.update(msg._id, {
-      $set: { subject: msg.slug.replace(/[\-]/g, ' ') },
-    })
-  })
-  // END MK 28/2/2021
 })

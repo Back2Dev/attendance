@@ -26,7 +26,7 @@ describe('Testing user profile functions', () => {
     cy.get('[data-cy=a-tag-profile]').click()
   })
   it('goes to the profile section and updates the users details', () => {
-    cy.get('[data-cy=user-account]').should('exist').should('contain', 'User account')
+    cy.get('[data-cy=user-account]').should('exist').should('contain', 'User profile')
     cy.get('form').should('exist')
     cy.get('input[name="name"]').clear().type(users.admin.name)
     cy.get('input[name="nickname"]').clear().type(users.admin.nickname)

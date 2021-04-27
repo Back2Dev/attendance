@@ -21,9 +21,7 @@ export const BookingsProvider = (props) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
-  const eventIds = useRef([])
-  const coachIds = useRef([])
-  const courseIds = useRef([])
+  const [ids, setIds] = useState({ eventIds: [], coachIds: [], courseIds: [] })
 
   const [eventsWithExtraData, setEventsWithExtraData] = useState([])
 
@@ -51,59 +49,65 @@ export const BookingsProvider = (props) => {
     }
   }, [])
 
+  const setIdsTimeout = useRef(null)
   useEffect(() => {
-    const newEventIds = []
-    const newCoachIds = []
-    const newCourseIds = []
-    events.map((item) => {
-      if (!newEventIds.includes(item._id)) {
-        newEventIds.push(item._id)
-      }
-      if (!newCoachIds.includes(item.coachId)) {
-        newCoachIds.push(item.coachId)
-      }
-      if (!newCourseIds.includes(item.courseId)) {
-        newCourseIds.push(item.courseId)
-      }
-      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
-        newCourseIds.push(item.backupCourseId)
-      }
-    })
-    eventIds.current = newEventIds
-    coachIds.current = newCoachIds
-    courseIds.current = newCourseIds
+    Meteor.clearTimeout(setIdsTimeout.current)
+    setIdsTimeout.current = Meteor.setTimeout(() => {
+      const newEventIds = []
+      const newCoachIds = []
+      const newCourseIds = []
+      events.map((item) => {
+        if (!newEventIds.includes(item._id)) {
+          newEventIds.push(item._id)
+        }
+        if (!newCoachIds.includes(item.coachId)) {
+          newCoachIds.push(item.coachId)
+        }
+        if (!newCourseIds.includes(item.courseId)) {
+          newCourseIds.push(item.courseId)
+        }
+        if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
+          newCourseIds.push(item.backupCourseId)
+        }
+      })
+      setIds({
+        eventIds: newEventIds,
+        coachIds: newCoachIds,
+        courseIds: newCourseIds,
+      })
+    }, 100)
   }, [events])
 
   const { loading: loadingCoaches, coaches } = useTracker(() => {
-    if (!coachIds.current.length) {
+    if (!ids.coachIds.length) {
       return { loading: false }
     }
     // console.log('subscribe members.byIds', coachIds.current)
-    const sub = Meteor.subscribe('members.byIds', coachIds.current)
+    const sub = Meteor.subscribe('members.byIds', ids.coachIds)
     return {
       loading: !sub.ready(),
-      coaches: Members.find({ _id: { $in: coachIds.current } }).fetch(),
+      coaches: Members.find({ _id: { $in: ids.coachIds } }).fetch(),
     }
-  }, [coachIds.current])
+  }, [ids.coachIds])
 
   const { loading: loadingSessions, sessions } = useTracker(() => {
-    if (!eventIds.current.length) {
+    if (!ids.eventIds.length) {
       return { loading: false }
     }
-    const sub = Meteor.subscribe('sessions.mineByEventIds', eventIds.current)
+    const sub = Meteor.subscribe('sessions.mineByEventIds', ids.eventIds)
     return {
       loading: !sub.ready(),
-      sessions: Sessions.find({ eventId: { $in: eventIds.current } }).fetch(),
+      sessions: Sessions.find({ eventId: { $in: ids.eventIds } }).fetch(),
     }
-  }, [eventIds.current])
+  }, [ids.eventIds])
 
   const { loading: loadingCourses, courses } = useTracker(() => {
-    const sub = Meteor.subscribe('courses.byIds', courseIds.current)
+    const sub = Meteor.subscribe('courses.byIds', ids.courseIds)
     return {
       loading: !sub.ready(),
-      courses: Courses.find({ _id: { $in: courseIds.current } }).fetch(),
+      courses: Courses.find({ _id: { $in: ids.courseIds } }).fetch(),
     }
-  }, [courseIds.current])
+  }, [ids.courseIds])
 
   const buildEventsData = useCallback(() => {
     setEventsWithExtraData(
@@ -119,8 +123,10 @@ export const BookingsProvider = (props) => {
     )
   }, [events])
 
+  const buildDataTimeout = useRef(null)
   useEffect(() => {
-    buildEventsData()
+    Meteor.clearTimeout(buildDataTimeout.current)
+    buildDataTimeout.current = Meteor.setTimeout(buildEventsData, 100)
   }, [events, courses, sessions, coaches])
 
   const [submiting, setSubmiting] = useState(false)

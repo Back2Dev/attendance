@@ -12,8 +12,16 @@ const StyledUpcomingSessions = styled.div`
     margin: 20px 0;
     padding: 10px;
   }
-  .button-wrapper {
-    text-align: center;
+  .header-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    h2 {
+      flex: 1;
+      font-size: 1.4rem;
+    }
+    button {
+    }
   }
 `
 
@@ -32,17 +40,20 @@ function UpcomingSessions() {
 
   return (
     <StyledUpcomingSessions>
-      <Typography variant="h2" align="center">
-        Upcoming sessions
-      </Typography>
-      <Paper elevation={1} className="sessions-container">
-        {renderSessions()}
-      </Paper>
-      <div className="button-wrapper">
-        <Button variant="contained" color="primary" onClick={() => push('/bookings')}>
+      <div className="header-wrapper">
+        <Typography variant="h2">Upcoming sessions</Typography>
+        <Button
+          variant="contained"
+          size="small"
+          color="primary"
+          onClick={() => push('/bookings')}
+        >
           Book a session
         </Button>
       </div>
+      <Paper elevation={1} className="sessions-container">
+        {renderSessions()}
+      </Paper>
     </StyledUpcomingSessions>
   )
 }
