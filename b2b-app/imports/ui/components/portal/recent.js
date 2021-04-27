@@ -44,7 +44,7 @@ function RecentSessions() {
         variant="contained"
         size="small"
         color="primary"
-        onClick={() => push('/history')}
+        onClick={() => push('/bookings/history')}
       >
         More
       </Button>
