@@ -65,12 +65,12 @@ export const MySessionsProvider = (props) => {
 
   useEffect(() => {
     const newEventIds = []
-    recentSessions.map((item) => {
+    recentSessions?.map((item) => {
       if (!newEventIds.includes(item.eventId)) {
         newEventIds.push(item.eventId)
       }
     })
-    upcomingSessions.map((item) => {
+    upcomingSessions?.map((item) => {
       if (!newEventIds.includes(item.eventId)) {
         newEventIds.push(item.eventId)
       }
@@ -89,43 +89,53 @@ export const MySessionsProvider = (props) => {
     }
   }, [eventIds.current])
 
+  const coachAndCourseIdsTimeout = useRef(null)
   useEffect(() => {
-    const newCoachIds = []
-    const newCourseIds = []
-    events.map((item) => {
-      if (!newCoachIds.includes(item.coachId)) {
-        newCoachIds.push(item.coachId)
-      }
-      if (!newCourseIds.includes(item.courseId)) {
-        newCourseIds.push(item.courseId)
-      }
-      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
-        newCourseIds.push(item.backupCourseId)
-      }
-    })
-    coachIds.current = newCoachIds
-    courseIds.current = newCourseIds
+    Meteor.clearTimeout(coachAndCourseIdsTimeout.current)
+    coachAndCourseIdsTimeout.current = Meteor.setTimeout(() => {
+      const newCoachIds = []
+      const newCourseIds = []
+      events.map((item) => {
+        if (!newCoachIds.includes(item.coachId)) {
+          newCoachIds.push(item.coachId)
+        }
+        if (!newCourseIds.includes(item.courseId)) {
+          newCourseIds.push(item.courseId)
+        }
+        if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
+          newCourseIds.push(item.backupCourseId)
+        }
+      })
+      coachIds.current = newCoachIds
+      courseIds.current = newCourseIds
+    }, 100)
   }, [events])
 
   const { loading: loadingCoaches, coaches } = useTracker(() => {
-    if (!coachIds.current.length) {
+    if (!coachIds.current?.length) {
+      console.log('empty')
       return { loading: false }
     }
-    // console.log('subscribe members.byIds', coachIds.current)
+    console.log('subscribe members.byIds', coachIds.current)
     const sub = Meteor.subscribe('members.byIds', coachIds.current)
     return {
       loading: !sub.ready(),
       coaches: Members.find({ _id: { $in: coachIds.current } }).fetch(),
     }
   }, [coachIds.current])
+  console.log('coaches', coaches)
 
   const { loading: loadingCourses, courses } = useTracker(() => {
+    if (!courseIds.current?.length) {
+      return { loading: false }
+    }
     const sub = Meteor.subscribe('courses.byIds', courseIds.current)
     return {
       loading: !sub.ready(),
       courses: Courses.find({ _id: { $in: courseIds.current } }).fetch(),
     }
   }, [courseIds.current])
+  console.log('courses', courses)
 
   const buildSessionsData = useCallback(() => {
     setRecentSessionsWData(
@@ -146,11 +156,14 @@ export const MySessionsProvider = (props) => {
         }
       })
     )
-  }, [events])
+  }, [recentSessions, upcomingSessions])
 
   const buildTimeout = useRef(null)
   useEffect(() => {
     Meteor.clearTimeout(buildTimeout.current)
+    if (!events.length) {
+      return
+    }
     buildTimeout.current = Meteor.setTimeout(buildSessionsData, 100)
   }, [recentSessions, upcomingSessions, events, courses, coaches])
 
