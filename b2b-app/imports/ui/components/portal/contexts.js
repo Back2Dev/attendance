@@ -16,9 +16,8 @@ export const MySessionsProvider = (props) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
-  const eventIds = useRef([])
-  const coachIds = useRef([])
-  const courseIds = useRef([])
+  const [eventIds, setEventIds] = useState([])
+  const [ccIds, setCcIds] = useState({ coachIds: [], courseIds: [] })
 
   const [recentSessionsWData, setRecentSessionsWData] = useState([])
   const [upcomingSessionsWData, setUpcomingSessionsWData] = useState([])
@@ -63,31 +62,35 @@ export const MySessionsProvider = (props) => {
     }
   }, [])
 
+  const setEventIdsTimeout = useRef(null)
   useEffect(() => {
-    const newEventIds = []
-    recentSessions?.map((item) => {
-      if (!newEventIds.includes(item.eventId)) {
-        newEventIds.push(item.eventId)
-      }
-    })
-    upcomingSessions?.map((item) => {
-      if (!newEventIds.includes(item.eventId)) {
-        newEventIds.push(item.eventId)
-      }
-    })
-    eventIds.current = newEventIds
+    Meteor.clearTimeout(setEventIdsTimeout.current)
+    setEventIdsTimeout.current = Meteor.setTimeout(() => {
+      const newEventIds = []
+      recentSessions?.map((item) => {
+        if (!newEventIds.includes(item.eventId)) {
+          newEventIds.push(item.eventId)
+        }
+      })
+      upcomingSessions?.map((item) => {
+        if (!newEventIds.includes(item.eventId)) {
+          newEventIds.push(item.eventId)
+        }
+      })
+      setEventIds(newEventIds)
+    }, 100)
   }, [recentSessions, upcomingSessions])
 
   const { loadingEvents = false, events = [] } = useTracker(() => {
-    if (!eventIds.current.length) {
+    if (!eventIds.length) {
       return { loadingEvents: false }
     }
-    const sub = Meteor.subscribe('events.byIds', eventIds.current)
+    const sub = Meteor.subscribe('events.byIds', eventIds)
     return {
       loadingEvents: !sub.ready(),
       events: Events.find({}).fetch(),
     }
-  }, [eventIds.current])
+  }, [eventIds])
 
   const coachAndCourseIdsTimeout = useRef(null)
   useEffect(() => {
@@ -106,36 +109,15 @@ export const MySessionsProvider = (props) => {
           newCourseIds.push(item.backupCourseId)
         }
       })
-      coachIds.current = newCoachIds
-      courseIds.current = newCourseIds
+      setCcIds({ coachIds: newCoachIds, courseIds: newCourseIds })
     }, 100)
   }, [events])
 
-  const { loading: loadingCoaches, coaches } = useTracker(() => {
-    if (!coachIds.current?.length) {
-      console.log('empty')
-      return { loading: false }
-    }
-    console.log('subscribe members.byIds', coachIds.current)
-    const sub = Meteor.subscribe('members.byIds', coachIds.current)
-    return {
-      loading: !sub.ready(),
-      coaches: Members.find({ _id: { $in: coachIds.current } }).fetch(),
-    }
-  }, [coachIds.current])
-  console.log('coaches', coaches)
-
-  const { loading: loadingCourses, courses } = useTracker(() => {
-    if (!courseIds.current?.length) {
-      return { loading: false }
-    }
-    const sub = Meteor.subscribe('courses.byIds', courseIds.current)
-    return {
-      loading: !sub.ready(),
-      courses: Courses.find({ _id: { $in: courseIds.current } }).fetch(),
-    }
-  }, [courseIds.current])
-  console.log('courses', courses)
+  const loadingCC = useTracker(() => {
+    const coachSub = Meteor.subscribe('members.byIds', ccIds.coachIds)
+    const courseSub = Meteor.subscribe('courses.byIds', ccIds.courseIds)
+    return coachSub.ready() && courseSub.ready()
+  }, [ccIds])
 
   const buildSessionsData = useCallback(() => {
     setRecentSessionsWData(
@@ -165,14 +147,13 @@ export const MySessionsProvider = (props) => {
       return
     }
     buildTimeout.current = Meteor.setTimeout(buildSessionsData, 100)
-  }, [recentSessions, upcomingSessions, events, courses, coaches])
+  }, [recentSessions, upcomingSessions, events, loadingCC])
 
   return (
     <MySessionsContext.Provider
       value={{
         loadingEvents,
-        loadingCoaches,
-        loadingCourses,
+        loadingCC,
         loadingRecentSessions,
         loadingUpcomingSessions,
         recentSessionsWData,
