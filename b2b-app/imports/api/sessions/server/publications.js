@@ -9,6 +9,30 @@ import Events from '/imports/api/events/schema'
 import Tools from '/imports/api/tools/schema' 
 */
 
+Meteor.publish('sessions.myAll', function ({ limit = 20 }) {
+  if (!Match.test(limit, Match.Integer)) {
+    return this.ready()
+  }
+  if (!this.userId) {
+    return this.ready()
+  }
+  const currentMember = Members.findOne({ userId: this.userId })
+  if (!currentMember) {
+    return this.ready()
+  }
+  return Sessions.find(
+    {
+      memberId: currentMember._id,
+    },
+    {
+      sort: {
+        bookedDate: -1,
+      },
+      limit,
+    }
+  )
+})
+
 Meteor.publish('sessions.myUpcoming', function () {
   if (!this.userId) {
     return this.ready()
