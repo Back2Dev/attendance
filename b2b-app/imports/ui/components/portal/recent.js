@@ -19,7 +19,7 @@ function RecentSessions() {
 
   const renderSessions = () => {
     if (!recentSessionsWData?.length) {
-      return <div className="empty">There is no item in the list</div>
+      return <div className="empty">You have no session history</div>
     }
     return recentSessionsWData.map((item) => <SessionItem item={item} key={item._id} />)
   }
