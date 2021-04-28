@@ -8,6 +8,7 @@ import '../methods'
 import Events from '/imports/api/events/schema'
 import Tools from '/imports/api/tools/schema' 
 */
+const debug = require('debug')('b2b:sessions:publications')
 
 Meteor.publish('sessions.myAll', function ({ limit = 20 }) {
   if (!Match.test(limit, Match.Integer)) {
@@ -80,6 +81,13 @@ Meteor.publish('sessions.myRecent', function ({ limit = 20 }) {
 })
 
 Meteor.publish('sessions.mineByEventIds', function (eventIds) {
+  debug({ eventIds })
+  if (!Match.test(eventIds, [String])) {
+    return this.ready()
+  }
+  if (!this.userId) {
+    return this.ready()
+  }
   const currentMember = Members.findOne({ userId: this.userId })
 
   return Sessions.find({

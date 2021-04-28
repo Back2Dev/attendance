@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Match } from 'meteor/check'
 import Members from '../schema'
 import '../methods'
 import '../methods.custom'
@@ -17,6 +18,9 @@ const publicFields = {
 
 Meteor.publish('members.byIds', function (memberIds) {
   debug({ memberIds })
+  if (!Match.test(memberIds, [String])) {
+    return this.ready()
+  }
   return Members.find(
     {
       _id: { $in: memberIds },

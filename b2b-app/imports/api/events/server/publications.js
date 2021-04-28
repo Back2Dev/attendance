@@ -6,6 +6,8 @@ import Sessions from '/imports/api/sessions/schema.js'
 import Events from '../schema'
 import '../methods'
 
+const debug = require('debug')('b2b:events:publications')
+
 Meteor.publish('all.events', () => {
   return Events.find({})
 })

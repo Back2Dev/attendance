@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { Skeleton } from '@material-ui/lab'
+// import { Skeleton } from '@material-ui/lab'
 import { DataGrid } from '@material-ui/data-grid'
 
 import Loading from '../commons/loading'
@@ -13,11 +13,11 @@ function SessionsListing() {
   const { loadingSessions, loadingEvents, sessionsWData } = useContext(
     BookingsHistoryContext
   )
-  console.log(sessionsWData)
+  // console.log(sessionsWData)
 
   const columns = [
-    { field: 'date', headerName: 'Date', type: 'date', width: 100 },
-    { field: 'name', headerName: 'Name', width: 130 },
+    { field: 'date', headerName: 'Date', type: 'date', width: 120 },
+    { field: 'name', headerName: 'Name', width: 150, flex: 1 },
     { field: 'tool', headerName: 'Tool', width: 130 },
     {
       field: 'status',
@@ -29,15 +29,17 @@ function SessionsListing() {
     },
   ]
 
-  const rows = sessionsWData.map((item) => {
-    return {
-      id: item._id,
-      date: item.bookedDate,
-      name: item.name,
-      tool: item.toolName,
-      status: item.status,
-    }
-  })
+  const rows = useMemo(() => {
+    return sessionsWData.map((item) => {
+      return {
+        id: item._id,
+        date: item.bookedDate,
+        name: item.name,
+        tool: item.toolName,
+        status: item.status,
+      }
+    })
+  }, [sessionsWData])
 
   return (
     <StyledSessionsListing>

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -16,11 +16,8 @@ export const MySessionsProvider = (props) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
-  const [eventIds, setEventIds] = useState([])
-  const [ccIds, setCcIds] = useState({ coachIds: [], courseIds: [] })
-
-  const [recentSessionsWData, setRecentSessionsWData] = useState([])
-  const [upcomingSessionsWData, setUpcomingSessionsWData] = useState([])
+  // const [recentSessionsWData, setRecentSessionsWData] = useState([])
+  // const [upcomingSessionsWData, setUpcomingSessionsWData] = useState([])
 
   const getCoachByCoachId = (coachId) => {
     return Members.findOne({ _id: coachId })
@@ -40,7 +37,7 @@ export const MySessionsProvider = (props) => {
     return event
   }
 
-  const { loadingRecentSessions, recentSessions } = useTracker(() => {
+  const { loadingRecentSessions, recentSessions = [] } = useTracker(() => {
     const sub = Meteor.subscribe('sessions.myRecent', {})
     return {
       loadingRecentSessions: !sub.ready(),
@@ -51,7 +48,7 @@ export const MySessionsProvider = (props) => {
     }
   }, [])
 
-  const { loadingUpcomingSessions, upcomingSessions } = useTracker(() => {
+  const { loadingUpcomingSessions, upcomingSessions = [] } = useTracker(() => {
     const sub = Meteor.subscribe('sessions.myUpcoming')
     return {
       loadingUpcomingSessions: !sub.ready(),
@@ -62,24 +59,24 @@ export const MySessionsProvider = (props) => {
     }
   }, [])
 
-  const setEventIdsTimeout = useRef(null)
-  useEffect(() => {
-    Meteor.clearTimeout(setEventIdsTimeout.current)
-    setEventIdsTimeout.current = Meteor.setTimeout(() => {
-      const newEventIds = []
-      recentSessions?.map((item) => {
-        if (!newEventIds.includes(item.eventId)) {
-          newEventIds.push(item.eventId)
-        }
-      })
-      upcomingSessions?.map((item) => {
-        if (!newEventIds.includes(item.eventId)) {
-          newEventIds.push(item.eventId)
-        }
-      })
-      setEventIds(newEventIds)
-    }, 100)
-  }, [recentSessions, upcomingSessions])
+  const eventIds = useMemo(() => {
+    const newEventIds = []
+    recentSessions?.map((item) => {
+      if (!newEventIds.includes(item.eventId)) {
+        newEventIds.push(item.eventId)
+      }
+    })
+    upcomingSessions?.map((item) => {
+      if (!newEventIds.includes(item.eventId)) {
+        newEventIds.push(item.eventId)
+      }
+    })
+    // console.log({ newEventIds })
+    return newEventIds
+  }, [
+    recentSessions.length ? recentSessions : null,
+    upcomingSessions.length ? upcomingSessions : null,
+  ])
 
   const { loadingEvents = false, events = [] } = useTracker(() => {
     if (!eventIds.length) {
@@ -90,64 +87,63 @@ export const MySessionsProvider = (props) => {
       loadingEvents: !sub.ready(),
       events: Events.find({}).fetch(),
     }
-  }, [eventIds])
+  }, [eventIds.length ? eventIds : null])
 
-  const coachAndCourseIdsTimeout = useRef(null)
-  useEffect(() => {
-    Meteor.clearTimeout(coachAndCourseIdsTimeout.current)
-    coachAndCourseIdsTimeout.current = Meteor.setTimeout(() => {
-      const newCoachIds = []
-      const newCourseIds = []
-      events.map((item) => {
-        if (!newCoachIds.includes(item.coachId)) {
-          newCoachIds.push(item.coachId)
-        }
-        if (!newCourseIds.includes(item.courseId)) {
-          newCourseIds.push(item.courseId)
-        }
-        if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
-          newCourseIds.push(item.backupCourseId)
-        }
-      })
-      setCcIds({ coachIds: newCoachIds, courseIds: newCourseIds })
-    }, 100)
-  }, [events])
+  const { coachIds, courseIds } = useMemo(() => {
+    const newCoachIds = []
+    const newCourseIds = []
+    events.map((item) => {
+      if (!newCoachIds.includes(item.coachId)) {
+        newCoachIds.push(item.coachId)
+      }
+      if (!newCourseIds.includes(item.courseId)) {
+        newCourseIds.push(item.courseId)
+      }
+      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
+        newCourseIds.push(item.backupCourseId)
+      }
+    })
+    // console.log('update ccIds')
+    return { coachIds: newCoachIds, courseIds: newCourseIds }
+  }, [events.length ? events : null])
 
   const loadingCC = useTracker(() => {
-    const coachSub = Meteor.subscribe('members.byIds', ccIds.coachIds)
-    const courseSub = Meteor.subscribe('courses.byIds', ccIds.courseIds)
-    return coachSub.ready() && courseSub.ready()
-  }, [ccIds])
-
-  const buildSessionsData = useCallback(() => {
-    setRecentSessionsWData(
-      recentSessions?.map((item) => {
-        const event = getEventById(item.eventId)
-        return {
-          ...item,
-          event,
-        }
-      })
+    const coachSub = Meteor.subscribe('members.byIds', coachIds)
+    const courseSub = Meteor.subscribe('courses.byIds', courseIds)
+    return (
+      !(coachSub ? coachSub.ready() : false) || !(courseSub ? courseSub.ready() : false)
     )
-    setUpcomingSessionsWData(
-      upcomingSessions?.map((item) => {
-        const event = getEventById(item.eventId)
-        return {
-          ...item,
-          event,
-        }
-      })
-    )
-  }, [recentSessions, upcomingSessions])
+  }, [coachIds.length ? coachIds : null, courseIds.length ? courseIds : null])
 
-  const buildTimeout = useRef(null)
-  useEffect(() => {
-    Meteor.clearTimeout(buildTimeout.current)
-    if (!events.length) {
-      return
-    }
-    buildTimeout.current = Meteor.setTimeout(buildSessionsData, 100)
-  }, [recentSessions, upcomingSessions, events, loadingCC])
+  const recentSessionsWData = useMemo(() => {
+    // console.log('build recentSessionsWData')
+    return recentSessions?.map((item) => {
+      const event = getEventById(item.eventId)
+      return {
+        ...item,
+        event,
+      }
+    })
+  }, [
+    recentSessions.length ? recentSessions : null,
+    events.length ? events : null,
+    loadingCC,
+  ])
+
+  const upcomingSessionsWData = useMemo(() => {
+    // console.log('build upcomingSessionsWData')
+    return upcomingSessions?.map((item) => {
+      const event = getEventById(item.eventId)
+      return {
+        ...item,
+        event,
+      }
+    })
+  }, [
+    upcomingSessions.length ? upcomingSessions : null,
+    events.length ? events : null,
+    loadingCC,
+  ])
 
   return (
     <MySessionsContext.Provider
