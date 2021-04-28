@@ -27,7 +27,7 @@ const StyledRecentSessions = styled.div`
 
 function RecentSessions() {
   const { recentSessionsWData } = useContext(MySessionsContext)
-  console.log(recentSessionsWData)
+  // console.log(recentSessionsWData)
 
   const { push } = useHistory()
 

@@ -27,7 +27,7 @@ const StyledUpcomingSessions = styled.div`
 
 function UpcomingSessions() {
   const { upcomingSessionsWData } = useContext(MySessionsContext)
-  console.log(upcomingSessionsWData)
+  // console.log(upcomingSessionsWData)
 
   const { push } = useHistory()
 
