@@ -15,8 +15,11 @@ const dateFormat = {
 }
 
 const editSchema = new SimpleSchema({
+  slug: String,
   title: String,
-  description: OptionalString,
+  description: { type: Array, optional: true },
+  'description.$': OptionalBlackbox,
+
   difficulty: {
     type: String,
     allowedValues: ['beginner', 'intermediate', 'advanced'],
@@ -52,7 +55,17 @@ export default config = {
   add: {
     defaultObject: {
       name: 'Untitled',
-      description: 'Description',
+      description: [
+        {
+          type: 'paragraph',
+          children: [{ text: 'A line of text in a paragraph.' }],
+        },
+        {
+          type: 'image',
+          url: 'https://source.unsplash.com/kFrdX5IeQzI',
+          children: [{ text: '' }],
+        },
+      ],
       code: 'XXX',
     },
   },

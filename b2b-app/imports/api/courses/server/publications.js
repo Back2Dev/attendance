@@ -12,3 +12,11 @@ Meteor.publish('courses.byIds', function (courseIds) {
 Meteor.publish('all.courses', () => {
   return Courses.find({})
 })
+Meteor.publish('id.courses', (id) => {
+  return [
+    Courses.find(id),
+    /* Commented out related publications (if any) - best to add these in manually as required
+     
+    */
+  ]
+})
