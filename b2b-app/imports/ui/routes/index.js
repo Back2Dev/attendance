@@ -9,6 +9,7 @@ const AdminPage = lazy(() => import('/imports/ui/pages/admin.js'))
 const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
 // const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const BookingsPage = lazy(() => import('/imports/ui/pages/bookings.js'))
+const SessionsPage = lazy(() => import('/imports/ui/pages/sessions.js'))
 const MemberPortalPage = lazy(() => import('/imports/ui/pages/member-portal.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
@@ -65,6 +66,7 @@ export default function MainRoutes() {
 
         <SecureRoute path="/dashboard" exact component={MemberPortalPage} />
         <SecureRoute path="/bookings" component={BookingsPage} />
+        <SecureRoute path="/sessions" component={SessionsPage} />
         <SecureRoute path="/support" component={SupportPage} />
         <Route component={NotFoundPage} />
       </Switch>

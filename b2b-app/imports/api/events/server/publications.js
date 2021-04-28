@@ -18,6 +18,17 @@ Meteor.publish('events.byIds', function (eventIds) {
   }
   return Events.find({
     _id: { $in: eventIds },
+    active: true,
+  })
+})
+
+Meteor.publish('events.byId', function (eventId) {
+  if (!Match.test(eventId, String)) {
+    return this.ready()
+  }
+  return Events.find({
+    _id: eventId,
+    active: true,
   })
 })
 

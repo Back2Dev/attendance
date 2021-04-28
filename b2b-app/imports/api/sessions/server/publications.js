@@ -10,6 +10,34 @@ import Tools from '/imports/api/tools/schema'
 */
 const debug = require('debug')('b2b:sessions:publications')
 
+Meteor.publish('sessions.byEventId', function (eventId) {
+  if (!Match.test(eventId, String)) {
+    return this.ready()
+  }
+
+  return Sessions.find({
+    eventId,
+    status: { $ne: 'cancelled' },
+  })
+})
+
+Meteor.publish('sessions.myById', function (id) {
+  if (!Match.test(id, String)) {
+    return this.ready()
+  }
+  if (!this.userId) {
+    return this.ready()
+  }
+  const currentMember = Members.findOne({ userId: this.userId })
+  if (!currentMember) {
+    return this.ready()
+  }
+  return Sessions.find({
+    _id: id,
+    memberId: currentMember._id,
+  })
+})
+
 Meteor.publish('sessions.myAll', function ({ limit = 20 }) {
   if (!Match.test(limit, Match.Integer)) {
     return this.ready()
