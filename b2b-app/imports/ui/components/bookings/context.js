@@ -81,10 +81,6 @@ export const BookingsProvider = (props) => {
     }
   }, [events.length ? events : null])
 
-  useEffect(() => {
-    // console.log('coachIds changed', coachIds)
-  }, [coachIds.length ? coachIds : null])
-
   const { loading: loadingCoaches, coaches = [] } = useTracker(() => {
     // console.log('subscribe members.byIds', coachIds)
     const sub = Meteor.subscribe('members.byIds', coachIds)
