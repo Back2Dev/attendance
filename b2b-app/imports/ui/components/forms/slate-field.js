@@ -17,17 +17,17 @@ import { css } from '@emotion/css'
 
 const debug = require('debug')('b2b:slate-edit')
 
+const insertImage = (editor, url) => {
+  const text = { text: '' }
+  const image = { type: 'image', url, children: [text] }
+  Transforms.insertNodes(editor, image)
+}
+
 const withImages = (editor) => {
   const { insertData, isVoid } = editor
 
   editor.isVoid = (element) => {
     return element.type === 'image' ? true : isVoid(element)
-  }
-
-  const insertImage = (editor, url) => {
-    const text = { text: '' }
-    const image = { type: 'image', url, children: [text] }
-    Transforms.insertNodes(editor, image)
   }
 
   editor.insertData = (data) => {
@@ -97,7 +97,7 @@ const isImageUrl = (url) => {
   return imageExtensions.includes(ext)
 }
 
-const Edit = ({ value, label, onChange }) => {
+const Edit = ({ value, label, onChange, readOnly }) => {
   const editor = React.useMemo(
     () => withImages(withHistory(withReact(createEditor()))),
     []
@@ -128,6 +128,7 @@ const Edit = ({ value, label, onChange }) => {
       <Editable
         renderElement={(props) => <Element {...props} />}
         placeholder="Enter some text..."
+        readOnly={readOnly}
       />
     </Slate>
   )

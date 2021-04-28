@@ -7,6 +7,7 @@ import {
   OptionalBlackbox,
   OptionalInteger,
 } from '/imports/api/utils/schema-util'
+import SlateDisplay from '/imports/ui/components/forms/slate-field'
 
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
@@ -39,7 +40,9 @@ export default config = {
     header: true, // Displays a heading row
     rows: [
       // Array of field names and display labels
-      { field: 'name', label: 'Name' },
+      { field: 'title', label: 'Name' },
+      { field: 'slug', label: 'Slug' },
+      { field: 'description', label: 'Description', component: SlateDisplay },
     ],
   },
   edit: { schema: new SimpleSchema2Bridge(editSchema) },
