@@ -21,6 +21,9 @@ const TestSecureRoute = lazy(() =>
 const TestDataGrid = lazy(() =>
   import('/imports/ui/components/test-components/react-data-grid.js')
 )
+const TestUseTracker = lazy(() =>
+  import('/imports/ui/components/test-components/test-usetracker.js')
+)
 
 const StyledTestPage = styled.div`
   padding: 40px 10px;
@@ -85,6 +88,7 @@ export default function TestPage() {
             <Route path="/test/error" component={TestError} />
             <SecureRoute path="/test/secure" component={TestSecureRoute} />
             <Route path="/test/react-data-grid" component={TestDataGrid} />
+            <Route path="/test/usetracker" component={TestUseTracker} />
           </Switch>
         </Suspense>
       </div>
