@@ -19,8 +19,8 @@ function BookingsHistory() {
       <BookingsHistoryProvider>
         <Typography variant="h1" align="center">
           Bookings History
-          <SessionsListing />
         </Typography>
+        <SessionsListing />
       </BookingsHistoryProvider>
     </StyledBookings>
   )
