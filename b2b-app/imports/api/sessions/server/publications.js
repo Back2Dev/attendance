@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
 import Members from '/imports/api/members/schema'
+import Events from '/imports/api/events/schema.js'
+import Courses from '/imports/api/courses/schema.js'
 import Sessions from '../schema'
 import '../methods'
 /* Commented out related publications (if any) - best to add these in manually as required
@@ -19,6 +21,114 @@ Meteor.publish('sessions.byEventId', function (eventId) {
     eventId,
     status: { $ne: 'cancelled' },
   })
+})
+
+Meteor.publish('sessions.myByIdComposite', function (id) {
+  if (!Match.test(id, String)) {
+    return this.ready()
+  }
+  if (!this.userId) {
+    return this.ready()
+  }
+  const currentMember = Members.findOne({ userId: this.userId })
+  if (!currentMember) {
+    return this.ready()
+  }
+
+  const publication = this
+
+  debug('test multiple cursors', { id })
+  const sessions = Sessions.find({
+    _id: id,
+    memberId: currentMember._id,
+  })
+
+  const findCourses = (courseId) => {
+    const courses = Courses.find({ _id: courseId }).observeChanges({
+      added(_id, fields) {
+        debug('course added', _id, fields)
+        publication.added('courses', _id, fields)
+      },
+      changed(_id, fields) {
+        debug('course changed', _id, fields)
+        publication.changed('courses', _id, fields)
+      },
+      removed(_id) {
+        debug('course removed', _id)
+        publication.removed('courses', _id)
+      },
+    })
+    publication.onStop(() => {
+      courses.stop()
+    })
+  }
+
+  const findOtherSessions = (eventId) => {
+    const otherSessions = Sessions.find({
+      eventId,
+      status: { $ne: 'cancelled' },
+      _id: { $ne: id },
+    }).observeChanges({
+      added(_id, fields) {
+        debug('session added', _id, fields)
+        publication.added('sessions', _id, fields)
+      },
+      changed(_id, fields) {
+        debug('session changed', _id, fields)
+        publication.changed('sessions', _id, fields)
+      },
+      removed(_id) {
+        debug('session removed', _id)
+        publication.removed('sessions', _id)
+      },
+    })
+    publication.onStop(() => {
+      otherSessions.stop()
+    })
+  }
+
+  const findEvents = (eventId) => {
+    const events = Events.find({ _id: eventId }).observeChanges({
+      added(_id, fields) {
+        debug('event added', _id, fields)
+        publication.added('events', _id, fields)
+      },
+      changed(_id, fields) {
+        debug('event changed', _id, fields)
+        publication.changed('events', _id, fields)
+        if (fields.courseId) {
+          findCourses(fields.courseId)
+        }
+      },
+      removed(_id) {
+        debug('events removed', _id)
+        publication.removed('events', _id)
+      },
+    })
+    publication.onStop(() => {
+      events.stop()
+    })
+  }
+
+  const sessionsHandle = sessions.observeChanges({
+    added(_id, fields) {
+      debug('added', _id, fields)
+      findEvents(fields.eventId)
+      findOtherSessions(fields.eventId)
+    },
+    changed(_id, fields) {
+      debug('changed', _id, fields)
+      if (fields.eventId) {
+        findEvents(fields.eventId)
+        findOtherSessions(fields.eventId)
+      }
+    },
+  })
+  publication.onStop(() => {
+    sessionsHandle.stop()
+  })
+
+  return [sessions]
 })
 
 Meteor.publish('sessions.myById', function (id) {
