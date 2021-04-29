@@ -36,5 +36,11 @@
     "name": "events",
     "key": "name",
     "env": ["all"]
+  },
+  {
+    "table": "tools",
+    "name": "tools",
+    "key": "name",
+    "env": ["all"]
   }
 ]

@@ -83,6 +83,7 @@ export const EventsSchema = new SimpleSchema({
     label: 'Event Price in cents',
     defaultValue: 0,
   },
+  code: OptionalString,
   createdAt,
   updatedAt,
 })
