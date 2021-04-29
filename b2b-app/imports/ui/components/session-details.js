@@ -2,11 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 
-import { Typography } from '@material-ui/core'
-
 import { SessionDetailsProvider } from './session-details/context'
+import DetailsHeader from './session-details/header'
+import DetailsMap from './session-details/map'
+import DetailsContent from './session-details/content'
+import DetailsMembers from './session-details/members'
 
-const StyledSessionDetails = styled.div``
+const StyledSessionDetails = styled.div`
+  margin-top: 40px;
+`
 
 function SessionDetails() {
   const { id } = useParams()
@@ -14,7 +18,10 @@ function SessionDetails() {
   return (
     <StyledSessionDetails>
       <SessionDetailsProvider>
-        <Typography variant="h1">SessionDetails</Typography>
+        <DetailsHeader />
+        <DetailsMap />
+        <DetailsContent />
+        <DetailsMembers />
       </SessionDetailsProvider>
     </StyledSessionDetails>
   )

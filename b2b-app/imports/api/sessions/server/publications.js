@@ -92,6 +92,9 @@ Meteor.publish('sessions.myByIdComposite', function (id) {
       added(_id, fields) {
         debug('event added', _id, fields)
         publication.added('events', _id, fields)
+        if (fields.courseId) {
+          findCourses(fields.courseId)
+        }
       },
       changed(_id, fields) {
         debug('event changed', _id, fields)
@@ -127,6 +130,8 @@ Meteor.publish('sessions.myByIdComposite', function (id) {
   publication.onStop(() => {
     sessionsHandle.stop()
   })
+
+  // debug(this)
 
   return [sessions]
 })
