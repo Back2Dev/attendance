@@ -38,6 +38,8 @@ const UserPreferences = lazy(() =>
   import('/imports/ui/pages/user-preferences/user-preferences.js')
 )
 
+const TestPage = lazy(() => import('/imports/ui/pages/test.js'))
+
 export default function MainRoutes() {
   return (
     <Suspense fallback={<Loading loading />}>
@@ -68,6 +70,7 @@ export default function MainRoutes() {
         <SecureRoute path="/bookings" component={BookingsPage} />
         <SecureRoute path="/sessions" component={SessionsPage} />
         <SecureRoute path="/support" component={SupportPage} />
+        <SecureRoute path="/test" component={TestPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </Suspense>

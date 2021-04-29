@@ -26,36 +26,51 @@ export const SessionDetailsProvider = (props) => {
 
   // first, get the session
   const { loading, session } = useTracker(() => {
-    const sub = Meteor.subscribe('sessions.myByIdComposite', id)
+    const sub = Meteor.subscribe('sessions.myById', id)
     return {
       loading: !sub.ready(),
       session: Sessions.findOne({ _id: id }),
     }
   }, [id])
 
-  const event = useTracker(() => {
+  // then get the event
+  const { loadingEvent, event } = useTracker(() => {
     if (!session?.eventId) {
-      return null
+      return { loadingEvent: false, event: null }
     }
-    return Events.findOne({ _id: session.eventId, active: true })
+    const sub = Meteor.subscribe('events.byId', session.eventId)
+    return {
+      loadingEvent: !sub.ready(),
+      event: Events.findOne({ _id: session.eventId, active: true }),
+    }
   }, [session?.eventId])
 
-  const course = useTracker(() => {
+  // load course
+  const { loadingCourse, course } = useTracker(() => {
     if (!event?.courseId) {
-      return null
+      return { loadingCourse: false, course: null }
     }
-    return Courses.findOne({ _id: event.courseId, active: true })
+    const sub = Meteor.subscribe('courses.byId', event.courseId)
+    return {
+      loadingCourse: !sub.ready(),
+      course: Courses.findOne({ _id: event.courseId, active: true }),
+    }
   }, [event?.courseId])
 
-  const otherSessions = useTracker(() => {
+  // load other other sessions related to the event
+  const { loadingOtherSessions, otherSessions } = useTracker(() => {
     if (!session?.eventId) {
-      return []
+      return { loadingOtherSessions: false, otherSessions: null }
     }
-    return Sessions.find({
-      _id: { $ne: session._id },
-      eventId: session.eventId,
-      status: { $ne: 'cancelled' },
-    }).fetch()
+    const sub = Meteor.subscribe('sessions.byEventId', session.eventId)
+    return {
+      loadingOtherSessions: !sub.ready(),
+      otherSessions: Sessions.find({
+        _id: { $ne: session._id },
+        eventId: session.eventId,
+        status: { $ne: 'cancelled' },
+      }).fetch(),
+    }
   }, [session?.eventId])
 
   // then load all members who booked them
@@ -89,8 +104,11 @@ export const SessionDetailsProvider = (props) => {
       value={{
         loading,
         session,
+        loadingEvent,
         event,
+        loadingCourse,
         course,
+        loadingOtherSessions,
         otherSessions,
         loadingMembers,
         members,
