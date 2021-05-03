@@ -10,7 +10,7 @@ const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
 // const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const BookingsPage = lazy(() => import('/imports/ui/pages/bookings.js'))
 const SessionsPage = lazy(() => import('/imports/ui/pages/sessions.js'))
-const MemberPortalPage = lazy(() => import('/imports/ui/pages/member-portal.js'))
+const UserPage = lazy(() => import('/imports/ui/pages/user.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
 const Signup = lazy(() => import('/imports/ui/pages/signup/signup.js'))
@@ -34,9 +34,6 @@ const ResetPassword = lazy(() =>
 )
 
 const SupportPage = lazy(() => import('/imports/ui/pages/support.js'))
-const UserPreferences = lazy(() =>
-  import('/imports/ui/pages/user-preferences/user-preferences.js')
-)
 
 const TestPage = lazy(() => import('/imports/ui/pages/test.js'))
 
@@ -64,9 +61,9 @@ export default function MainRoutes() {
         <Route path="/add-facebook" component={AddFacebookConfirm} />
         {/* Task pages routes */}
 
-        <SecureRoute path="/profile" component={UserPreferences} />
+        <SecureRoute path="/profile" component={UserPage} />
+        <SecureRoute path="/dashboard" component={UserPage} />
 
-        <SecureRoute path="/dashboard" exact component={MemberPortalPage} />
         <SecureRoute path="/bookings" component={BookingsPage} />
         <SecureRoute path="/sessions" component={SessionsPage} />
         <SecureRoute path="/support" component={SupportPage} />
