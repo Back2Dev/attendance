@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 
 import defaultTheme from './default'
-console.log('default', defaultTheme)
+// console.log('default', defaultTheme)
 
 export default createMuiTheme({
   ...defaultTheme,

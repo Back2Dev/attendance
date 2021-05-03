@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 
-// import AccountIcon from '@material-ui/icons/AccountCircle'
+import { Link } from '@material-ui/core'
 
 import CONSTANTS from '/imports/api/constants'
 
@@ -57,7 +57,9 @@ const Avatar = ({ url = null, alt = null, size = 80, styles = {}, linkUrl = null
   if (linkUrl) {
     return (
       <StyledAvatar className="avatar" style={style}>
-        <Link to={linkUrl}>{renderImage()}</Link>
+        <Link component={RouterLink} to={linkUrl}>
+          {renderImage()}
+        </Link>
       </StyledAvatar>
     )
   }

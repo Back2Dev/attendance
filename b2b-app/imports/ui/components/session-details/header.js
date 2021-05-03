@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 
-import { Typography, Grid } from '@material-ui/core'
+import { Typography, Grid, Link } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 
 import Loading from '/imports/ui/components/commons/loading.js'
@@ -50,7 +50,10 @@ function DetailsHeader() {
     const profileUrl = `/profile/${coach._id}`
     return (
       <>
-        Coach:&nbsp;<Link to={profileUrl}>{coach.name}</Link>{' '}
+        Coach:&nbsp;
+        <Link component={RouterLink} to={profileUrl}>
+          {coach.name}
+        </Link>{' '}
         <Avatar url={avatarUrl} alt={coach.name} size={32} linkUrl={profileUrl} />
       </>
     )
