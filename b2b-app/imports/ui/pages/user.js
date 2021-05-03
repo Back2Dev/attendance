@@ -7,6 +7,7 @@ import { Container } from '@material-ui/core'
 
 import Portal from '/imports/ui/components/portal.js'
 import UserPreferences from '/imports/ui/components/user-preferences/user-preferences.js'
+import PublicProfile from '/imports/ui/components/user-public-profile.js'
 
 const StyledUserPage = styled.div``
 
@@ -18,6 +19,7 @@ function UserPage() {
       </Helmet>
       <Container maxWidth="lg">
         <Switch>
+          <Route path="/profile/:id" component={PublicProfile} />
           <Route path="/profile" component={UserPreferences} />
           <Route component={Portal} />
         </Switch>

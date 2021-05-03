@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { Typography, Grid } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
@@ -46,9 +47,11 @@ function DetailsHeader() {
         avatarUrl = `/images/avatar/${coach.avatar}`
       }
     }
+    const profileUrl = `/profile/${coach._id}`
     return (
       <>
-        Coach: {coach.name} <Avatar url={avatarUrl} alt={coach.name} size={32} />
+        Coach:&nbsp;<Link to={profileUrl}>{coach.name}</Link>{' '}
+        <Avatar url={avatarUrl} alt={coach.name} size={32} linkUrl={profileUrl} />
       </>
     )
   }

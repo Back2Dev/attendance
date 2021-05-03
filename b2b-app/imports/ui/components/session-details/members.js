@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
@@ -50,10 +51,13 @@ function DetailsMembers() {
   }
 
   const renderMember = (member) => {
+    const profileUrl = `/profile/${member._id}`
     return (
       <div className="member-container" key={member._id}>
-        <Avatar url={member.avatar} size={32} alt={member.name} />
-        <div className="name">{member.name}</div>
+        <Avatar url={member.avatar} size={32} alt={member.name} linkUrl={profileUrl} />
+        <div className="name">
+          <Link to={profileUrl}>{member.name}</Link>
+        </div>
         <div className="badges">
           <Badges badges={member.badges} />
         </div>
