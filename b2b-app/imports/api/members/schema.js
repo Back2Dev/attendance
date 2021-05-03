@@ -59,6 +59,10 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  bio: {
+    type: String,
+    optional: true,
+  },
   userToken: {
     type: String,
     optional: true,

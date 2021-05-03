@@ -18,6 +18,7 @@ import UploadAvatar from '/imports/ui/hacks/aws/upload-avatar-box.js'
 import TabPanel from '/imports/ui/components/tab-panel.js'
 import PersonalInfo from './personal-info.js'
 import ChangePassword from './change-password.js'
+import Bio from './bio'
 import SignPage from '/imports/ui/components/add-signature/sign-page.js'
 import { convertAvatar } from '/imports/api/util.js'
 
@@ -59,7 +60,7 @@ function a11yProps(index) {
   }
 }
 
-export default UserPreferences = () => {
+const UserPreferences = () => {
   const [tab, setTab] = useState(0)
 
   const handleTabs = (event, newValue) => {
@@ -73,21 +74,23 @@ export default UserPreferences = () => {
   const userPrefMenu = [
     {
       display: 'Personal',
-      component: () => {
-        return <PersonalInfo />
-      },
+      component: <PersonalInfo />,
     },
     {
       display: 'Password',
-      component: () => <ChangePassword />,
+      component: <ChangePassword />,
     },
     {
       display: 'Photo',
-      component: () => <UploadAvatar />,
+      component: <UploadAvatar />,
     },
     {
       display: 'Signature',
-      component: () => <SignPage />,
+      component: <SignPage />,
+    },
+    {
+      display: 'Biography',
+      component: <Bio />,
     },
   ]
 
@@ -143,7 +146,7 @@ export default UserPreferences = () => {
                 {userPrefMenu &&
                   userPrefMenu.map((item, index) => (
                     <TabPanel key={index} value={tab} index={index}>
-                      {item.component()}
+                      {item.component}
                     </TabPanel>
                   ))}
               </div>
@@ -154,3 +157,5 @@ export default UserPreferences = () => {
     </Container>
   )
 }
+
+export default UserPreferences

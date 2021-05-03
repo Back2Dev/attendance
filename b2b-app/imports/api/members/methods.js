@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Match } from 'meteor/check'
 import logger from '/imports/lib/log'
 import CONSTANTS from '/imports/api/constants'
 import Members, { AddBadgeParamsSchema } from './schema'
@@ -6,6 +7,34 @@ import Members, { AddBadgeParamsSchema } from './schema'
 const debug = require('debug')('b2b:members')
 
 Meteor.methods({
+  'members.updateBio'({ bio }) {
+    debug({ bio })
+    if (!Match.test(bio, String)) {
+      return { status: 'failed', message: 'Invalid bio' }
+    }
+
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const myMember = Members.findOne({ userId: this.userId })
+    if (!myMember) {
+      return { status: 'failed', message: 'Member was not found' }
+    }
+
+    try {
+      Members.update(
+        { _id: myMember._id },
+        {
+          $set: { bio },
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: `Update failed: ${e.message}` }
+    }
+
+    return { status: 'success' }
+  },
   /**
    * Admin adds a badge to a member
    * @param {String} memberId

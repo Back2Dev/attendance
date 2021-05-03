@@ -14,6 +14,7 @@ const publicFields = {
   mobile: 1,
   avatar: 1,
   badges: { $elemMatch: { private: { $ne: true } } },
+  bio: 1,
 }
 
 Meteor.publish('members.byIds', function (memberIds) {
