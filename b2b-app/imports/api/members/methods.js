@@ -7,10 +7,13 @@ import Members, { AddBadgeParamsSchema } from './schema'
 const debug = require('debug')('b2b:members')
 
 Meteor.methods({
-  'members.updateBio'({ bio }) {
-    debug({ bio })
+  'members.updateBio'({ bio, favorites }) {
+    debug({ bio, favorites })
     if (!Match.test(bio, String)) {
       return { status: 'failed', message: 'Invalid bio' }
+    }
+    if (!Match.test(favorites, [String])) {
+      return { status: 'failed', message: 'Invalid favorites' }
     }
 
     // check for login user
@@ -26,7 +29,7 @@ Meteor.methods({
       Members.update(
         { _id: myMember._id },
         {
-          $set: { bio },
+          $set: { bio, favorites },
         }
       )
     } catch (e) {

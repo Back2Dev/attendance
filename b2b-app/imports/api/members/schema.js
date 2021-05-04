@@ -63,6 +63,11 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  favorites: {
+    type: Array,
+    optional: true,
+  },
+  'favorites.$': String,
   userToken: {
     type: String,
     optional: true,
