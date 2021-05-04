@@ -19,7 +19,6 @@ import TabPanel from '/imports/ui/components/tab-panel.js'
 import PersonalInfo from './personal-info.js'
 import ChangePassword from './change-password.js'
 import Bio from './bio'
-import SignPage from '/imports/ui/components/add-signature/sign-page.js'
 import { convertAvatar } from '/imports/api/util.js'
 
 const useStyles = makeStyles((theme) => ({
@@ -83,10 +82,6 @@ const UserPreferences = () => {
     {
       display: 'Photo',
       component: <UploadAvatar />,
-    },
-    {
-      display: 'Signature',
-      component: <SignPage />,
     },
     {
       display: 'Biography',
