@@ -37,7 +37,6 @@ export const MemeberItemSchema = new SimpleSchema({
   session: SessionsSchema.pick(
     '_id',
     'memberId',
-    'eventId',
     'name',
     'role',
     'status',
