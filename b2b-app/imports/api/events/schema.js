@@ -9,6 +9,9 @@ import {
   updatedAt,
 } from '/imports/api/utils/schema-util'
 
+import { SessionsSchema } from '/imports/api/sessions/schema.js'
+import { MembersSchema } from '../members/schema'
+
 const Events = new Mongo.Collection('events')
 
 export const ToolItemSchema = new SimpleSchema({
@@ -29,6 +32,33 @@ export const BookParamsSchema = new SimpleSchema({
 export const CancelBookingParamsSchema = new SimpleSchema({
   sessionId: RegExId,
 })
+
+export const MemeberItemSchema = new SimpleSchema({
+  session: SessionsSchema.pick(
+    '_id',
+    'memberId',
+    'eventId',
+    'name',
+    'role',
+    'status',
+    'toolName',
+    'toolId',
+    'bookedDate',
+    'updatedAt'
+  ),
+}).extend(
+  MembersSchema.pick(
+    '_id',
+    'userId',
+    'name',
+    'nickname',
+    'avatar',
+    'badges',
+    'mobile',
+    'updatedAt'
+  )
+)
+console.log(JSON.stringify(MemeberItemSchema, null, 2))
 
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
@@ -83,9 +113,16 @@ export const EventsSchema = new SimpleSchema({
     label: 'Event Price in cents',
     defaultValue: 0,
   },
+  members: {
+    type: Array,
+    optional: true,
+  },
+  'members.$': MemeberItemSchema,
   createdAt,
   updatedAt,
 })
+
+// console.log(EventsSchema)
 
 export const defaultObject = {
   name: 'Untitled',
