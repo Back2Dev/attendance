@@ -2,7 +2,11 @@ import { Meteor } from 'meteor/meteor'
 import Sessions from '/imports/api/sessions/schema.js'
 import Members from '/imports/api/members/schema.js'
 import Courses from '/imports/api/courses/schema.js'
-import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
+import Events, {
+  BookParamsSchema,
+  CancelBookingParamsSchema,
+  MemeberItemSchema,
+} from './schema'
 const debug = require('debug')('b2b:events')
 
 Meteor.methods({
@@ -155,6 +159,26 @@ Meteor.methods({
     } catch (e) {
       return { status: 'failed', message: `Error inserting new session ${e.message}` }
     }
+
+    // update the members array of event
+    const memberItem = MemeberItemSchema.clean({
+      ...member,
+      session: Sessions.findOne({ _id: sessionId }),
+    })
+    debug({ memberItem })
+    const updateData = {}
+    if (event.members) {
+      updateData.$push = { members: memberItem }
+    } else {
+      updateData.$set = { members: [memberItem] }
+    }
+    debug({ updateData })
+    Events.update(
+      {
+        _id: eventId,
+      },
+      updateData
+    )
 
     // disable the booked tool
     if (foundTool) {
