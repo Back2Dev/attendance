@@ -42,20 +42,10 @@ export const MemeberItemSchema = new SimpleSchema({
     'status',
     'toolName',
     'toolId',
-    'bookedDate',
-    'updatedAt'
+    'bookedDate'
   ),
 }).extend(
-  MembersSchema.pick(
-    '_id',
-    'userId',
-    'name',
-    'nickname',
-    'avatar',
-    'badges',
-    'mobile',
-    'updatedAt'
-  )
+  MembersSchema.pick('_id', 'userId', 'name', 'nickname', 'avatar', 'badges', 'mobile')
 )
 console.log(JSON.stringify(MemeberItemSchema, null, 2))
 
