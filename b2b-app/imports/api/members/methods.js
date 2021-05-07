@@ -3,6 +3,8 @@ import { Match } from 'meteor/check'
 import logger from '/imports/lib/log'
 import CONSTANTS from '/imports/api/constants'
 import Members, { AddBadgeParamsSchema } from './schema'
+import Events, { MemeberItemSchema } from '../events/schema'
+import moment from 'moment'
 
 const debug = require('debug')('b2b:members')
 
@@ -42,11 +44,12 @@ Meteor.methods({
    * Admin adds a badge to a member
    * @param {String} memberId
    * @param {String} code
+   * @param {Boolean} overwrite
    * @returns {Object} result
    * @returns {String} result.status - success or failed
    * @returns {String} result.message
    */
-  'members.addBadge'({ memberId, code }) {
+  'members.addBadge'({ memberId, code, overwrite = false }) {
     debug({ memberId, code })
     try {
       AddBadgeParamsSchema.validate({ memberId, code })
@@ -85,6 +88,7 @@ Meteor.methods({
       newBadge.private = true
     }
 
+    const updateCondition = { _id: memberId }
     const updateData = member.badges
       ? {
           $push: { badges: newBadge },
@@ -93,13 +97,49 @@ Meteor.methods({
           $set: { badges: [newBadge] },
         }
     // debug('updateData', JSON.stringify(updateData))
+
+    // check if the member has this badge already
+    const existingBadge = member.badges.find((item) => item.code === code)
+    if (existingBadge) {
+      if (!overwrite) {
+        return {
+          status: 'failed',
+          message: `Member ${memberId} has had this badge already since: ${moment(
+            existingBadge.createdAt
+          ).format('DD/MM/YYYY HH:mm:SS')}`,
+        }
+      }
+      // else pull existing item
+      delete updateData.$push
+      updateCondition.badges = { $elemMatch: { code } }
+      updateData.$set = { 'badges.$': newBadge }
+    }
+
     try {
-      const updateResult = Members.update({ _id: memberId }, updateData)
+      const updateResult = Members.update(updateCondition, updateData)
       if (!updateResult) {
         return { status: 'failed', message: 'Unable to update member' }
       }
     } catch (error) {
       return { status: 'failed', message: error.message }
+    }
+
+    // update the members array of event
+    const updatedMember = Members.findOne({ _id: memberId })
+    if (updatedMember) {
+      Events.update(
+        {
+          members: {
+            $elemMatch: { _id: memberId },
+          },
+        },
+        {
+          $set: {
+            'members.$[].badges': updatedMember.badges,
+          },
+        },
+        { multi: true }
+      )
     }
 
     return { status: 'success' }

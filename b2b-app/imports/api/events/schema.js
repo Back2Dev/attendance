@@ -107,6 +107,7 @@ export const EventsSchema = new SimpleSchema({
     optional: true,
   },
   'members.$': MemeberItemSchema,
+  'members.$[]': MemeberItemSchema, // interesting?! it supports this command: $set: { 'members.$[].badges': newbadges },
   createdAt,
   updatedAt,
 })
