@@ -6,6 +6,7 @@ import Events, {
   BookParamsSchema,
   CancelBookingParamsSchema,
   MemeberItemSchema,
+  CourseItemSchema,
 } from './schema'
 const debug = require('debug')('b2b:events')
 
@@ -234,6 +235,33 @@ Meteor.methods({
   'insert.events': (form) => {
     try {
       const id = Events.insert(form)
+
+      // we need to get the course information and update the event
+      if (id) {
+        const updateData = {}
+        if (form.courseId) {
+          // debug(form.courseId)
+          const course = Courses.findOne({ _id: form.courseId })
+          if (course) {
+            updateData.course = CourseItemSchema.clean(course)
+          }
+        }
+        if (form.backupCourseId) {
+          const backupCourse = Courses.findOne({ _id: form.backupCourseId })
+          if (backupCourse) {
+            updateData.backupCourse = CourseItemSchema.clean(backupCourse)
+          }
+        }
+        if (updateData.course || updateData.backupCourse) {
+          Events.update(
+            { _id: id },
+            {
+              $set: updateData,
+            }
+          )
+        }
+      }
+
       return { status: 'success', message: 'Added event' }
     } catch (e) {
       return {

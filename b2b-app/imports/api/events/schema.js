@@ -11,6 +11,7 @@ import {
 
 import { SessionsSchema } from '/imports/api/sessions/schema.js'
 import { MembersSchema } from '../members/schema'
+import { CoursesSchema } from '../courses/schema'
 
 const Events = new Mongo.Collection('events')
 
@@ -33,6 +34,14 @@ export const CancelBookingParamsSchema = new SimpleSchema({
   sessionId: RegExId,
 })
 
+export const CourseItemSchema = CoursesSchema.pick(
+  '_id',
+  'map',
+  'description',
+  'difficulty',
+  'active'
+)
+
 export const MemeberItemSchema = new SimpleSchema({
   session: SessionsSchema.pick(
     '_id',
@@ -47,7 +56,7 @@ export const MemeberItemSchema = new SimpleSchema({
 }).extend(
   MembersSchema.pick('_id', 'userId', 'name', 'nickname', 'avatar', 'badges', 'mobile')
 )
-console.log(JSON.stringify(MemeberItemSchema, null, 2))
+// console.log(JSON.stringify(MemeberItemSchema, null, 2))
 
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
@@ -57,6 +66,14 @@ export const EventsSchema = new SimpleSchema({
   },
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
+  course: {
+    type: CourseItemSchema,
+    optional: true,
+  },
+  backupCourse: {
+    type: CourseItemSchema,
+    optional: true,
+  },
   coachId: OptionalRegExId, // members id
   // the available tools for select
   tools: {
