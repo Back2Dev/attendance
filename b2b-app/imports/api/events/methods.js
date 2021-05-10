@@ -224,6 +224,32 @@ Meteor.methods({
       const id = form._id
       delete form._id
       const n = Events.update(id, { $set: form })
+
+      if (n) {
+        const updateData = {}
+        if (form.courseId) {
+          // debug(form.courseId)
+          const course = Courses.findOne({ _id: form.courseId })
+          if (course) {
+            updateData.course = CourseItemSchema.clean(course)
+          }
+        }
+        if (form.backupCourseId) {
+          const backupCourse = Courses.findOne({ _id: form.backupCourseId })
+          if (backupCourse) {
+            updateData.backupCourse = CourseItemSchema.clean(backupCourse)
+          }
+        }
+        if (updateData.course || updateData.backupCourse) {
+          Events.update(
+            { _id: id },
+            {
+              $set: updateData,
+            }
+          )
+        }
+      }
+
       return { status: 'success', message: `Updated ${n} event(s)` }
     } catch (e) {
       return {
