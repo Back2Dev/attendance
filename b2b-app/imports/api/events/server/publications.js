@@ -32,6 +32,16 @@ Meteor.publish('events.byId', function (eventId) {
   })
 })
 
+Meteor.publish('id.events', function (eventId) {
+  if (!Match.test(eventId, String)) {
+    return this.ready()
+  }
+  return Events.find({
+    _id: eventId,
+    active: true,
+  })
+})
+
 /**
  * Publish future events for booking
  */
