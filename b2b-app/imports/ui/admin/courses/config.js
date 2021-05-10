@@ -14,8 +14,19 @@ const dateFormat = {
   invalidPlaceholder: '',
 }
 
+const MapSchema = new SimpleSchema({
+  title: String,
+  imageUrl: String,
+})
+
 const editSchema = new SimpleSchema({
   title: String,
+  slug: String,
+  map: {
+    type: Array,
+    optional: true,
+  },
+  'map.$': MapSchema,
   description: OptionalString,
   difficulty: {
     type: String,
@@ -43,6 +54,7 @@ export default config = {
   list: {
     columns: [
       { field: 'title', title: 'title', editor: true, formatter: null },
+      { field: 'slug', title: 'slug', editor: true, formatter: null },
       { field: 'map', title: 'map', editor: true, formatter: null },
       { field: 'description', title: 'description', editor: true, formatter: null },
       { field: 'difficulty', title: 'difficulty', editor: true, formatter: null },

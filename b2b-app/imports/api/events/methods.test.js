@@ -120,7 +120,7 @@ describe('Test cancel.events method', () => {
     expect(result).to.have.property('status').which.equal('success')
   })
 })
-describe.only('Test insert.events method', () => {
+describe('Test insert.events method', () => {
   const theMethod = Meteor.server.method_handlers['insert.events']
   it('insert.events should works good params', () => {
     const course = Factory.create('course')

@@ -20,6 +20,13 @@ Meteor.publish('courses.byIds', function (courseIds) {
   return Courses.find({ _id: { $in: courseIds }, active: true })
 })
 
+Meteor.publish('id.courses', function (id) {
+  if (!Match.test(id, String)) {
+    return this.ready()
+  }
+  return Courses.find({ _id: id, active: true })
+})
+
 Meteor.publish('all.courses', () => {
   return Courses.find({})
 })
