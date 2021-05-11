@@ -1,12 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -28,8 +21,6 @@ export const BookingsProvider = (props) => {
 
   // const [ids, setIds] = useState({ eventIds: [], coachIds: [], courseIds: [] })
 
-  const [eventsWithExtraData, setEventsWithExtraData] = useState([])
-
   const getMySessionByEventId = (eventId) => {
     return Sessions.findOne({
       memberId: member?._id,
@@ -45,42 +36,6 @@ export const BookingsProvider = (props) => {
       events: Events.find({ active: true, when: { $gt: new Date() } }).fetch(),
     }
   }, [])
-
-  const { eventIds } = useMemo(() => {
-    const newEventIds = []
-    events.map((item) => {
-      if (!newEventIds.includes(item._id)) {
-        newEventIds.push(item._id)
-      }
-    })
-    return {
-      eventIds: newEventIds,
-    }
-  }, [events.length ? events : null])
-
-  const { loading: loadingSessions, sessions = [] } = useTracker(() => {
-    const sub = Meteor.subscribe('sessions.mineByEventIds', eventIds)
-    return {
-      loading: !sub.ready(),
-      sessions: Sessions.find({ eventId: { $in: eventIds } }).fetch(),
-    }
-  }, [eventIds.length ? eventIds : null])
-
-  const buildDataTimeout = useRef(null)
-  useEffect(() => {
-    Meteor.clearTimeout(buildDataTimeout.current)
-    buildDataTimeout.current = Meteor.setTimeout(() => {
-      // console.log('build eventsWithExtraData')
-      setEventsWithExtraData(
-        events?.map((item) => {
-          return {
-            ...item,
-            session: getMySessionByEventId(item._id),
-          }
-        })
-      )
-    }, 100)
-  }, [events.length ? events : null, sessions.length ? sessions : null])
 
   const [submiting, setSubmiting] = useState(false)
   // book action
@@ -128,8 +83,7 @@ export const BookingsProvider = (props) => {
     <BookingsContext.Provider
       value={{
         loading,
-        loadingSessions,
-        events: eventsWithExtraData,
+        events,
         getMySessionByEventId,
         book,
         cancel,

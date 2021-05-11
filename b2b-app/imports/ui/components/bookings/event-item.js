@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
 
+import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 import {
@@ -90,12 +91,27 @@ const StyledEventItem = styled(Paper)`
 `
 
 function EventItem({ event }) {
-  const { when, name, session, tools, course, backupCourse } = event
+  const { when, name, tools, course, backupCourse, members } = event
   const { book, cancel, submiting } = useContext(BookingsContext)
+  const { member: myMember } = useContext(AccountContext)
+
   const { showConfirm } = useConfirm()
 
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState('')
+
+  const session = useMemo(() => {
+    let foundSession
+    if (!myMember?._id) {
+      return foundSession
+    }
+    members.map((item) => {
+      if (item._id === myMember._id) {
+        foundSession = item.session
+      }
+    })
+    return foundSession
+  }, [myMember?._id, members])
 
   const onBookBtnClick = () => {
     if (!tools?.length) {
@@ -283,6 +299,16 @@ EventItem.propTypes = {
     backupCourse: PropTypes.shape({
       title: PropTypes.string.isRequired,
     }),
+    members: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+        session: PropTypes.shape({
+          _id: PropTypes.string,
+          memberId: PropTypes.string,
+          status: PropTypes.string,
+        }),
+      })
+    ),
   }).isRequired,
 }
 
