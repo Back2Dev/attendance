@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Fenn LS",
+    "description": "Fenn LS - intermediate - SLSA approved spec ski",
+    "active": true,
+    "location": "Sandridge"
+  },
+  {
+    "name": "Fenn Tarpon",
+    "description": "Fenn Tarpon - beginner - SLSA approved spec ski",
+    "active": true,
+    "location": "Sandridge"
+  },
+  {
+    "name": "Epic V8 #1",
+    "description": "EPIC V8 - beginner - Ocean racing ski",
+    "active": true,
+    "location": "Sandridge"
+  },
+  {
+    "name": "Epic V8 #2",
+    "description": "EPIC V8 - beginner - Ocean racing ski",
+    "active": true,
+    "location": "Sandridge"
+  },
+  {
+    "name": "Epic V8 Sport",
+    "description": "EPIC V8 Sport - beginner - Ocean racing ski",
+    "active": true,
+    "location": "Sandridge"
+  }
+]
