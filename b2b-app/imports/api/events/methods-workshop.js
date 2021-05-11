@@ -8,7 +8,7 @@ import Courses from '/imports/api/courses/schema.js'
 import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
 const debug = require('debug')('b2b:events')
 
-const course = [
+const unit = [
   {
     name: '1. Intro and punctures',
   },
@@ -33,15 +33,22 @@ Meteor.methods({
    * @returns {String} result.status
    * @returns {String} result.message
    */
-  // Example: Meteor.call("create.workshop", { start: "2021-07-01", weeks: "YY YY YY", code: "MAINT-6W", coach: "Mike King"})
-
+  /**  Example:
+   * Meteor.call("create.workshop", {
+   * start: "2021-07-01",
+   * weeks: "YY YY YY",
+   * code: "MAINT-6W",
+   * coach: "Mike King",
+   * course: "Bumble bee"})
+   */
   'create.workshop': (form) => {
     try {
       Sessions.remove({})
       Events.remove({})
-      const { start, weeks, code, coach } = form
+      const { start, weeks, code, coach, course } = form
       Events.remove({ code: `${code}-${start}` })
       const trainer = Members.findOne({ name: coach })
+      const theCourse = Courses.findOne({ title: course })
       let week = 0
       weeks.split('').forEach((wk, ix) => {
         if (wk.match(/y/i)) {
@@ -55,11 +62,12 @@ Meteor.methods({
 
             code: `${code}-${start}`,
             when,
-            name: course[week].name,
+            name: unit[week].name,
+            courseId: theCourse?._id,
           })
           const sId = Sessions.insert({
             memberId: trainer?._id,
-            name: course[week].name,
+            name: unit[week].name,
             memberName: coach,
             role: 'COA',
             status: 'booked',
@@ -68,7 +76,7 @@ Meteor.methods({
             eventId,
           })
           trainer.session = Sessions.findOne(sId)
-          Events.update(eventId, { $push: { members: MemberItemSchema.clean(trainer) } })
+          Events.update(eventId, { $push: { members: trainer } })
           week = week + 1
         }
       })
