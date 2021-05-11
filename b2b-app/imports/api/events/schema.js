@@ -36,6 +36,7 @@ export const CancelBookingParamsSchema = new SimpleSchema({
 
 export const CourseItemSchema = CoursesSchema.pick(
   '_id',
+  'title',
   'map',
   'description',
   'difficulty',
