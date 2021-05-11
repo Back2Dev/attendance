@@ -58,49 +58,54 @@ const sortFn = (a, b) => {
 }
 
 const doit = async (meteor) => {
-  await meteor.connect()
-  // connection is ready here
-  const sub = meteor.subscribe('all.messageTemplates')
-  await sub.ready()
-  // get non-reactive collection data
-  let messages = meteor.collection('messageTemplates').fetch().sort(sortFn)
+  try {
+    await meteor.connect()
+    // connection is ready here
+    const sub = meteor.subscribe('all.messageTemplates')
+    await sub.ready()
+    // get non-reactive collection data
+    let messages = meteor.collection('messageTemplates').fetch().sort(sortFn)
 
-  const msgs = messages.map((msg) => {
-    delete msg.id
-    delete msg.createdAt
-    delete msg.updatedAt
-    return msg
-  })
-
-  if (opts.export) {
-    fs.writeFileSync(output, JSON.stringify(osort(msgs.sort(sortFn)), null, 2))
-    console.log(`Done, saved ${msgs.length} messages to json file`)
-  }
-
-  if (opts.js) {
-    'EMAIL SMS'.split(/\s+/).forEach((type) => {
-      const subset = msgs.filter((msg) => msg.type === type)
-      const file = `${folder}/packages/fixtures/js-data/${type.toLocaleLowerCase()}-templates.js`
-      fs.writeFileSync(
-        file,
-        prettier.format(`module.exports = ${stringify(osort(subset))}`, prettierRules)
-      )
+    const msgs = messages.map((msg) => {
+      delete msg.id
+      delete msg.createdAt
+      delete msg.updatedAt
+      return msg
     })
-  }
 
-  if (opts.docs) {
-    const resp = await meteor.call('generate.events.md')
-    if (resp.status === 'success') {
-      const file = `${base}event-notifications.mdx`
-      fs.writeFileSync(file, resp.result)
-      console.log(`Saved file ${file}`)
-    } else {
-      console.error(`Markdown document creation failed for messages: ${resp.message}`)
+    if (opts.export) {
+      fs.writeFileSync(output, JSON.stringify(osort(msgs.sort(sortFn)), null, 2))
+      console.log(`Done, saved ${msgs.length} messages to json file`)
     }
-  }
 
-  await meteor.stopChangeListeners()
-  await meteor.disconnect()
+    if (opts.js) {
+      'EMAIL SMS APP'.split(/\s+/).forEach((type) => {
+        const subset = msgs.filter((msg) => msg.type === type)
+        const file = `${folder}/packages/fixtures/js-data/${type.toLocaleLowerCase()}-templates.js`
+        fs.writeFileSync(
+          file,
+          prettier.format(`module.exports = ${stringify(osort(subset))}`, prettierRules)
+        )
+        console.log(`Saved ${type} messages to ${file}`)
+      })
+    }
+
+    if (opts.docs) {
+      const resp = await meteor.call('generate.triggers.md')
+      if (resp.status === 'success') {
+        const file = `${base}event-notifications.mdx`
+        fs.writeFileSync(file, resp.result)
+        console.log(`Saved file ${file}`)
+      } else {
+        console.error(`Markdown document creation failed for messages: ${resp.message}`)
+      }
+    }
+
+    await meteor.stopChangeListeners()
+    await meteor.disconnect()
+  } catch (e) {
+    console.error(`Error: ${e.message}`)
+  }
 }
 
 console.log(`Connecting to Meteor server on ${options.endpoint}`)
