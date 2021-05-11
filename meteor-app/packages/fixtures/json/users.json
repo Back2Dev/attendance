@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Super Genaro",
+    "username": "super.genaro@mario.com",
+    "password": "i-like-turTles-27",
+    "email": "super.genaro@mario.com",
+    "roles": ["ADM", "PM", "CON"],
+    "se": true
+  },
+  {
+    "name": "Mike King",
+    "username": "mike.king@settleeasy.com.au",
+    "email": "mike.king@settleeasy.com.au",
+    "roles": ["ADM", "PM", "CON"],
+    "se": true
+  },
+  {
+    "name": "Pat Carmel",
+    "username": "pat.carmel@settleeasy.com.au",
+    "email": "pat.carmel@settleeasy.com.au",
+    "roles": ["ADM"],
+    "se": true
+  }
+]
