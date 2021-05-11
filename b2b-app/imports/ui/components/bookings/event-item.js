@@ -39,8 +39,10 @@ const StyledEventItem = styled(Paper)`
       .course-name {
         font-size: 1.2rem;
       }
-      .coach-name {
-        font-weight: bold;
+      &.backup {
+        .course-name {
+          opacity: 0.7;
+        }
       }
     }
   }
@@ -88,7 +90,7 @@ const StyledEventItem = styled(Paper)`
 `
 
 function EventItem({ event }) {
-  const { when, name, session, tools, course, coach } = event
+  const { when, name, session, tools, course, backupCourse } = event
   const { book, cancel, submiting } = useContext(BookingsContext)
   const { showConfirm } = useConfirm()
 
@@ -218,6 +220,28 @@ function EventItem({ event }) {
     )
   }
 
+  const renderCourse = () => {
+    if (!course) {
+      return null
+    }
+    return (
+      <div className="course-info">
+        <div className="course-name">Course: {course?.title}</div>
+      </div>
+    )
+  }
+
+  const renderBackupCourse = () => {
+    if (!backupCourse) {
+      return null
+    }
+    return (
+      <div className="course-info backup">
+        <div className="course-name">Backup course: {backupCourse?.title}</div>
+      </div>
+    )
+  }
+
   return (
     <StyledEventItem elevation={1}>
       <div className="item-wrapper">
@@ -226,10 +250,8 @@ function EventItem({ event }) {
             <span className="event-date">{moment(when).format('ddd D MMM')},</span>{' '}
             <span className="event-name">{name}</span>
           </div>
-          <div className="course-info">
-            <div className="course-name">{course?.title}</div>
-            <div className="coach-name">{coach?.name}</div>
-          </div>
+          {renderCourse()}
+          {renderBackupCourse()}
         </div>
         <div className="right-col">
           {renderStatus()}
@@ -258,8 +280,8 @@ EventItem.propTypes = {
     course: PropTypes.shape({
       title: PropTypes.string.isRequired,
     }),
-    coach: PropTypes.shape({
-      name: PropTypes.string.isRequired,
+    backupCourse: PropTypes.shape({
+      title: PropTypes.string.isRequired,
     }),
   }).isRequired,
 }
