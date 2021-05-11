@@ -69,17 +69,14 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating session ${e.message}` }
     }
 
-    // update the session field of member item inside the event.members
+    // remove the member item inside the event.members
     Events.update(
       {
         _id: session.eventId,
-        members: {
-          $elemMatch: { 'session._id': session._id },
-        },
       },
       {
-        $set: {
-          'members.$.session.status': 'cancelled',
+        $pull: {
+          members: { 'session._id': session._id },
         },
       }
     )
