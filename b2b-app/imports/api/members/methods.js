@@ -3,7 +3,7 @@ import { Match } from 'meteor/check'
 import logger from '/imports/lib/log'
 import CONSTANTS from '/imports/api/constants'
 import Members, { AddBadgeParamsSchema } from './schema'
-import Events, { MemeberItemSchema } from '../events/schema'
+import Events, { MemberItemSchema } from '../events/schema'
 import moment from 'moment'
 
 const debug = require('debug')('b2b:members')

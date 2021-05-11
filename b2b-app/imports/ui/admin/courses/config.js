@@ -29,7 +29,8 @@ const editSchema = new SimpleSchema({
     optional: true,
   },
   'map.$': MapSchema,
-  description: OptionalString,
+  description: { type: Array },
+  'description.$': String,
   difficulty: {
     type: String,
     allowedValues: ['beginner', 'intermediate', 'advanced'],
