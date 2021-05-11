@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
+import { useHistory } from 'react-router'
 
 const StyledSessionItem = styled.div`
   margin-bottom: 20px;
@@ -15,7 +16,13 @@ const StyledSessionItem = styled.div`
 `
 
 function SessionItem({ item }) {
-  const { bookedDate, name, toolName, status } = item
+  const { _id, bookedDate, name, toolName, status } = item
+
+  const { push } = useHistory()
+
+  const handleClick = () => {
+    push(`/sessions/${_id}`)
+  }
 
   const renderSelectedTool = () => {
     if (!toolName) {
@@ -36,7 +43,7 @@ function SessionItem({ item }) {
   }
 
   return (
-    <StyledSessionItem>
+    <StyledSessionItem onClick={handleClick}>
       <div className="session-info">
         <span className="date">{moment(bookedDate).format('ddd DD MMM ha')}, </span>
         <span className="title">{name}</span>
@@ -49,6 +56,7 @@ function SessionItem({ item }) {
 
 SessionItem.propTypes = {
   item: PropTypes.shape({
+    _id: PropTypes.string,
     name: PropTypes.string,
     bookedDate: PropTypes.instanceOf(Date),
     toolName: PropTypes.string,

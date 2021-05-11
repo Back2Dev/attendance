@@ -84,6 +84,13 @@ export const SessionDetailsProvider = (props) => {
     }
   }, [memberIds.length ? memberIds : null])
 
+  const coach = useTracker(() => {
+    if (!event?.coachId) {
+      return null
+    }
+    return Members.findOne({ _id: event.coachId })
+  }, [event?.coachId])
+
   return (
     <SessionDetailsContext.Provider
       value={{
@@ -91,6 +98,7 @@ export const SessionDetailsProvider = (props) => {
         session,
         event,
         course,
+        coach,
         otherSessions,
         loadingMembers,
         members,

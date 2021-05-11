@@ -9,6 +9,10 @@ import {
   updatedAt,
 } from '/imports/api/utils/schema-util'
 
+import { SessionsSchema } from '/imports/api/sessions/schema.js'
+import { MembersSchema } from '../members/schema'
+import { CoursesSchema } from '../courses/schema'
+
 const Events = new Mongo.Collection('events')
 
 export const ToolItemSchema = new SimpleSchema({
@@ -30,6 +34,30 @@ export const CancelBookingParamsSchema = new SimpleSchema({
   sessionId: RegExId,
 })
 
+export const CourseItemSchema = CoursesSchema.pick(
+  '_id',
+  'map',
+  'description',
+  'difficulty',
+  'active'
+)
+
+export const MemeberItemSchema = new SimpleSchema({
+  session: SessionsSchema.pick(
+    '_id',
+    'memberId',
+    'name',
+    'role',
+    'status',
+    'toolName',
+    'toolId',
+    'bookedDate'
+  ),
+}).extend(
+  MembersSchema.pick('_id', 'userId', 'name', 'nickname', 'avatar', 'badges', 'mobile')
+)
+// console.log(JSON.stringify(MemeberItemSchema, null, 2))
+
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   name: {
@@ -38,6 +66,14 @@ export const EventsSchema = new SimpleSchema({
   },
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
+  course: {
+    type: CourseItemSchema,
+    optional: true,
+  },
+  backupCourse: {
+    type: CourseItemSchema,
+    optional: true,
+  },
   coachId: OptionalRegExId, // members id
   // the available tools for select
   tools: {
@@ -84,9 +120,16 @@ export const EventsSchema = new SimpleSchema({
     defaultValue: 0,
   },
   code: OptionalString,
+  members: {
+    type: Array,
+    optional: true,
+  },
+  'members.$': MemeberItemSchema,
   createdAt,
   updatedAt,
 })
+
+// console.log(EventsSchema)
 
 export const defaultObject = {
   name: 'Untitled',

@@ -2,7 +2,12 @@ import { Meteor } from 'meteor/meteor'
 import Sessions from '/imports/api/sessions/schema.js'
 import Members from '/imports/api/members/schema.js'
 import Courses from '/imports/api/courses/schema.js'
-import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
+import Events, {
+  BookParamsSchema,
+  CancelBookingParamsSchema,
+  MemeberItemSchema,
+  CourseItemSchema,
+} from './schema'
 const debug = require('debug')('b2b:events')
 
 Meteor.methods({
@@ -63,6 +68,21 @@ Meteor.methods({
     } catch (e) {
       return { status: 'failed', message: `Error updating session ${e.message}` }
     }
+
+    // update the session field of member item inside the event.members
+    Events.update(
+      {
+        _id: session.eventId,
+        members: {
+          $elemMatch: { 'session._id': session._id },
+        },
+      },
+      {
+        $set: {
+          'members.$.session.status': 'cancelled',
+        },
+      }
+    )
 
     // enable selected tool in the event
     if (session.toolId) {
@@ -156,6 +176,26 @@ Meteor.methods({
       return { status: 'failed', message: `Error inserting new session ${e.message}` }
     }
 
+    // update the members array of event
+    const memberItem = MemeberItemSchema.clean({
+      ...member,
+      session: Sessions.findOne({ _id: sessionId }),
+    })
+    debug({ memberItem })
+    const updateData = {}
+    if (event.members) {
+      updateData.$push = { members: memberItem }
+    } else {
+      updateData.$set = { members: [memberItem] }
+    }
+    debug({ updateData })
+    Events.update(
+      {
+        _id: eventId,
+      },
+      updateData
+    )
+
     // disable the booked tool
     if (foundTool) {
       Events.update(
@@ -184,6 +224,32 @@ Meteor.methods({
       const id = form._id
       delete form._id
       const n = Events.update(id, { $set: form })
+
+      if (n) {
+        const updateData = {}
+        if (form.courseId) {
+          // debug(form.courseId)
+          const course = Courses.findOne({ _id: form.courseId })
+          if (course) {
+            updateData.course = CourseItemSchema.clean(course)
+          }
+        }
+        if (form.backupCourseId) {
+          const backupCourse = Courses.findOne({ _id: form.backupCourseId })
+          if (backupCourse) {
+            updateData.backupCourse = CourseItemSchema.clean(backupCourse)
+          }
+        }
+        if (updateData.course || updateData.backupCourse) {
+          Events.update(
+            { _id: id },
+            {
+              $set: updateData,
+            }
+          )
+        }
+      }
+
       return { status: 'success', message: `Updated ${n} event(s)` }
     } catch (e) {
       return {
@@ -195,6 +261,33 @@ Meteor.methods({
   'insert.events': (form) => {
     try {
       const id = Events.insert(form)
+
+      // we need to get the course information and update the event
+      if (id) {
+        const updateData = {}
+        if (form.courseId) {
+          // debug(form.courseId)
+          const course = Courses.findOne({ _id: form.courseId })
+          if (course) {
+            updateData.course = CourseItemSchema.clean(course)
+          }
+        }
+        if (form.backupCourseId) {
+          const backupCourse = Courses.findOne({ _id: form.backupCourseId })
+          if (backupCourse) {
+            updateData.backupCourse = CourseItemSchema.clean(backupCourse)
+          }
+        }
+        if (updateData.course || updateData.backupCourse) {
+          Events.update(
+            { _id: id },
+            {
+              $set: updateData,
+            }
+          )
+        }
+      }
+
       return { status: 'success', message: 'Added event' }
     } catch (e) {
       return {

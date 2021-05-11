@@ -3,6 +3,7 @@ import { Random } from 'meteor/random'
 
 import { use, expect } from 'chai'
 import assertArrays from 'chai-arrays'
+import faker from 'faker'
 
 import Factory from '/imports/test/factories'
 import Members from '/imports/api/members/schema.js'
@@ -117,5 +118,49 @@ describe('Test cancel.events method', () => {
     }).not.to.throw()
     debug({ result })
     expect(result).to.have.property('status').which.equal('success')
+  })
+})
+describe('Test insert.events method', () => {
+  const theMethod = Meteor.server.method_handlers['insert.events']
+  it('insert.events should works good params', () => {
+    const course = Factory.create('course')
+    const backupCourse = Factory.create('course')
+    const goodParams = [
+      {
+        name: faker.address.cityName(),
+        description: faker.lorem.paragraph(),
+        type: 'once',
+        active: true,
+        duration: 3,
+      },
+      {
+        name: faker.address.cityName(),
+        description: faker.lorem.paragraph(),
+        type: 'once',
+        active: true,
+        duration: 3,
+        courseId: course._id,
+      },
+      {
+        name: faker.address.cityName(),
+        description: faker.lorem.paragraph(),
+        type: 'once',
+        active: true,
+        duration: 3,
+        courseId: course._id,
+        backupCourseId: backupCourse._id,
+      },
+    ]
+    goodParams.map((item) => {
+      const thisContext = {
+        userId: null,
+      }
+      let result
+      expect(() => {
+        result = theMethod.apply(thisContext, [item])
+      }).not.to.throw()
+      // debug(result)
+      expect(result).to.have.property('status').which.equal('success')
+    })
   })
 })

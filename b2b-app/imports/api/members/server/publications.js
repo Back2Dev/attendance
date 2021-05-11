@@ -14,7 +14,30 @@ const publicFields = {
   mobile: 1,
   avatar: 1,
   badges: { $elemMatch: { private: { $ne: true } } },
+  bio: 1,
+  favorites: 1,
 }
+
+Meteor.publish('members.publicProfile', function (memberId) {
+  debug({ memberId })
+  if (!Match.test(memberId, String)) {
+    return this.ready()
+  }
+  const member = Members.find(
+    {
+      _id: memberId,
+    },
+    {
+      fields: {
+        ...publicFields,
+      },
+    }
+  )
+
+  // TODO: get the sessions here
+
+  return [member]
+})
 
 Meteor.publish('members.byIds', function (memberIds) {
   debug({ memberIds })

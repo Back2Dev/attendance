@@ -7,6 +7,7 @@ import Members from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 import moment from 'moment'
 import log from '/imports/lib/log'
+import Events, { MemeberItemSchema } from '../../events/schema'
 const debug = require('debug')('b2b:users')
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
@@ -293,6 +294,31 @@ Meteor.methods({
             $set: newMember,
           }
         )
+
+        // update the members in events collection
+        const memberItem = MemeberItemSchema.clean(newMember)
+        debug({ memberItem })
+        const updateData = {}
+        Object.keys(memberItem).map((key) => {
+          updateData[`members.$[].${key}`] = memberItem[key]
+        })
+        debug({ updateData })
+        try {
+          Events.update(
+            {
+              members: { $elemMatch: { _id: member._id } },
+            },
+            {
+              $set: updateData,
+            },
+            {
+              multi: true,
+            }
+          )
+        } catch (e) {
+          debug(e)
+          // should we report this error?
+        }
       } else {
         if (!newMember.nickname) {
           newMember.nickname = newMember.name.split(' ')[0] || newMember.name
