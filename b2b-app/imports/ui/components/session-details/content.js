@@ -22,6 +22,7 @@ function DetailsContent() {
 
   return (
     <StyledDetailsContent className="content">
+      Event content placeholer
       <Skeleton variant="rect" height={300} animation={false} />
     </StyledDetailsContent>
   )

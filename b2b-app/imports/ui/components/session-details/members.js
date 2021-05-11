@@ -32,7 +32,7 @@ const StyledDetailsMembers = styled.div`
 `
 
 function DetailsMembers() {
-  const { loading, members } = useContext(SessionDetailsContext)
+  const { loading, event } = useContext(SessionDetailsContext)
 
   if (loading) {
     return (
@@ -46,7 +46,7 @@ function DetailsMembers() {
     )
   }
 
-  if (!members || !members.length) {
+  if (!event || !event.members || !event.members.length) {
     return null
   }
 
@@ -70,7 +70,7 @@ function DetailsMembers() {
   return (
     <StyledDetailsMembers>
       <Typography variant="h2">Attending</Typography>
-      {members.map((member) => renderMember(member))}
+      {event.members.map((member) => renderMember(member))}
     </StyledDetailsMembers>
   )
 }
