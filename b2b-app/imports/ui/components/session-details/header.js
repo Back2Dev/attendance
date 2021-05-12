@@ -15,9 +15,13 @@ const StyledDetailsHeader = styled.div`
     align-content: center;
     align-items: center;
     font-size: 1.5rem;
+
+    .coach-member {
+      display: flex;
+    }
   }
   .avatar {
-    margin-left: 10px;
+    margin-right: 10px;
   }
 `
 
@@ -51,7 +55,7 @@ function DetailsHeader() {
 
   const renderCoaches = () => {
     if (!coaches || !coaches.length) {
-      return <Skeleton variant="text" />
+      return null
     }
     return coaches.map((coach) => {
       let avatarUrl = null
@@ -64,12 +68,12 @@ function DetailsHeader() {
       }
       const profileUrl = `/profile/${coach._id}`
       return (
-        <div key={coach._id}>
+        <div key={coach._id} className="coach-member">
           Coach:&nbsp;
+          <Avatar url={avatarUrl} alt={coach.name} size={32} linkUrl={profileUrl} />
           <Link component={RouterLink} to={profileUrl}>
             {coach.name}
           </Link>{' '}
-          <Avatar url={avatarUrl} alt={coach.name} size={32} linkUrl={profileUrl} />
         </div>
       )
     })
