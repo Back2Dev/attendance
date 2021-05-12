@@ -43,7 +43,7 @@ export const CourseItemSchema = CoursesSchema.pick(
   'active'
 )
 
-export const MemeberItemSchema = new SimpleSchema({
+export const MemberItemSchema = new SimpleSchema({
   session: SessionsSchema.pick(
     '_id',
     'memberId',
@@ -57,7 +57,7 @@ export const MemeberItemSchema = new SimpleSchema({
 }).extend(
   MembersSchema.pick('_id', 'userId', 'name', 'nickname', 'avatar', 'badges', 'mobile')
 )
-// console.log(JSON.stringify(MemeberItemSchema, null, 2))
+// console.log(JSON.stringify(MemberItemSchema, null, 2))
 
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
@@ -120,12 +120,12 @@ export const EventsSchema = new SimpleSchema({
     label: 'Event Price in cents',
     defaultValue: 0,
   },
+  code: OptionalString,
   members: {
     type: Array,
     optional: true,
   },
-  'members.$': MemeberItemSchema,
-  'members.$[]': MemeberItemSchema, // interesting?! it supports this command: $set: { 'members.$[].badges': newbadges },
+  'members.$': MemberItemSchema,
   createdAt,
   updatedAt,
 })

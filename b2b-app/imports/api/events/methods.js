@@ -5,7 +5,7 @@ import Courses from '/imports/api/courses/schema.js'
 import Events, {
   BookParamsSchema,
   CancelBookingParamsSchema,
-  MemeberItemSchema,
+  MemberItemSchema,
   CourseItemSchema,
 } from './schema'
 const debug = require('debug')('b2b:events')
@@ -174,7 +174,7 @@ Meteor.methods({
     }
 
     // update the members array of event
-    const memberItem = MemeberItemSchema.clean({
+    const memberItem = MemberItemSchema.clean({
       ...member,
       session: Sessions.findOne({ _id: sessionId }),
     })

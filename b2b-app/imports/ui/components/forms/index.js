@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
 import { AutoForm, AutoField, TextField, LongTextField } from 'uniforms-material'
 import JSONField from '/imports/ui/components/forms/json-field'
+import SlateField from '/imports/ui/components/forms/slate-field'
 
 const debug = require('debug')('b2b:forms')
 
 const myComponent = ({ fieldType }) => {
-  if (fieldType.name === 'Object') return JSONField
+  if (fieldType.name === 'Array') return SlateField
   return null
 }
 
