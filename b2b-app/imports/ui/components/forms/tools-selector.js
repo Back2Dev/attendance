@@ -2,9 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
-import { Chip, TextField, IconButton } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import AddIcon from '@material-ui/icons/Add'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
 import Tools from '/imports/api/tools/schema.js'
@@ -14,8 +13,8 @@ const StyledToolsSelector = styled.div`
   margin: 10px 0;
 `
 
-const ToolsSelector = ({ className, disabled, onChange, value }) => {
-  console.log({ value })
+const ToolsSelector = ({ className, disabled, onChange, value, label }) => {
+  // console.log({ value })
 
   const { loading, items } = useTracker(() => {
     const sub = Meteor.subscribe('all.tools')
@@ -45,7 +44,7 @@ const ToolsSelector = ({ className, disabled, onChange, value }) => {
           <TextField
             {...params}
             variant="standard"
-            label="Tools"
+            label={label || 'Tools'}
             placeholder="Select tools"
           />
         )}
@@ -66,6 +65,7 @@ ToolsSelector.propTypes = {
     })
   ),
   disabled: PropTypes.bool,
+  label: PropTypes.string,
 }
 
 const ToolsField = connectField(ToolsSelector)

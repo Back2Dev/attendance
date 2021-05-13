@@ -31,6 +31,8 @@ const editSchema = new SimpleSchema({
     label: 'Description',
     optional: true,
   },
+  courseId: OptionalRegExId,
+  backupCourseId: OptionalRegExId,
   type: {
     type: String,
     allowedValues: ['day', 'monthly', 'once', 'fallback'],

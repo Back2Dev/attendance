@@ -1,20 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
-import { AutoForm, AutoField, TextField, LongTextField } from 'uniforms-material'
-import JSONField from '/imports/ui/components/forms/json-field'
-import SlateField from '/imports/ui/components/forms/slate-field'
+import { AutoField } from 'uniforms-material'
 import ToolsField from '/imports/ui/components/forms/tools-selector.js'
+import CoursesField from '/imports/ui/components/forms/course-selector.js'
 
 const debug = require('debug')('b2b:forms')
 
 const myComponent = ({ name, ...rest }) => {
-  console.log({ name, rest })
+  // console.log({ name, rest })
   switch (name) {
     // case 'Slate':
     //   return SlateField
     case 'tools':
       return ToolsField
+    case 'courseId':
+    case 'backupCourseId':
+      return CoursesField
     default:
       return null
   }
