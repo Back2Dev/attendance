@@ -4,12 +4,20 @@ import { connectField } from 'uniforms'
 import { AutoForm, AutoField, TextField, LongTextField } from 'uniforms-material'
 import JSONField from '/imports/ui/components/forms/json-field'
 import SlateField from '/imports/ui/components/forms/slate-field'
+import ToolsField from '/imports/ui/components/forms/tools-selector.js'
 
 const debug = require('debug')('b2b:forms')
 
-const myComponent = ({ fieldType }) => {
-  if (fieldType.name === 'Array') return SlateField
-  return null
+const myComponent = ({ name, ...rest }) => {
+  console.log({ name, rest })
+  switch (name) {
+    // case 'Slate':
+    //   return SlateField
+    case 'tools':
+      return ToolsField
+    default:
+      return null
+  }
 }
 
 const CustomAuto = (props) => {
