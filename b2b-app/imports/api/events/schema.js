@@ -82,11 +82,8 @@ export const EventsSchema = new SimpleSchema({
     optional: true,
   },
   'tools.$': ToolItemSchema,
-  description: {
-    type: String,
-    label: 'Description',
-    optional: true,
-  },
+  description: { type: Array, optional: true },
+  'description.$': String,
   //select
   type: {
     type: String,

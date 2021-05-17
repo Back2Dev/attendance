@@ -27,10 +27,10 @@ const editSchema = new SimpleSchema({
   },
   'tools.$': ToolItemSchema,
   description: {
-    type: String,
-    label: 'Description',
+    type: Array,
     optional: true,
   },
+  'description.$': String,
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
   type: {

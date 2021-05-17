@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormControl, FormLabel } from '@material-ui/core'
 
 // Import the Slate editor factory.
 import { createEditor } from 'slate'
@@ -12,7 +13,6 @@ import { Slate, Editable, withReact } from 'slate-react'
 const StyledSlateEditor = styled.div`
   margin: 20px 0;
   .field-name {
-    font-size: 1.1rem;
   }
 `
 
@@ -48,10 +48,12 @@ const SlateEditor = ({ className, disabled = false, onChange, value = [], label 
   return (
     // Add the editable component inside the context.
     <StyledSlateEditor>
-      <div className="field-name">{label}</div>
-      <Slate editor={editor} value={eValue} onChange={handleChange}>
-        <Editable />
-      </Slate>
+      <FormControl fullWidth>
+        <FormLabel className="field-name">{label}</FormLabel>
+        <Slate editor={editor} value={eValue} onChange={handleChange}>
+          <Editable />
+        </Slate>
+      </FormControl>
     </StyledSlateEditor>
   )
 }
