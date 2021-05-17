@@ -27,7 +27,7 @@ export const CoursesSchema = new SimpleSchema({
   },
   'map.$': MapSchema,
   description: { type: Array, optional: true },
-  'description.$': OptionalBlackbox,
+  'description.$': String,
   difficulty: {
     type: String,
     allowedValues: ['beginner', 'intermediate', 'advanced'],

@@ -3,14 +3,20 @@ import { connectField } from 'uniforms'
 import { AutoField } from 'uniforms-material'
 import ToolsField from '/imports/ui/components/forms/tools-selector.js'
 import CoursesField from '/imports/ui/components/forms/course-selector.js'
+import SlateField from './slate-field'
 
 const debug = require('debug')('b2b:forms')
 
-const myComponent = ({ name, ...rest }) => {
-  // console.log({ name, rest })
+const myComponent = ({ name, fieldType, ...rest }) => {
+  console.log({ name, fieldType, rest })
+  console.log(fieldType.name)
   switch (name) {
-    // case 'Slate':
-    //   return SlateField
+    case 'description':
+      if (fieldType.name === 'Array') {
+        return SlateField
+      } else {
+        return null
+      }
     case 'tools':
       return ToolsField
     case 'courseId':

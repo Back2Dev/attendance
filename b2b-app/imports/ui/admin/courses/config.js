@@ -9,12 +9,6 @@ import {
 } from '/imports/api/utils/schema-util'
 import SlateDisplay from '/imports/ui/components/forms/slate-field'
 
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: '',
-}
-
 const MapSchema = new SimpleSchema({
   title: String,
   imageUrl: String,
@@ -23,13 +17,14 @@ const MapSchema = new SimpleSchema({
 const editSchema = new SimpleSchema({
   slug: String,
   title: String,
-  slug: String,
   map: {
     type: Array,
     optional: true,
   },
   'map.$': MapSchema,
-  description: { type: Array },
+  description: {
+    type: Array,
+  },
   'description.$': String,
   difficulty: {
     type: String,

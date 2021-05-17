@@ -1,158 +1,66 @@
-import React from 'react'
+import { Meteor } from 'meteor/meteor'
+// Import React dependencies.
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField'
-import { Transforms, createEditor, Descendant } from 'slate'
-import {
-  Slate,
-  Editable,
-  useSlateStatic,
-  useSelected,
-  useFocused,
-  withReact,
-} from 'slate-react'
-import { withHistory } from 'slate-history'
-import imageExtensions from 'image-extensions'
-import isUrl from 'is-url'
-import { css } from '@emotion/css'
+import styled from 'styled-components'
 
-const debug = require('debug')('b2b:slate-edit')
+// Import the Slate editor factory.
+import { createEditor } from 'slate'
+// Import the Slate components and React plugin.
+import { Slate, Editable, withReact } from 'slate-react'
 
-const insertImage = (editor, url) => {
-  const text = { text: '' }
-  const image = { type: 'image', url, children: [text] }
-  Transforms.insertNodes(editor, image)
-}
-
-const withImages = (editor) => {
-  const { insertData, isVoid } = editor
-
-  editor.isVoid = (element) => {
-    return element.type === 'image' ? true : isVoid(element)
+const StyledSlateEditor = styled.div`
+  margin: 20px 0;
+  .field-name {
+    font-size: 1.1rem;
   }
+`
 
-  editor.insertData = (data) => {
-    const text = data.getData('text/plain')
-    const { files } = data
+const SlateEditor = ({ className, disabled = false, onChange, value = [], label }) => {
+  const editor = useMemo(() => withReact(createEditor()), [])
 
-    if (files && files.length > 0) {
-      for (const file of files) {
-        const reader = new FileReader()
-        const [mime] = file.type.split('/')
+  // const v = value.map((item) => JSON.parse(item))
 
-        if (mime === 'image') {
-          reader.addEventListener('load', () => {
-            const url = reader.result
-            insertImage(editor, url)
-          })
-
-          reader.readAsDataURL(file)
-        }
-      }
-    } else if (isImageUrl(text)) {
-      insertImage(editor, text)
+  const [eValue, setValue] = useState(() => {
+    if (value && value.length) {
+      return value.map((item) => JSON.parse(item))
     } else {
-      insertData(data)
+      return [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        },
+      ]
     }
+  })
+
+  const changeTimeout = useRef()
+  const handleChange = (newValue) => {
+    setValue(newValue)
+
+    // prevent overload calculation
+    Meteor.clearTimeout(changeTimeout.current)
+    changeTimeout.current = Meteor.setTimeout(() => {
+      onChange(newValue.map((item) => JSON.stringify(item)))
+    }, 500)
   }
 
-  return editor
-}
-
-const Element = (props) => {
-  const { attributes, children, element } = props
-
-  switch (element.type) {
-    case 'image':
-      return <Image {...props} />
-    default:
-      return <p {...attributes}>{children}</p>
-  }
-}
-
-const Image = ({ attributes, children, element }) => {
-  const selected = useSelected()
-  const focused = useFocused()
   return (
-    <div {...attributes}>
-      <div contentEditable={false}>
-        <img
-          src={element.url}
-          className={css`
-            display: block;
-            max-width: 100%;
-            box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
-          `}
-        />
-      </div>
-      {children}
-    </div>
+    // Add the editable component inside the context.
+    <StyledSlateEditor>
+      <div className="field-name">{label}</div>
+      <Slate editor={editor} value={eValue} onChange={handleChange}>
+        <Editable />
+      </Slate>
+    </StyledSlateEditor>
   )
 }
 
-const isImageUrl = (url) => {
-  if (!url) return false
-  if (!isUrl(url)) return false
-  const ext = new URL(url).pathname.split('.').pop()
-  return imageExtensions.includes(ext)
-}
-
-const Edit = ({ value, label, onChange, readOnly }) => {
-  const editor = React.useMemo(
-    () => withImages(withHistory(withReact(createEditor()))),
-    []
-  )
-  // Add the initial value when setting up our state.
-  const [val, setVal] = React.useState(
-    typeof value === 'string'
-      ? [
-          {
-            type: 'paragraph',
-            children: [
-              {
-                text: value,
-              },
-            ],
-          },
-        ]
-      : value
-  )
-
-  const changed = (newVal) => {
-    debug({ newVal })
-    setVal(newVal)
-    onChange(newVal)
-  }
-  return (
-    <Slate editor={editor} value={val} onChange={changed}>
-      <Editable
-        renderElement={(props) => <Element {...props} />}
-        placeholder="Enter some text..."
-        readOnly={readOnly}
-      />
-    </Slate>
-  )
-  // return (
-  //   <TextField
-  //     style={{ width: '100%' }}
-  //     multiline
-  //     label={label}
-  //     value={value}
-  //     onChange={onChange}
-  //     InputLabelProps={{ shrink: true }}
-  //     InputProps={{
-  //       inputComponent: SlateEdit,
-  //       inputProps: {
-  //         onUpdate: setCode,
-  //         style: { width: '100%' },
-  //         code: JSON.stringify(value, null, 2),
-  //       },
-  //     }}
-  //   />
-  // )
-}
-
-Edit.propTypes = {
-  value: PropTypes.array.isRequired,
+SlateEditor.propTypes = {
+  label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  value: PropTypes.arrayOf(String),
+  disabled: PropTypes.bool,
 }
-export default Edit
+
+export default SlateEditor
