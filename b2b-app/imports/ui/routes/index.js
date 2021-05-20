@@ -10,6 +10,7 @@ const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
 // const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const BookingsPage = lazy(() => import('/imports/ui/pages/bookings.js'))
 const SessionsPage = lazy(() => import('/imports/ui/pages/sessions.js'))
+const ServicesPage = lazy(() => import('/imports/ui/pages/services.js'))
 const UserPage = lazy(() => import('/imports/ui/pages/user.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
@@ -66,6 +67,7 @@ export default function MainRoutes() {
 
         <SecureRoute path="/bookings" component={BookingsPage} />
         <SecureRoute path="/sessions" component={SessionsPage} />
+        <SecureRoute path="/services" component={ServicesPage} />
         <SecureRoute path="/support" component={SupportPage} />
         <SecureRoute path="/test" component={TestPage} />
         <Route component={NotFoundPage} />
