@@ -47,6 +47,15 @@ const adminMenus = [
       { display: 'Sessions', link: '/admin/sessions' },
     ],
   },
+  {
+    display: 'Manager',
+    id: 'manager',
+    icon: () => <Build />,
+    items: [
+      { display: 'Services', link: '/services' },
+      { display: 'Create Services', link: '/services/new' },
+    ],
+  },
 ]
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +100,11 @@ export default function SideDrawer() {
   }
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    console.log(event.key)
+    if (
+      event.type === 'keydown' &&
+      ['Tab', 'Shift', 'Control', 'Alt'].includes(event.key)
+    ) {
       return
     }
     setDrawer(open)
