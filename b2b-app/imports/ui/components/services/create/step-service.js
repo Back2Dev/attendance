@@ -3,7 +3,7 @@ import { Random } from 'meteor/random'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { TextField, Button } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -105,7 +105,15 @@ function ServiceStep({ initialData }) {
   }
 
   const renderSelectedItems = () => {
-    return selectedItems.map((item) => <ServiceItem key={item.localId} item={item} />)
+    return selectedItems.map((item) => (
+      <ServiceItem
+        key={item.localId}
+        item={item}
+        onRemove={() => {
+          dispatch({ type: 'removeItem', payload: item })
+        }}
+      />
+    ))
   }
 
   return (

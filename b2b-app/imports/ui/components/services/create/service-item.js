@@ -43,7 +43,7 @@ const StyledServiceItem = styled.div`
   }
 `
 
-function ServiceItem({ item }) {
+function ServiceItem({ item, onRemove }) {
   const wrapperClasses = ['wrapper']
   wrapperClasses.push(item.used ? 'used' : 'new')
   wrapperClasses.push(`code-${item.code}`)
@@ -55,7 +55,12 @@ function ServiceItem({ item }) {
         <div className="name">{item.name}</div>
         <div className="price">${item.price / 100}</div>
         <div className="remove-btn">
-          <IconButton aria-label="remove item" component="span" size="small">
+          <IconButton
+            aria-label="remove item"
+            component="span"
+            size="small"
+            onClick={onRemove}
+          >
             <ClearIcon fontSize="small" />
           </IconButton>
         </div>
@@ -74,6 +79,7 @@ ServiceItem.propTypes = {
     code: String,
     category: String,
   }),
+  onRemove: PropTypes.func.isRequired,
 }
 
 export default ServiceItem
