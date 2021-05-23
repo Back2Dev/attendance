@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { TextField, Button } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
-import faker from 'faker'
 
 import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
@@ -23,7 +22,6 @@ function serviceStepReducer(state, action) {
       const newItem = {
         ...payload,
         localId: Random.id(),
-        backgroundColor: faker.internet.color(),
       }
       return {
         ...state,
