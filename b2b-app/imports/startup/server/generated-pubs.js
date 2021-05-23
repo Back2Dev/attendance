@@ -21,5 +21,6 @@ import '/imports/api/events/server/publications'
 import '/imports/api/courses/server/publications'
 import '/imports/api/tools/server/publications'
 import '/imports/api/sessions/server/publications'
+import '/imports/api/service-items/server/publications'
 
 // END GENERATED PUBS
