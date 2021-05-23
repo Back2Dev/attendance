@@ -34,6 +34,10 @@ export const ServiceItemsSchema = new SimpleSchema({
     type: Boolean,
     label: 'Is item new or used',
   },
+  numbersOfUsed: {
+    type: Number,
+    defaultValue: 0,
+  },
   createdAt,
   updatedAt,
 })
