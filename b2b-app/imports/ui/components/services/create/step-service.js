@@ -1,13 +1,16 @@
 import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { TextField } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
+import faker from 'faker'
 
 import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
+import ServiceItem from './service-item'
 
 const StyledServiceStep = styled.div``
 
@@ -16,6 +19,30 @@ function serviceStepReducer(state, action) {
   switch (type) {
     case 'setSelectedItems':
       return { ...state, selectedItems: payload, updatedAt: new Date() }
+    case 'addItem': {
+      const newItem = {
+        ...payload,
+        localId: Random.id(),
+        backgroundColor: faker.internet.color(),
+      }
+      return {
+        ...state,
+        selectedItems: [...state.selectedItems, newItem],
+        currentItem: null,
+        updatedAt: new Date(),
+      }
+    }
+    case 'removeItem': {
+      const newItems = []
+      state.selectedItems.map((item) => {
+        if (item.localId !== payload.localId) {
+          newItems.push(item)
+        }
+      })
+      return { ...state, selectedItems: newItems, updatedAt: new Date() }
+    }
+    case 'setCurrentItem':
+      return { ...state, currentItem: payload }
     default:
       return state
   }
@@ -23,6 +50,7 @@ function serviceStepReducer(state, action) {
 
 function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
+    currentItem: null,
     selectedItems: initialData?.selectedItems || [],
     updatedAt: new Date(),
     dataCheckResult: true,
@@ -32,7 +60,7 @@ function ServiceStep({ initialData }) {
   const { setStepData, activeStep } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
 
-  const { selectedItems, dataCheckResult, checkedAt, updatedAt } = state
+  const { currentItem, selectedItems, dataCheckResult, checkedAt, updatedAt } = state
 
   const checkData = async () => {
     // TODO: do something here
@@ -48,9 +76,12 @@ function ServiceStep({ initialData }) {
 
   useEffect(() => {
     setStepData({
-      items: selectedItems,
-      updatedAt,
-      dataCheckResult,
+      stepKey: 'service',
+      data: {
+        items: selectedItems,
+        updatedAt,
+        dataCheckResult,
+      },
     })
   }, [checkedAt])
 
@@ -62,6 +93,10 @@ function ServiceStep({ initialData }) {
     }
   }, [])
 
+  const handleSelected = (item) => {
+    dispatch({ type: 'addItem', payload: item })
+  }
+
   if (activeStep !== 'service') {
     return null
   }
@@ -71,20 +106,28 @@ function ServiceStep({ initialData }) {
     classes.push('incomplete')
   }
 
+  const renderSelectedItems = () => {
+    return selectedItems.map((item) => <ServiceItem key={item.localId} item={item} />)
+  }
+
   return (
     <StyledServiceStep>
       <div className={classes.join(' ')}>
         <div className="select-box-container">
           <Autocomplete
+            value={currentItem}
             options={items}
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
-            style={{ width: 300 }}
+            style={{ width: 350 }}
             renderInput={(params) => (
-              <TextField {...params} label="Combo box" variant="outlined" />
+              <TextField {...params} label="Select a Service item" variant="outlined" />
             )}
+            onChange={(event, selected) => {
+              handleSelected(selected)
+            }}
           />
         </div>
-        <div className="selected-items-container">Selected items here</div>
+        <div className="selected-items-container">{renderSelectedItems()}</div>
         <div className="popular-items-container">Popular items here</div>
       </div>
     </StyledServiceStep>
@@ -99,7 +142,7 @@ ServiceStep.propTypes = {
 }
 
 ServiceStep.defaultProps = {
-  initialData: null,
+  initialData: {},
 }
 
 export default ServiceStep
