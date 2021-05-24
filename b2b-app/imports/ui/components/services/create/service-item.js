@@ -55,12 +55,11 @@ function ServiceItem({ item, onRemove }) {
   return (
     <StyledServiceItem>
       <div className={wrapperClasses.join(' ')}>
-        <div className="condition">{currentItem.used ? 'Used' : 'New'}</div>
         <div className="name">
           <InlineEdit
             text={currentItem.name}
             onSetText={(value) => {
-              setCurrentItem({ ...item, name: value })
+              setCurrentItem({ ...currentItem, name: value })
             }}
           />
         </div>
@@ -69,7 +68,7 @@ function ServiceItem({ item, onRemove }) {
           <InlineEdit
             text={`${currentItem.price / 100}`}
             onSetText={(value) => {
-              setCurrentItem({ ...item, price: value * 100 })
+              setCurrentItem({ ...currentItem, price: value * 100 })
             }}
           />
         </div>
@@ -90,13 +89,13 @@ function ServiceItem({ item, onRemove }) {
 
 ServiceItem.propTypes = {
   item: PropTypes.shape({
-    localId: String,
-    _id: String,
-    name: String,
-    price: Number,
-    used: Boolean,
-    code: String,
-    category: String,
+    localId: PropTypes.string,
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    used: PropTypes.bool,
+    code: PropTypes.string,
+    category: PropTypes.string,
   }).isRequired,
   onRemove: PropTypes.func.isRequired,
 }
