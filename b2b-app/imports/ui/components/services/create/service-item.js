@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { IconButton } from '@material-ui/core'
 import ClearIcon from '@material-ui/icons/Clear'
+
+import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 
 const StyledServiceItem = styled.div`
   display: inline-flex;
@@ -44,16 +46,33 @@ const StyledServiceItem = styled.div`
 `
 
 function ServiceItem({ item, onRemove }) {
+  const [currentItem, setCurrentItem] = useState(item)
+
   const wrapperClasses = ['wrapper']
-  wrapperClasses.push(item.used ? 'used' : 'new')
-  wrapperClasses.push(`code-${item.code}`)
-  wrapperClasses.push(`cat-${item.category}`)
+  wrapperClasses.push(currentItem.used ? 'used' : 'new')
+  wrapperClasses.push(`code-${currentItem.code}`)
+  wrapperClasses.push(`cat-${currentItem.category}`)
   return (
     <StyledServiceItem>
       <div className={wrapperClasses.join(' ')}>
-        <div className="condition">{item.used ? 'Used' : 'New'}</div>
-        <div className="name">{item.name}</div>
-        <div className="price">${item.price / 100}</div>
+        <div className="condition">{currentItem.used ? 'Used' : 'New'}</div>
+        <div className="name">
+          <InlineEdit
+            text={currentItem.name}
+            onSetText={(value) => {
+              setCurrentItem({ ...item, name: value })
+            }}
+          />
+        </div>
+        <div className="price">
+          $
+          <InlineEdit
+            text={`${currentItem.price / 100}`}
+            onSetText={(value) => {
+              setCurrentItem({ ...item, price: value * 100 })
+            }}
+          />
+        </div>
         <div className="remove-btn">
           <IconButton
             aria-label="remove item"
@@ -78,7 +97,7 @@ ServiceItem.propTypes = {
     used: Boolean,
     code: String,
     category: String,
-  }),
+  }).isRequired,
   onRemove: PropTypes.func.isRequired,
 }
 

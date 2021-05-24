@@ -25,6 +25,10 @@ const TestUseTracker = lazy(() =>
   import('/imports/ui/components/test-components/test-usetracker.js')
 )
 
+const InlineEditTest = lazy(() =>
+  import('/imports/ui/components/test-components/inline-edit.js')
+)
+
 const StyledTestPage = styled.div`
   padding: 40px 10px;
 `
@@ -78,6 +82,11 @@ export default function TestPage() {
           Test React Data Grid
         </Link>
       </div>
+      <div>
+        <Link component={RouterLink} to="/test/inline-edit">
+          Test Inline edit
+        </Link>
+      </div>
       <div style={{ margin: '20px 0' }}>
         <Suspense fallback={<div>loading tests...</div>}>
           <Switch>
@@ -89,6 +98,7 @@ export default function TestPage() {
             <SecureRoute path="/test/secure" component={TestSecureRoute} />
             <Route path="/test/react-data-grid" component={TestDataGrid} />
             <Route path="/test/usetracker" component={TestUseTracker} />
+            <Route path="/test/inline-edit" component={InlineEditTest} />
           </Switch>
         </Suspense>
       </div>
