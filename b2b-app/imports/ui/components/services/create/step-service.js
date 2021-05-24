@@ -3,19 +3,36 @@ import { Random } from 'meteor/random'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { TextField } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
 import ServiceItem from './service-item'
+import Loading from '../../commons/loading'
 
-const StyledServiceStep = styled.div``
+const StyledServiceStep = styled.div`
+  .btns-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+`
 
 function serviceStepReducer(state, action) {
   const { type, payload } = action
   switch (type) {
+    case 'updateSelectedItem': {
+      const newItems = state.selectedItems.map((item) => {
+        if (item.localId === payload.localId) {
+          return payload
+        }
+        return item
+      })
+      return { ...state, selectedItems: newItems, updatedAt: new Date() }
+    }
     case 'setSelectedItems':
       return { ...state, selectedItems: payload, updatedAt: new Date() }
     case 'addItem': {
@@ -41,6 +58,8 @@ function serviceStepReducer(state, action) {
     }
     case 'setCurrentItem':
       return { ...state, currentItem: payload }
+    case 'setHasValidData':
+      return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
       return state
   }
@@ -51,21 +70,24 @@ function ServiceStep({ initialData }) {
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
     updatedAt: new Date(),
-    dataCheckResult: true,
+    hasValidData: false,
     checkedAt: null,
   })
 
-  const { setStepData, activeStep } = useContext(ServiceContext)
+  const { setStepData, setStepProperty, activeStep, goNext } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
 
-  const { currentItem, selectedItems, dataCheckResult, checkedAt, updatedAt } = state
+  const { currentItem, selectedItems, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
-    // TODO: do something here
-    dispatch({ type: 'setDataCheckResult', payload: true })
+    // make sure atleast one item selected
+    dispatch({ type: 'setHasValidData', payload: selectedItems.length > 0 })
   }
 
   useEffect(() => {
+    if (activeStep !== 'service') {
+      return
+    }
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -73,13 +95,21 @@ function ServiceStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (activeStep !== 'service') {
+      return
+    }
     setStepData({
       stepKey: 'service',
       data: {
         items: selectedItems,
         updatedAt,
-        dataCheckResult,
+        hasValidData,
       },
+    })
+    setStepProperty({
+      stepKey: 'service',
+      property: 'completed',
+      value: hasValidData,
     })
   }, [checkedAt])
 
@@ -100,7 +130,7 @@ function ServiceStep({ initialData }) {
   }
 
   const classes = ['servicestep-item-form']
-  if (dataCheckResult === false) {
+  if (hasValidData === false) {
     classes.push('incomplete')
   }
 
@@ -112,6 +142,10 @@ function ServiceStep({ initialData }) {
         onRemove={() => {
           dispatch({ type: 'removeItem', payload: item })
         }}
+        onChange={(updatedServiceItem) => {
+          // console.log({ updatedServiceItem })
+          dispatch({ type: 'updateSelectedItem', payload: updatedServiceItem })
+        }}
       />
     ))
   }
@@ -119,14 +153,20 @@ function ServiceStep({ initialData }) {
   return (
     <StyledServiceStep>
       <div className={classes.join(' ')}>
+        <Loading loading={loading} />
         <div className="select-box-container">
           <Autocomplete
             value={currentItem}
             options={items}
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
-            style={{ width: 350 }}
+            style={{ maxWidth: 450, minWidth: 300 }}
             renderInput={(params) => (
-              <TextField {...params} label="Select a Service item" variant="outlined" />
+              <TextField
+                {...params}
+                label="Select a Service item"
+                variant="outlined"
+                size="small"
+              />
             )}
             onChange={(event, selected) => {
               handleSelected(selected)
@@ -134,6 +174,19 @@ function ServiceStep({ initialData }) {
           />
         </div>
         <div className="selected-items-container">{renderSelectedItems()}</div>
+        <div className="btns-container">
+          <Button
+            className="next-btn"
+            variant="contained"
+            color="primary"
+            disabled={!hasValidData}
+            onClick={() => {
+              goNext()
+            }}
+          >
+            Next
+          </Button>
+        </div>
         <div className="popular-items-container">Popular items here</div>
       </div>
     </StyledServiceStep>

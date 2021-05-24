@@ -20,18 +20,18 @@ function ContactStep({ initialData }) {
   const [state, dispatch] = useReducer(contactStepReducer, {
     items: initialData?.items || [],
     updatedAt: new Date(),
-    dataCheckResult: true,
+    hasValidData: true,
     checkedAt: null,
   })
 
   const { setStepData, activeStep } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
 
-  const { items, dataCheckResult, checkedAt, updatedAt } = state
+  const { items, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
     // TODO: do something here
-    dispatch({ type: 'setDataCheckResult', payload: true })
+    dispatch({ type: 'setHasValidData', payload: true })
   }
 
   useEffect(() => {
@@ -45,7 +45,7 @@ function ContactStep({ initialData }) {
     setStepData({
       items,
       updatedAt,
-      dataCheckResult,
+      hasValidData,
     })
   }, [checkedAt])
 
@@ -54,7 +54,7 @@ function ContactStep({ initialData }) {
   }
 
   const classes = ['contactstep-item-form']
-  if (dataCheckResult === false) {
+  if (hasValidData === false) {
     classes.push('incomplete')
   }
 

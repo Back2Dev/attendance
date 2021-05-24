@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { IconButton } from '@material-ui/core'
@@ -45,8 +45,12 @@ const StyledServiceItem = styled.div`
   }
 `
 
-function ServiceItem({ item, onRemove }) {
+function ServiceItem({ item, onRemove, onChange }) {
   const [currentItem, setCurrentItem] = useState(item)
+
+  useEffect(() => {
+    if (currentItem.modifiedAt) onChange(currentItem)
+  }, [currentItem.modifiedAt])
 
   const wrapperClasses = ['wrapper']
   wrapperClasses.push(currentItem.used ? 'used' : 'new')
@@ -59,7 +63,7 @@ function ServiceItem({ item, onRemove }) {
           <InlineEdit
             text={currentItem.name}
             onSetText={(value) => {
-              setCurrentItem({ ...currentItem, name: value })
+              setCurrentItem({ ...currentItem, name: value, modifiedAt: new Date() })
             }}
           />
         </div>
@@ -68,7 +72,11 @@ function ServiceItem({ item, onRemove }) {
           <InlineEdit
             text={`${currentItem.price / 100}`}
             onSetText={(value) => {
-              setCurrentItem({ ...currentItem, price: value * 100 })
+              setCurrentItem({
+                ...currentItem,
+                price: value * 100,
+                modifiedAt: new Date(),
+              })
             }}
           />
         </div>
@@ -98,6 +106,7 @@ ServiceItem.propTypes = {
     category: PropTypes.string,
   }).isRequired,
   onRemove: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default ServiceItem

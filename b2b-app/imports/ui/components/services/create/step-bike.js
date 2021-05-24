@@ -2,15 +2,53 @@ import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { ServiceContext } from './context'
 
-const StyledBikeStep = styled.div``
+import SimpleSchema from 'simpl-schema'
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+
+import { ServiceContext } from './context'
+import { Button } from '@material-ui/core'
+
+const bikeFormSchema = new SimpleSchema({
+  make: String,
+  model: String,
+  colour: String,
+  type: {
+    type: String,
+    allowedValues: [
+      'Moutain Bike',
+      'Road Bike',
+      'Hybrid Bike',
+      'BMX Bike',
+      'Ladies Bike',
+      'Gents Bike',
+      'Vintage Bike',
+      'Other',
+    ],
+  },
+  approxValue: {
+    type: String,
+    label: 'Approx. Value',
+  },
+})
+
+const StyledBikeStep = styled.div`
+  .btns-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+`
 
 function bikeStepReducer(state, action) {
   const { type, payload } = action
   switch (type) {
-    case 'setItems':
-      return { ...state, items: payload, updatedAt: new Date() }
+    case 'setDetails':
+      return { ...state, details: payload, updatedAt: new Date() }
+    case 'setHasValidData':
+      return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
       return state
   }
@@ -18,23 +56,31 @@ function bikeStepReducer(state, action) {
 
 function BikeStep({ initialData }) {
   const [state, dispatch] = useReducer(bikeStepReducer, {
-    items: initialData?.items || [],
+    details: initialData?.details || {},
     updatedAt: new Date(),
-    dataCheckResult: true,
+    hasValidData: false,
     checkedAt: null,
   })
 
-  const { setStepData, activeStep } = useContext(ServiceContext)
+  const { setStepData, setStepProperty, goNext, goBack, activeStep } = useContext(
+    ServiceContext
+  )
+  const formRef = useRef()
   const checkTimeout = useRef(null)
 
-  const { items, dataCheckResult, checkedAt, updatedAt } = state
+  const { details, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
     // TODO: do something here
-    dispatch({ type: 'setDataCheckResult', payload: true })
+    // const checkResult = await formRef.current?.validate()
+    const checkResult = await formRef.current?.validateModel(details)
+    dispatch({ type: 'setHasValidData', payload: checkResult === null })
   }
 
   useEffect(() => {
+    if (activeStep !== 'bike') {
+      return
+    }
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -42,11 +88,25 @@ function BikeStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (activeStep !== 'bike') {
+      return
+    }
     setStepData({
-      items,
-      updatedAt,
-      dataCheckResult,
+      stepKey: 'bike',
+      data: {
+        details,
+        updatedAt,
+        hasValidData,
+      },
     })
+    setStepProperty({
+      stepKey: 'bike',
+      property: 'completed',
+      value: hasValidData,
+    })
+    if (hasValidData) {
+      goNext()
+    }
   }, [checkedAt])
 
   if (activeStep !== 'bike') {
@@ -54,14 +114,37 @@ function BikeStep({ initialData }) {
   }
 
   const classes = ['bikestep-item-form']
-  if (dataCheckResult === false) {
+  if (hasValidData === false) {
     classes.push('incomplete')
   }
 
   return (
     <StyledBikeStep>
       <div className={classes.join(' ')}>
-        <div>some bike data</div>
+        <AutoForm
+          ref={formRef}
+          schema={new SimpleSchema2Bridge(bikeFormSchema)}
+          model={details}
+          onSubmit={(model) => {
+            // console.log(model)
+            dispatch({ type: 'setDetails', payload: model })
+          }}
+        >
+          <AutoFields />
+          <ErrorsField />
+          <div className="btns-container">
+            <Button onClick={goBack}>Back</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                formRef.current.submit()
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </AutoForm>
       </div>
     </StyledBikeStep>
   )
@@ -69,7 +152,7 @@ function BikeStep({ initialData }) {
 
 BikeStep.propTypes = {
   initialData: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.object),
+    details: PropTypes.object,
   }),
 }
 
