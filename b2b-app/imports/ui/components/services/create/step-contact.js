@@ -19,7 +19,19 @@ import Loading from '../../commons/loading'
 import Avatar from '../../commons/avatar'
 
 const StyledContactStep = styled.div`
+  .search-box {
+    margin-top: 20px;
+  }
   .matches-container {
+    margin-top: 20px;
+    padding: 10px 20px;
+    .list-item {
+      &.selected {
+        background-color: #e6e6e6;
+      }
+    }
+  }
+  .selected-member {
     margin-top: 20px;
     padding: 10px 20px;
   }
@@ -36,6 +48,8 @@ function contactStepReducer(state, action) {
       return { ...state, foundMembers: payload, searching: false }
     case 'selectMember':
       return { ...state, selectedMember: payload }
+    case 'clear':
+      return { ...state, foundMembers: [], selectedMember: null }
     default:
       return state
   }
@@ -58,7 +72,15 @@ function ContactStep({ initialData }) {
   const { setStepData, activeStep } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
 
-  const { items, hasValidData, checkedAt, updatedAt, searching, foundMembers } = state
+  const {
+    items,
+    hasValidData,
+    checkedAt,
+    updatedAt,
+    searching,
+    foundMembers,
+    selectedMember,
+  } = state
 
   const checkData = async () => {
     // TODO: do something here
@@ -86,7 +108,7 @@ function ContactStep({ initialData }) {
     searchTimeout.current = Meteor.setTimeout(() => {
       // only search when the keyword is long enough
       if (keyword.length < 3) {
-        dispatch({ type: 'setMembers', payload: [] })
+        dispatch({ type: 'clear' })
         return
       }
       dispatch({ type: 'setSearching', payload: true })
@@ -123,28 +145,53 @@ function ContactStep({ initialData }) {
         </ListItem>
       )
     }
-    return foundMembers.map((item) => (
-      <ListItem key={item._id} button>
-        <ListItemAvatar>
-          <Avatar
-            url={item.avatar}
-            alt={item.name}
-            linkUrl={`/profile/${item._id}`}
-            size={45}
+    return foundMembers.map((item) => {
+      const isSelected = selectedMember && selectedMember._id === item._id
+      return (
+        <ListItem
+          key={item._id}
+          button
+          onClick={() => {
+            dispatch({ type: 'selectMember', payload: item })
+          }}
+          className={`list-item ${isSelected ? 'selected' : ''}`}
+        >
+          <ListItemAvatar>
+            <Avatar
+              url={item.avatar}
+              alt={item.name}
+              linkUrl={`/profile/${item._id}`}
+              size={45}
+            />
+          </ListItemAvatar>
+          <ListItemText
+            primary={item.name}
+            secondary={`${item.mobile || ''}${item.email ? ` - ${item.email}` : ''}`}
           />
-        </ListItemAvatar>
-        <ListItemText
-          primary={item.name}
-          secondary={`${item.mobile}${item.email ? ` - ${item.email}` : ''}`}
-        />
-      </ListItem>
-    ))
+        </ListItem>
+      )
+    })
+  }
+
+  const renderSelectedMember = () => {
+    if (!selectedMember) {
+      return null
+    }
+    const { name, mobile, email } = selectedMember
+    return (
+      <Paper elevation={3} className="selected-member">
+        <Typography variant="h3">Selected Member</Typography>
+        <div className="name">{name}</div>
+        <div className="info">
+          {mobile} {email ? `- ${email}` : ''}
+        </div>
+      </Paper>
+    )
   }
 
   return (
     <StyledContactStep>
       <div className={classes.join(' ')}>
-        <div>some contact data</div>
         <SearchBox
           onChange={(value) => searchMember(value)}
           placeholder="search existing member"
@@ -154,6 +201,7 @@ function ContactStep({ initialData }) {
           <Typography variant="h3">Matches</Typography>
           <List className="list-container">{renderFoundMembers()}</List>
         </Paper>
+        {renderSelectedMember()}
       </div>
     </StyledContactStep>
   )
