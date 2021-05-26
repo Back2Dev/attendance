@@ -9,6 +9,36 @@ import moment from 'moment'
 const debug = require('debug')('b2b:members')
 
 Meteor.methods({
+  'members.search'({ keyword }) {
+    if (!Match.test(keyword, String)) {
+      return { status: 'failed', message: 'Keyword must be string' }
+    }
+    // find the member
+    const members = Members.find(
+      {
+        $text: {
+          $search: keyword,
+          // $search: `"${keyword}"`
+        },
+      },
+      {
+        fields: {
+          _id: 1,
+          name: 1,
+          mobile: 1,
+          email: 1,
+          avatar: 1,
+          score: { $meta: 'textScore' },
+        },
+        sort: {
+          score: { $meta: 'textScore' },
+        },
+      }
+    ).fetch()
+    // TODO: fetch the client history
+
+    return { status: 'success', members }
+  },
   'members.updateBio'({ bio, favorites }) {
     debug({ bio, favorites })
     if (!Match.test(bio, String)) {

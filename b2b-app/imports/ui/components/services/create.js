@@ -7,6 +7,7 @@ import FromSteps from './create/steps'
 import ServiceStep from './create/step-service'
 import BikeStep from './create/step-bike'
 import ContactStep from './create/step-contact'
+import PickupStep from './create/step-pickup'
 
 const StyledCreateService = styled.div`
   margin: 60px auto;
@@ -27,6 +28,7 @@ function CreateService() {
           <ServiceStep />
           <BikeStep />
           <ContactStep />
+          <PickupStep />
         </div>
       </StyledCreateService>
     </ServiceProvider>

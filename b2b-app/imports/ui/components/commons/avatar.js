@@ -41,7 +41,12 @@ const Avatar = ({ url = null, alt = null, size = 80, styles = {}, linkUrl = null
 
   const renderImage = () => {
     if (url && alt) {
-      return <img loading="lazy" className="avatar-image" src={url} alt={alt} />
+      let realUrl = url
+      const patt = /^http/
+      if (!patt.test(url)) {
+        realUrl = `/images/avatars/${url}`
+      }
+      return <img loading="lazy" className="avatar-image" src={realUrl} alt={alt} />
     }
 
     return (

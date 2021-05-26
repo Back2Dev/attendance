@@ -7,7 +7,7 @@ import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 
 export const ServiceContext = React.createContext('service')
 
-const stepKeys = ['service', 'bike', 'contact']
+const stepKeys = ['service', 'bike', 'contact', 'pickup']
 const stepProperties = ['laber', 'error', 'completed', 'disabled', 'lastMessage']
 
 function reducer(state, action) {
@@ -110,8 +110,16 @@ export const ServiceProvider = ({ children }) => {
         lastMessage: '',
         data: null,
       },
+      pickup: {
+        label: 'Pick-up Details',
+        error: false,
+        disabled: false,
+        completed: false,
+        lastMessage: '',
+        data: null,
+      },
     },
-    activeStep: 'service', // for dev only, should be service by default
+    activeStep: 'contact', // for dev only, should be service by default
     loading: false,
   })
 

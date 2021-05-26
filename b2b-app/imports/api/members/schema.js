@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
@@ -9,6 +10,28 @@ import {
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants'
 const Members = new Mongo.Collection('members')
+
+if (Meteor.isServer) {
+  Members._ensureIndex(
+    {
+      _id: 'text',
+      name: 'text',
+      email: 'text',
+      mobile: 'text',
+      emergencyContact: 'text',
+    },
+    {
+      weights: {
+        _id: 30,
+        name: 15,
+        email: 10,
+        mobile: 8,
+        emergencyContact: 5,
+      },
+      name: 'member_text_search',
+    }
+  )
+}
 
 export const AddBadgeParamsSchema = new SimpleSchema({
   memberId: RegExId,

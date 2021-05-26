@@ -34,6 +34,10 @@ const bikeFormSchema = new SimpleSchema({
 })
 
 const StyledBikeStep = styled.div`
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
   .btns-container {
     margin: 20px 0;
     display: flex;
@@ -113,7 +117,7 @@ function BikeStep({ initialData }) {
     return null
   }
 
-  const classes = ['bikestep-item-form']
+  const classes = ['form-container']
   if (hasValidData === false) {
     classes.push('incomplete')
   }
