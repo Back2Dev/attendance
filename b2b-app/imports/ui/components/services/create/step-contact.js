@@ -73,13 +73,26 @@ function contactStepReducer(state, action) {
       return { ...state, foundMembers: payload, searching: false }
     case 'selectMember':
       if (state.selectedMember?._id === payload._id) {
-        return { ...state, selectedMember: null, memberData: null }
+        return { ...state, selectedMember: null, memberData: {}, updatedAt: new Date() }
       }
-      return { ...state, selectedMember: payload, memberData: payload }
+      return {
+        ...state,
+        selectedMember: payload,
+        memberData: payload,
+        updatedAt: new Date(),
+      }
     case 'clear':
-      return { ...state, foundMembers: [], selectedMember: null, memberData: null }
+      return {
+        ...state,
+        foundMembers: [],
+        selectedMember: null,
+        memberData: {},
+        updatedAt: new Date(),
+      }
     case 'setMemberData':
-      return { ...state, memberData: payload }
+      return { ...state, memberData: payload, updatedAt: new Date() }
+    case 'setHasValidData':
+      return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
       return state
   }
@@ -90,13 +103,13 @@ function ContactStep({ initialData }) {
   useEffect(() => () => (mounted.current = false), [])
 
   const [state, dispatch] = useReducer(contactStepReducer, {
-    updatedAt: new Date(),
+    updatedAt: null,
     hasValidData: false,
     checkedAt: null,
     searching: false,
     foundMembers: [],
     selectedMember: null,
-    memberData: null,
+    memberData: {},
   })
 
   const { setStepData, activeStep, goBack, goNext, setStepProperty } = useContext(
@@ -116,14 +129,16 @@ function ContactStep({ initialData }) {
   } = state
 
   const checkData = async () => {
-    // TODO: do something here
-    dispatch({ type: 'setHasValidData', payload: true })
+    const checkResult = await formRef.current?.validateModel(memberData)
+    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    return checkResult === null
   }
 
   useEffect(() => {
-    if (activeStep !== 'contact') {
+    if (activeStep !== 'contact' || !updatedAt) {
       return
     }
+
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -144,14 +159,18 @@ function ContactStep({ initialData }) {
       },
     })
     setStepProperty({
-      stepKey: 'bike',
+      stepKey: 'contact',
       property: 'completed',
       value: hasValidData,
     })
-    if (hasValidData) {
+  }, [checkedAt])
+
+  const handleSubmit = () => {
+    checkData()
+    if (checkData()) {
       goNext()
     }
-  }, [checkedAt])
+  }
 
   const searchTimeout = useRef(null)
   const searchMember = (keyword) => {
@@ -236,9 +255,11 @@ function ContactStep({ initialData }) {
             ref={formRef}
             schema={new SimpleSchema2Bridge(memberFormSchema)}
             model={memberData}
-            onSubmit={(model) => {
-              // console.log(model)
-              dispatch({ type: 'setMemberData', payload: model })
+            onSubmit={handleSubmit}
+            onChange={(field, data) => {
+              const newData = { ...memberData }
+              newData[field] = data
+              dispatch({ type: 'setMemberData', payload: newData })
             }}
           >
             <AutoField name="name" disabled={_id && name ? true : false} />
@@ -254,6 +275,7 @@ function ContactStep({ initialData }) {
                 onClick={() => {
                   formRef.current.submit()
                 }}
+                disabled={!hasValidData}
               >
                 Submit
               </Button>
