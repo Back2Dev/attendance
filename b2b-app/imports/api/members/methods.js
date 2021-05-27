@@ -24,10 +24,12 @@ Meteor.methods({
       {
         fields: {
           _id: 1,
+          userId: 1,
           name: 1,
           mobile: 1,
           email: 1,
           avatar: 1,
+          addressPostcode: 1,
           score: { $meta: 'textScore' },
         },
         sort: {
@@ -35,9 +37,12 @@ Meteor.methods({
         },
       }
     ).fetch()
-    // TODO: fetch the client history
 
-    return { status: 'success', members }
+    const membersWithHistory = members.map((item) => {
+      return { ...item, history: [] }
+    })
+
+    return { status: 'success', members: membersWithHistory }
   },
   'members.updateBio'({ bio, favorites }) {
     debug({ bio, favorites })

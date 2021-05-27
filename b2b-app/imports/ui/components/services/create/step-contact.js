@@ -6,11 +6,16 @@ import styled from 'styled-components'
 import {
   Paper,
   Typography,
+  Button,
   List,
   ListItem,
   ListItemText,
   ListItemAvatar,
 } from '@material-ui/core'
+
+import SimpleSchema from 'simpl-schema'
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import { AutoForm, AutoField, ErrorsField } from 'uniforms-material'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
@@ -34,22 +39,47 @@ const StyledContactStep = styled.div`
   .selected-member {
     margin-top: 20px;
     padding: 10px 20px;
+    h3 {
+      margin-bottom: 10px;
+    }
+    .name {
+      font-weight: bold;
+    }
+  }
+  .form-container {
+    max-width: 500px;
+  }
+  .btns-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 `
+
+const memberFormSchema = new SimpleSchema({
+  name: String,
+  mobile: String,
+  email: String,
+  postcode: String,
+})
 
 function contactStepReducer(state, action) {
   const { type, payload } = action
   switch (type) {
-    case 'setItems':
-      return { ...state, items: payload, updatedAt: new Date() }
     case 'setSearching':
       return { ...state, searching: payload }
     case 'setMembers':
       return { ...state, foundMembers: payload, searching: false }
     case 'selectMember':
-      return { ...state, selectedMember: payload }
+      if (state.selectedMember?._id === payload._id) {
+        return { ...state, selectedMember: null, memberData: null }
+      }
+      return { ...state, selectedMember: payload, memberData: payload }
     case 'clear':
-      return { ...state, foundMembers: [], selectedMember: null }
+      return { ...state, foundMembers: [], selectedMember: null, memberData: null }
+    case 'setMemberData':
+      return { ...state, memberData: payload }
     default:
       return state
   }
@@ -60,26 +90,29 @@ function ContactStep({ initialData }) {
   useEffect(() => () => (mounted.current = false), [])
 
   const [state, dispatch] = useReducer(contactStepReducer, {
-    items: initialData?.items || [],
     updatedAt: new Date(),
-    hasValidData: true,
+    hasValidData: false,
     checkedAt: null,
     searching: false,
     foundMembers: [],
     selectedMember: null,
+    memberData: null,
   })
 
-  const { setStepData, activeStep } = useContext(ServiceContext)
+  const { setStepData, activeStep, goBack, goNext, setStepProperty } = useContext(
+    ServiceContext
+  )
   const checkTimeout = useRef(null)
+  const formRef = useRef()
 
   const {
-    items,
     hasValidData,
     checkedAt,
     updatedAt,
     searching,
     foundMembers,
     selectedMember,
+    memberData,
   } = state
 
   const checkData = async () => {
@@ -88,6 +121,9 @@ function ContactStep({ initialData }) {
   }
 
   useEffect(() => {
+    if (activeStep !== 'contact') {
+      return
+    }
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -95,11 +131,26 @@ function ContactStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (activeStep !== 'contact') {
+      return
+    }
     setStepData({
-      items,
-      updatedAt,
-      hasValidData,
+      stepKey: 'contact',
+      data: {
+        selectedMember,
+        memberData,
+        updatedAt,
+        hasValidData,
+      },
     })
+    setStepProperty({
+      stepKey: 'bike',
+      property: 'completed',
+      value: hasValidData,
+    })
+    if (hasValidData) {
+      goNext()
+    }
   }, [checkedAt])
 
   const searchTimeout = useRef(null)
@@ -174,17 +225,42 @@ function ContactStep({ initialData }) {
   }
 
   const renderSelectedMember = () => {
-    if (!selectedMember) {
-      return null
-    }
-    const { name, mobile, email } = selectedMember
+    const { _id, name, mobile, email, postcode } = selectedMember || {}
     return (
       <Paper elevation={3} className="selected-member">
-        <Typography variant="h3">Selected Member</Typography>
-        <div className="name">{name}</div>
-        <div className="info">
-          {mobile} {email ? `- ${email}` : ''}
+        <Typography variant="h3">
+          {selectedMember ? 'Selected Member' : 'New Member'}
+        </Typography>
+        <div className="form-container">
+          <AutoForm
+            ref={formRef}
+            schema={new SimpleSchema2Bridge(memberFormSchema)}
+            model={memberData}
+            onSubmit={(model) => {
+              // console.log(model)
+              dispatch({ type: 'setMemberData', payload: model })
+            }}
+          >
+            <AutoField name="name" disabled={_id && name ? true : false} />
+            <AutoField name="mobile" disabled={_id && mobile ? true : false} />
+            <AutoField name="email" disabled={_id && email ? true : false} />
+            <AutoField name="postcode" disabled={_id && postcode ? true : false} />
+            <ErrorsField />
+            <div className="btns-container">
+              <Button onClick={goBack}>Back</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  formRef.current.submit()
+                }}
+              >
+                Submit
+              </Button>
+            </div>
+          </AutoForm>
         </div>
+        <div>TODO: render service history here</div>
       </Paper>
     )
   }
