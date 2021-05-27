@@ -2,15 +2,43 @@ import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { Button } from '@material-ui/core'
+
+import SimpleSchema from 'simpl-schema'
+import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import { AutoForm, AutoFields, TextField, ErrorsField } from 'uniforms-material'
+
 import { ServiceContext } from './context'
 
-const StyledPickupStep = styled.div``
+const StyledPickupStep = styled.div`
+  margin: 20px 0;
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .btns-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+`
+
+const pickupFormSchema = new SimpleSchema({
+  dropOffDate: Date,
+  pickupDate: Date,
+  replacementBike: String,
+  urgent: Boolean,
+})
 
 function pickupStepReducer(state, action) {
   const { type, payload } = action
   switch (type) {
-    case 'setItems':
-      return { ...state, items: payload, updatedAt: new Date() }
+    case 'setPickup':
+      return { ...state, pickup: payload, updatedAt: new Date() }
+    case 'setHasValidData':
+      return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
       return state
   }
@@ -18,23 +46,29 @@ function pickupStepReducer(state, action) {
 
 function PickupStep({ initialData }) {
   const [state, dispatch] = useReducer(pickupStepReducer, {
-    items: initialData?.items || [],
-    updatedAt: new Date(),
-    hasValidData: true,
+    pickup: initialData?.pickup || {},
+    updatedAt: null,
+    hasValidData: false,
     checkedAt: null,
   })
 
-  const { setStepData, activeStep } = useContext(ServiceContext)
+  const { setStepData, activeStep, goBack, setStepProperty } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
+  const formRef = useRef()
 
-  const { items, hasValidData, checkedAt, updatedAt } = state
+  const { pickup, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
-    // TODO: do something here
-    dispatch({ type: 'setHasValidData', payload: true })
+    const checkResult = await formRef.current?.validateModel(pickup)
+    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    return checkResult === null
   }
 
   useEffect(() => {
+    if (activeStep !== 'pickup' || !updatedAt) {
+      return
+    }
+
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -42,12 +76,29 @@ function PickupStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (activeStep !== 'pickup') {
+      return
+    }
     setStepData({
-      items,
-      updatedAt,
-      hasValidData,
+      stepKey: 'pickup',
+      data: {
+        pickup,
+        updatedAt,
+        hasValidData,
+      },
+    })
+    setStepProperty({
+      stepKey: 'pickup',
+      property: 'completed',
+      value: hasValidData,
     })
   }, [checkedAt])
+
+  const handleSubmit = () => {
+    if (checkData()) {
+      console.log('call submit service')
+    }
+  }
 
   if (activeStep !== 'pickup') {
     return null
@@ -61,7 +112,37 @@ function PickupStep({ initialData }) {
   return (
     <StyledPickupStep>
       <div className={classes.join(' ')}>
-        <div>some pickup data</div>
+        <div className="form-container">
+          <AutoForm
+            ref={formRef}
+            schema={new SimpleSchema2Bridge(pickupFormSchema)}
+            model={pickup}
+            onSubmit={handleSubmit}
+            onChange={(field, data) => {
+              const newData = { ...pickup }
+              newData[field] = data
+              dispatch({ type: 'setPickup', payload: newData })
+            }}
+          >
+            <TextField name="dropOffDate" type="date" />
+            <TextField name="pickupDate" type="date" />
+            <AutoFields omitFields={['dropOffDate', 'pickupDate']} />
+            <ErrorsField />
+            <div className="btns-container">
+              <Button onClick={goBack}>Back</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  formRef.current.submit()
+                }}
+                disabled={!hasValidData}
+              >
+                Submit
+              </Button>
+            </div>
+          </AutoForm>
+        </div>
       </div>
     </StyledPickupStep>
   )
@@ -69,7 +150,7 @@ function PickupStep({ initialData }) {
 
 PickupStep.propTypes = {
   initialData: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.object),
+    pickup: PropTypes.object,
   }),
 }
 

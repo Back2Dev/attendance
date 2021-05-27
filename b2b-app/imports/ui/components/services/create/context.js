@@ -119,7 +119,7 @@ export const ServiceProvider = ({ children }) => {
         data: null,
       },
     },
-    activeStep: 'contact', // for dev only, should be service by default
+    activeStep: 'pickup', // for dev only, should be service by default
     loading: false,
   })
 

@@ -166,7 +166,6 @@ function ContactStep({ initialData }) {
   }, [checkedAt])
 
   const handleSubmit = () => {
-    checkData()
     if (checkData()) {
       goNext()
     }
