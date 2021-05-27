@@ -15,7 +15,7 @@ import {
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoField, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
@@ -61,7 +61,7 @@ const memberFormSchema = new SimpleSchema({
   name: String,
   mobile: String,
   email: String,
-  postcode: String,
+  addressPostcode: String,
 })
 
 function contactStepReducer(state, action) {
@@ -244,7 +244,6 @@ function ContactStep({ initialData }) {
   }
 
   const renderSelectedMember = () => {
-    const { _id, name, mobile, email, postcode } = selectedMember || {}
     return (
       <Paper elevation={3} className="selected-member">
         <Typography variant="h3">
@@ -262,10 +261,7 @@ function ContactStep({ initialData }) {
               dispatch({ type: 'setMemberData', payload: newData })
             }}
           >
-            <AutoField name="name" disabled={_id && name ? true : false} />
-            <AutoField name="mobile" disabled={_id && mobile ? true : false} />
-            <AutoField name="email" disabled={_id && email ? true : false} />
-            <AutoField name="postcode" disabled={_id && postcode ? true : false} />
+            <AutoFields />
             <ErrorsField />
             <div className="btns-container">
               <Button onClick={goBack}>Back</Button>
