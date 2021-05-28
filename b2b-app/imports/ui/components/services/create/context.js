@@ -119,7 +119,7 @@ export const ServiceProvider = ({ children }) => {
         data: null,
       },
     },
-    activeStep: 'pickup', // for dev only, should be service by default
+    activeStep: 'service', // for dev only, should be service by default
     loading: false,
   })
 
@@ -178,7 +178,7 @@ export const ServiceProvider = ({ children }) => {
     return setStepProperty({ stepKey: stepKeys[stepKeyIndex], property, value })
   }
 
-  const createService = () => {
+  const createJob = () => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
@@ -196,12 +196,17 @@ export const ServiceProvider = ({ children }) => {
       return
     }
     dispatch({ type: 'setLoading', payload: true })
+    const contactData = state.steps.contact.data
+    delete contactData.selectedMember?.history
+    delete contactData.memberData.history
     Meteor.call(
-      'services.create',
+      'jobs.create',
       {
-        service: state.steps.service.data,
-        bike: state.steps.bike.data,
-        contact: state.steps.contact.data,
+        serviceItems: state.steps.service.data.items,
+        bikeDetails: state.steps.bike.data.details,
+        selectedMember: contactData.selectedMember,
+        memberData: contactData.memberData,
+        pickup: state.steps.pickup.data.pickup,
       },
       (error, result) => {
         if (mounted.current) {
@@ -211,8 +216,10 @@ export const ServiceProvider = ({ children }) => {
           showError(error.message)
         }
         if (result) {
-          showSuccess('The service stored successfully')
-          push(`/service/${result.id}`)
+          if (result.status === 'success') {
+            showSuccess('The service stored successfully')
+            // push(`/jobs/${result.id}`)
+          }
         }
       }
     )
@@ -228,7 +235,7 @@ export const ServiceProvider = ({ children }) => {
         setStepData,
         setStepProperty,
         setNextStepProperty,
-        createService,
+        createJob,
       }}
     >
       {children}

@@ -1,16 +1,59 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
-import { RegExId, createdAt, updatedAt } from '/imports/api/schema'
-import { JOB_STATUS_READABLE } from '/imports/api/constants'
+import {
+  RegExId,
+  OptionalRegExId,
+  createdAt,
+  updatedAt,
+} from '/imports/api/utils/schema-util.js'
+import CONSTANTS from '/imports/api/constants'
 import { ServiceItemsSchema } from '../service-items/schema'
 
 const Jobs = new Mongo.Collection('jobs')
 
+export const JobCreateParamsSchema = new SimpleSchema({
+  serviceItems: Array,
+  'serviceItems.$': ServiceItemsSchema.pick(
+    '_id',
+    'name',
+    'price',
+    'code',
+    'category',
+    'used'
+  ),
+  bikeDetails: new SimpleSchema({
+    make: String,
+    model: String,
+    color: String,
+    type: String,
+    approxValue: Number,
+  }),
+  selectedMember: {
+    type: new SimpleSchema({
+      _id: RegExId,
+      userId: OptionalRegExId,
+    }),
+    optional: true,
+  },
+  memberData: new SimpleSchema({
+    name: String,
+    mobile: String,
+    email: String,
+    addressPostcode: String,
+  }),
+  pickup: new SimpleSchema({
+    urgent: Boolean,
+    dropOffDate: String,
+    pickupDate: String,
+    replacementBike: String,
+  }),
+})
+
 // Note: By default, all keys are required
 export const JobsSchema = new SimpleSchema({
   _id: RegExId,
-  jobNo: String,
+  jobNo: { type: String, optional: true },
   name: { type: String, optional: true, label: 'Customer name' },
   phone: {
     type: String,
@@ -18,7 +61,7 @@ export const JobsSchema = new SimpleSchema({
     label: 'Customer phone number',
   },
   email: { type: String, optional: true, label: 'Customer email' },
-  isRefurbish: { type: Boolean, label: 'Is a refurbishment' },
+  isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
   make: { type: String, label: 'Bike make' },
   model: { type: String, optional: true, label: 'Bike model' },
   color: { type: String, label: 'Bike color' },
@@ -35,7 +78,14 @@ export const JobsSchema = new SimpleSchema({
     type: Array,
     label: 'Details of services/parts required',
   },
-  'serviceItems.$': { type: ServiceItemsSchema },
+  'serviceItems.$': ServiceItemsSchema.pick(
+    '_id',
+    'name',
+    'price',
+    'code',
+    'category',
+    'used'
+  ),
   totalCost: {
     type: SimpleSchema.Integer,
     label: 'Total cost in cents',
@@ -59,23 +109,26 @@ export const JobsSchema = new SimpleSchema({
     type: Boolean,
     label: 'Field to indicate if bike repair is urgent',
   },
-  assessor: { type: String, label: 'Assessor name' },
+  assessor: { type: String, optional: true, label: 'Assessor name' },
   mechanic: { type: String, optional: true, label: 'Mechanic name' },
   comment: {
     type: String,
     optional: true,
     label: 'Field for putting in notes or additional services required',
   },
-  temporaryBike: {
-    type: Boolean,
+  replacementBike: {
+    type: String,
+    optional: true,
     label: 'Field to indicate if a temporary bike was provided',
   },
   status: {
     type: SimpleSchema.Integer,
-    allowedValues: Object.keys(JOB_STATUS_READABLE).map((key) => parseInt(key, 10)),
+    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((key) =>
+      parseInt(key, 10)
+    ),
+    defaultValue: 1,
     label: 'Status of job',
   },
-  search: { type: String, label: 'Combination of searchable data' },
   paid: { type: Boolean, defaultValue: false },
   charge_token: { type: String, optional: true },
   card: { type: Object, optional: true, blackbox: true },

@@ -13,6 +13,7 @@ import ServiceItem from './service-item'
 import Loading from '../../commons/loading'
 
 const StyledServiceStep = styled.div`
+  margin: 20px 0;
   .btns-container {
     margin: 20px 0;
     display: flex;

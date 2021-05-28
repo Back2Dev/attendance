@@ -1,8 +1,44 @@
 import { Meteor } from 'meteor/meteor'
-import Jobs from './schema'
-const debug = require('debug')('target:jobs')
+import moment from 'moment'
+import Jobs, { JobCreateParamsSchema } from './schema'
+const debug = require('debug')('b2b:jobs')
 
 Meteor.methods({
+  'jobs.create'(data) {
+    const cleanData = JobCreateParamsSchema.clean(data)
+    debug('clean data', cleanData.serviceItems, cleanData)
+    try {
+      JobCreateParamsSchema.validate(cleanData)
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+
+    const jobData = {
+      // jobNo will be updated later
+      name: cleanData.memberData.name,
+      phone: cleanData.memberData.mobile,
+      email: cleanData.memberData.email,
+      make: cleanData.bikeDetails.make,
+      model: cleanData.bikeDetails.model,
+      color: cleanData.bikeDetails.color,
+      bikeValue: cleanData.bikeDetails.approxValue,
+      serviceItems: cleanData.serviceItems,
+      totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
+      dropoffDate: moment(cleanData.pickup.dropOffDate).toDate(),
+      pickupDate: moment(cleanData.pickup.pickupDate).toDate(),
+      urgent: cleanData.pickup.urgent,
+      replacementBike: cleanData.pickup.replacementBike,
+    }
+
+    // insert
+    try {
+      const inserted = Jobs.insert(jobData)
+      return { status: 'success', id: inserted }
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+  },
   'rm.jobs': (id) => {
     try {
       const n = Jobs.remove(id)

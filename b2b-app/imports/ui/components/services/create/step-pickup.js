@@ -29,7 +29,10 @@ const pickupFormSchema = new SimpleSchema({
   dropOffDate: Date,
   pickupDate: Date,
   replacementBike: String,
-  urgent: Boolean,
+  urgent: {
+    type: Boolean,
+    defaultValue: false,
+  },
 })
 
 function pickupStepReducer(state, action) {
@@ -46,13 +49,15 @@ function pickupStepReducer(state, action) {
 
 function PickupStep({ initialData }) {
   const [state, dispatch] = useReducer(pickupStepReducer, {
-    pickup: initialData?.pickup || {},
+    pickup: initialData?.pickup || { urgent: false },
     updatedAt: null,
     hasValidData: false,
     checkedAt: null,
   })
 
-  const { setStepData, activeStep, goBack, setStepProperty } = useContext(ServiceContext)
+  const { setStepData, activeStep, goBack, setStepProperty, createJob } = useContext(
+    ServiceContext
+  )
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
@@ -94,9 +99,13 @@ function PickupStep({ initialData }) {
     })
   }, [checkedAt])
 
-  const handleSubmit = () => {
-    if (checkData()) {
-      console.log('call submit service')
+  const handleSubmit = async () => {
+    const checkResult = await checkData()
+    if (checkResult) {
+      console.log('create job')
+      createJob()
+    } else {
+      console.log('something wrong')
     }
   }
 

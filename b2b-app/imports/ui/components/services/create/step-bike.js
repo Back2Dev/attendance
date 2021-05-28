@@ -13,7 +13,7 @@ import { Button } from '@material-ui/core'
 const bikeFormSchema = new SimpleSchema({
   make: String,
   model: String,
-  colour: String,
+  color: String,
   type: {
     type: String,
     allowedValues: [
@@ -28,7 +28,7 @@ const bikeFormSchema = new SimpleSchema({
     ],
   },
   approxValue: {
-    type: String,
+    type: Number,
     label: 'Approx. Value',
   },
 })
