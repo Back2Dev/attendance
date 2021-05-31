@@ -7,6 +7,7 @@ import { Container } from '@material-ui/core'
 
 import ServicingHome from '/imports/ui/components/services/home'
 import CreateService from '/imports/ui/components/services/create'
+import SecureRoute from '/imports/ui/utils/secure-route.js'
 
 const StyledServicesPage = styled.div``
 
@@ -18,8 +19,12 @@ function ServicesPage() {
       </Helmet>
       <Container maxWidth="lg">
         <Switch>
-          <Route path="/services/new" component={CreateService} />
-          <Route component={ServicingHome} />
+          <SecureRoute
+            roles={['ADM', 'GRE']}
+            path="/services/new"
+            component={CreateService}
+          />
+          <SecureRoute roles={['ADM', 'GRE']} component={ServicingHome} />
         </Switch>
       </Container>
     </StyledServicesPage>
