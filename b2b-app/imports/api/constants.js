@@ -9,6 +9,7 @@ CONSTANTS.ROLES = {
   SYS: 'System',
   MEM: 'Member',
   COA: 'Coach',
+  GRE: 'Greeter',
 }
 
 // Notificaton roles adds a 'USR' role, for the current user

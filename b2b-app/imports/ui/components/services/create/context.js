@@ -217,7 +217,7 @@ export const ServiceProvider = ({ children }) => {
         }
         if (result) {
           if (result.status === 'success') {
-            showSuccess('The service stored successfully')
+            showSuccess('Job created successfully')
             // push(`/jobs/${result.id}`)
           }
         }
