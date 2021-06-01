@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
+import PdfMaker from '/imports/ui/utils/pdf-maker.js'
 
 export const ServiceContext = React.createContext('service')
 
@@ -178,6 +179,133 @@ export const ServiceProvider = ({ children }) => {
     return setStepProperty({ stepKey: stepKeys[stepKeyIndex], property, value })
   }
 
+  const capitalize = function (str) {
+    if (!str) return
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map((x) => x[0].toUpperCase() + x.slice(1))
+      .join(' ')
+  }
+
+  const createPdf = () => {
+    const serviceItems = state.steps.service.data.items
+    const bikeDetails = state.steps.bike.data.details
+    const contactData = state.steps.contact.data
+    const pickup = state.steps.pickup.data.pickup
+    const totalCost = serviceItems.reduce((a, b) => {
+      return a + b.price
+    }, 0)
+
+    const serviceItemNames = serviceItems.map((item) => {
+      return [
+        {
+          text: item.name,
+          align: 'right',
+          colSpan: 3,
+        },
+        {},
+        {},
+        {
+          image: item.code ? item.code : 'O',
+          width: 60,
+          height: 21,
+          alignment: 'center',
+        },
+      ]
+    })
+
+    const tempBike = pickup.replacementBike
+      ? 'A temporary bike has been provided to this customer.'
+      : ''
+    const isUrgent = pickup.urgent
+      ? `URGENT: This request must be completed by ${pickup.pickupDate}`
+      : `Pickup Date: ${pickup.pickupDate}`
+
+    PdfMaker({
+      contents: [
+        {
+          text: `${capitalize(bikeDetails.make)} ${bikeDetails.model} - ${capitalize(
+            bikeDetails.color
+          )} - Total Price $${totalCost / 100}`,
+          style: 'subheader',
+          fontSize: 20,
+        },
+        {
+          text: `Owner:   ${capitalize(
+            contactData.memberData.name || 'Refurbish'
+          )}     email: ${contactData.memberData.email || 'N/A'}     Ph: ${
+            contactData.memberData.mobile || 'N/A'
+          }`,
+        },
+
+        // { text: `Assessor: ${assessor} `, style: 'text' },
+        { text: `${isUrgent} `, style: 'text', bold: true },
+        { text: '', style: 'text' },
+
+        {
+          table: {
+            widths: [240, 80, 80, 80],
+            heights: 18,
+            headerRows: 2,
+            // keepWithHeaderRows: 1,
+            body: [
+              [
+                {
+                  text: 'Service',
+                  style: 'tableHeader',
+                  colSpan: 3,
+                  alignment: 'center',
+                },
+                {},
+                {},
+                {
+                  text: 'Done?',
+                  alignment: 'center',
+                },
+              ],
+              ...serviceItemNames,
+              [
+                { text: '', style: 'tableHeader', colSpan: 4, alignment: 'center' },
+                {},
+                {},
+                {},
+              ],
+              [
+                {
+                  text: 'Other Items',
+                  style: 'tableHeader',
+                  alignment: 'center',
+                  colSpan: 3,
+                },
+                {},
+                {},
+                { text: 'Done?', alignment: 'center' },
+              ],
+              // ...servicePartNames,
+              [
+                { text: '', style: 'tableHeader', colSpan: 3, alignment: 'center' },
+                {},
+                {},
+                {},
+              ],
+              [
+                { text: 'Notes', style: 'tableHeader', colSpan: 4, alignment: 'center' },
+                {},
+                {},
+                {},
+              ],
+              // [{ text: comment, colSpan: 4 }, '', '', ''],
+            ],
+          },
+        },
+        {
+          text: tempBike,
+        },
+      ],
+    })
+  }
+
   const createJob = () => {
     // check if all steps are completed
     let allDone = true
@@ -219,6 +347,8 @@ export const ServiceProvider = ({ children }) => {
           if (result.status === 'success') {
             showSuccess('Job created successfully')
             // push(`/jobs/${result.id}`)
+            // create pdf now?
+            createPdf()
           }
         }
       }
