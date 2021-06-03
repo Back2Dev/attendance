@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
+
+import ServiceItems from '/imports/api/service-items/schema.js'
 import Jobs, { JobCreateParamsSchema } from './schema'
+
 const debug = require('debug')('b2b:jobs')
 
 Meteor.methods({
@@ -32,12 +35,25 @@ Meteor.methods({
     }
 
     // insert
+    let inserted
     try {
-      const inserted = Jobs.insert(jobData)
-      return { status: 'success', id: inserted }
+      inserted = Jobs.insert(jobData)
     } catch (e) {
       return { status: 'failed', message: e.message }
     }
+
+    // update the service-items, increase the numbersOfUsed value
+    try {
+      ServiceItems.update(
+        { _id: { $in: data.serviceItems.map((item) => item._id) } },
+        { $inc: { numbersOfUsed: 1 } },
+        { multi: true }
+      )
+    } catch (e) {
+      console.warn('Failed updating ServiceItems', e.message)
+    }
+
+    return { status: 'success', id: inserted }
   },
   'rm.jobs': (id) => {
     try {
