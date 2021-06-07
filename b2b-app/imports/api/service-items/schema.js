@@ -34,6 +34,14 @@ export const ServiceItemsSchema = new SimpleSchema({
     type: Boolean,
     label: 'Is item new or used',
   },
+  tags: {
+    type: Array,
+    optional: true,
+  },
+  'tags.$': {
+    type: String,
+    allowedValues: ['Minor', 'Major'], // for this moment we support only these 2 tags
+  },
   numbersOfUsed: {
     type: Number,
     defaultValue: 0,
