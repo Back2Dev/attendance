@@ -20,6 +20,11 @@ const StyledServiceStep = styled.div`
     align-items: center;
     justify-content: space-around;
   }
+  .tags-selector {
+    button {
+      margin: 5px 0;
+    }
+  }
 `
 
 function serviceStepReducer(state, action) {
@@ -45,6 +50,13 @@ function serviceStepReducer(state, action) {
         ...state,
         selectedItems: [...state.selectedItems, newItem],
         currentItem: null,
+        updatedAt: new Date(),
+      }
+    }
+    case 'addItems': {
+      return {
+        ...state,
+        selectedItems: [...state.selectedItems, ...payload],
         updatedAt: new Date(),
       }
     }
@@ -126,6 +138,29 @@ function ServiceStep({ initialData }) {
     dispatch({ type: 'addItem', payload: item })
   }
 
+  const selectItemsWithTag = (tag) => {
+    // console.log(tag)
+    // find all service items by tag
+    const itemsToBeAdded = []
+    items.map((item) => {
+      if (item.tags?.length && item.tags.includes(tag)) {
+        // console.log('item has tag', item)
+        // check if this item has selected already, and hasn't been modified
+        if (
+          !selectedItems.find(
+            (selected) => selected._id === item._id && !selected.modifiedAt
+          )
+        ) {
+          // then add the item to the selected list
+          itemsToBeAdded.push({ ...item, localId: Random.id() })
+        }
+      }
+    })
+    if (itemsToBeAdded.length) {
+      dispatch({ type: 'addItems', payload: itemsToBeAdded })
+    }
+  }
+
   if (activeStep !== 'service') {
     return null
   }
@@ -187,6 +222,30 @@ function ServiceStep({ initialData }) {
           >
             Next
           </Button>
+        </div>
+        <div className="tags-selector">
+          <div>
+            <Button
+              className="major-tag-btn"
+              variant="contained"
+              onClick={() => {
+                selectItemsWithTag('Major')
+              }}
+            >
+              Select Major items
+            </Button>
+          </div>
+          <div>
+            <Button
+              className="minor-tag-btn"
+              variant="contained"
+              onClick={() => {
+                selectItemsWithTag('Minor')
+              }}
+            >
+              Select Minor items
+            </Button>
+          </div>
         </div>
         <div className="popular-items-container">Popular items here</div>
       </div>
