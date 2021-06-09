@@ -54,44 +54,4 @@ Meteor.methods({
       return { status: 'failed', message: `Error when uploading avatar: ${e.message}` }
     }
   },
-  'uploaded.signature': ({ folder, fileName }) => {
-    try {
-      const userId = Meteor.userId()
-      Members.update(
-        { userId },
-        {
-          $set: {
-            signature: `${folder}/${userId}/${fileName}`,
-          },
-        }
-      )
-      logger.audit('successfully uploaded signature', { userId })
-      return { status: 'success', message: 'Sucessfully uploaded signature' }
-    } catch (e) {
-      logger.error(`Error when uploading signature: ${e.message}`, {
-        userId: Meteor.userId(),
-      })
-      return e
-    }
-  },
-  'uploaded.initials': ({ folder, fileName }) => {
-    try {
-      const userId = Meteor.userId()
-      Members.update(
-        { userId },
-        {
-          $set: {
-            initials: `${folder}/${userId}/${fileName}`,
-          },
-        }
-      )
-      logger.audit('Successfully uploaded initials', { userId })
-      return { status: 'success', message: 'Sucessfully uploaded initials' }
-    } catch (e) {
-      logger.error(`Error when uploading initials: ${e.message}`, {
-        userId: Meteor.userId(),
-      })
-      return e
-    }
-  },
 })

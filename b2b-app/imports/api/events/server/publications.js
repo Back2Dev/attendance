@@ -1,12 +1,46 @@
 import { Meteor } from 'meteor/meteor'
+import { Match } from 'meteor/check'
 
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema.js'
 import Events from '../schema'
 import '../methods'
+import '../methods-workshop'
+
+const debug = require('debug')('b2b:events:publications')
 
 Meteor.publish('all.events', () => {
   return Events.find({})
+})
+
+Meteor.publish('events.byIds', function (eventIds) {
+  if (!Match.test(eventIds, [String])) {
+    return this.ready()
+  }
+  return Events.find({
+    _id: { $in: eventIds },
+    active: true,
+  })
+})
+
+Meteor.publish('events.byId', function (eventId) {
+  if (!Match.test(eventId, String)) {
+    return this.ready()
+  }
+  return Events.find({
+    _id: eventId,
+    active: true,
+  })
+})
+
+Meteor.publish('id.events', function (eventId) {
+  if (!Match.test(eventId, String)) {
+    return this.ready()
+  }
+  return Events.find({
+    _id: eventId,
+    active: true,
+  })
 })
 
 /**

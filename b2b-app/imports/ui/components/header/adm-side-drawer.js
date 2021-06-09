@@ -24,7 +24,7 @@ const adminMenus = [
   {
     display: 'Hacks',
     id: 'hacks',
-    icon: () => <Build />,
+    icon: <Build />,
     items: [
       { display: 'Messages', link: '/hacks/transporter' },
       { display: 'Surveys', link: '/hacks/surveys' },
@@ -35,7 +35,7 @@ const adminMenus = [
   {
     display: 'Admin',
     id: 'admin',
-    icon: () => <Tune />,
+    icon: <Tune />,
     items: [
       { display: 'Settings', link: '/admin/settings' },
       { display: 'Users', link: '/admin/users' },
@@ -45,6 +45,15 @@ const adminMenus = [
       { display: 'Courses', link: '/admin/courses' },
       { display: 'Tools', link: '/admin/tools' },
       { display: 'Sessions', link: '/admin/sessions' },
+    ],
+  },
+  {
+    display: 'Manager',
+    id: 'manager',
+    icon: <Build />,
+    items: [
+      { display: 'Services', link: '/services' },
+      { display: 'Create Services', link: '/services/new' },
     ],
   },
 ]
@@ -91,7 +100,11 @@ export default function SideDrawer() {
   }
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    console.log(event.key)
+    if (
+      event.type === 'keydown' &&
+      ['Tab', 'Shift', 'Control', 'Alt'].includes(event.key)
+    ) {
       return
     }
     setDrawer(open)
@@ -123,7 +136,7 @@ export default function SideDrawer() {
               return (
                 <List key={index}>
                   <ListItem button onClick={() => handleNestedMenu(menu.id)}>
-                    <ListItemIcon>{menu.icon()}</ListItemIcon>
+                    <ListItemIcon>{menu.icon}</ListItemIcon>
                     <ListItemText
                       primary={menu.display}
                       className={classes.listItem}

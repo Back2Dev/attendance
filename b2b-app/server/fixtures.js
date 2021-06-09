@@ -21,7 +21,7 @@ Fixtures.config = {
   //
   // Enable debugging with DEBUG=b2b:fixtures or DEBUG=b2b:* when invoking  meteor
   //
-  debug: false,
+  debug: true,
 }
 
 const uc1 = (str) => str.charAt(0).toUpperCase() + str.slice(1)

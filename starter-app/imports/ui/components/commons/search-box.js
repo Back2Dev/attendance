@@ -30,12 +30,6 @@ function SearchBox({
     return () => clearTimeout(timer.current)
   }, [searchBoxValue, onChange, autoTrigger, autoTriggerTimeout])
 
-  const handleEnterKey = (e) => {
-    if (e.key === 'Enter') {
-      onChange(searchBoxValue)
-    }
-  }
-
   return (
     <TextField
       className="search-box"
@@ -62,9 +56,9 @@ function SearchBox({
           </InputAdornment>
         ),
       }}
-      onKeyDown={handleEnterKey}
       onChange={(e) => {
         setSearchBoxValue(e.target.value)
+        onChange(e.target.value)
       }}
     />
   )

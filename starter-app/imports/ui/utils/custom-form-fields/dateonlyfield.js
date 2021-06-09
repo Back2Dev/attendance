@@ -5,7 +5,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import MomentUtils from '@date-io/moment'
 import moment from 'moment'
 
-function DateOnlyField({ onChange, value }) {
+function DateOnlyField({ onChange, value, disabled = false }) {
   const [newValue, setNewValue] = React.useState(value || null)
 
   const handleChange = (_value) => {
@@ -21,13 +21,14 @@ function DateOnlyField({ onChange, value }) {
         id="settlement-date-picker"
         label="Settlement Date"
         value={newValue}
-        minDate={moment()}
+        minDate={!disabled && moment()}
         format="DD/MM/yyyy"
         views={['year', 'month', 'date']}
         onChange={handleChange}
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}
+        disabled={disabled}
       />
     </MuiPickersUtilsProvider>
   )
@@ -36,6 +37,7 @@ function DateOnlyField({ onChange, value }) {
 DateOnlyField.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.object,
+  disabled: PropTypes.bool,
 }
 
 export default connectField(DateOnlyField)

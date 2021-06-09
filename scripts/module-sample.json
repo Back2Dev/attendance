@@ -1,0 +1,12 @@
+{
+  "collection": "collection-name",
+  "generate": "CRUD",
+  "fields": {
+    "_id": "OptionalRegExId",
+    "fieldname": "String"
+  },
+  "defaultObject": {
+    "fieldname": "Some default value"
+  },
+  "fixtures": [{}]
+}

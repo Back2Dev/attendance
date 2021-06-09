@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import {
   IconButton,
   Drawer,
@@ -7,28 +8,45 @@ import {
   List,
   ListItem,
   ListItemText,
+  Link,
 } from '@material-ui/core'
+import Build from '@material-ui/icons/Build'
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles } from '@material-ui/core/styles'
 import InfoIcon from '@material-ui/icons/Info'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import PhoneIcon from '@material-ui/icons/Phone'
 
-const adminMenus = [
+import { AccountContext } from '/imports/ui/contexts/account-context.js'
+
+const menus = [
   {
     display: 'About',
     link: 'https://mydomain.com.au/about-us/',
-    icon: () => <InfoIcon />,
+    icon: <InfoIcon />,
   },
   {
     display: 'News',
     link: 'https://mydomain.com.au/news/',
-    icon: () => <LibraryBooksIcon />,
+    icon: <LibraryBooksIcon />,
   },
   {
     display: 'Contact us',
     link: 'https://mydomain.com.au/contact/',
-    icon: () => <PhoneIcon />,
+    icon: <PhoneIcon />,
+  },
+]
+
+const greeterMenus = [
+  {
+    display: 'Services',
+    link: '/services',
+    icon: <Build />,
+  },
+  {
+    display: 'Create Services',
+    link: '/services/new',
+    icon: <Build />,
   },
 ]
 
@@ -55,8 +73,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SideDrawer() {
+  const { viewas } = useContext(AccountContext)
+
   const [drawer, setDrawer] = React.useState(false)
   const [open, setOpen] = React.useState([])
+
   const classes = useStyles()
 
   const toggleDrawer = (open) => (event) => {
@@ -69,8 +90,51 @@ export default function SideDrawer() {
     }
   }
 
+  const renderMenus = () => {
+    if (!menus || !menus.length) {
+      return null
+    }
+    return menus.map((item, index) => (
+      <List key={index}>
+        <Link component={RouterLink} to={item.link}>
+          <ListItem button>
+            <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
+            <ListItemText
+              primary={item.display}
+              disableTypography
+              className={classes.items}
+            />
+          </ListItem>
+        </Link>
+      </List>
+    ))
+  }
+
+  const renderGreeterMenus = () => {
+    if (!greeterMenus || !greeterMenus.length) {
+      return null
+    }
+    if (viewas !== 'GRE') {
+      return null
+    }
+    return greeterMenus.map((item, index) => (
+      <List key={index}>
+        <Link component={RouterLink} to={item.link}>
+          <ListItem button>
+            <ListItemIcon className={classes.icon}>{item.icon}</ListItemIcon>
+            <ListItemText
+              primary={item.display}
+              disableTypography
+              className={classes.items}
+            />
+          </ListItem>
+        </Link>
+      </List>
+    ))
+  }
+
   const list = () => (
-    <div onKeyDown={toggleDrawer(false)}>
+    <div onKeyDown={toggleDrawer(false)} onClick={toggleDrawer(false)}>
       <List
         subheader={
           <ListSubheader component="div" id="admin-menu-subheader">
@@ -79,28 +143,8 @@ export default function SideDrawer() {
         }
         className={classes.sideDrawer}
       >
-        {adminMenus?.map((item, index) => {
-          return (
-            <List key={index}>
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noreferrer"
-                key={item.display + index}
-                style={{ textDecoration: 'none' }}
-              >
-                <ListItem button>
-                  <ListItemIcon className={classes.icon}>{item.icon()}</ListItemIcon>
-                  <ListItemText
-                    primary={item.display}
-                    disableTypography
-                    className={classes.items}
-                  />
-                </ListItem>
-              </a>
-            </List>
-          )
-        })}
+        {renderMenus()}
+        {renderGreeterMenus()}
       </List>
     </div>
   )

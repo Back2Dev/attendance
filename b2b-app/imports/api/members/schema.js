@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
@@ -9,6 +10,42 @@ import {
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants'
 const Members = new Mongo.Collection('members')
+
+if (Meteor.isServer) {
+  Members._ensureIndex(
+    {
+      _id: 'text',
+      name: 'text',
+      email: 'text',
+      mobile: 'text',
+      emergencyContact: 'text',
+    },
+    {
+      weights: {
+        _id: 30,
+        name: 15,
+        email: 10,
+        mobile: 8,
+        emergencyContact: 5,
+      },
+      name: 'member_text_search',
+    }
+  )
+}
+
+export const AddBadgeParamsSchema = new SimpleSchema({
+  memberId: RegExId,
+  code: String,
+})
+
+export const BadgeItemSchema = new SimpleSchema({
+  code: String,
+  private: {
+    type: Boolean,
+    optional: true,
+  },
+  createdAt: Date,
+})
 
 export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
@@ -31,6 +68,11 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  badges: {
+    type: Array,
+    optional: true,
+  },
+  'badges.$': BadgeItemSchema,
   // Fields that were in the user record
   mobile: {
     type: String,
@@ -40,6 +82,15 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  bio: {
+    type: String,
+    optional: true,
+  },
+  favorites: {
+    type: Array,
+    optional: true,
+  },
+  'favorites.$': String,
   userToken: {
     type: String,
     optional: true,

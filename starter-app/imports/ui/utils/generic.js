@@ -110,7 +110,7 @@ const tabAppbarStyles = makeStyles((theme) => ({
   },
 }))
 
-export const TabAppbar = ({ title, buttons, onChange, search, defaultValue }) => {
+export const TabAppbar = ({ title, buttons, onChange, search, defaultValue, id }) => {
   const classes = tabAppbarStyles()
 
   return (
@@ -122,7 +122,7 @@ export const TabAppbar = ({ title, buttons, onChange, search, defaultValue }) =>
         className={classes.appBar}
       >
         <Toolbar>
-          <Typography variant="h1" className={classes.title}>
+          <Typography variant="h1" className={classes.title} id={id}>
             {title}
           </Typography>
           {search && (

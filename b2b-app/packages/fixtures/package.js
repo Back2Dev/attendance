@@ -3,7 +3,16 @@
    as this isn't a regular JS file, it's just a package description, and it's job
    is to define what the assets are that make up the package.
  */
-const EXTRA_THINGS = ['roles', 'cronjobs', 'message-templates', 'settings']
+const EXTRA_THINGS = [
+  'roles',
+  'cronjobs',
+  'message-templates',
+  'settings',
+  'courses',
+  'events',
+  'tools',
+  'service-items'
+]
 const things = ['users'].concat(EXTRA_THINGS)
 
 // The rest of this file is "standard"

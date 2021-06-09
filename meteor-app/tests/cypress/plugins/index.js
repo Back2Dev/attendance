@@ -11,6 +11,16 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+const accessByPath = (obj, path) => {
+  if (typeof path !== 'string') return ''
+  const paths = path.split('.')
+  return paths.reduce((acc, path) => {
+    if (!acc) return ''
+    if (acc[path]) return acc[path] || ''
+    return ''
+  }, obj)
+}
+
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config

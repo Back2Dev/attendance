@@ -7,8 +7,11 @@ import Loading from '/imports/ui/components/commons/loading.js'
 const HomePage = lazy(() => import('/imports/ui/pages/home.js'))
 const AdminPage = lazy(() => import('/imports/ui/pages/admin.js'))
 const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
-const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
+// const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const BookingsPage = lazy(() => import('/imports/ui/pages/bookings.js'))
+const SessionsPage = lazy(() => import('/imports/ui/pages/sessions.js'))
+const ServicesPage = lazy(() => import('/imports/ui/pages/services.js'))
+const UserPage = lazy(() => import('/imports/ui/pages/user.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
 const Signup = lazy(() => import('/imports/ui/pages/signup/signup.js'))
@@ -32,9 +35,8 @@ const ResetPassword = lazy(() =>
 )
 
 const SupportPage = lazy(() => import('/imports/ui/pages/support.js'))
-const UserPreferences = lazy(() =>
-  import('/imports/ui/pages/user-preferences/user-preferences.js')
-)
+
+const TestPage = lazy(() => import('/imports/ui/pages/test.js'))
 
 export default function MainRoutes() {
   return (
@@ -60,11 +62,14 @@ export default function MainRoutes() {
         <Route path="/add-facebook" component={AddFacebookConfirm} />
         {/* Task pages routes */}
 
-        <SecureRoute path="/profile" component={UserPreferences} />
+        <SecureRoute path="/profile" component={UserPage} />
+        <SecureRoute path="/dashboard" component={UserPage} />
 
-        <SecureRoute path="/dashboard" exact component={Dashboard} />
-        <SecureRoute path="/bookings" exact component={BookingsPage} />
+        <SecureRoute path="/bookings" component={BookingsPage} />
+        <SecureRoute path="/sessions" component={SessionsPage} />
+        <SecureRoute path="/services" component={ServicesPage} />
         <SecureRoute path="/support" component={SupportPage} />
+        <SecureRoute path="/test" component={TestPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </Suspense>

@@ -17,24 +17,22 @@ import { ToolItemSchema } from '/imports/api/events/schema.js'
 // }
 
 const editSchema = new SimpleSchema({
-  _id: OptionalRegExId,
   name: {
     type: String,
     label: 'Event name',
   },
-  courseId: OptionalRegExId,
-  backupCourseId: OptionalRegExId,
-  coachId: OptionalRegExId,
   tools: {
     type: Array,
     optional: true,
   },
   'tools.$': ToolItemSchema,
   description: {
-    type: String,
-    label: 'Description',
+    type: Array,
     optional: true,
   },
+  'description.$': String,
+  courseId: OptionalRegExId,
+  backupCourseId: OptionalRegExId,
   type: {
     type: String,
     allowedValues: ['day', 'monthly', 'once', 'fallback'],

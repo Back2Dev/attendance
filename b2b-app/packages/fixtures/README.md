@@ -26,13 +26,13 @@ let's call it 'widgets' for this example:
 `packages/fixtures/package.js` - Edit this file
 
 ```
-const EXTRA_THINGS = ['field-maps', 'source-systems', 'workflows', 'roles', 'practices']
+const EXTRA_THINGS = ['field-maps', 'roles', 'practices']
 ```
 
 becomes
 
 ```
-const EXTRA_THINGS = ['field-maps', 'source-systems', 'workflows', 'roles', 'practices', 'widgets']
+const EXTRA_THINGS = ['field-maps', 'roles', 'practices', 'widgets']
 ```
 
 Edit `server/fixtures-things.json` and append another item to the array, eg:

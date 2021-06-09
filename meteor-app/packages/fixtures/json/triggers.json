@@ -1,0 +1,163 @@
+[
+  {
+    "slug": "invite-user",
+    "name": "Invite user",
+    "notifications": [
+      {
+        "text": "invite-user",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      }
+    ],
+    "description": "A user is invited to the platform"
+  },
+  {
+    "slug": "signup",
+    "name": "New user - Email",
+    "notifications": [
+      {
+        "text": "new-user",
+        "recipients": "ADM",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      },
+      {
+        "text": "app-500-new-user",
+        "recipients": "ADM",
+        "trigger": "complete",
+        "method": "APP",
+        "number": 999
+      },
+      {
+        "text": "registration",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      }
+    ],
+    "description": "User signs up with email - with email verification link"
+  },
+  {
+    "slug": "new-user",
+    "name": "New user - OAuth",
+    "notifications": [
+      {
+        "text": "new-user",
+        "recipients": "ADM",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      },
+      {
+        "text": "app-500-new-user",
+        "recipients": "ADM",
+        "trigger": "complete",
+        "method": "APP",
+        "number": 999
+      }
+    ],
+    "description": "A new user signs up on the platform - using OAuth - ie  Facebook or Google"
+  },
+  {
+    "slug": "password-changed",
+    "name": "Password changed",
+    "notifications": [
+      {
+        "text": "password-change",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      },
+      {
+        "text": "app-121-password-changed",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "APP",
+        "number": 999
+      }
+    ],
+    "description": "The user's password has changed"
+  },
+  {
+    "slug": "reset-password",
+    "name": "Reset password",
+    "notifications": [
+      {
+        "text": "forgot-password",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      }
+    ],
+    "description": "The user has requested a password reset"
+  },
+  {
+    "slug": "unknown-event",
+    "name": "Unknown event",
+    "notifications": [
+      {
+        "text": "Dear Settle Easy Admin, \nAn event template was not found in sendTrigger",
+        "recipients": "ADM",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      }
+    ],
+    "description": "When processing an event, if there is no message found for it - this is so that we are notified of any failures."
+  },
+  {
+    "slug": "uploaded-document",
+    "name": "uploaded-document",
+    "notifications": [
+      {
+        "text": "uploaded-document",
+        "recipients": "CON",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      }
+    ],
+    "description": "A document has been uploaded"
+  },
+  {
+    "slug": "property-added",
+    "name": "Property added",
+    "notifications": [
+      {
+        "text": "new-transaction",
+        "recipients": "PM",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      },
+      {
+        "text": "listing-successful-new-property",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "EMAIL",
+        "number": 999
+      },
+      {
+        "text": "app-456-property-added",
+        "recipients": "PM",
+        "trigger": "complete",
+        "method": "APP",
+        "number": 999
+      },
+      {
+        "text": "app-123-property-added",
+        "recipients": "USR",
+        "trigger": "complete",
+        "method": "APP",
+        "number": 999
+      }
+    ],
+    "description": "A property was added to the platform"
+  }
+]

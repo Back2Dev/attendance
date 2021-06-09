@@ -33,6 +33,11 @@ export const SessionsSchema = new SimpleSchema({
     type: String,
     label: 'Member name',
   },
+  role: {
+    type: String,
+    allowedValues: ['MEM', 'COA'],
+    defaultValue: 'MEM',
+  },
   status: {
     type: String,
     allowedValues: ['booked', 'cancelled', 'attended', 'missed'],

@@ -1,27 +1,56 @@
 import { Meteor } from 'meteor/meteor'
+import { Match } from 'meteor/check'
 import Members from '../schema'
 import '../methods'
 import '../methods.custom'
 import { hasRole } from '/imports/api/users/utils.js'
 
-/* Commented out related publications (if any) - best to add these in manually as required
- 
-*/
+const debug = require('debug')('b2b:members:publications')
 
-const publicFields = { username: 1, emails: 1, roles: 1 }
+const publicFields = {
+  name: 1,
+  nickname: 1,
+  userId: 1,
+  mobile: 1,
+  avatar: 1,
+  badges: { $elemMatch: { private: { $ne: true } } },
+  bio: 1,
+  favorites: 1,
+}
+
+Meteor.publish('members.publicProfile', function (memberId) {
+  debug({ memberId })
+  if (!Match.test(memberId, String)) {
+    return this.ready()
+  }
+  const member = Members.find(
+    {
+      _id: memberId,
+    },
+    {
+      fields: {
+        ...publicFields,
+      },
+    }
+  )
+
+  // TODO: get the sessions here
+
+  return [member]
+})
 
 Meteor.publish('members.byIds', function (memberIds) {
-  console.log({ memberIds })
+  debug({ memberIds })
+  if (!Match.test(memberIds, [String])) {
+    return this.ready()
+  }
   return Members.find(
     {
       _id: { $in: memberIds },
     },
     {
       fields: {
-        name: 1,
-        userId: 1,
-        mobile: 1,
-        avatar: 1,
+        ...publicFields,
       },
     }
   )

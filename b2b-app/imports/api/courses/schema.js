@@ -5,6 +5,7 @@ import SimpleSchema from 'simpl-schema'
 import {
   OptionalRegExId,
   OptionalString,
+  OptionalBlackbox,
   createdAt,
   updatedAt,
 } from '/imports/api/utils/schema-util'
@@ -18,13 +19,15 @@ const MapSchema = new SimpleSchema({
 
 export const CoursesSchema = new SimpleSchema({
   _id: OptionalRegExId,
+  slug: String,
   title: String,
   map: {
     type: Array,
     optional: true,
   },
   'map.$': MapSchema,
-  description: OptionalString,
+  description: { type: Array, optional: true },
+  'description.$': String,
   difficulty: {
     type: String,
     allowedValues: ['beginner', 'intermediate', 'advanced'],

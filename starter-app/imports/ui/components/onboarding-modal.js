@@ -1,9 +1,12 @@
 import React, { useContext } from 'react'
-import { Grid, Card, Container, Typography } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { Grid, Card, Container, Typography, Button } from '@material-ui/core'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { makeStyles } from '@material-ui/core/styles'
+import AddIcon from '@material-ui/icons/Add'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import PropTypes from 'prop-types'
+import { bool } from 'yup'
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -26,12 +29,44 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
     },
   },
+  message: {
+    marginTop: '10px',
+    marginBottom: '10px',
+  },
 }))
 
-const OnboardingModal = ({ renderForm }) => {
+const OnboardingModal = ({ renderForm, loginFallback = true }) => {
   const classes = useStyles()
 
-  const { loading } = useContext(AccountContext)
+  const { loading, user, profile } = useContext(AccountContext)
+  const { push } = useHistory()
+
+  // display a fallback component instead if user is logged in (controllable through prop)
+  if (user && loginFallback) {
+    renderForm = () => {
+      return (
+        <>
+          <Typography variant="h3" className={classes.heading}>
+            Welcome {profile?.nickname || profile?.name}
+          </Typography>
+          <Typography className={classes.message}>
+            You are now logged in to the Startup Inc platform.
+          </Typography>
+          <div className="center-align">
+            <Button
+              variant="contained"
+              data-cy="add-btn"
+              color="primary"
+              onClick={() => push('/cust-add')}
+              startIcon={<AddIcon />}
+            >
+              Add property
+            </Button>
+          </div>
+        </>
+      )
+    }
+  }
 
   const loadingForm = () => {
     return (
@@ -77,6 +112,7 @@ const OnboardingModal = ({ renderForm }) => {
 
 OnboardingModal.propTypes = {
   renderForm: PropTypes.func.isRequired,
+  loginFallback: PropTypes.bool,
 }
 
 export default OnboardingModal
