@@ -11,6 +11,7 @@ const EXTRA_THINGS = [
   'courses',
   'events',
   'tools',
+  'service-items'
 ]
 const things = ['users'].concat(EXTRA_THINGS)
 

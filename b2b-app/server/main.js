@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 const cron = require('node-cron')
 const debug = require('debug')('b2b:server')
 
-//
+// 
 // Importing the data api's makes sure collections are set up properly.
 //
 import '/imports/lib/validator'

@@ -157,3 +157,5 @@ Wed 10 Mar 2021 22:29:56 AEDT /Users/mikkel/back2bikes/attendance/deploy/paddle-
 Thu 1 Apr 2021 07:05:16 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy old-jobs https://app.back2bikes.com.au 1.2.8
 Thu 1 Apr 2021 07:07:44 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy old-jobs https://app.back2bikes.com.au 1.2.8
 Thu 1 Apr 2021 07:16:50 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig old-jobs https://app.back2bikes.com.au 1.2.8
+Wed 9 Jun 2021 21:29:13 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy v2 https://demo.back2bikes.com.au 2.0.0
+Wed 9 Jun 2021 21:39:29 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig v2 https://demo.back2bikes.com.au 2.0.0
