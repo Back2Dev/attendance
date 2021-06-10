@@ -11,6 +11,8 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
+  Switch,
+  FormControlLabel,
 } from '@material-ui/core'
 
 import SimpleSchema from 'simpl-schema'
@@ -24,6 +26,7 @@ import Loading from '../../commons/loading'
 import Avatar from '../../commons/avatar'
 
 const StyledContactStep = styled.div`
+  margin: 20px 0;
   .search-box {
     margin-top: 20px;
   }
@@ -67,6 +70,8 @@ const memberFormSchema = new SimpleSchema({
 function contactStepReducer(state, action) {
   const { type, payload } = action
   switch (type) {
+    case 'setHasMember':
+      return { ...state, hasMember: payload }
     case 'setSearching':
       return { ...state, searching: payload }
     case 'setMembers':
@@ -106,6 +111,7 @@ function ContactStep({ initialData }) {
     updatedAt: null,
     hasValidData: false,
     checkedAt: null,
+    hasMember: true,
     searching: false,
     foundMembers: [],
     selectedMember: null,
@@ -122,6 +128,7 @@ function ContactStep({ initialData }) {
     hasValidData,
     checkedAt,
     updatedAt,
+    hasMember,
     searching,
     foundMembers,
     selectedMember,
@@ -152,6 +159,7 @@ function ContactStep({ initialData }) {
     setStepData({
       stepKey: 'contact',
       data: {
+        hasMember,
         selectedMember,
         memberData,
         updatedAt,
@@ -282,9 +290,37 @@ function ContactStep({ initialData }) {
     )
   }
 
-  return (
-    <StyledContactStep>
-      <div className={classes.join(' ')}>
+  const renderMemberForm = () => {
+    if (!hasMember) {
+      return (
+        <div className="btns-container">
+          <Button onClick={goBack}>Back</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setStepData({
+                stepKey: 'contact',
+                data: {
+                  hasMember,
+                },
+              })
+              setStepProperty({
+                stepKey: 'contact',
+                property: 'completed',
+                value: true,
+              })
+              goNext()
+            }}
+          >
+            Next
+          </Button>
+        </div>
+      )
+    }
+
+    return (
+      <>
         <SearchBox
           onChange={(value) => searchMember(value)}
           placeholder="search existing member"
@@ -295,6 +331,28 @@ function ContactStep({ initialData }) {
           <List className="list-container">{renderFoundMembers()}</List>
         </Paper>
         {renderSelectedMember()}
+      </>
+    )
+  }
+
+  return (
+    <StyledContactStep>
+      <div className={classes.join(' ')}>
+        <div>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hasMember}
+                onChange={() => {
+                  dispatch({ type: 'setHasMember', payload: !hasMember })
+                }}
+                color="primary"
+              />
+            }
+            label="Has Member"
+          />
+        </div>
+        {renderMemberForm()}
       </div>
     </StyledContactStep>
   )

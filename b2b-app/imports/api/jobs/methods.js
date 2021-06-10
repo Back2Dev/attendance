@@ -19,9 +19,9 @@ Meteor.methods({
 
     const jobData = {
       // jobNo will be updated later
-      name: cleanData.memberData.name,
-      phone: cleanData.memberData.mobile,
-      email: cleanData.memberData.email,
+      name: cleanData.memberData?.name || undefined,
+      phone: cleanData.memberData?.mobile || undefined,
+      email: cleanData.memberData?.email || undefined,
       make: cleanData.bikeDetails.make,
       model: cleanData.bikeDetails.model,
       color: cleanData.bikeDetails.color,
@@ -41,6 +41,8 @@ Meteor.methods({
     } catch (e) {
       return { status: 'failed', message: e.message }
     }
+
+    // TODO: update/create the member data
 
     // update the service-items, increase the numbersOfUsed value
     try {

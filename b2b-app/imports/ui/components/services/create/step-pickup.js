@@ -9,6 +9,7 @@ import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import { AutoForm, AutoFields, TextField, ErrorsField } from 'uniforms-material'
 
+import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
 import moment from 'moment'
 
@@ -104,7 +105,11 @@ function PickupStep({ initialData }) {
     const checkResult = await checkData()
     if (checkResult) {
       console.log('create job')
-      createJob()
+      try {
+        createJob()
+      } catch (e) {
+        showError(`Error creating job: ${e.message}`)
+      }
     } else {
       console.log('something wrong')
     }

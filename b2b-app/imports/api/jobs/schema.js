@@ -36,12 +36,15 @@ export const JobCreateParamsSchema = new SimpleSchema({
     }),
     optional: true,
   },
-  memberData: new SimpleSchema({
-    name: String,
-    mobile: String,
-    email: String,
-    addressPostcode: String,
-  }),
+  memberData: {
+    type: new SimpleSchema({
+      name: String,
+      mobile: String,
+      email: String,
+      addressPostcode: String,
+    }),
+    optional: true,
+  },
   pickup: new SimpleSchema({
     urgent: Boolean,
     dropOffDate: String,

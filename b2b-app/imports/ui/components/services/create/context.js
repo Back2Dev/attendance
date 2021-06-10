@@ -233,9 +233,9 @@ export const ServiceProvider = ({ children }) => {
         },
         {
           text: `Owner:   ${capitalize(
-            contactData.memberData.name || 'Refurbish'
-          )}     email: ${contactData.memberData.email || 'N/A'}     Ph: ${
-            contactData.memberData.mobile || 'N/A'
+            contactData.memberData?.name || 'Refurbish'
+          )}     email: ${contactData.memberData?.email || 'N/A'}     Ph: ${
+            contactData.memberData?.mobile || 'N/A'
           }`,
         },
 
@@ -325,13 +325,16 @@ export const ServiceProvider = ({ children }) => {
     }
     dispatch({ type: 'setLoading', payload: true })
     const contactData = state.steps.contact.data
-    delete contactData.selectedMember?.history
-    delete contactData.memberData.history
+    if (contactData.hasMember) {
+      delete contactData.selectedMember?.history
+      delete contactData.memberData?.history
+    }
     Meteor.call(
       'jobs.create',
       {
         serviceItems: state.steps.service.data.items,
         bikeDetails: state.steps.bike.data.details,
+        hasMember: contactData.hasMember,
         selectedMember: contactData.selectedMember,
         memberData: contactData.memberData,
         pickup: state.steps.pickup.data.pickup,
@@ -349,6 +352,8 @@ export const ServiceProvider = ({ children }) => {
             // push(`/jobs/${result.id}`)
             // create pdf now?
             createPdf()
+          } else {
+            showError(`Error creating job: ${result.message}`)
           }
         }
       }
