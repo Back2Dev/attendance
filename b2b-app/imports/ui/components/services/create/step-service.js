@@ -89,6 +89,8 @@ function ServiceStep({ initialData }) {
 
   const { setStepData, setStepProperty, activeStep, goNext } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
+  const searchFieldRef = useRef(null)
+  const selectedContRef = useRef(null)
 
   const { currentItem, selectedItems, hasValidData, checkedAt, updatedAt } = state
 
@@ -136,6 +138,11 @@ function ServiceStep({ initialData }) {
 
   const handleSelected = (item) => {
     dispatch({ type: 'addItem', payload: item })
+    // calling blur on input field to clear the selected item from the autocomplete
+    // would not work if material-ui changed
+    setTimeout(() => {
+      searchFieldRef.current?.children[0]?.children[1]?.children[0]?.blur()
+    }, 300)
   }
 
   const selectItemsWithTag = (tag) => {
@@ -192,6 +199,7 @@ function ServiceStep({ initialData }) {
         <Loading loading={loading} />
         <div className="select-box-container">
           <Autocomplete
+            ref={searchFieldRef}
             value={currentItem}
             options={items}
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
@@ -207,9 +215,12 @@ function ServiceStep({ initialData }) {
             onChange={(event, selected) => {
               handleSelected(selected)
             }}
+            clearOnBlur
           />
         </div>
-        <div className="selected-items-container">{renderSelectedItems()}</div>
+        <div className="selected-items-container" ref={selectedContRef}>
+          {renderSelectedItems()}
+        </div>
         <div className="btns-container">
           <Button
             className="next-btn"
