@@ -86,6 +86,7 @@ function ServiceItem({ item, onRemove, onChange }) {
             component="span"
             size="small"
             onClick={onRemove}
+            tabIndex={-1}
           >
             <ClearIcon fontSize="small" />
           </IconButton>
