@@ -19,6 +19,7 @@ const StyledServiceItem = styled.div`
     }
     &.new {
       background-color: #069be5;
+      color: #ffffff;
     }
   }
   .condition {
