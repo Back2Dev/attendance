@@ -10,6 +10,10 @@ const StyledJobsListing = styled.div`
   .filter-container {
     display: flex;
     flex-wrap: wrap;
+    .filter-status-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
     .status-filter {
       padding: 5px 10px;
       margin: 3px 3px;
@@ -24,8 +28,23 @@ const StyledJobsListing = styled.div`
   }
   ${({ theme }) => `
     ${theme.breakpoints.down('xs')} {
-      .search-box {
-        width: 100%;
+      .filter-container {
+        .search-box {
+          width: 100%;
+        }
+        .filter-status-container {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          width: 100%;
+          .status-filter {
+            padding: 5px 3px;
+            margin: 3px 1px;
+            min-width: unset;
+          }
+        }
       }
     }
   `}
@@ -63,11 +82,13 @@ function JobsListing() {
             setFilterText(searchQuery)
           }}
         />
-        {renderFilterStatusBtn({ title: 'New', status: 'new' })}
-        {renderFilterStatusBtn({ title: 'In Progress', status: 'in-progress' })}
-        {renderFilterStatusBtn({ title: 'Quality check', status: 'quality-check' })}
-        {renderFilterStatusBtn({ title: 'Ready', status: 'ready' })}
-        {renderFilterStatusBtn({ title: 'Archived', status: 'archived' })}
+        <div className="filter-status-container">
+          {renderFilterStatusBtn({ title: 'New', status: 'new' })}
+          {renderFilterStatusBtn({ title: 'In Progress', status: 'in-progress' })}
+          {renderFilterStatusBtn({ title: 'Quality check', status: 'quality-check' })}
+          {renderFilterStatusBtn({ title: 'Ready', status: 'ready' })}
+          {renderFilterStatusBtn({ title: 'Archived', status: 'archived' })}
+        </div>
       </div>
     </StyledJobsListing>
   )
