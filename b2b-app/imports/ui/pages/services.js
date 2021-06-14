@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
