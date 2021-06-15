@@ -4,8 +4,10 @@ import DataGrid, { Column, SortableHeaderCell } from 'react-data-grid'
 
 import { Button, Typography } from '@material-ui/core'
 
+import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
 import { JobsListingContext } from './context'
+import moment from 'moment'
 
 const StyledJobsListing = styled.div`
   .filter-container {
@@ -61,14 +63,17 @@ function JobsListing() {
     JobsListingContext
   )
 
-  const [sortColumns, setSortColumns] = useState([])
-  // const [sortDirection, setSortDirection] = useState('ASC')
+  const [sortColumns, setSortColumns] = useState([
+    { columnKey: 'createdAt', direction: 'DESC' },
+  ])
+  console.log({ sortColumns })
 
   const columns = [
     {
-      key: '_id',
-      name: 'ID',
-      // width: 120,
+      key: 'createdAt',
+      name: 'Created Date',
+      formatter: ({ row }) => moment(row.createdAt).format('DD/MM/YYYY HH:mm'),
+      width: 140,
       // frozen: true,
       resizable: true,
     },
@@ -89,22 +94,21 @@ function JobsListing() {
     {
       key: 'status',
       name: 'Status',
-      // width: 60,
+      // width: 150,
       // frozen: true,
       resizable: true,
     },
   ]
 
   // TODO: change list of status
-  const availableStatus = ['new', 'in-progress', 'quality-check', 'ready', 'archived']
-
   const rows = useMemo(() => {
     return jobs.map((item) => {
       return {
         _id: item._id,
+        createdAt: item.createdAt,
         bike: `${item.make} ${item.model}`,
         customer: item.name,
-        status: availableStatus[Math.floor(availableStatus.length * Math.random())],
+        status: CONSTANTS.JOB_STATUS_READABLE[item.status],
       }
     })
   }, [jobs])
@@ -119,9 +123,9 @@ function JobsListing() {
       return () => 0
     }
     switch (sortColumns[0].columnKey) {
-      case '_id':
+      case 'createdAt':
         return (a, b) => {
-          return a._id.localeCompare(b._id)
+          return a.createdAt > b.createdAt
         }
       case 'bike':
         return (a, b) => {
