@@ -1,8 +1,8 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import DataGrid, { Column, SortableHeaderCell } from 'react-data-grid'
+import DataGrid from 'react-data-grid'
 
-import { Button, Typography } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
@@ -60,7 +60,6 @@ const StyledJobsListing = styled.div`
 
 function JobsListing() {
   const {
-    loading,
     jobs,
     filterStatus,
     toggleFilterStatus,
@@ -175,7 +174,6 @@ function JobsListing() {
 
     // apply filter status
     if (filterStatus.length) {
-      console.log({ filterStatus })
       mutableRows = mutableRows.filter((row) => {
         return filterStatus.includes(row.status)
       })
@@ -200,6 +198,7 @@ function JobsListing() {
     }
     return (
       <Button
+        key={`status-${status}`}
         className={classNames.join(' ')}
         variant="contained"
         onClick={() => {
@@ -211,6 +210,12 @@ function JobsListing() {
     )
   }
 
+  const renderFilterBtn = () => {
+    return Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((status) =>
+      renderFilterStatusBtn({ title: CONSTANTS.JOB_STATUS_READABLE[status], status })
+    )
+  }
+
   return (
     <StyledJobsListing>
       <div className="filter-container">
@@ -219,13 +224,7 @@ function JobsListing() {
             setFilterText(searchQuery)
           }}
         />
-        <div className="filter-status-container">
-          {renderFilterStatusBtn({ title: 'New', status: 'new' })}
-          {renderFilterStatusBtn({ title: 'In Progress', status: 'in-progress' })}
-          {renderFilterStatusBtn({ title: 'Quality check', status: 'quality-check' })}
-          {renderFilterStatusBtn({ title: 'Ready', status: 'ready' })}
-          {renderFilterStatusBtn({ title: 'Archived', status: 'archived' })}
-        </div>
+        <div className="filter-status-container">{renderFilterBtn()}</div>
       </div>
       <div className="grid-container">
         <DataGrid
