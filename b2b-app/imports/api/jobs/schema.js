@@ -125,11 +125,9 @@ export const JobsSchema = new SimpleSchema({
     label: 'Field to indicate if a temporary bike was provided',
   },
   status: {
-    type: SimpleSchema.Integer,
-    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((key) =>
-      parseInt(key, 10)
-    ),
-    defaultValue: 1,
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+    defaultValue: 'new',
     label: 'Status of job',
   },
   paid: { type: Boolean, defaultValue: false },

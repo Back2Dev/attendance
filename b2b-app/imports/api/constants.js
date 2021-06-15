@@ -95,12 +95,12 @@ CONSTANTS.BADGES = [
 ]
 
 CONSTANTS.JOB_STATUS_READABLE = {
-  1: 'New',
-  2: 'In Progress',
-  3: 'Quality Check',
-  4: 'Ready for Pick Up',
-  5: 'Picked Up',
-  6: 'Cancelled',
+  new: 'New',
+  'in-progress': 'In Progress',
+  'quality-check': 'Quality Check',
+  ready: 'Ready for Pick Up',
+  'picked-up': 'Picked Up',
+  cancelled: 'Cancelled',
 }
 
 export default CONSTANTS
