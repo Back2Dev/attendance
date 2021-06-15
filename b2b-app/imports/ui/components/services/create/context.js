@@ -352,6 +352,9 @@ export const ServiceProvider = ({ children }) => {
             // push(`/jobs/${result.id}`)
             // create pdf now?
             createPdf()
+
+            // redirect to jobs listing
+            push('/services')
           } else {
             showError(`Error creating job: ${result.message}`)
           }
