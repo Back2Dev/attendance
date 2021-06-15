@@ -67,9 +67,8 @@ function JobsListing() {
     setFilterText,
   } = useContext(JobsListingContext)
 
-  const [sortColumns, setSortColumns] = useState([
-    { columnKey: 'createdAt', direction: 'DESC' },
-  ])
+  const defaultSortColums = [{ columnKey: 'createdAt', direction: 'DESC' }]
+  const [sortColumns, setSortColumns] = useState(defaultSortColums)
 
   const columns = [
     {
@@ -236,7 +235,15 @@ function JobsListing() {
             resizable: true,
           }}
           sortColumns={sortColumns}
-          onSortColumnsChange={setSortColumns}
+          onSortColumnsChange={(sorts) => {
+            if (sorts && sorts.length) {
+              setSortColumns(sorts)
+            } else if (sortColumns[0]?.columnKey === 'createdAt') {
+              setSortColumns([{ columnKey: 'createdAt', direction: 'ASC' }])
+            } else {
+              setSortColumns(defaultSortColums)
+            }
+          }}
           className="job-grid"
         />
       </div>
