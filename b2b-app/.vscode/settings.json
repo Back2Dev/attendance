@@ -6,5 +6,5 @@
   "search.exclude": {
     "**/.meteor": true
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

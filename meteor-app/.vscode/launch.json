@@ -11,16 +11,24 @@
     },
     {
       "type": "chrome",
+      "request": "launch",
+      "name": "Launch: Chrome",
+      "sourceMaps": true,
+      "url": "http://localhost:3030/kiosk",
+      "webRoot": "${workspaceFolder}",
+      "outputCapture": "std"
+    },
+    {
+      "type": "chrome",
       "request": "attach",
       "sourceMaps": true,
-      "name": "Attach Chrome",
-      "url": "http://localhost:3030",
+      "name": "Attach Chrome /kiosk",
+      "url": "http://localhost:3030/kiosk",
       "webRoot": "${workspaceFolder}",
       "run chrome like this:": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
-      "navigate to:": "http://localhost:3030/ (home page)",
+      "navigate to:": "http://localhost:3030/kiosk",
       "port": 9222
     },
-    ///Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --no-default-browser-check --user-data-dir=$(mktemp -d -t 'chrome-remote_data_dir')
     {
       "type": "chrome",
       "request": "attach",
@@ -58,7 +66,10 @@
   "compounds": [
     {
       "name": "Meteor: All",
-      "configurations": ["server", "Attach Chrome"]
+      "configurations": [
+        "server",
+        "Attach Chrome"
+      ]
     }
   ]
 }
