@@ -66,7 +66,6 @@ function JobsListing() {
   const [sortColumns, setSortColumns] = useState([
     { columnKey: 'createdAt', direction: 'DESC' },
   ])
-  console.log({ sortColumns })
 
   const columns = [
     {
@@ -75,28 +74,30 @@ function JobsListing() {
       formatter: ({ row }) => moment(row.createdAt).format('DD/MM/YYYY HH:mm'),
       width: 140,
       // frozen: true,
-      resizable: true,
     },
     {
       key: 'bike',
       name: 'Bike',
       // width: 120,
       // frozen: true,
-      resizable: true,
     },
     {
       key: 'customer',
       name: 'Customer',
       // width: 120,
       // frozen: true,
-      resizable: true,
+    },
+    {
+      key: 'cost',
+      name: 'Cost',
+      // width: 150,
+      // frozen: true,
     },
     {
       key: 'status',
       name: 'Status',
       // width: 150,
       // frozen: true,
-      resizable: true,
     },
   ]
 
@@ -108,6 +109,7 @@ function JobsListing() {
         createdAt: item.createdAt,
         bike: `${item.make} ${item.model}`,
         customer: item.name,
+        cost: item.totalCost,
         status: CONSTANTS.JOB_STATUS_READABLE[item.status],
       }
     })
@@ -125,7 +127,7 @@ function JobsListing() {
     switch (sortColumns[0].columnKey) {
       case 'createdAt':
         return (a, b) => {
-          return a.createdAt > b.createdAt
+          return a.createdAt > b.createdAt ? 1 : -1
         }
       case 'bike':
         return (a, b) => {
@@ -134,6 +136,11 @@ function JobsListing() {
       case 'customer':
         return (a, b) => {
           return a.customer?.localeCompare(b.customer)
+        }
+      case 'cost':
+        return (a, b) => {
+          console.log(a.cost > b.cost)
+          return a.cost > b.cost ? 1 : -1
         }
       case 'status':
         return (a, b) => {
@@ -147,8 +154,8 @@ function JobsListing() {
   const sortedRows = useMemo(() => {
     if (sortColumns.length === 0) return rows
 
-    const sortedRows = [...rows]
-    sortedRows.sort((a, b) => {
+    const rowsTobeSorted = [...rows]
+    rowsTobeSorted.sort((a, b) => {
       for (const sort of sortColumns) {
         const comparator = getComparator(sort.columnKey)
         const compResult = comparator(a, b)
@@ -158,7 +165,7 @@ function JobsListing() {
       }
       return 0
     })
-    return sortedRows
+    return rowsTobeSorted
   }, [rows, sortColumns])
 
   const renderFilterStatusBtn = ({ title, status }) => {
