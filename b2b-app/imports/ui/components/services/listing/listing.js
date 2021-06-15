@@ -59,9 +59,14 @@ const StyledJobsListing = styled.div`
 `
 
 function JobsListing() {
-  const { loading, jobs, filterStatus, toggleFilterStatus, setFilterText } = useContext(
-    JobsListingContext
-  )
+  const {
+    loading,
+    jobs,
+    filterStatus,
+    toggleFilterStatus,
+    filterText,
+    setFilterText,
+  } = useContext(JobsListingContext)
 
   const [sortColumns, setSortColumns] = useState([
     { columnKey: 'createdAt', direction: 'DESC' },
@@ -96,6 +101,7 @@ function JobsListing() {
     {
       key: 'status',
       name: 'Status',
+      formatter: ({ row }) => CONSTANTS.JOB_STATUS_READABLE[row.status],
       // width: 150,
       // frozen: true,
     },
@@ -110,7 +116,7 @@ function JobsListing() {
         bike: `${item.make} ${item.model}`,
         customer: item.name,
         cost: item.totalCost,
-        status: CONSTANTS.JOB_STATUS_READABLE[item.status],
+        status: item.status,
       }
     })
   }, [jobs])
@@ -151,11 +157,11 @@ function JobsListing() {
     }
   }
 
-  const sortedRows = useMemo(() => {
+  const calculatedRows = useMemo(() => {
     if (sortColumns.length === 0) return rows
 
-    const rowsTobeSorted = [...rows]
-    rowsTobeSorted.sort((a, b) => {
+    const sortedRows = [...rows]
+    sortedRows.sort((a, b) => {
       for (const sort of sortColumns) {
         const comparator = getComparator(sort.columnKey)
         const compResult = comparator(a, b)
@@ -165,8 +171,18 @@ function JobsListing() {
       }
       return 0
     })
-    return rowsTobeSorted
-  }, [rows, sortColumns])
+
+    // apply filter status
+    if (filterStatus.length) {
+      console.log({ filterStatus })
+      const filteredRows = sortedRows.filter((row) => {
+        return filterStatus.includes(row.status)
+      })
+      return filteredRows
+    }
+
+    return sortedRows
+  }, [rows, sortColumns, filterStatus])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)
@@ -207,7 +223,7 @@ function JobsListing() {
         <DataGrid
           rowKeyGetter={rowKeyGetter}
           columns={columns}
-          rows={sortedRows}
+          rows={calculatedRows}
           defaultColumnOptions={{
             sortable: true,
             resizable: true,
