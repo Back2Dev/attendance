@@ -145,7 +145,6 @@ function JobsListing() {
         }
       case 'cost':
         return (a, b) => {
-          console.log(a.cost > b.cost)
           return a.cost > b.cost ? 1 : -1
         }
       case 'status':
@@ -160,8 +159,10 @@ function JobsListing() {
   const calculatedRows = useMemo(() => {
     if (sortColumns.length === 0) return rows
 
-    const sortedRows = [...rows]
-    sortedRows.sort((a, b) => {
+    let mutableRows = [...rows]
+
+    // handle column sorting
+    mutableRows.sort((a, b) => {
       for (const sort of sortColumns) {
         const comparator = getComparator(sort.columnKey)
         const compResult = comparator(a, b)
@@ -175,14 +176,21 @@ function JobsListing() {
     // apply filter status
     if (filterStatus.length) {
       console.log({ filterStatus })
-      const filteredRows = sortedRows.filter((row) => {
+      mutableRows = mutableRows.filter((row) => {
         return filterStatus.includes(row.status)
       })
-      return filteredRows
     }
 
-    return sortedRows
-  }, [rows, sortColumns, filterStatus])
+    // handle search
+    if (filterText && filterText.length >= 3) {
+      const reg = new RegExp(filterText, 'i')
+      mutableRows = mutableRows.filter((row) => {
+        return reg.test(`${row.bike} ${row.customer}`)
+      })
+    }
+
+    return mutableRows
+  }, [rows, sortColumns, filterStatus, filterText])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)
