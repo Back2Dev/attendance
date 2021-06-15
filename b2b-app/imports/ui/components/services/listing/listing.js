@@ -113,7 +113,7 @@ function JobsListing() {
         createdAt: item.createdAt,
         bike: `${item.make} ${item.model}`,
         customer: item.name,
-        cost: item.totalCost,
+        cost: item.totalCost / 100,
         status: item.status,
       }
     })
