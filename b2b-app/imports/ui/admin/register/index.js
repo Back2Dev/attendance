@@ -1,12 +1,5 @@
 import React from 'react'
 
-import {
-  contactFormBridge,
-  aboutFormBridge,
-  emergencyFormBridge,
-  termsFormBridge,
-} from './formSchemas'
-
 import { makeStyles } from '@material-ui/core/styles'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
@@ -15,6 +8,11 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
 import { AutoForm } from 'uniforms-material'
+
+import { ContactForm } from './ContactForm'
+import { AboutForm } from './AboutForm'
+import { EmergencyForm } from './EmergencyForm'
+import { Confirm } from './Confirm'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,6 +66,34 @@ export default function Register() {
   const [activeStep, setActiveStep] = React.useState(0)
   const steps = getStepLabels()
 
+  const [contactFormModel, setContactFormModel] = React.useState({ name: 'andrew' })
+  const [aboutFormModel, setAboutFormModel] = React.useState({})
+  const [emergencyFormModel, setEmergencyFormModel] = React.useState({})
+  const [termsFormModel, setTermsFormModel] = React.useState({})
+
+  const models = [contactFormModel, aboutFormModel, emergencyFormModel, termsFormModel]
+  const setters = [
+    setContactFormModel,
+    setAboutFormModel,
+    setEmergencyFormModel,
+    setTermsFormModel,
+  ]
+  const formComponents = [ContactForm, AboutForm, EmergencyForm, Confirm]
+
+  const getForm = (index) => {
+    let Form = formComponents[index]
+
+    return <Form onSubmit={getSubmitHandler(index)} model={models[index]} />
+  }
+
+  const getSubmitHandler = (index) => {
+    const handler = (model) => {
+      setters[index](model)
+    }
+
+    return handler
+  }
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
@@ -98,7 +124,7 @@ export default function Register() {
         {activeStep === steps.length ? (
           // What to display when completed all form steps
           <div>
-            <Typography className={classes.instructions}>All steps completed</Typography>
+            a<Typography className={classes.instructions}>All steps completed</Typography>
             <Button onClick={handleReset}>Reset</Button>
           </div>
         ) : (
@@ -109,10 +135,7 @@ export default function Register() {
             </Typography>
 
             {/* TODO Display correct form and save to state on submit, incrementing stepper if successful */}
-            <AutoForm
-              schema={contactFormBridge}
-              onSubmit={(model) => alert(JSON.stringify(model, null, 2))}
-            />
+            {getForm(activeStep)}
 
             <div>
               <Button

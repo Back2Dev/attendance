@@ -96,7 +96,12 @@ const termsFormSchema = new SimpleSchema({
     label:
       'I consent to Back2Bikes storing the information I have provided above. I understand that Back2Bikes will not disclose \
       the above information without my express consent other than for reasons related to my engagement as a volunteer.',
-    allowedValues: [true],
+    defaultValue: false,
+    custom() {
+      if (this.value !== true) {
+        return 'mustAgree'
+      }
+    },
   },
 })
 
