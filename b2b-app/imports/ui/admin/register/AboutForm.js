@@ -5,14 +5,44 @@ import { aboutFormBridge } from './formSchemas'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
 
-import { AutoForm } from 'uniforms-material'
+import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
 
-const AboutForm = ({ onSubmit, model }) => {
+const useStyles = makeStyles((theme) => ({
+  formButtons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  backButton: {
+    marginRight: theme.spacing(2),
+  },
+  buttonGroup: {
+    float: 'right',
+  },
+}))
+
+const AboutForm = ({ onSubmit, model, onBack }) => {
+  const classes = useStyles()
+
   return (
     <div>
-      <AutoForm schema={aboutFormBridge} onSubmit={onSubmit} model={model}></AutoForm>
+      <AutoForm schema={aboutFormBridge} onSubmit={onSubmit} model={model}>
+        <AutoFields />
+        <ErrorsField />
+        <div className={classes.buttonGroup}>
+          <Button onClick={onBack} className={(classes.formButtons, classes.backButton)}>
+            Back
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.formButtons}
+          >
+            Next
+          </Button>
+        </div>
+      </AutoForm>
     </div>
   )
 }
@@ -20,6 +50,7 @@ const AboutForm = ({ onSubmit, model }) => {
 AboutForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
+  onBack: PropTypes.func.isRequired,
 }
 
 export { AboutForm }
