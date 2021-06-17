@@ -2,6 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Meteor: Launch Chrome",
+      "url": "http://localhost:4090",
+      "webRoot": "${workspaceFolder}",
+      "outputCapture": "std"
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Meteor: Attach Chrome",
+      "url": "http://localhost:4090",
+      "webRoot": "${workspaceFolder}",
+      "run chrome like this": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
+      "port": 9222
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Meteor: server",
+      "port": 9229
+    },
+    {
       "type": "node",
       "request": "attach",
       "name": "server",
