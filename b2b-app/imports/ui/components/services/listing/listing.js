@@ -47,12 +47,17 @@ const StyledJobsListing = styled.div`
           flex-wrap: nowrap;
           justify-content: space-between;
           width: 100%;
+          height: 64px;
+          z-index: 1000;
           .status-filter {
             padding: 5px 3px;
             margin: 3px 1px;
             min-width: unset;
           }
         }
+      }
+      .grid-container {
+        margin-bottom: 64px;
       }
     }
   `}
@@ -105,7 +110,6 @@ function JobsListing() {
     },
   ]
 
-  // TODO: change list of status
   const rows = useMemo(() => {
     return jobs.map((item) => {
       return {
@@ -179,10 +183,15 @@ function JobsListing() {
     }
 
     // handle search
-    if (filterText && filterText.length >= 3) {
+    if (filterText && filterText.length >= 2) {
       const reg = new RegExp(filterText, 'i')
       mutableRows = mutableRows.filter((row) => {
-        return reg.test(`${row.bike} ${row.customer}`)
+        // return reg.test(`${row.bike} ${row.customer} ${row.cost} ${row.createdAt}`)
+        const strsToSearch = Object.values(row).map((value) => {
+          return `${value}` || ''
+        })
+        // console.log(strsToSearch, strsToSearch.join(' '))
+        return reg.test(strsToSearch.join(' '))
       })
     }
 
