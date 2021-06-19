@@ -8,6 +8,7 @@ import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
 import { JobsListingContext } from './context'
 import moment from 'moment'
+import { useHistory } from 'react-router'
 
 const StyledJobsListing = styled.div`
   .filter-container {
@@ -71,6 +72,8 @@ function JobsListing() {
     filterText,
     setFilterText,
   } = useContext(JobsListingContext)
+
+  const { push } = useHistory()
 
   const defaultSortColums = [{ columnKey: 'createdAt', direction: 'DESC' }]
   const [sortColumns, setSortColumns] = useState(defaultSortColums)
@@ -253,6 +256,7 @@ function JobsListing() {
               setSortColumns(defaultSortColums)
             }
           }}
+          onRowClick={(index, row) => push(`/services/${row._id}`)}
           className="job-grid"
         />
       </div>
