@@ -1,12 +1,64 @@
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
 
+import CONSTANTS from '../constants'
 import ServiceItems from '/imports/api/service-items/schema.js'
-import Jobs, { JobCreateParamsSchema } from './schema'
+import Jobs, { JobCreateParamsSchema, JobUpdateStatusParamsSchema } from './schema'
+import { hasOneOfRoles } from '/imports/api/users/utils.js'
 
 const debug = require('debug')('b2b:jobs')
 
 Meteor.methods({
+  /**
+   * update job status
+   * @param {string} id
+   * @param {string} status
+   */
+  'jobs.updateStatus'({ id, status }) {
+    try {
+      JobUpdateStatusParamsSchema.validate({ id, status })
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+    // find the job
+    const job = Jobs.findOne({ _id: id })
+    if (!job) {
+      return { status: 'failed', message: `Job was not found with id: ${id}` }
+    }
+    // check if new status is valid in status mapping
+    const availableNextStatus = CONSTANTS.JOB_STATUS_MAPPING[job.status] || []
+    if (!availableNextStatus.some((item) => item.next === status)) {
+      debug('availableNextStatus', availableNextStatus)
+      return { status: 'failed', message: `Job status was invalid: ${status}` }
+    }
+    // update the status
+    try {
+      Jobs.update(
+        { _id: id },
+        {
+          $set: { status },
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+
+    // TODO: push to the history
+
+    return {
+      status: 'success',
+    }
+  },
   'jobs.create'(data) {
     const cleanData = JobCreateParamsSchema.clean(data)
     debug('clean data', cleanData.serviceItems, cleanData)

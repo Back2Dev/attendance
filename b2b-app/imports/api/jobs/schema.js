@@ -12,6 +12,14 @@ import { ServiceItemsSchema } from '../service-items/schema'
 
 const Jobs = new Mongo.Collection('jobs')
 
+export const JobUpdateStatusParamsSchema = new SimpleSchema({
+  id: String,
+  status: {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+  },
+})
+
 export const JobCreateParamsSchema = new SimpleSchema({
   serviceItems: Array,
   'serviceItems.$': ServiceItemsSchema.pick(

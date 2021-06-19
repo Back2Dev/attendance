@@ -29,6 +29,19 @@ export const hasRole = (user, role) => {
   return user.roles.some((item) => item._id === role)
 }
 
+/**
+ * check if user has role
+ * @param {Object} user
+ * @param {string[]} roles
+ * @returns {boolean}
+ */
+export const hasOneOfRoles = (user, roles) => {
+  if (!user || !user.roles) {
+    return false
+  }
+  return user.roles.some((item) => roles.includes(item._id))
+}
+
 export const getUserId = () => {
   try {
     return Meteor.userId()
