@@ -69,6 +69,16 @@ Meteor.methods({
       return { status: 'failed', message: e.message }
     }
 
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
     const jobData = {
       // jobNo will be updated later
       name: cleanData.memberData?.name || undefined,
