@@ -1,71 +1,104 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoField, ErrorField, LongTextField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorField } from 'uniforms-material'
 import StepButtons from './step-buttons'
 
-const ContactFormSchema = new SimpleSchema(
-  {
-    bikesHousehold: {
-      type: SimpleSchema.Integer,
-      uniforms: { label: 'Enter the number of bikes you own' },
-    },
-    primaryBike: {
-      type: String,
-      uniforms: {
-        label: 'Select a type of bike',
-      },
-      required: true,
-      allowedValues: [
-        'Road/racer',
-        'Hybrid',
-        'Mountain',
-        'Cruiser',
-        'Ladies',
-        'Gents',
-        'Fixie/Single Speed',
-      ],
-    },
-    workStatus: {
-      type: String,
-      label: 'Select your employment status',
-      required: true,
-      allowedValues: [
-        'Full Time',
-        'Part Time',
-        'Pension/Disability',
-        'Unemployed',
-        'Student',
-        'Retired',
-      ],
-    },
-    reasons: {
-      type: String,
-      uniforms: {
-        label:
-          'What makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?',
-        component: LongTextField,
-        rows: 6,
-      },
+const ContactSchema = new SimpleSchema({
+  name: String,
+  email: String,
+  addressStreet: {
+    type: String,
+    optional: true,
+    uniforms: {
+      label: 'Address',
     },
   },
-  { requiredByDefault: false }
-)
+  addressSuburb: {
+    type: String,
+    optional: true,
+    uniforms: {
+      label: 'Suburb',
+    },
+  },
+  addressState: {
+    type: String,
+    allowedValues: ['VIC', 'NSW', 'SA', 'QLD', 'NT', 'WA', 'TAS'],
+    optional: true,
+    uniforms: {
+      label: 'State',
+    },
+  },
+  addressPostcode: {
+    type: String,
+    optional: true,
+    uniforms: {
+      label: 'Postcode',
+    },
+  },
+  phone: {
+    type: String,
+    optional: true,
+    uniforms: {
+      label: 'Phone number',
+    },
+  },
+  mobile: {
+    type: String,
+    uniforms: {
+      label: 'Mobile number',
+    },
+  },
+  pin: {
+    type: String,
+    min: 4,
+    max: 4,
+    custom: function () {
+      if (!/\d+/.test(this.value)) {
+        return 'badPin'
+      }
+    },
+    uniforms: {
+      label: 'PIN number (4 digits) for signing in and out',
+      inputProps: { maxLength: 4 },
+    },
+  },
+  pinConfirm: {
+    type: String,
+    custom: function () {
+      if (this.field('pin').value !== this.value) {
+        return 'pinMismatch'
+      }
+    },
+    uniforms: {
+      label: 'Confirm PIN number',
+      inputProps: { maxLength: 4 },
+    },
+  },
+})
 
-const schema = new SimpleSchema2Bridge(ContactFormSchema)
+ContactSchema.messageBox.messages({
+  en: {
+    badPin: 'PIN must be digits only',
+    pinMismatch: 'PINs do not match',
+  },
+})
 
-const Contact = () => {
+const schema = new SimpleSchema2Bridge(ContactSchema)
+
+const Contact = ({ initialData }) => {
+  const formRef = useRef()
   return (
     <div>
-      <h1>Contact form</h1>
-      <AutoForm schema={schema} onSubmit={console.log} placeholder>
-        {Object.keys(ContactFormSchema.schema()).map((name, idx) => (
+      <h1>Contact</h1>
+      <AutoForm schema={schema} ref={formRef} model={initialData} placeholder>
+        {Object.keys(ContactSchema.schema()).map((name, idx) => (
           <div key={idx}>
             <AutoField name={name} />
             <ErrorField name={name} />
           </div>
         ))}
-        <StepButtons />
+        <StepButtons formRef={formRef} />
       </AutoForm>
     </div>
   )

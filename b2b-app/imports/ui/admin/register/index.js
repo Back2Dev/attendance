@@ -5,6 +5,7 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import About from './steps/about'
 import Contact from './steps/contact'
 import { RegisterProvider, RegisterContext } from './steps/context'
 
@@ -21,19 +22,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <Contact />
-    case 1:
-      return 'Contact info'
-    case 2:
-      return 'Emergency contact'
-    case 3:
-      return 'Choose your profile picture'
-    case 4:
-      return 'Agree to terms and create account'
+function getStepContent(step, initialData) {
+  let StepForm = About
+  if (step === 0) {
+    StepForm = About
+  } else if (step === 1) {
+    StepForm = Contact
   }
+  return <StepForm initialData={initialData} />
 }
 
 export default function HorizontalLinearStepper() {
@@ -42,7 +38,7 @@ export default function HorizontalLinearStepper() {
   return (
     <RegisterProvider>
       <RegisterContext.Consumer>
-        {({ activeStep, steps, handleReset }) => (
+        {({ activeStep, steps, handleReset, stepsModel }) => (
           <div className={classes.root}>
             <Stepper activeStep={activeStep}>
               {steps.map((label) => {
@@ -67,7 +63,7 @@ export default function HorizontalLinearStepper() {
                   </Button>
                 </div>
               ) : (
-                <div>{getStepContent(activeStep)}</div>
+                <div>{getStepContent(activeStep, stepsModel[steps[activeStep]])}</div>
               )}
             </div>
           </div>

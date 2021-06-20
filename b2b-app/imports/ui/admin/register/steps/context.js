@@ -9,6 +9,11 @@ function getSteps() {
 export const RegisterProvider = ({ children }) => {
   const [activeStep, setActiveStep] = useState(0)
   const steps = getSteps()
+  const [stepsModel, setStepsModel] = useState({})
+
+  const updateStepsModel = (data) => {
+    setStepsModel((prevModel) => ({ ...prevModel, [steps[activeStep]]: data }))
+  }
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -25,6 +30,8 @@ export const RegisterProvider = ({ children }) => {
   return (
     <RegisterContext.Provider
       value={{
+        stepsModel,
+        updateStepsModel,
         steps,
         activeStep,
         handleNext,

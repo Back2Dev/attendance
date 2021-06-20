@@ -13,7 +13,7 @@
       "type": "chrome",
       "request": "attach",
       "name": "Meteor: Attach Chrome",
-      "url": "http://localhost:4090",
+      "url": "http://localhost:4090/admin/register",
       "webRoot": "${workspaceFolder}",
       "run chrome like this": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9222",
       "port": 9222
