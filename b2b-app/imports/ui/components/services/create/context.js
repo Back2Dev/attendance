@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import PdfMaker from '/imports/ui/utils/pdf-maker.js'
+import moment from 'moment'
 
 export const ServiceContext = React.createContext('service')
 
@@ -218,9 +219,12 @@ export const ServiceProvider = ({ children }) => {
     const tempBike = pickup.replacementBike
       ? 'A temporary bike has been provided to this customer.'
       : ''
+
+    const pickupDate = moment(pickup.pickupDate).format('DD MMM YYYY')
+
     const isUrgent = pickup.urgent
-      ? `URGENT: This request must be completed by ${pickup.pickupDate}`
-      : `Pickup Date: ${pickup.pickupDate}`
+      ? `URGENT: This request must be completed by ${pickupDate}`
+      : `Pickup Date: ${pickupDate}`
 
     PdfMaker({
       contents: [
@@ -303,6 +307,9 @@ export const ServiceProvider = ({ children }) => {
           text: tempBike,
         },
       ],
+      watermark: {
+        text: capitalize(contactData.memberData?.name || 'Refurbish'),
+      },
     })
   }
 
