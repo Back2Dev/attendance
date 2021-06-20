@@ -1,0 +1,5 @@
+export { default as About } from './about'
+export { default as Contact } from './contact'
+export { default as Emergency } from './emergency'
+export { default as Avatar } from './avatar'
+export { default as Terms } from './terms'

@@ -24,6 +24,7 @@ export const RegisterProvider = ({ children }) => {
   }
 
   const handleReset = () => {
+    setStepsModel({})
     setActiveStep(0)
   }
 

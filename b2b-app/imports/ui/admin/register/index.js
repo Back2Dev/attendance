@@ -5,8 +5,7 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import About from './steps/about'
-import Contact from './steps/contact'
+import { About, Contact, Emergency, Avatar, Terms } from './steps'
 import { RegisterProvider, RegisterContext } from './steps/context'
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +27,12 @@ function getStepContent(step, initialData) {
     StepForm = About
   } else if (step === 1) {
     StepForm = Contact
+  } else if (step === 2) {
+    StepForm = Emergency
+  } else if (step === 3) {
+    StepForm = Avatar
+  } else if (step === 4) {
+    StepForm = Terms
   }
   return <StepForm initialData={initialData} />
 }
@@ -56,7 +61,7 @@ export default function HorizontalLinearStepper() {
                 <div>
                   <Typography className={classes.instructions}>
                     All steps completed - you&apos;re finished
-                    <pre>Form data that will be submitted goes here</pre>
+                    <pre>{JSON.stringify(stepsModel, null, 2)}</pre>
                   </Typography>
                   <Button onClick={handleReset} className={classes.button}>
                     Reset
