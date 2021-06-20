@@ -99,8 +99,9 @@ CONSTANTS.JOB_STATUS_READABLE = {
   'in-progress': 'In Progress',
   'quality-check': 'Quality Check',
   ready: 'Ready for Pick Up',
-  'picked-up': 'Picked Up',
+  // 'picked-up': 'Picked Up',
   cancelled: 'Cancelled',
+  completed: 'Completed',
 }
 
 CONSTANTS.JOB_STATUS_MAPPING = {
@@ -114,11 +115,13 @@ CONSTANTS.JOB_STATUS_MAPPING = {
     { next: 'ready', label: 'Ready' },
   ],
   ready: [
-    { next: 'picked-up', label: 'Picked Up' },
+    // { next: 'picked-up', label: 'Picked Up' },
     { next: 'quality-check', label: 'Check again' },
+    { next: 'completed', label: 'Complete' },
   ],
-  'picked-up': [],
+  // 'picked-up': [],
   cancelled: [],
+  completed: [],
 }
 
 export default CONSTANTS

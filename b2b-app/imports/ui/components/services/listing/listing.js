@@ -14,9 +14,13 @@ const StyledJobsListing = styled.div`
   .filter-container {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 10px;
+    .search-box {
+    }
     .filter-status-container {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
     }
     .status-filter {
       padding: 5px 10px;
@@ -47,6 +51,7 @@ const StyledJobsListing = styled.div`
           left: 0;
           flex-wrap: nowrap;
           justify-content: space-between;
+          align-items: stretch;
           width: 100%;
           height: 64px;
           z-index: 1000;
@@ -54,6 +59,7 @@ const StyledJobsListing = styled.div`
             padding: 5px 3px;
             margin: 3px 1px;
             min-width: unset;
+            font-size: 13px;
           }
         }
       }
@@ -107,7 +113,7 @@ function JobsListing() {
     {
       key: 'status',
       name: 'Status',
-      formatter: ({ row }) => CONSTANTS.JOB_STATUS_READABLE[row.status],
+      formatter: ({ row }) => CONSTANTS.JOB_STATUS_READABLE[row.status] || 'N/A',
       // width: 150,
       // frozen: true,
     },
