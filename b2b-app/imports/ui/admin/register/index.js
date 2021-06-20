@@ -65,7 +65,8 @@ function getStepHeading(stepIndex) {
     case 2:
       return 'Who should we contact in an emergency?'
     case 3:
-      return 'Just making sure everythings correct'
+      // eslint-disable-next-line quotes
+      return "Just making sure everything's correct"
     default:
       return 'Unknown stepIndex'
   }
@@ -76,7 +77,7 @@ export default function Register() {
   const [activeStep, setActiveStep] = React.useState(0)
   const steps = getStepLabels()
 
-  const [contactFormModel, setContactFormModel] = React.useState({ name: 'andrew' })
+  const [contactFormModel, setContactFormModel] = React.useState({})
   const [aboutFormModel, setAboutFormModel] = React.useState({})
   const [emergencyFormModel, setEmergencyFormModel] = React.useState({})
   const [termsFormModel, setTermsFormModel] = React.useState({})
@@ -98,6 +99,9 @@ export default function Register() {
         onSubmit={getSubmitHandler(index)}
         model={models[index]}
         onBack={handleBack}
+        // TODO: This seems like a bad idea
+        models={models}
+        onStepChange={changeStep}
       />
     )
   }
@@ -109,6 +113,10 @@ export default function Register() {
     }
 
     return handler
+  }
+
+  const changeStep = (index) => {
+    setActiveStep(index)
   }
 
   const handleNext = () => {
