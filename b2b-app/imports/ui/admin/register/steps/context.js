@@ -1,4 +1,5 @@
 import React, { useState, createContext } from 'react'
+import PropTypes from 'prop-types'
 
 export const RegisterContext = createContext()
 
@@ -43,4 +44,8 @@ export const RegisterProvider = ({ children }) => {
       {children}
     </RegisterContext.Provider>
   )
+}
+
+RegisterProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 }

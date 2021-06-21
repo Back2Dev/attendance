@@ -2,6 +2,8 @@ import React, { useRef } from 'react'
 import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 import { AutoForm } from 'uniforms-material'
+import PropTypes from 'prop-types'
+
 import AvatarField from './avatar-field'
 import StepButtons from './step-buttons'
 
@@ -63,6 +65,14 @@ const Avatar = ({ initialData }) => {
       </AutoForm>
     </div>
   )
+}
+
+Avatar.propTypes = {
+  initialData: PropTypes.object,
+}
+
+Avatar.defaultProps = {
+  initialData: {},
 }
 
 export default Avatar

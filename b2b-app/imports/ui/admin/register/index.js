@@ -5,6 +5,10 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardContent from '@material-ui/core/CardContent'
+
 import { About, Contact, Emergency, Avatar, Terms } from './steps'
 import { RegisterProvider, RegisterContext } from './steps/context'
 
@@ -18,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   instructions: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
+  },
+  formData: {
+    maxWidth: '75%',
   },
 }))
 
@@ -37,7 +44,7 @@ function getStepContent(step, initialData) {
   return <StepForm initialData={initialData} />
 }
 
-export default function HorizontalLinearStepper() {
+export default function Register() {
   const classes = useStyles()
 
   return (
@@ -61,8 +68,13 @@ export default function HorizontalLinearStepper() {
                 <div>
                   <Typography className={classes.instructions}>
                     All steps completed - you&apos;re finished
-                    <pre>{JSON.stringify(stepsModel, null, 2)}</pre>
                   </Typography>
+                  <Card className={classes.formData}>
+                    <CardHeader title="Form data to be sent to server" />
+                    <CardContent>
+                      <pre>{JSON.stringify(stepsModel, null, 2)}</pre>
+                    </CardContent>
+                  </Card>
                   <Button onClick={handleReset} className={classes.button}>
                     Reset
                   </Button>

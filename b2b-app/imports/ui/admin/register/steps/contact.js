@@ -2,6 +2,8 @@ import React, { useRef } from 'react'
 import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 import { AutoForm, AutoField, ErrorField } from 'uniforms-material'
+import PropTypes from 'prop-types'
+
 import StepButtons from './step-buttons'
 
 const ContactSchema = new SimpleSchema({
@@ -51,16 +53,13 @@ const ContactSchema = new SimpleSchema({
   },
   pin: {
     type: String,
-    min: 4,
-    max: 4,
     custom: function () {
-      if (!/\d+/.test(this.value)) {
+      if (!/\d{4}/.test(this.value)) {
         return 'badPin'
       }
     },
     uniforms: {
       label: 'PIN number (4 digits) for signing in and out',
-      inputProps: { maxLength: 4 },
     },
   },
   pinConfirm: {
@@ -72,14 +71,13 @@ const ContactSchema = new SimpleSchema({
     },
     uniforms: {
       label: 'Confirm PIN number',
-      inputProps: { maxLength: 4 },
     },
   },
 })
 
 ContactSchema.messageBox.messages({
   en: {
-    badPin: 'PIN must be digits only',
+    badPin: 'PIN must be 4 digits only',
     pinMismatch: 'PINs do not match',
   },
 })
@@ -92,16 +90,27 @@ const Contact = ({ initialData }) => {
     <div>
       <h1>Contact</h1>
       <AutoForm schema={schema} ref={formRef} model={initialData} placeholder>
-        {Object.keys(ContactSchema.schema()).map((name, idx) => (
-          <div key={idx}>
-            <AutoField name={name} />
-            <ErrorField name={name} />
-          </div>
-        ))}
+        {Object.keys(ContactSchema.schema()).map((name, idx) => {
+          const inputProps = ['pin', 'pinConfirm'].includes(name) ? { maxLength: 4 } : {}
+          return (
+            <div key={idx}>
+              <AutoField name={name} inputProps={inputProps} />
+              <ErrorField name={name} />
+            </div>
+          )
+        })}
         <StepButtons formRef={formRef} />
       </AutoForm>
     </div>
   )
+}
+
+Contact.propTypes = {
+  initialData: PropTypes.object,
+}
+
+Contact.defaultProps = {
+  initialData: {},
 }
 
 export default Contact

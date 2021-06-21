@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { useForm } from 'uniforms'
+import PropTypes from 'prop-types'
+
 import { RegisterContext } from './context'
 
 const StepButtons = ({ formRef }) => {
@@ -40,6 +42,13 @@ const StepButtons = ({ formRef }) => {
       </Button>
     </div>
   )
+}
+
+StepButtons.propTypes = {
+  formRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any }),
+  ]),
 }
 
 export default StepButtons

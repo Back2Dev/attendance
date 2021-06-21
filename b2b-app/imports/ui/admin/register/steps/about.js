@@ -2,6 +2,8 @@ import React, { useRef } from 'react'
 import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 import { AutoForm, AutoField, ErrorField, LongTextField } from 'uniforms-material'
+import PropTypes from 'prop-types'
+
 import StepButtons from './step-buttons'
 
 const AboutFormSchema = new SimpleSchema(
@@ -74,6 +76,14 @@ const About = ({ initialData }) => {
       </AutoForm>
     </div>
   )
+}
+
+About.propTypes = {
+  initialData: PropTypes.object,
+}
+
+About.defaultProps = {
+  initialData: {},
 }
 
 export default About
