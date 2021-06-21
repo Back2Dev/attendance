@@ -68,6 +68,7 @@
     "moment": "^2.29.1",
     "namecase": "^1.1.2",
     "node-cron": "^2.0.3",
+    "numeral": "^2.0.6",
     "pdf-lib": "^1.16.0",
     "pdfmake": "^0.1.71",
     "prismjs": "^1.23.0",

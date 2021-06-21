@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-
-import { Typography } from '@material-ui/core'
+import numeral from 'numeral'
 import { Skeleton } from '@material-ui/lab'
 import { Grid } from '@material-ui/core'
 
@@ -28,6 +27,57 @@ function JobInfo() {
   return (
     <StyledJobInfo>
       <Grid container>
+        <Grid item xs={12} md={2}>
+          <Grid container>
+            <Grid item xs={5} md={12} className="label">
+              Customer
+            </Grid>
+            <Grid item xs={7} md={12} className="data">
+              {renderData(`${item?.name || 'N/A'}`)}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Grid container>
+            <Grid item xs={5} md={12} className="label">
+              Bike name
+            </Grid>
+            <Grid item xs={7} md={12} className="data">
+              {renderData(`${item?.make} ${item?.model}`)}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Grid container>
+            <Grid item xs={5} md={12} className="label">
+              Bike color
+            </Grid>
+            <Grid item xs={7} md={12} className="data">
+              {renderData(`${item?.color}`)}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Grid container>
+            <Grid item xs={5} md={12} className="label">
+              Bike Value
+            </Grid>
+            <Grid item xs={7} md={12} className="data">
+              {renderData(`$${numeral(item?.bikeValue).format('0,0')}`)}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Grid container>
+            <Grid item xs={5} md={12} className="label">
+              Phone
+            </Grid>
+            <Grid item xs={7} md={12} className="data">
+              {renderData(`${item?.phone || 'N/A'}`)}
+            </Grid>
+          </Grid>
+        </Grid>
+
         <Grid item xs={12} md={2}>
           <Grid container>
             <Grid item xs={5} md={12} className="label">

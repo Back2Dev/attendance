@@ -106,6 +106,8 @@ Meteor.methods({
 
     // TODO: update/create the member data
 
+    // TODO: update/create history
+
     // update the service-items, increase the numbersOfUsed value
     try {
       ServiceItems.update(

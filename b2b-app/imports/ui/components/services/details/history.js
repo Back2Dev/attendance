@@ -8,7 +8,8 @@ const StyledJobHistory = styled.div``
 function JobHistory() {
   return (
     <StyledJobHistory>
-      <Typography variant="h2">JobHistory</Typography>
+      <Typography variant="h4">History</Typography>
+      <div>TODO: history listing</div>
     </StyledJobHistory>
   )
 }
