@@ -13,6 +13,8 @@ import { AboutForm } from './AboutForm'
 import { EmergencyForm } from './EmergencyForm'
 import { Confirm } from './Confirm'
 
+import { meteorCall } from '/imports/ui/utils/meteor'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -91,6 +93,8 @@ export default function Register() {
   ]
   const formComponents = [ContactForm, AboutForm, EmergencyForm, Confirm]
 
+  const [submitLoading, setSubmitLoading] = React.useState(true)
+
   const getForm = (index) => {
     let Form = formComponents[index]
 
@@ -119,8 +123,23 @@ export default function Register() {
     setActiveStep(index)
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
+
+    if (activeStep >= steps.length - 1) {
+      console.log('sending to server')
+      const s = await meteorCall('insert.registrations', 'saving', {
+        ...contactFormModel,
+        ...aboutFormModel,
+        ...emergencyFormModel,
+      })
+
+      if (s) {
+        if (s.status === 'success') {
+          setSubmitLoading(false)
+        }
+      }
+    }
   }
 
   const handleBack = () => {
@@ -150,7 +169,11 @@ export default function Register() {
           // What to display when completed all form steps
           <div>
             <div className={classes.progressContainer}>
-              <CircularProgress className={classes.progress} />
+              {submitLoading ? (
+                <CircularProgress className={classes.progress} />
+              ) : (
+                <h1>Registration Complete</h1>
+              )}
             </div>
 
             <br />
