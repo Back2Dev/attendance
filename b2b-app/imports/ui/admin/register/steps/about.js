@@ -57,24 +57,21 @@ const schema = new SimpleSchema2Bridge(AboutFormSchema)
 const About = ({ initialData }) => {
   const formRef = useRef()
   return (
-    <div>
-      <h1>About form</h1>
-      <AutoForm
-        schema={schema}
-        onSubmit={console.log}
-        placeholder
-        ref={formRef}
-        model={initialData}
-      >
-        {Object.keys(AboutFormSchema.schema()).map((name, idx) => (
-          <div key={idx}>
-            <AutoField name={name} />
-            <ErrorField name={name} />
-          </div>
-        ))}
-        <StepButtons formRef={formRef} />
-      </AutoForm>
-    </div>
+    <AutoForm
+      schema={schema}
+      onSubmit={console.log}
+      placeholder
+      ref={formRef}
+      model={initialData}
+    >
+      {Object.keys(AboutFormSchema.schema()).map((name, idx) => (
+        <div key={idx}>
+          <AutoField name={name} />
+          <ErrorField name={name} />
+        </div>
+      ))}
+      <StepButtons formRef={formRef} />
+    </AutoForm>
   )
 }
 

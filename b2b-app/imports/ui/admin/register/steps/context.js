@@ -7,9 +7,20 @@ function getSteps() {
   return ['About you', 'Contact', 'Emergency', 'Avatar', 'Create account']
 }
 
+function getStepHeadings() {
+  return [
+    'Lets get to know each other',
+    'Contact',
+    'Who should we contact in an emergency?',
+    'Choose an avatar',
+    'Terms & Conditions',
+  ]
+}
+
 export const RegisterProvider = ({ children }) => {
   const [activeStep, setActiveStep] = useState(0)
   const steps = getSteps()
+  const stepHeadings = getStepHeadings()
   const [stepsModel, setStepsModel] = useState({})
 
   const updateStepsModel = (data) => {
@@ -35,6 +46,7 @@ export const RegisterProvider = ({ children }) => {
         stepsModel,
         updateStepsModel,
         steps,
+        stepHeadings,
         activeStep,
         handleNext,
         handleBack,

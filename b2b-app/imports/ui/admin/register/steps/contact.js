@@ -87,21 +87,18 @@ const schema = new SimpleSchema2Bridge(ContactSchema)
 const Contact = ({ initialData }) => {
   const formRef = useRef()
   return (
-    <div>
-      <h1>Contact</h1>
-      <AutoForm schema={schema} ref={formRef} model={initialData} placeholder>
-        {Object.keys(ContactSchema.schema()).map((name, idx) => {
-          const inputProps = ['pin', 'pinConfirm'].includes(name) ? { maxLength: 4 } : {}
-          return (
-            <div key={idx}>
-              <AutoField name={name} inputProps={inputProps} />
-              <ErrorField name={name} />
-            </div>
-          )
-        })}
-        <StepButtons formRef={formRef} />
-      </AutoForm>
-    </div>
+    <AutoForm schema={schema} ref={formRef} model={initialData} placeholder>
+      {Object.keys(ContactSchema.schema()).map((name, idx) => {
+        const inputProps = ['pin', 'pinConfirm'].includes(name) ? { maxLength: 4 } : {}
+        return (
+          <div key={idx}>
+            <AutoField name={name} inputProps={inputProps} />
+            <ErrorField name={name} />
+          </div>
+        )
+      })}
+      <StepButtons formRef={formRef} />
+    </AutoForm>
   )
 }
 

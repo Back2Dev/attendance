@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
@@ -8,13 +9,22 @@ import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
+import Paper from '@material-ui/core/Paper'
 
 import { About, Contact, Emergency, Avatar, Terms } from './steps'
 import { RegisterProvider, RegisterContext } from './steps/context'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '70%',
+  h1: {
+    marginTop: theme.spacing(7),
+    marginBottom: theme.spacing(3),
+  },
+  h2: {
+    marginBottom: theme.spacing(2),
+  },
+  registerBody: {
+    marginTop: theme.spacing(5),
+    padding: theme.spacing(5),
   },
   button: {
     marginRight: theme.spacing(1),
@@ -48,44 +58,55 @@ export default function Register() {
   const classes = useStyles()
 
   return (
-    <RegisterProvider>
-      <RegisterContext.Consumer>
-        {({ activeStep, steps, handleReset, stepsModel }) => (
-          <div className={classes.root}>
-            <Stepper activeStep={activeStep}>
-              {steps.map((label) => {
-                const stepProps = {}
-                const labelProps = {}
-                return (
-                  <Step key={label} {...stepProps}>
-                    <StepLabel {...labelProps}>{label}</StepLabel>
+    <Container>
+      <RegisterProvider>
+        <RegisterContext.Consumer>
+          {({ activeStep, steps, handleReset, stepsModel, stepHeadings }) => (
+            <>
+              <Typography variant="h1" align="center" className={classes.h1}>
+                Register a new account
+              </Typography>
+              <Stepper activeStep={activeStep}>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
                   </Step>
-                )
-              })}
-            </Stepper>
-            <div>
-              {activeStep === steps.length ? (
-                <div>
-                  <Typography className={classes.instructions}>
-                    All steps completed - you&apos;re finished
-                  </Typography>
-                  <Card className={classes.formData}>
-                    <CardHeader title="Form data to be sent to server" />
-                    <CardContent>
-                      <pre>{JSON.stringify(stepsModel, null, 2)}</pre>
-                    </CardContent>
-                  </Card>
-                  <Button onClick={handleReset} className={classes.button}>
-                    Reset
-                  </Button>
-                </div>
-              ) : (
-                <div>{getStepContent(activeStep, stepsModel[steps[activeStep]])}</div>
-              )}
-            </div>
-          </div>
-        )}
-      </RegisterContext.Consumer>
-    </RegisterProvider>
+                ))}
+              </Stepper>
+              <Paper variant="outlined" className={classes.registerBody}>
+                {activeStep === steps.length ? (
+                  <div>
+                    <Typography className={classes.instructions}>
+                      All steps completed - you&apos;re finished
+                    </Typography>
+                    <Card className={classes.formData}>
+                      <CardHeader title="Form data to be sent to server" />
+                      <CardContent>
+                        <pre>{JSON.stringify(stepsModel, null, 2)}</pre>
+                      </CardContent>
+                    </Card>
+                    <Button onClick={handleReset} className={classes.button}>
+                      Reset
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <Typography
+                      variant="h2"
+                      className={classes.h2}
+                      align="center"
+                      color="textSecondary"
+                    >
+                      {stepHeadings[activeStep]}
+                    </Typography>
+                    {getStepContent(activeStep, stepsModel[steps[activeStep]])}
+                  </div>
+                )}
+              </Paper>
+            </>
+          )}
+        </RegisterContext.Consumer>
+      </RegisterProvider>
+    </Container>
   )
 }

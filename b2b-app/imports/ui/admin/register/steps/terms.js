@@ -21,27 +21,24 @@ const schema = new SimpleSchema2Bridge(TermsSchema)
 const Terms = ({ initialData }) => {
   const formRef = useRef()
   return (
-    <div>
-      <h1>Terms form</h1>
-      <AutoForm
-        schema={schema}
-        onSubmit={console.log}
-        placeholder
-        ref={formRef}
-        model={initialData}
-      >
-        {Object.keys(TermsSchema.schema()).map((name, idx) => (
-          <div key={idx}>
-            <AutoField name={name} />
-            <ErrorField
-              name={name}
-              errorMessage="You must accept the terms in order to create a new account"
-            />
-          </div>
-        ))}
-        <StepButtons formRef={formRef} />
-      </AutoForm>
-    </div>
+    <AutoForm
+      schema={schema}
+      onSubmit={console.log}
+      placeholder
+      ref={formRef}
+      model={initialData}
+    >
+      {Object.keys(TermsSchema.schema()).map((name, idx) => (
+        <div key={idx}>
+          <AutoField name={name} />
+          <ErrorField
+            name={name}
+            errorMessage="You must accept the terms in order to create a new account"
+          />
+        </div>
+      ))}
+      <StepButtons formRef={formRef} />
+    </AutoForm>
   )
 }
 

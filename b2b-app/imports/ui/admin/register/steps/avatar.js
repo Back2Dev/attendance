@@ -51,19 +51,16 @@ const schema = new SimpleSchema2Bridge(AvatarSchema)
 const Avatar = ({ initialData }) => {
   const formRef = useRef()
   return (
-    <div>
-      <h1>Avatar form</h1>
-      <AutoForm
-        schema={schema}
-        onSubmit={console.log}
-        placeholder
-        ref={formRef}
-        model={initialData}
-      >
-        <AvatarField images={AvatarSchema.get('avatar', 'allowedValues')} />
-        <StepButtons formRef={formRef} />
-      </AutoForm>
-    </div>
+    <AutoForm
+      schema={schema}
+      onSubmit={console.log}
+      placeholder
+      ref={formRef}
+      model={initialData}
+    >
+      <AvatarField images={AvatarSchema.get('avatar', 'allowedValues')} />
+      <StepButtons formRef={formRef} />
+    </AutoForm>
   )
 }
 
