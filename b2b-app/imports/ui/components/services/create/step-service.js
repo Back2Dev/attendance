@@ -87,7 +87,9 @@ function ServiceStep({ initialData }) {
     checkedAt: null,
   })
 
-  const { setStepData, setStepProperty, activeStep, goNext } = useContext(ServiceContext)
+  const { setStepData, setStepProperty, activeStep, goNext, originalData } = useContext(
+    ServiceContext
+  )
   const checkTimeout = useRef(null)
   const searchFieldRef = useRef(null)
   const selectedContRef = useRef(null)
@@ -98,6 +100,29 @@ function ServiceStep({ initialData }) {
     // make sure atleast one item selected
     dispatch({ type: 'setHasValidData', payload: selectedItems.length > 0 })
   }
+
+  const { items, loading } = useTracker(() => {
+    const sub = Meteor.subscribe('all.serviceItems')
+    return {
+      items: ServiceItems.find({}).fetch(),
+      loading: !sub.ready(),
+    }
+  }, [])
+
+  useEffect(() => {
+    if (originalData?.serviceItems?.length && items?.length) {
+      const itemsToBeAdded = originalData?.serviceItems.map((item) => {
+        return {
+          ...item,
+          localId: Random.id(),
+        }
+      })
+      // console.log('itemsToBeAdded', itemsToBeAdded)
+      if (itemsToBeAdded?.length) {
+        dispatch({ type: 'addItems', payload: itemsToBeAdded })
+      }
+    }
+  }, [originalData, items])
 
   useEffect(() => {
     if (activeStep !== 'service') {
@@ -127,14 +152,6 @@ function ServiceStep({ initialData }) {
       value: hasValidData,
     })
   }, [checkedAt])
-
-  const { items, loading } = useTracker(() => {
-    const sub = Meteor.subscribe('all.serviceItems')
-    return {
-      items: ServiceItems.find({}).fetch(),
-      loading: !sub.ready(),
-    }
-  }, [])
 
   const handleSelected = (item) => {
     dispatch({ type: 'addItem', payload: item })

@@ -1,11 +1,15 @@
 import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
 import React, { useReducer, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import PdfMaker from '/imports/ui/utils/pdf-maker.js'
 import moment from 'moment'
+
+import Jobs from '/imports/api/jobs/schema.js'
 
 export const ServiceContext = React.createContext('service')
 
@@ -46,6 +50,7 @@ function reducer(state, action) {
     }
     case 'setStepData': {
       const { stepKey, data } = payload
+      console.log('setStepData', stepKey, data)
       if (stepKeys.indexOf(stepKey) === -1) {
         console.log('stepKey was not found', stepKey)
         return state
@@ -76,6 +81,8 @@ function reducer(state, action) {
 
 export const ServiceProvider = ({ children }) => {
   const { push } = useHistory()
+  const { id: jobId } = useParams()
+  console.log({ jobId })
 
   const mounted = useRef(true)
   useEffect(
@@ -85,7 +92,6 @@ export const ServiceProvider = ({ children }) => {
     []
   )
 
-  // console.log('contract', contract);
   const [state, dispatch] = useReducer(reducer, {
     steps: {
       service: {
@@ -125,12 +131,16 @@ export const ServiceProvider = ({ children }) => {
     loading: false,
   })
 
-  // bind contract data to state
-  // useEffect(() => {
-  //   if (service) {
-  //     dispatch({ type: 'setInitialData', payload: service });
-  //   }
-  // }, [service]);
+  // bind job data to state
+  const { job: originalData } = useTracker(() => {
+    if (jobId) {
+      const sub = Meteor.subscribe('id.jobs', jobId)
+      return {
+        loading: !sub.ready(),
+        job: Jobs.findOne({ _id: jobId }),
+      }
+    }
+  }, [jobId])
 
   const setActiveStep = (stepKey) => {
     if (!mounted.current) {
@@ -374,6 +384,7 @@ export const ServiceProvider = ({ children }) => {
     <ServiceContext.Provider
       value={{
         ...state,
+        originalData,
         setActiveStep,
         goNext,
         goBack,

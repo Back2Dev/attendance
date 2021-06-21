@@ -65,7 +65,7 @@ function JobServiceItems() {
           component="span"
           size="small"
           onClick={() => {
-            push(`/services/edit/${item._id}`)
+            push(`/services/${item._id}/edit`)
           }}
         >
           <EditIcon />

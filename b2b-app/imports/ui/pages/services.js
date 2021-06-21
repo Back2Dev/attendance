@@ -26,6 +26,11 @@ function ServicesPage() {
             component={CreateService}
           />
           <SecureRoute
+            path="/services/:id/edit"
+            roles={['ADM', 'GRE']}
+            component={CreateService}
+          />
+          <SecureRoute
             path="/services/:id"
             roles={['ADM', 'GRE']}
             component={JobDetails}
