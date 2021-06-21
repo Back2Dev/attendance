@@ -384,6 +384,7 @@ export const ServiceProvider = ({ children }) => {
     <ServiceContext.Provider
       value={{
         ...state,
+        jobId,
         originalData,
         setActiveStep,
         goNext,

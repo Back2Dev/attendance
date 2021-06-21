@@ -8,6 +8,7 @@ import ServiceStep from './create/step-service'
 import BikeStep from './create/step-bike'
 import ContactStep from './create/step-contact'
 import PickupStep from './create/step-pickup'
+import CreateServiceHeader from './create/header'
 
 const StyledCreateService = styled.div`
   margin: 60px auto;
@@ -20,9 +21,7 @@ function CreateService() {
   return (
     <ServiceProvider>
       <StyledCreateService>
-        <Typography variant="h1" align="center">
-          New Service
-        </Typography>
+        <CreateServiceHeader />
         <FromSteps />
         <div className="steps-contents">
           <ServiceStep />
