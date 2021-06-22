@@ -66,20 +66,40 @@ function BikeStep({ initialData }) {
     checkedAt: null,
   })
 
-  const { setStepData, setStepProperty, goNext, goBack, activeStep } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    setStepProperty,
+    goNext,
+    goBack,
+    activeStep,
+    originalData,
+  } = useContext(ServiceContext)
   const formRef = useRef()
   const checkTimeout = useRef(null)
 
   const { details, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
-    // TODO: do something here
     // const checkResult = await formRef.current?.validate()
     const checkResult = await formRef.current?.validateModel(details)
     dispatch({ type: 'setHasValidData', payload: checkResult === null })
   }
+
+  useEffect(() => {
+    if (originalData) {
+      console.log('originalData', originalData)
+      dispatch({
+        type: 'setDetails',
+        payload: {
+          make: originalData.make,
+          model: originalData.model,
+          color: originalData.color,
+          // type: String,
+          approxValue: originalData.bikeValue,
+        },
+      })
+    }
+  }, [originalData])
 
   useEffect(() => {
     if (activeStep !== 'bike') {
