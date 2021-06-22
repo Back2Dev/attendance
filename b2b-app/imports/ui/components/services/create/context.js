@@ -94,7 +94,7 @@ export const ServiceProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     steps: {
       service: {
-        label: 'New Service',
+        label: 'Services',
         error: false,
         disabled: false,
         completed: false,

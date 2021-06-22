@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
+import { useHistory } from 'react-router'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -86,6 +87,8 @@ function ServiceStep({ initialData }) {
     hasValidData: false,
     checkedAt: null,
   })
+
+  const { goBack } = useHistory()
 
   const { setStepData, setStepProperty, activeStep, goNext, originalData } = useContext(
     ServiceContext
@@ -239,6 +242,15 @@ function ServiceStep({ initialData }) {
           {renderSelectedItems()}
         </div>
         <div className="btns-container">
+          <Button
+            className="next-btn"
+            variant="contained"
+            onClick={() => {
+              goBack()
+            }}
+          >
+            Back
+          </Button>
           <Button
             className="next-btn"
             variant="contained"
