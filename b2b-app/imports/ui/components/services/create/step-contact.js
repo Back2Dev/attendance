@@ -103,7 +103,7 @@ function contactStepReducer(state, action) {
   }
 }
 
-function ContactStep({ initialData }) {
+function ContactStep() {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
@@ -118,9 +118,14 @@ function ContactStep({ initialData }) {
     memberData: {},
   })
 
-  const { setStepData, activeStep, goBack, goNext, setStepProperty } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    activeStep,
+    goBack,
+    goNext,
+    setStepProperty,
+    originalData,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
@@ -142,10 +147,25 @@ function ContactStep({ initialData }) {
   }
 
   useEffect(() => {
+    if (originalData) {
+      console.log('originalData', originalData)
+      dispatch({
+        type: 'setMemberData',
+        payload: {
+          name: originalData.name || '',
+          mobile: originalData.phone || '',
+          email: originalData.email || '',
+          addressPostcode: originalData.postcode || '',
+        },
+      })
+      dispatch({ type: 'setHasValidData', payload: true })
+    }
+  }, [originalData])
+
+  useEffect(() => {
     if (activeStep !== 'contact' || !updatedAt) {
       return
     }
-
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()

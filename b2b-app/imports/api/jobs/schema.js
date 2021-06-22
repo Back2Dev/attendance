@@ -72,11 +72,11 @@ export const JobsSchema = new SimpleSchema({
     label: 'Customer phone number',
   },
   email: { type: String, optional: true, label: 'Customer email' },
+  postcode: { type: String, optional: true, label: 'Customer postcode' },
   isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
   make: { type: String, label: 'Bike make' },
   model: { type: String, optional: true, label: 'Bike model' },
   color: { type: String, label: 'Bike color' },
-  // TODO: add bike type
   bikeType: { type: String, optional: true, label: 'Bike Type' },
   bikeValue: {
     type: SimpleSchema.Integer,

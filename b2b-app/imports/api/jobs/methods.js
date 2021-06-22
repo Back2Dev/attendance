@@ -84,6 +84,7 @@ Meteor.methods({
       name: cleanData.memberData?.name || undefined,
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
+      postcode: cleanData.memberData?.addressPostcode || undefined,
       make: cleanData.bikeDetails.make,
       model: cleanData.bikeDetails.model,
       color: cleanData.bikeDetails.color,
