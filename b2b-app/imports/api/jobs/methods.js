@@ -4,7 +4,11 @@ import moment from 'moment'
 
 import CONSTANTS from '../constants'
 import ServiceItems from '/imports/api/service-items/schema.js'
-import Jobs, { JobCreateParamsSchema, JobUpdateStatusParamsSchema } from './schema'
+import Jobs, {
+  JobCreateParamsSchema,
+  JobUpdateParamsSchema,
+  JobUpdateStatusParamsSchema,
+} from './schema'
 import Members from '/imports/api/members/schema.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 
@@ -60,6 +64,122 @@ Meteor.methods({
     return {
       status: 'success',
     }
+  },
+  'jobs.update'(data) {
+    const cleanData = JobUpdateParamsSchema.clean(data)
+    debug('clean data', cleanData.serviceItems, cleanData)
+    try {
+      JobUpdateParamsSchema.validate(cleanData)
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    // check for existing job
+    const existingJob = Jobs.findOne({ _id: cleanData.jobId })
+    if (!existingJob) {
+      return {
+        status: 'failed',
+        message: `Job was not found with id: ${cleanData.jobId}`,
+      }
+    }
+
+    const jobData = {
+      // jobNo will be updated later
+      name: cleanData.memberData?.name || undefined,
+      phone: cleanData.memberData?.mobile || undefined,
+      email: cleanData.memberData?.email || undefined,
+      address: cleanData.memberData?.address || undefined,
+      make: cleanData.bikeDetails.make,
+      model: cleanData.bikeDetails.model,
+      color: cleanData.bikeDetails.color,
+      bikeType: cleanData.bikeDetails.type,
+      bikeValue: cleanData.bikeDetails.approxValue,
+      serviceItems: cleanData.serviceItems,
+      totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
+      dropoffDate: moment(cleanData.pickup.dropOffDate).toDate(),
+      pickupDate: moment(cleanData.pickup.pickupDate).toDate(),
+      urgent: cleanData.pickup.urgent,
+      replacementBike: cleanData.pickup.replacementBike,
+    }
+
+    if (cleanData.selectedMember?._id) {
+      jobData.memberId = cleanData.selectedMember._id
+    }
+
+    // update job
+    try {
+      Jobs.update(
+        { _id: existingJob._id },
+        {
+          $set: jobData,
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+
+    // update the member data
+    if (cleanData.hasMember) {
+      if (cleanData.selectedMember?._id) {
+        // update the member data
+        Members.update(
+          { _id: cleanData.selectedMember._id },
+          {
+            $set: {
+              name: cleanData.memberData.name,
+              address: cleanData.memberData.address,
+              mobile: cleanData.memberData.mobile,
+              email: cleanData.memberData.email,
+            },
+          }
+        )
+      } else {
+        // create member (without creating user)
+        try {
+          const insertedMemberId = Members.insert({
+            name: cleanData.memberData.name,
+            address: cleanData.memberData.address,
+            mobile: cleanData.memberData.mobile,
+            email: cleanData.memberData.email,
+          })
+          // update the job
+          Jobs.update(
+            { _id: existingJob._id },
+            {
+              $set: { memberId: insertedMemberId },
+            }
+          )
+        } catch (e) {
+          return { status: 'failed', message: e.message }
+        }
+      }
+    }
+
+    // TODO: update/create history
+
+    // update the service-items, increase the numbersOfUsed value
+    try {
+      ServiceItems.update(
+        { _id: { $in: data.serviceItems.map((item) => item._id) } },
+        { $inc: { numbersOfUsed: 1 } },
+        { multi: true }
+      )
+    } catch (e) {
+      console.warn('Failed updating ServiceItems', e.message)
+    }
+
+    return { status: 'success' }
   },
   'jobs.create'(data) {
     const cleanData = JobCreateParamsSchema.clean(data)
@@ -122,9 +242,8 @@ Meteor.methods({
             $set: {
               name: cleanData.memberData.name,
               address: cleanData.memberData.address,
-              mobile: cleanData.memberData.phone,
-              // TODO: how to update email address?
-              // TODO: how to update the address with postcode only?
+              mobile: cleanData.memberData.mobile,
+              email: cleanData.memberData.email,
             },
           }
         )
@@ -134,7 +253,8 @@ Meteor.methods({
           const insertedMemberId = Members.insert({
             name: cleanData.memberData.name,
             address: cleanData.memberData.address,
-            mobile: cleanData.memberData.phone,
+            mobile: cleanData.memberData.mobile,
+            email: cleanData.memberData.email,
           })
           // update the job
           Jobs.update(

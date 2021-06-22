@@ -65,6 +65,11 @@ export const JobCreateParamsSchema = new SimpleSchema({
   }),
 })
 
+export const JobUpdateParamsSchema = new SimpleSchema({
+  jobId: RegExId,
+})
+JobUpdateParamsSchema.extend(JobCreateParamsSchema)
+
 // Note: By default, all keys are required
 export const JobsSchema = new SimpleSchema({
   _id: RegExId,

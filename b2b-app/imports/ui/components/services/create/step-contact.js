@@ -152,15 +152,6 @@ function ContactStep() {
     if (originalData) {
       console.log('originalData', originalData)
       if (originalData.memberId) {
-        // dispatch({
-        //   type: 'setMemberData',
-        //   payload: {
-        //     name: originalData.name || '',
-        //     mobile: originalData.phone || '',
-        //     email: originalData.email || '',
-        //     address: originalData.address || '',
-        //   },
-        // })
         dispatch({
           type: 'selectMember',
           payload: {
@@ -171,7 +162,7 @@ function ContactStep() {
             address: originalData.address || '',
           },
         })
-        // dispatch({ type: 'setHasValidData', payload: true })
+        dispatch({ type: 'setHasValidData', payload: true })
       } else {
         dispatch({ type: 'setHasMember', payload: false })
       }

@@ -59,6 +59,10 @@ export const MembersSchema = new SimpleSchema({
     optional: true,
     label: 'Nickname, ie what people call you',
   },
+  email: {
+    type: String,
+    optional: true,
+  },
   address: {
     type: String,
     optional: true,
