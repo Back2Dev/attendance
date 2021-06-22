@@ -10,6 +10,7 @@ import { RegisterContext } from './context'
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(4),
+    gridArea: 'stepButtons',
   },
 }))
 

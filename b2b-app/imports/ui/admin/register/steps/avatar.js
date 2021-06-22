@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 import { AutoForm } from 'uniforms-material'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 
 import AvatarField from './avatar-field'
 import StepButtons from './step-buttons'
@@ -48,8 +49,18 @@ const AvatarSchema = new SimpleSchema({
 
 const schema = new SimpleSchema2Bridge(AvatarSchema)
 
+const useStyles = makeStyles({
+  root: {
+    gridTemplateColumns: '1fr',
+    gridTemplateAreas: `'avatar'
+      'stepButtons'
+    `,
+  },
+})
+
 const Avatar = ({ initialData }) => {
   const formRef = useRef()
+  const classes = useStyles()
   return (
     <AutoForm
       schema={schema}
@@ -57,8 +68,12 @@ const Avatar = ({ initialData }) => {
       placeholder
       ref={formRef}
       model={initialData}
+      className={classes.root}
     >
-      <AvatarField images={AvatarSchema.get('avatar', 'allowedValues')} />
+      <AvatarField
+        images={AvatarSchema.get('avatar', 'allowedValues')}
+        style={{ gridArea: 'avatar' }}
+      />
       <StepButtons formRef={formRef} />
     </AutoForm>
   )

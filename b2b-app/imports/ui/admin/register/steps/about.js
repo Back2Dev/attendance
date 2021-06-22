@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 import { AutoForm, AutoField, ErrorField, LongTextField } from 'uniforms-material'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 
 import StepButtons from './step-buttons'
 
@@ -10,12 +11,12 @@ const AboutFormSchema = new SimpleSchema(
   {
     bikesHousehold: {
       type: SimpleSchema.Integer,
-      uniforms: { label: 'Enter the number of bikes you own' },
+      uniforms: { label: 'Number of bikes you own' },
     },
     primaryBike: {
       type: String,
       uniforms: {
-        label: 'Select a type of bike',
+        label: 'Type of bike',
       },
       allowedValues: [
         'Road/racer',
@@ -29,7 +30,7 @@ const AboutFormSchema = new SimpleSchema(
     },
     workStatus: {
       type: String,
-      label: 'Select your employment status',
+      label: 'Employment status',
       allowedValues: [
         'Full Time',
         'Part Time',
@@ -42,7 +43,8 @@ const AboutFormSchema = new SimpleSchema(
     reasons: {
       type: String,
       uniforms: {
-        label:
+        label: 'Volunteer reasons',
+        helperText:
           'What makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?',
         component: LongTextField,
         rows: 6,
@@ -54,8 +56,20 @@ const AboutFormSchema = new SimpleSchema(
 
 const schema = new SimpleSchema2Bridge(AboutFormSchema)
 
+const useStyles = makeStyles({
+  root: {
+    gridTemplateColumns: '40% 60%',
+    gridTemplateAreas: `'bikesHousehold primaryBike'
+      'workStatus workStatus'
+      'reasons reasons'
+      'stepButtons stepButtons'
+    `,
+  },
+})
+
 const About = ({ initialData }) => {
   const formRef = useRef()
+  const classes = useStyles()
   return (
     <AutoForm
       schema={schema}
@@ -63,9 +77,10 @@ const About = ({ initialData }) => {
       placeholder
       ref={formRef}
       model={initialData}
+      className={classes.root}
     >
       {Object.keys(AboutFormSchema.schema()).map((name, idx) => (
-        <div key={idx}>
+        <div key={idx} style={{ gridArea: name }}>
           <AutoField name={name} />
           <ErrorField name={name} />
         </div>
