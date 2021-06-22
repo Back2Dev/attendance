@@ -138,9 +138,9 @@ function ServiceStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'service') {
-      return
-    }
+    // if (activeStep !== 'service') {
+    //   return
+    // }
     setStepData({
       stepKey: 'service',
       data: {

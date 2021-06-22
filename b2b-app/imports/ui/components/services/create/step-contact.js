@@ -51,6 +51,7 @@ const StyledContactStep = styled.div`
   }
   .form-container {
     max-width: 500px;
+    margin: 0 auto;
   }
   .btns-container {
     margin: 20px 0;
@@ -177,9 +178,9 @@ function ContactStep() {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'contact') {
-      return
-    }
+    // if (activeStep !== 'contact') {
+    //   return
+    // }
     setStepData({
       stepKey: 'contact',
       data: {

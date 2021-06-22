@@ -57,9 +57,14 @@ function PickupStep({ initialData }) {
     checkedAt: null,
   })
 
-  const { setStepData, activeStep, goBack, setStepProperty, createJob } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    activeStep,
+    goBack,
+    setStepProperty,
+    createJob,
+    originalData,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
@@ -70,6 +75,21 @@ function PickupStep({ initialData }) {
     dispatch({ type: 'setHasValidData', payload: checkResult === null })
     return checkResult === null
   }
+
+  useEffect(() => {
+    if (originalData) {
+      dispatch({
+        type: 'setPickup',
+        payload: {
+          dropOffDate: moment(originalData.dropoffDate).format('YYYY-MM-DD'),
+          pickupDate: moment(originalData.pickupDate).format('YYYY-MM-DD'),
+          replacementBike: originalData.replacementBike,
+          urgent: originalData.urgent,
+        },
+      })
+      dispatch({ type: 'setHasValidData', payload: true })
+    }
+  }, [originalData])
 
   useEffect(() => {
     if (activeStep !== 'pickup' || !updatedAt) {

@@ -98,6 +98,7 @@ function BikeStep({ initialData }) {
           approxValue: originalData.bikeValue,
         },
       })
+      dispatch({ type: 'setHasValidData', payload: true })
     }
   }, [originalData])
 
@@ -112,9 +113,9 @@ function BikeStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'bike') {
-      return
-    }
+    // if (activeStep !== 'bike') {
+    //   return
+    // }
     setStepData({
       stepKey: 'bike',
       data: {
@@ -128,7 +129,7 @@ function BikeStep({ initialData }) {
       property: 'completed',
       value: hasValidData,
     })
-    if (hasValidData) {
+    if (hasValidData && activeStep === 'bike') {
       goNext()
     }
   }, [checkedAt])
