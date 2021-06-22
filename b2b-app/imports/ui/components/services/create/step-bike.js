@@ -94,7 +94,7 @@ function BikeStep({ initialData }) {
           make: originalData.make,
           model: originalData.model,
           color: originalData.color,
-          // type: String,
+          type: originalData.bikeType,
           approxValue: originalData.bikeValue,
         },
       })

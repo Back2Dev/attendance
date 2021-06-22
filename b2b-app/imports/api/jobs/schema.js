@@ -76,6 +76,8 @@ export const JobsSchema = new SimpleSchema({
   make: { type: String, label: 'Bike make' },
   model: { type: String, optional: true, label: 'Bike model' },
   color: { type: String, label: 'Bike color' },
+  // TODO: add bike type
+  bikeType: { type: String, optional: true, label: 'Bike Type' },
   bikeValue: {
     type: SimpleSchema.Integer,
     label: 'Estimated bike value in cents',

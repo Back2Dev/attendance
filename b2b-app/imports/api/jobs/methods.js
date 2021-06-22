@@ -87,6 +87,7 @@ Meteor.methods({
       make: cleanData.bikeDetails.make,
       model: cleanData.bikeDetails.model,
       color: cleanData.bikeDetails.color,
+      bikeType: cleanData.bikeDetails.type,
       bikeValue: cleanData.bikeDetails.approxValue,
       serviceItems: cleanData.serviceItems,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
