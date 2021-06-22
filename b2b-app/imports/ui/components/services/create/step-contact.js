@@ -149,16 +149,20 @@ function ContactStep() {
   useEffect(() => {
     if (originalData) {
       console.log('originalData', originalData)
-      dispatch({
-        type: 'setMemberData',
-        payload: {
-          name: originalData.name || '',
-          mobile: originalData.phone || '',
-          email: originalData.email || '',
-          address: originalData.address || '',
-        },
-      })
-      dispatch({ type: 'setHasValidData', payload: true })
+      if (originalData.memberId) {
+        dispatch({
+          type: 'setMemberData',
+          payload: {
+            name: originalData.name || '',
+            mobile: originalData.phone || '',
+            email: originalData.email || '',
+            address: originalData.address || '',
+          },
+        })
+        dispatch({ type: 'setHasValidData', payload: true })
+      } else {
+        dispatch({ type: 'setHasMember', payload: false })
+      }
     }
   }, [originalData])
 
