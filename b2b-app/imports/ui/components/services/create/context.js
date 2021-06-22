@@ -139,6 +139,7 @@ export const ServiceProvider = ({ children }) => {
         job: Jobs.findOne({ _id: jobId }),
       }
     }
+    return {}
   }, [jobId])
 
   const setActiveStep = (stepKey) => {
