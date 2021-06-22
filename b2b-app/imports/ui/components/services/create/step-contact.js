@@ -78,15 +78,16 @@ function contactStepReducer(state, action) {
     case 'setMembers':
       return { ...state, foundMembers: payload, searching: false }
     case 'selectMember':
-      if (state.selectedMember?._id === payload._id) {
-        return { ...state, selectedMember: null, memberData: {}, updatedAt: new Date() }
-      }
+      // console.log('selectMember', state.selectedMember, payload)
       return {
         ...state,
         selectedMember: payload,
         memberData: payload,
         updatedAt: new Date(),
       }
+    case 'deselectMember':
+      return { ...state, selectedMember: null, memberData: {}, updatedAt: new Date() }
+
     case 'clear':
       return {
         ...state,
@@ -151,16 +152,26 @@ function ContactStep() {
     if (originalData) {
       console.log('originalData', originalData)
       if (originalData.memberId) {
+        // dispatch({
+        //   type: 'setMemberData',
+        //   payload: {
+        //     name: originalData.name || '',
+        //     mobile: originalData.phone || '',
+        //     email: originalData.email || '',
+        //     address: originalData.address || '',
+        //   },
+        // })
         dispatch({
-          type: 'setMemberData',
+          type: 'selectMember',
           payload: {
+            _id: originalData.memberId,
             name: originalData.name || '',
             mobile: originalData.phone || '',
             email: originalData.email || '',
             address: originalData.address || '',
           },
         })
-        dispatch({ type: 'setHasValidData', payload: true })
+        // dispatch({ type: 'setHasValidData', payload: true })
       } else {
         dispatch({ type: 'setHasMember', payload: false })
       }
@@ -254,7 +265,11 @@ function ContactStep() {
           key={item._id}
           button
           onClick={() => {
-            dispatch({ type: 'selectMember', payload: item })
+            if (state.selectedMember?._id === item._id) {
+              dispatch({ type: 'deselectMember' })
+            } else {
+              dispatch({ type: 'selectMember', payload: item })
+            }
           }}
           className={`list-item ${isSelected ? 'selected' : ''}`}
         >
