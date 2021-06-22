@@ -346,38 +346,43 @@ export const ServiceProvider = ({ children }) => {
       delete contactData.selectedMember?.history
       delete contactData.memberData?.history
     }
-    Meteor.call(
-      'jobs.create',
-      {
-        serviceItems: state.steps.service.data.items,
-        bikeDetails: state.steps.bike.data.details,
-        hasMember: contactData.hasMember,
-        selectedMember: contactData.selectedMember,
-        memberData: contactData.memberData,
-        pickup: state.steps.pickup.data.pickup,
-      },
-      (error, result) => {
-        if (mounted.current) {
-          dispatch({ type: 'setLoading', payload: false })
-        }
-        if (error) {
-          showError(error.message)
-        }
-        if (result) {
-          if (result.status === 'success') {
-            showSuccess('Job created successfully')
-            // push(`/jobs/${result.id}`)
-            // create pdf now?
-            createPdf()
 
-            // redirect to jobs listing
-            push('/services')
-          } else {
-            showError(`Error creating job: ${result.message}`)
-          }
+    const data = {
+      serviceItems: state.steps.service.data.items,
+      bikeDetails: state.steps.bike.data.details,
+      hasMember: contactData.hasMember,
+      selectedMember: contactData.selectedMember,
+      memberData: contactData.memberData,
+      pickup: state.steps.pickup.data.pickup,
+    }
+
+    if (originalData) {
+      data.jobId = originalData._id
+    }
+
+    Meteor.call(originalData ? 'jobs.update' : 'jobs.create', data, (error, result) => {
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', payload: false })
+      }
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'success') {
+          showSuccess(`Job ${originalData ? 'updated' : 'created'} successfully`)
+          // push(`/jobs/${result.id}`)
+          // create pdf now?
+          createPdf()
+
+          // redirect to jobs listing
+          push('/services')
+        } else {
+          showError(
+            `Error ${originalData ? 'updating' : 'creating'} job: ${result.message}`
+          )
         }
       }
-    )
+    })
   }
 
   return (
