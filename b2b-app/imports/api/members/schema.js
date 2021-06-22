@@ -49,7 +49,7 @@ export const BadgeItemSchema = new SimpleSchema({
 
 export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
-  userId: RegExId,
+  userId: OptionalRegExId,
   // Combine first and last name
   name: {
     type: String,
