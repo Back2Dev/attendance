@@ -29,7 +29,7 @@ Meteor.methods({
           mobile: 1,
           email: 1,
           avatar: 1,
-          addressPostcode: 1,
+          address: 1,
           score: { $meta: 'textScore' },
         },
         sort: {

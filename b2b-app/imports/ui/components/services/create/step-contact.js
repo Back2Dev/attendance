@@ -64,7 +64,7 @@ const memberFormSchema = new SimpleSchema({
   name: String,
   mobile: String,
   email: String,
-  addressPostcode: String,
+  address: String,
 })
 
 function contactStepReducer(state, action) {
@@ -155,7 +155,7 @@ function ContactStep() {
           name: originalData.name || '',
           mobile: originalData.phone || '',
           email: originalData.email || '',
-          addressPostcode: originalData.postcode || '',
+          address: originalData.address || '',
         },
       })
       dispatch({ type: 'setHasValidData', payload: true })

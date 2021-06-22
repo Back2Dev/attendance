@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
 import moment from 'moment'
 
 import CONSTANTS from '../constants'
 import ServiceItems from '/imports/api/service-items/schema.js'
 import Jobs, { JobCreateParamsSchema, JobUpdateStatusParamsSchema } from './schema'
+import Members from '/imports/api/members/schema.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 
 const debug = require('debug')('b2b:jobs')
@@ -84,7 +86,7 @@ Meteor.methods({
       name: cleanData.memberData?.name || undefined,
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
-      postcode: cleanData.memberData?.addressPostcode || undefined,
+      address: cleanData.memberData?.address || undefined,
       make: cleanData.bikeDetails.make,
       model: cleanData.bikeDetails.model,
       color: cleanData.bikeDetails.color,
@@ -110,7 +112,42 @@ Meteor.methods({
       return { status: 'failed', message: e.message }
     }
 
-    // TODO: update/create the member data
+    // update the member data
+    if (cleanData.hasMember) {
+      if (cleanData.selectedMember?._id) {
+        // update the member data
+        Members.update(
+          { _id: cleanData.selectedMember._id },
+          {
+            $set: {
+              name: cleanData.memberData.name,
+              address: cleanData.memberData.address,
+              mobile: cleanData.memberData.phone,
+              // TODO: how to update email address?
+              // TODO: how to update the address with postcode only?
+            },
+          }
+        )
+      } else {
+        // create member (without creating user)
+        try {
+          const insertedMemberId = Members.insert({
+            name: cleanData.memberData.name,
+            address: cleanData.memberData.address,
+            mobile: cleanData.memberData.phone,
+          })
+          // update the job
+          Jobs.update(
+            { _id: inserted },
+            {
+              $set: { memberId: insertedMemberId },
+            }
+          )
+        } catch (e) {
+          return { status: 'failed', message: e.message }
+        }
+      }
+    }
 
     // TODO: update/create history
 

@@ -37,6 +37,10 @@ export const JobCreateParamsSchema = new SimpleSchema({
     type: String,
     approxValue: Number,
   }),
+  hasMember: {
+    type: Boolean,
+    defaultValue: true,
+  },
   selectedMember: {
     type: new SimpleSchema({
       _id: RegExId,
@@ -49,7 +53,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
       name: String,
       mobile: String,
       email: String,
-      addressPostcode: String,
+      address: String,
     }),
     optional: true,
   },
@@ -73,7 +77,7 @@ export const JobsSchema = new SimpleSchema({
     label: 'Customer phone number',
   },
   email: { type: String, optional: true, label: 'Customer email' },
-  postcode: { type: String, optional: true, label: 'Customer postcode' },
+  address: { type: String, optional: true, label: 'Customer address' },
   isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
   make: { type: String, label: 'Bike make' },
   model: { type: String, optional: true, label: 'Bike model' },
