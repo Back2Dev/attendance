@@ -64,6 +64,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
 // Note: By default, all keys are required
 export const JobsSchema = new SimpleSchema({
   _id: RegExId,
+  memberId: OptionalRegExId,
   jobNo: { type: String, optional: true },
   name: { type: String, optional: true, label: 'Customer name' },
   phone: {

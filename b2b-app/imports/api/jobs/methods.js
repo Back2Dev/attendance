@@ -98,6 +98,10 @@ Meteor.methods({
       replacementBike: cleanData.pickup.replacementBike,
     }
 
+    if (cleanData.selectedMember?._id) {
+      jobData.memberId = cleanData.selectedMember._id
+    }
+
     // insert
     let inserted
     try {
