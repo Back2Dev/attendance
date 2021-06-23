@@ -1,35 +1,10 @@
 import React, { useRef } from 'react'
-import SimpleSchema from 'simpl-schema'
-import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 import { AutoForm, AutoField, ErrorField } from 'uniforms-material'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
 import StepButtons from './step-buttons'
-
-const EmergencySchema = new SimpleSchema({
-  emergencyContact: {
-    type: String,
-    uniforms: {
-      label: 'Emergency contact name',
-    },
-  },
-  emergencyEmail: {
-    type: String,
-    optional: true,
-    uniforms: {
-      label: 'Emergency contact email',
-    },
-  },
-  emergencyPhone: {
-    type: String,
-    uniforms: {
-      label: 'Emergency contact number',
-    },
-  },
-})
-
-const schema = new SimpleSchema2Bridge(EmergencySchema)
+import { emergencySchema } from '../form-schema'
 
 const useStyles = makeStyles({
   root: {
@@ -46,15 +21,15 @@ const Emergency = ({ initialData }) => {
   const formRef = useRef()
   return (
     <AutoForm
-      schema={schema}
+      schema={emergencySchema}
       placeholder
       ref={formRef}
       model={initialData}
       className={classes.root}
     >
-      {Object.keys(EmergencySchema.schema()).map((name, idx) => (
+      {Object.keys(emergencySchema.schema.schema()).map((name, idx) => (
         <div key={idx} style={{ gridArea: name }}>
-          <AutoField name={name} />
+          <AutoField name={name} autoFocus={idx === 0} />
           <ErrorField name={name} />
         </div>
       ))}

@@ -53,18 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function getStepContent(step, initialData) {
-  let StepForm = About
-  if (step === 0) {
-    StepForm = About
-  } else if (step === 1) {
-    StepForm = Contact
-  } else if (step === 2) {
-    StepForm = Emergency
-  } else if (step === 3) {
-    StepForm = Avatar
-  } else if (step === 4) {
-    StepForm = Terms
-  }
+  const StepForm = [About, Contact, Emergency, Avatar, Terms][step]
   return <StepForm initialData={initialData} />
 }
 
@@ -100,7 +89,7 @@ export default function Register() {
                 ))}
               </Stepper>
               {bp || activeStep === steps.length ? (
-                <Paper variant="outlined" className={classes.registerBody}>
+                <Paper variant="outlined" className={classes.registerBody} square>
                   {activeStep === steps.length ? (
                     <div>
                       <Typography className={classes.instructions}>
@@ -109,7 +98,19 @@ export default function Register() {
                       <Card className={classes.formData}>
                         <CardHeader title="Form data to be sent to server" />
                         <CardContent>
-                          <pre>{JSON.stringify(stepsModel, null, 2)}</pre>
+                          <pre>
+                            {JSON.stringify(
+                              steps.slice(0, -1).reduce(
+                                (formData, key) => ({
+                                  ...formData,
+                                  ...stepsModel[key],
+                                }),
+                                {}
+                              ),
+                              null,
+                              2
+                            )}
+                          </pre>
                         </CardContent>
                       </Card>
                       <Button onClick={handleReset} className={classes.button}>

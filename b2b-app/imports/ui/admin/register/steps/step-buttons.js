@@ -25,6 +25,9 @@ const StepButtons = ({ formRef }) => {
     const res = await formRef.current?.validateModel(uniforms.model)
     if (!res) {
       updateStepsModel(uniforms.model)
+      if (activeStep === steps.length - 1) {
+        // send data to backend here
+      }
       handleNext()
     }
   }

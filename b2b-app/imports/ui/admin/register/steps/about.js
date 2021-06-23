@@ -1,60 +1,10 @@
 import React, { useRef } from 'react'
-import SimpleSchema from 'simpl-schema'
-import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoField, ErrorField, LongTextField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorField } from 'uniforms-material'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
 import StepButtons from './step-buttons'
-
-const AboutFormSchema = new SimpleSchema(
-  {
-    bikesHousehold: {
-      type: SimpleSchema.Integer,
-      uniforms: { label: 'Number of bikes you own' },
-    },
-    primaryBike: {
-      type: String,
-      uniforms: {
-        label: 'Type of bike',
-      },
-      allowedValues: [
-        'Road/racer',
-        'Hybrid',
-        'Mountain',
-        'Cruiser',
-        'Ladies',
-        'Gents',
-        'Fixie/Single Speed',
-      ],
-    },
-    workStatus: {
-      type: String,
-      label: 'Employment status',
-      allowedValues: [
-        'Full Time',
-        'Part Time',
-        'Pension/Disability',
-        'Unemployed',
-        'Student',
-        'Retired',
-      ],
-    },
-    reasons: {
-      type: String,
-      uniforms: {
-        label: 'Volunteer reasons',
-        helperText:
-          'What makes you want to to volunteer at Back2Bikes?\nHave you ever done any other volunteering before?\nHave you worked on bikes or something similar before?',
-        component: LongTextField,
-        rows: 6,
-      },
-    },
-  },
-  { requiredByDefault: false }
-)
-
-const schema = new SimpleSchema2Bridge(AboutFormSchema)
+import { aboutSchema } from '../form-schema'
 
 const useStyles = makeStyles({
   root: {
@@ -72,16 +22,15 @@ const About = ({ initialData }) => {
   const classes = useStyles()
   return (
     <AutoForm
-      schema={schema}
-      onSubmit={console.log}
+      schema={aboutSchema}
       placeholder
       ref={formRef}
       model={initialData}
       className={classes.root}
     >
-      {Object.keys(AboutFormSchema.schema()).map((name, idx) => (
+      {Object.keys(aboutSchema.schema.schema()).map((name, idx) => (
         <div key={idx} style={{ gridArea: name }}>
-          <AutoField name={name} />
+          <AutoField name={name} autoFocus={idx === 0} />
           <ErrorField name={name} />
         </div>
       ))}
