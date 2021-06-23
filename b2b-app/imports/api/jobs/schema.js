@@ -151,9 +151,24 @@ export const JobsSchema = new SimpleSchema({
     label: 'Status of job',
   },
   paid: { type: Boolean, defaultValue: false },
+  paidAt: { type: Date, optional: true },
   charge_token: { type: String, optional: true },
   card: { type: Object, optional: true, blackbox: true },
-  paidAt: { type: Date, optional: true },
+  history: {
+    type: Array,
+    defaultValue: [],
+    optional: true,
+  },
+  'history.$': new SimpleSchema({
+    userId: OptionalRegExId,
+    memberId: OptionalRegExId,
+    description: String,
+    jobStatus: {
+      type: String,
+      allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+    },
+    createdAt,
+  }),
   createdAt,
   updatedAt,
 })
