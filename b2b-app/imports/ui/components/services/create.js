@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Typography } from '@material-ui/core'
 import { ServiceProvider } from './create/context'
 import FromSteps from './create/steps'
 import ServiceStep from './create/step-service'

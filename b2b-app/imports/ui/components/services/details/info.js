@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import numeral from 'numeral'
+import { Helmet } from 'react-helmet'
 import { Skeleton } from '@material-ui/lab'
 import { Grid } from '@material-ui/core'
 
@@ -26,6 +27,9 @@ function JobInfo() {
 
   return (
     <StyledJobInfo>
+      <Helmet>
+        <title>Service details {item?._id || ''}</title>
+      </Helmet>
       <Grid container>
         <Grid item xs={12} md={2}>
           <Grid container>

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
 
 import { Typography } from '@material-ui/core'
 
@@ -16,6 +17,9 @@ function CreateServiceHeader() {
 
   return (
     <StyledCreateServiceHeader>
+      <Helmet>
+        <title>{renderHeaderText()}</title>
+      </Helmet>
       <Typography variant="h1" align="center">
         {renderHeaderText()}
       </Typography>
