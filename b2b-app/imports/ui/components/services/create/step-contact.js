@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -13,6 +14,7 @@ import {
   ListItemAvatar,
   Switch,
   FormControlLabel,
+  Link,
 } from '@material-ui/core'
 
 import SimpleSchema from 'simpl-schema'
@@ -24,6 +26,9 @@ import { ServiceContext } from './context'
 import SearchBox from '../../commons/search-box'
 import Loading from '../../commons/loading'
 import Avatar from '../../commons/avatar'
+import moment from 'moment'
+import CONSTANTS from '../../../../api/constants'
+import numeral from 'numeral'
 
 const StyledContactStep = styled.div`
   margin: 20px 0;
@@ -58,6 +63,20 @@ const StyledContactStep = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
+  }
+  .history-item {
+    margin-bottom: 10px;
+    .item-date {
+      font-weight: bold;
+    }
+    .item-data {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      .data {
+        margin-right: 10px;
+      }
+    }
   }
 `
 
@@ -281,6 +300,34 @@ function ContactStep() {
     })
   }
 
+  const renderMemberHistory = () => {
+    if (!selectedMember || selectedMember.history?.length < 1) {
+      return null
+    }
+    return selectedMember.history?.map((item) => {
+      return (
+        <div key={item._id} className="history-item">
+          <div className="item-date">
+            <Link component={RouterLink} to={`services/${item._id}`}>
+              {moment(item.createdAt).format('DD MMM YYYY')}
+            </Link>
+          </div>
+          <div className="item-data">
+            <div className="data bike-info">
+              {item.color} {item.make} {item.model},
+            </div>
+            <div className="data cost">
+              Cost: ${numeral(item.totalCost / 100).format('0,0')},
+            </div>
+            <div className="data status">
+              Status: {CONSTANTS.JOB_STATUS_READABLE[item.status]}
+            </div>
+          </div>
+        </div>
+      )
+    })
+  }
+
   const renderSelectedMember = () => {
     return (
       <Paper elevation={3} className="selected-member">
@@ -316,7 +363,7 @@ function ContactStep() {
             </div>
           </AutoForm>
         </div>
-        <div>TODO: render service history here</div>
+        <div className="history-container">{renderMemberHistory()}</div>
       </Paper>
     )
   }

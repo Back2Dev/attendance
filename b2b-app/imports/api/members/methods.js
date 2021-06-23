@@ -5,6 +5,7 @@ import CONSTANTS from '/imports/api/constants'
 import Members, { AddBadgeParamsSchema } from './schema'
 import Events, { MemberItemSchema } from '../events/schema'
 import moment from 'moment'
+import Jobs from '../jobs/schema'
 
 const debug = require('debug')('b2b:members')
 
@@ -39,7 +40,28 @@ Meteor.methods({
     ).fetch()
 
     const membersWithHistory = members.map((item) => {
-      return { ...item, history: [] }
+      // select jobs which are related to this member
+      const prevJobs = Jobs.find(
+        { memberId: item._id },
+        {
+          fields: {
+            make: 1,
+            model: 1,
+            color: 1,
+            bikeType: 1,
+            totalCost: 1,
+            dropoffDate: 1,
+            pickupDate: 1,
+            status: 1,
+            createdAt: 1,
+          },
+          sort: {
+            createdAt: -1,
+          },
+        }
+      ).fetch()
+
+      return { ...item, history: prevJobs }
     })
 
     return { status: 'success', members: membersWithHistory }
