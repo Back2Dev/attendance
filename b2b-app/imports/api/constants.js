@@ -108,7 +108,7 @@ CONSTANTS.JOB_STATUS_MAPPING = {
   new: [{ next: 'in-progress', label: 'Start' }],
   'in-progress': [
     { next: 'quality-check', label: 'Quality Check' },
-    { next: 'cancelled', label: 'Cancell' },
+    { next: 'cancelled', label: 'Cancel' },
   ],
   'quality-check': [
     { next: 'in-progress', label: 'In Progress' },
