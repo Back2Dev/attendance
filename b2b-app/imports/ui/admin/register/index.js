@@ -11,6 +11,8 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Paper from '@material-ui/core/Paper'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles'
 
@@ -66,8 +68,31 @@ export default function Register() {
     <Container className={classes.root}>
       <RegisterProvider>
         <RegisterContext.Consumer>
-          {({ activeStep, steps, handleReset, stepsModel, stepHeadings }) => (
+          {({
+            activeStep,
+            activeModel,
+            models,
+            dispatch,
+            steps,
+            stepHeadings,
+            notification,
+            showMessage,
+          }) => (
             <>
+              <Snackbar
+                open={showMessage}
+                autoHideDuration={6000}
+                onClose={() => dispatch({ type: 'hide_message' })}
+              >
+                <MuiAlert
+                  variant="filled"
+                  elevation={6}
+                  onClose={() => dispatch({ type: 'hide_message' })}
+                  severity={notification.severity}
+                >
+                  {notification.message}
+                </MuiAlert>
+              </Snackbar>
               <Typography variant="h1" align="center" className={classes.h1}>
                 Register a new account
               </Typography>
@@ -79,9 +104,7 @@ export default function Register() {
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
                     {!bp ? (
-                      <StepContent>
-                        {getStepContent(activeStep, stepsModel[steps[activeStep]])}
-                      </StepContent>
+                      <StepContent>{getStepContent(activeStep, activeModel)}</StepContent>
                     ) : (
                       ''
                     )}
@@ -100,20 +123,22 @@ export default function Register() {
                         <CardContent>
                           <pre>
                             {JSON.stringify(
-                              steps.slice(0, -1).reduce(
-                                (formData, key) => ({
-                                  ...formData,
-                                  ...stepsModel[key],
-                                }),
-                                {}
-                              ),
+                              models
+                                .slice(0, -1)
+                                .reduce(
+                                  (payload, model) => ({ ...payload, ...model }),
+                                  {}
+                                ),
                               null,
                               2
                             )}
                           </pre>
                         </CardContent>
                       </Card>
-                      <Button onClick={handleReset} className={classes.button}>
+                      <Button
+                        onClick={() => dispatch({ type: 'reset_steps' })}
+                        className={classes.button}
+                      >
                         Reset
                       </Button>
                     </div>
@@ -127,7 +152,7 @@ export default function Register() {
                       >
                         {stepHeadings[activeStep]}
                       </Typography>
-                      {getStepContent(activeStep, stepsModel[steps[activeStep]])}
+                      {getStepContent(activeStep, activeModel)}
                     </div>
                   )}
                 </Paper>
