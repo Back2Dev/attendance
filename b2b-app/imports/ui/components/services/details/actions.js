@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 
+import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
 
@@ -28,9 +29,18 @@ const StyledJobActions = styled.div`
 function JobActions() {
   const { item, loading, updateJobStatus } = useContext(JobsDetailsContext)
 
+  const { showConfirm } = useConfirm()
+
   const onSetStatus = (status) => {
     console.log('next status', status)
-    updateJobStatus(status)
+    if (['cancelled', 'completed'].includes(status)) {
+      // need to confirm before set the status
+      showConfirm({
+        onConfirm: () => updateJobStatus(status),
+      })
+    } else {
+      updateJobStatus(status)
+    }
   }
 
   const renderStatusActions = () => {
