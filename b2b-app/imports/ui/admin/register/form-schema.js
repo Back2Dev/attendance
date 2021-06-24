@@ -6,6 +6,7 @@ SimpleSchema.setDefaultMessages({
     en: {
       badPin: 'PIN must be 4 digits only',
       pinMismatch: 'PINs do not match',
+      refuseTerms: 'You must accept the terms in order to create a new account',
     },
   },
 })
@@ -171,8 +172,13 @@ const avatarFormSchema = new SimpleSchema({
 const termsFormSchema = new SimpleSchema({
   privacy: {
     type: Boolean,
+    defaultValue: false,
+    custom() {
+      return !this.value && 'refuseTerms'
+    },
     uniforms: {
       label: 'I accept the terms',
+      color: 'primary',
     },
   },
 })

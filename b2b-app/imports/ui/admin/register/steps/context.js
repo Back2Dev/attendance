@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 export const RegisterContext = createContext()
 
-const steps = ['About you', 'Contact', 'Emergency', 'Avatar', 'Create account']
+const steps = ['About you', 'Contact', 'Emergency', 'Avatar', 'Confirm details']
 
 const stepHeadings = [
   'Lets get to know each other',
   'Contact',
   'Who should we contact in an emergency?',
   'Choose an avatar',
-  'Terms & Conditions',
+  'Confirm details',
 ]
 
 const initialState = {
@@ -20,6 +20,7 @@ const initialState = {
   ui: {
     activeStep: 0,
     isFormUpdate: false,
+    isStepEdit: false,
     isSubmitting: false,
     notification: {},
     showMessage: false,
@@ -45,12 +46,12 @@ const reducer = (state, action) => {
     case 'go_last':
       return {
         models: models.map((model, idx) => (idx === activeStep ? action.model : model)),
-        ui: { ...state.ui, isStepUpdate: false, activeStep: steps.length - 1 },
+        ui: { ...state.ui, isStepEdit: false, activeStep: steps.length - 1 },
       }
-    case 'go_update_step':
+    case 'go_edit_step':
       return {
         ...state,
-        ui: { ...state.ui, isStepUpdate: true, activeStep: action.step },
+        ui: { ...state.ui, isStepEdit: true, activeStep: action.step },
       }
     case 'go_submit':
       return {
@@ -104,6 +105,7 @@ export const RegisterProvider = ({ children }) => {
   const isSubmitting = state.ui.isSubmitting
   const notification = state.ui.notification
   const showMessage = state.ui.showMessage
+  const isStepEdit = state.ui.isStepEdit
 
   return (
     <RegisterContext.Provider
@@ -118,6 +120,7 @@ export const RegisterProvider = ({ children }) => {
         isSubmitting,
         notification,
         showMessage,
+        isStepEdit,
       }}
     >
       {children}
