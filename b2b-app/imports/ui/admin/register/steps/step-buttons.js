@@ -38,7 +38,7 @@ const StepButtons = ({ formRef }) => {
   )
   const classes = useStyles(isStepEdit)
   const uniforms = useForm()
-  const onNext = async () => {
+  const onClick = async () => {
     const cleanModel = uniforms.schema.schema.clean(uniforms.model)
     const res = await formRef.current?.validateModel(cleanModel)
     if (!res) {
@@ -78,7 +78,7 @@ const StepButtons = ({ formRef }) => {
     <div className={classes.root}>
       {isStepEdit ? (
         <Button
-          onClick={onNext}
+          onClick={onClick}
           variant="contained"
           color="primary"
           className={classes.lastButton}
@@ -94,7 +94,7 @@ const StepButtons = ({ formRef }) => {
             <Button
               variant="contained"
               color="primary"
-              onClick={onNext}
+              onClick={onClick}
               disabled={isSubmitting}
             >
               {buttonText}
