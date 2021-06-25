@@ -65,6 +65,15 @@ const StepButtons = ({ formRef }) => {
     dispatch({ type: 'go_back', model: uniforms.model })
   }
 
+  let buttonText
+  if (isSubmitting) {
+    buttonText = 'Creating account'
+  } else if (activeStep === steps.length - 1) {
+    buttonText = 'Finish'
+  } else {
+    buttonText = 'Next'
+  }
+
   return (
     <div className={classes.root}>
       {isStepEdit ? (
@@ -88,11 +97,7 @@ const StepButtons = ({ formRef }) => {
               onClick={onNext}
               disabled={isSubmitting}
             >
-              {isSubmitting
-                ? 'Creating account'
-                : activeStep === steps.length - 1
-                ? 'Finish'
-                : 'Next'}
+              {buttonText}
             </Button>
             <Fade
               className={classes.progress}
