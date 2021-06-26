@@ -72,15 +72,20 @@ const aboutFormSchema = new SimpleSchema({
 
 const contactFormSchema = new SimpleSchema({
   name: String,
-  email: String,
+  email: {
+    type: String,
+    regEx: SimpleSchema.RegEx.EmailWithTLD,
+  },
   mobile: {
     type: String,
     label: 'Mobile number',
+    regEx: SimpleSchema.RegEx.Phone,
   },
   phone: {
     type: String,
     optional: true,
     label: 'Phone number',
+    regEx: SimpleSchema.RegEx.Phone,
   },
   pin: {
     type: String,
@@ -133,11 +138,13 @@ const emergencyFormSchema = new SimpleSchema({
   },
   emergencyPhone: {
     type: String,
+    regEx: SimpleSchema.RegEx.Phone,
     label: 'Emergency contact number',
   },
   emergencyEmail: {
     type: String,
     optional: true,
+    regEx: SimpleSchema.RegEx.EmailWithTLD,
     label: 'Emergency contact email',
   },
 })

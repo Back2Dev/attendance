@@ -7,8 +7,6 @@ import StepLabel from '@material-ui/core/StepLabel'
 import Typography from '@material-ui/core/Typography'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles'
 
 import { RegisterProvider, RegisterContext } from './steps/context'
 import StepBody from './step-body'
@@ -19,8 +17,11 @@ const useStyles = makeStyles((theme) => ({
     '& form': {
       maxWidth: 600,
       margin: '0 auto',
-      display: ({ isMobile }) => (isMobile ? 'block' : 'grid'),
+      display: 'block',
       columnGap: theme.spacing(2),
+      [theme.breakpoints.up('md')]: {
+        display: 'grid',
+      },
     },
   },
   h1: {
@@ -30,15 +31,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Register = () => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const classes = useStyles({ isMobile })
+  const classes = useStyles()
 
   return (
     <Container className={classes.root}>
       <RegisterProvider>
         <RegisterContext.Consumer>
-          {({ activeStep, dispatch, steps, notification, showMessage }) => (
+          {({ activeStep, dispatch, steps, notification, showMessage, isMobile }) => (
             <>
               <Snackbar
                 open={showMessage}

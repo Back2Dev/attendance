@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { About, Contact, Emergency, Avatar, Terms } from './steps'
+import ConditionalWrap from './conditional-wrap'
 
 const useStyles = makeStyles((theme) => ({
   stepHeader: {
@@ -18,9 +19,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 const stepComponents = [About, Contact, Emergency, Avatar, Terms]
-
-const ConditionalWrap = ({ condition, wrapTrue, wrapFalse, children }) =>
-  condition ? wrapTrue(children) : wrapFalse(children)
 
 const StepBody = ({ isMobile, ...props }) => {
   const classes = useStyles()
