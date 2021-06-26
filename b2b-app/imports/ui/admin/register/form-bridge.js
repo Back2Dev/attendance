@@ -17,6 +17,12 @@ const aboutFormSchema = new SimpleSchema({
     min: 0,
     optional: true,
     label: 'Number of bikes you own',
+    custom() {
+      if (this.value > 0 && !this.field('primaryBike').value) {
+        this.addValidationErrors([{ name: 'primaryBike', type: 'required' }])
+        return false
+      }
+    },
   },
   primaryBike: {
     type: String,
@@ -30,7 +36,13 @@ const aboutFormSchema = new SimpleSchema({
       'Gents',
       'Fixie/Single Speed',
     ],
-    label: 'Type of bike',
+    label: 'Main bike',
+    custom() {
+      if (this.value && !this.field('bikesHousehold').value) {
+        this.addValidationErrors([{ name: 'bikesHousehold', type: 'required' }])
+        return false
+      }
+    },
   },
   workStatus: {
     type: String,
@@ -183,10 +195,10 @@ const termsFormSchema = new SimpleSchema({
   },
 })
 
-const aboutSchema = new SimpleSchema2Bridge(aboutFormSchema)
-const contactSchema = new SimpleSchema2Bridge(contactFormSchema)
-const emergencySchema = new SimpleSchema2Bridge(emergencyFormSchema)
-const avatarSchema = new SimpleSchema2Bridge(avatarFormSchema)
-const termsSchema = new SimpleSchema2Bridge(termsFormSchema)
+const aboutBridge = new SimpleSchema2Bridge(aboutFormSchema)
+const contactBridge = new SimpleSchema2Bridge(contactFormSchema)
+const emergencyBridge = new SimpleSchema2Bridge(emergencyFormSchema)
+const avatarBridge = new SimpleSchema2Bridge(avatarFormSchema)
+const termsBridge = new SimpleSchema2Bridge(termsFormSchema)
 
-export { aboutSchema, contactSchema, emergencySchema, avatarSchema, termsSchema }
+export { aboutBridge, contactBridge, emergencyBridge, avatarBridge, termsBridge }

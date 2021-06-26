@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 import StepButtons from './step-buttons'
-import { contactSchema } from '../form-schema'
+import { contactBridge } from '../form-bridge'
 
 const useStyles = makeStyles({
   root: {
@@ -25,13 +25,13 @@ const Contact = ({ initialData }) => {
   const formRef = useRef()
   return (
     <AutoForm
-      schema={contactSchema}
+      schema={contactBridge}
       ref={formRef}
       model={initialData}
       placeholder
       className={classes.root}
     >
-      {Object.keys(contactSchema.schema.schema()).map((name, idx) => {
+      {Object.keys(contactBridge.schema.schema()).map((name, idx) => {
         const inputProps = ['pin', 'pinConfirm'].includes(name) ? { maxLength: 4 } : {}
         return (
           <div key={idx} style={{ gridArea: name }}>

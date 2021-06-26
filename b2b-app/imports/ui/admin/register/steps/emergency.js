@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
 import StepButtons from './step-buttons'
-import { emergencySchema } from '../form-schema'
+import { emergencyBridge } from '../form-bridge'
 
 const useStyles = makeStyles({
   root: {
@@ -21,13 +21,13 @@ const Emergency = ({ initialData }) => {
   const formRef = useRef()
   return (
     <AutoForm
-      schema={emergencySchema}
+      schema={emergencyBridge}
       placeholder
       ref={formRef}
       model={initialData}
       className={classes.root}
     >
-      {Object.keys(emergencySchema.schema.schema()).map((name, idx) => (
+      {Object.keys(emergencyBridge.schema.schema()).map((name, idx) => (
         <div key={idx} style={{ gridArea: name }}>
           <AutoField name={name} autoFocus={idx === 0} />
           <ErrorField name={name} />

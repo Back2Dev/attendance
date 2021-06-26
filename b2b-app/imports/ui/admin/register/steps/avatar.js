@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import AvatarField from './avatar-field'
 import StepButtons from './step-buttons'
-import { avatarSchema } from '../form-schema'
+import { avatarBridge } from '../form-bridge'
 
 const useStyles = makeStyles({
   root: {
@@ -21,14 +21,14 @@ const Avatar = ({ initialData }) => {
   const classes = useStyles()
   return (
     <AutoForm
-      schema={avatarSchema}
+      schema={avatarBridge}
       placeholder
       ref={formRef}
       model={initialData}
       className={classes.root}
     >
       <AvatarField
-        images={avatarSchema.schema.get('avatar', 'allowedValues')}
+        images={avatarBridge.schema.get('avatar', 'allowedValues')}
         style={{ gridArea: 'avatar' }}
       />
       <StepButtons formRef={formRef} />

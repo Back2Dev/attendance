@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography'
 
 import StepButtons from './step-buttons'
 import {
-  aboutSchema,
-  contactSchema,
-  emergencySchema,
-  avatarSchema,
-  termsSchema,
-} from '../form-schema'
+  aboutBridge,
+  contactBridge,
+  emergencyBridge,
+  avatarBridge,
+  termsBridge,
+} from '../form-bridge'
 import { RegisterContext } from './context'
 import StepDataList from './step-data-list'
 
@@ -30,15 +30,17 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
 }))
-const schemas = [aboutSchema, contactSchema, emergencySchema, avatarSchema]
+const schemas = [aboutBridge, contactBridge, emergencyBridge, avatarBridge].map(
+  (bridge) => bridge.schema
+)
 
 const Terms = ({ initialData }) => {
   const formRef = useRef()
   const classes = useStyles()
   const { models, steps, dispatch } = useContext(RegisterContext)
   const stepDataModels = schemas.map((schema, stepNum) =>
-    Object.keys(schema.schema.schema()).reduce((model, field) => {
-      const label = schemas[stepNum].schema.label(field)
+    Object.keys(schema.schema()).reduce((model, field) => {
+      const label = schemas[stepNum].label(field)
       if (['pin', 'pinConfirm'].includes(field)) {
         model[label] = 'MASKED'
       } else {
@@ -51,7 +53,7 @@ const Terms = ({ initialData }) => {
 
   return (
     <AutoForm
-      schema={termsSchema}
+      schema={termsBridge}
       placeholder
       ref={formRef}
       model={initialData}
@@ -73,7 +75,7 @@ const Terms = ({ initialData }) => {
         understand that Back2bikes will not disclose the above information without my
         express consent other than for reasons related to my engagement as a volunteer.
       </Typography>
-      {Object.keys(termsSchema.schema.schema()).map((name, idx) => (
+      {Object.keys(termsBridge.schema.schema()).map((name, idx) => (
         <div key={idx} style={{ gridArea: name }}>
           <AutoField name={name} />
           <ErrorField name={name} />

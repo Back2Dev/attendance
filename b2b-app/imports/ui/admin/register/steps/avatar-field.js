@@ -28,32 +28,29 @@ const useStyles = makeStyles((theme) => ({
 
 const AvatarField = (rawProps) => {
   const classes = useStyles()
-  const [{ name, value, images, onChange }] = useField('avatar', rawProps)
+  const [{ value, images, onChange }] = useField('avatar', rawProps)
 
   return (
-    <>
-      <Card className={classes.root}>
-        <CardMedia
-          image={`/images/avatars/${value}`}
-          title={value}
-          className={classes.selectedAvatar}
-        />
-        <CardContent>
-          <GridList cols={6} cellHeight="auto">
-            {images.map((img, idx) => (
-              <GridListTile key={idx} onClick={() => onChange(img)}>
-                <Avatar
-                  src={`/images/avatars/${img}`}
-                  alt={img}
-                  className={img === value ? classes.selectedThumb : ''}
-                />
-              </GridListTile>
-            ))}
-          </GridList>
-        </CardContent>
-      </Card>
-      <input type="hidden" name={name} value={value} />
-    </>
+    <Card className={classes.root}>
+      <CardMedia
+        image={`/images/avatars/${value}`}
+        title={value}
+        className={classes.selectedAvatar}
+      />
+      <CardContent>
+        <GridList cols={6} cellHeight="auto">
+          {images.map((img, idx) => (
+            <GridListTile key={idx} onClick={() => onChange(img)}>
+              <Avatar
+                src={`/images/avatars/${img}`}
+                alt={img}
+                className={img === value ? classes.selectedThumb : ''}
+              />
+            </GridListTile>
+          ))}
+        </GridList>
+      </CardContent>
+    </Card>
   )
 }
 
