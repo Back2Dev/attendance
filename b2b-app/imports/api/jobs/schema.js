@@ -163,11 +163,15 @@ export const JobsSchema = new SimpleSchema({
     userId: OptionalRegExId,
     memberId: OptionalRegExId,
     description: String,
-    jobStatus: {
+    statusBefore: {
       type: String,
       allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
     },
-    createdAt,
+    statusAfter: {
+      type: String,
+      allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+    },
+    createdAt: Date,
   }),
   createdAt,
   updatedAt,

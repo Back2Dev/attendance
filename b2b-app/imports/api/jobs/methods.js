@@ -36,6 +36,9 @@ Meteor.methods({
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
+    // get current user profile
+    const myMember = Members.findOne({ userId: me._id })
+
     // find the job
     const job = Jobs.findOne({ _id: id })
     if (!job) {
@@ -47,19 +50,27 @@ Meteor.methods({
       debug('availableNextStatus', availableNextStatus)
       return { status: 'failed', message: `Job status was invalid: ${status}` }
     }
-    // update the status
+    // update the status and the history
     try {
       Jobs.update(
         { _id: id },
         {
           $set: { status },
+          $push: {
+            history: {
+              userId: me._id,
+              memberId: myMember._id,
+              description: `${myMember.name} update job status, new status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
+              statusBefore: job.status,
+              statusAfter: status,
+              createdAt: new Date(),
+            },
+          },
         }
       )
     } catch (e) {
       return { status: 'failed', message: e.message }
     }
-
-    // TODO: push to the history
 
     return {
       status: 'success',
