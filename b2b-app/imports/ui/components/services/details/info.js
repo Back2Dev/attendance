@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet'
 import { Skeleton } from '@material-ui/lab'
 import { Grid } from '@material-ui/core'
 
+import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
 
@@ -16,7 +17,7 @@ const StyledJobInfo = styled.div`
 `
 
 function JobInfo() {
-  const { item, loading } = useContext(JobsDetailsContext)
+  const { item, loading, updateJobMechanic } = useContext(JobsDetailsContext)
 
   const renderData = (data) => {
     if (loading || !item) {
@@ -108,7 +109,12 @@ function JobInfo() {
               Mechanic
             </Grid>
             <Grid item xs={7} md={12} className="data">
-              {renderData(item?.machanic || 'Inline edit name')}
+              <InlineEdit
+                text={item?.mechanic || 'Enter mechanic name'}
+                onSetText={(value) => {
+                  updateJobMechanic(value)
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>
