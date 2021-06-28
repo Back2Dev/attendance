@@ -75,6 +75,23 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
+  const markAsPaid = () => {
+    dispatch({ type: 'setLoading', loading: true })
+    Meteor.call('jobs.markAsPaid', { id: item._id }, (error, result) => {
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'failed') {
+          showError(result.message)
+        }
+      }
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    })
+  }
+
   return (
     <JobsDetailsContext.Provider
       value={{
@@ -83,6 +100,7 @@ export const JobsDetailsProvider = ({ children }) => {
         item,
         updateJobStatus,
         updateJobMechanic,
+        markAsPaid,
       }}
     >
       {children}

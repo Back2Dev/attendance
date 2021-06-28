@@ -27,7 +27,7 @@ const StyledJobActions = styled.div`
 `
 
 function JobActions() {
-  const { item, loading, updateJobStatus } = useContext(JobsDetailsContext)
+  const { item, loading, updateJobStatus, markAsPaid } = useContext(JobsDetailsContext)
 
   const { showConfirm } = useConfirm()
 
@@ -41,6 +41,13 @@ function JobActions() {
     } else {
       updateJobStatus(status)
     }
+  }
+
+  const onMarkAsPaid = () => {
+    // need to confirm before update the job
+    showConfirm({
+      onConfirm: () => markAsPaid(status),
+    })
   }
 
   const renderStatusActions = () => {
@@ -65,11 +72,22 @@ function JobActions() {
     })
   }
 
+  const renderMarkAsPaidBtn = () => {
+    if (item?.paid) {
+      return null
+    }
+    return (
+      <Button variant="contained" onClick={() => onMarkAsPaid()} disabled={loading}>
+        Mark as paid
+      </Button>
+    )
+  }
+
   return (
     <StyledJobActions>
       <div className="left">{renderStatusActions()}</div>
       <div className="right">
-        <Button variant="contained">Mark as paid</Button>
+        {renderMarkAsPaidBtn()}
         <Button variant="contained">Call</Button>
         <Button variant="contained">SMS</Button>
       </div>
