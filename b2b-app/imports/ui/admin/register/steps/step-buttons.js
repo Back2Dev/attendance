@@ -10,9 +10,9 @@ import { RegisterContext } from './context'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: ({ isStepEdit }) => (isStepEdit ? 'block' : 'flex'),
+    display: 'flex',
     position: 'relative',
-    justifyContent: 'space-between',
+    justifyContent: ({ isStepEdit }) => (isStepEdit ? 'flex-end' : 'space-between'),
     marginTop: theme.spacing(4),
     gridArea: 'stepButtons',
   },
@@ -26,17 +26,13 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -12,
     marginTop: -12,
   },
-  lastButton: {
-    position: 'absolute',
-    right: 0,
-  },
 }))
 
 const StepButtons = ({ formRef }) => {
   const { activeStep, steps, dispatch, isSubmitting, isStepEdit } = useContext(
     RegisterContext
   )
-  const classes = useStyles(isStepEdit)
+  const classes = useStyles({ isStepEdit })
   const uniforms = useForm()
   const onClick = async () => {
     const cleanModel = uniforms.schema.schema.clean(uniforms.model)
@@ -77,12 +73,7 @@ const StepButtons = ({ formRef }) => {
   return (
     <div className={classes.root}>
       {isStepEdit ? (
-        <Button
-          onClick={onClick}
-          variant="contained"
-          color="primary"
-          className={classes.lastButton}
-        >
+        <Button onClick={onClick} variant="contained" color="primary">
           Last
         </Button>
       ) : (

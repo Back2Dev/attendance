@@ -44,8 +44,7 @@ const Terms = ({ initialData }) => {
       if (['pin', 'pinConfirm'].includes(field)) {
         model[label] = 'MASKED'
       } else {
-        model[label] =
-          models[stepNum][field] !== undefined ? models[stepNum][field] : null
+        model[label] = models[stepNum][field] ??= null
       }
       return model
     }, {})

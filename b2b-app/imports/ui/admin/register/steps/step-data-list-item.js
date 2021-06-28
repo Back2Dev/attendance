@@ -28,7 +28,7 @@ const StepDataListItem = ({ label, value, isAvatar }) => {
             />
           </ListItemAvatar>
         ) : (
-          <ListItemText primary={value !== null ? value : 'BLANK'} secondary={label} />
+          <ListItemText primary={value ?? 'BLANK'} secondary={label} />
         )}
       </ListItem>
     </div>
