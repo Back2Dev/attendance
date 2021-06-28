@@ -18,8 +18,9 @@ const debug = require('debug')('b2b:jobs')
 Meteor.methods({
   /**
    * update job mechanic
-   * @param {string} id
-   * @param {string} mechanic name
+   * @param {Object} params
+   * @param {string} params.id
+   * @param {string} params.mechanic name
    */
   'jobs.updateMechanic'({ id, mechanic }) {
     try {
@@ -76,8 +77,9 @@ Meteor.methods({
 
   /**
    * update job status
-   * @param {string} id
-   * @param {string} status
+   * @param {Object} params
+   * @param {string} params.id
+   * @param {string} params.status
    */
   'jobs.updateStatus'({ id, status }) {
     try {
@@ -135,6 +137,11 @@ Meteor.methods({
       status: 'success',
     }
   },
+
+  /**
+   * update job
+   * @param {Object} data
+   */
   'jobs.update'(data) {
     const cleanData = JobUpdateParamsSchema.clean(data)
     debug('clean data', cleanData.serviceItems, cleanData)
@@ -251,6 +258,11 @@ Meteor.methods({
 
     return { status: 'success' }
   },
+
+  /**
+   * create job
+   * @param {Object} data
+   */
   'jobs.create'(data) {
     const cleanData = JobCreateParamsSchema.clean(data)
     debug('clean data', cleanData.serviceItems, cleanData)
