@@ -9,6 +9,7 @@ import { Grid } from '@material-ui/core'
 import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
+import { Link } from '@material-ui/core'
 
 const StyledJobInfo = styled.div`
   .label {
@@ -78,7 +79,9 @@ function JobInfo() {
               Phone
             </Grid>
             <Grid item xs={7} md={12} className="data">
-              {renderData(`${item?.phone || 'N/A'}`)}
+              {item?.phone
+                ? renderData(<Link href={`tel:${item.phone}`}>{item.phone}</Link>)
+                : renderData('N/A')}
             </Grid>
           </Grid>
         </Grid>
