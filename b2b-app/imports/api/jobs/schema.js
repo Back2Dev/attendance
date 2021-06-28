@@ -12,6 +12,10 @@ import { ServiceItemsSchema } from '../service-items/schema'
 
 const Jobs = new Mongo.Collection('jobs')
 
+export const JobMarkAsPaidParamsSchema = new SimpleSchema({
+  id: String,
+})
+
 export const JobUpdateMechanicParamsSchema = new SimpleSchema({
   id: String,
   mechanic: String,
@@ -155,7 +159,6 @@ export const JobsSchema = new SimpleSchema({
     defaultValue: 'new',
     label: 'Status of job',
   },
-  mechanic: { type: String, optional: true },
   paid: { type: Boolean, defaultValue: false },
   paidAt: { type: Date, optional: true },
   charge_token: { type: String, optional: true },
