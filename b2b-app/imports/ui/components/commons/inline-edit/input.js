@@ -31,7 +31,7 @@ const StyledInlineEdit = styled.span`
   }
 `
 
-function InlineEdit({ text = '', onSetText, placeholder = '' }) {
+function InlineEdit({ text = '', onSetText, placeholder = '', inputType = 'text' }) {
   const [isInputActive, setIsInputActive] = useState(false)
   const [inputValue, setInputValue] = useState(text)
 
@@ -117,20 +117,24 @@ function InlineEdit({ text = '', onSetText, placeholder = '' }) {
     if (!isInputActive) {
       return null
     }
-    return (
-      <textarea
-        ref={inputRef}
-        // set the width to the input length multiplied by the x height
-        // it's not quite right but gets it close
-        style={{
-          width: `${textWidth.current}px`,
-          height: `${textHeight.current}px`,
-        }}
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-        className="inline-text_input"
-      />
-    )
+
+    const props = {
+      ref: inputRef,
+      // set the width to the input length multiplied by the x height
+      // it's not quite right but gets it close
+      style: {
+        width: `${textWidth.current}px`,
+        height: `${textHeight.current}px`,
+      },
+      value: inputValue,
+      onChange: (event) => setInputValue(event.target.value),
+      className: 'inline-text_input',
+    }
+
+    if (inputType === 'textarea') {
+      return <textarea {...props} />
+    }
+    return <input {...props} />
   }
 
   return (
@@ -145,6 +149,7 @@ InlineEdit.propTypes = {
   text: PropTypes.string,
   onSetText: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
+  inputType: PropTypes.string,
 }
 
 export default InlineEdit
