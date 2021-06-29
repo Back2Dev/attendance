@@ -1,25 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { makeStyles, withStyles } from '@material-ui/core/styles'
+import {
+  Button,
+  Paper,
+  Card,
+  CardHeader,
+  CardContent,
+  IconButton,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell as MuiTableCell,
+} from '@material-ui/core'
+import EditIcon from '@material-ui/icons/Edit'
+import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+
 import {
   termsFormBridge,
   contactFormBridge,
   emergencyFormBridge,
   aboutFormBridge,
-} from './formSchemas'
-
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-import EditIcon from '@material-ui/icons/Edit'
-
-import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
-import { IconButton } from '@material-ui/core'
-import { Table, TableBody, TableRow } from '@material-ui/core'
-import MuiTableCell from '@material-ui/core/TableCell'
+} from './form-schemas'
 
 const useStyles = makeStyles((theme) => ({
   formButtons: {
@@ -53,7 +56,7 @@ const TableCell = withStyles({
 const schemas = [contactFormBridge, aboutFormBridge, emergencyFormBridge]
 const stepLabels = ['Contact details', 'About you', 'Emergency contact']
 
-const Confirm = ({ onSubmit, model, onBack, models, onStepChange }) => {
+const ConfirmForm = ({ onSubmit, model, onBack, models, onStepChange }) => {
   const classes = useStyles()
 
   const getFormValue = (modelIndex, fieldName) => {
@@ -127,7 +130,7 @@ const Confirm = ({ onSubmit, model, onBack, models, onStepChange }) => {
   )
 }
 
-Confirm.propTypes = {
+ConfirmForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
@@ -135,4 +138,4 @@ Confirm.propTypes = {
   onStepChange: PropTypes.func.isRequired,
 }
 
-export { Confirm }
+export { ConfirmForm }

@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { aboutFormBridge } from './formSchemas'
-
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-
+import { Button, Paper } from '@material-ui/core'
 import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+
+import { contactFormBridge } from './form-schemas'
 
 const useStyles = makeStyles((theme) => ({
   formButtons: {
@@ -19,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const AboutForm = ({ onSubmit, model, onBack }) => {
+const ContactForm = ({ onSubmit, model }) => {
   const classes = useStyles()
 
   return (
     <Paper style={{ padding: '2rem', paddingBottom: '0', marginBottom: '1rem' }}>
-      <AutoForm schema={aboutFormBridge} onSubmit={onSubmit} model={model}>
+      <AutoForm schema={contactFormBridge} onSubmit={onSubmit} model={model}>
         <AutoFields />
         <ErrorsField />
         <div className={classes.buttonGroup}>
@@ -37,12 +35,6 @@ const AboutForm = ({ onSubmit, model, onBack }) => {
             >
               Submit
             </Button>
-            <Button
-              onClick={onBack}
-              className={(classes.formButtons, classes.backButton)}
-            >
-              Back
-            </Button>
           </div>
         </div>
       </AutoForm>
@@ -50,10 +42,9 @@ const AboutForm = ({ onSubmit, model, onBack }) => {
   )
 }
 
-AboutForm.propTypes = {
+ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
-  onBack: PropTypes.func.isRequired,
 }
 
-export { AboutForm }
+export { ContactForm }

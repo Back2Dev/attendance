@@ -1,19 +1,17 @@
+import { meteorCall } from '/imports/ui/utils/meteor'
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import StepLabel from '@material-ui/core/StepLabel'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Typography,
+  CircularProgress,
+} from '@material-ui/core'
 
-import { ContactForm } from './ContactForm'
-import { AboutForm } from './AboutForm'
-import { EmergencyForm } from './EmergencyForm'
-import { Confirm } from './Confirm'
-
-import { meteorCall } from '/imports/ui/utils/meteor'
+import { ContactForm, AboutForm, EmergencyForm, ConfirmForm } from './forms'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,22 +57,19 @@ function getStepLabels() {
 function getStepHeading(stepIndex) {
   switch (stepIndex) {
     case 0:
-      // eslint-disable-next-line quotes
       return "Let's start with some basic contact details"
     case 1:
-      // eslint-disable-next-line quotes
       return "Let's learn a bit about you"
     case 2:
       return 'Who should we contact in an emergency?'
     case 3:
-      // eslint-disable-next-line quotes
       return "Just making sure everything's correct"
     default:
       return 'Unknown stepIndex'
   }
 }
 
-export default function Register() {
+const Register = () => {
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(0)
   const steps = getStepLabels()
@@ -91,7 +86,7 @@ export default function Register() {
     setEmergencyFormModel,
     setTermsFormModel,
   ]
-  const formComponents = [ContactForm, AboutForm, EmergencyForm, Confirm]
+  const formComponents = [ContactForm, AboutForm, EmergencyForm, ConfirmForm]
 
   const [submitLoading, setSubmitLoading] = React.useState(true)
 
@@ -207,3 +202,5 @@ export default function Register() {
     </div>
   )
 }
+
+export default Register
