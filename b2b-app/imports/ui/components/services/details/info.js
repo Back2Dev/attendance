@@ -113,10 +113,11 @@ function JobInfo() {
             </Grid>
             <Grid item xs={7} md={12} className="data">
               <InlineEdit
-                text={item?.mechanic || 'Enter mechanic name'}
+                text={item?.mechanic}
                 onSetText={(value) => {
                   updateJobMechanic(value)
                 }}
+                placeholder="Enter mechanic name"
               />
             </Grid>
           </Grid>

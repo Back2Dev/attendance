@@ -6,6 +6,7 @@ import {
   OptionalRegExId,
   createdAt,
   updatedAt,
+  OptionalString,
 } from '/imports/api/utils/schema-util.js'
 import CONSTANTS from '/imports/api/constants'
 import { ServiceItemsSchema } from '../service-items/schema'
@@ -18,7 +19,7 @@ export const JobMarkAsPaidParamsSchema = new SimpleSchema({
 
 export const JobUpdateMechanicParamsSchema = new SimpleSchema({
   id: String,
-  mechanic: String,
+  mechanic: OptionalString,
 })
 
 export const JobUpdateStatusParamsSchema = new SimpleSchema({

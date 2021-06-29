@@ -85,7 +85,7 @@ Meteor.methods({
    * @param {string} params.id
    * @param {string} params.mechanic name
    */
-  'jobs.updateMechanic'({ id, mechanic }) {
+  'jobs.updateMechanic'({ id, mechanic = '' }) {
     try {
       JobUpdateMechanicParamsSchema.validate({ id, mechanic })
     } catch (e) {
