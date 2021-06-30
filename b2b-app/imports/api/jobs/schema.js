@@ -17,6 +17,11 @@ export const JobMarkAsPaidParamsSchema = new SimpleSchema({
   id: String,
 })
 
+export const JobAddHistoryParamsSchema = new SimpleSchema({
+  id: String,
+  description: String,
+})
+
 export const JobUpdateMechanicParamsSchema = new SimpleSchema({
   id: String,
   mechanic: OptionalRegExId,

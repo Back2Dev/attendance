@@ -112,6 +112,23 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
+  const addHistory = (description) => {
+    dispatch({ type: 'setLoading', loading: true })
+    Meteor.call('jobs.addHistory', { id: item._id, description }, (error, result) => {
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'failed') {
+          showError(result.message)
+        }
+      }
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    })
+  }
+
   return (
     <JobsDetailsContext.Provider
       value={{
@@ -121,6 +138,7 @@ export const JobsDetailsProvider = ({ children }) => {
         updateJobStatus,
         updateJobMechanic,
         markAsPaid,
+        addHistory,
       }}
     >
       {children}

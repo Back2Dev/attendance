@@ -7,6 +7,7 @@ import { Skeleton } from '@material-ui/lab'
 import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
+import CallLog from './actions-call'
 
 const StyledJobActions = styled.div`
   margin: 20px 0;
@@ -19,6 +20,9 @@ const StyledJobActions = styled.div`
     }
   }
   .right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     button {
       margin-left: 10px;
       margin-bottom: 5px;
@@ -88,7 +92,7 @@ function JobActions() {
       <div className="left">{renderStatusActions()}</div>
       <div className="right">
         {renderMarkAsPaidBtn()}
-        <Button variant="contained">Call</Button>
+        <CallLog />
         <Button variant="contained">SMS</Button>
       </div>
     </StyledJobActions>

@@ -10,6 +10,7 @@ import Jobs, {
   JobUpdateStatusParamsSchema,
   JobUpdateMechanicParamsSchema,
   JobMarkAsPaidParamsSchema,
+  JobAddHistoryParamsSchema,
 } from './schema'
 import Members from '/imports/api/members/schema.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
@@ -63,6 +64,64 @@ Meteor.methods({
               userId: me._id,
               memberId: myMember._id,
               description: `${myMember.name} mark the Job as paid`,
+              statusBefore: job.status,
+              statusAfter: job.status,
+              createdAt: new Date(),
+            },
+          },
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+
+    return {
+      status: 'success',
+    }
+  },
+
+  /**
+   * update job mechanic
+   * @param {Object} params
+   * @param {string} params.id
+   * @param {string} params.description
+   */
+  'jobs.addHistory'({ id, description }) {
+    try {
+      JobAddHistoryParamsSchema.validate({ id, description })
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+    // get current user profile
+    const myMember = Members.findOne({ userId: me._id })
+
+    // find the job
+    const job = Jobs.findOne({ _id: id })
+    if (!job) {
+      return { status: 'failed', message: `Job was not found with id: ${id}` }
+    }
+
+    // update the status and the history
+    try {
+      Jobs.update(
+        { _id: id },
+        {
+          $push: {
+            history: {
+              userId: me._id,
+              memberId: myMember._id,
+              description,
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
