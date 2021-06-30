@@ -10,6 +10,7 @@ CONSTANTS.ROLES = {
   MEM: 'Member',
   COA: 'Coach',
   GRE: 'Greeter',
+  MEC: 'Mechanic',
 }
 
 // Notificaton roles adds a 'USR' role, for the current user
