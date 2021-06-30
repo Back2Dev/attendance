@@ -1,48 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { makeStyles } from '@material-ui/core/styles'
-import { Button, Paper } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
 import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
 
 import { emergencyFormBridge } from './form-schemas'
+import FormNav from './form-nav'
 
-const useStyles = makeStyles((theme) => ({
-  formButtons: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  backButton: {
-    marginRight: theme.spacing(2),
-  },
-}))
-
-const EmergencyForm = ({ onSubmit, model, onBack }) => {
-  const classes = useStyles()
-
+const EmergencyForm = ({ onSubmit, model, onBack, isEditingStep }) => {
   return (
     <Paper style={{ padding: '2rem', paddingBottom: '0', marginBottom: '1rem' }}>
       <AutoForm schema={emergencyFormBridge} onSubmit={onSubmit} model={model}>
         <AutoFields />
         <ErrorsField />
-        <div className={classes.buttonGroup}>
-          <div style={{ direction: 'rtl' }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.formButtons}
-            >
-              Submit
-            </Button>
-            <Button
-              onClick={onBack}
-              className={(classes.formButtons, classes.backButton)}
-            >
-              Back
-            </Button>
-          </div>
-        </div>
+        <FormNav onBack={onBack} isEditingStep={isEditingStep} />
       </AutoForm>
     </Paper>
   )
@@ -52,6 +23,7 @@ EmergencyForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
+  isEditingStep: PropTypes.bool.isRequired,
 }
 
 export { EmergencyForm }

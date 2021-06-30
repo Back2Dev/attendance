@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import {
-  Button,
   Paper,
   Card,
   CardHeader,
@@ -23,18 +22,9 @@ import {
   emergencyFormBridge,
   aboutFormBridge,
 } from './form-schemas'
+import FormNav from './form-nav'
 
-const useStyles = makeStyles((theme) => ({
-  formButtons: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  backButton: {
-    marginRight: theme.spacing(2),
-  },
-  buttonGroup: {
-    width: '100%',
-  },
+const useStyles = makeStyles({
   confirmContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -45,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   fieldLabel: {
     fontWeight: 'bold',
   },
-}))
+})
 
 const TableCell = withStyles({
   root: {
@@ -56,7 +46,15 @@ const TableCell = withStyles({
 const schemas = [contactFormBridge, aboutFormBridge, emergencyFormBridge]
 const stepLabels = ['Contact details', 'About you', 'Emergency contact']
 
-const ConfirmForm = ({ onSubmit, model, onBack, models, onStepChange }) => {
+const ConfirmForm = ({
+  onSubmit,
+  model,
+  onBack,
+  models,
+  onStepEdit,
+  isEditingStep,
+  isSubmitting,
+}) => {
   const classes = useStyles()
 
   const getFormValue = (modelIndex, fieldName) => {
@@ -80,7 +78,7 @@ const ConfirmForm = ({ onSubmit, model, onBack, models, onStepChange }) => {
           <CardHeader
             title={title}
             action={
-              <IconButton aria-label={'edit ' + title} onClick={() => onStepChange(i)}>
+              <IconButton aria-label={'edit ' + title} onClick={() => onStepEdit(i)}>
                 <EditIcon />
               </IconButton>
             }
@@ -105,24 +103,11 @@ const ConfirmForm = ({ onSubmit, model, onBack, models, onStepChange }) => {
           <AutoForm schema={termsFormBridge} onSubmit={onSubmit} model={model}>
             <AutoFields />
             <ErrorsField />
-            <div className={classes.buttonGroup}>
-              <div style={{ direction: 'rtl' }}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.formButtons}
-                >
-                  Submit
-                </Button>
-                <Button
-                  onClick={onBack}
-                  className={(classes.formButtons, classes.backButton)}
-                >
-                  Back
-                </Button>
-              </div>
-            </div>
+            <FormNav
+              onBack={onBack}
+              isEditingStep={isEditingStep}
+              isSubmitting={isSubmitting}
+            />
           </AutoForm>
         </div>
       </Paper>
@@ -135,7 +120,9 @@ ConfirmForm.propTypes = {
   model: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
   models: PropTypes.array.isRequired,
-  onStepChange: PropTypes.func.isRequired,
+  onStepEdit: PropTypes.func.isRequired,
+  isEditingStep: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 }
 
 export { ConfirmForm }

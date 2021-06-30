@@ -1,42 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { makeStyles } from '@material-ui/core/styles'
-import { Button, Paper } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
 import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
 
 import { contactFormBridge } from './form-schemas'
+import FormNav from './form-nav'
 
-const useStyles = makeStyles((theme) => ({
-  formButtons: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  backButton: {
-    marginRight: theme.spacing(2),
-  },
-}))
-
-const ContactForm = ({ onSubmit, model }) => {
-  const classes = useStyles()
-
+const ContactForm = ({ onSubmit, model, isEditingStep }) => {
   return (
     <Paper style={{ padding: '2rem', paddingBottom: '0', marginBottom: '1rem' }}>
       <AutoForm schema={contactFormBridge} onSubmit={onSubmit} model={model}>
         <AutoFields />
         <ErrorsField />
-        <div className={classes.buttonGroup}>
-          <div style={{ direction: 'rtl' }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.formButtons}
-            >
-              Submit
-            </Button>
-          </div>
-        </div>
+        <FormNav isEditingStep={isEditingStep} />
       </AutoForm>
     </Paper>
   )
@@ -45,6 +22,7 @@ const ContactForm = ({ onSubmit, model }) => {
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
+  isEditingStep: PropTypes.bool.isRequired,
 }
 
 export { ContactForm }

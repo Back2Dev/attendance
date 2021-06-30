@@ -1,17 +1,11 @@
 import { meteorCall } from '/imports/ui/utils/meteor'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core'
+import { Stepper, Step, StepLabel, Button, Typography } from '@material-ui/core'
 
 import { ContactForm, AboutForm, EmergencyForm, ConfirmForm } from './forms'
+import useRegisterReducer from './useRegisterReducer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,80 +63,66 @@ function getStepHeading(stepIndex) {
   }
 }
 
+const formComponents = [ContactForm, AboutForm, EmergencyForm, ConfirmForm]
+
 const Register = () => {
   const classes = useStyles()
-  const [activeStep, setActiveStep] = React.useState(0)
   const steps = getStepLabels()
+  const [
+    { activeStep, models, isEditingStep, isSubmitting },
+    dispatch,
+  ] = useRegisterReducer(steps.length)
 
-  const [contactFormModel, setContactFormModel] = React.useState({})
-  const [aboutFormModel, setAboutFormModel] = React.useState({})
-  const [emergencyFormModel, setEmergencyFormModel] = React.useState({})
-  const [termsFormModel, setTermsFormModel] = React.useState({})
+  useEffect(() => {
+    const submitData = async () => {
+      console.log('sending to server')
+      if (!isSubmitting) return
 
-  const models = [contactFormModel, aboutFormModel, emergencyFormModel, termsFormModel]
-  const setters = [
-    setContactFormModel,
-    setAboutFormModel,
-    setEmergencyFormModel,
-    setTermsFormModel,
-  ]
-  const formComponents = [ContactForm, AboutForm, EmergencyForm, ConfirmForm]
+      const s = await meteorCall(
+        'insert.registrations',
+        'saving',
+        Object.assign({}, ...models)
+      )
 
-  const [submitLoading, setSubmitLoading] = React.useState(true)
+      if (s?.status === 'success') {
+        dispatch({ type: 'submit_success' })
+      } else if (s?.status === 'failure') {
+        dispatch({ type: 'submit_fail' })
+      }
+    }
+    submitData()
+  }, [isSubmitting])
 
   const getForm = (index) => {
     let Form = formComponents[index]
+    const handleSubmit = (model) => {
+      if (isEditingStep) {
+        dispatch({ type: 'go_last', model })
+      } else if (activeStep === steps.length - 1) {
+        dispatch({ type: 'go_submit', model })
+      } else if (activeStep in steps) {
+        dispatch({ type: 'go_next', model })
+      }
+    }
+    const handleBack = (model) => {
+      dispatch({ type: 'go_back', model })
+    }
+    const handleStepEdit = (step) => {
+      dispatch({ type: 'go_edit_step', step })
+    }
 
     return (
       <Form
-        onSubmit={getSubmitHandler(index)}
+        onSubmit={handleSubmit}
         model={models[index]}
         onBack={handleBack}
         // TODO: This seems like a bad idea
         models={models}
-        onStepChange={changeStep}
+        onStepEdit={handleStepEdit}
+        isEditingStep={isEditingStep}
+        isSubmitting={isSubmitting}
       />
     )
-  }
-
-  const getSubmitHandler = (index) => {
-    const handler = (model) => {
-      setters[index](model)
-      handleNext()
-    }
-
-    return handler
-  }
-
-  const changeStep = (index) => {
-    setActiveStep(index)
-  }
-
-  const handleNext = async () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-
-    if (activeStep >= steps.length - 1) {
-      console.log('sending to server')
-      const s = await meteorCall('insert.registrations', 'saving', {
-        ...contactFormModel,
-        ...aboutFormModel,
-        ...emergencyFormModel,
-      })
-
-      if (s) {
-        if (s.status === 'success') {
-          setSubmitLoading(false)
-        }
-      }
-    }
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
-  }
-
-  const handleReset = () => {
-    setActiveStep(0)
   }
 
   return (
@@ -163,16 +143,10 @@ const Register = () => {
         {activeStep === steps.length ? (
           // What to display when completed all form steps
           <div>
-            <div className={classes.progressContainer}>
-              {submitLoading ? (
-                <CircularProgress className={classes.progress} />
-              ) : (
-                <h1>Registration Complete</h1>
-              )}
-            </div>
+            <h1>Registration Complete</h1>
 
             <br />
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={() => dispatch({ type: 'go_reset' })}>Reset</Button>
           </div>
         ) : (
           // Display the appropriate form page
