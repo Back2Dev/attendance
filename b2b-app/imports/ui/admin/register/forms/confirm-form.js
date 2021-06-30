@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import { makeStyles, withStyles } from '@material-ui/core/styles'
@@ -23,6 +23,7 @@ import {
   aboutFormBridge,
 } from './form-schemas'
 import FormNav from './form-nav'
+import { RegisterContext } from '../context'
 
 const useStyles = makeStyles({
   confirmContainer: {
@@ -46,17 +47,9 @@ const TableCell = withStyles({
 const schemas = [contactFormBridge, aboutFormBridge, emergencyFormBridge]
 const stepLabels = ['Contact details', 'About you', 'Emergency contact']
 
-const ConfirmForm = ({
-  onSubmit,
-  model,
-  onBack,
-  models,
-  onStepEdit,
-  isEditingStep,
-  isSubmitting,
-}) => {
+const ConfirmForm = ({ onSubmit, model }) => {
   const classes = useStyles()
-
+  const { dispatch, models } = useContext(RegisterContext)
   const getFormValue = (modelIndex, fieldName) => {
     const value = models[modelIndex][fieldName]
     if (typeof value === 'undefined') {
@@ -78,7 +71,10 @@ const ConfirmForm = ({
           <CardHeader
             title={title}
             action={
-              <IconButton aria-label={'edit ' + title} onClick={() => onStepEdit(i)}>
+              <IconButton
+                aria-label={'edit ' + title}
+                onClick={() => dispatch({ type: 'go_edit_step', step: i })}
+              >
                 <EditIcon />
               </IconButton>
             }
@@ -103,11 +99,7 @@ const ConfirmForm = ({
           <AutoForm schema={termsFormBridge} onSubmit={onSubmit} model={model}>
             <AutoFields />
             <ErrorsField />
-            <FormNav
-              onBack={onBack}
-              isEditingStep={isEditingStep}
-              isSubmitting={isSubmitting}
-            />
+            <FormNav />
           </AutoForm>
         </div>
       </Paper>
@@ -118,11 +110,6 @@ const ConfirmForm = ({
 ConfirmForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
-  onBack: PropTypes.func.isRequired,
-  models: PropTypes.array.isRequired,
-  onStepEdit: PropTypes.func.isRequired,
-  isEditingStep: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
 }
 
 export { ConfirmForm }

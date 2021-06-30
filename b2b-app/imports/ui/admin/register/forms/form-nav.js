@@ -1,8 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Fade, CircularProgress } from '@material-ui/core'
 import { useForm } from 'uniforms'
+
+import { RegisterContext } from '../context'
 
 const useStyles = makeStyles((theme) => ({
   buttonGroup: {
@@ -28,9 +29,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const FormNav = ({ onBack, isEditingStep, isSubmitting }) => {
+const FormNav = () => {
   const classes = useStyles()
   const { model } = useForm()
+  const { steps, isEditingStep, isSubmitting, activeStep, dispatch } = useContext(
+    RegisterContext
+  )
+
+  let buttonText
+  if (isEditingStep) {
+    buttonText = 'Last'
+  } else if (activeStep === steps.length - 1) {
+    buttonText = 'Create account'
+  } else {
+    buttonText = 'Next'
+  }
 
   return (
     <div className={classes.buttonGroup}>
@@ -43,7 +56,7 @@ const FormNav = ({ onBack, isEditingStep, isSubmitting }) => {
             className={classes.formButtons}
             disabled={isSubmitting}
           >
-            {isEditingStep ? 'Last' : 'Submit'}
+            {buttonText}
           </Button>
           <Fade
             className={classes.progress}
@@ -56,9 +69,9 @@ const FormNav = ({ onBack, isEditingStep, isSubmitting }) => {
             <CircularProgress size={24} />
           </Fade>
         </div>
-        {!isEditingStep && onBack && (
+        {!isEditingStep && activeStep > 0 && (
           <Button
-            onClick={() => onBack(model)}
+            onClick={() => dispatch({ type: 'go_back', model })}
             className={(classes.formButtons, classes.backButton)}
           >
             Back
@@ -67,12 +80,6 @@ const FormNav = ({ onBack, isEditingStep, isSubmitting }) => {
       </div>
     </div>
   )
-}
-
-FormNav.propTypes = {
-  onBack: PropTypes.func,
-  isEditingStep: PropTypes.bool,
-  isSubmitting: PropTypes.bool,
 }
 
 export default FormNav

@@ -7,13 +7,13 @@ import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
 import { aboutFormBridge } from './form-schemas'
 import FormNav from './form-nav'
 
-const AboutForm = ({ onSubmit, model, onBack, isEditingStep }) => {
+const AboutForm = ({ onSubmit, model }) => {
   return (
     <Paper style={{ padding: '2rem', paddingBottom: '0', marginBottom: '1rem' }}>
       <AutoForm schema={aboutFormBridge} onSubmit={onSubmit} model={model}>
         <AutoFields />
         <ErrorsField />
-        <FormNav onBack={onBack} isEditingStep={isEditingStep} />
+        <FormNav />
       </AutoForm>
     </Paper>
   )
@@ -22,8 +22,6 @@ const AboutForm = ({ onSubmit, model, onBack, isEditingStep }) => {
 AboutForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   model: PropTypes.object.isRequired,
-  onBack: PropTypes.func.isRequired,
-  isEditingStep: PropTypes.bool.isRequired,
 }
 
 export { AboutForm }

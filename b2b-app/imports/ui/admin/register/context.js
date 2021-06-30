@@ -1,7 +1,10 @@
-import { useReducer } from 'react'
+import React, { useReducer, createContext } from 'react'
+import PropTypes from 'prop-types'
 
-const init = (steps) => ({
-  models: Array(steps)
+const steps = ['Contact details', 'About you', 'Emergency contact', 'Confirm']
+
+const initialState = {
+  models: Array(steps.length)
     .fill()
     .map(() => ({})),
   ui: {
@@ -9,7 +12,7 @@ const init = (steps) => ({
     isEditingStep: false,
     isSubmitting: false,
   },
-})
+}
 
 const reducer = (state, action) => {
   const {
@@ -60,16 +63,29 @@ const reducer = (state, action) => {
         },
       }
     case 'go_reset':
-      return init(models.length)
+      return initialState
     default:
       throw new Error('Invalid action type')
   }
 }
 
-const useRegisterReducer = (steps) => {
-  const [{ models, ui }, dispatch] = useReducer(reducer, steps, init)
+const RegisterContext = createContext()
+
+const RegisterProvider = ({ children }) => {
+  const [{ models, ui }, dispatch] = useReducer(reducer, initialState)
   const { activeStep, isEditingStep, isSubmitting } = ui
-  return [{ activeStep, models, isEditingStep, isSubmitting }, dispatch]
+
+  return (
+    <RegisterContext.Provider
+      value={{ activeStep, models, isEditingStep, isSubmitting, steps, dispatch }}
+    >
+      {children}
+    </RegisterContext.Provider>
+  )
 }
 
-export default useRegisterReducer
+RegisterProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+}
+
+export { RegisterProvider as default, RegisterContext }
