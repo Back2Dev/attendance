@@ -10,6 +10,42 @@ import Jobs from '../jobs/schema'
 const debug = require('debug')('b2b:members')
 
 Meteor.methods({
+  'members.byRole'({ role, fields }) {
+    if (!Match.test(role, String)) {
+      return { status: 'failed', message: 'Role must be a string' }
+    }
+
+    // check if role is existing
+    if (!Object.keys(CONSTANTS.ROLES).includes(role)) {
+      return { status: 'failed', message: `Role was not found: ${role}` }
+    }
+
+    // find the user
+    const users = Meteor.users.find({
+      'roles._id': role,
+    })
+
+    const userIds = users.map((user) => user._id)
+    if (!userIds?.length) {
+      return {
+        status: 'success',
+        members: [],
+      }
+    }
+
+    const selectedFields = fields || {
+      userId: 1,
+      name: 1,
+      nickname: 1,
+    }
+
+    const members = Members.find(
+      { userId: { $in: userIds } },
+      { fields: selectedFields }
+    ).fetch()
+
+    return { status: 'success', members }
+  },
   'members.search'({ keyword }) {
     if (!Match.test(keyword, String)) {
       return { status: 'failed', message: 'Keyword must be string' }

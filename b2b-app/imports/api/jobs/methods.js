@@ -83,11 +83,11 @@ Meteor.methods({
    * update job mechanic
    * @param {Object} params
    * @param {string} params.id
-   * @param {string} params.mechanic name
+   * @param {string} params.mechanic user id
    */
-  'jobs.updateMechanic'({ id, mechanic = '' }) {
+  'jobs.updateMechanic'({ id, mechanic }) {
     try {
-      JobUpdateMechanicParamsSchema.validate({ id, mechanic })
+      JobUpdateMechanicParamsSchema.validate({ id, mechanic: mechanic || undefined })
     } catch (e) {
       debug(e.message)
       return { status: 'failed', message: e.message }
@@ -105,6 +105,15 @@ Meteor.methods({
     // get current user profile
     const myMember = Members.findOne({ userId: me._id })
 
+    // find the mechanic member
+    const mechanicMember = Members.findOne({ userId: mechanic })
+    if (mechanic && !mechanicMember) {
+      return {
+        status: 'failed',
+        message: `Mechanic was not found with user id ${mechanic}`,
+      }
+    }
+
     // find the job
     const job = Jobs.findOne({ _id: id })
     if (!job) {
@@ -121,7 +130,9 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description: `${myMember.name} update job mechanic, new mechanic: ${mechanic}`,
+              description: mechanic
+                ? `${myMember.name} update job mechanic, new mechanic: ${mechanicMember.name} (${mechanicMember.userId})`
+                : 'Deselect',
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),

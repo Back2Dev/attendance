@@ -19,7 +19,7 @@ export const JobMarkAsPaidParamsSchema = new SimpleSchema({
 
 export const JobUpdateMechanicParamsSchema = new SimpleSchema({
   id: String,
-  mechanic: OptionalString,
+  mechanic: OptionalRegExId,
 })
 
 export const JobUpdateStatusParamsSchema = new SimpleSchema({
@@ -143,7 +143,7 @@ export const JobsSchema = new SimpleSchema({
     label: 'Field to indicate if bike repair is urgent',
   },
   assessor: { type: String, optional: true, label: 'Assessor name' },
-  mechanic: { type: String, optional: true, label: 'Mechanic name' },
+  mechanic: { type: RegExId, optional: true, label: 'Mechanic user id' },
   comment: {
     type: String,
     optional: true,

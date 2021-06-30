@@ -13,6 +13,8 @@ function reducer(state, action) {
   switch (action.type) {
     case 'setLoading':
       return { ...state, loading: action.loading }
+    case 'setMechanics':
+      return { ...state, mechanics: action.mechanics }
     default:
       return state
   }
@@ -30,7 +32,25 @@ export const JobsDetailsProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
+    mechanics: [],
   })
+
+  // load list of mechanics
+  useEffect(() => {
+    Meteor.call('members.byRole', { role: 'MEC' }, (error, result) => {
+      if (error) {
+        showError(error.message)
+        return
+      }
+      if (result.status === 'failed') {
+        showError(result.message)
+        return
+      }
+      if (result.status === 'success') {
+        dispatch({ type: 'setMechanics', mechanics: result.members })
+      }
+    })
+  }, [])
 
   const { loading, item } = useTracker(() => {
     // TODO: change the subscription, add permission checking
