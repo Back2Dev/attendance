@@ -18,12 +18,8 @@ const Form = ({ onSubmit, model, schemaBridge }) => {
         {Object.keys(schemaBridge.schema.schema()).map((name, i) => {
           const fieldCols =
             schemaBridge.schema.schema(name)?.uniforms?.['ui:field-cols'] || FIELD_COLS
-          const style = {}
-          if (fieldCols) {
-            style.gridColumnEnd = `span ${fieldCols}`
-          }
           return (
-            <div key={i} style={style}>
+            <div key={i} style={{ gridColumnEnd: `span ${fieldCols}` }}>
               <AutoField name={name} />
               <ErrorField name={name} />
             </div>

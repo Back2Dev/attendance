@@ -1,7 +1,7 @@
 import React, { useReducer, createContext } from 'react'
 import PropTypes from 'prop-types'
 
-const steps = ['Contact details', 'About you', 'Emergency contact', 'Confirm']
+const steps = ['Contact details', 'About you', 'Emergency contact', 'Avatar', 'Confirm']
 
 const initialState = {
   models: Array(steps.length)

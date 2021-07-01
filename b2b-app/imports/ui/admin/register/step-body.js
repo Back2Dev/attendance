@@ -10,6 +10,7 @@ import {
   contactFormBridge,
   emergencyFormBridge,
   aboutFormBridge,
+  avatarFormBridge,
 } from './form/form-schemas'
 import ConfirmData from './form/confirm-data'
 
@@ -35,6 +36,7 @@ const schemaBridges = [
   contactFormBridge,
   aboutFormBridge,
   emergencyFormBridge,
+  avatarFormBridge,
   termsFormBridge,
 ]
 
@@ -47,6 +49,8 @@ function getStepHeading(stepIndex) {
     case 2:
       return 'Who should we contact in an emergency?'
     case 3:
+      return 'Choose your avatar'
+    case 4:
       return "Just making sure everything's correct"
     default:
       return 'Unknown stepIndex'
@@ -61,8 +65,8 @@ const StepBody = () => {
 
   useEffect(() => {
     const submitData = async () => {
-      console.log('sending to server')
       if (!isSubmitting) return
+      console.log('sending to server')
 
       const s = await meteorCall(
         'insert.registrations',
@@ -81,18 +85,17 @@ const StepBody = () => {
 
   const getFrontMatter = (step) => {
     if (step === steps.length - 1) {
-      const confirmDataProps = steps.slice(0, -1).map((title, i) => ({
-        title,
-        onEdit: () => dispatch({ type: 'go_edit_step', step: i }),
-        fieldData: Object.entries(schemaBridges[i].schema['_schema']).map(
-          ([field, data]) => ({
-            label: data.label,
-            value: models[i][field] ?? '-',
-          })
-        ),
-      }))
-
-      return confirmDataProps.map((props, i) => <ConfirmData key={i} {...props} />)
+      return steps
+        .slice(0, -1)
+        .map((title, i) => (
+          <ConfirmData
+            key={i}
+            title={title}
+            onEdit={() => dispatch({ type: 'go_edit_step', step: i })}
+            schemaBridge={schemaBridges[i]}
+            fieldValues={models[i]}
+          />
+        ))
     }
   }
 

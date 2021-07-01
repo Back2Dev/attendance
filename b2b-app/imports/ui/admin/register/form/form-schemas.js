@@ -1,6 +1,8 @@
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 
+import AvatarField from './avatar-field'
+
 const aboutFormSchema = new SimpleSchema(
   {
     numBikes: {
@@ -113,6 +115,48 @@ const emergencyFormSchema = new SimpleSchema({
   emergencyContactMobile: SimpleSchema.RegEx.Phone,
 })
 
+const avatarFormSchema = new SimpleSchema({
+  avatar: {
+    type: String,
+    defaultValue: 'default.jpg',
+    allowedValues: [
+      'default.jpg',
+      '1.jpg',
+      '2.jpg',
+      '3.jpg',
+      '4.jpg',
+      '5.jpg',
+      '6.jpg',
+      '7.jpg',
+      '8.jpg',
+      '9.jpg',
+      '10.jpg',
+      '11.jpg',
+      '12.jpg',
+      '13.jpg',
+      '14.jpg',
+      '15.jpg',
+      '16.jpg',
+      'test11.png',
+      'test14.png',
+      'test16.png',
+      'test17.png',
+      'test18.png',
+      'test19.png',
+      'test20.png',
+      'test21.png',
+      'test24.png',
+      'test25.png',
+      'test26.png',
+      'test28.png',
+      'test29.png',
+    ],
+    uniforms: {
+      component: AvatarField,
+    },
+  },
+})
+
 const termsFormSchema = new SimpleSchema({
   agree: {
     type: Boolean,
@@ -131,6 +175,13 @@ const termsFormSchema = new SimpleSchema({
 const contactFormBridge = new SimpleSchema2Bridge(contactFormSchema)
 const aboutFormBridge = new SimpleSchema2Bridge(aboutFormSchema)
 const emergencyFormBridge = new SimpleSchema2Bridge(emergencyFormSchema)
+const avatarFormBridge = new SimpleSchema2Bridge(avatarFormSchema)
 const termsFormBridge = new SimpleSchema2Bridge(termsFormSchema)
 
-export { contactFormBridge, aboutFormBridge, emergencyFormBridge, termsFormBridge }
+export {
+  contactFormBridge,
+  aboutFormBridge,
+  emergencyFormBridge,
+  avatarFormBridge,
+  termsFormBridge,
+}

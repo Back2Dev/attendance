@@ -13,6 +13,7 @@ import {
   TableCell as MuiTableCell,
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
+import { Bridge } from 'uniforms'
 
 const TableCell = withStyles({
   root: {
@@ -29,8 +30,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ConfirmData = ({ title, onEdit, fieldData }) => {
+const ConfirmData = ({ title, onEdit, schemaBridge, fieldValues }) => {
   const classes = useStyles()
+  const fieldData = Object.entries(schemaBridge.schema.schema()).map(([field, data]) => {
+    /* this checks if schema field uses a custom field component. Eg.
+        avatar: {
+            type: String,
+            uniforms: AvatarField, // or uniforms: { component: AvatarField }
+          }
+        }
+        For AvatarField, the field value is a src url so it's pointless to show it to the user.
+        It's better to show the actual avatar, so we look for the custom field component to render
+        something meaningful.
+      */
+    const CustomField = schemaBridge.getProps(field).component
+
+    let value
+    if (CustomField?.ConfirmDataView) {
+      value = <CustomField.ConfirmDataView value={fieldValues[field]} />
+    } else {
+      value = fieldValues[field] ?? '-'
+    }
+
+    return {
+      label: data.label,
+      value,
+    }
+  })
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -47,7 +74,7 @@ const ConfirmData = ({ title, onEdit, fieldData }) => {
             {fieldData.map(({ label, value }, i) => (
               <TableRow key={i}>
                 <TableCell className={classes.fieldLabel}>{label}</TableCell>
-                <TableCell>{value}</TableCell>
+                <TableCell>{typeof value === 'function' ? value() : value}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -60,12 +87,8 @@ const ConfirmData = ({ title, onEdit, fieldData }) => {
 ConfirmData.propTypes = {
   title: PropTypes.string.isRequired,
   onEdit: PropTypes.func.isRequired,
-  fieldData: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired,
-    }).isRequired
-  ).isRequired,
+  schemaBridge: PropTypes.instanceOf(Bridge).isRequired,
+  fieldValues: PropTypes.object.isRequired,
 }
 
 export default ConfirmData
