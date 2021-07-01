@@ -30,26 +30,30 @@ const Register = () => {
           Registration
         </Typography>
         <RegisterContext.Consumer>
-          {({ activeStep, steps, dispatch }) => (
+          {({ activeStep, steps, dispatch, isMobile }) => (
             <>
-              <Stepper activeStep={activeStep} alternativeLabel>
-                {steps.map((label) => (
+              <Stepper
+                activeStep={activeStep}
+                alternativeLabel={!isMobile}
+                orientation={isMobile ? 'vertical' : 'horizontal'}
+              >
+                {steps.map((label, i) => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
+                    {isMobile && activeStep === i && <StepBody />}
                   </Step>
                 ))}
               </Stepper>
               <div>
-                {activeStep === steps.length ? (
+                {activeStep === steps.length && (
                   <div>
                     <h1>Registration Complete</h1>
 
                     <br />
                     <Button onClick={() => dispatch({ type: 'go_reset' })}>Reset</Button>
                   </div>
-                ) : (
-                  <StepBody />
                 )}
+                {!isMobile && activeStep in steps && <StepBody />}
               </div>
             </>
           )}

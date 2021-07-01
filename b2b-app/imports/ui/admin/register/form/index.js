@@ -13,7 +13,16 @@ const rand = randomIds()
 const Form = ({ onSubmit, model, schemaBridge }) => {
   // without key prop, uniforms doesn't re-render its context and the model in onSubmit() will be the previous form data
   return (
-    <AutoForm schema={schemaBridge} onSubmit={onSubmit} model={model} key={rand()}>
+    <AutoForm
+      schema={schemaBridge}
+      onSubmit={onSubmit}
+      model={model}
+      key={rand()}
+      modelTransform={
+        (mode, model) => (mode === 'submit' ? schemaBridge.schema.clean(model) : model) // trim whitespace and remove key if empty string
+      }
+      placeholder
+    >
       <FieldsWrap cols={FIELD_COLS}>
         {Object.keys(schemaBridge.schema.schema()).map((name, i) => {
           const fieldCols =

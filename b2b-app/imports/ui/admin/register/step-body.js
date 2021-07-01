@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Typography, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import StepContent from '@material-ui/core/StepContent'
 
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { RegisterContext } from './context'
@@ -13,6 +14,7 @@ import {
   avatarFormBridge,
 } from './form/form-schemas'
 import ConfirmData from './form/confirm-data'
+import ConditionalWrap from './conditional-wrap'
 
 const useStyles = makeStyles((theme) => ({
   formHeading: {
@@ -57,11 +59,17 @@ function getStepHeading(stepIndex) {
   }
 }
 
-const StepBody = () => {
+const StepBody = (props) => {
   const classes = useStyles()
-  const { steps, activeStep, models, isEditingStep, isSubmitting, dispatch } = useContext(
-    RegisterContext
-  )
+  const {
+    steps,
+    activeStep,
+    models,
+    isEditingStep,
+    isSubmitting,
+    dispatch,
+    isMobile,
+  } = useContext(RegisterContext)
 
   useEffect(() => {
     const submitData = async () => {
@@ -119,8 +127,20 @@ const StepBody = () => {
     )
   }
 
+  if (!(activeStep in steps)) {
+    return null
+  }
+
   return (
-    <Paper className={classes.paper} variant="outlined" square>
+    <ConditionalWrap
+      condition={isMobile}
+      wrapTrue={(children) => <StepContent {...props}>{children}</StepContent>}
+      wrapFalse={(children) => (
+        <Paper variant="outlined" className={classes.paper} square>
+          {children}
+        </Paper>
+      )}
+    >
       <Typography variant="h2" className={classes.formHeading}>
         {getStepHeading(activeStep)}
       </Typography>
@@ -128,7 +148,7 @@ const StepBody = () => {
         <div className={classes.frontMatter}>{getFrontMatter(activeStep)}</div>
         {getForm(activeStep)}
       </div>
-    </Paper>
+    </ConditionalWrap>
   )
 }
 

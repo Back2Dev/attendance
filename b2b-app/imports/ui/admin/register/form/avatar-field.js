@@ -39,8 +39,7 @@ const getSrc = (url) => {
 const AvatarField = (rawProps) => {
   const classes = useStyles()
   const [{ value, onChange, allowedValues }] = useField('avatar', rawProps)
-  // const { isMobile } = useContext(RegisterContext)
-  const isMobile = false
+  const { isMobile } = useContext(RegisterContext)
 
   return (
     <ConditionalWrap

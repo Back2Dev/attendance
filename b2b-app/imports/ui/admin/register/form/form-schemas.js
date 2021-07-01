@@ -8,11 +8,15 @@ const aboutFormSchema = new SimpleSchema(
     numBikes: {
       type: SimpleSchema.Integer,
       min: 0,
-      label: 'How many bikes are in your household?',
+      label: 'Bikes owned',
+      uniforms: {
+        'ui:field-cols': 2,
+        helperText: 'How many bikes are in your household?',
+      },
     },
     preferedBike: {
       type: String,
-      label: 'What type of bike do you ride the most?',
+      label: 'Main bike',
       allowedValues: [
         'Moutain',
         'Road/Racer',
@@ -24,6 +28,10 @@ const aboutFormSchema = new SimpleSchema(
         'Cruiser',
         'Fixie/Single Speed',
       ],
+      uniforms: {
+        'ui:field-cols': 2,
+        helperText: 'What type of bike do you ride the most?',
+      },
     },
     workStatus: {
       type: String,
@@ -40,6 +48,15 @@ const aboutFormSchema = new SimpleSchema(
       type: String,
       max: 250,
       label: 'Reasons for volunteering',
+      uniforms: {
+        multiline: true,
+        rows: 4,
+        placeholder: [
+          'What makes you want to to volunteer at Back2Bikes?',
+          'Have you ever done any other volunteering before?',
+          'Have you worked on bikes or something similar before?',
+        ].join('\n'),
+      },
     },
   },
   { requiredByDefault: false }
