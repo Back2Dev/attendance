@@ -9,6 +9,8 @@ CONSTANTS.ROLES = {
   SYS: 'System',
   MEM: 'Member',
   COA: 'Coach',
+  GRE: 'Greeter',
+  MEC: 'Mechanic',
 }
 
 // Notificaton roles adds a 'USR' role, for the current user
@@ -92,5 +94,35 @@ CONSTANTS.BADGES = [
     icon: '/badges/star.png',
   },
 ]
+
+CONSTANTS.JOB_STATUS_READABLE = {
+  new: 'New',
+  'in-progress': 'In Progress',
+  'quality-check': 'Quality Check',
+  ready: 'Ready for Pick Up',
+  // 'picked-up': 'Picked Up',
+  cancelled: 'Cancelled',
+  completed: 'Completed',
+}
+
+CONSTANTS.JOB_STATUS_MAPPING = {
+  new: [{ next: 'in-progress', label: 'Start' }],
+  'in-progress': [
+    { next: 'quality-check', label: 'Quality Check' },
+    { next: 'cancelled', label: 'Cancel' },
+  ],
+  'quality-check': [
+    { next: 'in-progress', label: 'In Progress' },
+    { next: 'ready', label: 'Ready' },
+  ],
+  ready: [
+    // { next: 'picked-up', label: 'Picked Up' },
+    { next: 'quality-check', label: 'Check again' },
+    { next: 'completed', label: 'Complete' },
+  ],
+  // 'picked-up': [],
+  cancelled: [],
+  completed: [],
+}
 
 export default CONSTANTS

@@ -1,14 +1,30 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
-import { AutoForm, AutoField, TextField, LongTextField } from 'uniforms-material'
-import JSONField from '/imports/ui/components/forms/json-field'
+import { AutoField } from 'uniforms-material'
+import ToolsField from '/imports/ui/components/forms/tools-selector.js'
+import CoursesField from '/imports/ui/components/forms/course-selector.js'
+import SlateField from './slate-field'
 
 const debug = require('debug')('b2b:forms')
 
-const myComponent = ({ fieldType }) => {
-  if (fieldType.name === 'Object') return JSONField
-  return null
+const myComponent = ({ name, fieldType, ...rest }) => {
+  console.log({ name, fieldType, rest })
+  console.log(fieldType.name)
+  switch (name) {
+    case 'description':
+      if (fieldType.name === 'Array') {
+        return SlateField
+      } else {
+        return null
+      }
+    case 'tools':
+      return ToolsField
+    case 'courseId':
+    case 'backupCourseId':
+      return CoursesField
+    default:
+      return null
+  }
 }
 
 const CustomAuto = (props) => {

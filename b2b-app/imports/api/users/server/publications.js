@@ -7,7 +7,7 @@ import Members from '/imports/api/members/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 import moment from 'moment'
 import log from '/imports/lib/log'
-import Events, { MemeberItemSchema } from '../../events/schema'
+import Events, { MemberItemSchema } from '../../events/schema'
 const debug = require('debug')('b2b:users')
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
@@ -296,7 +296,7 @@ Meteor.methods({
         )
 
         // update the members in events collection
-        const memberItem = MemeberItemSchema.clean(newMember)
+        const memberItem = MemberItemSchema.clean(newMember)
         debug({ memberItem })
         const updateData = {}
         Object.keys(memberItem).map((key) => {

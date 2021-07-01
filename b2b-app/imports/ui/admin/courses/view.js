@@ -40,14 +40,23 @@ const View = ({ item }) => {
             </TableHead>
           )}
           <TableBody>
-            {config.view.rows.map((row, ix) => (
-              <TableRow key={ix}>
-                <TableCell component="th" scope="row" key="1">
-                  {row.label || row.field}
-                </TableCell>
-                <TableCell key="2">{item[row.field]}</TableCell>
-              </TableRow>
-            ))}
+            {config.view.rows.map((row, ix) => {
+              const Component = row.component
+              return (
+                <TableRow key={ix}>
+                  <TableCell component="th" scope="row" key="1">
+                    {row.label}
+                  </TableCell>
+                  <TableCell key="2">
+                    {Component ? (
+                      <Component value={item[row.field]} readOnly onChange={() => {}} />
+                    ) : (
+                      item[row.field]
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>

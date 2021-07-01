@@ -7,12 +7,7 @@ import {
   OptionalBlackbox,
   OptionalInteger,
 } from '/imports/api/utils/schema-util'
-
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: '',
-}
+import SlateDisplay from '/imports/ui/components/forms/slate-field'
 
 const MapSchema = new SimpleSchema({
   title: String,
@@ -20,14 +15,18 @@ const MapSchema = new SimpleSchema({
 })
 
 const editSchema = new SimpleSchema({
-  title: String,
   slug: String,
+  title: String,
   map: {
     type: Array,
     optional: true,
   },
   'map.$': MapSchema,
-  description: OptionalString,
+  description: {
+    type: Array,
+    optional: true,
+  },
+  'description.$': String,
   difficulty: {
     type: String,
     allowedValues: ['beginner', 'intermediate', 'advanced'],
@@ -47,7 +46,9 @@ export default config = {
     header: true, // Displays a heading row
     rows: [
       // Array of field names and display labels
-      { field: 'name', label: 'Name' },
+      { field: 'title', label: 'Name' },
+      { field: 'slug', label: 'Slug' },
+      { field: 'description', label: 'Description', component: SlateDisplay },
     ],
   },
   edit: { schema: new SimpleSchema2Bridge(editSchema) },
@@ -64,7 +65,17 @@ export default config = {
   add: {
     defaultObject: {
       name: 'Untitled',
-      description: 'Description',
+      description: [
+        {
+          type: 'paragraph',
+          children: [{ text: 'A line of text in a paragraph.' }],
+        },
+        {
+          type: 'image',
+          url: 'https://source.unsplash.com/kFrdX5IeQzI',
+          children: [{ text: '' }],
+        },
+      ],
       code: 'XXX',
     },
   },

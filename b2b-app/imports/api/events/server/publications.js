@@ -5,6 +5,7 @@ import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema.js'
 import Events from '../schema'
 import '../methods'
+import '../methods-workshop'
 
 const debug = require('debug')('b2b:events:publications')
 

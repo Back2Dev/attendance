@@ -36,5 +36,18 @@
     "name": "events",
     "key": "name",
     "env": ["all"]
+  },
+  {
+    "table": "tools",
+    "name": "tools",
+    "key": "name",
+    "env": ["all"]
+  },
+
+  {
+    "table": "serviceItems",
+    "name": "service-items",
+    "key": "name",
+    "env": ["all"]
   }
 ]

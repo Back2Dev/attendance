@@ -13,9 +13,9 @@ const StyledDetailsMap = styled.div`
 `
 
 function DetailsMap() {
-  const { loading, course } = useContext(SessionDetailsContext)
+  const { loading, event } = useContext(SessionDetailsContext)
 
-  if (loading || !course) {
+  if (loading || !event) {
     return (
       <StyledDetailsMap>
         <Skeleton variant="rect" height={300} />
@@ -23,15 +23,16 @@ function DetailsMap() {
     )
   }
 
-  if (!course.map) {
+  if (!event.course || !event.course.map || !event.course.map.length) {
     return null
   }
 
-  return (
-    <StyledDetailsMap className="map">
-      <img src={course.map} alt="map" />
+  return event.course.map.map((item) => (
+    <StyledDetailsMap className="map" key={item.title}>
+      <div className="map-title">{item.title}</div>
+      <img src={item.imageUrl} alt={item.title} />
     </StyledDetailsMap>
-  )
+  ))
 }
 
 export default DetailsMap

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
 import { useHistory } from 'react-router'
+import { Link as RouterLink } from 'react-router-dom'
+import { Link } from '@material-ui/core'
 
 const StyledSessionItem = styled.div`
   margin-bottom: 20px;
@@ -12,6 +14,9 @@ const StyledSessionItem = styled.div`
   .selected-tool,
   .status {
     padding-left: 10px;
+  }
+  .status {
+    cursor: pointer;
   }
 `
 
@@ -36,17 +41,23 @@ function SessionItem({ item }) {
   }
 
   const renderStatus = () => {
-    if (status === 'booked') {
-      return null
-    }
-    return <div className="status">Status: {status}</div>
+    // if (status === 'booked') {
+    //   return null
+    // }
+    return (
+      <div className="status" onClick={handleClick}>
+        Status: {status}
+      </div>
+    )
   }
 
   return (
-    <StyledSessionItem onClick={handleClick}>
+    <StyledSessionItem>
       <div className="session-info">
-        <span className="date">{moment(bookedDate).format('ddd DD MMM ha')}, </span>
-        <span className="title">{name}</span>
+        <Link component={RouterLink} to={`/sessions/${_id}`}>
+          <span className="date">{moment(bookedDate).format('ddd DD MMM ha')}, </span>
+          <span className="title">{name}</span>
+        </Link>
       </div>
       {renderSelectedTool()}
       {renderStatus()}

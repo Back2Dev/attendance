@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
 
+import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 import {
@@ -39,8 +40,10 @@ const StyledEventItem = styled(Paper)`
       .course-name {
         font-size: 1.2rem;
       }
-      .coach-name {
-        font-weight: bold;
+      &.backup {
+        .course-name {
+          opacity: 0.7;
+        }
       }
     }
   }
@@ -88,12 +91,27 @@ const StyledEventItem = styled(Paper)`
 `
 
 function EventItem({ event }) {
-  const { when, name, session, tools, course, coach } = event
+  const { when, name, tools, course, backupCourse, members } = event
   const { book, cancel, submiting } = useContext(BookingsContext)
+  const { member: myMember } = useContext(AccountContext)
+
   const { showConfirm } = useConfirm()
 
   const [displayTools, setDisplayTools] = useState(false)
   const [selectedTool, setSelectedTool] = useState('')
+
+  const session = useMemo(() => {
+    let foundSession
+    if (!myMember?._id) {
+      return foundSession
+    }
+    members.map((item) => {
+      if (item._id === myMember._id) {
+        foundSession = item.session
+      }
+    })
+    return foundSession
+  }, [myMember?._id, members])
 
   const onBookBtnClick = () => {
     if (!tools?.length) {
@@ -218,6 +236,28 @@ function EventItem({ event }) {
     )
   }
 
+  const renderCourse = () => {
+    if (!course) {
+      return null
+    }
+    return (
+      <div className="course-info">
+        <div className="course-name">Course: {course?.title}</div>
+      </div>
+    )
+  }
+
+  const renderBackupCourse = () => {
+    if (!backupCourse) {
+      return null
+    }
+    return (
+      <div className="course-info backup">
+        <div className="course-name">Backup course: {backupCourse?.title}</div>
+      </div>
+    )
+  }
+
   return (
     <StyledEventItem elevation={1}>
       <div className="item-wrapper">
@@ -226,10 +266,8 @@ function EventItem({ event }) {
             <span className="event-date">{moment(when).format('ddd D MMM')},</span>{' '}
             <span className="event-name">{name}</span>
           </div>
-          <div className="course-info">
-            <div className="course-name">{course?.title}</div>
-            <div className="coach-name">{coach?.name}</div>
-          </div>
+          {renderCourse()}
+          {renderBackupCourse()}
         </div>
         <div className="right-col">
           {renderStatus()}
@@ -258,9 +296,19 @@ EventItem.propTypes = {
     course: PropTypes.shape({
       title: PropTypes.string.isRequired,
     }),
-    coach: PropTypes.shape({
-      name: PropTypes.string.isRequired,
+    backupCourse: PropTypes.shape({
+      title: PropTypes.string.isRequired,
     }),
+    members: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string,
+        session: PropTypes.shape({
+          _id: PropTypes.string,
+          memberId: PropTypes.string,
+          status: PropTypes.string,
+        }),
+      })
+    ),
   }).isRequired,
 }
 

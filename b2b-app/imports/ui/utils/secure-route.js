@@ -1,3 +1,5 @@
+/* global Roles */
+import { Meteor } from 'meteor/meteor'
 import React, { lazy, useContext } from 'react'
 import { Route } from 'react-router-dom'
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -15,14 +15,32 @@ const StyledDetailsHeader = styled.div`
     align-content: center;
     align-items: center;
     font-size: 1.5rem;
+
+    .coach-member {
+      display: flex;
+    }
   }
   .avatar {
-    margin-left: 10px;
+    margin-right: 10px;
   }
 `
 
 function DetailsHeader() {
-  const { session, loading, coach } = useContext(SessionDetailsContext)
+  const { session, loading, event } = useContext(SessionDetailsContext)
+
+  // find the coach(es) from list of event members
+  const coaches = useMemo(() => {
+    const coachMembers = []
+    if (!event || !event.members.length) {
+      return coachMembers
+    }
+    event.members.map((item) => {
+      if (item.session.role === 'COA') {
+        coachMembers.push(item)
+      }
+    })
+    return coachMembers
+  }, [event?.members])
 
   if (loading) {
     return <Loading loading />
@@ -35,28 +53,30 @@ function DetailsHeader() {
     return session.name
   }
 
-  const renderCoach = () => {
-    if (!coach) {
-      return <Skeleton variant="text" />
+  const renderCoaches = () => {
+    if (!coaches || !coaches.length) {
+      return null
     }
-    let avatarUrl = null
-    if (coach.avatar) {
-      if (/^http/.test(coach.avatar)) {
-        avatarUrl = coach.avatar
-      } else {
-        avatarUrl = `/images/avatar/${coach.avatar}`
+    return coaches.map((coach) => {
+      let avatarUrl = null
+      if (coach.avatar) {
+        if (/^http/.test(coach.avatar)) {
+          avatarUrl = coach.avatar
+        } else {
+          avatarUrl = `/images/avatar/${coach.avatar}`
+        }
       }
-    }
-    const profileUrl = `/profile/${coach._id}`
-    return (
-      <>
-        Coach:&nbsp;
-        <Link component={RouterLink} to={profileUrl}>
-          {coach.name}
-        </Link>{' '}
-        <Avatar url={avatarUrl} alt={coach.name} size={32} linkUrl={profileUrl} />
-      </>
-    )
+      const profileUrl = `/profile/${coach._id}`
+      return (
+        <div key={coach._id} className="coach-member">
+          Coach:&nbsp;
+          <Avatar url={avatarUrl} alt={coach.name} size={32} linkUrl={profileUrl} />
+          <Link component={RouterLink} to={profileUrl}>
+            {coach.name}
+          </Link>{' '}
+        </div>
+      )
+    })
   }
 
   return (
@@ -68,7 +88,7 @@ function DetailsHeader() {
           </Typography>
         </Grid>
         <Grid item xs={12} lg={6} className="coach">
-          {renderCoach()}
+          {renderCoaches()}
         </Grid>
       </Grid>
     </StyledDetailsHeader>

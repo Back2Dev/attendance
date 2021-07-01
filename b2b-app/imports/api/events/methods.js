@@ -5,7 +5,7 @@ import Courses from '/imports/api/courses/schema.js'
 import Events, {
   BookParamsSchema,
   CancelBookingParamsSchema,
-  MemeberItemSchema,
+  MemberItemSchema,
   CourseItemSchema,
 } from './schema'
 const debug = require('debug')('b2b:events')
@@ -69,17 +69,14 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating session ${e.message}` }
     }
 
-    // update the session field of member item inside the event.members
+    // remove the member item inside the event.members
     Events.update(
       {
         _id: session.eventId,
-        members: {
-          $elemMatch: { 'session._id': session._id },
-        },
       },
       {
-        $set: {
-          'members.$.session.status': 'cancelled',
+        $pull: {
+          members: { 'session._id': session._id },
         },
       }
     )
@@ -177,7 +174,7 @@ Meteor.methods({
     }
 
     // update the members array of event
-    const memberItem = MemeberItemSchema.clean({
+    const memberItem = MemberItemSchema.clean({
       ...member,
       session: Sessions.findOne({ _id: sessionId }),
     })
