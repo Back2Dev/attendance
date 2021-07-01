@@ -44,32 +44,24 @@ const aboutFormSchema = new SimpleSchema(
 )
 
 const contactFormSchema = new SimpleSchema({
-  name: String,
-  email: SimpleSchema.RegEx.Email,
-  streetAddress: {
+  name: {
     type: String,
-    optional: true,
   },
-  suburb: {
+  mobileNumber: {
     type: String,
-    optional: true,
+    regEx: SimpleSchema.RegEx.Phone,
   },
-  state: {
+  email: {
     type: String,
-    allowedValues: ['VIC', 'NSW', 'QLD', 'ACT', 'NT', 'WA', 'SA', 'TAS'],
-    optional: true,
+    regEx: SimpleSchema.RegEx.Email,
   },
-  postcode: {
-    type: String,
-    min: 4,
-    max: 4,
-    optional: true,
-  },
-  mobileNumber: SimpleSchema.RegEx.Phone,
   pinNumber: {
     type: String,
     min: 4,
     max: 4,
+    uniforms: {
+      'ui:field-cols': 2,
+    },
   },
   confirmPIN: {
     type: String,
@@ -77,6 +69,37 @@ const contactFormSchema = new SimpleSchema({
       if (this.value !== this.field('pinNumber').value) {
         return 'pinMismatch'
       }
+    },
+    uniforms: {
+      'ui:field-cols': 2,
+    },
+  },
+  streetAddress: {
+    type: String,
+    optional: true,
+  },
+  suburb: {
+    type: String,
+    optional: true,
+    uniforms: {
+      'ui:field-cols': 2,
+    },
+  },
+  state: {
+    type: String,
+    allowedValues: ['VIC', 'NSW', 'QLD', 'ACT', 'NT', 'WA', 'SA', 'TAS'],
+    optional: true,
+    uniforms: {
+      'ui:field-cols': 1,
+    },
+  },
+  postcode: {
+    type: String,
+    min: 4,
+    max: 4,
+    optional: true,
+    uniforms: {
+      'ui:field-cols': 1,
     },
   },
 })

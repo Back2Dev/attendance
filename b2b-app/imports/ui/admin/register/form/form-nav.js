@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FormNav = () => {
   const classes = useStyles()
-  const { model } = useForm()
+  const uniforms = useForm()
   const { steps, isEditingStep, isSubmitting, activeStep, dispatch } = useContext(
     RegisterContext
   )
@@ -71,7 +71,9 @@ const FormNav = () => {
         </div>
         {!isEditingStep && activeStep > 0 && (
           <Button
-            onClick={() => dispatch({ type: 'go_back', model })}
+            onClick={() => {
+              dispatch({ type: 'go_back', model: uniforms.model })
+            }}
             className={(classes.formButtons, classes.backButton)}
           >
             Back

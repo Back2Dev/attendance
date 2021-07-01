@@ -1,20 +1,42 @@
 import React, { useContext, useEffect } from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { RegisterContext } from './context'
-import { ContactForm, AboutForm, EmergencyForm, ConfirmForm } from './forms'
+import Form from './form'
+import {
+  termsFormBridge,
+  contactFormBridge,
+  emergencyFormBridge,
+  aboutFormBridge,
+} from './form/form-schemas'
+import ConfirmData from './form/confirm-data'
 
 const useStyles = makeStyles((theme) => ({
   formHeading: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     textAlign: 'center',
+  },
+  paper: {
+    margin: theme.spacing(4, 0),
+    padding: theme.spacing(4, 2),
+  },
+  formWrap: {
+    maxWidth: 600,
+    margin: '0 auto',
+  },
+  frontMatter: {
+    marginBottom: theme.spacing(4),
   },
 }))
 
-const formComponents = [ContactForm, AboutForm, EmergencyForm, ConfirmForm]
+const schemaBridges = [
+  contactFormBridge,
+  aboutFormBridge,
+  emergencyFormBridge,
+  termsFormBridge,
+]
 
 function getStepHeading(stepIndex) {
   switch (stepIndex) {
@@ -57,8 +79,24 @@ const StepBody = () => {
     submitData()
   }, [isSubmitting])
 
+  const getFrontMatter = (step) => {
+    if (step === steps.length - 1) {
+      const confirmDataProps = steps.slice(0, -1).map((title, i) => ({
+        title,
+        onEdit: () => dispatch({ type: 'go_edit_step', step: i }),
+        fieldData: Object.entries(schemaBridges[i].schema['_schema']).map(
+          ([field, data]) => ({
+            label: data.label,
+            value: models[i][field] ?? '-',
+          })
+        ),
+      }))
+
+      return confirmDataProps.map((props, i) => <ConfirmData key={i} {...props} />)
+    }
+  }
+
   const getForm = (index) => {
-    let Form = formComponents[index]
     const handleSubmit = (model) => {
       if (isEditingStep) {
         dispatch({ type: 'go_last', model })
@@ -69,15 +107,25 @@ const StepBody = () => {
       }
     }
 
-    return <Form onSubmit={handleSubmit} model={models[index]} />
+    return (
+      <Form
+        onSubmit={handleSubmit}
+        model={models[index]}
+        schemaBridge={schemaBridges[index]}
+      />
+    )
   }
+
   return (
-    <div>
+    <Paper className={classes.paper} variant="outlined" square>
       <Typography variant="h2" className={classes.formHeading}>
         {getStepHeading(activeStep)}
       </Typography>
-      {getForm(activeStep)}
-    </div>
+      <div className={classes.formWrap}>
+        <div className={classes.frontMatter}>{getFrontMatter(activeStep)}</div>
+        {getForm(activeStep)}
+      </div>
+    </Paper>
   )
 }
 
