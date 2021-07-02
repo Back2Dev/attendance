@@ -129,6 +129,10 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
+  const sendSMS = (message) => {
+    console.log('send sms', message)
+  }
+
   return (
     <JobsDetailsContext.Provider
       value={{
@@ -139,6 +143,7 @@ export const JobsDetailsProvider = ({ children }) => {
         updateJobMechanic,
         markAsPaid,
         addHistory,
+        sendSMS,
       }}
     >
       {children}

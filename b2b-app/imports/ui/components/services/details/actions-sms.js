@@ -5,7 +5,7 @@ import { Typography, Modal, Paper, TextField, Button } from '@material-ui/core'
 
 import { JobsDetailsContext } from './context'
 
-const StyledCall = styled.div``
+const StyledSendSMS = styled.div``
 
 const StyledBoxContent = styled.div`
   padding: 5px;
@@ -29,8 +29,8 @@ const StyledBoxContent = styled.div`
   }
 `
 
-function CallLog() {
-  const { addHistory } = useContext(JobsDetailsContext)
+function SendSMS() {
+  const { sendSMS } = useContext(JobsDetailsContext)
 
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -44,26 +44,26 @@ function CallLog() {
   }
 
   const onSubmit = () => {
-    addHistory(`Call log: ${message}`)
+    sendSMS(message)
     setMessage('')
     setOpen(false)
   }
 
   return (
-    <StyledCall>
+    <StyledSendSMS>
       <Button variant="contained" onClick={showForm}>
-        Call
+        SMS
       </Button>
 
       <Modal
         open={open}
         onClose={hideForm}
-        aria-labelledby="Call log"
-        aria-describedby="Enter a call log"
+        aria-labelledby="Send SMS"
+        aria-describedby="Enter a sms"
       >
         <StyledBoxContent elevation={3}>
           <Paper className="paper">
-            <Typography variant="h2">Call log</Typography>
+            <Typography variant="h2">Send SMS</Typography>
             <TextField
               multiline
               fullWidth
@@ -92,8 +92,8 @@ function CallLog() {
           </Paper>
         </StyledBoxContent>
       </Modal>
-    </StyledCall>
+    </StyledSendSMS>
   )
 }
 
-export default CallLog
+export default SendSMS

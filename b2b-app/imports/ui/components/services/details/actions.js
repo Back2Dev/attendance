@@ -8,6 +8,7 @@ import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
 import CallLog from './actions-call'
+import SendSMS from './actions-sms'
 
 const StyledJobActions = styled.div`
   margin: 20px 0;
@@ -93,7 +94,7 @@ function JobActions() {
       <div className="right">
         {renderMarkAsPaidBtn()}
         <CallLog />
-        <Button variant="contained">SMS</Button>
+        <SendSMS />
       </div>
     </StyledJobActions>
   )

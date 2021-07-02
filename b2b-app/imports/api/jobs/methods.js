@@ -121,7 +121,7 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description,
+              description: `[${myMember?.name}] ${description}`,
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
