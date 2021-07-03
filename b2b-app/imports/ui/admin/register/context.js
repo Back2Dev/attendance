@@ -25,22 +25,22 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'go_next':
       return {
-        models: models.map((model, idx) => (idx === activeStep ? action.model : model)),
+        models: models.map((model, i) => (i === activeStep ? action.model : model)),
         ui: { ...state.ui, activeStep: activeStep + 1 },
       }
     case 'go_back':
       return {
-        models: models.map((model, idx) => (idx === activeStep ? action.model : model)),
+        models: models.map((model, i) => (i === activeStep ? action.model : model)),
         ui: { ...state.ui, activeStep: activeStep - 1 },
       }
     case 'go_last':
       return {
-        models: models.map((model, idx) => (idx === activeStep ? action.model : model)),
+        models: models.map((model, i) => (i === activeStep ? action.model : model)),
         ui: { ...state.ui, isEditingStep: false, activeStep: models.length - 1 },
       }
     case 'go_submit':
       return {
-        models: models.map((model, idx) => (idx === activeStep ? action.model : model)),
+        models: models.map((model, i) => (i === activeStep ? action.model : model)),
         ui: { ...state.ui, isSubmitting: true },
       }
     case 'go_edit_step':

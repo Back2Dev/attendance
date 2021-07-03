@@ -52,8 +52,8 @@ const AvatarField = (rawProps) => {
     >
       <Avatar src={getSrc(value)} alt={value} className={classes.selectedAvatar} />
       <GridList cols={isMobile ? 4 : 6} cellHeight="auto">
-        {allowedValues.map((aValue, idx) => (
-          <GridListTile key={idx} onClick={() => onChange(aValue)}>
+        {allowedValues.map((aValue, i) => (
+          <GridListTile key={i} onClick={() => onChange(aValue)}>
             <Avatar
               src={getSrc(aValue)}
               alt={aValue}

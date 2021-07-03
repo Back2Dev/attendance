@@ -71,9 +71,7 @@ const FormNav = () => {
         </div>
         {!isEditingStep && activeStep > 0 && (
           <Button
-            onClick={() => {
-              dispatch({ type: 'go_back', model: uniforms.model })
-            }}
+            onClick={() => dispatch({ type: 'go_back', model: uniforms.model })}
             className={(classes.formButtons, classes.backButton)}
           >
             Back

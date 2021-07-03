@@ -63,9 +63,7 @@ const aboutFormSchema = new SimpleSchema(
 )
 
 const contactFormSchema = new SimpleSchema({
-  name: {
-    type: String,
-  },
+  name: String,
   mobileNumber: {
     type: String,
     regEx: SimpleSchema.RegEx.Phone,
@@ -73,25 +71,6 @@ const contactFormSchema = new SimpleSchema({
   email: {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
-  },
-  pinNumber: {
-    type: String,
-    min: 4,
-    max: 4,
-    uniforms: {
-      'ui:field-cols': 2,
-    },
-  },
-  confirmPIN: {
-    type: String,
-    custom() {
-      if (this.value !== this.field('pinNumber').value) {
-        return 'pinMismatch'
-      }
-    },
-    uniforms: {
-      'ui:field-cols': 2,
-    },
   },
   streetAddress: {
     type: String,
@@ -119,6 +98,25 @@ const contactFormSchema = new SimpleSchema({
     optional: true,
     uniforms: {
       'ui:field-cols': 1,
+    },
+  },
+  pinNumber: {
+    type: String,
+    min: 4,
+    max: 4,
+    uniforms: {
+      'ui:field-cols': 2,
+    },
+  },
+  confirmPIN: {
+    type: String,
+    custom() {
+      if (this.value !== this.field('pinNumber').value) {
+        return 'pinMismatch'
+      }
+    },
+    uniforms: {
+      'ui:field-cols': 2,
     },
   },
 })
