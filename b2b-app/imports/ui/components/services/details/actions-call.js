@@ -30,7 +30,7 @@ const StyledBoxContent = styled.div`
 `
 
 function CallLog() {
-  const { addHistory } = useContext(JobsDetailsContext)
+  const { item, addHistory } = useContext(JobsDetailsContext)
 
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -47,6 +47,10 @@ function CallLog() {
     addHistory(`Call log: ${message}`)
     setMessage('')
     setOpen(false)
+  }
+
+  if (!item?.phone) {
+    return null
   }
 
   return (

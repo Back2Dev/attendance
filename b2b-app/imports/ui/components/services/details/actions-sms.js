@@ -30,7 +30,7 @@ const StyledBoxContent = styled.div`
 `
 
 function SendSMS() {
-  const { sendSMS } = useContext(JobsDetailsContext)
+  const { item, sendSMS } = useContext(JobsDetailsContext)
 
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -47,6 +47,10 @@ function SendSMS() {
     sendSMS(message)
     setMessage('')
     setOpen(false)
+  }
+
+  if (!item?.phone) {
+    return null
   }
 
   return (
