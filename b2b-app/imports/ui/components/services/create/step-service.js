@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import { useHistory } from 'react-router'
-import React, { useEffect, useRef, useReducer, useContext } from 'react'
+import React, { useEffect, useRef, useReducer, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, Typography } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -24,6 +24,18 @@ const StyledServiceStep = styled.div`
   .tags-selector {
     button {
       margin: 5px 0;
+    }
+  }
+  .popular-items-container {
+    margin: 10px 0;
+    .items-wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .item {
+      margin-right: 5px;
+      margin-bottom: 5px;
     }
   }
 `
@@ -111,6 +123,11 @@ function ServiceStep({ initialData }) {
       loading: !sub.ready(),
     }
   }, [])
+
+  const sortedItems = useMemo(() => {
+    const sorted = items.sort((a, b) => (b.numbersOfUsed || 0) - (a.numbersOfUsed || 0))
+    return sorted
+  }, [items])
 
   useEffect(() => {
     if (originalData?.serviceItems?.length && items?.length) {
@@ -213,6 +230,36 @@ function ServiceStep({ initialData }) {
     ))
   }
 
+  const renderPopularItems = () => {
+    if (!sortedItems?.length) {
+      return null
+    }
+    return (
+      <div className="popular-items-container">
+        <Typography variant="h3">Popular service items</Typography>
+        <div className="items-wrapper">
+          {sortedItems.map((item, index) => {
+            if (index > 10) {
+              return null
+            }
+            return (
+              <div className="item" key={item._id}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    dispatch({ type: 'addItem', payload: item })
+                  }}
+                >
+                  {item.name} - ${item.price / 100}
+                </Button>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <StyledServiceStep>
       <div className={classes.join(' ')}>
@@ -287,7 +334,7 @@ function ServiceStep({ initialData }) {
             </Button>
           </div>
         </div>
-        <div className="popular-items-container">Popular items here</div>
+        {renderPopularItems()}
       </div>
     </StyledServiceStep>
   )
