@@ -17,6 +17,11 @@ export const JobMarkAsPaidParamsSchema = new SimpleSchema({
   id: String,
 })
 
+export const JobSendSMSParamsSchema = new SimpleSchema({
+  id: String,
+  message: String,
+})
+
 export const JobAddHistoryParamsSchema = new SimpleSchema({
   id: String,
   description: String,

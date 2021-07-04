@@ -131,6 +131,23 @@ export const JobsDetailsProvider = ({ children }) => {
 
   const sendSMS = (message) => {
     console.log('send sms', message)
+    dispatch({ type: 'setLoading', loading: true })
+    Meteor.call('jobs.sendSMS', { id: item._id, message }, (error, result) => {
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'failed') {
+          showError(result.message)
+        }
+        if (result.status === 'success') {
+          showSuccess('SMS sent successfully')
+        }
+      }
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    })
   }
 
   return (
