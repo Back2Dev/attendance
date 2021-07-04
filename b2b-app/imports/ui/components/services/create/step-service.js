@@ -26,6 +26,10 @@ const StyledServiceStep = styled.div`
       margin: 5px 0;
     }
   }
+  .total-cost {
+    margin: 10px 0;
+    font-weight: bold;
+  }
   .popular-items-container {
     margin: 10px 0;
     .items-wrapper {
@@ -42,6 +46,13 @@ const StyledServiceStep = styled.div`
 
 function serviceStepReducer(state, action) {
   const { type, payload } = action
+  const getTotalCost = (items) => {
+    if (!items?.length) {
+      return 0
+    }
+    return items.reduce((sum, item) => sum + item.price, 0)
+  }
+
   switch (type) {
     case 'updateSelectedItem': {
       const newItems = state.selectedItems.map((item) => {
@@ -50,26 +61,40 @@ function serviceStepReducer(state, action) {
         }
         return item
       })
-      return { ...state, selectedItems: newItems, updatedAt: new Date() }
+      return {
+        ...state,
+        selectedItems: newItems,
+        totalCost: getTotalCost(newItems),
+        updatedAt: new Date(),
+      }
     }
     case 'setSelectedItems':
-      return { ...state, selectedItems: payload, updatedAt: new Date() }
+      return {
+        ...state,
+        selectedItems: payload,
+        totalCost: getTotalCost(payload),
+        updatedAt: new Date(),
+      }
     case 'addItem': {
       const newItem = {
         ...payload,
         localId: Random.id(),
       }
+      const selectedItems = [...state.selectedItems, newItem]
       return {
         ...state,
-        selectedItems: [...state.selectedItems, newItem],
+        selectedItems,
+        totalCost: getTotalCost(selectedItems),
         currentItem: null,
         updatedAt: new Date(),
       }
     }
     case 'addItems': {
+      const selectedItems = [...state.selectedItems, ...payload]
       return {
         ...state,
-        selectedItems: [...state.selectedItems, ...payload],
+        selectedItems,
+        totalCost: getTotalCost(selectedItems),
         updatedAt: new Date(),
       }
     }
@@ -80,7 +105,12 @@ function serviceStepReducer(state, action) {
           newItems.push(item)
         }
       })
-      return { ...state, selectedItems: newItems, updatedAt: new Date() }
+      return {
+        ...state,
+        selectedItems: newItems,
+        totalCost: getTotalCost(newItems),
+        updatedAt: new Date(),
+      }
     }
     case 'setCurrentItem':
       return { ...state, currentItem: payload }
@@ -95,6 +125,7 @@ function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
+    totalCost: 0,
     updatedAt: new Date(),
     hasValidData: false,
     checkedAt: null,
@@ -288,6 +319,7 @@ function ServiceStep({ initialData }) {
         <div className="selected-items-container" ref={selectedContRef}>
           {renderSelectedItems()}
         </div>
+        <div className="total-cost">Total cost: ${state.totalCost / 100}</div>
         <div className="btns-container">
           <Button
             className="next-btn"
