@@ -10,6 +10,7 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
+const fs = require('fs')
 
 const accessByPath = (obj, path) => {
   if (typeof path !== 'string') return ''
@@ -23,7 +24,8 @@ const accessByPath = (obj, path) => {
 
 module.exports = (on, config) => {
   // Pull in some environment values from the Meteor settings file
-  const meteorSettings = require(`${process.cwd()}/dev.${process.env.USER}.settings.json`)
+  const settingsFile = `${process.cwd()}/dev.${process.env.USER}.settings.json`
+  const meteorSettings = fs.existsSync(settingsFile) ? require(settingsFile) : ''
 
   if (meteorSettings) {
     const mapper = { bucket: 'private.UPLOAD_BUCKET' }
