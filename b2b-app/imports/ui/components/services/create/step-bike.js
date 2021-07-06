@@ -27,6 +27,10 @@ const bikeFormSchema = new SimpleSchema({
       'Other',
     ],
   },
+  budget: {
+    type: Number,
+    label: 'Budget',
+  },
   approxValue: {
     type: Number,
     label: 'Approx. Value',
@@ -114,6 +118,7 @@ function BikeStep({ initialData }) {
           model: originalData.model,
           color: originalData.color,
           type: originalData.bikeType,
+          budget: originalData.budget,
           approxValue: originalData.bikeValue,
         },
       })
