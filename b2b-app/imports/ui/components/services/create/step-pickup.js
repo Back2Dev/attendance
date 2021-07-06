@@ -29,7 +29,7 @@ const StyledPickupStep = styled.div`
 
 const pickupFormSchema = new SimpleSchema({
   dropOffDate: { type: Date, defaultValue: moment().format('YYYY-MM-DD') },
-  pickupDate: { type: Date, defaultValue: moment().add(3, 'days').format('YYYY-MM-DD') },
+  pickupDate: { type: Date, defaultValue: moment().add(7, 'days').format('YYYY-MM-DD') },
   replacementBike: { type: String, optional: true },
   urgent: {
     type: Boolean,
