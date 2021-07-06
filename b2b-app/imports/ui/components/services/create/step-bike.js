@@ -77,12 +77,31 @@ function BikeStep({ initialData }) {
   const formRef = useRef()
   const checkTimeout = useRef(null)
 
-  const { details, hasValidData, checkedAt, updatedAt } = state
+  const { details, hasValidData, updatedAt } = state
 
   const checkData = async () => {
     // const checkResult = await formRef.current?.validate()
     const checkResult = await formRef.current?.validateModel(details)
     dispatch({ type: 'setHasValidData', payload: checkResult === null })
+  }
+
+  const handleSubmit = () => {
+    setStepData({
+      stepKey: 'bike',
+      data: {
+        details,
+        updatedAt,
+        hasValidData,
+      },
+    })
+    setStepProperty({
+      stepKey: 'bike',
+      property: 'completed',
+      value: hasValidData,
+    })
+    if (hasValidData && activeStep === 'bike') {
+      goNext()
+    }
   }
 
   useEffect(() => {
@@ -112,28 +131,6 @@ function BikeStep({ initialData }) {
     }, 300)
   }, [updatedAt])
 
-  useEffect(() => {
-    // if (activeStep !== 'bike') {
-    //   return
-    // }
-    setStepData({
-      stepKey: 'bike',
-      data: {
-        details,
-        updatedAt,
-        hasValidData,
-      },
-    })
-    setStepProperty({
-      stepKey: 'bike',
-      property: 'completed',
-      value: hasValidData,
-    })
-    if (hasValidData && activeStep === 'bike') {
-      goNext()
-    }
-  }, [checkedAt])
-
   if (activeStep !== 'bike') {
     return null
   }
@@ -150,9 +147,12 @@ function BikeStep({ initialData }) {
           ref={formRef}
           schema={new SimpleSchema2Bridge(bikeFormSchema)}
           model={details}
-          onSubmit={(model) => {
+          onChangeModel={(model) => {
             // console.log(model)
             dispatch({ type: 'setDetails', payload: model })
+          }}
+          onSubmit={() => {
+            handleSubmit()
           }}
         >
           <AutoFields />

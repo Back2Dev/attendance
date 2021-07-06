@@ -327,6 +327,7 @@ function ServiceStep({ initialData }) {
             onClick={() => {
               goBack()
             }}
+            testid="service-back-btn"
           >
             Back
           </Button>
