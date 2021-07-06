@@ -160,6 +160,11 @@ function ServiceStep({ initialData }) {
     return sorted
   }, [items])
 
+  const sortedByNameItems = useMemo(() => {
+    const sorted = items.sort((a, b) => a.name.localeCompare(b.name))
+    return sorted
+  }, [items])
+
   useEffect(() => {
     if (originalData?.serviceItems?.length && items?.length) {
       const itemsToBeAdded = originalData?.serviceItems.map((item) => {
@@ -300,7 +305,7 @@ function ServiceStep({ initialData }) {
           <Autocomplete
             ref={searchFieldRef}
             value={currentItem}
-            options={items}
+            options={sortedByNameItems}
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
             style={{ maxWidth: 450, minWidth: 300 }}
             renderInput={(params) => (
