@@ -95,9 +95,11 @@
     "slate-history": "^0.62.0",
     "slate-react": "^0.62.0",
     "styled-components": "^5.2.1",
-    "uniforms-bridge-json-schema": "^3.0.0-rc.8",
+    "uniforms": "^3.5.1",
+    "uniforms-bridge-json-schema": "^3.5.1",
     "uniforms-bridge-simple-schema-2": "^3.0.0-rc.8",
     "uniforms-material": "^3.0.0-rc.8",
+    "uniforms-semantic": "^3.5.1",
     "winston": "=3.1.0",
     "winston-loggly-bulk": "git+https://github.com/loggly/winston-loggly-bulk.git#3.x",
     "winston-mongodb": "^5.0.5"

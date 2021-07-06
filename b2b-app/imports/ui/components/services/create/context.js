@@ -25,7 +25,7 @@ function reducer(state, action) {
         console.log('stepKey was not found', stepKey)
         return state
       }
-      if (stepProperties.indexOf(property) === -1) {
+      if (s.indexOf(property) === -1) {
         console.log('property was not found', property)
         return state
       }
