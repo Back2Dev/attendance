@@ -9,10 +9,12 @@ import { ServiceContext } from './context'
 const StyledCreateServiceHeader = styled.div``
 
 function CreateServiceHeader() {
-  const { jobId } = useContext(ServiceContext)
+  const { jobId, steps } = useContext(ServiceContext)
 
   const renderHeaderText = () => {
-    return jobId ? 'Edit Service' : 'New Service'
+    const totalCost = (steps?.service?.data?.totalCost || 0) / 100
+
+    return jobId ? `Edit Service $${totalCost}` : `New Service $${totalCost}`
   }
 
   return (

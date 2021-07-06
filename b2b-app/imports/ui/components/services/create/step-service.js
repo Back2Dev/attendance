@@ -195,6 +195,7 @@ function ServiceStep({ initialData }) {
         items: selectedItems,
         updatedAt,
         hasValidData,
+        totalCost: state.totalCost,
       },
     })
     setStepProperty({
