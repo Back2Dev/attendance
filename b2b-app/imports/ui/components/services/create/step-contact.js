@@ -84,7 +84,7 @@ const memberFormSchema = new SimpleSchema({
   name: String,
   mobile: { type: String, optional: true },
   email: { type: String, optional: true },
-  address: String,
+  address: { type: String, optional: true },
 })
 memberFormSchema.addDocValidator((obj) => {
   // console.log('doc validator', obj)

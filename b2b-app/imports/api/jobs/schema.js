@@ -77,7 +77,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
       name: String,
       mobile: OptionalString,
       email: OptionalString,
-      address: String,
+      address: OptionalString,
     }),
     optional: true,
   },
