@@ -82,9 +82,19 @@ const StyledContactStep = styled.div`
 
 const memberFormSchema = new SimpleSchema({
   name: String,
-  mobile: String,
-  email: String,
+  mobile: { type: String, optional: true },
+  email: { type: String, optional: true },
   address: String,
+})
+memberFormSchema.addDocValidator((obj) => {
+  // console.log('doc validator', obj)
+  if (!obj?.mobile && !obj?.email) {
+    return [
+      { name: 'mobile', type: 'required', value: 'Mobile or Email is required' },
+      { name: 'email', type: 'required', value: 'Mobile or Email is required' },
+    ]
+  }
+  return []
 })
 
 function contactStepReducer(state, action) {
