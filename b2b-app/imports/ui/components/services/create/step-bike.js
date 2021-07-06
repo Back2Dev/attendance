@@ -34,6 +34,7 @@ const bikeFormSchema = new SimpleSchema({
   approxValue: {
     type: Number,
     label: 'Approx. Value',
+    optional: true,
   },
 })
 

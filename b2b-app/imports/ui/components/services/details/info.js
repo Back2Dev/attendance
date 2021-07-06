@@ -65,10 +65,10 @@ function JobInfo() {
         <Grid item xs={12} md={2}>
           <Grid container>
             <Grid item xs={5} md={12} className="label">
-              Bike Value
+              Budget
             </Grid>
             <Grid item xs={7} md={12} className="data">
-              {renderData(`$${numeral(item?.bikeValue).format('0,0')}`)}
+              {renderData(`$${numeral(item?.budget).format('0,0')}`)}
             </Grid>
           </Grid>
         </Grid>

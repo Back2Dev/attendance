@@ -56,7 +56,10 @@ export const JobCreateParamsSchema = new SimpleSchema({
     color: String,
     type: String,
     budget: Number,
-    approxValue: Number,
+    approxValue: {
+      type: Number,
+      optional: true,
+    },
   }),
   hasMember: {
     type: Boolean,
@@ -113,6 +116,7 @@ export const JobsSchema = new SimpleSchema({
   bikeValue: {
     type: SimpleSchema.Integer,
     label: 'Estimated bike value in cents',
+    optional: true,
   },
   sentimentValue: {
     type: Boolean,
