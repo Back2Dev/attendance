@@ -112,21 +112,25 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
-  const addHistory = (description) => {
+  const addHistory = (description, contacted = false) => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.addHistory', { id: item._id, description }, (error, result) => {
-      if (error) {
-        showError(error.message)
-      }
-      if (result) {
-        if (result.status === 'failed') {
-          showError(result.message)
+    Meteor.call(
+      'jobs.addHistory',
+      { id: item._id, description, contacted },
+      (error, result) => {
+        if (error) {
+          showError(error.message)
+        }
+        if (result) {
+          if (result.status === 'failed') {
+            showError(result.message)
+          }
+        }
+        if (mounted.current) {
+          dispatch({ type: 'setLoading', loading: false })
         }
       }
-      if (mounted.current) {
-        dispatch({ type: 'setLoading', loading: false })
-      }
-    })
+    )
   }
 
   const sendSMS = (message) => {

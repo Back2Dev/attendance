@@ -44,7 +44,7 @@ function CallLog() {
   }
 
   const onSubmit = () => {
-    addHistory(`Call log: ${message}`)
+    addHistory(`Call log: ${message}`, true)
     setMessage('')
     setOpen(false)
   }

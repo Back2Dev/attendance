@@ -25,6 +25,7 @@ export const JobSendSMSParamsSchema = new SimpleSchema({
 export const JobAddHistoryParamsSchema = new SimpleSchema({
   id: String,
   description: String,
+  contacted: { type: Boolean, optional: true },
 })
 
 export const JobUpdateMechanicParamsSchema = new SimpleSchema({
@@ -201,6 +202,10 @@ export const JobsSchema = new SimpleSchema({
     },
     createdAt: Date,
   }),
+  lastContacted: {
+    type: Date,
+    optional: true,
+  },
   createdAt,
   updatedAt,
 })

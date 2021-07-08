@@ -135,6 +135,18 @@ function JobInfo() {
             </Grid>
           </Grid>
         </Grid>
+        {item?.lastContacted && (
+          <Grid item xs={12} md={2}>
+            <Grid container>
+              <Grid item xs={5} md={12} className="label">
+                Last contacted
+              </Grid>
+              <Grid item xs={7} md={12} className="data">
+                {moment(item.lastContacted).format('DD/MM/YYYY HH:mm')}
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
     </StyledJobInfo>
   )

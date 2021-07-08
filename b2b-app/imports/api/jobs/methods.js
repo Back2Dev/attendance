@@ -124,11 +124,14 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description: 'Sent SMS: ${message}',
+              description: `Sent SMS: ${message}`,
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
             },
+          },
+          $set: {
+            lastContacted: new Date(),
           },
         }
       )
@@ -146,10 +149,11 @@ Meteor.methods({
    * @param {Object} params
    * @param {string} params.id
    * @param {string} params.description
+   * @param {boolean} params.contacted
    */
-  'jobs.addHistory'({ id, description }) {
+  'jobs.addHistory'({ id, description, contacted = false }) {
     try {
-      JobAddHistoryParamsSchema.validate({ id, description })
+      JobAddHistoryParamsSchema.validate({ id, description, contacted })
     } catch (e) {
       debug(e.message)
       return { status: 'failed', message: e.message }
@@ -187,6 +191,9 @@ Meteor.methods({
               statusAfter: job.status,
               createdAt: new Date(),
             },
+          },
+          $set: {
+            lastContacted: contacted ? new Date() : undefined,
           },
         }
       )
