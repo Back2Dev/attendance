@@ -64,7 +64,7 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description: `${myMember.name} mark the Job as paid`,
+              description: 'Mark the Job as paid',
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
@@ -124,7 +124,7 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description: `[${myMember?.name}] sent SMS: ${message}`,
+              description: 'Sent SMS: ${message}',
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
@@ -182,7 +182,7 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description: `[${myMember?.name}] ${description}`,
+              description,
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
@@ -251,8 +251,8 @@ Meteor.methods({
               userId: me._id,
               memberId: myMember._id,
               description: mechanic
-                ? `${myMember.name} update job mechanic, new mechanic: ${mechanicMember.name} (${mechanicMember.userId})`
-                : 'Deselect',
+                ? `New mechanic: ${mechanicMember.name}`
+                : 'Deselect mechanic',
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
@@ -315,7 +315,7 @@ Meteor.methods({
             history: {
               userId: me._id,
               memberId: myMember._id,
-              description: `${myMember.name} update job status, new status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
+              description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
               statusBefore: job.status,
               statusAfter: status,
               createdAt: new Date(),
