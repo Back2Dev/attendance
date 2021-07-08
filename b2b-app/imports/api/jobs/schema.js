@@ -50,6 +50,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'category',
     'used'
   ),
+  note: OptionalString,
   bikeDetails: new SimpleSchema({
     make: String,
     model: String,
@@ -152,6 +153,7 @@ export const JobsSchema = new SimpleSchema({
       }
     },
   },
+  note: OptionalString,
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
   urgent: {

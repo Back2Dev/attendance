@@ -349,6 +349,7 @@ export const ServiceProvider = ({ children }) => {
 
     const data = {
       serviceItems: state.steps.service.data.items,
+      note: state.steps.service.data.note,
       bikeDetails: state.steps.bike.data.details,
       hasMember: contactData.hasMember,
       selectedMember: contactData.selectedMember,

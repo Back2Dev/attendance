@@ -42,6 +42,11 @@ const StyledServiceStep = styled.div`
       margin-bottom: 5px;
     }
   }
+  .note-wrapper {
+    max-width: 450px;
+    .node-field {
+    }
+  }
 `
 
 function serviceStepReducer(state, action) {
@@ -114,6 +119,8 @@ function serviceStepReducer(state, action) {
     }
     case 'setCurrentItem':
       return { ...state, currentItem: payload }
+    case 'setNote':
+      return { ...state, note: payload, updatedAt: new Date() }
     case 'setHasValidData':
       return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
@@ -125,6 +132,7 @@ function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
+    note: '',
     totalCost: 0,
     updatedAt: new Date(),
     hasValidData: false,
@@ -177,6 +185,7 @@ function ServiceStep({ initialData }) {
       if (itemsToBeAdded?.length) {
         dispatch({ type: 'addItems', payload: itemsToBeAdded })
       }
+      dispatch({ type: 'setNote', payload: originalData.note })
     }
   }, [originalData, items])
 
@@ -194,10 +203,12 @@ function ServiceStep({ initialData }) {
     // if (activeStep !== 'service') {
     //   return
     // }
+    // console.log('set step data', state.note)
     setStepData({
       stepKey: 'service',
       data: {
         items: selectedItems,
+        note: state.note,
         updatedAt,
         hasValidData,
         totalCost: state.totalCost,
@@ -326,6 +337,18 @@ function ServiceStep({ initialData }) {
           {renderSelectedItems()}
         </div>
         <div className="total-cost">Total cost: ${state.totalCost / 100}</div>
+        <div className="note-wrapper">
+          <TextField
+            className="node-field"
+            multiline
+            fullWidth
+            label="Note"
+            value={state.note}
+            onChange={(e) => {
+              dispatch({ type: 'setNote', payload: e.target.value })
+            }}
+          />
+        </div>
         <div className="btns-container">
           <Button
             className="next-btn"
