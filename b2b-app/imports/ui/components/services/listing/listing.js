@@ -73,6 +73,7 @@ const StyledJobsListing = styled.div`
 function JobsListing() {
   const {
     jobs,
+    statusCounter,
     filterStatus,
     toggleFilterStatus,
     filterText,
@@ -213,6 +214,7 @@ function JobsListing() {
     if (isActive) {
       classNames.push('active')
     }
+
     return (
       <Button
         key={`status-${status}`}
@@ -228,9 +230,12 @@ function JobsListing() {
   }
 
   const renderFilterBtn = () => {
-    return Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((status) =>
-      renderFilterStatusBtn({ title: CONSTANTS.JOB_STATUS_READABLE[status], status })
-    )
+    return Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((status) => {
+      const title = `${CONSTANTS.JOB_STATUS_READABLE[status]} (${
+        statusCounter[status] || 'N/A'
+      })`
+      return renderFilterStatusBtn({ title, status })
+    })
   }
 
   return (

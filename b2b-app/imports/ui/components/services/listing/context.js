@@ -35,12 +35,19 @@ export const JobsListingProvider = ({ children }) => {
     filterStatus: [],
   })
 
-  const { loading, jobs } = useTracker(() => {
+  const { loading, jobs, statusCounter } = useTracker(() => {
     // TODO: change the subscription, add permission checking
     const sub = Meteor.subscribe('all.jobs')
+    const jobs = Jobs.find({}).fetch()
+    const statusCounter = {}
+    jobs.map((job) => {
+      statusCounter[job.status] = (statusCounter[job.status] || 0) + 1
+    })
+
     return {
       loading: !sub.ready(),
-      jobs: Jobs.find({}).fetch(),
+      jobs,
+      statusCounter,
     }
   }, [])
 
@@ -72,6 +79,7 @@ export const JobsListingProvider = ({ children }) => {
         ...state,
         loading,
         jobs,
+        statusCounter,
         toggleFilterStatus,
         setFilterText,
       }}
