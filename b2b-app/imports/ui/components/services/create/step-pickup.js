@@ -28,8 +28,8 @@ const StyledPickupStep = styled.div`
 `
 
 const pickupFormSchema = new SimpleSchema({
-  dropOffDate: { type: Date, defaultValue: moment().format('YYYY-MM-DD') },
-  pickupDate: { type: Date, defaultValue: moment().add(7, 'days').format('YYYY-MM-DD') },
+  dropOffDate: Date,
+  pickupDate: Date,
   replacementBike: { type: String, optional: true },
   urgent: {
     type: Boolean,
@@ -51,7 +51,11 @@ function pickupStepReducer(state, action) {
 
 function PickupStep({ initialData }) {
   const [state, dispatch] = useReducer(pickupStepReducer, {
-    pickup: initialData?.pickup || { urgent: false },
+    pickup: initialData?.pickup || {
+      dropOffDate: moment().format('YYYY-MM-DD'),
+      pickupDate: moment().add(7, 'days').format('YYYY-MM-DD'),
+      urgent: false,
+    },
     updatedAt: null,
     hasValidData: false,
     checkedAt: null,
