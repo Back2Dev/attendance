@@ -23,7 +23,7 @@ const accessByPath = (obj, path) => {
 
 module.exports = (on, config) => {
   // Pull in some environment values from the Meteor settings file
-  const meteorSettings = require(`${process.cwd()}/dev.${process.env.USER}.settings.json`)
+  const meteorSettings = require(`${process.cwd()}/dev.settings.json`)
 
   if (meteorSettings) {
     const mapper = { bucket: 'private.UPLOAD_BUCKET' }
