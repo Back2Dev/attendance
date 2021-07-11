@@ -13,7 +13,8 @@ const debug = require('debug')('b2b:events')
 Meteor.methods({
   /**
    * Cancel booked session
-   * @param {String} sessionId
+   * @param {Object} params
+   * @param {String} params.sessionId
    * @returns {Object} result
    * @returns {String} result.status
    * @returns {String} result.message
@@ -95,8 +96,9 @@ Meteor.methods({
   },
   /**
    * Book an event
-   * @param {String} eventId
-   * @param {String} toolId
+   * @param {Object} params
+   * @param {String} params.eventId
+   * @param {String} params.toolId
    * @returns {Object} result
    * @returns {String} result.status
    * @returns {String} result.message
