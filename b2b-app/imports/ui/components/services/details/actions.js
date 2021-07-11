@@ -18,6 +18,7 @@ const StyledJobActions = styled.div`
   .left {
     button {
       margin-right: 10px;
+      margin-bottom: 5px;
     }
   }
   .right {

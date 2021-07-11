@@ -13,6 +13,11 @@ import { ServiceItemsSchema } from '../service-items/schema'
 
 const Jobs = new Mongo.Collection('jobs')
 
+export const JobSetExpectedPickupDateParamsSchema = new SimpleSchema({
+  id: String,
+  date: Date,
+})
+
 export const JobMarkAsPaidParamsSchema = new SimpleSchema({
   id: String,
 })
@@ -157,6 +162,7 @@ export const JobsSchema = new SimpleSchema({
   note: OptionalString,
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
+  expectedPickupDate: { type: Date, optional: true, label: 'Expected pickup date' },
   urgent: {
     type: Boolean,
     label: 'Field to indicate if bike repair is urgent',

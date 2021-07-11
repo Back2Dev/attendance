@@ -154,6 +154,26 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
+  const setExpectedPickupDate = (date) => {
+    dispatch({ type: 'setLoading', loading: true })
+    Meteor.call('jobs.setExpectedPickupDate', { id: item._id, date }, (error, result) => {
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'failed') {
+          showError(result.message)
+        }
+        if (result.status === 'success') {
+          showSuccess('Job updated')
+        }
+      }
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    })
+  }
+
   return (
     <JobsDetailsContext.Provider
       value={{
@@ -165,6 +185,7 @@ export const JobsDetailsProvider = ({ children }) => {
         markAsPaid,
         addHistory,
         sendSMS,
+        setExpectedPickupDate,
       }}
     >
       {children}

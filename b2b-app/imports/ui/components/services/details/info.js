@@ -9,6 +9,7 @@ import { Grid, Link } from '@material-ui/core'
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
 import MechanicSelector from './info-mechanic'
+import ExpectedPickupDate from './info-expected-pickup'
 
 const StyledJobInfo = styled.div`
   .label {
@@ -132,6 +133,16 @@ function JobInfo() {
             </Grid>
             <Grid item xs={7} md={12} className="data">
               {renderData(CONSTANTS.JOB_STATUS_READABLE[item?.status])}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Grid container>
+            <Grid item xs={5} md={12} className="label">
+              Expected pickup date
+            </Grid>
+            <Grid item xs={7} md={12} className="data">
+              <ExpectedPickupDate />
             </Grid>
           </Grid>
         </Grid>

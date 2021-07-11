@@ -12,6 +12,7 @@ import Jobs, {
   JobMarkAsPaidParamsSchema,
   JobAddHistoryParamsSchema,
   JobSendSMSParamsSchema,
+  JobSetExpectedPickupDateParamsSchema,
 } from './schema'
 import Members from '/imports/api/members/schema.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
@@ -260,6 +261,67 @@ Meteor.methods({
               description: mechanic
                 ? `New mechanic: ${mechanicMember.name}`
                 : 'Deselect mechanic',
+              statusBefore: job.status,
+              statusAfter: job.status,
+              createdAt: new Date(),
+            },
+          },
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+
+    return {
+      status: 'success',
+    }
+  },
+
+  /**
+   * set expected pickup date
+   * @param {Object} params
+   * @param {string} params.id
+   * @param {Date} params.date
+   */
+  'jobs.setExpectedPickupDate'({ id, date }) {
+    try {
+      JobSetExpectedPickupDateParamsSchema.validate({ id, date })
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+    // get current user profile
+    const myMember = Members.findOne({ userId: me._id })
+
+    // find the job
+    const job = Jobs.findOne({ _id: id })
+    if (!job) {
+      return { status: 'failed', message: `Job was not found with id: ${id}` }
+    }
+
+    // update the status and the history
+    try {
+      Jobs.update(
+        { _id: id },
+        {
+          $set: { expectedPickupDate: date },
+          $push: {
+            history: {
+              userId: me._id,
+              memberId: myMember._id,
+              description: `Set expected pickup date: ${moment(date).format(
+                'DD/MM/YYYY'
+              )}`,
               statusBefore: job.status,
               statusAfter: job.status,
               createdAt: new Date(),
