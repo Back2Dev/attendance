@@ -10,3 +10,4 @@ x
 dev.*.settings.json
 .vscode
 ../.vscode
+.env

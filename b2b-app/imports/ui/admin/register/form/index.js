@@ -5,7 +5,7 @@ import { AutoForm, AutoField, ErrorField } from 'uniforms-material'
 import { Bridge, randomIds } from 'uniforms'
 
 import FormNav from './form-nav'
-import FieldsWrap from './fields-wrap'
+import FieldGrid from './field-grid'
 
 const FIELD_COLS = 4
 const rand = randomIds()
@@ -23,18 +23,18 @@ const Form = ({ onSubmit, model, schemaBridge }) => {
       }
       placeholder
     >
-      <FieldsWrap cols={FIELD_COLS}>
+      <FieldGrid cols={FIELD_COLS} container>
         {Object.keys(schemaBridge.schema.schema()).map((name, i) => {
           const fieldCols =
             schemaBridge.schema.schema(name)?.uniforms?.['ui:field-cols'] || FIELD_COLS
           return (
-            <div key={i} style={{ gridColumnEnd: `span ${fieldCols}` }}>
+            <FieldGrid key={i} span={fieldCols} item>
               <AutoField name={name} />
               <ErrorField name={name} />
-            </div>
+            </FieldGrid>
           )
         })}
-      </FieldsWrap>
+      </FieldGrid>
       <FormNav />
     </AutoForm>
   )
