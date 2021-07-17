@@ -4,7 +4,7 @@ import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
 import Courses from '/imports/api/courses/schema'
 
-// const debug = require('debug')('b2b:factory:courses')
+// const debug = require('debug')('app:factory:courses')
 
 Factory.define('course', Courses, {
   title: faker.lorem.sentence(),

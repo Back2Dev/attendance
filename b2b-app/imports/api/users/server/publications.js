@@ -9,7 +9,7 @@ import Members from '/imports/api/members/schema'
 import '/server/methods'
 import log from '/imports/lib/log'
 import Events, { MemberItemSchema } from '../../events/schema'
-const debug = require('debug')('b2b:users')
+const debug = require('debug')('app:users')
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
 

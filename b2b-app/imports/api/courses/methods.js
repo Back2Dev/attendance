@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import Events, { CourseItemSchema } from '../events/schema'
 import Courses from './schema'
-const debug = require('debug')('b2b:courses')
+const debug = require('debug')('app:courses')
 
 Meteor.methods({
   'rm.courses': (id) => {

@@ -14,7 +14,7 @@ import assertArrays from 'chai-arrays'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:messages:test')
+const debug = require('debug')('app:messages:test')
 
 // Tests start here
 

@@ -11,7 +11,7 @@ import './methods'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:events:test')
+const debug = require('debug')('app:events:test')
 
 describe('Test book.events method', () => {
   const theMethod = Meteor.server.method_handlers['book.events']

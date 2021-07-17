@@ -4,7 +4,7 @@ import Transporter from './index'
 import logger from '/imports/lib/log'
 import { sendSMS } from '/imports/api/messages/sms-send'
 
-const debug = require('debug')('b2b:messages:sms')
+const debug = require('debug')('app:messages:sms')
 
 export const SMSDataSchema = new SimpleSchema({
   recipient: String,

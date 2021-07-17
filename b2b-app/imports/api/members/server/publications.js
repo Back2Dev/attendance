@@ -5,7 +5,7 @@ import '../methods'
 import '../methods.custom'
 import { hasRole } from '/imports/api/users/utils.js'
 
-const debug = require('debug')('b2b:members:publications')
+const debug = require('debug')('app:members:publications')
 
 const publicFields = {
   name: 1,

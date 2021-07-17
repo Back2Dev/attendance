@@ -6,7 +6,7 @@ import Messages from '/imports/api/messages/schema'
 import '/imports/api/users/server/publications'
 import '/server/methods'
 
-const debug = require('debug')('b2b:userpubs')
+const debug = require('debug')('app:userpubs')
 
 describe('User publications', () => {
   before(function () {

@@ -6,7 +6,7 @@ import Members from '/imports/api/members/schema'
 import Messages from '/imports/api/messages/schema'
 import { Notifications, NotificationItems } from '/imports/api/notifications/schema'
 
-const debug = require('debug')('b2b:fixtures')
+const debug = require('debug')('app:fixtures')
 
 // Get the database definition for the target tables
 

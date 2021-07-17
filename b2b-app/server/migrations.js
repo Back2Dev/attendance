@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import Members from '/imports/api/members/schema'
 
-const debug = require('debug')('b2b:migrations')
+const debug = require('debug')('app:migrations')
 
 /*
  * Data migration as required... Migrations will have a finite lifetime,

@@ -7,7 +7,7 @@ import Events, { MemberItemSchema } from '../events/schema'
 import moment from 'moment'
 import Jobs from '../jobs/schema'
 
-const debug = require('debug')('b2b:members')
+const debug = require('debug')('app:members')
 
 Meteor.methods({
   'members.byRole'({ role, fields }) {

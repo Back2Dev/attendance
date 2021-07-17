@@ -7,7 +7,7 @@ import { createTestTemplates } from '/imports/test/factory.message-templates'
 import { createSMS, createEmail, createApp, getTemplate } from './functions'
 import { expect } from 'chai'
 
-const debug = require('debug')('b2b:messages:test')
+const debug = require('debug')('app:messages:test')
 
 const listing = {
   _id: 'pkhXhRTMhWoXK5GZE',

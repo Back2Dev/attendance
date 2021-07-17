@@ -6,7 +6,7 @@ import Members from '/imports/api/members/schema.js'
 import { MemberItemSchema } from '/imports/api/events/schema'
 import Courses from '/imports/api/courses/schema.js'
 import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
-const debug = require('debug')('b2b:events')
+const debug = require('debug')('app:events')
 
 const unit = [
   {

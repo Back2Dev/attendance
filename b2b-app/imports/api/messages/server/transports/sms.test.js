@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import transport, { SMSTransport } from './sms'
 
-const debug = require('debug')('b2b:messages:sms:test')
+const debug = require('debug')('app:messages:sms:test')
 
 const goodMessages = [
   {

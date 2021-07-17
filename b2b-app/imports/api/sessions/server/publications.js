@@ -10,7 +10,7 @@ import '../methods'
 import Events from '/imports/api/events/schema'
 import Tools from '/imports/api/tools/schema' 
 */
-const debug = require('debug')('b2b:sessions:publications')
+const debug = require('debug')('app:sessions:publications')
 
 Meteor.publish('sessions.byEventId', function (eventId) {
   if (!Match.test(eventId, String)) {

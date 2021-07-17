@@ -9,7 +9,7 @@ import HTMLTemplate from '/imports/api/email-template'
 import { convertMergeTags, convertLink } from '/imports/api/util.js'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import { Match, check } from 'meteor/check'
-const debug = require('debug')('b2b:messages')
+const debug = require('debug')('app:messages')
 
 export const findBykeyword = ({ data, keyword }) => {
   const roles = 'AGT BRK CUS CON'.split(/\s+/)

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-const debug = require('debug')('b2b:meteorCall')
+const debug = require('debug')('app:meteorCall')
 
 function useMeteor() {
   const meteorCall = async (method, description, params, slow) => {

@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { resetDatabase } from '/imports/test/util-test'
 import resultsCache from './results-cache'
 
-const debug = require('debug')('b2b:results-cache-test')
+const debug = require('debug')('app:results-cache-test')
 
 describe('Results cache', () => {
   resetDatabase()

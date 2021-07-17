@@ -11,7 +11,7 @@ import './methods'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:jobs:test')
+const debug = require('debug')('app:jobs:test')
 
 describe('Test jobs.markAsPaid method', () => {
   const theMethod = Meteor.server.method_handlers['jobs.markAsPaid']

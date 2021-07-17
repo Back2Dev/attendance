@@ -7,7 +7,7 @@ import Events from '../schema'
 import '../methods'
 import '../methods-workshop'
 
-const debug = require('debug')('b2b:events:publications')
+const debug = require('debug')('app:events:publications')
 
 Meteor.publish('all.events', () => {
   return Events.find({})

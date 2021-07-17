@@ -15,7 +15,7 @@ import imageExtensions from 'image-extensions'
 import isUrl from 'is-url'
 import { css } from '@emotion/css'
 
-const debug = require('debug')('b2b:slate-edit')
+const debug = require('debug')('app:slate-edit')
 
 const insertImage = (editor, url) => {
   const text = { text: '' }

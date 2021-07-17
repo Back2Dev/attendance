@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-const debug = require('debug')('b2b:upload')
+const debug = require('debug')('app:upload')
 
 Slingshot.fileRestrictions('privateUploads', {
   allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif', 'application/pdf'],
