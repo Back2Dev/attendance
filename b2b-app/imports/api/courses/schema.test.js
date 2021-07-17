@@ -6,6 +6,7 @@ import Courses from './schema'
 export const goodCourses = [
   {
     title: faker.lorem.sentence(),
+    slug: 'COURSE-1',
     map: [
       { title: faker.address.city(), imageUrl: faker.image.imageUrl() },
       { title: faker.address.city(), imageUrl: faker.image.imageUrl() },
@@ -16,16 +17,19 @@ export const goodCourses = [
   },
   {
     title: faker.lorem.sentence(),
+    slug: 'COURSE-2',
     description: faker.lorem.sentence(),
     difficulty: 'intermediate',
     active: true,
   },
   {
     title: faker.lorem.sentence(),
+    slug: 'COURSE-3',
     description: faker.lorem.sentence(),
   },
   {
     title: faker.lorem.sentence(),
+    slug: 'COURSE-4',
   },
 ]
 

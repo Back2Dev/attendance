@@ -192,7 +192,7 @@ Meteor.methods({
     // debug('updateData', JSON.stringify(updateData))
 
     // check if the member has this badge already
-    const existingBadge = member.badges.find((item) => item.code === code)
+    const existingBadge = member.badges?.find((item) => item.code === code)
     if (existingBadge) {
       if (!overwrite) {
         return {
@@ -228,6 +228,7 @@ Meteor.methods({
         },
         {
           $set: {
+            // TODO: I think Meteor mongo doesn't support $[]
             'members.$[].badges': updatedMember.badges,
           },
         },

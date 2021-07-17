@@ -85,7 +85,7 @@ export const createEmail = (form, subject) => {
 
   try {
     const { to, body } = form
-    let merged = HTMLTemplate.replace('*|contents|*', body).replace(
+    let merged = HTMLTemplate.replace('{{contents}}', body).replace(
       '*|subject|*',
       subject || ''
     )
@@ -248,6 +248,16 @@ export const sendMessages = (type) => {
   // try to send them
   messages.map((message) => {
     // debug({ message })
+    // Set the message to 'sending' to prevent duplicates
+    Messages.update(
+      { _id: message._id },
+      {
+        $set: {
+          status: 'sending',
+        },
+      }
+    )
+
     Transporter.send(message).then((result) => {
       if (result.status === 'success') {
         // update the message mark it sent

@@ -18,7 +18,7 @@ const debug = require('debug')('b2b:utils:address')
  * @returns {string[]} result.data.types
  */
 export const getAddressObject = async (address) => {
-  const apiKey = getCfg('geocoding_api_key')
+  const apiKey = getCfg('geocoding-api-key')
   if (!apiKey) {
     return {
       status: 'failed',

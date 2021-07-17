@@ -3,9 +3,10 @@ import { Match } from 'meteor/check'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
 import { Roles } from 'meteor/alanning:roles'
-import Members from '/imports/api/members/schema'
-import { getUserEmailAddress } from '/imports/api/users/utils.js'
 import moment from 'moment'
+import '/server/methods'
+import Members from '/imports/api/members/schema'
+import '/server/methods'
 import log from '/imports/lib/log'
 import Events, { MemberItemSchema } from '../../events/schema'
 const debug = require('debug')('b2b:users')
@@ -300,6 +301,7 @@ Meteor.methods({
         debug({ memberItem })
         const updateData = {}
         Object.keys(memberItem).map((key) => {
+          // TODO: I think Meteor mongo doesn't support $[]
           updateData[`members.$[].${key}`] = memberItem[key]
         })
         debug({ updateData })

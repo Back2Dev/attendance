@@ -22,6 +22,17 @@ Meteor.publish('id.messageTemplates', (id) => {
   ]
 })
 
+Meteor.publish('idslug.messageTemplates', (id) => {
+  let query = id
+  if (!MessageTemplates.findOne(id)) query = { slug: id }
+  return [
+    MessageTemplates.find(query),
+    /* Commented out related publications (if any) - best to add these in manually as required
+     
+    */
+  ]
+})
+
 Meteor.publish('slug.messageTemplates', (slug) => {
   return [
     MessageTemplates.find({ slug }),

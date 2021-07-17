@@ -1,28 +1,30 @@
 import { Meteor } from 'meteor/meteor'
-const mandrill = require('mandrill-api/mandrill')
+import axios from 'axios'
 import logger from '/imports/lib/log'
 
-const mandrillClient = new mandrill.Mandrill(Meteor.settings.private.MANDRILL_API_KEY)
+export const sendEmail = async (message) => {
+  let body = {
+    message,
+    key: Meteor.settings.private.MANDRILL_API_KEY,
+  }
 
-export const sendEmail = (message) => {
-  return new Promise((resolve, reject) => {
-    mandrillClient.messages.send(
-      { message: message, async: false, ip_pool: 'Main Pool' },
-      function (result) {
-        if (!['queued', 'sent'].includes(result[0].status)) {
-          console.error('Failed to send email', result[0])
-          resolve(result)
-        } else {
-          logger.info('Sent email', result[0])
-          logger.audit('Sent email', message)
-          resolve(result)
-        }
-      },
-      function (e) {
-        // Mandrill returns the error as an object with name and message keys
-        logger.error(`A mandrill error occurred: ${e.name} - ${e.message}`)
-        reject(e)
+  try {
+    const { status, data } = await axios.post(
+      'https://mandrillapp.com/api/1.0/messages/send',
+      body,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
     )
-  })
+    if (status !== 200) return { status: 'failed', message: data[0].message }
+
+    if (!data.length)
+      return { status: 'failed', message: 'Missing data info from response' }
+    return data[0]
+  } catch (error) {
+    logger.error('Failed to send email')
+    return { status: 'failed', message: error.message }
+  }
 }

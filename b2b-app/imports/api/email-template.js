@@ -6,7 +6,7 @@ const template = `
 </head>
 
 <body>
-*|contents|*
+{{contents}}
 </body>
 
 </html>`

@@ -66,7 +66,7 @@ describe('Test jobs.markAsPaid method', () => {
   })
   it('jobs.markAsPaid should work with valid job id and user', () => {
     const user = Factory.create('UserGRE')
-    const job = Factory.create('job')
+    const job = Factory.create('jobs')
     const goodParams = [
       {
         id: job._id,
