@@ -19,7 +19,7 @@ Fixtures.config = {
   //
   things,
   //
-  // Enable debugging with DEBUG=b2b:fixtures or DEBUG=b2b:* when invoking  meteor
+  // Enable debugging with DEBUG=app:fixtures or DEBUG=app:* when invoking  meteor
   //
   debug: true,
 }

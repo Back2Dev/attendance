@@ -14,7 +14,7 @@ import Triggers from '/imports/api/triggers/schema'
 import moment from 'moment'
 import HTMLTemplate from '/imports/api/email-template'
 
-const debug = require('debug')('b2b:methods')
+const debug = require('debug')('app:methods')
 
 const _ = require('lodash')
 
@@ -80,7 +80,7 @@ Meteor.methods({
       name: 'Audited me',
     })
   },
-    sendTrigger: ({
+  sendTrigger: ({
     user,
     member,
     people = [],
