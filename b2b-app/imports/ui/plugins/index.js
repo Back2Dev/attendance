@@ -7,13 +7,13 @@ import React from 'react'
  *   To replace a plugin, change the import statement (easy as that)
  */
 import Toast from './toast'
-import Chat from './drift'
+// import Chat from  './drift'
 
 // Render the plugins
 const Plugins = () => (
   <span>
     <Toast />
-    <Chat settings={Meteor.settings.public} />
+    {/* <Chat settings={Meteor.settings.public} /> */}
   </span>
 )
 
