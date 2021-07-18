@@ -1,3 +1,4 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 import logger from '/imports/lib/log'
@@ -21,9 +22,7 @@ Meteor.methods({
     }
 
     // find the user
-    const users = Meteor.users.find({
-      'roles._id': role,
-    })
+    const users = Roles.getUsersInRole(role)
 
     const userIds = users.map((user) => user._id)
     if (!userIds?.length) {
@@ -162,7 +161,8 @@ Meteor.methods({
     }
     // check for admin role
     const me = Meteor.users.findOne({ _id: this.userId })
-    const isAdm = me?.roles.some((role) => role._id === 'ADM')
+    const isAdm = Roles.userIsInRole(me, ['ADM'])
+
     if (!isAdm) {
       return { status: 'failed', message: 'Permission denied' }
     }
