@@ -1,0 +1,5 @@
+{
+  "collection": "Archives",
+  "fields": "name type user object",
+  "generate": "CRUD"
+}

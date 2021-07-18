@@ -1,0 +1,5 @@
+{
+  "collection": "Categorys",
+  "fields": "code name",
+  "generate": "CRUD"
+}

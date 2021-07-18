@@ -53,77 +53,7 @@ for display/action
 
 `,
   },
-  {
-    id: '008',
-    dateText: 'Sprint #8',
-    style: { color: '#e86971' },
-    markdown: `
-### Customer onboarding
 
-##### Background
-
-The existing platform onboarding process has a number of problems, such as
-
-  * Complex address entry/contract upload/picture upload/add 2nd buyer/add agent form
-  * Confusing signup/signin flow
-  * Page load time when adding a property
-
-##### Objectives
-
-The objectives of this sprint are to provide a simpler and less confusing customer onboarding process. 
-
-  * Improved onboarding will create a significantly better initial impression of the platform, and increase the likelihood of referrals.
-  * Simple forms that collect the minimum required information. 
-  * The data can be emailed to the server, which will trigger personal contact from Settle Easy to welcome them to the conveyancing process, and reassure them that they have made a good decision.
-
-##### Deliverables
-
-  * New application forms on public site
-    * Buying
-    * Selling
-    * Contract review
-  * Setup email accounts to receive applications
-  * Server process to 
-    * accept incoming applications
-    * Dispatch applications to relevant place
-    * Send notification to PM
-    * Mark emails as “processed”
-    * Flag problem records for remediation
-  * Admin page to view/edit/action incoming applications
-  * Weekly digest report/email
-    `,
-  },
-  {
-    id: '016',
-    dateText: 'Sprint #16',
-    style: { color: '#e86971' },
-    markdown: `
-### Landing pages
-
-Each user will have different needs for a landing page. 
-The primary users of the system are as follows
-
-##### Background
-
-| Role | Usage |
-| ------ | ------- |
-| Customer | Buyers and sellers are interested to see that the conveyancing is on time |
-| Conveyancer | The conveyancer is interested in what is the most important thing to be done next |
-| Practice Manager | The practice manager is interested in ensuring work is dispatched to conveyancers, and making sure that conveyancers are keeping on top of their workload |
-| Agent/admin | The agent admin will need to provide account sales |
-| Agent | The agent will probably not login to the system regularly, but will be interested in being notified as the matter progresses |
-| SE Admin | The Settle Easy admin is interested in the health of the system, and has some super powers not available to practice mgr/conveyancer |
-| Partner | Partners are interested in getting reporting information from the system |
-
-##### Objectives
-
-  * Provide a role-specific landing page for these roles:
-    * Customer
-    * Conveyancer
-    * Practice Manager
-
-    `,
-  },
   {
     id: '015',
     dateText: 'Sprint #15',

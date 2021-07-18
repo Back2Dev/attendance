@@ -1,0 +1,5 @@
+{
+  "collection": "MiniApps",
+  "fields": "name description manifestUrl path statusId platformId categoryId tags repo markdown",
+  "generate": "CRUD"
+}

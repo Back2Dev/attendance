@@ -118,14 +118,14 @@ describe('Utilities: populate', () => {
     ],
   }
   const practice = {
-    name: 'Settle Easy VIC',
-    legalName: 'Convx Pty. Ltd.',
+    name: 'Company',
+    legalName: 'Company Pty. Ltd.',
     license: '001632L',
-    address: 'Level 6, 530 Collins St, Melbourne, VIC 3000',
-    phone: '1 800 88 66 88',
-    abn: '20 625 000 651',
-    acn: '625 000 651',
-    email: 'info@settleeasy.com.au',
+    address: 'Level 1, 101 Collins St, Melbourne, VIC 3000',
+    phone: '1 800 xxx',
+    abn: '20 xxx',
+    acn: '625 xxx',
+    email: 'info@mydomain.com.au',
     state: 'vic',
     active: true,
   }

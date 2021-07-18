@@ -1,0 +1,5 @@
+{
+  "collection": "TradeEmails",
+  "fields": "date subject from to status",
+  "generate": "CRUD"
+}

@@ -1,0 +1,5 @@
+{
+  "collection": "Statuss",
+  "fields": "code name",
+  "generate": "CRUD"
+}

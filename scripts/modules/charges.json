@@ -1,0 +1,5 @@
+{
+  "collection": "Charges",
+  "fields": "token success amount currency description email ip_address created_at status_message error_message card transfer amount_refunded total_fees merchant_entitlement refund_pending authorisation_expired captured captured_at settlement_currency active_chargebacks metadata",
+  "generate": "CRUD"
+}

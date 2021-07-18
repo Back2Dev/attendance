@@ -1,0 +1,5 @@
+{
+  "collection": "Picks",
+  "fields": "memberName memberId tickers reasons",
+  "generate": "CRUD"
+}

@@ -1,0 +1,5 @@
+{
+  "collection": "Trades",
+  "fields": "tradeDate qty action code unitPrice totalPrice name",
+  "generate": "CRUD"
+}

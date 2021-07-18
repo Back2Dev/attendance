@@ -7,15 +7,20 @@
  * - Factories list /imports/test/generated-factories.js
  * - Publications list /imports/startup/server/generated-pubs.js
  */
-export default adminItems = [
-  { id: 'message-templates', collection: 'MessageTemplates' },
-  { id: 'settings', collection: 'SettingsList' },
-  { id: 'users', collection: 'UserList' },
-  { id: 'cronjobs', collection: 'Cronjobs' },
-  { id: 'triggers', collection: 'Triggers' },
-  { id: 'surveys', collection: 'Surveys' },
-  { id: 'events', collection: 'Events' },
-  { id: 'courses', collection: 'Courses' },
-  { id: 'tools', collection: 'Tools' },
-  { id: 'sessions', collection: 'Sessions' },
+module.exports = [
+  { id: 'audits', menu: 'Audits', fixtures: 0, pubs: 1 },
+  { id: 'cronjobs', menu: 'Cronjobs', fixtures: 1, pubs: 1 },
+  { id: 'triggers', menu: 'Triggers', fixtures: 1, pubs: 1 },
+  { id: 'message-templates', menu: 'Message templates', fixtures: 1, pubs: 1 },
+  { id: 'messages', menu: '', fixtures: 0, pubs: 1 },
+  { id: 'notifications', menu: '', fixtures: 0, pubs: 1 },
+  { id: 'members', menu: 'Members', fixtures: 1, pubs: 1 },
+  { id: 'settings', menu: 'Settings', fixtures: 1, pubs: 1 },
+  { id: 'surveys', menu: 'Surveys', fixtures: 1, pubs: 1 },
+  { id: 'events', menu: 'Events', fixtures: 0, pubs: 1 },
+  { id: 'courses', menu: 'Courses', fixtures: 0, pubs: 1 },
+  { id: 'tools', menu: 'Tools', fixtures: 1, pubs: 1 },
+  { id: 'sessions', menu: 'Sessions', fixtures: 0, pubs: 1 },
+  { id: 'service-items', menu: 'Service items', fixtures: 1, pubs: 1 },
+  { id: 'jobs', menu: 'Jobs', fixtures: 0, pubs: 1 },
 ]

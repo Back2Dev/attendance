@@ -16,7 +16,7 @@ describe.skip('using SMS broadcast service to send sms', () => {
   it('sends a sms', () => {
     const testData = {
       recipient: '61466614265',
-      sender: 'SettleEasy',
+      sender: 'Startup',
       message: 'Test SMS please ignore',
     }
 

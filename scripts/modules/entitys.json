@@ -1,0 +1,5 @@
+{
+  "collection": "Entitys",
+  "fields": "name eid hins type",
+  "generate": "CRUD"
+}

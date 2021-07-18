@@ -1,0 +1,5 @@
+{
+  "collection": "Contribs",
+  "fields": "employer empABN refNo when fundABN title suffix last first from to amount empContrib persContrib salSac empVol spouse child otherDesc otherFrom otherTo otherAmount",
+  "generate": "CRUD"
+}

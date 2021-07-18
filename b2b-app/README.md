@@ -14,7 +14,7 @@ Meteor installation, git, mongodb
 
 ```bash
 # clone the admin-app repository
-$ git clone https://github.com/Back2bikes/settler.git
+$ git clone https://github.com/Back2bikes/attendance.git
 # Or git clone git@github.com:Back2bikes/settler.git if you are using ssh
 
 # navigate into `se2-admin` folder and run
