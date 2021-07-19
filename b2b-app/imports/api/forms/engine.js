@@ -1,3 +1,5 @@
+import { createTypeErrorMsg } from 'pdf-lib'
+
 const debug = require('debug')('app:forms:engine')
 
 export const dummyParse = (source) => {
@@ -22,7 +24,7 @@ export const parse = (source) => {
   if (typeof source !== 'string') throw new Error('Parameter to parse must be a string')
   const result = { status: 'failed', object: { questions: [] } }
   const lines = source.split('\n')
-  let newQ
+  let newQ, newAnswer
   lines.forEach((line, ix) => {
     const lineno = ix + 1
     if (!line.match(/^#/)) {
@@ -34,7 +36,11 @@ export const parse = (source) => {
       }
       m = line.match(/^\s*A (.*)$/)
       if (m) {
-        newQ.answers.push({ text: m[1] })
+        if (!newQ) createTypeErrorMsg.push('You messed up')
+        else {
+          newAnswer = { text: m[1] }
+          newQ.answers.push(newAnswer)
+        }
       }
     }
   })
