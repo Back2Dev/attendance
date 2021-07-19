@@ -19,7 +19,7 @@ function doTemplating(pkg, dry_run, folder, tdir, willDo, legacy, nextFunc) {
   // This file contains the list of targets that can be built
   const modules = require(`../${folder}/imports/api/admin-items`)
   modules.forEach((m) => {
-    m.collection = titleCase(m.id)
+    m.collection = titleCase(m.id).replace(/-/g, '')
   })
   debug(modules)
 
@@ -65,7 +65,7 @@ function doTemplating(pkg, dry_run, folder, tdir, willDo, legacy, nextFunc) {
           .join('\n'),
         routeMarkup: modules
           .filter((m) => m.menu)
-          .map((m) => `<Route path="/admin/${m.id}" exact component={${m.collection}} />`)
+          .map((m) => `<Route path="/admin/${m.id}" component={${m.collection}} />`)
           .join('\n'),
         // Not sure where to get fixtures from
         // EXTRA_THINGS: JSON.stringify(fixtures, null, 2),
