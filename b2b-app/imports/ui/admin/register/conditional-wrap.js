@@ -2,35 +2,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 /**
- * This component wraps children depending on the 'condition' prop.
- *
- * Example:
- *    <ConditionalWrap
- *      condition={isMobile}
- *      wrapTrue={(children) => <div>{children}</div>}
- *      wrapFalse={(children) => <Paper>{children}</Paper>}>
- *      <h1> Header things </h1>
- *      <p> Content things </p>
- *    </ConditionalWrap>
- *
- * Here we don't want the extra margin/padding that Paper adds in mobile screen widths so it will
- * render children in a plain 'div'. Else, wrap the content in Paper.
+ * This component wraps children depending on the `condition` boolean prop.
  */
-const ConditionalWrap = ({ condition, wrapTrue, wrapFalse, children }) => {
+const ConditionalWrap = ({ condition, wrapTrue, wrapFalse, ...props }) => {
   // these checks just make it easier to consume the component. Eg. you can supply just wrapTrue
   // prop and not have to supply wrapFalse because it will just render children as is.
   if (condition && typeof wrapTrue === 'function') {
-    return wrapTrue(children)
+    return wrapTrue(props)
   } else if (!condition && typeof wrapFalse === 'function') {
-    return wrapFalse(children)
+    return wrapFalse(props)
   }
-  return <>{children}</>
+
+  return <div {...props} />
 }
 
 ConditionalWrap.propTypes = {
+  /** value to determine which wrapper to render */
   condition: PropTypes.bool.isRequired,
+  /** render this wrap element if `condition` is `true`. eg. `(props) =>
+   * <span>{props.children}</span>` If prop is not specified, it will render children in a `div` */
   wrapTrue: PropTypes.func,
+  /** same as wrapTrue but if `condition` is `false` */
   wrapFalse: PropTypes.func,
+  /** the wrapper element's children */
   children: PropTypes.node.isRequired,
 }
 

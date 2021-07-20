@@ -1,0 +1,61 @@
+import { Meta, Story, Title, Description, Canvas, ArgsTable } from '@storybook/addon-docs'
+import ConditionalWrap from './conditional-wrap'
+import * as stories from './condtional-wrap.stories'
+
+<Meta title="Admin/Register/Form/Conditional Wrap" component={ConditionalWrap} />
+
+<Title />
+
+<Description of={ConditionalWrap} />
+
+## Why do we need a component for conditional rendering?
+
+Suppose we have `Card` component that has a `title`, `summary` and optionally a `desc` prop.
+And if `desc` exists, then the `Card` should be clickable to show additional information.
+Otherwise, just show the card. We could write something like:
+
+```jsx
+  const Card = ({ title, summary, desc }) => (
+  <div>
+    {desc ? (
+      <a href="#more-info">
+        <h1>{title}</h1>
+        <p>{summary}</p>
+      </a>
+    ) : (
+      <div>
+        <h1>{title}</h1>
+        <p>{summary}</p>
+      </div>
+    )}
+  </div>
+```
+
+but the content in the `Card` has been repeated. ie. the code isn't DRY. In `ConditionalWrap`, the
+content is the children (no duplication here) and the wrapping elements are supplied by two render props
+`wrapTrue` and `wrapFalse`.
+
+Another use case for `ConditionalWrap` is for rendering different wrappers depending on the screen
+width. In desktop widths, there is normally more padding around the content than in mobile.
+
+## Default usage
+
+<Canvas withToolbar>
+  <Story story={stories.Default} name="Default" />
+</Canvas>
+
+Click `show code` above and you will see that if `condition` prop is `true`, then the `wrapTrue`
+wrapper element is rendered. Otherwise, `wrapFalse` will be rendered. By default, it renders the
+`wrapFalse` element
+
+<ArgsTable story="Default" />
+
+## Stories
+
+<Canvas>
+  <Story story={stories.TrueCondition} name="TrueCondition" />
+</Canvas>
+
+In this story, `condition` prop is `true` so we render `wrapTrue`. Note that it is not neccessary to
+provide both render props because the unspecified prop will render the children in a div by default.
+You must, however provide one or the other.

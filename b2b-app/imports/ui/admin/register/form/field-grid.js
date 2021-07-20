@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+/**
+ * A grid layout component for form input fields
+ */
 const FieldGrid = ({ cols, container, item, span, children }) => {
   const { isMobile } = useContext(RegisterContext)
   const classes = useStyles({ cols, isMobile })
@@ -26,16 +29,19 @@ const FieldGrid = ({ cols, container, item, span, children }) => {
 }
 
 FieldGrid.propTypes = {
+  /** FieldGrid items */
   children: PropTypes.node.isRequired,
-  /* the number of columns for the grid container */
+  /** the number of columns for the grid container */
   cols: PropTypes.number,
-  /* the number of columns for the item */
+  /** the number of columns for the item */
   span: PropTypes.number,
+  /** set the component as a container */
   container: PropTypes.bool,
+  /** set the component as an item */
   item: PropTypes.bool,
 }
 
-FieldGrid.defaultValues = {
+FieldGrid.defaultProps = {
   cols: 1,
   span: 1,
 }

@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Admin/Register/Form/Conditional Wrap Default 1`] = `
+<a
+  href="#card-details"
+  style="border: 1px solid lightgrey; padding: 2rem; display: inline-block;"
+>
+  <h1>
+    This is the title
+  </h1>
+  <p>
+    This is a summary
+  </p>
+</a>
+`;
+
 exports[`Storyshots Admin/Register/Form/Field Grid Default Items 1`] = `
 <div
   style="border: 1px solid lightgrey; padding: 1rem; margin: 3rem auto; max-width: 600px;"
@@ -8,7 +22,7 @@ exports[`Storyshots Admin/Register/Form/Field Grid Default Items 1`] = `
     class="makeStyles-root-1 makeStyles-root-2"
   >
     <div
-      style="grid-column-end: span undefined;"
+      style="grid-column-end: span 1;"
     >
       <div
         class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth"
@@ -22,7 +36,7 @@ exports[`Storyshots Admin/Register/Form/Field Grid Default Items 1`] = `
       </div>
     </div>
     <div
-      style="grid-column-end: span undefined;"
+      style="grid-column-end: span 1;"
     >
       <div
         class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth"

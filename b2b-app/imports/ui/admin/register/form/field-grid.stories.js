@@ -7,7 +7,29 @@ export default {
   title: 'Admin/Register/Form/Field Grid',
   component: FieldGrid,
   parameters: {
-    controls: { include: ['cols', 'fields'] },
+    docs: {
+      source: {
+        excludeDecorators: true, // don't show decorator code when clicking 'show code' in docs
+      },
+    },
+  },
+  argTypes: {
+    span: {
+      control: false, // disable control but keeps this prop listed in the docs ArgsTable
+    },
+    container: {
+      control: false,
+    },
+    item: {
+      control: false,
+    },
+    children: {
+      control: false,
+    },
+    fields: {
+      description:
+        'This is **not a real prop**. Only used in storybook to make configuring children (`FieldGrid` items) easier.',
+    },
   },
   decorators: [
     (story) => (
