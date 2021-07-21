@@ -209,6 +209,7 @@ Meteor.methods({
     }
 
     try {
+      // debug('updateData', JSON.stringify(updateData, null, 2))
       const updateResult = Members.update(updateCondition, updateData)
       if (!updateResult) {
         return { status: 'failed', message: 'Unable to update member' }
@@ -220,20 +221,26 @@ Meteor.methods({
     // update the members array of event
     const updatedMember = Members.findOne({ _id: memberId })
     if (updatedMember) {
-      Events.update(
-        {
-          members: {
-            $elemMatch: { _id: memberId },
+      try {
+        Events.update(
+          {
+            members: {
+              $elemMatch: { _id: memberId },
+            },
           },
-        },
-        {
-          $set: {
-            // TODO: I think Meteor mongo doesn't support $[]
-            'members.$[].badges': updatedMember.badges,
+          {
+            $set: {
+              // TODO: I think Meteor mongo doesn't support $[]
+              // Minh: Meteor mongo supports but the problem is simpl-schema doesn't support it.
+              // https://github.com/longshotlabs/simpl-schema/issues/378
+              'members.$[].badges': updatedMember.badges,
+            },
           },
-        },
-        { multi: true }
-      )
+          { multi: true }
+        )
+      } catch (e) {
+        debug('error updating event:', e.message)
+      }
     }
 
     return { status: 'success' }
