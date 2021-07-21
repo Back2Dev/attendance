@@ -1,3 +1,4 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 // import { Random } from 'meteor/random'
@@ -30,21 +31,14 @@ Factory.define('user', Meteor.users, {
       },
     ]
   },
-  roles: [],
 }).after(createMember)
 
+// this doesn't work
 Object.keys(CONSTANTS.ROLES).map((role) => {
-  Factory.define(
-    `User${role}`,
-    Meteor.users,
-    Factory.extend('user', {
-      roles: [
-        {
-          _id: role,
-          scope: null,
-          assigned: true,
-        },
-      ],
-    })
-  ).after(createMember)
+  Factory.define(`User${role}`, Meteor.users, Factory.extend('user', {})).after((doc) => {
+    // try to create role
+    Roles.createRole(role, { unlessExists: true })
+    Roles.setUserRoles(doc._id, role)
+    createMember(doc)
+  })
 })

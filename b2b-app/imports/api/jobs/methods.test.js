@@ -3,10 +3,10 @@ import { Random } from 'meteor/random'
 
 import { use, expect } from 'chai'
 import assertArrays from 'chai-arrays'
-import faker from 'faker'
+// import faker from 'faker'
 
 import Factory from '/imports/test/factories'
-import Members from '/imports/api/members/schema.js'
+// import Members from '/imports/api/members/schema.js'
 import './methods'
 
 use(assertArrays)
