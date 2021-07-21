@@ -9,7 +9,7 @@ import Members from '/imports/api/members/schema.js'
 import CONSTANTS from '/imports/api/constants'
 import './methods'
 
-const debug = require('debug')('b2b:members:test')
+const debug = require('debug')('app:members:test')
 
 // Tests start here
 

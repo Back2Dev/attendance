@@ -25,17 +25,7 @@ describe('serviceItems', () => {
       it('success if database query matches', () => {
         const id = ServiceItems.insert(good)
         const thing = ServiceItems.findOne(id)
-        const fields =
-          [
-            '_id',
-            'name',
-            'price',
-            'code',
-            'category',
-            'used',
-            'createdAt',
-            'updatedAt',
-          ] || []
+        const fields = ['_id', 'name', 'price', 'code', 'category', 'used'] || []
         fields.forEach((field) => {
           expect(thing[field]).to.equal(good[field])
         })

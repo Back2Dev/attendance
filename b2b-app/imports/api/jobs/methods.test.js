@@ -11,7 +11,7 @@ import './methods'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:jobs:test')
+const debug = require('debug')('app:jobs:test')
 
 describe('Test jobs.markAsPaid method', () => {
   const theMethod = Meteor.server.method_handlers['jobs.markAsPaid']
@@ -66,7 +66,7 @@ describe('Test jobs.markAsPaid method', () => {
   })
   it('jobs.markAsPaid should work with valid job id and user', () => {
     const user = Factory.create('UserGRE')
-    const job = Factory.create('job')
+    const job = Factory.create('jobs')
     const goodParams = [
       {
         id: job._id,

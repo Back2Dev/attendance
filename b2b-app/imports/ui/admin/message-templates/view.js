@@ -23,7 +23,7 @@ const View = ({ item }) => {
         {item.type === 'EMAIL' ? (
           <Typography
             dangerouslySetInnerHTML={{
-              __html: HTMLTemplate.replace('*|contents|*', itemHTML).replace(
+              __html: HTMLTemplate.replace('{{contents}}', itemHTML).replace(
                 '*|subject|*',
                 '--- SUBJECT GOES HERE ---'
               ),

@@ -8,7 +8,7 @@ import Events, { MemberItemSchema } from '../events/schema'
 import moment from 'moment'
 import Jobs from '../jobs/schema'
 
-const debug = require('debug')('b2b:members')
+const debug = require('debug')('app:members')
 
 Meteor.methods({
   'members.byRole'({ role, fields }) {
@@ -192,7 +192,7 @@ Meteor.methods({
     // debug('updateData', JSON.stringify(updateData))
 
     // check if the member has this badge already
-    const existingBadge = member.badges.find((item) => item.code === code)
+    const existingBadge = member.badges?.find((item) => item.code === code)
     if (existingBadge) {
       if (!overwrite) {
         return {
@@ -228,6 +228,7 @@ Meteor.methods({
         },
         {
           $set: {
+            // TODO: I think Meteor mongo doesn't support $[]
             'members.$[].badges': updatedMember.badges,
           },
         },

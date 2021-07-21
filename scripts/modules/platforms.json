@@ -1,0 +1,5 @@
+{
+  "collection": "Platforms",
+  "fields": "name description dept",
+  "generate": "CRUD"
+}

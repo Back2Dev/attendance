@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { getCfg } from '/imports/api/settings/server/helper.js'
 
-const debug = require('debug')('b2b:utils:address')
+const debug = require('debug')('app:utils:address')
 
 /**
  * Get address object from string address
@@ -18,7 +18,7 @@ const debug = require('debug')('b2b:utils:address')
  * @returns {string[]} result.data.types
  */
 export const getAddressObject = async (address) => {
-  const apiKey = getCfg('geocoding_api_key')
+  const apiKey = getCfg('geocoding-api-key')
   if (!apiKey) {
     return {
       status: 'failed',

@@ -1,0 +1,5 @@
+{
+  "collection": "Prices",
+  "fields": "code name start qty price history",
+  "generate": "CRUD"
+}

@@ -1,0 +1,5 @@
+{
+  "collection": "Tasks",
+  "fields": "name type status role",
+  "generate": "CRUD"
+}

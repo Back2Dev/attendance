@@ -14,7 +14,7 @@ import { push } from './server/helper'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:notifications:test')
+const debug = require('debug')('app:notifications:test')
 
 const testUserId = Random.id()
 

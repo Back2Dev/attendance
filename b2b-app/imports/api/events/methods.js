@@ -8,7 +8,7 @@ import Events, {
   MemberItemSchema,
   CourseItemSchema,
 } from './schema'
-const debug = require('debug')('b2b:events')
+const debug = require('debug')('app:events')
 
 Meteor.methods({
   /**

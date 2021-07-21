@@ -16,7 +16,7 @@ import Jobs, {
 import Members from '/imports/api/members/schema.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 
-const debug = require('debug')('b2b:jobs')
+const debug = require('debug')('app:jobs')
 
 Meteor.methods({
   /**

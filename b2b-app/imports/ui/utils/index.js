@@ -1,6 +1,6 @@
 'use strict'
 const _ = require('lodash')
-const debug = require('debug')('b2b:utils')
+const debug = require('debug')('app:utils')
 
 // polarToCartesian convertor
 export const p2c = function (centerX, centerY, radius, angleInDegrees) {

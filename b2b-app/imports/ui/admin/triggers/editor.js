@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Triggers from '/imports/api/triggers/schema'
@@ -38,33 +37,3 @@ const Editor = withTracker((props) => {
   }
 })(Loading)
 export default Editor
-
-/* 
-  This section is for legacy (mysql) db. Uncomment it to use it, and comment out the "export default" above
- */
-// const idField = '_id'
-// const LegacyEditor = (props) => {
-//   const [loading, setLoading] = React.useState(true)
-//   const [item, setItem] = React.useState({})
-//   const id = props.match.params.id
-//   let status
-
-//   React.useEffect(() => {
-//     const fetchData = async () => {
-//       const response = await meteorCall('fetch.id.triggers', null, id)
-//       if (response.status === 'success') {
-//         setItem(response.item)
-//         setLoading(false)
-//       }
-//     }
-//     fetchData()
-//   }, [])
-
-//   const eprops = { id, item, methods, loading }
-//   debug('props', eprops)
-//   if (loading) return <div>Loading...</div>
-//   if (!item) return <div>Something went wrong fetching your data</div>
-//   return <Edit {...eprops}></Edit>
-// }
-
-// export default idField === 'id' ? LegacyEditor : Editor

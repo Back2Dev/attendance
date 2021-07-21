@@ -3,7 +3,7 @@ import faker from 'faker'
 
 import Tools from './schema'
 
-const debug = require('debug')('b2b:tools:testSchema')
+const debug = require('debug')('app:tools:testSchema')
 
 export const goodTools = [
   {

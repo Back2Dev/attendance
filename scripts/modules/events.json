@@ -1,0 +1,5 @@
+{
+  "collection": "Events",
+  "fields": "name description type days location when active duration price",
+  "generate": "CRUD"
+}

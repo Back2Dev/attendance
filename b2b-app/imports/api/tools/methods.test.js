@@ -8,4 +8,4 @@ import './methods'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:tools:test')
+const debug = require('debug')('app:tools:test')

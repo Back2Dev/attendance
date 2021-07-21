@@ -2,7 +2,7 @@
 //
 // Utility functions
 //
-const debug = require('debug')('b2b:utils')
+const debug = require('debug')('app:utils')
 const _ = require('lodash')
 const nc = require('namecase')
 import CONSTANTS from '/imports/api/constants'

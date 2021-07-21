@@ -5,7 +5,7 @@ import ToolsField from '/imports/ui/components/forms/tools-selector.js'
 import CoursesField from '/imports/ui/components/forms/course-selector.js'
 import SlateField from './slate-field'
 
-const debug = require('debug')('b2b:forms')
+const debug = require('debug')('app:forms')
 
 const myComponent = ({ name, fieldType, ...rest }) => {
   console.log({ name, fieldType, rest })

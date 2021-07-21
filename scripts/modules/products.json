@@ -1,0 +1,5 @@
+{
+  "collection": "Products",
+  "fields": "name description code type subsType duration price qty image active autoRenew startDate endDate",
+  "generate": "CRUD"
+}

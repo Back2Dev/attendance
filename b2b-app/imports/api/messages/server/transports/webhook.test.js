@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import transport, { WebhookTransport } from './webhook'
 
-const debug = require('debug')('b2b:messages:webhook:test')
+const debug = require('debug')('app:messages:webhook:test')
 
 const goodMessages = [
   {

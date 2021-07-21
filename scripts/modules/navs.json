@@ -1,0 +1,5 @@
+{
+  "collection": "Navs",
+  "fields": "name subtitle miniapp parentId miniAppId",
+  "generate": "CRUD"
+}

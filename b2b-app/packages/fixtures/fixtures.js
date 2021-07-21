@@ -1,6 +1,6 @@
 /* global Roles */
 const cc = require('change-case')
-const debug = require('debug')('b2b::fixtures')
+const debug = require('debug')('app::fixtures')
 
 // Default config object - this gets overridden by the file /server/fixtures.js
 Fixtures = {

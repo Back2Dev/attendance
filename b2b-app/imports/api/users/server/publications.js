@@ -5,9 +5,10 @@ import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
 import Members from '/imports/api/members/schema'
 import moment from 'moment'
+import '/server/methods'
 import log from '/imports/lib/log'
 import Events, { MemberItemSchema } from '../../events/schema'
-const debug = require('debug')('b2b:users')
+const debug = require('debug')('app:users')
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
 
@@ -299,6 +300,7 @@ Meteor.methods({
         debug({ memberItem })
         const updateData = {}
         Object.keys(memberItem).map((key) => {
+          // TODO: I think Meteor mongo doesn't support $[]
           updateData[`members.$[].${key}`] = memberItem[key]
         })
         debug({ updateData })
