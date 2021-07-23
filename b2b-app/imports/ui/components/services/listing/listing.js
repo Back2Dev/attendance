@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import DataGrid from 'react-data-grid'
 
 import { Button } from '@material-ui/core'
-import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import { isAfter, isBefore } from 'date-fns'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
@@ -220,8 +220,22 @@ function JobsListing() {
       })
     }
 
+    // apply date from filter
+    if (dateFrom) {
+      mutableRows = mutableRows.filter((row) => {
+        return isAfter(row.createdAt, dateFrom)
+      })
+    }
+
+    // apply date to filter
+    if (dateTo) {
+      mutableRows = mutableRows.filter((row) => {
+        return isBefore(row.createdAt, dateTo)
+      })
+    }
+
     return mutableRows
-  }, [rows, sortColumns, filterStatus, filterText])
+  }, [rows, sortColumns, filterStatus, filterText, dateFrom, dateTo])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)
@@ -252,7 +266,7 @@ function JobsListing() {
           margin="normal"
           data-testid="dateFrom-picker-dialog"
           label="Date from"
-          format="MM/dd/yyyy"
+          format="dd/MM/yyyy"
           value={dateFrom}
           onChange={(date) => setDateFrom(date)}
           KeyboardButtonProps={{
@@ -264,7 +278,7 @@ function JobsListing() {
           margin="normal"
           data-testid="dateTo-picker-dialog"
           label="Date to"
-          format="MM/dd/yyyy"
+          format="dd/MM/yyyy"
           value={dateTo}
           onChange={(date) => setDateTo(date)}
           KeyboardButtonProps={{
