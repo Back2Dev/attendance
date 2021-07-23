@@ -44,6 +44,13 @@ function JobActions() {
       showConfirm({
         onConfirm: () => updateJobStatus(status),
       })
+    } else if (
+      status === 'in-progress' &&
+      ['cancelled', 'completed'].includes(item.status)
+    ) {
+      showConfirm({
+        onConfirm: () => updateJobStatus(status),
+      })
     } else {
       updateJobStatus(status)
     }
