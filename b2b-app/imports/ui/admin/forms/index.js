@@ -9,7 +9,7 @@ import Viewer from './viewer.js'
 import Adder from './adder.js'
 import NotFound from '/imports/ui/components/commons/not-found.js'
 import { Framework } from './framework/framework.js'
-import { EditorPanel } from './framework/editorPanel'
+// import { EditorPanel } from './framework/editorPanel'
 
 export default function Forms() {
   return (

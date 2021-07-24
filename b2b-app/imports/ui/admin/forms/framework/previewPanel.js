@@ -1,5 +1,8 @@
 import React from 'react'
+import { EditorContext } from './framework'
 
 export const PreviewPanel = () => {
-  return <h1>Form Preview</h1>
+  const formContext = React.useContext(EditorContext)
+
+  return <p>{formContext.formEditorValue}</p>
 }

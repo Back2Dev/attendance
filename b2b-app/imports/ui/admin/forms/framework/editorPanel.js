@@ -1,11 +1,8 @@
 import React from 'react'
 
-import { UnControlled as CodeMirror } from 'react-codemirror2'
+import { Controlled as CodeMirror } from 'react-codemirror2'
+import { EditorContext } from './framework'
 
-require('codemirror/mode/xml/xml')
-require('codemirror/mode/javascript/javascript')
-require('codemirror/mode/css/css')
-require('codemirror/mode/jsx/jsx')
 require('codemirror/lib/codemirror.css')
 require('codemirror/theme/dracula.css')
 require('codemirror/theme/panda-syntax.css')
@@ -25,7 +22,15 @@ const codemirrorOptions = {
 }
 
 export const EditorPanel = () => {
-  const state = 'form syntax'
+  const formContext = React.useContext(EditorContext)
 
-  return <CodeMirror value={state} options={codemirrorOptions} onChange={() => {}} />
+  return (
+    <CodeMirror
+      value={formContext.formEditorValue}
+      options={codemirrorOptions}
+      onBeforeChange={(editor, data, value) => {
+        formContext.updateFormData(value)
+      }}
+    />
+  )
 }
