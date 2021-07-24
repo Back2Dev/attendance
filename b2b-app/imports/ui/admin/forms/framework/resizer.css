@@ -1,0 +1,13 @@
+.Resizer {
+  height: 100vh;
+  width: 10px;
+  background: rgb(151, 151, 151);
+  cursor: col-resize;
+}
+
+.CodeMirror {
+  height: 100vh !important;
+  width: 100%;
+  /* font-family: 'Ubuntu Mono', monospace !important; */
+  /* font-family: "IBM Plex Mono", monospace; */
+}
