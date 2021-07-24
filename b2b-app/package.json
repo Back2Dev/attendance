@@ -15,6 +15,7 @@
     "storybook": "start-storybook -s public -p 3076",
     "sb": "start-storybook -s ./public -p 3076",
     "storybook:build": "build-storybook -c .storybook -s ./public",
+    "storybook:publish": "chromatic",
     "test": "npm run test:unit && npm run test:storyshots && npm run test:integration",
     "test:integration": "meteor test --port 4095 --once --driver-package meteortesting:mocha --inspect --settings dev.settings.json",
     "test:integration:ci": "meteor test --port 4095 --once --driver-package meteortesting:mocha --inspect --settings dev.circleci.settings.json",
@@ -38,7 +39,8 @@
     "cypress:run": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/working/",
     "cypress:nw": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/not-working/",
     "cypress:record": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration --record --key 7f96e2e6-b3ad-4fdc-8b70-af7cfc31f7da",
-    "mockserver": "mockserver -p 8080 -m ./tests/api/mocks/"
+    "mockserver": "mockserver -p 8080 -m ./tests/api/mocks/",
+    "build-storybook": "build-storybook -s ./public"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
@@ -110,16 +112,30 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "7.14.8",
+    "@babel/preset-env": "7.14.8",
+    "@babel/preset-react": "7.14.5",
+    "@storybook/addon-actions": "6.3.4",
+    "@storybook/addon-essentials": "6.3.4",
+    "@storybook/addon-links": "6.3.4",
+    "@storybook/addon-storyshots": "6.3.5",
+    "@storybook/react": "6.3.4",
+    "@storybook/testing-react": "0.0.21",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "26.6.3",
+    "babel-loader": "8.2.2",
     "chai": "^4.2.0",
     "chai-arrays": "^2.2.0",
+    "chromatic": "5.10.0-canary.0",
     "cypress": "^6.8.0",
     "cypress-file-upload": "^5.0.2",
     "cypress-fill-command": "^1.0.2",
     "eslint": "^7.15.0",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.21.5",
+    "jest": "26.6.3",
     "nock": "^13.0.11",
+    "react-test-renderer": "17.0.2",
     "sinon": "^9.2.1"
   }
 }
