@@ -1,13 +1,17 @@
 .Resizer {
-  height: 100vh;
+  height: calc(100vh - 64px);
   width: 10px;
   background: rgb(151, 151, 151);
   cursor: col-resize;
 }
 
 .CodeMirror {
-  height: 100vh !important;
+  height: calc(100vh - 64px - 48px) !important;
   width: 100%;
   /* font-family: 'Ubuntu Mono', monospace !important; */
   /* font-family: "IBM Plex Mono", monospace; */
+}
+
+div.SplitPane.vertical {
+  height: calc(100vh - 64px) !important;
 }
