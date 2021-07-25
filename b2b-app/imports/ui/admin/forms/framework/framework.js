@@ -8,6 +8,7 @@ export const EditorContext = React.createContext()
 export const Framework = () => {
   // State of the form editor, exposed in the EditorContext
   const [formEditorInput, setFormEditorInput] = React.useState('Hello world')
+  const [jsonEditorInput, setJsonEditorInput] = React.useState('{"msg": "hello world" }')
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
@@ -16,11 +17,30 @@ export const Framework = () => {
     // parse input here?
   }
 
+  // Function to update state of editor input, i.e. stores input form syntax
+  const updateJsonInput = (input) => {
+    setJsonEditorInput(input)
+
+    // parse input here?
+  }
+
   return (
     <EditorContext.Provider
       value={{
-        formEditorValue: formEditorInput,
-        updateFormData: updateFormInput,
+        editors: [
+          {
+            name: 'details.form',
+            editorValue: formEditorInput,
+            updateEditor: updateFormInput,
+            editorType: 'null',
+          },
+          {
+            name: 'detailsForm.json',
+            editorValue: jsonEditorInput,
+            updateEditor: updateJsonInput,
+            editorType: { name: 'javascript', json: true },
+          },
+        ],
       }}
     >
       <SplitPane split="vertical" defaultSize="50%">
