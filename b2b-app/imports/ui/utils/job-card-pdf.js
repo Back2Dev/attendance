@@ -39,7 +39,7 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
   })
 
   const tempBike = pickup.replacementBike
-    ? 'A temporary bike has been provided to this customer.'
+    ? `A temporary bike has been provided to this customer. Replacement bike: ${pickup.replacementBike}`
     : ''
 
   const pickupDate = moment(pickup.pickupDate).format('DD MMM YYYY')
@@ -108,6 +108,12 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
               {},
               { text: 'Done?', alignment: 'center' },
             ],
+            [
+              { text: '', style: 'tableHeader', colSpan: 3, alignment: 'center' },
+              {},
+              {},
+              {},
+            ],
             // ...servicePartNames,
             [
               { text: '', style: 'tableHeader', colSpan: 3, alignment: 'center' },
@@ -116,12 +122,20 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
               {},
             ],
             [
-              { text: 'Notes', style: 'tableHeader', colSpan: 4, alignment: 'center' },
+              {
+                text: 'Notes',
+                style: 'tableHeader',
+                colSpan: 4,
+                rowSpan: 4,
+                alignment: 'center',
+              },
               {},
               {},
               {},
             ],
-            // [{ text: comment, colSpan: 4 }, '', '', ''],
+            [{ text: '', colSpan: 4 }, '', '', ''],
+            [{ text: '', colSpan: 4 }, '', '', ''],
+            [{ text: '', colSpan: 4 }, '', '', ''],
           ],
         },
       },
