@@ -17,7 +17,7 @@ const slugify = (text) => {
 
 const addQ = (survey, prompt) => {
   if (!currentSection) addSection(survey, 'Section 1')
-  currentQ = { prompt, answers: [], id: slugify(prompt), type: 'short' }
+  currentQ = { prompt, answers: [], grid: [], id: slugify(prompt), type: 'short' }
   currentSection.questions.push(currentQ)
   return currentQ
 }
@@ -29,7 +29,8 @@ const addSection = (survey, title) => {
 }
 
 const addGrid = (survey, title) => {
-  currentGrid = { title, questions: [], id: slugify(title) }
+  currentGrid = { title, id: slugify(title) }
+  currentQ.grid.push(currentGrid)
   return currentGrid
 }
 
@@ -55,18 +56,18 @@ export const parse = (source) => {
   try {
     survey = { sections: [] }
     const result = { status: 'failed', errs: [] }
-    const lines = source.split('\n')
+    const lines = source.split('\n').map((line) => line.trim())
     lines.forEach((line, ix) => {
       const lineno = ix + 1
       // COMMENT
-      debug(`${lineno}: ${line}`)
+      // debug(`${lineno}: ${line}`)
       if (line && !line.match(/^\s*#/)) {
         let got = false
         objects.forEach((o) => {
           const m = line.match(o.regex)
           // debug(o.regex.toString(), m)
           if (m) {
-            debug(`${o.name}: ${m[1]}`)
+            // debug(`${o.name}: ${m[1]}`)
             if (o.method) {
               current = o.method(survey, m[1])
             }
@@ -74,11 +75,11 @@ export const parse = (source) => {
           }
         })
         if (!got) {
-          const m = line.match(/^\s*\+([a-z0-9]+)[:=\s]+(.*)$/i)
+          const m = line.match(/^\s*\+([a-z0-9]+)[:=\s]*(.*)$/i)
           if (m) {
             got = true
             const [match, key, value] = m
-            current[key] = value
+            current[key] = value || true
           }
         }
         if (!got) result.errs.push({ lineno, error: `I could not understand`, line })

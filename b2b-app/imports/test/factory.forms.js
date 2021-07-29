@@ -9,14 +9,21 @@ Factory.define('forms', Forms, {})
 Factory.define('forms.b2b.register', Forms, {
   slug: 'b2b.register',
   name: 'Back2bikes registration form',
+  expecting: [
+    {
+      'sections/0/title': "Let's get to know each other",
+      'sections/0/questions/0/answers/0/text': 'bikes',
+    },
+  ],
   source: `S: Let's get to know each other
 +h3: No need to register if you are already signing in on the computer
 +id: aboutVolunteer
 
-Q: How many bikes are there in your household
-+id: householdBikes
+Q: How many bikes are there in your household?
++id: bikes
 +type: num
 +optional
+A bikes
 
 Q: What type of bike do you ride the most
 +id: bikeType
@@ -46,7 +53,7 @@ Q: Reasons for volunteering
 +type: long
 +optional
 A: Some good starting points
-+placeholder: What makes you want to volunteer at Back2Bikes? \n Have you ever done volunteering before? \n Have you worked on bikes or something similar before?
++placeholder: What makes you want to volunteer at Back2Bikes? BR Have you ever done volunteering before? BR Have you worked on bikes or something similar before?
 
 S: Contact details
 +id: contact
@@ -94,7 +101,7 @@ S: Terms and conditions
 
 Q: I consent to Back2Bikes storing the information I have provided above. I understand that Back2Bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer
 +id terms
-type=multi
++type=multi
 A Agree
 `,
 })
@@ -117,7 +124,7 @@ Factory.define('forms.invoice', Forms, {
   +type: long
   +optional
   
-  ADD A GRID HERE
+  # ADD A GRID HERE
   
   Q: Parts  
     G: Description
