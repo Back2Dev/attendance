@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Button, Typography } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 
 import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
@@ -30,6 +31,20 @@ const StyledJobActions = styled.div`
       margin-bottom: 5px;
     }
   }
+  ${({ theme }) => `
+    ${theme.breakpoints.down('xs')} {
+      flex-direction: column;
+      .left {
+        margin-bottom: 10px;
+      }
+      .right {
+        justify-content: flex-start;
+        button {
+          margin-left: 0;
+          margin-right: 10px;
+        }
+      }
+    }`}
 `
 
 function JobActions() {
@@ -41,6 +56,13 @@ function JobActions() {
     console.log('next status', status)
     if (['cancelled', 'completed'].includes(status)) {
       // need to confirm before set the status
+      showConfirm({
+        onConfirm: () => updateJobStatus(status),
+      })
+    } else if (
+      status === 'in-progress' &&
+      ['cancelled', 'completed'].includes(item.status)
+    ) {
       showConfirm({
         onConfirm: () => updateJobStatus(status),
       })
@@ -83,7 +105,12 @@ function JobActions() {
       return null
     }
     return (
-      <Button variant="contained" onClick={() => onMarkAsPaid()} disabled={loading}>
+      <Button
+        variant="contained"
+        onClick={() => onMarkAsPaid()}
+        disabled={loading}
+        startIcon={<AttachMoneyIcon />}
+      >
         Mark as paid
       </Button>
     )

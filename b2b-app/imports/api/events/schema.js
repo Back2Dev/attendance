@@ -123,6 +123,11 @@ export const EventsSchema = new SimpleSchema({
     optional: true,
   },
   'members.$': MemberItemSchema,
+  // TODO: need to review this. I'm trying to by pass the issue from simpl-schema: https://github.com/longshotlabs/simpl-schema/issues/378
+  'members.$[]': {
+    type: MemberItemSchema,
+    optional: true,
+  },
   createdAt,
   updatedAt,
 })
