@@ -2,16 +2,24 @@ import { Meteor } from 'meteor/meteor'
 import { expect } from 'chai'
 import { parse } from './engine'
 import { accessByPath } from '/imports/api/util'
+import Factory from '/imports/test/factories'
 
 const debug = require('debug')('app:forms:engine')
 
 const goodForms = [
   {
     source: `# My questionnaire
-Q Personal details
+Q: Personal details
   +id=personal
   +type=short
-  A Name
+  A= Name
+  A Email
+    +type=email
+  A Mobile
+    +type=mobile
+Q Emergency contact
++id=emergency
+  A= Name
   A Email
     +type=email
   A Mobile
@@ -24,6 +32,8 @@ Q Personal details
       },
     ],
   },
+  Factory.create('forms.b2b.register'),
+  Factory.create('forms.invoice'),
 ]
 
 const data = {
@@ -48,6 +58,7 @@ describe('Test forms functions', () => {
         let result
         expect(() => {
           result = parse(form.source)
+          debug(result)
         }).not.to.throw()
         debug(JSON.stringify(result, null, 2))
         // expect(result.object.questions[0].prompt).to.be.equal('Personal details')
