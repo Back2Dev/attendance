@@ -122,8 +122,8 @@ CONSTANTS.JOB_STATUS_MAPPING = {
     { next: 'completed', label: 'Complete' },
   ],
   // 'picked-up': [],
-  cancelled: [],
-  completed: [],
+  cancelled: [{ next: 'in-progress', label: 'Re-open' }],
+  completed: [{ next: 'in-progress', label: 'Re-open' }],
 }
 
 export default CONSTANTS
