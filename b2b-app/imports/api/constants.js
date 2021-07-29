@@ -1,6 +1,7 @@
 // constants.js
 //
 // This file contains constants to be used within the app
+//
 
 const CONSTANTS = {}
 
