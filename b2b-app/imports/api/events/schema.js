@@ -60,8 +60,8 @@ export const MemberItemSchema = new SimpleSchema({
 // console.log(JSON.stringify(MemberItemSchema, null, 2))
 
 export const RepeatSchema = new SimpleSchema({
-  unit: {
-    factor: String,
+  factor: {
+    type: String,
     allowedValues: ['day', 'week', 'month', 'year'],
   },
   every: Number,
