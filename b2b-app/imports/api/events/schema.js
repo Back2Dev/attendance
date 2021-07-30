@@ -59,6 +59,33 @@ export const MemberItemSchema = new SimpleSchema({
 )
 // console.log(JSON.stringify(MemberItemSchema, null, 2))
 
+export const RepeatSchema = new SimpleSchema({
+  unit: {
+    factor: String,
+    allowedValues: ['day', 'week', 'month', 'year'],
+  },
+  every: Number,
+  dow: {
+    // day of week
+    type: Number,
+    optional: true,
+  },
+  dom: {
+    // day of month
+    type: Number,
+    optional: true,
+  },
+  util: {
+    type: Date,
+    optional: true,
+  },
+  ref: {
+    // refer to original event, the first one of the seria
+    type: String,
+    optional: true,
+  },
+})
+
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   name: {
@@ -126,6 +153,10 @@ export const EventsSchema = new SimpleSchema({
   // TODO: need to review this. I'm trying to by pass the issue from simpl-schema: https://github.com/longshotlabs/simpl-schema/issues/378
   'members.$[]': {
     type: MemberItemSchema,
+    optional: true,
+  },
+  repeat: {
+    type: RepeatSchema,
     optional: true,
   },
   createdAt,
