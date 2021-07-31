@@ -44,7 +44,7 @@ Meteor.methods({
   'create.workshop': (form) => {
     try {
       Sessions.remove({})
-      Events.remove({})
+      // Events.remove({})
       const { start, weeks, code, coach, course } = form
       Events.remove({ code: `${code}-${start}` })
       const trainer = Members.findOne({ name: coach })

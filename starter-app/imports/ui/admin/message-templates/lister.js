@@ -8,6 +8,7 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
 import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
+import FileCopy from '@material-ui/icons/FileCopy'
 import List from './list'
 
 const debug = require('debug')('se:lister')
@@ -22,9 +23,10 @@ const dateFormat = {
 const remove = (id) => meteorCall('rm.messageTemplates', 'Deleting', id)
 const update = (form) => meteorCall('update.messageTemplates', 'updating', form)
 const insert = (form) => meteorCall('insert.messageTemplates', 'adding', form)
-const edit = (id) => push(`/admin/message-templates/view/${id}`)
+const view = (id) => push(`/admin/message-templates/view/${id}`)
 const add = (defaultObject) => push(`/admin/message-templates/add`)
-const view = (id) => push(`/admin/message-templates/edit/${id}`)
+const edit = (id) => push(`/admin/message-templates/edit/${id}`)
+const clone = (id) => push(`/admin/message-templates/add/${id}`)
 const archive = async (rowids) => {
   const name = prompt('Please enter a name for the archive')
   const text = confirm(
@@ -38,7 +40,7 @@ const archive = async (rowids) => {
     })
   }
 }
-const methods = { remove, update, insert, view, edit, add, archive }
+const methods = { remove, update, insert, view, edit, add, clone, archive }
 
 // Config data
 
@@ -68,7 +70,7 @@ const columns = [
     cellClick: (e, cell) => {
       const id = cell.getData()[idField]
       if (!id) alert(`Could not get id from [${idField}]`)
-      else methods.edit(id)
+      else methods.view(id)
     },
   },
   {
@@ -79,7 +81,18 @@ const columns = [
     cellClick: (e, cell) => {
       const id = cell.getData()[idField]
       if (!id) alert(`Could not get id from [${idField}]`)
-      else methods.view(id)
+      else methods.edit(id)
+    },
+  },
+  {
+    formatter: reactFormatter(<FileCopy />),
+    width: 25,
+    headerSort: false,
+    hozAlign: 'center',
+    cellClick: (e, cell) => {
+      const id = cell.getData()[idField]
+      if (!id) alert(`Could not get id from [${idField}]`)
+      else methods.clone(id)
     },
   },
 
@@ -102,7 +115,7 @@ const columns = [
     sorter: 'date',
     sorterParams: { format: 'YYYY-MM-DD HH:mm' },
   },
-  { field: 'type', title: 'Type', formatter: null },
+  { field: 'type', title: 'Type', formatter: null, headerFilter: 'input' },
   { field: 'uses', title: 'Uses', formatter: 'textarea' },
 ]
 const Loading = (props) => {

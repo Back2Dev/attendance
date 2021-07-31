@@ -44,7 +44,7 @@ Slingshot.createDirective('privateUploads', Slingshot.S3Storage, {
 })
 
 Slingshot.fileRestrictions('documentUploads', {
-  allowedFileTypes: ['application/pdf'],
+  allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif', 'application/pdf'],
   maxSize: null,
 })
 

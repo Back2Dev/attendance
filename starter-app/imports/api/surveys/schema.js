@@ -4,7 +4,6 @@ import SimpleSchema from 'simpl-schema'
 import {
   OptionalRegExId,
   OptionalString,
-  OptionalBlackbox,
   RegExId,
   Blackbox,
   createdAt,
@@ -56,7 +55,6 @@ export const SurveysSchema = new SimpleSchema({
   // Filling instructions for the other persons (secondary, tertiary)
   secondary: { type: Array, optional: true },
   'secondary.$': SurveyCoordsSchema,
-  signatures: OptionalBlackbox,
   version: {
     type: String,
   },

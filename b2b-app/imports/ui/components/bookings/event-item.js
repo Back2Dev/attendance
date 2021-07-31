@@ -105,7 +105,7 @@ function EventItem({ event }) {
     if (!myMember?._id) {
       return foundSession
     }
-    members.map((item) => {
+    members?.map((item) => {
       if (item._id === myMember._id) {
         foundSession = item.session
       }
