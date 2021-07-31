@@ -15,3 +15,15 @@
 div.SplitPane.vertical {
   height: calc(100vh - 64px) !important;
 }
+
+.editorBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.editorTools {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
