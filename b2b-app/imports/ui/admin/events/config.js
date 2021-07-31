@@ -96,7 +96,7 @@ const config = {
   add: {
     defaultObject: {
       name: 'Untitled',
-      description: 'Description',
+      description: [],
       location: 'Location',
       type: 'day',
       active: false,

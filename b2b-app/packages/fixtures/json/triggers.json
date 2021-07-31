@@ -1,0 +1,127 @@
+[
+  {
+    "description": " ",
+    "name": "Invite user",
+    "notifications": [
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "USR",
+        "text": "invite-user",
+        "trigger": "complete"
+      }
+    ],
+    "revisedAt": "2021-07-27T22:38:47.417+10:00",
+    "revision": 1,
+    "slug": "invite-user"
+  },
+  {
+    "description": " ",
+    "name": "New user - OAuth",
+    "notifications": [
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "ADM",
+        "text": "new-user",
+        "trigger": "complete"
+      },
+      {
+        "method": "APP",
+        "number": "999",
+        "recipients": "ADM",
+        "text": "app-500-new-user",
+        "trigger": "complete"
+      }
+    ],
+    "revisedAt": "2021-07-27T22:38:47.417+10:00",
+    "revision": 1,
+    "slug": "new-user"
+  },
+  {
+    "description": " ",
+    "name": "Password changed",
+    "notifications": [
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "USR",
+        "text": "password-change",
+        "trigger": "complete"
+      },
+      {
+        "method": "APP",
+        "number": "999",
+        "recipients": "USR",
+        "text": "app-121-password-changed",
+        "trigger": "complete"
+      }
+    ],
+    "revisedAt": "2021-07-27T22:38:47.417+10:00",
+    "revision": 1,
+    "slug": "password-changed"
+  },
+
+  {
+    "description": " ",
+    "name": "Reset password",
+    "notifications": [
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "USR",
+        "text": "forgot-password",
+        "trigger": "complete"
+      }
+    ],
+    "revisedAt": "2021-07-27T22:38:47.418+10:00",
+    "revision": 1,
+    "slug": "reset-password"
+  },
+  {
+    "description": " ",
+    "name": "New user - Email",
+    "notifications": [
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "ADM",
+        "text": "new-user",
+        "trigger": "complete"
+      },
+      {
+        "method": "APP",
+        "number": "999",
+        "recipients": "ADM",
+        "text": "app-500-new-user",
+        "trigger": "complete"
+      },
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "USR",
+        "text": "registration",
+        "trigger": "complete"
+      }
+    ],
+    "revisedAt": "2021-07-27T22:38:47.418+10:00",
+    "revision": 1,
+    "slug": "signup"
+  },
+  {
+    "description": " ",
+    "name": "Unknown event",
+    "notifications": [
+      {
+        "method": "EMAIL",
+        "number": "999",
+        "recipients": "ADM",
+        "text": "Dear Admin, \nAn event template was not found in sendTrigger",
+        "trigger": "complete"
+      }
+    ],
+    "revisedAt": "2021-07-27T22:38:47.418+10:00",
+    "revision": 1,
+    "slug": "unknown-event"
+  }
+]
