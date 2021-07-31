@@ -1,6 +1,7 @@
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import { EditorPanel } from './editorPanel'
+import { EditorSplit } from './editorSplit'
 import { PreviewPanel } from './previewPanel'
 
 export const EditorContext = React.createContext()

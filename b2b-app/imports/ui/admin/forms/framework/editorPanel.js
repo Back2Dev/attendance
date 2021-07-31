@@ -19,6 +19,7 @@ require('codemirror/theme/panda-syntax.css')
 require('codemirror/theme/material.css')
 require('codemirror/mode/javascript/javascript')
 import './resizer.css'
+import SplitPane from 'react-split-pane'
 
 const codemirrorOptions = {
   autoCloseBrackets: true,
@@ -42,55 +43,81 @@ export const EditorPanel = () => {
     setTab(index)
   }
 
-  return (
-    <div>
-      <Paper square>
-        <div className="editorBar">
-          <Tabs
-            value={tab}
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={handleTabChange}
-            aria-label="disabled tabs example"
-          >
-            <Tab label="details.form" />
-            <Tab label="detailsForm.json" />
-          </Tabs>
-          <div className="editorTools">
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={autoRun}
-                    onChange={() => setAutoRun(autoRun ? false : true)}
-                    name="autoRun"
-                    color="primary"
-                  />
-                }
-                label="AutoRun"
-              />
-            </FormGroup>
-            <Tooltip title="Run form">
-              <IconButton color="secondary" aria-label="run form">
-                <PlayArrowIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Save">
-              <IconButton color="primary" aria-label="save">
-                <SaveIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-        </div>
-      </Paper>
+  const codemirrorRef = React.useRef()
 
-      <CodeMirror
-        value={formContext.editors[tab].editorValue}
-        options={{ ...codemirrorOptions, mode: formContext.editors[tab].editorType }}
-        onBeforeChange={(editor, data, value) => {
-          formContext.editors[tab].updateEditor(value)
-        }}
-      />
-    </div>
+  React.useEffect(() => {
+    const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
+      .clientHeight
+    console.log(height)
+    const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
+      height - 48
+    }px`)
+  })
+
+  const resize = () => {
+    const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
+      .clientHeight
+    console.log(height)
+    const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
+      height - 48
+    }px`)
+  }
+
+  return (
+    <SplitPane split="horizontal" defaultSize="50%" onChange={resize}>
+      <div className="container">
+        <Paper square>
+          <div className="editorBar">
+            <Tabs
+              value={tab}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleTabChange}
+              aria-label="disabled tabs example"
+            >
+              <Tab label="details.form" />
+              <Tab label="detailsForm.json" />
+            </Tabs>
+            <div className="editorTools">
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={autoRun}
+                      onChange={() => setAutoRun(autoRun ? false : true)}
+                      name="autoRun"
+                      color="primary"
+                    />
+                  }
+                  label="AutoRun"
+                />
+              </FormGroup>
+              <Tooltip title="Run form">
+                <IconButton color="secondary" aria-label="run form">
+                  <PlayArrowIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Save">
+                <IconButton color="primary" aria-label="save">
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </div>
+        </Paper>
+
+        <CodeMirror
+          value={formContext.editors[tab].editorValue}
+          options={{ ...codemirrorOptions, mode: formContext.editors[tab].editorType }}
+          onBeforeChange={(editor, data, value) => {
+            formContext.editors[tab].updateEditor(value)
+          }}
+          ref={codemirrorRef}
+        />
+      </div>
+      <div>
+        <h1>Errors</h1>
+      </div>
+    </SplitPane>
   )
 }
