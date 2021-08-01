@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -12,6 +12,9 @@ export const CalendarProvider = (props) => {
 
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
+
+  const [formOpen, setFormOpen] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(null)
 
   const { loadingEvents, events = [] } = useTracker(() => {
     const sub = Meteor.subscribe('all.events', {})
@@ -26,6 +29,10 @@ export const CalendarProvider = (props) => {
       value={{
         loadingEvents,
         events,
+        formOpen,
+        setFormOpen,
+        selectedDate,
+        setSelectedDate,
       }}
     >
       {children}

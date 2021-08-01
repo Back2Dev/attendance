@@ -6,14 +6,16 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 
 import { CalendarContext } from './contexts'
+import EventForm from './form'
 
 const StyledCalendar = styled.div``
 
 function Calendar() {
-  const { events } = useContext(CalendarContext)
+  const { events, setFormOpen, setSelectedDate } = useContext(CalendarContext)
 
-  const handleDateClick = (props) => {
-    console.log(props)
+  const handleDateClick = ({ date }) => {
+    setFormOpen(true)
+    setSelectedDate(date)
   }
 
   const handleEventClick = ({ event }) => {
@@ -37,6 +39,7 @@ function Calendar() {
         events={eventsData}
         eventClick={handleEventClick}
       />
+      <EventForm />
     </StyledCalendar>
   )
 }
