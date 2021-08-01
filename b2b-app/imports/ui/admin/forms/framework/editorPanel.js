@@ -29,6 +29,7 @@ export const EditorPanel = () => {
   const formContext = React.useContext(EditorContext)
 
   const [tab, setTab] = React.useState(0)
+  const [splitSize, setSplitSize] = React.useState('85%')
 
   const handleTabChange = (e, index) => {
     setTab(index)
@@ -36,6 +37,7 @@ export const EditorPanel = () => {
 
   const codemirrorRef = React.useRef()
 
+  // Set height of codemirror
   React.useEffect(() => {
     const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
       .clientHeight
@@ -46,7 +48,8 @@ export const EditorPanel = () => {
     }px`)
   })
 
-  const resize = () => {
+  // Resize the codemirror components height when the split is changed
+  const resize = (size) => {
     const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
       .clientHeight
     console.log(height)
@@ -54,10 +57,27 @@ export const EditorPanel = () => {
     const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
       height - 48
     }px`)
+    setSplitSize(size)
   }
 
+  // when window resizes, change the split size to avoid the error panel moving offscreen
+  React.useEffect(() => {
+    window.addEventListener('resize', () => {
+      setSplitSize('85%')
+      const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
+        .clientHeight
+      console.log(height)
+      // eslint-disable-next-line no-unused-vars
+      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
+        height - 48
+      }px`)
+    })
+
+    return () => window.removeEventListener('resize', () => setSplitSize('85%'))
+  })
+
   return (
-    <SplitPane split="horizontal" defaultSize="85%" onChange={resize}>
+    <SplitPane split="horizontal" onChange={resize} size={splitSize}>
       <div className="container">
         <EditorToolbar tab={tab} onTabChange={handleTabChange} />
 
