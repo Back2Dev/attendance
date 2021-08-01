@@ -1,3 +1,4 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import React, { useContext } from 'react'
 import { Session } from 'meteor/session'
@@ -152,17 +153,19 @@ export default function UserNavbar() {
   const { member, user, viewas } = useContext(AccountContext)
   const { push } = useHistory()
 
-  const isAdmin =
-    user && user.roles ? user.roles.some((role) => role['_id'] === 'ADM') : false
+  const roles = Roles.getRolesForUser(user)
+  const isAdmin = user && Roles.userIsInRole(user, ['ADM'])
 
   React.useEffect(() => {
     const prevRole = localStorage.getItem('viewas')
 
-    if (!prevRole || !user.roles.some((_role) => _role._id === prevRole)) {
+    if (!prevRole || !Roles.userIsInRole(user, [prevRole])) {
       // defaults the role to the first role available
-      Session.set('viewas', user.roles[0]._id)
-      localStorage.setItem('viewas', user.roles[0]._id)
-      setRole(Session.get('viewas'))
+      if (roles) {
+        Session.set('viewas', roles[0]?._id)
+        localStorage.setItem('viewas', roles[0]?._id)
+        setRole(Session.get('viewas'))
+      }
     } else {
       // if prev role found then set to session var
       Session.set('viewas', prevRole)
@@ -235,7 +238,7 @@ export default function UserNavbar() {
       >
         Profile
       </MenuItem>
-      {user.roles.length > 1 && (
+      {roles?.length > 1 && (
         <MenuItem
           className={classes.profileItem}
           onClick={() => setExpanded(!expanded)}
@@ -252,17 +255,14 @@ export default function UserNavbar() {
             value={role}
             onChange={changeRole}
           >
-            {user.roles.map((_role) => {
-              // if (!CONSTANTS.ROLES[_role._id]) {
-              //   return null
-              // }
+            {roles?.map((_role) => {
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
-                  value={_role._id}
+                  value={_role}
                   control={<Radio />}
-                  label={CONSTANTS.ROLES[_role._id] || _role._id}
-                  key={_role._id}
+                  label={CONSTANTS.ROLES[_role] || _role}
+                  key={_role}
                 />
               )
             })}
@@ -312,14 +312,14 @@ export default function UserNavbar() {
             value={role}
             onChange={changeRole}
           >
-            {user.roles.map((_role) => {
+            {roles?.map((_role) => {
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
-                  value={_role._id}
+                  value={_role}
                   control={<Radio />}
-                  label={CONSTANTS.ROLES[_role._id]}
-                  key={_role._id}
+                  label={CONSTANTS.ROLES[_role]}
+                  key={_role}
                 />
               )
             })}
@@ -364,7 +364,7 @@ export default function UserNavbar() {
                 </Typography>
               )
             })}
-          {user.roles.length > 1 && (
+          {roles?.length > 1 && (
             <>
               <div className={classes.roleLong}>{CONSTANTS.ROLES[viewas]}</div>
               <Typography className={classes.roleAbbr}>{viewas}</Typography>

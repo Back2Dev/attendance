@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import DataGrid from 'react-data-grid'
 
 import { Button } from '@material-ui/core'
+import DateFnsUtils from '@date-io/date-fns'
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import { isAfter, isBefore } from 'date-fns'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
@@ -12,10 +15,18 @@ import { useHistory } from 'react-router'
 
 const StyledJobsListing = styled.div`
   .filter-container {
-    display: flex;
-    flex-wrap: wrap;
+    // display: flex;
+    // align-items: center;
+    // flex-wrap: wrap;
     margin-bottom: 10px;
     .search-box {
+      margin-right: 20px;
+    }
+    .filter-date-range {
+      .date-range-picker {
+        margin-right: 20px;
+        width: 150px;
+      }
     }
     .filter-status-container {
       display: flex;
@@ -78,6 +89,10 @@ function JobsListing() {
     toggleFilterStatus,
     filterText,
     setFilterText,
+    dateFrom,
+    dateTo,
+    setDateFrom,
+    setDateTo,
   } = useContext(JobsListingContext)
 
   const { push } = useHistory()
@@ -205,8 +220,22 @@ function JobsListing() {
       })
     }
 
+    // apply date from filter
+    if (dateFrom) {
+      mutableRows = mutableRows.filter((row) => {
+        return isAfter(row.createdAt, dateFrom)
+      })
+    }
+
+    // apply date to filter
+    if (dateTo) {
+      mutableRows = mutableRows.filter((row) => {
+        return isBefore(row.createdAt, dateTo)
+      })
+    }
+
     return mutableRows
-  }, [rows, sortColumns, filterStatus, filterText])
+  }, [rows, sortColumns, filterStatus, filterText, dateFrom, dateTo])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)
@@ -229,6 +258,37 @@ function JobsListing() {
     )
   }
 
+  const renderDateRangeFilter = () => {
+    return (
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
+          className="date-range-picker"
+          margin="normal"
+          data-testid="dateFrom-picker-dialog"
+          label="Date from"
+          format="dd/MM/yyyy"
+          value={dateFrom}
+          onChange={(date) => setDateFrom(date)}
+          KeyboardButtonProps={{
+            'aria-label': 'change date from',
+          }}
+        />
+        <KeyboardDatePicker
+          className="date-range-picker"
+          margin="normal"
+          data-testid="dateTo-picker-dialog"
+          label="Date to"
+          format="dd/MM/yyyy"
+          value={dateTo}
+          onChange={(date) => setDateTo(date)}
+          KeyboardButtonProps={{
+            'aria-label': 'change date to',
+          }}
+        />
+      </MuiPickersUtilsProvider>
+    )
+  }
+
   const renderFilterBtn = () => {
     return Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((status) => {
       const title = `${CONSTANTS.JOB_STATUS_READABLE[status]} (${
@@ -246,6 +306,7 @@ function JobsListing() {
             setFilterText(searchQuery)
           }}
         />
+        <div className="filter-date-range">{renderDateRangeFilter()}</div>
         <div className="filter-status-container">{renderFilterBtn()}</div>
       </div>
       <div className="grid-container">

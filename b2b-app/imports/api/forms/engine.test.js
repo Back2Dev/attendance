@@ -2,77 +2,236 @@ import { Meteor } from 'meteor/meteor'
 import { expect } from 'chai'
 import { parse } from './engine'
 import { accessByPath } from '/imports/api/util'
+import Factory from '/imports/test/factories'
 
 const debug = require('debug')('app:forms:engine')
 
 const goodForms = [
   {
+    name: '2 easy questions',
     source: `# My questionnaire
-Q Personal details
-  +id=personal
-  +type=short
-  A Name
-  A Email
-    +type=email
-  A Mobile
-    +type=mobile
-`,
+  T: Personal details
+    +id=personal
+    +type=short
+    A= Name
+    A Email
+      +type=email
+    A Mobile
+      +type=mobile
+  Q Emergency contact
+  +id=emergency
+    A= Name
+    A Email
+      +type=email
+    A Mobile
+      +type=mobile
+  `,
     expecting: [
       {
-        'questions.0.prompt': 'Personal details',
-        'questions.0.answers.0.text': 'Name',
+        'sections.0.questions.0.prompt': 'Personal details',
+        'sections.0.questions.0.answers.0.text': 'Name',
       },
     ],
   },
+  {
+    slug: 'b2b.register',
+    name: 'Back2bikes registration form',
+    expecting: [
+      {
+        'sections/0/title': "Let's get to know each other",
+        'sections/0/questions/0/answers/0/text': 'bikes',
+      },
+    ],
+    source: `S: Let's get to know each other
+    +h3: No need to register if you are already signing in on the computer
+    +id: aboutVolunteer
+    
+    Q: How many bikes are there in your household?
+    +id: bikes
+    +type: num
+    +optional
+    A bikes
+    
+    Q: What type of bike do you ride the most
+    +id: bikeType
+    +type: dropdown
+    +optional
+    A: Road bike
+    A: Hybrid
+    A: Mountain bike
+    A: Cruiser
+    A: Ladies
+    A: Fixie
+    A: Gents
+    
+    Q: Work status
+    +id: workStatus
+    +type: dropdown
+    +optional
+    A: Full time
+    A: Part time
+    A: Pension/Disability
+    A: Unemployed
+    A: Student
+    A: Retired
+    
+    Q: Reasons for volunteering
+    +id: reasons
+    +type: long
+    +optional
+    A: Some good starting points
+    +placeholder: What makes you want to volunteer at Back2Bikes? BR Have you ever done volunteering before? BR Have you worked on bikes or something similar before?
+    
+    S: Contact details
+    +id: contact
+    
+    Q: Full name
+    +type: short
+    
+    A: Email
+    +type: email
+    
+    Q: Address
+    +type: address
+    
+    Q: Mobile
+    +type: mobile
+    
+    Q: Pin number
+    +type: password
+    +id: pin
+    +regex: {\d}4
+    +placeholder: 4 digits long
+    
+    S: Emergency contact
+    +id: emergency
+    
+    Q: Who can we contact in an emergency?
+    +type: short
+    +id: name
+    
+    A: Emergency contact email
+    +type: email
+    +optional
+    
+    A: Mobile
+    +type: mobile
+    
+    S: Choose your avatar
+    
+    Q Please Choose an avatar
+    +type: avatar
+    +id: avatar
+    A Avatar
+    
+    S: Terms and conditions
+    
+    Q: I consent to Back2Bikes storing the information I have provided above. I understand that Back2Bikes will not disclose the above information without my express consent other than for reasons related to my engagement as a volunteer
+    +id terms
+    +type=multi
+    A Agree
+    `,
+  },
+  {
+    expecting: [
+      {
+        'sections/0/title': 'Invoicing',
+        'sections/0/questions/0/id': 'customer',
+      },
+    ],
+    slug: 'invoice',
+    name: 'Simple invoice',
+    source: `S: Invoicing
+      +id: invoice
+      
+      Q: Customer details
+      +id: customer
+      +type: short
+      
+      A: Name
+      A: Email
+      +type: email
+      
+      A: Note (optional)
+      +type: long
+      +optional
+      
+      # ADD A GRID HERE
+      
+      Q: Parts  
+        G: Description
+      +type: short
+      
+      G: Quantity
+      +type: num
+      
+      G: Unit price
+      +type: num
+      +id: price`,
+  },
 ]
 
-const data = {
-  questions: [
-    {
-      prompt: 'Personal details',
-      answers: [
-        { text: 'Name' },
-        { text: 'Email', type: 'email' },
-        { text: 'Mobile', type: 'mobile' },
-      ],
-    },
-  ],
-}
-
-const badForms = [{}]
+const badForms = [
+  {
+    expecting: [
+      {
+        'errs/0/lineno': 2,
+        'errs/0/error': 'I could not understand',
+      },
+    ],
+    name: 'No questions at all',
+    source: `
+  How old are you?
+  Under 18
+  19 - 20
+  21+
+  `,
+  },
+]
 
 describe('Test forms functions', () => {
   describe('Good forms', () => {
-    it(``, () => {
-      goodForms.map((form) => {
+    goodForms.map((form, ix) => {
+      it(`Form ${ix + 1}: ${form.name}`, () => {
         let result
         expect(() => {
           result = parse(form.source)
+          debug(result)
         }).not.to.throw()
-        debug(JSON.stringify(result, null, 2))
-        // expect(result.object.questions[0].prompt).to.be.equal('Personal details')
+        // debug(JSON.stringify(result, null, 2))
+        // expect(result.object.questions[0].prompt).to.be.equal('Personal  details')
         expect(result).to.have.property('status').which.equal('success')
-        form.expecting.forEach((item) => {
+        form.expecting?.forEach((item) => {
           Object.keys(item).forEach((key) => {
             const value = item[key]
-            const got = accessByPath(result.object, key)
-            debug(`Looking for ${key}, value: ${value}, got: ${got}`)
+            const got = accessByPath(result.survey, key)
+            // debug(`Looking for ${key}, value: ${value}, got: ${got}`)
             expect(got).to.be.equal(value)
           })
         })
       })
     })
   })
-  // describe('Bad forms', () => {
-  //   it(``, () => {
-  //     badForms.map((form) => {
-  //       let result
-  //       expect(() => {
-  //         result = Meteor.call('insert.messages', form)
-  //       }).not.to.throw()
-  //       // debug(result)
-  //       expect(result).to.have.property('status').which.equal('failed')
-  //     })
-  //   })
-  // })
+
+  describe('Bad forms', () => {
+    badForms.map((form, ix) => {
+      it(`Form ${ix + 1}: ${form.name}`, () => {
+        let result
+        expect(() => {
+          result = parse(form.source)
+          debug(result)
+        }).not.to.throw()
+        // debug(result)
+        expect(result).to.have.property('status').which.equal('failed')
+        form.expecting?.forEach((item) => {
+          Object.keys(item).forEach((key) => {
+            const value = item[key]
+            const got = accessByPath(result, key)
+            // debug(`Looking for ${key}, value: ${value}, got: ${got}`)
+            expect(got).to.be.equal(value)
+          })
+        })
+      })
+    })
+  })
 })
