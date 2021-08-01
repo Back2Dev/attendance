@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import { EditorContext } from './framework'
+import { ErrorPanel } from './ErrorPanel'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -64,7 +65,7 @@ export const EditorPanel = () => {
   }
 
   return (
-    <SplitPane split="horizontal" defaultSize="50%" onChange={resize}>
+    <SplitPane split="horizontal" defaultSize="85%" onChange={resize}>
       <div className="container">
         <Paper square>
           <div className="editorBar">
@@ -115,9 +116,7 @@ export const EditorPanel = () => {
           ref={codemirrorRef}
         />
       </div>
-      <div>
-        <h1>Errors</h1>
-      </div>
+      <ErrorPanel />
     </SplitPane>
   )
 }
