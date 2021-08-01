@@ -153,12 +153,14 @@ export default function UserNavbar() {
   const { push } = useHistory()
 
   const isAdmin =
-    user && user.roles ? user.roles.some((role) => role['_id'] === 'ADM') : false
+    user && user.roles ? user.roles?.some((role) => role['_id'] === 'ADM') : false
 
   React.useEffect(() => {
     const prevRole = localStorage.getItem('viewas')
-
-    if (!prevRole || !user.roles.some((_role) => _role._id === prevRole)) {
+    if (
+      (user.roles && !prevRole) ||
+      !user.roles?.some((_role) => _role._id === prevRole)
+    ) {
       // defaults the role to the first role available
       Session.set('viewas', user.roles[0]._id)
       localStorage.setItem('viewas', user.roles[0]._id)
@@ -235,7 +237,7 @@ export default function UserNavbar() {
       >
         Profile
       </MenuItem>
-      {user.roles.length > 1 && (
+      {user.roles?.length > 1 && (
         <MenuItem
           className={classes.profileItem}
           onClick={() => setExpanded(!expanded)}
@@ -252,7 +254,7 @@ export default function UserNavbar() {
             value={role}
             onChange={changeRole}
           >
-            {user.roles.map((_role) => {
+            {user.roles?.map((_role) => {
               // if (!CONSTANTS.ROLES[_role._id]) {
               //   return null
               // }
@@ -312,7 +314,7 @@ export default function UserNavbar() {
             value={role}
             onChange={changeRole}
           >
-            {user.roles.map((_role) => {
+            {user.roles?.map((_role) => {
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
@@ -364,7 +366,7 @@ export default function UserNavbar() {
                 </Typography>
               )
             })}
-          {user.roles.length > 1 && (
+          {user.roles?.length > 1 && (
             <>
               <div className={classes.roleLong}>{CONSTANTS.ROLES[viewas]}</div>
               <Typography className={classes.roleAbbr}>{viewas}</Typography>
