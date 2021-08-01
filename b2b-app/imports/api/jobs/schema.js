@@ -56,6 +56,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'category',
     'used'
   ),
+  assessor: OptionalString,
   note: OptionalString,
   bikeDetails: new SimpleSchema({
     make: String,

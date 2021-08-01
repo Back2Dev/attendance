@@ -1,3 +1,4 @@
+/* global Roles */
 const cc = require('change-case')
 const debug = require('debug')('app::fixtures')
 
@@ -58,16 +59,7 @@ Fixtures.loadUsers = function () {
           username: user.username ? user.username : user.name,
         })
         if (user.roles) {
-          user.roles = user.roles.map((role) => ({
-            _id: role,
-            scope: null,
-            assigned: true,
-          }))
-          const stuff = { roles: user.roles }
-          Object.keys(user).forEach((f) => {
-            if (!builtins.includes(f)) stuff[f] = user[f]
-          })
-          Meteor.users.update(id, { $set: stuff })
+          Roles.setUserRoles(id, user.roles)
         }
       } else {
         if (Fixtures.config.debug) console.log('User exists ' + user.email, user.username)

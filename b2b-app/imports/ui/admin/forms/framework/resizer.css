@@ -1,17 +1,47 @@
-.Resizer {
+.Resizer.vertical {
   height: calc(100vh - 64px);
   width: 10px;
-  background: rgb(151, 151, 151);
+  background: #192125;
   cursor: col-resize;
 }
 
+.Resizer.horizontal {
+  min-height: 10px;
+  background: #192125;
+  cursor: row-resize;
+}
+
 .CodeMirror {
-  height: calc(100vh - 64px - 48px) !important;
-  width: 100%;
+  min-width: 100% !important;
+  height: 100%;
   /* font-family: 'Ubuntu Mono', monospace !important; */
   /* font-family: "IBM Plex Mono", monospace; */
 }
 
 div.SplitPane.vertical {
   height: calc(100vh - 64px) !important;
+}
+
+.editorBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.editorTools {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.container {
+  width: 100%;
+  background: #263238;
+}
+
+.errorContainer {
+  background: #192125;
+  width: 100%;
+  height: 100%;
+  color: white;
 }

@@ -15,6 +15,7 @@ export default function Forms() {
   return (
     // <Switch>
     //   <Route path="/admin/forms/edit/:id" exact component={Editor} />
+    //   <Route path="/admin/forms/ide/:id" exact component={Framework} />
     //   <Route path="/admin/forms/add/" exact component={Adder} />
     //   <Route path="/admin/forms/view/:id" exact component={Viewer} />
     //   <Route path="/admin/forms" exact component={Lister} />
