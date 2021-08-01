@@ -238,11 +238,7 @@ export default function UserNavbar() {
       >
         Profile
       </MenuItem>
-<<<<<<< HEAD
-      {user.roles?.length > 1 && (
-=======
       {roles?.length > 1 && (
->>>>>>> 2b298c91b43ff019bc1eba2edadbdf47be13a6dd
         <MenuItem
           className={classes.profileItem}
           onClick={() => setExpanded(!expanded)}
@@ -259,14 +255,7 @@ export default function UserNavbar() {
             value={role}
             onChange={changeRole}
           >
-<<<<<<< HEAD
-            {user.roles?.map((_role) => {
-              // if (!CONSTANTS.ROLES[_role._id]) {
-              //   return null
-              // }
-=======
             {roles?.map((_role) => {
->>>>>>> 2b298c91b43ff019bc1eba2edadbdf47be13a6dd
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
@@ -323,11 +312,7 @@ export default function UserNavbar() {
             value={role}
             onChange={changeRole}
           >
-<<<<<<< HEAD
-            {user.roles?.map((_role) => {
-=======
             {roles?.map((_role) => {
->>>>>>> 2b298c91b43ff019bc1eba2edadbdf47be13a6dd
               return (
                 <FormControlLabel
                   className={classes.subMenuItems}
@@ -379,11 +364,7 @@ export default function UserNavbar() {
                 </Typography>
               )
             })}
-<<<<<<< HEAD
-          {user.roles?.length > 1 && (
-=======
           {roles?.length > 1 && (
->>>>>>> 2b298c91b43ff019bc1eba2edadbdf47be13a6dd
             <>
               <div className={classes.roleLong}>{CONSTANTS.ROLES[viewas]}</div>
               <Typography className={classes.roleAbbr}>{viewas}</Typography>
