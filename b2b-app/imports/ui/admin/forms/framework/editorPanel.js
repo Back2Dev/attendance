@@ -41,7 +41,6 @@ export const EditorPanel = () => {
   React.useEffect(() => {
     const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
       .clientHeight
-    console.log(height)
     // eslint-disable-next-line no-unused-vars
     const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
       height - 48
@@ -52,7 +51,6 @@ export const EditorPanel = () => {
   const resize = (size) => {
     const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
       .clientHeight
-    console.log(height)
     // eslint-disable-next-line no-unused-vars
     const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
       height - 48
@@ -66,7 +64,6 @@ export const EditorPanel = () => {
       setSplitSize('85%')
       const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
         .clientHeight
-      console.log(height)
       // eslint-disable-next-line no-unused-vars
       const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
         height - 48
