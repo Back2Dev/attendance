@@ -9,7 +9,12 @@ export const EditorContext = React.createContext()
 
 export const Framework = () => {
   // State of the form editor, exposed in the EditorContext
-  const [formEditorInput, setFormEditorInput] = React.useState('Hello world')
+  const [formEditorInput, setFormEditorInput] = React.useState(`S Personal details
+
+Q Do you like fish?
++type=single
+A Yes
+A No`)
   const [jsonEditorInput, setJsonEditorInput] = React.useState('{"msg": "hello world" }')
   const [errors, setErrors] = React.useState(
     JSON.stringify(parse(formEditorInput).errs, null, 2)

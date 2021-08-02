@@ -42,7 +42,9 @@ export default function MainRoutes() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Switch>
+        {/* TODO Change back to secure route after debugging */}
         <SecureRoute roles={['ADM']} path="/admin" component={AdminPage} />
+        {/* <Route path="/admin" component={AdminPage} /> */}
         <SecureRoute roles={['ADM']} path="/hacks" component={HacksPage} />
         <Route path="/" exact component={HomePage} />
         <Route path="/logged-out" exact component={LoggedOut} />
