@@ -33,17 +33,6 @@ const editSchema = new SimpleSchema({
   'description.$': String,
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
-  type: {
-    type: String,
-    allowedValues: ['day', 'monthly', 'once', 'fallback'],
-  },
-  days: {
-    type: Array,
-    optional: true,
-  },
-  'days.$': {
-    type: SimpleSchema.Integer,
-  },
   location: {
     type: String,
     label: 'Location',

@@ -111,14 +111,6 @@ export const EventsSchema = new SimpleSchema({
   'tools.$': ToolItemSchema,
   description: { type: Array, optional: true },
   'description.$': String,
-  //select
-  type: {
-    type: String,
-    allowedValues: ['day', 'monthly', 'once', 'fallback'],
-  },
-  //checkbox
-  days: { type: Array, optional: true },
-  'days.$': { type: SimpleSchema.Integer },
   location: {
     type: String,
     label: 'Location',
