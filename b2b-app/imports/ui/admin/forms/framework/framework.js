@@ -1,20 +1,28 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
-import { EditorPanel } from './editorPanel'
-import { PreviewPanel } from './previewPanel'
+import { EditorPanel } from './editor-panel'
+import { PreviewPanel } from './preview-panel'
 
 import { parse } from '/imports/api/forms/engine.js'
 
 export const EditorContext = React.createContext()
 
-export const Framework = () => {
-  // State of the form editor, exposed in the EditorContext
-  const [formEditorInput, setFormEditorInput] = React.useState(`S Personal details
+const Framework = ({ id, item, methods }) => {
+  const save = (quit) => {
+    try {
+      methods.update(id, { _id: id, source: formEditorInput }, quit)
+    } catch (e) {
+      alert(`Update error ${e.message}`)
+    }
+  }
 
-Q Do you like fish?
-+type=single
-A Yes
-A No`)
+  const { goBack } = useHistory()
+  const back = () => {
+    goBack()
+  }
+  // State of the form editor, exposed in the EditorContext
+  const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
   const [jsonEditorInput, setJsonEditorInput] = React.useState('{"msg": "hello world" }')
   const [errors, setErrors] = React.useState(
@@ -60,6 +68,7 @@ A No`)
           },
         ],
         errors: errors ? errors : 'No Errors',
+        save,
       }}
     >
       <SplitPane split="vertical" defaultSize="50%">
@@ -69,3 +78,5 @@ A No`)
     </EditorContext.Provider>
   )
 }
+
+export default Framework

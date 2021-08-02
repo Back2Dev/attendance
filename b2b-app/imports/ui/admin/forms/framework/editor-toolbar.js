@@ -52,7 +52,11 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
             </IconButton>
           </Tooltip>
           <Tooltip title="Save">
-            <IconButton color="primary" aria-label="save">
+            <IconButton
+              color="primary"
+              aria-label="save"
+              onClick={() => formContext.save(false)}
+            >
               <SaveIcon />
             </IconButton>
           </Tooltip>
