@@ -30,6 +30,7 @@ export const EditorPanel = () => {
 
   const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
+  const [editor, setEditor] = React.useState()
 
   const handleTabChange = (e, index) => {
     setTab(index)
@@ -84,7 +85,19 @@ export const EditorPanel = () => {
           onBeforeChange={(editor, data, value) => {
             formContext.editors[tab].updateEditor(value)
           }}
+          onChange={() => {
+            const msg = document.createElement('div')
+            const icon = msg.appendChild(document.createElement('span'))
+            icon.innerHTML = '!'
+            icon.className = 'lint-error-icon'
+            msg.appendChild(document.createTextNode('Error message'))
+            msg.className = 'lint-error'
+            editor.getDoc().addLineWidget(1, msg)
+          }}
           ref={codemirrorRef}
+          editorDidMount={(editor) => {
+            setEditor(editor)
+          }}
         />
       </div>
       <ErrorPanel />

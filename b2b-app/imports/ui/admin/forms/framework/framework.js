@@ -15,6 +15,7 @@ Q Do you like fish?
 +type=single
 A Yes
 A No`)
+
   const [jsonEditorInput, setJsonEditorInput] = React.useState('{"msg": "hello world" }')
   const [errors, setErrors] = React.useState(
     JSON.stringify(parse(formEditorInput).errs, null, 2)
