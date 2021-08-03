@@ -1,17 +1,17 @@
 import React from 'react'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import { EditorContext } from './framework'
-import { ErrorPanel } from './errorPanel'
-
-require('codemirror/lib/codemirror.css')
-require('codemirror/theme/dracula.css')
-require('codemirror/theme/panda-syntax.css')
-require('codemirror/theme/material.css')
-require('codemirror/mode/javascript/javascript')
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/dracula.css'
+import 'codemirror/theme/panda-syntax.css'
+import 'codemirror/theme/material.css'
+import 'codemirror/mode/javascript/javascript'
 import './resizer.css'
 import SplitPane from 'react-split-pane'
-import { EditorToolbar } from './editorToolbar'
+
+import { EditorToolbar } from './editor-toolbar'
+import { EditorContext } from './framework'
+import { ErrorPanel } from './error-panel'
 
 const codemirrorOptions = {
   autoCloseBrackets: true,
@@ -30,6 +30,7 @@ export const EditorPanel = () => {
 
   const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
+  const [editor, setEditor] = React.useState()
 
   const handleTabChange = (e, index) => {
     setTab(index)
@@ -84,7 +85,19 @@ export const EditorPanel = () => {
           onBeforeChange={(editor, data, value) => {
             formContext.editors[tab].updateEditor(value)
           }}
+          onChange={() => {
+            // const msg = document.createElement('div')
+            // const icon = msg.appendChild(document.createElement('span'))
+            // icon.innerHTML = '!'
+            // icon.className = 'lint-error-icon'
+            // msg.appendChild(document.createTextNode('Error message'))
+            // msg.className = 'lint-error'
+            // editor.getDoc().addLineWidget(1, msg)
+          }}
           ref={codemirrorRef}
+          editorDidMount={(editor) => {
+            setEditor(editor)
+          }}
         />
       </div>
       <ErrorPanel />

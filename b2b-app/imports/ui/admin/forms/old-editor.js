@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Forms from '/imports/api/forms/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
-import Edit from './framework/framework'
+import Edit from './old-edit'
 import config from './config'
 
 const debug = require('debug')('se:editor')
@@ -16,9 +16,9 @@ const dateFormat = {
 let history
 
 const remove = (id) => meteorCall('rm.forms', 'Deleting', id)
-const update = (id, form, quit) => {
+const update = (id, form) => {
   meteorCall('update.forms', 'updating', form)
-  if (quit) history.push('/admin/forms')
+  history.push('/admin/forms')
 }
 const methods = { remove, update }
 
