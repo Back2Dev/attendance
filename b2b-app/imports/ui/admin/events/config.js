@@ -8,7 +8,7 @@ import {
   // OptionalInteger,
 } from '/imports/api/utils/schema-util'
 
-import { ToolItemSchema } from '/imports/api/events/schema.js'
+import { ToolItemSchema, RepeatSchema } from '/imports/api/events/schema.js'
 
 // const dateFormat = {
 //   inputFormat: 'DD/MM/YY hh:mm',
@@ -40,6 +40,10 @@ const editSchema = new SimpleSchema({
   },
   when: {
     type: Date,
+    optional: true,
+  },
+  repeat: {
+    type: RepeatSchema,
     optional: true,
   },
   active: {
