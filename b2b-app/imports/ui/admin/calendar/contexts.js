@@ -49,7 +49,7 @@ export const CalendarProvider = (props) => {
         showError(result?.message)
       }
       if (result?.status === 'success') {
-        showSuccess('Event created')
+        showSuccess(data?._id ? 'Event updated' : 'Event created')
       }
       if (typeof cb === 'function') {
         cb(result)

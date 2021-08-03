@@ -65,7 +65,7 @@ function EventForm() {
       return
     }
     if (selectedDate) {
-      setData({ ...data, when: selectedDate })
+      setData({ when: selectedDate, active: true })
       return
     }
     setData({
