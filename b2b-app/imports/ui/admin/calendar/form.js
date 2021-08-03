@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import {
@@ -10,7 +10,7 @@ import {
   Button,
 } from '@material-ui/core'
 import Draggable from 'react-draggable'
-import { AutoForm } from 'uniforms-material'
+import { AutoForm, AutoFields } from 'uniforms-material'
 import { CustomAutoField } from '/imports/ui/components/forms'
 
 import { CalendarContext } from './contexts'
@@ -29,6 +29,9 @@ const StyledEventForm = styled(Dialog)`
   .form-content {
     padding: 10px;
   }
+  .form-actions {
+    justify-content: space-around;
+  }
 `
 
 function PaperComponent(props) {
@@ -40,10 +43,13 @@ function PaperComponent(props) {
 }
 
 function EventForm() {
-  const { formOpen, setFormOpen, selectedDate } = useContext(CalendarContext)
+  const { formOpen, setFormOpen, selectedDate, insertEvent } = useContext(CalendarContext)
+
+  const formRef = useRef()
 
   const [data, setData] = useState({
     when: selectedDate,
+    active: true,
   })
   useEffect(() => {
     setData({ ...data, when: selectedDate })
@@ -53,7 +59,14 @@ function EventForm() {
     setFormOpen(false)
   }
 
-  const handleSubmit = () => {}
+  const handleSubmit = (model) => {
+    console.log('handle submit', JSON.stringify(model, null, 2))
+    insertEvent(model, (result) => {
+      if (result?.status === 'success') {
+        handleClose()
+      }
+    })
+  }
 
   return (
     <StyledEventForm
@@ -74,14 +87,21 @@ function EventForm() {
           schema={schemaBridge}
           model={data}
           onSubmit={handleSubmit}
-          autoField={CustomAutoField}
-        />
+          ref={formRef}
+        >
+          <AutoFields autoField={CustomAutoField} />
+        </AutoForm>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="form-actions">
         <Button autoFocus onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button
+          onClick={() => {
+            formRef.current?.submit()
+          }}
+          color="primary"
+        >
           Submit
         </Button>
       </DialogActions>

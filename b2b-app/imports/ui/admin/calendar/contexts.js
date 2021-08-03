@@ -5,6 +5,8 @@ import { useTracker } from 'meteor/react-meteor-data'
 
 import Events from '/imports/api/events/schema.js'
 
+import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
+
 export const CalendarContext = React.createContext('carlendar')
 
 export const CalendarProvider = (props) => {
@@ -15,6 +17,7 @@ export const CalendarProvider = (props) => {
 
   const [formOpen, setFormOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const { loadingEvents, events = [] } = useTracker(() => {
     const sub = Meteor.subscribe('all.events', {})
@@ -23,6 +26,28 @@ export const CalendarProvider = (props) => {
       events: Events.find({}, { sort: { when: -1 } }).fetch(),
     }
   }, [])
+
+  const insertEvent = (data, cb) => {
+    setLoading(true)
+    Meteor.call('insert.events', data, (error, result) => {
+      if (!mounted.current) {
+        return
+      }
+      setLoading(false)
+      if (error) {
+        showError(error.message)
+      }
+      if (result?.status === 'false') {
+        showError(result?.message)
+      }
+      if (result?.status === 'success') {
+        showSuccess('Event created')
+      }
+      if (typeof cb === 'function') {
+        cb(result)
+      }
+    })
+  }
 
   return (
     <CalendarContext.Provider
@@ -33,6 +58,7 @@ export const CalendarProvider = (props) => {
         setFormOpen,
         selectedDate,
         setSelectedDate,
+        insertEvent,
       }}
     >
       {children}

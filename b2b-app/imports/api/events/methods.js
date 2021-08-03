@@ -287,7 +287,7 @@ Meteor.methods({
         }
       }
 
-      return { status: 'success', message: 'Added event' }
+      return { status: 'success', message: 'Added event', id }
     } catch (e) {
       return {
         status: 'failed',
