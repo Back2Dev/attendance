@@ -67,7 +67,12 @@ export const RepeatSchema = new SimpleSchema({
   every: Number,
   dow: {
     // day of week
+    type: Array,
+    optional: true,
+  },
+  'dow.$': {
     type: Number,
+    allowedValues: [0, 1, 2, 3, 4, 5, 6], // Sunday as 0 and Saturday as 6
     optional: true,
   },
   dom: {

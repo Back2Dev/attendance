@@ -1,7 +1,14 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connectField, useForm } from 'uniforms'
-import { Switch, FormControlLabel, Select, Input, MenuItem } from '@material-ui/core'
+import {
+  Switch,
+  FormControlLabel,
+  Select,
+  Input,
+  MenuItem,
+  Button,
+} from '@material-ui/core'
 import styled from 'styled-components'
 import moment from 'moment'
 
@@ -19,6 +26,16 @@ const StyledEventRepeat = styled.div`
   .repeat-option {
     margin: 10px 0;
   }
+  .dow-options {
+    button {
+      width: 35px;
+      height: 35px;
+      min-width: unset;
+      padding: 0;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+  }
 `
 
 const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
@@ -28,11 +45,25 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   console.log('value', JSON.stringify(value, null, 2))
   const [factor, setFactor] = useState(value?.factor ? value.factor : 'week')
   const [every, setEvery] = useState(value?.every || 1)
-  const [dow, setDow] = useState(value?.dow || null)
+  const [dow, setDow] = useState(value?.dow || [])
   const [dom, setDom] = useState(value?.dom || null)
   const [util, setUtil] = useState(value?.util || null)
 
+  useEffect(() => {
+    if (formContext.model.when) {
+      setDow([moment(formContext.model.when).day()])
+    }
+  }, [formContext.model.when])
+
   const [enabled, setEnabled] = useState(!!value?.factor)
+
+  const toggleDow = (d) => {
+    const newDow = dow.filter((item) => item !== d)
+    if (dow.indexOf(d) === -1) {
+      newDow.push(d)
+    }
+    setDow(newDow)
+  }
 
   const renderSwitch = () => {
     return (
@@ -51,11 +82,53 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     )
   }
 
+  const getDowLabel = (i) => {
+    switch (i) {
+      case 0:
+        return 'M'
+      case 1:
+        return 'T'
+      case 2:
+        return 'W'
+      case 3:
+        return 'T'
+      case 4:
+        return 'F'
+      case 5:
+        return 'S'
+      case 6:
+        return 'S'
+      default:
+        return 'N/A'
+    }
+  }
+
   const renderWeeklyOption = () => {
     if (factor !== 'week') {
       return null
     }
-    return <div>weekly option</div>
+    const days = []
+    for (let i = 0; i < 7; i += 1) {
+      days.push({
+        dow: i,
+        selected: dow.indexOf(i) !== -1,
+      })
+    }
+
+    return (
+      <div className="dow-options">
+        {days.map((d) => (
+          <Button
+            key={d.dow}
+            variant="contained"
+            color={d.selected ? 'primary' : 'default'}
+            onClick={() => toggleDow(d.dow)}
+          >
+            {getDowLabel(d.dow)}
+          </Button>
+        ))}
+      </div>
+    )
   }
 
   const renderMonthlyOption = () => {
