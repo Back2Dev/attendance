@@ -6,7 +6,7 @@ import { Document, Page, pdfjs } from 'react-pdf'
 import '/imports/ui/styles/custom-styles.css'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-const debug = require('debug')('b2b:generate-pdf')
+const debug = require('debug')('app:generate-pdf')
 
 const Previewer = ({ document }) => {
   const [numPages, setNumPages] = useState(null)

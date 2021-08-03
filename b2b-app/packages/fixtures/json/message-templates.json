@@ -1,14 +1,5 @@
 [
   {
-    "body": "We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.",
-    "name": "111-upload-inv",
-    "number": 111,
-    "recipients": ["CUS"],
-    "revision": 1,
-    "slug": "111-upload-inv",
-    "type": "SMS"
-  },
-  {
     "body": "Dear Startup Inc Admin, \nA new *|role|* user has been created at Startup Inc. \n*|nickname|* with email address *|email|* was created in the system.",
     "name": "convx-newuser",
     "revision": 1,
@@ -16,7 +7,7 @@
     "type": "EMAIL"
   },
   {
-    "body": "Dear *|nickname|*, \nWelcome to Settle Easy.\nPlease verify your email address by clicking [here.] (*|url|*)",
+    "body": "Dear *|nickname|*, \nWelcome to Startup Inc.\nPlease verify your email address by clicking [here.] (*|url|*)",
     "name": "convx-registration",
     "oldSlug": null,
     "revision": 3,

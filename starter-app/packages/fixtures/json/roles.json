@@ -1,11 +1,6 @@
 [
-  { "_id": "AGT", "children": [] },
   { "_id": "ADM", "children": [] },
-  { "_id": "BRK", "children": [] },
-  { "_id": "CON", "children": [] },
-  { "_id": "DIR", "children": [] },
-  { "_id": "OA", "children": [] },
   { "_id": "PM", "children": [] },
   { "_id": "CUS", "children": [] },
-  { "_id": "RAD", "children": [] }
+  { "_id": "MEM", "children": [] }
 ]

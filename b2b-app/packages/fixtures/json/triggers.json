@@ -30,7 +30,7 @@
         "method": "APP",
         "number": "999",
         "recipients": "ADM",
-        "text": "app-500-new-user",
+        "text": "app-new-user",
         "trigger": "complete"
       }
     ],
@@ -53,7 +53,7 @@
         "method": "APP",
         "number": "999",
         "recipients": "USR",
-        "text": "app-121-password-changed",
+        "text": "app-password-changed",
         "trigger": "complete"
       }
     ],
@@ -93,7 +93,7 @@
         "method": "APP",
         "number": "999",
         "recipients": "ADM",
-        "text": "app-500-new-user",
+        "text": "app-new-user",
         "trigger": "complete"
       },
       {

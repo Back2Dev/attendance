@@ -8,13 +8,10 @@ import './methods'
 import { use, expect } from 'chai'
 import assertArrays from 'chai-arrays'
 
-// import { notifyPayload } from './schema'
-// import Profiles from '/imports/api/profiles/schema.js'
-// import Factory from '/imports/test/factories'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:messages:test')
+const debug = require('debug')('app:messages:test')
 
 // Tests start here
 

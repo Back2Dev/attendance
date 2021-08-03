@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import Transporter from './index.js'
 
-const debug = require('debug')('b2b:transport:transporter:test')
+const debug = require('debug')('app:transport:transporter:test')
 
 const goodTransports = {
   some_good_transport_type_1: {

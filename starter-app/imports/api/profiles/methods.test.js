@@ -6,7 +6,7 @@ import { expect } from 'chai'
 
 import './methods.custom'
 
-const debug = require('debug')('b2b:messages:test')
+const debug = require('debug')('app:messages:test')
 
 // Tests start here
 

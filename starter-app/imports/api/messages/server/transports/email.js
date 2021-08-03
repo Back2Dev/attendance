@@ -4,7 +4,7 @@ import { getCfgs } from '/imports/api/settings/server/helper'
 import Transporter from './index'
 import { sendEmail } from '/imports/api/messages/email-send'
 
-const debug = require('debug')('b2b:messages:email')
+const debug = require('debug')('app:messages:email')
 
 const ToSchema = new SimpleSchema({
   email: String,
