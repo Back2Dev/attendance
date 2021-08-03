@@ -11,7 +11,9 @@ import EventForm from './form'
 const StyledCalendar = styled.div``
 
 function Calendar() {
-  const { events, setFormOpen, setSelectedDate } = useContext(CalendarContext)
+  const { events, setFormOpen, setSelectedDate, selectEvent } = useContext(
+    CalendarContext
+  )
 
   const handleDateClick = ({ date }) => {
     setFormOpen(true)
@@ -20,6 +22,8 @@ function Calendar() {
 
   const handleEventClick = ({ event }) => {
     console.log(event.id)
+    setFormOpen(true)
+    selectEvent(event.id)
   }
 
   const eventsData = useMemo(() => {

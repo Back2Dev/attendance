@@ -17,6 +17,7 @@ export const CalendarProvider = (props) => {
 
   const [formOpen, setFormOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
+  const [selectedEvent, setSelectedEvent] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const { loadingEvents, events = [] } = useTracker(() => {
@@ -27,9 +28,16 @@ export const CalendarProvider = (props) => {
     }
   }, [])
 
-  const insertEvent = (data, cb) => {
+  const selectEvent = (eventId) => {
+    if (!eventId) {
+      setSelectedEvent(null)
+    }
+    setSelectedEvent(Events.findOne({ _id: eventId }))
+  }
+
+  const storeEvent = (data, cb) => {
     setLoading(true)
-    Meteor.call('insert.events', data, (error, result) => {
+    Meteor.call(data?._id ? 'update.events' : 'insert.events', data, (error, result) => {
       if (!mounted.current) {
         return
       }
@@ -52,13 +60,16 @@ export const CalendarProvider = (props) => {
   return (
     <CalendarContext.Provider
       value={{
+        loading,
         loadingEvents,
         events,
         formOpen,
         setFormOpen,
         selectedDate,
         setSelectedDate,
-        insertEvent,
+        selectedEvent,
+        selectEvent,
+        storeEvent,
       }}
     >
       {children}

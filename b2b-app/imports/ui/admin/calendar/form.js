@@ -43,7 +43,14 @@ function PaperComponent(props) {
 }
 
 function EventForm() {
-  const { formOpen, setFormOpen, selectedDate, insertEvent } = useContext(CalendarContext)
+  const {
+    formOpen,
+    setFormOpen,
+    selectedDate,
+    selectedEvent,
+    selectEvent,
+    storeEvent,
+  } = useContext(CalendarContext)
 
   const formRef = useRef()
 
@@ -51,17 +58,29 @@ function EventForm() {
     when: selectedDate,
     active: true,
   })
+
   useEffect(() => {
-    setData({ ...data, when: selectedDate })
-  }, [selectedDate])
+    if (selectedEvent) {
+      setData(selectedEvent)
+      return
+    }
+    if (selectedDate) {
+      setData({ ...data, when: selectedDate })
+      return
+    }
+    setData({
+      active: true,
+    })
+  }, [selectedDate, selectedEvent])
 
   const handleClose = () => {
     setFormOpen(false)
+    selectEvent(null)
   }
 
   const handleSubmit = (model) => {
     console.log('handle submit', JSON.stringify(model, null, 2))
-    insertEvent(model, (result) => {
+    storeEvent(model, (result) => {
       if (result?.status === 'success') {
         handleClose()
       }
@@ -80,7 +99,7 @@ function EventForm() {
         id="draggable-cal-form-title"
         className="draggable form-title"
       >
-        Create event
+        {data._id ? 'Edit event' : 'Create event'}
       </DialogTitle>
       <DialogContent className="form-content">
         <AutoForm
