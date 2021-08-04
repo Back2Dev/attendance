@@ -8,6 +8,10 @@ import {
   Input,
   MenuItem,
   Button,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormLabel,
 } from '@material-ui/core'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -36,6 +40,24 @@ const StyledEventRepeat = styled.div`
       margin-right: 5px;
     }
   }
+  .repeat-ends {
+    margin: 10px 0;
+    .inline-radio-label {
+      span {
+        margin-right: 10px;
+      }
+      &.on {
+        input {
+          width: 160px;
+        }
+      }
+      &.after {
+        input {
+          width: 50px;
+        }
+      }
+    }
+  }
 `
 
 const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
@@ -49,11 +71,31 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const [dom, setDom] = useState(value?.dom || null)
   const [util, setUtil] = useState(value?.util || null)
 
+  const [endsOpt, setEndsOpt] = useState('on')
+  const [endsOnDate, setEndsOnDate] = useState(
+    moment(formContext.model.when).add(6, 'months').toDate()
+  )
+  const [endsAfter, setEndsAfter] = useState(12)
+
   useEffect(() => {
     if (formContext.model.when) {
       setDow([moment(formContext.model.when).day()])
+      setDom(moment(formContext.model.when).date())
     }
   }, [formContext.model.when])
+
+  useEffect(() => {
+    if (endsOpt === 'on' && endsOnDate) {
+      setUtil(endsOnDate)
+    }
+    if (endsOpt === 'after' && endsAfter) {
+      setUtil(
+        moment(formContext.model.when)
+          .add(every * endsAfter, factor)
+          .toDate()
+      )
+    }
+  }, [factor, every, endsOpt, endsOnDate, endsAfter])
 
   const [enabled, setEnabled] = useState(!!value?.factor)
 
@@ -63,6 +105,11 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       newDow.push(d)
     }
     setDow(newDow)
+  }
+
+  const handleEndsChange = (event) => {
+    console.log(event.target.value)
+    setEndsOpt(event.target.value)
   }
 
   const renderSwitch = () => {
@@ -135,8 +182,34 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     if (factor !== 'month') {
       return null
     }
-    return <div>monthly option</div>
+    // return <div>monthly option</div>
+    return null // for this moment
   }
+
+  const renderEndsOnInput = (
+    <div className="inline-radio-label on">
+      <span>On</span>
+      <Input
+        type="date"
+        value={moment(endsOnDate).format('YYYY-MM-DD')}
+        onChange={(event) => setEndsOnDate(moment(event.target.value).toDate())}
+        disabled={endsOpt !== 'on'}
+      />
+    </div>
+  )
+
+  const renderEndsAfterInput = (
+    <div className="inline-radio-label after">
+      <span>After</span>
+      <Input
+        type="number"
+        value={endsAfter}
+        onChange={(event) => setEndsAfter(event.target.value)}
+        disabled={endsOpt !== 'after'}
+      />{' '}
+      occurrences
+    </div>
+  )
 
   const renderRecurrenceForm = () => {
     if (!enabled) {
@@ -167,6 +240,17 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
         <div className="repeat-option">
           {renderWeeklyOption()}
           {renderMonthlyOption()}
+        </div>
+        <div className="repeat-ends">
+          <FormLabel component="legend">Ends</FormLabel>
+          <RadioGroup aria-label="ends" value={endsOpt} onChange={handleEndsChange}>
+            <FormControlLabel value="on" control={<Radio />} label={renderEndsOnInput} />
+            <FormControlLabel
+              value="after"
+              control={<Radio />}
+              label={renderEndsAfterInput}
+            />
+          </RadioGroup>
         </div>
       </div>
     )
