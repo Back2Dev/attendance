@@ -19,14 +19,21 @@ export const CalendarProvider = (props) => {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [dateRange, setDateRange] = useState({
+    start: null,
+    end: null,
+  })
 
   const { loadingEvents, events = [] } = useTracker(() => {
-    const sub = Meteor.subscribe('all.events', {})
+    const sub = Meteor.subscribe('events.byDateRange', {
+      start: dateRange.start,
+      end: dateRange.end,
+    })
     return {
       loadingEvents: !sub.ready(),
       events: Events.find({}, { sort: { when: -1 } }).fetch(),
     }
-  }, [])
+  }, [dateRange])
 
   const selectEvent = (eventId) => {
     if (!eventId) {
@@ -61,6 +68,7 @@ export const CalendarProvider = (props) => {
     <CalendarContext.Provider
       value={{
         loading,
+        setDateRange,
         loadingEvents,
         events,
         formOpen,

@@ -9,8 +9,8 @@ import EventRepeatField from './event-repeat'
 const debug = require('debug')('app:forms')
 
 const myComponent = ({ name, fieldType, ...rest }) => {
-  console.log({ name, fieldType, rest })
-  console.log(fieldType.name)
+  // console.log({ name, fieldType, rest })
+  // console.log(fieldType.name)
   switch (name) {
     case 'description':
       if (fieldType.name === 'Array') {

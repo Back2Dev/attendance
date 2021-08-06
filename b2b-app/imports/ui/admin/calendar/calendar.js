@@ -11,7 +11,7 @@ import EventForm from './form'
 const StyledCalendar = styled.div``
 
 function Calendar() {
-  const { events, setFormOpen, setSelectedDate, selectEvent } = useContext(
+  const { events, setFormOpen, setSelectedDate, selectEvent, setDateRange } = useContext(
     CalendarContext
   )
 
@@ -42,6 +42,10 @@ function Calendar() {
         dateClick={handleDateClick}
         events={eventsData}
         eventClick={handleEventClick}
+        firstDay={1} // start with monday
+        datesSet={(dateInfo) => {
+          setDateRange({ start: dateInfo.start, end: dateInfo.end })
+        }}
       />
       <EventForm />
     </StyledCalendar>

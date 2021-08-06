@@ -9,6 +9,20 @@ import '../methods-workshop'
 
 const debug = require('debug')('app:events:publications')
 
+Meteor.publish('events.byDateRange', ({ start, end }) => {
+  if (!Match.test(start, Date)) {
+    return this.ready()
+  }
+  if (!Match.test(end, Date)) {
+    return this.ready()
+  }
+
+  return Events.find({
+    active: true,
+    $and: [{ when: { $gte: start } }, { when: { $lte: end } }],
+  })
+})
+
 Meteor.publish('all.events', () => {
   return Events.find({})
 })

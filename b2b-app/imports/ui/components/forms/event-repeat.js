@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connectField, useForm } from 'uniforms'
 import {
@@ -62,7 +62,7 @@ const StyledEventRepeat = styled.div`
 
 const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const formContext = useForm()
-  console.log('selected date', formContext.model.when)
+  console.log('selected date', formContext.model.when, formContext.model.repeat)
 
   console.log('value', JSON.stringify(value, null, 2))
   const [factor, setFactor] = useState(value?.factor ? value.factor : 'week')
@@ -76,14 +76,41 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     moment(formContext.model.when).add(6, 'months').toDate()
   )
   const [endsAfter, setEndsAfter] = useState(12)
+  const [enabled, setEnabled] = useState(!!value?.factor)
+  const [changed, setChanged] = useState(null)
+  const [appliedValue, setAppliedValue] = useState(null)
 
   useEffect(() => {
-    if (formContext.model.when) {
-      setDow([moment(formContext.model.when).day()])
-      setDom(moment(formContext.model.when).date())
+    if (!value.factor) {
+      // setAppliedValue(new Date())
+      return
     }
-  }, [formContext.model.when])
+    setEnabled(!!value.factor)
 
+    setFactor(value.factor || 'week')
+    setEvery(value.every || 1)
+    setDow(value.dow || [moment(formContext.model.when).day()])
+    setDom(value.dom || moment(formContext.model.when).date())
+
+    setAppliedValue(new Date())
+  }, [value])
+
+  // set dow and dom when the selected date changed
+  useEffect(() => {
+    if (formContext.model.when) {
+      setDom(moment(formContext.model.when).date())
+      if (appliedValue && dow.length === 0) {
+        console.log(
+          'setDow',
+          formContext.model.when,
+          moment(formContext.model.when).day()
+        )
+        setDow([moment(formContext.model.when).day()])
+      }
+    }
+  }, [formContext.model.when, appliedValue, dow])
+
+  // calculate util date
   useEffect(() => {
     if (endsOpt === 'on' && endsOnDate) {
       setUtil(endsOnDate)
@@ -97,7 +124,20 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     }
   }, [factor, every, endsOpt, endsOnDate, endsAfter])
 
-  const [enabled, setEnabled] = useState(!!value?.factor)
+  // update the field value
+  useEffect(() => {
+    if (!enabled) {
+      onChange({})
+      return
+    }
+    onChange({
+      factor,
+      every,
+      dow,
+      dom,
+      util,
+    })
+  }, [changed])
 
   const toggleDow = (d) => {
     const newDow = dow.filter((item) => item !== d)
@@ -105,11 +145,13 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       newDow.push(d)
     }
     setDow(newDow)
+    setChanged(new Date())
   }
 
   const handleEndsChange = (event) => {
     console.log(event.target.value)
     setEndsOpt(event.target.value)
+    setChanged(new Date())
   }
 
   const renderSwitch = () => {
@@ -120,6 +162,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
             checked={enabled}
             onChange={() => {
               setEnabled(!enabled)
+              setChanged(new Date())
             }}
             color="primary"
           />
@@ -131,19 +174,19 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
 
   const getDowLabel = (i) => {
     switch (i) {
-      case 0:
-        return 'M'
       case 1:
-        return 'T'
+        return 'M'
       case 2:
-        return 'W'
-      case 3:
         return 'T'
+      case 3:
+        return 'W'
       case 4:
-        return 'F'
+        return 'T'
       case 5:
-        return 'S'
+        return 'F'
       case 6:
+        return 'S'
+      case 0:
         return 'S'
       default:
         return 'N/A'
@@ -156,9 +199,11 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     }
     const days = []
     for (let i = 0; i < 7; i += 1) {
+      // start with monday
+      const k = i < 6 ? i + 1 : 0
       days.push({
-        dow: i,
-        selected: dow.indexOf(i) !== -1,
+        dow: k,
+        selected: dow.indexOf(k) !== -1,
       })
     }
 
@@ -169,7 +214,10 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
             key={d.dow}
             variant="contained"
             color={d.selected ? 'primary' : 'default'}
-            onClick={() => toggleDow(d.dow)}
+            onClick={() => {
+              toggleDow(d.dow)
+              setChanged(new Date())
+            }}
           >
             {getDowLabel(d.dow)}
           </Button>
@@ -192,7 +240,10 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       <Input
         type="date"
         value={moment(endsOnDate).format('YYYY-MM-DD')}
-        onChange={(event) => setEndsOnDate(moment(event.target.value).toDate())}
+        onChange={(event) => {
+          setEndsOnDate(moment(event.target.value).toDate())
+          setChanged(new Date())
+        }}
         disabled={endsOpt !== 'on'}
       />
     </div>
@@ -204,7 +255,10 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       <Input
         type="number"
         value={endsAfter}
-        onChange={(event) => setEndsAfter(event.target.value)}
+        onChange={(event) => {
+          setEndsAfter(event.target.value)
+          setChanged(new Date())
+        }}
         disabled={endsOpt !== 'after'}
       />{' '}
       occurrences
@@ -223,12 +277,18 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
             className="input-every"
             type="number"
             value={every}
-            onChange={(event) => setEvery(event.target.value)}
+            onChange={(event) => {
+              setEvery(event.target.value)
+              setChanged(new Date())
+            }}
           />{' '}
           <Select
             className="input-factor"
             value={factor}
-            onChange={(event) => setFactor(event.target.value)}
+            onChange={(event) => {
+              setFactor(event.target.value)
+              setChanged(new Date())
+            }}
             margin="dense"
           >
             <MenuItem value="day">Day</MenuItem>
