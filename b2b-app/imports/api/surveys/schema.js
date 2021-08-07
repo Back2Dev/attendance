@@ -17,6 +17,8 @@ export const SurveyStepsSchema = new SimpleSchema({
   id: String,
   questions: Array,
   'questions.$': Blackbox,
+  condition: { type: Array, optional: true },
+  'condition.$': String,
 })
 
 export const SurveyCoordsSchema = new SimpleSchema({
@@ -35,6 +37,10 @@ export const SurveyCoordsSchema = new SimpleSchema({
     type: String,
     allowedValues: ['string', 'checkbox', 'image'],
   },
+})
+const ActionsSchema = new SimpleSchema({
+  preMethod: OptionalString,
+  postMethod: OptionalString,
 })
 
 export const SurveysSchema = new SimpleSchema({

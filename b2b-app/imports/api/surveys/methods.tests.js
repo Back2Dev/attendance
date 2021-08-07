@@ -47,7 +47,7 @@ const goodDocument = {
 
 const survey = {
   slug: 'cdc',
-  name: 'Cost disclosure',
+  name: 'Costs Disclosure',
   steps: [{ name: 'Test', id: 'test', questions: [{ id: 'test' }] }],
   primary: [
     { id: 'client_name', type: 'string' },

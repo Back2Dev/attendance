@@ -27,7 +27,7 @@ const getSchemas = (survey) => {
     else {
       // step.schema.fieldOrder = step.questions.map((q) => q.id)
       step.schema.required = step.questions
-        .filter((q) => !q.optional && q.qtype === 'single')
+        .filter((q) => !q.optional && q.type === 'single')
         .map((q) => q.id)
       debug(`${step.id} required`, step.schema.required)
       step.questions.forEach((q) => {
@@ -36,7 +36,7 @@ const getSchemas = (survey) => {
           label: '', //q.prompt
         }
         const qSchema = step.schema.properties[q.id]
-        switch (q.qtype) {
+        switch (q.type) {
           case 'text':
             delete step.schema.properties[q.id]
             step.schema.required = step.schema.required.concat(
@@ -120,7 +120,7 @@ const getSchemas = (survey) => {
           // Need a better way to handle this
           default:
             delete step.schema.properties[q.id]
-            console.error(`Unsupported question type: ${q.qtype}`)
+            console.error(`Unsupported question type: ${q.type}`)
         }
       })
       debug(`${step.id} required`, step.schema.required)

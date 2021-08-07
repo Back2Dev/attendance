@@ -2,8 +2,8 @@ import { createTypeErrorMsg } from 'pdf-lib'
 
 const debug = require('debug')('app:forms:engine')
 
-let survey = { sections: [] }
-let currentSection
+let survey = { steps: [] }
+let currentStep
 let currentQ
 let current
 
@@ -16,16 +16,16 @@ const slugify = (text) => {
 }
 
 const addQ = (survey, prompt) => {
-  if (!currentSection) addSection(survey, 'Section 1')
-  currentQ = { prompt, answers: [], grid: [], id: slugify(prompt), type: 'short' }
-  currentSection.questions.push(currentQ)
+  if (!currentStep) addStep(survey, 'Step 1')
+  currentQ = { prompt, answers: [], grid: [], id: slugify(prompt), type: 'text' }
+  currentStep.questions.push(currentQ)
   return currentQ
 }
 
-const addSection = (survey, title) => {
-  currentSection = { title, questions: [], id: slugify(title) }
-  survey.sections.push(currentSection)
-  return currentSection
+const addStep = (survey, title) => {
+  currentStep = { name: title, questions: [], id: slugify(title) }
+  survey.steps.push(currentStep)
+  return currentStep
 }
 
 const addGrid = (survey, title) => {
@@ -35,7 +35,7 @@ const addGrid = (survey, title) => {
 }
 
 const addAnswer = (survey, text) => {
-  currentA = { text, id: slugify(text) }
+  currentA = { name: text, id: slugify(text), type: 'text' }
   currentQ.answers.push(currentA)
   return currentA
 }
@@ -44,7 +44,7 @@ const objects = [
   { name: 'Question', letters: 'QT', method: addQ },
   { name: 'Grid', letters: 'G', method: addGrid },
   { name: 'Answer', letters: 'A', method: addAnswer },
-  { name: 'Section', letters: 'S', method: addSection },
+  { name: 'Step', letters: 'S', method: addStep },
 ]
 
 objects.forEach((o) => {
@@ -54,7 +54,13 @@ objects.forEach((o) => {
 export const parse = (source) => {
   if (typeof source !== 'string') throw new Error('Parameter to parse must be a string')
   try {
-    survey = { sections: [] }
+    survey = {
+      steps: [],
+      name: 'Sample Survey',
+      slug: 'sample',
+      version: '1',
+      active: true,
+    }
     const result = { status: 'failed', errs: [] }
     const lines = source.split('\n').map((line) => line.trim())
     lines.forEach((line, ix) => {

@@ -24,7 +24,7 @@ const Framework = ({ id, item, methods }) => {
   // State of the form editor, exposed in the EditorContext
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
-  const [jsonEditorInput, setJsonEditorInput] = React.useState('{"msg": "hello world" }')
+  const [jsonEditorInput, setJsonEditorInput] = React.useState('')
   const [errors, setErrors] = React.useState(
     JSON.stringify(parse(formEditorInput).errs, null, 2)
   )
