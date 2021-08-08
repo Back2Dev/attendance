@@ -14,7 +14,7 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 
-export const EditorToolbar = ({ tab, onTabChange }) => {
+export const EditorToolbar = ({ tab, onTabChange, showErrors }) => {
   const formContext = React.useContext(EditorContext)
 
   return (
@@ -48,7 +48,10 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
             <IconButton
               color="secondary"
               aria-label="run form"
-              onClick={formContext.compileForm}
+              onClick={() => {
+                formContext.compileForm()
+                showErrors()
+              }}
             >
               <PlayArrowIcon />
             </IconButton>
@@ -71,4 +74,5 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
 EditorToolbar.propTypes = {
   tab: PropTypes.number.isRequired,
   onTabChange: PropTypes.func.isRequired,
+  showErrors: PropTypes.func.isRequired,
 }

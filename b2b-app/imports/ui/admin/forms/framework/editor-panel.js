@@ -113,7 +113,7 @@ export const EditorPanel = () => {
   return (
     <SplitPane split="horizontal" onChange={resize} size={splitSize}>
       <div className="container">
-        <EditorToolbar tab={tab} onTabChange={handleTabChange} />
+        <EditorToolbar tab={tab} onTabChange={handleTabChange} showErrors={showErrors} />
 
         <CodeMirror
           value={formContext.editors[tab].editorValue}
@@ -121,27 +121,11 @@ export const EditorPanel = () => {
           onBeforeChange={(editor, data, value) => {
             formContext.editors[tab].updateEditor(value)
           }}
-          onChange={(editor) => {
+          onChange={() => {
             if (formContext.autoRun && tab === 0) {
               formContext.compileForm()
               showErrors()
             }
-            // this wont run in a seperate function??? no idea why
-            // if (formContext.errors !== 'No Errors') {
-            //   const newWidgets = []
-            //   for (let i = 0; i < formContext.errors.length; i++) {
-            //     const error = formContext.errors[i]
-            //     const msg = document.createElement('div')
-            //     const icon = msg.appendChild(document.createElement('span'))
-            //     icon.innerHTML = '!!'
-            //     icon.className = 'lint-error-icon'
-            //     msg.appendChild(document.createTextNode(error.error))
-            //     msg.className = 'lint-error'
-            //     console.log(error)
-            //     newWidgets.push(doc.addLineWidget(error.lineno - 1, msg))
-            //   }
-            //   setWidgets(newWidgets)
-            // }
           }}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
