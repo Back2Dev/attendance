@@ -17,8 +17,6 @@ import Switch from '@material-ui/core/Switch'
 export const EditorToolbar = ({ tab, onTabChange }) => {
   const formContext = React.useContext(EditorContext)
 
-  const [autoRun, setAutoRun] = React.useState(false)
-
   return (
     <Paper square>
       <div className="editorBar">
@@ -37,8 +35,8 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={autoRun}
-                  onChange={() => setAutoRun(autoRun ? false : true)}
+                  checked={formContext.autoRun}
+                  onChange={formContext.toggleAutoRun}
                   name="autoRun"
                   color="primary"
                 />
@@ -47,7 +45,11 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
             />
           </FormGroup>
           <Tooltip title="Run form">
-            <IconButton color="secondary" aria-label="run form">
+            <IconButton
+              color="secondary"
+              aria-label="run form"
+              onClick={formContext.compileForm}
+            >
               <PlayArrowIcon />
             </IconButton>
           </Tooltip>

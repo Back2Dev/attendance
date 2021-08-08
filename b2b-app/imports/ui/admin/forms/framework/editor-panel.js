@@ -1,4 +1,5 @@
 import React from 'react'
+import { JSHINT } from 'jshint'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
@@ -6,6 +7,13 @@ import 'codemirror/theme/dracula.css'
 import 'codemirror/theme/panda-syntax.css'
 import 'codemirror/theme/material.css'
 import 'codemirror/mode/javascript/javascript'
+import 'codemirror/addon/lint/lint.js'
+import 'codemirror/addon/lint/lint.css'
+import 'codemirror/addon/lint/javascript-lint.js'
+import 'codemirror/addon/hint/javascript-hint.js'
+
+window.JSHINT = JSHINT
+
 import './resizer.css'
 import SplitPane from 'react-split-pane'
 
@@ -23,6 +31,8 @@ const codemirrorOptions = {
   styleActiveLine: true,
   viewportMargin: 99,
   theme: 'material',
+  lint: true,
+  gutters: ['CodeMirror-lint-markers'],
 }
 
 export const EditorPanel = () => {

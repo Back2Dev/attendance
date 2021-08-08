@@ -64,6 +64,8 @@
     "html-react-parser": "^1.2.7",
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
+    "jshint": "^2.13.0",
+    "jsonlint-mod": "^1.7.6",
     "lodash": "^4.17.20",
     "mandrill-api": "^1.0.45",
     "markdown-it": "^12.0.4",
