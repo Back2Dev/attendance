@@ -12,6 +12,7 @@ import 'codemirror/addon/lint/lint.css'
 import 'codemirror/addon/lint/javascript-lint.js'
 import 'codemirror/addon/hint/javascript-hint.js'
 
+// Codemirror linting will not work without this, see <https://github.com/scniro/react-codemirror2/issues/21>
 window.JSHINT = JSHINT
 
 import './resizer.css'
@@ -95,15 +96,16 @@ export const EditorPanel = () => {
           onBeforeChange={(editor, data, value) => {
             formContext.editors[tab].updateEditor(value)
           }}
-          onChange={() => {
-            // const msg = document.createElement('div')
-            // const icon = msg.appendChild(document.createElement('span'))
-            // icon.innerHTML = '!'
-            // icon.className = 'lint-error-icon'
-            // msg.appendChild(document.createTextNode('Error message'))
-            // msg.className = 'lint-error'
-            // editor.getDoc().addLineWidget(1, msg)
-          }}
+          onChange={formContext.autoRun && tab === 0 ? formContext.compileForm : () => {}}
+          // onChange={() => {
+          //   // const msg = document.createElement('div')
+          //   // const icon = msg.appendChild(document.createElement('span'))
+          //   // icon.innerHTML = '!'
+          //   // icon.className = 'lint-error-icon'
+          //   // msg.appendChild(document.createTextNode('Error message'))
+          //   // msg.className = 'lint-error'
+          //   // editor.getDoc().addLineWidget(1, msg)
+          // }}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
             setEditor(editor)

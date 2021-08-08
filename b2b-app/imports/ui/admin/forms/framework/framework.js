@@ -33,10 +33,6 @@ const Framework = ({ id, item, methods }) => {
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
     setFormEditorInput(input)
-
-    if (autoRun) {
-      compileForm()
-    }
   }
 
   const compileForm = () => {
