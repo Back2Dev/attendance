@@ -41,7 +41,9 @@ export const EditorPanel = () => {
 
   const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
-  const [editor, setEditor] = React.useState()
+  const [doc, setDoc] = React.useState()
+
+  const [widgets, setWidgets] = React.useState([])
 
   const handleTabChange = (e, index) => {
     setTab(index)
@@ -85,6 +87,22 @@ export const EditorPanel = () => {
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
   })
 
+  const showErrors = (doc) => {
+    if (formContext.errors === 'No Errors') return
+
+    for (let i = 0; i < formContext.errors.length; i++) {
+      const error = formContext.errors[i]
+      const msg = document.createElement('div')
+      const icon = msg.appendChild(document.createElement('span'))
+      icon.innerHTML = '!!'
+      icon.className = 'lint-error-icon'
+      msg.appendChild(document.createTextNode(error.error))
+      msg.className = 'lint-error'
+      console.log(error)
+      codemirrorRef.current.editor.getDoc().addLineWidget(error.lineno, msg)
+    }
+  }
+
   return (
     <SplitPane split="horizontal" onChange={resize} size={splitSize}>
       <div className="container">
@@ -96,19 +114,33 @@ export const EditorPanel = () => {
           onBeforeChange={(editor, data, value) => {
             formContext.editors[tab].updateEditor(value)
           }}
-          onChange={formContext.autoRun && tab === 0 ? formContext.compileForm : () => {}}
-          // onChange={() => {
-          //   // const msg = document.createElement('div')
-          //   // const icon = msg.appendChild(document.createElement('span'))
-          //   // icon.innerHTML = '!'
-          //   // icon.className = 'lint-error-icon'
-          //   // msg.appendChild(document.createTextNode('Error message'))
-          //   // msg.className = 'lint-error'
-          //   // editor.getDoc().addLineWidget(1, msg)
-          // }}
+          onChange={(editor) => {
+            if (formContext.autoRun && tab === 0) {
+              formContext.compileForm()
+            }
+            // this wont run in a seperate function??? no idea why
+
+            for (var i = 0; i < widgets.length; ++i) editor.removeLineWidget(widgets[i])
+            widgets.length = 0
+            if (formContext.errors !== 'No Errors') {
+              const newWidgets = []
+              for (let i = 0; i < formContext.errors.length; i++) {
+                const error = formContext.errors[i]
+                const msg = document.createElement('div')
+                const icon = msg.appendChild(document.createElement('span'))
+                icon.innerHTML = '!!'
+                icon.className = 'lint-error-icon'
+                msg.appendChild(document.createTextNode(error.error))
+                msg.className = 'lint-error'
+                console.log(error)
+                newWidgets.push(doc.addLineWidget(error.lineno - 1, msg))
+              }
+              setWidgets(newWidgets)
+            }
+          }}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
-            setEditor(editor)
+            setDoc(editor.getDoc())
           }}
         />
       </div>

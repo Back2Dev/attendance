@@ -5,5 +5,5 @@ import './resizer.css'
 export const ErrorPanel = () => {
   const formContext = React.useContext(EditorContext)
 
-  return <div className="errorContainer">{formContext.errors}</div>
+  return <div className="errorContainer">{JSON.stringify(formContext.errors)}</div>
 }

@@ -40,9 +40,9 @@ const Framework = ({ id, item, methods }) => {
 
     if (compiled.status === 'success') {
       setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
-      setErrors(JSON.stringify(compiled.errs, null, 2))
+      setErrors(compiled.errs)
     } else {
-      setErrors(JSON.stringify(compiled.errs, null, 2))
+      setErrors(compiled.errs)
     }
   }
 
