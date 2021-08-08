@@ -62,7 +62,7 @@ const StyledEventRepeat = styled.div`
 
 const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const formContext = useForm()
-  console.log('selected date', formContext.model.when, formContext.model.repeat)
+  // console.log('selected date', formContext.model.when, formContext.model.repeat)
 
   console.log('value', JSON.stringify(value, null, 2))
   const [factor, setFactor] = useState(value?.factor ? value.factor : 'week')
@@ -72,9 +72,6 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const [util, setUtil] = useState(value?.util || null)
 
   const [endsOpt, setEndsOpt] = useState('on')
-  const [endsOnDate, setEndsOnDate] = useState(
-    moment(formContext.model.when).add(6, 'months').toDate()
-  )
   const [endsAfter, setEndsAfter] = useState(12)
   const [enabled, setEnabled] = useState(!!value?.factor)
   const [changed, setChanged] = useState(null)
@@ -85,12 +82,14 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       // setAppliedValue(new Date())
       return
     }
+    // console.log('update by value')
     setEnabled(!!value.factor)
 
     setFactor(value.factor || 'week')
     setEvery(value.every || 1)
     setDow(value.dow || [moment(formContext.model.when).day()])
     setDom(value.dom || moment(formContext.model.when).date())
+    setUtil(value.util)
 
     setAppliedValue(new Date())
   }, [value])
@@ -100,11 +99,11 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     if (formContext.model.when) {
       setDom(moment(formContext.model.when).date())
       if (appliedValue && dow.length === 0) {
-        console.log(
-          'setDow',
-          formContext.model.when,
-          moment(formContext.model.when).day()
-        )
+        // console.log(
+        //   'setDow',
+        //   formContext.model.when,
+        //   moment(formContext.model.when).day()
+        // )
         setDow([moment(formContext.model.when).day()])
       }
     }
@@ -112,17 +111,16 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
 
   // calculate util date
   useEffect(() => {
-    if (endsOpt === 'on' && endsOnDate) {
-      setUtil(endsOnDate)
-    }
     if (endsOpt === 'after' && endsAfter) {
+      // console.log('update util')
       setUtil(
         moment(formContext.model.when)
           .add(every * endsAfter, factor)
           .toDate()
       )
+      setChanged(new Date())
     }
-  }, [factor, every, endsOpt, endsOnDate, endsAfter])
+  }, [factor, every, endsOpt, endsAfter])
 
   // update the field value
   useEffect(() => {
@@ -149,7 +147,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   }
 
   const handleEndsChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     setEndsOpt(event.target.value)
     setChanged(new Date())
   }
@@ -239,9 +237,9 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       <span>On</span>
       <Input
         type="date"
-        value={moment(endsOnDate).format('YYYY-MM-DD')}
+        value={moment(util).format('YYYY-MM-DD')}
         onChange={(event) => {
-          setEndsOnDate(moment(event.target.value).toDate())
+          setUtil(moment(event.target.value).toDate())
           setChanged(new Date())
         }}
         disabled={endsOpt !== 'on'}
@@ -256,7 +254,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
         type="number"
         value={endsAfter}
         onChange={(event) => {
-          setEndsAfter(event.target.value)
+          setEndsAfter(parseInt(event.target.value))
           setChanged(new Date())
         }}
         disabled={endsOpt !== 'after'}

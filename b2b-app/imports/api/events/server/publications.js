@@ -9,7 +9,7 @@ import '../methods-workshop'
 
 const debug = require('debug')('app:events:publications')
 
-Meteor.publish('events.byDateRange', ({ start, end }) => {
+Meteor.publish('events.byDateRange', function ({ start, end }) {
   if (!Match.test(start, Date)) {
     return this.ready()
   }
