@@ -28,18 +28,21 @@ const Framework = ({ id, item, methods }) => {
   const [errors, setErrors] = React.useState(
     JSON.stringify(parse(formEditorInput).errs, null, 2)
   )
+  const [autoRun, setAutoRun] = React.useState(false)
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
     setFormEditorInput(input)
+  }
 
+  const compileForm = () => {
     const compiled = parse(formEditorInput)
 
     if (compiled.status === 'success') {
       setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
-      setErrors(JSON.stringify(compiled.errs, null, 2))
+      setErrors(compiled.errs)
     } else {
-      setErrors(JSON.stringify(compiled.errs, null, 2))
+      setErrors(compiled.errs)
     }
   }
 
@@ -48,6 +51,10 @@ const Framework = ({ id, item, methods }) => {
     setJsonEditorInput(input)
 
     // parse input here?
+  }
+
+  const toggleAutoRun = () => {
+    setAutoRun(autoRun ? false : true)
   }
 
   return (
@@ -69,6 +76,9 @@ const Framework = ({ id, item, methods }) => {
         ],
         errors: errors ? errors : 'No Errors',
         save,
+        autoRun,
+        toggleAutoRun,
+        compileForm,
       }}
     >
       <SplitPane split="vertical" defaultSize="50%">

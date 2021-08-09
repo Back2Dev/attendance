@@ -14,10 +14,8 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 
-export const EditorToolbar = ({ tab, onTabChange }) => {
+export const EditorToolbar = ({ tab, onTabChange, showErrors }) => {
   const formContext = React.useContext(EditorContext)
-
-  const [autoRun, setAutoRun] = React.useState(false)
 
   return (
     <Paper square>
@@ -37,8 +35,8 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={autoRun}
-                  onChange={() => setAutoRun(autoRun ? false : true)}
+                  checked={formContext.autoRun}
+                  onChange={formContext.toggleAutoRun}
                   name="autoRun"
                   color="primary"
                 />
@@ -47,7 +45,14 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
             />
           </FormGroup>
           <Tooltip title="Run form">
-            <IconButton color="secondary" aria-label="run form">
+            <IconButton
+              color="secondary"
+              aria-label="run form"
+              onClick={() => {
+                formContext.compileForm()
+                showErrors()
+              }}
+            >
               <PlayArrowIcon />
             </IconButton>
           </Tooltip>
@@ -69,4 +74,5 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
 EditorToolbar.propTypes = {
   tab: PropTypes.number.isRequired,
   onTabChange: PropTypes.func.isRequired,
+  showErrors: PropTypes.func.isRequired,
 }

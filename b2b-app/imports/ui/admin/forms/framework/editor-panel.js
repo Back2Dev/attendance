@@ -1,4 +1,5 @@
 import React from 'react'
+import { JSHINT } from 'jshint'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
@@ -6,6 +7,14 @@ import 'codemirror/theme/dracula.css'
 import 'codemirror/theme/panda-syntax.css'
 import 'codemirror/theme/material.css'
 import 'codemirror/mode/javascript/javascript'
+import 'codemirror/addon/lint/lint.js'
+import 'codemirror/addon/lint/lint.css'
+import 'codemirror/addon/lint/javascript-lint.js'
+import 'codemirror/addon/hint/javascript-hint.js'
+
+// Codemirror linting will not work without this, see <https://github.com/scniro/react-codemirror2/issues/21>
+window.JSHINT = JSHINT
+
 import './resizer.css'
 import SplitPane from 'react-split-pane'
 
@@ -23,6 +32,8 @@ const codemirrorOptions = {
   styleActiveLine: true,
   viewportMargin: 99,
   theme: 'material',
+  lint: true,
+  gutters: ['CodeMirror-lint-markers'],
 }
 
 export const EditorPanel = () => {
@@ -30,7 +41,10 @@ export const EditorPanel = () => {
 
   const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
+  const [doc, setDoc] = React.useState()
   const [editor, setEditor] = React.useState()
+
+  const [widgets, setWidgets] = React.useState([])
 
   const handleTabChange = (e, index) => {
     setTab(index)
@@ -74,10 +88,32 @@ export const EditorPanel = () => {
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
   })
 
+  const showErrors = () => {
+    for (var i = 0; i < widgets.length; ++i) editor.removeLineWidget(widgets[i])
+    setWidgets([])
+
+    if (formContext.errors === 'No Errors') return
+
+    const newWidgets = []
+
+    for (let i = 0; i < formContext.errors.length; i++) {
+      const error = formContext.errors[i]
+      const msg = document.createElement('div')
+      const icon = msg.appendChild(document.createElement('span'))
+      icon.innerHTML = '!!'
+      icon.className = 'lint-error-icon'
+      msg.appendChild(document.createTextNode(error.error))
+      msg.className = 'lint-error'
+      console.log(error)
+      newWidgets.push(doc.addLineWidget(error.lineno - 1, msg))
+    }
+    setWidgets(newWidgets)
+  }
+
   return (
     <SplitPane split="horizontal" onChange={resize} size={splitSize}>
       <div className="container">
-        <EditorToolbar tab={tab} onTabChange={handleTabChange} />
+        <EditorToolbar tab={tab} onTabChange={handleTabChange} showErrors={showErrors} />
 
         <CodeMirror
           value={formContext.editors[tab].editorValue}
@@ -86,16 +122,14 @@ export const EditorPanel = () => {
             formContext.editors[tab].updateEditor(value)
           }}
           onChange={() => {
-            // const msg = document.createElement('div')
-            // const icon = msg.appendChild(document.createElement('span'))
-            // icon.innerHTML = '!'
-            // icon.className = 'lint-error-icon'
-            // msg.appendChild(document.createTextNode('Error message'))
-            // msg.className = 'lint-error'
-            // editor.getDoc().addLineWidget(1, msg)
+            if (formContext.autoRun && tab === 0) {
+              formContext.compileForm()
+              showErrors()
+            }
           }}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
+            setDoc(editor.getDoc())
             setEditor(editor)
           }}
         />
