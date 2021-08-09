@@ -34,12 +34,12 @@ import {
   SubmitField,
 } from 'uniforms-material'
 import { Context, useForm, useField } from 'uniforms'
-import html2r from 'html-react-parser'
 import { LinearProgressWithLabel } from '/imports/ui/utils/generic'
 import getSchemas, { evaluate } from '/imports/api/surveys/survey-schema-simple'
 import { numberFormatter } from '/imports/ui/utils/formatters'
 import RejectModal from '/imports/ui/pages/webform/components/reject-modal'
 import { accessByPath } from '/imports/api/util'
+import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 

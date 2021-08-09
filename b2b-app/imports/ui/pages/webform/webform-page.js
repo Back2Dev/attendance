@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo, useContext } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import html2r from 'html-react-parser'
+import htlm2r from 'imports/ui/utils/html2r'
 import {
   Container,
   Card,
