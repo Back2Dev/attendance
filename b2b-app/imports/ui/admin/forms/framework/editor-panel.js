@@ -41,13 +41,14 @@ export const EditorPanel = () => {
 
   const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
-  const [doc, setDoc] = React.useState()
-  const [editor, setEditor] = React.useState()
-
-  const [widgets, setWidgets] = React.useState([])
 
   const handleTabChange = (e, index) => {
     setTab(index)
+    if (index === 0) {
+      formContext.showErrors(formContext.errors)
+    } else {
+      formContext.hideErrors()
+    }
   }
 
   const codemirrorRef = React.useRef()
@@ -88,32 +89,10 @@ export const EditorPanel = () => {
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
   })
 
-  const showErrors = () => {
-    for (var i = 0; i < widgets.length; ++i) editor.removeLineWidget(widgets[i])
-    setWidgets([])
-
-    if (formContext.errors === 'No Errors') return
-
-    const newWidgets = []
-
-    for (let i = 0; i < formContext.errors.length; i++) {
-      const error = formContext.errors[i]
-      const msg = document.createElement('div')
-      const icon = msg.appendChild(document.createElement('span'))
-      icon.innerHTML = '!!'
-      icon.className = 'lint-error-icon'
-      msg.appendChild(document.createTextNode(error.error))
-      msg.className = 'lint-error'
-      console.log(error)
-      newWidgets.push(doc.addLineWidget(error.lineno - 1, msg))
-    }
-    setWidgets(newWidgets)
-  }
-
   return (
     <SplitPane split="horizontal" onChange={resize} size={splitSize}>
       <div className="container">
-        <EditorToolbar tab={tab} onTabChange={handleTabChange} showErrors={showErrors} />
+        <EditorToolbar tab={tab} onTabChange={handleTabChange} />
 
         <CodeMirror
           value={formContext.editors[tab].editorValue}
@@ -124,13 +103,11 @@ export const EditorPanel = () => {
           onChange={() => {
             if (formContext.autoRun && tab === 0) {
               formContext.compileForm()
-              showErrors()
             }
           }}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
-            setDoc(editor.getDoc())
-            setEditor(editor)
+            formContext.setEditorDoc(editor)
           }}
         />
       </div>

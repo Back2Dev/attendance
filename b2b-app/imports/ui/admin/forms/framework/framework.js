@@ -29,6 +29,11 @@ const Framework = ({ id, item, methods }) => {
     JSON.stringify(parse(formEditorInput).errs, null, 2)
   )
   const [autoRun, setAutoRun] = React.useState(false)
+  //codemirror references
+  const [editor, setEditor] = React.useState()
+  const [doc, setDoc] = React.useState()
+  //error widgets
+  const [widgets, setWidgets] = React.useState([])
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
@@ -41,8 +46,10 @@ const Framework = ({ id, item, methods }) => {
     if (compiled.status === 'success') {
       setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
       setErrors(compiled.errs)
+      showErrors(compiled.errs)
     } else {
       setErrors(compiled.errs)
+      showErrors(compiled.errs)
     }
   }
 
@@ -55,6 +62,32 @@ const Framework = ({ id, item, methods }) => {
 
   const toggleAutoRun = () => {
     setAutoRun(autoRun ? false : true)
+  }
+
+  const showErrors = (errors) => {
+    hideErrors()
+    setWidgets([])
+
+    if (errors === 'No Errors') return
+
+    const newWidgets = []
+
+    for (let i = 0; i < errors.length; i++) {
+      const error = errors[i]
+      const msg = document.createElement('div')
+      const icon = msg.appendChild(document.createElement('span'))
+      icon.innerHTML = '!!'
+      icon.className = 'lint-error-icon'
+      msg.appendChild(document.createTextNode(error.error))
+      msg.className = 'lint-error'
+      console.log(error)
+      newWidgets.push(doc.addLineWidget(error.lineno - 1, msg))
+    }
+    setWidgets(newWidgets)
+  }
+
+  const hideErrors = () => {
+    for (var i = 0; i < widgets.length; ++i) editor.removeLineWidget(widgets[i])
   }
 
   return (
@@ -79,6 +112,14 @@ const Framework = ({ id, item, methods }) => {
         autoRun,
         toggleAutoRun,
         compileForm,
+        editor,
+        doc,
+        setEditorDoc: (editor) => {
+          setEditor(editor)
+          setDoc(editor.getDoc())
+        },
+        hideErrors,
+        showErrors,
       }}
     >
       <SplitPane split="vertical" defaultSize="50%">
