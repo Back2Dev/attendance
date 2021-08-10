@@ -24,7 +24,9 @@ const Framework = ({ id, item, methods }) => {
   // State of the form editor, exposed in the EditorContext
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
-  const [jsonEditorInput, setJsonEditorInput] = React.useState('')
+  const [jsonEditorInput, setJsonEditorInput] = React.useState(
+    JSON.stringify(parse(formEditorInput).survey, null, 2)
+  )
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
   //codemirror references
@@ -78,7 +80,6 @@ const Framework = ({ id, item, methods }) => {
       icon.className = 'lint-error-icon'
       msg.appendChild(document.createTextNode(error.error))
       msg.className = 'lint-error'
-      console.log(error)
       newWidgets.push(doc.addLineWidget(error.lineno - 1, msg))
     }
     setWidgets(newWidgets)
@@ -87,6 +88,13 @@ const Framework = ({ id, item, methods }) => {
   const hideErrors = () => {
     for (var i = 0; i < widgets.length; ++i) editor.removeLineWidget(widgets[i])
   }
+
+  // display errors on load
+  React.useEffect(() => {
+    if (editor) {
+      showErrors(errors)
+    }
+  }, [editor])
 
   return (
     <EditorContext.Provider
