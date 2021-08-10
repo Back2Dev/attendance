@@ -90,7 +90,12 @@ export const EditorPanel = () => {
   })
 
   return (
-    <SplitPane split="horizontal" onChange={resize} size={splitSize}>
+    <SplitPane
+      split="horizontal"
+      onChange={resize}
+      size={splitSize}
+      pane2Style={{ backgroundColor: '#192125' }}
+    >
       <div className="container">
         <EditorToolbar tab={tab} onTabChange={handleTabChange} />
 

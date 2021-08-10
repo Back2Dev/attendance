@@ -25,9 +25,7 @@ const Framework = ({ id, item, methods }) => {
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
   const [jsonEditorInput, setJsonEditorInput] = React.useState('')
-  const [errors, setErrors] = React.useState(
-    JSON.stringify(parse(formEditorInput).errs, null, 2)
-  )
+  const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
   //codemirror references
   const [editor, setEditor] = React.useState()
