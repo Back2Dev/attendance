@@ -42,26 +42,30 @@ export const CalendarProvider = (props) => {
     setSelectedEvent(Events.findOne({ _id: eventId }))
   }
 
-  const storeEvent = (data, cb) => {
+  const storeEvent = ({ data, cb, recurring = '' }) => {
     setLoading(true)
-    Meteor.call(data?._id ? 'update.events' : 'insert.events', data, (error, result) => {
-      if (!mounted.current) {
-        return
+    Meteor.call(
+      data?._id ? 'update.events' : 'insert.events',
+      { form: data, recurring },
+      (error, result) => {
+        if (!mounted.current) {
+          return
+        }
+        setLoading(false)
+        if (error) {
+          showError(error.message)
+        }
+        if (result?.status === 'false') {
+          showError(result?.message)
+        }
+        if (result?.status === 'success') {
+          showSuccess(data?._id ? 'Event updated' : 'Event created')
+        }
+        if (typeof cb === 'function') {
+          cb(result)
+        }
       }
-      setLoading(false)
-      if (error) {
-        showError(error.message)
-      }
-      if (result?.status === 'false') {
-        showError(result?.message)
-      }
-      if (result?.status === 'success') {
-        showSuccess(data?._id ? 'Event updated' : 'Event created')
-      }
-      if (typeof cb === 'function') {
-        cb(result)
-      }
-    })
+    )
   }
 
   return (

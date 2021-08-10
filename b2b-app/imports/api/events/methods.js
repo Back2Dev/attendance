@@ -8,6 +8,7 @@ import Events, {
   MemberItemSchema,
   CourseItemSchema,
 } from './schema'
+import moment from 'moment'
 const debug = require('debug')('app:events')
 
 Meteor.methods({
@@ -218,7 +219,7 @@ Meteor.methods({
       }
     }
   },
-  'update.events': (form) => {
+  'update.events'({ form, recurring }) {
     try {
       const id = form._id
       delete form._id
@@ -249,6 +250,60 @@ Meteor.methods({
         }
       }
 
+      if (n && recurring) {
+        const updatedEvent = Events.findOne({ _id: id })
+        debug(recurring, updatedEvent)
+        const {
+          _id,
+          when,
+          members,
+          repeat,
+          created,
+          updated,
+          ...updateData
+        } = updatedEvent
+
+        const theRef = updatedEvent.repeat?.ref
+          ? updatedEvent.repeat.ref
+          : updatedEvent._id
+
+        // todo: update event time
+
+        switch (recurring) {
+          case 'this':
+            // update this event only, then do nothing
+            break
+          case 'all':
+            Events.update(
+              {
+                $or: [{ 'repeat.ref': theRef }, { _id: theRef }],
+              },
+              {
+                $set: updateData,
+              },
+              {
+                multi: true,
+              }
+            )
+            // update all events in this series
+            break
+          case 'furture':
+            // update furture events
+            Events.update(
+              { 'repeat.ref': theRef, when: { $gt: when } },
+              {
+                $set: updateData,
+              },
+              {
+                multi: true,
+              }
+            )
+            break
+          default:
+            break
+        }
+      }
+
       return { status: 'success', message: `Updated ${n} event(s)` }
     } catch (e) {
       return {
@@ -257,7 +312,7 @@ Meteor.methods({
       }
     }
   },
-  'insert.events': (form) => {
+  'insert.events'({ form }) {
     try {
       const id = Events.insert(form)
 
@@ -284,6 +339,65 @@ Meteor.methods({
               $set: updateData,
             }
           )
+        }
+      }
+
+      // handle event recurring
+      if (form.repeat?.factor) {
+        const insertedEvent = Events.findOne({ _id: id })
+        delete insertedEvent._id
+
+        const { factor, every, dow, dom, util } = form.repeat
+        // create future events
+        let theEventDay
+        let theEventWeek
+        switch (factor) {
+          case 'day':
+          case 'month':
+          case 'year': {
+            theEventDay = moment(form.when).add(every, factor).toDate()
+            while (theEventDay < util) {
+              // create event
+              console.log({ theEventDay })
+              Events.insert({
+                ...insertedEvent,
+                when: theEventDay,
+                repeat: {
+                  ...insertedEvent.repeat,
+                  ref: id,
+                },
+              })
+
+              // then calculate the next event
+              theEventDay = moment(theEventDay).add(every, factor).toDate()
+            }
+            break
+          }
+          case 'week': {
+            if (dow.length === 0) {
+              break
+            }
+            theEventWeek = moment(form.when).toDate()
+            while (theEventWeek < util) {
+              dow.map((theDay) => {
+                theEventDay = moment(theEventWeek).day(theDay).toDate()
+                if (theEventDay < util && theEventDay > form.when) {
+                  // create event
+                  console.log({ theEventDay }, moment(theEventDay).day())
+                  Events.insert({
+                    ...insertedEvent,
+                    when: theEventDay,
+                    repeat: {
+                      ...insertedEvent.repeat,
+                      ref: id,
+                    },
+                  })
+                }
+              })
+              theEventWeek = moment(theEventWeek).add(every, factor).toDate()
+            }
+            break
+          }
         }
       }
 

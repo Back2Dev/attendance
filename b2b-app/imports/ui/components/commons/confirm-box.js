@@ -180,7 +180,7 @@ export const useConfirm = () => {
           onConfirm()
         }
       },
-      setRejectCallback: () => {
+      rejectCallback: () => {
         setOpen(false)
         if (typeof onReject === 'function') {
           onReject()

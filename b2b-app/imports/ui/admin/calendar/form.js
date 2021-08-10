@@ -3,11 +3,15 @@ import styled from 'styled-components'
 
 import {
   Dialog,
+  DialogContentText,
   DialogActions,
   DialogContent,
   DialogTitle,
   Paper,
   Button,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
 } from '@material-ui/core'
 import Draggable from 'react-draggable'
 import { AutoForm, AutoFields } from 'uniforms-material'
@@ -58,6 +62,8 @@ function EventForm() {
     when: selectedDate,
     active: true,
   })
+  const [recurringUpdateOpen, setRecurringUpdateOpen] = useState(false)
+  const [recurringEditOpt, setRecurringEditOpt] = useState('')
 
   useEffect(() => {
     if (selectedEvent) {
@@ -78,53 +84,118 @@ function EventForm() {
     selectEvent(null)
   }
 
-  const handleSubmit = (model) => {
-    console.log('handle submit', JSON.stringify(model, null, 2))
-    storeEvent(model, (result) => {
-      if (result?.status === 'success') {
-        handleClose()
-      }
+  // store the form model
+  const formModel = useRef(null)
+
+  const handleRecurringUpdate = () => {
+    setRecurringUpdateOpen(false)
+    storeEvent({
+      data: formModel.current,
+      cb: (result) => {
+        if (result?.status === 'success') {
+          handleClose()
+        }
+        setRecurringEditOpt('')
+      },
+      recurring: recurringEditOpt,
     })
   }
 
+  const handleSubmit = (model) => {
+    console.log('handle submit', JSON.stringify(model, null, 2))
+    formModel.current = model
+
+    // check if this is existing event and repeating enabled
+    if (model._id && model.repeat?.factor) {
+      setRecurringUpdateOpen(true)
+    } else {
+      storeEvent({
+        data: model,
+        cb: (result) => {
+          if (result?.status === 'success') {
+            handleClose()
+          }
+        },
+      })
+    }
+  }
+
   return (
-    <StyledEventForm
-      open={formOpen}
-      onClose={handleClose}
-      PaperComponent={PaperComponent}
-      aria-labelledby="draggable-cal-form-title"
-    >
-      <DialogTitle
-        style={{ cursor: 'move' }}
-        id="draggable-cal-form-title"
-        className="draggable form-title"
+    <div>
+      <StyledEventForm
+        open={formOpen}
+        onClose={handleClose}
+        PaperComponent={PaperComponent}
+        aria-labelledby="draggable-cal-form-title"
       >
-        {data._id ? 'Edit event' : 'Create event'}
-      </DialogTitle>
-      <DialogContent className="form-content">
-        <AutoForm
-          schema={schemaBridge}
-          model={data}
-          onSubmit={handleSubmit}
-          ref={formRef}
+        <DialogTitle
+          style={{ cursor: 'move' }}
+          id="draggable-cal-form-title"
+          className="draggable form-title"
         >
-          <AutoFields autoField={CustomAutoField} />
-        </AutoForm>
-      </DialogContent>
-      <DialogActions className="form-actions">
-        <Button autoFocus onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button
-          onClick={() => {
-            formRef.current?.submit()
-          }}
-          color="primary"
-        >
-          Submit
-        </Button>
-      </DialogActions>
-    </StyledEventForm>
+          {data._id ? 'Edit event' : 'Create event'}
+        </DialogTitle>
+        <DialogContent className="form-content">
+          <AutoForm
+            schema={schemaBridge}
+            model={data}
+            onSubmit={handleSubmit}
+            ref={formRef}
+          >
+            <AutoFields autoField={CustomAutoField} />
+          </AutoForm>
+        </DialogContent>
+        <DialogActions className="form-actions">
+          <Button autoFocus onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              formRef.current?.submit()
+            }}
+            color="primary"
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </StyledEventForm>
+      <Dialog
+        open={recurringUpdateOpen}
+        onClose={() => setRecurringUpdateOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle>Edit recurring event</DialogTitle>
+        <DialogContent>
+          <DialogContentText component="div">
+            <RadioGroup
+              aria-label="recurring-opt"
+              value={recurringEditOpt}
+              onChange={(e) => setRecurringEditOpt(e.target.value)}
+            >
+              <FormControlLabel value="this" control={<Radio />} label="This event" />
+              <FormControlLabel
+                value="furture"
+                control={<Radio />}
+                label="This and following events"
+              />
+              <FormControlLabel value="all" control={<Radio />} label="All events" />
+            </RadioGroup>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={handleRecurringUpdate}
+            color="primary"
+            autoFocus
+            disabled={!recurringEditOpt}
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   )
 }
 

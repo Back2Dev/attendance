@@ -78,10 +78,6 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const [appliedValue, setAppliedValue] = useState(null)
 
   useEffect(() => {
-    if (!value.factor) {
-      // setAppliedValue(new Date())
-      return
-    }
     // console.log('update by value')
     setEnabled(!!value.factor)
 
@@ -89,7 +85,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     setEvery(value.every || 1)
     setDow(value.dow || [moment(formContext.model.when).day()])
     setDom(value.dom || moment(formContext.model.when).date())
-    setUtil(value.util)
+    setUtil(value.util || moment(formContext.model.when).add(6, 'months').toDate())
 
     setAppliedValue(new Date())
   }, [value])
