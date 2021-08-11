@@ -29,6 +29,11 @@ export const FormsSchema = new SimpleSchema({
   },
   createdAt,
   updatedAt,
+  json: {
+    type: Object,
+    blackbox: true,
+    optional: true,
+  },
 })
 
 Forms.attachSchema(FormsSchema)

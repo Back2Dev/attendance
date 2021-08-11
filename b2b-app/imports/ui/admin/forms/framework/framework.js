@@ -11,7 +11,11 @@ export const EditorContext = React.createContext()
 const Framework = ({ id, item, methods }) => {
   const save = (quit) => {
     try {
-      methods.update(id, { _id: id, source: formEditorInput }, quit)
+      methods.update(
+        id,
+        { _id: id, source: formEditorInput, json: JSON.parse(jsonEditorInput) },
+        quit
+      )
     } catch (e) {
       alert(`Update error ${e.message}`)
     }
@@ -25,8 +29,11 @@ const Framework = ({ id, item, methods }) => {
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
   const [jsonEditorInput, setJsonEditorInput] = React.useState(
-    JSON.stringify(parse(formEditorInput).survey, null, 2)
+    JSON.stringify(item.json, null, 2),
+    null,
+    2
   )
+
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
   //codemirror references
