@@ -79,6 +79,7 @@ function EventForm() {
     active: true,
   })
   const [recurringUpdateOpen, setRecurringUpdateOpen] = useState(false)
+  const [recurringAction, setRecurringAction] = useState('')
   const [recurringEditOpt, setRecurringEditOpt] = useState('')
 
   useEffect(() => {
@@ -120,25 +121,41 @@ function EventForm() {
         message: 'Are you sure?',
       })
     } else {
-      console.log('handle deleting recurring event')
+      setRecurringAction('delete')
+      setRecurringUpdateOpen(true)
     }
   }
 
   // store the form model
   const formModel = useRef(null)
 
-  const handleRecurringUpdate = () => {
+  const handleRecurringAction = () => {
     setRecurringUpdateOpen(false)
-    storeEvent({
-      data: formModel.current,
-      cb: (result) => {
-        if (result?.status === 'success') {
-          handleClose()
-        }
-        setRecurringEditOpt('')
-      },
-      recurring: recurringEditOpt,
-    })
+    if (recurringAction === 'edit') {
+      storeEvent({
+        data: formModel.current,
+        cb: (result) => {
+          if (result?.status === 'success') {
+            handleClose()
+          }
+          setRecurringEditOpt('')
+        },
+        recurring: recurringEditOpt,
+      })
+    }
+    if (recurringAction === 'delete') {
+      console.log('delete', recurringEditOpt)
+      deleteEvent({
+        id: data._id,
+        cb: (result) => {
+          if (result?.status === 'success') {
+            handleClose()
+          }
+          setRecurringEditOpt('')
+        },
+        recurring: recurringEditOpt,
+      })
+    }
   }
 
   const handleSubmit = (model) => {
@@ -147,6 +164,7 @@ function EventForm() {
 
     // check if this is existing event and repeating enabled
     if (model._id && model.repeat?.factor) {
+      setRecurringAction('edit')
       setRecurringUpdateOpen(true)
     } else {
       storeEvent({
@@ -212,7 +230,9 @@ function EventForm() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>Edit recurring event</DialogTitle>
+        <DialogTitle>
+          {recurringAction === 'edit' ? 'Edit' : 'Delete'} recurring event
+        </DialogTitle>
         <DialogContent>
           <DialogContentText component="div">
             <RadioGroup
@@ -233,7 +253,7 @@ function EventForm() {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={handleRecurringUpdate}
+            onClick={handleRecurringAction}
             color="primary"
             autoFocus
             disabled={!recurringEditOpt}

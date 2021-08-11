@@ -208,9 +208,42 @@ Meteor.methods({
 
     return { status: 'success', sessionId }
   },
-  'rm.events'({ id }) {
+  'rm.events'({ id, recurring }) {
+    const eventToDelete = Events.findOne({ _id: id })
+    if (!eventToDelete) {
+      return {
+        status: 'failed',
+        message: `Event was not found with id ${id}`,
+      }
+    }
+
     try {
       const n = Events.remove(id)
+
+      if (n) {
+        const theRef = eventToDelete.repeat?.ref
+          ? eventToDelete.repeat.ref
+          : eventToDelete._id
+
+        switch (recurring) {
+          case 'this':
+            // delete this event only, then do nothing
+            break
+          case 'all':
+            Events.remove({
+              $or: [{ 'repeat.ref': theRef }, { _id: theRef }],
+            })
+            // update all events in this series
+            break
+          case 'furture':
+            // update furture events
+            Events.remove({ 'repeat.ref': theRef, when: { $gt: eventToDelete.when } })
+            break
+          default:
+            break
+        }
+      }
+
       return { status: 'success', message: 'Removed event' }
     } catch (e) {
       return {
