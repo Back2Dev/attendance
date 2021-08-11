@@ -341,7 +341,7 @@ export default function UserNavbar() {
         <Toolbar>
           {isAdmin && viewas === 'ADM' ? <ADMSideDrawer /> : <OtherSideDrawer />}
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <img className={classes.logo} src="/images/logo.png" alt="Startup Inc logo" />
+            <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
           </Link>
           {userMenu &&
             userMenu.map((item, index) => {

@@ -94,7 +94,7 @@ export const createEmail = (form, subject) => {
       html: merged,
       subject: subject || '',
       from_email: form.from ? form.from : 'do-not-reply@mydomain.com.au',
-      from_name: 'Startup Inc',
+      from_name: 'Back2bikes',
       headers: { 'Reply-To': 'do-not-reply@mydomain.com.au' },
       recipient_metadata: [
         {

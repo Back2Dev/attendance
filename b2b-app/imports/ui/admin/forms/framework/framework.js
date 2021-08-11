@@ -68,7 +68,7 @@ const Framework = ({ id, item, methods }) => {
     hideErrors()
     setWidgets([])
 
-    if (errors === 'No Errors') return
+    if (errors === 'No Errors' || !errors) return
 
     const newWidgets = []
 
