@@ -208,7 +208,7 @@ Meteor.methods({
 
     return { status: 'success', sessionId }
   },
-  'rm.events': (id) => {
+  'rm.events'({ id }) {
     try {
       const n = Events.remove(id)
       return { status: 'success', message: 'Removed event' }

@@ -68,6 +68,28 @@ export const CalendarProvider = (props) => {
     )
   }
 
+  const deleteEvent = ({ id, cb, recurring = '' }) => {
+    setLoading(true)
+    Meteor.call('rm.events', { id, recurring }, (error, result) => {
+      if (!mounted.current) {
+        return
+      }
+      setLoading(false)
+      if (error) {
+        showError(error.message)
+      }
+      if (result?.status === 'false') {
+        showError(result?.message)
+      }
+      if (result?.status === 'success') {
+        showSuccess('Event deleted')
+      }
+      if (typeof cb === 'function') {
+        cb(result)
+      }
+    })
+  }
+
   return (
     <CalendarContext.Provider
       value={{
@@ -82,6 +104,7 @@ export const CalendarProvider = (props) => {
         selectedEvent,
         selectEvent,
         storeEvent,
+        deleteEvent,
       }}
     >
       {children}

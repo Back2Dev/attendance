@@ -9,13 +9,16 @@ import {
   DialogTitle,
   Paper,
   Button,
+  IconButton,
   RadioGroup,
   Radio,
   FormControlLabel,
 } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
 import Draggable from 'react-draggable'
 import { AutoForm, AutoFields } from 'uniforms-material'
 import { CustomAutoField } from '/imports/ui/components/forms'
+import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 import { CalendarContext } from './contexts'
 import config from '/imports/ui/admin/events/config.js'
@@ -28,7 +31,19 @@ const StyledEventForm = styled(Dialog)`
   }
   .form-title {
     background-color: #0000001c;
-    padding: 10px;
+    padding: 0 10px;
+    display: flex;
+    .MuiTypography-root {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .form-title-text {
+      display: flex;
+      align-items: center;
+    }
+    button {
+    }
   }
   .form-content {
     padding: 10px;
@@ -54,6 +69,7 @@ function EventForm() {
     selectedEvent,
     selectEvent,
     storeEvent,
+    deleteEvent,
   } = useContext(CalendarContext)
 
   const formRef = useRef()
@@ -79,9 +95,33 @@ function EventForm() {
     })
   }, [selectedDate, selectedEvent])
 
+  const { showConfirm } = useConfirm()
+
   const handleClose = () => {
     setFormOpen(false)
     selectEvent(null)
+  }
+
+  const handleDelete = () => {
+    console.log('delete')
+    if (!data.repeat?.factor) {
+      showConfirm({
+        onConfirm: () => {
+          deleteEvent({
+            id: data._id,
+            cb: (result) => {
+              if (result?.status === 'success') {
+                handleClose()
+              }
+            },
+          })
+        },
+        title: 'Deleting event',
+        message: 'Are you sure?',
+      })
+    } else {
+      console.log('handle deleting recurring event')
+    }
   }
 
   // store the form model
@@ -133,7 +173,14 @@ function EventForm() {
           id="draggable-cal-form-title"
           className="draggable form-title"
         >
-          {data._id ? 'Edit event' : 'Create event'}
+          <div className="form-title-text">
+            {data._id ? 'Edit event' : 'Create event'}
+          </div>
+          {data._id && (
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          )}
         </DialogTitle>
         <DialogContent className="form-content">
           <AutoForm

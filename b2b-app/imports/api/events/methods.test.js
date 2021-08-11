@@ -157,7 +157,7 @@ describe('Test insert.events method', () => {
       }
       let result
       expect(() => {
-        result = theMethod.apply(thisContext, [item])
+        result = theMethod.apply(thisContext, [{ form: item }])
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
