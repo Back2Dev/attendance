@@ -9,11 +9,11 @@ import { parse } from '/imports/api/forms/engine.js'
 export const EditorContext = React.createContext()
 
 const Framework = ({ id, item, methods }) => {
-  const save = (quit) => {
+  const save = (quit, autosave = false) => {
     try {
       methods.update(
         id,
-        { _id: id, source: formEditorInput, json: JSON.parse(jsonEditorInput) },
+        { _id: id, source: formEditorInput, json: JSON.parse(jsonEditorInput), autosave },
         quit
       )
     } catch (e) {
