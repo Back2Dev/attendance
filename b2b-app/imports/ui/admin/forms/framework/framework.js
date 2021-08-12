@@ -1,4 +1,5 @@
 import React from 'react'
+import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import { EditorPanel } from './editor-panel'
@@ -9,6 +10,17 @@ import { parse } from '/imports/api/forms/engine.js'
 export const EditorContext = React.createContext()
 
 const Framework = ({ id, item, methods }) => {
+  const keyMap = {
+    save: 'command+s',
+  }
+
+  const handlers = {
+    save: (event) => {
+      event.preventDefault()
+      save(false)
+    },
+  }
+
   const save = (quit, autosave = false) => {
     try {
       methods.update(
@@ -104,42 +116,44 @@ const Framework = ({ id, item, methods }) => {
   }, [editor])
 
   return (
-    <EditorContext.Provider
-      value={{
-        editors: [
-          {
-            name: 'details.form',
-            editorValue: formEditorInput,
-            updateEditor: updateFormInput,
-            editorType: 'null',
+    <HotKeys keyMap={keyMap} handlers={handlers}>
+      <EditorContext.Provider
+        value={{
+          editors: [
+            {
+              name: 'details.form',
+              editorValue: formEditorInput,
+              updateEditor: updateFormInput,
+              editorType: 'null',
+            },
+            {
+              name: 'detailsForm.json',
+              editorValue: jsonEditorInput,
+              updateEditor: updateJsonInput,
+              editorType: { name: 'javascript', json: true },
+            },
+          ],
+          errors: errors ? errors : 'No Errors',
+          save,
+          autoRun,
+          toggleAutoRun,
+          compileForm,
+          editor,
+          doc,
+          setEditorDoc: (editor) => {
+            setEditor(editor)
+            setDoc(editor.getDoc())
           },
-          {
-            name: 'detailsForm.json',
-            editorValue: jsonEditorInput,
-            updateEditor: updateJsonInput,
-            editorType: { name: 'javascript', json: true },
-          },
-        ],
-        errors: errors ? errors : 'No Errors',
-        save,
-        autoRun,
-        toggleAutoRun,
-        compileForm,
-        editor,
-        doc,
-        setEditorDoc: (editor) => {
-          setEditor(editor)
-          setDoc(editor.getDoc())
-        },
-        hideErrors,
-        showErrors,
-      }}
-    >
-      <SplitPane split="vertical" defaultSize="50%">
-        <EditorPanel />
-        <PreviewPanel />
-      </SplitPane>
-    </EditorContext.Provider>
+          hideErrors,
+          showErrors,
+        }}
+      >
+        <SplitPane split="vertical" defaultSize="50%">
+          <EditorPanel />
+          <PreviewPanel />
+        </SplitPane>
+      </EditorContext.Provider>
+    </HotKeys>
   )
 }
 

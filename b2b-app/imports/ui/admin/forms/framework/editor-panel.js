@@ -11,6 +11,7 @@ import 'codemirror/addon/lint/lint.js'
 import 'codemirror/addon/lint/lint.css'
 import 'codemirror/addon/lint/javascript-lint.js'
 import 'codemirror/addon/hint/javascript-hint.js'
+import CM from 'codemirror'
 
 // Codemirror linting will not work without this, see <https://github.com/scniro/react-codemirror2/issues/21>
 window.JSHINT = JSHINT
@@ -107,7 +108,6 @@ export const EditorPanel = () => {
         formContext.compileForm()
       }
       formContext.save(false, true)
-      console.log('autosaved')
     })
   )
 
@@ -131,6 +131,7 @@ export const EditorPanel = () => {
           ref={codemirrorRef}
           editorDidMount={(editor) => {
             formContext.setEditorDoc(editor)
+            CM.commands.save = () => formContext.save(false)
           }}
         />
       </div>

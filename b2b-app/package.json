@@ -88,6 +88,7 @@
     "react-dropzone": "^11.2.4",
     "react-google-button": "^0.7.1",
     "react-helmet": "^6.1.0",
+    "react-hotkeys": "^2.0.0",
     "react-livechat": "^1.1.1",
     "react-markdown": "^5.0.3",
     "react-material-ui-form-validator": "^2.1.1",
