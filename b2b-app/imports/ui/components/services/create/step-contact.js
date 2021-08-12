@@ -412,6 +412,7 @@ function ContactStep() {
         <SearchBox
           onChange={(value) => searchMember(value)}
           placeholder="search existing member"
+          autoTrigger
         />
         <Paper elevation={3} className="matches-container">
           <Loading loading={searching} />
