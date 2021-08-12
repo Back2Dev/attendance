@@ -18,11 +18,13 @@ const StepsNotificationSchema = new SimpleSchema({
   },
   text: String, // This is the slug of the MessageTemplate
   // body: OptionalString, // TODO - remove this
-  recipients: { type: Array, optional: true },
-  'recipients.$': {
-    type: String,
-    allowedValues: Object.keys(CONSTANTS.NOTIFY_ROLES),
-  },
+  // TODO: Work out how to display this as a grid within autoform
+  // (It might actually just be a data problem)
+  // recipients: { type: Array, optional: true },
+  // 'recipients.$': {
+  //   type: String,
+  //   allowedValues: Object.keys(CONSTANTS.NOTIFY_ROLES),
+  // },
   delay: OptionalString,
   method: { type: String, allowedValues: Object.keys(CONSTANTS.NOTIFICATION_METHODS) },
   userInfo: { type: Boolean, optional: true },

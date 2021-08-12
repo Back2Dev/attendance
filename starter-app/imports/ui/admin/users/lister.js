@@ -1,3 +1,4 @@
+/* global Roles */
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
@@ -54,9 +55,10 @@ export default withTracker((props) => {
       .find({})
       .fetch()
       .map((item) => {
-        if (item.roles) {
-          item.roles.forEach((role) => {
-            item[role._id] = true
+        const roles = Roles.getRolesForUser(item)
+        if (roles) {
+          roles.forEach((role) => {
+            item[role] = true
           })
         }
         if (accessByPath(item, 'emails.0.address')) item.emails = item.emails[0].address

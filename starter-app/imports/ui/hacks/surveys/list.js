@@ -78,14 +78,14 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
 
   let Contents = () => <span>Loading...</span>
   if (!loading) {
-    if (!rows.length) {
+    if (!items.length) {
       Contents = () => <span>No data found</span>
     } else {
       Contents = () => (
         <ReactTabulator
           ref={tableRef}
           columns={columns}
-          data={rows}
+          data={items}
           options={tableOptions}
           cellEdited={onCellEdited}
         />

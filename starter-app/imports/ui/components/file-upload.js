@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone'
 import { Button, makeStyles } from '@material-ui/core'
 import slingshotUpload from '/imports/ui/components/upload-function'
 
-const debug = require('debug')('b2b:upload')
+const debug = require('debug')('app:upload')
 
 const useStyles = makeStyles({
   root: {

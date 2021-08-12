@@ -6,7 +6,7 @@ import { getCfgs } from '/imports/api/settings/server/helper'
 import Transporter from './index'
 import logger from '/imports/lib/log'
 
-const debug = require('debug')('b2b:messages:webhooks')
+const debug = require('debug')('app:messages:webhooks')
 
 export const WebhookDataSchema = new SimpleSchema({
   webhookId: RegExId,

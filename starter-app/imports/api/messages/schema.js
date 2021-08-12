@@ -25,7 +25,16 @@ export const MessagesSchema = new SimpleSchema({
 
   type: {
     type: String,
-    allowedValues: ['email', 'sms', 'webhook', 'slack', 'twitter', 'skype'],
+    allowedValues: [
+      'email',
+      'sms',
+      'webhook',
+      'slack',
+      'twitter',
+      'skype',
+      'chat',
+      'app',
+    ],
   },
   from: OptionalString,
   to: String,
@@ -33,13 +42,15 @@ export const MessagesSchema = new SimpleSchema({
   body: String,
   template: OptionalString,
   listingId: OptionalRegExId,
+  notificationId: OptionalRegExId,
+  url: OptionalString,
   data: {
     type: Object,
     blackbox: true,
   },
   status: {
     type: String,
-    allowedValues: ['ready', 'queued', 'sent', 'failed', 'cancelled'],
+    allowedValues: ['ready', 'sending', 'queued', 'sent', 'failed', 'cancelled'],
     defaultValue: 'ready',
   },
   expDate: {
@@ -69,12 +80,14 @@ export const MessagesSchema = new SimpleSchema({
     max: 10,
     defaultValue: 5,
   },
-  seen: {
-    // userId will be the key
-    // datetime is value
-    type: Object,
+  read: {
+    type: Boolean,
+    defaultValue: false,
     optional: true,
-    blackbox: true,
+  },
+  readAt: {
+    type: Date,
+    optional: true,
   },
   createdAt,
   updatedAt,

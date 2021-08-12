@@ -30,16 +30,14 @@ export const AccountProvider = (props) => {
     }
   }, [user])
 
-  const profileIncomplete = !loadingProfile && !(profile?.signature && profile?.mobile)
-
   const account = {
     isLoggedIn: !!user,
     currentUser: user,
     loading,
     loadingProfile,
     user,
+    roles: Roles.getRolesForUser(user),
     profile,
-    profileIncomplete,
     viewas: Session.get('viewas'),
   }
 
@@ -53,7 +51,7 @@ export const AccountProvider = (props) => {
     if (!user) {
       return { status: 'failed', message: 'Please login' }
     }
-    const hasRole = user.roles.some((item) => item._id === role)
+    const hasRole = Roles.userIsInRole(user, [role])
     if (!hasRole) {
       return { status: 'failed', message: `The role ${role} is not available` }
     }

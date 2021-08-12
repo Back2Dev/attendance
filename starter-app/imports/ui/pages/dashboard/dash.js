@@ -86,7 +86,7 @@ const List = ({ dashCards }) => {
         </Grid>
       </Grid>
       <Grid container spacing={3} justify="center">
-        {dashCards.map((card, index) => {
+        {dashCards?.map((card, index) => {
           return (
             <Grid item md={3} key={card.display + index} align="center">
               <Card className={classes.card}>

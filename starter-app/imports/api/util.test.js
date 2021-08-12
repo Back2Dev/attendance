@@ -4,12 +4,14 @@ import cloneDeep from 'lodash'
 import {
   accessByPath,
   pruneByPath,
+  populateDoc,
   cleanPhone,
   makeUserSerial,
   makeListingSerial,
   obj2Search,
 } from './util'
-import { isArray } from 'lodash'
+const debug = require('debug')('app:util')
+
 const obj = { foo: { bar: 'The answer is 42', buzz: 'Buzz Aldrin' } }
 const paths = {
   'foo.bar': obj.foo.bar,
@@ -37,6 +39,116 @@ describe('Utilities: pruneByPath', () => {
     const pruned = pruneByPath(incoming, 'property.features')
     expect(Array.isArray(pruned)).to.equal(true)
     expect(incoming.property.features).to.equal(undefined)
+  })
+})
+
+describe('Utilities: populate', () => {
+  const popSpec = {
+    // target: source
+    'property/property-address': 'listing.address',
+    'property/property-serialNo': 'listing.serialNo',
+    'auth/authority': 'specific', // Literal value (has no '.')
+    'convey/property-address': 'listing.address',
+    'convey/transaction-transfer': true,
+    // Array will be interpreted and concatenated into a single string
+    'convey/land-titleref': [
+      'listing.docs.type=cdc.0.formData.property.certificate-volume',
+      '/',
+      'listing.docs.type=cdc.0.formData.property.certificate-folio',
+    ],
+    'client/client-name': 'listing.persons.role=CUS.0.name',
+    'client/client2-name': 'listing.persons.role=CUS.1.name',
+    'client/client-address': {
+      or: [
+        'listing.docs.type=bnf.0.formData.clients.role=CUS.0.residential',
+        'listing.docs.type=snf.0.formData.clients.role=CO.0.residential',
+      ],
+    },
+    'client/client2-address': {
+      or: [
+        'listing.docs.type=xxx.0.formData.clients.role=CUS.0.residential',
+        'listing.docs.type=snf.0.formData.clients.role=CO.0.residential',
+      ],
+    },
+    'client/client3-address': {
+      or: [
+        'listing.docs.type=xxx.0.formData.clients.role=CUS.0.residential',
+        'listing.docs.type=abc.0.formData.clients.role=CO.0.residential',
+        'listing.docs.type=def.0.formData.clients.role=CO.0.residential',
+        'listing.docs.type=ghi.0.formData.clients.role=CO.0.residential',
+        'listing.docs.type=snf.0.formData.clients.role=CO.0.residential',
+      ],
+    },
+    'conveyancer.name': 'practice.name',
+    'conveyancer.ABN': 'practice.abn',
+    'costs/invoice-cost': { removeGST: 'listing.cost' },
+    'costs/invoice-gst': { GSTFrom: 'listing.cost' },
+    'individuals/0/individuals-name': 'listing.persons.role=CUS.0.name',
+    'individuals/0/individuals-email': 'listing.persons.role=CUS.0.email',
+    'individuals/0/individuals-mobile': 'listing.persons.role=CUS.0.mobile',
+  }
+  const listing = {
+    address: 'We are on the road to nowhere',
+    serialNo: 'B1234-x09',
+    persons: [
+      { name: 'Cathy Customer', role: 'CUS' },
+      { name: 'Charlie Customer', role: 'CUS' },
+    ],
+    cost: 660,
+    docs: [
+      {
+        type: 'cdc',
+        formData: {
+          client: {},
+          property: { 'certificate-volume': '91191', 'certificate-folio': '911' },
+        },
+      },
+      {
+        type: 'bnf',
+        formData: {
+          clients: [{ name: 'Charlie', residential: 'My home address', role: 'CUS' }],
+        },
+      },
+      {
+        type: 'snf',
+        formData: {
+          clients: [{ name: 'Company man', residential: 'My work address', role: 'CO' }],
+        },
+      },
+    ],
+  }
+  const practice = {
+    name: 'Company',
+    legalName: 'Company Pty. Ltd.',
+    license: '001632L',
+    address: 'Level 1, 101 Collins St, Melbourne, VIC 3000',
+    phone: '1 800 xxx',
+    abn: '20 xxx',
+    acn: '625 xxx',
+    email: 'info@mydomain.com.au',
+    state: 'vic',
+    active: true,
+  }
+
+  it('Populates a new webform with data from the listing or other webforms', () => {
+    listing.docs.push(populateDoc({ listing, practice }, popSpec, 'caf'))
+
+    const cus = listing.persons.find((doc) => doc.role === 'CUS')
+    expect(cus).to.be.an('object')
+    const caf = listing.docs.find((doc) => doc.type === 'caf')
+    debug(caf)
+    expect(caf).to.be.an('object')
+    expect(caf.formData.client['client-name']).to.be.equal(cus.name)
+    expect(caf.formData.client['client-address']).to.be.equal('My home address')
+    expect(caf.formData.client['client2-name']).to.be.equal('Charlie Customer')
+    expect(caf.formData.client['client2-address']).to.be.equal('My work address')
+    expect(caf.formData.convey['transaction-transfer']).to.be.equal(true)
+    expect(caf.formData.auth.authority).to.be.equal('specific')
+    expect(caf.formData.convey['land-titleref']).to.be.equal('91191/911')
+    expect(caf.formData.costs['invoice-cost']).to.be.equal('600')
+    expect(caf.formData.costs['invoice-gst']).to.be.equal('60')
+    expect(Array.isArray(caf.formData.individuals)).to.be.equal(true)
+    expect(caf.formData.individuals[0]['individuals-name']).to.be.equal(cus.name)
   })
 })
 

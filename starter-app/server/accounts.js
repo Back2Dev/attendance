@@ -32,11 +32,11 @@ Accounts.onCreateUser((options, user) => {
       })
     } else {
       user.emails = [{ address: email, scope: null, assigned: true }]
-      user.roles = [{ _id: 'CUS' }]
       user.username = email
 
       profile.name = name
       profile.avatar = picture
+      Roles.setUserRoles(user, ['MEM'])
     }
   }
   if (facebook) {
@@ -50,11 +50,11 @@ Accounts.onCreateUser((options, user) => {
       })
     } else {
       user.emails = [{ address: email, scope: null, assigned: true }]
-      user.roles = [{ _id: 'CUS' }]
       user.username = email
 
       profile.name = name
       profile.avatar = picture.data.url
+      Roles.setUserRoles(user, ['MEM'])
     }
   }
 
@@ -69,7 +69,7 @@ Accounts.onCreateUser((options, user) => {
     })
   }
 
-  const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
+  const admins = Roles.getUsersInRole('ADM').fetch()
 
   // TODO: Find a neater way of preventing emails going out when fixtures are inserted
   if (Meteor.settings.env.enironment === 'prod')
