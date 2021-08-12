@@ -49,13 +49,23 @@ Meteor.methods({
     if (!Match.test(keyword, String)) {
       return { status: 'failed', message: 'Keyword must be string' }
     }
+    const pattern = new RegExp(keyword, 'i')
     // find the member
     const members = Members.find(
       {
-        $text: {
-          $search: keyword,
-          // $search: `"${keyword}"`
-        },
+        $or: [
+          {
+            $text: {
+              $search: keyword,
+              // $search: `"${keyword}"`
+              $diacriticSensitive: true,
+            },
+          },
+          { name: { $regex: pattern } },
+          { mobile: { $regex: pattern } },
+          { email: { $regex: pattern } },
+          { address: { $regex: pattern } },
+        ],
       },
       {
         fields: {
