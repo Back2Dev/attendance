@@ -11,7 +11,7 @@ export const EditorContext = React.createContext()
 
 const Framework = ({ id, item, methods }) => {
   const keyMap = {
-    save: 'command+s',
+    save: ['command+s', 'Control+s'],
   }
 
   const handlers = {
