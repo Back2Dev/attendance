@@ -4,8 +4,10 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { Helmet } from 'react-helmet'
 import { Skeleton } from '@material-ui/lab'
-import { Grid, Link } from '@material-ui/core'
+import { Button, Grid, Link } from '@material-ui/core'
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 
+import createJobCard from '/imports/ui/utils/job-card-pdf.js'
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
 import MechanicSelector from './info-mechanic'
@@ -19,6 +21,31 @@ const StyledJobInfo = styled.div`
 
 function JobInfo() {
   const { item, loading } = useContext(JobsDetailsContext)
+
+  const createPdf = () => {
+    const serviceItems = item.serviceItems
+    const bikeDetails = {
+      make: item.make,
+      model: item.model,
+      color: item.color,
+    }
+    const contactData = {
+      memberData: item.memberId
+        ? {
+            name: item.name,
+            email: item.email,
+            mobile: item.phone,
+          }
+        : null,
+    }
+    const pickup = {
+      replacementBike: item.replacementBike,
+      pickupDate: item.pickupDate,
+      urgent: item.urgent,
+    }
+
+    createJobCard({ serviceItems, bikeDetails, contactData, pickup })
+  }
 
   const renderData = (data) => {
     if (loading || !item) {
@@ -158,6 +185,15 @@ function JobInfo() {
             </Grid>
           </Grid>
         )}
+        <Grid item xs={12} md={2}>
+          <Button
+            variant="contained"
+            startIcon={<PictureAsPdfIcon />}
+            onClick={createPdf}
+          >
+            Job Card
+          </Button>
+        </Grid>
       </Grid>
     </StyledJobInfo>
   )

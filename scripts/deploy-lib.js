@@ -57,14 +57,14 @@ function doTemplating(pkg, dry_run, folder, tdir, willDo, legacy, nextFunc) {
           .map((m) => `import './factory.${m.id}'`)
           .join('\n'),
         routeImports: modules
-          .filter((m) => m.menu)
+          .filter((m) => m.menu || m.route)
           .map(
             (m) =>
               `const ${m.collection} = lazy(() => import('/imports/ui/admin/${m.id}/lister.js'))`
           )
           .join('\n'),
         routeMarkup: modules
-          .filter((m) => m.menu)
+          .filter((m) => m.menu || m.route)
           .map((m) => `<Route path="/admin/${m.id}" component={${m.collection}} />`)
           .join('\n'),
         // Not sure where to get fixtures from

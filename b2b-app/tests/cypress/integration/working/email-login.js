@@ -12,7 +12,7 @@ describe('opens the new platform and tests the google login function', () => {
     freshDatabase()
   })
 
-  it('navigates to  startup inc homepage and enters information and clicks sign in', function () {
+  it('navigates to  Back2bikes homepage and enters information and clicks sign in', function () {
     cy.visit('/login')
     cy.get('[data-cy=email-input]').type(this.users.mike.username)
     cy.get('[data-cy=password-input]').type(this.users.mike.password)

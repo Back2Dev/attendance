@@ -1,4 +1,6 @@
-import Members from '/imports/api/members/schema'
+/* global Roles */
+import { Meteor } from 'meteor/meteor'
+// import Members from '/imports/api/members/schema'
 
 /**
  * get user email address
@@ -23,10 +25,10 @@ export const getUserEmailAddress = (user) => {
  * @returns {boolean}
  */
 export const hasRole = (user, role) => {
-  if (!user || !user.roles) {
+  if (!user) {
     return false
   }
-  return user.roles.some((item) => item._id === role)
+  return Roles.userIsInRole(user, [role])
 }
 
 /**
@@ -36,10 +38,10 @@ export const hasRole = (user, role) => {
  * @returns {boolean}
  */
 export const hasOneOfRoles = (user, roles) => {
-  if (!user || !user.roles) {
+  if (!user) {
     return false
   }
-  return user.roles.some((item) => roles.includes(item._id))
+  return Roles.userIsInRole(user, roles)
 }
 
 export const getUserId = () => {

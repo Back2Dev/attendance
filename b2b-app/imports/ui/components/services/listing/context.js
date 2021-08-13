@@ -16,6 +16,10 @@ function reducer(state, action) {
       return { ...state, filterText: payload.text }
     case 'setFilterStatus':
       return { ...state, filterStatus: payload.status }
+    case 'setDateFrom':
+      return { ...state, dateFrom: payload.dateFrom }
+    case 'setDateTo':
+      return { ...state, dateTo: payload.dateTo }
     default:
       return state
   }
@@ -33,6 +37,8 @@ export const JobsListingProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     filterText: '',
     filterStatus: [],
+    dateFrom: null,
+    dateTo: null,
   })
 
   const { loading, jobs, statusCounter } = useTracker(() => {
@@ -73,6 +79,13 @@ export const JobsListingProvider = ({ children }) => {
     dispatch({ type: 'setFilterText', payload: { text } })
   }
 
+  const setDateFrom = (date) => {
+    dispatch({ type: 'setDateFrom', payload: { dateFrom: date } })
+  }
+  const setDateTo = (date) => {
+    dispatch({ type: 'setDateTo', payload: { dateTo: date } })
+  }
+
   return (
     <JobsListingContext.Provider
       value={{
@@ -82,6 +95,8 @@ export const JobsListingProvider = ({ children }) => {
         statusCounter,
         toggleFilterStatus,
         setFilterText,
+        setDateFrom,
+        setDateTo,
       }}
     >
       {children}

@@ -1,17 +1,15 @@
 [
   {
-    "body": "We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nStartup Inc\n\nThis is an automated SMS, please do not reply.",
+    "body": "We are almost ready for settlement. We have just sent you an important email.\n\nCheers,\nBack2bikes\n\nThis is an automated SMS, please do not reply.",
     "name": "111-upload-inv",
     "number": 111,
-    "recipients": [
-      "CUS"
-    ],
+    "recipients": ["CUS"],
     "revision": 1,
     "slug": "111-upload-inv",
     "type": "SMS"
   },
   {
-    "body": "Dear Startup Inc Admin, \nA new *|role|* user has been created at Startup Inc. \n*|nickname|* with email address *|email|* was created in the system at *|timestamp|*",
+    "body": "Dear Back2bikes Admin, \nA new *|role|* user has been created at Back2bikes. \n*|nickname|* with email address *|email|* was created in the system at *|timestamp|*",
     "name": "convx-newuser",
     "revision": 1,
     "slug": "new-user",
@@ -36,9 +34,7 @@
     "slug": "app-500-new-user",
     "name": "app-500-new-user",
     "body": "A new *|role|* has been created with email address *|email|*",
-    "recipients": [
-      "ADM"
-    ],
+    "recipients": ["ADM"],
     "trigger": "complete",
     "type": "APP"
   },
@@ -47,9 +43,7 @@
     "slug": "app-121-password-changed",
     "name": "app-121-password-changed",
     "body": "Your password was successfully changed",
-    "recipients": [
-      "USR"
-    ],
+    "recipients": ["USR"],
     "trigger": "complete",
     "type": "APP"
   }

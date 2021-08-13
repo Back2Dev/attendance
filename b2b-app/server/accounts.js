@@ -1,3 +1,4 @@
+/* global Roles */
 import { check } from 'meteor/check'
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
@@ -30,11 +31,11 @@ Accounts.onCreateUser((options, user) => {
       })
     } else {
       user.emails = [{ address: email, scope: null, assigned: true }]
-      user.roles = [{ _id: 'CUS' }]
       user.username = email
-
       member.name = name
       member.avatar = picture
+
+      Roles.setUserRoles(user, ['MEM'])
     }
   }
   if (facebook) {
@@ -48,11 +49,12 @@ Accounts.onCreateUser((options, user) => {
       })
     } else {
       user.emails = [{ address: email, scope: null, assigned: true }]
-      user.roles = [{ _id: 'CUS' }]
       user.username = email
 
       member.name = name
       member.avatar = picture.data.url
+
+      Roles.setUserRoles(user, ['MEM'])
     }
   }
 
@@ -67,7 +69,7 @@ Accounts.onCreateUser((options, user) => {
     })
   }
 
-  const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
+  const admins = Roles.getUsersInRole('ADM').fetch()
 
   // TODO: Find a neater way of preventing emails going out when fixtures are inserted
   if (Meteor.settings.env.enironment === 'prod')
@@ -139,7 +141,7 @@ Accounts.urls.resetPassword = function (token) {
 
 // Accounts.emailTemplates.resetPassword.from = () => {
 //   // Overrides the value set in `Accounts.emailTemplates.from` when resetting passwords.
-//   return 'Startup Inc <noreply@mydomain.com.au>'
+//   return 'Back2bikes <noreply@mydomain.com.au>'
 // }
 
 Accounts.onLoginFailure(function (arg) {
