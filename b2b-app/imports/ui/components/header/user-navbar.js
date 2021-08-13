@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
       height: 60,
       '&:hover': {
         filter:
-          'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)',
+          "brightness(1.3) invert(0.17) saturate(2.6) sepia(0.25) url('#teal-white')",
       },
     },
   },
