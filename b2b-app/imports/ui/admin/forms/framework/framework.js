@@ -1,4 +1,5 @@
 import React from 'react'
+import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import { EditorPanel } from './editor-panel'
@@ -9,9 +10,24 @@ import { parse } from '/imports/api/forms/engine.js'
 export const EditorContext = React.createContext()
 
 const Framework = ({ id, item, methods }) => {
-  const save = (quit) => {
+  const keyMap = {
+    save: ['command+s', 'Control+s'],
+  }
+
+  const handlers = {
+    save: (event) => {
+      event.preventDefault()
+      save(false)
+    },
+  }
+
+  const save = (quit, autosave = false) => {
     try {
-      methods.update(id, { _id: id, source: formEditorInput }, quit)
+      methods.update(
+        id,
+        { _id: id, source: formEditorInput, json: JSON.parse(jsonEditorInput), autosave },
+        quit
+      )
     } catch (e) {
       alert(`Update error ${e.message}`)
     }
@@ -25,8 +41,11 @@ const Framework = ({ id, item, methods }) => {
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
   const [jsonEditorInput, setJsonEditorInput] = React.useState(
-    JSON.stringify(parse(formEditorInput).survey, null, 2)
+    JSON.stringify(item.json, null, 2),
+    null,
+    2
   )
+
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
   //codemirror references
@@ -97,42 +116,44 @@ const Framework = ({ id, item, methods }) => {
   }, [editor])
 
   return (
-    <EditorContext.Provider
-      value={{
-        editors: [
-          {
-            name: 'details.form',
-            editorValue: formEditorInput,
-            updateEditor: updateFormInput,
-            editorType: 'null',
+    <HotKeys keyMap={keyMap} handlers={handlers}>
+      <EditorContext.Provider
+        value={{
+          editors: [
+            {
+              name: 'details.form',
+              editorValue: formEditorInput,
+              updateEditor: updateFormInput,
+              editorType: 'null',
+            },
+            {
+              name: 'detailsForm.json',
+              editorValue: jsonEditorInput,
+              updateEditor: updateJsonInput,
+              editorType: { name: 'javascript', json: true },
+            },
+          ],
+          errors: errors ? errors : 'No Errors',
+          save,
+          autoRun,
+          toggleAutoRun,
+          compileForm,
+          editor,
+          doc,
+          setEditorDoc: (editor) => {
+            setEditor(editor)
+            setDoc(editor.getDoc())
           },
-          {
-            name: 'detailsForm.json',
-            editorValue: jsonEditorInput,
-            updateEditor: updateJsonInput,
-            editorType: { name: 'javascript', json: true },
-          },
-        ],
-        errors: errors ? errors : 'No Errors',
-        save,
-        autoRun,
-        toggleAutoRun,
-        compileForm,
-        editor,
-        doc,
-        setEditorDoc: (editor) => {
-          setEditor(editor)
-          setDoc(editor.getDoc())
-        },
-        hideErrors,
-        showErrors,
-      }}
-    >
-      <SplitPane split="vertical" defaultSize="50%">
-        <EditorPanel />
-        <PreviewPanel />
-      </SplitPane>
-    </EditorContext.Provider>
+          hideErrors,
+          showErrors,
+        }}
+      >
+        <SplitPane split="vertical" defaultSize="50%">
+          <EditorPanel />
+          <PreviewPanel />
+        </SplitPane>
+      </EditorContext.Provider>
+    </HotKeys>
   )
 }
 

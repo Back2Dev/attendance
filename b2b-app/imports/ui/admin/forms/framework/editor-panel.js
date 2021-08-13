@@ -11,6 +11,7 @@ import 'codemirror/addon/lint/lint.js'
 import 'codemirror/addon/lint/lint.css'
 import 'codemirror/addon/lint/javascript-lint.js'
 import 'codemirror/addon/hint/javascript-hint.js'
+import CM from 'codemirror'
 
 // Codemirror linting will not work without this, see <https://github.com/scniro/react-codemirror2/issues/21>
 window.JSHINT = JSHINT
@@ -41,6 +42,7 @@ export const EditorPanel = () => {
 
   const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
+  const [timeoutId, setTimeoutId] = React.useState(null)
 
   const handleTabChange = (e, index) => {
     setTab(index)
@@ -89,6 +91,26 @@ export const EditorPanel = () => {
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
   })
 
+  const debounce = (callback, wait = 3000) => {
+    return (...args) => {
+      window.clearTimeout(timeoutId)
+      setTimeoutId(
+        window.setTimeout(() => {
+          callback.apply(null, args)
+        }, wait)
+      )
+    }
+  }
+
+  const handleEditorInput = React.useCallback(
+    debounce(() => {
+      if (formContext.autoRun && tab === 0) {
+        formContext.compileForm()
+      }
+      formContext.save(false, true)
+    })
+  )
+
   return (
     <SplitPane
       split="horizontal"
@@ -105,14 +127,11 @@ export const EditorPanel = () => {
           onBeforeChange={(editor, data, value) => {
             formContext.editors[tab].updateEditor(value)
           }}
-          onChange={() => {
-            if (formContext.autoRun && tab === 0) {
-              formContext.compileForm()
-            }
-          }}
+          onChange={handleEditorInput}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
             formContext.setEditorDoc(editor)
+            CM.commands.save = () => formContext.save(false)
           }}
         />
       </div>

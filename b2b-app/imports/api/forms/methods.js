@@ -19,7 +19,7 @@ Meteor.methods({
       const id = form._id
       delete form._id
       const n = Forms.update(id, { $set: form })
-      return { status: 'success', message: `Updated ${n} form(s)` }
+      return { status: 'success', message: 'Form Saved' }
     } catch (e) {
       return {
         status: 'failed',
