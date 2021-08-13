@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import MyCollection from './schema'
-const debug = require('debug')('target:myCollection')
+const debug = require('debug')('app:myCollection')
 
 Meteor.methods({
   'rm.myCollection': (id) => {

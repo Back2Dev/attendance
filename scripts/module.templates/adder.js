@@ -7,7 +7,7 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import Add from './add'
 import config from './config'
 
-const debug = require('debug')('target:adder')
+const debug = require('debug')('app:adder')
 let push
 
 const methods = {

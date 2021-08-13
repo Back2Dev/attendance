@@ -14,7 +14,7 @@ import Loading from '/imports/ui/components/commons/loading.js'
 // This file contains a list of routes for database admin pages
 // It is generated from a list of modules
 //
-export default GeneratedRoute = () => {
+export default GeneratedRoutes = () => {
   return (
     <Suspense fallback={<Loading loading />}>
       <Switch>
