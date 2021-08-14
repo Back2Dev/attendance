@@ -1,5 +1,9 @@
+import React from 'react'
+
+import { MyThemeProvider } from '../imports/ui/contexts/theme-context'
+
 export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
       color: /(background|color)$/i,
@@ -7,3 +11,11 @@ export const parameters = {
     },
   },
 }
+
+export const decorators = [
+  (Story) => (
+    <MyThemeProvider>
+      <Story />
+    </MyThemeProvider>
+  ),
+]
