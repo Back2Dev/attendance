@@ -82,6 +82,14 @@ function BikeStep({ initialData }) {
   const formRef = useRef()
   const checkTimeout = useRef(null)
 
+  const mounted = useRef(true)
+  useEffect(
+    () => () => {
+      mounted.current = false
+    },
+    []
+  )
+
   const { details, hasValidData, updatedAt, checkedAt } = state
 
   const checkData = async () => {
@@ -92,8 +100,10 @@ function BikeStep({ initialData }) {
     // }
     // const checkResult = await formRef.current?.validate()
     const checkResult = await formRef.current?.validateModel(details)
-    console.log({ checkResult })
-    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    console.log({ checkResult }, mounted.current)
+    if (mounted.current) {
+      dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    }
   }
 
   const handleSubmit = () => {
