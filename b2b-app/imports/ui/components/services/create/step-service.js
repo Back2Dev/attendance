@@ -8,6 +8,7 @@ import { TextField, Button, Typography } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
+import { showError } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
 import ServiceItem from './service-item'
@@ -144,9 +145,14 @@ function ServiceStep({ initialData }) {
 
   const { goBack } = useHistory()
 
-  const { setStepData, setStepProperty, activeStep, goNext, originalData } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    setStepProperty,
+    activeStep,
+    goNext,
+    originalData,
+    createJob,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const searchFieldRef = useRef(null)
   const selectedContRef = useRef(null)
@@ -238,6 +244,15 @@ function ServiceStep({ initialData }) {
     setTimeout(() => {
       searchFieldRef.current?.children[0]?.children[1]?.children[0]?.blur()
     }, 300)
+  }
+
+  const handleQuickUpdate = () => {
+    console.log('quick update')
+    try {
+      createJob(true)
+    } catch (e) {
+      showError(`Error creating job: ${e.message}`)
+    }
   }
 
   const selectItemsWithTag = (tag) => {
@@ -382,6 +397,17 @@ function ServiceStep({ initialData }) {
           >
             Back
           </Button>
+          {originalData && hasValidData && (
+            <Button
+              className="next-btn"
+              variant="contained"
+              color="primary"
+              disabled={!hasValidData}
+              onClick={handleQuickUpdate}
+            >
+              Quick Update
+            </Button>
+          )}
           <Button
             className="next-btn"
             variant="contained"

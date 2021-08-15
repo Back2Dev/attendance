@@ -198,7 +198,7 @@ export const ServiceProvider = ({ children }) => {
     createJobCard({ serviceItems, bikeDetails, contactData, pickup })
   }
 
-  const createJob = () => {
+  const createJob = (quick = false) => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
@@ -249,10 +249,17 @@ export const ServiceProvider = ({ children }) => {
           showSuccess(`Job ${originalData ? 'updated' : 'created'} successfully`)
           // push(`/jobs/${result.id}`)
           // create pdf now?
-          createPdf()
+          if (quick === false) {
+            createPdf()
+          }
 
-          // redirect to jobs listing
-          push('/services')
+          if (originalData) {
+            // redirect to job details
+            push(`/services/${originalData._id}`)
+          } else {
+            // redirect to jobs listing
+            push('/services')
+          }
         } else {
           showError(
             `Error ${originalData ? 'updating' : 'creating'} job: ${result.message}`
