@@ -15,8 +15,7 @@ export const meteorCall = async (method, description, params, slow) => {
 
     if (s)
       if (s.status === 'success') {
-        if (description && s.message)
-          showSuccess(params.autosave ? 'Form autosaved' : s.message)
+        if (description && s.message) showSuccess(s.message)
       } else {
         showError(`Error ${s.message}`)
       }
