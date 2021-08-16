@@ -62,3 +62,9 @@ div.SplitPane.vertical {
   padding: 0 3px;
   margin-right: 7px;
 }
+
+.noErrors {
+  color: white;
+  padding-left: 16px;
+  margin-top: 8px;
+}

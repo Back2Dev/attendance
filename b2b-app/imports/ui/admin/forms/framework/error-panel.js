@@ -42,30 +42,38 @@ export const ErrorPanel = () => {
   const formContext = React.useContext(EditorContext)
   const classes = useStyles()
 
-  return (
-    <TableContainer>
-      <Table size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="right" style={{ width: '24px' }}>
-              Line
-            </StyledTableCell>
-            <StyledTableCell>Error</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {formContext.errors !== 'No Errors'
-            ? formContext.errors.map((row) => (
-                <TableRow key={row.lineno}>
-                  <StyledTableCell component="th" scope="row" align="right">
-                    {row.lineno}
-                  </StyledTableCell>
-                  <StyledTableCell>{row.error}</StyledTableCell>
-                </TableRow>
-              ))
-            : []}
-        </TableBody>
-      </Table>
-    </TableContainer>
+  const getErrorTable = () => {
+    return (
+      <TableContainer>
+        <Table size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="right" style={{ width: '24px' }}>
+                Line
+              </StyledTableCell>
+              <StyledTableCell>Error</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {formContext.errors !== 'No Errors'
+              ? formContext.errors.map((row) => (
+                  <TableRow key={row.lineno}>
+                    <StyledTableCell component="th" scope="row" align="right">
+                      {row.lineno}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.error}</StyledTableCell>
+                  </TableRow>
+                ))
+              : []}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )
+  }
+
+  return formContext.errors !== 'No Errors' ? (
+    getErrorTable()
+  ) : (
+    <h4 className="noErrors"> ✅ No Errors</h4>
   )
 }
