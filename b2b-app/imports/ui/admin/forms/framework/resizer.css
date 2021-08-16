@@ -1,5 +1,5 @@
 .Resizer.vertical {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 64px -48px);
   width: 10px;
   background: #192125;
   cursor: col-resize;
@@ -19,7 +19,7 @@
 }
 
 div.SplitPane.vertical {
-  height: calc(100vh - 64px) !important;
+  height: calc(100vh - 64px - 48px) !important;
 }
 
 .editorBar {

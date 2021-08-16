@@ -3,6 +3,7 @@ import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
 import { EditorPanel } from './editor-panel'
+import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
 
 import { parse } from '/imports/api/forms/engine.js'
@@ -53,6 +54,7 @@ const Framework = ({ id, item, methods }) => {
   const [doc, setDoc] = React.useState()
   //error widgets
   const [widgets, setWidgets] = React.useState([])
+  const [tab, setTab] = React.useState(0)
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
@@ -146,8 +148,11 @@ const Framework = ({ id, item, methods }) => {
           },
           hideErrors,
           showErrors,
+          tab,
+          changeTab: (i) => setTab(i),
         }}
       >
+        <EditorToolbar />
         <SplitPane split="vertical" defaultSize="50%">
           <EditorPanel />
           <PreviewPanel />

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { EditorContext } from './framework'
 import './resizer.css'
 
@@ -14,17 +13,26 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 
-export const EditorToolbar = ({ tab, onTabChange }) => {
+export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
+
+  const handleTabChange = (e, index) => {
+    formContext.changeTab(index)
+    if (index === 0) {
+      formContext.showErrors(formContext.errors)
+    } else {
+      formContext.hideErrors()
+    }
+  }
 
   return (
     <Paper square>
       <div className="editorBar">
         <Tabs
-          value={tab}
+          value={formContext.tab}
           indicatorColor="primary"
           textColor="primary"
-          onChange={onTabChange}
+          onChange={handleTabChange}
           aria-label="disabled tabs example"
         >
           <Tab label="details.form" />
@@ -68,9 +76,4 @@ export const EditorToolbar = ({ tab, onTabChange }) => {
       </div>
     </Paper>
   )
-}
-
-EditorToolbar.propTypes = {
-  tab: PropTypes.number.isRequired,
-  onTabChange: PropTypes.func.isRequired,
 }

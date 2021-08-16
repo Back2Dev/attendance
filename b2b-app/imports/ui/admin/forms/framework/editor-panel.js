@@ -19,7 +19,6 @@ window.JSHINT = JSHINT
 import './resizer.css'
 import SplitPane from 'react-split-pane'
 
-import { EditorToolbar } from './editor-toolbar'
 import { EditorContext } from './framework'
 import { ErrorPanel } from './error-panel'
 
@@ -40,18 +39,8 @@ const codemirrorOptions = {
 export const EditorPanel = () => {
   const formContext = React.useContext(EditorContext)
 
-  const [tab, setTab] = React.useState(0)
   const [splitSize, setSplitSize] = React.useState('85%')
   const [timeoutId, setTimeoutId] = React.useState(null)
-
-  const handleTabChange = (e, index) => {
-    setTab(index)
-    if (index === 0) {
-      formContext.showErrors(formContext.errors)
-    } else {
-      formContext.hideErrors()
-    }
-  }
 
   const codemirrorRef = React.useRef()
 
@@ -104,7 +93,7 @@ export const EditorPanel = () => {
 
   const handleEditorInput = React.useCallback(
     debounce(() => {
-      if (formContext.autoRun && tab === 0) {
+      if (formContext.autoRun && formContext.tab === 0) {
         formContext.compileForm()
       }
       formContext.save(false, true)
@@ -119,13 +108,14 @@ export const EditorPanel = () => {
       pane2Style={{ backgroundColor: '#192125' }}
     >
       <div className="container">
-        <EditorToolbar tab={tab} onTabChange={handleTabChange} />
-
         <CodeMirror
-          value={formContext.editors[tab].editorValue}
-          options={{ ...codemirrorOptions, mode: formContext.editors[tab].editorType }}
+          value={formContext.editors[formContext.tab].editorValue}
+          options={{
+            ...codemirrorOptions,
+            mode: formContext.editors[formContext.tab].editorType,
+          }}
           onBeforeChange={(editor, data, value) => {
-            formContext.editors[tab].updateEditor(value)
+            formContext.editors[formContext.tab].updateEditor(value)
           }}
           onChange={handleEditorInput}
           ref={codemirrorRef}
