@@ -96,6 +96,7 @@
     "react-signature-canvas": "^1.0.3",
     "react-tabulator": "^0.14.2",
     "react-toastify": "^6.2.0",
+    "recoil": "0.4.0",
     "remark-gfm": "^1.0.0",
     "simpl-schema": "^1.10.2",
     "slate": "^0.63.0",

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { RecoilRoot } from 'recoil'
 import { MyThemeProvider } from '../imports/ui/contexts/theme-context'
 
 export const parameters = {
@@ -17,5 +17,10 @@ export const decorators = [
     <MyThemeProvider>
       <Story />
     </MyThemeProvider>
+  ),
+  (Story) => (
+    <RecoilRoot>
+      <Story />
+    </RecoilRoot>
   ),
 ]

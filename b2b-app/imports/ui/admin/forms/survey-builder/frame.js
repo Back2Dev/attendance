@@ -1,74 +1,71 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { ClickAwayListener, IconButton, Box } from '@material-ui/core'
+import { IconButton, Box } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
 import { Close, KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
 
-const StyledFrame = styled('div')(({ theme, isActive }) => ({
+const StyledFrame = styled('div')(({ theme, isSelected }) => ({
   padding: theme.spacing(2),
-  outline: isActive
+  outline: isSelected
     ? `2px solid ${theme.palette.primary.main}`
     : `1px solid ${theme.palette.grey['400']}`,
   '&:hover': {
     outline: `3px solid ${theme.palette.primary.light}`,
   },
+  margin: theme.spacing(2),
 }))
 
-const Frame = ({ children, onMove, onRemove, onActive, onChange }) => {
-  const [isActive, setIsActive] = useState(false)
-
+const Frame = ({ children, onMove, onRemove, onSelect, selected }) => {
   const selectFrame = (e) => {
+    e.stopPropagation()
     // already clicked inside or child focussed and relatedTarget (element that blurred) is also a child
     if (
-      isActive ||
+      selected ||
       (e.type === 'focus' &&
         e.currentTarget.contains(e.target) &&
         e.currentTarget.contains(e.relatedTarget))
     ) {
       return
     }
-    setIsActive(true)
-    onActive?.(true)
+    onSelect?.(true)
   }
 
   const deselectFrame = (e) => {
+    e.stopPropagation()
     // already clicked outside or child blurred and relatedTarget (element that got focus) is also a child
     if (
-      !isActive ||
+      !selected ||
       (e.type === 'blur' &&
         e.currentTarget.contains(e.target) &&
         e.currentTarget.contains(e.relatedTarget))
     ) {
       return
     }
-    setIsActive(false)
-    onActive?.(false)
+    onSelect?.(false)
   }
 
   return (
-    <ClickAwayListener onClickAway={deselectFrame}>
-      <StyledFrame
-        onClick={selectFrame}
-        isActive={isActive}
-        onFocus={selectFrame}
-        onBlur={deselectFrame}
-      >
-        <Box display="flex">
-          <Box flexGrow={1}>{React.cloneElement(children, { onChange })}</Box>
-          <Box flexGrow={0} display="flex" flexDirection="column">
-            <IconButton size="small" onClick={onRemove}>
-              <Close />
-            </IconButton>
-            <IconButton size="small" onClick={() => onMove('up')}>
-              <KeyboardArrowUp />
-            </IconButton>
-            <IconButton size="small" onClick={() => onMove('down')}>
-              <KeyboardArrowDown />
-            </IconButton>
-          </Box>
+    <StyledFrame
+      onClick={selectFrame}
+      isSelected={selected}
+      onFocus={selectFrame}
+      onBlur={deselectFrame}
+    >
+      <Box display="flex">
+        <Box flexGrow={1}>{children}</Box>
+        <Box flexGrow={0} display="flex" flexDirection="column">
+          <IconButton size="small" onClick={onRemove}>
+            <Close />
+          </IconButton>
+          <IconButton size="small" onClick={() => onMove('up')}>
+            <KeyboardArrowUp />
+          </IconButton>
+          <IconButton size="small" onClick={() => onMove('down')}>
+            <KeyboardArrowDown />
+          </IconButton>
         </Box>
-      </StyledFrame>
-    </ClickAwayListener>
+      </Box>
+    </StyledFrame>
   )
 }
 
@@ -80,9 +77,9 @@ Frame.propTypes = {
   /** Remove frame handler */
   onRemove: PropTypes.func,
   /** Handler that gets called with a bool arg. `true` if selected, `false` unselected */
-  onActive: PropTypes.func,
-  /** Handler that gets called whenever question type data changes */
-  onChange: PropTypes.func,
+  onSelect: PropTypes.func,
+  /** whether frame or children has received focus or been clicked on */
+  selected: PropTypes.bool,
 }
 
 export default Frame

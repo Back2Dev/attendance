@@ -9,7 +9,7 @@ export default {
   subcomponent: Single,
 }
 
-const MyComponent = () => <div>Question component goes here</div>
+const MyComponent = () => <div>Question type component goes here</div>
 
 const Template = (args) => <Frame {...args} />
 
@@ -18,8 +18,8 @@ Default.args = {
   children: <MyComponent />,
 }
 
-export const SingleFrame = Template.bind({})
-SingleFrame.args = {
-  children: <Single />,
+export const Selected = Template.bind({})
+Selected.args = {
+  ...Default.args,
+  selected: true,
 }
-SingleFrame.storyName = 'Single'
