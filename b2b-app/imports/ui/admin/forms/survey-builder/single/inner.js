@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { atomFamily } from 'recoil'
 
 import Item from './item'
 import Question from '../question'
 import { useListControls, useDidMountEffect } from '../hooks'
 
 /** Single Choice question */
-// FIXME: disallow removing choice if there's only 1
-// FIXME: tab after inline-edit and it doesn't focus on controls until you tab 2 more times
-// FIXME on first render, onChange gets called with empty data
-const SingleInner = ({ onChange, initialLabel, initialList }) => {
-  const choices = useListControls(initialList)
+const SingleInner = ({ id, onChange, initialLabel, initialList }) => {
+  const choices = useListControls(`singleItems.${id}`, initialList)
   const [question, setQuestion] = useState('')
 
   useDidMountEffect(() => {
@@ -45,6 +43,7 @@ const SingleInner = ({ onChange, initialLabel, initialList }) => {
 }
 
 SingleInner.propTypes = {
+  id: PropTypes.number,
   /** function gets called when any choice gets updated */
   onChange: PropTypes.func,
   /** default question label */

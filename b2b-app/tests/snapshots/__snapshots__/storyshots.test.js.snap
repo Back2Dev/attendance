@@ -1,26 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Survey Builder/Canvas Default 1`] = `
+<div>
+  <section>
+    <h1>
+      Toolbar
+    </h1>
+    <button
+      onClick={[Function]}
+    >
+      Add Single
+    </button>
+  </section>
+  <section>
+    <h2>
+      Canvas
+    </h2>
+    <div
+      className="MuiBox-root MuiBox-root-1"
+      onClick={[Function]}
+    />
+  </section>
+</div>
+`;
+
 exports[`Storyshots Survey Builder/Frame Default 1`] = `
 <div
-  className="div-root-1 div-root-2"
-  isActive={false}
+  className="div-root-2 div-root-3"
   onBlur={[Function]}
   onClick={[Function]}
   onFocus={[Function]}
-  onTouchEnd={[Function]}
 >
   <div
-    className="MuiBox-root MuiBox-root-3"
+    className="MuiBox-root MuiBox-root-4"
   >
     <div
-      className="MuiBox-root MuiBox-root-4"
+      className="MuiBox-root MuiBox-root-5"
     >
       <div>
-        Question component goes here
+        Question type component goes here
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-5"
+      className="MuiBox-root MuiBox-root-6"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
@@ -125,287 +147,26 @@ exports[`Storyshots Survey Builder/Frame Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots Survey Builder/Frame Single 1`] = `
+exports[`Storyshots Survey Builder/Frame Selected 1`] = `
 <div
-  className="div-root-6 div-root-7"
-  isActive={false}
+  className="div-root-7 div-root-8"
+  isSelected={true}
   onBlur={[Function]}
   onClick={[Function]}
   onFocus={[Function]}
-  onTouchEnd={[Function]}
 >
   <div
-    className="MuiBox-root MuiBox-root-8"
+    className="MuiBox-root MuiBox-root-9"
   >
     <div
-      className="MuiBox-root MuiBox-root-9"
+      className="MuiBox-root MuiBox-root-10"
     >
       <div>
-        <div
-          className="display"
-        >
-          <div
-            aria-label="Type your question"
-            className={
-              Object {
-                "&:empty::before": Object {
-                  "content": [Function],
-                  "opacity": 0.42,
-                },
-                "&:focus": Object {
-                  "outline": "1px solid blue",
-                  "outlineOffset": 5,
-                },
-                "cursor": "text",
-                "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
-                "fontSize": "1rem",
-                "fontWeight": 400,
-                "letterSpacing": "0.00938em",
-                "lineHeight": 1.5,
-              }
-            }
-            contentEditable={true}
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "",
-              }
-            }
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onInput={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onPaste={[Function]}
-            role="button"
-            spellCheck="false"
-            tabIndex="0"
-          />
-        </div>
-        <ol>
-          <li
-            className="sc-bdfBwQ isNNGp"
-          >
-            <button
-              className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={-1}
-              type="button"
-            >
-              <span
-                className="MuiIconButton-label"
-              >
-                <svg
-                  aria-hidden={true}
-                  className="MuiSvgIcon-root"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                  />
-                </svg>
-              </span>
-            </button>
-            <div
-              className="display sc-gsTCUz dRzqnq"
-            >
-              <div
-                aria-label="New choice"
-                className={
-                  Object {
-                    "&:empty::before": Object {
-                      "content": [Function],
-                      "opacity": 0.42,
-                    },
-                    "&:focus": Object {
-                      "outline": "1px solid blue",
-                      "outlineOffset": 5,
-                    },
-                    "cursor": "text",
-                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
-                    "fontSize": "1rem",
-                    "fontWeight": 400,
-                    "letterSpacing": "0.00938em",
-                    "lineHeight": 1.5,
-                  }
-                }
-                contentEditable={true}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "",
-                  }
-                }
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onPaste={[Function]}
-                role="button"
-                spellCheck="false"
-                tabIndex="0"
-              />
-            </div>
-            <div
-              className="sc-dlfnbm ghqqoB"
-              onMouseDown={[Function]}
-            >
-              <button
-                aria-label="move up"
-                className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
-                disabled={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={-1}
-                type="button"
-              >
-                <span
-                  className="MuiIconButton-label"
-                >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <button
-                aria-label="move down"
-                className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
-                disabled={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={-1}
-                type="button"
-              >
-                <span
-                  className="MuiIconButton-label"
-                >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <button
-                aria-label="add"
-                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={0}
-                type="button"
-              >
-                <span
-                  className="MuiIconButton-label"
-                >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-                    />
-                  </svg>
-                </span>
-              </button>
-              <button
-                aria-label="delete"
-                className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
-                disabled={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onDragLeave={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                tabIndex={-1}
-                type="button"
-              >
-                <span
-                  className="MuiIconButton-label"
-                >
-                  <svg
-                    aria-hidden={true}
-                    className="MuiSvgIcon-root"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                    />
-                  </svg>
-                </span>
-              </button>
-            </div>
-          </li>
-        </ol>
+        Question type component goes here
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-10"
+      className="MuiBox-root MuiBox-root-11"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
@@ -939,6 +700,390 @@ exports[`Storyshots Survey Builder/Question Placeholder 1`] = `
 `;
 
 exports[`Storyshots Survey Builder/Single Default 1`] = `
+<div
+  className="div-root-12 div-root-13"
+  isSelected={false}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+>
+  <div
+    className="MuiBox-root MuiBox-root-14"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-15"
+    >
+      <div>
+        <div
+          className="display"
+        >
+          <div
+            aria-label="Type your question"
+            className={
+              Object {
+                "&:empty::before": Object {
+                  "content": [Function],
+                  "opacity": 0.42,
+                },
+                "&:focus": Object {
+                  "outline": "1px solid blue",
+                  "outlineOffset": 5,
+                },
+                "cursor": "text",
+                "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                "fontSize": "1rem",
+                "fontWeight": 400,
+                "letterSpacing": "0.00938em",
+                "lineHeight": 1.5,
+              }
+            }
+            contentEditable={true}
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "",
+              }
+            }
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onPaste={[Function]}
+            role="button"
+            spellCheck="false"
+            tabIndex="0"
+          />
+        </div>
+        <ol>
+          <li
+            className="sc-bdnxRM eJHnzq"
+          >
+            <button
+              className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
+              disabled={true}
+              onBlur={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={-1}
+              type="button"
+            >
+              <span
+                className="MuiIconButton-label"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+              </span>
+            </button>
+            <div
+              className="display sc-gtsrHT hBaLjY"
+            >
+              <div
+                aria-label="New choice"
+                className={
+                  Object {
+                    "&:empty::before": Object {
+                      "content": [Function],
+                      "opacity": 0.42,
+                    },
+                    "&:focus": Object {
+                      "outline": "1px solid blue",
+                      "outlineOffset": 5,
+                    },
+                    "cursor": "text",
+                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                    "fontSize": "1rem",
+                    "fontWeight": 400,
+                    "letterSpacing": "0.00938em",
+                    "lineHeight": 1.5,
+                  }
+                }
+                contentEditable={true}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "",
+                  }
+                }
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onPaste={[Function]}
+                role="button"
+                spellCheck="false"
+                tabIndex="0"
+              />
+            </div>
+            <div
+              className="sc-dlnjwi etNqnH"
+              onMouseDown={[Function]}
+            >
+              <button
+                aria-label="move up"
+                className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
+                disabled={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={-1}
+                type="button"
+              >
+                <span
+                  className="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <button
+                aria-label="move down"
+                className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
+                disabled={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={-1}
+                type="button"
+              >
+                <span
+                  className="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <button
+                aria-label="add"
+                className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <button
+                aria-label="delete"
+                className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
+                disabled={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onDragLeave={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                tabIndex={-1}
+                type="button"
+              >
+                <span
+                  className="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div
+      className="MuiBox-root MuiBox-root-16"
+    >
+      <button
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+        disabled={false}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </span>
+      </button>
+      <button
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+            />
+          </svg>
+        </span>
+      </button>
+      <button
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Survey Builder/Single/Single Inner Default 1`] = `
 <div>
   <div
     className="display"
@@ -983,7 +1128,7 @@ exports[`Storyshots Survey Builder/Single Default 1`] = `
   </div>
   <ol>
     <li
-      className="sc-bdfBwQ isNNGp"
+      className="sc-bdnxRM eJHnzq"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -1018,7 +1163,7 @@ exports[`Storyshots Survey Builder/Single Default 1`] = `
         </span>
       </button>
       <div
-        className="display sc-gsTCUz dRzqnq"
+        className="display sc-gtsrHT hBaLjY"
       >
         <div
           aria-label="New choice"
@@ -1059,7 +1204,7 @@ exports[`Storyshots Survey Builder/Single Default 1`] = `
         />
       </div>
       <div
-        className="sc-dlfnbm ghqqoB"
+        className="sc-dlnjwi etNqnH"
         onMouseDown={[Function]}
       >
         <button
@@ -1204,7 +1349,7 @@ exports[`Storyshots Survey Builder/Single Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots Survey Builder/Single Initial Label 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner Initial Label 1`] = `
 <div>
   <div
     className="display"
@@ -1249,7 +1394,7 @@ exports[`Storyshots Survey Builder/Single Initial Label 1`] = `
   </div>
   <ol>
     <li
-      className="sc-bdfBwQ isNNGp"
+      className="sc-bdnxRM eJHnzq"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -1284,7 +1429,7 @@ exports[`Storyshots Survey Builder/Single Initial Label 1`] = `
         </span>
       </button>
       <div
-        className="display sc-gsTCUz dRzqnq"
+        className="display sc-gtsrHT hBaLjY"
       >
         <div
           aria-label="New choice"
@@ -1325,7 +1470,7 @@ exports[`Storyshots Survey Builder/Single Initial Label 1`] = `
         />
       </div>
       <div
-        className="sc-dlfnbm ghqqoB"
+        className="sc-dlnjwi etNqnH"
         onMouseDown={[Function]}
       >
         <button
@@ -1470,7 +1615,7 @@ exports[`Storyshots Survey Builder/Single Initial Label 1`] = `
 </div>
 `;
 
-exports[`Storyshots Survey Builder/Single Initial List 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner Initial List 1`] = `
 <div>
   <div
     className="display"
@@ -1515,7 +1660,7 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
   </div>
   <ol>
     <li
-      className="sc-bdfBwQ isNNGp"
+      className="sc-bdnxRM eJHnzq"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -1550,7 +1695,7 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
         </span>
       </button>
       <div
-        className="display sc-gsTCUz dRzqnq"
+        className="display sc-gtsrHT hBaLjY"
       >
         <div
           aria-label="New choice"
@@ -1591,7 +1736,7 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
         />
       </div>
       <div
-        className="sc-dlfnbm ghqqoB"
+        className="sc-dlnjwi etNqnH"
         onMouseDown={[Function]}
       >
         <button
@@ -1733,7 +1878,7 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
       </div>
     </li>
     <li
-      className="sc-bdfBwQ isNNGp"
+      className="sc-bdnxRM eJHnzq"
     >
       <button
         className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -1768,7 +1913,7 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
         </span>
       </button>
       <div
-        className="display sc-gsTCUz dRzqnq"
+        className="display sc-gtsrHT hBaLjY"
       >
         <div
           aria-label="New choice"
@@ -1809,7 +1954,7 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
         />
       </div>
       <div
-        className="sc-dlfnbm ghqqoB"
+        className="sc-dlnjwi etNqnH"
         onMouseDown={[Function]}
       >
         <button
@@ -1954,9 +2099,9 @@ exports[`Storyshots Survey Builder/Single Initial List 1`] = `
 </div>
 `;
 
-exports[`Storyshots Survey Builder/Single/Item Default 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner/Item Default 1`] = `
 <li
-  className="sc-bdfBwQ isNNGp"
+  className="sc-bdnxRM eJHnzq"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -1991,7 +2136,7 @@ exports[`Storyshots Survey Builder/Single/Item Default 1`] = `
     </span>
   </button>
   <div
-    className="display sc-gsTCUz dRzqnq"
+    className="display sc-gtsrHT hBaLjY"
   >
     <div
       aria-label="New choice"
@@ -2032,7 +2177,7 @@ exports[`Storyshots Survey Builder/Single/Item Default 1`] = `
     />
   </div>
   <div
-    className="sc-dlfnbm ghqqoB"
+    className="sc-dlnjwi etNqnH"
     onMouseDown={[Function]}
   >
     <button
@@ -2173,9 +2318,9 @@ exports[`Storyshots Survey Builder/Single/Item Default 1`] = `
 </li>
 `;
 
-exports[`Storyshots Survey Builder/Single/Item Move Down Disabled 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner/Item Move Down Disabled 1`] = `
 <li
-  className="sc-bdfBwQ isNNGp"
+  className="sc-bdnxRM eJHnzq"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -2210,7 +2355,7 @@ exports[`Storyshots Survey Builder/Single/Item Move Down Disabled 1`] = `
     </span>
   </button>
   <div
-    className="display sc-gsTCUz dRzqnq"
+    className="display sc-gtsrHT hBaLjY"
   >
     <div
       aria-label="New choice"
@@ -2251,7 +2396,7 @@ exports[`Storyshots Survey Builder/Single/Item Move Down Disabled 1`] = `
     />
   </div>
   <div
-    className="sc-dlfnbm ghqqoB"
+    className="sc-dlnjwi etNqnH"
     onMouseDown={[Function]}
   >
     <button
@@ -2392,9 +2537,9 @@ exports[`Storyshots Survey Builder/Single/Item Move Down Disabled 1`] = `
 </li>
 `;
 
-exports[`Storyshots Survey Builder/Single/Item Move Up Disabled 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner/Item Move Up Disabled 1`] = `
 <li
-  className="sc-bdfBwQ isNNGp"
+  className="sc-bdnxRM eJHnzq"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -2429,7 +2574,7 @@ exports[`Storyshots Survey Builder/Single/Item Move Up Disabled 1`] = `
     </span>
   </button>
   <div
-    className="display sc-gsTCUz dRzqnq"
+    className="display sc-gtsrHT hBaLjY"
   >
     <div
       aria-label="New choice"
@@ -2470,7 +2615,7 @@ exports[`Storyshots Survey Builder/Single/Item Move Up Disabled 1`] = `
     />
   </div>
   <div
-    className="sc-dlfnbm ghqqoB"
+    className="sc-dlnjwi etNqnH"
     onMouseDown={[Function]}
   >
     <button
@@ -2611,9 +2756,9 @@ exports[`Storyshots Survey Builder/Single/Item Move Up Disabled 1`] = `
 </li>
 `;
 
-exports[`Storyshots Survey Builder/Single/Item Prefilled Text 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner/Item Prefilled Text 1`] = `
 <li
-  className="sc-bdfBwQ isNNGp"
+  className="sc-bdnxRM eJHnzq"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -2648,7 +2793,7 @@ exports[`Storyshots Survey Builder/Single/Item Prefilled Text 1`] = `
     </span>
   </button>
   <div
-    className="display sc-gsTCUz dRzqnq"
+    className="display sc-gtsrHT hBaLjY"
   >
     <div
       aria-label="New choice"
@@ -2689,7 +2834,7 @@ exports[`Storyshots Survey Builder/Single/Item Prefilled Text 1`] = `
     />
   </div>
   <div
-    className="sc-dlfnbm ghqqoB"
+    className="sc-dlnjwi etNqnH"
     onMouseDown={[Function]}
   >
     <button
@@ -2830,9 +2975,9 @@ exports[`Storyshots Survey Builder/Single/Item Prefilled Text 1`] = `
 </li>
 `;
 
-exports[`Storyshots Survey Builder/Single/Item Remove Disabled 1`] = `
+exports[`Storyshots Survey Builder/Single/Single Inner/Item Remove Disabled 1`] = `
 <li
-  className="sc-bdfBwQ isNNGp"
+  className="sc-bdnxRM eJHnzq"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall Mui-disabled"
@@ -2867,7 +3012,7 @@ exports[`Storyshots Survey Builder/Single/Item Remove Disabled 1`] = `
     </span>
   </button>
   <div
-    className="display sc-gsTCUz dRzqnq"
+    className="display sc-gtsrHT hBaLjY"
   >
     <div
       aria-label="New choice"
@@ -2908,7 +3053,7 @@ exports[`Storyshots Survey Builder/Single/Item Remove Disabled 1`] = `
     />
   </div>
   <div
-    className="sc-dlfnbm ghqqoB"
+    className="sc-dlnjwi etNqnH"
     onMouseDown={[Function]}
   >
     <button

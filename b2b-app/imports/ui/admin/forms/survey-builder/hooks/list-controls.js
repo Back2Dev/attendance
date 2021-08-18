@@ -1,8 +1,19 @@
-import { useState, useRef } from 'react'
+import { useRef, useCallback, useMemo } from 'react'
+import { useRecoilState, atomFamily } from 'recoil'
 
-const useListControls = (initialList = []) => {
+let initDefault
+
+export const listControlsState = atomFamily({
+  key: 'listControls',
+  default: () => initDefault(),
+})
+
+const useListControls = (stateId, initialList = []) => {
   const id = useRef(0)
-  const [list, setList] = useState(() => initialList.map((value) => makeItem(value)))
+  initDefault = useCallback(() => {
+    return initialList?.length > 0 ? initialList.map((value) => makeItem(value)) : []
+  }, [])
+  const [list, setList] = useRecoilState(listControlsState(stateId))
 
   function makeItem(value) {
     return { id: id.current++, value }
@@ -30,6 +41,17 @@ const useListControls = (initialList = []) => {
       throw new TypeError('invalid index arg')
     }
     setList(list.filter((_, i) => i !== index))
+  }
+
+  const removeById = (id) => {
+    if (id === undefined) {
+      throw new TypeError('id arg missing')
+    }
+    const index = list.findIndex((v) => v.id === id)
+    if (index === -1) {
+      throw new TypeError('id not found')
+    }
+    remove(index)
   }
 
   const move = (index, direction) => {
@@ -60,6 +82,15 @@ const useListControls = (initialList = []) => {
     setList(l)
   }
 
+  const moveById = (id, direction) => {
+    const l = [...list]
+    const index = l.findIndex((v) => v.id === id)
+    if (index === -1) {
+      throw new TypeError('id not found')
+    }
+    move(index, direction)
+  }
+
   const update = (value, index) => {
     if (value === undefined || index === undefined) {
       throw new TypeError('value or index args missing')
@@ -70,9 +101,9 @@ const useListControls = (initialList = []) => {
     setList(list.map((item, i) => (i === index ? { ...item, value } : item)))
   }
 
-  const values = list.map((item) => item.value)
+  const values = useMemo(() => list.map((item) => item.value), [list])
 
-  return { values, all: list, remove, add, update, move }
+  return { values, all: list, remove, add, update, move, removeById, moveById }
 }
 
 export default useListControls

@@ -1,27 +1,31 @@
 import React from 'react'
-import { atom, useSetRecoilState, useRecoilValue } from 'recoil'
+import { atom, useSetRecoilState } from 'recoil'
 import { Box } from '@material-ui/core'
 
 import Single from './single'
+import { useListControls } from './hooks'
 
-export const partsAtom = atom({
-  key: 'parts',
-  default: [],
-})
-
-export const selectedPartAtom = atom({
+export const selectedPartState = atom({
   key: 'selectedPart',
   default: null,
 })
 
-// FIXME: on fresh load when adding a new Single in the story, get passing isSelected prop as DOM attrib error
 const Canvas = () => {
-  const parts = useRecoilValue(partsAtom)
-  const setSelectedPart = useSetRecoilState(selectedPartAtom)
+  const { all: parts } = useListControls('parts')
+  const setSelectedPart = useSetRecoilState(selectedPartState)
 
   return (
-    <Box border="1px solid lightgrey" onClick={() => setSelectedPart(null)}>
-      {parts.map((id) => (
+    <Box
+      position="absolute"
+      top={0}
+      bottom={0}
+      left="10%"
+      right="20%"
+      border="1px solid lightgrey"
+      onClick={() => setSelectedPart(null)}
+      overflow="auto"
+    >
+      {parts.map(({ id }) => (
         <Single key={id} id={id} />
       ))}
     </Box>

@@ -12,4 +12,16 @@ const useDidMountEffect = (func, deps) => {
   }, deps)
 }
 
-export default useDidMountEffect
+/** temp fix for double initial render issue in recoil
+ * https://github.com/facebookexperimental/Recoil/issues/307
+ */
+const useDidMountRecoilEffect = (func, deps) => {
+  const didMount = useRef(0)
+
+  useEffect(() => {
+    if (didMount.current > 1) func()
+    else didMount.current++
+  }, deps)
+}
+
+export { useDidMountEffect as default, useDidMountRecoilEffect }

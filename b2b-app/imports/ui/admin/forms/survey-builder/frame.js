@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, Box } from '@material-ui/core'
-import { styled } from '@material-ui/core/styles'
+import styled from 'styled-components'
 import { Close, KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
 
 const StyledFrame = styled('div')(({ theme, isSelected }) => ({
@@ -10,7 +10,7 @@ const StyledFrame = styled('div')(({ theme, isSelected }) => ({
     ? `2px solid ${theme.palette.primary.main}`
     : `1px solid ${theme.palette.grey['400']}`,
   '&:hover': {
-    outline: `3px solid ${theme.palette.primary.light}`,
+    outline: `3px solid ${theme.palette.primary.dark}`,
   },
   margin: theme.spacing(2),
 }))

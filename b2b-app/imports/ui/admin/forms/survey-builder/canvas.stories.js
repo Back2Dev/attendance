@@ -1,19 +1,25 @@
 import React from 'react'
-import { useRecoilState } from 'recoil'
 
-import Canvas, { partsAtom } from './canvas'
+import Canvas from './canvas'
+import useListControls from './hooks/list-controls'
 
 export default {
   title: 'Survey Builder/Canvas',
   component: Canvas,
   decorators: [
     (Story) => {
-      const [parts, setParts] = useRecoilState(partsAtom)
+      const { add } = useListControls('parts')
       return (
         <div>
           <section>
             <h1>Toolbar</h1>
-            <button onClick={() => setParts([...parts, parts.length])}>Add Single</button>
+            <button
+              onClick={() => {
+                add('')
+              }}
+            >
+              Add Single
+            </button>
           </section>
 
           <section>

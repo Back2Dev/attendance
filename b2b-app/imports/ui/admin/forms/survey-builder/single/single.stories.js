@@ -9,4 +9,6 @@ export default {
 const Template = (args) => <Single {...args} />
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  id: 0,
+}
