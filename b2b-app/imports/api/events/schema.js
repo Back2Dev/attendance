@@ -59,6 +59,38 @@ export const MemberItemSchema = new SimpleSchema({
 )
 // console.log(JSON.stringify(MemberItemSchema, null, 2))
 
+export const RepeatSchema = new SimpleSchema({
+  factor: {
+    type: String,
+    allowedValues: ['day', 'week', 'month', 'year'],
+  },
+  every: Number,
+  dow: {
+    // day of week
+    type: Array,
+    optional: true,
+  },
+  'dow.$': {
+    type: Number,
+    allowedValues: [0, 1, 2, 3, 4, 5, 6], // Sunday as 0 and Saturday as 6
+    optional: true,
+  },
+  dom: {
+    // day of month
+    type: Number,
+    optional: true,
+  },
+  util: {
+    type: Date,
+    optional: true,
+  },
+  ref: {
+    // refer to original event, the first one of the seria
+    type: String,
+    optional: true,
+  },
+})
+
 export const EventsSchema = new SimpleSchema({
   _id: OptionalRegExId,
   name: {
@@ -84,14 +116,6 @@ export const EventsSchema = new SimpleSchema({
   'tools.$': ToolItemSchema,
   description: { type: Array, optional: true },
   'description.$': String,
-  //select
-  type: {
-    type: String,
-    allowedValues: ['day', 'monthly', 'once', 'fallback'],
-  },
-  //checkbox
-  days: { type: Array, optional: true },
-  'days.$': { type: SimpleSchema.Integer },
   location: {
     type: String,
     label: 'Location',
@@ -123,6 +147,15 @@ export const EventsSchema = new SimpleSchema({
     optional: true,
   },
   'members.$': MemberItemSchema,
+  // TODO: need to review this. I'm trying to by pass the issue from simpl-schema: https://github.com/longshotlabs/simpl-schema/issues/378
+  'members.$[]': {
+    type: MemberItemSchema,
+    optional: true,
+  },
+  repeat: {
+    type: RepeatSchema,
+    optional: true,
+  },
   createdAt,
   updatedAt,
 })

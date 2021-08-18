@@ -38,6 +38,12 @@
     "env": ["all"]
   },
   {
+    "table": "triggers",
+    "name": "triggers",
+    "key": "slug",
+    "env": ["all"]
+  },
+  {
     "table": "tools",
     "name": "tools",
     "key": "name",

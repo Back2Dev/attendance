@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
-import { Paper, ButtonBase, Typography } from '@material-ui/core'
+import { Paper, ButtonBase } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import FileUploadItem from './files-upload/item'
 import { showSuccess } from '/imports/ui/utils/toast-alerts'
@@ -47,9 +47,6 @@ const StyledFilesUpload = styled.div`
       }
     }
   }
-  .thumbnail {
-    max-width: 250px;
-  }
 `
 
 function FilesUpload({
@@ -61,23 +58,13 @@ function FilesUpload({
   addIdToName,
   uploadNow = true,
   back = false,
-  preview = false,
 }) {
   const [allAcceptedFiles, setAllAcceptedFiles] = useState([])
   const [dragged, setDragged] = useState(false)
 
-  const { acceptedFiles, getRootProps, getInputProps, fileRejections } = useDropzone({
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept,
     maxFiles: maxFiles - allAcceptedFiles.length,
-    onDrop: (allAcceptedFiles) => {
-      setAllAcceptedFiles(
-        allAcceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      )
-    },
   })
 
   const { goBack } = useHistory()
@@ -109,14 +96,6 @@ function FilesUpload({
     setAllAcceptedFiles(newAllAcceptedFiles)
   }, [acceptedFiles])
 
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      acceptedFiles.forEach((file) => URL.revokeObjectURL(file.preview))
-    },
-    [acceptedFiles]
-  )
-
   const removeFileItem = (fileId) => {
     const newAllAcceptedFiles = []
     allAcceptedFiles.forEach((item) => {
@@ -126,16 +105,6 @@ function FilesUpload({
     })
     setAllAcceptedFiles(newAllAcceptedFiles)
   }
-
-  const thumbs = allAcceptedFiles.map((fileObj) => {
-    return (
-      <div key={fileObj.file.name}>
-        <div className="thumbnail-container">
-          <img className="thumbnail" src={fileObj.file.preview} />
-        </div>
-      </div>
-    )
-  })
 
   const onFileUploaded = (fileId, downloadUrl) => {
     const newAllAcceptedFiles = [...allAcceptedFiles]
@@ -211,13 +180,7 @@ function FilesUpload({
   return (
     <StyledFilesUpload>
       {renderUploadBtn()}
-      {preview && thumbs}
       <div className="files-upload">{renderFiles()}</div>
-      {fileRejections.length ? (
-        <Typography color="secondary">
-          Your file was rejected, please check the filetype
-        </Typography>
-      ) : null}
     </StyledFilesUpload>
   )
 }

@@ -10,7 +10,7 @@ const debug = require('debug')('se:viewer')
 const idField = '_id'
 let push
 
-const remove = (id) => meteorCall('rm.events', 'Deleting', id)
+const remove = (id) => meteorCall('rm.events', 'Deleting', { id })
 const update = (id, form) => {
   meteorCall('update.events', 'updating', { id, form })
   push('/admin/events')

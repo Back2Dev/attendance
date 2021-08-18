@@ -8,6 +8,7 @@ import { TextField, Button, Typography } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
+import { showError } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
 import ServiceItem from './service-item'
@@ -120,7 +121,9 @@ function serviceStepReducer(state, action) {
     case 'setCurrentItem':
       return { ...state, currentItem: payload }
     case 'setNote':
-      return { ...state, note: payload, updatedAt: new Date() }
+      return { ...state, note: payload.note, updatedAt: new Date() }
+    case 'setAssessor':
+      return { ...state, assessor: payload.assessor, updatedAt: new Date() }
     case 'setHasValidData':
       return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
@@ -132,6 +135,7 @@ function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
+    assessor: '',
     note: '',
     totalCost: 0,
     updatedAt: new Date(),
@@ -141,9 +145,14 @@ function ServiceStep({ initialData }) {
 
   const { goBack } = useHistory()
 
-  const { setStepData, setStepProperty, activeStep, goNext, originalData } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    setStepProperty,
+    activeStep,
+    goNext,
+    originalData,
+    createJob,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const searchFieldRef = useRef(null)
   const selectedContRef = useRef(null)
@@ -151,8 +160,13 @@ function ServiceStep({ initialData }) {
   const { currentItem, selectedItems, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
+    let isValid = true
     // make sure atleast one item selected
-    dispatch({ type: 'setHasValidData', payload: selectedItems.length > 0 })
+    if (selectedItems.length === 0) {
+      isValid = false
+    }
+
+    dispatch({ type: 'setHasValidData', payload: isValid })
   }
 
   const { items, loading } = useTracker(() => {
@@ -185,7 +199,8 @@ function ServiceStep({ initialData }) {
       if (itemsToBeAdded?.length) {
         dispatch({ type: 'addItems', payload: itemsToBeAdded })
       }
-      dispatch({ type: 'setNote', payload: originalData.note })
+      dispatch({ type: 'setAssessor', payload: { assessor: originalData.assessor } })
+      dispatch({ type: 'setNote', payload: { note: originalData.note } })
     }
   }, [originalData, items])
 
@@ -208,6 +223,7 @@ function ServiceStep({ initialData }) {
       stepKey: 'service',
       data: {
         items: selectedItems,
+        assessor: state.assessor,
         note: state.note,
         updatedAt,
         hasValidData,
@@ -228,6 +244,15 @@ function ServiceStep({ initialData }) {
     setTimeout(() => {
       searchFieldRef.current?.children[0]?.children[1]?.children[0]?.blur()
     }, 300)
+  }
+
+  const handleQuickUpdate = () => {
+    console.log('quick update')
+    try {
+      createJob(true)
+    } catch (e) {
+      showError(`Error creating job: ${e.message}`)
+    }
   }
 
   const selectItemsWithTag = (tag) => {
@@ -337,15 +362,27 @@ function ServiceStep({ initialData }) {
           {renderSelectedItems()}
         </div>
         <div className="total-cost">Total cost: ${state.totalCost / 100}</div>
+        <div className="assessor-wrapper">
+          <TextField
+            margin="dense"
+            className="assessor-field"
+            label="Assessor"
+            value={state.assessor}
+            onChange={(e) => {
+              dispatch({ type: 'setAssessor', payload: { assessor: e.target.value } })
+            }}
+          />
+        </div>
         <div className="note-wrapper">
           <TextField
             className="node-field"
+            margin="dense"
             multiline
             fullWidth
             label="Note"
             value={state.note}
             onChange={(e) => {
-              dispatch({ type: 'setNote', payload: e.target.value })
+              dispatch({ type: 'setNote', payload: { note: e.target.value } })
             }}
           />
         </div>
@@ -360,6 +397,17 @@ function ServiceStep({ initialData }) {
           >
             Back
           </Button>
+          {originalData && hasValidData && (
+            <Button
+              className="next-btn"
+              variant="contained"
+              color="primary"
+              disabled={!hasValidData}
+              onClick={handleQuickUpdate}
+            >
+              Quick Update
+            </Button>
+          )}
           <Button
             className="next-btn"
             variant="contained"

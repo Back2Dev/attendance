@@ -82,12 +82,28 @@ function BikeStep({ initialData }) {
   const formRef = useRef()
   const checkTimeout = useRef(null)
 
-  const { details, hasValidData, updatedAt } = state
+  const mounted = useRef(true)
+  useEffect(
+    () => () => {
+      mounted.current = false
+    },
+    []
+  )
+
+  const { details, hasValidData, updatedAt, checkedAt } = state
 
   const checkData = async () => {
+    console.log('checkData', details, formRef.current)
+    // if (!formRef.current) {
+    //   dispatch({ type: 'setHasValidData', payload: true })
+    //   return
+    // }
     // const checkResult = await formRef.current?.validate()
     const checkResult = await formRef.current?.validateModel(details)
-    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    console.log({ checkResult }, mounted.current)
+    if (mounted.current) {
+      dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    }
   }
 
   const handleSubmit = () => {
@@ -123,22 +139,44 @@ function BikeStep({ initialData }) {
           approxValue: originalData.bikeValue,
         },
       })
-      dispatch({ type: 'setHasValidData', payload: true })
+      // dispatch({ type: 'setHasValidData', payload: true })
+      // checkData()
     }
   }, [originalData])
 
   useEffect(() => {
-    if (activeStep !== 'bike') {
-      return
-    }
+    // if (activeStep !== 'bike') {
+    //   return
+    // }
+    console.log('effect check data')
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
     }, 300)
   }, [updatedAt])
 
+  useEffect(() => {
+    // if (activeStep !== 'contact') {
+    //   return
+    // }
+    // console.log('checkedAt effect')
+    setStepData({
+      stepKey: 'bike',
+      data: {
+        details,
+        updatedAt,
+        hasValidData,
+      },
+    })
+    setStepProperty({
+      stepKey: 'bike',
+      property: 'completed',
+      value: hasValidData,
+    })
+  }, [checkedAt])
+
   if (activeStep !== 'bike') {
-    return null
+    // return null
   }
 
   const classes = ['form-container']
@@ -147,7 +185,7 @@ function BikeStep({ initialData }) {
   }
 
   return (
-    <StyledBikeStep>
+    <StyledBikeStep style={{ display: activeStep !== 'bike' ? 'none' : 'block' }}>
       <div className={classes.join(' ')}>
         <AutoForm
           ref={formRef}

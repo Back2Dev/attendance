@@ -72,11 +72,21 @@ function PickupStep({ initialData }) {
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
+  const mounted = useRef(true)
+  useEffect(
+    () => () => {
+      mounted.current = false
+    },
+    []
+  )
+
   const { pickup, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
     const checkResult = await formRef.current?.validateModel(pickup)
-    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    if (mounted.current) {
+      dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    }
     return checkResult === null
   }
 
@@ -107,9 +117,9 @@ function PickupStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'pickup') {
-      return
-    }
+    // if (activeStep !== 'pickup') {
+    //   return
+    // }
     setStepData({
       stepKey: 'pickup',
       data: {
@@ -140,7 +150,7 @@ function PickupStep({ initialData }) {
   }
 
   if (activeStep !== 'pickup') {
-    return null
+    // return null
   }
 
   const classes = ['pickupstep-item-form']
@@ -149,7 +159,7 @@ function PickupStep({ initialData }) {
   }
 
   return (
-    <StyledPickupStep>
+    <StyledPickupStep style={{ display: activeStep !== 'pickup' ? 'none' : 'block' }}>
       <div className={classes.join(' ')}>
         <div className="form-container">
           <AutoForm

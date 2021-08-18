@@ -1,3 +1,4 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 import logger from '/imports/lib/log'
@@ -21,9 +22,7 @@ Meteor.methods({
     }
 
     // find the user
-    const users = Meteor.users.find({
-      'roles._id': role,
-    })
+    const users = Roles.getUsersInRole(role)
 
     const userIds = users.map((user) => user._id)
     if (!userIds?.length) {
@@ -50,13 +49,23 @@ Meteor.methods({
     if (!Match.test(keyword, String)) {
       return { status: 'failed', message: 'Keyword must be string' }
     }
+    const pattern = new RegExp(keyword, 'i')
     // find the member
     const members = Members.find(
       {
-        $text: {
-          $search: keyword,
-          // $search: `"${keyword}"`
-        },
+        $or: [
+          {
+            $text: {
+              $search: keyword,
+              // $search: `"${keyword}"`
+              $diacriticSensitive: true,
+            },
+          },
+          { name: { $regex: pattern } },
+          { mobile: { $regex: pattern } },
+          { email: { $regex: pattern } },
+          { address: { $regex: pattern } },
+        ],
       },
       {
         fields: {
@@ -162,7 +171,8 @@ Meteor.methods({
     }
     // check for admin role
     const me = Meteor.users.findOne({ _id: this.userId })
-    const isAdm = me?.roles.some((role) => role._id === 'ADM')
+    const isAdm = Roles.userIsInRole(me, ['ADM'])
+
     if (!isAdm) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -209,6 +219,7 @@ Meteor.methods({
     }
 
     try {
+      // debug('updateData', JSON.stringify(updateData, null, 2))
       const updateResult = Members.update(updateCondition, updateData)
       if (!updateResult) {
         return { status: 'failed', message: 'Unable to update member' }
@@ -220,20 +231,26 @@ Meteor.methods({
     // update the members array of event
     const updatedMember = Members.findOne({ _id: memberId })
     if (updatedMember) {
-      Events.update(
-        {
-          members: {
-            $elemMatch: { _id: memberId },
+      try {
+        Events.update(
+          {
+            members: {
+              $elemMatch: { _id: memberId },
+            },
           },
-        },
-        {
-          $set: {
-            // TODO: I think Meteor mongo doesn't support $[]
-            'members.$[].badges': updatedMember.badges,
+          {
+            $set: {
+              // TODO: I think Meteor mongo doesn't support $[]
+              // Minh: Meteor mongo supports but the problem is simpl-schema doesn't support it.
+              // https://github.com/longshotlabs/simpl-schema/issues/378
+              'members.$[].badges': updatedMember.badges,
+            },
           },
-        },
-        { multi: true }
-      )
+          { multi: true }
+        )
+      } catch (e) {
+        debug('error updating event:', e.message)
+      }
     }
 
     return { status: 'success' }

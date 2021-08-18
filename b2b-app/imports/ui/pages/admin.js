@@ -22,7 +22,7 @@ function AdminPage() {
       <Grid container>
         <Grid item xs={12}>
           <Switch>
-            <GeneratedRoutes></GeneratedRoutes>
+            <GeneratedRoutes />
             <Route component={NotFoundComponent} />
           </Switch>
         </Grid>

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 
 import { Typography, Modal, Paper, TextField, Button } from '@material-ui/core'
+import CallIcon from '@material-ui/icons/Call'
 
 import { JobsDetailsContext } from './context'
 
@@ -55,7 +56,7 @@ function CallLog() {
 
   return (
     <StyledCall>
-      <Button variant="contained" onClick={showForm}>
+      <Button variant="contained" onClick={showForm} startIcon={<CallIcon />}>
         Call
       </Button>
 

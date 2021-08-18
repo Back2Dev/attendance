@@ -12,7 +12,7 @@ let push
 
 const methods = {
   save: (form) => {
-    meteorCall('insert.events', 'saving', form)
+    meteorCall('insert.events', 'saving', { form })
     push('/admin/events')
   },
 }

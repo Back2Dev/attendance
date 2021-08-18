@@ -5,7 +5,7 @@ import { Factory } from 'meteor/dburles:factory'
 import Messages from '/imports/api/messages/schema'
 import '/imports/api/triggers/methods'
 
-const debug = require('debug')('b2b:userpubs')
+const debug = require('debug')('app:userpubs')
 
 describe('User publications', () => {
   before(function () {

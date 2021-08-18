@@ -27,9 +27,6 @@ Meteor.publish('idslug.messageTemplates', (id) => {
   if (!MessageTemplates.findOne(id)) query = { slug: id }
   return [
     MessageTemplates.find(query),
-    /* Commented out related publications (if any) - best to add these in manually as required
-     
-    */
   ]
 })
 

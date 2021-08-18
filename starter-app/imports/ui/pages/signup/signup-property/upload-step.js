@@ -11,7 +11,7 @@ import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import slingshotUpload from '/imports/ui/components/upload-function'
 import CONSTANTS from '/imports/api/constants'
 
-const debug = require('debug')('b2b:upload-step')
+const debug = require('debug')('app:upload-step')
 
 const useStyles = makeStyles({
   input: {

@@ -15,9 +15,9 @@ const dateFormat = {
 }
 let history
 
-const remove = (id) => meteorCall('rm.events', 'Deleting', id)
-const update = (id, form) => {
-  meteorCall('update.events', 'updating', form)
+const remove = (id) => meteorCall('rm.events', 'Deleting', { id })
+const update = ({ id, form }) => {
+  meteorCall('update.events', 'updating', { form })
   history.push('/admin/events')
 }
 const methods = { remove, update }
