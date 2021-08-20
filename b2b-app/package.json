@@ -51,6 +51,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/pickers": "^3.2.10",
     "@sentry/node": "^5.29.0",
+    "ajv-formats": "^2.1.1",
     "autosuggest-highlight": "^3.1.1",
     "aws-sdk": "^2.807.0",
     "axios": "^0.21.0",
