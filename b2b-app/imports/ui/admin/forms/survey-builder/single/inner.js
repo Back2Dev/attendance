@@ -8,12 +8,15 @@ import { useListControls, useDidMountEffect } from '../hooks'
 
 /** Single Choice question */
 const SingleInner = ({ id, onChange, initialLabel, initialList }) => {
-  const choices = useListControls(`singleItems.${id}`, initialList)
+  const { values: answers, all, move, remove, update, add } = useListControls(
+    `singleItems.${id}`,
+    initialList
+  )
   const [question, setQuestion] = useState('')
 
   useDidMountEffect(() => {
-    onChange?.({ question, choices: choices.values })
-  }, [question, choices.values])
+    onChange?.({ question, answers })
+  }, [question, answers])
 
   return (
     <div>
@@ -23,17 +26,15 @@ const SingleInner = ({ id, onChange, initialLabel, initialList }) => {
         onLabelChange={(text) => setQuestion(text)}
       />
       <ol>
-        {choices.all.map((c, i) => (
+        {all.map((c, i) => (
           <Item
             key={c.id}
-            onMove={(direction) => choices.move(i, direction)}
-            onRemove={() => choices.remove(i)}
-            onAdd={() => choices.add('', i)}
-            disableMove={(direction) =>
-              i === (direction === 'up' ? 0 : choices.all.length - 1)
-            }
-            disableRemove={choices.all.length === 1}
-            onTextChange={(value) => choices.update(value, i)}
+            onMove={(direction) => move(i, direction)}
+            onRemove={() => remove(i)}
+            onAdd={() => add('', i)}
+            disableMove={(direction) => i === (direction === 'up' ? 0 : all.length - 1)}
+            disableRemove={all.length === 1}
+            onTextChange={(value) => update(value, i)}
             text={c.value}
           />
         ))}

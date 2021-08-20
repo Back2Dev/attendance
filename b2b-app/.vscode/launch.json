@@ -15,7 +15,7 @@
       "port": 9229
     },
     {
-      "type": "chrome",
+      "type": "pwa-chrome",
       "request": "attach",
       "name": "Attach Chrome",
       "url": "http://localhost:4080/reports",
@@ -25,8 +25,7 @@
       "port": 9222
     },
     {
-      // Requires the extension Debugger for Chrome: https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
-      "type": "chrome",
+      "type": "pwa-chrome",
       "request": "launch",
       "name": "Storybook Debug",
       "breakOnLoad": true,
