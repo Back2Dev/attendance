@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "meteor-app"
+		},
+		{
+			"path": "b2b-app"
 		}
 	]
 }

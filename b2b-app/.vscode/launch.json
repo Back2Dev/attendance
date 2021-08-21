@@ -2,6 +2,22 @@
   "version": "0.2.0",
   "configurations": [
     {
+      // Requires the extension Debugger for Chrome: https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome
+      "type": "chrome",
+      "request": "launch",
+      "name": "Storybook Debug",
+      "breakOnLoad": true,
+      "url": "http://localhost:3076",
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:///*": "${webRoot}/*",
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///src/*": "${webRoot}/*",
+        "webpack:///./~/*": "${webRoot}/node_modules/*"
+      }
+    },
+    {
       "type": "node",
       "request": "attach",
       "name": "server",

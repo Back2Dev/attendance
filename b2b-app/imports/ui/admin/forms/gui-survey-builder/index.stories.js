@@ -1,6 +1,7 @@
 import React from 'react'
 import MyComponent from './index'
 
+
 export default {
   title: 'MyComponent',
   component: MyComponent,
@@ -14,8 +15,8 @@ const Template = (args) => <MyComponent {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  title: 'cat',
-  // onClick: () => action('clicked'),
+  title: 'test',
+  onClick: () => action('clicked'),
 }
 
 export const SomeOtherState = Template.bind({})

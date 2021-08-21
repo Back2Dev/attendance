@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import TextFields from './short text question/textbox'
+import Buttons from './icon buttons/actionButtons'
 
-const MyComponent = ({ onClick }) => (
-  <div>
-    <button onClick={onClick}>Click me</button>Hello
-  </div>
-)
-
-MyComponent.propTypes = {
-  onClick: PropTypes.func,
+const MyComponent = () => {
+  const [index, changeIndex] = useState(0)
+  return (
+    <div>
+      <Buttons />
+    </div>
+  )
 }
 
 export default MyComponent
