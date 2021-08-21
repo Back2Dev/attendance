@@ -31,7 +31,7 @@ const StyledMemberPortal = styled.div`
 function MemberPortal() {
   return (
     <StyledMemberPortal>
-      <Typography variant="h1" align="center">
+      <Typography variant="h1" align="center" data-cy="member-portal">
         Member Portal
       </Typography>
       <div className="member-panel-wrapper">

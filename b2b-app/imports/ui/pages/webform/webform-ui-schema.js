@@ -64,7 +64,7 @@ const Progress = ({ schema }) => {
       <div className={classes.tabContent}>
         <div role="tabpanel" hidden={tab !== 0}>
           <h1>Preview</h1>
-          <Demo></Demo>
+          <Demo schema={schema}></Demo>
         </div>
         <div
           role="tabpanel"
