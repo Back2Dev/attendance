@@ -74,7 +74,7 @@ const UploadStep = ({ activeStep, setActiveStep }) => {
     }
 
     if (isLoggedIn) {
-      push('/properties')
+      push('/bookings')
     } else {
       push('/confirmation-sent', { name: formData.name })
     }
