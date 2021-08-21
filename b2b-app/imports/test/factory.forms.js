@@ -4,7 +4,20 @@ import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
 import Forms from '/imports/api/forms/schema'
 
-Factory.define('forms', Forms, {})
+Factory.define('forms', Forms, {
+  slug: 'new-form',
+  name: 'New Form',
+  source: `S: Invoicing
++id: invoice
+
+Q: Customer details
++id: customer
++type: short
+
+A: Name
+A: Email
++type: email`,
+})
 
 Factory.define('forms.b2b.register', Forms, {
   slug: 'b2b.register',

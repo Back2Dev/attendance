@@ -28,8 +28,8 @@ const goodForms = [
   `,
     expecting: [
       {
-        'sections.0.questions.0.prompt': 'Personal details',
-        'sections.0.questions.0.answers.0.text': 'Name',
+        'steps.0.questions.0.prompt': 'Personal details',
+        'steps.0.questions.0.answers.0.name': 'Name',
       },
     ],
   },
@@ -38,8 +38,8 @@ const goodForms = [
     name: 'Back2bikes registration form',
     expecting: [
       {
-        'sections/0/title': "Let's get to know each other",
-        'sections/0/questions/0/answers/0/text': 'bikes',
+        'steps/0/name': "Let's get to know each other",
+        'steps/0/questions/0/answers/0/name': 'bikes',
       },
     ],
     source: `S: Let's get to know each other
@@ -135,8 +135,8 @@ const goodForms = [
   {
     expecting: [
       {
-        'sections/0/title': 'Invoicing',
-        'sections/0/questions/0/id': 'customer',
+        'steps/0/name': 'Invoicing',
+        'steps/0/questions/0/id': 'customer',
       },
     ],
     slug: 'invoice',
