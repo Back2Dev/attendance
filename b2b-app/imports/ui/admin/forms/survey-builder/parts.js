@@ -1,9 +1,11 @@
 import React from 'react'
 import { useListControls } from './hooks'
 import { Box } from '@material-ui/core'
+import { makeNewItem } from './hooks/list-controls'
+import { partsState } from './canvas'
 
 const Parts = () => {
-  const { add } = useListControls('parts')
+  const { add } = useListControls(partsState)
 
   return (
     <Box
@@ -14,7 +16,7 @@ const Parts = () => {
       width="10%"
       border="1px solid lightgrey"
     >
-      <button onClick={() => add('')}>Single</button>
+      <button onClick={() => add(makeNewItem())}>Single</button>
     </Box>
   )
 }

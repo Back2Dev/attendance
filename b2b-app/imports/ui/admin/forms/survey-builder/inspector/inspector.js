@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core'
-import React, { createElement } from 'react'
+import React from 'react'
 import { selector, useRecoilValue } from 'recoil'
 import { selectedPartState } from '../canvas'
 import { singleState } from '../single/single'
@@ -16,6 +16,9 @@ const inspectorState = selector({
   },
 })
 
+// FIXME: after tabbing out of textbox, try to edit property and instance gets unselected
+// FIXME: hit enter on a textbox and instance gets unselected
+// FIXME: swap choice positions and the +val get cleared
 const Inspector = () => {
   const single = useRecoilValue(inspectorState)
   const selectedPart = useRecoilValue(selectedPartState)
@@ -33,30 +36,10 @@ const Inspector = () => {
       {selectedPart !== null && (
         <div>
           <Section heading="Question">
-            <EditProperty id={selectedPart} path="question.+id" label="+id" />
+            <EditProperty id={selectedPart} path="question.+id" />
           </Section>
           <Section heading="Answers">
             <EditProperty id={selectedPart} path="answers" />
-            {/* <ul>
-              {single.answers.map(({ label }, i) => {
-                return (
-                  <>
-                    <li key={i}>
-                      <div>{label || 'New choice'}</div>
-                    </li>
-                    <ul>
-                      <li>
-                        <EditProperty
-                          id={selectedPart}
-                          path={`answers[${i}].+val`}
-                          label="+val"
-                        />
-                      </li>
-                    </ul>
-                  </>
-                )
-              })}
-            </ul> */}
           </Section>
         </div>
       )}

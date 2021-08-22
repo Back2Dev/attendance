@@ -1,23 +1,16 @@
-import { useRef, useCallback, useMemo } from 'react'
-import { useRecoilState, atomFamily } from 'recoil'
+import { useMemo } from 'react'
+import { useRecoilState } from 'recoil'
 
-let initDefault
+let id = 0
+/** make a new item with a globally unique id. when initialising a new list, map every item to this function */
+export const makeNewItem = (value = {}) => ({ ...value, id: id++ })
 
-export const listControlsState = atomFamily({
-  key: 'listControls',
-  default: () => initDefault(),
-})
+/** add, remove, move and update a list.
+ * @param {RecoilState} state - a recoil atom/selector which will store the list
+ */
+const useListControls = (state) => {
+  const [list, setList] = useRecoilState(state)
 
-const useListControls = (stateId, initialList = []) => {
-  const id = useRef(0)
-  initDefault = useCallback(() => {
-    return initialList?.length > 0 ? initialList.map((value) => makeItem(value)) : []
-  }, [])
-  const [list, setList] = useRecoilState(listControlsState(stateId))
-
-  function makeItem(value) {
-    return { id: id.current++, value }
-  }
   const isValidIndex = (index) =>
     Number.isInteger(index) && index >= 0 && index < list.length
 
@@ -29,7 +22,7 @@ const useListControls = (stateId, initialList = []) => {
       throw new TypeError('invalid index arg')
     }
     const l = [...list]
-    l.splice(index === undefined ? list.length : index + 1, 0, makeItem(value))
+    l.splice(index === undefined ? list.length : index + 1, 0, makeNewItem(value))
     setList(l)
   }
 
@@ -98,7 +91,7 @@ const useListControls = (stateId, initialList = []) => {
     if (!isValidIndex(index)) {
       throw new TypeError('invalid index arg')
     }
-    setList(list.map((item, i) => (i === index ? { ...item, value } : item)))
+    setList(list.map((item, i) => (i === index ? { ...item, ...value } : item)))
   }
 
   const values = useMemo(() => list.map((item) => item.value), [list])

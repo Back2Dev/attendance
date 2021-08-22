@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Canvas from './canvas'
+import Canvas, { partsState } from './canvas'
 import useListControls from './hooks/list-controls'
 
 export default {
@@ -8,7 +8,7 @@ export default {
   component: Canvas,
   decorators: [
     (Story) => {
-      const { add } = useListControls('parts')
+      const { add } = useListControls(partsState)
       return (
         <div>
           <section>

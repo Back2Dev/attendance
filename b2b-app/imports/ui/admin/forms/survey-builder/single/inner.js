@@ -1,22 +1,46 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { atomFamily } from 'recoil'
+import { selectorFamily, useSetRecoilState } from 'recoil'
 
 import Item from './item'
 import Question from '../question'
-import { useListControls, useDidMountEffect } from '../hooks'
+import { useListControls } from '../hooks'
+import { defaultAnswer, singleState } from './single'
+import produce from 'immer'
+
+const singleAnswersState = selectorFamily({
+  key: 'singleAnswers',
+  get: (id) => ({ get }) => {
+    const single = get(singleState(id))
+    return single.answers
+  },
+  set: (id) => ({ get, set }, newValue) => {
+    const single = get(singleState(id))
+    const nextState = produce(single, (draft) => {
+      draft.answers = newValue
+    })
+    set(singleState(id), nextState)
+  },
+})
+
+const singleQuestionState = selectorFamily({
+  key: 'singleQuestion',
+  set: (id) => ({ set, get }, newValue) => {
+    const single = get(singleState(id))
+    const nextState = produce(single, (draft) => {
+      draft.question.label = newValue
+    })
+    set(singleState(id), nextState)
+  },
+})
 
 /** Single Choice question */
-const SingleInner = ({ id, onChange, initialLabel, initialList }) => {
-  const { values: answers, all, move, remove, update, add } = useListControls(
-    `singleItems.${id}`,
+const SingleInner = ({ id, initialLabel, initialList }) => {
+  const { all, move, remove, update, add } = useListControls(
+    singleAnswersState(id),
     initialList
   )
-  const [question, setQuestion] = useState('')
-
-  useDidMountEffect(() => {
-    onChange?.({ question, answers })
-  }, [question, answers])
+  const setQuestion = useSetRecoilState(singleQuestionState(id))
 
   return (
     <div>
@@ -31,11 +55,11 @@ const SingleInner = ({ id, onChange, initialLabel, initialList }) => {
             key={c.id}
             onMove={(direction) => move(i, direction)}
             onRemove={() => remove(i)}
-            onAdd={() => add('', i)}
+            onAdd={() => add(defaultAnswer, i)}
             disableMove={(direction) => i === (direction === 'up' ? 0 : all.length - 1)}
             disableRemove={all.length === 1}
-            onTextChange={(value) => update(value, i)}
-            text={c.value}
+            onTextChange={(label) => update({ label }, i)}
+            text={c.label}
           />
         ))}
       </ol>

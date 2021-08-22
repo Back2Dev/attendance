@@ -10,8 +10,13 @@ export const selectedPartState = atom({
   default: null,
 })
 
+export const partsState = atom({
+  key: 'parts',
+  default: [],
+})
+
 const Canvas = () => {
-  const { all: parts } = useListControls('parts')
+  const { all: parts } = useListControls(partsState)
   const setSelectedPart = useSetRecoilState(selectedPartState)
 
   return (
