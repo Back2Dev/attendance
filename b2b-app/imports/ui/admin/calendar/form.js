@@ -136,7 +136,12 @@ function EventForm() {
     setRecurringUpdateOpen(false)
     if (recurringAction === 'edit') {
       storeEvent({
-        data: formModel.current,
+        // data: formModel.current,
+        data: {
+          ...formModel.current,
+          // we change it back to the right date time before storing
+          when: moment(formModel.current.when).add(timeZoneOffset, 'minutes').toDate(),
+        },
         cb: (result) => {
           if (result?.status === 'success') {
             handleClose()
