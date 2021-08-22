@@ -80,7 +80,6 @@ function EventForm() {
 
   const [data, setData] = useState({
     when: selectedDate,
-    active: true,
   })
   const [recurringUpdateOpen, setRecurringUpdateOpen] = useState(false)
   const [recurringAction, setRecurringAction] = useState('')
@@ -92,11 +91,11 @@ function EventForm() {
       return
     }
     if (selectedDate) {
-      setData({ when: selectedDate, active: true })
+      setData({ when: selectedDate, status: 'active' })
       return
     }
     setData({
-      active: true,
+      status: 'active',
     })
   }, [selectedDate, selectedEvent])
 

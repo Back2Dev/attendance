@@ -57,7 +57,7 @@ Meteor.methods({
             .format('YYYY-MM-DD')
           const eventId = Events.insert({
             type: 'once',
-            active: true,
+            status: 'active',
             duration: 3,
 
             code: `${code}-${start}`,

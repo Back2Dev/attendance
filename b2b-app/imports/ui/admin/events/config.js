@@ -7,6 +7,7 @@ import {
   // OptionalBlackbox,
   // OptionalInteger,
 } from '/imports/api/utils/schema-util'
+import CONSTANTS from '/imports/api/constants.js'
 
 import { ToolItemSchema, RepeatSchema } from '/imports/api/events/schema.js'
 
@@ -46,8 +47,10 @@ const editSchema = new SimpleSchema({
     type: RepeatSchema,
     optional: true,
   },
-  active: {
-    type: Boolean,
+  status: {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.EVENT_STATUS),
+    defaultValue: 'active',
   },
   duration: {
     type: SimpleSchema.Integer,
@@ -92,7 +95,7 @@ const config = {
       description: [],
       location: 'Location',
       type: 'day',
-      active: false,
+      status: 'active',
       duration: 0,
       price: 0,
     },
