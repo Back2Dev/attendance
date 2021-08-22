@@ -22,6 +22,7 @@ import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 import { CalendarContext } from './contexts'
 import config from '/imports/ui/admin/events/config.js'
+import moment from 'moment'
 
 const schemaBridge = config.edit.schema
 
@@ -70,7 +71,10 @@ function EventForm() {
     selectEvent,
     storeEvent,
     deleteEvent,
+    timeZoneOffset,
   } = useContext(CalendarContext)
+
+  console.log('timeZoneOffset', timeZoneOffset)
 
   const formRef = useRef()
 
@@ -168,7 +172,11 @@ function EventForm() {
       setRecurringUpdateOpen(true)
     } else {
       storeEvent({
-        data: model,
+        data: {
+          ...model,
+          // we change it back to the right date time before storing
+          when: moment(model.when).add(timeZoneOffset, 'minutes').toDate(),
+        },
         cb: (result) => {
           if (result?.status === 'success') {
             handleClose()
@@ -203,7 +211,12 @@ function EventForm() {
         <DialogContent className="form-content">
           <AutoForm
             schema={schemaBridge}
-            model={data}
+            model={{
+              ...data,
+              // because the autoFrom date field converts the time to UTC
+              // then we have to modify it before give it to date field
+              when: moment(data.when).subtract(timeZoneOffset, 'minutes').toDate(),
+            }}
             onSubmit={handleSubmit}
             ref={formRef}
           >
