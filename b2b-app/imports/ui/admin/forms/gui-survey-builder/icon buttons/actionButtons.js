@@ -38,6 +38,7 @@ const Buttons = (props) => {
   const moveUp = (index) => {
     // move element up
     let tempList = [...textboxList]
+    // let tempList = JSON.parse(JSON.stringify(textboxList))
     let tempValue = tempList[index]
     tempList[index] = tempList[index - 1]
     tempList[index - 1] = tempValue
@@ -47,6 +48,7 @@ const Buttons = (props) => {
   const moveDown = (index) => {
     //move the element down
     let tempList = [...textboxList]
+    // let tempList = JSON.parse(JSON.stringify(textboxList))
     let tempValue = tempList[index]
     tempList[index] = tempList[index + 1]
     tempList[index + 1] = tempValue
@@ -54,19 +56,20 @@ const Buttons = (props) => {
   }
 
   const handleRemoveClick = (index) => {
-    const list = [...textboxList]
-
-    list.splice(index, 1)
-    setTextboxList(list)
+    // let tempList = JSON.parse(JSON.stringify(textboxList))
+    let tempList = [...textboxList]
+    tempList.splice(index, 1)
+    setTextboxList(tempList)
   }
 
   const handleAddClick = (index, item) => {
-    console.log(item)
+    // let tempList = JSON.parse(JSON.stringify(textboxList))
+    let tempList = [...textboxList]
     setTextboxList(
-      [...textboxList].concat({
+      tempList.concat({
         label: 'New',
-        sortOrder: textboxList.length + 1,
-        id: makeId(textboxList.length),
+        sortOrder: tempList.length + 1,
+        id: makeId(tempList.length),
       })
     )
   }
@@ -92,7 +95,7 @@ const Buttons = (props) => {
               return (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided) => (
-                    <Box border={1} borderColor="blue" display="table">
+                    <Box border={1} borderColor="blue" display="flex">
                       <li
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
@@ -111,7 +114,11 @@ const Buttons = (props) => {
                             setTextboxList(
                               textboxList.map((v, i) =>
                                 i === index
-                                  ? { label: newValue, sortOrder: v.sortOrder }
+                                  ? {
+                                      label: newValue,
+                                      sortOrder: v.sortOrder,
+                                      id: v.id,
+                                    }
                                   : v
                               )
                             )
@@ -127,53 +134,6 @@ const Buttons = (props) => {
           </ul>
         )}
       </Droppable>
-      {/* <Droppable droppableId="characters">
-        {(provided) => (
-          <ul {...provided.droppableProps} ref={provided.innerRef}>
-            {textboxList.map(({ label, id, sortOrder }, index) => {
-              return (
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided) => (
-                    <li
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                    >
-                      <p>{label}</p>
-                    </li>
-                  )}
-                </Draggable>
-              )
-            })}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable> */}
-      {/* <ul>
-        {textboxList.map((item, index) => {
-          return (
-            <Box border={1} borderColor="blue" display="table" key={index}>
-              <TextFields
-                className="characters"
-                onRemoveItem={() => handleRemoveClick(index)}
-                onUpItem={() => moveUp(index)}
-                onDownItem={() => moveDown(index)}
-                onAddItem={() => handleAddClick(index)}
-                item={item}
-                id={index}
-                length={textboxList.length}
-                onChange={(index, newValue) => {
-                  setTextboxList(
-                    textboxList.map((v, i) =>
-                      i === index ? { label: newValue, sortOrder: v.sortOrder } : v
-                    )
-                  )
-                }}
-              />
-            </Box>
-          )
-        })}
-      </ul> */}
     </DragDropContext>
   )
 }

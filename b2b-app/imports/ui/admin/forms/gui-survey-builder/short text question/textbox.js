@@ -29,7 +29,7 @@ const TextFields = ({
             <input
               value={item.value}
               onChange={(e) => {
-                onChange(item.sortOrder - 1, e.target.value)
+                onChange(id, e.target.value)
               }}
               id={id}
             ></input>
@@ -37,9 +37,7 @@ const TextFields = ({
         </div>
       ) : (
         <div onClick={() => setEditting(true)}>
-          <span id={id}>
-            {item.label} {item.sortOrder}
-          </span>
+          <span id={id}>{item.label}</span>
         </div>
       )}
       <div className="removeButton">
