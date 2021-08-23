@@ -15,4 +15,6 @@ export default items = [
   { display: 'Forms', link: '/admin/forms' },
   { display: 'Users', link: '/admin/users' },
   { display: 'Calendar', link: '/admin/calendar' },
+  { display: 'Register', link: '/admin/register' },
+  { display: 'Registrations', link: '/admin/registrations' },
 ]
