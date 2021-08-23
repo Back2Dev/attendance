@@ -8,6 +8,7 @@ import {
   createdAt,
   updatedAt,
 } from '/imports/api/utils/schema-util'
+import CONSTANTS from '../constants'
 
 import { SessionsSchema } from '/imports/api/sessions/schema.js'
 import { MembersSchema } from '../members/schema'
@@ -127,8 +128,10 @@ export const EventsSchema = new SimpleSchema({
     optional: true,
   },
   //checkbox
-  active: {
-    type: Boolean,
+  status: {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.EVENT_STATUS),
+    defaultValue: 'active',
   },
   //number field
   duration: {
@@ -167,7 +170,7 @@ export const defaultObject = {
   description: 'Description',
   location: 'Location',
   type: 'day',
-  active: false,
+  status: 'active',
   duration: 0,
   price: 0,
 }

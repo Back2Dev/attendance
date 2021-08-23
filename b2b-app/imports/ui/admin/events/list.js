@@ -64,12 +64,12 @@ const List = ({ items, methods, columns }) => {
   const deleteRows = () => {
     if (rowsSelected.length === 0) alert('Please select one or more items to delete')
     rowsSelected.forEach((id) => methods.remove(id))
-    if (idField === 'id') {
-      // Latency compensation for non-reactive database
-      const newRows = items.filter((row) => !rowsSelected.includes(row[idField]))
-      setRows(newRows)
-      setRowsSelected([])
-    }
+    // if (idField === 'id') {
+    //   // Latency compensation for non-reactive database
+    //   const newRows = items.filter((row) => !rowsSelected.includes(row[idField]))
+    //   setRows(newRows)
+    //   setRowsSelected([])
+    // }
   }
 
   const addANewRow = () => {
@@ -82,10 +82,11 @@ const List = ({ items, methods, columns }) => {
     methods.archive(rowsSelected)
   }
 
-  if (!items.length) {
-    Contents = () => <span>No data found</span>
-  } else {
-    Contents = () => (
+  const renderContent = () => {
+    if (!items.length) {
+      return <span>No data found</span>
+    }
+    return (
       <ReactTabulator
         ref={tableRef}
         columns={columns}
@@ -95,6 +96,7 @@ const List = ({ items, methods, columns }) => {
       />
     )
   }
+
   const searchChange = (e) => {
     if (!tableRef || !tableRef.current) {
       alert('I have no data for you to search yet')
@@ -119,7 +121,7 @@ const List = ({ items, methods, columns }) => {
         onChange={searchChange}
         defaultValue={localStorage.getItem(FILTER_NAME)}
       />
-      <Contents />
+      {renderContent()}
     </div>
   )
 }
