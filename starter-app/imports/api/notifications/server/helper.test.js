@@ -10,7 +10,7 @@ import { push } from './helper'
 // import Factory from '/imports/test/factories'
 // import '/imports/test/factory.messages'
 
-const debug = require('debug')('b2b:notifications:helper:test')
+const debug = require('debug')('app:notifications:helper:test')
 
 const goodPushData = [
   {

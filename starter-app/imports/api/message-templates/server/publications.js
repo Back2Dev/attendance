@@ -22,6 +22,14 @@ Meteor.publish('id.messageTemplates', (id) => {
   ]
 })
 
+Meteor.publish('idslug.messageTemplates', (id) => {
+  let query = id
+  if (!MessageTemplates.findOne(id)) query = { slug: id }
+  return [
+    MessageTemplates.find(query),
+  ]
+})
+
 Meteor.publish('slug.messageTemplates', (slug) => {
   return [
     MessageTemplates.find({ slug }),

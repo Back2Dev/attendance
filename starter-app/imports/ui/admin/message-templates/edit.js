@@ -31,7 +31,7 @@ const Edit = ({ id, item, methods }) => {
         .map((line) => `<p>${line}</p>`)
         .join('\n')
       setPreviewHTML(
-        HTMLTemplate.replace('*|contents|*', html).replace(
+        HTMLTemplate.replace('{{contents}}', html).replace(
           '*|subject|*',
           '--- SUBJECT GOES HERE ---'
         )
@@ -39,7 +39,7 @@ const Edit = ({ id, item, methods }) => {
     }
   }
 
-  const {goBack}=useHistory()
+  const { goBack } = useHistory()
 
   const back = () => {
     goBack()
@@ -64,11 +64,14 @@ const Edit = ({ id, item, methods }) => {
           <LongTextField name="body" style={{ lineHeight: '2' }} />
           <br />
           <br />
-          <Button type="button" onClick={back}>Cancel</Button>&nbsp;&nbsp;
+          <Button type="button" onClick={back}>
+            Cancel
+          </Button>
+          &nbsp;&nbsp;
           <SubmitField variant="contained" color="primary" />
         </AutoForm>
       </Box>
-      {item.type === 'EMAIL' && previewHTML && (
+      {data.type === 'EMAIL' && previewHTML && (
         <Box>
           <Typography variant="h3">Email preview</Typography>
           <Typography

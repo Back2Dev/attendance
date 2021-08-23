@@ -6,7 +6,7 @@ import { sendMessages } from '/imports/api/messages/functions'
 import logger from '/imports/lib/log'
 
 const cron = require('node-cron')
-const debug = require('debug')('b2b:cron')
+const debug = require('debug')('app:cron')
 
 const dispatch = (cronjob) => {
   switch (cronjob.type) {

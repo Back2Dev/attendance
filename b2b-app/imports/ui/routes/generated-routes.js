@@ -7,6 +7,20 @@ import { Route, Switch } from 'react-router-dom'
 import Loading from '/imports/ui/components/commons/loading.js'
 
 // Generated lazy imports go here...
+<<<<<<< HEAD
+=======
+const SettingsList = lazy(() => import('/imports/ui/admin/settings/lister.js'))
+const UserList = lazy(() => import('/imports/ui/admin/users/lister.js'))
+const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs'))
+const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
+const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
+const Surveys = lazy(() => import('/imports/ui/admin/surveys'))
+const Events = lazy(() => import('/imports/ui/admin/events'))
+const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
+const Courses = lazy(() => import('/imports/ui/admin/courses'))
+const Tools = lazy(() => import('/imports/ui/admin/tools'))
+const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
+>>>>>>> v2
 
 const Audits = lazy(() => import('/imports/ui/admin/audits/lister.js'))
 const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs/lister.js'))
@@ -48,6 +62,9 @@ export default GeneratedRoute = () => {
         <Route path="/admin/service-items" exact component={ServiceItems} />
         <Route path="/admin/jobs" exact component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
+        <Route path="/admin/settings" exact component={SettingsList} />
+        <Route path="/admin/users" exact component={UserList} />
+        <Route path="/admin/calendar" component={EventCalendar} />
       </Switch>
     </Suspense>
   )

@@ -16,6 +16,15 @@
     "type": "EMAIL"
   },
   {
+    "body": "Dear *|nickname|*, \nWelcome to Startup Inc.\nPlease verify your email address by clicking [here.] (*|url|*)",
+    "name": "convx-registration",
+    "oldSlug": null,
+    "revision": 3,
+    "slug": "registration",
+    "subject": "Registration",
+    "type": "EMAIL"
+  },
+  {
     "body": "Dear *|nickname|*, \nPlease change your password by clicking [here.] (*|url|*)",
     "name": "convx-forgotpassword",
     "revision": 1,

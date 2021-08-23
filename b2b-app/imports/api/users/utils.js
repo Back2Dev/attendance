@@ -1,6 +1,5 @@
 /* global Roles */
 import { Meteor } from 'meteor/meteor'
-// import Members from '/imports/api/members/schema'
 
 /**
  * get user email address

@@ -28,7 +28,7 @@ function SearchBox({
       }, autoTriggerTimeout)
     }
     return () => clearTimeout(timer.current)
-  }, [searchBoxValue, onChange, autoTrigger, autoTriggerTimeout])
+  }, [searchBoxValue, autoTrigger, autoTriggerTimeout])
 
   const handleEnterKey = (e) => {
     if (e.key === 'Enter') {
