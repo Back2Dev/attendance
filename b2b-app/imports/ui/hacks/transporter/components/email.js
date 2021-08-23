@@ -32,7 +32,7 @@ export default function EmailCard({ name, body: template, slug, sendEmail }) {
     .split(/\n/)
     .map((line) => `<p>${line}</p>`)
     .join('')
-  let defBody = HTMLTemplate.replace('*|contents|*', myTemplate).replace(
+  let defBody = HTMLTemplate.replace('{{contents}}', myTemplate).replace(
     '*|subject|*',
     '--- SUBJECT GOES HERE ---'
   )
@@ -52,7 +52,7 @@ export default function EmailCard({ name, body: template, slug, sendEmail }) {
       const newer = contents.replace(`*|${data}|*`, _email[data])
       return (contents = newer)
     })
-    const body = HTMLTemplate.replace('*|contents|*', contents).replace(
+    const body = HTMLTemplate.replace('{{contents}}', contents).replace(
       '*|subject|*',
       '--- SUBJECT GOES HERE ---'
     )

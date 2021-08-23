@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 
-const debug = require('debug')('b2b:startup')
+const debug = require('debug')('app:startup')
 
 const publicSchema = new SimpleSchema({
   S3_PUBLIC_URL: String,

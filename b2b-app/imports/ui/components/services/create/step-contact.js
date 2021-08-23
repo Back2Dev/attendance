@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useRef, useReducer, useContext } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -13,6 +14,7 @@ import {
   ListItemAvatar,
   Switch,
   FormControlLabel,
+  Link,
 } from '@material-ui/core'
 
 import SimpleSchema from 'simpl-schema'
@@ -24,6 +26,9 @@ import { ServiceContext } from './context'
 import SearchBox from '../../commons/search-box'
 import Loading from '../../commons/loading'
 import Avatar from '../../commons/avatar'
+import moment from 'moment'
+import CONSTANTS from '../../../../api/constants'
+import numeral from 'numeral'
 
 const StyledContactStep = styled.div`
   margin: 20px 0;
@@ -51,6 +56,7 @@ const StyledContactStep = styled.div`
   }
   .form-container {
     max-width: 500px;
+    margin: 0 auto;
   }
   .btns-container {
     margin: 20px 0;
@@ -58,13 +64,37 @@ const StyledContactStep = styled.div`
     align-items: center;
     justify-content: space-around;
   }
+  .history-item {
+    margin-bottom: 10px;
+    .item-date {
+      font-weight: bold;
+    }
+    .item-data {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      .data {
+        margin-right: 10px;
+      }
+    }
+  }
 `
 
 const memberFormSchema = new SimpleSchema({
   name: String,
-  mobile: String,
-  email: String,
-  addressPostcode: String,
+  mobile: { type: String, optional: true },
+  email: { type: String, optional: true },
+  address: { type: String, optional: true },
+})
+memberFormSchema.addDocValidator((obj) => {
+  // console.log('doc validator', obj)
+  if (!obj?.mobile && !obj?.email) {
+    return [
+      { name: 'mobile', type: 'required', value: 'Mobile or Email is required' },
+      { name: 'email', type: 'required', value: 'Mobile or Email is required' },
+    ]
+  }
+  return []
 })
 
 function contactStepReducer(state, action) {
@@ -77,21 +107,24 @@ function contactStepReducer(state, action) {
     case 'setMembers':
       return { ...state, foundMembers: payload, searching: false }
     case 'selectMember':
-      if (state.selectedMember?._id === payload._id) {
-        return { ...state, selectedMember: null, memberData: {}, updatedAt: new Date() }
-      }
+      // console.log('selectMember', state.selectedMember, payload)
       return {
         ...state,
         selectedMember: payload,
         memberData: payload,
         updatedAt: new Date(),
       }
+    case 'deselectMember':
+      // console.log('deselectMember')
+      return { ...state, selectedMember: null, memberData: {}, updatedAt: new Date() }
+
     case 'clear':
+      // console.log('clear')
       return {
         ...state,
         foundMembers: [],
         selectedMember: null,
-        memberData: {},
+        // memberData: {},
         updatedAt: new Date(),
       }
     case 'setMemberData':
@@ -103,7 +136,7 @@ function contactStepReducer(state, action) {
   }
 }
 
-function ContactStep({ initialData }) {
+function ContactStep() {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
@@ -118,9 +151,14 @@ function ContactStep({ initialData }) {
     memberData: {},
   })
 
-  const { setStepData, activeStep, goBack, goNext, setStepProperty } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    activeStep,
+    goBack,
+    goNext,
+    setStepProperty,
+    originalData,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
@@ -136,16 +174,38 @@ function ContactStep({ initialData }) {
   } = state
 
   const checkData = async () => {
+    console.log('checkData', memberData)
     const checkResult = await formRef.current?.validateModel(memberData)
     dispatch({ type: 'setHasValidData', payload: checkResult === null })
     return checkResult === null
   }
 
   useEffect(() => {
+    if (originalData) {
+      // console.log('originalData effect', originalData)
+      if (originalData.memberId) {
+        dispatch({
+          type: 'selectMember',
+          payload: {
+            _id: originalData.memberId,
+            name: originalData.name || '',
+            mobile: originalData.phone || '',
+            email: originalData.email || '',
+            address: originalData.address || '',
+          },
+        })
+        dispatch({ type: 'setHasValidData', payload: true })
+      } else {
+        dispatch({ type: 'setHasMember', payload: false })
+      }
+    }
+  }, [originalData])
+
+  useEffect(() => {
     if (activeStep !== 'contact' || !updatedAt) {
       return
     }
-
+    // console.log('check data effect', memberData)
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -153,9 +213,10 @@ function ContactStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'contact') {
-      return
-    }
+    // if (activeStep !== 'contact') {
+    //   return
+    // }
+    // console.log('checkedAt effect')
     setStepData({
       stepKey: 'contact',
       data: {
@@ -229,7 +290,11 @@ function ContactStep({ initialData }) {
           key={item._id}
           button
           onClick={() => {
-            dispatch({ type: 'selectMember', payload: item })
+            if (state.selectedMember?._id === item._id) {
+              dispatch({ type: 'deselectMember' })
+            } else {
+              dispatch({ type: 'selectMember', payload: item })
+            }
           }}
           className={`list-item ${isSelected ? 'selected' : ''}`}
         >
@@ -246,6 +311,34 @@ function ContactStep({ initialData }) {
             secondary={`${item.mobile || ''}${item.email ? ` - ${item.email}` : ''}`}
           />
         </ListItem>
+      )
+    })
+  }
+
+  const renderMemberHistory = () => {
+    if (!selectedMember || selectedMember.history?.length < 1) {
+      return null
+    }
+    return selectedMember.history?.map((item) => {
+      return (
+        <div key={item._id} className="history-item">
+          <div className="item-date">
+            <Link component={RouterLink} to={`services/${item._id}`}>
+              {moment(item.createdAt).format('DD MMM YYYY')}
+            </Link>
+          </div>
+          <div className="item-data">
+            <div className="data bike-info">
+              {item.color} {item.make} {item.model},
+            </div>
+            <div className="data cost">
+              Cost: ${numeral(item.totalCost / 100).format('0,0')},
+            </div>
+            <div className="data status">
+              Status: {CONSTANTS.JOB_STATUS_READABLE[item.status]}
+            </div>
+          </div>
+        </div>
       )
     })
   }
@@ -285,7 +378,7 @@ function ContactStep({ initialData }) {
             </div>
           </AutoForm>
         </div>
-        <div>TODO: render service history here</div>
+        <div className="history-container">{renderMemberHistory()}</div>
       </Paper>
     )
   }
@@ -322,8 +415,10 @@ function ContactStep({ initialData }) {
     return (
       <>
         <SearchBox
+          defaultValue={memberData?.name}
           onChange={(value) => searchMember(value)}
           placeholder="search existing member"
+          autoTrigger
         />
         <Paper elevation={3} className="matches-container">
           <Loading loading={searching} />

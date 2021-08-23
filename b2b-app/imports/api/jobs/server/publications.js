@@ -10,6 +10,7 @@ Meteor.publish('all.jobs', () => {
 })
 
 Meteor.publish('id.jobs', (id) => {
+  console.log({ id })
   return [
     Jobs.find(id),
     /* Commented out related publications (if any) - best to add these in manually as required

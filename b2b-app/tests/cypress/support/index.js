@@ -52,9 +52,6 @@ global.logout = () => {
 
 global.loadCypressFixtures = () => {
   cy.fixture('users.json').as('users')
-  cy.fixture('addresses.json').as('addresses')
-  cy.fixture('listings').as('listings')
-  cy.fixture('contract.pdf').as('contract.pdf')
   console.log('Loaded fixtures')
 }
 

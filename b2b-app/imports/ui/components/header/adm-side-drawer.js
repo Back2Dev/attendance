@@ -17,6 +17,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles } from '@material-ui/core/styles'
+import adminItems from './generated-admin-items'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 
@@ -36,18 +37,7 @@ const adminMenus = [
     display: 'Admin',
     id: 'admin',
     icon: <Tune />,
-    items: [
-      { display: 'Settings', link: '/admin/settings' },
-      { display: 'Users', link: '/admin/users' },
-      { display: 'Messages', link: '/admin/message-templates' },
-      { display: 'Triggers', link: '/admin/triggers' },
-      { display: 'Events', link: '/admin/events' },
-      { display: 'Courses', link: '/admin/courses' },
-      { display: 'Tools', link: '/admin/tools' },
-      { display: 'Sessions', link: '/admin/sessions' },
-      { display: 'Register', link: '/admin/register' },
-      { display: 'Registrations', link: '/admin/registrations' },
-    ],
+    items: adminItems,
   },
   {
     display: 'Manager',

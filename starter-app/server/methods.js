@@ -8,7 +8,7 @@ import SimpleSchema from 'simpl-schema'
 import CONSTANTS from '/imports/api/constants'
 import log, { createLog } from '/imports/lib/log'
 
-const debug = require('debug')('b2b:methods')
+const debug = require('debug')('app:methods')
 
 const _ = require('lodash')
 

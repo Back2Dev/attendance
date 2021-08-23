@@ -1,6 +1,6 @@
 import React from 'react'
 
-const debug = require('debug')('b2b:upload')
+const debug = require('debug')('app:upload')
 
 const slingshotUpload = ({ metaContext, file }) => {
   try {

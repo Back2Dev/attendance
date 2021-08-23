@@ -31,6 +31,39 @@ if (Meteor.isServer) {
       name: 'member_text_search',
     }
   )
+  Members._ensureIndex(
+    {
+      name: 1,
+      email: 1,
+      mobile: 1,
+      address: 1,
+    },
+    { name: 'member_regex_search' }
+  )
+  Members._ensureIndex(
+    {
+      name: 1,
+    },
+    { name: 'member_name' }
+  )
+  Members._ensureIndex(
+    {
+      email: 1,
+    },
+    { name: 'member_email' }
+  )
+  Members._ensureIndex(
+    {
+      mobile: 1,
+    },
+    { name: 'member_mobile' }
+  )
+  Members._ensureIndex(
+    {
+      address: 1,
+    },
+    { name: 'member_address' }
+  )
 }
 
 export const AddBadgeParamsSchema = new SimpleSchema({
@@ -49,7 +82,7 @@ export const BadgeItemSchema = new SimpleSchema({
 
 export const MembersSchema = new SimpleSchema({
   _id: OptionalRegExId,
-  userId: RegExId,
+  userId: OptionalRegExId,
   // Combine first and last name
   name: {
     type: String,
@@ -58,6 +91,10 @@ export const MembersSchema = new SimpleSchema({
     type: String,
     optional: true,
     label: 'Nickname, ie what people call you',
+  },
+  email: {
+    type: String,
+    optional: true,
   },
   address: {
     type: String,

@@ -16,7 +16,7 @@ import Settings from '../schema'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:settings:helper:test')
+const debug = require('debug')('app:settings:helper:test')
 
 const goodSettings = [
   {

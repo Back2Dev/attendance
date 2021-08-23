@@ -27,9 +27,14 @@ const bikeFormSchema = new SimpleSchema({
       'Other',
     ],
   },
+  budget: {
+    type: Number,
+    label: 'Budget',
+  },
   approxValue: {
     type: Number,
     label: 'Approx. Value',
+    optional: true,
   },
 })
 
@@ -66,35 +71,42 @@ function BikeStep({ initialData }) {
     checkedAt: null,
   })
 
-  const { setStepData, setStepProperty, goNext, goBack, activeStep } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    setStepProperty,
+    goNext,
+    goBack,
+    activeStep,
+    originalData,
+  } = useContext(ServiceContext)
   const formRef = useRef()
   const checkTimeout = useRef(null)
 
-  const { details, hasValidData, checkedAt, updatedAt } = state
+  const mounted = useRef(true)
+  useEffect(
+    () => () => {
+      mounted.current = false
+    },
+    []
+  )
+
+  const { details, hasValidData, updatedAt, checkedAt } = state
 
   const checkData = async () => {
-    // TODO: do something here
+    console.log('checkData', details, formRef.current)
+    // if (!formRef.current) {
+    //   dispatch({ type: 'setHasValidData', payload: true })
+    //   return
+    // }
     // const checkResult = await formRef.current?.validate()
     const checkResult = await formRef.current?.validateModel(details)
-    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    console.log({ checkResult }, mounted.current)
+    if (mounted.current) {
+      dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    }
   }
 
-  useEffect(() => {
-    if (activeStep !== 'bike') {
-      return
-    }
-    Meteor.clearTimeout(checkTimeout.current)
-    checkTimeout.current = Meteor.setTimeout(() => {
-      checkData()
-    }, 300)
-  }, [updatedAt])
-
-  useEffect(() => {
-    if (activeStep !== 'bike') {
-      return
-    }
+  const handleSubmit = () => {
     setStepData({
       stepKey: 'bike',
       data: {
@@ -108,13 +120,63 @@ function BikeStep({ initialData }) {
       property: 'completed',
       value: hasValidData,
     })
-    if (hasValidData) {
+    if (hasValidData && activeStep === 'bike') {
       goNext()
     }
+  }
+
+  useEffect(() => {
+    if (originalData) {
+      console.log('originalData', originalData)
+      dispatch({
+        type: 'setDetails',
+        payload: {
+          make: originalData.make,
+          model: originalData.model,
+          color: originalData.color,
+          type: originalData.bikeType,
+          budget: originalData.budget,
+          approxValue: originalData.bikeValue,
+        },
+      })
+      // dispatch({ type: 'setHasValidData', payload: true })
+      // checkData()
+    }
+  }, [originalData])
+
+  useEffect(() => {
+    // if (activeStep !== 'bike') {
+    //   return
+    // }
+    console.log('effect check data')
+    Meteor.clearTimeout(checkTimeout.current)
+    checkTimeout.current = Meteor.setTimeout(() => {
+      checkData()
+    }, 300)
+  }, [updatedAt])
+
+  useEffect(() => {
+    // if (activeStep !== 'contact') {
+    //   return
+    // }
+    // console.log('checkedAt effect')
+    setStepData({
+      stepKey: 'bike',
+      data: {
+        details,
+        updatedAt,
+        hasValidData,
+      },
+    })
+    setStepProperty({
+      stepKey: 'bike',
+      property: 'completed',
+      value: hasValidData,
+    })
   }, [checkedAt])
 
   if (activeStep !== 'bike') {
-    return null
+    // return null
   }
 
   const classes = ['form-container']
@@ -123,15 +185,18 @@ function BikeStep({ initialData }) {
   }
 
   return (
-    <StyledBikeStep>
+    <StyledBikeStep style={{ display: activeStep !== 'bike' ? 'none' : 'block' }}>
       <div className={classes.join(' ')}>
         <AutoForm
           ref={formRef}
           schema={new SimpleSchema2Bridge(bikeFormSchema)}
           model={details}
-          onSubmit={(model) => {
+          onChangeModel={(model) => {
             // console.log(model)
             dispatch({ type: 'setDetails', payload: model })
+          }}
+          onSubmit={() => {
+            handleSubmit()
           }}
         >
           <AutoFields />

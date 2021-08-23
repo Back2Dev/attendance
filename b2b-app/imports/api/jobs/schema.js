@@ -6,11 +6,45 @@ import {
   OptionalRegExId,
   createdAt,
   updatedAt,
+  OptionalString,
 } from '/imports/api/utils/schema-util.js'
 import CONSTANTS from '/imports/api/constants'
 import { ServiceItemsSchema } from '../service-items/schema'
 
 const Jobs = new Mongo.Collection('jobs')
+
+export const JobSetExpectedPickupDateParamsSchema = new SimpleSchema({
+  id: String,
+  date: Date,
+})
+
+export const JobMarkAsPaidParamsSchema = new SimpleSchema({
+  id: String,
+})
+
+export const JobSendSMSParamsSchema = new SimpleSchema({
+  id: String,
+  message: String,
+})
+
+export const JobAddHistoryParamsSchema = new SimpleSchema({
+  id: String,
+  description: String,
+  contacted: { type: Boolean, optional: true },
+})
+
+export const JobUpdateMechanicParamsSchema = new SimpleSchema({
+  id: String,
+  mechanic: OptionalRegExId,
+})
+
+export const JobUpdateStatusParamsSchema = new SimpleSchema({
+  id: String,
+  status: {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+  },
+})
 
 export const JobCreateParamsSchema = new SimpleSchema({
   serviceItems: Array,
@@ -22,13 +56,23 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'category',
     'used'
   ),
+  assessor: OptionalString,
+  note: OptionalString,
   bikeDetails: new SimpleSchema({
     make: String,
     model: String,
     color: String,
     type: String,
-    approxValue: Number,
+    budget: Number,
+    approxValue: {
+      type: Number,
+      optional: true,
+    },
   }),
+  hasMember: {
+    type: Boolean,
+    defaultValue: true,
+  },
   selectedMember: {
     type: new SimpleSchema({
       _id: RegExId,
@@ -39,9 +83,9 @@ export const JobCreateParamsSchema = new SimpleSchema({
   memberData: {
     type: new SimpleSchema({
       name: String,
-      mobile: String,
-      email: String,
-      addressPostcode: String,
+      mobile: OptionalString,
+      email: OptionalString,
+      address: OptionalString,
     }),
     optional: true,
   },
@@ -53,9 +97,15 @@ export const JobCreateParamsSchema = new SimpleSchema({
   }),
 })
 
+export const JobUpdateParamsSchema = new SimpleSchema({
+  jobId: RegExId,
+})
+JobUpdateParamsSchema.extend(JobCreateParamsSchema)
+
 // Note: By default, all keys are required
 export const JobsSchema = new SimpleSchema({
   _id: RegExId,
+  memberId: OptionalRegExId,
   jobNo: { type: String, optional: true },
   name: { type: String, optional: true, label: 'Customer name' },
   phone: {
@@ -64,13 +114,17 @@ export const JobsSchema = new SimpleSchema({
     label: 'Customer phone number',
   },
   email: { type: String, optional: true, label: 'Customer email' },
+  address: { type: String, optional: true, label: 'Customer address' },
   isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
   make: { type: String, label: 'Bike make' },
   model: { type: String, optional: true, label: 'Bike model' },
   color: { type: String, label: 'Bike color' },
+  bikeType: { type: String, optional: true, label: 'Bike Type' },
+  budget: { type: SimpleSchema.Integer },
   bikeValue: {
     type: SimpleSchema.Integer,
     label: 'Estimated bike value in cents',
+    optional: true,
   },
   sentimentValue: {
     type: Boolean,
@@ -106,14 +160,16 @@ export const JobsSchema = new SimpleSchema({
       }
     },
   },
+  note: OptionalString,
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
+  expectedPickupDate: { type: Date, optional: true, label: 'Expected pickup date' },
   urgent: {
     type: Boolean,
     label: 'Field to indicate if bike repair is urgent',
   },
   assessor: { type: String, optional: true, label: 'Assessor name' },
-  mechanic: { type: String, optional: true, label: 'Mechanic name' },
+  mechanic: { type: RegExId, optional: true, label: 'Mechanic user id' },
   comment: {
     type: String,
     optional: true,
@@ -125,17 +181,38 @@ export const JobsSchema = new SimpleSchema({
     label: 'Field to indicate if a temporary bike was provided',
   },
   status: {
-    type: SimpleSchema.Integer,
-    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE).map((key) =>
-      parseInt(key, 10)
-    ),
-    defaultValue: 1,
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+    defaultValue: 'new',
     label: 'Status of job',
   },
   paid: { type: Boolean, defaultValue: false },
+  paidAt: { type: Date, optional: true },
   charge_token: { type: String, optional: true },
   card: { type: Object, optional: true, blackbox: true },
-  paidAt: { type: Date, optional: true },
+  history: {
+    type: Array,
+    defaultValue: [],
+    optional: true,
+  },
+  'history.$': new SimpleSchema({
+    userId: OptionalRegExId,
+    memberId: OptionalRegExId,
+    description: String,
+    statusBefore: {
+      type: String,
+      allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+    },
+    statusAfter: {
+      type: String,
+      allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
+    },
+    createdAt: Date,
+  }),
+  lastContacted: {
+    type: Date,
+    optional: true,
+  },
   createdAt,
   updatedAt,
 })

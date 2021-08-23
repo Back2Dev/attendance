@@ -1,0 +1,5 @@
+{
+  "collection": "Tickers",
+  "fields": "name ticker industry",
+  "generate": "CRUD"
+}

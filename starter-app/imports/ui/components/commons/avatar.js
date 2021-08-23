@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Link as RouterLink } from 'react-router-dom'
 
-// import AccountIcon from '@material-ui/icons/AccountCircle'
+import { Link } from '@material-ui/core'
 
 import CONSTANTS from '/imports/api/constants'
 
@@ -29,7 +30,7 @@ const StyledAvatar = styled.div`
  * @param {number} size - the size of image
  * @param {Object} styles - custom styles applied to the container
  */
-const Avatar = ({ url = null, alt = null, size = 80, styles = {} }) => {
+const Avatar = ({ url = null, alt = null, size = 80, styles = {}, linkUrl = null }) => {
   const style = {
     width: size,
     height: size,
@@ -37,18 +38,40 @@ const Avatar = ({ url = null, alt = null, size = 80, styles = {} }) => {
     minHeight: size,
     ...styles,
   }
+
+  const renderImage = () => {
+    if (url && alt) {
+      let realUrl = url
+      const patt = /^http/
+      if (!patt.test(url)) {
+        realUrl = `/images/avatars/${url}`
+      }
+      return <img loading="lazy" className="avatar-image" src={realUrl} alt={alt} />
+    }
+
+    return (
+      <img
+        loading="lazy"
+        className="avatar-image"
+        src={CONSTANTS.DEFAULT_AVATAR}
+        alt="no-avatar"
+      />
+    )
+  }
+
+  if (linkUrl) {
+    return (
+      <StyledAvatar className="avatar" style={style}>
+        <Link component={RouterLink} to={linkUrl}>
+          {renderImage()}
+        </Link>
+      </StyledAvatar>
+    )
+  }
+
   return (
     <StyledAvatar className="avatar" style={style}>
-      {url && alt ? (
-        <img loading="lazy" className="avatar-image" src={url} alt={alt} />
-      ) : (
-        <img
-          loading="lazy"
-          className="avatar-image"
-          src={CONSTANTS.DEFAULT_AVATAR}
-          alt="no-avatar"
-        />
-      )}
+      {renderImage()}
     </StyledAvatar>
   )
 }
@@ -58,6 +81,7 @@ Avatar.propTypes = {
   alt: PropTypes.string,
   size: PropTypes.number,
   styles: PropTypes.object,
+  linkUrl: PropTypes.string,
 }
 
 Avatar.defaultProps = {
@@ -65,6 +89,7 @@ Avatar.defaultProps = {
   alt: null,
   size: 80,
   styles: {},
+  linkUrl: null,
 }
 
 export default Avatar

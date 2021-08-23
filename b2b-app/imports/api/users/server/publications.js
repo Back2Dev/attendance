@@ -1,14 +1,14 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
-import { Roles } from 'meteor/alanning:roles'
 import Members from '/imports/api/members/schema'
-import { getUserEmailAddress } from '/imports/api/users/utils.js'
 import moment from 'moment'
+import '/server/methods'
 import log from '/imports/lib/log'
 import Events, { MemberItemSchema } from '../../events/schema'
-const debug = require('debug')('b2b:users')
+const debug = require('debug')('app:users')
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
 
@@ -91,7 +91,7 @@ Meteor.methods({
   },
   updateUserRoles(user) {
     try {
-      Meteor.users.update(user._id, { $set: { roles: user.roles } })
+      Roles.setUserRoles(user._id, user.roles)
       return { status: 'success', message: 'Updated user roles' }
     } catch (e) {
       return { status: 'failed', message: `Error updating user roles: ${e.message}` }
@@ -300,6 +300,7 @@ Meteor.methods({
         debug({ memberItem })
         const updateData = {}
         Object.keys(memberItem).map((key) => {
+          // TODO: I think Meteor mongo doesn't support $[]
           updateData[`members.$[].${key}`] = memberItem[key]
         })
         debug({ updateData })
@@ -359,7 +360,7 @@ Meteor.methods({
         })
         const user = Meteor.users.findOne({ _id: userId })
         const member = Members.findOne({ userId })
-        const admins = Meteor.users.find({ 'roles._id': 'ADM' }).fetch()
+        const admins = Roles.getUsersInRole('ADM').fetch()
 
         Meteor.call('sendTrigger', {
           member,

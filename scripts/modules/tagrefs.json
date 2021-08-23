@@ -1,0 +1,5 @@
+{
+  "collection": "TagRefs",
+  "fields": "docId tagId",
+  "generate": "CRUD"
+}

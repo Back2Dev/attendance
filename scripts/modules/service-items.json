@@ -1,0 +1,5 @@
+{
+  "collection": "serviceItems",
+  "fields": "name price code category used",
+  "generate": "CRUD"
+}

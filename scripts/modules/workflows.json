@@ -1,0 +1,5 @@
+{
+  "collection": "Workflows",
+  "fields": "name type xml",
+  "generate": "CRUD"
+}

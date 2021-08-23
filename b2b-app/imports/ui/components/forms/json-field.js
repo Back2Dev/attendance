@@ -5,7 +5,7 @@ import { useCodeJar, ReactCodeJar } from 'react-codejar'
 import Prism from 'prismjs'
 import 'prismjs/themes/prism.css'
 
-const debug = require('debug')('b2b:edit')
+const debug = require('debug')('app:edit')
 
 const codeHighlight = (editor) => {
   const text = editor.textContent

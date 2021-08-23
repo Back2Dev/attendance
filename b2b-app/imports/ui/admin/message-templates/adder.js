@@ -13,12 +13,21 @@ const dateFormat = {
   invalidPlaceholder: '',
 }
 let push
+const defaultObject = {
+  name: 'Untitled',
+  slug: 'untitled',
+  type: 'SMS',
+  body: 'Re: *|address|*\nNew message',
+  subject: 'Your property',
+}
 
-const methods = {  save: ( form) => {
-  meteorCall('insert.messageTemplates', 'updating', form)
+const methods = {
+  save: (form) => {
+    meteorCall('insert.messageTemplates', 'updating', form)
 
-  push('/admin/message-templates')
-} }
+    push('/admin/message-templates')
+  },
+}
 
 const Loading = (props) => {
   push = useHistory()?.push
@@ -26,17 +35,28 @@ const Loading = (props) => {
   return <Add {...props}></Add>
 }
 const Adder = withTracker((props) => {
-  const item = {
-  name: 'Untitled',
-  slug: 'untitled',
-  type: 'SMS',
-  body: 'Re: *|address|*\nNew message',
-  subject: 'Your property',
-}
+  let loading = false
+  let item
+  const id = props.match.params.id
+  if (id) {
+    const subsHandle = Meteor.subscribe('idslug.messageTemplates', id)
+    loading = !subsHandle.ready()
+    let query = id
+    if (!MessageTemplates.findOne(id)) query = { slug: id }
+    item = MessageTemplates.findOne(query) || {}
+    if (item._id) {
+      item.oldSlug = item.slug
+      item.slug = item.slug + '-copy'
+      if (item.name) item.name = 'Copy of ' + item.name
+      delete item._id
+    }
+  } else {
+    item = defaultObject
+  }
   return {
     item,
     methods,
-    loading: false,
+    loading,
   }
 })(Loading)
 export default Adder

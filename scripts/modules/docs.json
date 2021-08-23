@@ -1,0 +1,5 @@
+{
+  "collection": "Docs",
+  "fields": "name description author miniAppId platformId markdown docStatusCode path doctype",
+  "generate": "CRUD"
+}

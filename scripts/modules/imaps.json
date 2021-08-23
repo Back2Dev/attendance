@@ -1,0 +1,5 @@
+{
+  "collection": "Imaps",
+  "fields": "user password host port tls authTimeout",
+  "generate": "CRUD"
+}

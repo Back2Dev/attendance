@@ -3,9 +3,10 @@ import { resetDatabase } from '/imports/api/cleaner'
 import { expect } from 'chai'
 import { Factory } from 'meteor/dburles:factory'
 import Messages from '/imports/api/messages/schema'
-import '/imports/api/triggers/methods'
+import '/imports/api/users/server/publications'
+import '/server/methods'
 
-const debug = require('debug')('b2b:userpubs')
+const debug = require('debug')('app:userpubs')
 
 describe('User publications', () => {
   before(function () {

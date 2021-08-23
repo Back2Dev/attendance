@@ -1,6 +1,6 @@
 import { Match } from 'meteor/check'
 import Settings from '../schema'
-const debug = require('debug')('b2b:settings:helper')
+const debug = require('debug')('app:settings:helper')
 
 /**
  * Remove Setting

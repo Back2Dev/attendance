@@ -1,6 +1,6 @@
 import { result } from 'lodash'
 
-const debug = require('debug')('b2b:messages:transporter')
+const debug = require('debug')('app:messages:transporter')
 
 class Transporter {
   constructor() {

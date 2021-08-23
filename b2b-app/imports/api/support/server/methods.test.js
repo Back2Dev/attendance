@@ -6,7 +6,7 @@ import { Roles } from 'meteor/alanning:roles'
 // import { Accounts } from 'meteor/accounts-base'
 // import Members from '/imports/api/members/schema'
 import '/imports/api/support/server/methods.js'
-import '/imports/api/users/server/publications'
+import '/server/methods'
 import Factory from '/imports/test/factories.js'
 
 const debug = require('debug')('se:support:test')
@@ -57,7 +57,7 @@ describe('Users send support email', () => {
   })
   it('should works with good param', () => {
     // create a new Meteor user
-    const testUser = Factory.create('UserCUS')
+    const testUser = Factory.create('UserMEM')
     const thisContext = { userId: testUser._id } // no userId
     const aGoodParam = {
       subject: 'hello',

@@ -1,0 +1,5 @@
+{
+  "collection": "Tags",
+  "fields": "name",
+  "generate": "CRUD"
+}

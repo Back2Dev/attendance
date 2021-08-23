@@ -11,7 +11,7 @@ import './methods'
 
 use(assertArrays)
 
-const debug = require('debug')('b2b:events:test')
+const debug = require('debug')('app:events:test')
 
 describe('Test book.events method', () => {
   const theMethod = Meteor.server.method_handlers['book.events']
@@ -130,14 +130,14 @@ describe('Test insert.events method', () => {
         name: faker.address.cityName(),
         description: faker.lorem.paragraph(),
         type: 'once',
-        active: true,
+        status: 'active',
         duration: 3,
       },
       {
         name: faker.address.cityName(),
         description: faker.lorem.paragraph(),
         type: 'once',
-        active: true,
+        status: 'active',
         duration: 3,
         courseId: course._id,
       },
@@ -145,7 +145,7 @@ describe('Test insert.events method', () => {
         name: faker.address.cityName(),
         description: faker.lorem.paragraph(),
         type: 'once',
-        active: true,
+        status: 'active',
         duration: 3,
         courseId: course._id,
         backupCourseId: backupCourse._id,
@@ -157,7 +157,7 @@ describe('Test insert.events method', () => {
       }
       let result
       expect(() => {
-        result = theMethod.apply(thisContext, [item])
+        result = theMethod.apply(thisContext, [{ form: item }])
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')

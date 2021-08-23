@@ -1,3 +1,4 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 import logger from '/imports/lib/log'
@@ -5,21 +6,66 @@ import CONSTANTS from '/imports/api/constants'
 import Members, { AddBadgeParamsSchema } from './schema'
 import Events, { MemberItemSchema } from '../events/schema'
 import moment from 'moment'
+import Jobs from '../jobs/schema'
 
-const debug = require('debug')('b2b:members')
+const debug = require('debug')('app:members')
 
 Meteor.methods({
+  'members.byRole'({ role, fields }) {
+    if (!Match.test(role, String)) {
+      return { status: 'failed', message: 'Role must be a string' }
+    }
+
+    // check if role is existing
+    if (!Object.keys(CONSTANTS.ROLES).includes(role)) {
+      return { status: 'failed', message: `Role was not found: ${role}` }
+    }
+
+    // find the user
+    const users = Roles.getUsersInRole(role)
+
+    const userIds = users.map((user) => user._id)
+    if (!userIds?.length) {
+      return {
+        status: 'success',
+        members: [],
+      }
+    }
+
+    const selectedFields = fields || {
+      userId: 1,
+      name: 1,
+      nickname: 1,
+    }
+
+    const members = Members.find(
+      { userId: { $in: userIds } },
+      { fields: selectedFields }
+    ).fetch()
+
+    return { status: 'success', members }
+  },
   'members.search'({ keyword }) {
     if (!Match.test(keyword, String)) {
       return { status: 'failed', message: 'Keyword must be string' }
     }
+    const pattern = new RegExp(keyword, 'i')
     // find the member
     const members = Members.find(
       {
-        $text: {
-          $search: keyword,
-          // $search: `"${keyword}"`
-        },
+        $or: [
+          {
+            $text: {
+              $search: keyword,
+              // $search: `"${keyword}"`
+              $diacriticSensitive: true,
+            },
+          },
+          { name: { $regex: pattern } },
+          { mobile: { $regex: pattern } },
+          { email: { $regex: pattern } },
+          { address: { $regex: pattern } },
+        ],
       },
       {
         fields: {
@@ -29,7 +75,7 @@ Meteor.methods({
           mobile: 1,
           email: 1,
           avatar: 1,
-          addressPostcode: 1,
+          address: 1,
           score: { $meta: 'textScore' },
         },
         sort: {
@@ -39,7 +85,28 @@ Meteor.methods({
     ).fetch()
 
     const membersWithHistory = members.map((item) => {
-      return { ...item, history: [] }
+      // select jobs which are related to this member
+      const prevJobs = Jobs.find(
+        { memberId: item._id },
+        {
+          fields: {
+            make: 1,
+            model: 1,
+            color: 1,
+            bikeType: 1,
+            totalCost: 1,
+            dropoffDate: 1,
+            pickupDate: 1,
+            status: 1,
+            createdAt: 1,
+          },
+          sort: {
+            createdAt: -1,
+          },
+        }
+      ).fetch()
+
+      return { ...item, history: prevJobs }
     })
 
     return { status: 'success', members: membersWithHistory }
@@ -104,7 +171,8 @@ Meteor.methods({
     }
     // check for admin role
     const me = Meteor.users.findOne({ _id: this.userId })
-    const isAdm = me?.roles.some((role) => role._id === 'ADM')
+    const isAdm = Roles.userIsInRole(me, ['ADM'])
+
     if (!isAdm) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -134,7 +202,7 @@ Meteor.methods({
     // debug('updateData', JSON.stringify(updateData))
 
     // check if the member has this badge already
-    const existingBadge = member.badges.find((item) => item.code === code)
+    const existingBadge = member.badges?.find((item) => item.code === code)
     if (existingBadge) {
       if (!overwrite) {
         return {
@@ -151,6 +219,7 @@ Meteor.methods({
     }
 
     try {
+      // debug('updateData', JSON.stringify(updateData, null, 2))
       const updateResult = Members.update(updateCondition, updateData)
       if (!updateResult) {
         return { status: 'failed', message: 'Unable to update member' }
@@ -162,19 +231,26 @@ Meteor.methods({
     // update the members array of event
     const updatedMember = Members.findOne({ _id: memberId })
     if (updatedMember) {
-      Events.update(
-        {
-          members: {
-            $elemMatch: { _id: memberId },
+      try {
+        Events.update(
+          {
+            members: {
+              $elemMatch: { _id: memberId },
+            },
           },
-        },
-        {
-          $set: {
-            'members.$[].badges': updatedMember.badges,
+          {
+            $set: {
+              // TODO: I think Meteor mongo doesn't support $[]
+              // Minh: Meteor mongo supports but the problem is simpl-schema doesn't support it.
+              // https://github.com/longshotlabs/simpl-schema/issues/378
+              'members.$[].badges': updatedMember.badges,
+            },
           },
-        },
-        { multi: true }
-      )
+          { multi: true }
+        )
+      } catch (e) {
+        debug('error updating event:', e.message)
+      }
     }
 
     return { status: 'success' }

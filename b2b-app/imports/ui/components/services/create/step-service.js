@@ -1,12 +1,14 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
-import React, { useEffect, useRef, useReducer, useContext } from 'react'
+import { useHistory } from 'react-router'
+import React, { useEffect, useRef, useReducer, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, Typography } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
+import { showError } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
 import ServiceItem from './service-item'
@@ -25,10 +27,38 @@ const StyledServiceStep = styled.div`
       margin: 5px 0;
     }
   }
+  .total-cost {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  .popular-items-container {
+    margin: 10px 0;
+    .items-wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .item {
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  }
+  .note-wrapper {
+    max-width: 450px;
+    .node-field {
+    }
+  }
 `
 
 function serviceStepReducer(state, action) {
   const { type, payload } = action
+  const getTotalCost = (items) => {
+    if (!items?.length) {
+      return 0
+    }
+    return items.reduce((sum, item) => sum + item.price, 0)
+  }
+
   switch (type) {
     case 'updateSelectedItem': {
       const newItems = state.selectedItems.map((item) => {
@@ -37,26 +67,40 @@ function serviceStepReducer(state, action) {
         }
         return item
       })
-      return { ...state, selectedItems: newItems, updatedAt: new Date() }
+      return {
+        ...state,
+        selectedItems: newItems,
+        totalCost: getTotalCost(newItems),
+        updatedAt: new Date(),
+      }
     }
     case 'setSelectedItems':
-      return { ...state, selectedItems: payload, updatedAt: new Date() }
+      return {
+        ...state,
+        selectedItems: payload,
+        totalCost: getTotalCost(payload),
+        updatedAt: new Date(),
+      }
     case 'addItem': {
       const newItem = {
         ...payload,
         localId: Random.id(),
       }
+      const selectedItems = [...state.selectedItems, newItem]
       return {
         ...state,
-        selectedItems: [...state.selectedItems, newItem],
+        selectedItems,
+        totalCost: getTotalCost(selectedItems),
         currentItem: null,
         updatedAt: new Date(),
       }
     }
     case 'addItems': {
+      const selectedItems = [...state.selectedItems, ...payload]
       return {
         ...state,
-        selectedItems: [...state.selectedItems, ...payload],
+        selectedItems,
+        totalCost: getTotalCost(selectedItems),
         updatedAt: new Date(),
       }
     }
@@ -67,10 +111,19 @@ function serviceStepReducer(state, action) {
           newItems.push(item)
         }
       })
-      return { ...state, selectedItems: newItems, updatedAt: new Date() }
+      return {
+        ...state,
+        selectedItems: newItems,
+        totalCost: getTotalCost(newItems),
+        updatedAt: new Date(),
+      }
     }
     case 'setCurrentItem':
       return { ...state, currentItem: payload }
+    case 'setNote':
+      return { ...state, note: payload.note, updatedAt: new Date() }
+    case 'setAssessor':
+      return { ...state, assessor: payload.assessor, updatedAt: new Date() }
     case 'setHasValidData':
       return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
@@ -82,12 +135,24 @@ function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
+    assessor: '',
+    note: '',
+    totalCost: 0,
     updatedAt: new Date(),
     hasValidData: false,
     checkedAt: null,
   })
 
-  const { setStepData, setStepProperty, activeStep, goNext } = useContext(ServiceContext)
+  const { goBack } = useHistory()
+
+  const {
+    setStepData,
+    setStepProperty,
+    activeStep,
+    goNext,
+    originalData,
+    createJob,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const searchFieldRef = useRef(null)
   const selectedContRef = useRef(null)
@@ -95,9 +160,49 @@ function ServiceStep({ initialData }) {
   const { currentItem, selectedItems, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
+    let isValid = true
     // make sure atleast one item selected
-    dispatch({ type: 'setHasValidData', payload: selectedItems.length > 0 })
+    if (selectedItems.length === 0) {
+      isValid = false
+    }
+
+    dispatch({ type: 'setHasValidData', payload: isValid })
   }
+
+  const { items, loading } = useTracker(() => {
+    const sub = Meteor.subscribe('all.serviceItems')
+    return {
+      items: ServiceItems.find({}).fetch(),
+      loading: !sub.ready(),
+    }
+  }, [])
+
+  const sortedItems = useMemo(() => {
+    const sorted = items.sort((a, b) => (b.numbersOfUsed || 0) - (a.numbersOfUsed || 0))
+    return sorted
+  }, [items])
+
+  const sortedByNameItems = useMemo(() => {
+    const sorted = items.sort((a, b) => a.name.localeCompare(b.name))
+    return sorted
+  }, [items])
+
+  useEffect(() => {
+    if (originalData?.serviceItems?.length && items?.length) {
+      const itemsToBeAdded = originalData?.serviceItems.map((item) => {
+        return {
+          ...item,
+          localId: Random.id(),
+        }
+      })
+      // console.log('itemsToBeAdded', itemsToBeAdded)
+      if (itemsToBeAdded?.length) {
+        dispatch({ type: 'addItems', payload: itemsToBeAdded })
+      }
+      dispatch({ type: 'setAssessor', payload: { assessor: originalData.assessor } })
+      dispatch({ type: 'setNote', payload: { note: originalData.note } })
+    }
+  }, [originalData, items])
 
   useEffect(() => {
     if (activeStep !== 'service') {
@@ -110,15 +215,19 @@ function ServiceStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'service') {
-      return
-    }
+    // if (activeStep !== 'service') {
+    //   return
+    // }
+    // console.log('set step data', state.note)
     setStepData({
       stepKey: 'service',
       data: {
         items: selectedItems,
+        assessor: state.assessor,
+        note: state.note,
         updatedAt,
         hasValidData,
+        totalCost: state.totalCost,
       },
     })
     setStepProperty({
@@ -128,14 +237,6 @@ function ServiceStep({ initialData }) {
     })
   }, [checkedAt])
 
-  const { items, loading } = useTracker(() => {
-    const sub = Meteor.subscribe('all.serviceItems')
-    return {
-      items: ServiceItems.find({}).fetch(),
-      loading: !sub.ready(),
-    }
-  }, [])
-
   const handleSelected = (item) => {
     dispatch({ type: 'addItem', payload: item })
     // calling blur on input field to clear the selected item from the autocomplete
@@ -143,6 +244,15 @@ function ServiceStep({ initialData }) {
     setTimeout(() => {
       searchFieldRef.current?.children[0]?.children[1]?.children[0]?.blur()
     }, 300)
+  }
+
+  const handleQuickUpdate = () => {
+    console.log('quick update')
+    try {
+      createJob(true)
+    } catch (e) {
+      showError(`Error creating job: ${e.message}`)
+    }
   }
 
   const selectItemsWithTag = (tag) => {
@@ -193,6 +303,36 @@ function ServiceStep({ initialData }) {
     ))
   }
 
+  const renderPopularItems = () => {
+    if (!sortedItems?.length) {
+      return null
+    }
+    return (
+      <div className="popular-items-container">
+        <Typography variant="h3">Popular service items</Typography>
+        <div className="items-wrapper">
+          {sortedItems.map((item, index) => {
+            if (index > 10) {
+              return null
+            }
+            return (
+              <div className="item" key={item._id}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    dispatch({ type: 'addItem', payload: item })
+                  }}
+                >
+                  {item.name} - ${item.price / 100}
+                </Button>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <StyledServiceStep>
       <div className={classes.join(' ')}>
@@ -201,7 +341,7 @@ function ServiceStep({ initialData }) {
           <Autocomplete
             ref={searchFieldRef}
             value={currentItem}
-            options={items}
+            options={sortedByNameItems}
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
             style={{ maxWidth: 450, minWidth: 300 }}
             renderInput={(params) => (
@@ -221,7 +361,53 @@ function ServiceStep({ initialData }) {
         <div className="selected-items-container" ref={selectedContRef}>
           {renderSelectedItems()}
         </div>
+        <div className="total-cost">Total cost: ${state.totalCost / 100}</div>
+        <div className="assessor-wrapper">
+          <TextField
+            margin="dense"
+            className="assessor-field"
+            label="Assessor"
+            value={state.assessor}
+            onChange={(e) => {
+              dispatch({ type: 'setAssessor', payload: { assessor: e.target.value } })
+            }}
+          />
+        </div>
+        <div className="note-wrapper">
+          <TextField
+            className="node-field"
+            margin="dense"
+            multiline
+            fullWidth
+            label="Note"
+            value={state.note}
+            onChange={(e) => {
+              dispatch({ type: 'setNote', payload: { note: e.target.value } })
+            }}
+          />
+        </div>
         <div className="btns-container">
+          <Button
+            className="next-btn"
+            variant="contained"
+            onClick={() => {
+              goBack()
+            }}
+            testid="service-back-btn"
+          >
+            Back
+          </Button>
+          {originalData && hasValidData && (
+            <Button
+              className="next-btn"
+              variant="contained"
+              color="primary"
+              disabled={!hasValidData}
+              onClick={handleQuickUpdate}
+            >
+              Quick Update
+            </Button>
+          )}
           <Button
             className="next-btn"
             variant="contained"
@@ -258,7 +444,7 @@ function ServiceStep({ initialData }) {
             </Button>
           </div>
         </div>
-        <div className="popular-items-container">Popular items here</div>
+        {renderPopularItems()}
       </div>
     </StyledServiceStep>
   )

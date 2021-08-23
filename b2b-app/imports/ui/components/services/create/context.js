@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useReducer, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
-import PdfMaker from '/imports/ui/utils/pdf-maker.js'
+
+import Jobs from '/imports/api/jobs/schema.js'
+import createJobCard from '/imports/ui/utils/job-card-pdf.js'
 
 export const ServiceContext = React.createContext('service')
 
@@ -45,6 +48,7 @@ function reducer(state, action) {
     }
     case 'setStepData': {
       const { stepKey, data } = payload
+      console.log('setStepData', stepKey, data)
       if (stepKeys.indexOf(stepKey) === -1) {
         console.log('stepKey was not found', stepKey)
         return state
@@ -75,6 +79,8 @@ function reducer(state, action) {
 
 export const ServiceProvider = ({ children }) => {
   const { push } = useHistory()
+  const { id: jobId } = useParams()
+  console.log({ jobId })
 
   const mounted = useRef(true)
   useEffect(
@@ -84,11 +90,10 @@ export const ServiceProvider = ({ children }) => {
     []
   )
 
-  // console.log('contract', contract);
   const [state, dispatch] = useReducer(reducer, {
     steps: {
       service: {
-        label: 'New Service',
+        label: 'Services',
         error: false,
         disabled: false,
         completed: false,
@@ -124,12 +129,17 @@ export const ServiceProvider = ({ children }) => {
     loading: false,
   })
 
-  // bind contract data to state
-  // useEffect(() => {
-  //   if (service) {
-  //     dispatch({ type: 'setInitialData', payload: service });
-  //   }
-  // }, [service]);
+  // bind job data to state
+  const { job: originalData } = useTracker(() => {
+    if (jobId) {
+      const sub = Meteor.subscribe('id.jobs', jobId)
+      return {
+        loading: !sub.ready(),
+        job: Jobs.findOne({ _id: jobId }),
+      }
+    }
+    return {}
+  }, [jobId])
 
   const setActiveStep = (stepKey) => {
     if (!mounted.current) {
@@ -179,134 +189,16 @@ export const ServiceProvider = ({ children }) => {
     return setStepProperty({ stepKey: stepKeys[stepKeyIndex], property, value })
   }
 
-  const capitalize = function (str) {
-    if (!str) return
-    return str
-      .toLowerCase()
-      .split(' ')
-      .map((x) => x[0].toUpperCase() + x.slice(1))
-      .join(' ')
-  }
-
   const createPdf = () => {
     const serviceItems = state.steps.service.data.items
     const bikeDetails = state.steps.bike.data.details
     const contactData = state.steps.contact.data
     const pickup = state.steps.pickup.data.pickup
-    const totalCost = serviceItems.reduce((a, b) => {
-      return a + b.price
-    }, 0)
 
-    const serviceItemNames = serviceItems.map((item) => {
-      return [
-        {
-          text: item.name,
-          align: 'right',
-          colSpan: 3,
-        },
-        {},
-        {},
-        {
-          image: item.code ? item.code : 'O',
-          width: 60,
-          height: 21,
-          alignment: 'center',
-        },
-      ]
-    })
-
-    const tempBike = pickup.replacementBike
-      ? 'A temporary bike has been provided to this customer.'
-      : ''
-    const isUrgent = pickup.urgent
-      ? `URGENT: This request must be completed by ${pickup.pickupDate}`
-      : `Pickup Date: ${pickup.pickupDate}`
-
-    PdfMaker({
-      contents: [
-        {
-          text: `${capitalize(bikeDetails.make)} ${bikeDetails.model} - ${capitalize(
-            bikeDetails.color
-          )} - Total Price $${totalCost / 100}`,
-          style: 'subheader',
-          fontSize: 20,
-        },
-        {
-          text: `Owner:   ${capitalize(
-            contactData.memberData?.name || 'Refurbish'
-          )}     email: ${contactData.memberData?.email || 'N/A'}     Ph: ${
-            contactData.memberData?.mobile || 'N/A'
-          }`,
-        },
-
-        // { text: `Assessor: ${assessor} `, style: 'text' },
-        { text: `${isUrgent} `, style: 'text', bold: true },
-        { text: '', style: 'text' },
-
-        {
-          table: {
-            widths: [240, 80, 80, 80],
-            heights: 18,
-            headerRows: 2,
-            // keepWithHeaderRows: 1,
-            body: [
-              [
-                {
-                  text: 'Service',
-                  style: 'tableHeader',
-                  colSpan: 3,
-                  alignment: 'center',
-                },
-                {},
-                {},
-                {
-                  text: 'Done?',
-                  alignment: 'center',
-                },
-              ],
-              ...serviceItemNames,
-              [
-                { text: '', style: 'tableHeader', colSpan: 4, alignment: 'center' },
-                {},
-                {},
-                {},
-              ],
-              [
-                {
-                  text: 'Other Items',
-                  style: 'tableHeader',
-                  alignment: 'center',
-                  colSpan: 3,
-                },
-                {},
-                {},
-                { text: 'Done?', alignment: 'center' },
-              ],
-              // ...servicePartNames,
-              [
-                { text: '', style: 'tableHeader', colSpan: 3, alignment: 'center' },
-                {},
-                {},
-                {},
-              ],
-              [
-                { text: 'Notes', style: 'tableHeader', colSpan: 4, alignment: 'center' },
-                {},
-                {},
-                {},
-              ],
-              // [{ text: comment, colSpan: 4 }, '', '', ''],
-            ],
-          },
-        },
-        {
-          text: tempBike,
-        },
-      ],
-    })
+    createJobCard({ serviceItems, bikeDetails, contactData, pickup })
   }
 
-  const createJob = () => {
+  const createJob = (quick = false) => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
@@ -329,41 +221,60 @@ export const ServiceProvider = ({ children }) => {
       delete contactData.selectedMember?.history
       delete contactData.memberData?.history
     }
-    Meteor.call(
-      'jobs.create',
-      {
-        serviceItems: state.steps.service.data.items,
-        bikeDetails: state.steps.bike.data.details,
-        hasMember: contactData.hasMember,
-        selectedMember: contactData.selectedMember,
-        memberData: contactData.memberData,
-        pickup: state.steps.pickup.data.pickup,
-      },
-      (error, result) => {
-        if (mounted.current) {
-          dispatch({ type: 'setLoading', payload: false })
-        }
-        if (error) {
-          showError(error.message)
-        }
-        if (result) {
-          if (result.status === 'success') {
-            showSuccess('Job created successfully')
-            // push(`/jobs/${result.id}`)
-            // create pdf now?
+
+    const data = {
+      serviceItems: state.steps.service.data.items,
+      assessor: state.steps.service.data.assessor,
+      note: state.steps.service.data.note,
+      bikeDetails: state.steps.bike.data.details,
+      hasMember: contactData.hasMember,
+      selectedMember: contactData.selectedMember,
+      memberData: contactData.memberData,
+      pickup: state.steps.pickup.data.pickup,
+    }
+
+    if (originalData) {
+      data.jobId = originalData._id
+    }
+
+    Meteor.call(originalData ? 'jobs.update' : 'jobs.create', data, (error, result) => {
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', payload: false })
+      }
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'success') {
+          showSuccess(`Job ${originalData ? 'updated' : 'created'} successfully`)
+          // push(`/jobs/${result.id}`)
+          // create pdf now?
+          if (quick === false) {
             createPdf()
-          } else {
-            showError(`Error creating job: ${result.message}`)
           }
+
+          if (originalData) {
+            // redirect to job details
+            push(`/services/${originalData._id}`)
+          } else {
+            // redirect to jobs listing
+            push('/services')
+          }
+        } else {
+          showError(
+            `Error ${originalData ? 'updating' : 'creating'} job: ${result.message}`
+          )
         }
       }
-    )
+    })
   }
 
   return (
     <ServiceContext.Provider
       value={{
         ...state,
+        jobId,
+        originalData,
         setActiveStep,
         goNext,
         goBack,

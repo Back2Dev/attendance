@@ -18,7 +18,7 @@ const sendEmail = async (params) => {
       html: params.body,
       subject: params.template_name,
       from_email: 'do-not-reply@mydomain.com.au', // TODO - Use a personal email
-      from_name: 'Settle Easy',
+      from_name: 'Startup Inc.',
       to: [
         {
           email: params.recipient,

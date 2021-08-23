@@ -28,8 +28,8 @@ const StyledPickupStep = styled.div`
 `
 
 const pickupFormSchema = new SimpleSchema({
-  dropOffDate: { type: Date, defaultValue: moment().format('YYYY-MM-DD') },
-  pickupDate: { type: Date, defaultValue: moment().add(3, 'days').format('YYYY-MM-DD') },
+  dropOffDate: Date,
+  pickupDate: Date,
   replacementBike: { type: String, optional: true },
   urgent: {
     type: Boolean,
@@ -51,25 +51,59 @@ function pickupStepReducer(state, action) {
 
 function PickupStep({ initialData }) {
   const [state, dispatch] = useReducer(pickupStepReducer, {
-    pickup: initialData?.pickup || { urgent: false },
+    pickup: initialData?.pickup || {
+      dropOffDate: moment().format('YYYY-MM-DD'),
+      pickupDate: moment().add(7, 'days').format('YYYY-MM-DD'),
+      urgent: false,
+    },
     updatedAt: null,
     hasValidData: false,
     checkedAt: null,
   })
 
-  const { setStepData, activeStep, goBack, setStepProperty, createJob } = useContext(
-    ServiceContext
-  )
+  const {
+    setStepData,
+    activeStep,
+    goBack,
+    setStepProperty,
+    createJob,
+    originalData,
+  } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
+
+  const mounted = useRef(true)
+  useEffect(
+    () => () => {
+      mounted.current = false
+    },
+    []
+  )
 
   const { pickup, hasValidData, checkedAt, updatedAt } = state
 
   const checkData = async () => {
     const checkResult = await formRef.current?.validateModel(pickup)
-    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    if (mounted.current) {
+      dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    }
     return checkResult === null
   }
+
+  useEffect(() => {
+    if (originalData) {
+      dispatch({
+        type: 'setPickup',
+        payload: {
+          dropOffDate: moment(originalData.dropoffDate).format('YYYY-MM-DD'),
+          pickupDate: moment(originalData.pickupDate).format('YYYY-MM-DD'),
+          replacementBike: originalData.replacementBike,
+          urgent: originalData.urgent,
+        },
+      })
+      dispatch({ type: 'setHasValidData', payload: true })
+    }
+  }, [originalData])
 
   useEffect(() => {
     if (activeStep !== 'pickup' || !updatedAt) {
@@ -83,9 +117,9 @@ function PickupStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
-    if (activeStep !== 'pickup') {
-      return
-    }
+    // if (activeStep !== 'pickup') {
+    //   return
+    // }
     setStepData({
       stepKey: 'pickup',
       data: {
@@ -116,7 +150,7 @@ function PickupStep({ initialData }) {
   }
 
   if (activeStep !== 'pickup') {
-    return null
+    // return null
   }
 
   const classes = ['pickupstep-item-form']
@@ -125,7 +159,7 @@ function PickupStep({ initialData }) {
   }
 
   return (
-    <StyledPickupStep>
+    <StyledPickupStep style={{ display: activeStep !== 'pickup' ? 'none' : 'block' }}>
       <div className={classes.join(' ')}>
         <div className="form-container">
           <AutoForm

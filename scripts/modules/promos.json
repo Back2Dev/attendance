@@ -1,0 +1,5 @@
+{
+  "collection": "Promos",
+  "fields": "code description discout admin start expires",
+  "generate": "CRUD"
+}

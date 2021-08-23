@@ -10,7 +10,7 @@ import SimpleSchema from 'simpl-schema'
 
 // import { checkSuperAdmin } from '/imports/api/util-auth';
 
-const debug = _debug('b2b:validator')
+const debug = _debug('app:validator')
 
 const collectionSchemaMap = {}
 

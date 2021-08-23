@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import moment from 'moment'
@@ -8,8 +7,7 @@ import { MyThemeProvider } from '/imports/ui/contexts/theme-context.js'
 import { LayoutProvider } from '/imports/ui/contexts/layout-context.js'
 import ErrorBoundary from '/imports/ui/error-boundary'
 import { ConfirmProvider } from '/imports/ui/components/commons/confirm-box.js'
-import { ToastContainer } from 'react-toastify'
-import LiveChat from 'react-livechat'
+import Plugins from '/imports/ui/plugins'
 
 import MainRoute from './routes'
 // This is for tabulator's benefit
@@ -19,7 +17,7 @@ const App = () => {
   const layout = 'default'
   return (
     <Router>
-      <ToastContainer></ToastContainer>
+      <Plugins />
       <ErrorBoundary>
         <MyThemeProvider>
           <AccountProvider>
@@ -31,9 +29,6 @@ const App = () => {
               </ErrorBoundary>
             </LayoutProvider>
           </AccountProvider>
-          {Meteor.settings.public.LIVECHAT && (
-            <LiveChat license={Meteor.settings.public.LIVECHAT} />
-          )}
         </MyThemeProvider>
       </ErrorBoundary>
     </Router>

@@ -1,0 +1,5 @@
+{
+  "collection": "Profiles",
+  "fields": "name code docdir emaildir accountNo hin",
+  "generate": "CRUD"
+}

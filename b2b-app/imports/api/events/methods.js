@@ -8,12 +8,14 @@ import Events, {
   MemberItemSchema,
   CourseItemSchema,
 } from './schema'
-const debug = require('debug')('b2b:events')
+import moment from 'moment'
+const debug = require('debug')('app:events')
 
 Meteor.methods({
   /**
    * Cancel booked session
-   * @param {String} sessionId
+   * @param {Object} params
+   * @param {String} params.sessionId
    * @returns {Object} result
    * @returns {String} result.status
    * @returns {String} result.message
@@ -95,8 +97,9 @@ Meteor.methods({
   },
   /**
    * Book an event
-   * @param {String} eventId
-   * @param {String} toolId
+   * @param {Object} params
+   * @param {String} params.eventId
+   * @param {String} params.toolId
    * @returns {Object} result
    * @returns {String} result.status
    * @returns {String} result.message
@@ -205,9 +208,42 @@ Meteor.methods({
 
     return { status: 'success', sessionId }
   },
-  'rm.events': (id) => {
+  'rm.events'({ id, recurring }) {
+    const eventToDelete = Events.findOne({ _id: id })
+    if (!eventToDelete) {
+      return {
+        status: 'failed',
+        message: `Event was not found with id ${id}`,
+      }
+    }
+
     try {
       const n = Events.remove(id)
+
+      if (n) {
+        const theRef = eventToDelete.repeat?.ref
+          ? eventToDelete.repeat.ref
+          : eventToDelete._id
+
+        switch (recurring) {
+          case 'this':
+            // delete this event only, then do nothing
+            break
+          case 'all':
+            Events.remove({
+              $or: [{ 'repeat.ref': theRef }, { _id: theRef }],
+            })
+            // update all events in this series
+            break
+          case 'furture':
+            // update furture events
+            Events.remove({ 'repeat.ref': theRef, when: { $gt: eventToDelete.when } })
+            break
+          default:
+            break
+        }
+      }
+
       return { status: 'success', message: 'Removed event' }
     } catch (e) {
       return {
@@ -216,7 +252,7 @@ Meteor.methods({
       }
     }
   },
-  'update.events': (form) => {
+  'update.events'({ form, recurring }) {
     try {
       const id = form._id
       delete form._id
@@ -247,6 +283,60 @@ Meteor.methods({
         }
       }
 
+      if (n && recurring) {
+        const updatedEvent = Events.findOne({ _id: id })
+        debug(recurring, updatedEvent)
+        const {
+          _id,
+          when,
+          members,
+          repeat,
+          created,
+          updated,
+          ...updateData
+        } = updatedEvent
+
+        const theRef = updatedEvent.repeat?.ref
+          ? updatedEvent.repeat.ref
+          : updatedEvent._id
+
+        // todo: update event time
+
+        switch (recurring) {
+          case 'this':
+            // update this event only, then do nothing
+            break
+          case 'all':
+            Events.update(
+              {
+                $or: [{ 'repeat.ref': theRef }, { _id: theRef }],
+              },
+              {
+                $set: updateData,
+              },
+              {
+                multi: true,
+              }
+            )
+            // update all events in this series
+            break
+          case 'furture':
+            // update furture events
+            Events.update(
+              { 'repeat.ref': theRef, when: { $gt: when } },
+              {
+                $set: updateData,
+              },
+              {
+                multi: true,
+              }
+            )
+            break
+          default:
+            break
+        }
+      }
+
       return { status: 'success', message: `Updated ${n} event(s)` }
     } catch (e) {
       return {
@@ -255,7 +345,7 @@ Meteor.methods({
       }
     }
   },
-  'insert.events': (form) => {
+  'insert.events'({ form }) {
     try {
       const id = Events.insert(form)
 
@@ -285,7 +375,66 @@ Meteor.methods({
         }
       }
 
-      return { status: 'success', message: 'Added event' }
+      // handle event recurring
+      if (form.repeat?.factor) {
+        const insertedEvent = Events.findOne({ _id: id })
+        delete insertedEvent._id
+
+        const { factor, every, dow, dom, util } = form.repeat
+        // create future events
+        let theEventDay
+        let theEventWeek
+        switch (factor) {
+          case 'day':
+          case 'month':
+          case 'year': {
+            theEventDay = moment(form.when).add(every, factor).toDate()
+            while (theEventDay < util) {
+              // create event
+              console.log({ theEventDay })
+              Events.insert({
+                ...insertedEvent,
+                when: theEventDay,
+                repeat: {
+                  ...insertedEvent.repeat,
+                  ref: id,
+                },
+              })
+
+              // then calculate the next event
+              theEventDay = moment(theEventDay).add(every, factor).toDate()
+            }
+            break
+          }
+          case 'week': {
+            if (dow.length === 0) {
+              break
+            }
+            theEventWeek = moment(form.when).toDate()
+            while (theEventWeek < util) {
+              dow.map((theDay) => {
+                theEventDay = moment(theEventWeek).day(theDay).toDate()
+                if (theEventDay < util && theEventDay > form.when) {
+                  // create event
+                  console.log({ theEventDay }, moment(theEventDay).day())
+                  Events.insert({
+                    ...insertedEvent,
+                    when: theEventDay,
+                    repeat: {
+                      ...insertedEvent.repeat,
+                      ref: id,
+                    },
+                  })
+                }
+              })
+              theEventWeek = moment(theEventWeek).add(every, factor).toDate()
+            }
+            break
+          }
+        }
+      }
+
+      return { status: 'success', message: 'Added event', id }
     } catch (e) {
       return {
         status: 'failed',

@@ -1,3 +1,4 @@
+/* global Roles */
 import { Meteor } from 'meteor/meteor'
 import { Session } from 'meteor/session'
 import React from 'react'
@@ -36,6 +37,7 @@ export const AccountProvider = (props) => {
     loading,
     loadingMember,
     user,
+    roles: Roles.getRolesForUser(user),
     member,
     viewas: Session.get('viewas'),
   }
@@ -50,7 +52,7 @@ export const AccountProvider = (props) => {
     if (!user) {
       return { status: 'failed', message: 'Please login' }
     }
-    const hasRole = user.roles.some((item) => item._id === role)
+    const hasRole = Roles.userIsInRole(user, [role])
     if (!hasRole) {
       return { status: 'failed', message: `The role ${role} is not available` }
     }

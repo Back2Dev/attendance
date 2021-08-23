@@ -87,11 +87,6 @@ const ListUsers = (props) => {
   const usersOnCellEdited = (cell) => {
     const newUser = { ...cell._cell.row.data }
     if (newUser.roles) {
-      newUser.roles = newUser.roles.map((role) => ({
-        _id: role,
-        scope: null,
-        assigned: true,
-      }))
       if (cell._cell.column.field === 'emails') {
         newUser.oldValue = cell._cell.oldValue
       }

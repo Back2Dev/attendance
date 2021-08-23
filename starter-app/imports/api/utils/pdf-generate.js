@@ -2,7 +2,7 @@ import { PDFDocument } from 'pdf-lib'
 import { Meteor } from 'meteor/meteor'
 import moment from 'moment'
 
-const debug = require('debug')('b2b:generate-pdf')
+const debug = require('debug')('app:generate-pdf')
 
 export const generatePDF = async ({ data, signatures, type, template, fieldTypes }) => {
   try {

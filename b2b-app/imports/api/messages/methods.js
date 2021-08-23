@@ -124,4 +124,16 @@ Meteor.methods({
       }
     }
   },
+  'fetch.messages'() {
+    try {
+      const data = Messages.find({}).fetch()
+      return { status: 'success', data }
+    } catch (e) {
+      logger.error(`Error fetching messages: ${e.message}`)
+      return {
+        status: 'failed',
+        message: `Error fetching messages: ${e.message}`,
+      }
+    }
+  },
 })

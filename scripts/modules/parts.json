@@ -1,0 +1,5 @@
+{
+  "collection": "Parts",
+  "fields": "imageUrl retailPrice wholesalePrice partNo name barcode status",
+  "generate": "CRUD"
+}

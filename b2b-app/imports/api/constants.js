@@ -1,6 +1,7 @@
 // constants.js
 //
 // This file contains constants to be used within the app
+//
 
 const CONSTANTS = {}
 
@@ -10,6 +11,7 @@ CONSTANTS.ROLES = {
   MEM: 'Member',
   COA: 'Coach',
   GRE: 'Greeter',
+  MEC: 'Mechanic',
 }
 
 // Notificaton roles adds a 'USR' role, for the current user
@@ -57,6 +59,12 @@ CONSTANTS.DEFAULT_AVATAR = '/images/default-avatar.png'
 // Use this message if no event was specified - it emails ADM, so that we get to know about it
 CONSTANTS.UNKNOWN_EVENT = 'unknown-event'
 
+CONSTANTS.EVENT_STATUS = {
+  active: 'Active',
+  cancelled: 'Cancelled',
+  deleted: 'Deleted',
+}
+
 // Consider to move these badges to a database collection
 // We may have a badge for every event? or monthly badge?
 CONSTANTS.BADGES = [
@@ -95,12 +103,33 @@ CONSTANTS.BADGES = [
 ]
 
 CONSTANTS.JOB_STATUS_READABLE = {
-  1: 'New',
-  2: 'In Progress',
-  3: 'Quality Check',
-  4: 'Ready for Pick Up',
-  5: 'Picked Up',
-  6: 'Cancelled',
+  new: 'New',
+  'in-progress': 'In Progress',
+  'quality-check': 'Quality Check',
+  ready: 'Ready for Pick Up',
+  // 'picked-up': 'Picked Up',
+  cancelled: 'Cancelled',
+  completed: 'Completed',
+}
+
+CONSTANTS.JOB_STATUS_MAPPING = {
+  new: [{ next: 'in-progress', label: 'Start' }],
+  'in-progress': [
+    { next: 'quality-check', label: 'Quality Check' },
+    { next: 'cancelled', label: 'Cancel' },
+  ],
+  'quality-check': [
+    { next: 'in-progress', label: 'In Progress' },
+    { next: 'ready', label: 'Ready' },
+  ],
+  ready: [
+    // { next: 'picked-up', label: 'Picked Up' },
+    { next: 'quality-check', label: 'Check again' },
+    { next: 'completed', label: 'Complete' },
+  ],
+  // 'picked-up': [],
+  cancelled: [{ next: 'in-progress', label: 'Re-open' }],
+  completed: [{ next: 'in-progress', label: 'Re-open' }],
 }
 
 export default CONSTANTS
