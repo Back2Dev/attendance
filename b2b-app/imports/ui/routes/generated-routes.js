@@ -8,7 +8,7 @@ import Loading from '/imports/ui/components/commons/loading.js'
 
 // Generated lazy imports go here...
 const SettingsList = lazy(() => import('/imports/ui/admin/settings/lister.js'))
-const UserList = lazy(() => import('/imports/ui/admin/users'))
+const UserList = lazy(() => import('/imports/ui/admin/users/lister'))
 const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
 const Courses = lazy(() => import('/imports/ui/admin/courses'))
 const Tools = lazy(() => import('/imports/ui/admin/tools'))
