@@ -8,7 +8,7 @@ import Loading from '/imports/ui/components/commons/loading.js'
 
 // Generated lazy imports go here...
 const SettingsList = lazy(() => import('/imports/ui/admin/settings/lister.js'))
-const UserList = lazy(() => import('/imports/ui/admin/users/lister'))
+const Users = lazy(() => import('/imports/ui/admin/users'))
 const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
 const Courses = lazy(() => import('/imports/ui/admin/courses'))
 const Tools = lazy(() => import('/imports/ui/admin/tools'))
@@ -17,10 +17,8 @@ const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 
 const Audits = lazy(() => import('/imports/ui/admin/audits/lister.js'))
 const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs/lister.js'))
-const Triggers = lazy(() => import('/imports/ui/admin/triggers/lister.js'))
-const MessageTemplates = lazy(() =>
-  import('/imports/ui/admin/message-templates/lister.js')
-)
+const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
+const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
 const Members = lazy(() => import('/imports/ui/admin/members/lister.js'))
 const Settings = lazy(() => import('/imports/ui/admin/settings/lister.js'))
 const Surveys = lazy(() => import('/imports/ui/admin/surveys/lister.js'))
@@ -40,8 +38,8 @@ export default GeneratedRoute = () => {
         {/** Generated routes go here */}
         <Route path="/admin/audits" exact component={Audits} />
         <Route path="/admin/cronjobs" exact component={Cronjobs} />
-        <Route path="/admin/triggers" exact component={Triggers} />
-        <Route path="/admin/message-templates" exact component={MessageTemplates} />
+        <Route path="/admin/triggers" component={Triggers} />
+        <Route path="/admin/message-templates" component={MessageTemplates} />
         <Route path="/admin/members" exact component={Members} />
         <Route path="/admin/settings" exact component={Settings} />
         <Route path="/admin/surveys" exact component={Surveys} />
@@ -52,7 +50,7 @@ export default GeneratedRoute = () => {
         <Route path="/admin/service-items" exact component={ServiceItems} />
         <Route path="/admin/jobs" exact component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
-        <Route path="/admin/users" exact component={UserList} />
+        <Route path="/admin/users" component={Users} />
         <Route path="/admin/calendar" component={EventCalendar} />
         <Route path="/admin/registrations" component={Registrations} />
       </Switch>
