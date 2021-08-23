@@ -18,7 +18,7 @@ Meteor.publish('events.byDateRange', function ({ start, end }) {
   }
 
   return Events.find({
-    active: true,
+    status: { $in: ['active', 'cancelled'] },
     $and: [{ when: { $gte: start } }, { when: { $lte: end } }],
   })
 })
@@ -33,7 +33,7 @@ Meteor.publish('events.byIds', function (eventIds) {
   }
   return Events.find({
     _id: { $in: eventIds },
-    active: true,
+    status: { $in: ['active', 'cancelled'] },
   })
 })
 
@@ -43,7 +43,7 @@ Meteor.publish('events.byId', function (eventId) {
   }
   return Events.find({
     _id: eventId,
-    active: true,
+    status: { $in: ['active', 'cancelled'] },
   })
 })
 
@@ -53,7 +53,7 @@ Meteor.publish('id.events', function (eventId) {
   }
   return Events.find({
     _id: eventId,
-    active: true,
+    status: { $in: ['active', 'cancelled'] },
   })
 })
 
@@ -64,7 +64,7 @@ Meteor.publish('future.events', function () {
   const currentMember = Members.findOne({ userId: this.userId })
 
   const events = Events.find({
-    active: true,
+    status: { $in: ['active', 'cancelled'] },
     when: { $gt: new Date() },
   })
 

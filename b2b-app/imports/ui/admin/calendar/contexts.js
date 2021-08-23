@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -23,6 +23,12 @@ export const CalendarProvider = (props) => {
     start: null,
     end: null,
   })
+
+  const timeZoneOffset = useMemo(() => {
+    const date = new Date()
+    console.log('timezone offset', date.getTimezoneOffset())
+    return date.getTimezoneOffset()
+  }, [])
 
   const { loadingEvents, events = [] } = useTracker(() => {
     const sub = Meteor.subscribe('events.byDateRange', {
@@ -97,6 +103,7 @@ export const CalendarProvider = (props) => {
         setDateRange,
         loadingEvents,
         events,
+        timeZoneOffset,
         formOpen,
         setFormOpen,
         selectedDate,

@@ -59,6 +59,12 @@ CONSTANTS.DEFAULT_AVATAR = '/images/default-avatar.png'
 // Use this message if no event was specified - it emails ADM, so that we get to know about it
 CONSTANTS.UNKNOWN_EVENT = 'unknown-event'
 
+CONSTANTS.EVENT_STATUS = {
+  active: 'Active',
+  cancelled: 'Cancelled',
+  deleted: 'Deleted',
+}
+
 // Consider to move these badges to a database collection
 // We may have a badge for every event? or monthly badge?
 CONSTANTS.BADGES = [
