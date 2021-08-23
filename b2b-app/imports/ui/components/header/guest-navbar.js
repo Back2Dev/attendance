@@ -140,7 +140,7 @@ export default function UserNavbar() {
     <AppBar position="static" className={classes.appBar}>
       <Toolbar>
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <img className={classes.logo} src="/images/logo.png" alt="Startup Inc logo" />
+          <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
         </Link>
         {guestMenu &&
           guestMenu.map((item, index) => {

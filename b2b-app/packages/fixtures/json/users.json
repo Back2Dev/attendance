@@ -11,14 +11,14 @@
     "name": "Mike King",
     "username": "mike.king@mydomain.com.au",
     "email": "mike.king@mydomain.com.au",
-    "roles": ["ADM", "CON"],
+    "roles": ["ADM", "MEM", "COA"],
     "se": true
   },
   {
     "name": "Minh Nguyen",
     "username": "minh.nguyen@mydomain.com.au",
     "email": "minh.nguyen@mydomain.com.au",
-    "roles": ["ADM"],
+    "roles": ["ADM", "MEM"],
     "se": true
   },
   {

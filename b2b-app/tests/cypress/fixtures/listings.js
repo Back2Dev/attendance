@@ -34,7 +34,7 @@ module.exports = {
         type: 'cdc',
         surveyId: 'xxx',
         formData: {
-          'practice-name': 'Startup Inc NSW',
+          'practice-name': 'Back2bikes NSW',
           'practice-license': '001632L',
           'practice-address': '1 George St, Sydney, NSW 2000',
           'practice-abn': '20 625 000 651',

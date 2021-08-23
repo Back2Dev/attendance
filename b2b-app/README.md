@@ -1,4 +1,4 @@
-# Startup Inc - New server and front end (combined)
+# Back2bikes - New server and front end (combined)
 
 ## Getting Started
 

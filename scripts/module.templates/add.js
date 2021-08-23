@@ -9,7 +9,7 @@ import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
 
 const schemaBridge = config.edit.schema
-const debug = require('debug')('target:add')
+const debug = require('debug')('app:add')
 
 const Add = ({ item, methods }) => {
   const save = (model) => {
