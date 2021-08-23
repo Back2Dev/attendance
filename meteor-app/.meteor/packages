@@ -41,3 +41,5 @@ meteorhacks:aggregate
 accounts-password@1.7.0
 alanning:roles@2.1.0
 rocketchat:streamer
+fixtures
+dburles:mongo-collection-instances
