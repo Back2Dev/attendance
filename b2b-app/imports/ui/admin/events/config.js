@@ -7,8 +7,9 @@ import {
   // OptionalBlackbox,
   // OptionalInteger,
 } from '/imports/api/utils/schema-util'
+import CONSTANTS from '/imports/api/constants.js'
 
-import { ToolItemSchema } from '/imports/api/events/schema.js'
+import { ToolItemSchema, RepeatSchema } from '/imports/api/events/schema.js'
 
 // const dateFormat = {
 //   inputFormat: 'DD/MM/YY hh:mm',
@@ -33,17 +34,6 @@ const editSchema = new SimpleSchema({
   'description.$': String,
   courseId: OptionalRegExId,
   backupCourseId: OptionalRegExId,
-  type: {
-    type: String,
-    allowedValues: ['day', 'monthly', 'once', 'fallback'],
-  },
-  days: {
-    type: Array,
-    optional: true,
-  },
-  'days.$': {
-    type: SimpleSchema.Integer,
-  },
   location: {
     type: String,
     label: 'Location',
@@ -53,8 +43,14 @@ const editSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  active: {
-    type: Boolean,
+  repeat: {
+    type: RepeatSchema,
+    optional: true,
+  },
+  status: {
+    type: String,
+    allowedValues: Object.keys(CONSTANTS.EVENT_STATUS),
+    defaultValue: 'active',
   },
   duration: {
     type: SimpleSchema.Integer,
@@ -96,10 +92,10 @@ const config = {
   add: {
     defaultObject: {
       name: 'Untitled',
-      description: 'Description',
+      description: [],
       location: 'Location',
       type: 'day',
-      active: false,
+      status: 'active',
       duration: 0,
       price: 0,
     },

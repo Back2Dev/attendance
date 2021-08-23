@@ -10,7 +10,7 @@ const s3config = new aws.Config({
   region: Meteor.settings.private.S3_REGION,
 })
 
-const debug = require('debug')('b2b:workflow-utils')
+const debug = require('debug')('app:workflow-utils')
 
 const s3 = new aws.S3(s3config)
 

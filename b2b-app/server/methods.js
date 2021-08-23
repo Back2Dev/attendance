@@ -3,7 +3,7 @@ import CONSTANTS from '/imports/api/constants'
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 //
-// Importing the data api's makes sure collections are set up properly.
+// Importing the data api's makes  sure collections are set up properly.
 //
 import MessageTemplates from '/imports/api/message-templates/schema'
 import { sendMessages } from '/imports/api/messages/functions'

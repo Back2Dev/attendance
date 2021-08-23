@@ -24,6 +24,9 @@ const Sessions = lazy(() => import('/imports/ui/admin/sessions/lister.js'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items/lister.js'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs/lister.js'))
 const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Users = lazy(() => import('/imports/ui/admin/users/lister'))
+const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
+const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
 
 //
 // This file contains a list of routes for database admin pages
@@ -35,19 +38,22 @@ export default GeneratedRoute = () => {
       <Switch>
         {/** Generated routes go here */}
         <Route path="/admin/audits" exact component={Audits} />
-        <Route path="/admin/cronjobs" exact component={Cronjobs} />
-        <Route path="/admin/triggers" exact component={Triggers} />
-        <Route path="/admin/message-templates" exact component={MessageTemplates} />
         <Route path="/admin/members" exact component={Members} />
-        <Route path="/admin/settings" exact component={Settings} />
-        <Route path="/admin/surveys" exact component={Surveys} />
-        <Route path="/admin/events" exact component={Events} />
-        <Route path="/admin/courses" exact component={Courses} />
-        <Route path="/admin/tools" exact component={Tools} />
-        <Route path="/admin/sessions" exact component={Sessions} />
         <Route path="/admin/service-items" exact component={ServiceItems} />
         <Route path="/admin/jobs" exact component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
+        <Route path="/admin/message-templates" component={MessageTemplates} />
+        <Route path="/admin/settings" exact component={Settings} />
+        <Route path="/admin/users" exact component={Users} />
+        <Route path="/admin/cronjobs" component={Cronjobs} />
+        <Route path="/admin/triggers" component={Triggers} />
+        <Route path="/admin/surveys" component={Surveys} />
+        <Route path="/admin/events" component={Events} />
+        <Route path="/admin/calendar" component={EventCalendar} />
+        <Route path="/admin/courses" component={Courses} />
+        <Route path="/admin/tools" component={Tools} />
+        <Route path="/admin/sessions" component={Sessions} />
+        <Route path="/admin/registrations" component={Registrations} />
       </Switch>
     </Suspense>
   )

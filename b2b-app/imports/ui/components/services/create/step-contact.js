@@ -115,14 +115,16 @@ function contactStepReducer(state, action) {
         updatedAt: new Date(),
       }
     case 'deselectMember':
+      // console.log('deselectMember')
       return { ...state, selectedMember: null, memberData: {}, updatedAt: new Date() }
 
     case 'clear':
+      // console.log('clear')
       return {
         ...state,
         foundMembers: [],
         selectedMember: null,
-        memberData: {},
+        // memberData: {},
         updatedAt: new Date(),
       }
     case 'setMemberData':
@@ -172,6 +174,7 @@ function ContactStep() {
   } = state
 
   const checkData = async () => {
+    console.log('checkData', memberData)
     const checkResult = await formRef.current?.validateModel(memberData)
     dispatch({ type: 'setHasValidData', payload: checkResult === null })
     return checkResult === null
@@ -179,7 +182,7 @@ function ContactStep() {
 
   useEffect(() => {
     if (originalData) {
-      console.log('originalData', originalData)
+      // console.log('originalData effect', originalData)
       if (originalData.memberId) {
         dispatch({
           type: 'selectMember',
@@ -202,6 +205,7 @@ function ContactStep() {
     if (activeStep !== 'contact' || !updatedAt) {
       return
     }
+    // console.log('check data effect', memberData)
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -212,6 +216,7 @@ function ContactStep() {
     // if (activeStep !== 'contact') {
     //   return
     // }
+    // console.log('checkedAt effect')
     setStepData({
       stepKey: 'contact',
       data: {
@@ -410,8 +415,10 @@ function ContactStep() {
     return (
       <>
         <SearchBox
+          defaultValue={memberData?.name}
           onChange={(value) => searchMember(value)}
           placeholder="search existing member"
+          autoTrigger
         />
         <Paper elevation={3} className="matches-container">
           <Loading loading={searching} />

@@ -4,7 +4,7 @@ import { connectField } from 'uniforms'
 import { AutoForm, AutoField, TextField, LongTextField } from 'uniforms-material'
 import JSONField from '/imports/ui/components/forms/json-field'
 
-const debug = require('debug')('b2b:forms')
+const debug = require('debug')('app:forms')
 
 const myComponent = ({ fieldType }) => {
   if (fieldType.name === 'Object') return JSONField

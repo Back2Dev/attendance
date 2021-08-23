@@ -18,7 +18,7 @@ import { createLog, createAudit } from '/imports/lib/log'
 
 import { version } from '/imports/api/version'
 
-const debug = require('debug')('b2b:log')
+const debug = require('debug')('app:log')
 
 const environment = (Meteor.settings.env && Meteor.settings.env.environment) || 'unknown'
 if (!environment) {

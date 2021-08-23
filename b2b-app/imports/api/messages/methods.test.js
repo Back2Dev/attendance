@@ -8,10 +8,6 @@ import './methods'
 import { use, expect } from 'chai'
 import assertArrays from 'chai-arrays'
 
-// import { notifyPayload } from './schema'
-// import Members from '/imports/api/members/schema.js'
-// import Factory from '/imports/test/factories'
-
 use(assertArrays)
 
 const debug = require('debug')('app:messages:test')

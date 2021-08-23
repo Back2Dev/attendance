@@ -12,17 +12,17 @@ import { schemaBridge } from './edit-schema'
 
 const debug = require('debug')('se:add')
 
-const Add = ({  item, methods }) => {
+const Add = ({ item, methods }) => {
   const save = (model) => {
     try {
-      methods.save( model)
+      methods.save(model)
     } catch (e) {
       alert(`Save error ${e.message}`)
     }
   }
-  const [data, SetData] = React.useState({})
+  const [data, setData] = React.useState({})
   const [previewHTML, setPreviewHTML] = React.useState('')
-  React.useEffect(() => SetData(item), [item])
+  React.useEffect(() => setData(item), [item])
 
   const changed = (model) => {
     if (model.body !== data.body) {
@@ -31,7 +31,7 @@ const Add = ({  item, methods }) => {
         .map((line) => `<p>${line}</p>`)
         .join('\n')
       setPreviewHTML(
-        HTMLTemplate.replace('*|contents|*', html).replace(
+        HTMLTemplate.replace('{{contents}}', html).replace(
           '*|subject|*',
           '--- SUBJECT GOES HERE ---'
         )
@@ -39,7 +39,7 @@ const Add = ({  item, methods }) => {
     }
   }
 
-  const {goBack}=useHistory()
+  const { goBack } = useHistory()
 
   const back = () => {
     goBack()
@@ -64,11 +64,14 @@ const Add = ({  item, methods }) => {
           <LongTextField name="body" style={{ lineHeight: '2' }} />
           <br />
           <br />
-          <Button type="button" onClick={back}>Cancel</Button>&nbsp;&nbsp;
+          <Button type="button" onClick={back}>
+            Cancel
+          </Button>
+          &nbsp;&nbsp;
           <SubmitField variant="contained" color="primary" />
         </AutoForm>
       </Box>
-      {item.type === 'EMAIL' && previewHTML && (
+      {data.type === 'EMAIL' && previewHTML && (
         <Box>
           <Typography variant="h3">Email preview</Typography>
           <Typography

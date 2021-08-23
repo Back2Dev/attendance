@@ -36,7 +36,7 @@ const adminMenus = [
   {
     display: 'Admin',
     id: 'admin',
-    icon: () => <Tune />,
+    icon: <Tune />,
     items: adminItems,
   },
   {

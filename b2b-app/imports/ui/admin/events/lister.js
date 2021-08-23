@@ -20,9 +20,9 @@ const dateFormat = {
   invalidPlaceholder: '',
 }
 
-const remove = (id) => meteorCall('rm.events', 'Deleting', id)
-const update = (form) => meteorCall('update.events', 'updating', form)
-const insert = (form) => meteorCall('insert.events', 'adding', form)
+const remove = (id) => meteorCall('rm.events', 'Deleting', { id })
+const update = (form) => meteorCall('update.events', 'updating', { form })
+const insert = (form) => meteorCall('insert.events', 'adding', { form })
 const add = () => push(`/admin/events/add`)
 const edit = (id) => push(`/admin/events/edit/${id}`)
 const view = (id) => push(`/admin/events/view/${id}`)

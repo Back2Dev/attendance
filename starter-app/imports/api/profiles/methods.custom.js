@@ -3,7 +3,7 @@ import logger from '/imports/lib/log'
 import { Promise } from 'meteor/promise'
 
 import Profiles from '/imports/api/profiles/schema'
-const debug = require('debug')('b2b:profiles')
+const debug = require('debug')('app:profiles')
 // AWS Configs
 const aws = require('aws-sdk')
 const s3config = new aws.Config({
