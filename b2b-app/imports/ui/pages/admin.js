@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import { Grid } from '@material-ui/core'
 import GeneratedRoutes from '/imports/ui/routes/generated-routes'
+import Register from '/imports/ui/admin/register'
 import NotFoundComponent from '/imports/ui/components/commons/not-found.js'
 
 const StyledAdminPage = styled.div``
@@ -22,6 +23,7 @@ function AdminPage() {
       <Grid container>
         <Grid item xs={12}>
           <Switch>
+            <Route path="/admin/register" component={Register} />
             <GeneratedRoutes />
             <Route component={NotFoundComponent} />
           </Switch>

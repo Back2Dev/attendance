@@ -8,4 +8,6 @@ export default [
   { display: 'Courses', link: '/admin/courses' },
   { display: 'Tools', link: '/admin/tools' },
   { display: 'Sessions', link: '/admin/sessions' },
+  { display: 'Register', link: '/admin/register' },
+  { display: 'Registrations', link: '/admin/registrations' },
 ]
