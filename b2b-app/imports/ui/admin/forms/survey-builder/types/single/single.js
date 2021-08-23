@@ -2,11 +2,11 @@ import React from 'react'
 import { atomFamily, useRecoilState } from 'recoil'
 import PropTypes from 'prop-types'
 
-import { partsState, selectedPartState } from '../canvas'
+import { partsState, selectedPartState } from '../../canvas'
 import SingleInner from './inner'
-import Frame from '../frame'
-import { useListControls } from '../hooks'
-import { makeNewItem } from '../hooks/list-controls'
+import Frame from '../../frame'
+import { useListControls } from '../../hooks'
+import { makeNewItem } from '../../hooks/list-controls'
 
 export const defaultAnswer = { label: '', '+val': '' }
 

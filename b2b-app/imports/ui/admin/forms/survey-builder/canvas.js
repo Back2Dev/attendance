@@ -2,7 +2,7 @@ import React from 'react'
 import { atom, useSetRecoilState } from 'recoil'
 import { Box } from '@material-ui/core'
 
-import Single from './single'
+import Single from './types/single'
 import { useListControls } from './hooks'
 
 export const selectedPartState = atom({
@@ -24,7 +24,7 @@ const Canvas = () => {
       position="absolute"
       top={0}
       bottom={0}
-      left="10%"
+      left="20%"
       right="20%"
       border="1px solid lightgrey"
       onClick={() => setSelectedPart(null)}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import {
   RadioButtonUnchecked,
   Delete,
@@ -11,7 +11,7 @@ import styled from 'styled-components'
 
 import PropTypes from 'prop-types'
 
-import InlineEdit from '../inline-edit/edit'
+import InlineEdit from '../../inline-edit/edit'
 
 const StyledItem = styled('li')({
   listStyleType: 'none',
@@ -66,65 +66,73 @@ const Controls = styled('div')((props) => {
 })
 
 /** A radio button with controls to move it up/down and delete. Used by Single component */
-const Item = ({
-  text,
-  placeholder,
-  onTextChange,
-  onRemove,
-  onAdd,
-  onMove,
-  disableMove,
-  disableRemove,
-}) => {
-  const preventFocus = (e) => {
-    // Controls stay visible after user clicks a button and mouse leaves Item. The reason this
-    // happens is because Controls uses the 'focus-within' rule to make it visible. This fixes it by
-    // preventing focus but still allows tabbing to work correctly.
-    e.preventDefault()
-  }
+const Item = forwardRef(
+  (
+    {
+      text,
+      placeholder,
+      onTextChange,
+      onRemove,
+      onAdd,
+      onMove,
+      disableMove,
+      disableRemove,
+      ...otherProps
+    },
+    ref
+  ) => {
+    const preventFocus = (e) => {
+      // Controls stay visible after user clicks a button and mouse leaves Item. The reason this
+      // happens is because Controls uses the 'focus-within' rule to make it visible. This fixes it by
+      // preventing focus but still allows tabbing to work correctly.
+      e.preventDefault()
+    }
 
-  return (
-    <StyledItem>
-      <IconButton size="small" disabled>
-        <RadioButtonUnchecked />
-      </IconButton>
-      <StyledInlineEdit
-        text={text}
-        placeholder={placeholder}
-        onTextChange={onTextChange}
-      />
-      <Controls onMouseDown={preventFocus}>
-        <IconButton
-          size="small"
-          onClick={() => onMove('up')}
-          disabled={disableMove?.('up')}
-          aria-label="move up"
-        >
-          <KeyboardArrowUp />
+    return (
+      <StyledItem ref={ref} {...otherProps}>
+        <IconButton size="small" disabled>
+          <RadioButtonUnchecked />
         </IconButton>
-        <IconButton
-          size="small"
-          onClick={() => onMove('down')}
-          disabled={disableMove?.('down')}
-          aria-label="move down"
-        >
-          <KeyboardArrowDown />
-        </IconButton>
-        <IconButton size="small" onClick={onAdd} aria-label="add">
-          <Add />
-        </IconButton>
-        <IconButton
-          size="small"
-          onClick={onRemove}
-          aria-label="delete"
-          disabled={disableRemove}
-        >
-          <Delete />
-        </IconButton>
-      </Controls>
-    </StyledItem>
-  )
-}
+        <StyledInlineEdit
+          text={text}
+          placeholder={placeholder}
+          onTextChange={onTextChange}
+        />
+        <Controls onMouseDown={preventFocus}>
+          <IconButton
+            size="small"
+            onClick={() => onMove('up')}
+            disabled={disableMove?.('up')}
+            aria-label="move up"
+          >
+            <KeyboardArrowUp />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={() => onMove('down')}
+            disabled={disableMove?.('down')}
+            aria-label="move down"
+          >
+            <KeyboardArrowDown />
+          </IconButton>
+          <IconButton size="small" onClick={onAdd} aria-label="add">
+            <Add />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={onRemove}
+            aria-label="delete"
+            disabled={disableRemove}
+          >
+            <Delete />
+          </IconButton>
+        </Controls>
+      </StyledItem>
+    )
+  }
+)
+
+Item.displayName = 'Item'
 
 Item.propTypes = {
   /** Initial text to show */

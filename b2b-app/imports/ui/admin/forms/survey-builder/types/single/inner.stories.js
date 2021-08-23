@@ -2,16 +2,20 @@ import React from 'react'
 import SingleInner from './inner'
 
 export default {
-  title: 'Survey Builder/Single/Single Inner',
+  title: 'Survey Builder/Types/Single/Single Inner',
   component: SingleInner,
 }
 
 const Template = (args) => <SingleInner {...args} />
 
 export const Default = Template.bind({})
+Default.args = {
+  id: 0,
+}
 
 export const InitialLabel = Template.bind({})
 InitialLabel.args = {
+  ...Default.args,
   initialLabel: 'Label is initialised',
 }
 

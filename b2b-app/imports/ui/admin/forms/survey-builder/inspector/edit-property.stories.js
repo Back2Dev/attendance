@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSetRecoilState } from 'recoil'
-import { singleState } from '../single/single'
+import { singleState } from '../types/single/single'
 import EditProperty from './edit-property'
 
 export default {

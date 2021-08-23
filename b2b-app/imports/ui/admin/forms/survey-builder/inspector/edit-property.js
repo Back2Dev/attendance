@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { selectorFamily, useRecoilState } from 'recoil'
 import { get as lget, set as lset, isPlainObject } from 'lodash'
 import produce from 'immer'
-import { singleState } from '../single/single'
+import { singleState } from '../types/single/single'
 
 /** Edit a property for a single question type */
 export const editPropertyState = selectorFamily({

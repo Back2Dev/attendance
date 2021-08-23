@@ -2,7 +2,7 @@ import React from 'react'
 import Single from '.'
 
 export default {
-  title: 'Survey Builder/Single',
+  title: 'Survey Builder/Types/Single',
   component: Single,
 }
 
