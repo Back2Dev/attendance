@@ -14,6 +14,7 @@ const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
 const Courses = lazy(() => import('/imports/ui/admin/courses'))
 const Tools = lazy(() => import('/imports/ui/admin/tools'))
 const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
+const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 
 export default function GeneratedRoutes() {
   return (
@@ -31,6 +32,7 @@ export default function GeneratedRoutes() {
         <Route path="/admin/courses" component={Courses} />
         <Route path="/admin/tools" component={Tools} />
         <Route path="/admin/sessions" component={Sessions} />
+        <Route path="/admin/registrations" component={Registrations} />
       </Switch>
     </Suspense>
   )
