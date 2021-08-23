@@ -35,7 +35,10 @@ export const SessionDetailsProvider = (props) => {
     if (!session?.eventId) {
       return null
     }
-    return Events.findOne({ _id: session.eventId, active: true })
+    return Events.findOne({
+      _id: session.eventId,
+      status: { $in: ['active', 'cancelled'] },
+    })
   }, [session?.eventId])
 
   return (
