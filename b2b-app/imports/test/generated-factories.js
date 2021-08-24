@@ -23,4 +23,6 @@ import './factory.sessions'
 import './factory.service-items'
 import './factory.jobs'
 import './factory.forms'
+import './factory.registrations'
+import './factory.collections'
 

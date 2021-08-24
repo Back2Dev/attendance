@@ -29,11 +29,12 @@ export const CollectionsSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: true,
   },
-  columns: [
-    {
-      column: ColumnsSchema,
-    },
-  ],
+  columns: {
+    type: Array,
+    optional: true,
+  },
+  'columns.$': ColumnsSchema,
+
   createdAt,
   updatedAt,
 })

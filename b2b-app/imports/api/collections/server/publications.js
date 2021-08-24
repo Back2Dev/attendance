@@ -17,3 +17,14 @@ Meteor.publish('id.collections', (id) => {
     */
   ]
 })
+
+Meteor.publish('name.collections', ({ name, query = {} }) => {
+  // Get a reference to the collection using the name
+  const collection = Mongo.Collection.get(name)
+  return [
+    // Return the meta data from this collection
+    Collections.find({ name }),
+    // Return the data for the target collection
+    collection.find(query),
+  ]
+})
