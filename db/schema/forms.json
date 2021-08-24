@@ -1,0 +1,29 @@
+{
+  "collection": "forms",
+  "generate": "CRUD",
+  "fields": {
+    "name": {
+      "type": "String",
+      "optional": true
+    },
+    "slug": "String",
+    "source": "String",
+    "survey": {
+      "type": "Object",
+      "blackbox": true,
+      "optional": true
+    },
+    "revision": {
+      "type": "Number"
+    },
+    "active": {
+      "type": "Boolean"
+    }
+  },
+  "defaultObject": {
+    "slug": "untitled-1",
+    "name": "Untitled",
+    "source": "Q Personal details\n+type=text\nA Name\n A email\n+type=email",
+    "active": false
+  }
+}

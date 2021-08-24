@@ -1,7 +1,7 @@
 module.exports = [
   {
     body:
-      'Dear Startup Inc Admin, \nA new *|role|* user has been created at Startup Inc. \n*|nickname|* with email address *|email|* was created in the system at *|timestamp|*',
+      'Dear Back2bikes Admin, \nA new *|role|* user has been created at Back2bikes. \n*|nickname|* with email address *|email|* was created in the system at *|timestamp|*',
     name: 'convx-newuser',
     revision: 1,
     slug: 'new-user',
