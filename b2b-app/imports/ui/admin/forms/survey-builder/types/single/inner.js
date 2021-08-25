@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { selectorFamily, useSetRecoilState } from 'recoil'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
+import { useTheme } from '@material-ui/core/styles'
 
 import Item from './item'
 import Question from '../../question'
@@ -43,6 +44,16 @@ const SingleInner = ({ id, initialLabel, initialList }) => {
     initialList
   )
   const setQuestion = useSetRecoilState(singleQuestionState(id))
+  const theme = useTheme()
+
+  const getStyle = (style, snapshot) => {
+    if (!snapshot.isDragging) return style
+    return {
+      ...style,
+      boxShadow: theme.shadows[3],
+      background: theme.palette.background.paper,
+    }
+  }
 
   return (
     <div>
@@ -60,10 +71,11 @@ const SingleInner = ({ id, initialLabel, initialList }) => {
                 index={i}
                 key={c.id}
               >
-                {(provided) => (
+                {(provided, snapshot) => (
                   <Item
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
+                    style={getStyle(provided.draggableProps.style, snapshot)}
                     ref={provided.innerRef}
                     onMove={(direction) => move(i, direction)}
                     onRemove={() => remove(i)}

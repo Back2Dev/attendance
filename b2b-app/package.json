@@ -143,6 +143,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "26.6.3",
     "babel-loader": "8.2.2",
+    "babel-plugin-transform-imports": "2.0.0",
     "chai": "^4.2.0",
     "chai-arrays": "^2.2.0",
     "chromatic": "5.10.0-canary.0",

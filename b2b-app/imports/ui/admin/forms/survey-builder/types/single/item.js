@@ -1,11 +1,5 @@
 import React, { forwardRef } from 'react'
-import {
-  RadioButtonUnchecked,
-  Delete,
-  KeyboardArrowUp,
-  KeyboardArrowDown,
-  Add,
-} from '@material-ui/icons'
+import { RadioButtonUnchecked, Delete, DragIndicator, Add } from '@material-ui/icons'
 import { IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 
@@ -62,23 +56,23 @@ const Controls = styled('div')((props) => {
   return {
     ...hideVisually,
     [`${StyledItem}:hover &, &:focus-within`]: showVisually,
+    '& svg': {
+      verticalAlign: 'middle',
+      fill: props.theme.palette.action.active,
+    },
   }
 })
+
+const DeleteButton = styled(IconButton)((props) => ({
+  '&[disabled] svg': {
+    fill: props.theme.palette.action.disabled,
+  },
+}))
 
 /** A radio button with controls to move it up/down and delete. Used by Single component */
 const Item = forwardRef(
   (
-    {
-      text,
-      placeholder,
-      onTextChange,
-      onRemove,
-      onAdd,
-      onMove,
-      disableMove,
-      disableRemove,
-      ...otherProps
-    },
+    { text, placeholder, onTextChange, onRemove, onAdd, disableRemove, ...otherProps },
     ref
   ) => {
     const preventFocus = (e) => {
@@ -99,33 +93,18 @@ const Item = forwardRef(
           onTextChange={onTextChange}
         />
         <Controls onMouseDown={preventFocus}>
-          <IconButton
-            size="small"
-            onClick={() => onMove('up')}
-            disabled={disableMove?.('up')}
-            aria-label="move up"
-          >
-            <KeyboardArrowUp />
-          </IconButton>
-          <IconButton
-            size="small"
-            onClick={() => onMove('down')}
-            disabled={disableMove?.('down')}
-            aria-label="move down"
-          >
-            <KeyboardArrowDown />
-          </IconButton>
           <IconButton size="small" onClick={onAdd} aria-label="add">
             <Add />
           </IconButton>
-          <IconButton
+          <DeleteButton
             size="small"
             onClick={onRemove}
             aria-label="delete"
             disabled={disableRemove}
           >
             <Delete />
-          </IconButton>
+          </DeleteButton>
+          <DragIndicator />
         </Controls>
       </StyledItem>
     )
@@ -143,12 +122,8 @@ Item.propTypes = {
   onTextChange: PropTypes.func,
   /** function gets called when delete button pressed */
   onRemove: PropTypes.func,
-  /** function gets called when any move button pressed. `(direction: 'up' | 'down') => void` */
-  onMove: PropTypes.func,
   /** function gets called when add button pressed */
   onAdd: PropTypes.func,
-  /** function to determine when to disable move buttons. `(direction: 'up' | 'down') => bool` */
-  disableMove: PropTypes.func,
   /** disable removing choice */
   disableRemove: PropTypes.bool,
 }
