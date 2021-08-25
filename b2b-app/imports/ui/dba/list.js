@@ -63,53 +63,13 @@ const List = ({ data, methods, columns }) => {
     setRows(data)
   }
 
-  const xcolumns = useMemo(() => {
+  const gridCols = useMemo(() => {
     return columns.map((col) => {
       if (col.type === 'date') col.formatter = dateFormatter
       if (col.type === 'boolean') col.formatter = BooleanFormatter
-
       return col
     })
   })
-
-  // const columns = useMemo(() => {
-  //   return [
-  //     {
-  //       key: 'name',
-  //       name: 'Name',
-  //       sortable: true,
-  //       editor: TextEditor,
-  //     },
-  //     {
-  //       key: 'slug',
-  //       name: 'Slug',
-  //       width: 200,
-  //       sortable: true,
-  //       editor: TextEditor,
-  //     },
-  //     {
-  //       key: 'approvalRequired',
-  //       name: 'Approval Required',
-  //       width: 200,
-  //       type: 'boolean',
-  //       formatter(props) {
-  //         return (
-  //           <span style={{ marginLeft: '40%' }}>
-  //             <MuiTicker {...props} />
-  //           </span>
-  //         )
-  //       },
-  //     },
-  //     {
-  //       key: 'updatedAt',
-  //       name: 'Updated',
-  //       width: 200,
-  //       sortable: true,
-  //       type: 'date',
-  //       formatter: ({ row }) => moment(row.updatedAt).format('DD/MM/YYYY HH:mm'),
-  //     },
-  //   ]
-  // })
 
   const getComparator = () => {
     if (!sortColumns.length) {
@@ -128,7 +88,9 @@ const List = ({ data, methods, columns }) => {
         // Assume anything not mentioned above is a simple string:
         default:
           return (a, b) => {
-            return a[col]?.localeCompare(b[col])
+            if (typeof a === 'string' && typeof b === 'string')
+              return a[col]?.localeCompare(b[col])
+            return 0
           }
       }
     } catch (e) {
@@ -176,7 +138,6 @@ const List = ({ data, methods, columns }) => {
     return row._id
   }
 
-  console.log('cols', columns)
   return (
     <Container>
       <Typography variant="h1" align="center" id="h1-header" className={classes.root}>
@@ -194,7 +155,7 @@ const List = ({ data, methods, columns }) => {
                 setOpen(true)
               }}
             >
-              Add Document type
+              Add...
             </Button>
           </Grid>
           <Grid item>
@@ -229,7 +190,7 @@ const List = ({ data, methods, columns }) => {
         <Grid item>
           <DataGrid
             rowKeyGetter={rowKeyGetter}
-            columns={[SelectColumn, ...xcolumns]}
+            columns={[SelectColumn, ...gridCols]}
             defaultColumnOptions={{
               sortable: true,
               resizable: true,

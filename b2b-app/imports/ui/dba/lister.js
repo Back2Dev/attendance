@@ -15,8 +15,8 @@ const getData = ({ collection, view }) =>
     const subscription = Meteor.subscribe('name.collections', { name: collection })
     const c = Collections.findOne({ name: collection })
     const columns = c?.columns || [
-      { field: 'name' },
-      { field: 'active', type: 'boolean' },
+      { key: 'name', name: 'Name' },
+      { key: 'active', name: 'Active', type: 'boolean' },
     ]
     debug({ columns })
     const rawC = getCollection(collection)
