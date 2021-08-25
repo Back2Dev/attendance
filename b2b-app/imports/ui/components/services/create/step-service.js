@@ -391,7 +391,6 @@ function ServiceStep({ initialData }) {
         <div className="btns-container">
           <Button
             className="next-btn"
-            data-cy="next-btn"
             variant="contained"
             onClick={() => {
               goBack()
@@ -413,6 +412,7 @@ function ServiceStep({ initialData }) {
           )}
           <Button
             className="next-btn"
+            data-cy="next-btn"
             variant="contained"
             color="primary"
             disabled={!hasValidData}
