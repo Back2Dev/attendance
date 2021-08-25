@@ -35,6 +35,7 @@
     "test:e2e:standalone:survey": "node tests/cypress/run-on-circle.js 'meteor npm run ci-app' 'meteor npm run ci-test-survey'",
     "test:packages": "meteor --settings dev.mikkel.settings.json test-packages ./packages/slingshot --driver-package meteortesting:mocha",
     "cypress:open": "./node_modules/cypress/bin/cypress open --config integrationFolder=tests/cypress/integration/",
+    "cypres:run:services": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/services/",
     "cypress:run": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/working/",
     "cypress:nw": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/not-working/",
     "cypress:record": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration --record --key 7f96e2e6-b3ad-4fdc-8b70-af7cfc31f7da",
