@@ -368,6 +368,7 @@ function ServiceStep({ initialData }) {
             margin="dense"
             className="assessor-field"
             label="Assessor"
+            data-cy="assessor"
             value={state.assessor}
             onChange={(e) => {
               dispatch({ type: 'setAssessor', payload: { assessor: e.target.value } })
@@ -390,6 +391,7 @@ function ServiceStep({ initialData }) {
         <div className="btns-container">
           <Button
             className="next-btn"
+            data-cy="next-btn"
             variant="contained"
             onClick={() => {
               goBack()
