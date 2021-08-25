@@ -348,6 +348,7 @@ function ServiceStep({ initialData }) {
               <TextField
                 {...params}
                 label="Select a Service item"
+                data-cy="item-select"
                 variant="outlined"
                 size="small"
               />

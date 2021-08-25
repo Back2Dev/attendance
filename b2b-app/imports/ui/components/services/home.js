@@ -31,6 +31,7 @@ function ServicingHome() {
             variant="contained"
             color="primary"
             onClick={() => push('/services/new')}
+            data-cy="create-job"
           >
             Create Job
           </Button>

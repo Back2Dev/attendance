@@ -44,7 +44,7 @@ const adminMenus = [
     id: 'manager',
     icon: <Build />,
     items: [
-      { display: 'Services', link: '/services' },
+      { display: 'Services', link: '/services', id: 'services' },
       { display: 'Create Services', link: '/services/new' },
     ],
   },
@@ -127,7 +127,11 @@ export default function SideDrawer() {
             } else {
               return (
                 <List key={index}>
-                  <ListItem button onClick={() => handleNestedMenu(menu.id)}>
+                  <ListItem
+                    button
+                    onClick={() => handleNestedMenu(menu.id)}
+                    data-cy="manager"
+                  >
                     <ListItemIcon>{menu.icon}</ListItemIcon>
                     <ListItemText
                       primary={menu.display}
