@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { selectorFamily, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { selectorFamily, useSetRecoilState } from 'recoil'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
 import Item from './item'
@@ -8,7 +8,6 @@ import Question from '../../question'
 import { useListControls } from '../../hooks'
 import { defaultAnswer, singleState } from './single'
 import produce from 'immer'
-import { dndState } from '../../context/dnd'
 
 export const singleAnswersState = selectorFamily({
   key: 'singleAnswers',
@@ -44,8 +43,7 @@ const SingleInner = ({ id, initialLabel, initialList }) => {
     initialList
   )
   const setQuestion = useSetRecoilState(singleQuestionState(id))
-  const [answers, setAnswers] = useRecoilState(singleAnswersState(id))
-  console.log('all', all)
+
   return (
     <div>
       <Question
