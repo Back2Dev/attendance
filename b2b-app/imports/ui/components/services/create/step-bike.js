@@ -14,26 +14,27 @@ const bikeFormSchema = new SimpleSchema({
   make: String,
   model: String,
   color: String,
-  type: {
-    type: String,
-    allowedValues: [
-      'Moutain Bike',
-      'Road Bike',
-      'Hybrid Bike',
-      'BMX Bike',
-      'Ladies Bike',
-      'Gents Bike',
-      'Vintage Bike',
-      'Other',
-    ],
-  },
+  // type: {
+  //   //type: String,
+  //   allowedValues: [
+  //     'Moutain Bike',
+  //     'Road Bike',
+  //     'Hybrid Bike',
+  //     'BMX Bike',
+  //     'Ladies Bike',
+  //     'Gents Bike',
+  //     'Vintage Bike',
+  //     'Other',
+  //   ],
+  // },
+  type: String,
   budget: {
     type: Number,
     label: 'Budget',
   },
   approxValue: {
     type: Number,
-    label: 'Approx. Value',
+    label: 'Approx. value',
     optional: true,
   },
 })
