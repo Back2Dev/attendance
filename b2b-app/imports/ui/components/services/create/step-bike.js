@@ -207,6 +207,7 @@ function BikeStep({ initialData }) {
             <Button
               variant="contained"
               color="primary"
+              data-cy="submit"
               onClick={() => {
                 formRef.current.submit()
               }}

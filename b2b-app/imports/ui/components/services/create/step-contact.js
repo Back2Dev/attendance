@@ -368,6 +368,7 @@ function ContactStep() {
               <Button
                 variant="contained"
                 color="primary"
+                data-cy="submit-contact"
                 onClick={() => {
                   formRef.current.submit()
                 }}

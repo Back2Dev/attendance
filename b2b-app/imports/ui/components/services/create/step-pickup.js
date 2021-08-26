@@ -182,6 +182,7 @@ function PickupStep({ initialData }) {
               <Button
                 variant="contained"
                 color="primary"
+                data-cy="submit-pickup"
                 onClick={() => {
                   formRef.current.submit()
                 }}
