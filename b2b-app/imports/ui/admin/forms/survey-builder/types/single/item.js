@@ -7,14 +7,16 @@ import PropTypes from 'prop-types'
 
 import InlineEdit from '../../inline-edit/edit'
 
-const StyledItem = styled('li')({
+const StyledItem = styled('li')((props) => ({
   listStyleType: 'none',
   display: 'flex',
   alignItems: 'center',
-})
+  '&:hover': { outline: `1px solid ${props.theme.palette.divider}` },
+}))
 
 const StyledInlineEdit = styled(InlineEdit)((props) => ({
   marginLeft: props.theme.spacing(2),
+  flexGrow: 1,
 }))
 
 const Controls = styled('div')((props) => {
@@ -55,7 +57,7 @@ const Controls = styled('div')((props) => {
    * https://styled-components.com/docs/advanced#referring-to-other-components */
   return {
     ...hideVisually,
-    [`${StyledItem}:hover &, &:focus-within`]: showVisually,
+    [`${StyledItem}:hover &, &:focus-within`]: { ...showVisually, flexShrink: 0 },
     '& svg': {
       verticalAlign: 'middle',
       fill: props.theme.palette.action.active,
@@ -93,6 +95,7 @@ const Item = forwardRef(
           onTextChange={onTextChange}
         />
         <Controls onMouseDown={preventFocus}>
+          <DragIndicator />
           <IconButton size="small" onClick={onAdd} aria-label="add">
             <Add />
           </IconButton>
@@ -104,7 +107,6 @@ const Item = forwardRef(
           >
             <Delete />
           </DeleteButton>
-          <DragIndicator />
         </Controls>
       </StyledItem>
     )
