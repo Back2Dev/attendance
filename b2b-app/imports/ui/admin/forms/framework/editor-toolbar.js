@@ -14,10 +14,19 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import Popover from '@material-ui/core/Popover'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel'
 
 export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
   const [settings, setSettings] = React.useState(false)
+  const [layout, setLayout] = React.useState('single')
+
+  const handleLayoutChange = (event) => {
+    setLayout(event.target.value)
+  }
 
   const handleTabChange = (e, index) => {
     formContext.changeTab(index)
@@ -46,19 +55,6 @@ export const EditorToolbar = () => {
           <Tab label="detailsForm.json" />
         </Tabs>
         <div className="editorTools">
-          <FormGroup row>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={formContext.autoRun}
-                  onChange={formContext.toggleAutoRun}
-                  name="autoRun"
-                  color="primary"
-                />
-              }
-              label="AutoRun"
-            />
-          </FormGroup>
           <Tooltip title="Settings">
             <IconButton
               color="grey"
@@ -83,6 +79,24 @@ export const EditorToolbar = () => {
             }}
           >
             <div style={{ padding: '8px' }}>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">Editor Layout</FormLabel>
+                <RadioGroup
+                  aria-label="gender"
+                  name="layout"
+                  value={layout}
+                  onChange={handleLayoutChange}
+                >
+                  <FormControlLabel value="single" control={<Radio />} label="Single" />
+                  <FormControlLabel value="double" control={<Radio />} label="Double" />
+                  <FormControlLabel
+                    value="dnd"
+                    disabled
+                    control={<Radio />}
+                    label="Drag and Drop"
+                  />
+                </RadioGroup>
+              </FormControl>
               <FormGroup row>
                 <FormControlLabel
                   control={
