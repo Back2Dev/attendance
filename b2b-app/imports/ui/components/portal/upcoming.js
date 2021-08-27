@@ -46,6 +46,7 @@ function UpcomingSessions() {
           variant="contained"
           size="small"
           color="primary"
+          data-cy="book-event"
           onClick={() => push('/bookings')}
         >
           Book a session

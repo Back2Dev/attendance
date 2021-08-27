@@ -235,6 +235,7 @@ function EventForm() {
             onClick={() => {
               formRef.current?.submit()
             }}
+            data-cy="submit-event"
             color="primary"
           >
             Submit

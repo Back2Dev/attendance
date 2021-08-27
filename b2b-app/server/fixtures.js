@@ -111,10 +111,21 @@ Meteor.methods({
     Fixtures.loadThings(thing) // Loads (non boot-time) fixtures
   },
   resetCollections() {
-    // Meteor.users.remove({})
-    // Members.remove({})
-    Messages.remove({})
-    Notifications.remove({})
-    NotificationItems.remove({})
+    const names = 'events messages notifications messageTemplates triggers archives audits logs'.split(
+      /\s+/
+    )
+    debug(`resetCollections, emptying: ${names.join(', ')}`)
+    const query = { se: { $exists: false } }
+    const userIds = Meteor.users.find(query).map((user) => user._id)
+    Meteor.users.remove(query)
+    Members.remove({ userId: { $in: userIds } })
+    names.forEach((collection) => {
+      try {
+        // Note: Mongo.Collection access requires the dburles:mongo-collection-instances package to be installed
+        Mongo.Collection.get(collection).remove({})
+      } catch (e) {
+        debug(`Something wrong emptying ${collection}: ${e.message}`)
+      }
+    })
   },
 })
