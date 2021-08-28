@@ -2,9 +2,11 @@ import React from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
+import { DoubleLayout } from './double-layout'
 import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
+import { SingleLayout } from './single-layout'
 
 import { parse } from '/imports/api/forms/engine.js'
 
@@ -55,6 +57,16 @@ const Framework = ({ id, item, methods }) => {
   //error widgets
   const [widgets, setWidgets] = React.useState([])
   const [tab, setTab] = React.useState(0)
+
+  const [layout, setLayout] = React.useState('single')
+
+  const changeLayout = (newLayout) => {
+    const layouts = ['single', 'double', 'dnd']
+
+    if (layouts.includes(newLayout)) {
+      setLayout(newLayout)
+    }
+  }
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
@@ -117,6 +129,20 @@ const Framework = ({ id, item, methods }) => {
     }
   }, [editor])
 
+  let layoutComponent = <SingleLayout />
+
+  switch (layout) {
+    case 'single':
+      layoutComponent = <SingleLayout />
+      break
+    case 'double':
+      layoutComponent = <DoubleLayout />
+      break
+    default:
+      layoutComponent = <SingleLayout />
+      break
+  }
+
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <EditorContext.Provider
@@ -150,13 +176,12 @@ const Framework = ({ id, item, methods }) => {
           showErrors,
           tab,
           changeTab: (i) => setTab(i),
+          layout,
+          changeLayout,
         }}
       >
         <EditorToolbar />
-        <SplitPane split="vertical" defaultSize="50%">
-          <EditorPanel />
-          <PreviewPanel />
-        </SplitPane>
+        {layoutComponent}
       </EditorContext.Provider>
     </HotKeys>
   )

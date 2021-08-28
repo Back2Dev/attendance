@@ -22,10 +22,9 @@ import FormLabel from '@material-ui/core/FormLabel'
 export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
   const [settings, setSettings] = React.useState(false)
-  const [layout, setLayout] = React.useState('single')
 
   const handleLayoutChange = (event) => {
-    setLayout(event.target.value)
+    formContext.changeLayout(event.target.value)
   }
 
   const handleTabChange = (e, index) => {
@@ -44,16 +43,20 @@ export const EditorToolbar = () => {
   return (
     <Paper square>
       <div className="editorBar">
-        <Tabs
-          value={formContext.tab}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleTabChange}
-          aria-label="disabled tabs example"
-        >
-          <Tab label="details.form" />
-          <Tab label="detailsForm.json" />
-        </Tabs>
+        {formContext.layout === 'single' ? (
+          <Tabs
+            value={formContext.tab}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleTabChange}
+            aria-label="disabled tabs example"
+          >
+            <Tab label="details.form" />
+            <Tab label="detailsForm.json" />
+          </Tabs>
+        ) : (
+          <span />
+        )}
         <div className="editorTools">
           <Tooltip title="Settings">
             <IconButton
@@ -84,7 +87,7 @@ export const EditorToolbar = () => {
                 <RadioGroup
                   aria-label="gender"
                   name="layout"
-                  value={layout}
+                  value={formContext.layout}
                   onChange={handleLayoutChange}
                 >
                   <FormControlLabel value="single" control={<Radio />} label="Single" />
