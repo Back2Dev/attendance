@@ -117,9 +117,9 @@ export const EditorToolbar = () => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={formContext.autoRun}
-                      onChange={formContext.toggleAutoRun}
-                      name="autoRun"
+                      checked={formContext.autoSave}
+                      onChange={formContext.toggleAutoSave}
+                      name="autoSave"
                       color="primary"
                     />
                   }

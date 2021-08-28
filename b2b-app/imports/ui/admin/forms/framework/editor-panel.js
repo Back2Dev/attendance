@@ -95,10 +95,12 @@ export const EditorPanel = ({ editor }) => {
 
   const handleEditorInput = React.useCallback(
     debounce(() => {
-      if (formContext.autoRun && formContext.tab === 0) {
+      if (formContext.autoRun) {
         formContext.compileForm()
       }
-      formContext.save(false, true)
+      if (formContext.autoSave) {
+        formContext.save(false, true)
+      }
     })
   )
 
@@ -111,7 +113,7 @@ export const EditorPanel = ({ editor }) => {
             ...codemirrorOptions,
             mode: editor.editorType,
           }}
-          onBeforeChange={(editor, data, value) => {
+          onBeforeChange={(e, data, value) => {
             editor.updateEditor(value)
           }}
           onChange={handleEditorInput}

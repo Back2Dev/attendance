@@ -51,6 +51,7 @@ const Framework = ({ id, item, methods }) => {
 
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
+  const [autoSave, setAutoSave] = React.useState(true)
   //codemirror references
   const [editor, setEditor] = React.useState()
   const [doc, setDoc] = React.useState()
@@ -95,6 +96,10 @@ const Framework = ({ id, item, methods }) => {
 
   const toggleAutoRun = () => {
     setAutoRun(autoRun ? false : true)
+  }
+
+  const toggleAutoSave = () => {
+    setAutoSave(autoSave ? false : true)
   }
 
   const showErrors = (errors) => {
@@ -165,6 +170,8 @@ const Framework = ({ id, item, methods }) => {
           save,
           autoRun,
           toggleAutoRun,
+          autoSave,
+          toggleAutoSave,
           compileForm,
           editor,
           doc,
