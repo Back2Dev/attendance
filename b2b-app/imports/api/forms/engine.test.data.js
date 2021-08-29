@@ -1,5 +1,3 @@
-const debug = require('debug')('app:forms:engine')
-
 export const goodForms = [
   // No section heading
   {
