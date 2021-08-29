@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import { JSONSchemaBridge } from 'uniforms-bridge-json-schema'
-const debug = require('debug')('se:getschema')
+const debug = require('debug')('app:getschema')
 const ajv = new Ajv({ allErrors: true, useDefaults: true, strict: false })
 addFormats(ajv)
 

@@ -3,7 +3,7 @@ import logger from '/imports/lib/log'
 import axios from 'axios'
 import { Meteor } from 'meteor/meteor'
 import Settings from '/imports/api/settings/schema'
-const debug = require('debug')('se:sms-send')
+const debug = require('debug')('app:sms-send')
 
 const smsSettings = { enabled: false }
 

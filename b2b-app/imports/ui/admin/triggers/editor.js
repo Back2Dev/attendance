@@ -5,7 +5,7 @@ import Triggers from '/imports/api/triggers/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
 
-const debug = require('debug')('se:editor')
+const debug = require('debug')('app:editor')
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
   outputFormat: 'DD/MM/YY h:mm A',

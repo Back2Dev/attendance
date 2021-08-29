@@ -5,18 +5,17 @@ import CONSTANTS from '/imports/api/constants'
 import Forms from '/imports/api/forms/schema'
 
 Factory.define('forms', Forms, {
-  slug: 'new-form',
-  name: 'New Form',
-  source: `S: Invoicing
-+id: invoice
+  slug: 'test-case',
+  name: 'A Test case',
+  source: `S: Let's get to know each other
++h3: No need to register if you are already signing in on the computer
++id: aboutVolunteer
 
-Q: Customer details
-+id: customer
-+type: short
-
-A: Name
-A: Email
-+type: email`,
+Q: How many bikes are there in your household?
++id: bikes
++type: num
++optional
+A bikes`,
 })
 
 Factory.define('forms.b2b.register', Forms, {

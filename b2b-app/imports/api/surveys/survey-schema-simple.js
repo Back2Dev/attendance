@@ -15,7 +15,7 @@ SimpleSchema.setDefaultMessages({
     },
   },
 })
-const debug = require('debug')('se:survey-schema')
+const debug = require('debug')('app:survey-schema')
 
 const checkVolume = function () {
   debug(`Checking ${this.key} ${this.value}`, this.definition)
@@ -31,6 +31,7 @@ const checkVolume = function () {
 }
 
 export const evaluate = (formData, context, condition) => {
+  if (!Array.isArray(condition)) return true
   debug(`Evaluate ${condition?.join()}`, formData, context)
   if (!condition) return true
   const [lhs, op = 'truthy', rhs] = condition

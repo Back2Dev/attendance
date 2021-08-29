@@ -7,6 +7,13 @@ import { Route, Switch } from 'react-router-dom'
 import Loading from '/imports/ui/components/commons/loading.js'
 
 // Generated lazy imports go here...
+const SettingsList = lazy(() => import('/imports/ui/admin/settings/lister.js'))
+const UserList = lazy(() => import('/imports/ui/admin/users/lister'))
+const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
+const Courses = lazy(() => import('/imports/ui/admin/courses'))
+const Tools = lazy(() => import('/imports/ui/admin/tools'))
+const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
+const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 
 const Audits = lazy(() => import('/imports/ui/admin/audits/lister.js'))
 const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs/lister.js'))
@@ -18,9 +25,6 @@ const Members = lazy(() => import('/imports/ui/admin/members/lister.js'))
 const Settings = lazy(() => import('/imports/ui/admin/settings/lister.js'))
 const Surveys = lazy(() => import('/imports/ui/admin/surveys/lister.js'))
 const Events = lazy(() => import('/imports/ui/admin/events/lister.js'))
-const Courses = lazy(() => import('/imports/ui/admin/courses/lister.js'))
-const Tools = lazy(() => import('/imports/ui/admin/tools/lister.js'))
-const Sessions = lazy(() => import('/imports/ui/admin/sessions/lister.js'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items/lister.js'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs/lister.js'))
 const Forms = lazy(() => import('/imports/ui/admin/forms'))
@@ -42,17 +46,8 @@ export default GeneratedRoute = () => {
         <Route path="/admin/service-items" exact component={ServiceItems} />
         <Route path="/admin/jobs" exact component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
-        <Route path="/admin/message-templates" component={MessageTemplates} />
-        <Route path="/admin/settings" exact component={Settings} />
-        <Route path="/admin/users" exact component={Users} />
-        <Route path="/admin/cronjobs" component={Cronjobs} />
-        <Route path="/admin/triggers" component={Triggers} />
-        <Route path="/admin/surveys" component={Surveys} />
-        <Route path="/admin/events" component={Events} />
+        <Route path="/admin/users" exact component={UserList} />
         <Route path="/admin/calendar" component={EventCalendar} />
-        <Route path="/admin/courses" component={Courses} />
-        <Route path="/admin/tools" component={Tools} />
-        <Route path="/admin/sessions" component={Sessions} />
         <Route path="/admin/registrations" component={Registrations} />
       </Switch>
     </Suspense>
