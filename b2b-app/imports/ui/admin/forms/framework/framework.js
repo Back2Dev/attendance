@@ -7,8 +7,9 @@ import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
 import { SingleLayout } from './single-layout'
-
 import { parse } from '/imports/api/forms/engine.js'
+
+const debug = require('debug')('app:edit')
 
 export const EditorContext = React.createContext()
 
@@ -32,7 +33,7 @@ const Framework = ({ id, item, methods }) => {
         quit
       )
     } catch (e) {
-      alert(`Update error ${e.message}`)
+      debug(`Update error ${e.message}`)
     }
   }
 
