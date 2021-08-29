@@ -29,8 +29,6 @@ const ServiceItems = lazy(() => import('/imports/ui/admin/service-items/lister.j
 const Jobs = lazy(() => import('/imports/ui/admin/jobs/lister.js'))
 const Forms = lazy(() => import('/imports/ui/admin/forms'))
 const Users = lazy(() => import('/imports/ui/admin/users/lister'))
-const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
-const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
 
 //
 // This file contains a list of routes for database admin pages

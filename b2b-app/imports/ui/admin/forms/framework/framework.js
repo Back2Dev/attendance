@@ -5,8 +5,9 @@ import SplitPane from 'react-split-pane'
 import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
-
 import { parse } from '/imports/api/forms/engine.js'
+
+const debug = require('debug')('app:forms:framework')
 
 export const EditorContext = React.createContext()
 
@@ -30,7 +31,7 @@ const Framework = ({ id, item, methods }) => {
         quit
       )
     } catch (e) {
-      alert(`Update error ${e.message}`)
+      debug(`Update error ${e.message}`)
     }
   }
 
@@ -69,6 +70,7 @@ const Framework = ({ id, item, methods }) => {
       setErrors(compiled.errs)
       showErrors(compiled.errs)
     } else {
+      setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
       setErrors(compiled.errs)
       showErrors(compiled.errs)
     }

@@ -135,7 +135,7 @@ const getSchemas = (survey, currentData) => {
             }
             const qSchema = step.schema[q.id]
             const answers = getAnswers(currentData, q)
-            switch (q.type) {
+            switch (q.qtype) {
               case 'array':
                 step.schema[q.id].type = Array
                 step.schema[q.id].minCount = q.minCount || 1

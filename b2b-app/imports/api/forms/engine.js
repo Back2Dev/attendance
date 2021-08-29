@@ -16,9 +16,9 @@ const slugify = (text) => {
     .replace(/[^a-z0-9]+/g, '-')
 }
 
-const addQ = (survey, prompt) => {
+const addQ = (survey, title) => {
   if (!currentStep) addStep(survey, 'Step 1')
-  currentQ = { prompt, answers: [], grid: [], id: slugify(prompt), type: 'text' }
+  currentQ = { title, answers: [], grid: [], id: slugify(title), type: 'text' }
   currentStep.questions.push(currentQ)
   return currentQ
 }
@@ -97,16 +97,29 @@ export const parse = (source) => {
                 errCode: 'e-no-obj',
                 line,
               })
-            else current[key] = value || true
+            else {
+              current[key] = value || true
+              switch (key) {
+                case 'condition':
+                  if (typeof value === 'string') current[key] = value.split(/\s+/)
+                  break
+              }
+            }
           }
         }
-        if (!got) errs.push({ lineno, errCode: 'e-unk', line })
+        if (!got) {
+          // Just append the line to the title of the current object
+          current.title = `${current.title} ${line}`
+
+          // errs.push({ lineno, errCode: 'e-unk', line })
+        }
       }
     })
     if (errs.length) {
       return {
         status: 'failed',
         message: '',
+        survey,
         errs: errs.map((err) => ({ error: getError({ code: err.errCode }), ...err })),
       }
     }

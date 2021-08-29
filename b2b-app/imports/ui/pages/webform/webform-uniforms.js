@@ -102,7 +102,7 @@ const Specifiers = (q) => {
     .filter((a) => a.specify)
     .map((a) => {
       const otherId = `${q.id}-${a.id}-specify`
-      const condition = q.type === 'single' ? [q.id, 'equal', a.id] : [`${q.id}-${a.id}`]
+      const condition = q.qtype === 'single' ? [q.id, 'equal', a.id] : [`${q.id}-${a.id}`]
       if (a.specifyType === 'long')
         return (
           <DisplayIf
@@ -175,7 +175,7 @@ const RenderQ = (q, ix) => {
   const prompt = q.prompt ? html2r(q.prompt.replace(/\n/g, '<br />')) : ''
   const key = `q${q.id}${ix}`
 
-  switch (q.type) {
+  switch (q.qtype) {
     // case 'array':
     //   return (
     //     <div key={key}>
@@ -290,7 +290,7 @@ const RenderQ = (q, ix) => {
       )
 
     default:
-      return q.type ? (
+      return q.qtype ? (
         <div key={key} className="q-container">
           <Typography className="label">{prompt}</Typography>
           <AutoField name={q.id} id={q.id} />
@@ -298,7 +298,9 @@ const RenderQ = (q, ix) => {
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </div>
       ) : (
-        <div>Houston, we have a problem: {q.prompt}</div>
+        <div>
+          Houston, we have a problem: {q.prompt} qtype={q.qtype}
+        </div>
       )
   }
 }
@@ -553,7 +555,7 @@ const Progress = ({
             .filter((step) => step.visible)
             .map((step, ix) => (
               <Step
-                key={step.id}
+                key={`${step.id}${ix}`}
                 id={step.id}
                 completed={isCompleted(ix)}
                 onClick={() => {
@@ -574,12 +576,12 @@ const Progress = ({
                         ref={(ref) => (step.formRef = ref)}
                       >
                         <div key={`main${ix}`}>
-                          {false && step.prompt && (
+                          {step.prompt && (
                             <div>{html2r(step.prompt.replace(/\n/g, '<br />'))}</div>
                           )}
                           {step.questions.map((q, iy) => {
                             return (
-                              <StyledRenderQ>
+                              <StyledRenderQ key={`${iy}`}>
                                 <DisplayIf
                                   key={q.id}
                                   condition={(context) =>
@@ -750,7 +752,9 @@ const WebformPage = ({
   }
 
   // Build the schema
-  const steps = getSchemas(map2Uniforms(survey), formData)
+  const s = map2Uniforms(survey)
+  debug(s)
+  const steps = getSchemas(s, formData)
   return (
     <Progress
       steps={steps}
