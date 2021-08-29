@@ -15,7 +15,7 @@ SimpleSchema.setDefaultMessages({
     },
   },
 })
-const debug = require('debug')('se:survey-schema')
+const debug = require('debug')('app:survey-schema')
 
 const checkVolume = function () {
   debug(`Checking ${this.key} ${this.value}`, this.definition)
@@ -47,7 +47,8 @@ export const evaluate = (formData, context, condition) => {
   if (['contains'].includes(op)) return value && value.includes(rhs)
   if (['truthy'].includes(op)) return !!value
 
-  return false
+  // return false
+  return true
 }
 
 const getOptionalFunc = (q, uniforms, optional) => {

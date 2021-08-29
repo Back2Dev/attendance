@@ -11,7 +11,7 @@ import PencilSquare from '@material-ui/icons/Edit'
 import FormsList from './list'
 import config from './config'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 const idField = '_id'
 let push
 const dateFormat = {

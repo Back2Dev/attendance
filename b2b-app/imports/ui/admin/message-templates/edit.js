@@ -10,7 +10,7 @@ import HTMLTemplate from '/imports/api/email-template'
 
 import { schemaBridge } from './edit-schema'
 
-const debug = require('debug')('se:edit')
+const debug = require('debug')('app:edit')
 
 const Edit = ({ id, item, methods }) => {
   const save = (model) => {

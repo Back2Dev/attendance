@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Segment, Button, Form, Image, Input, TextArea } from 'semantic-ui-react'
 import Stackedit from 'stackedit-js'
 
-const debug = require('debug')('se:edit')
+const debug = require('debug')('app:edit')
 
 const MarkdownEdit = (props) => {
   const [md, setMD] = React.useState(props.defaultValue)
