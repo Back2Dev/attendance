@@ -31,6 +31,7 @@ const checkVolume = function () {
 }
 
 export const evaluate = (formData, context, condition) => {
+  if (!Array.isArray(condition)) return true
   debug(`Evaluate ${condition?.join()}`, formData, context)
   if (!condition) return true
   const [lhs, op = 'truthy', rhs] = condition
@@ -47,8 +48,7 @@ export const evaluate = (formData, context, condition) => {
   if (['contains'].includes(op)) return value && value.includes(rhs)
   if (['truthy'].includes(op)) return !!value
 
-  // return false
-  return true
+  return false
 }
 
 const getOptionalFunc = (q, uniforms, optional) => {
