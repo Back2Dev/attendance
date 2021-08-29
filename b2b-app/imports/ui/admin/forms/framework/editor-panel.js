@@ -72,11 +72,16 @@ export const EditorPanel = ({ editor }) => {
   React.useEffect(() => {
     window.addEventListener('resize', () => {
       setSplitSize('85%')
-      const height = document.getElementsByClassName(
+      const pane = document.getElementsByClassName(
         editor.editorType === 'null' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
-      )[0].clientHeight
-      // eslint-disable-next-line no-unused-vars
-      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+      )[0]
+      if (pane) {
+        const height = document.getElementsByClassName(
+          editor.editorType === 'null' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
+        )[0].clientHeight
+        // eslint-disable-next-line no-unused-vars
+        const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+      }
     })
 
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))

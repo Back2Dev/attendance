@@ -60,7 +60,7 @@ export const EditorToolbar = () => {
         <div className="editorTools">
           <Tooltip title="Settings">
             <IconButton
-              color="grey"
+              color="default"
               aria-label="open settings"
               onClick={() => {
                 handleSettings()
