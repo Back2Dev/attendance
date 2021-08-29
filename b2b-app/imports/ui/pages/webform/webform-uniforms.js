@@ -36,6 +36,7 @@ import {
 import { Context, useForm, useField } from 'uniforms'
 import { LinearProgressWithLabel } from '/imports/ui/utils/generic'
 import getSchemas, { evaluate } from '/imports/api/surveys/survey-schema-simple'
+import map2Uniforms from '/imports/api/surveys/uniforms'
 import { numberFormatter } from '/imports/ui/utils/formatters'
 import RejectModal from '/imports/ui/pages/webform/components/reject-modal'
 import { accessByPath } from '/imports/api/util'
@@ -749,7 +750,7 @@ const WebformPage = ({
   }
 
   // Build the schema
-  const steps = getSchemas(survey, formData)
+  const steps = getSchemas(map2Uniforms(survey), formData)
   return (
     <Progress
       steps={steps}
