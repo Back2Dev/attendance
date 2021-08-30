@@ -20,6 +20,8 @@ import Slide from '@material-ui/core/Slide'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import DoneIcon from '@material-ui/icons/Done'
+import InfoIcon from '@material-ui/icons/Info'
+
 import {
   AutoField,
   AutoForm,
@@ -169,10 +171,27 @@ const TextQ = ({ q, a }) => {
   }
 }
 
+const Prompt = ({ text, tooltip }) => {
+  let prompt = ''
+  if (text) {
+    const p = text.replace(/\n/g, '<br />')
+    prompt = html2r(p)
+  }
+
+  return (
+    <Typography className="label">
+      {prompt}
+      {tooltip && (
+        <Tooltip title={tooltip}>
+          <InfoIcon color="primary" />
+        </Tooltip>
+      )}
+    </Typography>
+  )
+}
 const RenderQ = (q, ix) => {
   const { formData } = React.useContext(WebformContext)
 
-  const prompt = q.prompt ? html2r(q.prompt.replace(/\n/g, '<br />')) : ''
   const key = `q${q.id}${ix}`
 
   switch (q.qtype) {
@@ -197,7 +216,7 @@ const RenderQ = (q, ix) => {
     case 'text':
       return (
         <div key={key} className="q-container">
-          <Typography className="label">{prompt}</Typography>
+          <Prompt text={q.prompt} tooltip={q.tooltip} />
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
             return (
@@ -215,7 +234,7 @@ const RenderQ = (q, ix) => {
     case 'multi':
       return (
         <div key={key} className="q-container">
-          <Typography className="label">{prompt}</Typography>
+          <Prompt text={q.prompt} tooltip={q.tooltip} />
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
             return (
@@ -270,7 +289,7 @@ const RenderQ = (q, ix) => {
     case 'paragraph':
       return (
         <span key={key} className="q-container">
-          <Typography>{prompt}</Typography>
+          <Prompt text={q.prompt} tooltip={q.tooltip} />
         </span>
       )
 
@@ -284,7 +303,7 @@ const RenderQ = (q, ix) => {
     case 'upload':
       return (
         <span key={key} className="q-container">
-          {prompt}{' '}
+          <Prompt text={q.prompt} tooltip={q.tooltip} />
           <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p>
         </span>
       )
@@ -292,7 +311,7 @@ const RenderQ = (q, ix) => {
     default:
       return q.qtype ? (
         <div key={key} className="q-container">
-          <Typography className="label">{prompt}</Typography>
+          <Prompt text={q.prompt} tooltip={q.tooltip} />
           <AutoField name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
