@@ -1,4 +1,4 @@
-/* global Roles */
+/* global  Roles */
 import { Meteor } from 'meteor/meteor'
 import React, { useContext } from 'react'
 import { Session } from 'meteor/session'

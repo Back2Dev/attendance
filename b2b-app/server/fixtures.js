@@ -111,7 +111,7 @@ Meteor.methods({
     Fixtures.loadThings(thing) // Loads (non boot-time) fixtures
   },
   resetCollections() {
-    const names = 'events messages notifications messageTemplates triggers archives audits logs'.split(
+    const names = 'events messages notifications messageTemplates  sessions triggers archives audits logs'.split(
       /\s+/
     )
     debug(`resetCollections, emptying: ${names.join(', ')}`)

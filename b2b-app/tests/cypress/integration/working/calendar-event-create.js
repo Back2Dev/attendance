@@ -10,10 +10,16 @@ describe('opens the new platform and tests the calendar, booking and calendar sy
     freshDatabase()
   })
 
+  afterEach(function () {
+    if (this.currentTest.state === 'failed') {
+      Cypress.runner.stop()
+    }
+  })
+
   it('navigates to  calendar page through the admin menu and creates an event', function () {
     cy.visit('/login')
-    cy.get('[data-cy=email-input]').type(this.users.admin.username)
-    cy.get('[data-cy=password-input]').type(this.users.admin.password)
+    cy.get('[data-cy=email-input]').type('broderick.larkin@testa.rossa')
+    cy.get('[data-cy=password-input]').type('me2')
     cy.get('[data-cy=login-btn]').click()
 
     cy.get('[data-cy=primary-search-account-menu] .MuiAvatar-root')
@@ -36,7 +42,7 @@ describe('opens the new platform and tests the calendar, booking and calendar sy
       ':nth-child(5) > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'
     ).type('St Kilda cruise/intermediate')
     cy.get('[data-option-index="0"]').click()
-    cy.get('[name="when"]').type('2022-02-21T07:00').blur()
+    cy.get('[name="when"]').type('2022-02-21T08:00').blur()
     // this code is broken its the id for repeat event in form.js for the event creator
     // cy.get('[type="checkbox"]').click()
     cy.get('[name="duration"]').type('2')
@@ -51,10 +57,10 @@ describe('opens the new platform and tests the calendar, booking and calendar sy
     cy.get('[data-cy=login-btn]').click()
     cy.get('#bookings-nav-item').should('exist')
     cy.get('[data-cy=book-event]').should('be.enabled').click()
-    cy.get(':nth-child(7) > .item-wrapper > .right-col>').click
+    cy.get('.right-col > .MuiButtonBase-root').click()
     cy.get('#dashboard-nav-item').click()
-    cy.get('.a')
-      .contains("Mon 21 Jan 7 AM, Womens Night 2: Trav's Triangle")
+    cy.get('.session-info')
+      .contains("Mon 21 Feb 8 AM, Womens Night 2: Trav's Triangle")
       .should('exist')
   })
   it('log in as dorothea kovacek and book to join new event ', () => {
@@ -64,10 +70,10 @@ describe('opens the new platform and tests the calendar, booking and calendar sy
     cy.get('[data-cy=login-btn]').click()
     cy.get('#bookings-nav-item').should('exist')
     cy.get('[data-cy=book-event]').should('be.enabled').click()
-    cy.get(':nth-child(7) > .item-wrapper > .right-col>').click()
+    cy.get('.right-col > .MuiButtonBase-root').click()
     cy.get('#dashboard-nav-item').click()
-    cy.get('.a')
-      .contains("Mon 21 Jan 7 AM, Womens Night 2: Trav's Triangle")
+    cy.get('.session-info')
+      .contains("Mon 21 Feb 8 AM, Womens Night 2: Trav's Triangle")
       .should('exist')
   })
   it('log in as dorothea kovacek and book to join new event ', () => {
@@ -77,10 +83,10 @@ describe('opens the new platform and tests the calendar, booking and calendar sy
     cy.get('[data-cy=login-btn]').click()
     cy.get('#bookings-nav-item').should('exist')
     cy.get('[data-cy=book-event]').should('be.enabled').click()
-    cy.get(':nth-child(7) > .item-wrapper > .right-col>').click()
+    cy.get('.right-col > .MuiButtonBase-root').click()
     cy.get('#dashboard-nav-item').click()
-    cy.get('.a')
-      .contains("Mon 21 Jan 7 AM, Womens Night 2: Trav's Triangle")
+    cy.get('.session-info')
+      .contains("Mon 21 Feb 8 AM, Womens Night 2: Trav's Triangle")
       .should('exist')
       .click()
   })
