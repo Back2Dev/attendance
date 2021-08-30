@@ -18,6 +18,7 @@ import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
+import { Typography } from '@material-ui/core'
 
 export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
@@ -43,20 +44,30 @@ export const EditorToolbar = () => {
   return (
     <Paper square>
       <div className="editorBar">
-        {formContext.layout === 'single' ? (
-          <Tabs
-            value={formContext.tab}
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={handleTabChange}
-            aria-label="disabled tabs example"
+        <div style={{ display: 'flex', flexDirection: 'row', alignSelf: 'flex' }}>
+          {formContext.layout === 'single' ? (
+            <Tabs
+              value={formContext.tab}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleTabChange}
+              aria-label="disabled tabs example"
+            >
+              <Tab label="formSchema" />
+              <Tab label="json" />
+            </Tabs>
+          ) : (
+            <span />
+          )}
+          <span style={{ width: '16px' }} />
+          <Typography
+            variant="subtitle1"
+            style={{ fontStyle: 'italic', alignSelf: 'center' }}
           >
-            <Tab label="details.form" />
-            <Tab label="detailsForm.json" />
-          </Tabs>
-        ) : (
-          <span />
-        )}
+            {formContext.name} ({formContext.slug})
+          </Typography>
+        </div>
+
         <div className="editorTools">
           <Tooltip title="Settings">
             <IconButton

@@ -186,6 +186,8 @@ const Framework = ({ id, item, methods }) => {
           changeTab: (i) => setTab(i),
           layout,
           changeLayout,
+          name: item.name,
+          slug: item.slug,
         }}
       >
         <EditorToolbar />
