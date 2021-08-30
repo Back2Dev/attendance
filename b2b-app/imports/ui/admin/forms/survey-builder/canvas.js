@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import { atom, useSetRecoilState } from 'recoil'
 import { Box } from '@material-ui/core'
+import debug from 'debug'
 
-import Single from './types/single'
 import { useListControls } from './hooks'
+import { typesMap } from './types'
+
+const log = debug('builder:canvas')
 
 export const selectedPartState = atom({
   key: 'selectedPart',
@@ -22,7 +25,7 @@ const Canvas = () => {
   return (
     <Box
       position="absolute"
-      top={0}
+      top={40}
       bottom={0}
       left="20%"
       right="20%"
@@ -30,9 +33,9 @@ const Canvas = () => {
       onClick={() => setSelectedPart(null)}
       overflow="auto"
     >
-      {parts.map(({ id }) => (
-        <Single key={id} id={id} />
-      ))}
+      {parts.map(({ _id, type }) => {
+        return createElement(typesMap(type).component, { key: _id, pid: _id })
+      })}
     </Box>
   )
 }

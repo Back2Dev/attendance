@@ -2,7 +2,7 @@ import React from 'react'
 import Parts from './parts'
 
 export default {
-  title: 'Survey Builder/Parts',
+  title: 'Survey Builder/Builder/Parts',
   component: Parts,
 }
 

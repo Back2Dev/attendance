@@ -12,38 +12,38 @@ import produce from 'immer'
 
 export const singleAnswersState = selectorFamily({
   key: 'singleAnswers',
-  get: (id) => ({ get }) => {
-    const single = get(singleState(id))
+  get: (pid) => ({ get }) => {
+    const single = get(singleState(pid))
     return single.answers
   },
-  set: (id) => ({ get, set }, newValue) => {
-    const single = get(singleState(id))
+  set: (pid) => ({ get, set }, newValue) => {
+    const single = get(singleState(pid))
 
     const nextState = produce(single, (draft) => {
       draft.answers = newValue
     })
-    set(singleState(id), nextState)
+    set(singleState(pid), nextState)
   },
 })
 
 const singleQuestionState = selectorFamily({
   key: 'singleQuestion',
-  set: (id) => ({ set, get }, newValue) => {
-    const single = get(singleState(id))
+  set: (pid) => ({ set, get }, newValue) => {
+    const single = get(singleState(pid))
     const nextState = produce(single, (draft) => {
-      draft.question.label = newValue
+      draft.prompt = newValue
     })
-    set(singleState(id), nextState)
+    set(singleState(pid), nextState)
   },
 })
 
 /** Single Choice question */
-const SingleInner = ({ id, initialLabel, initialList }) => {
-  const { all, move, remove, update, add } = useListControls(
-    singleAnswersState(id),
+const SingleInner = ({ pid, initialLabel, initialList }) => {
+  const { all, remove, update, add } = useListControls(
+    singleAnswersState(pid),
     initialList
   )
-  const setQuestion = useSetRecoilState(singleQuestionState(id))
+  const setQuestion = useSetRecoilState(singleQuestionState(pid))
   const theme = useTheme()
 
   const getStyle = (style, snapshot) => {
@@ -62,14 +62,14 @@ const SingleInner = ({ id, initialLabel, initialList }) => {
         label={initialLabel}
         onLabelChange={(text) => setQuestion(text)}
       />
-      <Droppable droppableId={`${singleAnswersState(id).key}-${id}`}>
+      <Droppable droppableId={`single_item-${pid}`}>
         {(provided) => (
           <ol ref={provided.innerRef} {...provided.droppableProps}>
             {all.map((c, i) => (
               <Draggable
-                draggableId={`${singleAnswersState(id).key}-${id}-${c.id}`}
+                draggableId={`single_item-${pid}-${c._id}`}
                 index={i}
-                key={c.id}
+                key={c._id}
               >
                 {(provided, snapshot) => (
                   <Item
@@ -77,15 +77,11 @@ const SingleInner = ({ id, initialLabel, initialList }) => {
                     {...provided.dragHandleProps}
                     style={getStyle(provided.draggableProps.style, snapshot)}
                     ref={provided.innerRef}
-                    onMove={(direction) => move(i, direction)}
                     onRemove={() => remove(i)}
                     onAdd={() => add(defaultAnswer, i)}
-                    disableMove={(direction) =>
-                      i === (direction === 'up' ? 0 : all.length - 1)
-                    }
                     disableRemove={all.length === 1}
-                    onTextChange={(label) => update({ label }, i)}
-                    text={c.label}
+                    onTextChange={(name) => update({ ...c, name }, i)}
+                    text={c.name}
                   />
                 )}
               </Draggable>
@@ -99,7 +95,8 @@ const SingleInner = ({ id, initialLabel, initialList }) => {
 }
 
 SingleInner.propTypes = {
-  id: PropTypes.number,
+  /** single instance part id */
+  pid: PropTypes.string.isRequired,
   /** function gets called when any choice gets updated */
   onChange: PropTypes.func,
   /** default question label */

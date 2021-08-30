@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Frame from './frame'
-import Single from './types/single'
+import { Single } from './types'
 
 export default {
   title: 'Survey Builder/Frame',

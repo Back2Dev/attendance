@@ -1,5 +1,5 @@
 import React from 'react'
-import Single from '.'
+import Single from './single'
 
 export default {
   title: 'Survey Builder/Types/Single',
@@ -10,5 +10,5 @@ const Template = (args) => <Single {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  id: 0,
+  pid: 'pid',
 }

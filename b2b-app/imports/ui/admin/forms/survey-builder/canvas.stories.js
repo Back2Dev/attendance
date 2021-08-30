@@ -1,10 +1,10 @@
 import React from 'react'
 
 import Canvas, { partsState } from './canvas'
-import useListControls from './hooks/list-controls'
+import useListControls, { makeNewItem } from './hooks/list-controls'
 
 export default {
-  title: 'Survey Builder/Canvas',
+  title: 'Survey Builder/Builder/Canvas',
   component: Canvas,
   decorators: [
     (Story) => {
@@ -15,7 +15,7 @@ export default {
             <h1>Toolbar</h1>
             <button
               onClick={() => {
-                add('')
+                add(makeNewItem({ type: 'single' }))
               }}
             >
               Add Single

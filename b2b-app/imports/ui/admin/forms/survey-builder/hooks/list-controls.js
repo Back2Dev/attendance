@@ -1,9 +1,16 @@
 import { useMemo } from 'react'
 import { useRecoilState } from 'recoil'
+import { customAlphabet } from 'nanoid'
 
-let id = 0
+const nanoid = customAlphabet(
+  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  10
+)
+
 /** make a new item with a globally unique id. when initialising a new list, map every item to this function */
-export const makeNewItem = (value = {}) => ({ ...value, id: id++ })
+// TODO allow setting key name for _id
+// TODO initialise state with internal key, need to figure out how to set initial recoil state
+export const makeNewItem = (value = {}) => ({ ...value, _id: nanoid() })
 
 /** add, remove, move and update a list.
  * @param {RecoilState} state - a recoil atom/selector which will store the list
@@ -40,7 +47,7 @@ const useListControls = (state) => {
     if (id === undefined) {
       throw new TypeError('id arg missing')
     }
-    const index = list.findIndex((v) => v.id === id)
+    const index = list.findIndex((v) => v._id === id)
     if (index === -1) {
       throw new TypeError('id not found')
     }
@@ -77,7 +84,7 @@ const useListControls = (state) => {
 
   const moveById = (id, direction) => {
     const l = [...list]
-    const index = l.findIndex((v) => v.id === id)
+    const index = l.findIndex((v) => v._id === id)
     if (index === -1) {
       throw new TypeError('id not found')
     }
@@ -91,7 +98,7 @@ const useListControls = (state) => {
     if (!isValidIndex(index)) {
       throw new TypeError('invalid index arg')
     }
-    setList(list.map((item, i) => (i === index ? { ...item, ...value } : item)))
+    setList(list.map((item, i) => (i === index ? value : item)))
   }
 
   const values = useMemo(() => list.map((item) => item.value), [list])

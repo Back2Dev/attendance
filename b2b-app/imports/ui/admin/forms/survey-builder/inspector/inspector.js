@@ -25,7 +25,7 @@ const Inspector = () => {
   return (
     <Box
       position="absolute"
-      top={0}
+      top={40}
       right={0}
       bottom={0}
       width="20%"
@@ -34,10 +34,10 @@ const Inspector = () => {
       {selectedPart !== null && (
         <div>
           <Section heading="Question">
-            <EditProperty id={selectedPart} path="question.+id" />
+            <EditProperty pid={selectedPart} path="id" />
           </Section>
           <Section heading="Answers">
-            <EditProperty id={selectedPart} path="answers" />
+            <EditProperty pid={selectedPart} path="answers" />
           </Section>
         </div>
       )}

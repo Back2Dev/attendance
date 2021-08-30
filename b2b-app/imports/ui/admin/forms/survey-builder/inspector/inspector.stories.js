@@ -2,7 +2,7 @@ import React from 'react'
 import Inspector from './inspector'
 
 export default {
-  title: 'Survey Builder/Inspector',
+  title: 'Survey Builder/Builder/Inspector',
   component: Inspector,
 }
 

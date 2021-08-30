@@ -2,7 +2,7 @@ import React from 'react'
 import Section from './section'
 
 export default {
-  title: 'Survey Builder/Inspector/Section',
+  title: 'Survey Builder/Builder/Inspector/Section',
   component: Section,
 }
 

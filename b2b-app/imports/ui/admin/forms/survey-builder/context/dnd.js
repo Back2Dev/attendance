@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useRecoilCallback } from 'recoil'
-import { singleAnswersState } from '../types/single/inner'
+import { singleAnswersState } from '../types'
 
 const DndProvider = ({ children }) => {
   const setList = useRecoilCallback(
@@ -16,11 +16,9 @@ const DndProvider = ({ children }) => {
         return
       }
 
-      // FIXME: convert part ids to strings. remember to update stories too
-      let id = draggableId.split('-')[1]
-      id = parseInt(id)
+      let pid = draggableId.split('-')[1]
 
-      set(singleAnswersState(id), (answers) => {
+      set(singleAnswersState(pid), (answers) => {
         const items = Array.from(answers)
         const [reorderedItem] = items.splice(source.index, 1)
         items.splice(destination.index, 0, reorderedItem)
