@@ -44,7 +44,7 @@ export const EditorToolbar = () => {
   return (
     <Paper square>
       <div className="editorBar">
-        <div style={{ display: 'flex', flexDirection: 'row', alignSelf: 'flex' }}>
+        <div style={{ display: 'table-cell', width: '33vw' }}>
           {formContext.layout === 'single' ? (
             <Tabs
               value={formContext.tab}
@@ -60,6 +60,9 @@ export const EditorToolbar = () => {
             <span />
           )}
           <span style={{ width: '16px' }} />
+        </div>
+
+        <div style={{ display: 'table-cell', width: '33vw', textAlign: 'center' }}>
           <Typography
             variant="subtitle1"
             style={{ fontStyle: 'italic', alignSelf: 'center' }}
@@ -68,97 +71,102 @@ export const EditorToolbar = () => {
           </Typography>
         </div>
 
-        <div className="editorTools">
-          <Tooltip title="Settings">
-            <IconButton
-              color="default"
-              aria-label="open settings"
-              onClick={() => {
-                handleSettings()
+        <div
+          className="editorTools"
+          style={{ display: 'table-cell', width: '33vw', textAlign: 'right' }}
+        >
+          <span>
+            <Tooltip title="Settings">
+              <IconButton
+                color="default"
+                aria-label="open settings"
+                onClick={() => {
+                  handleSettings()
+                }}
+              >
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Popover
+              open={settings}
+              onClose={handleSettings}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
               }}
             >
-              <SettingsIcon />
-            </IconButton>
-          </Tooltip>
-          <Popover
-            open={settings}
-            onClose={handleSettings}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <div style={{ padding: '8px' }}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Editor Layout</FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="layout"
-                  value={formContext.layout}
-                  onChange={handleLayoutChange}
-                >
-                  <FormControlLabel value="single" control={<Radio />} label="Single" />
-                  <FormControlLabel value="double" control={<Radio />} label="Double" />
+              <div style={{ padding: '8px' }}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Editor Layout</FormLabel>
+                  <RadioGroup
+                    aria-label="gender"
+                    name="layout"
+                    value={formContext.layout}
+                    onChange={handleLayoutChange}
+                  >
+                    <FormControlLabel value="single" control={<Radio />} label="Single" />
+                    <FormControlLabel value="double" control={<Radio />} label="Double" />
+                    <FormControlLabel
+                      value="dnd"
+                      disabled
+                      control={<Radio />}
+                      label="Drag and Drop"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <FormGroup row>
                   <FormControlLabel
-                    value="dnd"
-                    disabled
-                    control={<Radio />}
-                    label="Drag and Drop"
+                    control={
+                      <Switch
+                        checked={formContext.autoRun}
+                        onChange={formContext.toggleAutoRun}
+                        name="autoRun"
+                        color="primary"
+                      />
+                    }
+                    label="AutoRun"
                   />
-                </RadioGroup>
-              </FormControl>
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={formContext.autoRun}
-                      onChange={formContext.toggleAutoRun}
-                      name="autoRun"
-                      color="primary"
-                    />
-                  }
-                  label="AutoRun"
-                />
-              </FormGroup>
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={formContext.autoSave}
-                      onChange={formContext.toggleAutoSave}
-                      name="autoSave"
-                      color="primary"
-                    />
-                  }
-                  label="AutoSave"
-                />
-              </FormGroup>
-            </div>
-          </Popover>
-          <Tooltip title="Run form">
-            <IconButton
-              color="secondary"
-              aria-label="run form"
-              onClick={() => {
-                formContext.compileForm()
-              }}
-            >
-              <PlayArrowIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Save">
-            <IconButton
-              color="primary"
-              aria-label="save"
-              onClick={() => formContext.save(false)}
-            >
-              <SaveIcon />
-            </IconButton>
-          </Tooltip>
+                </FormGroup>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={formContext.autoSave}
+                        onChange={formContext.toggleAutoSave}
+                        name="autoSave"
+                        color="primary"
+                      />
+                    }
+                    label="AutoSave"
+                  />
+                </FormGroup>
+              </div>
+            </Popover>
+            <Tooltip title="Run form">
+              <IconButton
+                color="secondary"
+                aria-label="run form"
+                onClick={() => {
+                  formContext.compileForm()
+                }}
+              >
+                <PlayArrowIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Save">
+              <IconButton
+                color="primary"
+                aria-label="save"
+                onClick={() => formContext.save(false)}
+              >
+                <SaveIcon />
+              </IconButton>
+            </Tooltip>
+          </span>
         </div>
       </div>
     </Paper>
