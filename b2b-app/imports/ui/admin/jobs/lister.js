@@ -11,7 +11,7 @@ import PencilSquare from '@material-ui/icons/Edit'
 import JobsList from './list'
 import config from './config'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 const idField = '_id'
 let push
 const dateFormat = {
@@ -28,9 +28,7 @@ const edit = (id) => push(`/admin/jobs/edit/${id}`)
 const view = (id) => push(`/admin/jobs/view/${id}`)
 const archive = async (rowids) => {
   const name = prompt('Please enter a name for the archive')
-  const text = confirm(
-    `Are you sure you want to archive this Jobs and related entities?`
-  )
+  const text = confirm(`Are you sure you want to archive this Jobs and related entities?`)
 
   if (name && text) {
     meteorCall('archive.jobs', `Archiving Jobs to ${name}`, {

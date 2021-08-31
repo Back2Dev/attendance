@@ -141,7 +141,7 @@ Accounts.urls.resetPassword = function (token) {
 
 // Accounts.emailTemplates.resetPassword.from = () => {
 //   // Overrides the value set in `Accounts.emailTemplates.from` when resetting passwords.
-//   return 'Startup Inc <noreply@mydomain.com.au>'
+//   return 'Back2bikes <noreply@mydomain.com.au>'
 // }
 
 Accounts.onLoginFailure(function (arg) {

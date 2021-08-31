@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import { default as MUIFabButton } from '@material-ui/core/Fab'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -87,6 +88,24 @@ export const RedButton = withStyles({
   },
 })(MUIButton)
 
+export const GreenFabButton = withStyles(({ palette }) => ({
+  root: {
+    color: '#fff',
+    backgroundColor: '#31a750',
+    boxShadow:
+      '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+    '&:hover': {
+      backgroundColor: palette.success.dark,
+    },
+    '&:disabled': {
+      color: '#d6d6d6',
+      backgroundColor: '#f3f3f3',
+      boxShadow: 'none',
+      opacity: '0.65',
+    },
+  },
+}))(MUIFabButton)
+
 export const Button = withStyles({})(MUIButton)
 
 const tabAppbarStyles = makeStyles((theme) => ({
@@ -167,10 +186,10 @@ export const TabAppbar = ({ title, buttons, onChange, search, defaultValue }) =>
 export const LinearProgressWithLabel = (props) => {
   return (
     <Box display="flex" alignItems="center">
-      <Box width="100%" mr={1}>
+      <Box width="100%" mr={1} key="progress">
         <LinearProgress variant="determinate" {...props} />
       </Box>
-      <Box minWidth={35}>
+      <Box minWidth={35} key="value">
         <Typography variant="body2" color="textSecondary">{`${Math.round(
           props.value
         )}%`}</Typography>

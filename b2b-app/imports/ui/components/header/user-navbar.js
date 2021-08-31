@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
       height: 60,
       '&:hover': {
         filter:
-          'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)',
+          "brightness(1.3) invert(0.17) saturate(2.6) sepia(0.25) url('#teal-white')",
       },
     },
   },
@@ -269,7 +269,12 @@ export default function UserNavbar() {
           </RadioGroup>
         </FormControl>
       </Collapse>
-      <MenuItem onClick={onLogout} className={classes.profileItem} key="logout">
+      <MenuItem
+        onClick={onLogout}
+        className={classes.profileItem}
+        key="logout"
+        data-cy="logout-menu"
+      >
         Log out
       </MenuItem>
     </Menu>
@@ -327,7 +332,7 @@ export default function UserNavbar() {
         </FormControl>
       </Collapse>
       <MenuItem onClick={onLogout} key="logout">
-        <IconButton aria-label="logout" color="inherit">
+        <IconButton aria-label="logout" color="inherit" data-cy="logout-icon">
           <ExitToApp />
         </IconButton>
         Log out
@@ -341,7 +346,7 @@ export default function UserNavbar() {
         <Toolbar>
           {isAdmin && viewas === 'ADM' ? <ADMSideDrawer /> : <OtherSideDrawer />}
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <img className={classes.logo} src="/images/logo.png" alt="Startup Inc logo" />
+            <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
           </Link>
           {userMenu &&
             userMenu.map((item, index) => {

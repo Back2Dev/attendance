@@ -10,14 +10,14 @@ import HTMLTemplate from '/imports/api/email-template'
 
 import { schemaBridge } from './edit-schema'
 
-const debug = require('debug')('se:add')
+const debug = require('debug')('app:add')
 
 const Add = ({ item, methods }) => {
   const save = (model) => {
     try {
       methods.save(model)
     } catch (e) {
-      alert(`Save error ${e.message}`)
+      debug(`Save error ${e.message}`)
     }
   }
   const [data, setData] = React.useState({})

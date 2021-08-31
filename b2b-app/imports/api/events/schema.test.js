@@ -13,17 +13,10 @@ const badEvents = [
   {
     productId: 'asdf23asdf',
     duration: 5,
-    active: false,
   },
   // no duration
   {
     name: 'asdf9kj98',
-    active: true,
-  },
-  // no active flag
-  {
-    name: 'asdf9kj98',
-    duration: 2,
   },
 ]
 
@@ -31,7 +24,7 @@ const goodEvents = [
   {
     name: 'Group Kayak',
     duration: 2,
-    active: true,
+    status: 'active',
     type: 'day',
   },
 ]

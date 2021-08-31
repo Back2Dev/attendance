@@ -18,7 +18,7 @@ describe('Testing user profile functions', () => {
   })
   beforeEach(() => {
     cy.loginFromHomepage(users.admin.username, currPasswd)
-    cy.get('a[href="/properties"]')
+    cy.get('a[href="/bookings"]')
     cy.get('[data-cy=primary-search-account-menu]').first().click()
     cy.get('#primary-search-account-menu > .MuiPaper-root > .MuiList-root').should(
       'exist'
@@ -63,10 +63,5 @@ describe('Testing user profile functions', () => {
     currPasswd = users.admin.password
     cy.get('#next-button').should('exist').click()
     cy.get('.Toastify__toast-body').should('contain', 'Changed password')
-  })
-  it('uploads a signature successfully', () => {
-    cy.contains('Signature').should('exist').click()
-    cy.get('[data-cy=signCanvas]').should('exist').click()
-    cy.get('#save-button').should('exist').click()
   })
 })

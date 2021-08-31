@@ -24,4 +24,5 @@ module.exports = [
   { id: 'service-items', menu: 'Service items', fixtures: 1, pubs: 1 },
   { id: 'jobs', menu: 'Jobs', fixtures: 0, pubs: 1 },
   { id: 'forms', menu: 'Forms', fixtures: 0, pubs: 1 },
+  { id: 'registrations', menu: 'Registrations', fixtures: 0, pubs: 1 },
 ]

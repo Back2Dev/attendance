@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import { JSONSchemaBridge } from 'uniforms-bridge-json-schema'
-const debug = require('debug')('se:getschema')
+const debug = require('debug')('app:getschema')
 const ajv = new Ajv({ allErrors: true, useDefaults: true, strict: false })
 addFormats(ajv)
 
@@ -17,7 +17,7 @@ function createValidator(schema) {
 }
 
 const getSchemas = (survey) => {
-  survey.steps.forEach((step, ix) => {
+  return survey.steps.map((step, ix) => {
     step.schema = {
       title: step.name || `Unnamed step ${ix + 1}`,
       type: 'object',
@@ -27,7 +27,7 @@ const getSchemas = (survey) => {
     else {
       // step.schema.fieldOrder = step.questions.map((q) => q.id)
       step.schema.required = step.questions
-        .filter((q) => !q.optional && q.qtype === 'single')
+        .filter((q) => !q.optional && q.type === 'single')
         .map((q) => q.id)
       debug(`${step.id} required`, step.schema.required)
       step.questions.forEach((q) => {
@@ -36,7 +36,7 @@ const getSchemas = (survey) => {
           label: '', //q.prompt
         }
         const qSchema = step.schema.properties[q.id]
-        switch (q.qtype) {
+        switch (q.type) {
           case 'text':
             delete step.schema.properties[q.id]
             step.schema.required = step.schema.required.concat(
@@ -120,13 +120,14 @@ const getSchemas = (survey) => {
           // Need a better way to handle this
           default:
             delete step.schema.properties[q.id]
-            console.error(`Unsupported question type: ${q.qtype}`)
+            console.error(`Unsupported question type: ${q.type}`)
         }
       })
       debug(`${step.id} required`, step.schema.required)
 
       debug('schema', step.schema)
       step.bridge = new JSONSchemaBridge(step.schema, createValidator(step.schema))
+      return step.schema
     }
   })
 }

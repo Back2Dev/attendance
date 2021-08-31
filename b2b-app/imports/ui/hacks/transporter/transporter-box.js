@@ -6,7 +6,7 @@ import Transporter from './transporter'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import { showSuccess } from '/imports/ui/utils/toast-alerts'
 
-const debug = require('debug')('se:transporter-box')
+const debug = require('debug')('app:transporter-box')
 
 const sendEmail = async (params) => {
   const message = {
@@ -18,7 +18,7 @@ const sendEmail = async (params) => {
       html: params.body,
       subject: params.template_name,
       from_email: 'do-not-reply@mydomain.com.au', // TODO - Use a personal email
-      from_name: 'Startup Inc.',
+      from_name: 'Back2bikes.',
       to: [
         {
           email: params.recipient,

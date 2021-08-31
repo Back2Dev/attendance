@@ -5,7 +5,7 @@ import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import { TabAppbar } from '/imports/ui/utils/generic'
 
-const debug = require('debug')('se:add')
+const debug = require('debug')('app:add')
 
 const idField = '_id'
 const FILTER_NAME = 'sessions:filter'

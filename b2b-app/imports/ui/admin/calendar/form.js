@@ -22,6 +22,7 @@ import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 import { CalendarContext } from './contexts'
 import config from '/imports/ui/admin/events/config.js'
+import moment from 'moment'
 
 const schemaBridge = config.edit.schema
 
@@ -70,13 +71,15 @@ function EventForm() {
     selectEvent,
     storeEvent,
     deleteEvent,
+    timeZoneOffset,
   } = useContext(CalendarContext)
+
+  console.log('timeZoneOffset', timeZoneOffset)
 
   const formRef = useRef()
 
   const [data, setData] = useState({
     when: selectedDate,
-    active: true,
   })
   const [recurringUpdateOpen, setRecurringUpdateOpen] = useState(false)
   const [recurringAction, setRecurringAction] = useState('')
@@ -88,11 +91,11 @@ function EventForm() {
       return
     }
     if (selectedDate) {
-      setData({ when: selectedDate, active: true })
+      setData({ when: selectedDate, status: 'active' })
       return
     }
     setData({
-      active: true,
+      status: 'active',
     })
   }, [selectedDate, selectedEvent])
 
@@ -133,7 +136,12 @@ function EventForm() {
     setRecurringUpdateOpen(false)
     if (recurringAction === 'edit') {
       storeEvent({
-        data: formModel.current,
+        // data: formModel.current,
+        data: {
+          ...formModel.current,
+          // we change it back to the right date time before storing
+          when: moment(formModel.current.when).add(timeZoneOffset, 'minutes').toDate(),
+        },
         cb: (result) => {
           if (result?.status === 'success') {
             handleClose()
@@ -168,7 +176,11 @@ function EventForm() {
       setRecurringUpdateOpen(true)
     } else {
       storeEvent({
-        data: model,
+        data: {
+          ...model,
+          // we change it back to the right date time before storing
+          when: moment(model.when).add(timeZoneOffset, 'minutes').toDate(),
+        },
         cb: (result) => {
           if (result?.status === 'success') {
             handleClose()
@@ -203,7 +215,12 @@ function EventForm() {
         <DialogContent className="form-content">
           <AutoForm
             schema={schemaBridge}
-            model={data}
+            model={{
+              ...data,
+              // because the autoFrom date field converts the time to UTC
+              // then we have to modify it before give it to date field
+              when: moment(data.when).subtract(timeZoneOffset, 'minutes').toDate(),
+            }}
             onSubmit={handleSubmit}
             ref={formRef}
           >

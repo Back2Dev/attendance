@@ -9,3 +9,5 @@ sb-build
 x
 dev.*.settings.json
 .env
+.vscode
+../.vscode
