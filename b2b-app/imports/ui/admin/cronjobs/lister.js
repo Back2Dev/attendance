@@ -10,7 +10,7 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import List from './list'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 const idField = '_id'
 let history
 const dateFormat = {
@@ -42,9 +42,9 @@ const methods = { remove, update, insert, view, edit, archive }
 // Config data
 
 const defaultObject = {
-  "name": "untitled",
-  "frequency": "1 hour",
-  "type": "unknown"
+  name: 'untitled',
+  frequency: '1 hour',
+  type: 'unknown',
 }
 const editIcon = (cell, formatterParams) => {
   //plain text value
@@ -58,7 +58,7 @@ const viewIcon = (cell, formatterParams) => {
 const columns = [
   {
     formatter: 'rowSelection',
-    width:25,
+    width: 25,
     hozAlign: 'center',
     headerSort: false,
     cellClick: function (e, cell) {

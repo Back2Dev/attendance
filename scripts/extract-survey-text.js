@@ -57,7 +57,9 @@ const recurse = (arr, omit) => {
 
 const surveys = require(folder)
 const text = surveys.map((survey) => {
-  return recurse(survey)
+  const stext = recurse(survey)
+  fs.writeFileSync(`./${survey.slug}.txt`, stext.flat(99).join('\n'))
+  return stext
 })
 fs.writeFileSync('scripts/x.js', JSON.stringify(text, null, 2))
 fs.writeFileSync(output, text.flat(99).join('\n'))

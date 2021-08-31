@@ -6,7 +6,7 @@ import MessageTemplates from '/imports/api/message-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Add from './add'
 
-const debug = require('debug')('se:adder')
+const debug = require('debug')('app:adder')
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
   outputFormat: 'DD/MM/YY h:mm A',

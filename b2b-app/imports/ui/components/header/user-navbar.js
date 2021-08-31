@@ -269,7 +269,12 @@ export default function UserNavbar() {
           </RadioGroup>
         </FormControl>
       </Collapse>
-      <MenuItem onClick={onLogout} className={classes.profileItem} key="logout">
+      <MenuItem
+        onClick={onLogout}
+        className={classes.profileItem}
+        key="logout"
+        data-cy="logout-menu"
+      >
         Log out
       </MenuItem>
     </Menu>
@@ -327,7 +332,7 @@ export default function UserNavbar() {
         </FormControl>
       </Collapse>
       <MenuItem onClick={onLogout} key="logout">
-        <IconButton aria-label="logout" color="inherit">
+        <IconButton aria-label="logout" color="inherit" data-cy="logout-icon">
           <ExitToApp />
         </IconButton>
         Log out

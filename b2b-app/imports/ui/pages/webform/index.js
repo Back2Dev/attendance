@@ -42,7 +42,7 @@ const WebformBox = withTracker((props) => {
   const currentRole = localStorage.getItem('viewas')
   const cusReturnURL = () => {
     if (currentRole === 'CUS') {
-      return push(`/properties/${listing._id}`)
+      return push(`/bookings/${listing._id}`)
     } else {
       return push(`/next-steps/${listing._id}`)
     }

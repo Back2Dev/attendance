@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Container, Typography } from '@material-ui/core'
 import HTMLTemplate from '/imports/api/email-template'
 
-const debug = require('debug')('se:edit')
+const debug = require('debug')('app:edit')
 
 const View = ({ item }) => {
   const itemHTML = item.body

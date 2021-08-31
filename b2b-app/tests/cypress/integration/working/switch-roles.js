@@ -16,8 +16,8 @@ describe('switch user roles', () => {
 
   it('goes to the profile and swtiches roles', () => {
     cy.loginFromHomepage(users.admin.username, users.admin.password)
-    cy.get('a[href = "/properties"]').should('exist')
-    cy.get('[data-cy="welcome"]').should('exist')
+    cy.get('a[href = "/bookings"]').should('exist')
+    cy.get('[data-cy="member-portal"]').should('exist')
     cy.get(
       '[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root'
     ).click()

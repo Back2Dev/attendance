@@ -15,7 +15,7 @@ import {
 import EmailCard from './components/email'
 import SMSCard from './components/sms'
 
-const debug = require('debug')('se:transporter')
+const debug = require('debug')('app:transporter')
 
 const useStyles = makeStyles({
   root: {

@@ -15,7 +15,7 @@ SimpleSchema.setDefaultMessages({
     },
   },
 })
-const debug = require('debug')('se:survey-schema')
+const debug = require('debug')('app:survey-schema')
 
 const checkVolume = function () {
   debug(`Checking ${this.key} ${this.value}`, this.definition)
@@ -135,7 +135,7 @@ const getSchemas = (survey, currentData) => {
             }
             const qSchema = step.schema[q.id]
             const answers = getAnswers(currentData, q)
-            switch (q.type) {
+            switch (q.qtype) {
               case 'array':
                 step.schema[q.id].type = Array
                 step.schema[q.id].minCount = q.minCount || 1

@@ -9,7 +9,7 @@ import { PreviewPanel } from './preview-panel'
 import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
 
-const debug = require('debug')('app:edit')
+const debug = require('debug')('app:forms:framework')
 
 export const EditorContext = React.createContext()
 
@@ -83,6 +83,7 @@ const Framework = ({ id, item, methods }) => {
       setErrors(compiled.errs)
       showErrors(compiled.errs)
     } else {
+      setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
       setErrors(compiled.errs)
       showErrors(compiled.errs)
     }

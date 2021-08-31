@@ -16,7 +16,7 @@ const Add = ({ item, methods }) => {
     try {
       methods.save(model)
     } catch (e) {
-      alert(`Save error ${e.message}`)
+      debug(`Save error ${e.message}`)
     }
   }
   const [data, SetData] = React.useState({})
