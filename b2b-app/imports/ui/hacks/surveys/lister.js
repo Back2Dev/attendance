@@ -10,7 +10,7 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import List from './list'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 const idField = '_id'
 let history
 const dateFormat = {
@@ -61,7 +61,7 @@ const viewIcon = (cell, formatterParams) => {
 const columns = [
   {
     formatter: 'rowSelection',
-    width:25,
+    width: 25,
     hozAlign: 'center',
     headerSort: false,
     cellClick: function (e, cell) {
@@ -94,7 +94,7 @@ const columns = [
   { field: 'name', title: 'Name', editor: true, formatter: null },
   { field: 'slug', title: 'Slug', editor: true, formatter: null },
   { field: 'version', title: 'version', editor: true },
-{
+  {
     field: 'active',
     title: 'active',
     editor: true,

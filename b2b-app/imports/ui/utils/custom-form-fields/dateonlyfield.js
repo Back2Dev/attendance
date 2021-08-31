@@ -20,8 +20,8 @@ function DateOnlyField({ onChange, value, disabled = false }) {
       <KeyboardDatePicker
         style={{ width: '100%' }}
         margin="normal"
-        id="settlement-date-picker"
-        label="Settlement Date"
+        id="date-picker"
+        label="Birthday Date"
         value={newValue}
         minDate={!disabled && moment()}
         format="DD/MM/yyyy"

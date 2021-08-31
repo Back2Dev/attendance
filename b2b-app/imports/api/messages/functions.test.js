@@ -59,7 +59,7 @@ const listing = {
 }
 const emailMessage = {
   type: 'EMAIL',
-  body: `<div>Thank you for choosing Startup Inc.</div>
+  body: `<div>Thank you for choosing Back2bikes.</div>
   <br/>
   <div> \`AGT\` added a listing for you. Please set up or login to your account by clicking <a href="\`URL\`">here.</a></div>
   <br/>
@@ -72,7 +72,7 @@ const emailMessage = {
 const smsMessage = {
   type: 'SMS',
   body:
-    'You have been assigned `address`. Please call `CUS` to introduce yourself within the next 2 hours and prepare and upload the Contract Review if required.  Cheers, Startup Inc  This is an automated SMS, please do not reply.',
+    'You have been assigned `address`. Please call `CUS` to introduce yourself within the next 2 hours and prepare and upload the Contract Review if required.  Cheers, Back2bikes  This is an automated SMS, please do not reply.',
 }
 
 describe('messages functions', () => {
@@ -84,14 +84,14 @@ describe('messages functions', () => {
   it('merges data into an SMS', () => {
     const result = findAndReplace({ data: listing, template: smsMessage })
     expect(result).to.be.equal(
-      'You have been assigned 33 Buy Street, Melbourne VIC 3051, Australia. Please call John Smith, Susan Green to introduce yourself within the next 2 hours and prepare and upload the Contract Review if required.  Cheers, Startup Inc  This is an automated SMS, please do not reply.'
+      'You have been assigned 33 Buy Street, Melbourne VIC 3051, Australia. Please call John Smith, Susan Green to introduce yourself within the next 2 hours and prepare and upload the Contract Review if required.  Cheers, Back2bikes  This is an automated SMS, please do not reply.'
     )
   })
   it('merges data into an email', () => {
     listing.type = 'buying'
     listing.URL = 'this is a link'
     const result = findAndReplace({ data: listing, template: emailMessage })
-    expect(result).to.be.equal(`<div>Thank you for choosing Startup Inc.</div>
+    expect(result).to.be.equal(`<div>Thank you for choosing Back2bikes.</div>
   <br/>
   <div> Max Whitefield added a listing for you. Please set up or login to your account by clicking <a href="this is a link">here.</a></div>
   <br/>
@@ -114,7 +114,7 @@ const goodMessages = [
       text: 'Example text content',
       subject: 'example subject',
       from_email: 'do-not-reply@mydomain.com.au',
-      from_name: 'Startup Inc',
+      from_name: 'Back2bikes',
       to: [
         {
           email: 'test@mydomain.com.au',

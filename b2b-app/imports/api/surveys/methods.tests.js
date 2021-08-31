@@ -2,7 +2,7 @@ import { Random } from 'meteor/random'
 import { Meteor } from 'meteor/meteor'
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
-const debug = require('debug')('se:surveys:tests')
+const debug = require('debug')('app:surveys:tests')
 
 import './methods'
 
@@ -47,7 +47,7 @@ const goodDocument = {
 
 const survey = {
   slug: 'cdc',
-  name: 'Cost disclosure',
+  name: 'Costs Disclosure',
   steps: [{ name: 'Test', id: 'test', questions: [{ id: 'test' }] }],
   primary: [
     { id: 'client_name', type: 'string' },

@@ -2,8 +2,8 @@ import users from '/tests/cypress/fixtures/users.json'
 
 describe('goes to support page', () => {
   beforeEach(() => {
-    cy.loginFromHomepage(users.customer.username, users.customer.password)
-    cy.get('a[href="/properties"]')
+    cy.loginFromHomepage(users.mike.username, users.mike.password)
+    cy.get('a[href="/bookings"]')
   })
   it('goes to support page', () => {
     cy.get('#support-nav-item').contains('Support').click()
