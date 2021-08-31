@@ -23,9 +23,9 @@ div.SplitPane.vertical {
 }
 
 .editorBar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: table;
+  /* flex-direction: row;
+  justify-content: space-between; */
 }
 
 .editorTools {

@@ -36,7 +36,7 @@ const codemirrorOptions = {
   gutters: ['CodeMirror-lint-markers'],
 }
 
-export const EditorPanel = () => {
+export const EditorPanel = ({ editor }) => {
   const formContext = React.useContext(EditorContext)
 
   const [splitSize, setSplitSize] = React.useState('85%')
@@ -46,12 +46,17 @@ export const EditorPanel = () => {
 
   // Set height of codemirror
   React.useEffect(() => {
-    const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
-      .clientHeight
-    // eslint-disable-next-line no-unused-vars
-    const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
-      height - 48
-    }px`)
+    if (editor.editorType === 'null') {
+      const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
+        .clientHeight
+      // eslint-disable-next-line no-unused-vars
+      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+    } else {
+      const height = document.getElementsByClassName('Pane vertical Pane1')[0]
+        .clientHeight
+      // eslint-disable-next-line no-unused-vars
+      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+    }
   })
 
   // Resize the codemirror components height when the split is changed
@@ -59,9 +64,7 @@ export const EditorPanel = () => {
     const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
       .clientHeight
     // eslint-disable-next-line no-unused-vars
-    const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
-      height - 48
-    }px`)
+    const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
     setSplitSize(size)
   }
 
@@ -69,12 +72,16 @@ export const EditorPanel = () => {
   React.useEffect(() => {
     window.addEventListener('resize', () => {
       setSplitSize('85%')
-      const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
-        .clientHeight
-      // eslint-disable-next-line no-unused-vars
-      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${
-        height - 48
-      }px`)
+      const pane = document.getElementsByClassName(
+        editor.editorType === 'null' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
+      )[0]
+      if (pane) {
+        const height = document.getElementsByClassName(
+          editor.editorType === 'null' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
+        )[0].clientHeight
+        // eslint-disable-next-line no-unused-vars
+        const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+      }
     })
 
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
@@ -93,29 +100,26 @@ export const EditorPanel = () => {
 
   const handleEditorInput = React.useCallback(
     debounce(() => {
-      if (formContext.autoRun && formContext.tab === 0) {
+      if (formContext.autoRun) {
         formContext.compileForm()
       }
-      formContext.save(false, true)
+      if (formContext.autoSave) {
+        formContext.save(false, true)
+      }
     })
   )
 
-  return (
-    <SplitPane
-      split="horizontal"
-      onChange={resize}
-      size={splitSize}
-      pane2Style={{ backgroundColor: '#192125' }}
-    >
+  const getEditor = () => {
+    const codemirrorWindow = (
       <div className="container">
         <CodeMirror
-          value={formContext.editors[formContext.tab].editorValue}
+          value={editor.editorValue}
           options={{
             ...codemirrorOptions,
-            mode: formContext.editors[formContext.tab].editorType,
+            mode: editor.editorType,
           }}
-          onBeforeChange={(editor, data, value) => {
-            formContext.editors[formContext.tab].updateEditor(value)
+          onBeforeChange={(e, data, value) => {
+            editor.updateEditor(value)
           }}
           onChange={handleEditorInput}
           ref={codemirrorRef}
@@ -125,7 +129,23 @@ export const EditorPanel = () => {
           }}
         />
       </div>
-      <ErrorPanel />
-    </SplitPane>
-  )
+    )
+    if (editor.editorType === 'null') {
+      return (
+        <SplitPane
+          split="horizontal"
+          onChange={resize}
+          size={splitSize}
+          pane2Style={{ backgroundColor: '#192125' }}
+        >
+          {codemirrorWindow}
+          <ErrorPanel />
+        </SplitPane>
+      )
+    }
+
+    return codemirrorWindow
+  }
+
+  return getEditor()
 }

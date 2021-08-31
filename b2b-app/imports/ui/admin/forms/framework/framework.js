@@ -2,9 +2,11 @@ import React from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
+import { DoubleLayout } from './double-layout'
 import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
+import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
 
 const debug = require('debug')('app:forms:framework')
@@ -50,12 +52,23 @@ const Framework = ({ id, item, methods }) => {
 
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
+  const [autoSave, setAutoSave] = React.useState(true)
   //codemirror references
   const [editor, setEditor] = React.useState()
   const [doc, setDoc] = React.useState()
   //error widgets
   const [widgets, setWidgets] = React.useState([])
   const [tab, setTab] = React.useState(0)
+
+  const [layout, setLayout] = React.useState('single')
+
+  const changeLayout = (newLayout) => {
+    const layouts = ['single', 'double', 'dnd']
+
+    if (layouts.includes(newLayout)) {
+      setLayout(newLayout)
+    }
+  }
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
@@ -85,6 +98,10 @@ const Framework = ({ id, item, methods }) => {
 
   const toggleAutoRun = () => {
     setAutoRun(autoRun ? false : true)
+  }
+
+  const toggleAutoSave = () => {
+    setAutoSave(autoSave ? false : true)
   }
 
   const showErrors = (errors) => {
@@ -119,6 +136,20 @@ const Framework = ({ id, item, methods }) => {
     }
   }, [editor])
 
+  let layoutComponent = <SingleLayout />
+
+  switch (layout) {
+    case 'single':
+      layoutComponent = <SingleLayout />
+      break
+    case 'double':
+      layoutComponent = <DoubleLayout />
+      break
+    default:
+      layoutComponent = <SingleLayout />
+      break
+  }
+
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <EditorContext.Provider
@@ -141,6 +172,8 @@ const Framework = ({ id, item, methods }) => {
           save,
           autoRun,
           toggleAutoRun,
+          autoSave,
+          toggleAutoSave,
           compileForm,
           editor,
           doc,
@@ -152,13 +185,14 @@ const Framework = ({ id, item, methods }) => {
           showErrors,
           tab,
           changeTab: (i) => setTab(i),
+          layout,
+          changeLayout,
+          name: item.name,
+          slug: item.slug,
         }}
       >
         <EditorToolbar />
-        <SplitPane split="vertical" defaultSize="50%">
-          <EditorPanel />
-          <PreviewPanel />
-        </SplitPane>
+        {layoutComponent}
       </EditorContext.Provider>
     </HotKeys>
   )
