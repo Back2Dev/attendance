@@ -54,6 +54,7 @@ objects.forEach((o) => {
 export const parse = (source) => {
   if (typeof source !== 'string') throw new Error('Parameter to parse must be a string')
   try {
+    currentStep = currentQ = current = null
     survey = {
       steps: [],
       name: 'Sample Survey',
