@@ -23,6 +23,7 @@ import { Typography } from '@material-ui/core'
 export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
   const [settings, setSettings] = React.useState(false)
+  const anchorEl = React.useRef(null)
 
   const handleLayoutChange = (event) => {
     formContext.changeLayout(event.target.value)
@@ -78,6 +79,7 @@ export const EditorToolbar = () => {
           <span>
             <Tooltip title="Settings">
               <IconButton
+                ref={anchorEl}
                 color="default"
                 aria-label="open settings"
                 onClick={() => {
@@ -90,6 +92,7 @@ export const EditorToolbar = () => {
             <Popover
               open={settings}
               onClose={handleSettings}
+              anchorEl={anchorEl.current}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'right',
@@ -112,7 +115,6 @@ export const EditorToolbar = () => {
                     <FormControlLabel value="double" control={<Radio />} label="Double" />
                     <FormControlLabel
                       value="dnd"
-                      disabled
                       control={<Radio />}
                       label="Drag and Drop"
                     />

@@ -1,3 +1,2 @@
 export * from './single'
-
-export { typesMap } from './typesMap'
+export * from './placeholder'

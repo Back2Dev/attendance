@@ -82,4 +82,8 @@ const removeById = (list, id) => {
   return remove(list, index)
 }
 
-export { add, update, remove, removeById, move, moveById }
+const findById = (list, id) => {
+  return list.find(({ _id }) => _id === id)
+}
+
+export { add, update, remove, removeById, move, moveById, findById }

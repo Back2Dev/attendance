@@ -1,11 +1,9 @@
 import { selector, atom } from 'recoil'
-import { singleAtom } from './single-state'
+import TypeRegistry from '../../types/type-registry'
+import { list } from '../../utils'
+import { partsAtom } from './parts-state'
 
-/** {
- *    _id: string, - unique id for a part
- *    type: string - question type eg. 'single', 'short'
- * } | null
- * */
+/** pid: string | null */
 // TODO comments for atoms
 export const selectedPartAtom = atom({
   key: 'selectedPart',
@@ -15,10 +13,10 @@ export const selectedPartAtom = atom({
 export const selectedPartData = selector({
   key: 'selectedPartData',
   get: ({ get }) => {
-    const selectedPart = get(selectedPartAtom)
-    if (selectedPart === null) return null
-    // TODO update to use typesMap
-    const single = get(singleAtom(selectedPart))
-    return single
+    const pid = get(selectedPartAtom)
+    if (pid === null) return null
+    const part = list.findById(get(partsAtom), pid)
+    const data = get(TypeRegistry.get(part.type).atom(pid))
+    return data
   },
 })

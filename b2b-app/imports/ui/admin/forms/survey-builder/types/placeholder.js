@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Frame from '../frame'
 import dataCache from '../data-cache'
-import { atomFamily, selectorFamily } from 'recoil'
 
-const Placeholder = ({ pid }) => {
+export const Placeholder = ({ pid }) => {
   const part = dataCache.getQuestion(pid)
   const [details, setDetails] = useState(false)
   return (
@@ -24,5 +23,3 @@ const Placeholder = ({ pid }) => {
 Placeholder.propTypes = {
   pid: PropTypes.string,
 }
-
-export default Placeholder

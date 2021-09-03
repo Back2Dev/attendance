@@ -24,11 +24,13 @@ export const PureBuilder = ({ json }) => {
     dataCache.set(null)
   }
   return (
-    <Box>
+    <Box height="calc(100vh - 64px - 48px)">
       <Toolbar />
-      <Parts />
-      <Canvas />
-      <Inspector />
+      <Box position="relative" height="calc(100% - 40px)">
+        <Parts />
+        <Canvas />
+        <Inspector />
+      </Box>
     </Box>
   )
 }

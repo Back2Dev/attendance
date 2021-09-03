@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, Box } from '@material-ui/core'
 import styled from 'styled-components'
-import { Close, KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
+import CloseIcon from '@material-ui/icons/Close'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import { useParts, useSelectedPartState } from './recoil/hooks'
 
 const StyledFrame = styled('div')(({ theme, isSelected }) => ({
@@ -56,13 +58,13 @@ export const PureFrame = ({ children, onMove, onRemove, onSelect, selected }) =>
         <Box flexGrow={1}>{children}</Box>
         <Box flexGrow={0} display="flex" flexDirection="column">
           <IconButton size="small" onClick={onRemove}>
-            <Close />
+            <CloseIcon />
           </IconButton>
           <IconButton size="small" onClick={() => onMove('up')}>
-            <KeyboardArrowUp />
+            <KeyboardArrowUpIcon />
           </IconButton>
           <IconButton size="small" onClick={() => onMove('down')}>
-            <KeyboardArrowDown />
+            <KeyboardArrowDownIcon />
           </IconButton>
         </Box>
       </Box>

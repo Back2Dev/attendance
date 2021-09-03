@@ -4,8 +4,8 @@ import { atom, useRecoilCallback, useRecoilState } from 'recoil'
 import debug from 'debug'
 
 import { parse } from '/imports/api/forms/engine.js'
-import { typesMap } from './types'
 import { partsAtom } from './recoil/atoms'
+import TypeRegistry from './types/type-registry'
 
 let log = debug('builder:toolbar')
 
@@ -26,7 +26,7 @@ const Toolbar = () => {
       const source = parts
         .map(
           ({ _id: pid, type }) =>
-            snapshot.getLoadable(typesMap(type).sourceState(pid)).contents
+            snapshot.getLoadable(TypeRegistry.get(type).source(pid)).contents
         )
         .join('\n\n')
       return source
@@ -56,11 +56,8 @@ const Toolbar = () => {
 
   return (
     <Box
-      position="absolute"
-      top={0}
-      left={0}
-      right={0}
       height={40}
+      flex="0 1 auto"
       border="1px solid lightgrey"
       display="flex"
       alignItems="center"

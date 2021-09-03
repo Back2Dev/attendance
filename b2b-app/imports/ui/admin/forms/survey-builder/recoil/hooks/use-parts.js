@@ -1,6 +1,16 @@
-import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil'
+import {
+  useRecoilCallback,
+  useRecoilState,
+  useRecoilTransaction_UNSTABLE,
+  useRecoilValue,
+} from 'recoil'
+import debug from 'debug'
+
+import TypeRegistry from '../../types/type-registry'
 import { list } from '../../utils'
 import { partsAtom } from '../atoms'
+
+const log = debug('builder:use-parts')
 
 export const usePartsValue = () => {
   return useRecoilValue(partsAtom)
@@ -11,12 +21,11 @@ export const useParts = () => {
     set(partsAtom, (parts) => list.add(parts, { type }))
   })
 
-  const removePart = useRecoilCallback(({ set, snapshot }) => (id) => {
-    // TODO delete the atom after removing it from the parts array
-    // const { type } = snapshot.getLoadable(partsAtom(id)).contents
-    set(partsAtom, (parts) => list.removeById(parts, id))
-    // delete the atom
-    // reset(typesMap(type).atom(id))
+  const removePart = useRecoilTransaction_UNSTABLE(({ set, reset, get }) => (pid) => {
+    const part = list.findById(get(partsAtom), pid)
+    const typeAtom = TypeRegistry.get(part.type).atom(pid)
+    reset(typeAtom)
+    set(partsAtom, (parts) => list.removeById(parts, pid))
   })
 
   const movePart = useRecoilCallback(({ set }) => (id, direction) => {

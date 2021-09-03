@@ -2,8 +2,8 @@ import keyBy from 'lodash/keyBy'
 import mapValues from 'lodash/mapValues'
 import debug from 'debug'
 
-import { typesMap } from './types'
 import SimpleSchema from 'simpl-schema'
+import TypeRegistry from './types/type-registry'
 
 let log = debug('builder:data-cache')
 let data = []
@@ -36,7 +36,7 @@ const parse = (data) => {
       ...mapValues(
         keyBy(questions, ({ id }) => id),
         (v) => {
-          const type = typesMap(v.type)
+          const type = TypeRegistry.get(v.type)
           // a type hasn't been implemented so just return the original data
           if (!type) {
             return v

@@ -1,5 +1,8 @@
 import React, { forwardRef } from 'react'
-import { RadioButtonUnchecked, Delete, DragIndicator, Add } from '@material-ui/icons'
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
+import DeleteIcon from '@material-ui/icons/Delete'
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import AddIcon from '@material-ui/icons/Add'
 import { IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 
@@ -87,7 +90,7 @@ const Item = forwardRef(
     return (
       <StyledItem ref={ref} {...otherProps}>
         <IconButton size="small" disabled>
-          <RadioButtonUnchecked />
+          <RadioButtonUncheckedIcon />
         </IconButton>
         <StyledInlineEdit
           text={text}
@@ -95,9 +98,9 @@ const Item = forwardRef(
           onTextChange={onTextChange}
         />
         <Controls onMouseDown={preventFocus}>
-          <DragIndicator />
+          <DragIndicatorIcon />
           <IconButton size="small" onClick={onAdd} aria-label="add">
-            <Add />
+            <AddIcon />
           </IconButton>
           <DeleteButton
             size="small"
@@ -105,7 +108,7 @@ const Item = forwardRef(
             aria-label="delete"
             disabled={disableRemove}
           >
-            <Delete />
+            <DeleteIcon />
           </DeleteButton>
         </Controls>
       </StyledItem>

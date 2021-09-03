@@ -5,6 +5,8 @@ import debug from 'debug'
 import SingleInner from './inner'
 import Frame from '../../frame'
 import SimpleSchema from 'simpl-schema'
+import { singleAtom, singleSource } from '../../recoil/atoms'
+import TypeRegistry from '../type-registry'
 
 let log = debug('builder:single')
 
@@ -51,3 +53,5 @@ Single.propTypes = {
 }
 
 export default Single
+
+TypeRegistry.register('single', Single, singleSource, mapDataToAtom, singleAtom)
