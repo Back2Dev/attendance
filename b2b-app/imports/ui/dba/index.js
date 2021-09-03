@@ -1,9 +1,12 @@
 import React from 'react'
+import { useParams } from 'react-router'
+
 import Lister from './lister'
 // let Lister = () => <div>list component</div>
 
-export default DBA = (props) => {
-  const { collection, view, id } = props.match.params
+const DBA = () => {
+  const { collection, view, id } = useParams()
+  console.log({ collection, view, id })
 
   let Component = () => <div>Unknown component</div>
 
@@ -19,3 +22,5 @@ export default DBA = (props) => {
     </div>
   )
 }
+
+export default DBA
