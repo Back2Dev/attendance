@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { IconButton, Box } from '@material-ui/core'
 import styled from 'styled-components'
 import { Close, KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
+import { useParts, useSelectedPartState } from './recoil/hooks'
 
 const StyledFrame = styled('div')(({ theme, isSelected }) => ({
   padding: theme.spacing(2),
@@ -15,7 +16,7 @@ const StyledFrame = styled('div')(({ theme, isSelected }) => ({
   margin: theme.spacing(2),
 }))
 
-const Frame = ({ children, onMove, onRemove, onSelect, selected }) => {
+export const PureFrame = ({ children, onMove, onRemove, onSelect, selected }) => {
   const selectFrame = (e) => {
     e.stopPropagation()
     // already clicked inside or child focussed and relatedTarget (element that blurred) is also a child
@@ -69,7 +70,7 @@ const Frame = ({ children, onMove, onRemove, onSelect, selected }) => {
   )
 }
 
-Frame.propTypes = {
+PureFrame.propTypes = {
   /** A question type component */
   children: PropTypes.node.isRequired,
   /** Move up/down handler. Receives a direction arg: 'up' | 'down */
@@ -80,6 +81,29 @@ Frame.propTypes = {
   onSelect: PropTypes.func,
   /** whether frame or children has received focus or been clicked on */
   selected: PropTypes.bool,
+}
+
+const Frame = ({ pid, children }) => {
+  const [selectedPart, setSelectedPart] = useSelectedPartState()
+  const { movePart, removePart } = useParts()
+  return (
+    <PureFrame
+      selected={selectedPart === pid}
+      onSelect={(isSelected) => setSelectedPart(isSelected ? pid : null)}
+      onRemove={() => {
+        removePart(pid)
+        setSelectedPart(null)
+      }}
+      onMove={(dir) => movePart(pid, dir)}
+    >
+      {children}
+    </PureFrame>
+  )
+}
+
+Frame.propTypes = {
+  pid: PropTypes.string,
+  children: PropTypes.node,
 }
 
 export default Frame

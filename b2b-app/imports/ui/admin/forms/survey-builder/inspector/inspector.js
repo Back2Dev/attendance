@@ -1,27 +1,14 @@
 import { Box } from '@material-ui/core'
 import React from 'react'
-import { selector, useRecoilValue } from 'recoil'
-import { selectedPartState } from '../canvas'
-import { singleState } from '../types/single/single'
+import { useSelectedPartValue } from '../recoil/hooks'
 import EditProperty from './edit-property'
 import Section from './section'
-
-export const inspectorState = selector({
-  key: 'inspector',
-  get: ({ get }) => {
-    const selectedPart = get(selectedPartState)
-    if (selectedPart === null) return null
-    const single = get(singleState(selectedPart))
-    return single
-  },
-})
 
 // FIXME: after tabbing out of textbox, try to edit property and instance gets unselected
 // FIXME: hit enter on a textbox and instance gets unselected
 // FIXME: swap choice positions and the +val get cleared
 const Inspector = () => {
-  const single = useRecoilValue(inspectorState)
-  const selectedPart = useRecoilValue(selectedPartState)
+  const selectedPart = useSelectedPartValue()
   return (
     <Box
       position="absolute"

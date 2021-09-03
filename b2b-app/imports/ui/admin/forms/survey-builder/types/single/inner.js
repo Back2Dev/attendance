@@ -1,49 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { selectorFamily, useSetRecoilState } from 'recoil'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTheme } from '@material-ui/core/styles'
 
 import Item from './item'
 import Question from '../../question'
-import { useListControls } from '../../hooks'
-import { defaultAnswer, singleState } from './single'
-import produce from 'immer'
-
-export const singleAnswersState = selectorFamily({
-  key: 'singleAnswers',
-  get: (pid) => ({ get }) => {
-    const single = get(singleState(pid))
-    return single.answers
-  },
-  set: (pid) => ({ get, set }, newValue) => {
-    const single = get(singleState(pid))
-
-    const nextState = produce(single, (draft) => {
-      draft.answers = newValue
-    })
-    set(singleState(pid), nextState)
-  },
-})
-
-const singleQuestionState = selectorFamily({
-  key: 'singleQuestion',
-  set: (pid) => ({ set, get }, newValue) => {
-    const single = get(singleState(pid))
-    const nextState = produce(single, (draft) => {
-      draft.prompt = newValue
-    })
-    set(singleState(pid), nextState)
-  },
-})
+import { useAnswers, useQuestion } from '../../recoil/hooks'
 
 /** Single Choice question */
-const SingleInner = ({ pid, initialLabel, initialList }) => {
-  const { all, remove, update, add } = useListControls(
-    singleAnswersState(pid),
-    initialList
-  )
-  const setQuestion = useSetRecoilState(singleQuestionState(pid))
+const SingleInner = ({ pid }) => {
+  const { all, add, update, remove } = useAnswers(pid)
+  const [question, setQuestion] = useQuestion(pid)
   const theme = useTheme()
 
   const getStyle = (style, snapshot) => {
@@ -59,7 +26,7 @@ const SingleInner = ({ pid, initialLabel, initialList }) => {
     <div>
       <Question
         placeholder="Type your question"
-        label={initialLabel}
+        label={question}
         onLabelChange={(text) => setQuestion(text)}
       />
       <Droppable droppableId={`single_item-${pid}`}>
@@ -67,9 +34,9 @@ const SingleInner = ({ pid, initialLabel, initialList }) => {
           <ol ref={provided.innerRef} {...provided.droppableProps}>
             {all.map((c, i) => (
               <Draggable
-                draggableId={`single_item-${pid}-${c._id}`}
+                draggableId={`single_item-${pid}-${c.id || c._id}`}
                 index={i}
-                key={c._id}
+                key={c.id || c._id}
               >
                 {(provided, snapshot) => (
                   <Item
@@ -78,7 +45,7 @@ const SingleInner = ({ pid, initialLabel, initialList }) => {
                     style={getStyle(provided.draggableProps.style, snapshot)}
                     ref={provided.innerRef}
                     onRemove={() => remove(i)}
-                    onAdd={() => add(defaultAnswer, i)}
+                    onAdd={() => add(i)}
                     disableRemove={all.length === 1}
                     onTextChange={(name) => update({ ...c, name }, i)}
                     text={c.name}
@@ -99,10 +66,6 @@ SingleInner.propTypes = {
   pid: PropTypes.string.isRequired,
   /** function gets called when any choice gets updated */
   onChange: PropTypes.func,
-  /** default question label */
-  initialLabel: PropTypes.string,
-  /** sets the initial list. Defaults to `[{ id, value: '' }]` whose `id` is an auto incrementing unique int*/
-  initialList: PropTypes.array,
 }
 
 SingleInner.defaultProps = {

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useRecoilCallback } from 'recoil'
-import { singleAnswersState } from '../types'
+import { singleAnswers } from '../recoil/atoms'
 
 const DndProvider = ({ children }) => {
   const setList = useRecoilCallback(
@@ -18,7 +18,7 @@ const DndProvider = ({ children }) => {
 
       let pid = draggableId.split('-')[1]
 
-      set(singleAnswersState(pid), (answers) => {
+      set(singleAnswers(pid), (answers) => {
         const items = Array.from(answers)
         const [reorderedItem] = items.splice(source.index, 1)
         items.splice(destination.index, 0, reorderedItem)

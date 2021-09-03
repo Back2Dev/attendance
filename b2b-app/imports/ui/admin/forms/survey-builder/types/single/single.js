@@ -1,58 +1,45 @@
 import React from 'react'
-import { atomFamily, selectorFamily, useRecoilState } from 'recoil'
 import PropTypes from 'prop-types'
+import debug from 'debug'
 
-import { partsState, selectedPartState } from '../../canvas'
 import SingleInner from './inner'
 import Frame from '../../frame'
-import { useListControls } from '../../hooks'
-import { makeNewItem } from '../../hooks/list-controls'
+import SimpleSchema from 'simpl-schema'
 
-export const defaultAnswer = { name: '', val: '' }
+let log = debug('builder:single')
 
-export const singleState = atomFamily({
-  key: 'single',
-  default: () => ({
-    prompt: '',
-    id: '',
-    type: 'single',
-    answers: [makeNewItem(defaultAnswer)],
-  }),
-})
-
-// transforms single state to source
-export const singleSourceState = selectorFamily({
-  key: 'singleSource',
-  get: (pid) => ({ get }) => {
-    const { prompt, id, answers } = get(singleState(pid))
-    const source = [
-      `Q: ${prompt}`,
-      `+id: ${id}`,
-      '+type: single',
-      answers.map(({ name, val }) => [`A: ${name}`, val && `+val: ${val}`]),
-    ]
-      .flat(2)
-      .filter(Boolean)
-      .join('\n')
-
-    return source
+const schema = new SimpleSchema({
+  id: String,
+  prompt: String,
+  answers: Array,
+  'answers.$': Object,
+  'answers.$.id': String,
+  'answers.$.name': String,
+  'answers.$.val': {
+    type: String,
+    optional: true,
   },
-})
+}).newContext()
+
+export const mapDataToAtom = (data) => {
+  const state = {
+    id: data.id,
+    prompt: data.title,
+    answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+  }
+  schema.validate(state)
+  if (!schema.isValid()) {
+    log('expected', schema._schema)
+    log('got', data)
+    throw new Error('Invalid mapping from data to single state')
+  }
+
+  return state
+}
 
 const Single = ({ pid }) => {
-  const [selectedPart, setSelectedPart] = useRecoilState(selectedPartState)
-  const { removeById, moveById } = useListControls(partsState)
-
   return (
-    <Frame
-      selected={selectedPart === pid}
-      onSelect={(isSelected) => setSelectedPart(isSelected ? pid : null)}
-      onRemove={() => {
-        removeById(pid)
-        setSelectedPart(null)
-      }}
-      onMove={(dir) => moveById(pid, dir)}
-    >
+    <Frame pid={pid}>
       <SingleInner pid={pid} />
     </Frame>
   )

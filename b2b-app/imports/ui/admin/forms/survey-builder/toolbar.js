@@ -1,32 +1,57 @@
 import { Box } from '@material-ui/core'
 import React from 'react'
-import { useRecoilCallback } from 'recoil'
+import { atom, useRecoilCallback, useRecoilState } from 'recoil'
 import debug from 'debug'
 
-import { partsState } from './canvas'
+import { parse } from '/imports/api/forms/engine.js'
 import { typesMap } from './types'
+import { partsAtom } from './recoil/atoms'
 
 let log = debug('builder:toolbar')
 
+const Status = ({ msg }) => {
+  return <div>{msg}</div>
+}
+
+export const statusState = atom({
+  key: 'status',
+  default: null,
+})
+
 const Toolbar = () => {
+  const [status, setStatus] = useRecoilState(statusState)
   const getSource = useRecoilCallback(
     ({ snapshot }) => () => {
-      const parts = snapshot.getLoadable(partsState).contents
-      // TODO create source from parts
+      const parts = snapshot.getLoadable(partsAtom).contents
       const source = parts
-        .map(({ _id: pid, type }) => {
-          const source = snapshot.getLoadable(typesMap(type).sourceState(pid)).contents
-          return source
-        })
-        .join('\n')
-      log(source)
+        .map(
+          ({ _id: pid, type }) =>
+            snapshot.getLoadable(typesMap(type).sourceState(pid)).contents
+        )
+        .join('\n\n')
+      return source
     },
     []
   )
 
   const save = () => {
-    const source = getSource()
-    // TODO runs parser on source to get compiled.survey. We can convert to JSON from there
+    try {
+      const source = getSource()
+      if (!source) {
+        setStatus('Nothing to save')
+        return
+      }
+      const compiled = parse(source)
+      if (compiled.status !== 'success') {
+        throw new Error(compiled.errs)
+      }
+      // TODO send source and json to server
+      log(source)
+      log(compiled.survey)
+      setStatus(`Last saved: ${new Date()}`)
+    } catch (e) {
+      setStatus(`Unable to generate source: ${e.message}`)
+    }
   }
 
   return (
@@ -38,10 +63,10 @@ const Toolbar = () => {
       height={40}
       border="1px solid lightgrey"
       display="flex"
-      flexDirection="row-reverse"
       alignItems="center"
     >
       <button onClick={save}>Save</button>
+      <Status msg={status} />
     </Box>
   )
 }

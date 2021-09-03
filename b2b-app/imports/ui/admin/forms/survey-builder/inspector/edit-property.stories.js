@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSetRecoilState } from 'recoil'
-import { singleState } from '../types'
+import { singleAtom } from '../recoil/atoms'
 import EditProperty from './edit-property'
 
 export default {
@@ -8,7 +8,7 @@ export default {
   component: EditProperty,
   decorators: [
     (Story) => {
-      const setState = useSetRecoilState(singleState('pid'))
+      const setState = useSetRecoilState(singleAtom('pid'))
       setState({
         prompt: 'Question text',
         id: 'qid',

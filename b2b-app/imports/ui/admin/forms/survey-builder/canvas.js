@@ -1,27 +1,17 @@
 import React, { createElement } from 'react'
-import { atom, useSetRecoilState } from 'recoil'
 import { Box } from '@material-ui/core'
 import debug from 'debug'
 
-import { useListControls } from './hooks'
 import { typesMap } from './types'
+import Placeholder from './types/placeholder'
+import { usePartsValue, useSetSelectedPart } from './recoil/hooks'
 
 const log = debug('builder:canvas')
 
-export const selectedPartState = atom({
-  key: 'selectedPart',
-  default: null,
-})
-
-export const partsState = atom({
-  key: 'parts',
-  default: [],
-})
-
 const Canvas = () => {
-  const { all: parts } = useListControls(partsState)
-  const setSelectedPart = useSetRecoilState(selectedPartState)
-
+  const parts = usePartsValue()
+  const setSelectedPart = useSetSelectedPart()
+  log(parts)
   return (
     <Box
       position="absolute"
@@ -34,7 +24,10 @@ const Canvas = () => {
       overflow="auto"
     >
       {parts.map(({ _id, type }) => {
-        return createElement(typesMap(type).component, { key: _id, pid: _id })
+        return createElement(typesMap(type) ? typesMap(type).component : Placeholder, {
+          key: _id,
+          pid: _id,
+        })
       })}
     </Box>
   )

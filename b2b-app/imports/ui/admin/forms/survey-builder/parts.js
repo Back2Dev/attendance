@@ -1,16 +1,13 @@
 import React from 'react'
 
-import { useListControls } from './hooks'
 import { Box } from '@material-ui/core'
-import { makeNewItem } from './hooks/list-controls'
-import { partsState } from './canvas'
 import DebugProps from './inspector/debug-props'
 import debug from 'debug'
+import { useParts } from './recoil/hooks'
 const log = debug('builder:parts')
 
 const Parts = () => {
-  const { add } = useListControls(partsState)
-
+  const { addPart } = useParts()
   return (
     <Box
       position="absolute"
@@ -20,7 +17,7 @@ const Parts = () => {
       width="20%"
       border="1px solid lightgrey"
     >
-      <button onClick={() => add(makeNewItem({ type: 'single' }))}>Single</button>
+      <button onClick={() => addPart('single')}>Single</button>
       <DebugProps />
     </Box>
   )

@@ -3,22 +3,22 @@ import PropTypes from 'prop-types'
 import { selectorFamily, useRecoilState } from 'recoil'
 import { get as lget, set as lset, isPlainObject } from 'lodash'
 import produce from 'immer'
-import { singleState } from '../types'
+import { singleAtom } from '../recoil/atoms'
 
 /** Edit a property for a single question type */
 export const editPropertyState = selectorFamily({
   key: 'editProperty',
   get: ({ pid, path }) => ({ get }) => {
-    const single = get(singleState(pid))
+    const single = get(singleAtom(pid))
     const state = lget(single, path)
     return state
   },
   set: ({ pid, path }) => ({ get, set }, newValue) => {
-    const single = get(singleState(pid))
+    const single = get(singleAtom(pid))
     const nextState = produce(single, (draft) => {
       lset(draft, path, newValue)
     })
-    set(singleState(pid), nextState)
+    set(singleAtom(pid), nextState)
   },
 })
 

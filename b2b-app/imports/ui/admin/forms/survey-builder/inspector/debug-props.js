@@ -1,15 +1,13 @@
 import React from 'react'
-import { useRecoilValue } from 'recoil'
-import { selectedPartState } from '../canvas'
-import { inspectorState } from './inspector'
+import { useSelectedPartData, useSelectedPartValue } from '../recoil/hooks'
 
 const DebugProps = () => {
-  const single = useRecoilValue(inspectorState)
-  const selectedPart = useRecoilValue(selectedPartState)
+  const part = useSelectedPartData()
+  const selectedPart = useSelectedPartValue()
   return (
     <div>
       Inspect part: {selectedPart}
-      <pre>{JSON.stringify(single, null, 2)}</pre>
+      <pre>{JSON.stringify(part, null, 2)}</pre>
     </div>
   )
 }
