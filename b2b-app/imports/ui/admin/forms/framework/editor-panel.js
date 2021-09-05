@@ -55,26 +55,44 @@ export const EditorPanel = ({ editor }) => {
   // Modified from https://codemirror.net/addon/fold/markdown-fold.js
   // Registers a 'rangeFunction' for the fold add on, to define code folding of sections for the form schema
   CM.registerHelper('fold', 'form', function (cm, start) {
-    function isSection(line) {
-      return line.match(/^S/)
+    // get the 'level' of a line. If the line doesnt define a foldable section, the level is -1
+    function getLevel(line) {
+      if (line.match(/^S/)) {
+        return 1
+      } else if (line.match(/^Q/)) {
+        return 2
+      } else if (line.match(/^A/)) {
+        return 3
+      }
+      return -1
     }
 
     var firstLine = cm.getLine(start.line),
       nextLine = cm.getLine(start.line + 1)
 
-    // If the line isnt a section, dont try and find an end point for a fold
-    if (!isSection(firstLine)) return undefined
+    const startLevel = getLevel(firstLine)
+    // If the line doesnt define a section, question or answer, dont try and find an end point for a fold
+    if (startLevel === -1) return undefined
 
     // Find the endpoint of the fold
     var lastLineNo = cm.lastLine()
     var end = start.line,
       nextNextLine = cm.getLine(end + 2)
+
     while (end < lastLineNo) {
-      if (isSection(nextLine)) break
+      // The end of the fold is found if the line is a section, question or answer (i.e. not level -1) with a level lower or equal to the start of the fold
+      // i.e. a fold of a question ends at a section but not an answer
+      if (getLevel(nextLine) !== -1 && getLevel(nextLine) <= startLevel) break
       ++end
       nextLine = nextNextLine
       nextNextLine = cm.getLine(end + 2)
     }
+
+    // leave space between folds if available
+    if (cm.getLine(end).trim() === '') end--
+
+    // Dont show folding for single line folds
+    if (end - start.line <= 1) return undefined
 
     return {
       from: CM.Pos(start.line, firstLine.length),
@@ -85,16 +103,7 @@ export const EditorPanel = ({ editor }) => {
   // Create a new mode for the form schema, to add code folding.
   // See https://codemirror.net/demo/simplemode.html to get started on actually defining
   CM.defineSimpleMode('form', {
-    // The start state contains the rules that are intially used
-    // The start state contains the rules that are intially used
-    start: [
-      // The regex matches the token, the token property contains the type
-      { regex: /./, token: 'string' },
-    ],
-    // The meta property contains global information about the mode. It
-    // can contain properties like lineComment, which are supported by
-    // all modes, and also directives like dontIndentStates, which are
-    // specific to simple modes.
+    start: [{ regex: /./, token: 'string' }],
   })
 
   // Set height of codemirror
