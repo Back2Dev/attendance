@@ -101,9 +101,21 @@ export const EditorPanel = ({ editor }) => {
   })
 
   // Create a new mode for the form schema, to add code folding.
-  // See https://codemirror.net/demo/simplemode.html to get started on actually defining
+  // See https://codemirror.net/demo/simplemode.html
   CM.defineSimpleMode('form', {
-    start: [{ regex: /./, token: 'string' }],
+    start: [
+      { regex: /(\s*S)([:\s]*)(.+)/, sol: true, token: ['keyword', null, 'variable'] },
+      { regex: /(\s*Q)([:\s]*)(.+)/, sol: true, token: ['keyword', null, 'variable-2'] },
+      { regex: /(\s*A)([:\s]*)(.+)/, sol: true, token: ['keyword', null, 'variable-3'] },
+      { regex: /(\s*S|\s*Q|\s*A)/, sol: true, token: 'keyword' },
+      {
+        regex: /(\+[a-z0-9]+)([:=\s]*)(.*)/,
+        sol: true,
+        token: ['operator', null, 'attribute'],
+      },
+      { regex: /#.*/, token: 'comment' },
+      { regex: /./, token: 'string' },
+    ],
   })
 
   // Set height of codemirror
