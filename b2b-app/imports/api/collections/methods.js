@@ -1,8 +1,30 @@
 import { Meteor } from 'meteor/meteor'
+import { Match } from 'meteor/check'
 import Collections from './schema'
 const debug = require('debug')('app:collections')
 
+import getCollection from './collections'
+
 Meteor.methods({
+  'collections.getRows'({ collectionName }) {
+    if (!Match.test(collectionName, String)) {
+      return { status: 'failed', message: 'Invalid collection name' }
+    }
+
+    const { collection } = getCollection(collectionName)
+    if (!collection) {
+      return {
+        status: 'failed',
+        message: `Does not support collection: ${collectionName}`,
+      }
+    }
+
+    // get all data for now
+    return {
+      status: 'success',
+      rows: collection.find({}).fetch(),
+    }
+  },
   'rm.collections': (id) => {
     try {
       const n = Collections.remove(id)

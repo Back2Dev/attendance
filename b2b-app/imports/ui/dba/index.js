@@ -1,26 +1,29 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useParams } from 'react-router'
 
-import Lister from './lister'
-// let Lister = () => <div>list component</div>
+import { CollectionProvider } from './context'
+import Grid from './grid'
 
 const DBA = () => {
-  const { collection, view, id } = useParams()
-  console.log({ collection, view, id })
+  const { collection, view } = useParams()
+  // console.log('DBA', collection, view)
 
-  let Component = () => <div>Unknown component</div>
+  const child = React.useMemo(() => {
+    // console.log('render child')
+    return (
+      <CollectionProvider collectionName={collection} viewName={view}>
+        <Grid />
+      </CollectionProvider>
+    )
+  }, [collection, view])
 
-  switch (view) {
-    case 'list':
-      Component = Lister
-  }
-
-  return (
-    <div>
-      {collection} {view} {id}
-      <Component collection={collection} view={view}></Component>
-    </div>
-  )
+  return <div>{child}</div>
 }
 
-export default DBA
+DBA.propTypes = {
+  collection: PropTypes.string,
+  view: PropTypes.string,
+}
+
+export default React.memo(DBA)

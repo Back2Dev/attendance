@@ -1,12 +1,11 @@
-import React, { useEffect, Suspense, lazy } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
-import Loading from '/imports/ui/components/commons/loading.js'
 import DBA from '/imports/ui/dba'
 
 const StyledAdminPage = styled.div``
 
-function AdminPage(props) {
+const AdminPage = () => {
   useEffect(() => {
     // scroll to the top
     window.scrollTo({
@@ -17,13 +16,12 @@ function AdminPage(props) {
 
   return (
     <StyledAdminPage className="admin-page-container">
-      <Suspense fallback={<Loading loading />}>
-        <Switch>
-          <Route path="/dba/:collection/:view?/:id?" component={DBA} />
-        </Switch>
-      </Suspense>
+      <Switch>
+        <Route path="/dba/:collection/:view?" component={DBA} />
+      </Switch>
     </StyledAdminPage>
   )
 }
 
-export default AdminPage
+// export default AdminPage
+export default React.memo(AdminPage)
