@@ -88,6 +88,7 @@ PureFrame.propTypes = {
 const Frame = ({ pid, children }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { movePart, removePart } = useParts()
+
   return (
     <PureFrame
       selected={selectedPart === pid}

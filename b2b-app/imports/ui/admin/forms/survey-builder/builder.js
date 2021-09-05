@@ -10,8 +10,7 @@ import Toolbar, { statusState } from './toolbar'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
 import DndProvider from './context/dnd'
 import dataCache from './data-cache'
-// FIXME enabling context causes storybook to blow up with EditorPanel error
-// import { EditorContext } from '../framework/framework'
+import { EditorContext } from '../framework/framework'
 
 const log = debug('builder:builder')
 
@@ -40,10 +39,11 @@ PureBuilder.propTypes = {
 }
 
 const Builder = ({ json }) => {
+  const editorCtx = useContext(EditorContext)
   return (
     <RecoilRoot>
       <DndProvider>
-        <PureBuilder json={json} />
+        <PureBuilder json={JSON.parse(editorCtx.editors[1].editorValue)} />
       </DndProvider>
     </RecoilRoot>
   )

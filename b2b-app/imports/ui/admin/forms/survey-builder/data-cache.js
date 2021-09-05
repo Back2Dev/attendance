@@ -77,7 +77,14 @@ const get = () => {
 
 const getParts = () => {
   return data
-    .map(({ questions }) => questions.map(({ id, type }) => ({ _id: id, type })))
+    .map(({ questions }) =>
+      questions.map(({ id, type }) => {
+        if (!TypeRegistry.get(type)) {
+          return { _id: id, type: 'placeholder' }
+        }
+        return { _id: id, type }
+      })
+    )
     .flat()
 }
 

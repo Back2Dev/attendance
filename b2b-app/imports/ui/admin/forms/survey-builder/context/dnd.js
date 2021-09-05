@@ -1,13 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useRecoilCallback } from 'recoil'
-import { singleAnswers } from '../recoil/atoms'
+import debug from 'debug'
+import { dndAtom } from '../recoil/atoms'
+import { useDnd } from '../recoil/hooks'
+
+const log = debug('builder:dnd')
 
 const DndProvider = ({ children }) => {
   const setList = useRecoilCallback(
-    ({ set }) => (result) => {
-      const { source, destination, draggableId } = result
+    ({ set, snapshot }) => (result) => {
+      const { source, destination } = result
       if (!destination) return
       if (
         destination.droppableId === source.droppableId &&
@@ -15,10 +19,11 @@ const DndProvider = ({ children }) => {
       ) {
         return
       }
-
-      let pid = draggableId.split('-')[1]
-
-      set(singleAnswers(pid), (answers) => {
+      const listAtoms = snapshot.getLoadable(dndAtom).contents
+      if (!listAtoms.has(source.droppableId)) {
+        throw new Error('Cannot find list atom to reorder')
+      }
+      set(listAtoms.get(source.droppableId), (answers) => {
         const items = Array.from(answers)
         const [reorderedItem] = items.splice(source.index, 1)
         items.splice(destination.index, 0, reorderedItem)
@@ -37,6 +42,36 @@ const DndProvider = ({ children }) => {
 
 DndProvider.propTypes = {
   children: PropTypes.node,
+}
+
+/** Registers a pid to a list atom in addition to rendering a react-beautiful-dnd Droppable */
+export const DndDroppable = ({ pid, listAtom, children, ...otherProps }) => {
+  useDnd(pid, listAtom)
+  return (
+    <Droppable droppableId={pid} {...otherProps}>
+      {children}
+    </Droppable>
+  )
+}
+
+DndDroppable.propTypes = {
+  pid: PropTypes.string,
+  listAtom: PropTypes.object,
+  children: PropTypes.func,
+}
+
+export const DndDraggable = ({ pid, itemId, children, ...otherProps }) => {
+  return (
+    <Draggable draggableId={`${pid}-${itemId}`} {...otherProps}>
+      {children}
+    </Draggable>
+  )
+}
+
+DndDraggable.propTypes = {
+  pid: PropTypes.string,
+  itemId: PropTypes.string,
+  children: PropTypes.func,
 }
 
 export default DndProvider

@@ -1,11 +1,12 @@
 import { Box } from '@material-ui/core'
-import React from 'react'
+import React, { useContext } from 'react'
 import { atom, useRecoilCallback, useRecoilState } from 'recoil'
 import debug from 'debug'
 
 import { parse } from '/imports/api/forms/engine.js'
 import { partsAtom } from './recoil/atoms'
 import TypeRegistry from './types/type-registry'
+import { EditorContext } from '../framework/framework'
 
 let log = debug('builder:toolbar')
 
@@ -19,6 +20,7 @@ export const statusState = atom({
 })
 
 const Toolbar = () => {
+  const editorCtx = useContext(EditorContext)
   const [status, setStatus] = useRecoilState(statusState)
   const getSource = useRecoilCallback(
     ({ snapshot }) => () => {
@@ -43,11 +45,12 @@ const Toolbar = () => {
       }
       const compiled = parse(source)
       if (compiled.status !== 'success') {
-        throw new Error(compiled.errs)
+        throw new Error(`Source parser error: ${compiled.message}`)
       }
       // TODO send source and json to server
       log(source)
       log(compiled.survey)
+      editorCtx.editors[0].updateEditor(source)
       setStatus(`Last saved: ${new Date()}`)
     } catch (e) {
       setStatus(`Unable to generate source: ${e.message}`)

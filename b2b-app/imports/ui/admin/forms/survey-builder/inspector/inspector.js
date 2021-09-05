@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core'
 import React from 'react'
+
 import { useSelectedPartValue } from '../recoil/hooks'
 import EditProperty from './edit-property'
 import Section from './section'
