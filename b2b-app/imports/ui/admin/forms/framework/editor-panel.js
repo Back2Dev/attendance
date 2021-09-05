@@ -11,6 +11,13 @@ import 'codemirror/addon/lint/lint.js'
 import 'codemirror/addon/lint/lint.css'
 import 'codemirror/addon/lint/javascript-lint.js'
 import 'codemirror/addon/hint/javascript-hint.js'
+import 'codemirror/addon/fold/foldgutter.css'
+import 'codemirror/addon/fold/foldgutter.js'
+import 'codemirror/addon/fold/foldcode.js'
+import 'codemirror/addon/fold/brace-fold.js'
+import 'codemirror/addon/fold/indent-fold.js'
+import 'codemirror/addon/fold/markdown-fold.js'
+import 'codemirror/addon/mode/simple.js'
 import CM from 'codemirror'
 
 // Codemirror linting will not work without this, see <https://github.com/scniro/react-codemirror2/issues/21>
@@ -25,7 +32,7 @@ import { ErrorPanel } from './error-panel'
 const codemirrorOptions = {
   autoCloseBrackets: true,
   cursorScrollMargin: 48,
-  mode: 'null',
+  mode: 'form',
   lineNumbers: true,
   indentUnit: 2,
   tabSize: 2,
@@ -33,7 +40,8 @@ const codemirrorOptions = {
   viewportMargin: 99,
   theme: 'material',
   lint: true,
-  gutters: ['CodeMirror-lint-markers'],
+  foldGutter: true,
+  gutters: ['CodeMirror-lint-markers', 'CodeMirror-foldgutter'],
 }
 
 export const EditorPanel = ({ editor }) => {
@@ -44,9 +52,54 @@ export const EditorPanel = ({ editor }) => {
 
   const codemirrorRef = React.useRef()
 
+  // Modified from https://codemirror.net/addon/fold/markdown-fold.js
+  // Registers a 'rangeFunction' for the fold add on, to define code folding of sections for the form schema
+  CM.registerHelper('fold', 'form', function (cm, start) {
+    function isSection(line) {
+      return line.match(/^S/)
+    }
+
+    var firstLine = cm.getLine(start.line),
+      nextLine = cm.getLine(start.line + 1)
+
+    // If the line isnt a section, dont try and find an end point for a fold
+    if (!isSection(firstLine)) return undefined
+
+    // Find the endpoint of the fold
+    var lastLineNo = cm.lastLine()
+    var end = start.line,
+      nextNextLine = cm.getLine(end + 2)
+    while (end < lastLineNo) {
+      if (isSection(nextLine)) break
+      ++end
+      nextLine = nextNextLine
+      nextNextLine = cm.getLine(end + 2)
+    }
+
+    return {
+      from: CM.Pos(start.line, firstLine.length),
+      to: CM.Pos(end, cm.getLine(end).length),
+    }
+  })
+
+  // Create a new mode for the form schema, to add code folding.
+  // See https://codemirror.net/demo/simplemode.html to get started on actually defining
+  CM.defineSimpleMode('form', {
+    // The start state contains the rules that are intially used
+    // The start state contains the rules that are intially used
+    start: [
+      // The regex matches the token, the token property contains the type
+      { regex: /./, token: 'string' },
+    ],
+    // The meta property contains global information about the mode. It
+    // can contain properties like lineComment, which are supported by
+    // all modes, and also directives like dontIndentStates, which are
+    // specific to simple modes.
+  })
+
   // Set height of codemirror
   React.useEffect(() => {
-    if (editor.editorType === 'null') {
+    if (editor.editorType === 'form') {
       const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
         .clientHeight
       // eslint-disable-next-line no-unused-vars
@@ -73,11 +126,11 @@ export const EditorPanel = ({ editor }) => {
     window.addEventListener('resize', () => {
       setSplitSize('85%')
       const pane = document.getElementsByClassName(
-        editor.editorType === 'null' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
+        editor.editorType === 'form' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
       )[0]
       if (pane) {
         const height = document.getElementsByClassName(
-          editor.editorType === 'null' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
+          editor.editorType === 'form' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
         )[0].clientHeight
         // eslint-disable-next-line no-unused-vars
         const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
@@ -130,7 +183,7 @@ export const EditorPanel = ({ editor }) => {
         />
       </div>
     )
-    if (editor.editorType === 'null') {
+    if (editor.editorType === 'form') {
       return (
         <SplitPane
           split="horizontal"
