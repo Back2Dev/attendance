@@ -1,9 +1,25 @@
 import React from 'react'
+import { EditorContext } from '../framework/framework'
 import { PureBuilder } from './builder'
+
+const context = {
+  editors: [
+    {
+      updateEditor: () => {},
+    },
+  ],
+}
 
 export default {
   title: 'Survey Builder/Builder',
   component: PureBuilder,
+  decorators: [
+    (Story) => (
+      <EditorContext.Provider value={context}>
+        <Story />
+      </EditorContext.Provider>
+    ),
+  ],
 }
 
 const Template = (args) => <PureBuilder {...args} />
@@ -71,24 +87,6 @@ LoadInvalidData.args = {
             prompt: 'What do you identify as?',
             answers: [
               {
-                name: 'boy',
-                id: 'boy',
-                type: 'text',
-                val: 'male',
-              },
-              {
-                name: 'girl',
-                id: 'girl',
-                type: 'text',
-                val: 'female',
-              },
-              {
-                name: 'non binary',
-                id: 'non-binary',
-                type: 'text',
-                val: 'nb',
-              },
-              {
                 name: 'alien',
                 id: 'alien',
                 type: 'text',
@@ -115,18 +113,18 @@ LoadUnknownTypes.args = {
   json: {
     sections: [
       {
-        name: 'Getting to know you',
+        title: 'Step 1',
         questions: [
           {
-            prompt: 'Personal details',
+            title: 'Personal details',
             answers: [
               {
-                name: 'Name',
+                title: 'Name',
                 id: 'name',
                 type: 'text',
               },
               {
-                name: 'email',
+                title: 'email',
                 id: 'email',
                 type: 'email',
               },
@@ -135,43 +133,8 @@ LoadUnknownTypes.args = {
             id: 'personal-details',
             type: 'text',
           },
-          {
-            prompt: 'Which sports do you like to watch?',
-            answers: [
-              {
-                name: 'Rugby',
-                id: 'rugby',
-                type: 'text',
-              },
-              {
-                name: 'Footy',
-                id: 'footy',
-                type: 'text',
-              },
-              {
-                name: 'Tennis',
-                id: 'tennis',
-                type: 'text',
-              },
-              {
-                name: 'Golf',
-                id: 'golf',
-                type: 'text',
-                note: 'Not sure if golf is really a sport',
-              },
-              {
-                name: 'Other sport',
-                id: 'other-sport',
-                type: 'text',
-                specify: 'Specify other sport',
-              },
-            ],
-            grid: [],
-            id: 'which-sports-do-you-like-to-watch-',
-            type: 'multi',
-          },
         ],
-        id: 'getting-to-know-you',
+        id: 'step-1',
       },
     ],
     name: 'Sample Survey',

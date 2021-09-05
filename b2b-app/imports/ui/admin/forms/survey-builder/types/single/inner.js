@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTheme } from '@material-ui/core/styles'
 
 import Item from './item'
 import Question from '../../question'
 import { useAnswers, useQuestion } from '../../recoil/hooks'
+import { singleAnswers } from '../../recoil/atoms'
+import { DndDraggable, DndDroppable } from '../../context/dnd'
 
 /** Single Choice question */
 const SingleInner = ({ pid }) => {
@@ -29,12 +30,13 @@ const SingleInner = ({ pid }) => {
         label={question}
         onLabelChange={(text) => setQuestion(text)}
       />
-      <Droppable droppableId={`single_item-${pid}`}>
+      <DndDroppable pid={pid} listAtom={singleAnswers(pid)}>
         {(provided) => (
           <ol ref={provided.innerRef} {...provided.droppableProps}>
             {all.map((c, i) => (
-              <Draggable
-                draggableId={`single_item-${pid}-${c.id || c._id}`}
+              <DndDraggable
+                pid={pid}
+                itemId={c.id || c._id}
                 index={i}
                 key={c.id || c._id}
               >
@@ -51,12 +53,12 @@ const SingleInner = ({ pid }) => {
                     text={c.name}
                   />
                 )}
-              </Draggable>
+              </DndDraggable>
             ))}
             {provided.placeholder}
           </ol>
         )}
-      </Droppable>
+      </DndDroppable>
     </div>
   )
 }
