@@ -39,13 +39,13 @@ export const mapDataToAtom = (data) => {
   return state
 }
 
-const Single = ({ pid }) => {
+const Single = React.forwardRef(({ pid, ...otherprops }, ref) => {
   return (
-    <Frame pid={pid}>
+    <Frame pid={pid} {...otherprops} ref={ref}>
       <SingleInner pid={pid} />
     </Frame>
   )
-}
+})
 
 Single.propTypes = {
   /** id for this Single instance part */

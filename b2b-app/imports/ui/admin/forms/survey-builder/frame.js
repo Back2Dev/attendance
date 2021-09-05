@@ -18,59 +18,64 @@ const StyledFrame = styled('div')(({ theme, isSelected }) => ({
   margin: theme.spacing(2),
 }))
 
-export const PureFrame = ({ children, onMove, onRemove, onSelect, selected }) => {
-  const selectFrame = (e) => {
-    e.stopPropagation()
-    // already clicked inside or child focussed and relatedTarget (element that blurred) is also a child
-    if (
-      selected ||
-      (e.type === 'focus' &&
-        e.currentTarget.contains(e.target) &&
-        e.currentTarget.contains(e.relatedTarget))
-    ) {
-      return
+export const PureFrame = React.forwardRef(
+  ({ children, onMove, onRemove, onSelect, selected, ...otherprops }, ref) => {
+    // console.log(otherprops)
+    const selectFrame = (e) => {
+      e.stopPropagation()
+      // already clicked inside or child focussed and relatedTarget (element that blurred) is also a child
+      if (
+        selected ||
+        (e.type === 'focus' &&
+          e.currentTarget.contains(e.target) &&
+          e.currentTarget.contains(e.relatedTarget))
+      ) {
+        return
+      }
+      onSelect?.(true)
     }
-    onSelect?.(true)
-  }
 
-  const deselectFrame = (e) => {
-    e.stopPropagation()
-    // already clicked outside or child blurred and relatedTarget (element that got focus) is also a child
-    if (
-      !selected ||
-      (e.type === 'blur' &&
-        e.currentTarget.contains(e.target) &&
-        e.currentTarget.contains(e.relatedTarget))
-    ) {
-      return
+    const deselectFrame = (e) => {
+      e.stopPropagation()
+      // already clicked outside or child blurred and relatedTarget (element that got focus) is also a child
+      if (
+        !selected ||
+        (e.type === 'blur' &&
+          e.currentTarget.contains(e.target) &&
+          e.currentTarget.contains(e.relatedTarget))
+      ) {
+        return
+      }
+      onSelect?.(false)
     }
-    onSelect?.(false)
-  }
 
-  return (
-    <StyledFrame
-      onClick={selectFrame}
-      isSelected={selected}
-      onFocus={selectFrame}
-      onBlur={deselectFrame}
-    >
-      <Box display="flex">
-        <Box flexGrow={1}>{children}</Box>
-        <Box flexGrow={0} display="flex" flexDirection="column">
-          <IconButton size="small" onClick={onRemove}>
-            <CloseIcon />
-          </IconButton>
-          <IconButton size="small" onClick={() => onMove('up')}>
-            <KeyboardArrowUpIcon />
-          </IconButton>
-          <IconButton size="small" onClick={() => onMove('down')}>
-            <KeyboardArrowDownIcon />
-          </IconButton>
+    return (
+      <StyledFrame
+        onClick={selectFrame}
+        isSelected={selected}
+        onFocus={selectFrame}
+        onBlur={deselectFrame}
+        {...otherprops}
+        ref={ref}
+      >
+        <Box display="flex">
+          <Box flexGrow={1}>{children}</Box>
+          <Box flexGrow={0} display="flex" flexDirection="column">
+            <IconButton size="small" onClick={onRemove}>
+              <CloseIcon />
+            </IconButton>
+            <IconButton size="small" onClick={() => onMove('up')}>
+              <KeyboardArrowUpIcon />
+            </IconButton>
+            <IconButton size="small" onClick={() => onMove('down')}>
+              <KeyboardArrowDownIcon />
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
-    </StyledFrame>
-  )
-}
+      </StyledFrame>
+    )
+  }
+)
 
 PureFrame.propTypes = {
   /** A question type component */
@@ -85,7 +90,7 @@ PureFrame.propTypes = {
   selected: PropTypes.bool,
 }
 
-const Frame = ({ pid, children }) => {
+const Frame = React.forwardRef(({ pid, children, ...otherprops }, ref) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { movePart, removePart } = useParts()
 
@@ -98,11 +103,13 @@ const Frame = ({ pid, children }) => {
         setSelectedPart(null)
       }}
       onMove={(dir) => movePart(pid, dir)}
+      {...otherprops}
+      ref={ref}
     >
       {children}
     </PureFrame>
   )
-}
+})
 
 Frame.propTypes = {
   pid: PropTypes.string,
