@@ -92,7 +92,7 @@ export const EditorPanel = ({ editor }) => {
     if (cm.getLine(end).trim() === '') end--
 
     // Dont show folding for single line folds
-    if (end - start.line <= 1) return undefined
+    if (end - start.line <= 0) return undefined
 
     return {
       from: CM.Pos(start.line, firstLine.length),
