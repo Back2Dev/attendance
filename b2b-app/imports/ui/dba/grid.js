@@ -1,21 +1,26 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import DataGrid from 'react-data-grid'
-import moment from 'moment'
 
 import { Typography } from '@material-ui/core'
 
+import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
 import { getDataFormatter, formatData } from '/imports/api/collections/utils.js'
 import { CollectionContext } from './context'
 
 const StyledGrid = styled.div`
-  margin: 40px 20px;
+  padding: 40px 20px 20px;
+  display: flex;
+  flex-direction: column;
   h1 {
     margin-bottom: 20px;
   }
   .filter-container {
     margin-bottom: 10px;
+  }
+  .grid-container {
+    flex: 1;
   }
 `
 
@@ -24,42 +29,59 @@ function Grid() {
   console.log(theCollection, schema, { theView })
 
   const [filterText, setFilterText] = useState('')
+  const [pageHeight, setPageHeight] = useState(null)
 
-  let gridColumns = []
+  const windowSize = useWindowSize()
+  useEffect(() => {
+    console.log({ windowSize })
+    // find the header height
+    const headerElm = document.querySelector('header.MuiAppBar-root')
+    console.log(headerElm?.offsetHeight)
+    if (headerElm) {
+      setPageHeight(windowSize.height - headerElm.offsetHeight)
+    }
+  }, [windowSize])
 
-  if (theView?.columns?.length) {
-    theView.columns.map((col) => {
-      const formatter = getDataFormatter({ type: col.type, columnName: col.name })
-      gridColumns.push({
-        key: col.name,
-        name: col.label || col.name,
-        type: col.type,
-        formatter,
-        width: col.width || undefined,
-      })
-    })
-  } else if (schema?._schema && schema?._firstLevelSchemaKeys) {
-    // get columns from schema
-    schema._firstLevelSchemaKeys.map((fieldName) => {
-      const field = schema._schema[fieldName]
-      const fieldType =
-        typeof field.type?.definitions?.[0]?.type === 'string'
-          ? field.type?.definitions?.[0]?.type
-          : field.type?.definitions?.[0]?.type?.name
-      console.log({ fieldType })
-      if (fieldType) {
-        const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })
+  const columns = useMemo(() => {
+    let gridColumns = []
+
+    if (theView?.columns?.length) {
+      theView.columns.map((col) => {
+        const formatter = getDataFormatter({ type: col.type, columnName: col.name })
         gridColumns.push({
-          key: fieldName,
-          name: field.label || fieldName,
-          type: fieldType,
+          key: col.name,
+          name: col.label || col.name,
+          type: col.type,
           formatter,
+          width: col.width || undefined,
         })
-      }
-    })
-  }
+      })
+    } else if (schema?._schema && schema?._firstLevelSchemaKeys) {
+      // get columns from schema
+      schema._firstLevelSchemaKeys.map((fieldName) => {
+        const field = schema._schema[fieldName]
+        const fieldType =
+          typeof field.type?.definitions?.[0]?.type === 'string'
+            ? field.type?.definitions?.[0]?.type
+            : field.type?.definitions?.[0]?.type?.name
+        console.log({ fieldType })
+        if (fieldType) {
+          const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })
+          gridColumns.push({
+            key: fieldName,
+            name: field.label || fieldName,
+            type: fieldType,
+            formatter,
+          })
+        }
+      })
+    }
 
-  console.log(gridColumns)
+    console.log(gridColumns)
+
+    return gridColumns
+  }, [theView?.columns, schema])
+
   console.log(rows)
 
   const calculatedRows = useMemo(() => {
@@ -81,7 +103,7 @@ function Grid() {
     if (filterText && filterText.length >= 2) {
       const reg = new RegExp(filterText, 'i')
       mutableRows = mutableRows.filter((row) => {
-        const strsToSearch = gridColumns.map((col) => {
+        const strsToSearch = columns.map((col) => {
           return `${formatData({ data: row[col.key], type: col.type })}` || ''
         })
         return reg.test(strsToSearch.join(' '))
@@ -95,8 +117,16 @@ function Grid() {
     return row._id
   }
 
+  if (!theCollection) {
+    return (
+      <StyledGrid>
+        <Typography variant="h1">Opps! There collection was not found</Typography>
+      </StyledGrid>
+    )
+  }
+
   return (
-    <StyledGrid>
+    <StyledGrid style={{ height: pageHeight | 'auto' }}>
       <Typography variant="h1">{theCollection._name}</Typography>
       <div className="filter-container">
         <SearchBox
@@ -108,7 +138,7 @@ function Grid() {
       <div className="grid-container">
         <DataGrid
           rowKeyGetter={rowKeyGetter}
-          columns={gridColumns}
+          columns={columns}
           rows={calculatedRows}
           defaultColumnOptions={{
             // sortable: true,
@@ -126,6 +156,7 @@ function Grid() {
           // }}
           // onRowClick={(index, row) => push(`/services/${row._id}`)}
           className="collection-grid"
+          style={{ height: '99%' }}
         />
       </div>
     </StyledGrid>

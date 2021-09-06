@@ -38,6 +38,10 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
   const rawC = React.useMemo(() => getCollection(collectionName), [collectionName])
 
   useEffect(() => {
+    if (!rawC) {
+      return
+    }
+
     // build the filter
     const filter = []
     if (theView?.columns) {
