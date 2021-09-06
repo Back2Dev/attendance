@@ -29,3 +29,10 @@ export const getDataFormatter = ({ type, columnName }) => {
         row[columnName] ? JSON.stringify(row[columnName], null, 2) : null
   }
 }
+
+export const getFieldType = ({ fieldSchema }) => {
+  if (typeof fieldSchema.type?.definitions?.[0]?.type === 'string') {
+    return fieldSchema.type?.definitions?.[0]?.type
+  }
+  return fieldSchema.type?.definitions?.[0]?.type?.name
+}

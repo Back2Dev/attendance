@@ -6,7 +6,11 @@ import { Typography } from '@material-ui/core'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
-import { getDataFormatter, formatData } from '/imports/api/collections/utils.js'
+import {
+  getDataFormatter,
+  formatData,
+  getFieldType,
+} from '/imports/api/collections/utils.js'
 import { CollectionContext } from './context'
 
 const StyledGrid = styled.div`
@@ -47,7 +51,11 @@ function Grid() {
 
     if (theView?.columns?.length) {
       theView.columns.map((col) => {
-        const formatter = getDataFormatter({ type: col.type, columnName: col.name })
+        const fieldSchema = schema._schema[col.name]
+        const formatter = getDataFormatter({
+          type: getFieldType({ fieldSchema }),
+          columnName: col.name,
+        })
         gridColumns.push({
           key: col.name,
           name: col.label || col.name,
@@ -60,10 +68,7 @@ function Grid() {
       // get columns from schema
       schema._firstLevelSchemaKeys.map((fieldName) => {
         const field = schema._schema[fieldName]
-        const fieldType =
-          typeof field.type?.definitions?.[0]?.type === 'string'
-            ? field.type?.definitions?.[0]?.type
-            : field.type?.definitions?.[0]?.type?.name
+        const fieldType = getFieldType({ fieldSchema: schema._schema[fieldName] })
         console.log({ fieldType })
         if (fieldType) {
           const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })

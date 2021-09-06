@@ -16,7 +16,6 @@ const Collections = new Mongo.Collection('collections')
 export const ColumnsSchema = new SimpleSchema({
   name: String, // the first level field name
   label: OptionalString,
-  type: String,
   width: { type: Number, optional: true },
   filter: OptionalString,
   readOnly: {
