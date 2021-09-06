@@ -3,6 +3,7 @@ import { Match } from 'meteor/check'
 import Collections from './schema'
 const debug = require('debug')('app:collections')
 
+import { hasOneOfRoles } from '/imports/api/users/utils.js'
 import getCollection from './collections'
 
 Meteor.methods({
@@ -13,6 +14,16 @@ Meteor.methods({
 
     if (!Match.test(filter, [String])) {
       return { status: 'failed', message: 'Invalid filter' }
+    }
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
     }
 
     const { collection } = getCollection(collectionName)
