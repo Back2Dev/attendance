@@ -9,6 +9,7 @@ import { PreviewPanel } from './preview-panel'
 import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
 import map2Uniforms from '/imports/api/surveys/uniforms'
+import map2UiSchema from '/imports/api/surveys/ui-schema'
 
 const debug = require('debug')('app:forms:framework')
 
@@ -86,7 +87,8 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     const result = parse(formEditorInput)
-    const specific = map2Uniforms(result.survey)
+    // const specific = map2Uniforms(result.survey)
+    const specific = map2UiSchema(result.survey)
     debug({ specific })
     setRaw(specific)
 
