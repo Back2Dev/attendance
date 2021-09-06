@@ -7,16 +7,45 @@ import { Typography } from '@material-ui/core'
 
 import { CollectionContext } from './context'
 
-const StyledGrid = styled.div``
+const StyledGrid = styled.div`
+  margin: 40px 20px;
+  h1 {
+    margin-bottom: 20px;
+  }
+`
 
 function Grid() {
-  const { theCollection, schema, columns, theView, rows } = useContext(CollectionContext)
-  console.log(theCollection, schema, { columns, theView })
+  const { theCollection, schema, theView, rows } = useContext(CollectionContext)
+  console.log(theCollection, schema, { theView })
 
   let gridColumns = []
 
-  if (columns?.length) {
-    gridColumns = columns
+  if (theView?.columns?.length) {
+    theView.columns.map((col) => {
+      let formatter
+      switch (col.type) {
+        case 'String':
+        case 'SimpleSchema.Integer':
+        case 'Integer':
+        case 'Number':
+          formatter = ({ row }) => row[col.name] || null
+          break
+        case 'Date':
+          formatter = ({ row }) =>
+            row[col.name] ? moment(row[col.name]).format('DD/MM/YYYY HH:mm') : null
+          break
+        default:
+          formatter = ({ row }) =>
+            row[col.name] ? JSON.stringify(row[col.name], null, 2) : null
+      }
+      gridColumns.push({
+        key: col.name,
+        name: col.label || col.name,
+        type: col.type,
+        formatter,
+        width: col.width || undefined,
+      })
+    })
   } else if (schema?._schema && schema?._firstLevelSchemaKeys) {
     // get columns from schema
     schema._firstLevelSchemaKeys.map((fieldName) => {
@@ -60,7 +89,7 @@ function Grid() {
 
   return (
     <StyledGrid>
-      <Typography variant="h1">Grid</Typography>
+      <Typography variant="h1">{theCollection._name}</Typography>
       <div className="grid-container">
         <DataGrid
           rowKeyGetter={rowKeyGetter}

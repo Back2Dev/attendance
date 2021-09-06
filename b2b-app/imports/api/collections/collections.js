@@ -4,6 +4,8 @@ import messageTemplates, {
   MessageTemplatesSchema,
 } from '/imports/api/message-templates/schema'
 import events, { EventsSchema } from '/imports/api/events/schema'
+import Courses, { CoursesSchema } from '/imports/api/courses/schema'
+import Members, { MembersSchema } from '/imports/api/members/schema'
 
 const getCollection = (name) => {
   switch (name) {
@@ -15,6 +17,10 @@ const getCollection = (name) => {
       return { collection: registrations, schema: RegistrationsSchema }
     case 'messageTemplates':
       return { collection: messageTemplates, schema: MessageTemplatesSchema }
+    case 'courses':
+      return { collection: Courses, schema: CoursesSchema }
+    case 'members':
+      return { collection: Members, schema: MembersSchema }
     default:
       return null
   }

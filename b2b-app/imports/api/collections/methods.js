@@ -6,9 +6,13 @@ const debug = require('debug')('app:collections')
 import getCollection from './collections'
 
 Meteor.methods({
-  'collections.getRows'({ collectionName }) {
+  'collections.getRows'({ collectionName, filter }) {
     if (!Match.test(collectionName, String)) {
       return { status: 'failed', message: 'Invalid collection name' }
+    }
+
+    if (!Match.test(filter, [String])) {
+      return { status: 'failed', message: 'Invalid filter' }
     }
 
     const { collection } = getCollection(collectionName)

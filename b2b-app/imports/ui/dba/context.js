@@ -23,22 +23,36 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     []
   )
 
-  const { columns, theView } = useTracker(() => {
+  const { theView } = useTracker(() => {
     console.log('run tracker', collectionName)
     Meteor.subscribe('name.collections', { name: collectionName })
     const c = Collections.findOne({ name: collectionName })
 
+    const theView = c?.views?.filter((item) => item.name === viewName)
+
     return {
-      columns: c?.columns,
-      theView: c?.views?.filter((item) => item.name === viewName),
+      theView,
     }
   }, [collectionName, viewName])
 
   const rawC = React.useMemo(() => getCollection(collectionName), [collectionName])
 
   useEffect(() => {
-    console.log('calling collections.getRows')
-    Meteor.call('collections.getRows', { collectionName }, (error, result) => {
+    // build the filter
+    const filter = []
+    if (theView?.columns) {
+      theView.columns.map((col) => {
+        if (col.filter) {
+          filter.push({
+            column: col.name,
+            filter: col.filter,
+          })
+        }
+      })
+    }
+
+    console.log('calling collections.getRows', collectionName, filter)
+    Meteor.call('collections.getRows', { collectionName, filter }, (error, result) => {
       if (error) {
         showError(error.message)
         return
@@ -56,7 +70,6 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
       value={{
         theCollection: rawC?.collection,
         schema: rawC?.schema,
-        columns,
         theView,
         rows,
       }}
