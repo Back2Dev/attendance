@@ -1,10 +1,12 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import DataGrid from 'react-data-grid'
 import moment from 'moment'
 
 import { Typography } from '@material-ui/core'
 
+import SearchBox from '/imports/ui/components/commons/search-box.js'
+import { getDataFormatter, formatData } from '/imports/api/collections/utils.js'
 import { CollectionContext } from './context'
 
 const StyledGrid = styled.div`
@@ -12,32 +14,22 @@ const StyledGrid = styled.div`
   h1 {
     margin-bottom: 20px;
   }
+  .filter-container {
+    margin-bottom: 10px;
+  }
 `
 
 function Grid() {
   const { theCollection, schema, theView, rows } = useContext(CollectionContext)
   console.log(theCollection, schema, { theView })
 
+  const [filterText, setFilterText] = useState('')
+
   let gridColumns = []
 
   if (theView?.columns?.length) {
     theView.columns.map((col) => {
-      let formatter
-      switch (col.type) {
-        case 'String':
-        case 'SimpleSchema.Integer':
-        case 'Integer':
-        case 'Number':
-          formatter = ({ row }) => row[col.name] || null
-          break
-        case 'Date':
-          formatter = ({ row }) =>
-            row[col.name] ? moment(row[col.name]).format('DD/MM/YYYY HH:mm') : null
-          break
-        default:
-          formatter = ({ row }) =>
-            row[col.name] ? JSON.stringify(row[col.name], null, 2) : null
-      }
+      const formatter = getDataFormatter({ type: col.type, columnName: col.name })
       gridColumns.push({
         key: col.name,
         name: col.label || col.name,
@@ -56,20 +48,7 @@ function Grid() {
           : field.type?.definitions?.[0]?.type?.name
       console.log({ fieldType })
       if (fieldType) {
-        let formatter
-        switch (fieldType) {
-          case 'String':
-          case 'SimpleSchema.Integer':
-            formatter = ({ row }) => row[fieldName] || null
-            break
-          case 'Date':
-            formatter = ({ row }) =>
-              row[fieldName] ? moment(row[fieldName]).format('DD/MM/YYYY HH:mm') : null
-            break
-          default:
-            formatter = ({ row }) =>
-              row[fieldName] ? JSON.stringify(row[fieldName], null, 2) : null
-        }
+        const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })
         gridColumns.push({
           key: fieldName,
           name: field.label || fieldName,
@@ -83,6 +62,35 @@ function Grid() {
   console.log(gridColumns)
   console.log(rows)
 
+  const calculatedRows = useMemo(() => {
+    let mutableRows = [...rows]
+
+    // handle column sorting
+    // mutableRows.sort((a, b) => {
+    //   for (const sort of sortColumns) {
+    //     const comparator = getComparator(sort.columnKey)
+    //     const compResult = comparator(a, b)
+    //     if (compResult !== 0) {
+    //       return sort.direction === 'ASC' ? compResult : -compResult
+    //     }
+    //   }
+    //   return 0
+    // })
+
+    // handle global search
+    if (filterText && filterText.length >= 2) {
+      const reg = new RegExp(filterText, 'i')
+      mutableRows = mutableRows.filter((row) => {
+        const strsToSearch = gridColumns.map((col) => {
+          return `${formatData({ data: row[col.key], type: col.type })}` || ''
+        })
+        return reg.test(strsToSearch.join(' '))
+      })
+    }
+
+    return mutableRows
+  }, [rows, filterText])
+
   const rowKeyGetter = (row) => {
     return row._id
   }
@@ -90,11 +98,18 @@ function Grid() {
   return (
     <StyledGrid>
       <Typography variant="h1">{theCollection._name}</Typography>
+      <div className="filter-container">
+        <SearchBox
+          onChange={(searchQuery) => {
+            setFilterText(searchQuery)
+          }}
+        />
+      </div>
       <div className="grid-container">
         <DataGrid
           rowKeyGetter={rowKeyGetter}
           columns={gridColumns}
-          rows={rows}
+          rows={calculatedRows}
           defaultColumnOptions={{
             // sortable: true,
             resizable: true,
