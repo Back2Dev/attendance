@@ -173,7 +173,7 @@ const Framework = ({ id, item, methods }) => {
               name: 'details.form',
               editorValue: formEditorInput,
               updateEditor: updateFormInput,
-              editorType: 'null',
+              editorType: 'form',
             },
             {
               name: 'detailsForm.json',
