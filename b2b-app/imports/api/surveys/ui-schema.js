@@ -45,12 +45,36 @@ export default map2UiSchema = (survey) => {
   //   ]
   // },
 
+  const qObj = (q) => {
+    let que
+    switch (q.qtype) {
+      case 'multi':
+        que = {
+          type: 'array',
+          widget: 'OptionsCheck',
+          enum: q.answers.map((a) => a.title),
+        }
+        break
+      case 'single':
+        que = {
+          type: 'string',
+          widget: 'OptionsRadio',
+          enum: q.answers.map((a) => a.title),
+        }
+        break
+      default:
+        que = { type: 'text' }
+    }
+    return que
+  }
+  const labels = ['Engagement', 'Contract', 'stage 3']
   const stepper = newSurvey.properties.stepper.properties
   survey.sections.forEach((section, ix) => {
     const step = { type: 'object', properties: {}, required: [] }
-    stepper[`step-${ix + 1}`] = step
+    const key = labels[ix] || `Step-${ix + 1}`
+    stepper[key] = step
     section.questions.forEach((q) => {
-      step[q.id] = { type: 'string' }
+      step.properties[q.id] = qObj(q)
       if (!q.optional) step.required.push(q.id)
     })
   })
