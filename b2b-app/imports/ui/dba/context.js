@@ -23,17 +23,34 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     []
   )
 
-  const { theView } = useTracker(() => {
+  const { collection } = useTracker(() => {
     console.log('run tracker', collectionName)
     Meteor.subscribe('name.collections', { name: collectionName })
     const c = Collections.findOne({ name: collectionName })
-
-    const theView = c?.views?.filter((item) => item.name === viewName)
-
     return {
-      theView,
+      collection: c,
     }
   }, [collectionName, viewName])
+
+  const theView = React.useMemo(
+    () => collection?.views?.filter((item) => item.name === viewName),
+    [collection]
+  )
+
+  const availableViews = React.useMemo(() => {
+    const views = collection?.views?.map((item) => {
+      return {
+        slug: item.slug,
+        name: item.name,
+        icon: item.icon,
+        sortOrder: item.sortOrder,
+      }
+    })
+    if (views?.length) {
+      views.sort((a, b) => a.sortOrder - b.sortOrder)
+    }
+    return views
+  }, [collection])
 
   const rawC = React.useMemo(() => getCollection(collectionName), [collectionName])
 
@@ -76,6 +93,7 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
         schema: rawC?.schema,
         theView,
         rows,
+        availableViews,
       }}
     >
       {children}

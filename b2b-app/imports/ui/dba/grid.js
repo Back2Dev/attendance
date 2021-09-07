@@ -12,6 +12,7 @@ import {
   getFieldType,
 } from '/imports/api/collections/utils.js'
 import { CollectionContext } from './context'
+import ViewsSelector from './grid/views-selector'
 
 const StyledGrid = styled.div`
   padding: 40px 20px 20px;
@@ -22,6 +23,10 @@ const StyledGrid = styled.div`
   }
   .filter-container {
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
   .grid-container {
     flex: 1;
@@ -139,6 +144,7 @@ function Grid() {
             setFilterText(searchQuery)
           }}
         />
+        <ViewsSelector />
       </div>
       <div className="grid-container">
         <DataGrid

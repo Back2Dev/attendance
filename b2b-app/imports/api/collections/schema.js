@@ -33,6 +33,7 @@ export const SortOrderSchema = new SimpleSchema({
 })
 
 export const ViewSchema = new SimpleSchema({
+  slug: String,
   name: String,
   columns: {
     type: Array,
