@@ -8,6 +8,8 @@ import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
 import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
+import map2Uniforms from '/imports/api/surveys/uniforms'
+import map2UiSchema from '/imports/api/surveys/ui-schema'
 
 const debug = require('debug')('app:forms:framework')
 
@@ -29,7 +31,13 @@ const Framework = ({ id, item, methods }) => {
     try {
       methods.update(
         id,
-        { _id: id, source: formEditorInput, json: JSON.parse(jsonEditorInput), autosave },
+        {
+          _id: id,
+          source: formEditorInput,
+          json: JSON.parse(jsonEditorInput),
+          survey: raw,
+          autosave,
+        },
         quit
       )
     } catch (e) {
@@ -49,6 +57,8 @@ const Framework = ({ id, item, methods }) => {
     null,
     2
   )
+
+  const [raw, setRaw] = React.useState({})
 
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(false)
@@ -76,16 +86,20 @@ const Framework = ({ id, item, methods }) => {
   }
 
   const compileForm = () => {
-    const compiled = parse(formEditorInput)
+    const result = parse(formEditorInput)
+    // const specific = map2Uniforms(result.survey)
+    const specific = map2UiSchema(result.survey)
+    debug({ specific })
+    setRaw(specific)
 
-    if (compiled.status === 'success') {
-      setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
-      setErrors(compiled.errs)
-      showErrors(compiled.errs)
+    if (result.status === 'success') {
+      setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+      setErrors(result.errs)
+      showErrors(result.errs)
     } else {
-      setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
-      setErrors(compiled.errs)
-      showErrors(compiled.errs)
+      setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+      setErrors(result.errs)
+      showErrors(result.errs)
     }
   }
 

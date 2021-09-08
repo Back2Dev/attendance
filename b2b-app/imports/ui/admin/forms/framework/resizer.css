@@ -68,3 +68,7 @@ div.SplitPane.vertical {
   padding-left: 16px;
   margin-top: 8px;
 }
+
+.scroll {
+  overflow: scroll;
+}

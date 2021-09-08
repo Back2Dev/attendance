@@ -40,7 +40,7 @@ function a11yProps(index) {
 }
 
 const Progress = ({ schema }) => {
-  const [tab, setTab] = React.useState(0)
+  const [tab, setTab] = React.useState(1)
 
   const handleTabs = (event, newValue) => {
     setTab(newValue)
@@ -107,8 +107,10 @@ const WebformPage = ({
   }
 
   // Build the schema
-  const schema = getSchemas(survey, formData)
-  return <Progress schema={schema} save={save} />
+  const s = map2UiSchema(survey)
+
+  // const schema = getSchemas(survey, formData)
+  return <Progress schema={s} save={save} />
 }
 
 export default WebformPage
