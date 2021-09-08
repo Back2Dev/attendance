@@ -33,8 +33,8 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
   }, [collectionName, viewName])
 
   const theView = React.useMemo(
-    () => collection?.views?.filter((item) => item.name === viewName),
-    [collection]
+    () => collection?.views?.find((item) => item.slug === viewName),
+    [collection, viewName]
   )
 
   const availableViews = React.useMemo(() => {

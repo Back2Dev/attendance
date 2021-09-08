@@ -3,17 +3,27 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { useHistory } from 'react-router'
 
 import {
   Typography,
   Button,
+  IconButton,
   Modal,
   FormGroup,
   FormControlLabel,
   Checkbox,
   TextField,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
+
+import { showError } from '/imports/ui/utils/toast-alerts.js'
 
 import Collections from '/imports/api/collections/schema'
 import getCollection from '/imports/api/collections/collections.js'
@@ -21,13 +31,20 @@ import { getFieldType } from '/imports/api/collections/utils.js'
 
 const StyledViewForm = styled.div`
   padding: 40px 20px;
+  .view-configs {
+    margin: 20px 0;
+  }
   .selected-columns-wrapper {
     margin: 20px 0;
   }
   .column-wrapper {
     margin: 10px 0;
+  }
+  .primary-actions {
+    margin: 40px 0;
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
   }
 `
 
@@ -45,9 +62,12 @@ const StyledModalBox = styled.div`
 `
 
 function ViewForm() {
-  const { collection: collectionName, view: viewName } = useParams()
-  console.log({ collectionName, viewName })
+  const { collection: collectionName, view: viewSlug } = useParams()
+  console.log({ collectionName, viewSlug })
+  const history = useHistory()
 
+  const [newViewName, setNewViewName] = useState('')
+  const [readOnly, setReadOnly] = useState(false)
   const [showColumnsTable, setShowColumnsTable] = useState(false)
   const [columnsTobeAdded, setColumnsTobeAdded] = useState([])
   const [selectedColumns, setSelectedColumn] = useState([])
@@ -58,7 +78,7 @@ function ViewForm() {
     return {
       collection: Collections.findOne({ name: collectionName }),
     }
-  }, [collectionName, viewName])
+  }, [collectionName, viewSlug])
 
   const { rawC, allColumns } = React.useMemo(() => {
     const rawC = getCollection(collectionName)
@@ -73,17 +93,53 @@ function ViewForm() {
   }, [collectionName])
 
   const theView = React.useMemo(
-    () => collection?.views?.filter((item) => item.name === viewName),
-    [collection]
+    () => collection?.views?.find((item) => item.slug === viewSlug),
+    [collection, viewSlug]
   )
 
   useEffect(() => {
     if (theView) {
-      setSelectedColumn(theView.columns)
+      setSelectedColumn(theView.columns || [])
+      setNewViewName(theView.name || '')
+      setReadOnly(theView.readOnly === true)
     }
   }, [theView])
 
-  // get collection
+  const handleSubmit = () => {
+    console.log('submit')
+    Meteor.call(
+      'collections.updateView',
+      {
+        collectionName,
+        viewSlug,
+        viewName: newViewName,
+        readOnly,
+        columns: selectedColumns,
+      },
+      (error, result) => {
+        console.log(error, result)
+
+        if (error) {
+          showError(error.message)
+          return
+        }
+        if (result) {
+          if (result.status === 'failed') {
+            showError(result.message)
+            return
+          }
+
+          // go to new view
+          if (result.view?.slug) {
+            history.push(`/dba/${collectionName}/${result.view?.slug}`)
+            return
+          }
+        }
+
+        history.push(`/dba/${collectionName}`)
+      }
+    )
+  }
 
   if (!rawC) {
     return (
@@ -94,16 +150,19 @@ function ViewForm() {
   }
 
   const renderColumns = () => {
-    if (selectedColumns.length === 0) {
-      return <div>Please select some columns</div>
+    if (!selectedColumns || selectedColumns.length === 0) {
+      return (
+        <TableRow>
+          <TableCell colSpan={10}>Please select some columns</TableCell>
+        </TableRow>
+      )
     }
     return selectedColumns.map((col) => {
       return (
-        <div key={col.name} className="column-wrapper">
-          <div className="column-name">{col.name}</div>
-          <div className="column-label">
+        <TableRow key={col.name} className="column-wrapper">
+          <TableCell className="column-name">{col.name}</TableCell>
+          <TableCell className="column-label">
             <TextField
-              label="Column label"
               value={col.label}
               onChange={(event) => {
                 setSelectedColumn(
@@ -119,10 +178,9 @@ function ViewForm() {
                 )
               }}
             />
-          </div>
-          <div className="column-filter">
+          </TableCell>
+          <TableCell className="column-filter">
             <TextField
-              label="Column filter"
               value={col.filter}
               onChange={(event) => {
                 setSelectedColumn(
@@ -138,18 +196,87 @@ function ViewForm() {
                 )
               }}
             />
-          </div>
-        </div>
+          </TableCell>
+          <TableCell>
+            <FormControlLabel
+              key={col.name}
+              control={
+                <Checkbox
+                  checked={col.readOnly === true}
+                  onChange={() => {
+                    setSelectedColumn(
+                      selectedColumns.map((item) => {
+                        if (item.name === col.name) {
+                          return {
+                            ...item,
+                            readOnly: !col.readOnly,
+                          }
+                        }
+                        return item
+                      })
+                    )
+                  }}
+                  color="primary"
+                />
+              }
+              label="Read only"
+            />
+          </TableCell>
+          <TableCell>
+            <IconButton
+              onClick={() => {
+                setSelectedColumn(
+                  selectedColumns.filter((item) => item.name !== col.name)
+                )
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </TableCell>
+        </TableRow>
       )
     })
   }
 
+  console.log({ theView })
   return (
     <StyledViewForm>
       <Typography variant="h1">
-        {viewName ? `Edit view ${viewName}` : 'Add new view'}
+        {theView ? `Edit view ${theView.name}` : 'Add new view'}
       </Typography>
-      <div className="selected-columns-wrapper">{renderColumns()}</div>
+      {!theView && (
+        <div className="view-configs">
+          <TextField
+            label="View name"
+            value={newViewName}
+            onChange={(event) => setNewViewName(event.target.value)}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={readOnly}
+                onChange={() => {
+                  setReadOnly(!readOnly)
+                }}
+                color="primary"
+              />
+            }
+            label="Read only"
+          />
+        </div>
+      )}
+      <Table className="selected-columns-wrapper">
+        <TableHead>
+          <TableRow>
+            <TableCell>Field name</TableCell>
+            <TableCell>Column Label</TableCell>
+            <TableCell>Column filter</TableCell>
+            <TableCell>Read only</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderColumns()}</TableBody>
+      </Table>
       <Button
         title="Add column"
         color="primary"
@@ -159,6 +286,24 @@ function ViewForm() {
       >
         Add columns
       </Button>
+      <div className="primary-actions">
+        <Button
+          variant="contained"
+          onClick={() => {
+            history.push(`/dba/${collectionName}${viewSlug ? `/${viewSlug}` : ''}`)
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={!newViewName || selectedColumns.length === 0}
+        >
+          Submit
+        </Button>
+      </div>
       <Modal
         open={showColumnsTable}
         onClose={() => setShowColumnsTable(false)}
@@ -168,10 +313,10 @@ function ViewForm() {
       >
         <StyledModalBox>
           <div>
-            <Typography h2>Select columns tobe added</Typography>
+            <Typography variant="h2">Select columns tobe added</Typography>
             <FormGroup>
               {allColumns.map((col) => {
-                if (selectedColumns.some((item) => item.name === col.name)) {
+                if (selectedColumns?.some((item) => item.name === col.name)) {
                   return null
                 }
                 const checked = columnsTobeAdded.some((item) => item.name === col.name)
@@ -192,6 +337,7 @@ function ViewForm() {
                               {
                                 name: col.name,
                                 label: col.label,
+                                readOnly: false,
                               },
                             ])
                           }

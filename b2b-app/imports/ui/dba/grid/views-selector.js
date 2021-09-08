@@ -28,7 +28,8 @@ function ViewsSelector() {
   const history = useHistory()
 
   const handleChange = (event) => {
-    console.log(event.target.value)
+    const viewSlug = event.target.value
+    history.push(`/dba/${theCollection._name}${viewSlug ? `/${viewSlug}` : ''}`)
   }
 
   const renderMenuItems = () => {
@@ -59,6 +60,9 @@ function ViewsSelector() {
           aria-label="edit view"
           className="btn btn-edit"
           component="span"
+          onClick={() =>
+            history.push(`/dba/${theCollection._name}/edit-view/${theView.name}`)
+          }
         >
           <EditIcon />
         </IconButton>

@@ -41,7 +41,10 @@ export const ViewSchema = new SimpleSchema({
   },
   'columns.$': ColumnsSchema,
   icon: OptionalString,
-  sortOrder: SortOrderSchema,
+  sortOrder: {
+    type: SortOrderSchema,
+    optional: true,
+  },
   readOnly: {
     type: Boolean,
     defaultValue: false,
@@ -70,3 +73,15 @@ export const CollectionsSchema = new SimpleSchema({
 Collections.attachSchema(CollectionsSchema)
 
 export default Collections
+
+export const UpdateViewProps = new SimpleSchema({
+  collectionName: String,
+  viewSlug: OptionalString,
+  viewName: String,
+  readOnly: {
+    type: Boolean,
+    optional: true,
+  },
+  columns: Array,
+  'columns.$': ColumnsSchema,
+})
