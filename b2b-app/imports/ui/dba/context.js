@@ -60,31 +60,23 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     }
 
     // build the filter
-    const filter = []
-    if (theView?.columns) {
-      theView.columns.map((col) => {
-        if (col.filter) {
-          filter.push({
-            column: col.name,
-            filter: col.filter,
-          })
+    console.log('calling collections.getRows', collectionName, theView?.slug)
+    Meteor.call(
+      'collections.getRows',
+      { collectionName, viewSlug: theView?.slug },
+      (error, result) => {
+        if (error) {
+          showError(error.message)
+          return
         }
-      })
-    }
-
-    console.log('calling collections.getRows', collectionName, filter)
-    Meteor.call('collections.getRows', { collectionName, filter }, (error, result) => {
-      if (error) {
-        showError(error.message)
-        return
+        if (result?.status === 'failed') {
+          showError(result.message)
+          return
+        }
+        setRows(result.rows)
       }
-      if (result?.status === 'failed') {
-        showError(result.message)
-        return
-      }
-      setRows(result.rows)
-    })
-  }, [collectionName])
+    )
+  }, [collectionName, theView])
 
   return (
     <CollectionContext.Provider

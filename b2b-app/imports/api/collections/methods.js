@@ -6,7 +6,8 @@ const debug = require('debug')('app:collections')
 import { getSlugFromString } from '/imports/api/utils/misc.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 import getCollection from './collections'
-import { UpdateViewProps } from './schema'
+import { UpdateViewProps, GetRowsProps } from './schema'
+import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 
 Meteor.methods({
   'collections.updateView'({ collectionName, viewSlug, viewName, readOnly, columns }) {
@@ -91,13 +92,11 @@ Meteor.methods({
       }
     }
   },
-  'collections.getRows'({ collectionName, filter }) {
-    if (!Match.test(collectionName, String)) {
-      return { status: 'failed', message: 'Invalid collection name' }
-    }
-
-    if (!Match.test(filter, [String])) {
-      return { status: 'failed', message: 'Invalid filter' }
+  'collections.getRows'({ collectionName, viewSlug }) {
+    try {
+      GetRowsProps.validate({ collectionName, viewSlug })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
     }
 
     // check to make sure this user has Admin role
@@ -110,18 +109,46 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
 
-    const { collection } = getCollection(collectionName)
-    if (!collection) {
+    const { collection: dbCollection, schema } = getCollection(collectionName)
+    if (!dbCollection) {
       return {
         status: 'failed',
         message: `Does not support collection: ${collectionName}`,
       }
     }
 
-    // get all data for now
+    const collection = Collections.findOne({ name: collectionName })
+
+    const conditions = []
+    if (collection && viewSlug) {
+      const theView = collection.views?.find((item) => item.slug === viewSlug)
+      debug({ viewSlug, theView })
+      if (theView) {
+        theView.columns.map((col) => {
+          if (col.filter) {
+            const fieldCondition = getFieldConditionByFilter({
+              fieldName: col.name,
+              schema,
+              filter: col.filter,
+            })
+            if (fieldCondition) {
+              conditions.push(fieldCondition)
+            }
+          }
+        })
+      }
+    }
+
+    const queryCondition = {}
+    if (conditions.length) {
+      queryCondition['$and'] = conditions
+    }
+
+    debug(conditions, queryCondition)
+
     return {
       status: 'success',
-      rows: collection.find({}).fetch(),
+      rows: dbCollection.find(queryCondition).fetch(),
     }
   },
   'rm.collections': (id) => {

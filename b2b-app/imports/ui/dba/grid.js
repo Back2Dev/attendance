@@ -73,7 +73,7 @@ function Grid() {
       // get columns from schema
       schema._firstLevelSchemaKeys.map((fieldName) => {
         const field = schema._schema[fieldName]
-        const fieldType = getFieldType({ fieldSchema: schema._schema[fieldName] })
+        const fieldType = getFieldType({ fieldSchema: field })
         console.log({ fieldType })
         if (fieldType) {
           const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })

@@ -1,4 +1,5 @@
 import moment from 'moment'
+const debug = require('debug')('app:collections-utils')
 
 export const formatData = ({ data, type }) => {
   switch (type) {
@@ -28,6 +29,39 @@ export const getDataFormatter = ({ type, columnName }) => {
       return ({ row }) =>
         row[columnName] ? JSON.stringify(row[columnName], null, 2) : null
   }
+}
+
+export const getFieldConditionByFilter = ({ fieldName, schema, filter }) => {
+  debug({ fieldName, schema, filter })
+
+  const fieldSchema = schema._schema[fieldName]
+  if (!fieldSchema) {
+    return null
+  }
+  const fieldType = getFieldType({ fieldSchema })
+  if (!fieldType) {
+    return null
+  }
+  let condition = {}
+  switch (fieldType) {
+    case 'String':
+      condition[fieldName] = {
+        $regex: filter,
+        $options: 'i',
+      }
+      break
+    case 'SimpleSchema.Integer':
+    case 'Integer':
+      condition[fieldName] = parseInt(filter, 10)
+      break
+    case 'Number':
+      condition[fieldName] = parseFloat(filter)
+      break
+    default:
+      condition = null
+  }
+
+  return condition
 }
 
 export const getFieldType = ({ fieldSchema }) => {

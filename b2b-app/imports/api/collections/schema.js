@@ -85,3 +85,8 @@ export const UpdateViewProps = new SimpleSchema({
   columns: Array,
   'columns.$': ColumnsSchema,
 })
+
+export const GetRowsProps = new SimpleSchema({
+  collectionName: String,
+  viewSlug: OptionalString,
+})
