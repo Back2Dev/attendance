@@ -16,6 +16,7 @@ const Members = lazy(() => import('/imports/ui/admin/members/lister.js'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items/lister.js'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs/lister.js'))
 const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Courses = lazy(() => import('/imports/ui/admin/courses'))
 
 //
 // This file contains a list of routes for database admin pages
@@ -31,6 +32,7 @@ export default GeneratedRoute = () => {
         <Route path="/admin/service-items" exact component={ServiceItems} />
         <Route path="/admin/jobs" exact component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
+        <Route path="/admin/courses" component={Courses} />
         <Route path="/admin/users" exact component={UserList} />
         <Route path="/admin/calendar" component={EventCalendar} />
         <Route path="/admin/registrations" component={Registrations} />

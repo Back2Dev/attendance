@@ -3,5 +3,4 @@ import WebformUiSchema from './webform-ui-schema'
 import WebformUniforms from './webform-uniforms'
 
 // export default WebformUiSchema
-// export default WebformUniforms
-export default WebformUiSchema
+export default WebformUniforms

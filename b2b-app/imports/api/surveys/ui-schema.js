@@ -63,7 +63,7 @@ export default map2UiSchema = (survey) => {
         }
         break
       default:
-        que = { type: 'text' }
+        que = { type: 'string' }
     }
     return que
   }
