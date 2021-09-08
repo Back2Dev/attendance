@@ -120,11 +120,13 @@ Meteor.methods({
     const collection = Collections.findOne({ name: collectionName })
 
     const conditions = []
+    const fields = {}
     if (collection && viewSlug) {
       const theView = collection.views?.find((item) => item.slug === viewSlug)
       debug({ viewSlug, theView })
       if (theView) {
         theView.columns.map((col) => {
+          fields[col.name] = 1
           if (col.filter) {
             const fieldCondition = getFieldConditionByFilter({
               fieldName: col.name,
@@ -144,11 +146,11 @@ Meteor.methods({
       queryCondition['$and'] = conditions
     }
 
-    debug(conditions, queryCondition)
+    debug(conditions, queryCondition, fields)
 
     return {
       status: 'success',
-      rows: dbCollection.find(queryCondition).fetch(),
+      rows: dbCollection.find(queryCondition, { fields }).fetch(),
     }
   },
   'rm.collections': (id) => {
