@@ -32,7 +32,7 @@ export const getDataFormatter = ({ type, columnName }) => {
 }
 
 export const getFieldConditionByFilter = ({ fieldName, schema, filter }) => {
-  debug({ fieldName, schema, filter })
+  // debug({ fieldName, schema, filter })
 
   const fieldSchema = schema._schema[fieldName]
   if (!fieldSchema) {

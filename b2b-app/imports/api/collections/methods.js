@@ -123,7 +123,7 @@ Meteor.methods({
     const fields = {}
     if (collection && viewSlug) {
       const theView = collection.views?.find((item) => item.slug === viewSlug)
-      debug({ viewSlug, theView })
+      // debug({ viewSlug, theView })
       if (theView) {
         theView.columns.map((col) => {
           fields[col.name] = 1
@@ -146,7 +146,7 @@ Meteor.methods({
       queryCondition['$and'] = conditions
     }
 
-    debug(conditions, queryCondition, fields)
+    // debug(conditions, queryCondition, fields)
 
     return {
       status: 'success',

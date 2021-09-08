@@ -50,7 +50,7 @@ function ViewsSelector() {
   return (
     <StyledViewsSelector>
       <FormControl className="form-control">
-        <Select value={theView?.name || ''} onChange={handleChange}>
+        <Select value={theView?.slug || ''} onChange={handleChange}>
           {renderMenuItems()}
         </Select>
       </FormControl>
@@ -61,7 +61,7 @@ function ViewsSelector() {
           className="btn btn-edit"
           component="span"
           onClick={() =>
-            history.push(`/dba/${theCollection._name}/edit-view/${theView.name}`)
+            history.push(`/dba/${theCollection._name}/edit-view/${theView.slug}`)
           }
         >
           <EditIcon />

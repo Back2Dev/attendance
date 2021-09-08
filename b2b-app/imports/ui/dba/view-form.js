@@ -244,27 +244,25 @@ function ViewForm() {
       <Typography variant="h1">
         {theView ? `Edit view ${theView.name}` : 'Add new view'}
       </Typography>
-      {!theView && (
-        <div className="view-configs">
-          <TextField
-            label="View name"
-            value={newViewName}
-            onChange={(event) => setNewViewName(event.target.value)}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={readOnly}
-                onChange={() => {
-                  setReadOnly(!readOnly)
-                }}
-                color="primary"
-              />
-            }
-            label="Read only"
-          />
-        </div>
-      )}
+      <div className="view-configs">
+        <TextField
+          label="View name"
+          value={newViewName}
+          onChange={(event) => setNewViewName(event.target.value)}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={readOnly}
+              onChange={() => {
+                setReadOnly(!readOnly)
+              }}
+              color="primary"
+            />
+          }
+          label="Read only"
+        />
+      </div>
       <Table className="selected-columns-wrapper">
         <TableHead>
           <TableRow>
