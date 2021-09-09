@@ -26,8 +26,7 @@ const StyledDetailsHeader = styled.div`
 `
 
 function DetailsHeader() {
-  const { session, loading, event } = useContext(SessionDetailsContext)
-
+  const { session, loading, event, course } = useContext(SessionDetailsContext)
   // find the coach(es) from list of event members
   const coaches = useMemo(() => {
     const coachMembers = []

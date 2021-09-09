@@ -4,6 +4,7 @@ import Editor from '@react-page/editor'
 import image from '@react-page/plugins-image'
 import slate from '@react-page/plugins-slate'
 import formPlugin from './plugins/template'
+// import { useMemo } from 'react'
 
 const cellPlugins = [slate(), image,formPlugin]
 

@@ -72,7 +72,7 @@ Meteor.methods({
       Courses.update(id, {$set: {
         pageContent: model
       }})
-      return {status: 'sucesss', message: 'Added page to course'}
+      return {status: 'sucess', message: 'Added page to course'}
     } catch (e) {
       console.log(e.message)
       return {
