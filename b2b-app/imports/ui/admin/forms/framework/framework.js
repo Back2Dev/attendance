@@ -72,7 +72,11 @@ const Framework = ({ id, item, methods }) => {
   const [doc, setDoc] = React.useState()
   //error widgets
   const [widgets, setWidgets] = React.useState([])
-  const [tab, setTab] = React.useState(0)
+  const [tab, setTab] = React.useState(
+    isNaN(parseInt(localStorage.getItem('formEditorTab')))
+      ? 0
+      : parseInt(localStorage.getItem('formEditorTab'))
+  )
 
   const [layout, setLayout] = React.useState(
     localStorage.getItem('formEditorLayout')
@@ -131,6 +135,10 @@ const Framework = ({ id, item, methods }) => {
     localStorage.setItem('formEditorAutoSave', toggledTo)
   }
 
+  const changeTab = (i) => {
+    setTab(i)
+    localStorage.setItem('formEditorTab', i)
+  }
   const showErrors = (errors) => {
     hideErrors()
     setWidgets([])
@@ -211,7 +219,7 @@ const Framework = ({ id, item, methods }) => {
           hideErrors,
           showErrors,
           tab,
-          changeTab: (i) => setTab(i),
+          changeTab,
           layout,
           changeLayout,
           name: item.name,
