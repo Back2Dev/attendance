@@ -24,6 +24,8 @@ export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
   const [settings, setSettings] = React.useState(false)
 
+  const settingsButton = React.useRef(null)
+
   const handleLayoutChange = (event) => {
     formContext.changeLayout(event.target.value)
   }
@@ -83,6 +85,7 @@ export const EditorToolbar = () => {
                 onClick={() => {
                   handleSettings()
                 }}
+                ref={settingsButton}
               >
                 <SettingsIcon />
               </IconButton>
@@ -98,6 +101,7 @@ export const EditorToolbar = () => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
+              anchorEl={settingsButton.current}
             >
               <div style={{ padding: '8px' }}>
                 <FormControl component="fieldset">
