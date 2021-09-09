@@ -7,6 +7,7 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
 import config from './config'
 
+
 const debug = require('debug')('app:editor')
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',

@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
+import PageEditor from './components/PageEditor'
 
 const schemaBridge = config.edit.schema
 
@@ -30,7 +31,7 @@ const Edit = ({ id, item, methods }) => {
 
   return (
     <div>
-      <div>Edit Courses - {data.name}</div>
+      {/* <div>Edit Courses - {data.name}</div>
       <AutoForm
         schema={schemaBridge}
         model={item}
@@ -40,7 +41,8 @@ const Edit = ({ id, item, methods }) => {
       <Button type="button" onClick={back}>
         Cancel
       </Button>
-      &nbsp;&nbsp;
+      &nbsp;&nbsp; */}
+      <PageEditor />
     </div>
   )
 }
