@@ -17,7 +17,7 @@ function createValidator(schema) {
 }
 
 const getSchemas = (survey) => {
-  return survey.steps.map((step, ix) => {
+  return survey.sections.map((step, ix) => {
     step.schema = {
       title: step.name || `Unnamed step ${ix + 1}`,
       type: 'object',

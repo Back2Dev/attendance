@@ -21,6 +21,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import DoneIcon from '@material-ui/icons/Done'
 import InfoIcon from '@material-ui/icons/Info'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import {
   AutoField,
@@ -178,15 +179,14 @@ const Prompt = ({ text, tooltip }) => {
     prompt = html2r(p)
   }
 
+  if (!tooltip) return <Typography>{prompt}</Typography>
   return (
-    <Typography className="label">
-      {prompt}
-      {tooltip && (
-        <Tooltip title={tooltip}>
-          <InfoIcon color="primary" />
-        </Tooltip>
-      )}
-    </Typography>
+    <div>
+      <Typography>{prompt}</Typography>{' '}
+      <Typography>
+        <i>{html2r(tooltip)}</i>
+      </Typography>
+    </div>
   )
 }
 const RenderQ = (q, ix) => {
