@@ -61,8 +61,12 @@ const Framework = ({ id, item, methods }) => {
   const [raw, setRaw] = React.useState({})
 
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
-  const [autoRun, setAutoRun] = React.useState(false)
-  const [autoSave, setAutoSave] = React.useState(true)
+  const [autoRun, setAutoRun] = React.useState(
+    localStorage.getItem('formEditorAutoRun') === 'true' ? true : false
+  )
+  const [autoSave, setAutoSave] = React.useState(
+    localStorage.getItem('formEditorAutoSave') === 'false' ? false : true
+  )
   //codemirror references
   const [editor, setEditor] = React.useState()
   const [doc, setDoc] = React.useState()
@@ -70,12 +74,17 @@ const Framework = ({ id, item, methods }) => {
   const [widgets, setWidgets] = React.useState([])
   const [tab, setTab] = React.useState(0)
 
-  const [layout, setLayout] = React.useState('single')
+  const [layout, setLayout] = React.useState(
+    localStorage.getItem('formEditorLayout')
+      ? localStorage.getItem('formEditorLayout')
+      : 'single'
+  )
 
   const changeLayout = (newLayout) => {
     const layouts = ['single', 'double', 'dnd']
 
     if (layouts.includes(newLayout)) {
+      localStorage.setItem('formEditorLayout', newLayout)
       setLayout(newLayout)
     }
   }
@@ -111,11 +120,15 @@ const Framework = ({ id, item, methods }) => {
   }
 
   const toggleAutoRun = () => {
-    setAutoRun(autoRun ? false : true)
+    const toggledTo = autoRun ? false : true
+    setAutoRun(toggledTo)
+    localStorage.setItem('formEditorAutoRun', toggledTo)
   }
 
   const toggleAutoSave = () => {
-    setAutoSave(autoSave ? false : true)
+    const toggledTo = autoSave ? false : true
+    setAutoSave(toggledTo)
+    localStorage.setItem('formEditorAutoSave', toggledTo)
   }
 
   const showErrors = (errors) => {
