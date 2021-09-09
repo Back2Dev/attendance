@@ -89,8 +89,7 @@ if (!googleService) {
     {
       $set: {
         loginStyle: 'popup',
-        clientId:
-          '539249286175-irmtj1ufg0adm1eqpbdqon46gdtfeq3s.apps.googleusercontent.com',
+        clientId: Meteor.settings.private.GOOGLE_CLIENT_ID,
         secret: Meteor.settings.private.GOOGLE_SECRET,
       },
     }

@@ -6,7 +6,8 @@
     "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au",
     "DOCUMENTS_BUCKET": "staging-docs.mydomain.com.au",
     "UPLOAD_BUCKET": "staging-docs.mydomain.com.au",
-    "GOOGLE_SECRET": "YOUR-SECRET",
+    "GOOGLE_SECRET": "yWps4StYW2CI_l5_rzQft5UG",
+    "GOOGLE_CLIENT_ID": "1063998179837-tiga0ban6hi7pdj5vvba0surcjglrka2.apps.googleusercontent.com",
     "FACEBOOK_SECRET": "YOUR-SECRET",
     "MANDRILL_API_KEY": "YOUR-SECRET"
   },
