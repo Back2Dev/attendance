@@ -12,11 +12,19 @@ import formPlugin from './plugins/template'
 const cellPlugins = [slate(), image, formPlugin]
 
 const StyledEditor = styled.div`
+  .fab-group-container {
+    position: fixed;
+    z-index: 10001;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    max-height: 100%;
+  }
   .fab-group {
     padding: 16px;
     position: relative;
     flex-flow: column wrap;
-    direction: rtl;
+    direction: ltr;
     display: flex;
   }
   .fab-button {
@@ -43,17 +51,19 @@ const PageEditor = ({ data, save }) => {
   return (
     <StyledEditor>
       <Editor cellPlugins={cellPlugins} value={page} onChange={handleOnChange} />
-      <div className="fab-group">
-        <Tooltip title="Save" placement="left">
-          <Fab
-            color="primary"
-            aria-label="save"
-            className="fab-button"
-            onClick={handleSave}
-          >
-            <SaveIcon size="lg" />
-          </Fab>
-        </Tooltip>
+      <div className="fab-group-container">
+        <div className="fab-group">
+          <Tooltip title="Save" placement="left">
+            <Fab
+              color="primary"
+              aria-label="save"
+              className="fab-button"
+              onClick={handleSave}
+            >
+              <SaveIcon size="lg" />
+            </Fab>
+          </Tooltip>
+        </div>
       </div>
     </StyledEditor>
   )
