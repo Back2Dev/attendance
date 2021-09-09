@@ -67,18 +67,27 @@ Meteor.methods({
       }
     }
   },
-  'update.page.courses': ({id,model}) => {
+  'update.page.courses': ({ id, model }) => {
     try {
+<<<<<<< HEAD
       Courses.update(id, {$set: {
         pageContent: model
       }})
       return {status: 'sucess', message: 'Added page to course'}
+=======
+      Courses.update(id, {
+        $set: {
+          pageContent: model,
+        },
+      })
+      return { status: 'success', message: 'Added page to course' }
+>>>>>>> 157086bc2b964c4aa863ff9380ca1f57982fe71a
     } catch (e) {
       console.log(e.message)
       return {
         status: 'failed',
-        message: `Error when adding page to course: ${e.message}`
+        message: `Error when adding page to course: ${e.message}`,
       }
     }
-  }
+  },
 })
