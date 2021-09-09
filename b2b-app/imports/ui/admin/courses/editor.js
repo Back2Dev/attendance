@@ -21,7 +21,12 @@ const update = (id, form) => {
   meteorCall('update.courses', 'updating', form)
   history.push('/admin/courses')
 }
-const methods = { remove, update }
+const updatePage = (form) => {
+  meteorCall('update.page.courses','updating page',form)
+}
+
+
+const methods = { remove, update, updatePage }
 
 const Loading = (props) => {
   if (props.loading) return <div>Loading...</div>
