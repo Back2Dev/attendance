@@ -1,15 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+import {Container} from '@material-ui/core'
 import config from './config'
 import PageEditor from './components/PageEditor'
 
 const schemaBridge = config.edit.schema
 
 const debug = require('debug')('app:edit')
+
 
 const Edit = ({ id, item, methods }) => {
   const save = (model) => {
@@ -29,22 +28,15 @@ const Edit = ({ id, item, methods }) => {
 
   React.useEffect(() => SetData(item), [item])
 
-  return (
-    <div>
-      {/* <div>Edit Courses - {data.name}</div> */}
-      {/* <AutoForm
-        schema={schemaBridge}
-        model={item}
-        onSubmit={save}
-        autoField={CustomAutoField}
-      /> */}
-      {/* <Button type="button" onClick={back}>
-        Cancel
-      </Button> */}
-      &nbsp;&nbsp;
-      <PageEditor data={data.pageContent} save={save}/>
-    </div>
-  )
+  return  <Container>
+    <PageEditor data={data.pageContent} save={save}/>
+  </Container>
+  
+  
+  
+  
+  
+
 }
 
 Edit.propTypes = {

@@ -6,11 +6,13 @@ import Container from '@material-ui/core/Container'
 import SaveIcon from '@material-ui/icons/Save'
 import Editor from '@react-page/editor'
 import image from '@react-page/plugins-image'
+import divider from '@react-page/plugins-divider'
+import spacer from '@react-page/plugins-spacer'
 import slate from '@react-page/plugins-slate'
 import styled from 'styled-components'
 import formPlugin from './plugins/template'
 
-const cellPlugins = [slate(), image, formPlugin]
+const cellPlugins = [slate(), image, divider, spacer, formPlugin]
 
 const StyledEditor = styled.div`
   .react-page-controls-mode-toggle-control-group {
@@ -35,6 +37,9 @@ const StyledEditor = styled.div`
   }
   .fab-button {
     margin: 8px;
+  }
+  img {
+    max-width: 100%;
   }
 `
 
