@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import '@react-page/editor/lib/index.css'
 import Fab from '@material-ui/core/Fab'
 import Tooltip from '@material-ui/core/Tooltip'
+import Container from '@material-ui/core/Container'
 import SaveIcon from '@material-ui/icons/Save'
 import Editor from '@react-page/editor'
 import image from '@react-page/plugins-image'
@@ -12,6 +13,11 @@ import formPlugin from './plugins/template'
 const cellPlugins = [slate(), image, formPlugin]
 
 const StyledEditor = styled.div`
+  .react-page-controls-mode-toggle-control-group {
+    position: fixed !important;
+    bottom: 72px !important;
+    right: 0 !important;
+  }
   .fab-group-container {
     position: fixed;
     z-index: 10001;
@@ -21,7 +27,7 @@ const StyledEditor = styled.div`
     max-height: 100%;
   }
   .fab-group {
-    padding: 16px;
+    padding: 0 16px 16px 16px;
     position: relative;
     flex-flow: column wrap;
     direction: ltr;
@@ -50,7 +56,6 @@ const PageEditor = ({ data, save }) => {
 
   return (
     <StyledEditor>
-      <Editor cellPlugins={cellPlugins} value={page} onChange={handleOnChange} />
       <div className="fab-group-container">
         <div className="fab-group">
           <Tooltip title="Save" placement="left">
@@ -65,6 +70,7 @@ const PageEditor = ({ data, save }) => {
           </Tooltip>
         </div>
       </div>
+      <Editor cellPlugins={cellPlugins} value={page} onChange={handleOnChange} />
     </StyledEditor>
   )
 }
