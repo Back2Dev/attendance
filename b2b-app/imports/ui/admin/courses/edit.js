@@ -14,7 +14,7 @@ const debug = require('debug')('app:edit')
 const Edit = ({ id, item, methods }) => {
   const save = (model) => {
     try {
-      methods.update(id, model)
+      methods.updatePage({id, model})
     } catch (e) {
       alert(`Update error ${e.message}`)
     }
@@ -31,18 +31,18 @@ const Edit = ({ id, item, methods }) => {
 
   return (
     <div>
-      {/* <div>Edit Courses - {data.name}</div>
-      <AutoForm
+      {/* <div>Edit Courses - {data.name}</div> */}
+      {/* <AutoForm
         schema={schemaBridge}
         model={item}
         onSubmit={save}
         autoField={CustomAutoField}
-      />
-      <Button type="button" onClick={back}>
+      /> */}
+      {/* <Button type="button" onClick={back}>
         Cancel
-      </Button>
-      &nbsp;&nbsp; */}
-      <PageEditor />
+      </Button> */}
+      &nbsp;&nbsp;
+      <PageEditor data={data.pageContent} save={save}/>
     </div>
   )
 }
