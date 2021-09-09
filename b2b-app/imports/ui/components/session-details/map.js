@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import PageDisplay from '/imports/ui/admin/courses/components/PageDisplay'
 
+
 import { Skeleton } from '@material-ui/lab'
 
 import { SessionDetailsContext } from './context'
