@@ -12,9 +12,9 @@ import slate from '@react-page/plugins-slate'
 import styled from 'styled-components'
 import formPlugin from './plugins/template'
 
-const cellPlugins = [slate(), image, divider, spacer, formPlugin]
-
 const StyledEditor = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
   .react-page-controls-mode-toggle-control-group {
     position: fixed !important;
     bottom: 72px !important;
@@ -43,14 +43,15 @@ const StyledEditor = styled.div`
   }
 `
 
-const PageEditor = ({ data, save }) => {
+const PageEditor = ({ pageContent, data, save }) => {
   const [page, setPage] = useState(null)
+  const cellPlugins = [slate(), image, divider, spacer, formPlugin(data)]
 
   useMemo(() => {
-    if (data) {
-      setPage(data)
+    if (pageContent) {
+      setPage(pageContent)
     }
-  }, [data])
+  }, [pageContent])
 
   const handleOnChange = (fields) => {
     setPage(fields)

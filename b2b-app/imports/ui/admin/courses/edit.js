@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Container} from '@material-ui/core'
+import { Container } from '@material-ui/core'
 import config from './config'
 import PageEditor from './components/PageEditor'
 
@@ -9,11 +9,10 @@ const schemaBridge = config.edit.schema
 
 const debug = require('debug')('app:edit')
 
-
 const Edit = ({ id, item, methods }) => {
   const save = (model) => {
     try {
-      methods.updatePage({id, model})
+      methods.updatePage({ id, model })
     } catch (e) {
       alert(`Update error ${e.message}`)
     }
@@ -28,15 +27,11 @@ const Edit = ({ id, item, methods }) => {
 
   React.useEffect(() => SetData(item), [item])
 
-  return  <Container>
-    <PageEditor data={data.pageContent} save={save}/>
-  </Container>
-  
-  
-  
-  
-  
-
+  return (
+    <Container>
+      <PageEditor pageContent={data.pageContent} save={save} data={data} />
+    </Container>
+  )
 }
 
 Edit.propTypes = {
