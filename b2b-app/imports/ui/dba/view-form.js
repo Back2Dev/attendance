@@ -94,7 +94,10 @@ function ViewForm() {
   const [showColumnsTable, setShowColumnsTable] = useState(false)
   const [columnsTobeAdded, setColumnsTobeAdded] = useState([])
   const [selectedColumns, setSelectedColumn] = useState([])
-  const [sortByColumn, setSortByColumn] = useState({})
+  const [sortOrder, setSortOrder] = useState({
+    column: '',
+    order: 'asc',
+  })
 
   const { collection } = useTracker(() => {
     console.log('run tracker', collectionName)
@@ -126,6 +129,9 @@ function ViewForm() {
       setSelectedColumn(theView.columns || [])
       setNewViewName(theView.name || '')
       setReadOnly(theView.readOnly === true)
+      if (theView.sortOrder) {
+        setSortOrder(theView.sortOrder)
+      }
     }
   }, [theView])
 
@@ -139,6 +145,7 @@ function ViewForm() {
         viewName: newViewName,
         readOnly,
         columns: selectedColumns,
+        sortOrder,
       },
       (error, result) => {
         console.log(error, result)
@@ -263,15 +270,18 @@ function ViewForm() {
   }
 
   const renderSortByColumn = () => {
+    if (!selectedColumns?.length) {
+      return null
+    }
     return (
       <>
         <FormControl className="select-column">
           <InputLabel id="sort-by-column-select-label">Sort by column</InputLabel>
           <Select
             labelId="sort-by-column-select-label"
-            value={sortByColumn.col || ''}
+            value={sortOrder?.column || ''}
             onChange={(event) => {
-              setSortByColumn({ ...sortByColumn, col: event.target.value })
+              setSortOrder({ ...sortOrder, column: event.target.value })
             }}
           >
             <MenuItem value="">No column selected</MenuItem>
@@ -292,8 +302,9 @@ function ViewForm() {
           className="select-direction"
           defaultValue="right"
           onChange={(event) => {
-            setSortByColumn({ ...sortByColumn, dir: event.target.value })
+            setSortOrder({ ...sortOrder, order: event.target.value })
           }}
+          value={sortOrder.order}
         >
           <FormControlLabel value="asc" control={<Radio color="primary" />} label="ASC" />
           <FormControlLabel

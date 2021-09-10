@@ -10,7 +10,14 @@ import { UpdateViewProps, GetRowsProps } from './schema'
 import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 
 Meteor.methods({
-  'collections.updateView'({ collectionName, viewSlug, viewName, readOnly, columns }) {
+  'collections.updateView'({
+    collectionName,
+    viewSlug,
+    viewName,
+    readOnly,
+    columns,
+    sortOrder,
+  }) {
     // validate data
     try {
       !UpdateViewProps.validate({
@@ -19,6 +26,7 @@ Meteor.methods({
         viewName,
         readOnly,
         columns,
+        sortOrder,
       })
     } catch (error) {
       return { status: 'failed', message: error.message }
@@ -40,6 +48,7 @@ Meteor.methods({
       name: viewName,
       columns,
       readOnly,
+      sortOrder,
     }
 
     // find the collection

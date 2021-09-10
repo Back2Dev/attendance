@@ -84,6 +84,10 @@ export const UpdateViewProps = new SimpleSchema({
   },
   columns: Array,
   'columns.$': ColumnsSchema,
+  sortOrder: {
+    type: SortOrderSchema,
+    optional: true,
+  },
 })
 
 export const GetRowsProps = new SimpleSchema({
