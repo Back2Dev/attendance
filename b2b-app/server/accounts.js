@@ -104,7 +104,7 @@ if (!facebookService) {
     {
       $set: {
         loginStyle: 'popup',
-        appId: '757510828304258',
+        appId: Meteor.settings.private.FACEBOOK_APP_ID,
         secret: Meteor.settings.private.FACEBOOK_SECRET,
       },
     }
