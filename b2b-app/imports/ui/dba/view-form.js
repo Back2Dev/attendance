@@ -20,6 +20,12 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+  RadioGroup,
+  Radio,
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 
@@ -39,6 +45,23 @@ const StyledViewForm = styled.div`
   }
   .column-wrapper {
     margin: 10px 0;
+  }
+  .actions {
+    display: flex;
+    flex-directoin: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .sortByColumn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .select-column {
+        min-width: 200px;
+        margin-right: 10px;
+      }
+      .select-direction {
+      }
+    }
   }
   .primary-actions {
     margin: 40px 0;
@@ -71,6 +94,7 @@ function ViewForm() {
   const [showColumnsTable, setShowColumnsTable] = useState(false)
   const [columnsTobeAdded, setColumnsTobeAdded] = useState([])
   const [selectedColumns, setSelectedColumn] = useState([])
+  const [sortByColumn, setSortByColumn] = useState({})
 
   const { collection } = useTracker(() => {
     console.log('run tracker', collectionName)
@@ -238,6 +262,50 @@ function ViewForm() {
     })
   }
 
+  const renderSortByColumn = () => {
+    return (
+      <>
+        <FormControl className="select-column">
+          <InputLabel id="sort-by-column-select-label">Sort by column</InputLabel>
+          <Select
+            labelId="sort-by-column-select-label"
+            value={sortByColumn.col || ''}
+            onChange={(event) => {
+              setSortByColumn({ ...sortByColumn, col: event.target.value })
+            }}
+          >
+            <MenuItem value="">No column selected</MenuItem>
+            {selectedColumns?.length &&
+              selectedColumns.map((col) => {
+                return (
+                  <MenuItem key={col.name} value={col.name}>
+                    {col.label || col.name}
+                  </MenuItem>
+                )
+              })}
+          </Select>
+        </FormControl>
+        <RadioGroup
+          row
+          aria-label="sortby-column-direction"
+          name="position"
+          className="select-direction"
+          defaultValue="right"
+          onChange={(event) => {
+            setSortByColumn({ ...sortByColumn, dir: event.target.value })
+          }}
+        >
+          <FormControlLabel value="asc" control={<Radio color="primary" />} label="ASC" />
+          <FormControlLabel
+            value="desc"
+            control={<Radio color="primary" />}
+            label="DESC"
+          />
+        </RadioGroup>
+      </>
+    )
+  }
+
   console.log({ theView })
   return (
     <StyledViewForm>
@@ -275,15 +343,18 @@ function ViewForm() {
         </TableHead>
         <TableBody>{renderColumns()}</TableBody>
       </Table>
-      <Button
-        title="Add column"
-        color="primary"
-        startIcon={<AddIcon />}
-        variant="contained"
-        onClick={() => setShowColumnsTable(true)}
-      >
-        Add columns
-      </Button>
+      <div className="actions">
+        <div className="sortByColumn">{renderSortByColumn()}</div>
+        <Button
+          title="Add column"
+          color="primary"
+          startIcon={<AddIcon />}
+          variant="contained"
+          onClick={() => setShowColumnsTable(true)}
+        >
+          Add columns
+        </Button>
+      </div>
       <div className="primary-actions">
         <Button
           variant="contained"
