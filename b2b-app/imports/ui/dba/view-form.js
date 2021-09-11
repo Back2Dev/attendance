@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router'
-import DeleteIcon from '@material-ui/icons/Delete'
 import { useHistory } from 'react-router'
 
 import {
@@ -28,6 +27,7 @@ import {
   Radio,
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import { showError } from '/imports/ui/utils/toast-alerts.js'
 
@@ -35,10 +35,15 @@ import Collections from '/imports/api/collections/schema'
 import getCollection from '/imports/api/collections/collections.js'
 import { getFieldType } from '/imports/api/collections/utils.js'
 
+import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
+
 const StyledViewForm = styled.div`
   padding: 40px 20px;
   .view-configs {
     margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
   .selected-columns-wrapper {
     margin: 20px 0;
@@ -88,6 +93,7 @@ function ViewForm() {
   const { collection: collectionName, view: viewSlug } = useParams()
   console.log({ collectionName, viewSlug })
   const history = useHistory()
+  const { showConfirm } = useConfirm()
 
   const [newViewName, setNewViewName] = useState('')
   const [readOnly, setReadOnly] = useState(false)
@@ -167,6 +173,25 @@ function ViewForm() {
           }
         }
 
+        history.push(`/dba/${collectionName}`)
+      }
+    )
+  }
+
+  const handleDelete = () => {
+    Meteor.call(
+      'collections.deleteView',
+      { collectionName, viewSlug },
+      (error, result) => {
+        if (error) {
+          showError(error.message)
+          return
+        }
+        if (result?.status === 'failed') {
+          showError(result.message)
+          return
+        }
+        // redirect
         history.push(`/dba/${collectionName}`)
       }
     )
@@ -324,23 +349,34 @@ function ViewForm() {
         {theView ? `Edit view ${theView.name}` : 'Add new view'}
       </Typography>
       <div className="view-configs">
-        <TextField
-          label="View name"
-          value={newViewName}
-          onChange={(event) => setNewViewName(event.target.value)}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={readOnly}
-              onChange={() => {
-                setReadOnly(!readOnly)
-              }}
-              color="primary"
-            />
-          }
-          label="Read only"
-        />
+        <div>
+          <TextField
+            label="View name"
+            value={newViewName}
+            onChange={(event) => setNewViewName(event.target.value)}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={readOnly}
+                onChange={() => {
+                  setReadOnly(!readOnly)
+                }}
+                color="primary"
+              />
+            }
+            label="Read only"
+          />
+        </div>
+        <IconButton
+          onClick={() => {
+            showConfirm({
+              onConfirm: () => handleDelete(),
+            })
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
       </div>
       <Table className="selected-columns-wrapper">
         <TableHead>

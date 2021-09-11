@@ -90,6 +90,11 @@ export const UpdateViewProps = new SimpleSchema({
   },
 })
 
+export const DeleteViewProps = new SimpleSchema({
+  collectionName: String,
+  viewSlug: OptionalString,
+})
+
 export const GetRowsProps = new SimpleSchema({
   collectionName: String,
   viewSlug: OptionalString,

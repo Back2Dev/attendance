@@ -6,10 +6,56 @@ const debug = require('debug')('app:collections')
 import { getSlugFromString } from '/imports/api/utils/misc.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 import getCollection from './collections'
-import { UpdateViewProps, GetRowsProps } from './schema'
+import { UpdateViewProps, GetRowsProps, DeleteViewProps } from './schema'
 import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 
 Meteor.methods({
+  'collections.deleteView'({ collectionName, viewSlug }) {
+    // validate data
+    try {
+      !DeleteViewProps.validate({
+        collectionName,
+        viewSlug,
+      })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
+    }
+    debug(collectionName, viewSlug)
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    // find the record in Collections
+    const collection = Collections.findOne({ name: collectionName })
+    if (!collection) {
+      return { status: 'failed', message: 'Collection was not found' }
+    }
+
+    const n = Collections.update(
+      { name: collectionName },
+      {
+        $pull: { views: { slug: viewSlug } },
+      }
+    )
+
+    if (n === 0) {
+      return {
+        status: 'failed',
+        message: 'Unable to remove the view',
+      }
+    }
+    return {
+      status: 'success',
+      message: '',
+    }
+  },
   'collections.updateView'({
     collectionName,
     viewSlug,
