@@ -129,13 +129,16 @@ Meteor.methods({
     const collection = Collections.findOne({ name: collectionName })
 
     const conditions = []
-    const fields = {}
+    const queryOptions = {
+      fields: {},
+      sort: {},
+    }
     if (collection && viewSlug) {
       const theView = collection.views?.find((item) => item.slug === viewSlug)
       // debug({ viewSlug, theView })
       if (theView) {
         theView.columns.map((col) => {
-          fields[col.name] = 1
+          queryOptions.fields[col.name] = 1
           if (col.filter) {
             const fieldCondition = getFieldConditionByFilter({
               fieldName: col.name,
@@ -147,6 +150,11 @@ Meteor.methods({
             }
           }
         })
+        debug('sortOrder', theView.sortOrder)
+        if (theView.sortOrder) {
+          queryOptions.sort[theView.sortOrder.column] =
+            theView.sortOrder.order === 'ASC' ? 1 : -1
+        }
       }
     }
 
@@ -155,11 +163,11 @@ Meteor.methods({
       queryCondition['$and'] = conditions
     }
 
-    // debug(conditions, queryCondition, fields)
+    debug(queryCondition, queryOptions)
 
     return {
       status: 'success',
-      rows: dbCollection.find(queryCondition, { fields }).fetch(),
+      rows: dbCollection.find(queryCondition, queryOptions).fetch(),
     }
   },
   'rm.collections': (id) => {

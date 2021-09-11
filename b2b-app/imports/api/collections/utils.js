@@ -31,6 +31,25 @@ export const getDataFormatter = ({ type, columnName }) => {
   }
 }
 
+export const getComparator = ({ fieldType, fieldName, direction }) => {
+  const dirFactor = direction === 'ASC' ? 1 : -1
+  switch (fieldType) {
+    case 'String':
+      return (a, b) => {
+        return a[fieldName]?.localeCompare(b[fieldName]) * dirFactor
+      }
+    case 'SimpleSchema.Integer':
+    case 'Integer':
+    case 'Number':
+    case 'Date':
+      return (a, b) => {
+        return a[fieldName] > b[fieldName] ? 1 * dirFactor : -1 * dirFactor
+      }
+    default:
+      return () => 0
+  }
+}
+
 export const getFieldConditionByFilter = ({ fieldName, schema, filter }) => {
   // debug({ fieldName, schema, filter })
 

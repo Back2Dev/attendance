@@ -10,6 +10,7 @@ import {
   getDataFormatter,
   formatData,
   getFieldType,
+  getComparator,
 } from '/imports/api/collections/utils.js'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
@@ -39,6 +40,7 @@ function Grid() {
 
   const [filterText, setFilterText] = useState('')
   const [pageHeight, setPageHeight] = useState(null)
+  const [sortColumns, setSortColumns] = useState([])
 
   const windowSize = useWindowSize()
   useEffect(() => {
@@ -98,16 +100,23 @@ function Grid() {
     let mutableRows = [...rows]
 
     // handle column sorting
-    // mutableRows.sort((a, b) => {
-    //   for (const sort of sortColumns) {
-    //     const comparator = getComparator(sort.columnKey)
-    //     const compResult = comparator(a, b)
-    //     if (compResult !== 0) {
-    //       return sort.direction === 'ASC' ? compResult : -compResult
-    //     }
-    //   }
-    //   return 0
-    // })
+    // console.log(sortColumns)
+    if (sortColumns?.[0]) {
+      // console.log(sortColumns[0])
+      const { columnKey: fieldName, direction } = sortColumns[0]
+      const field = schema._schema[fieldName]
+      const fieldType = getFieldType({ fieldSchema: field })
+      const comparator = getComparator({
+        fieldType,
+        fieldName,
+        direction,
+      })
+      // console.log({ field, fieldType })
+      // console.log('comparator', comparator)
+      if (comparator) {
+        mutableRows.sort(comparator)
+      }
+    }
 
     // handle global search
     if (filterText && filterText.length >= 2) {
@@ -121,7 +130,7 @@ function Grid() {
     }
 
     return mutableRows
-  }, [rows, filterText])
+  }, [rows, filterText, sortColumns])
 
   const rowKeyGetter = (row) => {
     return row._id
@@ -135,6 +144,7 @@ function Grid() {
     )
   }
 
+  console.log('sortColumns', sortColumns)
   return (
     <StyledGrid style={{ height: pageHeight | 'auto' }}>
       <Typography variant="h1">{theCollection._name}</Typography>
@@ -152,19 +162,13 @@ function Grid() {
           columns={columns}
           rows={calculatedRows}
           defaultColumnOptions={{
-            // sortable: true,
+            sortable: true,
             resizable: true,
           }}
-          // sortColumns={sortColumns}
-          // onSortColumnsChange={(sorts) => {
-          //   if (sorts && sorts.length) {
-          //     setSortColumns(sorts)
-          //   } else if (sortColumns[0]?.columnKey === 'createdAt') {
-          //     setSortColumns([{ columnKey: 'createdAt', direction: 'ASC' }])
-          //   } else {
-          //     setSortColumns(defaultSortColums)
-          //   }
-          // }}
+          sortColumns={sortColumns}
+          onSortColumnsChange={(sorts) => {
+            setSortColumns(sorts)
+          }}
           // onRowClick={(index, row) => push(`/services/${row._id}`)}
           className="collection-grid"
           style={{ height: '99%' }}

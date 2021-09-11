@@ -306,9 +306,9 @@ function ViewForm() {
           }}
           value={sortOrder.order}
         >
-          <FormControlLabel value="asc" control={<Radio color="primary" />} label="ASC" />
+          <FormControlLabel value="ASC" control={<Radio color="primary" />} label="ASC" />
           <FormControlLabel
-            value="desc"
+            value="DESC"
             control={<Radio color="primary" />}
             label="DESC"
           />
