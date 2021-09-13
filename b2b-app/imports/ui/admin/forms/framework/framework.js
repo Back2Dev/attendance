@@ -87,8 +87,8 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     const result = parse(formEditorInput)
-    // const specific = map2Uniforms(result.survey)
-    const specific = map2UiSchema(result.survey)
+    const specific = map2Uniforms(result.survey)
+    // const specific = map2UiSchema(result.survey)
     debug({ specific })
     setRaw(specific)
 
