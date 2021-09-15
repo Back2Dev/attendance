@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useHistory } from 'react-router'
 
@@ -82,7 +83,7 @@ function ViewsSelector({ showDefault = true }) {
 }
 
 ViewsSelector.propTypes = {
-  showDefault: Boolean,
+  showDefault: PropTypes.bool,
 }
 
 export default ViewsSelector

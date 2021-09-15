@@ -25,7 +25,7 @@ export const ColumnsSchema = new SimpleSchema({
 })
 
 export const SortOrderSchema = new SimpleSchema({
-  column: String,
+  column: OptionalString,
   order: {
     type: String,
     allowedValues: ['ASC', 'DESC'],
