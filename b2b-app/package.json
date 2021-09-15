@@ -85,6 +85,7 @@
     "query-string": "^6.13.7",
     "react": "^16.13.1",
     "react-avatar-editor": "^11.1.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-codejar": "^1.0.2",
     "react-codemirror2": "^7.2.1",
     "react-data-grid": "^7.0.0-canary.49",
