@@ -78,6 +78,19 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     )
   }, [collectionName, theView])
 
+  const updateCell = ({ rowId, column, value }) => {
+    console.log('updateCell', { rowId, column, value })
+    const newRows = rows.map((row) => {
+      if (row._id === rowId) {
+        const newRow = { ...row }
+        newRow[column] = value
+        return newRow
+      }
+      return row
+    })
+    setRows(newRows)
+  }
+
   return (
     <CollectionContext.Provider
       value={{
@@ -86,6 +99,7 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
         theView,
         rows,
         availableViews,
+        updateCell,
       }}
     >
       {children}

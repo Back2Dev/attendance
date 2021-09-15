@@ -1,10 +1,12 @@
 import { TextEditor } from 'react-data-grid'
 import PropTypes from 'prop-types'
 
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
 import styled from 'styled-components'
 
 import { Typography } from '@material-ui/core'
+
+import { CollectionContext } from '../context'
 
 const StyledCellEditor = styled.div``
 const StyledNoEditor = styled.div`
@@ -14,6 +16,8 @@ const StyledNoEditor = styled.div`
 function CellEditor(props) {
   const { column, onClose, onRowChange, row, rowIdx } = props
   console.log('cell editor', { column, onClose, onRowChange, row, rowIdx })
+
+  const { updateCell } = useContext(CollectionContext)
 
   const rowData = useRef(row)
 
@@ -26,6 +30,13 @@ function CellEditor(props) {
   const handleClose = (p) => {
     console.log('close', p)
     console.log('row data', rowData.current)
+
+    updateCell({
+      rowId: rowData.current._id,
+      column: column.key,
+      value: rowData.current[column.key],
+    })
+
     onClose(p)
   }
 
