@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import {
   Typography,
@@ -28,6 +29,7 @@ import {
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
+import ImportExportIcon from '@material-ui/icons/ImportExport'
 
 import { showError } from '/imports/ui/utils/toast-alerts.js'
 
@@ -197,6 +199,19 @@ function ViewForm() {
     )
   }
 
+  const onDragEnd = (result) => {
+    console.log('Result', result)
+    if (!result.destination) {
+      return
+    }
+
+    const newColumns = Array.from(selectedColumns)
+    const [removed] = newColumns.splice(result.source.index, 1)
+    newColumns.splice(result.destination.index, 0, removed)
+
+    setSelectedColumn(newColumns)
+  }
+
   if (!rawC) {
     return (
       <StyledViewForm>
@@ -213,83 +228,97 @@ function ViewForm() {
         </TableRow>
       )
     }
-    return selectedColumns.map((col) => {
+    return selectedColumns.map((col, index) => {
       return (
-        <TableRow key={col.name} className="column-wrapper">
-          <TableCell className="column-name">{col.name}</TableCell>
-          <TableCell className="column-label">
-            <TextField
-              value={col.label}
-              onChange={(event) => {
-                setSelectedColumn(
-                  selectedColumns.map((item) => {
-                    if (item.name === col.name) {
-                      return {
-                        ...item,
-                        label: event.target.value,
-                      }
-                    }
-                    return item
-                  })
-                )
-              }}
-            />
-          </TableCell>
-          <TableCell className="column-filter">
-            <TextField
-              value={col.filter}
-              onChange={(event) => {
-                setSelectedColumn(
-                  selectedColumns.map((item) => {
-                    if (item.name === col.name) {
-                      return {
-                        ...item,
-                        filter: event.target.value,
-                      }
-                    }
-                    return item
-                  })
-                )
-              }}
-            />
-          </TableCell>
-          <TableCell>
-            <FormControlLabel
+        <Draggable key={col.name} draggableId={col.name} index={index}>
+          {(draggableProvided, draggableSnapshot) => (
+            <TableRow
               key={col.name}
-              control={
-                <Checkbox
-                  checked={col.readOnly === true}
-                  onChange={() => {
+              className={`column-wrapper ${
+                draggableSnapshot.isDragging ? 'isDragging' : ''
+              }`}
+              ref={draggableProvided.innerRef}
+              {...draggableProvided.draggableProps}
+            >
+              <TableCell className="drag-handler" {...draggableProvided.dragHandleProps}>
+                <ImportExportIcon />
+              </TableCell>
+              <TableCell className="column-name">{col.name}</TableCell>
+              <TableCell className="column-label">
+                <TextField
+                  value={col.label}
+                  onChange={(event) => {
                     setSelectedColumn(
                       selectedColumns.map((item) => {
                         if (item.name === col.name) {
                           return {
                             ...item,
-                            readOnly: !col.readOnly,
+                            label: event.target.value,
                           }
                         }
                         return item
                       })
                     )
                   }}
-                  color="primary"
                 />
-              }
-              label="Read only"
-            />
-          </TableCell>
-          <TableCell>
-            <IconButton
-              onClick={() => {
-                setSelectedColumn(
-                  selectedColumns.filter((item) => item.name !== col.name)
-                )
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </TableCell>
-        </TableRow>
+              </TableCell>
+              <TableCell className="column-filter">
+                <TextField
+                  value={col.filter}
+                  onChange={(event) => {
+                    setSelectedColumn(
+                      selectedColumns.map((item) => {
+                        if (item.name === col.name) {
+                          return {
+                            ...item,
+                            filter: event.target.value,
+                          }
+                        }
+                        return item
+                      })
+                    )
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <FormControlLabel
+                  key={col.name}
+                  control={
+                    <Checkbox
+                      checked={col.readOnly === true}
+                      onChange={() => {
+                        setSelectedColumn(
+                          selectedColumns.map((item) => {
+                            if (item.name === col.name) {
+                              return {
+                                ...item,
+                                readOnly: !col.readOnly,
+                              }
+                            }
+                            return item
+                          })
+                        )
+                      }}
+                      color="primary"
+                    />
+                  }
+                  label="Read only"
+                />
+              </TableCell>
+              <TableCell>
+                <IconButton
+                  onClick={() => {
+                    setSelectedColumn(
+                      selectedColumns.filter((item) => item.name !== col.name)
+                    )
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          )}
+        </Draggable>
       )
     })
   }
@@ -378,18 +407,33 @@ function ViewForm() {
           <DeleteIcon />
         </IconButton>
       </div>
-      <Table className="selected-columns-wrapper">
-        <TableHead>
-          <TableRow>
-            <TableCell>Field name</TableCell>
-            <TableCell>Column Label</TableCell>
-            <TableCell>Column filter</TableCell>
-            <TableCell>Read only</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderColumns()}</TableBody>
-      </Table>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Table className="selected-columns-wrapper">
+          <TableHead>
+            <TableRow>
+              <TableCell width={40} />
+              <TableCell>Field name</TableCell>
+              <TableCell>Column Label</TableCell>
+              <TableCell>Column filter</TableCell>
+              <TableCell>Read only</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <Droppable droppableId="dropable-id">
+            {(droppableProvided, droppableSnapshot) => (
+              <TableBody
+                ref={droppableProvided.innerRef}
+                className={`container ${
+                  droppableSnapshot.isDraggingOver ? 'isDraggingOver' : ''
+                }`}
+              >
+                {renderColumns()}
+                {droppableProvided.placeholder}
+              </TableBody>
+            )}
+          </Droppable>
+        </Table>
+      </DragDropContext>
       <div className="actions">
         <div className="sortByColumn">{renderSortByColumn()}</div>
         <Button

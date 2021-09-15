@@ -21,7 +21,7 @@ const StyledViewsSelector = styled.div`
   }
 `
 
-function ViewsSelector() {
+function ViewsSelector({ showDefault = true }) {
   const { theCollection, theView, availableViews } = useContext(CollectionContext)
   console.log({ theView, availableViews })
 
@@ -51,6 +51,7 @@ function ViewsSelector() {
     <StyledViewsSelector>
       <FormControl className="form-control">
         <Select value={theView?.slug || ''} onChange={handleChange}>
+          {showDefault && <MenuItem value="">Default (no view)</MenuItem>}
           {renderMenuItems()}
         </Select>
       </FormControl>
@@ -78,6 +79,10 @@ function ViewsSelector() {
       </IconButton>
     </StyledViewsSelector>
   )
+}
+
+ViewsSelector.propTypes = {
+  showDefault: Boolean,
 }
 
 export default ViewsSelector
