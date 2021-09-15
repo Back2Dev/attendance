@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import DataGrid from 'react-data-grid'
+import DataGrid, { TextEditor } from 'react-data-grid'
 
 import { Typography } from '@material-ui/core'
 
@@ -12,6 +12,7 @@ import {
   getFieldType,
   getComparator,
 } from '/imports/api/collections/utils.js'
+import CellEditor from './grid/cell-editor'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
 
@@ -59,16 +60,19 @@ function Grid() {
     if (theView?.columns?.length) {
       theView.columns.map((col) => {
         const fieldSchema = schema._schema[col.name]
+        const fieldType = getFieldType({ fieldSchema })
         const formatter = getDataFormatter({
-          type: getFieldType({ fieldSchema }),
+          type: fieldType,
           columnName: col.name,
         })
         gridColumns.push({
           key: col.name,
           name: col.label || col.name,
-          type: col.type,
+          type: fieldType,
           formatter,
           width: col.width || undefined,
+          editable: col.readOnly !== true,
+          editor: col.readOnly ? undefined : CellEditor,
         })
       })
     } else if (schema?._schema && schema?._firstLevelSchemaKeys) {
@@ -93,6 +97,14 @@ function Grid() {
 
     return gridColumns
   }, [theView?.columns, schema])
+
+  const handleRowsChange = (newRows) => {
+    console.log('on Rows changed', newRows)
+  }
+
+  const handleSelectedCellChange = ({ idx, rowIdx }) => {
+    console.log('on Selected Cell changed', idx, rowIdx)
+  }
 
   console.log(rows)
 
@@ -172,6 +184,8 @@ function Grid() {
           // onRowClick={(index, row) => push(`/services/${row._id}`)}
           className="collection-grid"
           style={{ height: '99%' }}
+          onRowsChange={handleRowsChange}
+          onSelectedCellChange={handleSelectedCellChange}
         />
       </div>
     </StyledGrid>
