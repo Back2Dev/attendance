@@ -1,20 +1,16 @@
 import React, { useState, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import '@react-page/editor/lib/index.css'
 import Fab from '@material-ui/core/Fab'
 import Tooltip from '@material-ui/core/Tooltip'
-import Container from '@material-ui/core/Container'
 import SaveIcon from '@material-ui/icons/Save'
 import Editor from '@react-page/editor'
-import image from '@react-page/plugins-image'
-import divider from '@react-page/plugins-divider'
-import spacer from '@react-page/plugins-spacer'
-import slate from '@react-page/plugins-slate'
 import styled from 'styled-components'
-import formPlugin from './plugins/template'
+import cellPlugins from './cell-plugins'
 
 const StyledEditor = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   .react-page-controls-mode-toggle-control-group {
     position: fixed !important;
     bottom: 72px !important;
@@ -39,13 +35,12 @@ const StyledEditor = styled.div`
     margin: 8px;
   }
   img {
-    max-width: 100%;
+    width: 100%;
   }
 `
 
 const PageEditor = ({ pageContent, data, save }) => {
   const [page, setPage] = useState(null)
-  const cellPlugins = [slate(), image, divider, spacer, formPlugin(data)]
 
   useMemo(() => {
     if (pageContent) {
@@ -76,9 +71,15 @@ const PageEditor = ({ pageContent, data, save }) => {
           </Tooltip>
         </div>
       </div>
-      <Editor cellPlugins={cellPlugins} value={page} onChange={handleOnChange} />
+      <Editor cellPlugins={cellPlugins(data)} value={page} onChange={handleOnChange} />
     </StyledEditor>
   )
+}
+
+PageEditor.propTypes = {
+  pageContent: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  save: PropTypes.func.isRequired,
 }
 
 export default PageEditor

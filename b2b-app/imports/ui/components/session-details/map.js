@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import PageDisplay from '/imports/ui/admin/courses/components/PageDisplay'
-
 
 import { Skeleton } from '@material-ui/lab'
 
@@ -9,9 +7,6 @@ import { SessionDetailsContext } from './context'
 
 const StyledDetailsMap = styled.div`
   margin-top: 20px;
-  img {
-    max-width: 100%;
-  }
 `
 
 function DetailsMap() {
@@ -27,11 +22,11 @@ function DetailsMap() {
   if (!event.courseId || !course) {
     return null
   }
-  return <StyledDetailsMap className="map" key={event.courseId}><PageDisplay data={course.pageContent} /></StyledDetailsMap>
-  
+  return <StyledDetailsMap className="map" key={event.courseId}></StyledDetailsMap>
+
   // return event.course.map.map((item) => (
   //   <StyledDetailsMap className="map" key={item.title}>
-      
+
   //     {/* <div className="map-title">{item.title}</div>
   //     <img src={item.imageUrl} alt={item.title} /> */}
   //   </StyledDetailsMap>

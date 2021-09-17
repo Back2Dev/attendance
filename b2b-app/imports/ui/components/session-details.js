@@ -10,6 +10,7 @@ import DetailsMembers from './session-details/members'
 
 const StyledSessionDetails = styled.div`
   margin-top: 40px;
+  margin-bottom: 40px;
 `
 
 function SessionDetails() {
@@ -18,8 +19,8 @@ function SessionDetails() {
   return (
     <StyledSessionDetails>
       <SessionDetailsProvider>
-        <DetailsHeader />
-        <DetailsMap />
+        {/* <DetailsHeader /> */}
+        {/* <DetailsMap /> */}
         <DetailsContent />
         <DetailsMembers />
       </SessionDetailsProvider>
