@@ -6,10 +6,63 @@ const debug = require('debug')('app:collections')
 import { getSlugFromString } from '/imports/api/utils/misc.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 import getCollection from './collections'
-import { UpdateViewProps, GetRowsProps, DeleteViewProps } from './schema'
+import { UpdateViewProps, GetRowsProps, DeleteViewProps, UpdateCellProps } from './schema'
 import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 
 Meteor.methods({
+  'collections.updateCell'({ collectionName, rowId, column, value }) {
+    // validate data
+    try {
+      !UpdateCellProps.validate({
+        collectionName,
+        rowId,
+        column,
+        value,
+      })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
+    }
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    // find the record in Collections
+    const collection = Collections.findOne({ name: collectionName })
+    if (!collection) {
+      return { status: 'failed', message: 'Collection was not found' }
+    }
+
+    // find the collection
+    const { collection: dbCollection } = getCollection(collectionName)
+    if (!dbCollection) {
+      return {
+        status: 'failed',
+        message: `Does not support collection: ${collectionName}`,
+      }
+    }
+
+    // peform update
+    try {
+      const affectedRows = dbCollection.update(
+        { _id: rowId },
+        {
+          $set: {
+            [column]: value,
+          },
+        }
+      )
+      return { status: 'success', affectedRows }
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+  },
   'collections.deleteView'({ collectionName, viewSlug }) {
     // validate data
     try {

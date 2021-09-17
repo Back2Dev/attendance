@@ -99,3 +99,10 @@ export const GetRowsProps = new SimpleSchema({
   collectionName: String,
   viewSlug: OptionalString,
 })
+
+export const UpdateCellProps = new SimpleSchema({
+  collectionName: String,
+  rowId: String,
+  column: String,
+  value: SimpleSchema.oneOf(String, Number),
+})

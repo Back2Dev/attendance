@@ -6,7 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data'
 import Collections from '/imports/api/collections/schema'
 import getCollection from '/imports/api/collections/collections.js'
 
-import { showError } from '/imports/ui/utils/toast-alerts.js'
+import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 
 export const CollectionContext = React.createContext()
 
@@ -80,6 +80,30 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
 
   const updateCell = ({ rowId, column, value }) => {
     console.log('updateCell', { rowId, column, value })
+
+    // call api to update data
+    Meteor.call(
+      'collections.updateCell',
+      {
+        collectionName,
+        rowId,
+        column,
+        value,
+      },
+      (error, result) => {
+        if (error) {
+          showError(error.message)
+          return
+        }
+        if (result?.status === 'failed') {
+          showError(result?.message)
+          return
+        }
+        if (result?.status === 'success') {
+          showSuccess('Data updated')
+        }
+      }
+    )
     const newRows = rows.map((row) => {
       if (row._id === rowId) {
         const newRow = { ...row }

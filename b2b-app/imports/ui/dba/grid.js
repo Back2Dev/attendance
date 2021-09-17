@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
-import DataGrid, { TextEditor } from 'react-data-grid'
+import DataGrid from 'react-data-grid'
 
 import { Typography } from '@material-ui/core'
 
@@ -36,8 +36,12 @@ const StyledGrid = styled.div`
 `
 
 function Grid() {
-  const { theCollection, schema, theView, rows } = useContext(CollectionContext)
+  const { theCollection, schema, theView, rows, updateCell } = useContext(
+    CollectionContext
+  )
   console.log(theCollection, schema, { theView })
+
+  const selectedCell = useRef({ idx: null, rowIdx: null })
 
   const [filterText, setFilterText] = useState('')
   const [pageHeight, setPageHeight] = useState(null)
@@ -99,11 +103,27 @@ function Grid() {
   }, [theView?.columns, schema])
 
   const handleRowsChange = (newRows) => {
-    console.log('on Rows changed', newRows)
+    // console.log('on Rows changed', newRows)
+    const { idx, rowIdx } = selectedCell.current
+    if (idx >= 0 && rowIdx >= 0) {
+      const rowChanged = newRows[rowIdx]
+      const columnChanged = columns[idx]
+      // console.log('columnChanged', columnChanged)
+      const cellChanged = columnChanged && rowChanged?.[columnChanged.key]
+      // console.log({ rowChanged, cellChanged })
+      if (columnChanged) {
+        updateCell({
+          rowId: rowChanged._id,
+          column: columnChanged.key,
+          value: cellChanged,
+        })
+      }
+    }
   }
 
   const handleSelectedCellChange = ({ idx, rowIdx }) => {
     console.log('on Selected Cell changed', idx, rowIdx)
+    selectedCell.current = { idx, rowIdx }
   }
 
   console.log(rows)
