@@ -20,6 +20,9 @@ function CellEditor(props) {
 
   switch (column.type) {
     case 'String':
+    case 'SimpleSchema.Integer':
+    case 'Integer':
+    case 'Number':
       return <TextEditor {...props} />
     default:
       // return the value, not handle this
