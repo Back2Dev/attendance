@@ -1,15 +1,186 @@
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
-import Collections from './schema'
+import Collections, {
+  UpdateViewProps,
+  GetRowsProps,
+  DeleteViewProps,
+  UpdateCellProps,
+} from './schema'
+import Archives, { ArchiveProps, RestoreProps } from './archive-schema'
 const debug = require('debug')('app:collections')
 
 import { getSlugFromString } from '/imports/api/utils/misc.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 import getCollection from './collections'
-import { UpdateViewProps, GetRowsProps, DeleteViewProps, UpdateCellProps } from './schema'
 import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 
 Meteor.methods({
+  'collections.restore'({ ids, keepTheCopy = false }) {
+    // validate data
+    try {
+      !RestoreProps.validate({
+        ids,
+        keepTheCopy,
+      })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
+    }
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    const operationSuccess = []
+    const operationFailed = []
+    ids.map((id) => {
+      // find the archived record
+      const archivedRecord = Archives.findOne({ _id: id })
+      if (!archivedRecord) {
+        operationFailed.push(id)
+        return
+      }
+
+      // find the collection
+      const { collection: dbCollection } = getCollection(archivedRecord.type)
+      if (!dbCollection) {
+        operationFailed.push(id)
+        return
+      }
+
+      // restore the data
+      let insertedId
+      try {
+        insertedId = dbCollection.insert(JSON.parse(archivedRecord.data))
+      } catch (e) {
+        operationFailed.push(id)
+        return
+      }
+
+      if (!insertedId) {
+        // double check
+        operationFailed.push(id)
+        return
+      }
+
+      if (!keepTheCopy) {
+        // remove the archived data
+        Archives.remove({ _id: id })
+      }
+
+      operationSuccess.push(id)
+    })
+
+    if (operationSuccess.length === 0) {
+      return {
+        status: 'failed',
+        message: 'Unable to restore selected records',
+      }
+    }
+
+    if (operationFailed.length > 0) {
+      return {
+        status: 'success',
+        message: `Unable to restore some records: ${operationFailed.join(', ')}`,
+      }
+    }
+
+    return {
+      status: 'success',
+      message: 'restored',
+    }
+  },
+  'collections.archive'({ collectionName, recordIds }) {
+    // validate data
+    try {
+      !ArchiveProps.validate({
+        collectionName,
+        recordIds,
+      })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
+    }
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    // find the collection
+    const { collection: dbCollection } = getCollection(collectionName)
+    if (!dbCollection) {
+      return {
+        status: 'failed',
+        message: `Does not support collection: ${collectionName}`,
+      }
+    }
+
+    // get the record
+    const theRecords = dbCollection.find({ _id: { $in: recordIds } }).fetch()
+    if (!theRecords.length) {
+      return {
+        status: 'failed',
+        message: `Record was not found with ids: ${recordIds.join(
+          ', '
+        )} in collection ${collectionName}`,
+      }
+    }
+
+    const operationSuccess = []
+    const operationFailed = []
+    theRecords.map((theRecord) => {
+      // insert to archives collection
+      console.log('the record', theRecord)
+      const insertedId = Archives.insert({
+        type: collectionName,
+        data: JSON.stringify(theRecord),
+        createdBy: me._id,
+      })
+      if (!insertedId) {
+        operationFailed.push(theRecord._id)
+        return
+      }
+      // remove the record from original collection
+      const n = dbCollection.remove({ _id: theRecord._id })
+      if (!n) {
+        // roleback ?
+        Archives.remove({ _id: insertedId })
+        operationFailed.push(theRecord._id)
+        return
+      }
+
+      operationSuccess.push(theRecord._id)
+    })
+
+    if (operationSuccess.length === 0) {
+      return {
+        status: 'failed',
+        message: 'Unable to archive selected records',
+      }
+    }
+
+    if (operationFailed.length > 0) {
+      return {
+        status: 'success',
+        message: `Unable to archive some records: ${operationFailed.join(', ')}`,
+      }
+    }
+
+    return {
+      status: 'success',
+      message: 'Archived',
+    }
+  },
   'collections.updateCell'({ collectionName, rowId, column, value }) {
     // validate data
     try {

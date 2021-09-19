@@ -54,13 +54,7 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
 
   const rawC = React.useMemo(() => getCollection(collectionName), [collectionName])
 
-  useEffect(() => {
-    if (!rawC) {
-      return
-    }
-
-    // build the filter
-    console.log('calling collections.getRows', collectionName, theView?.slug)
+  const getRows = () => {
     Meteor.call(
       'collections.getRows',
       { collectionName, viewSlug: theView?.slug },
@@ -76,6 +70,16 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
         setRows(result.rows)
       }
     )
+  }
+
+  useEffect(() => {
+    if (!rawC) {
+      return
+    }
+
+    // build the filter
+    console.log('calling collections.getRows', collectionName, theView?.slug)
+    getRows()
   }, [collectionName, theView])
 
   const updateCell = ({ rowId, column, value }) => {
@@ -115,6 +119,33 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     setRows(newRows)
   }
 
+  const archive = ({ selectedIds }) => {
+    console.log('archive', selectedIds)
+    Meteor.call(
+      'collections.archive',
+      {
+        collectionName,
+        recordIds: selectedIds,
+      },
+      (error, result) => {
+        if (error) {
+          showError(error.message)
+          return
+        }
+        if (result?.status === 'failed') {
+          showError(result?.message)
+          return
+        }
+        if (result?.status === 'success') {
+          showSuccess(result.message)
+        }
+
+        // reload data
+        getRows()
+      }
+    )
+  }
+
   return (
     <CollectionContext.Provider
       value={{
@@ -124,6 +155,7 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
         rows,
         availableViews,
         updateCell,
+        archive,
       }}
     >
       {children}

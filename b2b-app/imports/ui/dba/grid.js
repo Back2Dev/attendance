@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
-import DataGrid from 'react-data-grid'
+import DataGrid, { SelectColumn } from 'react-data-grid'
 
-import { Typography } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
+import ArchiveIcon from '@material-ui/icons/Archive'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
+import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 import {
   getDataFormatter,
   formatData,
@@ -36,16 +38,19 @@ const StyledGrid = styled.div`
 `
 
 function Grid() {
-  const { theCollection, schema, theView, rows, updateCell } = useContext(
+  const { theCollection, schema, theView, rows, updateCell, archive } = useContext(
     CollectionContext
   )
   console.log(theCollection, schema, { theView })
+
+  const { showConfirm } = useConfirm()
 
   const selectedCell = useRef({ idx: null, rowIdx: null })
 
   const [filterText, setFilterText] = useState('')
   const [pageHeight, setPageHeight] = useState(null)
   const [sortColumns, setSortColumns] = useState([])
+  const [selectedRows, setSelectedRows] = useState(() => new Set())
 
   const windowSize = useWindowSize()
   useEffect(() => {
@@ -59,7 +64,7 @@ function Grid() {
   }, [windowSize])
 
   const columns = useMemo(() => {
-    let gridColumns = []
+    let gridColumns = [SelectColumn]
 
     if (theView?.columns?.length) {
       theView.columns.map((col) => {
@@ -177,6 +182,7 @@ function Grid() {
   }
 
   console.log('sortColumns', sortColumns)
+  console.log('selectedRows', selectedRows)
   return (
     <StyledGrid style={{ height: pageHeight | 'auto' }}>
       <Typography variant="h1">{theCollection._name}</Typography>
@@ -206,7 +212,24 @@ function Grid() {
           style={{ height: '99%' }}
           onRowsChange={handleRowsChange}
           onSelectedCellChange={handleSelectedCellChange}
+          selectedRows={selectedRows}
+          onSelectedRowsChange={setSelectedRows}
         />
+      </div>
+      <div className="selected-row-actions">
+        {selectedRows.size > 0 && (
+          <Button
+            startIcon={<ArchiveIcon />}
+            variant="outlined"
+            onClick={() =>
+              showConfirm({
+                onConfirm: () => archive({ selectedIds: Array.from(selectedRows) }),
+              })
+            }
+          >
+            Archive
+          </Button>
+        )}
       </div>
     </StyledGrid>
   )
