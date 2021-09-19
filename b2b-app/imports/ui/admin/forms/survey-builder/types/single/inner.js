@@ -4,7 +4,7 @@ import { useTheme } from '@material-ui/core/styles'
 
 import Item from './item'
 import Question from '../../question'
-import { useAnswers, useQuestion } from '../../recoil/hooks'
+import { useAnswers, useQuestion, useSelectedPartValue } from '../../recoil/hooks'
 import { singleAnswers } from '../../recoil/atoms'
 import { DndDraggable, DndDroppable } from '../../context/dnd'
 
@@ -13,6 +13,7 @@ const SingleInner = ({ pid }) => {
   const { all, add, update, remove } = useAnswers(pid)
   const [question, setQuestion] = useQuestion(pid)
   const theme = useTheme()
+  const selectedPart = useSelectedPartValue()
 
   const getStyle = (style, snapshot) => {
     if (!snapshot.isDragging) return style
@@ -32,7 +33,11 @@ const SingleInner = ({ pid }) => {
       />
       <DndDroppable pid={pid} listAtom={singleAnswers(pid)}>
         {(provided) => (
-          <ol ref={provided.innerRef} {...provided.droppableProps}>
+          <ul
+            style={{ paddingLeft: 0 }}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
             {all.map((c, i) => (
               <DndDraggable
                 pid={pid}
@@ -51,12 +56,13 @@ const SingleInner = ({ pid }) => {
                     disableRemove={all.length === 1}
                     onTextChange={(name) => update({ ...c, name }, i)}
                     text={c.name}
+                    showControls={selectedPart === pid}
                   />
                 )}
               </DndDraggable>
             ))}
             {provided.placeholder}
-          </ol>
+          </ul>
         )}
       </DndDroppable>
     </div>

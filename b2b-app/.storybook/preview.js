@@ -1,6 +1,7 @@
 import React from 'react'
 import { RecoilRoot } from 'recoil'
 import DndProvider from '../imports/ui/admin/forms/survey-builder/context/dnd'
+import BuilderProvider from '../imports/ui/admin/forms/survey-builder/context/builder'
 import { MyThemeProvider } from '../imports/ui/contexts/theme-context'
 
 export const parameters = {
@@ -17,9 +18,11 @@ export const decorators = [
   (Story) => (
     <MyThemeProvider>
       <RecoilRoot>
-        <DndProvider>
-          <Story />
-        </DndProvider>
+        <BuilderProvider>
+          <DndProvider>
+            <Story />
+          </DndProvider>
+        </BuilderProvider>
       </RecoilRoot>
     </MyThemeProvider>
   ),

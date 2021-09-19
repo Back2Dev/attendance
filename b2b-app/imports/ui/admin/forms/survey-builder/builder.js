@@ -9,6 +9,7 @@ import Inspector from './inspector/inspector'
 import Toolbar, { statusState } from './toolbar'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
 import DndProvider from './context/dnd'
+import BuilderProvider from './context/builder'
 import dataCache from './data-cache'
 import { EditorContext } from '../framework/framework'
 
@@ -38,13 +39,15 @@ PureBuilder.propTypes = {
   json: PropTypes.object,
 }
 
-const Builder = ({ json }) => {
+const Builder = () => {
   const editorCtx = useContext(EditorContext)
   return (
     <RecoilRoot>
-      <DndProvider>
-        <PureBuilder json={JSON.parse(editorCtx.editors[1].editorValue)} />
-      </DndProvider>
+      <BuilderProvider>
+        <DndProvider>
+          <PureBuilder json={JSON.parse(editorCtx.editors[1].editorValue)} />
+        </DndProvider>
+      </BuilderProvider>
     </RecoilRoot>
   )
 }

@@ -16,10 +16,12 @@ const Template = (args) => <PureFrame {...args} />
 export const Default = Template.bind({})
 Default.args = {
   children: <MyComponent />,
+  selected: false,
 }
 
-export const Selected = Template.bind({})
-Selected.args = {
+export const Mobile = Template.bind({})
+Mobile.args = {
   ...Default.args,
+  mobile: true,
   selected: true,
 }

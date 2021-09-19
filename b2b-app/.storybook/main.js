@@ -16,6 +16,10 @@ module.exports = {
       new instance.NormalModuleReplacementPlugin(
         /preview-panel/,
         path.resolve(__dirname, './__mocks__/preview-panel.js')
+      ),
+      new instance.NormalModuleReplacementPlugin(
+        /\/imports\/api\/surveys/,
+        path.resolve(__dirname, './__mocks__/api-survey-maps.js')
       )
     )
     //   config.plugins.push(
