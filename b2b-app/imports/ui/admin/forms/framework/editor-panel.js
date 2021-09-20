@@ -161,6 +161,16 @@ export const EditorPanel = ({ editor }) => {
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
   })
 
+  React.useEffect(() => {
+    const lines = codemirrorRef.current.editor.lastLine()
+
+    for (let i = 0; i <= lines; i++) {
+      if (formContext.folds[editor.name][i]) {
+        codemirrorRef.current.editor.foldCode(CM.Pos(i))
+      }
+    }
+  }, [editor.name])
+
   const debounce = (callback, wait = 3000) => {
     return (...args) => {
       window.clearTimeout(timeoutId)
@@ -194,6 +204,14 @@ export const EditorPanel = ({ editor }) => {
           }}
           onBeforeChange={(e, data, value) => {
             editor.updateEditor(value)
+          }}
+          onGutterClick={(e, line, gutter, ev) => {
+            console.log(line, 'folded', e.isFolded(CM.Pos(line)))
+            formContext.updateFold(
+              line,
+              e.isFolded(CM.Pos(line)) ? true : false,
+              editor.name
+            )
           }}
           onChange={handleEditorInput}
           ref={codemirrorRef}
