@@ -14,6 +14,7 @@ const log = debug('builder:canvas')
 const Canvas = () => {
   const parts = usePartsValue()
   const setSelectedPart = useSetSelectedPart()
+
   return (
     <div>
       <Box

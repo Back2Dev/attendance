@@ -65,7 +65,7 @@ const Toolbar = () => {
       display="flex"
       alignItems="center"
     >
-      <button onClick={save}>Save</button>
+      <button onClick={save}>Test</button>
       <Status msg={status} />
     </Box>
   )

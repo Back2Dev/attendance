@@ -44,6 +44,7 @@ const parse = (data) => {
           if (!type.mapDataToAtom) {
             throw new Error('Missing mapDataToAtom function')
           }
+
           return type.mapDataToAtom(v)
         }
       ),
