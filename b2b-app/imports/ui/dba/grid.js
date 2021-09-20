@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
 import DataGrid, { SelectColumn } from 'react-data-grid'
+import { useHistory } from 'react-router'
 
 import { Button, Typography } from '@material-ui/core'
 import ArchiveIcon from '@material-ui/icons/Archive'
@@ -22,8 +23,14 @@ const StyledGrid = styled.div`
   padding: 40px 20px 20px;
   display: flex;
   flex-direction: column;
-  h1 {
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
+  }
+  h1 {
   }
   .filter-container {
     margin-bottom: 10px;
@@ -43,6 +50,7 @@ function Grid() {
   )
   console.log(theCollection, schema, { theView })
 
+  const history = useHistory()
   const { showConfirm } = useConfirm()
 
   const selectedCell = useRef({ idx: null, rowIdx: null })
@@ -185,7 +193,15 @@ function Grid() {
   console.log('selectedRows', selectedRows)
   return (
     <StyledGrid style={{ height: pageHeight | 'auto' }}>
-      <Typography variant="h1">{theCollection._name}</Typography>
+      <div className="header">
+        <Typography variant="h1">{theCollection._name}</Typography>
+        <Button
+          variant="text"
+          onClick={() => history.push(`/dba/archives/${theCollection._name}`)}
+        >
+          Archives
+        </Button>
+      </div>
       <div className="filter-container">
         <SearchBox
           onChange={(searchQuery) => {

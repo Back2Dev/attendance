@@ -6,7 +6,12 @@ import Collections, {
   DeleteViewProps,
   UpdateCellProps,
 } from './schema'
-import Archives, { ArchiveProps, RestoreProps } from './archive-schema'
+import Archives, {
+  ArchiveProps,
+  RestoreProps,
+  GetArchivesProps,
+  RemoveProps,
+} from './archive-schema'
 const debug = require('debug')('app:collections')
 
 import { getSlugFromString } from '/imports/api/utils/misc.js'
@@ -15,6 +20,64 @@ import getCollection from './collections'
 import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 
 Meteor.methods({
+  'collections.getArchives'({ collectionName }) {
+    // validate data
+    try {
+      !GetArchivesProps.validate({
+        collectionName,
+      })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
+    }
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    // get the archived records
+    const conditions = {}
+    if (collectionName) {
+      conditions.type = collectionName
+    }
+    return {
+      status: 'success',
+      rows: Archives.find(conditions).fetch(),
+    }
+  },
+  'collections.removeArchives'({ ids }) {
+    // validate data
+    try {
+      !RemoveProps.validate({
+        ids,
+      })
+    } catch (error) {
+      return { status: 'failed', message: error.message }
+    }
+
+    // check to make sure this user has Admin role
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    // remove
+    Archives.remove({ _id: { $in: ids } }, { multi: true })
+
+    return {
+      status: 'success',
+      message: 'Removed',
+    }
+  },
   'collections.restore'({ ids, keepTheCopy = false }) {
     // validate data
     try {
@@ -143,8 +206,12 @@ Meteor.methods({
       console.log('the record', theRecord)
       const insertedId = Archives.insert({
         type: collectionName,
+        dataId: theRecord._id,
         data: JSON.stringify(theRecord),
-        createdBy: me._id,
+        createdBy: {
+          userId: me._id,
+          username: me.username,
+        },
       })
       if (!insertedId) {
         operationFailed.push(theRecord._id)
