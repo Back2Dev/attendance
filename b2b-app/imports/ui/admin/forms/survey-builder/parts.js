@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 import { Box } from '@material-ui/core'
 import DebugProps from './inspector/debug-props'
 import debug from 'debug'
-import { useParts, useSetSelectedPart } from './recoil/hooks'
+import { useDrawer, useParts, useSetSelectedPart } from './recoil/hooks'
+import { ResponsiveWrap } from './wrap-if'
+import Drawer from './drawer'
 const log = debug('builder:parts')
 
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
@@ -33,20 +35,28 @@ ErrorFallback.propTypes = {
 
 const Parts = () => {
   const { addPart } = useParts()
+  const drawer = useDrawer()
+  // FIXME add onClose/Open handlers for drawer
+
   return (
-    <Box
-      position="absolute"
-      top={0}
-      left={0}
-      bottom={0}
-      width="20%"
-      border="1px solid lightgrey"
+    <ResponsiveWrap
+      mobile={<Drawer open={drawer === 'parts'} />}
+      desktop={
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          bottom={0}
+          width="20%"
+          border="1px solid lightgrey"
+        />
+      }
     >
       <button onClick={() => addPart('single')}>Single</button>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <DebugProps />
       </ErrorBoundary>
-    </Box>
+    </ResponsiveWrap>
   )
 }
 

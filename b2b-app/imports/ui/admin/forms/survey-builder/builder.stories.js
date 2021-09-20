@@ -65,6 +65,32 @@ LoadValidData.args = {
             id: 'identity',
             type: 'single',
           },
+          {
+            title: 'Favourite drink?',
+            answers: [
+              {
+                title: 'water',
+                id: 'water',
+                type: 'text',
+                val: 'h2o',
+              },
+              {
+                title: 'coffee',
+                id: 'coffee',
+                type: 'text',
+                val: 'brew',
+              },
+              {
+                title: 'tea',
+                id: 'tea',
+                type: 'text',
+                val: 't',
+              },
+            ],
+            grid: [],
+            id: 'drink',
+            type: 'single',
+          },
         ],
         id: 'step-1',
       },

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useRecoilCallback } from 'recoil'
+import { useDidMountRecoilEffect } from '../../hooks'
 import { dndAtom } from '../atoms'
 
 /** maps a react-beautiful-dnd droppable id to the list atom that will be re-ordered */
@@ -14,12 +15,15 @@ export const useDnd = (droppableId, listAtom) => {
   useEffect(() => {
     setDnd((map) => {
       if (map.has(droppableId)) return map
-      return map.set(droppableId, listAtom)
+      const nextMap = new Map(map)
+      return nextMap.set(droppableId, listAtom)
     })
     return () => {
       setDnd((map) => {
-        map.delete(droppableId)
-        return map
+        const nextMap = new Map(map)
+        nextMap.delete(droppableId)
+        // FIXME reset listAtom on unmount
+        return nextMap
       })
     }
   }, [])

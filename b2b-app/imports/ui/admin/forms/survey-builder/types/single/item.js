@@ -9,12 +9,13 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import InlineEdit from '../../inline-edit/edit'
+import { useBuilder } from '../../context'
 
 const StyledItem = styled('li')((props) => ({
   listStyleType: 'none',
   display: 'flex',
   alignItems: 'center',
-  '&:hover': { outline: `1px solid ${props.theme.palette.divider}` },
+  '&:hover': !props.mobile && { outline: `1px solid ${props.theme.palette.divider}` },
 }))
 
 const StyledInlineEdit = styled(InlineEdit)((props) => ({
@@ -55,6 +56,13 @@ const Controls = styled('div')((props) => {
     width: 'auto',
   }
 
+  if (props.mobile) {
+    if (!props.show) {
+      return hideVisually
+    }
+    return { ...showVisually, flexShrink: 0 }
+  }
+
   /** show on mouse hover and when tabbing. Note: you must import styled from 'styled-components'
    * and not from '@material-ui/core/styles' when referencing components.
    * https://styled-components.com/docs/advanced#referring-to-other-components */
@@ -74,12 +82,26 @@ const DeleteButton = styled(IconButton)((props) => ({
   },
 }))
 
+const StyledDragIndicatorIcon = styled(DragIndicatorIcon)({
+  verticalAlign: 'middle',
+})
+
 /** A radio button with controls to move it up/down and delete. Used by Single component */
 const Item = forwardRef(
   (
-    { text, placeholder, onTextChange, onRemove, onAdd, disableRemove, ...otherProps },
+    {
+      text,
+      placeholder,
+      onTextChange,
+      onRemove,
+      onAdd,
+      disableRemove,
+      showControls,
+      ...otherProps
+    },
     ref
   ) => {
+    const { isMobile } = useBuilder()
     const preventFocus = (e) => {
       // Controls stay visible after user clicks a button and mouse leaves Item. The reason this
       // happens is because Controls uses the 'focus-within' rule to make it visible. This fixes it by
@@ -88,7 +110,7 @@ const Item = forwardRef(
     }
 
     return (
-      <StyledItem ref={ref} {...otherProps}>
+      <StyledItem ref={ref} mobile={isMobile} {...otherProps}>
         <IconButton size="small" disabled>
           <RadioButtonUncheckedIcon />
         </IconButton>
@@ -97,8 +119,8 @@ const Item = forwardRef(
           placeholder={placeholder}
           onTextChange={onTextChange}
         />
-        <Controls onMouseDown={preventFocus}>
-          <DragIndicatorIcon />
+        <Controls onMouseDown={preventFocus} mobile={isMobile} show={showControls}>
+          <StyledDragIndicatorIcon />
           <IconButton size="small" onClick={onAdd} aria-label="add">
             <AddIcon />
           </IconButton>
@@ -131,6 +153,8 @@ Item.propTypes = {
   onAdd: PropTypes.func,
   /** disable removing choice */
   disableRemove: PropTypes.bool,
+  /** whether to show controls. Mobile only */
+  showControls: PropTypes.bool,
 }
 
 Item.defaultProps = {

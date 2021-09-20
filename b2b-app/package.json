@@ -8,6 +8,7 @@
     "debug": "DEBUG=app:* MONGO_URL=mongodb://localhost/b2b meteor --port 4090 --exclude-archs web.cordova,web.browser.legacy --settings dev.settings.json --inspect",
     "nodebug": "DEBUG=app:* MONGO_URL=mongodb://localhost/b2b meteor --port 4090 --exclude-archs web.cordova,web.browser.legacy --settings dev.settings.json ",
     "debug-local": "DEBUG=app:* meteor --inspect --port 4090 --settings dev.settings.json",
+    "debug-ios": "meteor run ios-device --mobile-server 192.168.1.4:3000 --settings dev.settings.json --exclude-archs web.browser",
     "build": "meteor build ../builds/",
     "ci-app": "DEBUG=app:* METEOR_ALLOW_SUPERUSER=1 meteor --port 4090 --settings dev.circleci.settings.json",
     "ci": "DEBUG=app:* METEOR_ALLOW_SUPERUSER=1 meteor --port 4090 --settings dev.circleci.settings.json",
@@ -123,7 +124,7 @@
     "react-router-dom": "^5.2.0",
     "react-signature-canvas": "^1.0.3",
     "react-split-pane": "^0.1.92",
-    "react-tabulator": "^0.14.2",
+    "react-tabulator": "0.15.0",
     "react-toastify": "^6.2.0",
     "recoil": "0.4.0",
     "remark-gfm": "^1.0.0",
@@ -143,6 +144,11 @@
     "mainModule": {
       "client": "client/main.js",
       "server": "server/main.js"
+    },
+    "nodeModules": {
+      "recompile": {
+        "recoil": "legacy"
+      }
     }
   },
   "devDependencies": {

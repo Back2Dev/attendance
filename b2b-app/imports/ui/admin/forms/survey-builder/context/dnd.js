@@ -21,6 +21,7 @@ const DndProvider = ({ children }) => {
       }
       const listAtoms = snapshot.getLoadable(dndAtom).contents
       if (!listAtoms.has(source.droppableId)) {
+        log('dndAtom', listAtoms)
         throw new Error('Cannot find list atom to reorder')
       }
       set(listAtoms.get(source.droppableId), (answers) => {
@@ -47,6 +48,7 @@ DndProvider.propTypes = {
 /** Registers a pid to a list atom in addition to rendering a react-beautiful-dnd Droppable */
 export const DndDroppable = ({ pid, listAtom, children, ...otherProps }) => {
   useDnd(pid, listAtom)
+
   return (
     <Droppable droppableId={pid} {...otherProps}>
       {children}

@@ -9,6 +9,9 @@ export default {
 const Template = (args) => <Item {...args} />
 
 export const Default = Template.bind({})
+Default.args = {
+  showControls: false,
+}
 
 export const PrefilledText = Template.bind({})
 PrefilledText.args = {
