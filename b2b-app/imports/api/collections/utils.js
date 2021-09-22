@@ -1,4 +1,5 @@
 import moment from 'moment'
+import numeral from 'numeral'
 const debug = require('debug')('app:collections-utils')
 
 export const formatData = ({ data, type }) => {
@@ -18,10 +19,12 @@ export const formatData = ({ data, type }) => {
 export const getDataFormatter = ({ type, columnName }) => {
   switch (type) {
     case 'String':
+      return ({ row }) => row[columnName] || null
     case 'SimpleSchema.Integer':
     case 'Integer':
+      return ({ row }) => numeral(row[columnName]).format('0,0') || null
     case 'Number':
-      return ({ row }) => row[columnName] || null
+      return ({ row }) => numeral(row[columnName]).format('0,0.00') || null
     case 'Date':
       return ({ row }) =>
         row[columnName] ? moment(row[columnName]).format('DD/MM/YYYY HH:mm') : null
