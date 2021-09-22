@@ -96,13 +96,10 @@ function ArchivesList() {
       name: 'Data ID',
       type: 'String',
       editable: false,
-    },
-    {
-      key: 'data',
-      name: 'Data',
-      type: 'String',
-      editable: false,
-      formatter: ({ row }) => `${row.data.slice(0, 50)}...`,
+      formatter: ({ row }) => {
+        const dataIds = row.data.map((item) => item.dataId)
+        return dataIds.join(', ')
+      },
     },
     {
       key: 'createdBy',
@@ -149,6 +146,9 @@ function ArchivesList() {
         const strsToSearch = columns.map((col) => {
           if (col.key === 'createdBy') {
             return row.createdBy.username
+          }
+          if (col.key === 'dataId') {
+            return row.data.map((item) => item.dataId).join(', ')
           }
           return `${formatData({ data: row[col.key], type: col.type })}` || ''
         })

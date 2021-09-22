@@ -117,18 +117,19 @@ Meteor.methods({
       }
 
       // restore the data
-      let insertedId
-      try {
-        insertedId = dbCollection.insert(JSON.parse(archivedRecord.data))
-      } catch (e) {
+      const restoredRecordIds = []
+      archivedRecord.data.map((archivedDataItem) => {
+        let insertedId
+        try {
+          insertedId = dbCollection.insert(JSON.parse(archivedDataItem.data))
+          restoredRecordIds.push(insertedId)
+        } catch (e) {
+          debug('error inserting', archivedRecord.type, archivedDataItem.data)
+          return
+        }
+      })
+      if (restoredRecordIds.length !== archivedRecord.data.length) {
         operationFailed.push(id)
-        return
-      }
-
-      if (!insertedId) {
-        // double check
-        operationFailed.push(id)
-        return
       }
 
       if (!keepTheCopy) {
@@ -199,53 +200,40 @@ Meteor.methods({
       }
     }
 
-    const operationSuccess = []
-    const operationFailed = []
-    theRecords.map((theRecord) => {
-      // insert to archives collection
-      console.log('the record', theRecord)
-      const insertedId = Archives.insert({
-        type: collectionName,
-        dataId: theRecord._id,
-        data: JSON.stringify(theRecord),
-        createdBy: {
-          userId: me._id,
-          username: me.username,
-        },
-      })
-      if (!insertedId) {
-        operationFailed.push(theRecord._id)
-        return
-      }
-      // remove the record from original collection
-      const n = dbCollection.remove({ _id: theRecord._id })
-      if (!n) {
-        // roleback ?
-        Archives.remove({ _id: insertedId })
-        operationFailed.push(theRecord._id)
-        return
-      }
-
-      operationSuccess.push(theRecord._id)
+    // insert all records to archives collection
+    const insertedId = Archives.insert({
+      type: collectionName,
+      data: theRecords.map((theRecord) => {
+        return {
+          dataId: theRecord._id,
+          data: JSON.stringify(theRecord),
+        }
+      }),
+      createdBy: {
+        userId: me._id,
+        username: me.username,
+      },
     })
-
-    if (operationSuccess.length === 0) {
+    if (!insertedId) {
       return {
         status: 'failed',
-        message: 'Unable to archive selected records',
+        message: 'Unable to create new archive record',
       }
     }
 
-    if (operationFailed.length > 0) {
+    // remove the record from original collection
+    const n = dbCollection.remove({ _id: { $in: recordIds } })
+    debug('removed', n)
+    if (!n) {
       return {
-        status: 'success',
-        message: `Unable to archive some records: ${operationFailed.join(', ')}`,
+        status: 'failed',
+        message: 'Unable to remove archived records',
       }
     }
 
     return {
       status: 'success',
-      message: 'Archived',
+      message: `Archived ${n} records`,
     }
   },
   'collections.updateCell'({ collectionName, rowId, column, value }) {

@@ -16,18 +16,21 @@ export const CreatedBySchema = new SimpleSchema({
   username: String,
 })
 
+export const DataItemSchema = new SimpleSchema({
+  dataId: String,
+  data: String,
+})
+
 export const ArchivesSchema = new SimpleSchema({
   _id: OptionalRegExId,
   type: {
     type: String,
     label: 'Collection name',
   },
-  dataId: String,
-  data: String,
-  // data: {
-  //   type: Blackbox,
-  //   label: 'The record data',
-  // },
+  // dataId: String,
+  // data: String,
+  data: Array,
+  'data.$': DataItemSchema,
   createdBy: {
     type: CreatedBySchema,
     label: 'User id and username, who archived this',
