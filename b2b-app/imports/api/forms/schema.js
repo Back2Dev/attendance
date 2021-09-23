@@ -20,7 +20,7 @@ export const FormsSchema = new SimpleSchema({
     optional: true,
   },
   revision: {
-    type: Number,
+    type: SimpleSchema.Integer,
     defaultValue: 1,
   },
   active: {
