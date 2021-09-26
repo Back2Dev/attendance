@@ -8,19 +8,20 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useRefCallback, useDidMountEffect } from '../hooks'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    /* apply a wrapping div to fix webkit browser issue where clicking outside a contenteditable
+  /* apply a wrapping root div to fix webkit browser issue where clicking outside a contenteditable
        will focus the element
        https://stackoverflow.com/questions/34354085/clicking-outside-a-contenteditable-div-stills-give-focus-to-it
      */
-    display: 'inline-block',
+  root: {
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': { outline: `1px solid ${theme.palette.divider}` },
+    },
   },
   edit: {
     ...theme.typography.body1,
     cursor: 'text',
     '&:focus': {
-      outline: '1px solid blue',
-      outlineOffset: 5,
+      outline: `1px solid ${theme.palette.primary.light}`,
     },
     '&:empty::before': {
       content: (props) => `"${props.placeholder}"`,

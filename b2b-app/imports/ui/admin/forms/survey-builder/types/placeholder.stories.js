@@ -13,6 +13,7 @@ const Template = (args) => <Placeholder {...args} />
 export const Default = Template.bind({})
 Default.args = {
   pid: 'id123',
+  index: 0,
 }
 
 Default.decorators = [

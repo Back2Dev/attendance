@@ -40,19 +40,21 @@ export const mapDataToAtom = (data) => {
   return state
 }
 
-const Single = React.forwardRef(({ pid, ...otherprops }, ref) => {
+const Single = ({ pid, index }) => {
   return (
-    <Frame pid={pid} {...otherprops} ref={ref}>
+    <Frame pid={pid} index={index}>
       <SingleInner pid={pid} />
     </Frame>
   )
-})
+}
 
 Single.displayName = 'Single'
 
 Single.propTypes = {
   /** id for this Single instance part */
   pid: PropTypes.string.isRequired,
+  /** the position this question is rendered in the parts list */
+  index: PropTypes.number,
 }
 
 export default Single

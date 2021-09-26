@@ -8,7 +8,7 @@ import { Placeholder } from './types'
 import { usePartsValue, useSelectedPartState, useSetDrawer } from './recoil/hooks'
 import TypeRegistry from './types/type-registry'
 import { partsAtom } from './recoil/atoms'
-import { DndDraggable, DndDroppable, useBuilder } from './context'
+import { DndDroppable, useBuilder } from './context'
 import { ResponsiveWrap } from './wrap-if'
 import styled from 'styled-components'
 
@@ -19,7 +19,9 @@ const AddButton = styled(Fab)(({ theme }) => ({
   bottom: theme.spacing(2),
   right: theme.spacing(2),
 }))
-
+// FIXME in mobile, when drawer is open the last part is obscured when scrolling to the bottom
+// TODO enable inertial scrolling
+// TODO make dragging move vertically only
 const Canvas = () => {
   const parts = usePartsValue()
   const [selectedPart, setSelectedPart] = useSelectedPartState()
@@ -40,7 +42,7 @@ const Canvas = () => {
           <Box
             onClick={canvasClicked}
             border="1px solid lightgrey"
-            height="calc(100vh - 60px)"
+            minHeight="calc(100vh - 60px)"
           />
         }
         desktop={
@@ -57,26 +59,20 @@ const Canvas = () => {
           />
         }
       >
-        <DndDroppable pid="canvas" listAtom={partsAtom}>
+        <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
           {(provided) => (
             <ul
               style={{ paddingLeft: 0 }}
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {parts.map(({ _id, type }, index) => (
-                <DndDraggable pid={type} itemId={_id} index={index} key={_id}>
-                  {(provided) =>
-                    createElement(TypeRegistry.get(type)?.component || Placeholder, {
-                      key: _id,
-                      pid: _id,
-                      ...provided.draggableProps,
-                      ...provided.dragHandleProps,
-                      ref: provided.innerRef,
-                    })
-                  }
-                </DndDraggable>
-              ))}
+              {parts.map(({ _id, type }, index) =>
+                createElement(TypeRegistry.get(type)?.component || Placeholder, {
+                  key: _id,
+                  pid: _id,
+                  index,
+                })
+              )}
               {provided.placeholder}
             </ul>
           )}

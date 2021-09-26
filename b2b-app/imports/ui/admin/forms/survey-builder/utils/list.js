@@ -5,12 +5,12 @@ const isValidIndex = (list, index) =>
 
 export const makeListItem = (value = {}) => ({ ...value, _id: makeId() })
 
-const add = (list, value, index) => {
-  if (index !== undefined && !isValidIndex(list, index)) {
+const add = (list, value, index = list.length - 1) => {
+  if (!isValidIndex(list, index)) {
     throw new TypeError('invalid index arg')
   }
   const l = [...list]
-  l.splice(index === undefined ? list.length : index + 1, 0, makeListItem(value))
+  l.splice(index + 1, 0, makeListItem(value))
   return l
 }
 

@@ -2,28 +2,37 @@ import React, { forwardRef } from 'react'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import DragHandleIcon from '@material-ui/icons/DragHandle'
 import AddIcon from '@material-ui/icons/Add'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Hidden } from '@material-ui/core'
 import styled from 'styled-components'
-
 import PropTypes from 'prop-types'
+import debug from 'debug'
 
 import InlineEdit from '../../inline-edit/edit'
-import { useBuilder } from '../../context'
 
-const StyledItem = styled('li')((props) => ({
+const log = debug('builder:item')
+
+const StyledItem = styled('li')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
   alignItems: 'center',
-  '&:hover': !props.mobile && { outline: `1px solid ${props.theme.palette.divider}` },
+  '.inline-edit': {
+    marginLeft: theme.spacing(1),
+    flexGrow: 1,
+  },
+  '.icon': {
+    margin: 3,
+  },
+  [theme.breakpoints.up('sm')]: {
+    '&:hover': { outline: `1px solid ${theme.palette.divider}` },
+    '.inline-edit': {
+      marginLeft: theme.spacing(2),
+    },
+  },
 }))
 
-const StyledInlineEdit = styled(InlineEdit)((props) => ({
-  marginLeft: props.theme.spacing(2),
-  flexGrow: 1,
-}))
-
-const Controls = styled('div')((props) => {
+const Actions = styled('div')(({ theme, showMobileActions }) => {
   /**
    * Visually hide an element, but leave it available for screen readers
    * @link https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css
@@ -49,18 +58,17 @@ const Controls = styled('div')((props) => {
   const showVisually = {
     clip: 'auto',
     height: 'auto',
-    margin: props.theme.spacing(0, 0, 0, 2),
     overflow: 'visible',
     position: 'static',
     whiteSpace: 'normal',
     width: 'auto',
+    flexShrink: 0,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(2),
+    },
   }
-
-  if (props.mobile) {
-    if (!props.show) {
-      return hideVisually
-    }
-    return { ...showVisually, flexShrink: 0 }
+  if (showMobileActions) {
+    return showVisually
   }
 
   /** show on mouse hover and when tabbing. Note: you must import styled from 'styled-components'
@@ -68,25 +76,18 @@ const Controls = styled('div')((props) => {
    * https://styled-components.com/docs/advanced#referring-to-other-components */
   return {
     ...hideVisually,
-    [`${StyledItem}:hover &, &:focus-within`]: { ...showVisually, flexShrink: 0 },
+    [`${StyledItem}:hover &, &:focus-within`]: showVisually,
     '& svg': {
       verticalAlign: 'middle',
-      fill: props.theme.palette.action.active,
+      fill: theme.palette.action.active,
+    },
+    '.delete-button[disabled] svg': {
+      fill: theme.palette.action.disabled,
     },
   }
 })
 
-const DeleteButton = styled(IconButton)((props) => ({
-  '&[disabled] svg': {
-    fill: props.theme.palette.action.disabled,
-  },
-}))
-
-const StyledDragIndicatorIcon = styled(DragIndicatorIcon)({
-  verticalAlign: 'middle',
-})
-
-/** A radio button with controls to move it up/down and delete. Used by Single component */
+/** A radio button with actions to move it up/down and delete. Used by Single component */
 const Item = forwardRef(
   (
     {
@@ -96,43 +97,47 @@ const Item = forwardRef(
       onRemove,
       onAdd,
       disableRemove,
-      showControls,
+      showMobileActions,
       ...otherProps
     },
     ref
   ) => {
-    const { isMobile } = useBuilder()
     const preventFocus = (e) => {
-      // Controls stay visible after user clicks a button and mouse leaves Item. The reason this
-      // happens is because Controls uses the 'focus-within' rule to make it visible. This fixes it by
+      // Actions stay visible after user clicks a button and mouse leaves Item. The reason this
+      // happens is because Actions uses the 'focus-within' rule to make it visible. This fixes it by
       // preventing focus but still allows tabbing to work correctly.
       e.preventDefault()
     }
+    const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
 
     return (
-      <StyledItem ref={ref} mobile={isMobile} {...otherProps}>
-        <IconButton size="small" disabled>
-          <RadioButtonUncheckedIcon />
-        </IconButton>
-        <StyledInlineEdit
+      <StyledItem ref={ref} {...otherProps}>
+        <ListStyleType className="icon" />
+
+        <InlineEdit
+          className="inline-edit"
           text={text}
           placeholder={placeholder}
           onTextChange={onTextChange}
         />
-        <Controls onMouseDown={preventFocus} mobile={isMobile} show={showControls}>
-          <StyledDragIndicatorIcon />
-          <IconButton size="small" onClick={onAdd} aria-label="add">
-            <AddIcon />
-          </IconButton>
-          <DeleteButton
+        <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
+          <Hidden xsDown>
+            <DragIndicatorIcon />
+            <IconButton size="small" onClick={onAdd} aria-label="add">
+              <AddIcon />
+            </IconButton>
+          </Hidden>
+
+          <IconButton
+            className="delete-button"
             size="small"
             onClick={onRemove}
             aria-label="delete"
             disabled={disableRemove}
           >
             <DeleteIcon />
-          </DeleteButton>
-        </Controls>
+          </IconButton>
+        </Actions>
       </StyledItem>
     )
   }
@@ -153,8 +158,8 @@ Item.propTypes = {
   onAdd: PropTypes.func,
   /** disable removing choice */
   disableRemove: PropTypes.bool,
-  /** whether to show controls. Mobile only */
-  showControls: PropTypes.bool,
+  /** whether to show actions for mobile */
+  showMobileActions: PropTypes.bool,
 }
 
 Item.defaultProps = {

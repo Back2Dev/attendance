@@ -5,7 +5,7 @@ const DebugProps = () => {
   const part = useSelectedPartData()
   const selectedPart = useSelectedPartValue()
   return (
-    <div>
+    <div style={{ overflowX: 'scroll' }}>
       Inspect part: {selectedPart}
       <pre>{JSON.stringify(part, null, 2)}</pre>
     </div>

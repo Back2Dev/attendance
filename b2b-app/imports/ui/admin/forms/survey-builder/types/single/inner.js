@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
 
 import Item from './item'
@@ -7,6 +9,7 @@ import Question from '../../question'
 import { useAnswers, useQuestion, useSelectedPartValue } from '../../recoil/hooks'
 import { singleAnswers } from '../../recoil/atoms'
 import { DndDraggable, DndDroppable } from '../../context/dnd'
+import { useBuilder } from '../../context'
 
 /** Single Choice question */
 const SingleInner = ({ pid }) => {
@@ -14,6 +17,7 @@ const SingleInner = ({ pid }) => {
   const [question, setQuestion] = useQuestion(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
+  const { isMobile } = useBuilder()
 
   const getStyle = (style, snapshot) => {
     if (!snapshot.isDragging) return style
@@ -24,6 +28,8 @@ const SingleInner = ({ pid }) => {
     }
   }
 
+  const showMobileActions = isMobile && selectedPart === pid
+
   return (
     <div>
       <Question
@@ -31,7 +37,7 @@ const SingleInner = ({ pid }) => {
         label={question}
         onLabelChange={(text) => setQuestion(text)}
       />
-      <DndDroppable pid={pid} listAtom={singleAnswers(pid)}>
+      <DndDroppable pid={pid} listAtom={singleAnswers(pid)} type={pid}>
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
@@ -56,7 +62,7 @@ const SingleInner = ({ pid }) => {
                     disableRemove={all.length === 1}
                     onTextChange={(name) => update({ ...c, name }, i)}
                     text={c.name}
-                    showControls={selectedPart === pid}
+                    showMobileActions={showMobileActions}
                   />
                 )}
               </DndDraggable>
@@ -65,6 +71,17 @@ const SingleInner = ({ pid }) => {
           </ul>
         )}
       </DndDroppable>
+      {showMobileActions && (
+        <Button
+          variant="outlined"
+          color="default"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={() => add()}
+        >
+          New item
+        </Button>
+      )}
     </div>
   )
 }

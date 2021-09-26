@@ -9,11 +9,11 @@ import { usePlaceholderValue } from '../recoil/hooks'
 /** Just pass thru the data since we don't know how to handle this type yet */
 const mapDataToAtom = (data) => data
 
-export const Placeholder = ({ pid }) => {
+export const Placeholder = ({ pid, index }) => {
   const data = usePlaceholderValue(pid)
   const [details, setDetails] = useState(false)
   return (
-    <Frame pid={pid}>
+    <Frame pid={pid} index={index}>
       The part specified is unimplemented or an invalid type.
       <pre>
         type: {data.type} <br />
@@ -27,7 +27,10 @@ export const Placeholder = ({ pid }) => {
 }
 
 Placeholder.propTypes = {
+  /** id for this Placeholder instance part */
   pid: PropTypes.string,
+  /** the position this question is rendered in the parts list */
+  index: PropTypes.number,
 }
 
 TypeRegistry.register(

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider, StylesProvider } from '@material-ui/core/styles'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components'
 
 import DefaultTheme from '/imports/ui/themes/default.js'
@@ -26,11 +26,13 @@ export const MyThemeProvider = (props) => {
   }
 
   return (
-    <MyThemeContext.Provider value={{ theme, setTheme }}>
-      <ThemeProvider theme={theTheme}>
-        <StyledThemeProvider theme={theTheme}>{children}</StyledThemeProvider>
-      </ThemeProvider>
-    </MyThemeContext.Provider>
+    <StylesProvider injectFirst>
+      <MyThemeContext.Provider value={{ theme, setTheme }}>
+        <ThemeProvider theme={theTheme}>
+          <StyledThemeProvider theme={theTheme}>{children}</StyledThemeProvider>
+        </ThemeProvider>
+      </MyThemeContext.Provider>
+    </StylesProvider>
   )
 }
 

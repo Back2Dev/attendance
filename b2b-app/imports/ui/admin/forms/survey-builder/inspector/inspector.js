@@ -17,7 +17,7 @@ const Inspector = () => {
   const selectedPart = useSelectedPartValue()
   const drawer = useDrawer()
   // FIXME add onClose/Open handlers for drawer
-  log(selectedPart, drawer)
+
   return (
     <ResponsiveWrap
       mobile={<Drawer open={selectedPart !== null && drawer === 'inspector'} />}

@@ -11,4 +11,5 @@ const Template = (args) => <Single {...args} />
 export const Default = Template.bind({})
 Default.args = {
   pid: 'pid',
+  index: 0,
 }

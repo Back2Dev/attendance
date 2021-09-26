@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { PureFrame } from './frame'
-import { Single } from './types'
+import { Single } from '../types'
 
 export default {
   title: 'Survey Builder/Frame',
@@ -24,4 +24,10 @@ Mobile.args = {
   ...Default.args,
   mobile: true,
   selected: true,
+}
+
+Mobile.parameters = {
+  viewport: {
+    defaultViewport: 'mobile1',
+  },
 }

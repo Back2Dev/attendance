@@ -10,7 +10,7 @@ const Template = (args) => <Item {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  showControls: false,
+  showMobileActions: false,
 }
 
 export const PrefilledText = Template.bind({})
