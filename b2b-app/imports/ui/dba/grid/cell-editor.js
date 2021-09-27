@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 
 import { CollectionContext } from '../context'
+import DateTimeField from './editors/date-time'
 
 const StyledCellEditor = styled.div``
 const StyledNoEditor = styled.div`
@@ -24,6 +25,8 @@ function CellEditor(props) {
     case 'Integer':
     case 'Number':
       return <TextEditor {...props} />
+    case 'Date':
+      return <DateTimeField {...props} />
     default:
       // return the value, not handle this
       return <StyledNoEditor>{column.formatter({ row })}</StyledNoEditor>
