@@ -38,6 +38,20 @@ const StyledGrid = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+
+    .left {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      flex-wrap: wrap;
+      margin-right: 10px;
+      align-items: center;
+
+      .search-box {
+        margin-right: 10px;
+      }
+    }
   }
   .grid-container {
     flex: 1;
@@ -203,11 +217,30 @@ function Grid() {
         </Button>
       </div>
       <div className="filter-container">
-        <SearchBox
-          onChange={(searchQuery) => {
-            setFilterText(searchQuery)
-          }}
-        />
+        <div className="left">
+          <SearchBox
+            className="search-box"
+            onChange={(searchQuery) => {
+              setFilterText(searchQuery)
+            }}
+          />
+          <div className="selected-row-actions">
+            {selectedRows.size > 0 && (
+              <Button
+                size="small"
+                startIcon={<ArchiveIcon />}
+                variant="outlined"
+                onClick={() =>
+                  showConfirm({
+                    onConfirm: () => archive({ selectedIds: Array.from(selectedRows) }),
+                  })
+                }
+              >
+                Archive
+              </Button>
+            )}
+          </div>
+        </div>
         <ViewsSelector />
       </div>
       <div className="grid-container">
@@ -231,21 +264,6 @@ function Grid() {
           selectedRows={selectedRows}
           onSelectedRowsChange={setSelectedRows}
         />
-      </div>
-      <div className="selected-row-actions">
-        {selectedRows.size > 0 && (
-          <Button
-            startIcon={<ArchiveIcon />}
-            variant="outlined"
-            onClick={() =>
-              showConfirm({
-                onConfirm: () => archive({ selectedIds: Array.from(selectedRows) }),
-              })
-            }
-          >
-            Archive
-          </Button>
-        )}
       </div>
     </StyledGrid>
   )
