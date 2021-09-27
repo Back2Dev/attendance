@@ -92,14 +92,14 @@ function ArchivesList() {
       editable: false,
     },
     {
-      key: 'dataId',
-      name: 'Data ID',
+      key: 'label',
+      name: 'Label',
       type: 'String',
       editable: false,
-      formatter: ({ row }) => {
-        const dataIds = row.data.map((item) => item.dataId)
-        return dataIds.join(', ')
-      },
+      // formatter: ({ row }) => {
+      //   const dataIds = row.data.map((item) => item.dataId)
+      //   return dataIds.join(', ')
+      // },
     },
     {
       key: 'createdBy',
