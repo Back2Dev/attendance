@@ -27,8 +27,7 @@ export const ArchivesSchema = new SimpleSchema({
     type: String,
     label: 'Collection name',
   },
-  // dataId: String,
-  // data: String,
+  label: OptionalString,
   data: Array,
   'data.$': DataItemSchema,
   createdBy: {
@@ -45,6 +44,7 @@ export default Archives
 
 export const ArchiveProps = new SimpleSchema({
   collectionName: String,
+  label: OptionalString,
   recordIds: Array,
   'recordIds.$': RegExId,
 })

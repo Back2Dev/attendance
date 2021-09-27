@@ -159,11 +159,12 @@ Meteor.methods({
       message: 'restored',
     }
   },
-  'collections.archive'({ collectionName, recordIds }) {
+  'collections.archive'({ collectionName, label, recordIds }) {
     // validate data
     try {
       !ArchiveProps.validate({
         collectionName,
+        label,
         recordIds,
       })
     } catch (error) {
@@ -203,6 +204,7 @@ Meteor.methods({
     // insert all records to archives collection
     const insertedId = Archives.insert({
       type: collectionName,
+      label,
       data: theRecords.map((theRecord) => {
         return {
           dataId: theRecord._id,

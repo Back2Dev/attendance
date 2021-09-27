@@ -119,12 +119,13 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     setRows(newRows)
   }
 
-  const archive = ({ selectedIds }) => {
-    console.log('archive', selectedIds)
+  const archive = ({ selectedIds, label }) => {
+    console.log('archive', selectedIds, label)
     Meteor.call(
       'collections.archive',
       {
         collectionName,
+        label,
         recordIds: selectedIds,
       },
       (error, result) => {

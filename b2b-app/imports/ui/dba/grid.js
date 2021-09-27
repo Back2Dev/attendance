@@ -3,7 +3,16 @@ import styled from 'styled-components'
 import DataGrid, { SelectColumn } from 'react-data-grid'
 import { useHistory } from 'react-router'
 
-import { Button, Typography } from '@material-ui/core'
+import {
+  Button,
+  TextField,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@material-ui/core'
 import ArchiveIcon from '@material-ui/icons/Archive'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
@@ -58,6 +67,8 @@ const StyledGrid = styled.div`
   }
 `
 
+const StyledArchiveBox = styled.div``
+
 function Grid() {
   const { theCollection, schema, theView, rows, updateCell, archive } = useContext(
     CollectionContext
@@ -65,7 +76,7 @@ function Grid() {
   console.log(theCollection, schema, { theView })
 
   const history = useHistory()
-  const { showConfirm } = useConfirm()
+  // const { showConfirm } = useConfirm()
 
   const selectedCell = useRef({ idx: null, rowIdx: null })
 
@@ -73,6 +84,8 @@ function Grid() {
   const [pageHeight, setPageHeight] = useState(null)
   const [sortColumns, setSortColumns] = useState([])
   const [selectedRows, setSelectedRows] = useState(() => new Set())
+  const [archiveLabel, setArchiveLabel] = useState('')
+  const [openArchiveDialog, setOpenArchiveDialog] = useState(false)
 
   const windowSize = useWindowSize()
   useEffect(() => {
@@ -128,6 +141,29 @@ function Grid() {
 
     return gridColumns
   }, [theView?.columns, schema])
+
+  const handleArchiveBtnClick = () => {
+    setOpenArchiveDialog(true)
+    // showConfirm({
+    //   message: (
+    //     <TextField
+    //       onChange={(event) => {
+    //         setArchiveLabel(event.target.value)
+    //         setTimeout(() => {
+    //           handleArchiveBtnClick()
+    //         }, 10)
+    //       }}
+    //     />
+    //   ),
+    //   onConfirm: () => {
+    //     archive({
+    //       selectedIds: Array.from(selectedRows),
+    //       label: archiveLabel,
+    //     })
+    //     setArchiveLabel('')
+    //   },
+    // })
+  }
 
   const handleRowsChange = (newRows) => {
     // console.log('on Rows changed', newRows)
@@ -230,11 +266,7 @@ function Grid() {
                 size="small"
                 startIcon={<ArchiveIcon />}
                 variant="outlined"
-                onClick={() =>
-                  showConfirm({
-                    onConfirm: () => archive({ selectedIds: Array.from(selectedRows) }),
-                  })
-                }
+                onClick={handleArchiveBtnClick}
               >
                 Archive
               </Button>
@@ -265,6 +297,53 @@ function Grid() {
           onSelectedRowsChange={setSelectedRows}
         />
       </div>
+      <Dialog
+        open={openArchiveDialog}
+        onClose={() => {
+          openArchiveDialog && setOpenArchiveDialog(false)
+        }}
+        aria-labelledby="archive-dialog-title"
+        aria-describedby="archive-dialog-description"
+      >
+        <StyledArchiveBox>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogContent>
+            <TextField
+              value={archiveLabel}
+              onChange={(event) => {
+                setArchiveLabel(event.target.value)
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setArchiveLabel('')
+                setOpenArchiveDialog(false)
+              }}
+              color="secondary"
+            >
+              No
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                archive({
+                  selectedIds: Array.from(selectedRows),
+                  label: archiveLabel,
+                })
+                setArchiveLabel('')
+                openArchiveDialog && setOpenArchiveDialog(false)
+              }}
+              color="primary"
+              autoFocus
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </StyledArchiveBox>
+      </Dialog>
     </StyledGrid>
   )
 }
