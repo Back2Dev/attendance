@@ -8,8 +8,8 @@
     "UPLOAD_BUCKET": "staging-docs.mydomain.com.au",
     "GOOGLE_SECRET": "yWps4StYW2CI_l5_rzQft5UG",
     "GOOGLE_CLIENT_ID": "1063998179837-tiga0ban6hi7pdj5vvba0surcjglrka2.apps.googleusercontent.com",
-    "FACEBOOK_SECRET": "bd1177ef1b808801202020847b940a0f",
-    "FACEBOOK_APP_ID": "1968993043268609",
+    "FACEBOOK_SECRET": "cafc572a7e1f65c894a53ce2bc652b3b",
+    "FACEBOOK_APP_ID": "2815021845464774",
     "MANDRILL_API_KEY": "YOUR-SECRET"
   },
   "env": {
