@@ -4,7 +4,7 @@ import TextFields from '../short-text/textbox'
 import Box from '@material-ui/core/Box'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-export const QuestionContext = createContext({
+export const questionContext = createContext({
   markAsDone: null,
 })
 
@@ -14,16 +14,6 @@ const Buttons = (props) => {
       label: 'First item',
       id: 'Mark',
       sortOrder: 1,
-    },
-    {
-      label: 'Second item',
-      id: 'Tom',
-      sortOrder: 2,
-    },
-    {
-      label: 'Third item',
-      id: 'Jerry',
-      sortOrder: 3,
     },
   ])
   const makeId = (length) => {
@@ -61,7 +51,6 @@ const Buttons = (props) => {
   }
 
   const handleAddClick = (index, item) => {
-    console.log(item)
     setTextboxList(
       [...textboxList].concat({
         label: 'New',
@@ -127,53 +116,6 @@ const Buttons = (props) => {
           </ul>
         )}
       </Droppable>
-      {/* <Droppable droppableId="characters">
-        {(provided) => (
-          <ul {...provided.droppableProps} ref={provided.innerRef}>
-            {textboxList.map(({ label, id, sortOrder }, index) => {
-              return (
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided) => (
-                    <li
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                    >
-                      <p>{label}</p>
-                    </li>
-                  )}
-                </Draggable>
-              )
-            })}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable> */}
-      {/* <ul>
-        {textboxList.map((item, index) => {
-          return (
-            <Box border={1} borderColor="blue" display="table" key={index}>
-              <TextFields
-                className="characters"
-                onRemoveItem={() => handleRemoveClick(index)}
-                onUpItem={() => moveUp(index)}
-                onDownItem={() => moveDown(index)}
-                onAddItem={() => handleAddClick(index)}
-                item={item}
-                id={index}
-                length={textboxList.length}
-                onChange={(index, newValue) => {
-                  setTextboxList(
-                    textboxList.map((v, i) =>
-                      i === index ? { label: newValue, sortOrder: v.sortOrder } : v
-                    )
-                  )
-                }}
-              />
-            </Box>
-          )
-        })}
-      </ul> */}
     </DragDropContext>
   )
 }

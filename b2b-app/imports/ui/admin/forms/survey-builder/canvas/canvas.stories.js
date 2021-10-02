@@ -21,6 +21,13 @@ const Template = (args) => {
         >
           Add Single
         </button>
+        <button
+          onClick={() => {
+            addPart('short')
+          }}
+        >
+          Add Short Text
+        </button>
       </section>
 
       <section>

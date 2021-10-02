@@ -68,8 +68,8 @@ const Toolbar = () => {
       alignItems="center"
       mx={isMobile ? 1 : 0}
     >
-      <Status msg={status} />
       <button onClick={save}>Save</button>
+      <Status msg={status} />
     </Box>
   )
 }
