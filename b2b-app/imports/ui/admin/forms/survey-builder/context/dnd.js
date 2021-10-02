@@ -5,6 +5,7 @@ import { useRecoilCallback } from 'recoil'
 import debug from 'debug'
 import { dndAtom } from '../recoil/atoms'
 import { useDnd } from '../recoil/hooks'
+import { useDndSensor } from '../hooks'
 
 const log = debug('builder:dnd')
 
@@ -38,7 +39,11 @@ const DndProvider = ({ children }) => {
     setList(result)
   }
 
-  return <DragDropContext onDragEnd={handleDragEnd}>{children}</DragDropContext>
+  return (
+    <DragDropContext sensors={[useDndSensor]} onDragEnd={handleDragEnd}>
+      {children}
+    </DragDropContext>
+  )
 }
 
 DndProvider.propTypes = {
@@ -63,9 +68,27 @@ DndDroppable.propTypes = {
 }
 
 export const DndDraggable = ({ pid, itemId, children, ...otherProps }) => {
+  /* locks dragging to Y axis only */
+  function lockAxis(axis, style) {
+    if (style?.transform) {
+      let transform = style.transform
+      let [tx, ty] = style.transform.split(',')
+
+      if (axis.toLowerCase() === 'y') {
+        transform = `translate(0px, ${ty}`
+      } else {
+        transform = `${tx}, 0px)`
+      }
+      return {
+        ...style,
+        transform,
+      }
+    }
+    return style
+  }
   return (
     <Draggable draggableId={`${pid}-${itemId}`} {...otherProps}>
-      {children}
+      {(provided, snapshot) => children(provided, snapshot, lockAxis)}
     </Draggable>
   )
 }

@@ -14,6 +14,7 @@ const log = debug('builder:frame')
 /* This wrapper exists solely to get around BorderWrapper not supplying a ref prop to the inner DOM
 element which we need for DND */
 const Root = styled('div')(({ theme, selected }) => ({
+  backgroundColor: theme.palette.background.paper,
   margin: theme.spacing(3, 0, 3, 0),
   padding: theme.spacing(0, 2, 2, 2),
   outline: selected
@@ -23,7 +24,7 @@ const Root = styled('div')(({ theme, selected }) => ({
 
 const AButton = styled(Button)({
   minWidth: 'auto',
-  padding: 3,
+  padding: 6,
 })
 
 const ButtonGroup = styled.div(({ theme }) => ({
@@ -41,45 +42,65 @@ const Actions = styled('div')(({ theme }) => ({
 }))
 
 export const MobileFrame = React.forwardRef(
-  ({ children, selected, actions, ...otherprops }, ref) => {
+  ({ children, selected, actions, ...otherProps }, ref) => {
     const actionTypes = {
-      moveUp: { icon: KeyboardArrowUpIcon, handler: () => actions.onMove('up') },
-      moveDown: { icon: KeyboardArrowDownIcon, handler: () => actions.onMove('down') },
-      inspect: { icon: MoreHorizIcon, handler: actions.onInspect },
-      remove: { icon: DeleteIcon, handler: actions.onRemove },
-      deselect: { icon: CheckIcon, handler: actions.onDeselect },
+      moveUp: {
+        icon: KeyboardArrowUpIcon,
+        props: {
+          onClick: () =>
+            actions.onMove({
+              dir: 'up',
+              draggableId: otherProps['data-rbd-draggable-id'],
+            }),
+        },
+      },
+      moveDown: {
+        icon: KeyboardArrowDownIcon,
+        props: {
+          onClick: () =>
+            actions.onMove({
+              dir: 'down',
+              draggableId: otherProps['data-rbd-draggable-id'],
+            }),
+        },
+      },
+      inspect: { icon: MoreHorizIcon, props: { onClick: actions.onInspect } },
+      remove: { icon: DeleteIcon, props: { onClick: actions.onRemove } },
+      deselect: {
+        icon: CheckIcon,
+        props: { variant: 'contained', onClick: actions.onDeselect },
+      },
     }
 
-    const createActions = (types, variant = 'outlined') => {
+    const createActions = (...types) => {
       /* Need to wrap AButton in Box because outlined Buttons have transparent background and selected
       box border shows behind it */
       return (
         <ButtonGroup>
-          {types.map((t, i) => (
-            <Box bgcolor="background.paper" key={i} display="inline">
+          {types.map((type, i) => (
+            <Box bgcolor="background.paper" key={i} display="inline-block">
               <AButton
-                size="small"
-                onClick={actionTypes[t].handler}
                 selected={selected}
-                variant={variant}
+                variant={actionTypes[type].props?.variant || 'outlined'}
                 color="primary"
+                {...actionTypes[type].props}
               >
-                {createElement(actionTypes[t].icon)}
+                {createElement(actionTypes[type].icon)}
               </AButton>
             </Box>
           ))}
         </ButtonGroup>
       )
     }
-
+    // TODO use ToggleButton for deselect
     return (
-      <Root onClick={actions.onSelect} selected={selected} {...otherprops} ref={ref}>
+      <Root onClick={actions.onSelect} selected={selected} {...otherProps} ref={ref}>
         <Fade in={selected}>
           <Actions selected={selected}>
-            {createActions(['deselect'], 'contained')}
-            {createActions(['remove'])}
-            {createActions(['moveUp', 'moveDown'])}
-            {createActions(['inspect'])}
+            {createActions('deselect')}
+            {createActions('remove')}
+            {createActions('moveUp', 'moveDown')}
+            {createActions('inspect')}
           </Actions>
         </Fade>
         <Box position="relative" marginTop={-1.5}>

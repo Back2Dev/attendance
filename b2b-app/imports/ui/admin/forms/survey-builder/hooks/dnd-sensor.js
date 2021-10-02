@@ -1,19 +1,29 @@
+import debug from 'debug'
+import { useEffect } from 'react'
+import { useBuilder } from '../context'
+const log = debug('builder:use-dnd-sensor')
+
 const useDndSensor = (api) => {
-  function start(event) {
-    event.preventDefault()
-    const draggableId = api.findClosestDraggableId(event)
+  const { setDndMove } = useBuilder()
+
+  const move = ({ dir, draggableId }) => {
     if (!draggableId) return
 
     const preDrag = api.tryGetLock(draggableId)
     if (!preDrag) return
 
     const actions = preDrag.snapLift()
-
-    actions.moveDown()
-    setTimeout(actions.drop, 1000)
+    if (dir === 'up') {
+      actions.moveUp()
+    } else if (dir === 'down') {
+      actions.moveDown()
+    }
+    setTimeout(actions.drop, 0) // wait for move animation to finish
   }
 
-  window.addEventListener('click', start)
+  useEffect(() => {
+    setDndMove(() => move)
+  }, [])
 }
 
 export default useDndSensor

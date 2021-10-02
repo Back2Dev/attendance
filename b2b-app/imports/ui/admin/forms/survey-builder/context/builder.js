@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -9,11 +9,14 @@ const BuilderContext = createContext()
 const Provider = ({ children }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
+  const [dndMove, setDndMove] = useState(null)
 
   return (
     <BuilderContext.Provider
       value={{
         isMobile,
+        dndMove,
+        setDndMove,
       }}
     >
       {children}

@@ -7,6 +7,7 @@ import { parse } from '/imports/api/forms/engine.js'
 import { partsAtom } from './recoil/atoms'
 import TypeRegistry from './types/type-registry'
 import { EditorContext } from '../framework/framework'
+import { useBuilder } from './context'
 
 let log = debug('builder:toolbar')
 
@@ -35,6 +36,7 @@ const Toolbar = () => {
     },
     []
   )
+  const { isMobile } = useBuilder()
 
   const save = () => {
     try {
@@ -64,9 +66,10 @@ const Toolbar = () => {
       border="1px solid lightgrey"
       display="flex"
       alignItems="center"
+      mx={isMobile ? 1 : 0}
     >
-      <button onClick={save}>Save</button>
       <Status msg={status} />
+      <button onClick={save}>Save</button>
     </Box>
   )
 }

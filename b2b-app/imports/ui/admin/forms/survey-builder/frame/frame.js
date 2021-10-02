@@ -9,6 +9,7 @@ import { DndDraggable } from '../context'
 
 import MobileFrame from './mobile'
 import DesktopFrame from './desktop'
+import { useTheme } from '@material-ui/styles'
 
 const log = debug('builder:frame')
 
@@ -91,13 +92,23 @@ PureFrame.propTypes = {
 
 const Frame = ({ pid, index, children }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
-  const { movePart, removePart } = useParts()
-  const { isMobile } = useBuilder()
+  const { removePart } = useParts()
+  const { isMobile, dndMove } = useBuilder()
   const setDrawer = useSetDrawer()
+  const theme = useTheme()
+
+  const getStyle = (style, snapshot, lockAxis) => {
+    if (!snapshot.isDragging) return style
+    return {
+      ...lockAxis('y', style),
+      boxShadow: theme.shadows[6],
+      background: theme.palette.background.paper,
+    }
+  }
 
   return (
-    <DndDraggable pid={pid} itemId={index.toString()} index={index}>
-      {(provided) => (
+    <DndDraggable pid={pid} index={index}>
+      {(provided, snapshot, lockAxis) => (
         <PureFrame
           selected={selectedPart === pid}
           onSelect={() => setSelectedPart(pid)}
@@ -105,15 +116,14 @@ const Frame = ({ pid, index, children }) => {
             removePart(pid)
             setSelectedPart(null)
           }}
-          onMove={(dir) => {
-            movePart(pid, dir)
-          }}
+          onMove={(e, dir) => dndMove(e, dir)}
           onInspect={() => setDrawer('inspector')}
           onDeselect={() => setSelectedPart(null)}
           ref={provided.innerRef}
           mobile={isMobile}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
         >
           {children}
         </PureFrame>

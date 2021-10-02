@@ -29,7 +29,7 @@ export const mapDataToAtom = (data) => {
     prompt: data.title,
     answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
   }
-  log(state)
+
   schema.validate(state)
   if (!schema.isValid()) {
     log('expected', schema._schema)

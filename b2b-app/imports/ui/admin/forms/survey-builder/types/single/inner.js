@@ -19,10 +19,10 @@ const SingleInner = ({ pid }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
 
-  const getStyle = (style, snapshot) => {
+  const getStyle = (style, snapshot, lockAxis) => {
     if (!snapshot.isDragging) return style
     return {
-      ...style,
+      ...lockAxis('y', style),
       boxShadow: theme.shadows[3],
       background: theme.palette.background.paper,
     }
@@ -51,11 +51,11 @@ const SingleInner = ({ pid }) => {
                 index={i}
                 key={c.id || c._id}
               >
-                {(provided, snapshot) => (
+                {(provided, snapshot, lockAxis) => (
                   <Item
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={getStyle(provided.draggableProps.style, snapshot)}
+                    style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
                     ref={provided.innerRef}
                     onRemove={() => remove(i)}
                     onAdd={() => add(i)}

@@ -1,16 +1,13 @@
-import { useEffect } from 'react'
-import { useRecoilCallback } from 'recoil'
-import { useDidMountRecoilEffect } from '../../hooks'
+import { useSetRecoilState } from 'recoil'
+import debug from 'debug'
 import { dndAtom } from '../atoms'
+import { useEffect } from 'react'
+
+const log = debug('builder:use-dnd')
 
 /** maps a react-beautiful-dnd droppable id to the list atom that will be re-ordered */
 export const useDnd = (droppableId, listAtom) => {
-  const setDnd = useRecoilCallback(
-    ({ set }) => (updater) => {
-      set(dndAtom, (map) => updater(map))
-    },
-    []
-  )
+  const setDnd = useSetRecoilState(dndAtom)
 
   useEffect(() => {
     setDnd((map) => {

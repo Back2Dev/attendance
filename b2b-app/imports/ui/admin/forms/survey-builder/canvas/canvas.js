@@ -4,12 +4,12 @@ import AddIcon from '@material-ui/icons/Add'
 
 import debug from 'debug'
 
-import { Placeholder } from './types'
-import { usePartsValue, useSelectedPartState, useSetDrawer } from './recoil/hooks'
-import TypeRegistry from './types/type-registry'
-import { partsAtom } from './recoil/atoms'
-import { DndDroppable, useBuilder } from './context'
-import { ResponsiveWrap } from './wrap-if'
+import { Placeholder } from '../types'
+import { usePartsValue, useSelectedPartState, useSetDrawer } from '../recoil/hooks'
+import TypeRegistry from '../types/type-registry'
+import { partsAtom } from '../recoil/atoms'
+import { DndDroppable, useBuilder } from '../context'
+import { ResponsiveWrap } from '../wrap-if'
 import styled from 'styled-components'
 
 const log = debug('builder:canvas')
@@ -43,6 +43,7 @@ const Canvas = () => {
             onClick={canvasClicked}
             border="1px solid lightgrey"
             minHeight="calc(100vh - 60px)"
+            px={1}
           />
         }
         desktop={
@@ -80,7 +81,7 @@ const Canvas = () => {
         {isMobile && selectedPart === null && (
           <AddButton
             color="primary"
-            size="small"
+            size="medium"
             aria-label="add"
             onClick={(e) => {
               e.stopPropagation()

@@ -5,6 +5,7 @@ import { IconButton, Box } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import CloseIcon from '@material-ui/icons/Close'
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 
 import styled from 'styled-components'
 import debug from 'debug'
@@ -15,6 +16,7 @@ const borderColor = (theme) =>
   theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
 
 const Root = styled('div')(({ theme, isSelected }) => ({
+  backgroundColor: theme.palette.background.paper,
   padding: theme.spacing(2),
   outlineStyle: 'solid',
   outlineWidth: 1,
@@ -23,17 +25,32 @@ const Root = styled('div')(({ theme, isSelected }) => ({
     outlineColor: isSelected ? theme.palette.primary.main : theme.palette.text.primary,
   },
   margin: theme.spacing(2, 0),
+  '.dragIcon': {
+    color: theme.palette.action.active,
+    margin: 3,
+  },
 }))
 
 export const DesktopFrame = React.forwardRef(
   ({ children, selected, actions, ...otherProps }, ref) => {
     const actionTypes = {
-      moveUp: { icon: KeyboardArrowUpIcon, handler: () => actions.onMove('up') },
-      moveDown: { icon: KeyboardArrowDownIcon, handler: () => actions.onMove('down') },
+      moveUp: {
+        icon: KeyboardArrowUpIcon,
+        handler: () =>
+          actions.onMove({ dir: 'up', draggableId: otherProps['data-rbd-draggable-id'] }),
+      },
+      moveDown: {
+        icon: KeyboardArrowDownIcon,
+        handler: () =>
+          actions.onMove({
+            dir: 'down',
+            draggableId: otherProps['data-rbd-draggable-id'],
+          }),
+      },
       remove: { icon: CloseIcon, handler: actions.onRemove },
     }
 
-    const createActions = (types) =>
+    const createActions = (...types) =>
       types.map((t, i) => (
         <IconButton size="small" key={i} onClick={actionTypes[t].handler}>
           {createElement(actionTypes[t].icon)}
@@ -52,7 +69,8 @@ export const DesktopFrame = React.forwardRef(
         <Box display="flex">
           <Box flexGrow={1}>{children}</Box>
           <Box flexGrow={0} display="flex" flexDirection="column">
-            {createActions(['remove', 'moveUp', 'moveDown'])}
+            {createActions('remove', 'moveUp', 'moveDown')}
+            <DragIndicatorIcon className="dragIcon" />
           </Box>
         </Box>
       </Root>

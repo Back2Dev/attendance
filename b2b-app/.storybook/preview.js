@@ -1,11 +1,15 @@
 import React from 'react'
 import { RecoilRoot } from 'recoil'
+
 import { StylesProvider } from '@material-ui/core/styles'
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
+
 import DndProvider, {
   DndDroppable,
 } from '../imports/ui/admin/forms/survey-builder/context/dnd'
 import BuilderProvider from '../imports/ui/admin/forms/survey-builder/context/builder'
 import { MyThemeProvider } from '../imports/ui/contexts/theme-context'
+import { RecoilDevtools } from '../imports/ui/admin/forms/survey-builder/utils'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -14,6 +18,9 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/,
     },
+  },
+  viewport: {
+    viewports: INITIAL_VIEWPORTS,
   },
 }
 
@@ -30,6 +37,7 @@ export const decorators = [
       <StylesProvider injectFirst>
         <MyThemeProvider>
           <RecoilRoot>
+            <RecoilDevtools />
             <BuilderProvider>
               <DndProvider>{story}</DndProvider>
             </BuilderProvider>

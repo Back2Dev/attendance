@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Canvas from './canvas'
-import { useParts } from './recoil/hooks'
+import { useParts } from '../recoil/hooks'
 
 export default {
   title: 'Survey Builder/Builder/Canvas',

@@ -28,6 +28,6 @@ Mobile.args = {
 
 Mobile.parameters = {
   viewport: {
-    defaultViewport: 'mobile1',
+    defaultViewport: 'iphone6',
   },
 }

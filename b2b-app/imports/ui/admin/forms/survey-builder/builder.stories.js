@@ -20,6 +20,7 @@ export default {
       </EditorContext.Provider>
     ),
   ],
+  parameters: { layout: 'fullscreen' },
 }
 
 const Template = (args) => <PureBuilder {...args} />
