@@ -10,6 +10,7 @@ import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
 import CallLog from './actions-call'
 import SendSMS from './actions-sms'
+import MechanicSelector from './actions-mechanic'
 
 const StyledJobActions = styled.div`
   margin: 20px 0;
@@ -120,6 +121,7 @@ function JobActions() {
     <StyledJobActions>
       <div className="left">{renderStatusActions()}</div>
       <div className="right">
+        <MechanicSelector />
         {renderMarkAsPaidBtn()}
         <CallLog />
         <SendSMS />

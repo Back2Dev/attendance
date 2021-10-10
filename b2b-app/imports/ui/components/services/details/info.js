@@ -11,7 +11,7 @@ import DescriptionIcon from '@material-ui/icons/Description'
 import createJobCard from '/imports/ui/utils/job-card-pdf.js'
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
-import MechanicSelector from './info-mechanic'
+// import MechanicSelector from './info-mechanic'
 import ExpectedPickupDate from './info-expected-pickup'
 
 const StyledJobInfo = styled.div`
@@ -21,7 +21,7 @@ const StyledJobInfo = styled.div`
 `
 
 function JobInfo() {
-  const { item, loading } = useContext(JobsDetailsContext)
+  const { item, loading, mechanics } = useContext(JobsDetailsContext)
 
   const createPdf = () => {
     const serviceItems = item.serviceItems
@@ -47,6 +47,10 @@ function JobInfo() {
 
     createJobCard({ serviceItems, bikeDetails, contactData, pickup })
   }
+
+  const selectedMechanic = mechanics.find((mer) => {
+    return mer.userId === item.mechanic
+  })
 
   const renderData = (data) => {
     if (loading || !item) {
@@ -140,7 +144,7 @@ function JobInfo() {
               Mechanic
             </Grid>
             <Grid item xs={7} md={12} className="data">
-              <MechanicSelector />
+              {renderData(selectedMechanic ? selectedMechanic.name : 'N/A')}
             </Grid>
           </Grid>
         </Grid>
