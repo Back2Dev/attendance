@@ -5,7 +5,8 @@ import numeral from 'numeral'
 import { Helmet } from 'react-helmet'
 import { Skeleton } from '@material-ui/lab'
 import { Button, Grid, Link } from '@material-ui/core'
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
+// import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
+import DescriptionIcon from '@material-ui/icons/Description'
 
 import createJobCard from '/imports/ui/utils/job-card-pdf.js'
 import { JobsDetailsContext } from './context'
@@ -186,11 +187,7 @@ function JobInfo() {
           </Grid>
         )}
         <Grid item xs={12} md={2}>
-          <Button
-            variant="contained"
-            startIcon={<PictureAsPdfIcon />}
-            onClick={createPdf}
-          >
+          <Button variant="contained" startIcon={<DescriptionIcon />} onClick={createPdf}>
             Job Card
           </Button>
         </Grid>
