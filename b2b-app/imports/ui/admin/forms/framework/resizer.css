@@ -23,9 +23,9 @@ div.SplitPane.vertical {
 }
 
 .editorBar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: table;
+  /* flex-direction: row;
+  justify-content: space-between; */
 }
 
 .editorTools {
@@ -67,4 +67,8 @@ div.SplitPane.vertical {
   color: white;
   padding-left: 16px;
   margin-top: 8px;
+}
+
+.scroll {
+  overflow: scroll;
 }

@@ -59,6 +59,7 @@ export const parse = (source) => {
   errs = []
   if (typeof source !== 'string') throw new Error('Parameter to parse must be a string')
   try {
+    currentStep = currentQ = current = null
     survey = {
       sections: [],
       name: 'Sample Survey',

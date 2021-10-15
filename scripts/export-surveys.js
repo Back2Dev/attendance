@@ -15,14 +15,15 @@ const base = 'md-docz/src/'
 // eg if run with --debug, then opts.debug will be true
 const opts = require('minimist')(process.argv.slice(2))
 const folder = opts.folder || 'se2-admin'
+const surveyFolder = '/Users/mikkel/easy/settler/se2-admin'
 const server = opts.server || 'localhost'
-const port = opts.port || '3080'
+const port = opts.port || '4090'
 const protocol = opts.port === 443 ? 'wss' : 'ws'
 
-if (opts.help || !(opts.fixtures )) {
+if (opts.help || !(opts.fixtures || opts.form)) {
   console.log(`
 #Usage:
-	node scripts/export-surveys.js [--only=slug] [--help] [--fixtures] [--port=xxxx] [--folder=se2-admin]
+	node scripts/export-surveys.js [--only=slug] [--help] [--fixtures] [--port=xxxx] [--folder=se2-admin] [--form]
 Where
   --only=slug - only export definitions for the given slug
   --fixtures will export fixtures files to ${folder}/packages/fixtures
@@ -40,6 +41,7 @@ Where
   process.exit(0)
 }
 
+const collection = opts.form ? 'forms' : 'surveys'
 let options = {
   endpoint: `${protocol}://${server}:${port}/websocket`,
   SocketConstructor: ws,
@@ -49,11 +51,11 @@ let options = {
 const doit = async (meteor) => {
   await meteor.connect()
   // connection is ready here
-  const sub = meteor.subscribe('all.surveys')
+  const sub = meteor.subscribe(`all.${collection}`)
   await sub.ready()
 
   // get non-reactive collection data
-  let surveys = meteor.collection('surveys').fetch()
+  let surveys = meteor.collection(collection).fetch()
   const srvs = surveys
     .map((srv) => {
       return { id: srv.id, slug: srv.slug }
@@ -80,6 +82,29 @@ const doit = async (meteor) => {
           )
           console.log(`Saved file ${file}`)
           n = n + 1
+        })
+    }
+    if (opts.form) {
+      surveys
+        .filter((survey) => survey.id === srv.id)
+        .forEach((survey) => {
+          if (!survey.survey) console.log(`No survey found in ${survey.slug}`)
+          else {
+            console.log(survey.slug, survey.survey)
+            const file = `${surveyFolder}/packages/fixtures/js-data/survey-${survey.slug}.js`
+            const jsdata = require(file)
+            jsdata.steps = survey.survey.steps
+            fs.writeFileSync(
+              file,
+              prettier.format(
+                // `module.exports = ${stringify(osort(jsdata))}`,
+                `module.exports = ${stringify(jsdata)}`,
+                prettierRules
+              )
+            )
+            console.log(`Saved file ${file}`)
+            n = n + 1
+          }
         })
     }
   }

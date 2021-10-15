@@ -2,10 +2,14 @@ import React from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
+import { DoubleLayout } from './double-layout'
 import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
 import { PreviewPanel } from './preview-panel'
+import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
+import map2Uniforms from '/imports/api/surveys/uniforms'
+import map2UiSchema from '/imports/api/surveys/ui-schema'
 
 const debug = require('debug')('app:forms:framework')
 
@@ -27,7 +31,13 @@ const Framework = ({ id, item, methods }) => {
     try {
       methods.update(
         id,
-        { _id: id, source: formEditorInput, json: JSON.parse(jsonEditorInput), autosave },
+        {
+          _id: id,
+          source: formEditorInput,
+          json: JSON.parse(jsonEditorInput),
+          survey: raw,
+          autosave,
+        },
         quit
       )
     } catch (e) {
@@ -48,14 +58,40 @@ const Framework = ({ id, item, methods }) => {
     2
   )
 
+  const [raw, setRaw] = React.useState({})
+
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
-  const [autoRun, setAutoRun] = React.useState(false)
+  const [autoRun, setAutoRun] = React.useState(
+    localStorage.getItem('formEditorAutoRun') === 'true' ? true : false
+  )
+  const [autoSave, setAutoSave] = React.useState(
+    localStorage.getItem('formEditorAutoSave') === 'false' ? false : true
+  )
   //codemirror references
   const [editor, setEditor] = React.useState()
   const [doc, setDoc] = React.useState()
   //error widgets
   const [widgets, setWidgets] = React.useState([])
-  const [tab, setTab] = React.useState(0)
+  const [tab, setTab] = React.useState(
+    isNaN(parseInt(localStorage.getItem('formEditorTab')))
+      ? 0
+      : parseInt(localStorage.getItem('formEditorTab'))
+  )
+
+  const [layout, setLayout] = React.useState(
+    localStorage.getItem('formEditorLayout')
+      ? localStorage.getItem('formEditorLayout')
+      : 'single'
+  )
+
+  const changeLayout = (newLayout) => {
+    const layouts = ['single', 'double', 'dnd']
+
+    if (layouts.includes(newLayout)) {
+      localStorage.setItem('formEditorLayout', newLayout)
+      setLayout(newLayout)
+    }
+  }
 
   // Function to update state of editor input, i.e. stores input form syntax
   const updateFormInput = (input) => {
@@ -63,16 +99,20 @@ const Framework = ({ id, item, methods }) => {
   }
 
   const compileForm = () => {
-    const compiled = parse(formEditorInput)
+    const result = parse(formEditorInput)
+    const specific = map2Uniforms(result.survey)
+    // const specific = map2UiSchema(result.survey)
+    debug({ specific })
+    setRaw(specific)
 
-    if (compiled.status === 'success') {
-      setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
-      setErrors(compiled.errs)
-      showErrors(compiled.errs)
+    if (result.status === 'success') {
+      setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+      setErrors(result.errs)
+      showErrors(result.errs)
     } else {
-      setJsonEditorInput(JSON.stringify(compiled.survey, null, 2))
-      setErrors(compiled.errs)
-      showErrors(compiled.errs)
+      setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+      setErrors(result.errs)
+      showErrors(result.errs)
     }
   }
 
@@ -84,9 +124,21 @@ const Framework = ({ id, item, methods }) => {
   }
 
   const toggleAutoRun = () => {
-    setAutoRun(autoRun ? false : true)
+    const toggledTo = autoRun ? false : true
+    setAutoRun(toggledTo)
+    localStorage.setItem('formEditorAutoRun', toggledTo)
   }
 
+  const toggleAutoSave = () => {
+    const toggledTo = autoSave ? false : true
+    setAutoSave(toggledTo)
+    localStorage.setItem('formEditorAutoSave', toggledTo)
+  }
+
+  const changeTab = (i) => {
+    setTab(i)
+    localStorage.setItem('formEditorTab', i)
+  }
   const showErrors = (errors) => {
     hideErrors()
     setWidgets([])
@@ -119,6 +171,20 @@ const Framework = ({ id, item, methods }) => {
     }
   }, [editor])
 
+  let layoutComponent = <SingleLayout />
+
+  switch (layout) {
+    case 'single':
+      layoutComponent = <SingleLayout />
+      break
+    case 'double':
+      layoutComponent = <DoubleLayout />
+      break
+    default:
+      layoutComponent = <SingleLayout />
+      break
+  }
+
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <EditorContext.Provider
@@ -128,7 +194,7 @@ const Framework = ({ id, item, methods }) => {
               name: 'details.form',
               editorValue: formEditorInput,
               updateEditor: updateFormInput,
-              editorType: 'null',
+              editorType: 'form',
             },
             {
               name: 'detailsForm.json',
@@ -141,6 +207,8 @@ const Framework = ({ id, item, methods }) => {
           save,
           autoRun,
           toggleAutoRun,
+          autoSave,
+          toggleAutoSave,
           compileForm,
           editor,
           doc,
@@ -151,14 +219,15 @@ const Framework = ({ id, item, methods }) => {
           hideErrors,
           showErrors,
           tab,
-          changeTab: (i) => setTab(i),
+          changeTab,
+          layout,
+          changeLayout,
+          name: item.name,
+          slug: item.slug,
         }}
       >
         <EditorToolbar />
-        <SplitPane split="vertical" defaultSize="50%">
-          <EditorPanel />
-          <PreviewPanel />
-        </SplitPane>
+        {layoutComponent}
       </EditorContext.Provider>
     </HotKeys>
   )
