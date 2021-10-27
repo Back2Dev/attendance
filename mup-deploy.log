@@ -204,3 +204,7 @@ Thu 9 Sep 2021 09:54:03 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo
 Thu 9 Sep 2021 10:09:18 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig ui-schema-spike https://demo.back2bikes.com.au 2.0.0
 Wed 20 Oct 2021 21:16:52 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy v2 https://demo.back2bikes.com.au 2.0.0
 Wed 20 Oct 2021 21:45:22 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig v2 https://demo.back2bikes.com.au 2.0.0
+Fri 22 Oct 2021 17:36:58 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy v2 https://demo.back2bikes.com.au 2.0.0
+Fri 22 Oct 2021 18:09:35 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig v2 https://demo.back2bikes.com.au 2.0.0
+Wed 27 Oct 2021 13:13:32 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-hub deploy v2 https://hub.back2bikes.com.au 2.0.0
+Wed 27 Oct 2021 13:27:24 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-hub reconfig v2 https://hub.back2bikes.com.au 2.0.0
