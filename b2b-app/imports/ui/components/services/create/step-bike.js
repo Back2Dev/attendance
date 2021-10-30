@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoFields, AutoField, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoField, TextField, ErrorsField } from 'uniforms-material'
 
 import { ServiceContext } from './context'
 import { Button } from '@material-ui/core'
@@ -202,15 +202,17 @@ function BikeStep({ initialData }) {
           {/* <AutoFields variant="outlined" /> */}
           <AutoField name="assessor" variant="outlined" />
           <AutoField name="bikeName" variant="outlined" />
-          <AutoField
+          <TextField
             name="dropOff"
             variant="outlined"
             InputLabelProps={{ shrink: true }}
+            type="date"
           />
-          <AutoField
+          <TextField
             name="pickup"
             variant="outlined"
             InputLabelProps={{ shrink: true }}
+            type="date"
           />
           <AutoField name="budget" variant="outlined" />
           <AutoField name="note" variant="outlined" />
