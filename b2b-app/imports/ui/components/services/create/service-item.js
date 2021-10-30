@@ -7,13 +7,16 @@ import ClearIcon from '@material-ui/icons/Clear'
 import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 
 const StyledServiceItem = styled.div`
-  display: inline-flex;
-  margin-right: 10px;
+  display: block;
   margin-top: 5px;
+  width: 100%;
+
   .wrapper {
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 5px 10px;
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
+
     &.used {
       background-color: #0ecdea;
     }
@@ -27,15 +30,15 @@ const StyledServiceItem = styled.div`
     margin-right: 5px;
   }
   .name {
-    padding-top: 2px;
-    margin-right: 5px;
+    padding: 2px 5px;
+    flex: 1;
   }
   .price {
-    padding-top: 2px;
+    padding: 2px 0;
     font-weight: bold;
+    min-width: 50px;
   }
   .remove-btn {
-    margin-left: 10px;
     padding: 0;
     span {
       padding: 0;
@@ -60,14 +63,6 @@ function ServiceItem({ item, onRemove, onChange }) {
   return (
     <StyledServiceItem>
       <div className={wrapperClasses.join(' ')}>
-        <div className="name">
-          <InlineEdit
-            text={currentItem.name}
-            onSetText={(value) => {
-              setCurrentItem({ ...currentItem, name: value, modifiedAt: new Date() })
-            }}
-          />
-        </div>
         <div className="price">
           $
           <InlineEdit
@@ -81,6 +76,16 @@ function ServiceItem({ item, onRemove, onChange }) {
             }}
           />
         </div>
+
+        <div className="name">
+          <InlineEdit
+            text={currentItem.name}
+            onSetText={(value) => {
+              setCurrentItem({ ...currentItem, name: value, modifiedAt: new Date() })
+            }}
+          />
+        </div>
+
         <div className="remove-btn">
           <IconButton
             aria-label="remove item"
