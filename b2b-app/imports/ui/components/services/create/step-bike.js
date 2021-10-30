@@ -12,29 +12,12 @@ import { Button } from '@material-ui/core'
 
 const bikeFormSchema = new SimpleSchema({
   assessor: String,
-  make: String,
-  model: String,
-  color: String,
-  type: {
-    type: String,
-    allowedValues: [
-      'Moutain Bike',
-      'Road Bike',
-      'Hybrid Bike',
-      'BMX Bike',
-      'Ladies Bike',
-      'Gents Bike',
-      'Vintage Bike',
-      'Other',
-    ],
-  },
+  bikeName: String,
+  dropOff: Date,
+  pickup: { type: Date, optional: true },
   budget: {
     type: Number,
     label: 'Budget',
-  },
-  approxValue: {
-    type: Number,
-    label: 'Approx. Value',
     optional: true,
   },
   note: {
