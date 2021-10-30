@@ -11,6 +11,7 @@ import { ServiceContext } from './context'
 import { Button } from '@material-ui/core'
 
 const bikeFormSchema = new SimpleSchema({
+  assessor: String,
   make: String,
   model: String,
   color: String,
@@ -34,6 +35,10 @@ const bikeFormSchema = new SimpleSchema({
   approxValue: {
     type: Number,
     label: 'Approx. Value',
+    optional: true,
+  },
+  note: {
+    type: String,
     optional: true,
   },
 })
@@ -66,7 +71,7 @@ function bikeStepReducer(state, action) {
 function BikeStep({ initialData }) {
   const [state, dispatch] = useReducer(bikeStepReducer, {
     details: initialData?.details || {},
-    updatedAt: new Date(),
+    updatedAt: null,
     hasValidData: false,
     checkedAt: null,
   })
@@ -90,6 +95,8 @@ function BikeStep({ initialData }) {
     []
   )
 
+  const autoValidate = useRef(false)
+
   const { details, hasValidData, updatedAt, checkedAt } = state
 
   const checkData = async () => {
@@ -106,7 +113,9 @@ function BikeStep({ initialData }) {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await checkData()
+
     setStepData({
       stepKey: 'bike',
       data: {
@@ -131,12 +140,14 @@ function BikeStep({ initialData }) {
       dispatch({
         type: 'setDetails',
         payload: {
+          assessor: originalData.assessor,
           make: originalData.make,
           model: originalData.model,
           color: originalData.color,
           type: originalData.bikeType,
           budget: originalData.budget,
           approxValue: originalData.bikeValue,
+          note: originalData.note,
         },
       })
       // dispatch({ type: 'setHasValidData', payload: true })
@@ -145,10 +156,13 @@ function BikeStep({ initialData }) {
   }, [originalData])
 
   useEffect(() => {
+    if (!autoValidate.current) {
+      return
+    }
     // if (activeStep !== 'bike') {
     //   return
     // }
-    console.log('effect check data')
+    console.log('effect check data', updatedAt)
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -156,10 +170,13 @@ function BikeStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (!checkedAt) {
+      return
+    }
     // if (activeStep !== 'contact') {
     //   return
     // }
-    // console.log('checkedAt effect')
+    console.log('checkedAt effect', checkedAt)
     setStepData({
       stepKey: 'bike',
       data: {
@@ -207,6 +224,7 @@ function BikeStep({ initialData }) {
               variant="contained"
               color="primary"
               onClick={() => {
+                autoValidate.current = true
                 formRef.current.submit()
               }}
             >
