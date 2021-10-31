@@ -15,7 +15,10 @@ import {
   Switch,
   FormControlLabel,
   Link,
+  IconButton,
 } from '@material-ui/core'
+
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
@@ -32,9 +35,28 @@ import numeral from 'numeral'
 
 const StyledContactStep = styled.div`
   margin: 20px 0;
-  .search-box {
-    margin-top: 20px;
+
+  .decision-marking-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .search-box {
+      flex: 1;
+      margin-right: 5px;
+      input {
+        padding: 10px 0;
+      }
+    }
+    .refurbish-btn {
+      margin-right: 5px;
+    }
+    .new-member-btn {
+      padding: 6px;
+      min-width: unset;
+    }
   }
+
   .matches-container {
     margin-top: 20px;
     padding: 10px 20px;
@@ -54,9 +76,13 @@ const StyledContactStep = styled.div`
       font-weight: bold;
     }
   }
+
   .form-container {
-    max-width: 500px;
-    margin: 0 auto;
+    margin: 20px auto 10px;
+
+    .form-title {
+      font-weight: bold;
+    }
   }
   .btns-container {
     margin: 20px 0;
@@ -100,12 +126,42 @@ memberFormSchema.addDocValidator((obj) => {
 function contactStepReducer(state, action) {
   const { type, payload } = action
   switch (type) {
-    case 'setHasMember':
-      return { ...state, hasMember: payload }
+    case 'setRefurbish':
+      return {
+        ...state,
+        refurbish: payload,
+        showNewMemberForm: payload ? false : state.showNewMemberForm,
+      }
+    case 'cancelForm':
+      return {
+        ...state,
+        showNewMemberForm: false,
+        selectedMember: null,
+        memberData: {},
+        updatedAt: new Date(),
+      }
+    case 'setShowNewMemberForm':
+      return payload === true
+        ? {
+            ...state,
+            showNewMemberForm: payload,
+            refurbish: false,
+          }
+        : {
+            name: '',
+            mobile: '',
+            email: '',
+            address: '',
+          }
     case 'setSearching':
       return { ...state, searching: payload }
     case 'setMembers':
-      return { ...state, foundMembers: payload, searching: false }
+      return {
+        ...state,
+        foundMembers: payload.members,
+        keyword: payload.keyword,
+        searching: false,
+      }
     case 'selectMember':
       // console.log('selectMember', state.selectedMember, payload)
       return {
@@ -138,14 +194,18 @@ function contactStepReducer(state, action) {
 
 function ContactStep() {
   const mounted = useRef(true)
+  const searchBoxRef = useRef()
+
   useEffect(() => () => (mounted.current = false), [])
 
   const [state, dispatch] = useReducer(contactStepReducer, {
     updatedAt: null,
     hasValidData: false,
     checkedAt: null,
-    hasMember: true,
+    refurbish: false,
+    showNewMemberForm: false,
     searching: false,
+    keyword: '',
     foundMembers: [],
     selectedMember: null,
     memberData: {},
@@ -166,8 +226,10 @@ function ContactStep() {
     hasValidData,
     checkedAt,
     updatedAt,
-    hasMember,
+    refurbish,
+    showNewMemberForm,
     searching,
+    keyword,
     foundMembers,
     selectedMember,
     memberData,
@@ -220,7 +282,7 @@ function ContactStep() {
     setStepData({
       stepKey: 'contact',
       data: {
-        hasMember,
+        refurbish,
         selectedMember,
         memberData,
         updatedAt,
@@ -234,18 +296,12 @@ function ContactStep() {
     })
   }, [checkedAt])
 
-  const handleSubmit = () => {
-    if (checkData()) {
-      goNext()
-    }
-  }
-
   const searchTimeout = useRef(null)
   const searchMember = (keyword) => {
     Meteor.clearTimeout(searchTimeout.current)
     searchTimeout.current = Meteor.setTimeout(() => {
       // only search when the keyword is long enough
-      if (keyword.length < 3) {
+      if (keyword.length < 1) {
         dispatch({ type: 'clear' })
         return
       }
@@ -260,10 +316,16 @@ function ContactStep() {
           return
         }
         if (result) {
-          dispatch({ type: 'setMembers', payload: result.members })
+          dispatch({ type: 'setMembers', payload: { members: result.members, keyword } })
         }
       })
     }, 500)
+  }
+
+  const handleSubmit = () => {
+    if (checkData()) {
+      goNext()
+    }
   }
 
   if (activeStep !== 'contact') {
@@ -276,14 +338,20 @@ function ContactStep() {
   }
 
   const renderFoundMembers = () => {
-    if (foundMembers.length === 0) {
+    if (refurbish || showNewMemberForm) {
+      return null
+    }
+    if (selectedMember) {
+      return null
+    }
+    if (keyword && foundMembers?.length === 0) {
       return (
         <ListItem>
           <ListItemText primary="No member was found with keyword" secondary="" />
         </ListItem>
       )
     }
-    return foundMembers.map((item) => {
+    return foundMembers?.map((item) => {
       const isSelected = selectedMember && selectedMember._id === item._id
       return (
         <ListItem
@@ -293,6 +361,7 @@ function ContactStep() {
             if (state.selectedMember?._id === item._id) {
               dispatch({ type: 'deselectMember' })
             } else {
+              // searchBoxRef.current.clear()
               dispatch({ type: 'selectMember', payload: item })
             }
           }}
@@ -315,138 +384,91 @@ function ContactStep() {
     })
   }
 
-  const renderMemberHistory = () => {
-    if (!selectedMember || selectedMember.history?.length < 1) {
+  const renderMemberForm = () => {
+    if (!showNewMemberForm && !selectedMember) {
       return null
     }
-    return selectedMember.history?.map((item) => {
-      return (
-        <div key={item._id} className="history-item">
-          <div className="item-date">
-            <Link component={RouterLink} to={`services/${item._id}`}>
-              {moment(item.createdAt).format('DD MMM YYYY')}
-            </Link>
-          </div>
-          <div className="item-data">
-            <div className="data bike-info">
-              {item.color} {item.make} {item.model},
-            </div>
-            <div className="data cost">
-              Cost: ${numeral(item.totalCost / 100).format('0,0')},
-            </div>
-            <div className="data status">
-              Status: {CONSTANTS.JOB_STATUS_READABLE[item.status]}
-            </div>
-          </div>
-        </div>
-      )
-    })
-  }
-
-  const renderSelectedMember = () => {
-    return (
-      <Paper elevation={3} className="selected-member">
-        <Typography variant="h3">
-          {selectedMember ? 'Selected Member' : 'New Member'}
-        </Typography>
-        <div className="form-container">
-          <AutoForm
-            ref={formRef}
-            schema={new SimpleSchema2Bridge(memberFormSchema)}
-            model={memberData}
-            onSubmit={handleSubmit}
-            onChange={(field, data) => {
-              const newData = { ...memberData }
-              newData[field] = data
-              dispatch({ type: 'setMemberData', payload: newData })
-            }}
-          >
-            <AutoFields />
-            <ErrorsField />
-            <div className="btns-container">
-              <Button onClick={goBack}>Back</Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  formRef.current.submit()
-                }}
-                disabled={!hasValidData}
-              >
-                Submit
-              </Button>
-            </div>
-          </AutoForm>
-        </div>
-        <div className="history-container">{renderMemberHistory()}</div>
-      </Paper>
-    )
-  }
-
-  const renderMemberForm = () => {
-    if (!hasMember) {
-      return (
-        <div className="btns-container">
-          <Button onClick={goBack}>Back</Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setStepData({
-                stepKey: 'contact',
-                data: {
-                  hasMember,
-                },
-              })
-              setStepProperty({
-                stepKey: 'contact',
-                property: 'completed',
-                value: true,
-              })
-              goNext()
-            }}
-          >
-            Next
-          </Button>
-        </div>
-      )
-    }
 
     return (
-      <>
-        <SearchBox
-          defaultValue={memberData?.name}
-          onChange={(value) => searchMember(value)}
-          placeholder="search existing member"
-          autoTrigger
-        />
-        <Paper elevation={3} className="matches-container">
-          <Loading loading={searching} />
-          <Typography variant="h3">Matches</Typography>
-          <List className="list-container">{renderFoundMembers()}</List>
-        </Paper>
-        {renderSelectedMember()}
-      </>
+      <div className="form-container">
+        <div className="form-title">
+          {showNewMemberForm ? 'New member' : 'Selected member'}
+        </div>
+        <AutoForm
+          ref={formRef}
+          schema={new SimpleSchema2Bridge(memberFormSchema)}
+          model={memberData}
+          onSubmit={handleSubmit}
+          onChange={(field, data) => {
+            const newData = { ...memberData }
+            newData[field] = data
+            dispatch({ type: 'setMemberData', payload: newData })
+          }}
+        >
+          <AutoFields />
+          <ErrorsField />
+          <div className="btns-container">
+            <Button
+              onClick={() => {
+                dispatch({ type: 'cancelForm' })
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                formRef.current.submit()
+              }}
+              disabled={!hasValidData}
+            >
+              Submit
+            </Button>
+          </div>
+        </AutoForm>
+      </div>
     )
   }
 
   return (
     <StyledContactStep>
       <div className={classes.join(' ')}>
-        <div>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={hasMember}
-                onChange={() => {
-                  dispatch({ type: 'setHasMember', payload: !hasMember })
-                }}
-                color="primary"
-              />
-            }
-            label="Has Member"
+        <div className="decision-marking-container">
+          <SearchBox
+            ref={searchBoxRef}
+            className="member-search-box"
+            variant="outlined"
+            defaultValue={memberData?.name}
+            onChange={(value) => searchMember(value)}
+            placeholder="search existing member"
+            autoTrigger
+            disabled={refurbish || showNewMemberForm}
           />
+          <Button
+            className="refurbish-btn"
+            variant="contained"
+            color={refurbish ? 'primary' : 'default'}
+            onClick={() => {
+              dispatch({ type: 'setRefurbish', payload: !refurbish })
+            }}
+            disabled={showNewMemberForm}
+          >
+            Refurbish
+          </Button>
+          <Button
+            className="new-member-btn"
+            variant="contained"
+            color={showNewMemberForm ? 'primary' : 'default'}
+            onClick={() => {
+              dispatch({ type: 'setShowNewMemberForm', payload: true })
+            }}
+            disabled={refurbish}
+          >
+            <PersonAddIcon />
+          </Button>
         </div>
+        {renderFoundMembers()}
         {renderMemberForm()}
       </div>
     </StyledContactStep>

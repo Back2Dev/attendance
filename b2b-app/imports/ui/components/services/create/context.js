@@ -125,7 +125,7 @@ export const ServiceProvider = ({ children }) => {
       //   data: null,
       // },
     },
-    activeStep: 'service', // for dev only, should be service by default
+    activeStep: 'contact', // for dev only, should be service by default
     loading: false,
   })
 
