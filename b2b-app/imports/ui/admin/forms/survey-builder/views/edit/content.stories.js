@@ -1,7 +1,7 @@
 import React from 'react'
 import { useInitRecoil } from '../../hooks'
 import { partsAtom, singleAtom } from '../../recoil/atoms'
-import Content from './content'
+import { Content } from './content'
 
 export default {
   title: 'Survey Builder/Views/Edit/Content',

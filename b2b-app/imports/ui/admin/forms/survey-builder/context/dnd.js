@@ -51,7 +51,7 @@ DndProvider.propTypes = {
 }
 
 /** Registers a pid to a list atom in addition to rendering a react-beautiful-dnd Droppable */
-export const DndDroppable = ({ pid, listAtom, children, ...otherProps }) => {
+const DndDroppable = ({ pid, listAtom, children, ...otherProps }) => {
   useDnd(pid, listAtom)
 
   return (
@@ -67,7 +67,7 @@ DndDroppable.propTypes = {
   children: PropTypes.func,
 }
 
-export const DndDraggable = ({ pid, itemId, children, ...otherProps }) => {
+const DndDraggable = ({ pid, itemId, children, ...otherProps }) => {
   /* locks dragging to Y axis only */
   function lockAxis(axis, style) {
     if (style?.transform) {
@@ -99,4 +99,4 @@ DndDraggable.propTypes = {
   children: PropTypes.func,
 }
 
-export default DndProvider
+export { DndProvider, DndDroppable, DndDraggable }

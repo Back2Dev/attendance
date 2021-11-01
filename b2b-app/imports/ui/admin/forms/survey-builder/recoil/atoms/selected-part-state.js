@@ -1,5 +1,5 @@
 import { selector, atom } from 'recoil'
-import TypeRegistry from '../../types/type-registry'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { list } from '../../utils'
 import { partsAtom } from './parts-state'
 

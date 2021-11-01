@@ -11,4 +11,4 @@ const useInitRecoil = (setter) =>
     []
   )
 
-export default useInitRecoil
+export { useInitRecoil }

@@ -17,4 +17,4 @@ const useRefCallback = (value, deps) => {
   return result
 }
 
-export default useRefCallback
+export { useRefCallback }

@@ -1,5 +1,5 @@
 import { atomFamily, selectorFamily } from 'recoil'
-import dataCache from '../../data-cache'
+import { dataCache } from '../../data-cache'
 
 export const placeholderAtom = atomFamily({
   key: 'placeholder',

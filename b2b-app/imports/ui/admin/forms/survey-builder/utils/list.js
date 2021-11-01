@@ -3,7 +3,7 @@ import { makeId } from './makeId'
 const isValidIndex = (list, index) =>
   Number.isInteger(index) && index >= 0 && index < list.length
 
-export const makeListItem = (value = {}) => ({ ...value, _id: makeId() })
+const makeListItem = (value = {}) => ({ ...value, _id: makeId() })
 
 const add = (list, value, index = list.length - 1) => {
   if (list.length && !isValidIndex(list, index)) {
@@ -86,4 +86,4 @@ const findById = (list, id) => {
   return list.find(({ _id }) => _id === id)
 }
 
-export { add, update, remove, removeById, move, moveById, findById }
+export { add, update, remove, removeById, move, moveById, findById, makeListItem }

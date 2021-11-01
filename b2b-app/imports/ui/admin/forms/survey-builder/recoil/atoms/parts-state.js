@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import dataCache from '../../data-cache'
+import { dataCache } from '../../data-cache'
 
 export const partsAtom = atom({
   key: 'parts',

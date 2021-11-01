@@ -26,4 +26,4 @@ const useDndSensor = (api) => {
   }, [])
 }
 
-export default useDndSensor
+export { useDndSensor }

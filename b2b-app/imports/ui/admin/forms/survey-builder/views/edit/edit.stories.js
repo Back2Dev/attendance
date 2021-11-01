@@ -1,5 +1,5 @@
 import React from 'react'
-import EditView from './edit'
+import { EditView } from './edit'
 import { useInitRecoil } from '../../hooks'
 import { partsAtom, singleAtom } from '../../recoil/atoms'
 

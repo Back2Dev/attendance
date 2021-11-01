@@ -6,7 +6,7 @@ import debug from 'debug'
 import { DndDraggable, DndDroppable } from '../../context'
 import { partsAtom } from '../../recoil/atoms'
 import { usePartsValue } from '../../recoil/hooks'
-import EditItem from './item'
+import { EditItem } from './item'
 
 const log = debug('builder:views/edit/content')
 
@@ -51,4 +51,4 @@ Content.propTypes = {
   onSelect: PropTypes.func,
 }
 
-export default Content
+export { Content }

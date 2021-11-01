@@ -24,4 +24,4 @@ const useDidMountRecoilEffect = (func, deps) => {
   }, deps)
 }
 
-export { useDidMountEffect as default, useDidMountRecoilEffect }
+export { useDidMountEffect, useDidMountRecoilEffect }

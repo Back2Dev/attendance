@@ -1,3 +1,3 @@
 export * as list from './list'
-export { makeId } from './makeId'
-export { RecoilDevtools } from './recoil-devtools'
+export * from './makeId'
+export * from './recoil-devtools'

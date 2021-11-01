@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/core/styles'
 
 const BuilderContext = createContext()
 
-const Provider = ({ children }) => {
+const BuilderProvider = ({ children }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
   const [dndMove, setDndMove] = useState(null)
@@ -24,7 +24,7 @@ const Provider = ({ children }) => {
   )
 }
 
-Provider.propTypes = { children: PropTypes.node }
+BuilderProvider.propTypes = { children: PropTypes.node }
 
 const useBuilder = () => {
   const context = useContext(BuilderContext)
@@ -33,4 +33,4 @@ const useBuilder = () => {
   }
   return context
 }
-export { Provider as default, useBuilder }
+export { BuilderProvider, useBuilder }

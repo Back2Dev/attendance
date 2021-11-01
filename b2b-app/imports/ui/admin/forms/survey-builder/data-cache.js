@@ -3,7 +3,7 @@ import mapValues from 'lodash/mapValues'
 import debug from 'debug'
 
 import SimpleSchema from 'simpl-schema'
-import TypeRegistry from './types/type-registry'
+import { TypeRegistry } from './components/types/type-registry'
 
 let log = debug('builder:data-cache')
 let data = []
@@ -95,4 +95,4 @@ const getQuestion = (id) => {
 
 const dataCache = { set, get, getQuestion, getParts }
 
-export default dataCache
+export { dataCache }

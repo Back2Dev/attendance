@@ -1,7 +1,7 @@
 import { atomFamily } from 'recoil'
 import produce from 'immer'
 import { selectorFamily } from 'recoil'
-import dataCache from '../../data-cache'
+import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 
 export const defaultAnswer = { name: '', val: '' }

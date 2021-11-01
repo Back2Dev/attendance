@@ -11,13 +11,13 @@ import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 
-import TypeRegistry from '../../types/type-registry'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-const EditItem = ({ pid, type, onSelect, ...otherProps }, ref) => {
+const EditItem = forwardRef(({ pid, type, onSelect, ...otherProps }, ref) => {
   const { prompt } = useRecoilValue(TypeRegistry.get(type).atom(pid))
 
   const title = prompt.length > 80 ? prompt.slice(0, 80) + '...' : prompt
@@ -39,7 +39,7 @@ const EditItem = ({ pid, type, onSelect, ...otherProps }, ref) => {
       <DragIndicatorIcon />
     </StyledListItem>
   )
-}
+})
 
 EditItem.propTypes = {
   pid: PropTypes.string,
@@ -49,4 +49,4 @@ EditItem.propTypes = {
 
 EditItem.displayName = 'EditItem'
 
-export default forwardRef(EditItem)
+export { EditItem }

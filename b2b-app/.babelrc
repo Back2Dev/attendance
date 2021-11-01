@@ -9,5 +9,16 @@
       }
     ],
     "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "$sb": "./imports/ui/admin/forms/survey-builder"
+        }
+      }
+    ]
   ]
 }

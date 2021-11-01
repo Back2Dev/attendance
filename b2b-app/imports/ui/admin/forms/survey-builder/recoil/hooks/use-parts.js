@@ -6,7 +6,7 @@ import {
 } from 'recoil'
 import debug from 'debug'
 
-import TypeRegistry from '../../types/type-registry'
+import { TypeRegistry } from '../../components/types/type-registry'
 import { list } from '../../utils'
 import { partsAtom } from '../atoms'
 

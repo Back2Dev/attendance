@@ -4,9 +4,9 @@ import { IconButton } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import debug from 'debug'
 
-import Content from './content'
-import { View } from '../../view'
+import { Content } from './content'
 import { useParts } from '../../recoil/hooks'
+import { MobileLayout } from '$sb/components/layouts/mobile'
 
 const log = debug('builder:views/edit')
 
@@ -32,7 +32,7 @@ const EditView = ({ navigationController }) => {
   }
 
   return (
-    <View
+    <MobileLayout
       navigationController={navigationController}
       backTitle="Builder"
       navRight={
@@ -42,7 +42,7 @@ const EditView = ({ navigationController }) => {
       }
     >
       <Content onSelect={onSelect} />
-    </View>
+    </MobileLayout>
   )
 }
 
@@ -50,4 +50,4 @@ EditView.propTypes = {
   navigationController: PropTypes.object,
 }
 
-export default EditView
+export { EditView }
