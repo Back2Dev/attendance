@@ -5,35 +5,23 @@ import styled from 'styled-components'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoField, TextField, ErrorsField } from 'uniforms-material'
 
 import { ServiceContext } from './context'
 import { Button } from '@material-ui/core'
 
 const bikeFormSchema = new SimpleSchema({
-  make: String,
-  model: String,
-  color: String,
-  type: {
-    type: String,
-    allowedValues: [
-      'Moutain Bike',
-      'Road Bike',
-      'Hybrid Bike',
-      'BMX Bike',
-      'Ladies Bike',
-      'Gents Bike',
-      'Vintage Bike',
-      'Other',
-    ],
-  },
+  assessor: String,
+  bikeName: String,
+  dropOff: Date,
+  pickup: { type: Date, optional: true },
   budget: {
     type: Number,
     label: 'Budget',
+    optional: true,
   },
-  approxValue: {
-    type: Number,
-    label: 'Approx. Value',
+  note: {
+    type: String,
     optional: true,
   },
 })
@@ -66,7 +54,7 @@ function bikeStepReducer(state, action) {
 function BikeStep({ initialData }) {
   const [state, dispatch] = useReducer(bikeStepReducer, {
     details: initialData?.details || {},
-    updatedAt: new Date(),
+    updatedAt: null,
     hasValidData: false,
     checkedAt: null,
   })
@@ -90,6 +78,8 @@ function BikeStep({ initialData }) {
     []
   )
 
+  const autoValidate = useRef(false)
+
   const { details, hasValidData, updatedAt, checkedAt } = state
 
   const checkData = async () => {
@@ -106,7 +96,9 @@ function BikeStep({ initialData }) {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await checkData()
+
     setStepData({
       stepKey: 'bike',
       data: {
@@ -131,12 +123,14 @@ function BikeStep({ initialData }) {
       dispatch({
         type: 'setDetails',
         payload: {
+          assessor: originalData.assessor,
           make: originalData.make,
           model: originalData.model,
           color: originalData.color,
           type: originalData.bikeType,
           budget: originalData.budget,
           approxValue: originalData.bikeValue,
+          note: originalData.note,
         },
       })
       // dispatch({ type: 'setHasValidData', payload: true })
@@ -145,10 +139,13 @@ function BikeStep({ initialData }) {
   }, [originalData])
 
   useEffect(() => {
+    if (!autoValidate.current) {
+      return
+    }
     // if (activeStep !== 'bike') {
     //   return
     // }
-    console.log('effect check data')
+    console.log('effect check data', updatedAt)
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -156,10 +153,13 @@ function BikeStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (!checkedAt) {
+      return
+    }
     // if (activeStep !== 'contact') {
     //   return
     // }
-    // console.log('checkedAt effect')
+    console.log('checkedAt effect', checkedAt)
     setStepData({
       stepKey: 'bike',
       data: {
@@ -199,7 +199,23 @@ function BikeStep({ initialData }) {
             handleSubmit()
           }}
         >
-          <AutoFields />
+          {/* <AutoFields variant="outlined" /> */}
+          <AutoField name="assessor" variant="outlined" />
+          <AutoField name="bikeName" variant="outlined" />
+          <TextField
+            name="dropOff"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            type="date"
+          />
+          <TextField
+            name="pickup"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            type="date"
+          />
+          <AutoField name="budget" variant="outlined" />
+          <AutoField name="note" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
             <Button onClick={goBack}>Back</Button>
@@ -207,6 +223,7 @@ function BikeStep({ initialData }) {
               variant="contained"
               color="primary"
               onClick={() => {
+                autoValidate.current = true
                 formRef.current.submit()
               }}
             >

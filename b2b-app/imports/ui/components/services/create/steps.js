@@ -1,17 +1,32 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import StepButton from '@material-ui/core/StepButton'
-import StepLabel from '@material-ui/core/StepLabel'
+import { Stepper, Step, StepButton, StepLabel, IconButton } from '@material-ui/core'
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 import { ServiceContext } from './context.js'
 
 const StyledSteps = styled.div`
   ${({ theme }) => `
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 550px;
+  margin: 0 auto;
+
+  .nav-btns {
+    padding: 3px;
+    border: 1px solid;
+    border-radius: 3px;
+  }
   .stepper {
-    padding: 12px 10px;
+    padding: 12px 0;
+    margin: 0 5px;
+    flex: 1;
+    background-color: unset;
+    border: 1px solid #00000050;
+    border-radius: 5px;
   }
   .step-item {
     .step-button {
@@ -39,20 +54,40 @@ const StyledSteps = styled.div`
       }
     }
   }
+  .custom-stepper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    .step-item {
+      flex: 1;
+    }
+  }
 `}
 `
 
 function FromSteps() {
-  const { steps, setActiveStep, activeStep } = useContext(ServiceContext)
+  const { steps, setActiveStep, activeStep, goNext, goBack } = useContext(ServiceContext)
 
   const onItemClick = (key) => {
     // we may disable this due to complicate logic handle
     setActiveStep(key)
   }
 
-  // find the active steps base on the key value?
-  return (
-    <StyledSteps>
+  const renderSteper = () => {
+    // return (
+    //   <div className="custom-stepper">
+    //     {Object.keys(steps).map((key) => {
+    //       const { disabled, completed, label, error } = steps[key]
+    //       return (
+    //         <div key={key} className="step-item">
+    //           {label}
+    //         </div>
+    //       )
+    //     })}
+    //   </div>
+    // )
+    return (
       <Stepper alternativeLabel className="stepper">
         {Object.keys(steps).map((key) => {
           const { disabled, completed, label, error } = steps[key]
@@ -83,6 +118,19 @@ function FromSteps() {
           )
         })}
       </Stepper>
+    )
+  }
+
+  // find the active steps base on the key value?
+  return (
+    <StyledSteps>
+      <IconButton className="nav-btns" onClick={() => goBack && goBack()}>
+        <KeyboardArrowLeftIcon />
+      </IconButton>
+      {renderSteper()}
+      <IconButton className="nav-btns" onClick={() => goNext && goNext()}>
+        <KeyboardArrowRightIcon />
+      </IconButton>
     </StyledSteps>
   )
 }

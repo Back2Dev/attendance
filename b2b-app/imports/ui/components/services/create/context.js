@@ -93,7 +93,7 @@ export const ServiceProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     steps: {
       service: {
-        label: 'Services',
+        label: 'Service',
         error: false,
         disabled: false,
         completed: false,
@@ -101,7 +101,7 @@ export const ServiceProvider = ({ children }) => {
         data: null,
       },
       bike: {
-        label: 'Bike Details',
+        label: 'Bike',
         error: false,
         disabled: false,
         completed: false,
@@ -109,21 +109,21 @@ export const ServiceProvider = ({ children }) => {
         data: null,
       },
       contact: {
-        label: 'Contact Details',
+        label: 'Contact',
         error: false,
         disabled: false,
         completed: false,
         lastMessage: '',
         data: null,
       },
-      pickup: {
-        label: 'Pick-up Details',
-        error: false,
-        disabled: false,
-        completed: false,
-        lastMessage: '',
-        data: null,
-      },
+      // pickup: {
+      //   label: 'Pick-up',
+      //   error: false,
+      //   disabled: false,
+      //   completed: false,
+      //   lastMessage: '',
+      //   data: null,
+      // },
     },
     activeStep: 'service', // for dev only, should be service by default
     loading: false,
