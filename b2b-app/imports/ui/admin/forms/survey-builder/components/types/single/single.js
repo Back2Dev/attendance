@@ -7,6 +7,8 @@ import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
 import { singleAtom, singleSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
+import { Inspector } from '$sb/components/panels'
+import { useSelectedPartValue } from '$sb/recoil/hooks'
 
 let log = debug('builder:single')
 
@@ -48,6 +50,23 @@ const Single = ({ pid, index }) => {
   )
 }
 
+const InspectorProperties = () => {
+  const selectedPart = useSelectedPartValue()
+  const relabelAnswers = (path) => {
+    if (path.endsWith('name')) return 'Label'
+    if (path.endsWith('val')) return 'Value'
+    return 'Id'
+  }
+  return (
+    <div>
+      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+      <Inspector.Section heading="Answers">
+        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
+      </Inspector.Section>
+    </div>
+  )
+}
+
 Single.displayName = 'Single'
 
 Single.propTypes = {
@@ -59,4 +78,11 @@ Single.propTypes = {
 
 export { Single }
 
-TypeRegistry.register('single', Single, singleSource, mapDataToAtom, singleAtom)
+TypeRegistry.register(
+  'single',
+  Single,
+  singleSource,
+  mapDataToAtom,
+  singleAtom,
+  InspectorProperties
+)

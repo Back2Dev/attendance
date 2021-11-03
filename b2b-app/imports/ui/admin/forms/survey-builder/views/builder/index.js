@@ -9,6 +9,11 @@ import { dataCache } from '$sb/data-cache'
 import { BuilderViewMobile } from './mobile'
 import { statusState } from '$sb/components/panels/toolbar'
 import { BuilderViewDesktop } from './desktop'
+/* placeholder gets imported without being used because when the module gets evaluated, it will
+register itself to the TypeRegistry. This needs to be done before it is used by the data-cache so
+that is why it's imported here. Do NOT import this from within data-cache otherwise you get cyclic
+imports which will result in Placeholder rendering errors because some of its imports will be undefined */
+import '$sb/components/types/placeholder'
 
 const NavController = styled(NavigationController)({
   position: 'relative',

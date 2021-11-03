@@ -14,6 +14,8 @@ import { Question } from '$sb/components/question'
 import { Frame } from '$sb/components/frame'
 import { shortAtom, shortSource } from '$sb/recoil/atoms/short-state'
 import { useShortQuestion } from '$sb/recoil/hooks/use-short'
+import { useSelectedPartValue } from '$sb/recoil/hooks'
+import { Inspector } from '$sb/components/panels'
 
 const log = debug('builder:short')
 
@@ -67,6 +69,24 @@ const ShortText = React.forwardRef(({ pid, ...otherprops }, ref) => {
   )
 })
 
+const InspectorProperties = () => {
+  const selectedPart = useSelectedPartValue()
+
+  return (
+    <div>
+      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+      <Inspector.Property pid={selectedPart} path="prompt" relabel="Label" />
+    </div>
+  )
+}
+
 export { ShortText }
 
-TypeRegistry.register('text', ShortText, shortSource, mapDataToAtom, shortAtom)
+TypeRegistry.register(
+  'text',
+  ShortText,
+  shortSource,
+  mapDataToAtom,
+  shortAtom,
+  InspectorProperties
+)

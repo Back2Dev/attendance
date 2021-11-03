@@ -15,7 +15,8 @@ const log = debug('builder:frame')
 const borderColor = (theme) =>
   theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
 
-const Root = styled('div')(({ theme, isSelected }) => ({
+const Root = styled('li')(({ theme, isSelected }) => ({
+  listStyle: 'none',
   backgroundColor: theme.palette.background.paper,
   padding: theme.spacing(2),
   outlineStyle: 'solid',
@@ -24,7 +25,6 @@ const Root = styled('div')(({ theme, isSelected }) => ({
   '&:hover': {
     outlineColor: isSelected ? theme.palette.primary.main : theme.palette.text.primary,
   },
-  margin: theme.spacing(2, 0),
   '.dragIcon': {
     color: theme.palette.action.active,
     margin: 3,

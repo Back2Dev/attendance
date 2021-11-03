@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Frame } from '../frame'
-import { TypeRegistry } from './type-registry'
+import { Frame } from '$sb/components/frame'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { placeholderAtom, placeholderSource } from '$sb/recoil/atoms'
 import { usePlaceholderValue } from '$sb/recoil/hooks'
 
@@ -25,6 +25,15 @@ const Placeholder = ({ pid, index }) => {
   )
 }
 
+const InspectorProperties = () => {
+  return (
+    <div>
+      Not rendering inspector properties because we need to know the data path we want to
+      render
+    </div>
+  )
+}
+
 Placeholder.propTypes = {
   /** id for this Placeholder instance part */
   pid: PropTypes.string,
@@ -39,5 +48,6 @@ TypeRegistry.register(
   Placeholder,
   placeholderSource,
   mapDataToAtom,
-  placeholderAtom
+  placeholderAtom,
+  InspectorProperties
 )

@@ -29,6 +29,7 @@ const Template = (args) => <EditItem {...args} />
 export const Default = Template.bind({})
 Default.args = {
   type: 'single',
+  atom: singleAtom,
   index: 0,
   pid: 'id1',
 }

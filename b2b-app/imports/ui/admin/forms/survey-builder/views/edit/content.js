@@ -22,13 +22,14 @@ const Content = ({ onSelect }) => {
           dense
           {...provided.droppableProps}
         >
-          {parts.map(({ _id, type }, index) => {
+          {parts.map(({ _id, config }, index) => {
             return (
               <DndDraggable pid={_id} key={_id} index={index}>
                 {(provided, _, lockAxis) => (
                   <EditItem
                     pid={_id}
-                    type={type}
+                    type={config.type}
+                    atom={config.atom}
                     index={index}
                     ref={provided.innerRef}
                     {...provided.draggableProps}

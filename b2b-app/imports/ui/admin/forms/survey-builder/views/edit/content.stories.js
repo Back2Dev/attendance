@@ -1,4 +1,5 @@
 import React from 'react'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { useInitRecoil } from '../../hooks'
 import { partsAtom, singleAtom } from '../../recoil/atoms'
 import { Content } from './content'
@@ -15,9 +16,9 @@ export default {
     (Story) => {
       useInitRecoil(({ set }) => {
         const parts = [
-          { _id: 'id1', type: 'single' },
-          { _id: 'id2', type: 'single' },
-          { _id: 'id3', type: 'single' },
+          { _id: 'id1', config: TypeRegistry.get('single') },
+          { _id: 'id2', config: TypeRegistry.get('single') },
+          { _id: 'id3', config: TypeRegistry.get('single') },
         ]
         set(partsAtom, parts)
         parts.forEach(({ _id }, i) =>

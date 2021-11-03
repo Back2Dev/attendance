@@ -18,13 +18,14 @@ export const usePartsValue = () => {
 
 export const useParts = () => {
   const addPart = useRecoilCallback(({ set }) => (type) => {
-    set(partsAtom, (parts) => list.add(parts, { type }))
+    set(partsAtom, (parts) => list.add(parts, { config: TypeRegistry.get(type) }))
   })
 
   const removePart = useRecoilTransaction_UNSTABLE(({ set, reset, get }) => (pid) => {
     const part = list.findById(get(partsAtom), pid)
-    const typeAtom = TypeRegistry.get(part.type).atom(pid)
-    reset(typeAtom)
+    if (!part) return
+    const atomState = part.config.atom(pid)
+    reset(atomState)
     set(partsAtom, (parts) => list.removeById(parts, pid))
   })
 

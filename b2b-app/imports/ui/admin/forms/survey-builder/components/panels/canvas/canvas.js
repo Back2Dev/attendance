@@ -1,12 +1,11 @@
 import React, { createElement } from 'react'
-import { Fab } from '@material-ui/core'
+import { Box, Fab } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 
 import debug from 'debug'
 
 import { Placeholder } from '$sb/components/types'
 import { usePartsValue, useSelectedPartState, useSetDrawer } from '$sb/recoil/hooks'
-import { TypeRegistry } from '$sb/components/types/type-registry'
 import { partsAtom } from '$sb/recoil/atoms'
 import { DndDroppable, useBuilder } from '$sb/context'
 import styled from 'styled-components'
@@ -18,9 +17,18 @@ const AddButton = styled(Fab)(({ theme }) => ({
   bottom: theme.spacing(2),
   right: theme.spacing(2),
 }))
+
+const List = styled('ul')(({ theme }) => ({
+  listStyle: 'none',
+  padding: theme.spacing(2),
+  margin: 0,
+  '& > * + *': {
+    margin: theme.spacing(2, 0, 0, 0),
+  },
+}))
+
 // FIXME in mobile, when drawer is open the last part is obscured when scrolling to the bottom
 // TODO enable inertial scrolling
-// TODO make dragging move vertically only
 const Canvas = () => {
   const parts = usePartsValue()
   const [selectedPart, setSelectedPart] = useSelectedPartState()
@@ -35,23 +43,23 @@ const Canvas = () => {
   }
 
   return (
-    <div onClick={canvasClicked}>
+    <Box height="100%">
       <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
         {(provided) => (
-          <ul
-            style={{ paddingLeft: 0 }}
+          <List
+            onClick={canvasClicked}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {parts.map(({ _id, type }, index) =>
-              createElement(TypeRegistry.get(type)?.component || Placeholder, {
+            {parts.map(({ _id, config: { component } }, index) =>
+              createElement(component || Placeholder, {
                 key: _id,
                 pid: _id,
                 index,
               })
             )}
             {provided.placeholder}
-          </ul>
+          </List>
         )}
       </DndDroppable>
       {isMobile && selectedPart === null && (
@@ -67,7 +75,7 @@ const Canvas = () => {
           <AddIcon />
         </AddButton>
       )}
-    </div>
+    </Box>
   )
 }
 

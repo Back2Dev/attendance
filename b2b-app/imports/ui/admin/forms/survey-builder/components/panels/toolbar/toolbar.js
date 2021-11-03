@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { atom, useRecoilCallback, useRecoilState } from 'recoil'
+import { Box } from '@material-ui/core'
 import debug from 'debug'
 
 import { parse } from '/imports/api/forms/engine.js'
 import { partsAtom } from '$sb/recoil/atoms'
-import { TypeRegistry } from '$sb/components/types/type-registry'
 import { EditorContext } from '$sb/../framework/framework'
 
 let log = debug('builder:toolbar')
@@ -25,10 +25,7 @@ const Toolbar = () => {
     ({ snapshot }) => () => {
       const parts = snapshot.getLoadable(partsAtom).contents
       const source = parts
-        .map(
-          ({ _id: pid, type }) =>
-            snapshot.getLoadable(TypeRegistry.get(type).source(pid)).contents
-        )
+        .map(({ _id: pid, config }) => snapshot.getLoadable(config.source(pid)).contents)
         .join('\n\n')
       return source
     },
@@ -57,10 +54,10 @@ const Toolbar = () => {
   }
 
   return (
-    <div>
+    <Box display="flex">
       <button onClick={save}>Save</button>
       <Status msg={status} />
-    </div>
+    </Box>
   )
 }
 

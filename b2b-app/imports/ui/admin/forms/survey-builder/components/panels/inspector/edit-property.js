@@ -1,32 +1,25 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import { selectorFamily, useRecoilState } from 'recoil'
-import { get as lget, set as lset, isPlainObject } from 'lodash'
-import produce from 'immer'
-import { singleAtom } from '$sb/recoil/atoms'
+import { useRecoilState } from 'recoil'
+import { isPlainObject } from 'lodash'
+import { editInspectorState } from '$sb/recoil/atoms'
+import debug from 'debug'
 
-/** Edit a property for a single question type */
-const editPropertyState = selectorFamily({
-  key: 'editProperty',
-  get: ({ pid, path }) => ({ get }) => {
-    const single = get(singleAtom(pid))
-    const state = lget(single, path)
-    return state
-  },
-  set: ({ pid, path }) => ({ get, set }, newValue) => {
-    const single = get(singleAtom(pid))
-    const nextState = produce(single, (draft) => {
-      lset(draft, path, newValue)
-    })
-    set(singleAtom(pid), nextState)
-  },
-})
+const log = debug('builder:edit-property')
 
-const EditProperty = ({ pid, path }) => {
-  const [property, setProperty] = useRecoilState(editPropertyState({ pid, path }))
+const EditProperty = ({ pid, path, relabel }) => {
+  // TODO convert into recoil hook
+  const [property, setProperty] = useRecoilState(editInspectorState({ pid, path }))
 
   if (typeof property === 'string') {
-    const label = path.slice(path.lastIndexOf('.') + 1)
+    let label
+    if (typeof relabel === 'string') {
+      label = relabel
+    } else if (typeof relabel === 'function') {
+      label = relabel(path)
+    } else {
+      label = path.slice(path.lastIndexOf('.') + 1)
+    }
 
     return (
       <div>
@@ -40,12 +33,12 @@ const EditProperty = ({ pid, path }) => {
     )
   } else if (Array.isArray(property)) {
     const children = property.map((_, i) => {
-      return createElement(EditProperty, { key: i, pid, path: `${path}[${i}]` })
+      return createElement(EditProperty, { key: i, pid, path: `${path}[${i}]`, relabel })
     })
     return <>{children}</>
   } else if (isPlainObject(property)) {
     return Object.keys(property).map((key, j) => {
-      return createElement(EditProperty, { key: j, pid, path: `${path}.${key}` })
+      return createElement(EditProperty, { key: j, pid, path: `${path}.${key}`, relabel })
     })
   }
   return null
@@ -56,6 +49,8 @@ EditProperty.propTypes = {
   pid: PropTypes.string.isRequired,
   /** path of state. can be a key to a string, object or array of objects */
   path: PropTypes.string,
+  /** optional. allows renaming labels from internal paths to some other string */
+  relabel: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 }
 
-export { EditProperty, editPropertyState }
+export { EditProperty }

@@ -80,10 +80,11 @@ const getParts = () => {
   return data
     .map(({ questions }) =>
       questions.map(({ id, type }) => {
-        if (!TypeRegistry.get(type)) {
-          return { _id: id, type: 'placeholder' }
+        const config = TypeRegistry.get(type)
+        if (!config) {
+          return { _id: id, config: TypeRegistry.get('placeholder') }
         }
-        return { _id: id, type }
+        return { _id: id, config }
       })
     )
     .flat()

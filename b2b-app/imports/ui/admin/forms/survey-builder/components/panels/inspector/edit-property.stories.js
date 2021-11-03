@@ -1,21 +1,24 @@
 import React from 'react'
-import { useSetRecoilState } from 'recoil'
-import { singleAtom } from '$sb/recoil/atoms'
+import { partsAtom, selectedPartAtom, singleAtom } from '$sb/recoil/atoms'
 import { EditProperty } from './edit-property'
+import { useInitRecoil } from '$sb/hooks'
 
 export default {
   title: 'Survey Builder/Panels/Inspector/Edit Property',
   component: EditProperty,
   decorators: [
     (Story) => {
-      const setState = useSetRecoilState(singleAtom('pid'))
-      setState({
-        prompt: 'Question text',
-        id: 'qid',
-        answers: [
-          { name: 'choice 1', val: 'c1_val' },
-          { name: 'choice 2', val: 'c2_val' },
-        ],
+      useInitRecoil(({ set }) => {
+        set(selectedPartAtom, 'pid')
+        set(partsAtom, [{ _id: 'pid', type: 'single' }])
+        set(singleAtom('part-id'), {
+          prompt: 'Question text',
+          id: 'qid',
+          answers: [
+            { name: 'choice 1', val: 'c1_val' },
+            { name: 'choice 2', val: 'c2_val' },
+          ],
+        })
       })
       return <Story />
     },

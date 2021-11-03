@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import debug from 'debug'
 
-import { useSelectedPartValue } from '$sb/recoil/hooks'
+import { useSelectedPartValue, usePartsValue } from '$sb/recoil/hooks'
+import { list } from '$sb/utils'
 import { EditProperty } from './edit-property'
 import { Section } from './section'
 
@@ -12,22 +13,20 @@ const log = debug('builder:inspector')
 // FIXME: swap choice positions and the +val get cleared
 const Inspector = () => {
   const selectedPart = useSelectedPartValue()
+  const parts = usePartsValue()
   // FIXME add onClose/Open handlers for drawer
 
+  if (!selectedPart) return null
+
+  const part = list.findById(parts, selectedPart)
+  if (!part) return null
+
   return (
-    <div>
-      {selectedPart !== null && (
-        <div>
-          <Section heading="Question">
-            <EditProperty pid={selectedPart} path="id" />
-          </Section>
-          <Section heading="Answers">
-            <EditProperty pid={selectedPart} path="answers" />
-          </Section>
-        </div>
-      )}
-    </div>
+    <div>{selectedPart !== null && createElement(part.config.inspectorProperties)}</div>
   )
 }
+
+Inspector.Section = Section
+Inspector.Property = EditProperty
 
 export { Inspector }

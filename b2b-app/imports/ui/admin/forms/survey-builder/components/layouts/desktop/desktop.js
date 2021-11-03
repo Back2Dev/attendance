@@ -33,7 +33,6 @@ const DesktopLayout = ({ toolbar, left, center, right }) => {
           right="20%"
           border="1px solid lightgrey"
           overflow="auto"
-          padding={2}
         >
           {center}
         </Box>

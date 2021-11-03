@@ -1,5 +1,4 @@
 import { selector, atom } from 'recoil'
-import { TypeRegistry } from '$sb/components/types/type-registry'
 import { list } from '../../utils'
 import { partsAtom } from './parts-state'
 
@@ -16,7 +15,8 @@ export const selectedPartData = selector({
     const pid = get(selectedPartAtom)
     if (pid === null) return null
     const part = list.findById(get(partsAtom), pid)
-    const data = get(TypeRegistry.get(part.type).atom(pid))
+    if (!part) return null
+    const data = get(part.config.atom(pid))
     return data
   },
 })

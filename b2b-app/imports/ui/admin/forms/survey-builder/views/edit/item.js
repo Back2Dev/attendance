@@ -11,14 +11,14 @@ import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 
-import { TypeRegistry } from '$sb/components/types/type-registry'
-
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-const EditItem = forwardRef(({ pid, type, onSelect, ...otherProps }, ref) => {
-  const { prompt } = useRecoilValue(TypeRegistry.get(type).atom(pid))
+const EditItem = forwardRef(({ pid, type, atom, onSelect, ...otherProps }, ref) => {
+  // TODO: edit items currently expects a 'prompt' key to exist in the atom state.
+  // This is the question title which renders for each item on the edit screen.
+  const { prompt } = useRecoilValue(atom(pid))
 
   const title = prompt.length > 80 ? prompt.slice(0, 80) + '...' : prompt
 
@@ -45,6 +45,7 @@ EditItem.propTypes = {
   pid: PropTypes.string,
   type: PropTypes.string,
   onSelect: PropTypes.func,
+  atom: PropTypes.func,
 }
 
 EditItem.displayName = 'EditItem'

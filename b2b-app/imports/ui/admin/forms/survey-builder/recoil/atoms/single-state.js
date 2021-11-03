@@ -61,7 +61,11 @@ export const singleSource = selectorFamily({
       `Q: ${prompt}`,
       `+id: ${id}`,
       '+type: single',
-      answers.map(({ name, val }) => [`A: ${name}`, val && `+val: ${val}`]),
+      answers.map(({ name, id, val }) => [
+        `A: ${name}`,
+        id && `+id: ${id}`,
+        val && `+val: ${val}`,
+      ]),
     ]
       .flat(2)
       .filter(Boolean)

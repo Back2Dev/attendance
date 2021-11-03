@@ -100,6 +100,19 @@ LoadValidData.args = {
             id: 'titanic',
             type: 'single',
           },
+          {
+            title: 'Enter your name',
+            answers: [
+              {
+                title: 'Name',
+                val: '',
+                score: 0,
+              },
+            ],
+            grid: [],
+            id: 'name',
+            type: 'text',
+          },
         ],
         id: 'step-1',
       },

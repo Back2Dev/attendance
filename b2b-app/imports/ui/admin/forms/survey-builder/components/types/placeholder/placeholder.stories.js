@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Placeholder } from '.'
+import { Placeholder } from './placeholder'
 import { dataCache } from '$sb/data-cache'
 
 export default {
