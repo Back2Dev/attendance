@@ -56,20 +56,18 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'category',
     'used'
   ),
-  assessor: OptionalString,
-  note: OptionalString,
   bikeDetails: new SimpleSchema({
-    make: String,
-    model: String,
-    color: String,
-    type: String,
-    budget: Number,
-    approxValue: {
+    assessor: OptionalString,
+    bikeName: String,
+    dropOff: String,
+    pickup: String,
+    budget: {
       type: Number,
       optional: true,
     },
+    note: OptionalString,
   }),
-  hasMember: {
+  refurbish: {
     type: Boolean,
     defaultValue: true,
   },
@@ -89,12 +87,12 @@ export const JobCreateParamsSchema = new SimpleSchema({
     }),
     optional: true,
   },
-  pickup: new SimpleSchema({
-    urgent: Boolean,
-    dropOffDate: String,
-    pickupDate: String,
-    replacementBike: { type: String, optional: true },
-  }),
+  // pickup: new SimpleSchema({
+  //   urgent: Boolean,
+  //   dropOffDate: String,
+  //   pickupDate: String,
+  //   replacementBike: { type: String, optional: true },
+  // }),
 })
 
 export const JobUpdateParamsSchema = new SimpleSchema({
@@ -116,10 +114,11 @@ export const JobsSchema = new SimpleSchema({
   email: { type: String, optional: true, label: 'Customer email' },
   address: { type: String, optional: true, label: 'Customer address' },
   isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
-  make: { type: String, label: 'Bike make' },
-  model: { type: String, optional: true, label: 'Bike model' },
-  color: { type: String, label: 'Bike color' },
-  bikeType: { type: String, optional: true, label: 'Bike Type' },
+  bikeName: String,
+  // make: { type: String, label: 'Bike make' },
+  // model: { type: String, optional: true, label: 'Bike model' },
+  // color: { type: String, label: 'Bike color' },
+  // bikeType: { type: String, optional: true, label: 'Bike Type' },
   budget: { type: SimpleSchema.Integer },
   bikeValue: {
     type: SimpleSchema.Integer,
@@ -164,10 +163,10 @@ export const JobsSchema = new SimpleSchema({
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
   expectedPickupDate: { type: Date, optional: true, label: 'Expected pickup date' },
-  urgent: {
-    type: Boolean,
-    label: 'Field to indicate if bike repair is urgent',
-  },
+  // urgent: {
+  //   type: Boolean,
+  //   label: 'Field to indicate if bike repair is urgent',
+  // },
   assessor: { type: String, optional: true, label: 'Assessor name' },
   mechanic: { type: RegExId, optional: true, label: 'Mechanic user id' },
   comment: {

@@ -533,7 +533,7 @@ Meteor.methods({
     try {
       JobCreateParamsSchema.validate(cleanData)
     } catch (e) {
-      debug(e.message)
+      debug('validate JobCreateParamsSchema', e.message)
       return { status: 'failed', message: e.message }
     }
 
@@ -553,20 +553,19 @@ Meteor.methods({
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
       address: cleanData.memberData?.address || undefined,
-      make: cleanData.bikeDetails.make,
-      model: cleanData.bikeDetails.model,
-      color: cleanData.bikeDetails.color,
-      bikeType: cleanData.bikeDetails.type,
+      // make: cleanData.bikeDetails.make,
+      // model: cleanData.bikeDetails.model,
+      // color: cleanData.bikeDetails.color,
+      // bikeType: cleanData.bikeDetails.type,
+      bikeName: cleanData.bikeDetails.bikeName,
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
       serviceItems: cleanData.serviceItems,
-      assessor: cleanData.assessor,
-      note: cleanData.note,
+      assessor: cleanData.bikeDetails.assessor,
+      note: cleanData.bikeDetails.note,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
-      dropoffDate: moment(cleanData.pickup.dropOffDate).toDate(),
-      pickupDate: moment(cleanData.pickup.pickupDate).toDate(),
-      urgent: cleanData.pickup.urgent,
-      replacementBike: cleanData.pickup.replacementBike,
+      dropoffDate: moment(cleanData.bikeDetails.dropOffDate).toDate(),
+      pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
     }
 
     if (cleanData.selectedMember?._id) {

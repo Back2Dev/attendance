@@ -94,25 +94,26 @@ function BikeStep({ initialData }) {
     if (mounted.current) {
       dispatch({ type: 'setHasValidData', payload: checkResult === null })
     }
+    return checkResult === null
   }
 
   const handleSubmit = async () => {
-    await checkData()
+    const checkResult = await checkData()
 
     setStepData({
       stepKey: 'bike',
       data: {
         details,
         updatedAt,
-        hasValidData,
+        hasValidData: checkResult,
       },
     })
     setStepProperty({
       stepKey: 'bike',
       property: 'completed',
-      value: hasValidData,
+      value: checkResult,
     })
-    if (hasValidData && activeStep === 'bike') {
+    if (checkResult && activeStep === 'bike') {
       goNext()
     }
   }

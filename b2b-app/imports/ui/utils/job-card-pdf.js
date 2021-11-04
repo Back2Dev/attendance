@@ -15,7 +15,7 @@ const capitalize = function (str) {
  * @param {Object} param0
  * @param {Object[]} param0.serviceItems
  */
-const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
+const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
   const totalCost = serviceItems.reduce((a, b) => {
     return a + b.price
   }, 0)
@@ -38,22 +38,12 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
     ]
   })
 
-  const tempBike = pickup.replacementBike
-    ? `A temporary bike has been provided to this customer. Replacement bike: ${pickup.replacementBike}`
-    : ''
-
-  const pickupDate = moment(pickup.pickupDate).format('DD MMM YYYY')
-
-  const isUrgent = pickup.urgent
-    ? `URGENT: This request must be completed by ${pickupDate}`
-    : `Pickup Date: ${pickupDate}`
+  const pickupDate = moment(bikeDetails.pickup).format('DD MMM YYYY')
 
   PdfMaker({
     contents: [
       {
-        text: `${capitalize(bikeDetails.make)} ${bikeDetails.model} - ${capitalize(
-          bikeDetails.color
-        )} - Total Price $${totalCost / 100}`,
+        text: `${capitalize(bikeDetails.bikeName)} - Total Price $${totalCost / 100}`,
         style: 'subheader',
         fontSize: 20,
       },
@@ -66,7 +56,7 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
       },
 
       // { text: `Assessor: ${assessor} `, style: 'text' },
-      { text: `${isUrgent} `, style: 'text', bold: true },
+      { text: `Pickup Date: ${pickupDate} `, style: 'text', bold: true },
       { text: '', style: 'text' },
 
       {
@@ -138,9 +128,6 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData, pickup }) => {
             [{ text: '', colSpan: 4 }, '', '', ''],
           ],
         },
-      },
-      {
-        text: tempBike,
       },
     ],
     watermark: {
