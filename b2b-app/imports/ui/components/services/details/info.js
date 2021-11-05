@@ -20,10 +20,6 @@ const StyledJobInfo = styled.div`
     justify-content: space-between;
     .title {
     }
-    .status {
-      font-size: 18px;
-      font-weight: bold;
-    }
   }
   .info-item {
     margin-bottom: 5px;
@@ -60,7 +56,6 @@ function JobInfo() {
           {item?.isRefurbish ? 'Refurbish' : item?.name}: {item?.bikeName}{' '}
           {`$${item?.totalCost / 100}`}
         </Typography>
-        <div className="status">{CONSTANTS.JOB_STATUS_READABLE[item?.status]}</div>
       </div>
       <Grid container>
         <Grid item xs={12} md={item?.lastContacted ? 2 : 3} className="info-item">
