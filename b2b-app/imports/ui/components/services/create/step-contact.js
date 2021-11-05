@@ -270,13 +270,13 @@ function ContactStep() {
         })
         dispatch({ type: 'setHasValidData', payload: true })
       } else {
-        dispatch({ type: 'setHasMember', payload: false })
+        dispatch({ type: 'setRefurbish', payload: true })
       }
     }
   }, [originalData])
 
   useEffect(() => {
-    if (activeStep !== 'contact' || !updatedAt) {
+    if (!updatedAt) {
       return
     }
     // console.log('check data effect', memberData)
