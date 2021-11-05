@@ -59,8 +59,8 @@ export const JobCreateParamsSchema = new SimpleSchema({
   bikeDetails: new SimpleSchema({
     assessor: OptionalString,
     bikeName: String,
-    dropOff: String,
-    pickup: String,
+    dropoffDate: String,
+    pickupDate: String,
     budget: {
       type: Number,
       optional: true,
