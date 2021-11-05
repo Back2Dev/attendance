@@ -313,7 +313,7 @@ Meteor.methods({
       Jobs.update(
         { _id: id },
         {
-          $set: { expectedPickupDate: date },
+          $set: { pickupDate: date },
           $push: {
             history: {
               userId: me._id,
@@ -566,6 +566,7 @@ Meteor.methods({
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
       dropoffDate: moment(cleanData.bikeDetails.dropOffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
+      isRefurbish: data.refurbish === true,
     }
 
     if (cleanData.selectedMember?._id) {

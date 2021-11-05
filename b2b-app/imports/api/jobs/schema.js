@@ -162,7 +162,6 @@ export const JobsSchema = new SimpleSchema({
   note: OptionalString,
   dropoffDate: { type: Date, label: 'Bike drop-off date' },
   pickupDate: { type: Date, label: 'Bike pick-up date' },
-  expectedPickupDate: { type: Date, optional: true, label: 'Expected pickup date' },
   // urgent: {
   //   type: Boolean,
   //   label: 'Field to indicate if bike repair is urgent',

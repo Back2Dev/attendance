@@ -11,22 +11,23 @@ import { JobsDetailsContext } from './context'
 import CallLog from './actions-call'
 import SendSMS from './actions-sms'
 import MechanicSelector from './actions-mechanic'
+import CreatePDF from './actions-pdf'
 
 const StyledJobActions = styled.div`
   margin: 20px 0;
-  display: flex;
+  display: block;
   justify-content: space-between;
   align-items: top;
-  .left {
+  .stepper {
     button {
       margin-right: 10px;
       margin-bottom: 5px;
     }
   }
-  .right {
+  .btns {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     button {
       margin-left: 10px;
       margin-bottom: 5px;
@@ -35,11 +36,14 @@ const StyledJobActions = styled.div`
   ${({ theme }) => `
     ${theme.breakpoints.down('xs')} {
       flex-direction: column;
-      .left {
+      .stepper {
         margin-bottom: 10px;
       }
-      .right {
+      .btns {
+        display: flex;
+        flex-wrap: wrap;
         justify-content: flex-start;
+
         button {
           margin-left: 0;
           margin-right: 10px;
@@ -119,8 +123,9 @@ function JobActions() {
 
   return (
     <StyledJobActions>
-      <div className="left">{renderStatusActions()}</div>
-      <div className="right">
+      <div className="stepper">{renderStatusActions()}</div>
+      <div className="btns">
+        <CreatePDF />
         <MechanicSelector />
         {renderMarkAsPaidBtn()}
         <CallLog />

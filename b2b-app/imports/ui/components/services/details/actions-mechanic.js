@@ -77,7 +77,7 @@ function MechanicSelector() {
         disabled={loading}
         startIcon={<BuildIcon />}
       >
-        Select mechanic
+        {selectedMechanic ? selectedMechanic.name : 'Select mechanic'}
       </Button>
 
       <Modal
