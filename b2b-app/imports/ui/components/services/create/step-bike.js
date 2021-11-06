@@ -9,12 +9,13 @@ import { AutoForm, AutoField, TextField, ErrorsField } from 'uniforms-material'
 
 import { ServiceContext } from './context'
 import { Button } from '@material-ui/core'
+import moment from 'moment'
 
 const bikeFormSchema = new SimpleSchema({
   assessor: String,
   bikeName: String,
-  dropOff: Date,
-  pickup: { type: Date, optional: true },
+  dropoffDate: Date,
+  pickupDate: { type: Date, optional: true },
   budget: {
     type: Number,
     label: 'Budget',
@@ -53,7 +54,10 @@ function bikeStepReducer(state, action) {
 
 function BikeStep({ initialData }) {
   const [state, dispatch] = useReducer(bikeStepReducer, {
-    details: initialData?.details || {},
+    details: initialData?.details || {
+      dropoffDate: moment().format('YYYY-MM-DD'),
+      pickupDate: moment().add(7, 'days').format('YYYY-MM-DD'),
+    },
     updatedAt: null,
     hasValidData: false,
     checkedAt: null,
@@ -94,25 +98,26 @@ function BikeStep({ initialData }) {
     if (mounted.current) {
       dispatch({ type: 'setHasValidData', payload: checkResult === null })
     }
+    return checkResult === null
   }
 
   const handleSubmit = async () => {
-    await checkData()
+    const checkResult = await checkData()
 
     setStepData({
       stepKey: 'bike',
       data: {
         details,
         updatedAt,
-        hasValidData,
+        hasValidData: checkResult,
       },
     })
     setStepProperty({
       stepKey: 'bike',
       property: 'completed',
-      value: hasValidData,
+      value: checkResult,
     })
-    if (hasValidData && activeStep === 'bike') {
+    if (checkResult && activeStep === 'bike') {
       goNext()
     }
   }
@@ -124,17 +129,18 @@ function BikeStep({ initialData }) {
         type: 'setDetails',
         payload: {
           assessor: originalData.assessor,
-          make: originalData.make,
-          model: originalData.model,
-          color: originalData.color,
-          type: originalData.bikeType,
+          bikeName: originalData.bikeName,
+          dropoffDate: originalData.dropoffDate
+            ? moment(originalData.dropoffDate).format('YYYY-MM-DD')
+            : '',
+          pickupDate: originalData.pickupDate
+            ? moment(originalData.pickupDate).format('YYYY-MM-DD')
+            : '',
           budget: originalData.budget,
-          approxValue: originalData.bikeValue,
           note: originalData.note,
         },
       })
-      // dispatch({ type: 'setHasValidData', payload: true })
-      // checkData()
+      autoValidate.current = true
     }
   }, [originalData])
 
@@ -203,13 +209,15 @@ function BikeStep({ initialData }) {
           <AutoField name="assessor" variant="outlined" />
           <AutoField name="bikeName" variant="outlined" />
           <TextField
-            name="dropOff"
+            value={details.dropoffDate}
+            name="dropoffDate"
             variant="outlined"
             InputLabelProps={{ shrink: true }}
             type="date"
           />
           <TextField
-            name="pickup"
+            value={details.pickupDate}
+            name="pickupDate"
             variant="outlined"
             InputLabelProps={{ shrink: true }}
             type="date"
