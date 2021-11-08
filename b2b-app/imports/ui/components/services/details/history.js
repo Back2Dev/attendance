@@ -7,7 +7,10 @@ import { Typography } from '@material-ui/core'
 import { JobsDetailsContext } from './context'
 
 const StyledJobHistory = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #cccccc;
+  padding: 5px 10px;
+  border-radius: 5px;
 `
 
 function JobHistory() {

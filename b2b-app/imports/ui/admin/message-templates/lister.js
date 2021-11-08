@@ -11,7 +11,7 @@ import PencilSquare from '@material-ui/icons/Edit'
 import FileCopy from '@material-ui/icons/FileCopy'
 import List from './list'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 const idField = '_id'
 let push
 const dateFormat = {

@@ -6,7 +6,7 @@ import React from 'react'
 import Settings from '/imports/api/settings/schema'
 import List from './list'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 
 // these methods are normally in the methods.sql.js file so they don't exist
 const remove = (id) => meteorCall('rm.settings', 'Deleting', id)

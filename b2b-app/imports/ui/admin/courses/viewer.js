@@ -6,7 +6,7 @@ import Courses from '/imports/api/courses/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import View from './view'
 
-const debug = require('debug')('se:viewer')
+const debug = require('debug')('app:viewer')
 const idField = '_id'
 let push
 

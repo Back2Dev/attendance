@@ -15,7 +15,7 @@ SimpleSchema.setDefaultMessages({
     },
   },
 })
-const debug = require('debug')('se:survey-schema')
+const debug = require('debug')('app:survey-schema')
 
 const checkVolume = function () {
   debug(`Checking ${this.key} ${this.value}`, this.definition)
@@ -31,6 +31,7 @@ const checkVolume = function () {
 }
 
 export const evaluate = (formData, context, condition) => {
+  if (!Array.isArray(condition)) return true
   debug(`Evaluate ${condition?.join()}`, formData, context)
   if (!condition) return true
   const [lhs, op = 'truthy', rhs] = condition
@@ -134,7 +135,7 @@ const getSchemas = (survey, currentData) => {
             }
             const qSchema = step.schema[q.id]
             const answers = getAnswers(currentData, q)
-            switch (q.type) {
+            switch (q.qtype) {
               case 'array':
                 step.schema[q.id].type = Array
                 step.schema[q.id].minCount = q.minCount || 1
@@ -306,7 +307,7 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 q.type = 'paragraph'
                 q.prompt = `Unknown question type for "${q.prompt}"`
-                console.error(`Unsupported question type: ${q.type}`)
+                console.log(`Unsupported question type: [${q.type}]`)
             }
           })
         }

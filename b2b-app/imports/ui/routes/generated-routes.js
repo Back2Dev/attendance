@@ -10,9 +10,6 @@ import Loading from '/imports/ui/components/commons/loading.js'
 const SettingsList = lazy(() => import('/imports/ui/admin/settings/lister.js'))
 const Users = lazy(() => import('/imports/ui/admin/users'))
 const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
-const Courses = lazy(() => import('/imports/ui/admin/courses'))
-const Tools = lazy(() => import('/imports/ui/admin/tools'))
-const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
 const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 
 const Audits = lazy(() => import('/imports/ui/admin/audits/lister.js'))
@@ -20,12 +17,10 @@ const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs/lister.js'))
 const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
 const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
 const Members = lazy(() => import('/imports/ui/admin/members/lister.js'))
-const Settings = lazy(() => import('/imports/ui/admin/settings/lister.js'))
-const Surveys = lazy(() => import('/imports/ui/admin/surveys/lister.js'))
-const Events = lazy(() => import('/imports/ui/admin/events/lister.js'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items/lister.js'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs/lister.js'))
 const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Courses = lazy(() => import('/imports/ui/admin/courses'))
 
 //
 // This file contains a list of routes for database admin pages
@@ -39,18 +34,14 @@ export default GeneratedRoute = () => {
         <Route path="/admin/audits" exact component={Audits} />
         <Route path="/admin/cronjobs" exact component={Cronjobs} />
         <Route path="/admin/triggers" component={Triggers} />
+        <Route path="/admin/settings" component={SettingsList} />
         <Route path="/admin/message-templates" component={MessageTemplates} />
         <Route path="/admin/members" exact component={Members} />
-        <Route path="/admin/settings" exact component={Settings} />
-        <Route path="/admin/surveys" exact component={Surveys} />
-        <Route path="/admin/events" exact component={Events} />
-        <Route path="/admin/courses" exact component={Courses} />
-        <Route path="/admin/tools" exact component={Tools} />
-        <Route path="/admin/sessions" exact component={Sessions} />
         <Route path="/admin/service-items" exact component={ServiceItems} />
         <Route path="/admin/jobs" exact component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
         <Route path="/admin/users" component={Users} />
+        <Route path="/admin/courses" component={Courses} />
         <Route path="/admin/calendar" component={EventCalendar} />
         <Route path="/admin/registrations" component={Registrations} />
       </Switch>

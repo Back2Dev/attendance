@@ -15,7 +15,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 
-const debug = require('debug')('se:user-admin')
+const debug = require('debug')('app:user-admin')
 
 const ListUsers = (props) => {
   const [users, setusers] = React.useState([])

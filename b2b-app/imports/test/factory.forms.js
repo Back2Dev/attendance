@@ -4,7 +4,19 @@ import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
 import Forms from '/imports/api/forms/schema'
 
-Factory.define('forms', Forms, {})
+Factory.define('forms', Forms, {
+  slug: 'test-case',
+  name: 'A Test case',
+  source: `S: Let's get to know each other
++h3: No need to register if you are already signing in on the computer
++id: aboutVolunteer
+
+Q: How many bikes are there in your household?
++id: bikes
++type: num
++optional
+A bikes`,
+})
 
 Factory.define('forms.b2b.register', Forms, {
   slug: 'b2b.register',

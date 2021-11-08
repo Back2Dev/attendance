@@ -22,14 +22,36 @@ const StyledServiceStep = styled.div`
     align-items: center;
     justify-content: space-around;
   }
+  .tags-selector-total-cost-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+  }
   .tags-selector {
+    display: flex;
+    flex-direction: row;
     button {
-      margin: 5px 0;
+      margin: 5px 5px 5px 0;
+      padding: 5px 10px;
     }
   }
   .total-cost {
-    margin: 10px 0;
+    margin: 5px 0;
+    padding: 0 10px;
     font-weight: bold;
+    background-color: #cfcfcf;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+  }
+  .select-box-container {
+    margin-top: 10px;
   }
   .popular-items-container {
     margin: 10px 0;
@@ -120,10 +142,6 @@ function serviceStepReducer(state, action) {
     }
     case 'setCurrentItem':
       return { ...state, currentItem: payload }
-    case 'setNote':
-      return { ...state, note: payload.note, updatedAt: new Date() }
-    case 'setAssessor':
-      return { ...state, assessor: payload.assessor, updatedAt: new Date() }
     case 'setHasValidData':
       return { ...state, hasValidData: payload, checkedAt: new Date() }
     default:
@@ -135,8 +153,6 @@ function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
-    assessor: '',
-    note: '',
     totalCost: 0,
     updatedAt: new Date(),
     hasValidData: false,
@@ -199,8 +215,6 @@ function ServiceStep({ initialData }) {
       if (itemsToBeAdded?.length) {
         dispatch({ type: 'addItems', payload: itemsToBeAdded })
       }
-      dispatch({ type: 'setAssessor', payload: { assessor: originalData.assessor } })
-      dispatch({ type: 'setNote', payload: { note: originalData.note } })
     }
   }, [originalData, items])
 
@@ -223,8 +237,6 @@ function ServiceStep({ initialData }) {
       stepKey: 'service',
       data: {
         items: selectedItems,
-        assessor: state.assessor,
-        note: state.note,
         updatedAt,
         hasValidData,
         totalCost: state.totalCost,
@@ -337,19 +349,47 @@ function ServiceStep({ initialData }) {
     <StyledServiceStep>
       <div className={classes.join(' ')}>
         <Loading loading={loading} />
+        <div className="tags-selector-total-cost-wrapper">
+          <div className="tags-selector">
+            <div>
+              <Button
+                className="major-tag-btn"
+                variant="contained"
+                onClick={() => {
+                  selectItemsWithTag('Major')
+                }}
+              >
+                Major service
+              </Button>
+            </div>
+            <div>
+              <Button
+                className="minor-tag-btn"
+                variant="contained"
+                onClick={() => {
+                  selectItemsWithTag('Minor')
+                }}
+              >
+                Minor service
+              </Button>
+            </div>
+          </div>
+          <div className="total-cost">Cost: ${state.totalCost / 100}</div>
+        </div>
         <div className="select-box-container">
           <Autocomplete
             ref={searchFieldRef}
             value={currentItem}
             options={sortedByNameItems}
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
-            style={{ maxWidth: 450, minWidth: 300 }}
+            style={{ minWidth: 300 }}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Select a Service item"
                 variant="outlined"
                 size="small"
+                fullWidth
               />
             )}
             onChange={(event, selected) => {
@@ -360,31 +400,6 @@ function ServiceStep({ initialData }) {
         </div>
         <div className="selected-items-container" ref={selectedContRef}>
           {renderSelectedItems()}
-        </div>
-        <div className="total-cost">Total cost: ${state.totalCost / 100}</div>
-        <div className="assessor-wrapper">
-          <TextField
-            margin="dense"
-            className="assessor-field"
-            label="Assessor"
-            value={state.assessor}
-            onChange={(e) => {
-              dispatch({ type: 'setAssessor', payload: { assessor: e.target.value } })
-            }}
-          />
-        </div>
-        <div className="note-wrapper">
-          <TextField
-            className="node-field"
-            margin="dense"
-            multiline
-            fullWidth
-            label="Note"
-            value={state.note}
-            onChange={(e) => {
-              dispatch({ type: 'setNote', payload: { note: e.target.value } })
-            }}
-          />
         </div>
         <div className="btns-container">
           <Button
@@ -419,30 +434,6 @@ function ServiceStep({ initialData }) {
           >
             Next
           </Button>
-        </div>
-        <div className="tags-selector">
-          <div>
-            <Button
-              className="major-tag-btn"
-              variant="contained"
-              onClick={() => {
-                selectItemsWithTag('Major')
-              }}
-            >
-              Select Major items
-            </Button>
-          </div>
-          <div>
-            <Button
-              className="minor-tag-btn"
-              variant="contained"
-              onClick={() => {
-                selectItemsWithTag('Minor')
-              }}
-            >
-              Select Minor items
-            </Button>
-          </div>
         </div>
         {renderPopularItems()}
       </div>

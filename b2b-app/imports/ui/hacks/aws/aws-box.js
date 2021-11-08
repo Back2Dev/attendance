@@ -5,7 +5,7 @@ import React from 'react'
 import Main from './aws'
 import { meteorCall } from '/imports/ui/utils/meteor'
 
-const debug = require('debug')('se:aws')
+const debug = require('debug')('app:aws')
 
 const save = (data) => {
   meteorCall('upload.avatar', 'Uploading', data)
