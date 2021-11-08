@@ -1,47 +1,31 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+import { Container } from '@material-ui/core'
 import config from './config'
+import PageEditor from './components/page-editor'
 
 const schemaBridge = config.edit.schema
 
 const debug = require('debug')('app:edit')
 
 const Edit = ({ id, item, methods }) => {
+  const [data, setData] = useState({})
+  useEffect(() => {
+    setData(item)
+  }, [item])
+
   const save = (model) => {
     try {
-      methods.update(id, model)
+      methods.updatePage({ id, model })
     } catch (e) {
       alert(`Update error ${e.message}`)
     }
   }
 
-  const { goBack } = useHistory()
-  const back = () => {
-    goBack()
-  }
-
-  const [data, SetData] = React.useState({})
-
-  React.useEffect(() => SetData(item), [item])
-
   return (
-    <div>
-      <div>Edit Courses - {data.name}</div>
-      <AutoForm
-        schema={schemaBridge}
-        model={item}
-        onSubmit={save}
-        autoField={CustomAutoField}
-      />
-      <Button type="button" onClick={back}>
-        Cancel
-      </Button>
-      &nbsp;&nbsp;
-    </div>
+    <Container>
+      <PageEditor pageContent={data.pageContent} save={save} data={data} />
+    </Container>
   )
 }
 
