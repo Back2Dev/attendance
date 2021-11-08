@@ -10,6 +10,9 @@ import numeral from 'numeral'
 import { JobsDetailsContext } from './context'
 
 const StyledJobServiceItems = styled.div`
+  border: 1px solid #cccccc;
+  padding: 5px 10px;
+  border-radius: 5px;
   .header {
     display: flex;
     flex-direction: row;
@@ -57,7 +60,7 @@ function JobServiceItems() {
     <StyledJobServiceItems>
       <div className="header">
         <Typography variant="h4" className="title">
-          Service Items
+          Service Items {`$${item?.totalCost / 100}`}
         </Typography>
         <IconButton
           color="primary"

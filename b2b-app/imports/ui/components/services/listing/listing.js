@@ -140,7 +140,7 @@ function JobsListing() {
       return {
         _id: item._id,
         createdAt: item.createdAt,
-        bike: `${item.make} ${item.model}`,
+        bike: item.bikeName,
         customer: item.name,
         cost: item.totalCost / 100,
         status: item.status,
@@ -164,7 +164,7 @@ function JobsListing() {
         }
       case 'bike':
         return (a, b) => {
-          return a.bike.localeCompare(b.bike)
+          return a.bike?.localeCompare(b.bike)
         }
       case 'customer':
         return (a, b) => {

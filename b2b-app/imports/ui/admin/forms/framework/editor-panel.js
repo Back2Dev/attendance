@@ -118,6 +118,10 @@ export const EditorPanel = ({ editor }) => {
     ],
   })
 
+  React.useEffect(() => {
+    reapplyFolds(codemirrorRef.current.editor)
+  }, [editor.name])
+
   // Set height of codemirror
   React.useEffect(() => {
     if (editor.editorType === 'form') {
@@ -161,6 +165,21 @@ export const EditorPanel = ({ editor }) => {
     return () => window.removeEventListener('resize', () => setSplitSize('85%'))
   })
 
+  const reapplyFolds = (e) => {
+    const lines = e.lastLine()
+
+    for (let i = lines - 1; i >= 0; i--) {
+      if (formContext.folds[editor.name][i]) {
+        if (
+          (e.isFolded(CM.Pos(i)) ? true : false) !== formContext.folds[editor.name][i]
+        ) {
+          e.foldCode(CM.Pos(i))
+        }
+      }
+    }
+    console.log('applied')
+  }
+
   const debounce = (callback, wait = 3000) => {
     return (...args) => {
       window.clearTimeout(timeoutId)
@@ -195,12 +214,21 @@ export const EditorPanel = ({ editor }) => {
           onBeforeChange={(e, data, value) => {
             editor.updateEditor(value)
           }}
+          onGutterClick={(e, line, gutter, ev) => {
+            console.log(line, 'folded', e.isFolded(CM.Pos(line)))
+            formContext.updateFold(
+              line,
+              e.isFolded(CM.Pos(line)) ? true : false,
+              editor.name
+            )
+          }}
           onChange={handleEditorInput}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
             formContext.setEditorDoc(editor)
             CM.commands.save = () => formContext.save(false)
           }}
+          editorDidConfigure={reapplyFolds}
         />
       </div>
     )

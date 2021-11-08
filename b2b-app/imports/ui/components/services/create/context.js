@@ -11,7 +11,7 @@ import createJobCard from '/imports/ui/utils/job-card-pdf.js'
 
 export const ServiceContext = React.createContext('service')
 
-const stepKeys = ['service', 'bike', 'contact', 'pickup']
+const stepKeys = ['service', 'bike', 'contact']
 const stepProperties = ['laber', 'error', 'completed', 'disabled', 'lastMessage']
 
 function reducer(state, action) {
@@ -93,7 +93,7 @@ export const ServiceProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     steps: {
       service: {
-        label: 'Services',
+        label: 'Service',
         error: false,
         disabled: false,
         completed: false,
@@ -101,7 +101,7 @@ export const ServiceProvider = ({ children }) => {
         data: null,
       },
       bike: {
-        label: 'Bike Details',
+        label: 'Bike',
         error: false,
         disabled: false,
         completed: false,
@@ -109,21 +109,21 @@ export const ServiceProvider = ({ children }) => {
         data: null,
       },
       contact: {
-        label: 'Contact Details',
+        label: 'Contact',
         error: false,
         disabled: false,
         completed: false,
         lastMessage: '',
         data: null,
       },
-      pickup: {
-        label: 'Pick-up Details',
-        error: false,
-        disabled: false,
-        completed: false,
-        lastMessage: '',
-        data: null,
-      },
+      // pickup: {
+      //   label: 'Pick-up',
+      //   error: false,
+      //   disabled: false,
+      //   completed: false,
+      //   lastMessage: '',
+      //   data: null,
+      // },
     },
     activeStep: 'service', // for dev only, should be service by default
     loading: false,
@@ -193,9 +193,9 @@ export const ServiceProvider = ({ children }) => {
     const serviceItems = state.steps.service.data.items
     const bikeDetails = state.steps.bike.data.details
     const contactData = state.steps.contact.data
-    const pickup = state.steps.pickup.data.pickup
+    // const pickup = state.steps.pickup.data.pickup
 
-    createJobCard({ serviceItems, bikeDetails, contactData, pickup })
+    createJobCard({ serviceItems, bikeDetails, contactData })
   }
 
   const createJob = (quick = false) => {
@@ -217,7 +217,7 @@ export const ServiceProvider = ({ children }) => {
     }
     dispatch({ type: 'setLoading', payload: true })
     const contactData = state.steps.contact.data
-    if (contactData.hasMember) {
+    if (!contactData.refurbish) {
       delete contactData.selectedMember?.history
       delete contactData.memberData?.history
     }
@@ -227,10 +227,10 @@ export const ServiceProvider = ({ children }) => {
       assessor: state.steps.service.data.assessor,
       note: state.steps.service.data.note,
       bikeDetails: state.steps.bike.data.details,
-      hasMember: contactData.hasMember,
+      refurbish: contactData.refurbish,
       selectedMember: contactData.selectedMember,
-      memberData: contactData.memberData,
-      pickup: state.steps.pickup.data.pickup,
+      memberData: contactData.refurbish ? undefined : contactData.memberData,
+      // pickup: state.steps.pickup.data.pickup,
     }
 
     if (originalData) {
