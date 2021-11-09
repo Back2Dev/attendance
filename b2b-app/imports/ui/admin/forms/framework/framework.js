@@ -84,10 +84,10 @@ const Framework = ({ id, item, methods }) => {
       : 'single'
   )
 
-  const [folds, setFolds] = React.useState(
-    localStorage.getItem('folds') ? JSON.parse(localStorage.getItem('folds')) : {}
-  )
   const currentFolds = { form: {}, json: {} }
+  const [folds, setFolds] = React.useState(
+    localStorage.getItem('folds') ? JSON.parse(localStorage.getItem('folds')) : currentFolds
+  )
 
   const updateFold = (line, isFold, editorType) => {
     currentFolds[editorType][line] = isFold
