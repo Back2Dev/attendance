@@ -62,21 +62,56 @@ const Framework = ({ id, item, methods }) => {
   const [raw, setRaw] = React.useState({})
 
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
-  const [autoRun, setAutoRun] = React.useState(false)
-  const [autoSave, setAutoSave] = React.useState(true)
+  const [autoRun, setAutoRun] = React.useState(
+    localStorage.getItem('formEditorAutoRun') === 'true' ? true : false
+  )
+  const [autoSave, setAutoSave] = React.useState(
+    localStorage.getItem('formEditorAutoSave') === 'false' ? false : true
+  )
   //codemirror references
   const [editor, setEditor] = React.useState()
   const [doc, setDoc] = React.useState()
   //error widgets
   const [widgets, setWidgets] = React.useState([])
-  const [tab, setTab] = React.useState(0)
+  const [tab, setTab] = React.useState(
+    isNaN(parseInt(localStorage.getItem('formEditorTab')))
+      ? 0
+      : parseInt(localStorage.getItem('formEditorTab'))
+  )
 
-  const [layout, setLayout] = React.useState('single')
+  const [layout, setLayout] = React.useState(
+    localStorage.getItem('formEditorLayout')
+      ? localStorage.getItem('formEditorLayout')
+      : 'single'
+  )
+
+  const [folds, setFolds] = React.useState(
+    localStorage.getItem('folds') ? JSON.parse(localStorage.getItem('folds')) : {}
+  )
+  const currentFolds = { form: {}, json: {} }
+
+  const updateFold = (line, isFold, editorType) => {
+    currentFolds[editorType][line] = isFold
+    // console.log('updated fold', currentFolds)
+    saveFolds()
+  }
+
+  const saveFolds = () => {
+    // console.log('saved folds', currentFolds)
+    const updated = {
+      json: { ...folds.json, ...currentFolds.json },
+      form: { ...folds.form, ...currentFolds.form },
+    }
+    // console.log(updated)
+    setFolds(updated)
+    localStorage.setItem('folds', JSON.stringify(updated))
+  }
 
   const changeLayout = (newLayout) => {
     const layouts = ['single', 'double', 'dnd']
 
     if (layouts.includes(newLayout)) {
+      localStorage.setItem('formEditorLayout', newLayout)
       setLayout(newLayout)
     }
   }
@@ -112,13 +147,21 @@ const Framework = ({ id, item, methods }) => {
   }
 
   const toggleAutoRun = () => {
-    setAutoRun(autoRun ? false : true)
+    const toggledTo = autoRun ? false : true
+    setAutoRun(toggledTo)
+    localStorage.setItem('formEditorAutoRun', toggledTo)
   }
 
   const toggleAutoSave = () => {
-    setAutoSave(autoSave ? false : true)
+    const toggledTo = autoSave ? false : true
+    setAutoSave(toggledTo)
+    localStorage.setItem('formEditorAutoSave', toggledTo)
   }
 
+  const changeTab = (i) => {
+    setTab(i)
+    localStorage.setItem('formEditorTab', i)
+  }
   const showErrors = (errors) => {
     hideErrors()
     setWidgets([])
@@ -174,13 +217,13 @@ const Framework = ({ id, item, methods }) => {
         value={{
           editors: [
             {
-              name: 'details.form',
+              name: 'form',
               editorValue: formEditorInput,
               updateEditor: updateFormInput,
               editorType: 'form',
             },
             {
-              name: 'detailsForm.json',
+              name: 'json',
               editorValue: jsonEditorInput,
               updateEditor: updateJsonInput,
               editorType: { name: 'javascript', json: true },
@@ -202,11 +245,13 @@ const Framework = ({ id, item, methods }) => {
           hideErrors,
           showErrors,
           tab,
-          changeTab: (i) => setTab(i),
+          changeTab,
           layout,
           changeLayout,
           name: item.name,
           slug: item.slug,
+          folds,
+          updateFold,
         }}
       >
         <EditorToolbar />

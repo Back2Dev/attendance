@@ -1,16 +1,19 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-
+import PageDisplay from '/imports/ui/admin/courses/components/page-display'
 import { Skeleton } from '@material-ui/lab'
 
 import { SessionDetailsContext } from './context'
 
 const StyledDetailsContent = styled.div`
   margin-top: 20px;
+  img {
+    width: 100%;
+  }
 `
 
 function DetailsContent() {
-  const { loading, event } = useContext(SessionDetailsContext)
+  const { loading, event, course } = useContext(SessionDetailsContext)
 
   if (loading || !event) {
     return (
@@ -22,8 +25,7 @@ function DetailsContent() {
 
   return (
     <StyledDetailsContent className="content">
-      Event content placeholer
-      <Skeleton variant="rect" height={300} animation={false} />
+      <PageDisplay data={course.pageContent} course={course} />
     </StyledDetailsContent>
   )
 }

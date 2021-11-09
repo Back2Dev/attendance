@@ -64,19 +64,19 @@ export default config = {
   },
   add: {
     defaultObject: {
-      name: 'Untitled',
-      description: [
-        {
-          type: 'paragraph',
-          children: [{ text: 'A line of text in a paragraph.' }],
-        },
-        {
-          type: 'image',
-          url: 'https://source.unsplash.com/kFrdX5IeQzI',
-          children: [{ text: '' }],
-        },
-      ],
-      code: 'XXX',
+      title: 'Untitled',
+      // description: [
+      //   {
+      //     type: 'paragraph',
+      //     children: [{ text: 'A line of text in a paragraph.' }],
+      //   },
+      //   {
+      //     type: 'image',
+      //     url: 'https://source.unsplash.com/kFrdX5IeQzI',
+      //     children: [{ text: '' }],
+      //   },
+      // ],
+      slug: 'XXX',
     },
   },
 }

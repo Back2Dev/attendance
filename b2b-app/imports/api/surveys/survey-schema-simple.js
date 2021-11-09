@@ -307,7 +307,7 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 q.type = 'paragraph'
                 q.prompt = `Unknown question type for "${q.prompt}"`
-                console.error(`Unsupported question type: ${q.type}`)
+                console.log(`Unsupported question type: [${q.type}]`)
             }
           })
         }
