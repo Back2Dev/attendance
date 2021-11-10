@@ -1,0 +1,313 @@
+diff --git a/node_modules/react-tabulator/lib/ConfigUtils.js b/node_modules/react-tabulator/lib/ConfigUtils.js
+index 255d8e9..41eb5fe 100644
+--- a/node_modules/react-tabulator/lib/ConfigUtils.js
++++ b/node_modules/react-tabulator/lib/ConfigUtils.js
+@@ -1,4 +1,23 @@
+ "use strict";
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+     return new (P || (P = Promise))(function (resolve, reject) {
+@@ -37,7 +56,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
+ };
+ exports.__esModule = true;
+ exports.propsToOptions = void 0;
+-var Es6Promise = require("es6-promise"); // without this, 'yarn build' will complain about Promise.
++var Es6Promise = __importStar(require("es6-promise")); // without this, 'yarn build' will complain about Promise.
+ var react_dom_1 = require("react-dom");
+ // .prettierignore    (to keep relevant props together)
+ var NOOPS = function () { };
+diff --git a/node_modules/react-tabulator/lib/React15Tabulator.js b/node_modules/react-tabulator/lib/React15Tabulator.js
+index 647f458..58cf2eb 100644
+--- a/node_modules/react-tabulator/lib/React15Tabulator.js
++++ b/node_modules/react-tabulator/lib/React15Tabulator.js
+@@ -25,6 +25,25 @@ var __assign = (this && this.__assign) || function () {
+     };
+     return __assign.apply(this, arguments);
+ };
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+     return new (P || (P = Promise))(function (resolve, reject) {
+@@ -61,14 +80,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
+         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+     }
+ };
++var __importDefault = (this && this.__importDefault) || function (mod) {
++    return (mod && mod.__esModule) ? mod : { "default": mod };
++};
+ exports.__esModule = true;
+-var React = require("react");
+-var ReactDOM = require("react-dom");
++var React = __importStar(require("react"));
++var ReactDOM = __importStar(require("react-dom"));
+ var pick_react_known_prop_1 = require("pick-react-known-prop");
+ var ConfigUtils_1 = require("./ConfigUtils");
+ var Utils_1 = require("./Utils");
+ /* tslint:disable-next-line */
+-var tabulator_tables_1 = require("tabulator-tables");
++var tabulator_tables_1 = __importDefault(require("tabulator-tables"));
+ var default_1 = /** @class */ (function (_super) {
+     __extends(default_1, _super);
+     function default_1() {
+diff --git a/node_modules/react-tabulator/lib/ReactTabulator.js b/node_modules/react-tabulator/lib/ReactTabulator.js
+index 56b857e..37b3249 100644
+--- a/node_modules/react-tabulator/lib/ReactTabulator.js
++++ b/node_modules/react-tabulator/lib/ReactTabulator.js
+@@ -25,6 +25,25 @@ var __assign = (this && this.__assign) || function () {
+     };
+     return __assign.apply(this, arguments);
+ };
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+     return new (P || (P = Promise))(function (resolve, reject) {
+@@ -66,14 +85,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+         to[j] = from[i];
+     return to;
+ };
++var __importDefault = (this && this.__importDefault) || function (mod) {
++    return (mod && mod.__esModule) ? mod : { "default": mod };
++};
+ exports.__esModule = true;
+-var React = require("react");
+-var ReactDOM = require("react-dom");
++var React = __importStar(require("react"));
++var ReactDOM = __importStar(require("react-dom"));
+ var pick_react_known_prop_1 = require("pick-react-known-prop");
+ var ConfigUtils_1 = require("./ConfigUtils");
+ var Utils_1 = require("./Utils");
+ /* tslint:disable-next-line */
+-var tabulator_tables_1 = require("tabulator-tables");
++var tabulator_tables_1 = __importDefault(require("tabulator-tables"));
+ var default_1 = /** @class */ (function (_super) {
+     __extends(default_1, _super);
+     function default_1() {
+diff --git a/node_modules/react-tabulator/lib/ReactTabulatorExample.js b/node_modules/react-tabulator/lib/ReactTabulatorExample.js
+index 3725d3e..a90df03 100644
+--- a/node_modules/react-tabulator/lib/ReactTabulatorExample.js
++++ b/node_modules/react-tabulator/lib/ReactTabulatorExample.js
+@@ -14,13 +14,35 @@ var __extends = (this && this.__extends) || (function () {
+         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+     };
+ })();
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
++var __importDefault = (this && this.__importDefault) || function (mod) {
++    return (mod && mod.__esModule) ? mod : { "default": mod };
++};
+ var _a;
+ exports.__esModule = true;
+-var React = require("react");
+-var ReactTabulator_1 = require("./ReactTabulator");
+-var DateEditor_1 = require("./editors/DateEditor");
+-var MultiSelectEditor_1 = require("./editors/MultiSelectEditor");
+-var MultiValueFormatter_1 = require("./formatters/MultiValueFormatter");
++var React = __importStar(require("react"));
++var ReactTabulator_1 = __importDefault(require("./ReactTabulator"));
++var DateEditor_1 = __importDefault(require("./editors/DateEditor"));
++var MultiSelectEditor_1 = __importDefault(require("./editors/MultiSelectEditor"));
++var MultiValueFormatter_1 = __importDefault(require("./formatters/MultiValueFormatter"));
+ var Utils_1 = require("./Utils");
+ function SimpleButton(props) {
+     var rowData = props.cell._cell.row.data;
+diff --git a/node_modules/react-tabulator/lib/Utils.js b/node_modules/react-tabulator/lib/Utils.js
+index a84ad8e..b03406b 100644
+--- a/node_modules/react-tabulator/lib/Utils.js
++++ b/node_modules/react-tabulator/lib/Utils.js
+@@ -1,7 +1,26 @@
+ "use strict";
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ exports.__esModule = true;
+ exports.reactFormatter = exports.isSameObject = exports.isSameArray = exports.clone = void 0;
+-var React = require("react");
++var React = __importStar(require("react"));
+ var react_dom_1 = require("react-dom");
+ function clone(obj) {
+     return JSON.parse(JSON.stringify(obj));
+diff --git a/node_modules/react-tabulator/lib/editors/DateEditor.js b/node_modules/react-tabulator/lib/editors/DateEditor.js
+index ca714eb..84c3f02 100644
+--- a/node_modules/react-tabulator/lib/editors/DateEditor.js
++++ b/node_modules/react-tabulator/lib/editors/DateEditor.js
+@@ -14,8 +14,27 @@ var __extends = (this && this.__extends) || (function () {
+         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+     };
+ })();
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ exports.__esModule = true;
+-var React = require("react");
++var React = __importStar(require("react"));
+ var react_dom_1 = require("react-dom");
+ // import { parse, format } from 'date-fns';
+ var DateEditorUtils_1 = require("./DateEditorUtils");
+diff --git a/node_modules/react-tabulator/lib/editors/MultiSelectEditor.js b/node_modules/react-tabulator/lib/editors/MultiSelectEditor.js
+index eec09db..4bf0094 100644
+--- a/node_modules/react-tabulator/lib/editors/MultiSelectEditor.js
++++ b/node_modules/react-tabulator/lib/editors/MultiSelectEditor.js
+@@ -14,8 +14,27 @@ var __extends = (this && this.__extends) || (function () {
+         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+     };
+ })();
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ exports.__esModule = true;
+-var React = require("react");
++var React = __importStar(require("react"));
+ var react_dom_1 = require("react-dom");
+ var Utils_1 = require("../Utils");
+ // import { parse, format } from 'date-fns';
+diff --git a/node_modules/react-tabulator/lib/formatters/MultiValueFormatter.js b/node_modules/react-tabulator/lib/formatters/MultiValueFormatter.js
+index 9d8620c..b6112ca 100644
+--- a/node_modules/react-tabulator/lib/formatters/MultiValueFormatter.js
++++ b/node_modules/react-tabulator/lib/formatters/MultiValueFormatter.js
+@@ -1,6 +1,25 @@
+ "use strict";
++var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
++}) : (function(o, m, k, k2) {
++    if (k2 === undefined) k2 = k;
++    o[k2] = m[k];
++}));
++var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
++    Object.defineProperty(o, "default", { enumerable: true, value: v });
++}) : function(o, v) {
++    o["default"] = v;
++});
++var __importStar = (this && this.__importStar) || function (mod) {
++    if (mod && mod.__esModule) return mod;
++    var result = {};
++    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
++    __setModuleDefault(result, mod);
++    return result;
++};
+ exports.__esModule = true;
+-var React = require("react");
++var React = __importStar(require("react"));
+ var react_dom_1 = require("react-dom");
+ var createCellEl = function () {
+     var el = document.createElement('div');

@@ -7,6 +7,7 @@ let currentStep
 let currentQ
 let current
 let errs
+let currentA
 
 const slugify = (text) => {
   if (!text || typeof text !== 'string') return 'no-slug'
