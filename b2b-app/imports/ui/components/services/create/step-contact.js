@@ -250,7 +250,11 @@ function ContactStep() {
     }
     console.log('checkData', memberData)
     const checkResult = await formRef.current?.validateModel(memberData)
-    dispatch({ type: 'setHasValidData', payload: checkResult === null })
+    console.log('checkResult', checkResult)
+    dispatch({
+      type: 'setHasValidData',
+      payload: checkResult === null || checkResult === undefined,
+    })
     return checkResult === null
   }
 
