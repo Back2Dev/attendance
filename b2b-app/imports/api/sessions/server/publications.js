@@ -80,8 +80,8 @@ Meteor.publish('sessions.myByIdComposite', function (id) {
   })
 
   // debug(this)
-
-  return [sessions]
+  const courses = Courses.find({})
+  return [sessions, courses]
 })
 
 Meteor.publish('sessions.myById', function (id) {
