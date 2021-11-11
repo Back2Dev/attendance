@@ -20,6 +20,9 @@ import { convertAvatar, wordSeparator } from '/imports/api/util.js'
 import SetPassword from './set-password.js'
 import SuspendAccount from './suspend-account.js'
 import RestoreAccount from './restore-account.js'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import VpnKeyIcon from '@material-ui/icons/VpnKey'
+import Icon from '@material-ui/core/Icon'
 
 export const userSchema = new SimpleSchema2Bridge(
   new SimpleSchema({
@@ -99,19 +102,47 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '8px',
     marginBottom: '15px',
   },
+  iconRoot: {
+    textAlign: 'center',
+  },
+  googleIcon: {
+    height: '24px',
+    padding: '1px',
+    verticalAlign: 'middle',
+    marginRight: '1px',
+  },
+  inlineIcon: {
+    '& .MuiSvgIcon-root': {
+      verticalAlign: 'middle',
+      marginRight: '1px',
+    },
+  },
+  iconText: {
+    marginRight: '5px',
+  },
 }))
 
 export default function EditUser({
   user,
-  member,
+  member: profile,
   editUser,
   setPassword,
   sendResetPasswordEmail,
-  suspendMember,
-  setActiveMember,
+  suspendProfile,
+  setActiveProfile,
   sendConfirmationEmail,
 }) {
   const classes = useStyles()
+
+  const socialIcons = {
+    password: <VpnKeyIcon style={{ color: '#fcaf47' }} />,
+    google: (
+      <Icon classes={{ root: classes.iconRoot }}>
+        <img className={classes.googleIcon} src="/images/g-logo.png" />
+      </Icon>
+    ),
+    facebook: <FacebookIcon style={{ color: '#3b5998' }} />,
+  }
 
   const confirmationToken = user?.services?.email?.confirmationToken
 
@@ -178,8 +209,8 @@ export default function EditUser({
           <TableRow>
             <TableCell className={classes.bold}>Last logged in:</TableCell>
             <TableCell align="right">
-              {member?.onlineStatus?.offlineTimeoutAt
-                ? DateTime.fromJSDate(member?.onlineStatus?.offlineTimeoutAt)
+              {profile?.onlineStatus?.offlineTimeoutAt
+                ? DateTime.fromJSDate(profile?.onlineStatus?.offlineTimeoutAt)
                     .setZone('Australia/Sydney')
                     .toLocaleString(DateTime.DATETIME_SHORT)
                 : 'Not found'}
@@ -187,7 +218,7 @@ export default function EditUser({
           </TableRow>
           <TableRow>
             <TableCell className={classes.bold}>Notify by:</TableCell>
-            <TableCell align="right">{wordSeparator(member?.notifyBy)}</TableCell>
+            <TableCell align="right">{wordSeparator(profile?.notifyBy)}</TableCell>
           </TableRow>
         </>
       ),
@@ -199,8 +230,8 @@ export default function EditUser({
           <TableRow>
             <TableCell className={classes.bold}>Last logged in:</TableCell>
             <TableCell align="right">
-              {member?.onlineStatus?.offlineTimeoutAt
-                ? DateTime.fromJSDate(member?.onlineStatus?.offlineTimeoutAt)
+              {profile?.onlineStatus?.offlineTimeoutAt
+                ? DateTime.fromJSDate(profile?.onlineStatus?.offlineTimeoutAt)
                     .setZone('Australia/Sydney')
                     .toLocaleString(DateTime.DATETIME_SHORT)
                 : 'Not found'}
@@ -208,16 +239,27 @@ export default function EditUser({
           </TableRow>
           <TableRow>
             <TableCell className={classes.bold}>Notify by:</TableCell>
-            <TableCell align="right">{wordSeparator(member?.notifyBy)}</TableCell>
+            <TableCell align="right">
+              {wordSeparator(
+                profile?.notifyBy.map((notifyMethod) =>
+                  notifyMethod === 'EMAIL' ? 'Email' : notifyMethod
+                )
+              )}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={classes.bold}>Linked services:</TableCell>
             <TableCell align="right">
-              {wordSeparator(
-                Object.keys(user?.services).filter((service) =>
-                  ['google', 'facebook', 'password'].includes(service)
-                )
-              )}
+              {Object.keys(user?.services)
+                .filter((service) => ['google', 'facebook', 'password'].includes(service))
+                .map((method) => {
+                  return (
+                    <span className={classes.iconText}>
+                      <span className={classes.inlineIcon}>{socialIcons[method]}</span>
+                      {method.charAt(0).toUpperCase() + method.slice(1)}
+                    </span>
+                  )
+                })}
             </TableCell>
           </TableRow>
         </>
@@ -246,29 +288,29 @@ export default function EditUser({
     },
   ]
 
-  if (member) {
-    const component = userInfo.find((obj) => obj.status === member.status)
+  if (profile) {
+    const component = userInfo.find((obj) => obj.status === profile.status)
     return (
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={12} className={classes.topGrid}>
-          <Typography variant="h6">Edit {member.name}'s member</Typography>
+          <Typography variant="h6">Edit {profile.name}'s profile</Typography>
         </Grid>
         <Grid item md={6} align="center">
           <div className={classes.leftGrid} style={{ height: '100%' }}>
-            <Avatar src={convertAvatar(member?.avatar)} className={classes.avatar} />
+            <Avatar src={convertAvatar(profile?.avatar)} className={classes.avatar} />
             <div className={classes.userInfo}>
               <Table>
                 <TableBody>
                   <TableRow>
                     <TableCell className={classes.bold}>Status:</TableCell>
                     <TableCell align="right">
-                      {CONSTANTS.USER_STATUS[member?.status]}
+                      {CONSTANTS.USER_STATUS[profile?.status]}
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className={classes.bold}>Created:</TableCell>
                     <TableCell align="right">
-                      {DateTime.fromJSDate(member?.createdAt)
+                      {DateTime.fromJSDate(profile?.createdAt)
                         .setZone('Australia/Sydney')
                         .toLocaleString(DateTime.DATE_SHORT)}
                     </TableCell>
@@ -281,7 +323,7 @@ export default function EditUser({
           </div>
         </Grid>
         <Grid item md={6} align="center">
-          {user && member && (
+          {user && profile && (
             <AutoForm
               schema={userSchema}
               onSubmit={(form) => {
@@ -289,15 +331,15 @@ export default function EditUser({
               }}
               model={{
                 username: user.username,
-                roles: user?.roles?.map((roleObj) => roleObj._id),
-                ...member,
+                roles: user?.roles?.map((roleObj) => roleObj),
+                ...profile,
               }}
             >
               <AutoField name="username" disabled />
               <AutoField name="name" />
               <AutoField name="nickname" />
               <div className={classes.mobile}>
-                <AutoField name="mobile" defaultValue={member.mobile} />
+                <AutoField name="mobile" defaultValue={profile.mobile} />
               </div>
               <div className={classes.roles}>
                 <AutoField name="roles" />
@@ -305,13 +347,13 @@ export default function EditUser({
               <ErrorsField />
               <Grid container spacing={1}>
                 <Grid item md={6}>
-                  {member.status === 'active' && (
-                    <SuspendAccount suspendMember={suspendMember} name={member.name} />
+                  {profile.status === 'active' && (
+                    <SuspendAccount suspendProfile={suspendProfile} name={profile.name} />
                   )}
-                  {member.status === 'suspended' && (
+                  {profile.status === 'suspended' && (
                     <RestoreAccount
-                      setActiveMember={setActiveMember}
-                      name={member.name}
+                      setActiveProfile={setActiveProfile}
+                      name={profile.name}
                     />
                   )}
                 </Grid>
@@ -337,6 +379,6 @@ EditUser.propTypes = {
   setPassword: PropTypes.func.isRequired,
   sendResetPasswordEmail: PropTypes.func.isRequired,
   sendConfirmationEmail: PropTypes.func.isRequired,
-  suspendMember: PropTypes.func.isRequired,
-  setActiveMember: PropTypes.func.isRequired,
+  suspendProfile: PropTypes.func.isRequired,
+  setActiveProfile: PropTypes.func.isRequired,
 }

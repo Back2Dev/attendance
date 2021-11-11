@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-export default function SuspendAccount({ suspendMember, name }) {
+export default function SuspendAccount({ suspendProfile, name }) {
   const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => {
@@ -35,7 +35,7 @@ export default function SuspendAccount({ suspendMember, name }) {
             color="primary"
             variant="contained"
             onClick={() => {
-              suspendMember()
+              suspendProfile()
             }}
           >
             Submit
@@ -48,5 +48,5 @@ export default function SuspendAccount({ suspendMember, name }) {
 
 SuspendAccount.propTypes = {
   name: PropTypes.string.isRequired,
-  suspendMember: PropTypes.func.isRequired,
+  suspendProfile: PropTypes.func.isRequired,
 }

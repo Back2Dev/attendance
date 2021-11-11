@@ -18,6 +18,9 @@ export default withTracker((props) => {
   const userSub = Meteor.subscribe('getUser', userId)
   const member = Members.findOne({ userId })
   const user = Meteor.users.findOne({ _id: userId })
+  if (user) {
+    user.roles = Roles.getRolesForUser(user)
+  }
   const messages = Messages.find({}).fetch()
 
   const setPassword = async ({ newPassword }) => {
@@ -41,7 +44,7 @@ export default withTracker((props) => {
   const sendConfirmationEmail = async () => {
     const { status, message } = await meteorCall(
       'reinviteUser',
-      'Reset password',
+      'Reinvite user',
       user._id
     )
     if (status === 'failed') {
@@ -58,9 +61,9 @@ export default withTracker((props) => {
     }
   }
 
-  const suspendMember = () => meteorCall('suspend.member', 'Setting status', member._id)
+  const suspendProfile = () => meteorCall('suspend.member', 'Setting status', member._id)
 
-  const setActiveMember = () =>
+  const setActiveProfile = () =>
     meteorCall('set.active.member', 'Setting status', member._id)
 
   console.log('ready:', userSub.ready(), member, user)
@@ -73,7 +76,7 @@ export default withTracker((props) => {
     setPassword,
     sendResetPasswordEmail,
     sendConfirmationEmail,
-    suspendMember,
-    setActiveMember,
+    suspendProfile,
+    setActiveProfile,
   }
 })(Loading)

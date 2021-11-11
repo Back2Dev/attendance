@@ -39,8 +39,8 @@ export default function UserEditTabs({
   setPassword,
   sendResetPasswordEmail,
   sendConfirmationEmail,
-  suspendMember,
-  setActiveMember,
+  suspendProfile,
+  setActiveProfile,
 }) {
   const [tab, setTab] = useState(0)
 
@@ -62,8 +62,8 @@ export default function UserEditTabs({
           setPassword={setPassword}
           sendResetPasswordEmail={sendResetPasswordEmail}
           sendConfirmationEmail={sendConfirmationEmail}
-          suspendMember={suspendMember}
-          setActiveMember={setActiveMember}
+          suspendProfile={suspendProfile}
+          setActiveProfile={setActiveProfile}
         />
       ),
     },
@@ -138,6 +138,6 @@ UserEditTabs.propTypes = {
   setPassword: PropTypes.func.isRequired,
   sendResetPasswordEmail: PropTypes.func.isRequired,
   sendConfirmationEmail: PropTypes.func.isRequired,
-  suspendMember: PropTypes.func.isRequired,
-  setActiveMember: PropTypes.func.isRequired,
+  suspendProfile: PropTypes.func.isRequired,
+  setActiveProfile: PropTypes.func.isRequired,
 }

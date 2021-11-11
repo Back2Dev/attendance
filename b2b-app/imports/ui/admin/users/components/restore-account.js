@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { GreenButton } from '/imports/ui/utils/generic'
 
-export default function RestoreAccount({ setActiveMember, name }) {
+export default function RestoreAccount({ setActiveProfile, name }) {
   const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => {
@@ -36,7 +36,7 @@ export default function RestoreAccount({ setActiveMember, name }) {
             color="primary"
             variant="contained"
             onClick={() => {
-              setActiveMember()
+              setActiveProfile()
             }}
           >
             Submit
@@ -49,5 +49,5 @@ export default function RestoreAccount({ setActiveMember, name }) {
 
 RestoreAccount.propTypes = {
   name: PropTypes.string.isRequired,
-  setActiveMember: PropTypes.func.isRequired,
+  setActiveProfile: PropTypes.func.isRequired,
 }
