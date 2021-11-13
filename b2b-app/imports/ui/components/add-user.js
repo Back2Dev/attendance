@@ -13,7 +13,7 @@ let userSchema = new SimpleSchema2Bridge(
     roles: { type: Array, optional: false },
     'roles.$': {
       type: String,
-      allowedValues: ['CUS', 'CON'],
+      allowedValues: ['CUS', 'MEM'],
     },
   })
 )

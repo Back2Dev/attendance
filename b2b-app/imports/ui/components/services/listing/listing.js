@@ -103,9 +103,15 @@ function JobsListing() {
   const columns = [
     {
       key: 'createdAt',
-      name: 'Created Date',
+      name: 'Created',
       formatter: ({ row }) => moment(row.createdAt).format('DD/MM/YYYY HH:mm'),
       width: 140,
+      // frozen: true,
+    },
+    {
+      key: 'jobNo',
+      name: 'No',
+      // width: 120,
       // frozen: true,
     },
     {
@@ -140,6 +146,7 @@ function JobsListing() {
       return {
         _id: item._id,
         createdAt: item.createdAt,
+        jobNo: item.jobNo,
         bike: item.bikeName,
         customer: item.name,
         cost: item.totalCost / 100,

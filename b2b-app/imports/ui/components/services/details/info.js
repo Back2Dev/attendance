@@ -53,7 +53,7 @@ function JobInfo() {
       </Helmet>
       <div className="header-container">
         <Typography variant="h1" className="title">
-          {item?.isRefurbish ? 'Refurbish' : item?.name}: {item?.bikeName}{' '}
+          {item?.jobNo} {item?.isRefurbish ? 'Refurbish' : item?.name}: {item?.bikeName}{' '}
           {`$${item?.totalCost / 100}`}
         </Typography>
       </div>
