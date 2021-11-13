@@ -154,7 +154,8 @@ export const JobsSchema = new SimpleSchema({
       const check = calcServicesCost === this.value
       if (!check) {
         return new Meteor.Error(
-          'Total services/parts cost not equal the sum of its parts!'
+          `Total service/parts cost ${this.value} not equal the sum of its parts ${calcServicesCost}!`
+          // 'Total services/parts cost not equal the sum of its parts!'
         )
       }
     },
