@@ -113,7 +113,7 @@
     "react-tabulator": "^0.10.3",
     "react-transition-group": "^2.3.1",
     "semantic-ui-react": "^0.78.2",
-    "set-value": "^3.0.2",
+    "set-value": "^4.0.1",
     "simpl-schema": "^1.5.5",
     "sugar": "^2.0.1",
     "utf-8-validate": "^5.0.2",

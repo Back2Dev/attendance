@@ -7,35 +7,48 @@ import { Route, Switch } from 'react-router-dom'
 import Loading from '/imports/ui/components/commons/loading.js'
 
 // Generated lazy imports go here...
-const UserList = lazy(() => import('/imports/ui/admin/users/lister'))
-const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
-const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
-
-const Audits = lazy(() => import('/imports/ui/admin/audits/lister.js'))
-const Members = lazy(() => import('/imports/ui/admin/members/lister.js'))
-const ServiceItems = lazy(() => import('/imports/ui/admin/service-items/lister.js'))
-const Jobs = lazy(() => import('/imports/ui/admin/jobs/lister.js'))
-const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Audits = lazy(() => import('/imports/ui/admin/audits'))
+const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs'))
+const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
+const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
+const Members = lazy(() => import('/imports/ui/admin/members'))
+const Settings = lazy(() => import('/imports/ui/admin/settings'))
+const Surveys = lazy(() => import('/imports/ui/admin/surveys'))
+const Events = lazy(() => import('/imports/ui/admin/events'))
 const Courses = lazy(() => import('/imports/ui/admin/courses'))
+const Tools = lazy(() => import('/imports/ui/admin/tools'))
+const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
+const ServiceItems = lazy(() => import('/imports/ui/admin/service-items'))
+const Jobs = lazy(() => import('/imports/ui/admin/jobs'))
+const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
+const Collections = lazy(() => import('/imports/ui/admin/collections'))
 
 //
 // This file contains a list of routes for database admin pages
 // It is generated from a list of modules
 //
-export default GeneratedRoute = () => {
+export default GeneratedRoutes = () => {
   return (
     <Suspense fallback={<Loading loading />}>
       <Switch>
         {/** Generated routes go here */}
-        <Route path="/admin/audits" exact component={Audits} />
-        <Route path="/admin/members" exact component={Members} />
-        <Route path="/admin/service-items" exact component={ServiceItems} />
-        <Route path="/admin/jobs" exact component={Jobs} />
-        <Route path="/admin/forms" component={Forms} />
+        <Route path="/admin/audits" component={Audits} />
+        <Route path="/admin/cronjobs" component={Cronjobs} />
+        <Route path="/admin/triggers" component={Triggers} />
+        <Route path="/admin/message-templates" component={MessageTemplates} />
+        <Route path="/admin/members" component={Members} />
+        <Route path="/admin/settings" component={Settings} />
+        <Route path="/admin/surveys" component={Surveys} />
+        <Route path="/admin/events" component={Events} />
         <Route path="/admin/courses" component={Courses} />
-        <Route path="/admin/users" exact component={UserList} />
-        <Route path="/admin/calendar" component={EventCalendar} />
+        <Route path="/admin/tools" component={Tools} />
+        <Route path="/admin/sessions" component={Sessions} />
+        <Route path="/admin/service-items" component={ServiceItems} />
+        <Route path="/admin/jobs" component={Jobs} />
+        <Route path="/admin/forms" component={Forms} />
         <Route path="/admin/registrations" component={Registrations} />
+        <Route path="/admin/collections" component={Collections} />
       </Switch>
     </Suspense>
   )

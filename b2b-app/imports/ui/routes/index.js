@@ -6,6 +6,7 @@ import Loading from '/imports/ui/components/commons/loading.js'
 
 const HomePage = lazy(() => import('/imports/ui/pages/home.js'))
 const AdminPage = lazy(() => import('/imports/ui/pages/admin.js'))
+const DBAdminPage = lazy(() => import('/imports/ui/pages/dbadmin'))
 const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
 // const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const BookingsPage = lazy(() => import('/imports/ui/pages/bookings.js'))
@@ -44,7 +45,7 @@ export default function MainRoutes() {
       <Switch>
         {/* TODO Change back to secure route after debugging */}
         <SecureRoute roles={['ADM']} path="/admin" component={AdminPage} />
-        {/* <Route path="/admin" component={AdminPage} /> */}
+        <SecureRoute roles={['ADM']} path="/dba" component={DBAdminPage} />
         <SecureRoute roles={['ADM']} path="/hacks" component={HacksPage} />
         <Route path="/" exact component={HomePage} />
         <Route path="/logged-out" exact component={LoggedOut} />

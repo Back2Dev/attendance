@@ -8,6 +8,7 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
 import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
+import Loader from '/imports/ui/components/commons/loading.js'
 import MyCollectionList from './list'
 import config from './config'
 
@@ -88,7 +89,7 @@ const stdCols = [
 
 const MyCollectionWrapper = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <Loader loading />
   return <MyCollectionList {...props}></MyCollectionList>
 }
 

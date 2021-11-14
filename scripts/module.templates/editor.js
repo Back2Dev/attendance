@@ -4,6 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import MyCollection from '/imports/api/my-collection/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
+import Loader from '/imports/ui/components/commons/loading.js'
 import Edit from './edit'
 import config from './config'
 
@@ -23,7 +24,7 @@ const update = (id, form) => {
 const methods = { remove, update }
 
 const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <Loader loading />
   return <Edit {...props}></Edit>
 }
 const Editor = withTracker((props) => {
