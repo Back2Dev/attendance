@@ -54,7 +54,7 @@ Meteor.methods({
         Meteor.users.remove({ core: { $exists: false } })
         Members.remove({ core: { $exists: false } })
       }
-      let n = 0
+      let n = { jobs: 0, members: 0, users: 0 }
       const query = id || {}
       Assessments.find(query).forEach((ass) => {
         const { customerDetails: cust } = ass
@@ -68,11 +68,18 @@ Meteor.methods({
             if (res.status === 'success') {
               const m = Members.findOne({ userId: res.userId })
               ass.memberId = m?._id
+              n.members = n.members + 1
+              n.users = n.users + 1
             }
           } else {
-            cust.nickname = cust.name.split(' ')[0] || cust.name
-            cust.notifyBy = ['EMAIL', 'SMS']
-            ass.memberId = Members.insert(cust)
+            const m = Members.findOne({ mobile: cust.mobile })
+            if (m) ass.memberId = m._id
+            else {
+              cust.nickname = cust.name.split(' ')[0] || cust.name
+              cust.notifyBy = ['EMAIL', 'SMS']
+              ass.memberId = Members.insert(cust)
+              n.members = n.members + 1
+            }
           }
         }
 
@@ -126,10 +133,13 @@ Meteor.methods({
             { $set: { createdAt: ass.createdAt } },
             { getAutoValues: false }
           )
-          n = n + 1
+          n.jobs = n.jobs + 1
         }
       })
-      return { status: 'success', message: `Migrated ${n} assessments => jobs` }
+      return {
+        status: 'success',
+        message: `Migrated ${n.jobs} assessments => jobs, users: ${n.users}, members: ${n.members}`,
+      }
     } catch (e) {
       const message = `Error migrating job: ${e.message}`
       console.error(message)

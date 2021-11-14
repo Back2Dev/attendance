@@ -414,12 +414,12 @@ function ContactStep() {
     }
     return (
       <div className="history-container">
-        <div className="history-title">Member's services history</div>
+        <div className="history-title">Service history</div>
         {selectedMember.history?.map((item) => {
           return (
             <div key={item._id} className="history-item">
               <div className="item-date">
-                <Link component={RouterLink} to={`services/${item._id}`}>
+                <Link component={RouterLink} to={`../services/${item._id}`}>
                   {moment(item.createdAt).format('DD MMM YYYY')}
                 </Link>
               </div>
