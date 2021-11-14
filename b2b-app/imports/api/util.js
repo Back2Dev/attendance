@@ -48,7 +48,7 @@ export const accessByPathNextLevel = (obj, path, mkpath) => {
 }
 
 export const setByPath = (obj, path, value) => {
-  if (typeof path !== 'string') return
+  if (typeof path !== 'string' || !value) return
   const paths = path.split(/[\.\/]/g)
   return paths.reduce((acc, path, ix) => {
     if (!acc) return ''
@@ -166,7 +166,7 @@ export function capitaliseFirst(string) {
 
 const aTagMerge = (body, tags) => {
   const aTagRegex = /\[(.*?)]\s\((.*?)\)/g
-  if (!body.match(aTagRegex)) return body
+  if (!body?.match(aTagRegex)) return body
   let data = body.match(aTagRegex).reduce((acc, f) => {
     const text = f.match(/\[(.*?)]/)[1]
     const href = tags[f.match(/([^*|]+(?=\|\*))/)[1]]
@@ -174,16 +174,9 @@ const aTagMerge = (body, tags) => {
     return acc
   }, {})
 
-  return body
-    .match(aTagRegex)
-    .reduce((acc, f) => {
-      return acc.replace(f, data[f])
-    }, body)
-    .split(/\n/)
-    .map((line) => {
-      return line
-    })
-    .join('')
+  return body?.match(aTagRegex).reduce((acc, f) => {
+    return acc.replace(f, data[f])
+  }, body)
 }
 
 export const convertMergeTags = (emailBody, tags) => {

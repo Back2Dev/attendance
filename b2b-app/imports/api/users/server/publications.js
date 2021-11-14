@@ -4,6 +4,7 @@ import { Match } from 'meteor/check'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
 import Members from '/imports/api/members/schema'
+import Messages from '/imports/api/messages/schema'
 import moment from 'moment'
 import '/server/methods'
 import log from '/imports/lib/log'
@@ -13,7 +14,58 @@ const debug = require('debug')('app:users')
 const publicFields = { username: 1, emails: 1, roles: 1 }
 
 Meteor.publish('getAllUsers', () => {
-  return Meteor.users.find({}, { fields: publicFields })
+  return [
+    Meteor.users.find({}, { fields: publicFields }),
+    Members.find(
+      {},
+      {
+        fields: {
+          name: 1,
+          mobile: 1,
+          userId: 1,
+          status: 1,
+        },
+      }
+    ),
+  ]
+})
+
+Meteor.publish('getUser', (userId) => {
+  return [
+    Meteor.users.find(
+      { _id: userId },
+      { fields: { username: 1, roles: 1, services: 1 } }
+    ),
+    Members.find(
+      { userId },
+      {
+        fields: {
+          name: 1,
+          mobile: 1,
+          createdAt: 1,
+          userId: 1,
+          status: 1,
+          nickname: 1,
+          onlineStatus: 1,
+          notifyBy: 1,
+        },
+      }
+    ),
+    // TODO: limit messages to user
+    Messages.find(
+      { recipientId: userId },
+      {
+        fields: {
+          createdAt: 1,
+          type: 1,
+          to: 1,
+          subject: 1,
+          status: 1,
+          body: 1,
+        },
+      }
+    ),
+  ]
 })
 
 Meteor.methods({
@@ -197,7 +249,7 @@ Meteor.methods({
     }
     try {
       const user = Accounts.findUserByEmail(email)
-      if (!user) return log.error(`No user found with email ${email}`)
+      if (!user) return { status: 'failed', message: `No user found with email ${email}` }
 
       if (user && user.services.password) {
         const token = Random.secret()
