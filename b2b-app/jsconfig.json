@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "$sb/*": ["./imports/ui/admin/forms/survey-builder/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

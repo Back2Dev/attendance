@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "shippedProposals": true,
+        "useBuiltIns": "usage",
+        "corejs": "2"
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "$sb": "./imports/ui/admin/forms/survey-builder"
+        }
+      }
+    ]
+  ]
+}

@@ -15,7 +15,7 @@
       "port": 9229
     },
     {
-      "type": "chrome",
+      "type": "pwa-chrome",
       "request": "attach",
       "name": "Attach Chrome",
       "url": "http://localhost:4090/admin/register",
@@ -23,6 +23,36 @@
       "run_chrome_like_this:": "'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --remote-debugging-port=9222",
       "navigate to:": "http://localhost:4090/admin/register",
       "port": 9222
+    },
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "Storybook Debug",
+      "breakOnLoad": true,
+      "url": "http://localhost:3076",
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:///*": "${webRoot}/*",
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///src/*": "${webRoot}/*",
+        "webpack:///./~/*": "${webRoot}/node_modules/*"
+      }
+    },
+    {
+      "name": "Debug Jest Tests UI",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--runInBand",
+        "--testMatch",
+        "${workspaceRoot}/imports/ui/**/*.test.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
     },
     {
       "type": "chrome",

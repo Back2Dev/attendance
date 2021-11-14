@@ -33,6 +33,7 @@ export const CoursesSchema = new SimpleSchema({
     allowedValues: ['beginner', 'intermediate', 'advanced'],
     defaultValue: 'beginner',
   },
+  pageContent: OptionalBlackbox,
   active: {
     type: Boolean,
     defaultValue: true,

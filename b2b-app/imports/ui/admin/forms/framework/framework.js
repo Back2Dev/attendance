@@ -2,6 +2,7 @@ import React from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
+import { Builder } from '../survey-builder/builder'
 import { DoubleLayout } from './double-layout'
 import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
@@ -84,10 +85,12 @@ const Framework = ({ id, item, methods }) => {
       : 'single'
   )
 
-  const [folds, setFolds] = React.useState(
-    localStorage.getItem('folds') ? JSON.parse(localStorage.getItem('folds')) : {}
-  )
   const currentFolds = { form: {}, json: {} }
+  const [folds, setFolds] = React.useState(
+    localStorage.getItem('folds')
+      ? JSON.parse(localStorage.getItem('folds'))
+      : currentFolds
+  )
 
   const updateFold = (line, isFold, editorType) => {
     currentFolds[editorType][line] = isFold
@@ -201,6 +204,9 @@ const Framework = ({ id, item, methods }) => {
       break
     case 'double':
       layoutComponent = <DoubleLayout />
+      break
+    case 'dnd':
+      layoutComponent = <Builder />
       break
     default:
       layoutComponent = <SingleLayout />
