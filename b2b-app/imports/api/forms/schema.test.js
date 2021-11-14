@@ -7,7 +7,6 @@ import { expect } from 'chai'
 
 import Forms from './schema'
 import Factory from '/imports/test/factories'
-import '/imports/test/factory.forms'
 
 const badForms = [
   // no name
@@ -25,7 +24,7 @@ describe('forms', () => {
       it('success if database query matches', () => {
         const id = Forms.insert(good)
         const thing = Forms.findOne(id)
-        const fields = ["name","slug","source","survey","revision","active"] || []
+        const fields = ['name', 'slug', 'source', 'survey', 'revision', 'active'] || []
         fields.forEach((field) => {
           expect(thing[field]).to.equal(good[field])
         })

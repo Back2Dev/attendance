@@ -6,7 +6,7 @@ import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import { TabAppbar } from '/imports/ui/utils/generic'
 
-const debug = require('debug')('se:add')
+const debug = require('debug')('app:add')
 
 const idField = '_id'
 const FILTER_NAME = 'se:message-templates:filter'
@@ -36,12 +36,12 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
     // layout: 'fitData',
     pagination: 'local', //enable local pagination.
     paginationSize: 12,
-        persistence:{
-      sort:true,
-      filter:true,
-      columns:true,
+    persistence: {
+      sort: true,
+      filter: true,
+      columns: true,
     },
-    persistenceID:"se:message-templates",
+    persistenceID: 'se:message-templates',
     rowSelected: function (row) {
       rowsSelected.push(row._row.data[idField])
       setRowsSelected(rowsSelected)
@@ -106,7 +106,7 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
       return null
     }
     tableRef.current.table.setFilter('search', 'like', e.target.value)
-    localStorage.setItem(FILTER_NAME,e.target.value)
+    localStorage.setItem(FILTER_NAME, e.target.value)
   }
 
   const buttons = [

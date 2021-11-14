@@ -9,14 +9,14 @@ import config from './config'
 
 const schemaBridge = config.edit.schema
 
-const debug = require('debug')('se:edit')
+const debug = require('debug')('app:edit')
 
 const Edit = ({ id, item, methods }) => {
   const save = (model) => {
     try {
       methods.update(id, model)
     } catch (e) {
-      alert(`Update error ${e.message}`)
+      debug(`Update error ${e.message}`)
     }
   }
 

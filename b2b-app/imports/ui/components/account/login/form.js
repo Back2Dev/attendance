@@ -11,6 +11,8 @@ import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
 import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.js'
 import TextDivider from '/imports/ui/components/text-divider.js'
 
+const debug = require('debug')('app:loginform')
+
 const StyledLoginForm = styled.div``
 
 function LoginForm({ doingLogin, setDoingLogin, onAfterLogin }) {
@@ -25,7 +27,6 @@ function LoginForm({ doingLogin, setDoingLogin, onAfterLogin }) {
 
   const onLogin = (e) => {
     e.preventDefault()
-
     if (doingLogin) {
       return
     }

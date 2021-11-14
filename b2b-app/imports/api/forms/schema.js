@@ -1,7 +1,12 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 
-import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/utils/schema-util'
+import {
+  OptionalRegExId,
+  createdAt,
+  updatedAt,
+  OptionalBlackbox,
+} from '/imports/api/utils/schema-util'
 
 const Forms = new Mongo.Collection('forms')
 
@@ -14,11 +19,7 @@ export const FormsSchema = new SimpleSchema({
   },
   slug: String,
   source: String,
-  survey: {
-    type: Object,
-    blackbox: true,
-    optional: true,
-  },
+  survey: OptionalBlackbox,
   revision: {
     type: SimpleSchema.Integer,
     defaultValue: 1,
@@ -29,11 +30,7 @@ export const FormsSchema = new SimpleSchema({
   },
   createdAt,
   updatedAt,
-  json: {
-    type: Object,
-    blackbox: true,
-    optional: true,
-  },
+  json: OptionalBlackbox,
 })
 
 Forms.attachSchema(FormsSchema)

@@ -37,7 +37,7 @@ global.login = (username, password) => {
 }
 
 global.loginToNextStep = (username, password, address) => {
-  cy.visit('/properties').wait(1000)
+  cy.visit('/bookings').wait(1000)
   cy.window().then((win) => {
     win.Meteor.loginWithPassword(username, password, address)
   })

@@ -7,7 +7,7 @@ import { file2BinString } from '/imports/ui/utils/files'
 import Main from './upload-avatar'
 import { meteorCall } from '/imports/ui/utils/meteor'
 
-const debug = require('debug')('se:aws')
+const debug = require('debug')('app:aws')
 
 const save = (data) => {
   debug('data', data)

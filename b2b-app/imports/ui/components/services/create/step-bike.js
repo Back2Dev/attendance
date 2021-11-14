@@ -5,35 +5,24 @@ import styled from 'styled-components'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoField, TextField, ErrorsField } from 'uniforms-material'
 
 import { ServiceContext } from './context'
 import { Button } from '@material-ui/core'
+import moment from 'moment'
 
 const bikeFormSchema = new SimpleSchema({
-  make: String,
-  model: String,
-  color: String,
-  type: {
-    type: String,
-    allowedValues: [
-      'Moutain Bike',
-      'Road Bike',
-      'Hybrid Bike',
-      'BMX Bike',
-      'Ladies Bike',
-      'Gents Bike',
-      'Vintage Bike',
-      'Other',
-    ],
-  },
+  assessor: String,
+  bikeName: String,
+  dropoffDate: Date,
+  pickupDate: { type: Date, optional: true },
   budget: {
     type: Number,
     label: 'Budget',
+    optional: true,
   },
-  approxValue: {
-    type: Number,
-    label: 'Approx. Value',
+  note: {
+    type: String,
     optional: true,
   },
 })
@@ -65,8 +54,11 @@ function bikeStepReducer(state, action) {
 
 function BikeStep({ initialData }) {
   const [state, dispatch] = useReducer(bikeStepReducer, {
-    details: initialData?.details || {},
-    updatedAt: new Date(),
+    details: initialData?.details || {
+      dropoffDate: moment().format('YYYY-MM-DD'),
+      pickupDate: moment().add(7, 'days').format('YYYY-MM-DD'),
+    },
+    updatedAt: null,
     hasValidData: false,
     checkedAt: null,
   })
@@ -90,6 +82,8 @@ function BikeStep({ initialData }) {
     []
   )
 
+  const autoValidate = useRef(false)
+
   const { details, hasValidData, updatedAt, checkedAt } = state
 
   const checkData = async () => {
@@ -104,23 +98,26 @@ function BikeStep({ initialData }) {
     if (mounted.current) {
       dispatch({ type: 'setHasValidData', payload: checkResult === null })
     }
+    return checkResult === null
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const checkResult = await checkData()
+
     setStepData({
       stepKey: 'bike',
       data: {
         details,
         updatedAt,
-        hasValidData,
+        hasValidData: checkResult,
       },
     })
     setStepProperty({
       stepKey: 'bike',
       property: 'completed',
-      value: hasValidData,
+      value: checkResult,
     })
-    if (hasValidData && activeStep === 'bike') {
+    if (checkResult && activeStep === 'bike') {
       goNext()
     }
   }
@@ -131,24 +128,30 @@ function BikeStep({ initialData }) {
       dispatch({
         type: 'setDetails',
         payload: {
-          make: originalData.make,
-          model: originalData.model,
-          color: originalData.color,
-          type: originalData.bikeType,
+          assessor: originalData.assessor,
+          bikeName: originalData.bikeName,
+          dropoffDate: originalData.dropoffDate
+            ? moment(originalData.dropoffDate).format('YYYY-MM-DD')
+            : '',
+          pickupDate: originalData.pickupDate
+            ? moment(originalData.pickupDate).format('YYYY-MM-DD')
+            : '',
           budget: originalData.budget,
-          approxValue: originalData.bikeValue,
+          note: originalData.note,
         },
       })
-      // dispatch({ type: 'setHasValidData', payload: true })
-      // checkData()
+      autoValidate.current = true
     }
   }, [originalData])
 
   useEffect(() => {
+    if (!autoValidate.current) {
+      return
+    }
     // if (activeStep !== 'bike') {
     //   return
     // }
-    console.log('effect check data')
+    console.log('effect check data', updatedAt)
     Meteor.clearTimeout(checkTimeout.current)
     checkTimeout.current = Meteor.setTimeout(() => {
       checkData()
@@ -156,10 +159,13 @@ function BikeStep({ initialData }) {
   }, [updatedAt])
 
   useEffect(() => {
+    if (!checkedAt) {
+      return
+    }
     // if (activeStep !== 'contact') {
     //   return
     // }
-    // console.log('checkedAt effect')
+    console.log('checkedAt effect', checkedAt)
     setStepData({
       stepKey: 'bike',
       data: {
@@ -199,7 +205,25 @@ function BikeStep({ initialData }) {
             handleSubmit()
           }}
         >
-          <AutoFields />
+          {/* <AutoFields variant="outlined" /> */}
+          <AutoField name="assessor" variant="outlined" />
+          <AutoField name="bikeName" variant="outlined" />
+          <TextField
+            value={details.dropoffDate}
+            name="dropoffDate"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            type="date"
+          />
+          <TextField
+            value={details.pickupDate}
+            name="pickupDate"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            type="date"
+          />
+          <AutoField name="budget" variant="outlined" />
+          <AutoField name="note" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
             <Button onClick={goBack}>Back</Button>
@@ -207,6 +231,7 @@ function BikeStep({ initialData }) {
               variant="contained"
               color="primary"
               onClick={() => {
+                autoValidate.current = true
                 formRef.current.submit()
               }}
             >

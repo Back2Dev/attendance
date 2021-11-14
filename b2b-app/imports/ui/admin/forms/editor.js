@@ -7,12 +7,7 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './framework/framework'
 import config from './config'
 
-const debug = require('debug')('se:editor')
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: '',
-}
+const debug = require('debug')('app:editor')
 let history
 
 const remove = (id) => meteorCall('rm.forms', 'Deleting', id)
@@ -39,33 +34,3 @@ const Editor = withTracker((props) => {
   }
 })(Loading)
 export default Editor
-
-/* 
-  This section is for legacy (mysql) db. Uncomment it to use it, and comment out the "export default" above
- */
-// const idField = '_id'
-// const LegacyEditor = (props) => {
-//   const [loading, setLoading] = React.useState(true)
-//   const [item, setItem] = React.useState({})
-//   const id = props.match.params.id
-//   let status
-
-//   React.useEffect(() => {
-//     const fetchData = async () => {
-//       const response = await meteorCall('fetch.id.forms', null, id)
-//       if (response.status === 'success') {
-//         setItem(response.item)
-//         setLoading(false)
-//       }
-//     }
-//     fetchData()
-//   }, [])
-
-//   const eprops = { id, item, methods, loading }
-//   debug('props', eprops)
-//   if (loading) return <div>Loading...</div>
-//   if (!item) return <div>Something went wrong fetching your data</div>
-//   return <Edit {...eprops}></Edit>
-// }
-
-// export default idField === 'id' ? LegacyEditor : Editor

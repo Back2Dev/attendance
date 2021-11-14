@@ -1,4 +1,4 @@
-import { existingCustomer } from '/tests/cypress/fixtures/users.json'
+import { mike } from '/tests/cypress/fixtures/users.json'
 const faker = require('faker')
 
 Cypress.on(
@@ -18,7 +18,7 @@ describe('Sign up functions from landing page', () => {
 
   it('Successfully sends forgot password email', function () {
     cy.get('[data-cy=forgot-password]').should('exist').click()
-    cy.get('input[name="email"]').should('exist').type(existingCustomer.username)
+    cy.get('input[name="email"]').should('exist').type(mike.username)
     cy.get('#submit-button').click()
   })
 })

@@ -9,7 +9,7 @@ import '/imports/api/support/server/methods.js'
 import '/server/methods'
 import Factory from '/imports/test/factories.js'
 
-const debug = require('debug')('se:support:test')
+const debug = require('debug')('app:support:test')
 
 // Test Objects
 const roles = ['CUS', 'CON']
