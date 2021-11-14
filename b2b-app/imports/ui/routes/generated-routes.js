@@ -23,8 +23,6 @@ const Jobs = lazy(() => import('/imports/ui/admin/jobs'))
 const Forms = lazy(() => import('/imports/ui/admin/forms'))
 const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 const Collections = lazy(() => import('/imports/ui/admin/collections'))
-const Users = lazy(() => import('/imports/ui/admin/users'))
-const EventCalendar = lazy(() => import('/imports/ui/admin/calendar'))
 
 //
 // This file contains a list of routes for database admin pages
@@ -49,8 +47,6 @@ export default GeneratedRoutes = () => {
         <Route path="/admin/service-items" component={ServiceItems} />
         <Route path="/admin/jobs" component={Jobs} />
         <Route path="/admin/forms" component={Forms} />
-        <Route path="/admin/users" component={Users} />
-        <Route path="/admin/calendar" component={EventCalendar} />
         <Route path="/admin/registrations" component={Registrations} />
         <Route path="/admin/collections" component={Collections} />
       </Switch>
