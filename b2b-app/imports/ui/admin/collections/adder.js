@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import MyCollection from '/imports/api/my-collection/schema'
+import Collections from '/imports/api/collections/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
 import Add from './add'
@@ -13,8 +13,8 @@ let push
 
 const methods = {
   save: (form) => {
-    meteorCall('insert.myCollection', 'saving', form)
-    push('/admin/my-collection')
+    meteorCall('insert.collections', 'saving', form)
+    push('/admin/collections')
   },
 }
 

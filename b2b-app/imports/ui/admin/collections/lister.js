@@ -3,17 +3,17 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { reactFormatter } from 'react-tabulator'
-import MyCollection from '/imports/api/my-collection/schema'
+import Collections from '/imports/api/collections/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
 import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import Loader from '/imports/ui/components/commons/loading.js'
-import MyCollectionList from './list'
+import CollectionsList from './list'
 import config from './config'
 
 const debug = require('debug')('se:lister')
-const idField = 'ID_FIELD'
+const idField = '_id'
 let push
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
@@ -21,20 +21,20 @@ const dateFormat = {
   invalidPlaceholder: '',
 }
 
-const remove = (id) => meteorCall('rm.myCollection', 'Deleting', id)
-const update = (form) => meteorCall('update.myCollection', 'updating', form)
-const insert = (form) => meteorCall('insert.myCollection', 'adding', form)
-const add = () => push(`/admin/my-collection/add`)
-const edit = (id) => push(`/admin/my-collection/edit/${id}`)
-const view = (id) => push(`/admin/my-collection/view/${id}`)
+const remove = (id) => meteorCall('rm.collections', 'Deleting', id)
+const update = (form) => meteorCall('update.collections', 'updating', form)
+const insert = (form) => meteorCall('insert.collections', 'adding', form)
+const add = () => push(`/admin/collections/add`)
+const edit = (id) => push(`/admin/collections/edit/${id}`)
+const view = (id) => push(`/admin/collections/view/${id}`)
 const archive = async (rowids) => {
   const name = prompt('Please enter a name for the archive')
   const text = confirm(
-    `Are you sure you want to archive this MyCollection and related entities?`
+    `Are you sure you want to archive this Collections and related entities?`
   )
 
   if (name && text) {
-    meteorCall('archive.myCollection', `Archiving MyCollection to ${name}`, {
+    meteorCall('archive.collections', `Archiving Collections to ${name}`, {
       name,
       ids: rowids,
     })
@@ -87,15 +87,15 @@ const stdCols = [
   },
 ]
 
-const MyCollectionWrapper = (props) => {
+const CollectionsWrapper = (props) => {
   push = useHistory()?.push
   if (props.loading) return <Loader loading />
-  return <MyCollectionList {...props}></MyCollectionList>
+  return <CollectionsList {...props}></CollectionsList>
 }
 
-const MyCollectionLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.myCollection')
-  const items = MyCollection.find({}).map((row) => {
+const CollectionsLister = withTracker((props) => {
+  const subsHandle = Meteor.subscribe('all.collections')
+  const items = Collections.find({}).map((row) => {
     row.search = obj2Search(row)
     return row
   })
@@ -106,6 +106,6 @@ const MyCollectionLister = withTracker((props) => {
     columns,
     loading: !subsHandle.ready(),
   }
-})(MyCollectionWrapper)
+})(CollectionsWrapper)
 
-export default MyCollectionLister
+export default CollectionsLister

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import MyCollection from '/imports/api/my-collection/schema'
+import Collections from '/imports/api/collections/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
 import View from './view'
@@ -11,10 +11,10 @@ const debug = require('debug')('se:viewer')
 const idField = '_id'
 let push
 
-const remove = (id) => meteorCall('rm.my-collection', 'Deleting', id)
+const remove = (id) => meteorCall('rm.collections', 'Deleting', id)
 const update = (id, form) => {
-  meteorCall('update.my-collection', 'updating', { id, form })
-  push('/admin/my-collection')
+  meteorCall('update.collections', 'updating', { id, form })
+  push('/admin/collections')
 }
 
 const Loading = (props) => {
@@ -25,8 +25,8 @@ const Loading = (props) => {
 const Tracker = withTracker((props) => {
   history = props.history
   const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.my-collection', id)
-  const item = MyCollection.findOne(id) || {}
+  const subsHandle = Meteor.subscribe('id.collections', id)
+  const item = Collections.findOne(id) || {}
   return {
     id,
     item,

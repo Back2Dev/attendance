@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import { Grid } from '@material-ui/core'
 import GeneratedRoutes from '/imports/ui/routes/generated-routes'
-import Register from '/imports/ui/admin/register'
+import ManualRoutes from '/imports/ui/routes/manual-routes'
 import NotFoundComponent from '/imports/ui/components/commons/not-found.js'
 
 const StyledAdminPage = styled.div``
@@ -22,11 +22,9 @@ function AdminPage() {
     <StyledAdminPage className="admin-page-container">
       <Grid container>
         <Grid item xs={12}>
-          <Switch>
-            <Route path="/admin/register" component={Register} />
-            <GeneratedRoutes />
-            <Route component={NotFoundComponent} />
-          </Switch>
+          <GeneratedRoutes />
+          <ManualRoutes />
+          {/* <Route component={NotFoundComponent} /> */}
         </Grid>
       </Grid>
     </StyledAdminPage>

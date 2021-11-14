@@ -1,4 +1,4 @@
-getRandomInt = (max) => {
+export const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
@@ -10,4 +10,9 @@ export const randomId = (n = 17) => {
     digits[i] = UNMISTAKABLE_CHARS[ix]
   }
   return digits.join('')
+}
+
+export const getSlugFromString = (str) => {
+  const regex = /\W+/
+  return str.replace(regex, '-')
 }
