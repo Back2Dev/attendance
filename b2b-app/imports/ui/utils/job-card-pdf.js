@@ -38,7 +38,8 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
     ]
   })
 
-  const pickupDate = moment(bikeDetails.pickup).format('DD MMM YYYY')
+  const pickupDate = moment(bikeDetails.pickupDate).format('DD MMM YYYY')
+  const dropoffDate = moment(bikeDetails.dropoffDate).format('DD MMM YYYY')
 
   PdfMaker({
     contents: [
@@ -56,7 +57,8 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
       },
 
       // { text: `Assessor: ${assessor} `, style: 'text' },
-      { text: `Pickup Date: ${pickupDate} `, style: 'text', bold: true },
+      { text: `Drop off date: ${dropoffDate} `, style: 'text', bold: true },
+      { text: `Pick up date: ${pickupDate} `, style: 'text', bold: true },
       { text: '', style: 'text' },
 
       {

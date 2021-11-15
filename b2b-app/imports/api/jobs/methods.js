@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import CONSTANTS from '../constants'
 import ServiceItems from '/imports/api/service-items/schema.js'
+import Counters from '/imports/api/counters/schema'
 import Jobs, {
   JobCreateParamsSchema,
   JobUpdateParamsSchema,
@@ -567,6 +568,7 @@ Meteor.methods({
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
       isRefurbish: data.refurbish === true,
+      jobNo: (data.refurbish ? 'R' : 'C') + Meteor.call('getNextJobNo'),
     }
 
     if (cleanData.selectedMember?._id) {
@@ -667,5 +669,13 @@ Meteor.methods({
         message: `Error adding job: ${e.message}`,
       }
     }
+  },
+  getNextJobNo() {
+    let c = incrementCounter(Counters, 'jobs', 1)
+    if (c < 1700) {
+      setCounter(Counters, 'jobs', 1999)
+      c = incrementCounter(Counters, 'jobs', 1)
+    }
+    return c
   },
 })

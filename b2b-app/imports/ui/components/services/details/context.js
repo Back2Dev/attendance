@@ -174,6 +174,8 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
+  const payUrl = Meteor.absoluteUrl(`/pay/${item.jobNo}`)
+
   return (
     <JobsDetailsContext.Provider
       value={{
@@ -186,6 +188,7 @@ export const JobsDetailsProvider = ({ children }) => {
         addHistory,
         sendSMS,
         setExpectedPickupDate,
+        payUrl,
       }}
     >
       {children}

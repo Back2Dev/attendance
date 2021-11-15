@@ -23,6 +23,7 @@ fixtures
 accounts-base@2.2.0
 mikkelking:slingshot
 mikkelking:method-hooks
+mikkelking:mongo-counter
 dburles:factory
 dburles:mongo-collection-instances
 accounts-password@2.2.0

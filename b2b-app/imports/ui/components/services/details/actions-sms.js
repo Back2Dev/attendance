@@ -31,10 +31,13 @@ const StyledBoxContent = styled.div`
 `
 
 function SendSMS() {
-  const { item, sendSMS } = useContext(JobsDetailsContext)
+  const { item, sendSMS, payUrl } = useContext(JobsDetailsContext)
+  const cost = item.totalCost / 100
 
   const [open, setOpen] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(
+    `Hi ${item.name}, Your bike is ready for pickup. Cost is $${cost}. Please pay at ${payUrl} (from workshop at Back2bikes)`
+  )
 
   const showForm = () => {
     setOpen(true)

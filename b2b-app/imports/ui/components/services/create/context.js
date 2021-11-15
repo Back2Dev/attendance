@@ -116,14 +116,6 @@ export const ServiceProvider = ({ children }) => {
         lastMessage: '',
         data: null,
       },
-      // pickup: {
-      //   label: 'Pick-up',
-      //   error: false,
-      //   disabled: false,
-      //   completed: false,
-      //   lastMessage: '',
-      //   data: null,
-      // },
     },
     activeStep: 'service', // for dev only, should be service by default
     loading: false,
@@ -230,7 +222,6 @@ export const ServiceProvider = ({ children }) => {
       refurbish: contactData.refurbish,
       selectedMember: contactData.selectedMember,
       memberData: contactData.refurbish ? undefined : contactData.memberData,
-      // pickup: state.steps.pickup.data.pickup,
     }
 
     if (originalData) {

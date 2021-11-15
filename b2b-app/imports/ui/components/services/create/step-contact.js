@@ -117,9 +117,8 @@ const StyledContactStep = styled.div`
 
 const memberFormSchema = new SimpleSchema({
   name: String,
-  mobile: { type: String, optional: true },
+  mobile: { type: String, optional: false },
   email: { type: String, optional: true },
-  address: { type: String, optional: true },
 })
 memberFormSchema.addDocValidator((obj) => {
   // console.log('doc validator', obj)
@@ -161,7 +160,6 @@ function contactStepReducer(state, action) {
             name: '',
             mobile: '',
             email: '',
-            address: '',
           }
     case 'setSearching':
       return { ...state, searching: payload }
@@ -269,7 +267,6 @@ function ContactStep() {
             name: originalData.name || '',
             mobile: originalData.phone || '',
             email: originalData.email || '',
-            address: originalData.address || '',
           },
         })
         dispatch({ type: 'setHasValidData', payload: true })
@@ -424,9 +421,7 @@ function ContactStep() {
                 </Link>
               </div>
               <div className="item-data">
-                <div className="data bike-info">
-                  {item.color} {item.make} {item.model},
-                </div>
+                <div className="data bike-info">{item.bikeName},</div>
                 <div className="data cost">
                   Cost: ${numeral(item.totalCost / 100).format('0,0')},
                 </div>
@@ -449,7 +444,7 @@ function ContactStep() {
     return (
       <div className="form-container">
         <div className="form-title">
-          {showNewMemberForm ? 'New member' : 'Selected member'}
+          {showNewMemberForm ? 'New customer' : 'Selected customer'}
         </div>
         <AutoForm
           ref={formRef}
@@ -465,7 +460,6 @@ function ContactStep() {
           <AutoField name="name" variant="outlined" />
           <AutoField name="mobile" variant="outlined" />
           <AutoField name="email" variant="outlined" />
-          <AutoField name="address" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
             <Button
@@ -520,7 +514,7 @@ function ContactStep() {
             variant="outlined"
             defaultValue={memberData?.name}
             onChange={(value) => searchMember(value)}
-            placeholder="search existing member"
+            placeholder="search for customer"
             autoTrigger
             disabled={refurbish || showNewMemberForm}
           />

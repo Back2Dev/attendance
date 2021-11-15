@@ -21,6 +21,11 @@ const bikeFormSchema = new SimpleSchema({
     label: 'Budget',
     optional: true,
   },
+  replacementBike: {
+    type: String,
+    optional: true,
+    label: 'Replacement bike (make/model/colour)',
+  },
   note: {
     type: String,
     optional: true,
@@ -223,6 +228,7 @@ function BikeStep({ initialData }) {
             type="date"
           />
           <AutoField name="budget" variant="outlined" />
+          <AutoField name="replacementBike" variant="outlined" />
           <AutoField name="note" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">

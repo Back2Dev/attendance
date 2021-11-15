@@ -65,6 +65,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
       type: Number,
       optional: true,
     },
+    replacementBike: OptionalString,
     note: OptionalString,
   }),
   refurbish: {
@@ -83,16 +84,9 @@ export const JobCreateParamsSchema = new SimpleSchema({
       name: String,
       mobile: OptionalString,
       email: OptionalString,
-      address: OptionalString,
     }),
     optional: true,
   },
-  // pickup: new SimpleSchema({
-  //   urgent: Boolean,
-  //   dropOffDate: String,
-  //   pickupDate: String,
-  //   replacementBike: { type: String, optional: true },
-  // }),
 })
 
 export const JobUpdateParamsSchema = new SimpleSchema({
@@ -112,13 +106,11 @@ export const JobsSchema = new SimpleSchema({
     label: 'Customer phone number',
   },
   email: { type: String, optional: true, label: 'Customer email' },
-  address: { type: String, optional: true, label: 'Customer address' },
   isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
   bikeName: String,
   // make: { type: String, label: 'Bike make' },
   // model: { type: String, optional: true, label: 'Bike model' },
   // color: { type: String, label: 'Bike color' },
-  // bikeType: { type: String, optional: true, label: 'Bike Type' },
   budget: { type: SimpleSchema.Integer, optional: true },
   bikeValue: {
     type: SimpleSchema.Integer,
