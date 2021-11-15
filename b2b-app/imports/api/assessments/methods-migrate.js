@@ -1,4 +1,8 @@
 import { Meteor } from 'meteor/meteor'
+import { Promise } from 'meteor/promise'
+// import { DDP } from 'meteor/ddp-client'
+import simpleDDP from 'simpleddp'
+import ws from 'isomorphic-ws'
 import Members from '../members/schema'
 import Assessments, { Logger } from '/imports/api/assessments/schema'
 import Jobs from '/imports/api/jobs/schema'
@@ -45,97 +49,140 @@ const getDesc = (log, ass) => {
   }
 }
 
+let n = { jobs: 0, members: 0, users: 0 }
+
+const doMigration = (connection, id) => {
+  debug('Connected, subscribing to assessments')
+  const assSub = connection.subscribe('assessments.all')
+  Promise.await(assSub.ready())
+  let assessments = connection.collection('assessments').fetch()
+
+  assessments
+    .filter((ass) => (id ? ass.id === id : true))
+    .forEach((ass) => {
+      const { customerDetails: cust } = ass
+      ass.name = cust.name
+      ass.phone = cust.phone
+      cust.mobile = cust.phone
+      if (!cust.isRefurbish && cust.name) {
+        if (cust.email) {
+          cust.roles = ['CUS']
+          const res = Meteor.call('addNewUser', cust)
+          if (res.status === 'success') {
+            const m = Members.findOne({ userId: res.userId })
+            ass.memberId = m?._id
+            n.members = n.members + 1
+            n.users = n.users + 1
+          }
+        } else {
+          const m = Members.findOne({ mobile: cust.mobile })
+          if (m) ass.memberId = m._id
+          else {
+            cust.nickname = cust.name.split(' ')[0] || cust.name
+            cust.notifyBy = ['EMAIL', 'SMS']
+            ass.memberId = Members.insert(cust)
+            n.members = n.members + 1
+          }
+        }
+      }
+
+      const serviceItems = []
+        .concat(ass.parts.partsItem)
+        .concat(ass.services.serviceItem)
+        .map((item) => {
+          const s = ServiceItems.findOne({ name: item.name })
+          if (s) return s
+          else {
+            console.log(`Could not find part/service item: ${item.name}, creating`)
+            item._id = ServiceItems.insert(item)
+            return item
+          }
+        })
+        .filter(Boolean)
+      if (ass.additionalFees)
+        serviceItems.push({ name: ass.comment || 'extras', price: ass.additionalFees })
+      const tot = serviceItems.reduce((acc, item) => {
+        return acc + item.price
+      }, 0)
+      if (tot !== ass.totalCost)
+        serviceItems.push({ name: 'Adjustment', price: ass.totalCost - tot })
+
+      debug(`Subscribing to logger ${ass.id}`)
+      const logSub = connection.subscribe('logger.assessment', ass.id)
+      Promise.await(logSub.ready())
+      let loggers = connection
+        .collection('logger')
+        .fetch()
+        .filter((log) => log.aId === ass.id)
+      // const loggers = Logger.find({ aId: ass._id })
+
+      debug('go')
+      ass._id = ass.id
+      const rec = {
+        ...ass,
+        status: statusMap[ass.status],
+        bikeName:
+          'make model color'
+            .split(/[\s,]+/)
+            .map((key) => ass.bikeDetails[key] || '')
+            .filter(Boolean)
+            .join(' ') || 'Service',
+        // `${ass.bikeDetails.make} ${ass.bikeDetails.model} ${ass.bikeDetails.color}`.trim() ||
+        // 'Service',
+        assessor: ass.assessor,
+        dropoffDate: ass.dropoffDate,
+        pickupDate: ass.pickupDate,
+        note: ass.comment,
+        serviceItems,
+        history: loggers.map((log) => {
+          log.statusBefore = 'new'
+          log.statusAfter = JOB_STATUS_BUTTON[log.status]
+          log.description = getDesc(log, ass)
+          return log
+        }),
+      }
+      debug(`Inserting job`, rec)
+      if (Jobs.insert(rec)) {
+        Jobs.update(
+          ass._id,
+          { $set: { createdAt: ass.createdAt } },
+          { getAutoValues: false }
+        )
+        n.jobs = n.jobs + 1
+      }
+    })
+  // connection.close()
+  Promise.await(connection.stopChangeListeners())
+  Promise.await(connection.disconnect())
+}
+
 Meteor.methods({
   'migrate.jobs': (clean, id) => {
     try {
       if (clean) {
         debug('Removing jobs, users and members')
-        Jobs.remove({})
-        Meteor.users.remove({ core: { $exists: false } })
-        Members.remove({ core: { $exists: false } })
-      }
-      let n = { jobs: 0, members: 0, users: 0 }
-      const query = id || {}
-      Assessments.find(query).forEach((ass) => {
-        const { customerDetails: cust } = ass
-        ass.name = cust.name
-        ass.phone = cust.phone
-        cust.mobile = cust.phone
-        if (!cust.isRefurbish && cust.name) {
-          if (cust.email) {
-            cust.roles = ['CUS']
-            const res = Meteor.call('addNewUser', cust)
-            if (res.status === 'success') {
-              const m = Members.findOne({ userId: res.userId })
-              ass.memberId = m?._id
-              n.members = n.members + 1
-              n.users = n.users + 1
-            }
-          } else {
-            const m = Members.findOne({ mobile: cust.mobile })
-            if (m) ass.memberId = m._id
-            else {
-              cust.nickname = cust.name.split(' ')[0] || cust.name
-              cust.notifyBy = ['EMAIL', 'SMS']
-              ass.memberId = Members.insert(cust)
-              n.members = n.members + 1
-            }
+        const jobQuery = id ? { _id: id } : {}
+        Jobs.remove(jobQuery)
+        if (id) {
+          const job = Jobs.findOne(jobQuery)
+          if (job) {
+            Meteor.users.remove({ core: { $exists: false }, _id: job.userId })
+            Members.remove({ core: { $exists: false }, _id: job.memberId })
           }
+        } else {
+          Meteor.users.remove({ core: { $exists: false } })
+          Members.remove({ core: { $exists: false } })
         }
-
-        const serviceItems = []
-          .concat(ass.parts.partsItem)
-          .concat(ass.services.serviceItem)
-          .map((item) => {
-            const s = ServiceItems.findOne({ name: item.name })
-            if (s) return s
-            else {
-              console.log(`Could not find part/service item: ${item.name}, creating`)
-              item._id = ServiceItems.insert(item)
-              return item
-            }
-          })
-          .filter(Boolean)
-        if (ass.additionalFees)
-          serviceItems.push({ name: ass.comment || 'extras', price: ass.additionalFees })
-        const tot = serviceItems.reduce((acc, item) => {
-          return acc + item.price
-        }, 0)
-        if (tot !== ass.totalCost)
-          serviceItems.push({ name: 'Adjustment', price: ass.totalCost - tot })
-        const rec = {
-          ...ass,
-          status: statusMap[ass.status],
-          bikeName:
-            'make model color'
-              .split(/[\s,]+/)
-              .map((key) => ass.bikeDetails[key] || '')
-              .filter(Boolean)
-              .join(' ') || 'Service',
-          // `${ass.bikeDetails.make} ${ass.bikeDetails.model} ${ass.bikeDetails.color}`.trim() ||
-          // 'Service',
-          assessor: ass.assessor,
-          dropoffDate: ass.dropoffDate,
-          pickupDate: ass.pickupDate,
-          note: ass.comment,
-          serviceItems,
-          history: Logger.find({ aId: ass._id }).map((log) => {
-            log.statusBefore = 'new'
-            log.statusAfter = JOB_STATUS_BUTTON[log.status]
-            log.description = getDesc(log, ass)
-            return log
-          }),
-        }
-        debug(`Inserting job`, rec)
-        if (Jobs.insert(rec)) {
-          Jobs.update(
-            ass._id,
-            { $set: { createdAt: ass.createdAt } },
-            { getAutoValues: false }
-          )
-          n.jobs = n.jobs + 1
-        }
-      })
+      }
+      let options = {
+        endpoint: `wss://app.back2bikes.com.au:443/websocket`,
+        SocketConstructor: ws,
+        reconnectInterval: 5000,
+      }
+      console.log(`Connecting to Meteor server on ${options.endpoint}`)
+      const remote = new simpleDDP(options)
+      Promise.await(remote.connect())
+      doMigration(remote, id)
       return {
         status: 'success',
         message: `Migrated ${n.jobs} assessments => jobs, users: ${n.users}, members: ${n.members}`,
