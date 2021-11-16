@@ -234,7 +234,7 @@ function Grid() {
   if (!theCollection) {
     return (
       <StyledGrid>
-        <Typography variant="h1">Opps! There collection was not found</Typography>
+        <Typography variant="h1">Oops! The collection was not found</Typography>
       </StyledGrid>
     )
   }
