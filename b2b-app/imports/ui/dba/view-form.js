@@ -215,7 +215,7 @@ function ViewForm() {
   if (!rawC) {
     return (
       <StyledViewForm>
-        <Typography variant="h1">Opps! the collection was not found</Typography>
+        <Typography variant="h1">Oops! The collection was not found</Typography>
       </StyledViewForm>
     )
   }
