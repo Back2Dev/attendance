@@ -58,7 +58,7 @@ describe('Sellers questionnaire web form (mini-workflow)', () => {
   it('Rejects the document (cos)', () => {
     cy.visit('/properties')
     cy.get('h1').should('contain', 'Log in')
-    login(users.pm.username, users.pm.password)
+    login(users.mgr.username, users.mgr.password)
     cy.get('a[href="/properties"]').should('exist').click()
     cy.get('.address > a').then((element) => {
       cy.wrap(element).invoke('text').should('contain', address)
@@ -94,7 +94,7 @@ describe('Sellers questionnaire web form (mini-workflow)', () => {
   it('Approves the document (cos)', () => {
     cy.visit('/properties')
     cy.get('h1').should('contain', 'Log in')
-    login(users.pm.username, users.pm.password)
+    login(users.mgr.username, users.mgr.password)
     cy.get('a[href="/properties"]').should('exist').click()
     cy.get('.address > a').then((element) => {
       cy.wrap(element).invoke('text').should('contain', address)
@@ -116,7 +116,7 @@ describe('Sellers questionnaire web form (mini-workflow)', () => {
       cy.wrap(element).invoke('text').should('contain', address)
       cy.wrap(element).click()
     })
-// Skip
+    // Skip
     cy.get('button#skip-cust-approve').click()
     // Confirm
     cy.get('button#yes-skip').click()

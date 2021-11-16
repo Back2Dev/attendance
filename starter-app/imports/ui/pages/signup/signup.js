@@ -114,7 +114,7 @@ const Signup = () => {
             <br />
             By clicking submit you are agreeing to the{' '}
             <a
-              href="https://settleeasy.com.au/terms-of-use/"
+              href="https://startup.com.au/terms-of-use/"
               className={classes.link}
               target="_blank"
               rel="noreferrer"

@@ -67,7 +67,7 @@ describe('adds a property from the landing page (new user)', () => {
   it('PM Approves the web form', () => {
     cy.visit('/properties')
     cy.get('h1').should('contain', 'Log in')
-    login(users.pm.username, users.pm.password)
+    login(users.mgr.username, users.mgr.password)
     cy.wait(500)
     cy.get('h1').contains('My properties').should('exist')
     cy.get('a[href="/properties"]').should('exist').click()

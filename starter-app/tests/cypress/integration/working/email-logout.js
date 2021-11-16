@@ -12,7 +12,7 @@ describe('navigates to the landing page', () => {
 
   it('navigates to  startup inc homepage and enters information and clicks sign in', function () {
     cy.visit('/properties')
-    login(this.users.pm.username, this.users.pm.password)
+    login(this.users.mgr.username, this.users.mgr.password)
     cy.get('[data-cy=primary-search-account-menu]').first().click()
     cy.get(
       '#primary-search-account-menu > .MuiPaper-root > .MuiList-root > li.MuiButtonBase-root'
