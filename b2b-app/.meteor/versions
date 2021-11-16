@@ -57,7 +57,7 @@ meteortesting:browser-tests@1.3.4
 meteortesting:mocha@2.0.3
 meteortesting:mocha-core@8.1.2
 mikkelking:method-hooks@3.0.2
-mikkelking:mongo-counter@0.0.7
+mikkelking:mongo-counter@2.0.0
 mikkelking:slingshot@1.0.0
 minifier-css@1.6.0
 minifier-js@2.7.1
