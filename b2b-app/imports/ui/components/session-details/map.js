@@ -7,14 +7,10 @@ import { SessionDetailsContext } from './context'
 
 const StyledDetailsMap = styled.div`
   margin-top: 20px;
-  img {
-    max-width: 100%;
-  }
 `
 
 function DetailsMap() {
-  const { loading, event } = useContext(SessionDetailsContext)
-
+  const { loading, event, course } = useContext(SessionDetailsContext)
   if (loading || !event) {
     return (
       <StyledDetailsMap>
@@ -23,16 +19,18 @@ function DetailsMap() {
     )
   }
 
-  if (!event.course || !event.course.map || !event.course.map.length) {
+  if (!event.courseId || !course) {
     return null
   }
+  return <StyledDetailsMap className="map" key={event.courseId}></StyledDetailsMap>
 
-  return event.course.map.map((item) => (
-    <StyledDetailsMap className="map" key={item.title}>
-      <div className="map-title">{item.title}</div>
-      <img src={item.imageUrl} alt={item.title} />
-    </StyledDetailsMap>
-  ))
+  // return event.course.map.map((item) => (
+  //   <StyledDetailsMap className="map" key={item.title}>
+
+  //     {/* <div className="map-title">{item.title}</div>
+  //     <img src={item.imageUrl} alt={item.title} /> */}
+  //   </StyledDetailsMap>
+  // ))
 }
 
 export default DetailsMap

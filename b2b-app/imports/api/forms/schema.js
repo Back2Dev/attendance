@@ -21,7 +21,7 @@ export const FormsSchema = new SimpleSchema({
   source: String,
   survey: OptionalBlackbox,
   revision: {
-    type: Number,
+    type: SimpleSchema.Integer,
     defaultValue: 1,
   },
   active: {

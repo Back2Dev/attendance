@@ -271,8 +271,12 @@ Meteor.methods({
   'update.members': (form) => {
     try {
       const id = form._id
+      const roles = form.roles
       delete form._id
+      delete form.roles
       const n = Members.update(id, { $set: form })
+      const m = Members.findOne(id)
+      Roles.setUserRoles(m.userId, roles)
       logger.audit('Updated member', { id, form })
       return { status: 'success', message: `Updated ${n} member(s)` }
     } catch (e) {

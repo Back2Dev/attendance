@@ -54,6 +54,13 @@ CONSTANTS.USER_STATUS = {
   deleted: 'Deleted',
 }
 
+CONSTANTS.USER_STATUS_COLORS = {
+  active: '#31a750',
+  suspended: '#000',
+  pending: '#fcaf47',
+  deleted: '#ea4435',
+}
+
 CONSTANTS.DEFAULT_AVATAR = '/images/default-avatar.png'
 
 // Use this message if no event was specified - it emails ADM, so that we get to know about it
@@ -115,8 +122,8 @@ CONSTANTS.JOB_STATUS_READABLE = {
 CONSTANTS.JOB_STATUS_MAPPING = {
   new: [{ next: 'in-progress', label: 'Start' }],
   'in-progress': [
+    { next: 'new', label: 'New' },
     { next: 'quality-check', label: 'Quality Check' },
-    { next: 'cancelled', label: 'Cancel' },
   ],
   'quality-check': [
     { next: 'in-progress', label: 'In Progress' },

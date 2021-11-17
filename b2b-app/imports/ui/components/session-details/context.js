@@ -9,6 +9,7 @@ import { useTracker } from 'meteor/react-meteor-data'
 // import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
 import Sessions from '/imports/api/sessions/schema.js'
+import Courses from '../../../api/courses/schema'
 
 export const SessionDetailsContext = React.createContext('sessiondetails')
 
@@ -41,12 +42,22 @@ export const SessionDetailsProvider = (props) => {
     })
   }, [session?.eventId])
 
+  const course = useTracker(() => {
+    if (!event?.courseId) {
+      return null
+    }
+    return Courses.findOne({
+      _id: event.courseId
+    })
+  },[event?.courseId])
+
   return (
     <SessionDetailsContext.Provider
       value={{
         loading,
         session,
         event,
+        course
       }}
     >
       {children}

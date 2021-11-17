@@ -1,0 +1,14 @@
+{
+  "collection": "collections",
+  "generate": "CRUD",
+  "fields": {
+    "name": {
+      "type": "String",
+      "label": "Collection name"
+    },
+    "active": { "type": "Boolean", "defaultValue": true }
+  },
+  "defaultObject": {
+    "name": "Untitled"
+  }
+}

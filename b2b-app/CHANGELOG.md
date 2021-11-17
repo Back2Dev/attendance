@@ -2,6 +2,8 @@
 
 ## Next
 
+- Rewrote user admin
+
 ## 1.0.5
 
 - Generated admin pages

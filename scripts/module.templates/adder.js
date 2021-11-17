@@ -4,6 +4,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import MyCollection from '/imports/api/my-collection/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
+import Loader from '/imports/ui/components/commons/loading.js'
 import Add from './add'
 import config from './config'
 
@@ -19,7 +20,7 @@ const methods = {
 
 const Loading = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <Loader loading />
   return <Add {...props}></Add>
 }
 const Adder = withTracker((props) => {

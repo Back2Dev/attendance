@@ -4,6 +4,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import MyCollection from '/imports/api/my-collection/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
+import Loader from '/imports/ui/components/commons/loading.js'
 import View from './view'
 
 const debug = require('debug')('se:viewer')
@@ -18,7 +19,7 @@ const update = (id, form) => {
 
 const Loading = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <Loader loading />
   return <View {...props}></View>
 }
 const Tracker = withTracker((props) => {
