@@ -22,7 +22,7 @@ const editSchema = new SimpleSchema({
   },
   price: {
     type: SimpleSchema.Integer,
-    label: 'Price in cents',
+    label: 'Price',
   },
   code: {
     type: String,
