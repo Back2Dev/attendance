@@ -435,15 +435,10 @@ Meteor.methods({
     }
 
     const jobData = {
-      // jobNo will be updated later
       name: cleanData.memberData?.name || undefined,
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
       address: cleanData.memberData?.address || undefined,
-      // make: cleanData.bikeDetails.make,
-      // model: cleanData.bikeDetails.model,
-      // color: cleanData.bikeDetails.color,
-      // bikeType: cleanData.bikeDetails.type,
       bikeName: cleanData.bikeDetails.bikeName,
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
@@ -453,6 +448,7 @@ Meteor.methods({
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
       isRefurbish: data.refurbish === true,
+      jobNo: (data.refurbish ? 'R' : 'C') + Meteor.call('getNextJobNo'),
     }
 
     if (cleanData.selectedMember?._id) {
@@ -549,15 +545,10 @@ Meteor.methods({
     }
 
     const jobData = {
-      // jobNo will be updated later
       name: cleanData.memberData?.name || undefined,
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
       address: cleanData.memberData?.address || undefined,
-      // make: cleanData.bikeDetails.make,
-      // model: cleanData.bikeDetails.model,
-      // color: cleanData.bikeDetails.color,
-      // bikeType: cleanData.bikeDetails.type,
       bikeName: cleanData.bikeDetails.bikeName,
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
