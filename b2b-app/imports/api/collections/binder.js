@@ -3,6 +3,7 @@ import registrations, { RegistrationsSchema } from '/imports/api/registrations/s
 import messageTemplates, {
   MessageTemplatesSchema,
 } from '/imports/api/message-templates/schema'
+import serviceItems, { ServiceItemsSchema } from '/imports/api/service-items/schema'
 import events, { EventsSchema } from '/imports/api/events/schema'
 import Courses, { CoursesSchema } from '/imports/api/courses/schema'
 import Members, { MembersSchema } from '/imports/api/members/schema'
@@ -17,6 +18,8 @@ const getCollection = (name) => {
       return { collection: registrations, schema: RegistrationsSchema }
     case 'messageTemplates':
       return { collection: messageTemplates, schema: MessageTemplatesSchema }
+    case 'serviceItems':
+      return { collection: serviceItems, schema: ServiceItemsSchema }
     case 'courses':
       return { collection: Courses, schema: CoursesSchema }
     case 'members':

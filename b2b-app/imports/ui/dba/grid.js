@@ -234,7 +234,11 @@ function Grid() {
   if (!theCollection) {
     return (
       <StyledGrid>
-        <Typography variant="h1">Oops! The collection was not found</Typography>
+        <Typography variant="h1">Oops! The collection has no definition</Typography>
+        <Typography>
+          Either the collection doesn't exist, or maybe you need to run
+          scripts/bind-collections.js
+        </Typography>
       </StyledGrid>
     )
   }

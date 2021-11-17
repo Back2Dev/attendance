@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import Collections from '/imports/api/collections/schema'
-import getCollection from '/imports/api/collections/collections.js'
+import getCollection from '/imports/api/collections/binder'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 
