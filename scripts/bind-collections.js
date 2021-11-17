@@ -41,14 +41,14 @@ const collections = fs.readdirSync(apiFolder)
 .filter(dir => fs.lstatSync(`${apiFolder}/${dir}`).isDirectory() )
 .filter(dir => dir.match(/s$/))
 .filter(dir => !unwanted.includes(dir))
-.map(dir => ({folder: dir, collection: cc.titleCase(dir).replace('-',''), name: cc.camelCase(dir)}))
+.map(dir => ({folder: dir, collection: cc.titleCase(dir).replace('-',''), name: cc.pascalCase(dir)}))
 const mergeData = {
   IMPORT_SCHEMAS: collections
-  .map(c =>`import ${c.name}, { ${c.collection}Schema } from '/imports/api/${c.name}/schema'`)
+  .map(c =>`import ${c.name}, { ${c.collection}Schema } from '/imports/api/${c.folder}/schema'`)
   .join('\n'),
   COLLECTION_CASES: collections
   .map(c =>    {
-    return `case '${c.name}':
+    return `case '${c.folder}':
   return { collection: ${c.name}, schema: ${c.collection}Schema }`
 })
   .join('\n')
@@ -65,10 +65,5 @@ const t = fs.readFileSync(f, 'utf8')
 //   console.log("template=",t);
 const tt = _.template(t)
 const buf = tt(mergeData)
-// if (opts.debug) {
-//   console.log(`${willDo}writing ${destf}`);
-// }
 fs.writeFileSync(destf, prettier.format(buf, prettierRules))
-  const n = 1
-
-  console.log(`Done, saved ${n} files`)
+console.log(`Done, saved collections definitions to ${destf}`)
