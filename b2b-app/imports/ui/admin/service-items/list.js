@@ -120,7 +120,7 @@ const List = ({ items, methods, columns }) => {
         onChange={searchChange}
         defaultValue={localStorage.getItem(FILTER_NAME)}
       />
-      <Contents />
+      {Contents}
     </div>
   )
 }
