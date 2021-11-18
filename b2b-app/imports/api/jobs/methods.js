@@ -582,7 +582,7 @@ Meteor.methods({
     }
 
     // update the member data
-    if (cleanData.hasMember) {
+    if (cleanData.selectedMember || cleanData.memberData) {
       if (cleanData.selectedMember?._id) {
         // update the member data
         Members.update(
