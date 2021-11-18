@@ -248,11 +248,15 @@ Meteor.methods({
     }
 
     // update the status and the history
+    const setData = { mechanic }
+    if (job.status === 'new') {
+      setData.status = 'in-progress'
+    }
     try {
       Jobs.update(
         { _id: id },
         {
-          $set: { mechanic },
+          $set: setData,
           $push: {
             history: {
               userId: me._id,
@@ -447,7 +451,7 @@ Meteor.methods({
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
       serviceItems: cleanData.serviceItems,
-      note: cleanData.note,
+      note: cleanData.bikeDetails.note,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
@@ -582,7 +586,7 @@ Meteor.methods({
     }
 
     // update the member data
-    if (cleanData.hasMember) {
+    if (cleanData.selectedMember || cleanData.memberData) {
       if (cleanData.selectedMember?._id) {
         // update the member data
         Members.update(
