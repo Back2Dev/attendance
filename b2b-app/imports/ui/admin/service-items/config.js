@@ -36,6 +36,14 @@ const editSchema = new SimpleSchema({
     type: Boolean,
     label: 'Is item new or used',
   },
+  tags: {
+    type: Array,
+    optional: true,
+  },
+  'tags.$': {
+    type: String,
+    allowedValues: ['Minor', 'Major'], // for this moment we support only these 2 tags
+  },
 })
 
 //
@@ -57,6 +65,7 @@ export default config = {
       { field: 'code', title: 'code', editor: true, formatter: null },
       { field: 'category', title: 'category', editor: true, formatter: null },
       { field: 'used', title: 'used', editor: true, formatter: null },
+      { field: 'tags', title: 'tags', editor: true, formatter: null },
       {
         field: 'createdAt',
         title: 'createdAt',
