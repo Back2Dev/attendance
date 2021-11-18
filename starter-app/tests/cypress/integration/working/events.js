@@ -12,8 +12,8 @@ describe('Create event', () => {
   })
   it('Navigate to events', function () {
     cy.visit('/login')
-    cy.get('[data-cy=email-input]').type(this.users.admin.username)
-    cy.get('[data-cy=password-input]').type(this.users.admin.password)
+    cy.get('[data-cy=email-input]').type(this.users.mgr.username)
+    cy.get('[data-cy=password-input]').type(this.users.mgr.password)
     cy.get('[data-cy=login-btn]').click()
     cy.get('[data-cy=adm-drawer]').click()
     cy.get(':nth-child(3) > .MuiButtonBase-root > .MuiListItemText-root').click()

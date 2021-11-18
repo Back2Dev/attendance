@@ -18,7 +18,7 @@ describe('Sign up functions from landing page', () => {
 
   it('Successfully sends forgot password email', function () {
     cy.get('[data-cy=forgot-password]').should('exist').click()
-    cy.get('input[name="email"]').should('exist').type(existingCustomer.username)
+    cy.get('input[name="email"]').should('exist').type(this.users.existingCustomer.username)
     cy.get('#submit-button').click()
   })
 })
