@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 
 import MyCollection from './schema.sql'
-const debug = require('debug')('se:db:myCollection')
+const debug = require('debug')('app:db:myCollection')
 
 Meteor.methods({
   // Additional fetch method (covered by publications with Mongo)

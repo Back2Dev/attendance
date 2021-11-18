@@ -6,7 +6,7 @@ Fixtures = {
   data: {},
   config: {
     things: [], // Regular fixtures
-    boot: ['roles'], // Boot time loading, system won't work without these
+    boot: [], // Boot time loading, system won't work without these
     test: [], // Fixtures just for testing
     debug: false,
   },
@@ -58,16 +58,7 @@ Fixtures.loadUsers = function () {
           username: user.username ? user.username : user.name,
         })
         if (user.roles) {
-          user.roles = user.roles.map((role) => ({
-            _id: role,
-            scope: null,
-            assigned: true,
-          }))
-          const stuff = { roles: user.roles }
-          Object.keys(user).forEach((f) => {
-            if (!builtins.includes(f)) stuff[f] = user[f]
-          })
-          Meteor.users.update(id, { $set: stuff })
+          Roles.addUsersToRoles(id, user.roles)
         }
       } else {
         if (Fixtures.config.debug) console.log('User exists ' + user.email, user.username)

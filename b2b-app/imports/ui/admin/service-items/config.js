@@ -15,27 +15,37 @@ const dateFormat = {
 }
 
 const editSchema = new SimpleSchema({
-  _id: RegExId,
+  // _id: RegExId,
   name: {
     type: String,
     label: 'Parts description',
   },
   price: {
     type: SimpleSchema.Integer,
-    label: 'Price in cents',
+    label: 'Price',
   },
   code: {
     type: String,
-    label: 'Code to indicate if item is for front or back of bike',
+    label: 'Location code F=Front, R=Rear, FR=Front & Rear',
+    allowedValues: ['O', 'F', 'R', 'FR'],
   },
   category: {
     type: String,
     label: 'Parts category',
+    optional: true,
+    allowedValues: [
+      'new parts',
+      'service',
+      'service+parts',
+      'used parts',
+      'misc',
+      'bike sale',
+    ],
   },
-  used: {
-    type: Boolean,
-    label: 'Is item new or used',
-  },
+  // used: {
+  //   type: Boolean,
+  //   label: 'Item is used or second hand',
+  // },
 })
 
 //

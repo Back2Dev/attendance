@@ -34,7 +34,7 @@ import ImportExportIcon from '@material-ui/icons/ImportExport'
 import { showError } from '/imports/ui/utils/toast-alerts.js'
 
 import Collections from '/imports/api/collections/schema'
-import getCollection from '/imports/api/collections/collections.js'
+import getCollection from '/imports/api/collections/binder'
 import { getFieldType } from '/imports/api/collections/utils.js'
 
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
@@ -215,7 +215,11 @@ function ViewForm() {
   if (!rawC) {
     return (
       <StyledViewForm>
-        <Typography variant="h1">Oops! The collection was not found</Typography>
+        <Typography variant="h1">Oops! The collection has no definition</Typography>
+        <Typography>
+          Either the collection doesn't exist, or maybe you need to run
+          scripts/bind-collections.js
+        </Typography>
       </StyledViewForm>
     )
   }
