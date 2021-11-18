@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { Button, Stepper, Step, StepButton, StepLabel } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 
+import { showError } from '/imports/ui/utils/toast-alerts'
 import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
@@ -68,21 +68,48 @@ function JobActions() {
 
   const onSetStatus = (status) => {
     console.log('next status', status)
-    if (['cancelled', 'completed'].includes(status)) {
-      // need to confirm before set the status
-      showConfirm({
-        onConfirm: () => updateJobStatus(status),
-      })
-    } else if (
-      status === 'in-progress' &&
-      ['cancelled', 'completed'].includes(item.status)
-    ) {
-      showConfirm({
-        onConfirm: () => updateJobStatus(status),
-      })
-    } else {
-      updateJobStatus(status)
+    let doUpdate = true
+    switch (status) {
+      case 'in-progress': {
+        if (['cancelled', 'completed'].includes(item.status)) {
+          showConfirm({
+            onConfirm: () => updateJobStatus(status),
+          })
+          doUpdate = false
+        }
+        if (!item.mechanic) {
+          showError('Please select a mechanic first')
+          doUpdate = false
+        }
+        break
+      }
+      case 'cancelled':
+      case 'completed': {
+        showConfirm({
+          onConfirm: () => updateJobStatus(status),
+        })
+        doUpdate = false
+        break
+      }
     }
+
+    doUpdate && updateJobStatus(status)
+
+    // if (['cancelled', 'completed'].includes(status)) {
+    //   // need to confirm before set the status
+    //   showConfirm({
+    //     onConfirm: () => updateJobStatus(status),
+    //   })
+    // } else if (
+    //   status === 'in-progress' &&
+    //   ['cancelled', 'completed'].includes(item.status)
+    // ) {
+    //   showConfirm({
+    //     onConfirm: () => updateJobStatus(status),
+    //   })
+    // } else {
+    //   updateJobStatus(status)
+    // }
   }
 
   const onMarkAsPaid = () => {
