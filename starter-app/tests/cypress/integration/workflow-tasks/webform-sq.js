@@ -13,10 +13,10 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('Sellers questionnaire web form (mini-workflow)', () => {
   before(function () {
     freshDatabase()
-    cy.window().then(async (win) => {
-      await win.Meteor.callAsync('cleanup.listing', listings.easy.address)
-    })
-    cy.wait(4000)
+    // cy.window().then(async (win) => {
+    //   await win.Meteor.callAsync('cleanup.listing', listings.easy.address)
+    // })
+    // cy.wait(4000)
   })
   afterEach(function () {
     if (this.currentTest.state === 'failed') {
@@ -149,7 +149,7 @@ describe('Sellers questionnaire web form (mini-workflow)', () => {
     cy.WebformPressNext()
     cy.SubmitWebform(true)
   })
-
+})
   // it('Completes the "Finished" task', () => {
   //   cy.visit('/properties')
   //   cy.get('h1').should('contain', 'Log in')
@@ -175,4 +175,4 @@ describe('Sellers questionnaire web form (mini-workflow)', () => {
   //   // Wait for confirmation of the step being completed
   //   cy.get('div.MuiCardHeader-root').contains('Finished').should('exist')
   // })
-})
+

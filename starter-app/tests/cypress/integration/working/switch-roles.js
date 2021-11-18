@@ -13,9 +13,16 @@ describe('switch user roles', () => {
   before(function () {
     freshDatabase()
   })
+  
+  afterEach(function () {
+    if (this.currentTest.state === 'failed') {
+      Cypress.runner.stop()
+    }
+  })
 
   it('goes to the profile and swtiches roles', () => {
-    cy.loginFromHomepage(users.admin.username, users.admin.password)
+    cy.get('#login-nav-item').should('exist').click()
+    cy.loginFromHomepage(users.mgr.username,users.mgr.password)
     cy.get('a[href = "/properties"]').should('exist')
     cy.get('[data-cy="welcome"]').should('exist')
     cy.get(
