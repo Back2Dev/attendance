@@ -248,11 +248,15 @@ Meteor.methods({
     }
 
     // update the status and the history
+    const setData = { mechanic }
+    if (job.status === 'new') {
+      setData.status = 'in-progress'
+    }
     try {
       Jobs.update(
         { _id: id },
         {
-          $set: { mechanic },
+          $set: setData,
           $push: {
             history: {
               userId: me._id,
