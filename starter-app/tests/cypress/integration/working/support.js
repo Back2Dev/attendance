@@ -1,5 +1,7 @@
 import users from '/tests/cypress/fixtures/users.json'
 
+// TODO: add backend service
+
 describe('goes to support page', () => {
   beforeEach(() => {
     cy.loginFromHomepage(users.customer.username, users.customer.password)
