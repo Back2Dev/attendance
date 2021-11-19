@@ -269,7 +269,7 @@ export default function UserNavbar() {
           </RadioGroup>
         </FormControl>
       </Collapse>
-      <MenuItem onClick={onLogout} className={classes.profileItem} key="logout">
+      <MenuItem onClick={onLogout} className={classes.profileItem} key="logout" data-cy="log-out">
         Log out
       </MenuItem>
     </Menu>

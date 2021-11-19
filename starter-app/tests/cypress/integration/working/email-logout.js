@@ -14,9 +14,7 @@ describe('navigates to the landing page', () => {
     cy.visit('/properties')
     login(this.users.mgr.username, this.users.mgr.password)
     cy.get('[data-cy=primary-search-account-menu]').first().click()
-    cy.get(
-      '#primary-search-account-menu > .MuiPaper-root > .MuiList-root > li.MuiButtonBase-root'
-    )
+    cy.get('[data-cy=log-out]')
       .should('exist')
       .click()
     cy.get('[data-cy="logged-out"]').should('exist')
