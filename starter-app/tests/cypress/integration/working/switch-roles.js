@@ -33,5 +33,11 @@ describe('switch user roles', () => {
     )
     cy.get('[data-cy=a-tag-profile]').click()
     cy.get('[data-cy=user-account]').should('exist')
+    cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root').should('exist').click()
+    cy.get('[data-cy=switch-role]').click()
+    
+    cy.get('[type="radio"][value="MGR"]').click()
+
+
   })
 })
