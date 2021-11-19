@@ -174,7 +174,7 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
-  const payUrl = Meteor.absoluteUrl(`/pay/${item.jobNo}`)
+  const payUrl = Meteor.absoluteUrl(`/pay/${item?.jobNo}`)
 
   return (
     <JobsDetailsContext.Provider
