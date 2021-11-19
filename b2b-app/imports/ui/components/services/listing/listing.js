@@ -309,6 +309,7 @@ function JobsListing() {
     <StyledJobsListing>
       <div className="filter-container">
         <SearchBox
+          defaultValue={filterText}
           onChange={(searchQuery) => {
             setFilterText(searchQuery)
           }}
