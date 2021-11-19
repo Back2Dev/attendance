@@ -347,10 +347,11 @@ Meteor.methods({
    * @param {Object} params
    * @param {string} params.id
    * @param {string} params.status
+   * @param {string} params.history
    */
-  'jobs.updateStatus'({ id, status }) {
+  'jobs.updateStatus'({ id, status, history }) {
     try {
-      JobUpdateStatusParamsSchema.validate({ id, status })
+      JobUpdateStatusParamsSchema.validate({ id, status, history })
     } catch (e) {
       debug(e.message)
       return { status: 'failed', message: e.message }
@@ -379,6 +380,26 @@ Meteor.methods({
       return { status: 'failed', message: `Job status was invalid: ${status}` }
     }
     // update the status and the history
+    const historyItems = []
+    if (history) {
+      historyItems.push({
+        userId: me._id,
+        memberId: myMember._id,
+        description: history,
+        statusBefore: job.status,
+        statusAfter: status,
+        createdAt: new Date(),
+      })
+    }
+    historyItems.push({
+      userId: me._id,
+      memberId: myMember._id,
+      description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
+      statusBefore: job.status,
+      statusAfter: status,
+      createdAt: new Date(),
+    })
+
     try {
       Jobs.update(
         { _id: id },
@@ -386,12 +407,7 @@ Meteor.methods({
           $set: { status },
           $push: {
             history: {
-              userId: me._id,
-              memberId: myMember._id,
-              description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
-              statusBefore: job.status,
-              statusAfter: status,
-              createdAt: new Date(),
+              $each: historyItems,
             },
           },
         }

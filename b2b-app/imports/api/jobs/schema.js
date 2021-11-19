@@ -44,6 +44,7 @@ export const JobUpdateStatusParamsSchema = new SimpleSchema({
     type: String,
     allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
   },
+  history: OptionalString,
 })
 
 export const JobCreateParamsSchema = new SimpleSchema({

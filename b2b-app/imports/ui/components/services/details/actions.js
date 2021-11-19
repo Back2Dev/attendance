@@ -12,6 +12,7 @@ import CallLog from './actions-call'
 import SendSMS from './actions-sms'
 import MechanicSelector from './actions-mechanic'
 import CreatePDF from './actions-pdf'
+import QualityCheck from './actions-quality'
 
 const StyledJobActions = styled.div`
   margin: 20px 0;
@@ -115,7 +116,7 @@ function JobActions() {
   const onMarkAsPaid = () => {
     // need to confirm before update the job
     showConfirm({
-      onConfirm: () => markAsPaid(status),
+      onConfirm: () => markAsPaid(),
     })
   }
 
@@ -151,7 +152,7 @@ function JobActions() {
     {
       key: 'in-progress',
       label: 'In Progress',
-      disabled: !['new', 'in-progress', 'quality-check'].includes(item?.status),
+      disabled: !['new', 'in-progress'].includes(item?.status),
       completed: false,
     },
     {
@@ -163,7 +164,7 @@ function JobActions() {
     {
       key: 'ready',
       label: 'Ready for Pick Up',
-      disabled: !['quality-check', 'ready', 'completed'].includes(item?.status),
+      disabled: !['ready', 'completed'].includes(item?.status),
       completed: false,
     },
     {
@@ -184,7 +185,7 @@ function JobActions() {
         {steps.map((step) => (
           <Step
             key={step.key}
-            disabled={!availableNextStatus.includes(step.key)}
+            disabled={!availableNextStatus.includes(step.key) || step.disabled}
             completed={step.completed}
           >
             <StepButton
@@ -220,6 +221,7 @@ function JobActions() {
     <StyledJobActions>
       <div className="stepper">{renderSteps()}</div>
       <div className="btns">
+        <QualityCheck />
         <CreatePDF />
         <MechanicSelector />
         {renderMarkAsPaidBtn()}
