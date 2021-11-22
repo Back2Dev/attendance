@@ -15,7 +15,7 @@ describe('Create member', function () {
       ':nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input'
     )
       .clear()
-      .type('super.mnario@mario.com')
+      .type('geronimo.yawns@test.com')
     cy.get(
       ':nth-child(3) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input'
     )
@@ -24,42 +24,49 @@ describe('Create member', function () {
 
     cy.get(':nth-child(4) > .MuiButtonBase-root').contains('Sign in').click()
 
+    cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root').should('exist').click()
+
+    cy.get('[data-cy=switch-role]').click()
+
+    cy.get('[value="ADM"]').last().click()
+
     cy.get(
       '.MuiToolbar-root > :nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root'
     ).click()
 
-    cy.get('.makeStyles-sideDrawer-41 > :nth-child(2) > .MuiButtonBase-root')
+    cy.get('.makeStyles-sideDrawer-61 > :nth-child(2)')
       .contains('Hacks')
       .click()
 
-    cy.get('[href="/hacks/transporter"] > .MuiButtonBase-root')
+      cy.get('[href="/hacks/transporter"] > .MuiButtonBase-root')
       .contains('Messages')
       .click()
 
-    cy.get('.MuiTypography-h2').contains('Messages Transporter').should('exist')
+      cy.get('.MuiTypography-h2').contains('Messages Transporter').should('exist')
 
     cy.get(
       ':nth-child(1) > .MuiFormControl-root > .MuiInputBase-root > #message-search'
     ).click()
-    cy.get('#message-search-option-1').click()
+    cy.get('#message-search-option-1').should('exist').click()
 
     cy.get(':nth-child(2) > .MuiFormControl-root > .MuiInputBase-root').click()
-    cy.get('#select-email').click()
 
-    cy.get('a').contains('contact-us').click()
+    cy.get('#message-search-option-0').click()
 
-    cy.get('div').contains('Name: *|name|*').should('exist')
+    cy.get(':nth-child(2) > .MuiPaper-root > .MuiCardContent-root > .MuiTypography-root').contains('Subject: new-user').should('exist')
 
-    cy.get('[name=recipient]').click().type('Greg')
+     cy.get('[name="nickname"]').should('exist').type('Greck')
 
-    cy.get('[name=name]').click().type('Simon')
+    cy.get('[name=recipient]').click().type('fredgugurle')
+
+    cy.get('[name="role"]').clear().type('Manager')
 
     cy.get('[name=email]').click().type('fred@gurgurle.co.111')
 
-    cy.get('[name=phoneNumber]').click().type('12')
+    cy.get('[name=timestamp]').click().type('12:00:00')
 
-    cy.get(':nth-child(6) > .btn').click()
+    cy.get('form > .MuiButtonBase-root').click()
 
-    cy.get('div[class=disabled]').contains('Message is required').should('exist')
+   cy.get('.MuiCardActions-root > .MuiButtonBase-root').click()
   })
 })
