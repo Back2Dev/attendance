@@ -44,14 +44,22 @@ const editSchema = new SimpleSchema({
   },
   // used: {
   //   type: Boolean,
-  //   label: 'Item is used or second hand',
+  //   label: 'Is item new or used',
   // },
+  tags: {
+    type: Array,
+    optional: true,
+  },
+  'tags.$': {
+    type: String,
+    allowedValues: ['Minor', 'Major'], // for this moment we support only these 2 tags
+  },
 })
 
 //
 // Configuration to control display of individual records in a table
 //
-export default config = {
+const config = {
   view: {
     header: true, // Displays a heading row
     rows: [
@@ -67,6 +75,7 @@ export default config = {
       { field: 'code', title: 'code', editor: true, formatter: null },
       { field: 'category', title: 'category', editor: true, formatter: null },
       { field: 'used', title: 'used', editor: true, formatter: null },
+      { field: 'tags', title: 'tags', editor: true, formatter: null },
       {
         field: 'createdAt',
         title: 'createdAt',
@@ -87,3 +96,5 @@ export default config = {
     defaultObject: {},
   },
 }
+
+export default config

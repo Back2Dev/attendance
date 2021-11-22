@@ -249,11 +249,15 @@ Meteor.methods({
     }
 
     // update the status and the history
+    const setData = { mechanic }
+    if (job.status === 'new') {
+      setData.status = 'in-progress'
+    }
     try {
       Jobs.update(
         { _id: id },
         {
-          $set: { mechanic },
+          $set: setData,
           $push: {
             history: {
               userId: me._id,
@@ -343,10 +347,11 @@ Meteor.methods({
    * @param {Object} params
    * @param {string} params.id
    * @param {string} params.status
+   * @param {string} params.history
    */
-  'jobs.updateStatus'({ id, status }) {
+  'jobs.updateStatus'({ id, status, history }) {
     try {
-      JobUpdateStatusParamsSchema.validate({ id, status })
+      JobUpdateStatusParamsSchema.validate({ id, status, history })
     } catch (e) {
       debug(e.message)
       return { status: 'failed', message: e.message }
@@ -375,6 +380,26 @@ Meteor.methods({
       return { status: 'failed', message: `Job status was invalid: ${status}` }
     }
     // update the status and the history
+    const historyItems = []
+    if (history) {
+      historyItems.push({
+        userId: me._id,
+        memberId: myMember._id,
+        description: history,
+        statusBefore: job.status,
+        statusAfter: status,
+        createdAt: new Date(),
+      })
+    }
+    historyItems.push({
+      userId: me._id,
+      memberId: myMember._id,
+      description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
+      statusBefore: job.status,
+      statusAfter: status,
+      createdAt: new Date(),
+    })
+
     try {
       Jobs.update(
         { _id: id },
@@ -382,12 +407,7 @@ Meteor.methods({
           $set: { status },
           $push: {
             history: {
-              userId: me._id,
-              memberId: myMember._id,
-              description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
-              statusBefore: job.status,
-              statusAfter: status,
-              createdAt: new Date(),
+              $each: historyItems,
             },
           },
         }
@@ -443,7 +463,7 @@ Meteor.methods({
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
       serviceItems: cleanData.serviceItems,
-      note: cleanData.note,
+      note: cleanData.bikeDetails.note,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
@@ -575,7 +595,7 @@ Meteor.methods({
     }
 
     // update the member data
-    if (cleanData.hasMember) {
+    if (cleanData.selectedMember || cleanData.memberData) {
       if (cleanData.selectedMember?._id) {
         // update the member data
         Members.update(

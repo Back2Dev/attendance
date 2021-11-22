@@ -19,6 +19,7 @@ function CreatePDF() {
       bikeName: item.bikeName,
       dropoffDate: item.dropoffDate,
       pickupDate: item.pickupDate,
+      note: item.note,
     }
     const contactData = {
       memberData: item.memberId
