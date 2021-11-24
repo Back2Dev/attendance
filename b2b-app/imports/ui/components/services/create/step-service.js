@@ -427,6 +427,7 @@ function ServiceStep({ initialData }) {
             className="next-btn"
             variant="contained"
             color="primary"
+            id="service-next-btn"
             disabled={!hasValidData}
             onClick={() => {
               goNext()
