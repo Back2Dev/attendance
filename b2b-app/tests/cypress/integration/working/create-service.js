@@ -24,16 +24,38 @@ it('navigates to Back2bikes homepage logs in and switches role to admin', functi
 
   cy.get('#primary-search-account-menu > .MuiPaper-root > .MuiList-root > :nth-child(2)').contains('Switch role').click()
   cy.get('[value="ADM"]').last().click()
-})
 
-it('opens admin menu and navigates to create service page and adds minor service', function () {
+
+//it('opens admin menu and navigates to create service page and adds minor service', function () {
  cy.get('.MuiToolbar-root > :nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
  cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root').contains('Manager').click()
  cy.get('[href="/services/new"]').should('exist').click()
  cy.get('#service-total').should('exist')
  cy.get('.tags-selector > :nth-child(2) > .MuiButtonBase-root').click()
  cy.get('.items-wrapper > :nth-child(1) > .MuiButtonBase-root').click()
- cy.get('.items-wrapper > :nth-child(9) > .MuiButtonBase-root').click()
+//  cy.get('.items-wrapper > :nth-child(9) > .MuiButtonBase-root').click()
  cy.get('#service-next-btn').click()
+
+ cy.get('[name="assessor"]').clear().type('Super Mario')
+ cy.get('[name="bikeName"]').clear().type('Giganto')
+ cy.get('[name="dropoffDate"]').clear().type('2022-01-19')
+ cy.get('[name="pickupDate"]').clear().type('2022-02-01')
+ cy.get('[name="replacementBike"]').clear().type('N/A')
+ cy.get('[name="budget"]').clear().type('199')
+cy.get('.btns-container > .MuiButton-text').click()
+ cy.get('#service-next-btn').click()
+
+ cy.get('[name="note"]').clear().type('no replacement bike required')
+ cy.get('.MuiButton-contained').click()
+
+  cy.get('.decision-marking-container > .MuiFormControl-root > .MuiInputBase-root').click()
+  
+  // cy.get('.refurbish-btn').click()
+  
+  cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input').clear().type('Pat Carmel')
+  cy.get('.contactstep-item-form > .MuiListItem-root').click()
+  cy.get('[name="mobile"]').clear().type('12')
+  cy.get('[name="email"').clear().type('mario.super@gurgle.111')
+  cy.get('.contactstep-item-form > .form-container > form > .btns-container > .MuiButton-contained').click()
 })
 }) 

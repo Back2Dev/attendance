@@ -507,7 +507,7 @@ function ContactStep() {
   return (
     <StyledContactStep>
       <div className={classes.join(' ')}>
-        <div className="decision-marking-container">
+        <div className="decision-marking-container"   data-cy="customer-search" >
           <SearchBox
             ref={searchBoxRef}
             className="member-search-box"
@@ -518,6 +518,7 @@ function ContactStep() {
             autoTrigger
             disabled={refurbish || showNewMemberForm}
           />
+          
           <Button
             className="refurbish-btn"
             variant="contained"
