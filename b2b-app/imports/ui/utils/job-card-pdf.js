@@ -51,11 +51,11 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
         fontSize: 20,
       },
       {
-        text: `Owner:   ${capitalize(
+        text: `Owner: ${capitalize(
           contactData.memberData?.name || 'Refurbish'
         )}     email: ${contactData.memberData?.email || 'N/A'}     Ph: ${
           contactData.memberData?.mobile || 'N/A'
-        }`,
+        }     ${bikeDetails.budget ? `Budget: $${bikeDetails.budget}` : ''}`,
       },
 
       // { text: `Assessor: ${assessor} `, style: 'text' },
