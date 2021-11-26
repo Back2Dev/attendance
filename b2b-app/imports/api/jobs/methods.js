@@ -463,6 +463,7 @@ Meteor.methods({
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
       serviceItems: cleanData.serviceItems,
+      replacementBike: cleanData.bikeDetails.replacementBike,
       note: cleanData.bikeDetails.note,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),

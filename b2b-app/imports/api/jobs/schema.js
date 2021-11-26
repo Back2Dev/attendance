@@ -55,7 +55,8 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'price',
     'code',
     'category',
-    'used'
+    'used',
+    'tags'
   ),
   bikeDetails: new SimpleSchema({
     assessor: OptionalString,
@@ -133,7 +134,8 @@ export const JobsSchema = new SimpleSchema({
     'price',
     'code',
     'category',
-    'used'
+    'used',
+    'tags'
   ),
   totalCost: {
     type: SimpleSchema.Integer,

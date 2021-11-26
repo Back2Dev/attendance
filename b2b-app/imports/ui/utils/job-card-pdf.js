@@ -21,14 +21,22 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
   }, 0)
 
   const serviceItemNames = serviceItems.map((item) => {
+    const isMinor = item.tags?.includes('Minor')
+    const isMajor = item.tags?.includes('Major')
+    const label = isMajor ? 'Major' : isMinor ? 'Minor' : ''
     return [
       {
         text: item.name,
-        align: 'right',
-        colSpan: 3,
+        alignment: 'left',
+        colSpan: isMinor || isMajor ? 2 : 3,
       },
       {},
-      {},
+      label
+        ? {
+            text: label,
+            alignment: 'center',
+          }
+        : {},
       {
         image: item.code ? item.code : 'O',
         width: 60,
