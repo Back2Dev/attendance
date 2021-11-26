@@ -22,7 +22,7 @@ it('navigates to Back2bikes homepage logs in and switches role to admin', functi
   cy.get('[value="ADM"]').last().click()
 
 
-//opens admin menu navigates to create service page and adds minor service', function () {
+//opens  manager menu navigates to create service page and adds minor service', function () {
  cy.get('.MuiToolbar-root > :nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
  cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root').contains('Manager').click()
  cy.get('[href="/services/new"]').should('exist').click()
