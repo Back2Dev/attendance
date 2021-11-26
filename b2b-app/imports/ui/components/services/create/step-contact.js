@@ -225,6 +225,7 @@ function ContactStep() {
     createJob,
     setStepProperty,
     originalData,
+    goBack,
   } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
@@ -492,6 +493,13 @@ function ContactStep() {
     return (
       <div className="btns-container">
         <Button
+          onClick={() => {
+            goBack()
+          }}
+        >
+          Back
+        </Button>
+        <Button
           variant="contained"
           color="primary"
           onClick={() => {
@@ -507,7 +515,7 @@ function ContactStep() {
   return (
     <StyledContactStep>
       <div className={classes.join(' ')}>
-        <div className="decision-marking-container"   data-cy="customer-search" >
+        <div className="decision-marking-container" data-cy="customer-search">
           <SearchBox
             ref={searchBoxRef}
             className="member-search-box"
@@ -518,7 +526,7 @@ function ContactStep() {
             autoTrigger
             disabled={refurbish || showNewMemberForm}
           />
-          
+
           <Button
             className="refurbish-btn"
             variant="contained"
