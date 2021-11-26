@@ -8,11 +8,7 @@ describe('log into app and create a service', () => {
   before(function () {
     freshDatabase()
   })
-  // afterEach(function () {
-  //   if (this.currentTest.state === 'failed') {
-  //     Cypress.runner.stop()
-  //   }
-  // })
+  
 it('navigates to Back2bikes homepage logs in and switches role to admin', function () {
   cy.visit('/login')
   cy.get('[data-cy=email-input]').type(this.users.mike.username)
@@ -26,7 +22,7 @@ it('navigates to Back2bikes homepage logs in and switches role to admin', functi
   cy.get('[value="ADM"]').last().click()
 
 
-//it('opens admin menu and navigates to create service page and adds minor service', function () {
+//opens admin menu navigates to create service page and adds minor service', function () {
  cy.get('.MuiToolbar-root > :nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
  cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root').contains('Manager').click()
  cy.get('[href="/services/new"]').should('exist').click()
@@ -57,5 +53,9 @@ cy.get('.btns-container > .MuiButton-text').click()
   cy.get('[name="mobile"]').clear().type('12')
   cy.get('[name="email"').clear().type('mario.super@gurgle.111')
   cy.get('.contactstep-item-form > .form-container > form > .btns-container > .MuiButton-contained').click()
+
+  cy.get('.jobs-header > .MuiTypography-root').should('exist')
+  cy.get('.rdg-row > [aria-colindex="1"]').contains('24/11/2021 15:24').should('exist')
+
 })
 }) 
