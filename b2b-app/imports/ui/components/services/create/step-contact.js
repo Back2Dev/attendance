@@ -465,10 +465,17 @@ function ContactStep() {
           <div className="btns-container">
             <Button
               onClick={() => {
+                goBack()
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              onClick={() => {
                 dispatch({ type: 'cancelForm' })
               }}
             >
-              Cancel
+              Clear
             </Button>
             <Button
               variant="contained"
@@ -524,7 +531,7 @@ function ContactStep() {
             onChange={(value) => searchMember(value)}
             placeholder="search for customer"
             autoTrigger
-            disabled={refurbish || showNewMemberForm}
+            disabled={refurbish || showNewMemberForm || !!selectedMember}
           />
 
           <Button
@@ -534,7 +541,7 @@ function ContactStep() {
             onClick={() => {
               dispatch({ type: 'setRefurbish', payload: !refurbish })
             }}
-            disabled={showNewMemberForm}
+            disabled={showNewMemberForm || selectedMember}
           >
             Refurbish
           </Button>
@@ -545,7 +552,7 @@ function ContactStep() {
             onClick={() => {
               dispatch({ type: 'setShowNewMemberForm', payload: true })
             }}
-            disabled={refurbish}
+            disabled={refurbish || selectedMember}
           >
             <PersonAddIcon />
           </Button>
