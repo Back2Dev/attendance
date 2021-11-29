@@ -27,16 +27,18 @@ it('logs on to the app, opens the admin menu and navigates to the calendar page'
   cy.get('[href="/admin/calendar"]').click()
   
 
-//})
-
-
-//it('clicks a space on the calendar and adds an event', ()=> {
+//clicks a space on the calendar and adds an event
   cy.get('.fc-day-sat > .fc-daygrid-day-frame > .fc-daygrid-day-top').contains('27').should('exist').click()
   cy.get('[name="name"]').clear().type('Intermediate river race')
-  cy.get('[name="location"]').click()
+  cy.get('[name="location"]').clear().type('Port Melbourne')
   cy.get('#tags-standard').clear().type('Fenn LS/Sandridge')
   cy.get('#tags-standard-option-0').click()
-
+  cy.get('[data-gramm="false"] > div').clear().type('Come and have a paddle down the river')
+  cy.get('[name="when"]').clear().type('2022-04-25T08:30')
+  cy.get(':nth-child(5) > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root').clear().type('Trav\'s triangle/beginner')
+  //cy.get('#mui-44231-option-0').click()
+  cy.get('[name="duration"').clear().type('4')
+  cy.get('[ name="price"]').clear().type('1300')
 })
 
 })
