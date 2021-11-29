@@ -104,7 +104,7 @@ function ViewForm() {
   const [selectedColumns, setSelectedColumn] = useState([])
   const [sortOrder, setSortOrder] = useState({
     column: '',
-    order: 'asc',
+    order: 'ASC',
   })
 
   const { collection } = useTracker(() => {

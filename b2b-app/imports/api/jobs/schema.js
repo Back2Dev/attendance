@@ -58,6 +58,11 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'used',
     'tags'
   ),
+  serviceType: {
+    type: String,
+    allowedValues: ['minor', 'major', 'custom'],
+    defaultValue: 'custom',
+  },
   bikeDetails: new SimpleSchema({
     assessor: OptionalString,
     bikeName: String,

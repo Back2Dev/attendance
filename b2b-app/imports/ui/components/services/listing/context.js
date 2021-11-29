@@ -64,7 +64,7 @@ export const JobsListingProvider = ({ children }) => {
   const { loading, jobs, statusCounter } = useTracker(() => {
     // TODO: change the subscription, add permission checking
     const sub = Meteor.subscribe('all.jobs')
-    const jobs = Jobs.find({}).fetch()
+    const jobs = Jobs.find({}, { sort: { pickupDate: -1 } }).fetch()
     const statusCounter = {}
     jobs.map((job) => {
       statusCounter[job.status] = (statusCounter[job.status] || 0) + 1
