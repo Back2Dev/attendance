@@ -241,7 +241,7 @@ function BikeStep({ initialData }) {
                 formRef.current.submit()
               }}
             >
-              Submit
+              Next
             </Button>
           </div>
         </AutoForm>

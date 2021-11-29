@@ -21,14 +21,22 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
   }, 0)
 
   const serviceItemNames = serviceItems.map((item) => {
+    const isMinor = item.tags?.includes('Minor')
+    const isMajor = item.tags?.includes('Major')
+    const label = isMajor ? 'Major' : isMinor ? 'Minor' : ''
     return [
       {
         text: item.name,
-        align: 'right',
-        colSpan: 3,
+        alignment: 'left',
+        colSpan: isMinor || isMajor ? 2 : 3,
       },
       {},
-      {},
+      label
+        ? {
+            text: label,
+            alignment: 'center',
+          }
+        : {},
       {
         image: item.code ? item.code : 'O',
         width: 60,
@@ -51,14 +59,20 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
         fontSize: 20,
       },
       {
-        text: `Owner:   ${capitalize(
+        text: `Owner: ${capitalize(
           contactData.memberData?.name || 'Refurbish'
         )}     email: ${contactData.memberData?.email || 'N/A'}     Ph: ${
           contactData.memberData?.mobile || 'N/A'
-        }`,
+        }     ${bikeDetails.budget ? `Budget: $${bikeDetails.budget}` : ''}`,
+        style: 'text',
       },
-
-      // { text: `Assessor: ${assessor} `, style: 'text' },
+      bikeDetails.replacementBike
+        ? {
+            text: `Replacement bike: ${bikeDetails.replacementBike} `,
+            style: 'text',
+            bold: true,
+          }
+        : {},
       { text: `Drop off date: ${dropoffDate} `, style: 'text', bold: true },
       { text: `Pick up date: ${pickupDate} `, style: 'text', bold: true },
       { text: '', style: 'text' },
