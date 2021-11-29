@@ -4,7 +4,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
-describe('log into app and create an event in the calendar', () => {
+describe('log into app and edits an event in the calendar', () => {
   before(function () {
     freshDatabase()
   })
@@ -37,11 +37,13 @@ it('logs on to the app, opens the admin menu and navigates to the calendar page'
   cy.get('[name="when"]').clear().type('2022-04-25T08:30')
   cy.get(':nth-child(5) > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root').clear().type('Trav\'s triangle/beginner')
   cy.get('[role="option"]').contains('Trav\'s triangle/beginner').click()
+  //cy.get('#mui-44231-option-0').click()
   cy.get('[name="duration"').clear().type('4')
   cy.get('[ name="price"]').clear().type('1300')
   cy.get(':nth-child(4) > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root > .MuiAutocomplete-endAdornment').click()
   cy.get('[ role="option"]').contains('Trav\'s triangle/beginner').click()
   cy.get('.MuiDialogActions-root > :nth-child(2)').contains('Submit').click()
 })
-
 })
+
+
