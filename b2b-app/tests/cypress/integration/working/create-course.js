@@ -8,7 +8,7 @@ describe('log into app and create an event in the calendar', () => {
   before(function () {
     freshDatabase()
   })
-
+// test doesn't work parking it
 it('log in to app, switch role to admin and navigate to the courses page', () => {
   cy.visit('/login')
   cy.get('[data-cy=email-input]').type('mike.king@mydomain.com.au')

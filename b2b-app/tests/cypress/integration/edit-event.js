@@ -9,7 +9,7 @@ describe('log into app and edits an event in the calendar', () => {
     freshDatabase()
   })
 
-it('logs on to the app, opens the admin menu and navigates to the calendar page', ()=> {
+it('logs on to the app, opens the admin menu and edits an event', ()=> {
   cy.visit('/login')
   cy.get('[data-cy=email-input]').type('mike.king@mydomain.com.au')
   cy.get('[data-cy=password-input]').type('me2')
@@ -34,7 +34,7 @@ it('logs on to the app, opens the admin menu and navigates to the calendar page'
   cy.get('#tags-standard').clear().type('Fenn LS/Sandridge')
   cy.get('#tags-standard-option-0').click()
   cy.get('[data-gramm="false"] > div').clear().type('Come and have a paddle down the river')
-  cy.get('[name="when"]').clear().type('2022-04-25T08:30')
+  cy.get('[name="when"]').clear().type('2021-11-09T08:30')
   cy.get(':nth-child(5) > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root').clear().type('Trav\'s triangle/beginner')
   cy.get('[role="option"]').contains('Trav\'s triangle/beginner').click()
   //cy.get('#mui-44231-option-0').click()
@@ -43,7 +43,12 @@ it('logs on to the app, opens the admin menu and navigates to the calendar page'
   cy.get(':nth-child(4) > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root > .MuiAutocomplete-endAdornment').click()
   cy.get('[ role="option"]').contains('Trav\'s triangle/beginner').click()
   cy.get('.MuiDialogActions-root > :nth-child(2)').contains('Submit').click()
-})
+ 
+  cy.get('.fc-daygrid-event').contains('8:30a').click()
+  cy.get('[ name="price"]').clear().type('2300')
+  cy.get('[data-gramm="false"] > div').clear().type('Catch the surf at beach')
+  cy.get('[name="location"]').clear().type('Bells Beach')
+ })
 })
 
 
