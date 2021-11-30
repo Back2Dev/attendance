@@ -215,6 +215,7 @@ export const ServiceProvider = ({ children }) => {
     }
 
     const data = {
+      serviceType: state.steps.service.data.serviceType,
       serviceItems: state.steps.service.data.items,
       assessor: state.steps.service.data.assessor,
       note: state.steps.service.data.note,
