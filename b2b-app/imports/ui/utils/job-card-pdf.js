@@ -1,5 +1,6 @@
 import PdfMaker from '/imports/ui/utils/pdf-maker.js'
 import moment from 'moment'
+import CONSTANTS from 'imports/api/constants'
 
 const capitalize = function (str) {
   if (!str) return
@@ -15,7 +16,7 @@ const capitalize = function (str) {
  * @param {Object} param0
  * @param {Object[]} param0.serviceItems
  */
-const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
+const createJobCard = ({ serviceType, serviceItems, bikeDetails, contactData }) => {
   const totalCost = serviceItems.reduce((a, b) => {
     return a + b.price
   }, 0)
@@ -63,7 +64,7 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
           contactData.memberData?.name || 'Refurbish'
         )}     email: ${contactData.memberData?.email || 'N/A'}     Ph: ${
           contactData.memberData?.mobile || 'N/A'
-        }     ${bikeDetails.budget ? `Budget: $${bikeDetails.budget}` : ''}`,
+        }${bikeDetails.budget ? `     Budget: $${bikeDetails.budget}` : ''}`,
         style: 'text',
       },
       bikeDetails.replacementBike
@@ -73,6 +74,11 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
             bold: true,
           }
         : {},
+      {
+        text: `Service type: ${CONSTANTS.SERVICE_TYPES[serviceType] || 'N/A'}`,
+        style: 'text',
+        bold: false,
+      },
       { text: `Drop off date: ${dropoffDate} `, style: 'text', bold: true },
       { text: `Pick up date: ${pickupDate} `, style: 'text', bold: true },
       { text: '', style: 'text' },
