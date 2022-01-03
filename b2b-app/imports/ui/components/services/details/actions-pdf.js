@@ -14,7 +14,7 @@ function CreatePDF() {
   const { item } = useContext(JobsDetailsContext)
 
   const createPdf = () => {
-    const serviceItems = item.serviceItems
+    const { serviceType, serviceItems } = item
     const bikeDetails = {
       bikeName: item.bikeName,
       dropoffDate: item.dropoffDate,
@@ -33,7 +33,7 @@ function CreatePDF() {
         : null,
     }
 
-    createJobCard({ serviceItems, bikeDetails, contactData })
+    createJobCard({ serviceType, serviceItems, bikeDetails, contactData })
   }
 
   return (

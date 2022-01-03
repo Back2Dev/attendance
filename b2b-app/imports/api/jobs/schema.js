@@ -47,7 +47,15 @@ export const JobUpdateStatusParamsSchema = new SimpleSchema({
   history: OptionalString,
 })
 
+export const ServiceType = {
+  type: String,
+  label: 'Service type',
+  allowedValues: ['minor', 'major', 'custom'],
+  defaultValue: 'custom',
+}
+
 export const JobCreateParamsSchema = new SimpleSchema({
+  serviceType: ServiceType,
   serviceItems: Array,
   'serviceItems.$': ServiceItemsSchema.pick(
     '_id',
@@ -124,6 +132,7 @@ export const JobsSchema = new SimpleSchema({
     optional: true,
     label: 'Bike holds sentimental value',
   },
+  serviceType: ServiceType,
   serviceItems: {
     type: Array,
     label: 'Details of services/parts required',

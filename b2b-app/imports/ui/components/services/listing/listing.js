@@ -97,8 +97,8 @@ function JobsListing() {
 
   const { push } = useHistory()
 
-  const defaultSortColums = [{ columnKey: 'pickupDate', direction: 'DESC' }]
-  const [sortColumns, setSortColumns] = useState(defaultSortColums)
+  const defaultSortColumns = []
+  const [sortColumns, setSortColumns] = useState(defaultSortColumns)
 
   const columns = [
     {
@@ -110,7 +110,7 @@ function JobsListing() {
     },
     {
       key: 'pickupDate',
-      name: 'Pickup Date',
+      name: 'Pickup date',
       formatter: ({ row }) => moment(row.pickupDate).format('DD/MM/YYYY'),
       width: 120,
       // frozen: true,
@@ -346,10 +346,8 @@ function JobsListing() {
           onSortColumnsChange={(sorts) => {
             if (sorts && sorts.length) {
               setSortColumns(sorts)
-            } else if (sortColumns[0]?.columnKey === 'createdAt') {
-              setSortColumns([{ columnKey: 'createdAt', direction: 'ASC' }])
             } else {
-              setSortColumns(defaultSortColums)
+              setSortColumns(defaultSortColumns)
             }
           }}
           onRowClick={(index, row) => push(`/services/${row._id}`)}

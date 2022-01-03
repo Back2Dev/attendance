@@ -34,6 +34,8 @@ const StyledServiceStep = styled.div`
     button {
       margin: 5px 5px 5px 0;
       padding: 5px 10px;
+      &.active {
+      }
     }
   }
   .total-cost {
@@ -82,6 +84,13 @@ function serviceStepReducer(state, action) {
   }
 
   switch (type) {
+    case 'setServiceType': {
+      return {
+        ...state,
+        serviceType: payload,
+        updatedAt: new Date(),
+      }
+    }
     case 'updateSelectedItem': {
       const newItems = state.selectedItems.map((item) => {
         if (item.localId === payload.localId) {
@@ -151,6 +160,7 @@ function serviceStepReducer(state, action) {
 
 function ServiceStep({ initialData }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
+    serviceType: 'custom',
     currentItem: null,
     selectedItems: initialData?.selectedItems || [],
     totalCost: 0,
@@ -173,7 +183,14 @@ function ServiceStep({ initialData }) {
   const searchFieldRef = useRef(null)
   const selectedContRef = useRef(null)
 
-  const { currentItem, selectedItems, hasValidData, checkedAt, updatedAt } = state
+  const {
+    serviceType,
+    currentItem,
+    selectedItems,
+    hasValidData,
+    checkedAt,
+    updatedAt,
+  } = state
 
   const checkData = async () => {
     let isValid = true
@@ -204,6 +221,9 @@ function ServiceStep({ initialData }) {
   }, [items])
 
   useEffect(() => {
+    if (originalData?.serviceType) {
+      dispatch({ type: 'setServiceType', payload: originalData?.serviceType })
+    }
     if (originalData?.serviceItems?.length && items?.length) {
       const itemsToBeAdded = originalData?.serviceItems.map((item) => {
         return {
@@ -236,6 +256,7 @@ function ServiceStep({ initialData }) {
     setStepData({
       stepKey: 'service',
       data: {
+        serviceType,
         items: selectedItems,
         updatedAt,
         hasValidData,
@@ -269,24 +290,55 @@ function ServiceStep({ initialData }) {
 
   const selectItemsWithTag = (tag) => {
     // console.log(tag)
+
+    // remove other items selected by tag
+    const newSelectedItems = selectedItems.filter(
+      (selected) => selected.selectedByTag !== true
+    )
+
     // find all service items by tag
-    const itemsToBeAdded = []
     items.map((item) => {
       if (item.tags?.length && item.tags.includes(tag)) {
         // console.log('item has tag', item)
         // check if this item has selected already, and hasn't been modified
         if (
-          !selectedItems.find(
+          !newSelectedItems.find(
             (selected) => selected._id === item._id && !selected.modifiedAt
           )
         ) {
           // then add the item to the selected list
-          itemsToBeAdded.push({ ...item, localId: Random.id() })
+          newSelectedItems.push({ ...item, localId: Random.id(), selectedByTag: true })
         }
       }
     })
-    if (itemsToBeAdded.length) {
-      dispatch({ type: 'addItems', payload: itemsToBeAdded })
+    dispatch({ type: 'setSelectedItems', payload: newSelectedItems })
+  }
+
+  const setServiceType = (t) => {
+    switch (t) {
+      case 'major': {
+        // remove existing minor items by tag
+
+        serviceType !== 'major' && selectItemsWithTag('Major')
+        dispatch({
+          type: 'setServiceType',
+          payload: serviceType !== 'major' ? 'major' : 'custom',
+        })
+        break
+      }
+      case 'minor': {
+        serviceType !== 'minor' && selectItemsWithTag('Minor')
+        dispatch({
+          type: 'setServiceType',
+          payload: serviceType !== 'minor' ? 'minor' : 'custom',
+        })
+        break
+      }
+      default: {
+        // selectItemsWithTag('Minor')
+        dispatch({ type: 'setServiceType', payload: 'custom' })
+        break
+      }
     }
   }
 
@@ -353,10 +405,11 @@ function ServiceStep({ initialData }) {
           <div className="tags-selector">
             <div>
               <Button
-                className="major-tag-btn"
+                className={`major-tag-btn ${serviceType === 'major' ? 'active' : ''}`}
                 variant="contained"
+                color={serviceType === 'major' ? 'primary' : 'default'}
                 onClick={() => {
-                  selectItemsWithTag('Major')
+                  setServiceType('major')
                 }}
               >
                 Major service
@@ -364,10 +417,11 @@ function ServiceStep({ initialData }) {
             </div>
             <div>
               <Button
-                className="minor-tag-btn"
+                className={`minor-tag-btn ${serviceType === 'minor' ? 'active' : ''}`}
                 variant="contained"
+                color={serviceType === 'minor' ? 'primary' : 'default'}
                 onClick={() => {
-                  selectItemsWithTag('Minor')
+                  setServiceType('minor')
                 }}
               >
                 Minor service

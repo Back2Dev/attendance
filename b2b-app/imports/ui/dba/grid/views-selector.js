@@ -9,6 +9,9 @@ import EditIcon from '@material-ui/icons/Edit'
 
 import { CollectionContext } from '../context'
 
+const cc = require('change-case')
+cc.kebabCase = (str) => cc.headerCase(str).toLowerCase()
+
 const StyledViewsSelector = styled.div`
   display: flex;
   flex-direction: row;
@@ -24,13 +27,14 @@ const StyledViewsSelector = styled.div`
 
 function ViewsSelector({ showDefault = true }) {
   const { theCollection, theView, availableViews } = useContext(CollectionContext)
+  const collectionKebab = cc.kebabCase(theCollection._name)
   console.log({ theView, availableViews })
 
   const history = useHistory()
 
   const handleChange = (event) => {
     const viewSlug = event.target.value
-    history.push(`/dba/${theCollection._name}${viewSlug ? `/${viewSlug}` : ''}`)
+    history.push(`/dba/${collectionKebab}${viewSlug ? `/${viewSlug}` : ''}`)
   }
 
   const renderMenuItems = () => {
@@ -63,7 +67,7 @@ function ViewsSelector({ showDefault = true }) {
           className="btn btn-edit"
           component="span"
           onClick={() =>
-            history.push(`/dba/${theCollection._name}/edit-view/${theView.slug}`)
+            history.push(`/dba/${collectionKebab}/edit-view/${theView.slug}`)
           }
         >
           <EditIcon />
@@ -74,7 +78,7 @@ function ViewsSelector({ showDefault = true }) {
         aria-label="add view"
         className="btn btn-add"
         component="span"
-        onClick={() => history.push(`/dba/${theCollection._name}/add-view`)}
+        onClick={() => history.push(`/dba/${collectionKebab}/add-view`)}
       >
         <AddIcon />
       </IconButton>
