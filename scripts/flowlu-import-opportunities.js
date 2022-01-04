@@ -3,7 +3,7 @@ const axios = require('axios')
 
 const apiKey = 'SEQ4NWdIbURyckNzTDhEdDV4ZHJ2bFNPUHhFQUE1bndfNzk5MTA'
 
-const debug = require('debug')('se:flowlu')
+const debug = require('debug')('app:flowlu')
 
 const querystring = require('querystring')
 
@@ -53,7 +53,12 @@ const doit = async () => {
     for (person of persons) {
       let url = `https://tracking.flowlu.com/api/v1/module/crm/account/create?api_key=${apiKey}`
       debug('creating contacts  ', url)
-      let params = querystring.stringify({ ...person, type: '2' })
+      let params = querystring.stringify({
+        ...person,
+        type: '2',
+        ref: 'someting',
+        description: 'tues',
+      })
       const fullname = person.first_name + ' ' + person.last_name
       if (existing[fullname]) {
         console.log(`Contact ${fullname} exists already`)
@@ -74,6 +79,8 @@ const doit = async () => {
           active: '1',
           pipeline_stage_id: '1',
           customer_id: res.data.response.id,
+          description: 'tues',
+          ref: 'SOmething',
         })
         res = await axios.post(
           url,
