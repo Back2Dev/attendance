@@ -33,14 +33,22 @@ it('log in to app, switch role to admin and navigate to the courses page', () =>
 cy.get('.react-page-cell-insert-new').should('exist').click()
 
 cy.get('div').contains('St Kilda cruise').click()
-cy.get('.react-page-cell-draggable-overlay-handle').trigger('mousedown', 'topLeft')
+
 
 cy.get('.react-page-cell-insert-new').click()
 cy.get('div').contains('Description').click()
-cy.get('.react-page-cell-draggable-overlay-handle > :nth-child(1)').trigger('mouseright','topRight')
+cy.get(':nth-child(2) > .react-page-row >.react-page-cell> .react-page-cell-handle').click()
+//cy.get(' :nth-child(1) > .react-page-cell-inner react-page-cell-inner-leaf').contains('TITLE').click()
+//cy.get(':nth-child(1) > react-page-cell-draggable-overlay-handle').trigger('mouseleft','topLeft')
 
+//cy.get('.MuiGrid-root >.MuiGrid-item> .MuiGrid-grid-xs-12').click().trigger('mouseleft','topLeft')
+cy.get(':nth-child(2) > .react-page-row >.react-page-cell> .react-page-cell-handle').click()
+cy.get(':nth-child(2) > .react-page-row >.react-page-cell> .react-page-cell-handle').trigger('mouseleft', 'topLeft')
+cy.get(':nth-child(2) > .react-page-cell-draggable-overlay-handle').trigger('mouseleft','topLeft')
+cy.get('button').trigger('mouseup', 15, 40)
 
 cy.get('.react-page-cell-insert-new')
-cy.get('div').contains('Image')
+cy.get('div').contains('Image').click()
+
  })
 })
