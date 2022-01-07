@@ -41,9 +41,29 @@ const getStage = (pipe, stage, pipes) => {
   const pipeline = allpipes.find((p) => p.name === pipe)
   if (pipeline) {
     const stg = pipeline.stages.find((s) => s.name === stage)
-    if (stg) return [stg.id, pipeline.id]
+    return [stg ? stg.id : 0, pipeline.id]
   }
   return [0, 0]
+}
+
+const getPipelines = async (opts) => {
+  debug('Fetching pipeline details')
+  let pipes = await axios.get(
+    `https://tracking.flowlu.com/api/v1/module/crm/pipeline/list?api_key=${apiKey}`
+  )
+  const pipelines = pipes.data.response.items.reduce((acc, item) => {
+    acc[item.id] = item
+    acc[item.id].stages = []
+    return acc
+  }, {})
+  let stages = await axios.get(
+    `https://tracking.flowlu.com/api/v1/module/crm/pipeline_stage/list?api_key=${apiKey}`
+  )
+  stages.data.response.items.forEach((item) => {
+    pipelines[item.pipeline_id].stages.push(item)
+  })
+  debug({ pipelines })
+  return pipelines
 }
 
 const doit = async () => {
@@ -52,22 +72,7 @@ const doit = async () => {
     let done = false
     const persons = []
     let getPage = 1
-    debug('Fetching pipeline details')
-    let pipes = await axios.get(
-      `https://tracking.flowlu.com/api/v1/module/crm/pipeline/list?api_key=${apiKey}`
-    )
-    const pipelines = pipes.data.response.items.reduce((acc, item) => {
-      acc[item.id] = item
-      acc[item.id].stages = []
-      return acc
-    }, {})
-    let stages = await axios.get(
-      `https://tracking.flowlu.com/api/v1/module/crm/pipeline_stage/list?api_key=${apiKey}`
-    )
-    stages.data.response.items.forEach((item) => {
-      pipelines[item.pipeline_id].stages.push(item)
-    })
-    debug({ pipelines })
+    const pipelines = await getPipelines()
 
     debug('Fetching leads...')
     const [fromId, pipelineId] = getStage(pipeline, from, pipelines)
