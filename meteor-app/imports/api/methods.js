@@ -388,6 +388,7 @@ const createNewPass = (member, code, startDate = 'current') => {
     status: 'current',
     paymentMethod: 'pending',
     sessions: [],
+    status: 'paid',
   }
   const purchaseId = Purchases.insert(defaultPurchase)
   const purchase = Purchases.findOne(purchaseId)
