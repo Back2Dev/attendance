@@ -288,7 +288,7 @@ Meteor.methods({
       )
       return { status: 'success', affectedRows }
     } catch (e) {
-      return { status: 'failed', message: e.message }
+      return { status: 'failed', message: `Update error: ${e.message}` }
     }
   },
   'collections.deleteView'({ collectionName, viewSlug }) {

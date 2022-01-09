@@ -9,6 +9,7 @@ import { Typography } from '@material-ui/core'
 
 import { CollectionContext } from '../context'
 import DateTimeField from './editors/date-time'
+import ArrayField from './editors/array'
 
 const StyledCellEditor = styled.div``
 const StyledNoEditor = styled.div`
@@ -27,6 +28,8 @@ function CellEditor(props) {
       return <TextEditor {...props} />
     case 'Date':
       return <DateTimeField {...props} />
+    case 'Array':
+      return <ArrayField {...props} />
     default:
       // return the value, not handle this
       return <StyledNoEditor>{column.formatter({ row })}</StyledNoEditor>

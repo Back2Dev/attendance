@@ -175,10 +175,25 @@ function Grid() {
       const cellChanged = columnChanged && rowChanged?.[columnChanged.key]
       // console.log({ rowChanged, cellChanged })
       if (columnChanged) {
+        const cellBeforeChanged = rows[rowIdx]?.[columnChanged.key]
         updateCell({
           rowId: rowChanged._id,
           column: columnChanged.key,
           value: cellChanged,
+          cb: (result) => {
+            console.log('result', result)
+            console.log('cellBeforeChanged', cellBeforeChanged)
+            if (result.status === 'failed') {
+              // rollback
+              console.log('rollback now')
+              updateCell({
+                rowId: rowChanged._id,
+                column: columnChanged.key,
+                value: cellBeforeChanged,
+                localOnly: true,
+              })
+            }
+          },
         })
       }
     }

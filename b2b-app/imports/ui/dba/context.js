@@ -82,32 +82,36 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     getRows()
   }, [collectionName, theView])
 
-  const updateCell = ({ rowId, column, value }) => {
+  const updateCell = ({ rowId, column, value, cb, localOnly }) => {
     console.log('updateCell', { rowId, column, value })
 
     // call api to update data
-    Meteor.call(
-      'collections.updateCell',
-      {
-        collectionName,
-        rowId,
-        column,
-        value,
-      },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
+    if (localOnly !== true) {
+      Meteor.call(
+        'collections.updateCell',
+        {
+          collectionName,
+          rowId,
+          column,
+          value,
+        },
+        (error, result) => {
+          if (error) {
+            showError(error.message)
+            return
+          }
+          if (result?.status === 'failed') {
+            showError(result?.message)
+            typeof cb === 'function' && cb(result)
+            return
+          }
+          if (result?.status === 'success') {
+            showSuccess('Data updated')
+            typeof cb === 'function' && cb(result)
+          }
         }
-        if (result?.status === 'failed') {
-          showError(result?.message)
-          return
-        }
-        if (result?.status === 'success') {
-          showSuccess('Data updated')
-        }
-      }
-    )
+      )
+    }
     const newRows = rows.map((row) => {
       if (row._id === rowId) {
         const newRow = { ...row }
