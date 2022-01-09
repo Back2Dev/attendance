@@ -19,11 +19,11 @@ import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 import {
-  getDataFormatter,
   formatData,
   getFieldType,
   getComparator,
 } from '/imports/api/collections/utils.js'
+import DataFormatter from './grid/formaters'
 import CellEditor from './grid/cell-editor'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
@@ -105,15 +105,12 @@ function Grid() {
       theView.columns.map((col) => {
         const fieldSchema = schema._schema[col.name]
         const fieldType = getFieldType({ fieldSchema })
-        const formatter = getDataFormatter({
-          type: fieldType,
-          columnName: col.name,
-        })
+
         gridColumns.push({
           key: col.name,
           name: col.label || col.name,
           type: fieldType,
-          formatter,
+          formatter: DataFormatter,
           width: col.width || undefined,
           editable: col.readOnly !== true,
           editor: col.readOnly ? undefined : CellEditor,
@@ -126,12 +123,11 @@ function Grid() {
         const fieldType = getFieldType({ fieldSchema: field })
         console.log({ fieldType })
         if (fieldType) {
-          const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })
           gridColumns.push({
             key: fieldName,
             name: field.label || fieldName,
             type: fieldType,
-            formatter,
+            formatter: DataFormatter,
           })
         }
       })
