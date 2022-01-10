@@ -2,16 +2,12 @@ import { Meteor } from 'meteor/meteor'
 import { TextEditor } from 'react-data-grid'
 import PropTypes from 'prop-types'
 
-import React, { useRef, useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { Typography } from '@material-ui/core'
-
-import { CollectionContext } from '../context'
 import DateTimeField from './editors/date-time'
 import ArrayField from './editors/array'
 
-const StyledCellEditor = styled.div``
 const StyledNoEditor = styled.div`
   padding: 0 8px;
 `

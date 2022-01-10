@@ -5,7 +5,7 @@ import React from 'react'
 import ArrayFormater from './array'
 
 const DataFormatter = (props) => {
-  const { column, row, rowIdx, isCellSelected, onRowChange } = props
+  const { column, row } = props
   const cellValue = row[column.key]
   switch (column.type) {
     case 'String':
