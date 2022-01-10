@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import {
   TextField,
@@ -13,8 +13,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
 import { CollectionContext } from '../../context'
-import { useState } from 'react'
-import { useMemo } from 'react'
+import SimpleSchema from 'simpl-schema'
 
 const StyledArrayField = styled(TextField)`
   display: flex;
@@ -46,6 +45,7 @@ function ArrayField(props) {
 
   const [open, setOpen] = useState(true)
   const [selectedItems, setSelectedItems] = useState(row[column.key] || [])
+  const [text, setText] = useState('')
 
   const value = row[column.key]
 
@@ -63,6 +63,14 @@ function ArrayField(props) {
   const handleDelete = (item) => {
     console.log('delete', item)
     setSelectedItems(selectedItems.filter((i) => i !== item))
+  }
+
+  const handleAdd = (item) => {
+    if (!item) {
+      return
+    }
+    setSelectedItems([...selectedItems, item])
+    setText('')
   }
 
   const handleSave = () => {
@@ -107,7 +115,14 @@ function ArrayField(props) {
     )
   }
 
-  if (typeof cellSchema.type?.(value) !== 'string') {
+  if (cellSchema.type instanceof SimpleSchema) {
+    return renderTextField()
+  }
+
+  if (
+    typeof cellSchema.type === 'function' &&
+    typeof cellSchema.type?.(value) !== 'string'
+  ) {
     return renderTextField()
   }
 
@@ -118,6 +133,65 @@ function ArrayField(props) {
     return selectedItems.map((item) => (
       <StyledChip key={item} label={item} onDelete={() => handleDelete(item)} />
     ))
+  }
+
+  const renderAddBtn = () => {
+    if (cellSchema.allowedValues?.length) {
+      return null
+    }
+    if (!text) {
+      return null
+    }
+    return (
+      <Button color="primary" onClick={() => handleAdd(text)}>
+        Add
+      </Button>
+    )
+  }
+
+  const renderAutocomplete = () => {
+    if (!cellSchema.allowedValues?.length) {
+      return null
+    }
+    return (
+      <Autocomplete
+        options={options}
+        getOptionLabel={(item) => {
+          return item
+        }}
+        getOptionDisabled={(item) => selectedItems?.includes(item)}
+        freeSolo={cellSchema.allowedValues?.length ? false : true}
+        style={{}}
+        renderInput={(params) => {
+          console.log('input params', params)
+          return <TextField {...params} size="small" fullWidth />
+        }}
+        onChange={(event, selected) => {
+          console.log('selected', selected)
+          if (selected) {
+            setSelectedItems([...selectedItems, selected])
+          }
+        }}
+        blurOnSelect={true}
+      />
+    )
+  }
+
+  const renderSingleTextInput = () => {
+    if (cellSchema.allowedValues?.length) {
+      return null
+    }
+    return (
+      <div>
+        <TextField
+          size="small"
+          fullWidth
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+        />
+        {renderAddBtn()}
+      </div>
+    )
   }
 
   return (
@@ -132,25 +206,8 @@ function ArrayField(props) {
       <DialogTitle>Edit {column.name || column.key}</DialogTitle>
       <StyledDialogContent>
         <div>{renderSelectedItems()}</div>
-        <Autocomplete
-          options={options}
-          getOptionLabel={(item) => {
-            return item
-          }}
-          getOptionDisabled={(item) => selectedItems?.includes(item)}
-          freeSolo={cellSchema.allowedValues?.length ? false : true}
-          style={{}}
-          renderInput={(params) => <TextField {...params} size="small" fullWidth />}
-          onChange={(event, selected) => {
-            console.log('selected', selected)
-            if (selected) {
-              setSelectedItems([...selectedItems, selected])
-            }
-          }}
-          clearOnBlur={true}
-          clearOnEscape
-          blurOnSelect={true}
-        />
+        {renderAutocomplete()}
+        {renderSingleTextInput()}
       </StyledDialogContent>
       <DialogActions>
         <Button
