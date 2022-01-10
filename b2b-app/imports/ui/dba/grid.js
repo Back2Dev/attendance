@@ -167,9 +167,9 @@ function Grid() {
     if (idx >= 0 && rowIdx >= 0) {
       const rowChanged = newRows[rowIdx]
       const columnChanged = columns[idx]
-      // console.log('columnChanged', columnChanged)
+      console.log('columnChanged', columnChanged)
       const cellChanged = columnChanged && rowChanged?.[columnChanged.key]
-      // console.log({ rowChanged, cellChanged })
+      console.log({ rowChanged, cellChanged })
       if (columnChanged) {
         const cellBeforeChanged = rows[rowIdx]?.[columnChanged.key]
         updateCell({

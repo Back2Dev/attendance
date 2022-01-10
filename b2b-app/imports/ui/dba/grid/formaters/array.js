@@ -8,7 +8,7 @@ const StyledChip = styled(Chip)`
 `
 
 const ArrayFormater = ({ column, row }) => {
-  if (!row[column.key]) {
+  if (!row[column.key] || !row[column.key].length) {
     return null
   }
   if (typeof row[column.key] !== 'object' || !row[column.key].length) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import {
   TextField,
@@ -6,6 +6,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Chip,
+  Button,
 } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import PropTypes from 'prop-types'
@@ -28,11 +30,15 @@ const StyledArrayField = styled(TextField)`
 `
 const StyledDialogContent = styled(DialogContent)`
   min-width: 300px;
-  min-height: 200px;
+  min-height: 100px;
+`
+const StyledChip = styled(Chip)`
+  height: 28px;
+  margin-right: 5px;
 `
 
 function ArrayField(props) {
-  const { schema } = useContext(CollectionContext)
+  const { schema, updateCell } = useContext(CollectionContext)
   // console.log('Schema', schema._schema)
   // console.log('Schema', schema._schema[`${props.column.key}.$`])
   console.log('ArrayField', props)
@@ -51,8 +57,31 @@ function ArrayField(props) {
     if (!cellSchema.allowedValues) {
       return []
     }
-    return cellSchema.allowedValues.filter((item) => !selectedItems?.includes(item))
-  }, [cellSchema.allowedValues, selectedItems])
+    return cellSchema.allowedValues
+  }, [cellSchema.allowedValues])
+
+  const handleDelete = (item) => {
+    console.log('delete', item)
+    setSelectedItems(selectedItems.filter((i) => i !== item))
+  }
+
+  const handleSave = () => {
+    console.log('save', selectedItems)
+    const newRow = { ...row, [column.key]: selectedItems }
+    console.log(newRow)
+    // onRowChange(newRow)
+    updateCell({
+      rowId: row._id,
+      column: column.key,
+      value: selectedItems,
+      cb: (result) => {
+        if (result.status === 'success') {
+          onClose()
+          setOpen(false)
+        }
+      },
+    })
+  }
 
   const renderTextField = () => {
     const formated = value ? JSON.stringify(value) : '[]'
@@ -86,7 +115,9 @@ function ArrayField(props) {
   console.log('options', options)
 
   const renderSelectedItems = () => {
-    return selectedItems.map((item) => <div key={item}>{item}</div>)
+    return selectedItems.map((item) => (
+      <StyledChip key={item} label={item} onDelete={() => handleDelete(item)} />
+    ))
   }
 
   return (
@@ -106,16 +137,34 @@ function ArrayField(props) {
           getOptionLabel={(item) => {
             return item
           }}
+          getOptionDisabled={(item) => selectedItems?.includes(item)}
           freeSolo={cellSchema.allowedValues?.length ? false : true}
           style={{}}
           renderInput={(params) => <TextField {...params} size="small" fullWidth />}
           onChange={(event, selected) => {
             console.log('selected', selected)
+            if (selected) {
+              setSelectedItems([...selectedItems, selected])
+            }
           }}
-          clearOnBlur
+          clearOnBlur={true}
+          clearOnEscape
+          blurOnSelect={true}
         />
       </StyledDialogContent>
-      <DialogActions>some actions</DialogActions>
+      <DialogActions>
+        <Button
+          onClick={() => {
+            console.log('cancel')
+            onClose()
+          }}
+        >
+          Cancel
+        </Button>
+        <Button color="primary" onClick={handleSave}>
+          Save
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }
