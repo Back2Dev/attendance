@@ -14,6 +14,7 @@ Fixtures = {
 }
 
 Fixtures.loadAssets = function (items) {
+  debug('loadAssets()')
   items.forEach(function (thing) {
     const jsonFile = `json/${thing}.json`
     try {

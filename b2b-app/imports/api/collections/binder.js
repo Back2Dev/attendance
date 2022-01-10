@@ -6,7 +6,6 @@
  *
  * DO NOT EDIT!!!
  */
-import Assessments, { AssessmentsSchema } from '/imports/api/assessments/schema'
 import Courses, { CoursesSchema } from '/imports/api/courses/schema'
 import Cronjobs, { CronjobsSchema } from '/imports/api/cronjobs/schema'
 import Events, { EventsSchema } from '/imports/api/events/schema'
@@ -28,8 +27,6 @@ import Triggers, { TriggersSchema } from '/imports/api/triggers/schema'
 
 const getCollection = (name) => {
   switch (name) {
-    case 'assessments':
-      return { collection: Assessments, schema: AssessmentsSchema }
     case 'courses':
       return { collection: Courses, schema: CoursesSchema }
     case 'cronjobs':
