@@ -146,7 +146,7 @@ const createJobCard = ({ serviceType, serviceItems, bikeDetails, contactData }) 
               {},
               {},
             ],
-            [{ text: bikeDetails.note || 'abc', colSpan: 4, rowSpan: 3 }, {}, {}, {}],
+            [{ text: bikeDetails.note || '', colSpan: 4, rowSpan: 3 }, {}, {}, {}],
             [{ text: '', colSpan: 4 }, '', '', ''],
             [{ text: '', colSpan: 4 }, '', '', ''],
           ],

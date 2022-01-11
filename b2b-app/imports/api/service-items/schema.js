@@ -24,17 +24,17 @@ export const ServiceItemsSchema = new SimpleSchema({
   },
   code: {
     type: String,
-    label: 'Code to indicate if item is for front or back of bike',
+    label: 'Front/Read/Other',
     defaultValue: 'O',
   },
   category: {
     type: String,
-    label: 'Parts category',
+    label: 'Category',
     defaultValue: 'misc',
   },
   used: {
     type: Boolean,
-    label: 'Is item new or used',
+    label: 'Used ?',
     defaultValue: false,
   },
   tags: {
