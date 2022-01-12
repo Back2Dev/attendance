@@ -1,6 +1,6 @@
 import PdfMaker from '/imports/ui/utils/pdf-maker.js'
 import moment from 'moment'
-import CONSTANTS from 'imports/api/constants'
+import CONSTANTS from '/imports/api/constants'
 
 const capitalize = function (str) {
   if (!str) return

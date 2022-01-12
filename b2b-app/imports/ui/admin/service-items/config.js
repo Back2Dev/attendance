@@ -93,7 +93,9 @@ const config = {
     ],
   },
   add: {
-    defaultObject: {},
+    defaultObject: {
+      tags: [],
+    },
   },
 }
 
