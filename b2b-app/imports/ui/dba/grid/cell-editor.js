@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import DateTimeField from './editors/date-time'
 import ArrayField from './editors/array'
+import BooleanField from './editors/boolean'
 
 const StyledNoEditor = styled.div`
   padding: 0 8px;
@@ -26,6 +27,8 @@ function CellEditor(props) {
       return <DateTimeField {...props} />
     case 'Array':
       return <ArrayField {...props} />
+    case 'Boolean':
+      return <BooleanField {...props} />
     default:
       // return the value, not handle this
       return <StyledNoEditor>{column.formatter({ row, column })}</StyledNoEditor>
