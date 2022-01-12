@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const StyledCheckbox = styled(Checkbox)`
   padding: 0;
+  color: #4794fc !important;
 `
 
 const BooleanFormater = ({ column, row }) => {

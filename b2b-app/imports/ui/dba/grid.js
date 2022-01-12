@@ -10,21 +10,19 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from '@material-ui/core'
 import ArchiveIcon from '@material-ui/icons/Archive'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
-import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 import {
   formatData,
   getFieldType,
   getComparator,
 } from '/imports/api/collections/utils.js'
 import DataFormatter from './grid/formaters'
-import CellEditor from './grid/cell-editor'
+import CellEditor from './grid/editors'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
 
