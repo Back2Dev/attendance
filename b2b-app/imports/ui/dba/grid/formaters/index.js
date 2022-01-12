@@ -5,9 +5,10 @@ import React from 'react'
 import ArrayFormater from './array'
 
 const DataFormatter = (props) => {
+  console.log('data formater props', props)
   const { column, row } = props
-  const cellValue = row[column.key]
-  switch (column.type) {
+  const cellValue = column ? row[column.key] : undefined
+  switch (column?.type) {
     case 'String':
       return cellValue
     case 'SimpleSchema.Integer':

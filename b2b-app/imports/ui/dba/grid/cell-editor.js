@@ -28,7 +28,7 @@ function CellEditor(props) {
       return <ArrayField {...props} />
     default:
       // return the value, not handle this
-      return <StyledNoEditor>{column.formatter({ row })}</StyledNoEditor>
+      return <StyledNoEditor>{column.formatter({ row, column })}</StyledNoEditor>
   }
 }
 

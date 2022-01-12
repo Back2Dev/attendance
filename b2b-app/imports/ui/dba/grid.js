@@ -133,7 +133,7 @@ function Grid() {
       })
     }
 
-    console.log(gridColumns)
+    console.log('gridColumns', gridColumns)
 
     return gridColumns
   }, [theView?.columns, schema])
