@@ -1,13 +1,13 @@
-import { Meteor } from 'meteor/meteor'
 import { TextEditor } from 'react-data-grid'
 import PropTypes from 'prop-types'
 
 import React from 'react'
 import styled from 'styled-components'
 
-import DateTimeField from './editors/date-time'
-import ArrayField from './editors/array'
-import BooleanField from './editors/boolean'
+import DateTimeField from './date-time'
+import ArrayField from './array'
+import BooleanField from './boolean'
+import TextEditorField from './text'
 
 const StyledNoEditor = styled.div`
   padding: 0 8px;
@@ -19,6 +19,7 @@ function CellEditor(props) {
 
   switch (column.type) {
     case 'String':
+      return <TextEditorField {...props} />
     case 'SimpleSchema.Integer':
     case 'Integer':
     case 'Number':

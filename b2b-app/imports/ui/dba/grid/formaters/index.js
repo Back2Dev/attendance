@@ -3,11 +3,13 @@ import numeral from 'numeral'
 import React from 'react'
 
 import ArrayFormater from './array'
+import BooleanFormater from './boolean'
 
 const DataFormatter = (props) => {
+  console.log('data formater props', props)
   const { column, row } = props
-  const cellValue = row[column.key]
-  switch (column.type) {
+  const cellValue = column ? row[column.key] : undefined
+  switch (column?.type) {
     case 'String':
       return cellValue
     case 'SimpleSchema.Integer':
@@ -19,6 +21,8 @@ const DataFormatter = (props) => {
       return cellValue ? moment(cellValue).format('DD/MM/YYYY HH:mm') : null
     case 'Array':
       return <ArrayFormater {...props} />
+    case 'Boolean':
+      return <BooleanFormater {...props} />
     default:
       return cellValue ? JSON.stringify(cellValue, null, 2) : null
   }
