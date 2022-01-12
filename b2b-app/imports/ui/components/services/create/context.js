@@ -182,12 +182,13 @@ export const ServiceProvider = ({ children }) => {
   }
 
   const createPdf = () => {
+    const serviceType = state.steps.service.data.serviceType
     const serviceItems = state.steps.service.data.items
     const bikeDetails = state.steps.bike.data.details
     const contactData = state.steps.contact.data
     // const pickup = state.steps.pickup.data.pickup
 
-    createJobCard({ serviceItems, bikeDetails, contactData })
+    createJobCard({ serviceType, serviceItems, bikeDetails, contactData })
   }
 
   const createJob = (quick = false) => {
