@@ -232,10 +232,11 @@ function BikeStep({ initialData }) {
           <AutoField name="note" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
-            <Button onClick={goBack}>Back</Button>
+            <Button      onClick={goBack}>Back</Button>
             <Button
               variant="contained"
               color="primary"
+              data-cy="next"
               onClick={() => {
                 autoValidate.current = true
                 formRef.current.submit()

@@ -464,6 +464,7 @@ function ContactStep() {
           <ErrorsField />
           <div className="btns-container">
             <Button
+           data-cy="back"
               onClick={() => {
                 goBack()
               }}
@@ -483,6 +484,7 @@ function ContactStep() {
               onClick={() => {
                 formRef.current.submit()
               }}
+              data-cy="submit"
               disabled={!hasValidData}
             >
               Submit
@@ -500,6 +502,7 @@ function ContactStep() {
     return (
       <div className="btns-container">
         <Button
+        data-cy="back"
           onClick={() => {
             goBack()
           }}
@@ -509,6 +512,7 @@ function ContactStep() {
         <Button
           variant="contained"
           color="primary"
+          data-cy="submit"
           onClick={() => {
             handleSubmit()
           }}

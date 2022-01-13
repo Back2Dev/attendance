@@ -5,7 +5,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false
 })
 
-describe('log into app and create a service', () => {
+describe('log into app and create a service with a new customer', () => {
   before(function () {
     freshDatabase()
   })
