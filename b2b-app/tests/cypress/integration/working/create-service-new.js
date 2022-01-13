@@ -48,7 +48,7 @@ cy.get('.btns-container > .MuiButton-text').click()
 
   
    cy.get('.new-member-btn').click()
-   cy.get('[name="name"]').clear().type('Pat Carmel}') 
+   cy.get('[name="name"]').clear().type('Pat Carmel') 
   cy.get('[name="mobile"]').clear().type('12')
   cy.get('[name="email"]').clear().type('mario.super@gurgle.111')
   
