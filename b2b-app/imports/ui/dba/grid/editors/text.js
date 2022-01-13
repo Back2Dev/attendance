@@ -63,7 +63,17 @@ function TextEditorField(props) {
         onChange={(event, selected) => {
           console.log('selected', selected)
           if (selected) {
-            onRowChange({ ...row, [column.key]: selected })
+            // onRowChange({ ...row, [column.key]: selected })
+            updateCell({
+              rowId: row._id,
+              column: column.key,
+              value: selected,
+              cb: (result) => {
+                if (result.status === 'success') {
+                  onClose()
+                }
+              },
+            })
             setSelectedItem(selected)
           }
         }}
