@@ -46,7 +46,7 @@ cy.get('.btns-container > .MuiButton-text').click()
  cy.get('.MuiButton-contained').click()
 
 
-   cy.get('.refurbish-btn').click()
+  
    cy.get('.new-member-btn').click()
    cy.get('[name="name"]').clear().type('Pat Carmel}') 
   cy.get('[name="mobile"]').clear().type('12')
