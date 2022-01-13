@@ -45,14 +45,12 @@ cy.get('.btns-container > .MuiButton-text').click()
  cy.get('[name="note"]').clear().type('no replacement bike required')
  cy.get('.MuiButton-contained').click()
 
- cy.get('.refurbish-btn').click()
 
-  
-   cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input').type('Crag Test', {force:true})
    cy.get('.refurbish-btn').click()
-  cy.get('.contactstep-item-form > .MuiListItem-root').click()
-  cy.get('[name="mobile"]').clear().type('14')
-  cy.get('[name="email"').clear().type('crag.test@gurgle.111')
+   cy.get('.new-member-btn').click()
+   cy.get('[name="name"]').clear().type('Pat Carmel}') 
+  cy.get('[name="mobile"]').clear().type('12')
+  cy.get('[name="email"]').clear().type('mario.super@gurgle.111')
   
   cy.get('.contactstep-item-form > .form-container > form > .btns-container > .MuiButton-contained').contains('Submit').click()
   
