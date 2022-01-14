@@ -97,9 +97,15 @@ cy.get('.sc-cNEFIx > .MuiButtonBase-root').click()
 cy.get('[data-cy=mark-paid]').click()
 cy.get('[data-cy="yes-job-card"]').click()
 
-cy.wait(100)
+cy.wait(200)
 // move the job to step 4 ready for pickup
 // this element is disabled
+cy.get(':nth-child(3) > .MuiButtonBase-root > .MuiStepLabel-root').contains('Quality Check').click()
+
+cy.get('[data-cy="qa-mechanic"]').type('Super Mario')
+
+cy.get('#qa-passed').click()
+
 cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
 
 
