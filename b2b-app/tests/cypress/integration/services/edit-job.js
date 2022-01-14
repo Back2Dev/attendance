@@ -74,7 +74,7 @@ it('selects the new job and views the job details', () =>{
  
 
   cy.wait(100)
-  cy.get('h1').contains('Pat Carmel: Giganto $20').should('exist')
+  cy.get('h1').contains('Pat Carmel: Giganto ').should('exist')
 
   // changes or adds a mechanic
   cy.get('[data-cy="change-mechanic"]').click()
