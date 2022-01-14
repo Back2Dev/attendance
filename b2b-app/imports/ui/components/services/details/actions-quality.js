@@ -134,11 +134,12 @@ function QualityCheck() {
                 />
               )}
               <div className="btns">
-                <Button variant="outlined" onClick={() => setOpen(false)}>
+                <Button variant="outlined"   data-cy="qa-cancel"onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
                 <Button
                   variant="contained"
+                  data-cy="qa-submit"
                   onClick={handleSubmit}
                   disabled={
                     !selectedMechanic ||

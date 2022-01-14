@@ -102,11 +102,12 @@ cy.wait(200)
 // this element is disabled
 cy.get(':nth-child(3) > .MuiButtonBase-root > .MuiStepLabel-root').contains('Quality Check').click()
 
-cy.get('[data-cy="qa-mechanic"]').type('Super Mario')
-
+cy.get('[data-cy="qa-mechanic"]').clear().type('Super Mario')
+cy.get('[role="option"][data-option-index="0"]').click()
 cy.get('#qa-passed').click()
+cy.get('[data-cy="qa-submit"]').click()
 
-cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
+// cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
 
 
 cy.get('[data-cy="send-sms"]').click()
