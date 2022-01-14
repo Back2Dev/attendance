@@ -208,6 +208,7 @@ function JobActions() {
     return (
       <Button
         variant="contained"
+        data-cy="mark-paid"
         onClick={() => onMarkAsPaid()}
         disabled={loading}
         startIcon={<AttachMoneyIcon />}

@@ -52,6 +52,8 @@ describe('log into app and create a service for refurbishment', () => {
     cy.wait(100) // Give the dispatcher a moment
     cy.get('[data-cy=submit]').should('exist').click()
 
+    cy.get('.jobs-header > .MuiTypography-root').should('exist')
+    cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
     //  cy.get('.new-member-btn').click()
     //  cy.get('[name="name"]').clear().type('Pat Carmel')
     // cy.get('[name="mobile"]').clear().type('12')

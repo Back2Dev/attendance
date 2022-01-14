@@ -4,7 +4,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   // from a js library we are using
   return false
 })
-describe('log into app and create a service', () => {
+
+describe('log into app, create a service and edit the job created', () => {
   before(function () {
     freshDatabase()
   })
@@ -44,18 +45,35 @@ cy.get('.btns-container > .MuiButton-text').click()
  cy.get('[name="note"]').clear().type('no replacement bike required')
  cy.get('.MuiButton-contained').click()
 
-  cy.get('.decision-marking-container > .MuiFormControl-root > .MuiInputBase-root').click()
+
   
-  // cy.get('.refurbish-btn').click()
-  
-  cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input').clear().type('Pat Carmel')
-  cy.get('.contactstep-item-form > .MuiListItem-root').click()
+   cy.get('.new-member-btn').click()
+   cy.get('[name="name"]').clear().type('Pat Carmel') 
   cy.get('[name="mobile"]').clear().type('12')
-  cy.get('[name="email"').clear().type('mario.super@gurgle.111')
-  cy.get('.contactstep-item-form > .form-container > form > .btns-container > .MuiButton-contained').click()
+  cy.get('[name="email"]').clear().type('mario.super@gurgle.111')
+  
+  cy.get('.contactstep-item-form > .form-container > form > .btns-container > .MuiButton-contained').contains('Submit').click()
+  
+  
+ 
 
   cy.get('.jobs-header > .MuiTypography-root').should('exist')
-  cy.get('.rdg-row > [aria-colindex="1"]').contains('24/11/2021 15:24').should('exist')
+  cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist')
+  cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
+})
 
+it('selects the new job and views the job details', () =>{
+ cy.visit('/services')
+  cy.get('[data-cy=email-input]').type('mike.king@mydomain.com.au')
+  cy.get('[data-cy=password-input]').type('me2')
+  cy.get('[data-cy=login-btn]').should('exist').click()
+  cy.get('.jobs-header > .MuiTypography-root').should('exist')
+  cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist').click()
+ 
+
+  cy.wait(100)
+  cy.get('h1').contains('Pat Carmel: Giganto $20').should('exist')
+
+  cy.get('[data-cy="change-mechanic"]').click()
 })
 }) 

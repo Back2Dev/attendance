@@ -60,7 +60,7 @@ function SendSMS() {
 
   return (
     <StyledSendSMS>
-      <Button variant="contained" onClick={showForm} startIcon={<SmsIcon />}>
+      <Button variant="contained" data-cy="send-sms" onClick={showForm} startIcon={<SmsIcon />}>
         SMS
       </Button>
 
@@ -82,6 +82,7 @@ function SendSMS() {
             <div className="btns">
               <Button
                 variant="contained"
+                data-cy="cancel-sms"
                 onClick={() => {
                   setOpen(false)
                   setMessage('')
@@ -92,6 +93,7 @@ function SendSMS() {
               <Button
                 variant="contained"
                 color="primary"
+                data-cy="submit-sms"
                 onClick={onSubmit}
                 disabled={!message}
               >
