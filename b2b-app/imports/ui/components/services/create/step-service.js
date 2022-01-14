@@ -474,6 +474,7 @@ function ServiceStep({ initialData }) {
               variant="contained"
               color="primary"
               disabled={!hasValidData}
+              data-cy="quick-update"
               onClick={handleQuickUpdate}
             >
               Quick Update

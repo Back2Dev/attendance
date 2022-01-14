@@ -67,13 +67,40 @@ it('selects the new job and views the job details', () =>{
   cy.get('[data-cy=email-input]').type('mike.king@mydomain.com.au')
   cy.get('[data-cy=password-input]').type('me2')
   cy.get('[data-cy=login-btn]').should('exist').click()
-  cy.get('.jobs-header > .MuiTypography-root').should('exist')
+  // cy.get('.jobs-header > .MuiTypography-root').should('exist')
+  cy.get('#bookings-nav-item').should('exist')
+  cy.get('h1').contains('Jobs').should('exist')
   cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist').click()
  
 
   cy.wait(100)
   cy.get('h1').contains('Pat Carmel: Giganto $20').should('exist')
 
+  // changes or adds a mechanic
   cy.get('[data-cy="change-mechanic"]').click()
+  cy.get('[data-cy="mechanic-select"]').clear().type('Super Mario')
+
+  cy.get('[role="option"][data-option-index="0"]').click()
+
+  cy.get('[data-cy="select"]').click()
+
+// adds a new part
+cy.get('.header > .MuiButtonBase-root > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
+cy.get('.items-wrapper > :nth-child(3) > .MuiButtonBase-root').contains('Bell - $6').should('exist').click()
+cy.get('[data-cy="quick-update"]').click()
+
+// move the job to step 4 ready for pickup
+// this element is disabled
+//cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
+
+
+cy.get('[data-cy=mark-paid]').click()
+
+// views job
+cy.get('.sc-cNEFIx > .MuiButtonBase-root').click()
+
 })
+
+
+
 }) 
