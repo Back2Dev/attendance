@@ -58,8 +58,8 @@ cy.get('.btns-container > .MuiButton-text').click()
  
 
   cy.get('.jobs-header > .MuiTypography-root').should('exist')
-  cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist')
-  cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
+
+  cy.get('div').contains('Giganto').should('exist')
 })
 
 it('selects the new job and views the job details', () =>{
@@ -70,7 +70,7 @@ it('selects the new job and views the job details', () =>{
   // cy.get('.jobs-header > .MuiTypography-root').should('exist')
   cy.get('#bookings-nav-item').should('exist')
   cy.get('h1').contains('Jobs').should('exist')
-  cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist').click()
+  cy.get('div').contains('Giganto').should('exist').click()
  
 
   cy.wait(100)
