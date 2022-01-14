@@ -94,13 +94,20 @@ cy.get('[data-cy="quick-update"]').click()
 //cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
 
 
-cy.get('[data-cy=mark-paid]').click()
-
 // views job
 cy.get('.sc-cNEFIx > .MuiButtonBase-root').click()
 
+cy.get('[data-cy=mark-paid]').click()
+cy.get('[data-cy="yes-job-card"]').click()
+cy.get('[data-cy="send-sms"]').click()
+
+cy.get('[data-cy="submit-sms"]').click()
+
+// checks if sms exists
+cy.get(':nth-child(3) > .created').should('exist')
+
 })
+// it('login to mechanic and check the job',()=>{
 
-
-
+// })
 }) 
