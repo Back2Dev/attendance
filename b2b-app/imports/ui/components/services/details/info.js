@@ -93,7 +93,7 @@ function JobInfo() {
             </Grid>
             <Grid item xs={7} md={12}>
               <div className="data">
-                {renderData(item?.isRefurbish ? 'Refurbish' : 'Custom service')}
+                {renderData(CONSTANTS.SERVICE_TYPES[item?.serviceType] || 'N/A')}
               </div>
             </Grid>
           </Grid>

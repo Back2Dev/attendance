@@ -5,7 +5,8 @@ import things from './fixtures-things.json'
 import Members from '/imports/api/members/schema'
 import Messages from '/imports/api/messages/schema'
 import { Notifications, NotificationItems } from '/imports/api/notifications/schema'
-
+import Jobs from '/imports/api/jobs/schema'
+import Events from '/imports/api/events/schema'
 const debug = require('debug')('app:fixtures')
 
 // Get the database definition for the target tables
@@ -113,8 +114,10 @@ Meteor.methods({
   resetCollections() {
     // Meteor.users.remove({})
     // Members.remove({})
+    Jobs.remove({})
     Messages.remove({})
     Notifications.remove({})
     NotificationItems.remove({})
+    Events.remove({})
   },
 })

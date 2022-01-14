@@ -253,7 +253,7 @@ function EventItem({ event }) {
     }
     return (
       <div className="course-info backup">
-        <div className="course-name">Backup course: {backupCourse?.title}</div>
+        <div className="course-name data-cy=course-id">Backup course: {backupCourse?.title}</div>
       </div>
     )
   }
@@ -263,7 +263,7 @@ function EventItem({ event }) {
       <div className="item-wrapper">
         <div className="left-col">
           <div>
-            <span className="event-date">{moment(when).format('ddd D MMM')},</span>{' '}
+            <span className="event-date" data-cy="event-date">{moment(when).format('ddd D MMM')},</span>{' '}
             <span className="event-name">{name}</span>
           </div>
           {renderCourse()}

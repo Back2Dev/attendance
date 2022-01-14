@@ -182,20 +182,22 @@ export const ServiceProvider = ({ children }) => {
   }
 
   const createPdf = () => {
+    const serviceType = state.steps.service.data.serviceType
     const serviceItems = state.steps.service.data.items
     const bikeDetails = state.steps.bike.data.details
     const contactData = state.steps.contact.data
     // const pickup = state.steps.pickup.data.pickup
 
-    createJobCard({ serviceItems, bikeDetails, contactData })
+    createJobCard({ serviceType, serviceItems, bikeDetails, contactData })
   }
 
   const createJob = (quick = false) => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
-      if (state.steps[stepKey].completed !== true) {
+      if (!state.steps[stepKey].completed) {
         allDone = false
+        console.log(`${stepKey} is not done`)
       }
       return stepKey
     })
@@ -215,6 +217,7 @@ export const ServiceProvider = ({ children }) => {
     }
 
     const data = {
+      serviceType: state.steps.service.data.serviceType,
       serviceItems: state.steps.service.data.items,
       assessor: state.steps.service.data.assessor,
       note: state.steps.service.data.note,

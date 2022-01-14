@@ -225,6 +225,7 @@ function ContactStep() {
     createJob,
     setStepProperty,
     originalData,
+    goBack,
   } = useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
@@ -463,11 +464,19 @@ function ContactStep() {
           <ErrorsField />
           <div className="btns-container">
             <Button
+           data-cy="back"
+              onClick={() => {
+                goBack()
+              }}
+            >
+              Back
+            </Button>
+            <Button
               onClick={() => {
                 dispatch({ type: 'cancelForm' })
               }}
             >
-              Cancel
+              Clear
             </Button>
             <Button
               variant="contained"
@@ -475,6 +484,7 @@ function ContactStep() {
               onClick={() => {
                 formRef.current.submit()
               }}
+              data-cy="submit"
               disabled={!hasValidData}
             >
               Submit
@@ -492,8 +502,17 @@ function ContactStep() {
     return (
       <div className="btns-container">
         <Button
+        data-cy="back"
+          onClick={() => {
+            goBack()
+          }}
+        >
+          Back
+        </Button>
+        <Button
           variant="contained"
           color="primary"
+          data-cy="submit"
           onClick={() => {
             handleSubmit()
           }}
@@ -507,7 +526,7 @@ function ContactStep() {
   return (
     <StyledContactStep>
       <div className={classes.join(' ')}>
-        <div className="decision-marking-container">
+        <div className="decision-marking-container" data-cy="customer-search">
           <SearchBox
             ref={searchBoxRef}
             className="member-search-box"
@@ -516,8 +535,9 @@ function ContactStep() {
             onChange={(value) => searchMember(value)}
             placeholder="search for customer"
             autoTrigger
-            disabled={refurbish || showNewMemberForm}
+            disabled={refurbish || showNewMemberForm || !!selectedMember}
           />
+
           <Button
             className="refurbish-btn"
             variant="contained"
@@ -525,7 +545,7 @@ function ContactStep() {
             onClick={() => {
               dispatch({ type: 'setRefurbish', payload: !refurbish })
             }}
-            disabled={showNewMemberForm}
+            disabled={showNewMemberForm || selectedMember}
           >
             Refurbish
           </Button>
@@ -536,7 +556,7 @@ function ContactStep() {
             onClick={() => {
               dispatch({ type: 'setShowNewMemberForm', payload: true })
             }}
-            disabled={refurbish}
+            disabled={refurbish || selectedMember}
           >
             <PersonAddIcon />
           </Button>

@@ -1,33 +1,47 @@
 import React from 'react'
-import { Form, Header, Image, Container, Button, Message, Segment } from 'semantic-ui-react'
+import {
+  Form,
+  Header,
+  Image,
+  Container,
+  Button,
+  Message,
+  Segment,
+} from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:shop')
 
 const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
-const ErrMsg = props => <span style={{ fontSize: '9px', color: 'red' }}>{props.children}</span>
-const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
+const ErrMsg = (props) => (
+  <span style={{ fontSize: '9px', color: 'red' }}>
+    {props.children}
+  </span>
+)
+const Required = (props) => (
+  <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
+)
 
-const Address = props => {
+const Address = (props) => {
   const { state, dispatch } = React.useContext(CartContext)
   const [a, setAddress] = React.useState(
     state.creditCard && Object.keys(state.creditCard).length
       ? state.creditCard
       : {
           email: state.email,
-          memberId: state.memberId
+          memberId: state.memberId,
         }
   )
   const [e, setError] = React.useState([])
 
   debug(state, a)
-  const gotoShop = e => {
+  const gotoShop = (e) => {
     dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/shop')
   }
 
-  const fieldChange = event => {
+  const fieldChange = (event) => {
     const addr = Object.assign({}, a)
     // debug(`changed: ${event.target.name} => ${event.target.value}`)
     addr[event.target.name] = event.target.value
@@ -35,23 +49,26 @@ const Address = props => {
     setError([])
   }
 
-  const submitAddress = event => {
+  const submitAddress = (event) => {
     event.preventDefault()
-    const required = 'email line1 city postcode state country'.split(/\s+/)
+    const required = 'email line1 city postcode state country'.split(
+      /\s+/
+    )
     const errs = []
 
     // If we are valid...
     if (
       required
-        .map(field => {
+        .map((field) => {
           const f = field === 'email' ? 'email' : `address_${field}`
           let isValid = a[f] && a[f] !== ''
-          if (isValid && field === 'email') isValid = emailRegex.test(a.email)
+          if (isValid && field === 'email')
+            isValid = emailRegex.test(a.email)
           if (!isValid) errs.push(field)
           debug(`${f}: ${a[f]} ${isValid}`)
           return isValid
         })
-        .every(f => f)
+        .every((f) => f)
     ) {
       // Add the address to the cart
       dispatch({ type: 'save-address', payload: a })
@@ -63,12 +80,18 @@ const Address = props => {
     return (
       <Container text textAlign="center">
         <Segment textAlign="center">
-          <Header as="h2">Payment form - your address</Header>
+          <Header as="h2">Payment form - your billing address</Header>
           <Header as="h2">
             <Image src={state.settings.logo} />
           </Header>
           <div>Payment has been completed</div>
-          <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+          <Button
+            size="mini"
+            type="button"
+            color="green"
+            onClick={gotoShop}
+            style={{ marginTop: '24px' }}
+          >
             Back to the shop
           </Button>
         </Segment>
@@ -79,11 +102,17 @@ const Address = props => {
   return (
     <Container text textAlign="center">
       <Segment textAlign="center">
-        <Header as="h2">Payment form - your address</Header>
+        <Header as="h2">Payment form - your billing address</Header>
         <Header as="h2">
           <Image src={state.settings.logo} />
         </Header>
-        <Form id="address_form" action="" method="post" size="mini" style={{ textAlign: 'left' }}>
+        <Form
+          id="address_form"
+          action=""
+          method="post"
+          size="mini"
+          style={{ textAlign: 'left' }}
+        >
           <Form.Input
             fluid
             error={e.indexOf('email') !== -1}
@@ -156,11 +185,26 @@ const Address = props => {
             name="address_country"
           />
 
-          {e.length > 0 && <Message negative header="Oops, your address isn't quite right:" content={e.join(', ')} />}
+          {e.length > 0 && (
+            <Message
+              negative
+              header="Oops, your billing address isn't quite right:"
+              content={e.join(', ')}
+            />
+          )}
         </Form>
-        <Button size="mini" type="button" color="green" onClick={submitAddress} style={{ marginTop: '24px' }}>
+        <Button
+          size="mini"
+          type="button"
+          color="green"
+          onClick={submitAddress}
+          style={{ marginTop: '24px' }}
+        >
           Next
         </Button>
+        <p>
+          On the next page you will enter your credit card details
+        </p>
       </Segment>
     </Container>
   )

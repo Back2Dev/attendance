@@ -22,7 +22,7 @@ function CreateServiceHeader() {
       <Helmet>
         <title>{renderHeaderText()}</title>
       </Helmet>
-      <Typography variant="h1" align="center">
+      <Typography variant="h1" align="center" id="service-total">
         {renderHeaderText()}
       </Typography>
     </StyledCreateServiceHeader>

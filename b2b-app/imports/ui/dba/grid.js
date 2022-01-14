@@ -10,21 +10,19 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from '@material-ui/core'
 import ArchiveIcon from '@material-ui/icons/Archive'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
-import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 import {
-  getDataFormatter,
   formatData,
   getFieldType,
   getComparator,
 } from '/imports/api/collections/utils.js'
-import CellEditor from './grid/cell-editor'
+import DataFormatter from './grid/formaters'
+import CellEditor from './grid/editors'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
 
@@ -105,15 +103,12 @@ function Grid() {
       theView.columns.map((col) => {
         const fieldSchema = schema._schema[col.name]
         const fieldType = getFieldType({ fieldSchema })
-        const formatter = getDataFormatter({
-          type: fieldType,
-          columnName: col.name,
-        })
+
         gridColumns.push({
           key: col.name,
           name: col.label || col.name,
           type: fieldType,
-          formatter,
+          formatter: DataFormatter,
           width: col.width || undefined,
           editable: col.readOnly !== true,
           editor: col.readOnly ? undefined : CellEditor,
@@ -126,18 +121,17 @@ function Grid() {
         const fieldType = getFieldType({ fieldSchema: field })
         console.log({ fieldType })
         if (fieldType) {
-          const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })
           gridColumns.push({
             key: fieldName,
             name: field.label || fieldName,
             type: fieldType,
-            formatter,
+            formatter: DataFormatter,
           })
         }
       })
     }
 
-    console.log(gridColumns)
+    console.log('gridColumns', gridColumns)
 
     return gridColumns
   }, [theView?.columns, schema])
@@ -171,14 +165,29 @@ function Grid() {
     if (idx >= 0 && rowIdx >= 0) {
       const rowChanged = newRows[rowIdx]
       const columnChanged = columns[idx]
-      // console.log('columnChanged', columnChanged)
+      console.log('columnChanged', columnChanged)
       const cellChanged = columnChanged && rowChanged?.[columnChanged.key]
-      // console.log({ rowChanged, cellChanged })
+      console.log({ rowChanged, cellChanged })
       if (columnChanged) {
+        const cellBeforeChanged = rows[rowIdx]?.[columnChanged.key]
         updateCell({
           rowId: rowChanged._id,
           column: columnChanged.key,
           value: cellChanged,
+          cb: (result) => {
+            console.log('result', result)
+            console.log('cellBeforeChanged', cellBeforeChanged)
+            if (result.status === 'failed') {
+              // rollback
+              console.log('rollback now')
+              updateCell({
+                rowId: rowChanged._id,
+                column: columnChanged.key,
+                value: cellBeforeChanged,
+                localOnly: true,
+              })
+            }
+          },
         })
       }
     }

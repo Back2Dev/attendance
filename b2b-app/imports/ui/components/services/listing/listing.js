@@ -97,8 +97,8 @@ function JobsListing() {
 
   const { push } = useHistory()
 
-  const defaultSortColums = [{ columnKey: 'createdAt', direction: 'DESC' }]
-  const [sortColumns, setSortColumns] = useState(defaultSortColums)
+  const defaultSortColumns = []
+  const [sortColumns, setSortColumns] = useState(defaultSortColumns)
 
   const columns = [
     {
@@ -109,9 +109,16 @@ function JobsListing() {
       // frozen: true,
     },
     {
+      key: 'pickupDate',
+      name: 'Pickup date',
+      formatter: ({ row }) => moment(row.pickupDate).format('DD/MM/YYYY'),
+      width: 120,
+      // frozen: true,
+    },
+    {
       key: 'jobNo',
       name: 'No',
-      // width: 120,
+      width: 60,
       // frozen: true,
     },
     {
@@ -123,20 +130,20 @@ function JobsListing() {
     {
       key: 'customer',
       name: 'Customer',
-      // width: 120,
+      width: 150,
       // frozen: true,
     },
     {
       key: 'cost',
       name: 'Cost',
-      // width: 150,
+      width: 60,
       // frozen: true,
     },
     {
       key: 'status',
       name: 'Status',
       formatter: ({ row }) => CONSTANTS.JOB_STATUS_READABLE[row.status] || 'N/A',
-      // width: 150,
+      width: 150,
       // frozen: true,
     },
   ]
@@ -146,6 +153,7 @@ function JobsListing() {
       return {
         _id: item._id,
         createdAt: item.createdAt,
+        pickupDate: item.pickupDate,
         jobNo: item.jobNo,
         bike: item.bikeName,
         customer: item.name,
@@ -168,6 +176,14 @@ function JobsListing() {
       case 'createdAt':
         return (a, b) => {
           return a.createdAt > b.createdAt ? 1 : -1
+        }
+      case 'pickupDate':
+        return (a, b) => {
+          return a.pickupDate > b.pickupDate ? 1 : -1
+        }
+      case 'jobNo':
+        return (a, b) => {
+          return a.jobNo?.localeCompare(b.jobNo)
         }
       case 'bike':
         return (a, b) => {
@@ -330,10 +346,8 @@ function JobsListing() {
           onSortColumnsChange={(sorts) => {
             if (sorts && sorts.length) {
               setSortColumns(sorts)
-            } else if (sortColumns[0]?.columnKey === 'createdAt') {
-              setSortColumns([{ columnKey: 'createdAt', direction: 'ASC' }])
             } else {
-              setSortColumns(defaultSortColums)
+              setSortColumns(defaultSortColumns)
             }
           }}
           onRowClick={(index, row) => push(`/services/${row._id}`)}
