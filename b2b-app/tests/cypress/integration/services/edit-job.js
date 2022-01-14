@@ -19,12 +19,12 @@ it('navigates to Back2bikes homepage logs in and switches role to admin', functi
 
   cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root > .MuiSvgIcon-root').click()
 
-  cy.get('#primary-search-account-menu > .MuiPaper-root > .MuiList-root > :nth-child(2)').contains('Switch role').click()
+  cy.get('[data-cy=switch-role]').click()
   cy.get('[value="ADM"]').last().click()
 
 
 //opens  manager menu navigates to create service page and adds minor service', function () {
- cy.get('.MuiToolbar-root > :nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
+  cy.get('[data-cy=adm-drawer]').click()
  cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root').contains('Manager').click()
  cy.get('[href="/services/new"]').should('exist').click()
  cy.get('#service-total').should('exist')
@@ -89,9 +89,6 @@ cy.get('.header > .MuiButtonBase-root > .MuiIconButton-label > .MuiSvgIcon-root 
 cy.get('.items-wrapper > :nth-child(3) > .MuiButtonBase-root').contains('Bell - $6').should('exist').click()
 cy.get('[data-cy="quick-update"]').click()
 
-// move the job to step 4 ready for pickup
-// this element is disabled
-//cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
 
 
 // views job
@@ -99,6 +96,13 @@ cy.get('.sc-cNEFIx > .MuiButtonBase-root').click()
 
 cy.get('[data-cy=mark-paid]').click()
 cy.get('[data-cy="yes-job-card"]').click()
+
+cy.wait(100)
+// move the job to step 4 ready for pickup
+// this element is disabled
+cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
+
+
 cy.get('[data-cy="send-sms"]').click()
 
 cy.get('[data-cy="submit-sms"]').click()
@@ -108,6 +112,17 @@ cy.get(':nth-child(3) > .created').should('exist')
 
 })
 // it('login to mechanic and check the job',()=>{
+//   cy.visit('/login')
+//   cy.get('[data-cy=email-input]').type('super.mario@mario.com')
+//   cy.get('[data-cy=password-input]').type('i-like-turTles-27')
+//   cy.get('[data-cy=login-btn]').should('exist').click()
+//   cy.get('[data-cy=member-portal]').should('exist')
+//   cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root > .MuiSvgIcon-root').click()
+
+//   cy.get('[data-cy=switch-role]').click()
+//   cy.get('[value="MEC"]').last().click()
+
+
 
 // })
 }) 

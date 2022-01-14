@@ -23,7 +23,7 @@ it('navigates to Back2bikes homepage logs in and switches role to admin', functi
 
 
 //opens  manager menu navigates to create service page and adds minor service', function () {
- cy.get('.MuiToolbar-root > :nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
+  cy.get('[data-cy=adm-drawer]').click()
  cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root').contains('Manager').click()
  cy.get('[href="/services/new"]').should('exist').click()
  cy.get('#service-total').should('exist')
@@ -42,7 +42,7 @@ cy.get('.btns-container > .MuiButton-text').click()
  cy.get('#service-next-btn').click()
 
  cy.get('[name="note"]').clear().type('no replacement bike required')
- cy.get('.MuiButton-contained').click()
+ cy.get('[data-cy="next"').click()
 
   cy.get('.decision-marking-container > .MuiFormControl-root > .MuiInputBase-root').click()
   
@@ -51,7 +51,7 @@ cy.get('.btns-container > .MuiButton-text').click()
   cy.get('.contactstep-item-form > .MuiListItem-root').click()
   cy.get('[name="mobile"]').clear().type('12')
   cy.get('[name="email"').clear().type('mario.super@gurgle.111')
-  cy.get('.contactstep-item-form > .form-container > form > .btns-container > .MuiButton-contained').click()
+  cy.get('[data-cy=submit]').should('exist').click()
 
   cy.get('.jobs-header > .MuiTypography-root').should('exist')
   cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist')
