@@ -153,16 +153,21 @@ function contactStepReducer(state, action) {
       return payload === true
         ? {
             ...state,
-            showNewMemberForm: payload,
+            showNewMemberForm: true,
             refurbish: false,
+            memberData: {
+              name: state.keyword || '',
+              mobile: '',
+              email: '',
+            },
           }
         : {
-            name: '',
-            mobile: '',
-            email: '',
+            ...state,
+            showNewMemberForm: false,
+            memberData: {},
           }
     case 'setSearching':
-      return { ...state, searching: payload }
+      return { ...state, searching: payload.searching, keyword: payload.keyword }
     case 'setMembers':
       return {
         ...state,
@@ -219,14 +224,8 @@ function ContactStep() {
     memberData: {},
   })
 
-  const {
-    setStepData,
-    activeStep,
-    createJob,
-    setStepProperty,
-    originalData,
-    goBack,
-  } = useContext(ServiceContext)
+  const { setStepData, activeStep, createJob, setStepProperty, originalData, goBack } =
+    useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
@@ -319,14 +318,14 @@ function ContactStep() {
         dispatch({ type: 'clear' })
         return
       }
-      dispatch({ type: 'setSearching', payload: true })
+      dispatch({ type: 'setSearching', payload: { searching: true, keyword } })
       Meteor.call('members.search', { keyword }, (error, result) => {
         if (!mounted.current) {
           return
         }
         if (error) {
           showError(error.message)
-          dispatch({ type: 'setSearching', payload: false })
+          dispatch({ type: 'setSearching', payload: { searching: false, keyword } })
           return
         }
         if (result) {
@@ -464,7 +463,7 @@ function ContactStep() {
           <ErrorsField />
           <div className="btns-container">
             <Button
-           data-cy="back"
+              data-cy="back"
               onClick={() => {
                 goBack()
               }}
@@ -502,7 +501,7 @@ function ContactStep() {
     return (
       <div className="btns-container">
         <Button
-        data-cy="back"
+          data-cy="back"
           onClick={() => {
             goBack()
           }}
