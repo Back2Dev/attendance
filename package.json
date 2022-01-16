@@ -26,7 +26,7 @@
     "mysql2": "^2.1.0",
     "prettier": "^2.1.2",
     "recursive-readdir": "^2.2.2",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.5",
     "simpl-schema": "^1.7.1",
     "simpleddp": "^2.2.4",
     "simpleddp-plugin-login": "^4.0.2",
