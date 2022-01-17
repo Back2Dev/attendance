@@ -104,7 +104,7 @@ function QualityCheck() {
                 getOptionLabel={(option) => option.name}
                 style={{ width: '100%' }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Mechanic" variant="outlined" />
+                  <TextField {...params} label="Mechanic" data-cy="qa-mechanic" variant="outlined" />
                 )}
                 value={selectedMechanic}
                 onChange={(e, selected) => setSelectedMechanic(selected)}
@@ -117,8 +117,8 @@ function QualityCheck() {
                   value={checkResult}
                   onChange={(event) => setCheckResult(event.target.value)}
                 >
-                  <FormControlLabel value="passed" control={<Radio />} label="Passed" />
-                  <FormControlLabel value="failed" control={<Radio />} label="Failed" />
+                  <FormControlLabel value="passed" id="qa-passed" control={<Radio />} label="Passed" />
+                  <FormControlLabel value="failed" id="qa-failed"control={<Radio />} label="Failed" />
                 </RadioGroup>
               </FormControl>
               {checkResult === 'failed' && (
@@ -134,11 +134,12 @@ function QualityCheck() {
                 />
               )}
               <div className="btns">
-                <Button variant="outlined" onClick={() => setOpen(false)}>
+                <Button variant="outlined"   data-cy="qa-cancel"onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
                 <Button
                   variant="contained"
+                  data-cy="qa-submit"
                   onClick={handleSubmit}
                   disabled={
                     !selectedMechanic ||

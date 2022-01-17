@@ -104,6 +104,6 @@ export const UpdateCellProps = new SimpleSchema({
   collectionName: String,
   rowId: String,
   column: String,
-  value: SimpleSchema.oneOf(String, Number, Array),
+  value: SimpleSchema.oneOf(String, Number, Array, Boolean),
   'value.$': String,
 })

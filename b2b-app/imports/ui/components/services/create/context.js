@@ -195,8 +195,9 @@ export const ServiceProvider = ({ children }) => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
-      if (state.steps[stepKey].completed !== true) {
+      if (!state.steps[stepKey].completed) {
         allDone = false
+        console.log(`${stepKey} is not done`)
       }
       return stepKey
     })

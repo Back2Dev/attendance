@@ -408,6 +408,7 @@ function ServiceStep({ initialData }) {
                 className={`major-tag-btn ${serviceType === 'major' ? 'active' : ''}`}
                 variant="contained"
                 color={serviceType === 'major' ? 'primary' : 'default'}
+                data-cy="major"
                 onClick={() => {
                   setServiceType('major')
                 }}
@@ -420,6 +421,7 @@ function ServiceStep({ initialData }) {
                 className={`minor-tag-btn ${serviceType === 'minor' ? 'active' : ''}`}
                 variant="contained"
                 color={serviceType === 'minor' ? 'primary' : 'default'}
+                data-cy="minor"
                 onClick={() => {
                   setServiceType('minor')
                 }}
@@ -472,6 +474,7 @@ function ServiceStep({ initialData }) {
               variant="contained"
               color="primary"
               disabled={!hasValidData}
+              data-cy="quick-update"
               onClick={handleQuickUpdate}
             >
               Quick Update

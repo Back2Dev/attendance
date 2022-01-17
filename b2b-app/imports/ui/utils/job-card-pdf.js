@@ -16,7 +16,14 @@ const capitalize = function (str) {
  * @param {Object} param0
  * @param {Object[]} param0.serviceItems
  */
-const createJobCard = ({ serviceType, serviceItems, bikeDetails, contactData }) => {
+const createJobCard = ({
+  serviceType,
+  serviceItems,
+  bikeDetails,
+  contactData,
+  assessor,
+  jobNo,
+}) => {
   const totalCost = serviceItems.reduce((a, b) => {
     return a + b.price
   }, 0)
@@ -81,6 +88,7 @@ const createJobCard = ({ serviceType, serviceItems, bikeDetails, contactData }) 
       },
       { text: `Drop off date: ${dropoffDate} `, style: 'text', bold: true },
       { text: `Pick up date: ${pickupDate} `, style: 'text', bold: true },
+      { text: `Job ID: ${jobNo}, Assessor: ${assessor} `, style: 'text', bold: false },
       { text: '', style: 'text' },
 
       {
@@ -110,17 +118,6 @@ const createJobCard = ({ serviceType, serviceItems, bikeDetails, contactData }) 
               {},
               {},
               {},
-            ],
-            [
-              {
-                text: 'Other Items',
-                style: 'tableHeader',
-                alignment: 'center',
-                colSpan: 3,
-              },
-              {},
-              {},
-              { text: 'Done?', alignment: 'center' },
             ],
             [
               { text: '', style: 'tableHeader', colSpan: 3, alignment: 'center' },

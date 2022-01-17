@@ -207,7 +207,7 @@ function JobsListing() {
   }
 
   const calculatedRows = useMemo(() => {
-    if (sortColumns.length === 0) return rows
+    // if (sortColumns.length === 0) return rows
 
     let mutableRows = [...rows]
 
