@@ -58,7 +58,6 @@ cy.get('.btns-container > .MuiButton-text').click()
  
 
   cy.get('.jobs-header > .MuiTypography-root').should('exist')
-  cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist')
   cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
 
 

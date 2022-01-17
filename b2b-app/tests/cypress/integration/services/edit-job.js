@@ -118,18 +118,5 @@ cy.get('[data-cy="submit-sms"]').click()
 cy.get(':nth-child(3) > .created').should('exist')
 
 })
-// it('login to mechanic and check the job',()=>{
-//   cy.visit('/login')
-//   cy.get('[data-cy=email-input]').type('super.mario@mario.com')
-//   cy.get('[data-cy=password-input]').type('i-like-turTles-27')
-//   cy.get('[data-cy=login-btn]').should('exist').click()
-//   cy.get('[data-cy=member-portal]').should('exist')
-//   cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root > .MuiSvgIcon-root').click()
-
-//   cy.get('[data-cy=switch-role]').click()
-//   cy.get('[value="MEC"]').last().click()
-
-
-
-// })
+ 
 }) 
