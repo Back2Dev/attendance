@@ -1,0 +1,14 @@
+{
+  "projectId": "x46ikd",
+  "baseUrl": "http://localhost:4090",
+  "execTimeout": 240000,
+  "taskTimeout": 180000,
+  "integrationFolder": "tests/cypress/integration",
+  "downloadsFolder": "tests/cypress/downloads",
+  "fixturesFolder": "tests/cypress/fixtures",
+  "pluginsFile": "tests/cypress/plugins/index.js",
+  "screenshotsFolder": "tests/cypress/screenshots",
+  "supportFile": "tests/cypress/support/index.js",
+  "videosFolder": "tests/cypress/videos",
+  "experimentalStudio": true
+}
