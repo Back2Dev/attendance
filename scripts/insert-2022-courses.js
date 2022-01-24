@@ -22,11 +22,10 @@ const protocol = opts.port === 443 ? 'wss' : 'ws'
 if (opts.help) {
   console.log(`
 #Usage:
-	node scripts/export-surveys.js [--only=slug] [--help] [--fixtures] [--port=xxxx] [--folder=se2-admin]
+	node scripts/insert-2022-courses.js  [--help] [--port=xxxx]
 Where
   --server=localhost - server  (defaults to localhost)
   --port=3030 - server port (defaults to 3030)
-  --folder=meteor-app - folder to write files (defaults to meteor-app)
 
 #Prerequisites
 	- Running app on http(s)://${server}:${port}/
@@ -58,9 +57,9 @@ const course = {
 }
 
 const courses = [
-  { code: 'MAINT-JAN-31', date: '2022-01-31' },
-  { code: 'MAINT-FEB-01', date: '2022-02-01' },
-  { code: 'MAINT-FEB-03', date: '2022-02-03' },
+  { code: 'MAINT-FEB-07', date: '2022-02-07' },
+  { code: 'MAINT-FEB-08', date: '2022-02-08' },
+  { code: 'MAINT-FEB-10', date: '2022-02-10' },
   { code: 'MAINT-APR-04', date: '2022-04-04' },
   { code: 'MAINT-APR-05', date: '2022-04-05' },
   { code: 'MAINT-APR-07', date: '2022-04-07' },

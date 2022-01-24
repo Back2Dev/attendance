@@ -1,4 +1,4 @@
-// methods.js
+ // methods.js
 import CONSTANTS from '/imports/api/constants'
 import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
