@@ -26,14 +26,13 @@ describe('log into app and create a service for refurbishment', () => {
 
     //opens  manager menu navigates to create service page and adds minor service', function () {
     cy.get('[data-cy=adm-drawer]').click()
-    cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root')
-      .contains('Manager')
-      .click()
+    cy.get('div').contains('Manager').click()
     cy.get('[href="/services/new"]').should('exist').click()
     cy.get('#service-total').should('exist')
     cy.get('[data-cy=minor]').click()
-    cy.get('.items-wrapper > :nth-child(1) > .MuiButtonBase-root').click()
-    //  cy.get('.items-wrapper > :nth-child(9) > .MuiButtonBase-root').click()
+    //  cy.get('.items-wrapper > :nth-child(1) > .MuiButtonBase-root').click()
+    cy.get('#service-item-select').clear().type('Bar tape')
+    cy.get('div').contains('Bar tape $20').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="assessor"]').clear().type('Super Mario')

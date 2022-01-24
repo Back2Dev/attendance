@@ -529,6 +529,7 @@ function ContactStep() {
           <SearchBox
             ref={searchBoxRef}
             className="member-search-box"
+         
             variant="outlined"
             defaultValue={memberData?.name}
             onChange={(value) => searchMember(value)}
