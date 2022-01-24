@@ -45,7 +45,7 @@ function CreatePDF() {
 
   return (
     <StyledCreatePDF>
-      <Button variant="contained" startIcon={<DescriptionIcon />} onClick={createPdf}>
+      <Button variant="contained" data-cy="job-card" startIcon={<DescriptionIcon />} onClick={createPdf}>
         Job Card
       </Button>
     </StyledCreatePDF>

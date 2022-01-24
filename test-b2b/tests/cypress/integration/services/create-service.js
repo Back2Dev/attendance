@@ -40,7 +40,7 @@ describe('log into app and create a service', () => {
     cy.get('[name="pickupDate"]').clear().type('2022-02-01')
     cy.get('[name="replacementBike"]').clear().type('N/A')
     cy.get('[name="budget"]').clear().type('199')
-    cy.get('.btns-container > .MuiButton-text').click()
+    cy.get('[data-cy="bike-back"]').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="note"]').clear().type('no replacement bike required')
@@ -91,7 +91,7 @@ describe('log into app and create a service', () => {
     cy.get('[name="pickupDate"]').clear().type('2022-02-01')
     cy.get('[name="replacementBike"]').clear().type('N/A')
     cy.get('[name="budget"]').clear().type('199')
-    cy.get('.btns-container > .MuiButton-text').click()
+    cy.get('[data-cy="bike-back"]').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="note"]').clear().type('no replacement bike required')
@@ -111,6 +111,6 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="4"]').contains('Vernon Wiza').should('exist')
+    cy.get('div').contains('vernon.wiza@testa.rossa').should('exist')
   })
 })
