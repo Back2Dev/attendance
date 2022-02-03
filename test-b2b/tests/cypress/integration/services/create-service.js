@@ -108,7 +108,6 @@ describe('log into app and create a service', () => {
       .clear()
       .type('Vernon Wiza')
     cy.get('div').contains('vernon.wiza@testa.rossa').click()
-    cy.get('[data-cy="submit"]').click()
 
     cy.get('[name="mobile"]').clear().type('13')
     cy.get('[name="email"').clear().type('mario.vizer@gurgle.111')
