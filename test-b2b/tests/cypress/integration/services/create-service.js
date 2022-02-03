@@ -63,7 +63,7 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
+    cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist')
   })
   it('creates another job and searches for the customer', () => {
     cy.visit('/login')
@@ -108,6 +108,7 @@ describe('log into app and create a service', () => {
       .clear()
       .type('Vernon Wiza')
     cy.get('div').contains('vernon.wiza@testa.rossa').click()
+    cy.get('[data-cy="submit"]').click()
 
     cy.get('[name="mobile"]').clear().type('13')
     cy.get('[name="email"').clear().type('mario.vizer@gurgle.111')
@@ -115,6 +116,8 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="4"]').contains('Vernon Wiza').should('exist')
+    cy.get('.rdg-row > [aria-colindex="5"]')
+      .contains('vernon.wiza@testa.rossa')
+      .should('exist')
   })
 })
