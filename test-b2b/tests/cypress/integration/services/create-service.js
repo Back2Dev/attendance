@@ -56,7 +56,7 @@ describe('log into app and create a service', () => {
     cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input')
       .clear()
       .type('Pat Carmel')
-    cy.get('.contactstep-item-form > .MuiListItem-root').click()
+    cy.get('div').contains('Pat Carmel').click()
     cy.get('[name="mobile"]').clear().type('12')
     cy.get('[name="email"').clear().type('mario.super@gurgle.111')
     cy.get('[data-cy=submit]').should('exist').click()
