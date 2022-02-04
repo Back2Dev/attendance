@@ -107,8 +107,8 @@ describe('log into app and create a service', () => {
     cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input')
       .clear()
       .type('Vernon Wiza')
-    cy.get('div').contains('vernon.wiza@testa.rossa').click()
-    cy.get('[data-cy="submit"]').click()
+    cy.get('div').contains('Vernon Wiza').click()
+    // cy.get('[data-cy="submit"]').click()
 
     cy.get('[name="mobile"]').clear().type('13')
     cy.get('[name="email"').clear().type('mario.vizer@gurgle.111')
@@ -116,8 +116,6 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="5"]')
-      .contains('vernon.wiza@testa.rossa')
-      .should('exist')
+    cy.get('.rdg-row > [aria-colindex="5"]').contains('Vernon Wiza').should('exist')
   })
 })
