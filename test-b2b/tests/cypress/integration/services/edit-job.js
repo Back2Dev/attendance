@@ -29,9 +29,15 @@ describe('log into app, create a service and edit the job created', () => {
     cy.get('div').contains('Manager').click()
     cy.get('[href="/services/new"]').should('exist').click()
     cy.get('#service-total').should('exist')
-    cy.get('[data-cy=minor]').click()
-    cy.get('div').contains('Bar tape - $20').click()
-    //  cy.get('.items-wrapper > :nth-child(9) > .MuiButtonBase-root').click()
+
+    cy.get('.tags-selector > :nth-child(2) > .MuiButtonBase-root').click()
+    cy.get('[data-cy="minor"]').click()
+    cy.get('#service-item-select').clear().type('Bar tape')
+    cy.get('div').contains('Bar tape $20').click()
+
+    cy.get('#service-item-select').clear().type('Cable Fitting X 2 $30')
+    cy.get('div').contains('Cable fitting x 2 $30').click()
+
     cy.get('#service-next-btn').click()
 
     cy.get('[name="assessor"]').clear().type('Super Mario')
@@ -40,7 +46,7 @@ describe('log into app, create a service and edit the job created', () => {
     cy.get('[name="pickupDate"]').clear().type('2022-02-01')
     cy.get('[name="replacementBike"]').clear().type('N/A')
     cy.get('[name="budget"]').clear().type('199')
-    cy.get('[data-cy="back"]').click()
+    cy.get('[data-cy="bike-back"]').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="note"]').clear().type('no replacement bike required')
@@ -68,49 +74,52 @@ describe('log into app, create a service and edit the job created', () => {
     cy.get('h1').contains('Jobs').should('exist')
     cy.get('div').contains('Giganto').should('exist').click()
 
-    cy.wait(100)
+    cy.wait(200)
     cy.get('h1').contains('Pat Carmel: Giganto ').should('exist')
 
     // changes or adds a mechanic
     cy.get('[data-cy="change-mechanic"]').click()
-    cy.get('[data-cy="mechanic-select"]').clear().type('Super Mario')
+    cy.get('[data-cy="mechanic-select"]').clear().type('super.mario@mario.com')
 
     cy.get('[role="option"][data-option-index="0"]').click()
 
     cy.get('[data-cy="select"]').click()
 
-    // adds a new part
+    // // adds a new part
     cy.get(
       '.header > .MuiButtonBase-root > .MuiIconButton-label > .MuiSvgIcon-root > path'
     ).click()
-    cy.get('div').contains('Bell - $6').should('exist').click()
+
+    cy.get('#service-item-select').clear().type('Bell')
+    cy.get('div').contains('Bell $6').click()
+
     cy.get('[data-cy="quick-update"]').click()
 
-    // views job
-    cy.get('.sc-cNEFIx > .MuiButtonBase-root').click()
+    // // views job
+    cy.get('[data-cy="job-card"]').click()
 
     cy.get('[data-cy=mark-paid]').click()
     cy.get('[data-cy="yes-job-card"]').click()
 
-    cy.wait(200)
+    cy.wait(100)
     // move the job to step 4 ready for pickup
     // this element is disabled
-    cy.get(':nth-child(3) > .MuiButtonBase-root > .MuiStepLabel-root')
-      .contains('Quality Check')
-      .click()
+    cy.get('div').contains('Quality Check').click()
 
-    cy.get('[data-cy="qa-mechanic"]').clear().type('Super Mario')
+    cy.get('[data-cy="qa-mechanic"]').clear().type('super.mario@mario.com')
     cy.get('[role="option"][data-option-index="0"]').click()
     cy.get('#qa-passed').click()
-    cy.get('[data-cy="qa-submit"]').click()
+    cy.get('[data-cy="qa-submit"]').should('exist').click()
 
-    // cy.get('.MuiPaper-root > :nth-child(4)').contains('Ready for Pick Up').click()
+    cy.wait(100)
+
+    cy.get('div').contains('Completed').click()
 
     cy.get('[data-cy="send-sms"]').click()
 
     cy.get('[data-cy="submit-sms"]').click()
 
-    // checks if sms exists
-    cy.get(':nth-child(3) > .created').should('exist')
+    // // checks if sms exists
+    // cy.get(':nth-child(3) > .created').should('exist')
   })
 })

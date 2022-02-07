@@ -437,6 +437,7 @@ function ServiceStep({ initialData }) {
             ref={searchFieldRef}
             value={currentItem}
             options={sortedByNameItems}
+            id="service-item-select"
             getOptionLabel={(option) => `${option.name} $${option.price / 100}`}
             style={{ minWidth: 300 }}
             renderInput={(params) => (

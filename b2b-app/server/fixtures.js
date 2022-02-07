@@ -82,7 +82,7 @@ Meteor.methods({
     Meteor.users.find({}).forEach((user) => {
       const p = Members.findOne({ userId: user._id })
       if (!p) {
-        let name = user.name
+        let name = user.name || user.username
         let nickname
         const matches = name?.match(/^(\w+?)\s+(\w+?)@/)
         if (matches) {
@@ -113,7 +113,7 @@ Meteor.methods({
   },
   resetCollections() {
     // Meteor.users.remove({})
-    // Members.remove({})
+     Members.remove({})
     Jobs.remove({})
     Messages.remove({})
     Notifications.remove({})

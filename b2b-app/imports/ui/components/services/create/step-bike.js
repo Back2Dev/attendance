@@ -232,7 +232,7 @@ function BikeStep({ initialData }) {
           <AutoField name="note" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
-            <Button     data-cy="back" onClick={goBack}>Back</Button>
+            <Button     data-cy="bike-back" onClick={goBack}>Back</Button>
             <Button
               variant="contained"
               color="primary"

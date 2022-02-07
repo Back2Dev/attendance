@@ -201,7 +201,7 @@ export const ServiceProvider = ({ children }) => {
       }
       return stepKey
     })
-    if (allDone !== true) {
+    if (!allDone) {
       showError('Please finish all steps first')
       return
     }

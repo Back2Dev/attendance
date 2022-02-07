@@ -20,11 +20,7 @@ describe('log into app and create a service', () => {
       '[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root > .MuiSvgIcon-root'
     ).click()
 
-    cy.get(
-      '#primary-search-account-menu > .MuiPaper-root > .MuiList-root > :nth-child(2)'
-    )
-      .contains('Switch role')
-      .click()
+    cy.get('[data-cy=switch-role]').click()
     cy.get('[value="ADM"]').last().click()
 
     //opens  manager menu navigates to create service page and adds minor service', function () {
@@ -33,8 +29,9 @@ describe('log into app and create a service', () => {
     cy.get('[href="/services/new"]').should('exist').click()
     cy.get('#service-total').should('exist')
     cy.get('[data-cy=minor]').click()
-    cy.get('div').contains('Bar tape - $20').click()
-
+    // cy.get('.items-wrapper > :nth-child(1) > .MuiButtonBase-root').click()
+    cy.get('#service-item-select').clear().type('Bar tape')
+    cy.get('div').contains('Bar tape $20').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="assessor"]').clear().type('Super Mario')
@@ -43,15 +40,13 @@ describe('log into app and create a service', () => {
     cy.get('[name="pickupDate"]').clear().type('2022-02-01')
     cy.get('[name="replacementBike"]').clear().type('N/A')
     cy.get('[name="budget"]').clear().type('199')
-    cy.get('[data-cy="back"]').click()
+    cy.get('[data-cy="bike-back"]').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="note"]').clear().type('no replacement bike required')
     cy.get('[data-cy="next"').click()
 
-    cy.get(
-      '.decision-marking-container > .MuiFormControl-root > .MuiInputBase-root'
-    ).click()
+    cy.get('[data-cy=customer-search]').click()
 
     cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input')
       .clear()
@@ -63,7 +58,7 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="5"]').contains('Pat Carmel').should('exist')
+    cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
   })
   it('creates another job and searches for the customer', () => {
     cy.visit('/login')
@@ -94,7 +89,7 @@ describe('log into app and create a service', () => {
     cy.get('[name="pickupDate"]').clear().type('2022-02-01')
     cy.get('[name="replacementBike"]').clear().type('N/A')
     cy.get('[name="budget"]').clear().type('199')
-    cy.get('[data-cy="back"]').click()
+    cy.get('[data-cy="bike-back"]').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="note"]').clear().type('no replacement bike required')
@@ -116,6 +111,6 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="5"]').contains('Vernon Wiza').should('exist')
+    cy.get('div').contains('vernon.wiza@testa.rossa').should('exist')
   })
 })

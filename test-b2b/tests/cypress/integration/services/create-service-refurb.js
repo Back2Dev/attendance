@@ -30,7 +30,9 @@ describe('log into app and create a service for refurbishment', () => {
     cy.get('[href="/services/new"]').should('exist').click()
     cy.get('#service-total').should('exist')
     cy.get('[data-cy=minor]').click()
-    cy.get('div').contains('Bar tape - $20').click()
+    //  cy.get('.items-wrapper > :nth-child(1) > .MuiButtonBase-root').click()
+    cy.get('#service-item-select').clear().type('Bar tape')
+    cy.get('div').contains('Bar tape $20').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="assessor"]').clear().type('Super Mario')
