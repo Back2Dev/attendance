@@ -51,14 +51,14 @@ describe('log into app and create a service', () => {
     cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input')
       .clear()
       .type('Pat Carmel')
-    cy.get('div').contains('pat.carmel@mydomain.com.au').click()
+    cy.get('div').contains('Pat Carmel').click()
     cy.get('[name="mobile"]').clear().type('12')
     cy.get('[name="email"').clear().type('mario.super@gurgle.111')
     cy.get('[data-cy=submit]').should('exist').click()
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
+    cy.get('div').contains('Giganto').should('exist')
   })
   it('creates another job and searches for the customer', () => {
     cy.visit('/login')
@@ -75,14 +75,12 @@ describe('log into app and create a service', () => {
 
     // opens manager menu navigates to create service page and adds minor service', function () {
     cy.get('[data-cy=adm-drawer]').click()
-    cy.get('.makeStyles-sideDrawer-67 > :nth-child(4) > .MuiButtonBase-root')
-      .contains('Manager')
-      .click()
+    cy.get('div').contains('Manager').click()
     cy.get('[href="/services/new"]').should('exist').click()
     cy.get('#service-total').should('exist')
     cy.get('[data-cy=minor]').click()
-    cy.get('#service-item-select').clear().type('Bar tape')
-    cy.get('div').contains('Bar tape $20').click()
+    cy.get('div').contains('Bar tape - $20').click()
+    // cy.get('.items-wrapper > :nth-child(9) > .MuiButtonBase-root').click()
     cy.get('#service-next-btn').click()
 
     cy.get('[name="assessor"]').clear().type('Super Mario')
@@ -104,13 +102,15 @@ describe('log into app and create a service', () => {
     cy.get('[data-cy=customer-search] .MuiInputBase-root > .MuiInputBase-input')
       .clear()
       .type('Vernon Wiza')
-    cy.get('div').contains('vernon.wiza@testa.rossa').click()
+    cy.get('div').contains('Vernon Wiza').click()
+    // cy.get('[data-cy="submit"]').click()
+
     cy.get('[name="mobile"]').clear().type('13')
     cy.get('[name="email"').clear().type('mario.vizer@gurgle.111')
     cy.get('[data-cy=submit]').should('exist').click()
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('div').contains('vernon.wiza@testa.rossa').should('exist')
+    cy.get('div').contains('Vernon Wiza').should('exist')
   })
 })
