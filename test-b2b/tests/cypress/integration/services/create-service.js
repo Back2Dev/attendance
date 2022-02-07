@@ -58,7 +58,7 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('.rdg-row > [aria-colindex="4"]').contains('Giganto').should('exist')
+    cy.get('div').contains('Giganto').should('exist')
   })
   it('creates another job and searches for the customer', () => {
     cy.visit('/login')
@@ -111,6 +111,6 @@ describe('log into app and create a service', () => {
 
     cy.get('.jobs-header > .MuiTypography-root').should('exist')
 
-    cy.get('div').contains('vernon.wiza@testa.rossa').should('exist')
+    cy.get('div').contains('Vernon Wiza').should('exist')
   })
 })
