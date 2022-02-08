@@ -115,14 +115,20 @@ Meteor.methods({
     Fixtures.loadThings(thing) // Loads (non boot-time) fixtures
   },
   resetCollections() {
-    const names = 'members'.split(/\s+/)
+    if (Meteor.settings.env.environment === 'prod') {
+      throw new Meteor.Error("Sorry, I won't do this on the production server")
+    }
+    const names = 'messages notifications events audits logs'.split(
+      /\s+/
+    )
     debug(`resetCollections, emptying: ${names.join(', ')}`)
-    const query = { se: { $exists: false } }
+    const query = { core: { $exists: false } }
     const userIds = Meteor.users.find(query).map((user) => user._id)
     Meteor.users.remove(query)
-    Profiles.remove({ userId: { $in: userIds } })
+    Members.remove({ userId: { $in: userIds } })
     names.forEach((collection) => {
       try {
+        // Note: Mongo.Collection access requires the dburles:mongo-collection-instances package to be installed
         Mongo.Collection.get(collection).remove({})
       } catch (e) {
         debug(`Something wrong emptying ${collection}: ${e.message}`)
