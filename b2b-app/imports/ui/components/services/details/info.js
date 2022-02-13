@@ -4,13 +4,14 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { Helmet } from 'react-helmet'
 import { Skeleton } from '@material-ui/lab'
-import { Grid, Link, Typography } from '@material-ui/core'
+import { Grid, Link, Typography, Button } from '@material-ui/core'
 // import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
 // import MechanicSelector from './info-mechanic'
 import ExpectedPickupDate from './info-expected-pickup'
+import { useHistory } from 'react-router'
 
 const StyledJobInfo = styled.div`
   .header-container {
@@ -38,6 +39,7 @@ const StyledJobInfo = styled.div`
 
 function JobInfo() {
   const { item, loading } = useContext(JobsDetailsContext)
+  const history = useHistory()
 
   const renderData = (data) => {
     if (loading || !item) {
@@ -56,6 +58,10 @@ function JobInfo() {
           {item?.jobNo} {item?.isRefurbish ? 'Refurbish' : item?.name}: {item?.bikeName}{' '}
           {`$${item?.totalCost / 100}`}
         </Typography>
+        <Button
+          variant='outlined'
+          onClick={() => history.goBack()}
+        >Services</Button>
       </div>
       <Grid container>
         <Grid item xs={12} md={item?.lastContacted ? 2 : 3} className="info-item">
