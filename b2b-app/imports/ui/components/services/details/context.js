@@ -116,6 +116,23 @@ export const JobsDetailsProvider = ({ children }) => {
     })
   }
 
+  const markAsUnPaid = () => {
+    dispatch({ type: 'setLoading', loading: true })
+    Meteor.call('jobs.markAsUnPaid', { id: item._id }, (error, result) => {
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'failed') {
+          showError(result.message)
+        }
+      }
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    })
+  }
+
   const addHistory = (description, contacted = false) => {
     dispatch({ type: 'setLoading', loading: true })
     Meteor.call(
@@ -189,6 +206,7 @@ export const JobsDetailsProvider = ({ children }) => {
         updateJobStatus,
         updateJobMechanic,
         markAsPaid,
+        markAsUnPaid,
         addHistory,
         sendSMS,
         setExpectedPickupDate,

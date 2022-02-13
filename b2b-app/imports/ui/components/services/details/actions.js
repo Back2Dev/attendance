@@ -41,6 +41,11 @@ const StyledJobActions = styled.div`
     button {
       margin-left: 10px;
       margin-bottom: 5px;
+
+      &.paid {
+        color: #FFFFFF;
+        background-color: #0089fa;
+      }
     }
   }
   ${({ theme }) => `
@@ -63,7 +68,7 @@ const StyledJobActions = styled.div`
 `
 
 function JobActions() {
-  const { item, loading, updateJobStatus, markAsPaid } = useContext(JobsDetailsContext)
+  const { item, loading, updateJobStatus, markAsPaid, markAsUnPaid } = useContext(JobsDetailsContext)
 
   const { showConfirm } = useConfirm()
 
@@ -95,52 +100,14 @@ function JobActions() {
     }
 
     doUpdate && updateJobStatus(status)
-
-    // if (['cancelled', 'completed'].includes(status)) {
-    //   // need to confirm before set the status
-    //   showConfirm({
-    //     onConfirm: () => updateJobStatus(status),
-    //   })
-    // } else if (
-    //   status === 'in-progress' &&
-    //   ['cancelled', 'completed'].includes(item.status)
-    // ) {
-    //   showConfirm({
-    //     onConfirm: () => updateJobStatus(status),
-    //   })
-    // } else {
-    //   updateJobStatus(status)
-    // }
   }
 
-  const onMarkAsPaid = () => {
+  const togglePaidStatus = () => {
     // need to confirm before update the job
     showConfirm({
-      onConfirm: () => markAsPaid(),
+      onConfirm: () => item.paid ? markAsUnPaid() : markAsPaid(),
     })
   }
-
-  // const renderStatusActions = () => {
-  //   if (!item || loading) {
-  //     return <Skeleton width="100" />
-  //   }
-  //   const availableBtns = CONSTANTS.JOB_STATUS_MAPPING[item.status]
-  //   if (!availableBtns) {
-  //     return null
-  //   }
-  //   return availableBtns.map(({ next, label }) => {
-  //     return (
-  //       <Button
-  //         variant="contained"
-  //         key={next}
-  //         onClick={() => onSetStatus(next)}
-  //         disabled={loading}
-  //       >
-  //         {label}
-  //       </Button>
-  //     )
-  //   })
-  // }
 
   const steps = [
     {
@@ -202,18 +169,16 @@ function JobActions() {
   }
 
   const renderMarkAsPaidBtn = () => {
-    if (item?.paid) {
-      return null
-    }
     return (
       <Button
+        className={item?.paid ? 'paid' : ''}
         variant="contained"
         data-cy="mark-paid"
-        onClick={() => onMarkAsPaid()}
+        onClick={() => togglePaidStatus()}
         disabled={loading}
         startIcon={<AttachMoneyIcon />}
       >
-        Mark as paid
+        {item?.paid ? 'Paid' : 'Mark as paid'}
       </Button>
     )
   }

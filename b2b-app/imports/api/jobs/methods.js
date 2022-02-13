@@ -21,6 +21,68 @@ const debug = require('debug')('app:jobs')
 
 Meteor.methods({
   /**
+   * Mark a job as NOT paid
+   * @param {Object} params
+   * @param {string} params.id - the job id
+   */
+  'jobs.markAsUnPaid'({ id }) {
+    try {
+      JobMarkAsPaidParamsSchema.validate({ id })
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+    // get current user profile
+    const myMember = Members.findOne({ userId: me._id })
+
+    // find the job
+    const job = Jobs.findOne({ _id: id })
+    if (!job) {
+      return { status: 'failed', message: `Job was not found with id: ${id}` }
+    }
+
+    if (!job.paid) {
+      return { status: 'failed', message: 'Job was not paid' }
+    }
+
+    // update the job and the history
+    try {
+      Jobs.update(
+        { _id: id },
+        {
+          $set: { paid: false, paidAt: undefined },
+          $push: {
+            history: {
+              userId: me._id,
+              memberId: myMember._id,
+              description: 'Mark the Job as NOT paid',
+              statusBefore: job.status,
+              statusAfter: job.status,
+              createdAt: new Date(),
+            },
+          },
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+
+    return {
+      status: 'success',
+    }
+  },
+
+  /**
    * Mark a job as paid
    * @param {Object} params
    * @param {string} params.id - the job id
