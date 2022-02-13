@@ -134,6 +134,12 @@ function JobsListing() {
       // frozen: true,
     },
     {
+      key: 'phone',
+      name: 'Phone',
+      width: 150,
+      // frozen: true,
+    },
+    {
       key: 'cost',
       name: 'Cost',
       width: 60,
@@ -157,6 +163,7 @@ function JobsListing() {
         jobNo: item.jobNo,
         bike: item.bikeName,
         customer: item.name,
+        phone: item.phone,
         cost: item.totalCost / 100,
         status: item.status,
       }
@@ -192,6 +199,10 @@ function JobsListing() {
       case 'customer':
         return (a, b) => {
           return a.customer?.localeCompare(b.customer)
+        }
+      case 'phone':
+        return (a, b) => {
+          return a.phone?.localeCompare(b.phone)
         }
       case 'cost':
         return (a, b) => {
