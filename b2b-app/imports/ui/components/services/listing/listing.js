@@ -190,19 +190,19 @@ function JobsListing() {
         }
       case 'jobNo':
         return (a, b) => {
-          return a.jobNo?.localeCompare(b.jobNo)
+          return `${a.jobNo}`.localeCompare(`${b.jobNo}`)
         }
       case 'bike':
         return (a, b) => {
-          return a.bike?.localeCompare(b.bike)
+          return `${a.bike}`.localeCompare(`${b.bike}`)
         }
       case 'customer':
         return (a, b) => {
-          return a.customer?.localeCompare(b.customer)
+          return `${a.customer}`.localeCompare(`${b.customer}`)
         }
       case 'phone':
         return (a, b) => {
-          return a.phone?.localeCompare(b.phone)
+          return `${a.phone}`.localeCompare(`${b.phone}`)
         }
       case 'cost':
         return (a, b) => {
@@ -210,7 +210,7 @@ function JobsListing() {
         }
       case 'status':
         return (a, b) => {
-          return a.status.localeCompare(b.status)
+          return `${a.status}`.localeCompare(`${b.status}`)
         }
       default:
         return () => 0
