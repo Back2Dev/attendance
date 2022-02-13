@@ -84,7 +84,6 @@ const StyledJobsListing = styled.div`
 function JobsListing() {
   const {
     jobs,
-    statusCounter,
     filterStatus,
     toggleFilterStatus,
     filterText,
@@ -217,30 +216,8 @@ function JobsListing() {
     }
   }
 
-  const calculatedRows = useMemo(() => {
-    // if (sortColumns.length === 0) return rows
-
+  const filteredRows = useMemo(() => {
     let mutableRows = [...rows]
-
-    // handle column sorting
-    mutableRows.sort((a, b) => {
-      for (const sort of sortColumns) {
-        const comparator = getComparator(sort.columnKey)
-        const compResult = comparator(a, b)
-        if (compResult !== 0) {
-          return sort.direction === 'ASC' ? compResult : -compResult
-        }
-      }
-      return 0
-    })
-
-    // apply filter status
-    if (filterStatus.length) {
-      mutableRows = mutableRows.filter((row) => {
-        return filterStatus.includes(row.status)
-      })
-    }
-
     // handle search
     if (filterText && filterText.length >= 2) {
       const reg = new RegExp(filterText, 'i')
@@ -269,7 +246,43 @@ function JobsListing() {
     }
 
     return mutableRows
-  }, [rows, sortColumns, filterStatus, filterText, dateFrom, dateTo])
+  }, [filterText, dateFrom, dateTo, rows])
+
+  const statusCounter = useMemo(() => {
+    const statusCounter = {}
+    filteredRows.map((row) => {
+      statusCounter[row.status] = (statusCounter[row.status] || 0) + 1
+    })
+
+    return statusCounter
+  }, [filteredRows])
+
+  const calculatedRows = useMemo(() => {
+    // if (sortColumns.length === 0) return rows
+
+    let mutableRows = [...filteredRows]
+
+    // handle column sorting
+    mutableRows.sort((a, b) => {
+      for (const sort of sortColumns) {
+        const comparator = getComparator(sort.columnKey)
+        const compResult = comparator(a, b)
+        if (compResult !== 0) {
+          return sort.direction === 'ASC' ? compResult : -compResult
+        }
+      }
+      return 0
+    })
+
+    // apply filter status
+    if (filterStatus.length) {
+      mutableRows = mutableRows.filter((row) => {
+        return filterStatus.includes(row.status)
+      })
+    }
+
+    return mutableRows
+  }, [filteredRows, sortColumns, filterStatus])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)
