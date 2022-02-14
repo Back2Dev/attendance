@@ -1,5 +1,6 @@
 import PdfMaker from '/imports/ui/utils/pdf-maker.js'
 import moment from 'moment'
+import numeral from 'numeral'
 import CONSTANTS from '/imports/api/constants'
 
 const capitalize = function (str) {
@@ -29,22 +30,18 @@ const createJobCard = ({
   }, 0)
 
   const serviceItemNames = serviceItems.map((item) => {
-    const isMinor = item.tags?.includes('Minor')
-    const isMajor = item.tags?.includes('Major')
-    const label = isMajor ? 'Major' : isMinor ? 'Minor' : ''
+    const itemPrice = item.price / 100 // price in dolar 
     return [
       {
         text: item.name,
         alignment: 'left',
-        colSpan: isMinor || isMajor ? 2 : 3,
+        colSpan: 2,
       },
       {},
-      label
-        ? {
-            text: label,
-            alignment: 'center',
-          }
-        : {},
+      {
+        text: `$${numeral(itemPrice).format('0.00')}`,
+        alignment: 'right',
+      },
       {
         image: item.code ? item.code : 'O',
         width: 60,
