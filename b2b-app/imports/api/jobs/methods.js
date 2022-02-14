@@ -710,7 +710,7 @@ Meteor.methods({
       console.warn('Failed updating ServiceItems', e.message)
     }
 
-    return { status: 'success', id: inserted }
+    return { status: 'success', id: inserted, jobNo: jobData.jobNo }
   },
   'rm.jobs': (id) => {
     try {

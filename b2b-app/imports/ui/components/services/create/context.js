@@ -181,14 +181,16 @@ export const ServiceProvider = ({ children }) => {
     return setStepProperty({ stepKey: stepKeys[stepKeyIndex], property, value })
   }
 
-  const createPdf = () => {
+  const createPdf = (jobNo) => {
     const serviceType = state.steps.service.data.serviceType
     const serviceItems = state.steps.service.data.items
     const bikeDetails = state.steps.bike.data.details
     const contactData = state.steps.contact.data
     // const pickup = state.steps.pickup.data.pickup
+    const theJobNo = jobNo || originalData.jobNo
+    const assessor = state.steps.bike.data.details.assessor
 
-    createJobCard({ serviceType, serviceItems, bikeDetails, contactData })
+    createJobCard({ serviceType, serviceItems, bikeDetails, contactData, assessor, jobNo: theJobNo })
   }
 
   const createJob = (quick = false) => {
@@ -244,7 +246,7 @@ export const ServiceProvider = ({ children }) => {
           // push(`/jobs/${result.id}`)
           // create pdf now?
           if (quick === false) {
-            createPdf()
+            createPdf(result.jobNo)
           }
 
           if (originalData) {
