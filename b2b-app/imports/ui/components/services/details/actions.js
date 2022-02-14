@@ -105,6 +105,7 @@ function JobActions() {
   const togglePaidStatus = () => {
     // need to confirm before update the job
     showConfirm({
+      title: item.paid ? 'Mark as NOT paid' : 'Mark as paid',
       onConfirm: () => item.paid ? markAsUnPaid() : markAsPaid(),
     })
   }
