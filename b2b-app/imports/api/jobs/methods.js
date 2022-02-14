@@ -532,7 +532,6 @@ Meteor.methods({
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
       isRefurbish: data.refurbish === true,
-      jobNo: (data.refurbish ? 'R' : 'C') + Meteor.call('getNextJobNo'),
     }
 
     if (cleanData.selectedMember?._id) {
