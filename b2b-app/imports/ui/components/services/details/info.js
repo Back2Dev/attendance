@@ -60,7 +60,7 @@ function JobInfo() {
         </Typography>
         <Button
           variant='outlined'
-          onClick={() => history.goBack()}
+          onClick={() => history.push('/services')}
         >Services</Button>
       </div>
       <Grid container>
