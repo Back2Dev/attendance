@@ -5,7 +5,6 @@ import DataGrid from 'react-data-grid'
 import { Button } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
-import { isAfter, isBefore } from 'date-fns'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
@@ -234,14 +233,14 @@ function JobsListing() {
     // apply date from filter
     if (dateFrom) {
       mutableRows = mutableRows.filter((row) => {
-        return isAfter(row.createdAt, dateFrom)
+        return moment(row.createdAt).isAfter(moment(dateFrom).startOf('day'))
       })
     }
 
     // apply date to filter
     if (dateTo) {
       mutableRows = mutableRows.filter((row) => {
-        return isBefore(row.createdAt, dateTo)
+        return moment(row.createdAt).isBefore(moment(dateTo).endOf('day'))
       })
     }
 
