@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, Stepper, Step, StepButton, StepLabel } from '@material-ui/core'
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 
-import { showError } from '/imports/ui/utils/toast-alerts'
+import { showWarning } from '/imports/ui/utils/toast-alerts'
 import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
@@ -84,7 +84,7 @@ function JobActions() {
           doUpdate = false
         }
         if (!item.mechanic) {
-          showError('Please select a mechanic first')
+          showWarning('Please select a mechanic first')
           doUpdate = false
         }
         break
