@@ -86,7 +86,7 @@ describe('Test jobs.markAsPaid method', () => {
   })
 })
 
-describe.only('Test jobs.markAsUnPaid method', () => {
+describe('Test jobs.markAsUnPaid method', () => {
   const theMethod = Meteor.server.method_handlers['jobs.markAsUnPaid']
   it('jobs.markAsUnPaid should return an object with status is failed with bad params', () => {
     const badParams = [
