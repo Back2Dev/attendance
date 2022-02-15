@@ -5,7 +5,6 @@ import DataGrid from 'react-data-grid'
 import { Button } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
-import { isAfter, isBefore } from 'date-fns'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
@@ -84,7 +83,6 @@ const StyledJobsListing = styled.div`
 function JobsListing() {
   const {
     jobs,
-    statusCounter,
     filterStatus,
     toggleFilterStatus,
     filterText,
@@ -134,6 +132,12 @@ function JobsListing() {
       // frozen: true,
     },
     {
+      key: 'phone',
+      name: 'Phone',
+      width: 150,
+      // frozen: true,
+    },
+    {
       key: 'cost',
       name: 'Cost',
       width: 60,
@@ -157,6 +161,7 @@ function JobsListing() {
         jobNo: item.jobNo,
         bike: item.bikeName,
         customer: item.name,
+        phone: item.phone,
         cost: item.totalCost / 100,
         status: item.status,
       }
@@ -183,15 +188,19 @@ function JobsListing() {
         }
       case 'jobNo':
         return (a, b) => {
-          return a.jobNo?.localeCompare(b.jobNo)
+          return `${a.jobNo}`.localeCompare(`${b.jobNo}`)
         }
       case 'bike':
         return (a, b) => {
-          return a.bike?.localeCompare(b.bike)
+          return `${a.bike}`.localeCompare(`${b.bike}`)
         }
       case 'customer':
         return (a, b) => {
-          return a.customer?.localeCompare(b.customer)
+          return `${a.customer}`.localeCompare(`${b.customer}`)
+        }
+      case 'phone':
+        return (a, b) => {
+          return `${a.phone}`.localeCompare(`${b.phone}`)
         }
       case 'cost':
         return (a, b) => {
@@ -199,17 +208,58 @@ function JobsListing() {
         }
       case 'status':
         return (a, b) => {
-          return a.status.localeCompare(b.status)
+          return `${a.status}`.localeCompare(`${b.status}`)
         }
       default:
         return () => 0
     }
   }
 
+  const filteredRows = useMemo(() => {
+    let mutableRows = [...rows]
+    // handle search
+    if (filterText && filterText.length >= 2) {
+      const reg = new RegExp(filterText, 'i')
+      mutableRows = mutableRows.filter((row) => {
+        // return reg.test(`${row.bike} ${row.customer} ${row.cost} ${row.createdAt}`)
+        const strsToSearch = Object.values(row).map((value) => {
+          return `${value}` || ''
+        })
+        // console.log(strsToSearch, strsToSearch.join(' '))
+        return reg.test(strsToSearch.join(' '))
+      })
+    }
+
+    // apply date from filter
+    if (dateFrom) {
+      mutableRows = mutableRows.filter((row) => {
+        return moment(row.createdAt).isAfter(moment(dateFrom).startOf('day'))
+      })
+    }
+
+    // apply date to filter
+    if (dateTo) {
+      mutableRows = mutableRows.filter((row) => {
+        return moment(row.createdAt).isBefore(moment(dateTo).endOf('day'))
+      })
+    }
+
+    return mutableRows
+  }, [filterText, dateFrom, dateTo, rows])
+
+  const statusCounter = useMemo(() => {
+    const statusCounter = {}
+    filteredRows.map((row) => {
+      statusCounter[row.status] = (statusCounter[row.status] || 0) + 1
+    })
+
+    return statusCounter
+  }, [filteredRows])
+
   const calculatedRows = useMemo(() => {
     // if (sortColumns.length === 0) return rows
 
-    let mutableRows = [...rows]
+    let mutableRows = [...filteredRows]
 
     // handle column sorting
     mutableRows.sort((a, b) => {
@@ -230,35 +280,8 @@ function JobsListing() {
       })
     }
 
-    // handle search
-    if (filterText && filterText.length >= 2) {
-      const reg = new RegExp(filterText, 'i')
-      mutableRows = mutableRows.filter((row) => {
-        // return reg.test(`${row.bike} ${row.customer} ${row.cost} ${row.createdAt}`)
-        const strsToSearch = Object.values(row).map((value) => {
-          return `${value}` || ''
-        })
-        // console.log(strsToSearch, strsToSearch.join(' '))
-        return reg.test(strsToSearch.join(' '))
-      })
-    }
-
-    // apply date from filter
-    if (dateFrom) {
-      mutableRows = mutableRows.filter((row) => {
-        return isAfter(row.createdAt, dateFrom)
-      })
-    }
-
-    // apply date to filter
-    if (dateTo) {
-      mutableRows = mutableRows.filter((row) => {
-        return isBefore(row.createdAt, dateTo)
-      })
-    }
-
     return mutableRows
-  }, [rows, sortColumns, filterStatus, filterText, dateFrom, dateTo])
+  }, [filteredRows, sortColumns, filterStatus])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)

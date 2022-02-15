@@ -5,6 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data'
 
 import Jobs from '/imports/api/jobs/schema.js'
 import { parseISO } from 'date-fns'
+import { useMemo } from 'react'
 
 export const JobsListingContext = React.createContext('jobslisting')
 
@@ -61,19 +62,14 @@ export const JobsListingProvider = ({ children }) => {
     dateTo: (cachedFilters.dateTo && parseISO(cachedFilters.dateTo)) || null,
   })
 
-  const { loading, jobs, statusCounter } = useTracker(() => {
+  const { loading, jobs } = useTracker(() => {
     // TODO: change the subscription, add permission checking
     const sub = Meteor.subscribe('all.jobs')
-    const jobs = Jobs.find({}, { sort: { pickupDate: -1 } }).fetch()
-    const statusCounter = {}
-    jobs.map((job) => {
-      statusCounter[job.status] = (statusCounter[job.status] || 0) + 1
-    })
+    const jobs = Jobs.find({}, { sort: { pickupDate: -1, createdAt: -1 } }).fetch()
 
     return {
       loading: !sub.ready(),
       jobs,
-      statusCounter,
     }
   }, [])
 
@@ -112,7 +108,6 @@ export const JobsListingProvider = ({ children }) => {
         ...state,
         loading,
         jobs,
-        statusCounter,
         toggleFilterStatus,
         setFilterText,
         setDateFrom,

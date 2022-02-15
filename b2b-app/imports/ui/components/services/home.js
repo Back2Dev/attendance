@@ -32,7 +32,7 @@ function ServicingHome() {
             color="primary"
             onClick={() => push('/services/new')}
           >
-            Create Job
+            New service
           </Button>
         </div>
         <JobsListing />

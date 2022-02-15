@@ -12,6 +12,8 @@ const { Default, PrefilledText } = composeStories(InlineEditStories)
  * https://github.com/jsdom/jsdom/issues/1245
  * https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
  * */
+
+/*
 beforeAll(() => {
   Object.defineProperty(HTMLElement.prototype, 'innerText', {
     get() {
@@ -53,3 +55,4 @@ describe('type something and', () => {
     'if text has changed and escape pressed, value should revert and onTextChange should not be called'
   )
 })
+*/
