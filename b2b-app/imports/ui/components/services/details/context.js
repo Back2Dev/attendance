@@ -177,7 +177,7 @@ export const JobsDetailsProvider = ({ children }) => {
       }
     })
   }
-
+  // TODO: Create the landing page for this
   const payUrl = Meteor.absoluteUrl(`/pay/${item?.jobNo}`)
 
   return (
