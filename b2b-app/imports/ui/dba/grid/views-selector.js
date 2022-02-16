@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 
 import { CollectionContext } from '../context'
+import { useMemo } from 'react'
 
 const debug = require('debug')('app:dba-grid-views-selector')
 
@@ -34,16 +35,20 @@ function ViewsSelector({ showDefault = true }) {
 
   const history = useHistory()
 
+  const sortedViews = useMemo(() => {
+    return availableViews?.sort((a, b) => a.name.localeCompare(b.name))
+  }, [availableViews])
+
   const handleChange = (event) => {
     const viewSlug = event.target.value
     history.push(`/dba/${collectionKebab}${viewSlug ? `/${viewSlug}` : ''}`)
   }
 
   const renderMenuItems = () => {
-    if (!availableViews?.length) {
+    if (!sortedViews?.length) {
       return <MenuItem value="">No View available</MenuItem>
     }
-    return availableViews.map((item) => (
+    return sortedViews.map((item) => (
       <MenuItem value={item.slug} key={item.slug}>
         {item.name}
       </MenuItem>
