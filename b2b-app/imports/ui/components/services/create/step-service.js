@@ -183,6 +183,8 @@ function ServiceStep({ initialData }) {
   const searchFieldRef = useRef(null)
   const selectedContRef = useRef(null)
 
+  const importedOriginalData = useRef(false)
+
   const {
     serviceType,
     currentItem,
@@ -224,7 +226,7 @@ function ServiceStep({ initialData }) {
     if (originalData?.serviceType) {
       dispatch({ type: 'setServiceType', payload: originalData?.serviceType })
     }
-    if (originalData?.serviceItems?.length && items?.length) {
+    if (!importedOriginalData.current && originalData?.serviceItems?.length && items?.length) {
       const itemsToBeAdded = originalData?.serviceItems.map((item) => {
         return {
           ...item,
@@ -235,6 +237,7 @@ function ServiceStep({ initialData }) {
       if (itemsToBeAdded?.length) {
         dispatch({ type: 'addItems', payload: itemsToBeAdded })
       }
+      importedOriginalData.current = true
     }
   }, [originalData, items])
 
