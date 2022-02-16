@@ -11,7 +11,7 @@ const DataFormatter = (props) => {
   const cellValue = column ? row[column.key] : undefined
   switch (column?.type) {
     case 'String':
-      return cellValue
+      return cellValue || null
     case 'SimpleSchema.Integer':
     case 'Integer':
       return numeral(cellValue).format('0,0') || null
