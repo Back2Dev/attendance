@@ -9,6 +9,8 @@ import EditIcon from '@material-ui/icons/Edit'
 
 import { CollectionContext } from '../context'
 
+const debug = require('debug')('app:dba-grid-views-selector')
+
 const cc = require('change-case')
 cc.kebabCase = (str) => cc.headerCase(str).toLowerCase()
 
@@ -28,7 +30,7 @@ const StyledViewsSelector = styled.div`
 function ViewsSelector({ showDefault = true }) {
   const { theCollection, theView, availableViews } = useContext(CollectionContext)
   const collectionKebab = cc.kebabCase(theCollection._name)
-  console.log({ theView, availableViews })
+  debug({ theView, availableViews })
 
   const history = useHistory()
 
@@ -56,7 +58,7 @@ function ViewsSelector({ showDefault = true }) {
     <StyledViewsSelector>
       <FormControl className="form-control">
         <Select value={theView?.slug || ''} onChange={handleChange}>
-          {showDefault && <MenuItem value="">Default (no view)</MenuItem>}
+          {showDefault && <MenuItem value="ALL_BY_SCHEMA">ALL (Schema)</MenuItem>}
           {renderMenuItems()}
         </Select>
       </FormControl>
