@@ -1,0 +1,18 @@
+{
+  "collection": "standupNotes",
+  "generate": "CRUD",
+  "fields": {
+    "yesterday": {
+      "type": "String",
+      "optional": true
+    },
+    "today": "OptionalString",
+    "blockers": "OptionalString",
+"userId":"String",
+"userName":"String"
+
+  },
+  "defaultObject": {
+    
+  }
+}

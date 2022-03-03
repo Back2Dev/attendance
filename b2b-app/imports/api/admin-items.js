@@ -29,4 +29,5 @@ module.exports = [
   { id: 'users', menu: 'Users', fixtures: 0, pubs: 0, factory: 0 },
   { id: 'calendar', menu: 'Calendar', fixtures: 0, pubs: 0, factory: 0 },
   { id: 'register', menu: 'Register', fixtures: 0, pubs: 0, factory: 0 },
+  { id: 'standup-notes', menu: 'standupNotes', fixtures: 0, pubs: 0, factory: 0 },
 ]
