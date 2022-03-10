@@ -3,12 +3,13 @@ const path = require('path')
 
 module.exports = {
   stories: [
+    '../imports/ui/admin/**/*.stories.@(js|jsx)',
     '../imports/ui/admin/forms/survey-builder/**/*.stories.mdx',
     '../imports/ui/admin/forms/survey-builder/**/*.stories.@(js|jsx)',
   ],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   webpackFinal: async (config, { presets }) => {
-    const instance = (await presets.apply('webpackInstance'))?.default
+    const instance = (await presets.apply('webpackInstance')).default
     // need these 2 lines because builder renders incomplete stories as it uses form/framework
     // context which imports preview-panel which logs a ReferenceError: EditorPanel not defined
     config.resolve.alias['meteor/meteor'] = require.resolve('./__mocks__/meteor.js')

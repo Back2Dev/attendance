@@ -8,8 +8,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Box, Container, Grid, Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
-import config from './config'
-import { ThemeProvider } from 'emotion-theming'
 import theme from '@react-page/editor/lib/ui/ThemeProvider/DarkTheme'
 
 const people = [
@@ -34,7 +32,7 @@ const themeInstance = {
 //   setValue(event.target.value)
 // }
 
-export default Meeting = () => {
+const Meeting = () => {
   const classes = useStyles()
 
   return (
@@ -108,3 +106,5 @@ export default Meeting = () => {
     </Box>
   )
 }
+
+export default Meeting
