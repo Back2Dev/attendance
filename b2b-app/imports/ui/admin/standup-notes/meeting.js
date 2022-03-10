@@ -4,16 +4,11 @@ import moment from 'moment'
 import Button from '@material-ui/core/Button'
 
 import { makeStyles } from '@material-ui/core/styles'
-
-import { Box, Container, Grid, Typography } from '@material-ui/core'
+import { people, teamName } from 'imports/ui/admin/standup-notes/meeting.stories.js'
+import { Box, Checkbox, Container, Grid, Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import theme from '@react-page/editor/lib/ui/ThemeProvider/DarkTheme'
-
-const people = [
-  { userId: 'mikkel', name: 'Mike' },
-  { userId: 'pato', name: 'Pat' },
-]
 
 const useStyles = makeStyles({
   paper: {
@@ -32,7 +27,7 @@ const themeInstance = {
 //   setValue(event.target.value)
 // }
 
-const Meeting = () => {
+const Meeting = ({ teamName }) => {
   const classes = useStyles()
 
   return (
@@ -57,12 +52,12 @@ const Meeting = () => {
           <Grid container key={ix}>
             <Grid xs={3} key="1" className={classes.itemm}>
               <Paper className={classes.paper}>{person.name}</Paper>
+              <Checkbox id="apologies" label="apologies" />
             </Grid>
             <Grid xs={3} key="2" className={classes.itemm}>
               <Paper className={classes.paper}>
                 <TextField
                   id="yesterday-notes"
-                  label="Yesterday"
                   multiline
                   fullWidth
                   rows="4"
@@ -76,7 +71,6 @@ const Meeting = () => {
               <Paper className={classes.paper}>
                 <TextField
                   id="today-notes"
-                  label="Today"
                   multiline
                   fullWidth
                   rows="4"
@@ -90,7 +84,6 @@ const Meeting = () => {
               <Paper className={classes.paper}>
                 <TextField
                   id="blocker-notes"
-                  label="Blockers"
                   multiline
                   fullWidth
                   rows="4"
