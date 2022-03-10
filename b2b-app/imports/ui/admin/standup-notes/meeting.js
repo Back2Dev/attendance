@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
-
 import { makeStyles } from '@material-ui/core/styles'
 import { people, teamName } from 'imports/ui/admin/standup-notes/meeting.stories.js'
 import { Box, Checkbox, Container, Grid, Typography } from '@material-ui/core'
@@ -10,6 +9,9 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import theme from '@react-page/editor/lib/ui/ThemeProvider/DarkTheme'
 
+// const luxondate = '14 of March' == new DateTime('2021-03-14T16:03:44+10:00')
+
+// const date = luxondate
 const useStyles = makeStyles({
   paper: {
     padding: 10,
@@ -37,7 +39,6 @@ const Meeting = ({ teamName }) => {
           <Grid xs={3} className={classes.itemm}>
             <Paper className={classes.paper}>Name</Paper>
           </Grid>
-
           <Grid xs={3} className={classes.itemm}>
             <Paper className={classes.paper}>Yesterday</Paper>
           </Grid>
