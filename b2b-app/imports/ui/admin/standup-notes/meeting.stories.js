@@ -13,14 +13,16 @@ export default {
   },
   decorators: [(Story) => <Story />],
 }
+const Meeting = ({ teamName, people = [] }) => {
+  {
+    ;(people.userId = 'mikkel'), (people.name = 'Mike'), (teamName = 'the dream team')
+  }
+  {
+    ;(people.userId = 'pato'), (people.name = 'Pat'), (teamName = 'the dream team')
+  }
+}
 // const Template = (args) => <Meeting {...args} />
-// const Meeting = ({ teamName, people = [] }) => {
-//   ;(people.userId = 'mikkel'),
-//     (people.name = 'Mike'),
-//     (teamName = 'the dream team')((people.userId = 'pato')),
-//     (people.name = 'Pat'),
-//     (teamName = 'the dream team')
-// }
+
 // export const Standup = Template.bind({})
 // Standup.args = {
 //   title: 'Meeting title',
