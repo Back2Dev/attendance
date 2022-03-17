@@ -3,37 +3,53 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
-import { people, teamName } from 'imports/ui/admin/standup-notes/meeting.stories.js'
+// import { people } from '/imports/ui/admin/standup-notes/meeting.stories.js'
 import { Box, Checkbox, Container, Grid, Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
+
 import TextField from '@material-ui/core/TextField'
-import theme from '@react-page/editor/lib/ui/ThemeProvider/DarkTheme'
-
-// const luxondate = '14 of March' == new DateTime('2021-03-14T16:03:44+10:00')
-
-// const date = luxondate
+import theme from '/imports/ui/themes/dark.js'
+import { DateTime } from 'luxon'
 const useStyles = makeStyles({
   paper: {
     padding: 10,
-    margin: 20,
+    margin: 19,
     height: `100%`,
   },
-  itemm: { padding: theme.spacing(2) },
+  itemm: { padding: theme.spacing(3) },
 })
-const themeInstance = {
-  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-}
+// const themeInstance = {
+//   background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+// }
+// const luxondate = DateTime.fromString('2021-03-14T16:03:44+10:00')
+
+// '1' == 1
+// 1 === 1
+
+// export const date = luxondate
+
 // const [value, setValue] = React.useState('Controlled')
 
 // const handleChange = (event) => {
 //   setValue(event.target.value)
 // }
 
-const Meeting = ({ teamName }) => {
+const Meeting = ({ teamName, people }) => {
   const classes = useStyles()
+
+  console.log('teamName', teamName)
+  console.log('people', people)
+
+  const date = DateTime.now().toFormat('cccc dd LLLL')
+  // dt.toLocaleString((day = 'numeric'), (month = 'long'))
+
+  //const date = 'today'
 
   return (
     <Box sx={{ width: '100%' }}>
+      <h1>
+        {teamName} daily standup {date}
+      </h1>
       <form>
         <Grid container key="heading">
           <Grid xs={3} className={classes.itemm}>
@@ -52,8 +68,10 @@ const Meeting = ({ teamName }) => {
         {people.map((person, ix) => (
           <Grid container key={ix}>
             <Grid xs={3} key="1" className={classes.itemm}>
-              <Paper className={classes.paper}>{person.name}</Paper>
-              <Checkbox id="apologies" label="apologies" />
+              <Paper className={classes.paper}>
+                {person.name} <Checkbox id="apologies" />
+                Apologies
+              </Paper>
             </Grid>
             <Grid xs={3} key="2" className={classes.itemm}>
               <Paper className={classes.paper}>

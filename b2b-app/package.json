@@ -70,6 +70,7 @@
     "aws-sdk": "^2.807.0",
     "axios": "^0.21.2",
     "bcrypt": "^5.0.0",
+    "billboard.js": "^3.3.3",
     "change-case": "^4.1.2",
     "clsx": "1.1.1",
     "codemirror": "^5.62.2",
