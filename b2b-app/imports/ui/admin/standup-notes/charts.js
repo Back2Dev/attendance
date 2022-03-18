@@ -24,6 +24,7 @@ const CHART_DATA_LINE = {
 }
 const Charts = () => {
   return (
+<<<<<<< HEAD
     <div
       style={{
         display: 'flex',
@@ -33,6 +34,9 @@ const Charts = () => {
         alignSelf: 'flex-end',
       }}
     >
+=======
+    <div style={{ flexAlign: 'right' }}>
+>>>>>>> fbcc565acd520781b11ee043917d5886c37cfe88
       <Paper elevation={0} />
       <BillboardChart data={CHART_DATA} />
 

@@ -20,7 +20,7 @@ export default {
   component: Charts,
   parameters: {
     viewport: {
-      // defaultViewport: 'iphone6',
+      // defaultViewport:  'iphone6',
     },
     layout: 'fullscreen',
   },

@@ -163,6 +163,7 @@
     "@babel/preset-env": "7.14.8",
     "@babel/preset-react": "^7.14.5",
     "@storybook/addon-actions": "6.3.7",
+    "@storybook/addon-docs": "^6.4.19",
     "@storybook/addon-essentials": "6.3.7",
     "@storybook/addon-links": "6.3.7",
     "@storybook/addon-storyshots": "6.3.7",
