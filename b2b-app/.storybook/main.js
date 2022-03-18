@@ -4,8 +4,8 @@ const path = require('path')
 module.exports = {
   stories: [
     '../imports/ui/admin/**/*.stories.@(js|jsx|mdx)',
-    '../imports/ui/admin/forms/survey-builder/**/*.stories.mdx',
-    '../imports/ui/admin/forms/survey-builder/**/*.stories.@(js|jsx)',
+    // '../imports/ui/admin/forms/survey-builder/**/*.stories.mdx',
+    // '../imports/ui/admin/forms/survey-builder/**/*.stories.@(js|jsx)',
   ],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   webpackFinal: async (config, { presets }) => {
@@ -13,16 +13,16 @@ module.exports = {
     // need these 2 lines because builder renders incomplete stories as it uses form/framework
     // context which imports preview-panel which logs a ReferenceError: EditorPanel not defined
     config.resolve.alias['meteor/meteor'] = require.resolve('./__mocks__/meteor.js')
-    config.plugins.push(
-      new instance.NormalModuleReplacementPlugin(
-        /preview-panel/,
-        path.resolve(__dirname, './__mocks__/preview-panel.js')
-      ),
-      new instance.NormalModuleReplacementPlugin(
-        /\/imports\/api\/surveys/,
-        path.resolve(__dirname, './__mocks__/api-survey-maps.js')
-      )
-    )
+    // config.plugins.push(
+    //   new instance.NormalModuleReplacementPlugin(
+    //     /preview-panel/,
+    //     path.resolve(__dirname, './__mocks__/preview-panel.js')
+    //   ),
+    //   new instance.NormalModuleReplacementPlugin(
+    //     /\/imports\/api\/surveys/,
+    //     path.resolve(__dirname, './__mocks__/api-survey-maps.js')
+    //   )
+    // )
     //   config.plugins.push(
     //     new CircularDependencyPlugin({
     //       // exclude detection of files based on a RegExp
