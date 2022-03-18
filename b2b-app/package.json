@@ -108,6 +108,7 @@
     "react": "17.0.2",
     "react-avatar-editor": "^11.1.0",
     "react-beautiful-dnd": "13.1.0",
+    "react-billboardjs": "^3.0.1",
     "react-codejar": "^1.0.2",
     "react-codemirror2": "^7.2.1",
     "react-contenteditable": "3.3.5",
