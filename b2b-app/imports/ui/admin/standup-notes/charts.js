@@ -24,19 +24,16 @@ const CHART_DATA_LINE = {
 }
 const Charts = () => {
   return (
-<<<<<<< HEAD
     <div
       style={{
         display: 'flex',
-        flexWrap: 'wrap-reverse',
-        flexGrow: '6',
+        flexGrow: '4',
         justifyContent: 'center',
-        alignSelf: 'flex-end',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        alignSelf: 'baseline',
       }}
     >
-=======
-    <div style={{ flexAlign: 'right' }}>
->>>>>>> fbcc565acd520781b11ee043917d5886c37cfe88
       <Paper elevation={0} />
       <BillboardChart data={CHART_DATA} />
 
