@@ -9,6 +9,7 @@ import Viewer from './viewer'
 import Adder from './adder'
 import Meeting from './meeting'
 import Charts from './charts'
+import AddMember from './add-member'
 import NotFound from '/imports/ui/components/commons/not-found'
 
 export default function StandupNotes() {
@@ -19,6 +20,7 @@ export default function StandupNotes() {
       <Route path="/admin/standup-notes/view/:id" exact component={Viewer} />
       <Route path="/admin/standup-notes/meeting" exact component={Meeting} />
       <Route path="/admin/standup-notes/charts" exact component={Charts} />
+      <Route path="/admin/standup-notes/add-member" exact component={AddMember} />
       <Route path="/admin/standup-notes" exact component={Lister} />
       <Route component={NotFound} />
     </Switch>

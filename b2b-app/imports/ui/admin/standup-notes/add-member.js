@@ -24,11 +24,11 @@ const AddMember = () => {
         Add team member
       </Typography>
 
-      <Autocomplete
+      {/* <Autocomplete
         id="member-input"
         freesolo="true"
         style={{ width: '50px', height: '70px', order: 1, flexDirection: 'row' }}
-      ></Autocomplete>
+      ></Autocomplete> */}
       <Button
         name="add-member"
         style={{
