@@ -1,7 +1,7 @@
-import { Button, Select, Typography } from '@material-ui/core'
+import { Button, Autocomplete, Typography } from '@material-ui/core'
 import React from 'react'
 
-const options = []
+// const options = ['']
 
 const AddMember = () => {
   return (
@@ -15,14 +15,20 @@ const AddMember = () => {
       }}
     >
       <h1>Add team Member </h1>
-      <Typography variant="caption" component="div" gutterBottom style={{ order: 1 }}>
+      <Typography
+        variant="caption"
+        component="div"
+        gutterBottom
+        style={{ order: 1, flexDirection: 'row' }}
+      >
         Add team member
       </Typography>
-      <Select
-        type="Input"
-        options={options}
-        style={{ width: '50px', height: '70px', order: 1 }}
-      />
+
+      <Autocomplete
+        id="member-input"
+        freesolo="true"
+        style={{ width: '50px', height: '70px', order: 1, flexDirection: 'row' }}
+      ></Autocomplete>
       <Button
         name="add-member"
         style={{
@@ -30,8 +36,9 @@ const AddMember = () => {
           height: '70px',
           order: 3,
           rowGap: '40px',
-          columnGap: '50px',
-          alignSelf: 'flex-end',
+          columnGap: '39px',
+          alignSelf: 'center',
+          flexDirection: 'column',
         }}
       >
         Add
@@ -43,7 +50,8 @@ const AddMember = () => {
           height: '70px',
           backgroundcolor: 'pink',
           order: 4,
-          alignSelf: 'center',
+          alignSelf: 'flex-end',
+          flexDirection: 'column',
         }}
       >
         Cancel
