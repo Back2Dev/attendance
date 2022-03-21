@@ -27,20 +27,19 @@ const Charts = () => {
     <div
       style={{
         display: 'flex',
-        flexGrow: '4',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        alignSelf: 'baseline',
+        flexWrap: 'wrap',
+        // justifyContent: 'center',
+        flexDirection: 'row',
+        //   alignItems: 'flex-start',
       }}
     >
-      <Paper elevation={0} />
-      <BillboardChart data={CHART_DATA} />
+      <BillboardChart data={CHART_DATA} style={{ width: '400px' }} />
 
-      <Paper />
-      <Paper elevation={3}>
-        <BillboardChart data={CHART_DATA_LINE} />
-      </Paper>
+      <BillboardChart data={CHART_DATA_LINE} style={{ width: '400px' }} />
+
+      <BillboardChart data={CHART_DATA} style={{ width: '400px' }} />
+
+      <BillboardChart data={CHART_DATA_LINE} style={{ width: '400px' }} />
     </div>
   )
 }
