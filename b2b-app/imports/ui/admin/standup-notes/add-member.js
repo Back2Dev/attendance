@@ -9,7 +9,7 @@ const AddMember = () => {
     <div
       style={{
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         flexDirection: 'column',
         alignContent: 'flex-start',
       }}
@@ -46,10 +46,8 @@ const AddMember = () => {
             width: '180px',
             height: '70px',
             order: 10,
-
             alignSelf: 'flex-start',
-            justifyContent: 'baseline',
-            alignItems: 'center',
+            justifyContent: 'space-around',
           }}
         ></Autocomplete>
       }
@@ -57,10 +55,10 @@ const AddMember = () => {
         name="add-member"
         style={{
           width: '200px',
-          height: '70px',
+          height: '60px',
           order: 100,
-          rowGap: '40px',
-          columnGap: '30px',
+          rowGap: '45px',
+          columnGap: '23px',
           alignSelf: 'center',
           flexFlow: 'wrap-reverse',
           justifyContent: 'space-around',
@@ -71,12 +69,14 @@ const AddMember = () => {
       <Button
         name="cancel"
         style={{
-          width: '200px',
-          height: '70px',
-          backgroundcolor: 'pink',
           order: 100,
+          width: '200px',
+          height: '60px',
+
+          rowGap: '45px',
+          columnGap: '23px',
           flexFlow: 'no wrap',
-          alignSelf: 'baseline',
+          justifyContent: 'center',
         }}
       >
         Cancel
