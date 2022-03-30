@@ -1,4 +1,5 @@
-import { Button, Autocomplete, Typography } from '@material-ui/core'
+import { Button, TextField, Typography } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete'
 import React from 'react'
 
 // const options = ['']
@@ -8,10 +9,10 @@ const AddMember = () => {
     <div
       style={{
         display: 'flex',
-        flexWrap: 'wrap',
-        //   justifyContent: 'space-around',
+        flexWrap: 'row wrap',
+        justifyContent: 'space-around',
         flexDirection: 'column',
-        alignContent: 'flex-start',
+        alignContent: 'space-between',
       }}
     >
       <h1>Add team Member </h1>
@@ -19,26 +20,45 @@ const AddMember = () => {
         variant="caption"
         component="div"
         gutterBottom
-        style={{ order: 1, flexDirection: 'row' }}
+        style={{ order: 0, flexDirection: 'column' }}
       >
         Add team member
       </Typography>
 
-      {/* <Autocomplete
-        id="member-input"
-        freesolo="true"
-        style={{ width: '50px', height: '70px', order: 1, flexDirection: 'row' }}
-      ></Autocomplete> */}
+      {
+        <Autocomplete
+          id="member-input"
+          freesolo
+          options={['Mike', 'Pat']}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="member name"
+              margin="normal"
+              variant="outlined"
+            />
+          )}
+          style={{
+            width: '180px',
+            height: '70px',
+            order: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'flex-start',
+          }}
+        ></Autocomplete>
+      }
       <Button
         name="add-member"
         style={{
           width: '200px',
           height: '70px',
-          order: 3,
+          order: 100,
           rowGap: '40px',
-          columnGap: '39px',
+          columnGap: '30px',
           alignSelf: 'center',
-          flexDirection: 'column',
+          alignItems: 'center',
+          flexFlow: 'row',
         }}
       >
         Add
@@ -48,10 +68,12 @@ const AddMember = () => {
         style={{
           width: '200px',
           height: '70px',
+
           backgroundcolor: 'pink',
-          order: 4,
-          alignSelf: 'flex-end',
-          flexDirection: 'column',
+          order: 100,
+          flexFlow: 'row',
+          alignSelf: 'baseline',
+          alignItems: 'center',
         }}
       >
         Cancel
