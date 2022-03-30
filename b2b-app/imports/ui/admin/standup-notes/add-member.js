@@ -10,9 +10,9 @@ const AddMember = () => {
       style={{
         display: 'flex',
         flexWrap: 'row wrap',
-        justifyContent: 'space-around',
+        justifyContent: 'baseline',
         flexDirection: 'column',
-        alignContent: 'space-between',
+        alignContent: 'flex-end',
       }}
     >
       <h1>Add team Member </h1>
@@ -20,7 +20,12 @@ const AddMember = () => {
         variant="caption"
         component="div"
         gutterBottom
-        style={{ order: 0, flexDirection: 'column' }}
+        style={{
+          order: 0,
+          alignContent: 'flex-start',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}
       >
         Add team member
       </Typography>
@@ -41,10 +46,11 @@ const AddMember = () => {
           style={{
             width: '180px',
             height: '70px',
-            order: 1,
-            display: 'flex',
-            flexDirection: 'row',
+            order: 10,
+            flexBasis: '5',
             alignSelf: 'flex-start',
+            justifyContent: 'baseline',
+            alignItems: 'center',
           }}
         ></Autocomplete>
       }
@@ -57,8 +63,6 @@ const AddMember = () => {
           rowGap: '40px',
           columnGap: '30px',
           alignSelf: 'center',
-          alignItems: 'center',
-          flexFlow: 'row',
         }}
       >
         Add
@@ -68,12 +72,11 @@ const AddMember = () => {
         style={{
           width: '200px',
           height: '70px',
-
           backgroundcolor: 'pink',
           order: 100,
-          flexFlow: 'row',
+          flexFlow: 'row-wrap',
+
           alignSelf: 'baseline',
-          alignItems: 'center',
         }}
       >
         Cancel
