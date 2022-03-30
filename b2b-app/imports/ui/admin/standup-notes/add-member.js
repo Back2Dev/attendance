@@ -8,11 +8,10 @@ const AddMember = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexWrap: 'row wrap',
-        justifyContent: 'baseline',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start',
         flexDirection: 'column',
-        alignContent: 'flex-end',
+        alignContent: 'flex-start',
       }}
     >
       <h1>Add team Member </h1>
@@ -24,7 +23,7 @@ const AddMember = () => {
           order: 0,
           alignContent: 'flex-start',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
         }}
       >
         Add team member
@@ -47,7 +46,7 @@ const AddMember = () => {
             width: '180px',
             height: '70px',
             order: 10,
-            flexBasis: '5',
+
             alignSelf: 'flex-start',
             justifyContent: 'baseline',
             alignItems: 'center',
@@ -63,6 +62,8 @@ const AddMember = () => {
           rowGap: '40px',
           columnGap: '30px',
           alignSelf: 'center',
+          flexFlow: 'wrap-reverse',
+          justifyContent: 'space-around',
         }}
       >
         Add
@@ -74,8 +75,7 @@ const AddMember = () => {
           height: '70px',
           backgroundcolor: 'pink',
           order: 100,
-          flexFlow: 'row-wrap',
-
+          flexFlow: 'no wrap',
           alignSelf: 'baseline',
         }}
       >
