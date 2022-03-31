@@ -61,6 +61,7 @@ const AddMember = () => {
           columnGap: '23px',
           alignSelf: 'center',
           flexFlow: 'wrap-reverse',
+          backgroundColor: 'blue',
           justifyContent: 'space-around',
         }}
       >
@@ -72,7 +73,7 @@ const AddMember = () => {
           order: 100,
           width: '200px',
           height: '60px',
-
+          backgroundColor: 'magenta',
           rowGap: '45px',
           columnGap: '23px',
           flexFlow: 'no wrap',
