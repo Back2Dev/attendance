@@ -29,4 +29,6 @@ import '/imports/api/forms/server/publications'
 import '/imports/api/registrations/server/publications'
 import '/imports/api/collections/server/publications'
 import '/imports/api/standup-notes/server/publications'
+import '/imports/api/standups/server/publications'
+import '/imports/api/teams/server/publications'
 // END GENERATED  PUBS

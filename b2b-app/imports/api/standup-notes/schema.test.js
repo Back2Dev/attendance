@@ -8,6 +8,8 @@ import { expect } from 'chai'
 import StandupNotes from './schema'
 import Factory from '/imports/test/factories'
 import '/imports/test/factory.standup-notes'
+import '/imports/test/factory.standups'
+import '/imports/test/factory.teams'
 
 const badStandupNotes = [
   // no name
@@ -25,7 +27,7 @@ describe('standupNotes', () => {
       it('success if database query matches', () => {
         const id = StandupNotes.insert(good)
         const thing = StandupNotes.findOne(id)
-        const fields = ["yesterday","today","blockers","userId","userName"] || []
+        const fields = ['yesterday', 'today', 'blockers', 'userId', 'userName'] || []
         fields.forEach((field) => {
           expect(thing[field]).to.equal(good[field])
         })

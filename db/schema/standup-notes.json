@@ -8,11 +8,8 @@
     },
     "today": "OptionalString",
     "blockers": "OptionalString",
-"userId":"String",
-"userName":"String"
-
+    "userId": "String",
+    "userName": "String"
   },
-  "defaultObject": {
-    
-  }
+  "defaultObject": {}
 }
