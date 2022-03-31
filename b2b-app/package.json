@@ -55,6 +55,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/pickers": "^3.2.10",
+    "@mui/x-data-grid": "^5.7.0",
     "@react-page/editor": "^3.2.1",
     "@react-page/plugins-divider": "^3.2.1",
     "@react-page/plugins-image": "^3.2.1",
