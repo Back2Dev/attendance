@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = {
   stories: [
-    '../imports/ui/admin/**/*.stories.@(js|jsx|mdx)',
+    '../imports/ui/**/*.stories.@(js|jsx|mdx)',
     // '../imports/ui/admin/forms/survey-builder/**/*.stories.mdx',
     // '../imports/ui/admin/forms/survey-builder/**/*.stories.@(js|jsx)',
   ],

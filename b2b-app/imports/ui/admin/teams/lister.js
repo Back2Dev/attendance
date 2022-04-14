@@ -95,6 +95,7 @@ const TeamsWrapper = (props) => {
 
 const TeamsLister = withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.teams')
+  debug('inteamsLister', subsHandle.ready())
   const items = Teams.find({}).map((row) => {
     row.search = obj2Search(row)
     return row

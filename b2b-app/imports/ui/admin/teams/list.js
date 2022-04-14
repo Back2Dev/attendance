@@ -110,6 +110,8 @@ const List = ({ items, methods, columns }) => {
     { action: addANewRow, id: 'add', caption: 'Add', color: 'primary' },
     { action: archiveData, id: 'archive', caption: 'Archive', color: 'secondary' },
   ]
+  debug('inteamsList')
+
   return (
     <div>
       <TabAppbar
@@ -126,7 +128,7 @@ const List = ({ items, methods, columns }) => {
 
 List.propTypes = {
   loading: PropTypes.bool.isRequired,
-  items: PropTypes.array,
+  items: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
 }

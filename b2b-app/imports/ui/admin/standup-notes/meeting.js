@@ -6,10 +6,10 @@ import { makeStyles } from '@material-ui/core/styles'
 // import { people } from '/imports/ui/admin/standup-notes/meeting.stories.js'
 import { Box, Checkbox, Container, Grid, Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
-
 import TextField from '@material-ui/core/TextField'
 import theme from '/imports/ui/themes/dark.js'
 import { DateTime } from 'luxon'
+//import { Standup } from './meeting.stories'
 const useStyles = makeStyles({
   paper: {
     padding: 10,
@@ -34,13 +34,14 @@ const useStyles = makeStyles({
 //   setValue(event.target.value)
 // }
 
-const Meeting = ({ teamName, people }) => {
+const Meeting = ({ teamName, people, save }) => {
   const classes = useStyles()
-
+  const [meeting, setMeeting] = React.useState({ teamName, date: new Date() })
   console.log('teamName', teamName)
   console.log('people', people)
 
   const date = DateTime.now().toFormat('cccc dd LLLL')
+
   // dt.toLocaleString((day = 'numeric'), (month = 'long'))
 
   //const date = 'today'
@@ -51,7 +52,7 @@ const Meeting = ({ teamName, people }) => {
         {teamName} daily standup {date}
       </h1>
       <form>
-        <Grid container key="heading">
+        <Grid container xs={12} key="heading">
           <Grid xs={3} className={classes.itemm}>
             <Paper className={classes.paper}>Name</Paper>
           </Grid>
@@ -66,7 +67,7 @@ const Meeting = ({ teamName, people }) => {
           </Grid>
         </Grid>
         {people.map((person, ix) => (
-          <Grid container key={ix}>
+          <Grid container xs={12} key={ix}>
             <Grid xs={3} key="1" className={classes.itemm}>
               <Paper className={classes.paper}>
                 {person.name} <Checkbox id="apologies" />
@@ -114,9 +115,15 @@ const Meeting = ({ teamName, people }) => {
             </Grid>
           </Grid>
         ))}
+        <Button onClick={() => save(meeting)}>Save</Button>
       </form>
     </Box>
   )
 }
 
+Meeting.propTypes = {
+  teamName: PropTypes.string.isRequired,
+  people: PropTypes.array.isRequired,
+  save: PropTypes.func.isRequired,
+}
 export default Meeting

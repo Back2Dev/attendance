@@ -2,7 +2,7 @@ import React from 'react'
 import DailyStandupPage from './daily-standup'
 
 export default {
-  title: 'Daily/DailyStandup',
+  title: 'DailyStandup/Demo',
   component: DailyStandupPage,
   parameters: {
     viewport: {
