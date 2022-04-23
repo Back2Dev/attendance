@@ -19,8 +19,9 @@ const update = (id, form) => {
 }
 
 const save = (form) => {
+  form.when = new Date()
   Meteor.call('insert.standups', form)
-  push(`/admin/standups/save/${id}`)
+  push('/admin/standups')
 }
 
 const Loading = (props) => {
@@ -35,6 +36,7 @@ const Tracker = withTracker((props) => {
   const item = Teams.findOne(id) || {}
   return {
     teamName: item.name,
+    teamId: item._id,
     save,
     people: item.devs?.map((dev) => {
       return { name: dev }

@@ -34,9 +34,9 @@ const useStyles = makeStyles({
 //   setValue(event.target.value)
 // }
 
-const Meeting = ({ teamName, people, save }) => {
+const Meeting = ({ teamName, teamId, people, save }) => {
   const classes = useStyles()
-  const [meeting, setMeeting] = React.useState({ teamName, date: new Date() })
+  const [meeting, setMeeting] = React.useState({ teamName, teamId, date: new Date() })
   console.log('teamName', teamName)
   console.log('people', people)
 
