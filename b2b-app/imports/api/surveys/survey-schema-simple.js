@@ -5,6 +5,7 @@ import DatePicker from '/imports/ui/components/date-field'
 // lab@next has deprecated it. The newest version looks boring
 //import { DatePicker } from '@material-ui/lab'
 import GooglePlaces from '/imports/ui/components/google-places.js'
+import ImageField from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
 
 SimpleSchema.extendOptions(['uniforms'])
@@ -268,6 +269,26 @@ const getSchemas = (survey, currentData) => {
                     return specifyId
                   })
                 // )
+                break
+              case 'image':
+                qSchema.uniforms.value = answers.map(a => a.val )
+                qSchema.uniforms.component = ImageField
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
                 break
               // I don't know if we'll ever need this, just 'multi' instead
               // case 'boolean':

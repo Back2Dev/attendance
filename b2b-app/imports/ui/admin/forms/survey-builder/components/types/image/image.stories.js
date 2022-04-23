@@ -1,10 +1,10 @@
 import React from 'react'
-import { Image } from "./image"
+import { InnerImage } from "./inner"
 
-export default { title: "Survey Builder/Types/image", component: Image }
+export default { title: "Survey Builder/Types/image", component: InnerImage }
 
 const Template = ( args ) => {
-  return <Image {...args} />
+  return <InnerImage {...args} />
 }
 
 export const Default = Template.bind({})

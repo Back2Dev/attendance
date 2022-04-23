@@ -129,7 +129,7 @@ const Framework = ({ id, item, methods }) => {
     const specific = map2UiSchema(result.survey)
     debug({ specific })
     setRaw(specific)
-
+    
     if (result.status === 'success') {
       setJsonEditorInput(JSON.stringify(result.survey, null, 2))
       setErrors(result.errs)

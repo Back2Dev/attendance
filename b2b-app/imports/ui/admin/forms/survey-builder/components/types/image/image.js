@@ -1,52 +1,95 @@
-
-import React, { useState } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import debug from 'debug'
+import { InnerImage } from './inner'
 import { Frame } from '../../frame'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Box } from '@material-ui/core'
+import SimpleSchema from 'simpl-schema'
+import { imageAtom, imageSource } from '../../../recoil/atoms'
+import { TypeRegistry } from '../type-registry'
+import { Inspector } from '$sb/components/panels'
+import { useSelectedPartValue } from '$sb/recoil/hooks'
 
 
-export const Image = ({images, pid, index}) => {
-  const [imageboxList, setImageboxList] = useState(images)
+let log = debug('builder:single')
 
-  const handleOnDragEnd = (result) => {
-    if (!result.destination) return
-    const items = Array.from(imageboxList)
-    const [reorderItem] = items.splice(result.source.index, 1)
-    items.splice(result.destination.index, 0, reorderItem)
+const schema = new SimpleSchema({
+  id: String,
+  prompt: String,
+  answers: Array,
+  'answers.$': Object,
+  'answers.$.id': String,
+  'answers.$.name': String,
+  'answers.$.val': {
+    type: String,
+    optional: true,
+  },
+}).newContext()
 
-    setImageboxList(items)
+
+const mapDataToAtom = (data) => {
+    const state = {
+      id: data.id,
+      prompt: data.title,
+      answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    }
+  
+    schema.validate(state)
+    if (!schema.isValid()) {
+      log('expected', schema._schema)
+      log('got', data)
+      throw new Error('Invalid mapping from data to single state')
+    }
+  
+    return state
   }
 
-  return (
-    <Frame pid={pid} index={index}>
-      <div><p>Image question type</p>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="images">
-            {(provided) => (
-              <ul {...provided.droppableProps} ref={provided.innerRef}>
-                {imageboxList.map((item, index) => {
-                  return (
-                    <Draggable key={item.id} draggableId={item.id} index={index}>
-                      {(provided) => (
-                        <Box border={1} borderColor="blue" display="table">
-                          <li
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                          >
-                            <img src={item.img} style={{height:"50px"}}></img>
-                          </li>
-                        </Box>
-                      )}
-                    </Draggable>
-                  )
-                })}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-    </Frame>
-  )
+
+  const Image = ({ pid, index }) => {
+    return (
+      <Frame pid={pid} index={index}>
+        <InnerImage pid={pid} />
+      </Frame>
+    )
+  }
+
+
+const InspectorProperties = () => {
+const selectedPart = useSelectedPartValue()
+const relabelAnswers = (path) => {
+    if (path.endsWith('name')) return 'Label'
+    if (path.endsWith('val')) return 'Value'
+    return 'Id'
 }
+return (
+    <div>
+    <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+    <Inspector.Section heading="Answers">
+        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
+    </Inspector.Section>
+    </div>
+)
+}
+
+
+  
+Image.displayName = 'Image'
+
+Image.propTypes = {
+  /** id for this Single instance part */
+  pid: PropTypes.string.isRequired,
+  /** the position this question is rendered in the parts list */
+  index: PropTypes.number,
+}
+
+
+export { Image }
+
+TypeRegistry.register(
+    'image',
+    Image,
+    imageSource,
+    mapDataToAtom,
+    imageAtom,
+    InspectorProperties
+  )
+  

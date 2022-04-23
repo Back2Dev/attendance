@@ -105,7 +105,7 @@ const Specifiers = (q) => {
     .filter((a) => a.specify)
     .map((a) => {
       const otherId = `${q.id}-${a.id}-specify`
-      const condition = q.qtype === 'single' ? [q.id, 'equal', a.id] : [`${q.id}-${a.id}`]
+      const condition = q.qtype === ('single' || 'image') ? [q.id, 'equal', a.id] : [`${q.id}-${a.id}`]
       if (a.specifyType === 'long')
         return (
           <DisplayIf
@@ -262,6 +262,22 @@ const RenderQ = (q, ix) => {
         </div>
       )
 
+      case 'image':
+        return (
+          <div key={key} className="q-container">
+          <span>
+            {q.prompt}
+          </span>
+          <div style={{display:'flex'}}>
+          <AutoField  name={q.id} id={q.id}  />
+          </div>
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
+          })}
+        </div>
+        )
     // case 'date' :
     //   return (
     //     <div key={key}>
