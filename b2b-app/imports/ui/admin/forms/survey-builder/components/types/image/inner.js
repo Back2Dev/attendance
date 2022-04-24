@@ -1,72 +1,49 @@
-
 import React from 'react'
-
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { DndDraggable, DndDroppable } from '$sb/context/dnd'
-import { Box } from '@material-ui/core'
+// import { Box } from '@material-ui/core'
 import { useAnswers, useQuestion, useSelectedPartValue } from '$sb/recoil/hooks'
+import { Item } from './item'
+import { useBuilder } from '$sb/context'
+import { imageAnswers } from '$sb/recoil/atoms'
 
-export const InnerImage = ({ value , pid, index}) => {
-  // const [imageboxList, setImageboxList] = useState(value)
+export const InnerImage = ({ pid }) => {
   const { all: imageboxList, add, update, remove } = useAnswers(pid)
+  const selectedPart = useSelectedPartValue()
+  const { isMobile } = useBuilder()
 
-  const handleOnDragEnd = (result) => {
-    if (!result.destination) return
-    const items = Array.from(imageboxList)
-    const [reorderItem] = items.splice(result.source.index, 1)
-    items.splice(result.destination.index, 0, reorderItem)
-
-    setImageboxList(items)
-  }
-
+  const showMobileActions = isMobile && selectedPart === pid
 
   return (
-    // <Frame pid={pid} index={index}>
-      <div><p>Image question type</p>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="images">
-            {(provided) => (
-              <ul {...provided.droppableProps} ref={provided.innerRef}>
-                {imageboxList.map((item, index) => {
-                  return (
-                    <Draggable key={item.id} draggableId={item.id} index={index}>
-                      {(provided) => (
-                        <Box border={1} borderColor="blue" display="table">
-                          <li
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                          >
-                            <label htmlFor="file-input">
-                            <img
-                              alt=""
-                              style={{ cursor: 'pointer', width: '150px', height: '150px' }}
-                              src={item.val || 'https://picsum.photos/150?grayscale'}
-                            />
-                          </label>
-                          <input
-                            accept="image/*"
-                            id="file-input"
-                            onChange={({ target: { files } }) => {
-                              if (files && files[0]) {
-                                update({ ...item, val: URL.createObjectURL(files[0])}, index)
-                              }
-                            }}
-                            style={{ display: 'none' }}
-                            type="file"
-                          />
-                          </li>
-                        </Box>
-                      )}
-                    </Draggable>
-                  )
-                })}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-    // </Frame>
+    <div>
+      <p>Image question type</p>
+      <DndDroppable pid={pid} listAtom={imageAnswers(pid)} type={pid}>
+        {(provided) => (
+          <ul {...provided.droppableProps} ref={provided.innerRef}>
+            {imageboxList.map((item, index) => (
+              <DndDraggable pid={pid} key={item.id} itemId={item.id} index={index}>
+                {(provided) => (
+                  <Item
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    ref={provided.innerRef}
+                    onRemove={() => remove(index)}
+                    onChange={({ target: { files } }) => {
+                      if (files && files[0]) {
+                        update({ ...item, val: URL.createObjectURL(files[0]) }, index)
+                      }
+                    }}
+                    onAdd={() => add(index)}
+                    disableRemove={imageboxList.length === 1}
+                    showMobileActions={showMobileActions}
+                    val={item.val}
+                  />
+                )}
+              </DndDraggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </DndDroppable>
+    </div>
   )
 }

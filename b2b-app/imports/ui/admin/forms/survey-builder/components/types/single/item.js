@@ -12,7 +12,7 @@ import { InlineEdit } from '$sb/components/core/inline-edit'
 
 const log = debug('builder:item')
 
-const StyledItem = styled('li')(({ theme }) => ({
+export const StyledItem = styled('li')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
   alignItems: 'center',
@@ -31,7 +31,7 @@ const StyledItem = styled('li')(({ theme }) => ({
   },
 }))
 
-const Actions = styled('div')(({ theme, showMobileActions }) => {
+export const Actions = styled('div')(({ theme, showMobileActions }) => {
   /**
    * Visually hide an element, but leave it available for screen readers
    * @link https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css
