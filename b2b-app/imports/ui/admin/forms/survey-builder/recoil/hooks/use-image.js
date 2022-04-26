@@ -7,7 +7,7 @@ export const useQuestion = (pid) => {
   return state
 }
 
-export const useAnswers = (pid) => {
+export const useImageAnswers = (pid) => {
   const [answers, setAnswers] = useRecoilState(imageAnswers(pid))
 
   const add = (index) => {

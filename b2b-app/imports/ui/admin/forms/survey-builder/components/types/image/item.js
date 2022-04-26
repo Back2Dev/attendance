@@ -5,14 +5,23 @@ import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import DragHandleIcon from '@material-ui/icons/DragHandle'
 import AddIcon from '@material-ui/icons/Add'
 import { IconButton, Hidden } from '@material-ui/core'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import debug from 'debug'
 import { StyledItem, Actions } from '$sb/components/types/single/item'
 
 const Item = forwardRef(
   (
-    { onRemove, onAdd, val, showMobileActions, disableRemove, onChange, ...props },
+    {
+      onRemove,
+      onAdd,
+      val,
+      showMobileActions,
+      disableRemove,
+      onChange,
+      index,
+      item,
+      update,
+      ...props
+    },
     ref
   ) => {
     const preventFocus = (e) => {
@@ -26,22 +35,26 @@ const Item = forwardRef(
     return (
       <StyledItem ref={ref} {...props}>
         <ListStyleType className="icon" />
-
-        <label htmlFor="file-input">
-          <img
-            alt=""
-            style={{ cursor: 'pointer', width: '150px', height: '150px' }}
-            src={val || 'https://picsum.photos/150?grayscale'}
+        <div>
+          <label htmlFor={`file-input-${index}`}>
+            <img
+              alt=""
+              style={{ cursor: 'pointer', width: '150px', height: '150px' }}
+              src={val || 'https://picsum.photos/150?grayscale'}
+            />
+          </label>
+          <input
+            accept="image/*"
+            id={`file-input-${index}`}
+            onChange={({ target: { files } }) => {
+              if (files && files[0]) {
+                update({ ...item, val: URL.createObjectURL(files[0]) }, index)
+              }
+            }}
+            style={{ display: 'none' }}
+            type="file"
           />
-        </label>
-        <input
-          accept="image/*"
-          id="file-input"
-          onChange={onChange}
-          style={{ display: 'none' }}
-          type="file"
-        />
-
+        </div>
         <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>
             <DragIndicatorIcon />
