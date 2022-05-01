@@ -3,7 +3,7 @@ const cron = require('node-cron')
 const debug = require('debug')('app:server')
 
 //
-// Importing the data api's makes sure collections are set up properly.
+// Importing the data api's makes sure collections are set up properly. 
 //
 import '/imports/lib/validator'
 import './fixtures'
