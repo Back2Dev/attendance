@@ -167,5 +167,7 @@ Wed 13 Apr 2022 10:14:02 AEST /Users/mikkel/back2bikes/attendance/deploy/paddle-
 Wed 13 Apr 2022 10:14:52 AEST /Users/mikkel/back2bikes/attendance/deploy/paddle-prod deploy v2-servicing https://paddle.almsford.org 1.2.8
 Wed 13 Apr 2022 10:21:14 AEST /Users/mikkel/back2bikes/attendance/deploy/paddle-prod reconfig v2-servicing https://paddle.almsford.org 1.2.8
 Wed 13 Apr 2022 10:26:01 AEST /Users/mikkel/back2bikes/attendance/deploy/paddle-beta deploy v2-servicing https://paddle.sandridge.org.au 2.0.0
+Thu 14 Apr 2022 01:00:19 AEST /Users/mikkel/back2bikes/attendance/deploy/paddle-beta deploy v2-servicing https://paddle.sandridge.org.au 2.0.0
+Thu 14 Apr 2022 01:10:16 AEST /Users/mikkel/back2bikes/attendance/deploy/paddle-beta reconfig v2-servicing https://paddle.sandridge.org.au 2.0.0
 Thu 14 Apr 2022 10:40:04 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod deploy v2-servicing https://app.back2bikes.com.au 1.2.8
 Thu 14 Apr 2022 10:46:46 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-prod reconfig v2-servicing https://app.back2bikes.com.au 1.2.8
