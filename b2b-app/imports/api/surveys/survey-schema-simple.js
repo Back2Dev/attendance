@@ -42,10 +42,10 @@ export const evaluate = (formData, context, condition) => {
 
   // debug({ section, field, op, lhs, model })
   const value = model[field]
-  if (['equal', 'eq'].includes(op)) return value === rhs
-  if (['not equal', 'ne'].includes(op)) return value !== rhs
-  if (['falsy'].includes(op)) return !value
-  if (['contains'].includes(op)) return value && value.includes(rhs)
+  if (['equal', 'eq', '='].includes(op)) return value === rhs
+  if (['not equal', 'ne', '!='].includes(op)) return value !== rhs
+  if (['falsy', '!'].includes(op)) return !value
+  if (['contains', 'contain'].includes(op)) return value && value.includes(rhs)
   if (['truthy'].includes(op)) return !!value
 
   return false

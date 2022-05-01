@@ -125,16 +125,18 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     const result = parse(formEditorInput)
-    // const specific = map2Uniforms(result.survey)
-    const specific = map2UiSchema(result.survey)
-    debug({ specific })
-    setRaw(specific)
 
     if (result.status === 'success') {
+      const specific = map2Uniforms(result.survey)
+      // const specific = map2UiSchema(result.survey)
+      debug({ specific })
+      setRaw(specific)
+
       setJsonEditorInput(JSON.stringify(result.survey, null, 2))
       setErrors(result.errs)
       showErrors(result.errs)
     } else {
+      console.log(result)
       setJsonEditorInput(JSON.stringify(result.survey, null, 2))
       setErrors(result.errs)
       showErrors(result.errs)

@@ -1,4 +1,5 @@
 import { getError } from './engine-errors'
+import keywords from './keywords'
 
 const debug = require('debug')('app:forms:engine')
 
@@ -19,25 +20,32 @@ const slugify = (text) => {
 
 const addQ = (survey, title) => {
   if (!currentStep) addStep(survey, 'Step 1')
-  currentQ = { title, answers: [], grid: [], id: slugify(title), type: 'text' }
+  currentQ = {
+    title,
+    answers: [],
+    grid: [],
+    id: slugify(title),
+    type: 'text',
+    object: 'question',
+  }
   currentStep.questions.push(currentQ)
   return currentQ
 }
 
 const addStep = (survey, title) => {
-  currentStep = { title, questions: [], id: slugify(title) }
+  currentStep = { title, questions: [], id: slugify(title), object: 'step' }
   survey.sections.push(currentStep)
   return currentStep
 }
 
 const addGrid = (survey, title) => {
-  currentGrid = { title, id: slugify(title) }
+  currentGrid = { title, id: slugify(title), object: 'grid' }
   currentQ.grid.push(currentGrid)
   return currentGrid
 }
 
 const addAnswer = (survey, text) => {
-  currentA = { title: text, id: slugify(text), type: 'text' }
+  currentA = { title: text, id: slugify(text), type: 'text', object: 'answer' }
   if (!currentQ) {
     return { errCode: 'e-no-ans' }
   } else currentQ.answers.push(currentA)
@@ -45,11 +53,13 @@ const addAnswer = (survey, text) => {
 }
 
 const objects = [
-  { name: 'Question', letters: 'QT', method: addQ },
-  { name: 'Grid', letters: 'G', method: addGrid },
-  { name: 'Answer', letters: 'A', method: addAnswer },
-  { name: 'Step', letters: 'S', method: addStep },
+  { name: 'Question', letters: 'QT', method: addQ, keywords: keywords.question },
+  { name: 'Grid', letters: 'G', method: addGrid, keywords: keywords.grid },
+  { name: 'Answer', letters: 'A', method: addAnswer, keywords: keywords.answer },
+  { name: 'Step', letters: 'S', method: addStep, keywords: keywords.step },
 ]
+
+const findObject = (name) => objects.find((o) => o.name.toLowerCase() === name)
 
 objects.forEach((o) => {
   o.regex = new RegExp(`^\\s*[${o.letters}][:\\s=]+(.*)\$`, 'i')
@@ -88,8 +98,10 @@ export const parse = (source) => {
             got = true
           }
         })
+        if (!got && line.match(/^\s*[a-z][:\s=]/i))
+          errs.push({ lineno, errCode: 'e-bad-letter', line })
         if (!got) {
-          const m = line.match(/^\s*\+([a-z0-9]+)[:=\s]*(.*)$/i)
+          const m = line.match(/^\s*\+\s*([a-z0-9]+)\s*[:=]*\s*(.*)$/i)
           if (m) {
             got = true
             const [match, key, value] = m
@@ -100,6 +112,9 @@ export const parse = (source) => {
                 line,
               })
             else {
+              const obj = findObject(current.object) || []
+              if (!obj?.keywords?.includes(key))
+                errs.push({ lineno, errCode: 'e-unk-attrib', line })
               current[key] = value || true
               switch (key) {
                 case 'condition':
@@ -107,6 +122,10 @@ export const parse = (source) => {
                   break
               }
             }
+          } else {
+            // debug('no attr', line)
+            // It didn't exactly match, but if the line started with a "+", report an error"
+            if (line.match(/^\s*\+/)) errs.push({ lineno, errCode: 'w-bad-option', line })
           }
         }
         if (!got) {
@@ -118,6 +137,7 @@ export const parse = (source) => {
       }
     })
     if (errs.length) {
+      debug('Houston, we have problems...', errs)
       return {
         status: 'failed',
         message: '',
@@ -128,6 +148,6 @@ export const parse = (source) => {
 
     return { status: 'success', message: '', survey }
   } catch (e) {
-    return { status: 'exception', message: e.message }
+    return { status: 'exception', message: `Error in parse: ${e.message}` }
   }
 }
