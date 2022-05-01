@@ -1,14 +1,20 @@
 [
   {
-    "first_name": "Gerard",
-    "last_name": "Pike",
-    "email": "gerardjpike@gmail.com",
+    "first_name": "Pete",
+    "last_name": "Henkel",
+    "email": "pete_henkel@hotmail.com",
     "phone": ""
   },
   {
-    "first_name": "Oliver",
-    "last_name": "Somers",
-    "email": "iona.mcleish@hotmail.co.uk",
+    "first_name": "Ben",
+    "last_name": "Taylor",
+    "email": "ben.taylor5@icloud.com",
+    "phone": ""
+  },
+  {
+    "first_name": "Rowan",
+    "last_name": "Moyle",
+    "email": "rowanjmoyle@gmail.com",
     "phone": ""
   }
 ]
