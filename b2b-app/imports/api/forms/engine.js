@@ -3,6 +3,7 @@ import keywords from './keywords'
 
 const debug = require('debug')('app:forms:engine')
 
+const validQtypes = 'multi single grid text array paragraph'.split(/\s+/)
 let survey = { sections: [] }
 let currentStep
 let currentQ
@@ -18,8 +19,8 @@ const slugify = (text) => {
     .replace(/[^a-z0-9]+/g, '-')
 }
 
-const addQ = (survey, title) => {
-  if (!currentStep) addStep(survey, 'Step 1')
+const addQ = (survey, title, lineno) => {
+  if (!currentStep) addStep(survey, `Section ${survey.sections.length + 1}`, 1)
   currentQ = {
     title,
     answers: [],
@@ -27,25 +28,32 @@ const addQ = (survey, title) => {
     id: slugify(title),
     type: 'text',
     object: 'question',
+    lineno,
   }
   currentStep.questions.push(currentQ)
   return currentQ
 }
 
-const addStep = (survey, title) => {
-  currentStep = { title, questions: [], id: slugify(title), object: 'step' }
+const addStep = (survey, title, lineno) => {
+  currentStep = {
+    title: title || `Section ${survey.sections.length + 1}`,
+    questions: [],
+    id: slugify(title),
+    object: 'step',
+    lineno,
+  }
   survey.sections.push(currentStep)
   return currentStep
 }
 
-const addGrid = (survey, title) => {
-  currentGrid = { title, id: slugify(title), object: 'grid' }
+const addGrid = (survey, title, lineno) => {
+  currentGrid = { title, id: slugify(title), object: 'grid', lineno }
   currentQ.grid.push(currentGrid)
   return currentGrid
 }
 
-const addAnswer = (survey, text) => {
-  currentA = { title: text, id: slugify(text), type: 'text', object: 'answer' }
+const addAnswer = (survey, text, lineno) => {
+  currentA = { title: text, id: slugify(text), type: 'text', object: 'answer', lineno }
   if (!currentQ) {
     return { errCode: 'e-no-ans' }
   } else currentQ.answers.push(currentA)
@@ -91,7 +99,7 @@ export const parse = (source) => {
           if (m) {
             // debug(`${o.name}: ${m[1]}`)
             if (o.method) {
-              const res = o.method(survey, m[1])
+              const res = o.method(survey, m[1], lineno, line)
               if (res.errCode) errs.push({ lineno, errCode: res.errCode, line })
               else current = res
             }
@@ -135,6 +143,21 @@ export const parse = (source) => {
           // errs.push({ lineno, errCode: 'e-unk', line })
         }
       }
+    })
+    // Some post-checking for consistency
+    survey.sections.forEach((section) => {
+      if (section.id === 'no-slug')
+        errs.push({ lineno: section.lineno, errCode: 'w-missing-title' })
+      section.questions.forEach((q) => {
+        if (!validQtypes.includes(q.type))
+          errs.push({ lineno: q.lineno, errCode: 'w-unk-qtype', line: q.type })
+        if (q.type === 'paragraph' && q.answers.length)
+          errs.push({
+            lineno: q.answers[0].lineno,
+            errCode: 'w-ignore-attribs',
+            line: q.type,
+          })
+      })
     })
     if (errs.length) {
       debug('Houston, we have problems...', errs)
