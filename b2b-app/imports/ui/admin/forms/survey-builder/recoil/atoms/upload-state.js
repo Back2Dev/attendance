@@ -4,7 +4,6 @@ import { selectorFamily } from 'recoil'
 import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 
-
 export const defaultAnswer = { name: '', val: '' }
 
 export const uploadAtom = atomFamily({
@@ -14,8 +13,11 @@ export const uploadAtom = atomFamily({
     id: '',
     type: 'upload',
     answers: makeListItem(defaultAnswer),
-    val:{fileType:'single', maxSize:100, accept:{'.pdf': true, 'image/*': true, '.txt': true, 'video/*': false}}
-
+    val: {
+      fileType: 'single',
+      maxSize: 100,
+      accept: { '.pdf': true, 'image/*': true, '.txt': true, 'video/*': false },
+    },
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {
@@ -28,62 +30,76 @@ export const uploadAtom = atomFamily({
 
 export const uploadQuestion = selectorFamily({
   key: 'uploadQuestion',
-  get: (pid) => ({ get }) => {
-    return get(uploadAtom(pid)).prompt
-  },
-  set: (pid) => ({ set, get }, newValue) => {
-    const upload = get(uploadAtom(pid))
-    const nextState = produce(upload, (draft) => {
-      draft.prompt = newValue
-    })
-    set(uploadAtom(pid), nextState)
-  },
+  get:
+    (pid) =>
+    ({ get }) => {
+      return get(uploadAtom(pid)).prompt
+    },
+  set:
+    (pid) =>
+    ({ set, get }, newValue) => {
+      const upload = get(uploadAtom(pid))
+      const nextState = produce(upload, (draft) => {
+        draft.prompt = newValue
+      })
+      set(uploadAtom(pid), nextState)
+    },
 })
 
 export const uploadAnswers = selectorFamily({
   key: 'uploadAnswers',
-  get: (pid) => ({ get }) => {
-    const upload = get(uploadAtom(pid))
-    return upload.answers
-  },
-  set: (pid) => ({ get, set }, newValue) => {
-    const upload = get(uploadAtom(pid))
+  get:
+    (pid) =>
+    ({ get }) => {
+      const upload = get(uploadAtom(pid))
+      return upload.answers
+    },
+  set:
+    (pid) =>
+    ({ get, set }, newValue) => {
+      const upload = get(uploadAtom(pid))
 
-    const nextState = produce(upload, (draft) => {
-      draft.answers = newValue
-    })
-    set(uploadAtom(pid), nextState)
-  },
+      const nextState = produce(upload, (draft) => {
+        draft.answers = newValue
+      })
+      set(uploadAtom(pid), nextState)
+    },
 })
 
 export const uploadAnswersAccept = selectorFamily({
   key: 'uploadAnswersAccept',
-  get: (pid) => async({ get }) => {
-     const upload = await get(uploadAtom(pid))
-     console.log('upload', upload)
-    const fileRestriction = Object.entries(upload.val?.accept||{}).filter(([key,value])=> value).map(([key, value]) => key)
-    return fileRestriction
-  },
+  get:
+    (pid) =>
+    async ({ get }) => {
+      const upload = await get(uploadAtom(pid))
+      console.log('upload', upload)
+      const fileRestriction = Object.entries(upload.val?.accept || {})
+        .filter(([key, value]) => value)
+        .map(([key, value]) => key)
+      return fileRestriction
+    },
 })
 
 export const uploadSource = selectorFamily({
   key: 'uploadSource',
-  get: (pid) => ({ get }) => {
-    const { prompt, id, answers } = get(uploadAtom(pid))
-    const source = [
-      `Q: ${prompt}`,
-      `+id: ${id}`,
-      '+type: upload',
-      answers.map(({ name, id, val }) => [
-        `A: ${name}`,
-        id && `+id: ${id}`,
-        val && `+val: ${val}`,
-      ]),
-    ]
-      .flat(2)
-      .filter(Boolean)
-      .join('\n')
+  get:
+    (pid) =>
+    ({ get }) => {
+      const { prompt, id, answers } = get(uploadAtom(pid))
+      const source = [
+        `Q: ${prompt}`,
+        `+id: ${id}`,
+        '+type: upload',
+        answers.map(({ name, id, val }) => [
+          `A: ${name}`,
+          id && `+id: ${id}`,
+          val && `+val: ${val}`,
+        ]),
+      ]
+        .flat(2)
+        .filter(Boolean)
+        .join('\n')
 
-    return source
-  },
+      return source
+    },
 })

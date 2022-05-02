@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { DndDraggable, DndDroppable } from '$sb/context/dnd'
 import { useTheme } from '@material-ui/core/styles'
 // import { Box } from '@material-ui/core'
@@ -6,6 +6,7 @@ import { useImageAnswers, useQuestion, useSelectedPartValue } from '$sb/recoil/h
 import { Item } from './item'
 import { useBuilder } from '$sb/context'
 import { imageAnswers } from '$sb/recoil/atoms'
+import { Question } from '$sb/components/question'
 
 export const InnerImage = ({ pid }) => {
   const { all: imageboxList, add, update, remove } = useImageAnswers(pid)
@@ -23,8 +24,6 @@ export const InnerImage = ({ pid }) => {
     }
   }
 
-
-
   const showMobileActions = isMobile && selectedPart === pid
 
   return (
@@ -36,7 +35,11 @@ export const InnerImage = ({ pid }) => {
       />
       <DndDroppable pid={pid} listAtom={imageAnswers(pid)} type={pid}>
         {(provided) => (
-          <ul style={{ paddingLeft: 0 }} {...provided.droppableProps} ref={provided.innerRef} >
+          <ul
+            style={{ paddingLeft: 0 }}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
             {imageboxList.map((item, index) => (
               <DndDraggable pid={pid} key={item.id} itemId={item.id} index={index}>
                 {(provided, snapshot, lockAxis) => (
@@ -48,8 +51,7 @@ export const InnerImage = ({ pid }) => {
                     index={index}
                     item={item}
                     update={update}
-                    onRemove={() => 
-                      remove(index)}
+                    onRemove={() => remove(index)}
                     onAdd={() => add(index)}
                     disableRemove={imageboxList.length === 1}
                     showMobileActions={showMobileActions}
