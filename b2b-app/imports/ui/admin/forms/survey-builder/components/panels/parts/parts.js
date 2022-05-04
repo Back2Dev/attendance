@@ -37,6 +37,7 @@ const Parts = () => {
   return (
     <div>
       <button onClick={() => addPart('single')}>Single</button>
+      <button onClick={() => addPart('upload')}>Upload</button>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <DebugProps />
       </ErrorBoundary>

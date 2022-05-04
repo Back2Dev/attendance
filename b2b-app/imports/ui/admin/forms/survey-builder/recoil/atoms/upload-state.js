@@ -4,7 +4,7 @@ import { selectorFamily } from 'recoil'
 import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 
-export const defaultAnswer = { name: '', val: '' }
+export const defaultAnswer = { name: '', url: '' }
 
 export const uploadAtom = atomFamily({
   key: 'uploadAtom',
@@ -12,12 +12,7 @@ export const uploadAtom = atomFamily({
     prompt: '',
     id: '',
     type: 'upload',
-    answers: makeListItem(defaultAnswer),
-    val: {
-      fileType: 'single',
-      maxSize: 100,
-      accept: { '.pdf': true, 'image/*': true, '.txt': true, 'video/*': false },
-    },
+    answers: [makeListItem(defaultAnswer)],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {
@@ -58,7 +53,6 @@ export const uploadAnswers = selectorFamily({
     (pid) =>
     ({ get, set }, newValue) => {
       const upload = get(uploadAtom(pid))
-
       const nextState = produce(upload, (draft) => {
         draft.answers = newValue
       })
@@ -70,13 +64,12 @@ export const uploadAnswersAccept = selectorFamily({
   key: 'uploadAnswersAccept',
   get:
     (pid) =>
-    async ({ get }) => {
-      const upload = await get(uploadAtom(pid))
-      console.log('upload', upload)
-      const fileRestriction = Object.entries(upload.val?.accept || {})
+     ({ get }) => {
+      const upload =  get(uploadAtom(pid))
+      const accept = Object.entries(upload.val?.accept || {})
         .filter(([key, value]) => value)
         .map(([key, value]) => key)
-      return fileRestriction
+      return {accept, multiple: upload.val?.multiple, maxSize: upload.val?.maxSize}
     },
 })
 
