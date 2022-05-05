@@ -1,12 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState, Fragment } from 'react'
+import React, { useCallback, useMemo, useState, Fragment } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useRecoilState } from 'recoil'
-import { editInspectorState, uploadAtom, uploadAnswers } from '$sb/recoil/atoms'
-import { Grid, makeStyles } from '@material-ui/core';
+import { editInspectorState } from '$sb/recoil/atoms'
+import { Grid } from '@material-ui/core';
 import { SingleFileUploadWithProgress, UploadError } from './uploadError'
 import { useRecoilValue } from 'recoil'
 import { uploadAnswersAccept } from '$sb/recoil/atoms'
+import { Tracker } from 'meteor/tracker'
+import { useQuestion } from '$sb/recoil/hooks'
+// import { deleteFile } from 'imports/api/s3-utils'
 
+
+// const aws = require('aws-sdk')
 
 const baseStyle = {
   flex: 1,
@@ -36,6 +41,13 @@ const rejectStyle = {
   borderColor: '#ff1744',
 }
 
+// aws.config.update({
+//   region: Meteor.settings.public.S3_REGION,
+//   credentials: new aws.CognitoIdentityCredentials({
+//     IdentityPoolId: Meteor.settings.public.S3_IDENTITY_POOL_ID,
+//   }),
+// })
+
 
 let currentId = 0;
 
@@ -44,68 +56,78 @@ function getNewId() {
   return ++currentId;
 }
 
-const aws = require('aws-sdk')
 
-aws.config.update({
-  region: Meteor.settings.public.S3_REGION,
-  credentials: new aws.CognitoIdentityCredentials({
-    IdentityPoolId: Meteor.settings.public.S3_IDENTITY_POOL_ID,
-  }),
-})
-
-
-const s3 = new aws.S3({
-  apiVersion: "2006-03-01",
-  params: { Bucket: Meteor.settings.public.S3_BUCKET_NAME }
-});
+// const s3 = new aws.S3({
+//   apiVersion: "2006-03-01",
+//   params: { Bucket: Meteor.settings.public.S3_BUCKET_NAME }
+// });
 
 
 export const DropZone = ({ pid }) => {
   const [property, setProperty] = useRecoilState(editInspectorState({ pid, path:'answers' }))
   const {accept, multiple, maxSize} = useRecoilValue(uploadAnswersAccept(pid))
   const [files, setFiles] = useState([]);
+  const [question] = useQuestion(pid)
+
+  const uploader = useMemo(() => new Slingshot.Upload("uploadQuestionType",{folder:question}),[question]);
+
 
   const onDelete = (file) => {
-    setFiles(current => current.filter(f=>f.file !==file))
-    setProperty([...property].filter((f)=>f.name !== file.name))
-    s3.deleteObject({ Key: file.name }, function(err, data) {
-      if (err) {
-        return alert("There was an error deleting your file: ", err.message);
-      }
-      console.log("Successfully deleted file.", data)
-    
-    });
+    Meteor.call('s3.deleteObject', {fileName: file.name}, () => {
+      setFiles(current => current.filter(f=>f.file !==file))
+      setProperty([...property].filter((f)=>f.name !== file.name))
+    })
+
+    // Option: delete file directly from client-side with Cognito + Identity Pool(unAuth)
+    // s3.deleteObject({ Key: file.name }, function(err, data) {
+    //   if (err) {
+    //     return alert("There was an error deleting your file: ", err.message);
+    //   }
+    // });
 
   }
 
 
   const onUpload = (params, setProgress) => {
 
-    const upload = new aws.S3.ManagedUpload({
-      params: {
-        Bucket: 'back2bike',
-        Key: params.name,
-        Body: params,
-      },
-    })
-  
-    const promise = upload.on('httpUploadProgress', function(progress) {
-      let progressPercentage = Math.round(progress.loaded / progress.total * 100);
-      setProgress(progressPercentage)
-
-    }).promise()
-  
-    return promise.then(
-      function (data) {
-        console.log('S3 response', data)
-        setProperty([...property,  {name: data.key, url: data.Location}])
-      
-      },
-      function (err) {
-        console.log(err)
-        return alert('There was an error uploading your photo: ', err.message)
+    uploader.send(params, function (error, downloadUrl) {
+      if (error) {
+        console.error('Error uploading', uploader.xhr.response);
+        alert (error);
       }
-    )
+      setProperty([...property,  {name: params.name, url: downloadUrl}])
+      Tracker.autorun(() => {
+        setProgress(uploader.progress() * 100)
+      })
+
+    });
+
+    // Option: upload file directly from client-side with Cognito + Identity Pool(unAuth)
+    // const upload = new aws.S3.ManagedUpload({
+    //   params: {
+    //     Bucket: 'back2bike',
+    //     Key: params.name,
+    //     Body: params,
+    //   },
+    // })
+  
+    // const promise = upload.on('httpUploadProgress', function(progress) {
+    //   let progressPercentage = Math.round(progress.loaded / progress.total * 100);
+    //   setProgress(progressPercentage)
+
+    // }).promise()
+  
+    // return promise.then(
+    //   function (data) {
+    //     console.log('S3 response', data)
+    //     setProperty([...property,  {name: data.key, url: data.Location}])
+      
+    //   },
+    //   function (err) {
+    //     console.log(err)
+    //     return alert('There was an error uploading your photo: ', err.message)
+    //   }
+    // )
   }
   
 
@@ -147,15 +169,15 @@ export const DropZone = ({ pid }) => {
   return (
     <Fragment>
        <Grid item>
-    <div {...getRootProps({ style })} name={pid} key={pid}>
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <p>Drop the files here ...</p>
-      ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      )}
-    </div>
-    </Grid>
+          <div {...getRootProps({ style })} name={pid} key={pid}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag 'n' drop some files here, or click to select files</p>
+            )}
+          </div>
+        </Grid>
 
     {files.map((fileWrapper) => (
         <Grid item key={fileWrapper.id}>
