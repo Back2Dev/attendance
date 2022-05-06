@@ -2,14 +2,13 @@ import React, { useCallback, useMemo, useState, Fragment } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useRecoilState } from 'recoil'
 import { editInspectorState } from '$sb/recoil/atoms'
-import { Grid } from '@material-ui/core';
-import { SingleFileUploadWithProgress, UploadError } from './uploadError'
+import { Grid } from '@material-ui/core'
+import { SingleFileUploadWithProgress, UploadError } from './uploadStatus'
 import { useRecoilValue } from 'recoil'
 import { uploadAnswersAccept } from '$sb/recoil/atoms'
 import { Tracker } from 'meteor/tracker'
 import { useQuestion } from '$sb/recoil/hooks'
 // import { deleteFile } from 'imports/api/s3-utils'
-
 
 // const aws = require('aws-sdk')
 
@@ -48,34 +47,32 @@ const rejectStyle = {
 //   }),
 // })
 
-
-let currentId = 0;
+let currentId = 0
 
 function getNewId() {
   // we could use a fancier solution instead of a sequential ID :)
-  return ++currentId;
+  return ++currentId
 }
-
 
 // const s3 = new aws.S3({
 //   apiVersion: "2006-03-01",
 //   params: { Bucket: Meteor.settings.public.S3_BUCKET_NAME }
 // });
 
-
 export const DropZone = ({ pid }) => {
-  const [property, setProperty] = useRecoilState(editInspectorState({ pid, path:'answers' }))
-  const {accept, multiple, maxSize} = useRecoilValue(uploadAnswersAccept(pid))
-  const [files, setFiles] = useState([]);
+  const [property, setProperty] = useRecoilState(
+    editInspectorState({ pid, path: 'answers' })
+  )
+  const { accept, maxFiles, maxSize } = useRecoilValue(uploadAnswersAccept(pid))
+  const [files, setFiles] = useState([])
   const [question] = useQuestion(pid)
 
-  const uploader = useMemo(() => new Slingshot.Upload("uploadQuestionType",{folder:question}),[question]);
-
+  const uploader = new Slingshot.Upload('uploadQuestionType', { folder: question })
 
   const onDelete = (file) => {
-    Meteor.call('s3.deleteObject', {fileName: file.name}, () => {
-      setFiles(current => current.filter(f=>f.file !==file))
-      setProperty([...property].filter((f)=>f.name !== file.name))
+    Meteor.call('s3.deleteObject', { fileName: file.name }, () => {
+      setFiles((current) => current.filter((f) => f.file !== file))
+      setProperty([...property].filter((f) => f.name !== file.name))
     })
 
     // Option: delete file directly from client-side with Cognito + Identity Pool(unAuth)
@@ -84,23 +81,22 @@ export const DropZone = ({ pid }) => {
     //     return alert("There was an error deleting your file: ", err.message);
     //   }
     // });
-
   }
 
-
   const onUpload = (params, setProgress) => {
-
     uploader.send(params, function (error, downloadUrl) {
       if (error) {
-        console.error('Error uploading', uploader.xhr.response);
-        alert (error);
+        console.error('Error uploading', uploader.xhr.response)
+        alert(error)
+      } else {
+        //For multiple upload, the downloadUrl always return the same??
+        setProperty((property) => [...property, { name: params.name, url: downloadUrl }])
       }
-      setProperty([...property,  {name: params.name, url: downloadUrl}])
+
       Tracker.autorun(() => {
         setProgress(uploader.progress() * 100)
       })
-
-    });
+    })
 
     // Option: upload file directly from client-side with Cognito + Identity Pool(unAuth)
     // const upload = new aws.S3.ManagedUpload({
@@ -110,18 +106,18 @@ export const DropZone = ({ pid }) => {
     //     Body: params,
     //   },
     // })
-  
+
     // const promise = upload.on('httpUploadProgress', function(progress) {
     //   let progressPercentage = Math.round(progress.loaded / progress.total * 100);
     //   setProgress(progressPercentage)
 
     // }).promise()
-  
+
     // return promise.then(
     //   function (data) {
     //     console.log('S3 response', data)
     //     setProperty([...property,  {name: data.key, url: data.Location}])
-      
+
     //   },
     //   function (err) {
     //     console.log(err)
@@ -129,18 +125,15 @@ export const DropZone = ({ pid }) => {
     //   }
     // )
   }
-  
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log('accept', acceptedFiles)
     console.log('reject', rejectedFiles)
- 
-    const mappedAcc = acceptedFiles.map((file) => ({ file, errors: [], id: getNewId() }));
-    const mappedRej = rejectedFiles.map((r) => ({ ...r, id: getNewId() }));
-    setFiles((curr) => [...curr, ...mappedAcc, ...mappedRej]);
 
+    const mappedAcc = acceptedFiles.map((file) => ({ file, errors: [], id: getNewId() }))
+    const mappedRej = rejectedFiles.map((r) => ({ ...r, id: getNewId() }))
+    setFiles((curr) => [...curr, ...mappedAcc, ...mappedRej])
   }, [])
-
 
   const {
     getRootProps,
@@ -153,8 +146,9 @@ export const DropZone = ({ pid }) => {
     onDrop,
     accept: [...accept],
     maxSize: maxSize * 1024 * 1024,
-    multiple: Boolean(multiple),
-  }) 
+    // multiple: multiple,
+    maxFiles,
+  })
 
   const style = useMemo(
     () => ({
@@ -168,18 +162,18 @@ export const DropZone = ({ pid }) => {
 
   return (
     <Fragment>
-       <Grid item>
-          <div {...getRootProps({ style })} name={pid} key={pid}>
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Drop the files here ...</p>
-            ) : (
-              <p>Drag 'n' drop some files here, or click to select files</p>
-            )}
-          </div>
-        </Grid>
+      <Grid item>
+        <div {...getRootProps({ style })} name={pid} key={pid}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </div>
+      </Grid>
 
-    {files.map((fileWrapper) => (
+      {files.map((fileWrapper) => (
         <Grid item key={fileWrapper.id}>
           {fileWrapper.errors.length ? (
             <UploadError
@@ -196,8 +190,6 @@ export const DropZone = ({ pid }) => {
           )}
         </Grid>
       ))}
-
-
     </Fragment>
   )
 }

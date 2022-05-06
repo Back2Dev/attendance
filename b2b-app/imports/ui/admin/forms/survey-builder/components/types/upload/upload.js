@@ -10,7 +10,6 @@ import { Inspector } from '$sb/components/panels'
 import { EditProperty } from './inspector-upload'
 import { useSelectedPartValue } from '$sb/recoil/hooks'
 
-
 let log = debug('builder:upload')
 
 const schema = new SimpleSchema({
@@ -26,53 +25,48 @@ const schema = new SimpleSchema({
   },
 }).newContext()
 
-
 const mapDataToAtom = (data) => {
-    const state = {
-      id: data.id,
-      prompt: data.title,
-      answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
-    }
-  
-    schema.validate(state)
-    if (!schema.isValid()) {
-      log('expected', schema._schema)
-      log('got', data)
-      throw new Error('Invalid mapping from data to single state')
-    }
-  
-    return state
+  const state = {
+    id: data.id,
+    prompt: data.title,
+    answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
   }
 
-
-  const Upload = ({ pid, index }) => {
-    return (
-      <Frame pid={pid} index={index}>
-        <InnerUpload pid={pid} />
-      </Frame>
-    )
+  schema.validate(state)
+  if (!schema.isValid()) {
+    log('expected', schema._schema)
+    log('got', data)
+    throw new Error('Invalid mapping from data to single state')
   }
 
+  return state
+}
+
+const Upload = ({ pid, index }) => {
+  return (
+    <Frame pid={pid} index={index}>
+      <InnerUpload pid={pid} />
+    </Frame>
+  )
+}
 
 const InspectorProperties = () => {
-const selectedPart = useSelectedPartValue()
-const relabelAnswers = (path) => {
+  const selectedPart = useSelectedPartValue()
+  const relabelAnswers = (path) => {
     if (path.endsWith('name')) return 'Label'
     if (path.endsWith('val')) return 'Value'
     return 'Id'
-}
-return (
+  }
+  return (
     <div>
-    <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
-    <Inspector.Section heading="Setting">
+      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+      <Inspector.Section heading="">
         <EditProperty pid={selectedPart} path="val" relabel={relabelAnswers} />
-    </Inspector.Section>
+      </Inspector.Section>
     </div>
-)
+  )
 }
 
-
-  
 Upload.displayName = 'Upload'
 
 Upload.propTypes = {
@@ -82,15 +76,13 @@ Upload.propTypes = {
   index: PropTypes.number,
 }
 
-
 export { Upload }
 
 TypeRegistry.register(
-    'upload',
-    Upload,
-    uploadSource,
-    mapDataToAtom,
-    uploadAtom,
-    InspectorProperties
-  )
-  
+  'upload',
+  Upload,
+  uploadSource,
+  mapDataToAtom,
+  uploadAtom,
+  InspectorProperties
+)

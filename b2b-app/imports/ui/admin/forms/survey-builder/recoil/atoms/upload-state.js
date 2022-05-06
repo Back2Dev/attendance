@@ -2,7 +2,7 @@ import { atomFamily } from 'recoil'
 import produce from 'immer'
 import { selectorFamily } from 'recoil'
 import { dataCache } from '../../data-cache'
-import { makeListItem } from '../../utils/list'
+// import { makeListItem } from '../../utils/list'
 
 export const defaultAnswer = { name: '', url: '' }
 
@@ -12,7 +12,7 @@ export const uploadAtom = atomFamily({
     prompt: '',
     id: '',
     type: 'upload',
-    answers: [makeListItem(defaultAnswer)],
+    answers: [],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {
@@ -64,12 +64,12 @@ export const uploadAnswersAccept = selectorFamily({
   key: 'uploadAnswersAccept',
   get:
     (pid) =>
-     ({ get }) => {
-      const upload =  get(uploadAtom(pid))
+    ({ get }) => {
+      const upload = get(uploadAtom(pid))
       const accept = Object.entries(upload.val?.accept || {})
-        .filter(([key, value]) => value)
-        .map(([key, value]) => key)
-      return {accept, multiple: upload.val?.multiple, maxSize: upload.val?.maxSize}
+        .filter(([_, value]) => value)
+        .map(([key]) => key)
+      return { accept, maxFiles: upload.val?.maxFiles, maxSize: upload.val?.maxSize }
     },
 })
 

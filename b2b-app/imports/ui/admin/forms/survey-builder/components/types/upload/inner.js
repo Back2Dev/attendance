@@ -1,12 +1,11 @@
 import React from 'react'
-import {  useUploadQuestion } from '$sb/recoil/hooks'
+import { useUploadQuestion } from '$sb/recoil/hooks'
 import { Question } from '$sb/components/question'
-import {DropZone} from './item'
-
+import { DropZone } from './item'
 
 export const InnerUpload = ({ pid }) => {
   const [question, setQuestion] = useUploadQuestion(pid)
- 
+
   return (
     <div>
       <Question
@@ -15,8 +14,7 @@ export const InnerUpload = ({ pid }) => {
         onLabelChange={(text) => setQuestion(text)}
       />
 
-    <DropZone pid={pid} />
-
+      <DropZone pid={pid} />
     </div>
   )
 }
