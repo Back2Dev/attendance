@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { Button, Stepper, Step, StepButton, StepLabel } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 
+import { showWarning } from '/imports/ui/utils/toast-alerts'
 import { useConfirm } from '../../commons/confirm-box'
 import CONSTANTS from '../../../../api/constants'
 import { JobsDetailsContext } from './context'
@@ -12,6 +12,7 @@ import CallLog from './actions-call'
 import SendSMS from './actions-sms'
 import MechanicSelector from './actions-mechanic'
 import CreatePDF from './actions-pdf'
+import QualityCheck from './actions-quality'
 
 const StyledJobActions = styled.div`
   margin: 20px 0;
@@ -40,6 +41,11 @@ const StyledJobActions = styled.div`
     button {
       margin-left: 10px;
       margin-bottom: 5px;
+
+      &.paid {
+        color: #FFFFFF;
+        background-color: #0089fa;
+      }
     }
   }
   ${({ theme }) => `
@@ -62,57 +68,47 @@ const StyledJobActions = styled.div`
 `
 
 function JobActions() {
-  const { item, loading, updateJobStatus, markAsPaid } = useContext(JobsDetailsContext)
+  const { item, loading, updateJobStatus, markAsPaid, markAsUnPaid } = useContext(JobsDetailsContext)
 
   const { showConfirm } = useConfirm()
 
   const onSetStatus = (status) => {
     console.log('next status', status)
-    if (['cancelled', 'completed'].includes(status)) {
-      // need to confirm before set the status
-      showConfirm({
-        onConfirm: () => updateJobStatus(status),
-      })
-    } else if (
-      status === 'in-progress' &&
-      ['cancelled', 'completed'].includes(item.status)
-    ) {
-      showConfirm({
-        onConfirm: () => updateJobStatus(status),
-      })
-    } else {
-      updateJobStatus(status)
+    let doUpdate = true
+    switch (status) {
+      case 'in-progress': {
+        if (['cancelled', 'completed'].includes(item.status)) {
+          showConfirm({
+            onConfirm: () => updateJobStatus(status),
+          })
+          doUpdate = false
+        }
+        if (!item.mechanic) {
+          showWarning('Please select a mechanic first')
+          doUpdate = false
+        }
+        break
+      }
+      case 'cancelled':
+      case 'completed': {
+        showConfirm({
+          onConfirm: () => updateJobStatus(status),
+        })
+        doUpdate = false
+        break
+      }
     }
+
+    doUpdate && updateJobStatus(status)
   }
 
-  const onMarkAsPaid = () => {
+  const togglePaidStatus = () => {
     // need to confirm before update the job
     showConfirm({
-      onConfirm: () => markAsPaid(status),
+      title: item.paid ? 'Mark as NOT paid' : 'Mark as paid',
+      onConfirm: () => item.paid ? markAsUnPaid() : markAsPaid(),
     })
   }
-
-  // const renderStatusActions = () => {
-  //   if (!item || loading) {
-  //     return <Skeleton width="100" />
-  //   }
-  //   const availableBtns = CONSTANTS.JOB_STATUS_MAPPING[item.status]
-  //   if (!availableBtns) {
-  //     return null
-  //   }
-  //   return availableBtns.map(({ next, label }) => {
-  //     return (
-  //       <Button
-  //         variant="contained"
-  //         key={next}
-  //         onClick={() => onSetStatus(next)}
-  //         disabled={loading}
-  //       >
-  //         {label}
-  //       </Button>
-  //     )
-  //   })
-  // }
 
   const steps = [
     {
@@ -124,7 +120,7 @@ function JobActions() {
     {
       key: 'in-progress',
       label: 'In Progress',
-      disabled: !['new', 'in-progress', 'quality-check'].includes(item?.status),
+      disabled: !['new', 'in-progress'].includes(item?.status),
       completed: false,
     },
     {
@@ -136,7 +132,7 @@ function JobActions() {
     {
       key: 'ready',
       label: 'Ready for Pick Up',
-      disabled: !['quality-check', 'ready', 'completed'].includes(item?.status),
+      disabled: !['ready', 'completed'].includes(item?.status),
       completed: false,
     },
     {
@@ -157,7 +153,7 @@ function JobActions() {
         {steps.map((step) => (
           <Step
             key={step.key}
-            disabled={!availableNextStatus.includes(step.key)}
+            disabled={!availableNextStatus.includes(step.key) || step.disabled}
             completed={step.completed}
           >
             <StepButton
@@ -174,17 +170,16 @@ function JobActions() {
   }
 
   const renderMarkAsPaidBtn = () => {
-    if (item?.paid) {
-      return null
-    }
     return (
       <Button
+        className={item?.paid ? 'paid' : ''}
         variant="contained"
-        onClick={() => onMarkAsPaid()}
+        data-cy="mark-paid"
+        onClick={() => togglePaidStatus()}
         disabled={loading}
         startIcon={<AttachMoneyIcon />}
       >
-        Mark as paid
+        {item?.paid ? 'Paid' : 'Mark as paid'}
       </Button>
     )
   }
@@ -193,6 +188,7 @@ function JobActions() {
     <StyledJobActions>
       <div className="stepper">{renderSteps()}</div>
       <div className="btns">
+        <QualityCheck />
         <CreatePDF />
         <MechanicSelector />
         {renderMarkAsPaidBtn()}

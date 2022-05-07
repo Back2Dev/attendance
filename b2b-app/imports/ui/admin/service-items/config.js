@@ -15,33 +15,51 @@ const dateFormat = {
 }
 
 const editSchema = new SimpleSchema({
-  _id: RegExId,
+  // _id: RegExId,
   name: {
     type: String,
     label: 'Parts description',
   },
   price: {
     type: SimpleSchema.Integer,
-    label: 'Price in cents',
+    label: 'Price',
   },
   code: {
     type: String,
-    label: 'Code to indicate if item is for front or back of bike',
+    label: 'Location code F=Front, R=Rear, FR=Front & Rear',
+    allowedValues: ['O', 'F', 'R', 'FR'],
   },
   category: {
     type: String,
     label: 'Parts category',
+    optional: true,
+    allowedValues: [
+      'new parts',
+      'service',
+      'service+parts',
+      'used parts',
+      'misc',
+      'bike sale',
+    ],
   },
-  used: {
-    type: Boolean,
-    label: 'Is item new or used',
+  // used: {
+  //   type: Boolean,
+  //   label: 'Is item new or used',
+  // },
+  tags: {
+    type: Array,
+    optional: true,
+  },
+  'tags.$': {
+    type: String,
+    allowedValues: ['Minor', 'Major'], // for this moment we support only these 2 tags
   },
 })
 
 //
 // Configuration to control display of individual records in a table
 //
-export default config = {
+const config = {
   view: {
     header: true, // Displays a heading row
     rows: [
@@ -57,6 +75,7 @@ export default config = {
       { field: 'code', title: 'code', editor: true, formatter: null },
       { field: 'category', title: 'category', editor: true, formatter: null },
       { field: 'used', title: 'used', editor: true, formatter: null },
+      { field: 'tags', title: 'tags', editor: true, formatter: null },
       {
         field: 'createdAt',
         title: 'createdAt',
@@ -74,6 +93,10 @@ export default config = {
     ],
   },
   add: {
-    defaultObject: {},
+    defaultObject: {
+      tags: [],
+    },
   },
 }
+
+export default config

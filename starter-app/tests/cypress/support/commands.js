@@ -29,7 +29,7 @@ import 'cypress-file-upload'
 const env = Cypress.env()
 // Supply defaults, just in case
 const defEnv = {
-  bucket: 'random.dev.se.com.au',
+  bucket: 'random.mydomain.com.au',
 }
 Object.keys(defEnv).forEach((key) => {
   if (!env[key]) env[key] = defEnv[key]
@@ -86,14 +86,6 @@ Cypress.Commands.add('UploadDocument', (file, hasButton) => {
   // Wait for the file upload to complete
   cy.wait('@slingshot')
 })
-
-// Approves a document in next-steps
-Cypress.Commands.add('ApproveDocument', (element) => {
-  cy.get(element).should('be.enabled').click()
-  cy.wait(2000).get('[data-cy=approve]').should('be.enabled').click()
-})
-
-
 
 Cypress.Commands.add('manualLogin', (person) => {
   cy.get('[data-cy=email-input]').should('exist').type(person.username)

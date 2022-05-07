@@ -61,21 +61,25 @@ export const JobsDetailsProvider = ({ children }) => {
     }
   }, [])
 
-  const updateJobStatus = (status) => {
+  const updateJobStatus = (status, history) => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.updateStatus', { id: item._id, status }, (error, result) => {
-      if (error) {
-        showError(error.message)
-      }
-      if (result) {
-        if (result.status === 'failed') {
-          showError(result.message)
+    Meteor.call(
+      'jobs.updateStatus',
+      { id: item._id, status, history },
+      (error, result) => {
+        if (error) {
+          showError(error.message)
+        }
+        if (result) {
+          if (result.status === 'failed') {
+            showError(result.message)
+          }
+        }
+        if (mounted.current) {
+          dispatch({ type: 'setLoading', loading: false })
         }
       }
-      if (mounted.current) {
-        dispatch({ type: 'setLoading', loading: false })
-      }
-    })
+    )
   }
 
   const updateJobMechanic = (mechanic) => {
@@ -98,6 +102,23 @@ export const JobsDetailsProvider = ({ children }) => {
   const markAsPaid = () => {
     dispatch({ type: 'setLoading', loading: true })
     Meteor.call('jobs.markAsPaid', { id: item._id }, (error, result) => {
+      if (error) {
+        showError(error.message)
+      }
+      if (result) {
+        if (result.status === 'failed') {
+          showError(result.message)
+        }
+      }
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    })
+  }
+
+  const markAsUnPaid = () => {
+    dispatch({ type: 'setLoading', loading: true })
+    Meteor.call('jobs.markAsUnPaid', { id: item._id }, (error, result) => {
       if (error) {
         showError(error.message)
       }
@@ -173,6 +194,8 @@ export const JobsDetailsProvider = ({ children }) => {
       }
     })
   }
+  // TODO: Create the landing page for this
+  const payUrl = Meteor.absoluteUrl(`/pay/${item?.jobNo}`)
 
   return (
     <JobsDetailsContext.Provider
@@ -183,9 +206,11 @@ export const JobsDetailsProvider = ({ children }) => {
         updateJobStatus,
         updateJobMechanic,
         markAsPaid,
+        markAsUnPaid,
         addHistory,
         sendSMS,
         setExpectedPickupDate,
+        payUrl,
       }}
     >
       {children}

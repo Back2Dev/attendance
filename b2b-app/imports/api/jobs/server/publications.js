@@ -1,9 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Jobs from '../schema'
 import '../methods'
-/* Commented out related publications (if any) - best to add these in manually as required
- 
-*/
 
 Meteor.publish('all.jobs', () => {
   return Jobs.find({})
@@ -11,10 +8,5 @@ Meteor.publish('all.jobs', () => {
 
 Meteor.publish('id.jobs', (id) => {
   console.log({ id })
-  return [
-    Jobs.find(id),
-    /* Commented out related publications (if any) - best to add these in manually as required
-     
-    */
-  ]
+  return [Jobs.find(id)]
 })

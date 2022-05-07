@@ -116,14 +116,6 @@ export const ServiceProvider = ({ children }) => {
         lastMessage: '',
         data: null,
       },
-      // pickup: {
-      //   label: 'Pick-up',
-      //   error: false,
-      //   disabled: false,
-      //   completed: false,
-      //   lastMessage: '',
-      //   data: null,
-      // },
     },
     activeStep: 'service', // for dev only, should be service by default
     loading: false,
@@ -189,25 +181,29 @@ export const ServiceProvider = ({ children }) => {
     return setStepProperty({ stepKey: stepKeys[stepKeyIndex], property, value })
   }
 
-  const createPdf = () => {
+  const createPdf = (jobNo) => {
+    const serviceType = state.steps.service.data.serviceType
     const serviceItems = state.steps.service.data.items
     const bikeDetails = state.steps.bike.data.details
     const contactData = state.steps.contact.data
     // const pickup = state.steps.pickup.data.pickup
+    const theJobNo = jobNo || originalData.jobNo
+    const assessor = state.steps.bike.data.details.assessor
 
-    createJobCard({ serviceItems, bikeDetails, contactData })
+    createJobCard({ serviceType, serviceItems, bikeDetails, contactData, assessor, jobNo: theJobNo })
   }
 
   const createJob = (quick = false) => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
-      if (state.steps[stepKey].completed !== true) {
+      if (!state.steps[stepKey].completed) {
         allDone = false
+        console.log(`${stepKey} is not done`)
       }
       return stepKey
     })
-    if (allDone !== true) {
+    if (!allDone) {
       showError('Please finish all steps first')
       return
     }
@@ -223,6 +219,7 @@ export const ServiceProvider = ({ children }) => {
     }
 
     const data = {
+      serviceType: state.steps.service.data.serviceType,
       serviceItems: state.steps.service.data.items,
       assessor: state.steps.service.data.assessor,
       note: state.steps.service.data.note,
@@ -230,7 +227,6 @@ export const ServiceProvider = ({ children }) => {
       refurbish: contactData.refurbish,
       selectedMember: contactData.selectedMember,
       memberData: contactData.refurbish ? undefined : contactData.memberData,
-      // pickup: state.steps.pickup.data.pickup,
     }
 
     if (originalData) {
@@ -250,7 +246,7 @@ export const ServiceProvider = ({ children }) => {
           // push(`/jobs/${result.id}`)
           // create pdf now?
           if (quick === false) {
-            createPdf()
+            createPdf(result.jobNo)
           }
 
           if (originalData) {

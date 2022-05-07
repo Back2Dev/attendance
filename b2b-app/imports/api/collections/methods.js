@@ -12,12 +12,12 @@ import Archives, {
   GetArchivesProps,
   RemoveProps,
 } from './archive-schema'
-const debug = require('debug')('app:collections')
-
 import { getSlugFromString } from '/imports/api/utils/misc.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
-import getCollection from './collections'
+import getCollection from './binder'
 import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
+
+const debug = require('debug')('app:collections')
 
 Meteor.methods({
   'collections.getArchives'({ collectionName }) {
@@ -288,7 +288,7 @@ Meteor.methods({
       )
       return { status: 'success', affectedRows }
     } catch (e) {
-      return { status: 'failed', message: e.message }
+      return { status: 'failed', message: `Update error: ${e.message}` }
     }
   },
   'collections.deleteView'({ collectionName, viewSlug }) {

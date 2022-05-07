@@ -1,25 +1,43 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useReducer, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
 import { useTracker } from 'meteor/react-meteor-data'
 
-import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import Jobs from '/imports/api/jobs/schema.js'
+import { parseISO } from 'date-fns'
+import { useMemo } from 'react'
 
 export const JobsListingContext = React.createContext('jobslisting')
 
+const CACHED_FILTERS_KEY = 'jobs-filters'
+
 function reducer(state, action) {
+  const setCachedFilter = (newFilters) => {
+    localStorage.setItem(CACHED_FILTERS_KEY, JSON.stringify(newFilters))
+  }
+
   const { type, payload } = action
   switch (type) {
-    case 'setFilterText':
-      return { ...state, filterText: payload.text }
-    case 'setFilterStatus':
-      return { ...state, filterStatus: payload.status }
-    case 'setDateFrom':
-      return { ...state, dateFrom: payload.dateFrom }
-    case 'setDateTo':
-      return { ...state, dateTo: payload.dateTo }
+    case 'setFilterText': {
+      const newState = { ...state, filterText: payload.text }
+      setCachedFilter(newState)
+      return newState
+    }
+    case 'setFilterStatus': {
+      const newState = { ...state, filterStatus: payload.status }
+      setCachedFilter(newState)
+      return newState
+    }
+    case 'setDateFrom': {
+      const newState = { ...state, dateFrom: payload.dateFrom }
+      setCachedFilter(newState)
+      return newState
+    }
+    case 'setDateTo': {
+      const newState = { ...state, dateTo: payload.dateTo }
+      setCachedFilter(newState)
+      return newState
+    }
     default:
       return state
   }
@@ -34,26 +52,24 @@ export const JobsListingProvider = ({ children }) => {
     []
   )
 
+  const cachedFiltersString = localStorage.getItem(CACHED_FILTERS_KEY)
+  const cachedFilters = cachedFiltersString ? JSON.parse(cachedFiltersString) : {}
+
   const [state, dispatch] = useReducer(reducer, {
-    filterText: '',
-    filterStatus: [],
-    dateFrom: null,
-    dateTo: null,
+    filterText: cachedFilters.filterText || '',
+    filterStatus: cachedFilters.filterStatus || [],
+    dateFrom: (cachedFilters.dateFrom && parseISO(cachedFilters.dateFrom)) || null,
+    dateTo: (cachedFilters.dateTo && parseISO(cachedFilters.dateTo)) || null,
   })
 
-  const { loading, jobs, statusCounter } = useTracker(() => {
+  const { loading, jobs } = useTracker(() => {
     // TODO: change the subscription, add permission checking
     const sub = Meteor.subscribe('all.jobs')
-    const jobs = Jobs.find({}).fetch()
-    const statusCounter = {}
-    jobs.map((job) => {
-      statusCounter[job.status] = (statusCounter[job.status] || 0) + 1
-    })
+    const jobs = Jobs.find({}, { sort: { pickupDate: -1, createdAt: -1 } }).fetch()
 
     return {
       loading: !sub.ready(),
       jobs,
-      statusCounter,
     }
   }, [])
 
@@ -92,7 +108,6 @@ export const JobsListingProvider = ({ children }) => {
         ...state,
         loading,
         jobs,
-        statusCounter,
         toggleFilterStatus,
         setFilterText,
         setDateFrom,

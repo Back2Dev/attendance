@@ -5,7 +5,6 @@ import DataGrid from 'react-data-grid'
 import { Button } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
-import { isAfter, isBefore } from 'date-fns'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
@@ -84,7 +83,6 @@ const StyledJobsListing = styled.div`
 function JobsListing() {
   const {
     jobs,
-    statusCounter,
     filterStatus,
     toggleFilterStatus,
     filterText,
@@ -97,15 +95,28 @@ function JobsListing() {
 
   const { push } = useHistory()
 
-  const defaultSortColums = [{ columnKey: 'createdAt', direction: 'DESC' }]
-  const [sortColumns, setSortColumns] = useState(defaultSortColums)
+  const defaultSortColumns = []
+  const [sortColumns, setSortColumns] = useState(defaultSortColumns)
 
   const columns = [
     {
       key: 'createdAt',
-      name: 'Created Date',
+      name: 'Created',
       formatter: ({ row }) => moment(row.createdAt).format('DD/MM/YYYY HH:mm'),
       width: 140,
+      // frozen: true,
+    },
+    {
+      key: 'pickupDate',
+      name: 'Pickup date',
+      formatter: ({ row }) => moment(row.pickupDate).format('DD/MM/YYYY'),
+      width: 120,
+      // frozen: true,
+    },
+    {
+      key: 'jobNo',
+      name: 'No',
+      width: 60,
       // frozen: true,
     },
     {
@@ -117,20 +128,26 @@ function JobsListing() {
     {
       key: 'customer',
       name: 'Customer',
-      // width: 120,
+      width: 150,
+      // frozen: true,
+    },
+    {
+      key: 'phone',
+      name: 'Phone',
+      width: 150,
       // frozen: true,
     },
     {
       key: 'cost',
       name: 'Cost',
-      // width: 150,
+      width: 60,
       // frozen: true,
     },
     {
       key: 'status',
       name: 'Status',
       formatter: ({ row }) => CONSTANTS.JOB_STATUS_READABLE[row.status] || 'N/A',
-      // width: 150,
+      width: 150,
       // frozen: true,
     },
   ]
@@ -140,8 +157,11 @@ function JobsListing() {
       return {
         _id: item._id,
         createdAt: item.createdAt,
+        pickupDate: item.pickupDate,
+        jobNo: item.jobNo,
         bike: item.bikeName,
         customer: item.name,
+        phone: item.phone,
         cost: item.totalCost / 100,
         status: item.status,
       }
@@ -162,13 +182,25 @@ function JobsListing() {
         return (a, b) => {
           return a.createdAt > b.createdAt ? 1 : -1
         }
+      case 'pickupDate':
+        return (a, b) => {
+          return a.pickupDate > b.pickupDate ? 1 : -1
+        }
+      case 'jobNo':
+        return (a, b) => {
+          return `${a.jobNo}`.localeCompare(`${b.jobNo}`)
+        }
       case 'bike':
         return (a, b) => {
-          return a.bike?.localeCompare(b.bike)
+          return `${a.bike}`.localeCompare(`${b.bike}`)
         }
       case 'customer':
         return (a, b) => {
-          return a.customer?.localeCompare(b.customer)
+          return `${a.customer}`.localeCompare(`${b.customer}`)
+        }
+      case 'phone':
+        return (a, b) => {
+          return `${a.phone}`.localeCompare(`${b.phone}`)
         }
       case 'cost':
         return (a, b) => {
@@ -176,17 +208,58 @@ function JobsListing() {
         }
       case 'status':
         return (a, b) => {
-          return a.status.localeCompare(b.status)
+          return `${a.status}`.localeCompare(`${b.status}`)
         }
       default:
         return () => 0
     }
   }
 
-  const calculatedRows = useMemo(() => {
-    if (sortColumns.length === 0) return rows
-
+  const filteredRows = useMemo(() => {
     let mutableRows = [...rows]
+    // handle search
+    if (filterText && filterText.length >= 2) {
+      const reg = new RegExp(filterText, 'i')
+      mutableRows = mutableRows.filter((row) => {
+        // return reg.test(`${row.bike} ${row.customer} ${row.cost} ${row.createdAt}`)
+        const strsToSearch = Object.values(row).map((value) => {
+          return `${value}` || ''
+        })
+        // console.log(strsToSearch, strsToSearch.join(' '))
+        return reg.test(strsToSearch.join(' '))
+      })
+    }
+
+    // apply date from filter
+    if (dateFrom) {
+      mutableRows = mutableRows.filter((row) => {
+        return moment(row.createdAt).isAfter(moment(dateFrom).startOf('day'))
+      })
+    }
+
+    // apply date to filter
+    if (dateTo) {
+      mutableRows = mutableRows.filter((row) => {
+        return moment(row.createdAt).isBefore(moment(dateTo).endOf('day'))
+      })
+    }
+
+    return mutableRows
+  }, [filterText, dateFrom, dateTo, rows])
+
+  const statusCounter = useMemo(() => {
+    const statusCounter = {}
+    filteredRows.map((row) => {
+      statusCounter[row.status] = (statusCounter[row.status] || 0) + 1
+    })
+
+    return statusCounter
+  }, [filteredRows])
+
+  const calculatedRows = useMemo(() => {
+    // if (sortColumns.length === 0) return rows
+
+    let mutableRows = [...filteredRows]
 
     // handle column sorting
     mutableRows.sort((a, b) => {
@@ -207,35 +280,8 @@ function JobsListing() {
       })
     }
 
-    // handle search
-    if (filterText && filterText.length >= 2) {
-      const reg = new RegExp(filterText, 'i')
-      mutableRows = mutableRows.filter((row) => {
-        // return reg.test(`${row.bike} ${row.customer} ${row.cost} ${row.createdAt}`)
-        const strsToSearch = Object.values(row).map((value) => {
-          return `${value}` || ''
-        })
-        // console.log(strsToSearch, strsToSearch.join(' '))
-        return reg.test(strsToSearch.join(' '))
-      })
-    }
-
-    // apply date from filter
-    if (dateFrom) {
-      mutableRows = mutableRows.filter((row) => {
-        return isAfter(row.createdAt, dateFrom)
-      })
-    }
-
-    // apply date to filter
-    if (dateTo) {
-      mutableRows = mutableRows.filter((row) => {
-        return isBefore(row.createdAt, dateTo)
-      })
-    }
-
     return mutableRows
-  }, [rows, sortColumns, filterStatus, filterText, dateFrom, dateTo])
+  }, [filteredRows, sortColumns, filterStatus])
 
   const renderFilterStatusBtn = ({ title, status }) => {
     const isActive = filterStatus.includes(status)
@@ -302,6 +348,7 @@ function JobsListing() {
     <StyledJobsListing>
       <div className="filter-container">
         <SearchBox
+          defaultValue={filterText}
           onChange={(searchQuery) => {
             setFilterText(searchQuery)
           }}
@@ -322,10 +369,8 @@ function JobsListing() {
           onSortColumnsChange={(sorts) => {
             if (sorts && sorts.length) {
               setSortColumns(sorts)
-            } else if (sortColumns[0]?.columnKey === 'createdAt') {
-              setSortColumns([{ columnKey: 'createdAt', direction: 'ASC' }])
             } else {
-              setSortColumns(defaultSortColums)
+              setSortColumns(defaultSortColumns)
             }
           }}
           onRowClick={(index, row) => push(`/services/${row._id}`)}

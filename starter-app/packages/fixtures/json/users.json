@@ -4,29 +4,29 @@
     "username": "super.mario@mario.com",
     "password": "i-like-turTles-27",
     "email": "super.mario@mario.com",
-    "roles": ["ADM", "PM", "CON"],
-    "se": true
+    "roles": ["ADM", "MGR", "CON"],
+    "core": true
   },
   {
     "name": "Mike King",
     "username": "mike.king@mydomain.com.au",
     "email": "mike.king@mydomain.com.au",
     "roles": ["ADM", "CON"],
-    "se": true
+    "core": true
   },
   {
     "name": "Minh Nguyen",
     "username": "minh.nguyen@mydomain.com.au",
     "email": "minh.nguyen@mydomain.com.au",
     "roles": ["ADM"],
-    "se": true
+    "core": true
   },
   {
     "name": "Pat Carmel",
     "username": "pat.carmel@mydomain.com.au",
     "email": "pat.carmel@mydomain.com.au",
     "roles": ["ADM"],
-    "se": true
+    "core": true
   },
   {
     "name": "Cathy Customer",
@@ -34,7 +34,15 @@
     "email": "cathy.customer@mydomain.com.au",
     "mobile": "+61400000000",
     "roles": ["CUS"],
-    "se": true
+    "core": true
+  },
+  {
+    "name": "Geronimo Yawns",
+    "username": "geronimo.yawns@test.com",
+    "email": "geronimo.yawns@test.com",
+    "mobile": "+61400000000",
+    "roles": ["MGR"],
+    "core": true
   },
   {
     "name": "Charlie Customer",
@@ -42,6 +50,6 @@
     "email": "charlie.customer@test.com",
     "mobile": "+61400000000",
     "roles": ["CUS"],
-    "se": true
+    "core": true
   }
 ]

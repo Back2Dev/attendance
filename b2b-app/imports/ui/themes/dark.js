@@ -1,9 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 
 import defaultTheme from './default'
 // console.log('default', defaultTheme)
 
-export default createMuiTheme({
+export default createTheme({
   ...defaultTheme,
   palette: {
     type: 'dark',

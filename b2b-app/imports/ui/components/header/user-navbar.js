@@ -243,6 +243,7 @@ export default function UserNavbar() {
           className={classes.profileItem}
           onClick={() => setExpanded(!expanded)}
           key="switch"
+          data-cy="switch-role"
         >
           Switch role
         </MenuItem>

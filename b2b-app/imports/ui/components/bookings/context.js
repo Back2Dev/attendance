@@ -33,7 +33,10 @@ export const BookingsProvider = (props) => {
     const sub = Meteor.subscribe('future.events')
     return {
       loading: !sub.ready(),
-      events: Events.find({ status: 'active', when: { $gt: new Date() } }).fetch(),
+      events: Events.find(
+        { status: 'active', when: { $gt: new Date() } },
+        { sort: { when: 1 } }
+      ).fetch(),
     }
   }, [])
 

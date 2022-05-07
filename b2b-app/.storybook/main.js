@@ -3,8 +3,8 @@ const path = require('path')
 
 module.exports = {
   stories: [
-    '../imports/ui/admin/forms/survey-builder/**/*.stories.mdx',
-    '../imports/ui/admin/forms/survey-builder/**/*.stories.@(js|jsx)',
+    '../imports/ui/forms/survey-builder/**/*.stories.mdx',
+    '../imports/ui/forms/survey-builder/**/*.stories.@(js|jsx)',
   ],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   webpackFinal: async (config, { presets }) => {

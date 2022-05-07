@@ -8,6 +8,12 @@ import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 
 import { CollectionContext } from '../context'
+import { useMemo } from 'react'
+
+const debug = require('debug')('app:dba-grid-views-selector')
+
+const cc = require('change-case')
+cc.kebabCase = (str) => cc.headerCase(str).toLowerCase()
 
 const StyledViewsSelector = styled.div`
   display: flex;
@@ -24,20 +30,25 @@ const StyledViewsSelector = styled.div`
 
 function ViewsSelector({ showDefault = true }) {
   const { theCollection, theView, availableViews } = useContext(CollectionContext)
-  console.log({ theView, availableViews })
+  const collectionKebab = cc.kebabCase(theCollection._name)
+  debug({ theView, availableViews })
 
   const history = useHistory()
 
+  const sortedViews = useMemo(() => {
+    return availableViews?.sort((a, b) => a.name.localeCompare(b.name))
+  }, [availableViews])
+
   const handleChange = (event) => {
     const viewSlug = event.target.value
-    history.push(`/dba/${theCollection._name}${viewSlug ? `/${viewSlug}` : ''}`)
+    history.push(`/dba/${collectionKebab}${viewSlug ? `/${viewSlug}` : ''}`)
   }
 
   const renderMenuItems = () => {
-    if (!availableViews?.length) {
+    if (!sortedViews?.length) {
       return <MenuItem value="">No View available</MenuItem>
     }
-    return availableViews.map((item) => (
+    return sortedViews.map((item) => (
       <MenuItem value={item.slug} key={item.slug}>
         {item.name}
       </MenuItem>
@@ -52,7 +63,7 @@ function ViewsSelector({ showDefault = true }) {
     <StyledViewsSelector>
       <FormControl className="form-control">
         <Select value={theView?.slug || ''} onChange={handleChange}>
-          {showDefault && <MenuItem value="">Default (no view)</MenuItem>}
+          {showDefault && <MenuItem value="ALL_BY_SCHEMA">ALL (Schema)</MenuItem>}
           {renderMenuItems()}
         </Select>
       </FormControl>
@@ -63,7 +74,7 @@ function ViewsSelector({ showDefault = true }) {
           className="btn btn-edit"
           component="span"
           onClick={() =>
-            history.push(`/dba/${theCollection._name}/edit-view/${theView.slug}`)
+            history.push(`/dba/${collectionKebab}/edit-view/${theView.slug}`)
           }
         >
           <EditIcon />
@@ -74,7 +85,7 @@ function ViewsSelector({ showDefault = true }) {
         aria-label="add view"
         className="btn btn-add"
         component="span"
-        onClick={() => history.push(`/dba/${theCollection._name}/add-view`)}
+        onClick={() => history.push(`/dba/${collectionKebab}/add-view`)}
       >
         <AddIcon />
       </IconButton>

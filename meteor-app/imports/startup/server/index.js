@@ -14,7 +14,7 @@ import './email'
 import './startup'
 import '/imports/lib/validator'
 import '/imports/api/archive'
-import './assessment-data'
+// import './assessment-data'
 import setupStreams from './streams'
 import { setupPaymentsApi } from '/imports/lib/server/route-payments'
 

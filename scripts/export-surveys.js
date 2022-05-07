@@ -7,7 +7,7 @@ const prettier = require('prettier')
 const prettierRules = require('../.prettierrc.json')
 prettierRules.parser = 'babel'
 
-const debug = require('debug')('se:fixtures')
+const debug = require('debug')('app:fixtures')
 
 const base = 'md-docz/src/'
 // the "opts" object will contain all the command line parameters and options

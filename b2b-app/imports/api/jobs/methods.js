@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import CONSTANTS from '../constants'
 import ServiceItems from '/imports/api/service-items/schema.js'
+import Counters from '/imports/api/counters/schema'
 import Jobs, {
   JobCreateParamsSchema,
   JobUpdateParamsSchema,
@@ -19,6 +20,68 @@ import { hasOneOfRoles } from '/imports/api/users/utils.js'
 const debug = require('debug')('app:jobs')
 
 Meteor.methods({
+  /**
+   * Mark a job as NOT paid
+   * @param {Object} params
+   * @param {string} params.id - the job id
+   */
+  'jobs.markAsUnPaid'({ id }) {
+    try {
+      JobMarkAsPaidParamsSchema.validate({ id })
+    } catch (e) {
+      debug(e.message)
+      return { status: 'failed', message: e.message }
+    }
+
+    // check for login user
+    if (!this.userId) {
+      return { status: 'failed', message: 'Please login' }
+    }
+    const me = Meteor.users.findOne({ _id: this.userId })
+    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    if (!allowed) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+    // get current user profile
+    const myMember = Members.findOne({ userId: me._id })
+
+    // find the job
+    const job = Jobs.findOne({ _id: id })
+    if (!job) {
+      return { status: 'failed', message: `Job was not found with id: ${id}` }
+    }
+
+    if (!job.paid) {
+      return { status: 'failed', message: 'Job was not paid' }
+    }
+
+    // update the job and the history
+    try {
+      Jobs.update(
+        { _id: id },
+        {
+          $set: { paid: false, paidAt: undefined },
+          $push: {
+            history: {
+              userId: me._id,
+              memberId: myMember._id,
+              description: 'Mark the Job as NOT paid',
+              statusBefore: job.status,
+              statusAfter: job.status,
+              createdAt: new Date(),
+            },
+          },
+        }
+      )
+    } catch (e) {
+      return { status: 'failed', message: e.message }
+    }
+
+    return {
+      status: 'success',
+    }
+  },
+
   /**
    * Mark a job as paid
    * @param {Object} params
@@ -248,11 +311,15 @@ Meteor.methods({
     }
 
     // update the status and the history
+    const setData = { mechanic }
+    if (job.status === 'new') {
+      setData.status = 'in-progress'
+    }
     try {
       Jobs.update(
         { _id: id },
         {
-          $set: { mechanic },
+          $set: setData,
           $push: {
             history: {
               userId: me._id,
@@ -342,10 +409,11 @@ Meteor.methods({
    * @param {Object} params
    * @param {string} params.id
    * @param {string} params.status
+   * @param {string} params.history
    */
-  'jobs.updateStatus'({ id, status }) {
+  'jobs.updateStatus'({ id, status, history }) {
     try {
-      JobUpdateStatusParamsSchema.validate({ id, status })
+      JobUpdateStatusParamsSchema.validate({ id, status, history })
     } catch (e) {
       debug(e.message)
       return { status: 'failed', message: e.message }
@@ -374,6 +442,26 @@ Meteor.methods({
       return { status: 'failed', message: `Job status was invalid: ${status}` }
     }
     // update the status and the history
+    const historyItems = []
+    if (history) {
+      historyItems.push({
+        userId: me._id,
+        memberId: myMember._id,
+        description: history,
+        statusBefore: job.status,
+        statusAfter: status,
+        createdAt: new Date(),
+      })
+    }
+    historyItems.push({
+      userId: me._id,
+      memberId: myMember._id,
+      description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
+      statusBefore: job.status,
+      statusAfter: status,
+      createdAt: new Date(),
+    })
+
     try {
       Jobs.update(
         { _id: id },
@@ -381,12 +469,7 @@ Meteor.methods({
           $set: { status },
           $push: {
             history: {
-              userId: me._id,
-              memberId: myMember._id,
-              description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
-              statusBefore: job.status,
-              statusAfter: status,
-              createdAt: new Date(),
+              $each: historyItems,
             },
           },
         }
@@ -434,20 +517,17 @@ Meteor.methods({
     }
 
     const jobData = {
-      // jobNo will be updated later
       name: cleanData.memberData?.name || undefined,
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
       address: cleanData.memberData?.address || undefined,
-      // make: cleanData.bikeDetails.make,
-      // model: cleanData.bikeDetails.model,
-      // color: cleanData.bikeDetails.color,
-      // bikeType: cleanData.bikeDetails.type,
       bikeName: cleanData.bikeDetails.bikeName,
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
+      serviceType: cleanData.serviceType,
       serviceItems: cleanData.serviceItems,
-      note: cleanData.note,
+      replacementBike: cleanData.bikeDetails.replacementBike,
+      note: cleanData.bikeDetails.note,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
@@ -548,25 +628,23 @@ Meteor.methods({
     }
 
     const jobData = {
-      // jobNo will be updated later
       name: cleanData.memberData?.name || undefined,
       phone: cleanData.memberData?.mobile || undefined,
       email: cleanData.memberData?.email || undefined,
       address: cleanData.memberData?.address || undefined,
-      // make: cleanData.bikeDetails.make,
-      // model: cleanData.bikeDetails.model,
-      // color: cleanData.bikeDetails.color,
-      // bikeType: cleanData.bikeDetails.type,
       bikeName: cleanData.bikeDetails.bikeName,
       budget: cleanData.bikeDetails.budget,
       bikeValue: cleanData.bikeDetails.approxValue,
+      serviceType: cleanData.serviceType,
       serviceItems: cleanData.serviceItems,
       assessor: cleanData.bikeDetails.assessor,
+      replacementBike: cleanData.bikeDetails.replacementBike,
       note: cleanData.bikeDetails.note,
       totalCost: cleanData.serviceItems.reduce((a, b) => a + b.price, 0),
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
       isRefurbish: data.refurbish === true,
+      jobNo: (data.refurbish ? 'R' : 'C') + Meteor.call('getNextJobNo'),
     }
 
     if (cleanData.selectedMember?._id) {
@@ -582,7 +660,7 @@ Meteor.methods({
     }
 
     // update the member data
-    if (cleanData.hasMember) {
+    if (cleanData.selectedMember || cleanData.memberData) {
       if (cleanData.selectedMember?._id) {
         // update the member data
         Members.update(
@@ -631,7 +709,7 @@ Meteor.methods({
       console.warn('Failed updating ServiceItems', e.message)
     }
 
-    return { status: 'success', id: inserted }
+    return { status: 'success', id: inserted, jobNo: jobData.jobNo }
   },
   'rm.jobs': (id) => {
     try {
@@ -667,5 +745,13 @@ Meteor.methods({
         message: `Error adding job: ${e.message}`,
       }
     }
+  },
+  getNextJobNo() {
+    let c = incrementCounter(Counters, 'jobs', 1)
+    if (c < 1700) {
+      setCounter(Counters, 'jobs', 1999)
+      c = incrementCounter(Counters, 'jobs', 1)
+    }
+    return c
   },
 })

@@ -10,23 +10,23 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from '@material-ui/core'
 import ArchiveIcon from '@material-ui/icons/Archive'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
-import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 import {
-  getDataFormatter,
   formatData,
   getFieldType,
   getComparator,
 } from '/imports/api/collections/utils.js'
-import CellEditor from './grid/cell-editor'
+import DataFormatter from './grid/formaters'
+import CellEditor from './grid/editors'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
+
+const debug = require('debug')('app:dba-grid')
 
 const StyledGrid = styled.div`
   padding: 40px 20px 20px;
@@ -73,7 +73,7 @@ function Grid() {
   const { theCollection, schema, theView, rows, updateCell, archive } = useContext(
     CollectionContext
   )
-  console.log(theCollection, schema, { theView })
+  debug(theCollection, schema, { theView })
 
   const history = useHistory()
   // const { showConfirm } = useConfirm()
@@ -89,10 +89,10 @@ function Grid() {
 
   const windowSize = useWindowSize()
   useEffect(() => {
-    console.log({ windowSize })
+    debug({ windowSize })
     // find the header height
     const headerElm = document.querySelector('header.MuiAppBar-root')
-    console.log(headerElm?.offsetHeight)
+    debug(headerElm?.offsetHeight)
     if (headerElm) {
       setPageHeight(windowSize.height - headerElm.offsetHeight)
     }
@@ -105,15 +105,12 @@ function Grid() {
       theView.columns.map((col) => {
         const fieldSchema = schema._schema[col.name]
         const fieldType = getFieldType({ fieldSchema })
-        const formatter = getDataFormatter({
-          type: fieldType,
-          columnName: col.name,
-        })
+
         gridColumns.push({
           key: col.name,
           name: col.label || col.name,
           type: fieldType,
-          formatter,
+          formatter: DataFormatter,
           width: col.width || undefined,
           editable: col.readOnly !== true,
           editor: col.readOnly ? undefined : CellEditor,
@@ -124,20 +121,19 @@ function Grid() {
       schema._firstLevelSchemaKeys.map((fieldName) => {
         const field = schema._schema[fieldName]
         const fieldType = getFieldType({ fieldSchema: field })
-        console.log({ fieldType })
+        debug({ fieldType })
         if (fieldType) {
-          const formatter = getDataFormatter({ type: fieldType, columnName: fieldName })
           gridColumns.push({
             key: fieldName,
             name: field.label || fieldName,
             type: fieldType,
-            formatter,
+            formatter: DataFormatter,
           })
         }
       })
     }
 
-    console.log(gridColumns)
+    debug('gridColumns', gridColumns)
 
     return gridColumns
   }, [theView?.columns, schema])
@@ -166,38 +162,53 @@ function Grid() {
   }
 
   const handleRowsChange = (newRows) => {
-    // console.log('on Rows changed', newRows)
+    // debug('on Rows changed', newRows)
     const { idx, rowIdx } = selectedCell.current
     if (idx >= 0 && rowIdx >= 0) {
       const rowChanged = newRows[rowIdx]
       const columnChanged = columns[idx]
-      // console.log('columnChanged', columnChanged)
+      debug('columnChanged', columnChanged)
       const cellChanged = columnChanged && rowChanged?.[columnChanged.key]
-      // console.log({ rowChanged, cellChanged })
+      debug({ rowChanged, cellChanged })
       if (columnChanged) {
+        const cellBeforeChanged = rows[rowIdx]?.[columnChanged.key]
         updateCell({
           rowId: rowChanged._id,
           column: columnChanged.key,
           value: cellChanged,
+          cb: (result) => {
+            debug('result', result)
+            debug('cellBeforeChanged', cellBeforeChanged)
+            if (result.status === 'failed') {
+              // rollback
+              debug('rollback now')
+              updateCell({
+                rowId: rowChanged._id,
+                column: columnChanged.key,
+                value: cellBeforeChanged,
+                localOnly: true,
+              })
+            }
+          },
         })
       }
     }
   }
 
   const handleSelectedCellChange = ({ idx, rowIdx }) => {
-    console.log('on Selected Cell changed', idx, rowIdx)
+    debug('on Selected Cell changed', idx, rowIdx)
     selectedCell.current = { idx, rowIdx }
   }
 
-  console.log(rows)
+  debug(rows)
 
   const calculatedRows = useMemo(() => {
     let mutableRows = [...rows]
 
     // handle column sorting
-    // console.log(sortColumns)
+    // debug(sortColumns)
     if (sortColumns?.[0]) {
-      // console.log(sortColumns[0])
+      // debug(sortColumns[0])
       const { columnKey: fieldName, direction } = sortColumns[0]
       const field = schema._schema[fieldName]
       const fieldType = getFieldType({ fieldSchema: field })
@@ -206,8 +217,8 @@ function Grid() {
         fieldName,
         direction,
       })
-      // console.log({ field, fieldType })
-      // console.log('comparator', comparator)
+      // debug({ field, fieldType })
+      // debug('comparator', comparator)
       if (comparator) {
         mutableRows.sort(comparator)
       }
@@ -234,13 +245,17 @@ function Grid() {
   if (!theCollection) {
     return (
       <StyledGrid>
-        <Typography variant="h1">Opps! There collection was not found</Typography>
+        <Typography variant="h1">Oops! The collection has no definition</Typography>
+        <Typography>
+          Either the collection doesn't exist, or maybe you need to run
+          scripts/bind-collections.js
+        </Typography>
       </StyledGrid>
     )
   }
 
-  console.log('sortColumns', sortColumns)
-  console.log('selectedRows', selectedRows)
+  debug('sortColumns', sortColumns)
+  debug('selectedRows', selectedRows)
   return (
     <StyledGrid style={{ height: pageHeight | 'auto' }}>
       <div className="header">
