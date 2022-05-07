@@ -202,6 +202,7 @@ Wed 8 Sep 2021 10:51:48 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo
 Thu 9 Sep 2021 09:13:10 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy ui-schema-spike https://demo.back2bikes.com.au 2.0.0
 Thu 9 Sep 2021 09:54:03 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy ui-schema-spike https://demo.back2bikes.com.au 2.0.0
 Thu 9 Sep 2021 10:09:18 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig ui-schema-spike https://demo.back2bikes.com.au 2.0.0
+Fri 10 Sep 2021 15:02:12 AEST /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig v2-android https://demo.back2bikes.com.au 2.0.0
 Wed 20 Oct 2021 21:16:52 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy v2 https://demo.back2bikes.com.au 2.0.0
 Wed 20 Oct 2021 21:45:22 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo reconfig v2 https://demo.back2bikes.com.au 2.0.0
 Fri 22 Oct 2021 17:36:58 AEDT /Users/mikkel/back2bikes/attendance/deploy/b2b-demo deploy v2 https://demo.back2bikes.com.au 2.0.0
