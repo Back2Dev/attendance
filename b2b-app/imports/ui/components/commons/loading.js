@@ -1,8 +1,7 @@
-import { Meteor } from 'meteor/meteor'
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-
 import { LinearProgress, CircularProgress } from '@material-ui/core'
+import './loading.css'
 
 function Loading(props) {
   const { delay, loading, message, component } = props
@@ -10,11 +9,11 @@ function Loading(props) {
   const [waiting, setWaiting] = useState(delay > 0)
 
   useEffect(() => {
-    const delayTimeout = Meteor.setTimeout(() => {
+    const delayTimeout = setTimeout(() => {
       setWaiting(false)
     }, delay)
     return () => {
-      Meteor.clearTimeout(delayTimeout)
+      clearTimeout(delayTimeout)
     }
   }, [delay])
 

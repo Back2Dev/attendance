@@ -25,5 +25,14 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'never'],
+    'no-extra-semi': 'off',
   },
+  overrides: [
+    {
+      files: ['**/*.stories.js'],
+      rules: {
+        'react/prop-types': 'off',
+      },
+    },
+  ],
 }

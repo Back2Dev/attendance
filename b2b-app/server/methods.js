@@ -177,11 +177,14 @@ Meteor.methods({
                 url: emailLink ? emailLink : '',
                 message: emailMessage ? emailMessage : '',
               })
+              const subject = convertMergeTags(template.subject, {
+                name: user?.name || 'Customer',
+              })
               // Create the form
               form = {
                 type: 'email',
                 to: recipient.emails[0].address,
-                subject: template.subject,
+                subject,
                 body: HTMLTemplate.replace('{{contents}}', body).replace(
                   '*|subject|*',
                   template.subject || ''
@@ -248,6 +251,7 @@ Meteor.methods({
     } catch (e) {
       // Log the error, but don't rethrow it
       log.error(`Error in sendTrigger: ${e.message}`)
+      return { status: 'failed', message: e.message }
     }
   },
   sendAllMessages() {

@@ -10,7 +10,7 @@ export const SingleLayout = () => {
   const formContext = React.useContext(EditorContext)
 
   return (
-    <SplitPane split="vertical" defaultSize="50%">
+    <SplitPane split="vertical" defaultSize="50%" pane2ClassName="scroll">
       <EditorPanel editor={formContext.editors[formContext.tab]} />
       <PreviewPanel />
     </SplitPane>

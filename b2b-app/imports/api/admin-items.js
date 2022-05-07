@@ -25,4 +25,8 @@ module.exports = [
   { id: 'jobs', menu: 'Jobs', fixtures: 0, pubs: 1 },
   { id: 'forms', menu: 'Forms', fixtures: 0, pubs: 1 },
   { id: 'registrations', menu: 'Registrations', fixtures: 0, pubs: 1 },
+  { id: 'collections', menu: 'Collections', fixtures: 0, pubs: 1 },
+  { id: 'users', menu: 'Users', fixtures: 0, pubs: 0, factory: 0 },
+  { id: 'calendar', menu: 'Calendar', fixtures: 0, pubs: 0, factory: 0 },
+  { id: 'register', menu: 'Register', fixtures: 0, pubs: 0, factory: 0 },
 ]
