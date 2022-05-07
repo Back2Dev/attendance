@@ -1,6 +1,6 @@
 {
   "projectId": "x46ikd",
-  "baseUrl": "http://localhost:3080",
+  "baseUrl": "http://localhost:4080",
   "execTimeout": 240000,
   "taskTimeout": 180000,
   "integrationFolder": "tests/cypress/integration",

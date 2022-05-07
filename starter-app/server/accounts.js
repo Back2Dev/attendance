@@ -2,7 +2,7 @@ import { check } from 'meteor/check'
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { ServiceConfiguration } from 'meteor/service-configuration'
-
+ 
 import log from '/imports/lib/log'
 
 import Profiles from '/imports/api/profiles/schema.js'

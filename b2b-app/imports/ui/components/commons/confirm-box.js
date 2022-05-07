@@ -73,12 +73,12 @@ function ConfirmBox({
         <DialogActions>
           <Grid container>
             <Grid item xs={6} align="center">
-              <Button variant="contained" onClick={onReject} color="secondary">
+              <Button variant="contained" data-cy="no-job-card"onClick={onReject} color="secondary">
                 {no}
               </Button>
             </Grid>
             <Grid item xs={6} align="center">
-              <Button variant="contained" onClick={onConfirm} color="primary" autoFocus>
+              <Button variant="contained" data-cy="yes-job-card"onClick={onConfirm} color="primary" autoFocus>
                 {yes}
               </Button>
             </Grid>

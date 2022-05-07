@@ -1,5 +1,5 @@
 const simpleDDP = require('simpleddp')
-const debug = require('debug')('se:run-e2e')
+const debug = require('debug')('app:run-e2e')
 const { runResults } = require('../se2-admin/imports/api/utils/results-cache')
 
 const opts = require('minimist')(process.argv.slice(2))

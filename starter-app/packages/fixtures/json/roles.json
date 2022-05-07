@@ -1,6 +1,6 @@
 [
   { "_id": "ADM", "children": [] },
-  { "_id": "PM", "children": [] },
+  { "_id": "MGR", "children": [] },
   { "_id": "CUS", "children": [] },
   { "_id": "MEM", "children": [] }
 ]

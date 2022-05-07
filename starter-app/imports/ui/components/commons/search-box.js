@@ -39,6 +39,7 @@ function SearchBox({
   return (
     <TextField
       className="search-box"
+    
       placeholder={placeholder}
       value={searchBoxValue}
       InputProps={{

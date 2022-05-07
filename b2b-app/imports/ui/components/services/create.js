@@ -6,7 +6,7 @@ import FromSteps from './create/steps'
 import ServiceStep from './create/step-service'
 import BikeStep from './create/step-bike'
 import ContactStep from './create/step-contact'
-import PickupStep from './create/step-pickup'
+// import PickupStep from './create/step-pickup'
 import CreateServiceHeader from './create/header'
 import { Paper } from '@material-ui/core'
 
@@ -32,7 +32,6 @@ function CreateService() {
           <ServiceStep />
           <BikeStep />
           <ContactStep />
-          <PickupStep />
         </Paper>
       </StyledCreateService>
     </ServiceProvider>

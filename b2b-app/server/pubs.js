@@ -2,10 +2,10 @@
 import { Meteor } from 'meteor/meteor'
 
 import '/imports/api/users/server/publications'
-
-// GENERATED PUBS GO HERE
-import '/imports/api/settings/server/publications'
-// END GENERATED PUBS
+// import '/imports/api/settings/server/publications'
+// Do a DDP connect instead...
+// import '/imports/api/assessments/server/publications'
+import '/imports/api/assessments/methods-migrate'
 
 // Import all the things...
 import '/imports/startup/server/generated-pubs'

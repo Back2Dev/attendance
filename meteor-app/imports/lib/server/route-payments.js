@@ -11,15 +11,17 @@ const debug = require('debug')('b2b:server-payments')
 
 const want_these = ['charge.captured', 'customer.created']
 
-const acceptPayment = function(cartId, paymentMethod) {
+const acceptPayment = function (cartId, paymentMethod) {
   const cart = Carts.findOne(cartId)
   if (!cart) {
     console.error(`Could not find cart with id ${cartId}`) // This is a kind-of normal condition
     return 404
   } else {
     const member = Members.findOne(cart.memberId) || {}
-    debug(`Processing ${cart.products.length} products from cart ${cartId}`)
-    cart.products.forEach(prod => {
+    debug(
+      `Processing ${cart.products.length} products from cart ${cartId}`
+    )
+    cart.products.forEach((prod) => {
       debug(prod)
       // Work out the start date
       const startDate = prod.expiry || moment()
@@ -38,7 +40,8 @@ const acceptPayment = function(cartId, paymentMethod) {
         remaining,
         paymentMethod,
         expiry,
-        txnDate: new Date()
+        txnDate: new Date(),
+        status: 'paid',
       }
       debug('Inserting purchase', purchase)
       const n = Purchases.insert(purchase)
@@ -48,8 +51,8 @@ const acceptPayment = function(cartId, paymentMethod) {
         $set: {
           status: 'current',
           subsType: prod.subsType,
-          expiry
-        }
+          expiry,
+        },
       })
     })
   }
@@ -57,13 +60,14 @@ const acceptPayment = function(cartId, paymentMethod) {
 }
 
 Meteor.methods({
-  acceptPayment: function(cartId, paymentMethod) {
+  acceptPayment: function (cartId, paymentMethod) {
     acceptPayment(cartId, paymentMethod)
-  }
+  },
 })
 
 function acceptPaymentHook(req, res) {
-  if (req.body.data && req.body.data.metadata) debug('/payment hook, metadata', req.body.data.metadata)
+  if (req.body.data && req.body.data.metadata)
+    debug('/payment hook, metadata', req.body.data.metadata)
   let status = 200
   const responseData = { status: 'ok' }
   console.log('acceptPaymentHook', req.body)
@@ -75,7 +79,10 @@ function acceptPaymentHook(req, res) {
     // req.body.data.metadata.cartId will contain the id of the cart.
     //Find the cart, and then create a purchase record from the contents of the cart
     if (!req.body.data || !req.body.data.metadata) {
-      console.error(`No data or metadata provided in incoming payment webhook`, req.body || req.body.data)
+      console.error(
+        `No data or metadata provided in incoming payment webhook`,
+        req.body || req.body.data
+      )
       // status = 404
       // responseData.status = 'No metadata provided in incoming payment'
     } else {
@@ -99,7 +106,11 @@ export function setupPaymentsApi() {
   app.post('/payment', Meteor.bindEnvironment(acceptPaymentHook))
 
   app.get('/api', (req, res) => {
-    res.status(200).json({ message: `B2B Payments API at ${Meteor.absoluteUrl()}` }) // Shouldn't call this, just for testing for now
+    res
+      .status(200)
+      .json({
+        message: `B2B Payments API at ${Meteor.absoluteUrl()}`,
+      }) // Shouldn't call this, just for testing for now
   })
 
   WebApp.connectHandlers.use(app)

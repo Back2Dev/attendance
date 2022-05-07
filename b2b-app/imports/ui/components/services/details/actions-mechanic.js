@@ -73,6 +73,7 @@ function MechanicSelector() {
     <StyledMechanicSelector>
       <Button
         variant="contained"
+        data-cy="change-mechanic"
         onClick={() => showSelector()}
         disabled={loading}
         startIcon={<BuildIcon />}
@@ -84,17 +85,17 @@ function MechanicSelector() {
         open={open}
         onClose={hideSelector}
         aria-labelledby="Mechanic selector"
-        aria-describedby="Select a Mechanic"
+        aria-describedby="Select mechanic"
       >
         <StyledBoxContent elevation={3}>
           <Paper className="paper">
-            <Typography variant="h2">Select a mechanic</Typography>
+            <Typography variant="h2">Select mechanic</Typography>
             <Autocomplete
               options={mechanics}
               getOptionLabel={(option) => option.name}
               style={{ width: '100%' }}
               renderInput={(params) => (
-                <TextField {...params} label="Mechanic" variant="outlined" />
+                <TextField {...params} label="Mechanic" data-cy="mechanic-select" variant="outlined" />
               )}
               value={selected || selectedMechanic}
               onChange={(e, selected) => setSelected(selected)}
@@ -102,6 +103,7 @@ function MechanicSelector() {
             <div className="btns">
               <Button
                 variant="contained"
+                data-cy="cancel"
                 onClick={() => {
                   setSelected(null)
                   setOpen(false)
@@ -109,7 +111,7 @@ function MechanicSelector() {
               >
                 Cancel
               </Button>
-              <Button variant="contained" color="primary" onClick={onSelectMechanic}>
+              <Button variant="contained" color="primary" data-cy="select" onClick={onSelectMechanic}>
                 Select
               </Button>
             </div>

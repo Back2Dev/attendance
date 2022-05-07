@@ -4,9 +4,11 @@ import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import Collections from '/imports/api/collections/schema'
-import getCollection from '/imports/api/collections/collections.js'
+import getCollection from '/imports/api/collections/binder'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
+
+const debug = require('debug')('app:dba-context')
 
 export const CollectionContext = React.createContext()
 
@@ -24,7 +26,7 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
   )
 
   const { collection } = useTracker(() => {
-    console.log('run tracker', collectionName)
+    debug('run tracker', collectionName)
     Meteor.subscribe('name.collections', { name: collectionName })
     const c = Collections.findOne({ name: collectionName })
     return {
@@ -33,7 +35,18 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
   }, [collectionName, viewName])
 
   const theView = React.useMemo(
-    () => collection?.views?.find((item) => item.slug === viewName),
+    () => {
+      if (viewName === 'ALL_BY_SCHEMA') {
+        return null
+      }
+      const viewByName = collection?.views?.find((item) => item.slug === viewName)
+      if (viewByName) {
+        return viewByName
+      }
+      // find the view which has name Default/default
+      const defaultView = collection?.views?.find((item) => ['Default', 'default'].includes(item.slug))
+      return defaultView
+    },
     [collection, viewName]
   )
 
@@ -55,6 +68,9 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
   const rawC = React.useMemo(() => getCollection(collectionName), [collectionName])
 
   const getRows = () => {
+    if (theView === undefined) {
+      return
+    }
     Meteor.call(
       'collections.getRows',
       { collectionName, viewSlug: theView?.slug },
@@ -78,36 +94,40 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     }
 
     // build the filter
-    console.log('calling collections.getRows', collectionName, theView?.slug)
+    debug('calling collections.getRows', collectionName, theView?.slug)
     getRows()
   }, [collectionName, theView])
 
-  const updateCell = ({ rowId, column, value }) => {
-    console.log('updateCell', { rowId, column, value })
+  const updateCell = ({ rowId, column, value, cb, localOnly }) => {
+    debug('updateCell', { rowId, column, value })
 
     // call api to update data
-    Meteor.call(
-      'collections.updateCell',
-      {
-        collectionName,
-        rowId,
-        column,
-        value,
-      },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
+    if (localOnly !== true) {
+      Meteor.call(
+        'collections.updateCell',
+        {
+          collectionName,
+          rowId,
+          column,
+          value,
+        },
+        (error, result) => {
+          if (error) {
+            showError(error.message)
+            return
+          }
+          if (result?.status === 'failed') {
+            showError(result?.message)
+            typeof cb === 'function' && cb(result)
+            return
+          }
+          if (result?.status === 'success') {
+            showSuccess('Data updated')
+            typeof cb === 'function' && cb(result)
+          }
         }
-        if (result?.status === 'failed') {
-          showError(result?.message)
-          return
-        }
-        if (result?.status === 'success') {
-          showSuccess('Data updated')
-        }
-      }
-    )
+      )
+    }
     const newRows = rows.map((row) => {
       if (row._id === rowId) {
         const newRow = { ...row }
@@ -120,7 +140,7 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
   }
 
   const archive = ({ selectedIds, label }) => {
-    console.log('archive', selectedIds, label)
+    debug('archive', selectedIds, label)
     Meteor.call(
       'collections.archive',
       {

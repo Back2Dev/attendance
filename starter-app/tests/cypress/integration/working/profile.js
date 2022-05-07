@@ -12,6 +12,8 @@ Cypress.on(
     false
 )
 
+
+
 describe('Testing user profile functions', () => {
   before(function () {
     freshDatabase()
@@ -46,6 +48,8 @@ describe('Testing user profile functions', () => {
     cy.get('#next-button').should('exist').click()
     cy.get('.Toastify__toast-body').should('contain', 'Changed password')
   })
+  // This test needs S3 buckets to be set up correctly in the dev.settings.json file
+// So it will fail until that is set up
   it('it uploads an image', () => {
     cy.contains('Photo').should('exist').click()
     cy.get('[data-cy=upload-profile-pic]').should('exist').attachFile(profilePic)
@@ -64,6 +68,8 @@ describe('Testing user profile functions', () => {
     cy.get('#next-button').should('exist').click()
     cy.get('.Toastify__toast-body').should('contain', 'Changed password')
   })
+   // This test needs S3 buckets to be set up correctly in the dev.settings.json file
+// So it will fail until that is set up
   it('uploads a signature successfully', () => {
     cy.contains('Signature').should('exist').click()
     cy.get('[data-cy=signCanvas]').should('exist').click()

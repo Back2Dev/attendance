@@ -90,10 +90,7 @@ Meteor.methods({
         { memberId: item._id },
         {
           fields: {
-            make: 1,
-            model: 1,
-            color: 1,
-            bikeType: 1,
+            bikeName: 1,
             totalCost: 1,
             dropoffDate: 1,
             pickupDate: 1,
