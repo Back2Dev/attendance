@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
-import { DndDraggable, DndDroppable } from 'imports/ui/forms/survey-builder/context/dnd'
+import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useTheme } from '@material-ui/core/styles'
 // import { Box } from '@material-ui/core'
 import {
   useImageAnswers,
   useQuestion,
   useSelectedPartValue,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { Item } from './item'
-import { useBuilder } from 'imports/ui/forms/survey-builder/context'
-import { imageAnswers } from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { Question } from 'imports/ui/forms/survey-builder/components/question'
+import { useBuilder } from '/imports/ui/forms/survey-builder/context'
+import { imageAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { Question } from '/imports/ui/forms/survey-builder/components/question'
 
 export const InnerImage = ({ pid }) => {
   const { all: imageboxList, add, update, remove } = useImageAnswers(pid)

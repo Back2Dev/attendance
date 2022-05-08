@@ -9,11 +9,11 @@ import {
   useMultipleAnswers,
   useMultipleQuestion,
   useSelectedPartValue,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
-import { singleAnswers } from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { DndDraggable, DndDroppable } from 'imports/ui/forms/survey-builder/context/dnd'
-import { useBuilder } from 'imports/ui/forms/survey-builder/context'
-import { Question } from 'imports/ui/forms/survey-builder/components/question'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { singleAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
+import { useBuilder } from '/imports/ui/forms/survey-builder/context'
+import { Question } from '/imports/ui/forms/survey-builder/components/question'
 
 /** Single Choice question */
 const SingleInner = ({ pid }) => {

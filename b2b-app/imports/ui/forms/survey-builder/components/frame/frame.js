@@ -7,9 +7,9 @@ import {
   useParts,
   useSelectedPartState,
   useSetDrawer,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
-import { useBuilder } from 'imports/ui/forms/survey-builder/context/builder'
-import { DndDraggable } from 'imports/ui/forms/survey-builder/context'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { useBuilder } from '/imports/ui/forms/survey-builder/context/builder'
+import { DndDraggable } from '/imports/ui/forms/survey-builder/context'
 
 import { useTheme } from '@material-ui/styles'
 import { MobileFrame } from './mobile'

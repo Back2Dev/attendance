@@ -11,7 +11,7 @@ import { Navbar, MobileLayout, Drawer } from '../../components/layouts/mobile'
 import {
   useDrawer,
   useSelectedPartValue,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 const log = debug('builder:builder-view')
 const { Transition } = NavigationController

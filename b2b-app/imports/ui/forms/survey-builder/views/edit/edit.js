@@ -6,7 +6,7 @@ import debug from 'debug'
 
 import { Content } from './content'
 import { useParts } from '../../recoil/hooks'
-import { MobileLayout } from 'imports/ui/forms/survey-builder/components/layouts/mobile'
+import { MobileLayout } from '/imports/ui/forms/survey-builder/components/layouts/mobile'
 
 const log = debug('builder:views/edit')
 

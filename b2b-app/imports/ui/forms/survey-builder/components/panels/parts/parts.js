@@ -7,7 +7,7 @@ import debug from 'debug'
 import {
   useParts,
   useSetSelectedPart,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 const log = debug('builder:parts')
 
 const ErrorFallback = ({ error, resetErrorBoundary }) => {

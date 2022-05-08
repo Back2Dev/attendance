@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Placeholder } from './placeholder'
-import { dataCache } from 'imports/ui/forms/survey-builder/data-cache'
+import { dataCache } from '/imports/ui/forms/survey-builder/data-cache'
 
 export default {
   title: 'Survey Builder/Types/Placeholder',

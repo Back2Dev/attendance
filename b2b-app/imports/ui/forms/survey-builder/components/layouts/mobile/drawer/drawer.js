@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
 import { Box, IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import { useSetDrawer } from 'imports/ui/forms/survey-builder/recoil/hooks'
+import { useSetDrawer } from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 const useStyles = makeStyles({
   paperAnchorBottom: {

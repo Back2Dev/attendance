@@ -1,5 +1,5 @@
 import React from 'react'
-import { TypeRegistry } from 'imports/ui/forms/survey-builder/components/types/type-registry'
+import { TypeRegistry } from '/imports/ui/forms/survey-builder/components/types/type-registry'
 import { EditView } from './edit'
 import { useInitRecoil } from '../../hooks'
 import { partsAtom, singleAtom } from '../../recoil/atoms'

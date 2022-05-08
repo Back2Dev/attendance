@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSetRecoilState } from 'recoil'
-import { singleAtom } from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { useQuestion } from 'imports/ui/forms/survey-builder/recoil/hooks'
+import { singleAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { useQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { SingleInner } from './inner'
 
 export default {

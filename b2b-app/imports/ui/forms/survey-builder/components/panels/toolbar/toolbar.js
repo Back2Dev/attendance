@@ -4,8 +4,8 @@ import { Box } from '@material-ui/core'
 import debug from 'debug'
 
 import { parse } from '/imports/api/forms/engine.js'
-import { partsAtom } from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { EditorContext } from 'imports/ui/forms/framework/framework'
+import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { EditorContext } from '/imports/ui/forms/framework/framework'
 
 let log = debug('builder:toolbar')
 

@@ -4,16 +4,16 @@ import NavigationController from 'react-navigation-controller'
 import styled from 'styled-components'
 import { useSetRecoilState } from 'recoil'
 
-import { useBuilder } from 'imports/ui/forms/survey-builder/context'
-import { dataCache } from 'imports/ui/forms/survey-builder/data-cache'
+import { useBuilder } from '/imports/ui/forms/survey-builder/context'
+import { dataCache } from '/imports/ui/forms/survey-builder/data-cache'
 import { BuilderViewMobile } from './mobile'
-import { statusState } from 'imports/ui/forms/survey-builder/components/panels/toolbar'
+import { statusState } from '/imports/ui/forms/survey-builder/components/panels/toolbar'
 import { BuilderViewDesktop } from './desktop'
 /* placeholder gets imported without being used because when the module gets evaluated, it will
 register itself to the TypeRegistry. This needs to be done before it is used by the data-cache so
 that is why it's imported here. Do NOT import this from within data-cache otherwise you get cyclic
 imports which will result in Placeholder rendering errors because some of its imports will be undefined */
-import 'imports/ui/forms/survey-builder/components/types/placeholder'
+import '/imports/ui/forms/survey-builder/components/types/placeholder'
 
 const NavController = styled(NavigationController)({
   position: 'relative',

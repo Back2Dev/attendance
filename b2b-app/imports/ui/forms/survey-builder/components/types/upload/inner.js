@@ -3,8 +3,8 @@ import {
   useUploadQuestion,
   // useUploadAnswers,
   // useSelectedPartValue,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
-import { Question } from 'imports/ui/forms/survey-builder/components/question'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { Question } from '/imports/ui/forms/survey-builder/components/question'
 import { DropZone } from './item'
 // import AddIcon from '@material-ui/icons/Add'
 // import { Button } from '@material-ui/core'

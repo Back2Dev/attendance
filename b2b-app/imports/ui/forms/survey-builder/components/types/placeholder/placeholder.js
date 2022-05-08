@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Frame } from 'imports/ui/forms/survey-builder/components/frame'
-import { TypeRegistry } from 'imports/ui/forms/survey-builder/components/types/type-registry'
+import { Frame } from '/imports/ui/forms/survey-builder/components/frame'
+import { TypeRegistry } from '/imports/ui/forms/survey-builder/components/types/type-registry'
 import {
   placeholderAtom,
   placeholderSource,
-} from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { usePlaceholderValue } from 'imports/ui/forms/survey-builder/recoil/hooks'
+} from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { usePlaceholderValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 /** Just pass thru the data since we don't know how to handle this type yet */
 const mapDataToAtom = (data) => data

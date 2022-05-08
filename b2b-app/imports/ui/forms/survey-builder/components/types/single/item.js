@@ -8,7 +8,7 @@ import { IconButton, Hidden } from '@material-ui/core'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { InlineEdit } from 'imports/ui/forms/survey-builder/components/core/inline-edit'
+import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inline-edit'
 
 const log = debug('builder:item')
 

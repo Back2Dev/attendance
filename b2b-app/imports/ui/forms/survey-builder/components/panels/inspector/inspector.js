@@ -4,8 +4,8 @@ import debug from 'debug'
 import {
   useSelectedPartValue,
   usePartsValue,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
-import { list } from 'imports/ui/forms/survey-builder/utils'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { list } from '/imports/ui/forms/survey-builder/utils'
 import { EditProperty } from './edit-property'
 import { Section } from './section'
 

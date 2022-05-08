@@ -2,7 +2,7 @@ import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { useRecoilState } from 'recoil'
 import { isPlainObject } from 'lodash'
-import { editInspectorState } from 'imports/ui/forms/survey-builder/recoil/atoms'
+import { editInspectorState } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import debug from 'debug'
 import { TextField } from '@material-ui/core'
 

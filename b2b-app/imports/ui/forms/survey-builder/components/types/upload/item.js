@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo, useState, Fragment } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useRecoilState } from 'recoil'
-import { editInspectorState } from 'imports/ui/forms/survey-builder/recoil/atoms'
+import { editInspectorState } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Grid } from '@material-ui/core'
 import { SingleFileUploadWithProgress, UploadError } from './uploadStatus'
 import { useRecoilValue } from 'recoil'
-import { uploadAnswersAccept } from 'imports/ui/forms/survey-builder/recoil/atoms'
+import { uploadAnswersAccept } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Tracker } from 'meteor/tracker'
-import { useQuestion } from 'imports/ui/forms/survey-builder/recoil/hooks'
-// import { deleteFile } from 'imports/api/s3-utils'
+import { useQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks'
+// import { deleteFile } from '/imports/api/s3-utils'
 
 // const aws = require('aws-sdk')
 

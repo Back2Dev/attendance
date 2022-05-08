@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import {
   StyledItem,
   Actions,
-} from 'imports/ui/forms/survey-builder/components/types/single/item'
+} from '/imports/ui/forms/survey-builder/components/types/single/item'
 
 const Item = forwardRef(
   (

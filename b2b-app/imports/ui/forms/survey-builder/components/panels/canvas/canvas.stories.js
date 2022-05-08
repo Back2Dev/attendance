@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useParts } from 'imports/ui/forms/survey-builder/recoil/hooks'
+import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { Canvas } from './canvas'
 import { Box } from '@material-ui/core'
 

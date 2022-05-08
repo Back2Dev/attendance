@@ -6,8 +6,8 @@ import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
 import { imageAtom, imageSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
-import { Inspector } from 'imports/ui/forms/survey-builder/components/panels'
-import { useSelectedPartValue } from 'imports/ui/forms/survey-builder/recoil/hooks'
+import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
+import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 let log = debug('builder:single')
 

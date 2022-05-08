@@ -1,9 +1,9 @@
-import { useInitRecoil } from 'imports/ui/forms/survey-builder/hooks'
+import { useInitRecoil } from '/imports/ui/forms/survey-builder/hooks'
 import {
   partsAtom,
   selectedPartAtom,
   singleAtom,
-} from 'imports/ui/forms/survey-builder/recoil/atoms'
+} from '/imports/ui/forms/survey-builder/recoil/atoms'
 import React from 'react'
 import { Inspector } from './inspector'
 

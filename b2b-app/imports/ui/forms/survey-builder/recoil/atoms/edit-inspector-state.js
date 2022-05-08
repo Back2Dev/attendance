@@ -1,8 +1,8 @@
 import { selectorFamily } from 'recoil'
 import { get as lget, set as lset } from 'lodash'
 import produce from 'immer'
-import { partsAtom } from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { findById } from 'imports/ui/forms/survey-builder/utils/list'
+import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { findById } from '/imports/ui/forms/survey-builder/utils/list'
 
 /** Edit a property for a question type */
 export const editInspectorState = selectorFamily({

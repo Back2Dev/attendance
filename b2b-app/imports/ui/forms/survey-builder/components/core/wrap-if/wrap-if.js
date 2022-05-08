@@ -1,5 +1,5 @@
 import React, { cloneElement } from 'react'
-import { useBuilder } from 'imports/ui/forms/survey-builder/context'
+import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 
 const WrapIf = ({ condition, wrapTrue, wrapFalse, children }) => {
   if (condition) {

@@ -4,14 +4,14 @@ import AddIcon from '@material-ui/icons/Add'
 
 import debug from 'debug'
 
-import { Placeholder } from 'imports/ui/forms/survey-builder/components/types'
+import { Placeholder } from '/imports/ui/forms/survey-builder/components/types'
 import {
   usePartsValue,
   useSelectedPartState,
   useSetDrawer,
-} from 'imports/ui/forms/survey-builder/recoil/hooks'
-import { partsAtom } from 'imports/ui/forms/survey-builder/recoil/atoms'
-import { DndDroppable, useBuilder } from 'imports/ui/forms/survey-builder/context'
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { DndDroppable, useBuilder } from '/imports/ui/forms/survey-builder/context'
 import styled from 'styled-components'
 
 const log = debug('builder:canvas')

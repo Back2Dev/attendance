@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 import { makeStyles } from '@material-ui/core/styles'
 
-import { useRefCallback, useDidMountEffect } from 'imports/ui/forms/survey-builder/hooks'
+import { useRefCallback, useDidMountEffect } from '/imports/ui/forms/survey-builder/hooks'
 
 const useStyles = makeStyles((theme) => ({
   /* apply a wrapping root div to fix webkit browser issue where clicking outside a contenteditable

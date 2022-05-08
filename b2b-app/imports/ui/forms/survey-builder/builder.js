@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { RecoilRoot } from 'recoil'
-import { BuilderProvider, DndProvider } from 'imports/ui/forms/survey-builder/context'
+import { BuilderProvider, DndProvider } from '/imports/ui/forms/survey-builder/context'
 import { EditorContext } from '../framework/framework'
-import { RecoilDevtools } from 'imports/ui/forms/survey-builder/utils'
+import { RecoilDevtools } from '/imports/ui/forms/survey-builder/utils'
 import { BuilderView } from './views'
 
 const debug = require('debug')('app:builder')

@@ -3,9 +3,9 @@ import {
   partsAtom,
   selectedPartAtom,
   singleAtom,
-} from 'imports/ui/forms/survey-builder/recoil/atoms'
+} from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { EditProperty } from './edit-property'
-import { useInitRecoil } from 'imports/ui/forms/survey-builder/hooks'
+import { useInitRecoil } from '/imports/ui/forms/survey-builder/hooks'
 
 export default {
   title: 'Survey Builder/Panels/Inspector/Edit Property',

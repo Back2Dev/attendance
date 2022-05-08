@@ -10,15 +10,15 @@ import SimpleSchema from 'simpl-schema'
 
 import { TypeRegistry } from '../type-registry'
 
-import { Question } from 'imports/ui/forms/survey-builder/components/question'
-import { Frame } from 'imports/ui/forms/survey-builder/components/frame'
+import { Question } from '/imports/ui/forms/survey-builder/components/question'
+import { Frame } from '/imports/ui/forms/survey-builder/components/frame'
 import {
   shortAtom,
   shortSource,
-} from 'imports/ui/forms/survey-builder/recoil/atoms/short-state'
-import { useShortQuestion } from 'imports/ui/forms/survey-builder/recoil/hooks/use-short'
-import { useSelectedPartValue } from 'imports/ui/forms/survey-builder/recoil/hooks'
-import { Inspector } from 'imports/ui/forms/survey-builder/components/panels'
+} from '/imports/ui/forms/survey-builder/recoil/atoms/short-state'
+import { useShortQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks/use-short'
+import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 
 const log = debug('builder:short')
 

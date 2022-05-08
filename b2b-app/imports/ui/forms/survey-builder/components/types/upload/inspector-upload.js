@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { useRecoilState } from 'recoil'
-import { editInspectorState } from 'imports/ui/forms/survey-builder/recoil/atoms'
+import { editInspectorState } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import debug from 'debug'
 import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
 
