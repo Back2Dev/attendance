@@ -146,7 +146,7 @@ export const DropZone = ({ pid }) => {
     onDrop,
     accept: [...accept],
     maxSize: maxSize * 1024 * 1024,
-    // multiple: multiple,
+    multiple: false, //allow one file to be uploaded one time
     maxFiles,
   })
 

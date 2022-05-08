@@ -35,6 +35,7 @@ import {
   ErrorField,
   ErrorsField,
   SubmitField,
+  BoolField,
 } from 'uniforms-material'
 import { Context, useForm, useField } from 'uniforms'
 import { LinearProgressWithLabel } from '/imports/ui/utils/generic'
@@ -105,7 +106,10 @@ const Specifiers = (q) => {
     .filter((a) => a.specify)
     .map((a) => {
       const otherId = `${q.id}-${a.id}-specify`
-      const condition = q.qtype === ('single' || 'image') ? [q.id, 'equal', a.id] : [`${q.id}-${a.id}`]
+      const condition =
+        q.qtype === ('single' || 'image' || 'multiple')
+          ? [q.id, 'equal', a.id]
+          : [`${q.id}-${a.id}`]
       if (a.specifyType === 'long')
         return (
           <DisplayIf
@@ -231,7 +235,7 @@ const RenderQ = (q, ix) => {
           })}
         </div>
       )
-    case 'multi':
+    case 'multiple':
       return (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} />
@@ -240,6 +244,9 @@ const RenderQ = (q, ix) => {
             return (
               <div key={`a${key}${iy}`}>
                 <AutoField name={id} id={id} key={id} />
+
+                {/* <BoolField name={id} id={id} key={id} /> */}
+
                 <NoteIf note={a.note} field={id}></NoteIf>
               </div>
             )
@@ -262,14 +269,12 @@ const RenderQ = (q, ix) => {
         </div>
       )
 
-      case 'image':
-        return (
-          <div key={key} className="q-container">
-          <span>
-            {q.prompt}
-          </span>
-          <div style={{display:'flex'}}>
-          <AutoField  name={q.id} id={q.id}  />
+    case 'image':
+      return (
+        <div key={key} className="q-container">
+          <span>{q.prompt}</span>
+          <div style={{ display: 'flex' }}>
+            <AutoField name={q.id} id={q.id} />
           </div>
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
@@ -277,7 +282,7 @@ const RenderQ = (q, ix) => {
             return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
           })}
         </div>
-        )
+      )
     // case 'date' :
     //   return (
     //     <div key={key}>

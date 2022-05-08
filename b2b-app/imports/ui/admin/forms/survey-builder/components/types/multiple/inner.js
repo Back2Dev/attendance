@@ -5,20 +5,16 @@ import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
 
 import { Item } from './item'
-import {
-  useMultipleAnswers,
-  useMultipleQuestion,
-  useSelectedPartValue,
-} from '$sb/recoil/hooks'
-import { singleAnswers } from '$sb/recoil/atoms'
+import { useAnswers, useQuestion, useSelectedPartValue } from '$sb/recoil/hooks'
+import { multipleAnswers } from '$sb/recoil/atoms'
 import { DndDraggable, DndDroppable } from '$sb/context/dnd'
 import { useBuilder } from '$sb/context'
 import { Question } from '$sb/components/question'
 
 /** Single Choice question */
-const SingleInner = ({ pid }) => {
-  const { all, add, update, remove } = useMultipleAnswers(pid)
-  const [question, setQuestion] = useMultipleQuestion(pid)
+const MultipleInner = ({ pid }) => {
+  const { all, add, update, remove } = useAnswers(pid)
+  const [question, setQuestion] = useQuestion(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -41,7 +37,7 @@ const SingleInner = ({ pid }) => {
         label={question}
         onLabelChange={(text) => setQuestion(text)}
       />
-      <DndDroppable pid={pid} listAtom={singleAnswers(pid)} type={pid}>
+      <DndDroppable pid={pid} listAtom={multipleAnswers(pid)} type={pid}>
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
@@ -90,15 +86,15 @@ const SingleInner = ({ pid }) => {
   )
 }
 
-SingleInner.propTypes = {
+MultipleInner.propTypes = {
   /** single instance part id */
   pid: PropTypes.string.isRequired,
   /** function gets called when any choice gets updated */
   onChange: PropTypes.func,
 }
 
-SingleInner.defaultProps = {
+MultipleInner.defaultProps = {
   initialList: [''],
 }
 
-export { SingleInner }
+export { MultipleInner }

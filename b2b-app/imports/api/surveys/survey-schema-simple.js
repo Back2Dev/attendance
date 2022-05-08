@@ -7,6 +7,20 @@ import DatePicker from '/imports/ui/components/date-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
+import {
+  AutoField,
+  AutoForm,
+  LongTextField,
+  TextField,
+  RadioField,
+  ListField,
+  NumField,
+  DateField,
+  ErrorField,
+  ErrorsField,
+  SubmitField,
+  BoolField,
+} from 'uniforms-material'
 
 SimpleSchema.extendOptions(['uniforms'])
 SimpleSchema.setDefaultMessages({
@@ -217,7 +231,7 @@ const getSchemas = (survey, currentData) => {
                   }
                 })
                 break
-              case 'multi':
+              case 'multiple':
                 delete step.schema[q.id]
                 answers.forEach((a) => {
                   const id = `${q.id}-${a.id}`
@@ -270,8 +284,31 @@ const getSchemas = (survey, currentData) => {
                   })
                 // )
                 break
+              // case 'multiple':
+              //   qSchema.uniforms.checkboxes = true
+              //   qSchema.uniforms.options = answers.map((a) => {
+              //     return { label: a.name, value: a.value || a.id }
+              //   })
+              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+              //   answers
+              //     .filter((a) => a.specify)
+              //     .map((a) => {
+              //       const specifyId = `${q.id}-${a.id}-specify`
+              //       const uniforms = {}
+              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+              //       step.schema[specifyId] = {
+              //         type: Boolean,
+              //         label: a.specify,
+              //         optional,
+              //         uniforms,
+              //       }
+              //       return specifyId
+              //     })
+
+              //   break
               case 'image':
-                qSchema.uniforms.value = answers.map(a => a.val )
+                qSchema.uniforms.value = answers.map((a) => a.val)
                 qSchema.uniforms.component = ImageField
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 

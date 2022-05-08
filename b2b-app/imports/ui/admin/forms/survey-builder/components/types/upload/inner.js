@@ -1,11 +1,20 @@
 import React from 'react'
-import { useUploadQuestion } from '$sb/recoil/hooks'
+import {
+  useUploadQuestion,
+  // useUploadAnswers,
+  // useSelectedPartValue,
+} from '$sb/recoil/hooks'
 import { Question } from '$sb/components/question'
 import { DropZone } from './item'
+// import AddIcon from '@material-ui/icons/Add'
+// import { Button } from '@material-ui/core'
 
 export const InnerUpload = ({ pid }) => {
   const [question, setQuestion] = useUploadQuestion(pid)
-
+  // const selectedPart = useSelectedPartValue()
+  // const { add } = useUploadAnswers(pid)
+  // const { isMobile } = useBuilder()
+  // const showMobileActions = isMobile && selectedPart === pid
   return (
     <div>
       <Question
@@ -15,6 +24,17 @@ export const InnerUpload = ({ pid }) => {
       />
 
       <DropZone pid={pid} />
+      {/* {showMobileActions && (
+        <Button
+          variant="outlined"
+          color="default"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={() => add()}
+        >
+          New item
+        </Button>
+      )} */}
     </div>
   )
 }

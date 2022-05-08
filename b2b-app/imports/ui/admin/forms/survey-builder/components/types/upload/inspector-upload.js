@@ -3,55 +3,9 @@ import PropTypes from 'prop-types'
 import { useRecoilState } from 'recoil'
 import { editInspectorState } from '$sb/recoil/atoms'
 import debug from 'debug'
-import {
-  Checkbox,
-  FormGroup,
-  TextField,
-  Box,
-  FormLabel,
-  FormControl,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-} from '@material-ui/core'
-import SimpleSchema from 'simpl-schema'
-import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, SelectField, BoolField, AutoField } from 'uniforms-material'
+import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
 
 const log = debug('builder:edit-upload-property')
-
-// const uploadSchema = new SimpleSchema({
-//   multiple: {
-//     type: Boolean,
-//     defaultValue: false,
-//     uniforms: {
-//       label:"Multiple Files",
-//       component: BoolField,
-//       appearance:"Toggle"
-
-//     },
-
-//   },
-//   maxSize: {
-//     type: SimpleSchema.Integer,
-//     min:0
-//   },
-//   accept: {
-//     type: Array,
-
-//   },
-//   "accept.$":{
-//     type: String,
-//     allowedValues: ['.pdf', "image/*", '.txt', 'video/*'],
-//   },
-//   optional: {
-//     type: Boolean,
-//     defaultValue: false
-//   },
-
-// })
-
-// const schema2Bridge = new SimpleSchema2Bridge(uploadSchema)
 
 const initialProperty = {
   maxFiles: 1,
@@ -75,40 +29,16 @@ const EditProperty = ({ pid, path }) => {
     setProperty(value)
   }
 
-  // const onSubmit = (v) => {
-  //   console.log(v)
-  // }
-
   return (
-    //   <AutoForm
-    //   schema={schema2Bridge}
-    //   // model={item}
-    //   onSubmit={onSubmit}
-    //   // autoField={CustomAutoField}
-    // />
-
-    <Box component="form" style={{ padding: '25px' }} noValidate autoComplete="off">
+    <>
       {property && (
         <Fragment>
-          {/* <FormControl>
-        <FormLabel id="multiple">File Type</FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby="multiple"
-          name="controlled-radio-buttons-group"
-          value={property.multiple}
-          onChange={(e)=>
-            onChange({...property, multiple: e.target.value})}
-        >
-          <FormControlLabel value={"false"} control={<Radio />} label="Single" />
-          <FormControlLabel value={"true"} control={<Radio />} label="Multiple" />
-        </RadioGroup>
-      </FormControl> */}
-
           <TextField
             id="maxFiles"
             label="MaxFiles"
             type="number"
+            variant="outlined"
+            style={{ marginBottom: '0.5em', marginTop: '0.5rem' }}
             value={property?.maxFiles}
             onChange={(e) => onChange({ ...property, maxFiles: e.target.value })}
           />
@@ -117,6 +47,8 @@ const EditProperty = ({ pid, path }) => {
             id="MaxSize"
             label="MaxSize"
             type="number"
+            variant="outlined"
+            style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
             value={property?.maxSize}
             onChange={(e) => onChange({ ...property, maxSize: e.target.value })}
           />
@@ -181,7 +113,7 @@ const EditProperty = ({ pid, path }) => {
           </FormGroup>
         </Fragment>
       )}
-    </Box>
+    </>
   )
 }
 

@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { InnerUpload } from './inner'
+
+import { MultipleInner } from './inner'
 import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
-import { uploadAtom, uploadSource } from '../../../recoil/atoms'
+import { multipleAtom, multipleSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '$sb/components/panels'
-import { EditProperty } from './inspector-upload'
 import { useSelectedPartValue } from '$sb/recoil/hooks'
 
-let log = debug('builder:upload')
+let log = debug('builder:multiple')
 
 const schema = new SimpleSchema({
   id: String,
@@ -36,16 +36,16 @@ const mapDataToAtom = (data) => {
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    throw new Error('Invalid mapping from data to single state')
+    throw new Error('Invalid mapping from data to multiple state')
   }
 
   return state
 }
 
-const Upload = ({ pid, index }) => {
+const Multiple = ({ pid, index }) => {
   return (
     <Frame pid={pid} index={index}>
-      <InnerUpload pid={pid} />
+      <MultipleInner pid={pid} />
     </Frame>
   )
 }
@@ -60,29 +60,29 @@ const InspectorProperties = () => {
   return (
     <div>
       <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
-      <Inspector.Section heading="File">
-        <EditProperty pid={selectedPart} path="val" relabel={relabelAnswers} />
+      <Inspector.Section heading="Answers">
+        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
     </div>
   )
 }
 
-Upload.displayName = 'Upload'
+Multiple.displayName = 'Multiple'
 
-Upload.propTypes = {
-  /** id for this Single instance part */
+Multiple.propTypes = {
+  /** id for this Multiple instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Upload }
+export { Multiple }
 
 TypeRegistry.register(
-  'upload',
-  Upload,
-  uploadSource,
+  'multiple',
+  Multiple,
+  multipleSource,
   mapDataToAtom,
-  uploadAtom,
+  multipleAtom,
   InspectorProperties
 )
