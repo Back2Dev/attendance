@@ -1,5 +1,7 @@
 import PdfMaker from '/imports/ui/utils/pdf-maker.js'
 import moment from 'moment'
+import numeral from 'numeral'
+import CONSTANTS from '/imports/api/constants'
 
 const capitalize = function (str) {
   if (!str) return
@@ -15,20 +17,31 @@ const capitalize = function (str) {
  * @param {Object} param0
  * @param {Object[]} param0.serviceItems
  */
-const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
+const createJobCard = ({
+  serviceType,
+  serviceItems,
+  bikeDetails,
+  contactData,
+  assessor,
+  jobNo,
+}) => {
   const totalCost = serviceItems.reduce((a, b) => {
     return a + b.price
   }, 0)
 
   const serviceItemNames = serviceItems.map((item) => {
+    const itemPrice = item.price / 100 // price in dolar 
     return [
       {
         text: item.name,
-        align: 'right',
-        colSpan: 3,
+        alignment: 'left',
+        colSpan: 2,
       },
       {},
-      {},
+      {
+        text: `$${numeral(itemPrice).format('0.00')}`,
+        alignment: 'right',
+      },
       {
         image: item.code ? item.code : 'O',
         width: 60,
@@ -38,7 +51,10 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
     ]
   })
 
-  const pickupDate = moment(bikeDetails.pickup).format('DD MMM YYYY')
+  const pickupDate = moment(bikeDetails.pickupDate).format('DD MMM YYYY')
+  const dropoffDate = moment(bikeDetails.dropoffDate).format('DD MMM YYYY')
+
+  console.log({ bikeDetails })
 
   PdfMaker({
     contents: [
@@ -48,15 +64,28 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
         fontSize: 20,
       },
       {
-        text: `Owner:   ${capitalize(
+        text: `Owner: ${capitalize(
           contactData.memberData?.name || 'Refurbish'
         )}     email: ${contactData.memberData?.email || 'N/A'}     Ph: ${
           contactData.memberData?.mobile || 'N/A'
-        }`,
+        }${bikeDetails.budget ? `     Budget: $${bikeDetails.budget}` : ''}`,
+        style: 'text',
       },
-
-      // { text: `Assessor: ${assessor} `, style: 'text' },
-      { text: `Pickup Date: ${pickupDate} `, style: 'text', bold: true },
+      bikeDetails.replacementBike
+        ? {
+            text: `Replacement bike: ${bikeDetails.replacementBike} `,
+            style: 'text',
+            bold: true,
+          }
+        : {},
+      {
+        text: `Service type: ${CONSTANTS.SERVICE_TYPES[serviceType] || 'N/A'}`,
+        style: 'text',
+        bold: false,
+      },
+      { text: `Drop off date: ${dropoffDate} `, style: 'text', bold: true },
+      { text: `Pick up date: ${pickupDate} `, style: 'text', bold: true },
+      { text: `Job ID: ${jobNo}, Assessor: ${assessor} `, style: 'text', bold: false },
       { text: '', style: 'text' },
 
       {
@@ -88,17 +117,6 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
               {},
             ],
             [
-              {
-                text: 'Other Items',
-                style: 'tableHeader',
-                alignment: 'center',
-                colSpan: 3,
-              },
-              {},
-              {},
-              { text: 'Done?', alignment: 'center' },
-            ],
-            [
               { text: '', style: 'tableHeader', colSpan: 3, alignment: 'center' },
               {},
               {},
@@ -116,14 +134,13 @@ const createJobCard = ({ serviceItems, bikeDetails, contactData }) => {
                 text: 'Notes',
                 style: 'tableHeader',
                 colSpan: 4,
-                rowSpan: 4,
                 alignment: 'center',
               },
               {},
               {},
               {},
             ],
-            [{ text: '', colSpan: 4 }, '', '', ''],
+            [{ text: bikeDetails.note || '', colSpan: 4, rowSpan: 3 }, {}, {}, {}],
             [{ text: '', colSpan: 4 }, '', '', ''],
             [{ text: '', colSpan: 4 }, '', '', ''],
           ],

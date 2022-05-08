@@ -117,9 +117,8 @@ const StyledContactStep = styled.div`
 
 const memberFormSchema = new SimpleSchema({
   name: String,
-  mobile: { type: String, optional: true },
+  mobile: { type: String, optional: false },
   email: { type: String, optional: true },
-  address: { type: String, optional: true },
 })
 memberFormSchema.addDocValidator((obj) => {
   // console.log('doc validator', obj)
@@ -154,17 +153,21 @@ function contactStepReducer(state, action) {
       return payload === true
         ? {
             ...state,
-            showNewMemberForm: payload,
+            showNewMemberForm: true,
             refurbish: false,
+            memberData: {
+              name: state.keyword || '',
+              mobile: '',
+              email: '',
+            },
           }
         : {
-            name: '',
-            mobile: '',
-            email: '',
-            address: '',
+            ...state,
+            showNewMemberForm: false,
+            memberData: {},
           }
     case 'setSearching':
-      return { ...state, searching: payload }
+      return { ...state, searching: payload.searching, keyword: payload.keyword }
     case 'setMembers':
       return {
         ...state,
@@ -221,13 +224,8 @@ function ContactStep() {
     memberData: {},
   })
 
-  const {
-    setStepData,
-    activeStep,
-    createJob,
-    setStepProperty,
-    originalData,
-  } = useContext(ServiceContext)
+  const { setStepData, activeStep, createJob, setStepProperty, originalData, goBack } =
+    useContext(ServiceContext)
   const checkTimeout = useRef(null)
   const formRef = useRef()
 
@@ -269,7 +267,6 @@ function ContactStep() {
             name: originalData.name || '',
             mobile: originalData.phone || '',
             email: originalData.email || '',
-            address: originalData.address || '',
           },
         })
         dispatch({ type: 'setHasValidData', payload: true })
@@ -321,14 +318,14 @@ function ContactStep() {
         dispatch({ type: 'clear' })
         return
       }
-      dispatch({ type: 'setSearching', payload: true })
+      dispatch({ type: 'setSearching', payload: { searching: true, keyword } })
       Meteor.call('members.search', { keyword }, (error, result) => {
         if (!mounted.current) {
           return
         }
         if (error) {
           showError(error.message)
-          dispatch({ type: 'setSearching', payload: false })
+          dispatch({ type: 'setSearching', payload: { searching: false, keyword } })
           return
         }
         if (result) {
@@ -414,19 +411,17 @@ function ContactStep() {
     }
     return (
       <div className="history-container">
-        <div className="history-title">Member's services history</div>
+        <div className="history-title">Service history</div>
         {selectedMember.history?.map((item) => {
           return (
             <div key={item._id} className="history-item">
               <div className="item-date">
-                <Link component={RouterLink} to={`services/${item._id}`}>
+                <Link component={RouterLink} to={`../services/${item._id}`}>
                   {moment(item.createdAt).format('DD MMM YYYY')}
                 </Link>
               </div>
               <div className="item-data">
-                <div className="data bike-info">
-                  {item.color} {item.make} {item.model},
-                </div>
+                <div className="data bike-info">{item.bikeName},</div>
                 <div className="data cost">
                   Cost: ${numeral(item.totalCost / 100).format('0,0')},
                 </div>
@@ -449,7 +444,7 @@ function ContactStep() {
     return (
       <div className="form-container">
         <div className="form-title">
-          {showNewMemberForm ? 'New member' : 'Selected member'}
+          {showNewMemberForm ? 'New customer' : 'Selected customer'}
         </div>
         <AutoForm
           ref={formRef}
@@ -465,15 +460,22 @@ function ContactStep() {
           <AutoField name="name" variant="outlined" />
           <AutoField name="mobile" variant="outlined" />
           <AutoField name="email" variant="outlined" />
-          <AutoField name="address" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
+            <Button
+              data-cy="back"
+              onClick={() => {
+                goBack()
+              }}
+            >
+              Back
+            </Button>
             <Button
               onClick={() => {
                 dispatch({ type: 'cancelForm' })
               }}
             >
-              Cancel
+              Clear
             </Button>
             <Button
               variant="contained"
@@ -481,6 +483,7 @@ function ContactStep() {
               onClick={() => {
                 formRef.current.submit()
               }}
+              data-cy="submit"
               disabled={!hasValidData}
             >
               Submit
@@ -498,8 +501,17 @@ function ContactStep() {
     return (
       <div className="btns-container">
         <Button
+          data-cy="back"
+          onClick={() => {
+            goBack()
+          }}
+        >
+          Back
+        </Button>
+        <Button
           variant="contained"
           color="primary"
+          data-cy="submit"
           onClick={() => {
             handleSubmit()
           }}
@@ -513,17 +525,19 @@ function ContactStep() {
   return (
     <StyledContactStep>
       <div className={classes.join(' ')}>
-        <div className="decision-marking-container">
+        <div className="decision-marking-container" data-cy="customer-search">
           <SearchBox
             ref={searchBoxRef}
             className="member-search-box"
+         
             variant="outlined"
             defaultValue={memberData?.name}
             onChange={(value) => searchMember(value)}
-            placeholder="search existing member"
+            placeholder="search for customer"
             autoTrigger
-            disabled={refurbish || showNewMemberForm}
+            disabled={refurbish || showNewMemberForm || !!selectedMember}
           />
+
           <Button
             className="refurbish-btn"
             variant="contained"
@@ -531,7 +545,7 @@ function ContactStep() {
             onClick={() => {
               dispatch({ type: 'setRefurbish', payload: !refurbish })
             }}
-            disabled={showNewMemberForm}
+            disabled={showNewMemberForm || selectedMember}
           >
             Refurbish
           </Button>
@@ -542,7 +556,7 @@ function ContactStep() {
             onClick={() => {
               dispatch({ type: 'setShowNewMemberForm', payload: true })
             }}
-            disabled={refurbish}
+            disabled={refurbish || selectedMember}
           >
             <PersonAddIcon />
           </Button>

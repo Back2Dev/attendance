@@ -21,6 +21,11 @@ const bikeFormSchema = new SimpleSchema({
     label: 'Budget',
     optional: true,
   },
+  replacementBike: {
+    type: String,
+    optional: true,
+    label: 'Replacement bike (make/model/colour)',
+  },
   note: {
     type: String,
     optional: true,
@@ -223,19 +228,21 @@ function BikeStep({ initialData }) {
             type="date"
           />
           <AutoField name="budget" variant="outlined" />
+          <AutoField name="replacementBike" variant="outlined" />
           <AutoField name="note" variant="outlined" />
           <ErrorsField />
           <div className="btns-container">
-            <Button onClick={goBack}>Back</Button>
+            <Button     data-cy="bike-back" onClick={goBack}>Back</Button>
             <Button
               variant="contained"
               color="primary"
+              data-cy="next"
               onClick={() => {
                 autoValidate.current = true
                 formRef.current.submit()
               }}
             >
-              Submit
+              Next
             </Button>
           </div>
         </AutoForm>

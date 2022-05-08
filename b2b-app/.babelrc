@@ -16,7 +16,7 @@
       {
         "root": ["./"],
         "alias": {
-          "$sb": "./imports/ui/admin/forms/survey-builder"
+          "$sb": "./imports/ui/forms/survey-builder"
         }
       }
     ]

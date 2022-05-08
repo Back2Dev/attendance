@@ -1,9 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import createBreakpoints from '@material-ui/core/styles/createBreakpoints'
 
 const breakpoints = createBreakpoints({})
 
-export default createMuiTheme({
+export default createTheme({
   typography: {
     htmlFontSize: 16,
     fontSize: 14,

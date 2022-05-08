@@ -47,7 +47,7 @@ Meteor.startup(function () {
     const p = Profiles.findOne({ userId: user._id })
     if (!p) {
       let name = user.username
-      let nickname = user.name.split(' ')[0] || 'Hey you'
+      let nickname = user.name?.split(' ')[0] || 'Hey you'
       const matches = user.username?.match(/^(\w+?)\.(\w+?)@/)
       if (matches) {
         nickname = uc1(matches[1])

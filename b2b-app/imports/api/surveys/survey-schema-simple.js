@@ -57,10 +57,10 @@ export const evaluate = (formData, context, condition) => {
 
   // debug({ section, field, op, lhs, model })
   const value = model[field]
-  if (['equal', 'eq'].includes(op)) return value === rhs
-  if (['not equal', 'ne'].includes(op)) return value !== rhs
-  if (['falsy'].includes(op)) return !value
-  if (['contains'].includes(op)) return value && value.includes(rhs)
+  if (['equal', 'eq', '='].includes(op)) return value === rhs
+  if (['not equal', 'ne', '!='].includes(op)) return value !== rhs
+  if (['falsy', '!'].includes(op)) return !value
+  if (['contains', 'contain'].includes(op)) return value && value.includes(rhs)
   if (['truthy'].includes(op)) return !!value
 
   return false
@@ -140,7 +140,8 @@ const getSchemas = (survey, currentData) => {
         step.schema = {}
         step.visible = true
         if (!evaluate(currentData, { model: {} }, step.condition)) step.visible = false
-        else if (!step.questions) console.error(`Step ${ix} ${step.id} has no questions`)
+        else if (!step.questions)
+          console.error(`Section ${ix} ${step.id} has no questions`)
         else {
           step.questions.forEach((q) => {
             step.schema[q.id] = {
@@ -363,9 +364,11 @@ const getSchemas = (survey, currentData) => {
               // Need a better way to handle this
               default:
                 delete step.schema[q.id]
-                q.type = 'paragraph'
-                q.prompt = `Unknown question type for "${q.prompt}"`
-                console.log(`Unsupported question type: [${q.type}]`)
+                q.prompt = `Unknown question type (${q.qtype}) for "${q.prompt}"`
+                console.log(`Unsupported question type: [${q.qtype}]`)
+                // Setting qtype to paragraph stops it trying to render a question
+                q.qtype = 'paragraph'
+              // q.type = 'paragraph'
             }
           })
         }

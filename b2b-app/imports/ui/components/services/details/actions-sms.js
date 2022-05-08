@@ -31,10 +31,14 @@ const StyledBoxContent = styled.div`
 `
 
 function SendSMS() {
-  const { item, sendSMS } = useContext(JobsDetailsContext)
+  const { item, sendSMS, payUrl } = useContext(JobsDetailsContext)
+
+  const cost = item?.totalCost / 100
 
   const [open, setOpen] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(
+    `Hi ${item?.name}, Your bike is ready for pickup. Cost is $${cost}. Please pay at ${payUrl} (from workshop at Back2bikes)`
+  )
 
   const showForm = () => {
     setOpen(true)
@@ -56,7 +60,7 @@ function SendSMS() {
 
   return (
     <StyledSendSMS>
-      <Button variant="contained" onClick={showForm} startIcon={<SmsIcon />}>
+      <Button variant="contained" data-cy="send-sms" onClick={showForm} startIcon={<SmsIcon />}>
         SMS
       </Button>
 
@@ -78,9 +82,10 @@ function SendSMS() {
             <div className="btns">
               <Button
                 variant="contained"
+                data-cy="cancel-sms"
                 onClick={() => {
-                  setMessage('')
                   setOpen(false)
+                  setMessage('')
                 }}
               >
                 Cancel
@@ -88,6 +93,7 @@ function SendSMS() {
               <Button
                 variant="contained"
                 color="primary"
+                data-cy="submit-sms"
                 onClick={onSubmit}
                 disabled={!message}
               >

@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import config from './config'
 
-const debug = require('debug')('se:edit')
+const debug = require('debug')('app:edit')
 
 const useStyles = makeStyles({
   table: {

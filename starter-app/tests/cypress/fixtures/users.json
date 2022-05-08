@@ -15,20 +15,6 @@
     "password": "me2",
     "phone": "461234567"
   },
-  "conveyancer": {
-    "name": "Constantine Veya",
-    "nickname": "Connie",
-    "username": "Constantine.Veya@test.com",
-    "password": "me2",
-    "phone": "461234567"
-  },
-  "existingCustomer": {
-    "name": "Cathy Customer",
-    "nickname": "Testie",
-    "username": "cathy.customer@mydomain.com.au",
-    "password": "me2",
-    "phone": "0461234567"
-  },
   "newCustomer": {
     "name": "Terry Nova",
     "nickname": "Tez",
@@ -36,24 +22,10 @@
     "password": "me2",
     "phone": "0461234567"
   },
-  "pm": {
+  "mgr": {
     "name": "Geronimo",
     "nickname": "The one who yawns",
     "username": "geronimo.yawns@test.com",
-    "password": "me2",
-    "phone": "461234567"
-  },
-  "mirella": {
-    "name": "Mirella Rice",
-    "nickname": "Mirella",
-    "username": "mirella.rice@mydomain.com.au",
-    "password": "me2",
-    "phone": "461234567"
-  },
-  "agent": {
-    "name": "Agent Orange",
-    "nickname": "Carrot-top",
-    "username": "Agent.Orange@test.com",
     "password": "me2",
     "phone": "461234567"
   }

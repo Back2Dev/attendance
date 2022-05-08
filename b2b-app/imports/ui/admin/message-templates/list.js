@@ -9,7 +9,7 @@ import { TabAppbar } from '/imports/ui/utils/generic'
 const debug = require('debug')('app:add')
 
 const idField = '_id'
-const FILTER_NAME = 'se:message-templates:filter'
+const FILTER_NAME = 'app:message-templates:filter'
 
 const List = ({ items, methods, columns, defaultObject, loading }) => {
   const [rowsSelected, setRowsSelected] = React.useState([])
@@ -41,7 +41,7 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
       filter: true,
       columns: true,
     },
-    persistenceID: 'se:message-templates',
+    persistenceID: 'app:message-templates',
     rowSelected: function (row) {
       rowsSelected.push(row._row.data[idField])
       setRowsSelected(rowsSelected)

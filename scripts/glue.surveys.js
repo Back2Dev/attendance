@@ -1,7 +1,7 @@
 const simpleDDP = require('simpleddp')
 const ws = require('isomorphic-ws')
 const fs = require('fs')
-const debug = require('debug')('se:glue-surveys')
+const debug = require('debug')('app:glue-surveys')
 // the "opts" object will contain all the command line parameters and options
 // So the first parameter will be in the opts._ array, eg the first one will be in opts._[0]
 // eg if run with --debug, then opts.debug will be true

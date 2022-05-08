@@ -13,9 +13,16 @@ describe('switch user roles', () => {
   before(function () {
     freshDatabase()
   })
+  
+  afterEach(function () {
+    if (this.currentTest.state === 'failed') {
+      Cypress.runner.stop()
+    }
+  })
 
   it('goes to the profile and swtiches roles', () => {
-    cy.loginFromHomepage(users.admin.username, users.admin.password)
+    cy.get('#login-nav-item').should('exist').click()
+    cy.loginFromHomepage(users.mgr.username,users.mgr.password)
     cy.get('a[href = "/properties"]').should('exist')
     cy.get('[data-cy="welcome"]').should('exist')
     cy.get(
@@ -26,5 +33,15 @@ describe('switch user roles', () => {
     )
     cy.get('[data-cy=a-tag-profile]').click()
     cy.get('[data-cy=user-account]').should('exist')
+    cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root').should('exist').click()
+    cy.get('[data-cy=switch-role]').click()
+
+    cy.get("[value=ADM]").last().click()
+   
+    
+    cy.get('[data-cy=primary-search-account-menu] > .MuiIconButton-label > .MuiAvatar-root').should('exist').click()
+
+    cy.get("[value=MGR]").last().click()
+   
   })
 })

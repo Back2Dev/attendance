@@ -5,7 +5,8 @@ import things from './fixtures-things.json'
 import Members from '/imports/api/members/schema'
 import Messages from '/imports/api/messages/schema'
 import { Notifications, NotificationItems } from '/imports/api/notifications/schema'
-
+import Jobs from '/imports/api/jobs/schema'
+import Events from '/imports/api/events/schema'
 const debug = require('debug')('app:fixtures')
 
 // Get the database definition for the target tables
@@ -81,7 +82,7 @@ Meteor.methods({
     Meteor.users.find({}).forEach((user) => {
       const p = Members.findOne({ userId: user._id })
       if (!p) {
-        let name = user.name
+        let name = user.name || user.username
         let nickname
         const matches = name?.match(/^(\w+?)\s+(\w+?)@/)
         if (matches) {
@@ -112,9 +113,11 @@ Meteor.methods({
   },
   resetCollections() {
     // Meteor.users.remove({})
-    // Members.remove({})
+     Members.remove({})
+    Jobs.remove({})
     Messages.remove({})
     Notifications.remove({})
     NotificationItems.remove({})
+    Events.remove({})
   },
 })

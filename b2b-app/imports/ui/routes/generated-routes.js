@@ -20,7 +20,7 @@ const Tools = lazy(() => import('/imports/ui/admin/tools'))
 const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs'))
-const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Forms = lazy(() => import('/imports/ui/forms'))
 const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 const Collections = lazy(() => import('/imports/ui/admin/collections'))
 

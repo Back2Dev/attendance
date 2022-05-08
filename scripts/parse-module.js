@@ -4,7 +4,7 @@
 //
 const cc = require('change-case')
 
-const debug = require('debug')('se:parser')
+const debug = require('debug')('app:parser')
 
 const when = new Date()
 let errs = []
