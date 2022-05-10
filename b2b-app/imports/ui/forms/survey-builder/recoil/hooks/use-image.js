@@ -2,7 +2,7 @@ import { useRecoilState } from 'recoil'
 import { list } from '../../utils'
 import { defaultAnswer, imageAnswers, imageQuestion } from '../atoms'
 
-export const useQuestion = (pid) => {
+export const useImageQuestion = (pid) => {
   const state = useRecoilState(imageQuestion(pid))
   return state
 }

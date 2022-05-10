@@ -7,7 +7,7 @@ import { SingleFileUploadWithProgress, UploadError } from './uploadStatus'
 import { useRecoilValue } from 'recoil'
 import { uploadAnswersAccept } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Tracker } from 'meteor/tracker'
-import { useQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { useUploadQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks'
 // import { deleteFile } from '/imports/api/s3-utils'
 
 // const aws = require('aws-sdk')
@@ -65,7 +65,7 @@ export const DropZone = ({ pid }) => {
   )
   const { accept, maxFiles, maxSize } = useRecoilValue(uploadAnswersAccept(pid))
   const [files, setFiles] = useState([])
-  const [question] = useQuestion(pid)
+  const [question] = useUploadQuestion(pid)
 
   const uploader = new Slingshot.Upload('uploadQuestionType', { folder: question })
 

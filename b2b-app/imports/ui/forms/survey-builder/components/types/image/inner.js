@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useTheme } from '@material-ui/core/styles'
 // import { Box } from '@material-ui/core'
 import {
   useImageAnswers,
-  useQuestion,
+  useImageQuestion,
   useSelectedPartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { Item } from './item'
@@ -15,7 +15,7 @@ import { Question } from '/imports/ui/forms/survey-builder/components/question'
 export const InnerImage = ({ pid }) => {
   const { all: imageboxList, add, update, remove } = useImageAnswers(pid)
   const theme = useTheme()
-  const [question, setQuestion] = useQuestion(pid)
+  const [question, setQuestion] = useImageQuestion(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
 
