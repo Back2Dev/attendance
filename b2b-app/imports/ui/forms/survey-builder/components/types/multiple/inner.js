@@ -5,7 +5,11 @@ import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
 
 import { Item } from './item'
-import { useAnswers, useQuestion, useSelectedPartValue } from '$sb/recoil/hooks'
+import {
+  useMultipleAnswers,
+  useMultipleQuestion,
+  useSelectedPartValue,
+} from '$sb/recoil/hooks'
 import { multipleAnswers } from '$sb/recoil/atoms'
 import { DndDraggable, DndDroppable } from '$sb/context/dnd'
 import { useBuilder } from '$sb/context'
@@ -13,8 +17,8 @@ import { Question } from '$sb/components/question'
 
 /** Single Choice question */
 const MultipleInner = ({ pid }) => {
-  const { all, add, update, remove } = useAnswers(pid)
-  const [question, setQuestion] = useQuestion(pid)
+  const { all, add, update, remove } = useMultipleAnswers(pid)
+  const [question, setQuestion] = useMultipleQuestion(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()

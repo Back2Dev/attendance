@@ -6,8 +6,8 @@ import { useTheme } from '@material-ui/core/styles'
 
 import { Item } from './item'
 import {
-  useMultipleAnswers,
-  useMultipleQuestion,
+  useAnswers,
+  useQuestion,
   useSelectedPartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { singleAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
@@ -17,8 +17,8 @@ import { Question } from '/imports/ui/forms/survey-builder/components/question'
 
 /** Single Choice question */
 const SingleInner = ({ pid }) => {
-  const { all, add, update, remove } = useMultipleAnswers(pid)
-  const [question, setQuestion] = useMultipleQuestion(pid)
+  const { all, add, update, remove } = useAnswers(pid)
+  const [question, setQuestion] = useQuestion(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()

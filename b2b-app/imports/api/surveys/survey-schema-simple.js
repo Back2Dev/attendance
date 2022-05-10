@@ -7,20 +7,6 @@ import DatePicker from '/imports/ui/components/date-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
-import {
-  AutoField,
-  AutoForm,
-  LongTextField,
-  TextField,
-  RadioField,
-  ListField,
-  NumField,
-  DateField,
-  ErrorField,
-  ErrorsField,
-  SubmitField,
-  BoolField,
-} from 'uniforms-material'
 
 SimpleSchema.extendOptions(['uniforms'])
 SimpleSchema.setDefaultMessages({

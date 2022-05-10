@@ -245,8 +245,6 @@ const RenderQ = (q, ix) => {
               <div key={`a${key}${iy}`}>
                 <AutoField name={id} id={id} key={id} />
 
-                {/* <BoolField name={id} id={id} key={id} /> */}
-
                 <NoteIf note={a.note} field={id}></NoteIf>
               </div>
             )
