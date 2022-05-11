@@ -45,7 +45,12 @@ export const InnerImage = ({ pid }) => {
             ref={provided.innerRef}
           >
             {imageboxList.map((item, index) => (
-              <DndDraggable pid={pid} key={item.id} itemId={item.id} index={index}>
+              <DndDraggable
+                pid={pid}
+                key={item.id || item._id}
+                itemId={item.id || item._id}
+                index={index}
+              >
                 {(provided, snapshot, lockAxis) => (
                   <Item
                     {...provided.draggableProps}
