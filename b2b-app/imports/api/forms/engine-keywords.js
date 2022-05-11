@@ -5,6 +5,6 @@ const keywords = {
   step: 'id type'.split(/[\s,]+/),
   section: 'id type'.split(/[\s,]+/),
   grid: 'id type'.split(/[\s,]+/),
-  answer: 'id type specify specifyType placeholder regex note'.split(/[\s,]+/),
+  answer: 'id type specify specifyType placeholder optional regex note'.split(/[\s,]+/),
 }
 export default keywords

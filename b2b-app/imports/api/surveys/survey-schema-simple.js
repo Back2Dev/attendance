@@ -33,7 +33,7 @@ const checkVolume = function () {
 
 export const evaluate = (formData, context, condition) => {
   if (!Array.isArray(condition)) return true
-  debug(`Evaluate ${condition?.join()}`, formData, context)
+  debug(`Evaluate ${condition?.join()}`, { formData, context })
   if (!condition) return true
   const [lhs, op = 'truthy', rhs] = condition
   const [section, field = lhs] = lhs.split(/[\/\.]/)
@@ -63,7 +63,7 @@ const getOptionalFunc = (q, uniforms, optional) => {
       //   this.validationContext?._schema
       // )
       return !evaluate(
-        {},
+        this.obj,
         this.obj,
         this.validationContext?._schema[this.key].uniforms.condition
       )
