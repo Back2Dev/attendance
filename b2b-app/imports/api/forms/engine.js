@@ -3,7 +3,7 @@ import keywords from './engine-keywords'
 
 const debug = require('debug')('app:forms:engine')
 
-const validQtypes = 'multi single grid text array paragraph signature'.split(/\s+/)
+const validQtypes = 'multiple single grid text array paragraph signature'.split(/\s+/)
 let survey = { sections: [] }
 let currentStep
 let currentQ
