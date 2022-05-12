@@ -48,7 +48,7 @@ import { accessByPath } from '/imports/api/util'
 import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
-import Signature from '/imports/ui/components/forms/signature-field'
+import Signature from '/imports/ui/components/signature'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -317,8 +317,8 @@ const RenderQ = (q, ix) => {
     case 'signature':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} />
-          <Signature name={q.id} id={q.id} />
+          {/* <Prompt text={q.prompt} tooltip={q.tooltip} /> */}
+          <Signature title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>

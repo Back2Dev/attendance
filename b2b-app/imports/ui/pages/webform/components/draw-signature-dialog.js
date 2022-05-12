@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Signature from '/imports/ui/components/signature.js'
+import Signature from '/imports/ui/components/signature'
 
 const SignatureDialog = ({ open, handleClose, submitSignature }) => {
   const [disabled, setDisabled] = useState(true)
