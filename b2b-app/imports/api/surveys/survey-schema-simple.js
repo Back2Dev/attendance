@@ -331,6 +331,9 @@ const getSchemas = (survey, currentData) => {
               case 'paragraph':
                 delete step.schema[q.id]
                 break
+              case 'signature':
+                // delete step.schema[q.id]
+                break
               case 'upload':
                 delete step.schema[q.id]
                 break
