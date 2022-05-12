@@ -67,6 +67,8 @@ const MultipleInner = ({ pid }) => {
                     onTextChange={(name) => update({ ...c, name }, i)}
                     text={c.name}
                     showMobileActions={showMobileActions}
+                    pid={pid}
+                    index={i}
                   />
                 )}
               </DndDraggable>

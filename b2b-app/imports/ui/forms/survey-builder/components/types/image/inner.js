@@ -65,6 +65,7 @@ export const InnerImage = ({ pid }) => {
                     disableRemove={imageboxList.length === 1}
                     showMobileActions={showMobileActions}
                     val={item.val}
+                    question={question}
                   />
                 )}
               </DndDraggable>

@@ -8,7 +8,7 @@ import SimpleSchema from 'simpl-schema'
 import { multipleAtom, multipleSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '$sb/components/panels'
-import { useSelectedPartValue } from '$sb/recoil/hooks'
+import { useSelectedPartValue, useMultipleAnswers } from '$sb/recoil/hooks'
 
 let log = debug('builder:multiple')
 
@@ -43,8 +43,9 @@ const mapDataToAtom = (data) => {
 }
 
 const Multiple = ({ pid, index }) => {
+  const { all, add } = useMultipleAnswers(pid)
   return (
-    <Frame pid={pid} index={index}>
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
       <MultipleInner pid={pid} />
     </Frame>
   )

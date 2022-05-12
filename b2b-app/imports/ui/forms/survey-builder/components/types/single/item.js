@@ -97,6 +97,8 @@ const Item = forwardRef(
       onAdd,
       disableRemove,
       showMobileActions,
+      pid,
+      index,
       ...otherProps
     },
     ref
@@ -118,6 +120,9 @@ const Item = forwardRef(
           text={text}
           placeholder={placeholder}
           onTextChange={onTextChange}
+          onAdd={onAdd}
+          pid={pid}
+          index={index}
         />
         <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>

@@ -23,6 +23,7 @@ const Item = forwardRef(
       index,
       item,
       update,
+      question,
       ...props
     },
     ref
@@ -33,7 +34,20 @@ const Item = forwardRef(
       // preventing focus but still allows tabbing to work correctly.
       e.preventDefault()
     }
+
     const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
+
+    const uploader = new Slingshot.Upload('imageQuestionType', { folder: question })
+
+    const onUpload = async (params) => {
+      uploader.send(params, function (error, downloadUrl) {
+        if (error) {
+          console.error('Error uploading', uploader.xhr.response)
+          alert(error)
+        }
+        update({ ...item, val: downloadUrl }, index)
+      })
+    }
 
     return (
       <StyledItem ref={ref} {...props}>
@@ -49,9 +63,9 @@ const Item = forwardRef(
           <input
             accept="image/*"
             id={`file-input-${index}`}
-            onChange={({ target: { files } }) => {
+            onChange={async ({ target: { files } }) => {
               if (files && files[0]) {
-                update({ ...item, val: URL.createObjectURL(files[0]) }, index)
+                onUpload(files[0])
               }
             }}
             style={{ display: 'none' }}
