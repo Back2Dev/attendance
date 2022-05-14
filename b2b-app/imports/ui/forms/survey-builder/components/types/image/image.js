@@ -7,7 +7,10 @@ import SimpleSchema from 'simpl-schema'
 import { imageAtom, imageSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
-import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import {
+  useSelectedPartValue,
+  useImageAnswers,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 let log = debug('builder:single')
 
@@ -37,13 +40,13 @@ const mapDataToAtom = (data) => {
     log('got', data)
     // throw new Error('Invalid mapping from data to single state')
   }
-
   return state
 }
 
 const Image = ({ pid, index }) => {
+  const { all, add } = useImageAnswers(pid)
   return (
-    <Frame pid={pid} index={index}>
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
       <InnerImage pid={pid} />
     </Frame>
   )
