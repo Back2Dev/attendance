@@ -150,7 +150,7 @@ export const parse = (source) => {
         errs.push({ lineno: section.lineno, errCode: 'w-missing-title' })
       section.questions.forEach((q) => {
         if (!validQtypes.includes(q.type))
-          errs.push({ lineno: q.lineno, errCode: 'w-unk-qtype', line: q.type })
+          errs.push({ lineno: q.lineno, errCode: 'w-unk-type', line: q.type })
         if (q.type === 'paragraph' && q.answers.length)
           errs.push({
             lineno: q.answers[0].lineno,

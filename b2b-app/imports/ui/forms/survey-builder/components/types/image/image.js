@@ -35,7 +35,7 @@ const mapDataToAtom = (data) => {
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    throw new Error('Invalid mapping from data to single state')
+    // throw new Error('Invalid mapping from data to single state')
   }
 
   return state

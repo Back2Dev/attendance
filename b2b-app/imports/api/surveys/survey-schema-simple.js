@@ -137,7 +137,7 @@ const getSchemas = (survey, currentData) => {
             }
             const qSchema = step.schema[q.id]
             const answers = getAnswers(currentData, q)
-            switch (q.qtype) {
+            switch (q.type) {
               case 'array':
                 step.schema[q.id].type = Array
                 step.schema[q.id].minCount = q.minCount || 1
@@ -350,10 +350,10 @@ const getSchemas = (survey, currentData) => {
               // Need a better way to handle this
               default:
                 delete step.schema[q.id]
-                q.prompt = `Unknown question type (${q.qtype}) for "${q.prompt}"`
-                console.log(`Unsupported question type: [${q.qtype}]`)
-                // Setting qtype to paragraph stops it trying to render a question
-                q.qtype = 'paragraph'
+                q.prompt = `Unknown question type (${q.type}) for "${q.prompt}"`
+                console.log(`Unsupported question type: [${q.type}]`)
+                // Setting type to paragraph stops it trying to render a question
+                q.type = 'paragraph'
               // q.type = 'paragraph'
             }
           })

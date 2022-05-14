@@ -107,7 +107,7 @@ const Specifiers = (q) => {
     .map((a) => {
       const otherId = `${q.id}-${a.id}-specify`
       const condition =
-        q.qtype === ('single' || 'image' || 'multiple')
+        q.type === ('single' || 'image' || 'multiple')
           ? [q.id, 'equal', a.id]
           : [`${q.id}-${a.id}`]
       if (a.specifyType === 'long')
@@ -198,7 +198,7 @@ const RenderQ = (q, ix) => {
 
   const key = `q${q.id}${ix}`
 
-  switch (q.qtype) {
+  switch (q.type) {
     // case 'array':
     //   return (
     //     <div key={key}>
@@ -328,7 +328,7 @@ const RenderQ = (q, ix) => {
       )
 
     default:
-      return q.qtype ? (
+      return q.type ? (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} />
           <AutoField name={q.id} id={q.id} />
@@ -337,7 +337,7 @@ const RenderQ = (q, ix) => {
         </div>
       ) : (
         <div>
-          Houston, we have a problem: {q.prompt} qtype={q.qtype}
+          Houston, we have a problem: {q.prompt} type={q.type}
         </div>
       )
   }
