@@ -1,5 +1,8 @@
 import React from 'react'
-import { useSelectedPartData, useSelectedPartValue } from '$sb/recoil/hooks'
+import {
+  useSelectedPartData,
+  useSelectedPartValue,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 const DebugProps = () => {
   const part = useSelectedPartData()

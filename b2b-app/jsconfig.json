@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "$sb/*": ["./imports/ui/forms/survey-builder/*"]
+      "$sb/*": ["imports/ui/forms/survey-builder/*"]
     }
   },
   "exclude": ["node_modules"]

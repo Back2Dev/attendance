@@ -35,7 +35,9 @@ import {
   ErrorField,
   ErrorsField,
   SubmitField,
+  BoolField,
 } from 'uniforms-material'
+import { CustomAutoField } from '/imports/ui/components/forms'
 import { Context, useForm, useField } from 'uniforms'
 import { LinearProgressWithLabel } from '/imports/ui/utils/generic'
 import getSchemas, { evaluate } from '/imports/api/surveys/survey-schema-simple'
@@ -46,6 +48,7 @@ import { accessByPath } from '/imports/api/util'
 import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
+import Signature from '/imports/ui/components/signature'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -105,7 +108,10 @@ const Specifiers = (q) => {
     .filter((a) => a.specify)
     .map((a) => {
       const otherId = `${q.id}-${a.id}-specify`
-      const condition = q.qtype === 'single' ? [q.id, 'equal', a.id] : [`${q.id}-${a.id}`]
+      const condition =
+        q.type === ('single' || 'image' || 'multiple')
+          ? [q.id, 'equal', a.id]
+          : [`${q.id}-${a.id}`]
       if (a.specifyType === 'long')
         return (
           <DisplayIf
@@ -194,7 +200,7 @@ const RenderQ = (q, ix) => {
 
   const key = `q${q.id}${ix}`
 
-  switch (q.qtype) {
+  switch (q.type) {
     // case 'array':
     //   return (
     //     <div key={key}>
@@ -231,7 +237,7 @@ const RenderQ = (q, ix) => {
           })}
         </div>
       )
-    case 'multi':
+    case 'multiple':
       return (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} />
@@ -240,6 +246,7 @@ const RenderQ = (q, ix) => {
             return (
               <div key={`a${key}${iy}`}>
                 <AutoField name={id} id={id} key={id} />
+
                 <NoteIf note={a.note} field={id}></NoteIf>
               </div>
             )
@@ -262,6 +269,20 @@ const RenderQ = (q, ix) => {
         </div>
       )
 
+    case 'image':
+      return (
+        <div key={key} className="q-container">
+          <span>{q.prompt}</span>
+          <div style={{ display: 'flex' }}>
+            <AutoField name={q.id} id={q.id} />
+          </div>
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
+          })}
+        </div>
+      )
     // case 'date' :
     //   return (
     //     <div key={key}>
@@ -293,6 +314,16 @@ const RenderQ = (q, ix) => {
         </span>
       )
 
+    case 'signature':
+      return (
+        <span key={key} className="q-container">
+          {/* <Prompt text={q.prompt} tooltip={q.tooltip} /> */}
+          <Signature title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
+          <ErrorField name={q.id} id={q.id} />
+          <NoteIf note={q.note} field={q.id}></NoteIf>
+        </span>
+      )
+
     // case 'address':
     //   return (
     //     <span key={key}>
@@ -309,7 +340,7 @@ const RenderQ = (q, ix) => {
       )
 
     default:
-      return q.qtype ? (
+      return q.type ? (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} />
           <AutoField name={q.id} id={q.id} />
@@ -318,7 +349,7 @@ const RenderQ = (q, ix) => {
         </div>
       ) : (
         <div>
-          Houston, we have a problem: {q.prompt} qtype={q.qtype}
+          Houston, we have a problem: {q.prompt} type={q.type}
         </div>
       )
   }

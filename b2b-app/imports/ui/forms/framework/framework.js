@@ -125,7 +125,6 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     const result = parse(formEditorInput)
-
     if (result.status === 'success') {
       const specific = map2Uniforms(result.survey)
       // const specific = map2UiSchema(result.survey)

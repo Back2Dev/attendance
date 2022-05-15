@@ -40,8 +40,9 @@ const Parts = () => {
   return (
     <div>
       <button onClick={() => addPart('single')}>Single</button>
-      <button onClick={() => addPart('multi')}>Multi</button>
-      <button onClick={() => addPart('text')}>Text</button>
+      <button onClick={() => addPart('upload')}>Upload</button>
+      <button onClick={() => addPart('multiple')}>Multiple</button>
+      <button onClick={() => addPart('image')}>Image</button>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <DebugProps />
       </ErrorBoundary>

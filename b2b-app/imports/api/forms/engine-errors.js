@@ -8,7 +8,7 @@ const parseErr = {
     'w-bad-option': 'Malformed option',
     'e-unk-attrib': 'Unknown attribute',
     'e-bad-letter': 'Unknown directive',
-    'w-unk-qtype': 'Unknown question type',
+    'w-unk-type': 'Unknown question type',
     'w-missing-title': 'Section has no title',
     'w-ignore-attribs': 'Attributes are not required for this question type',
   },

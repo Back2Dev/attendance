@@ -22,13 +22,16 @@ const Toolbar = () => {
   const editorCtx = useContext(EditorContext)
   const [status, setStatus] = useRecoilState(statusState)
   const getSource = useRecoilCallback(
-    ({ snapshot }) => () => {
-      const parts = snapshot.getLoadable(partsAtom).contents
-      const source = parts
-        .map(({ _id: pid, config }) => snapshot.getLoadable(config.source(pid)).contents)
-        .join('\n\n')
-      return source
-    },
+    ({ snapshot }) =>
+      () => {
+        const parts = snapshot.getLoadable(partsAtom).contents
+        const source = parts
+          .map(
+            ({ _id: pid, config }) => snapshot.getLoadable(config.source(pid)).contents
+          )
+          .join('\n\n')
+        return source
+      },
     []
   )
 

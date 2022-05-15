@@ -12,7 +12,7 @@ import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inl
 
 const log = debug('builder:item')
 
-const StyledItem = styled('li')(({ theme }) => ({
+export const StyledItem = styled('li')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
   alignItems: 'center',
@@ -31,7 +31,7 @@ const StyledItem = styled('li')(({ theme }) => ({
   },
 }))
 
-const Actions = styled('div')(({ theme, showMobileActions }) => {
+export const Actions = styled('div')(({ theme, showMobileActions }) => {
   /**
    * Visually hide an element, but leave it available for screen readers
    * @link https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css
@@ -97,6 +97,8 @@ const Item = forwardRef(
       onAdd,
       disableRemove,
       showMobileActions,
+      pid,
+      index,
       ...otherProps
     },
     ref
@@ -118,6 +120,9 @@ const Item = forwardRef(
           text={text}
           placeholder={placeholder}
           onTextChange={onTextChange}
+          onAdd={onAdd}
+          pid={pid}
+          index={index}
         />
         <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>

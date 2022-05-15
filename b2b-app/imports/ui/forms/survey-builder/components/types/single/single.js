@@ -8,7 +8,10 @@ import SimpleSchema from 'simpl-schema'
 import { singleAtom, singleSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
-import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import {
+  useSelectedPartValue,
+  useAnswers,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 let log = debug('builder:single')
 
@@ -36,15 +39,16 @@ const mapDataToAtom = (data) => {
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    throw new Error('Invalid mapping from data to single state')
+    // throw new Error('Invalid mapping from data to single state')
   }
 
   return state
 }
 
 const Single = ({ pid, index }) => {
+  const { all, add } = useAnswers(pid)
   return (
-    <Frame pid={pid} index={index}>
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
       <SingleInner pid={pid} />
     </Frame>
   )

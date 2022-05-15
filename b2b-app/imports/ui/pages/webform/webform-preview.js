@@ -17,7 +17,7 @@ import RejectModal from '/imports/ui/pages/webform/components/reject-modal'
 import ReviewNotes from '/imports/ui/pages/webform/components/review-notes-modal'
 import PDFViewer from '/imports/ui/components/pdf-viewer/pdf-viewer.js'
 import { GreenButton } from '/imports/ui/utils/generic'
-import htlm2r from 'imports/ui/utils/html2r'
+import htlm2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import SignatureDialog from './components/draw-signature-dialog.js'
 

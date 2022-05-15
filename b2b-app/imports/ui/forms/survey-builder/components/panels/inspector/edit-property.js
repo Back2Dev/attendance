@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil'
 import { isPlainObject } from 'lodash'
 import { editInspectorState } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import debug from 'debug'
+import { TextField } from '@material-ui/core'
 
 const log = debug('builder:edit-property')
 
@@ -22,14 +23,22 @@ const EditProperty = ({ pid, path, relabel }) => {
     }
 
     return (
-      <div>
-        <label>{label}</label>
-        <input
-          type="text"
+      <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
+        <TextField
+          variant="outlined"
+          label={label}
           value={property}
           onChange={(e) => setProperty(e.target.value)}
         />
       </div>
+      // <div>
+      //   <label>{label}</label>
+      //   <input
+      //     type="text"
+      //     value={property}
+      //     onChange={(e) => setProperty(e.target.value)}
+      //   />
+      // </div>
     )
   } else if (Array.isArray(property)) {
     const children = property.map((_, i) => {

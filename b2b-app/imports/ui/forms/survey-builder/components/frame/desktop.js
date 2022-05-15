@@ -1,12 +1,11 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, Box } from '@material-ui/core'
-
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import CloseIcon from '@material-ui/icons/Close'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
-
+import AddIcon from '@material-ui/icons/Add'
 import styled from 'styled-components'
 import debug from 'debug'
 
@@ -48,11 +47,22 @@ const DesktopFrame = React.forwardRef(
           }),
       },
       remove: { icon: CloseIcon, handler: actions.onRemove },
+      add: {
+        icon: AddIcon,
+        handler: () => actions.onAdd(),
+        //disabled when question type is upload
+        disabled: !Boolean(actions.onAdd),
+      },
     }
 
     const createActions = (...types) =>
       types.map((t, i) => (
-        <IconButton size="small" key={i} onClick={actionTypes[t].handler}>
+        <IconButton
+          size="small"
+          key={i}
+          onClick={actionTypes[t].handler}
+          disabled={actionTypes[t].disabled ?? false}
+        >
           {createElement(actionTypes[t].icon)}
         </IconButton>
       ))
@@ -69,7 +79,7 @@ const DesktopFrame = React.forwardRef(
         <Box display="flex">
           <Box flexGrow={1}>{children}</Box>
           <Box flexGrow={0} display="flex" flexDirection="column">
-            {createActions('remove', 'moveUp', 'moveDown')}
+            {createActions('remove', 'moveUp', 'moveDown', 'add')}
             <DragIndicatorIcon className="dragIcon" />
           </Box>
         </Box>

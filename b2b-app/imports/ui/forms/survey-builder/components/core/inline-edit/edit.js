@@ -37,7 +37,16 @@ const useStyles = makeStyles((theme) => ({
 /** Inline editable text field that shows a label but can be modified like an input text element.
  * Commits values on enter/tab key and reverts back to original value on escape
  */
-const Edit = ({ placeholder, text, onTextChange, className, ...otherProps }) => {
+const Edit = ({
+  placeholder,
+  text,
+  onTextChange,
+  className,
+  onAdd,
+  pid,
+  index,
+  ...otherProps
+}) => {
   const classes = useStyles({ placeholder })
   /** stores the value before user begins typing so that if user presses escape, it reverts back to this value */
   const [lastVal, setLastVal] = useState(null)
@@ -79,6 +88,18 @@ const Edit = ({ placeholder, text, onTextChange, className, ...otherProps }) => 
         setVal(lastVal)
         setIsEditing(false)
       }
+      if (e.key === 'Tab') {
+        e.preventDefault()
+        if (!onAdd) {
+          return
+        }
+        onAdd()
+        //setTimeout to wait elemetent to be created
+        setTimeout(
+          () => document.querySelectorAll(`[id ^='${pid}']`)[index + 1].focus(),
+          0
+        )
+      }
     },
     [placeholder, lastVal]
   )
@@ -101,6 +122,7 @@ const Edit = ({ placeholder, text, onTextChange, className, ...otherProps }) => 
     <div className={clsx(classes.root, className)} {...otherProps}>
       <ContentEditable
         tabIndex="0"
+        id={`${pid}_${Date.now()}`}
         innerRef={editEl}
         className={classes.edit}
         html={val}
