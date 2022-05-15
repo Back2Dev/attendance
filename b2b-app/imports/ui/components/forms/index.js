@@ -5,6 +5,8 @@ import ToolsField from '/imports/ui/components/forms/tools-selector.js'
 import CoursesField from '/imports/ui/components/forms/course-selector.js'
 import SlateField from './slate-field'
 import EventRepeatField from './event-repeat'
+import JSONField from './json-field'
+import SignatureField from './signature-field.js'
 
 const debug = require('debug')('app:forms')
 
@@ -20,6 +22,8 @@ const myComponent = ({ name, fieldType, ...rest }) => {
       }
     case 'tools':
       return ToolsField
+    case 'signature':
+      return SignatureField
     case 'courseId':
     case 'backupCourseId':
       return CoursesField
