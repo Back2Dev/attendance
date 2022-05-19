@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React, { createElement, useState } from 'react'
 import debug from 'debug'
 
 import {
@@ -8,8 +8,40 @@ import {
 import { list } from '/imports/ui/forms/survey-builder/utils'
 import { EditProperty } from './edit-property'
 import { Section } from './section'
-
+import VisibilityIcon from '@material-ui/icons/Visibility'
 import { makeStyles } from '@material-ui/core/styles'
+import { DebugProps } from './debug-props'
+import { ErrorBoundary } from 'react-error-boundary'
+import PropTypes from 'prop-types'
+import {
+  useParts,
+  useSetSelectedPart,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+
+const log = debug('builder:inspector')
+
+const ErrorFallback = ({ error, resetErrorBoundary }) => {
+  const setSelectedPart = useSetSelectedPart()
+  return (
+    <div>
+      <p>Oops, DebugProps made a booboo</p>
+      <pre>{error.message}</pre>
+      <button
+        onClick={() => {
+          setSelectedPart(null)
+          resetErrorBoundary()
+        }}
+      >
+        Reset
+      </button>
+    </div>
+  )
+}
+
+ErrorFallback.propTypes = {
+  error: PropTypes.object,
+  resetErrorBoundary: PropTypes.func,
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,12 +52,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const log = debug('builder:inspector')
-
 // FIXME: after tabbing out of textbox, try to edit property and instance gets unselected
 // FIXME: hit enter on a textbox and instance gets unselected
 // FIXME: swap choice positions and the +val get cleared
 const Inspector = () => {
+  const [viewJSON, setViewJSON] = useState(false)
   const classes = useStyles()
   const selectedPart = useSelectedPartValue()
   const parts = usePartsValue()
@@ -38,7 +69,14 @@ const Inspector = () => {
 
   return (
     <div className={classes.root}>
-      {selectedPart !== null && createElement(part.config.inspectorProperties)}
+      change view <VisibilityIcon onClick={() => setViewJSON(!viewJSON)} />
+      {viewJSON ? (
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <DebugProps />
+        </ErrorBoundary>
+      ) : (
+        selectedPart !== null && createElement(part.config.inspectorProperties)
+      )}
     </div>
   )
 }
