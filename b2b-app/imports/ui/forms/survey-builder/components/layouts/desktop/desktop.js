@@ -22,6 +22,7 @@ const DesktopLayout = ({ toolbar, left, center, right }) => {
           bottom={0}
           width="20%"
           border="1px solid lightgrey"
+          style={{ background: '#FFFFFF' }}
         >
           {left}
         </Box>

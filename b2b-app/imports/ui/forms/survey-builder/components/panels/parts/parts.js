@@ -1,41 +1,19 @@
-import React from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
-import PropTypes from 'prop-types'
-
-import { DebugProps } from '../inspector/debug-props'
+import React, { createElement } from 'react'
 import debug from 'debug'
-import {
-  useParts,
-  useSetSelectedPart,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
+import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { makeStyles } from '@material-ui/core/styles'
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked'
+import CheckBoxIcon from '@material-ui/icons/CheckBox'
+import PublishIcon from '@material-ui/icons/Publish'
+import ImageIcon from '@material-ui/icons/Image'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemText from '@material-ui/core/ListItemText'
+import Avatar from '@material-ui/core/Avatar'
+import Divider from '@material-ui/core/Divider'
 
 const log = debug('builder:parts')
-
-// const ErrorFallback = ({ error, resetErrorBoundary }) => {
-//   const setSelectedPart = useSetSelectedPart()
-//   return (
-//     <div>
-//       <p>Oops, DebugProps made a booboo</p>
-//       <pre>{error.message}</pre>
-//       <button
-//         onClick={() => {
-//           setSelectedPart(null)
-//           resetErrorBoundary()
-//         }}
-//       >
-//         Reset
-//       </button>
-//     </div>
-//   )
-// }
-
-// ErrorFallback.propTypes = {
-//   error: PropTypes.object,
-//   resetErrorBoundary: PropTypes.func,
-// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +23,22 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+
+  item: {
+    padding: '1rem',
+  },
+  list: {
+    flexGrow: 1,
+    maxWidth: 752,
+  },
 }))
+
+const partIcons = [
+  { part: 'single', icon: RadioButtonCheckedIcon },
+  { part: 'multiple', icon: CheckBoxIcon },
+  { part: 'image', icon: ImageIcon },
+  { part: 'upload', icon: PublishIcon },
+]
 
 const Parts = () => {
   const { addPart } = useParts()
@@ -53,21 +46,20 @@ const Parts = () => {
   // FIXME add onClose/Open handlers for drawer
 
   return (
-    <div className={classes.root}>
-      <ButtonGroup
-        orientation="vertical"
-        color="primary"
-        aria-label="vertical outlined primary button group"
-      >
-        <Button onClick={() => addPart('single')}>Single</Button>
-        <Button onClick={() => addPart('upload')}>Upload</Button>
-        <Button onClick={() => addPart('multiple')}>Multiple</Button>
-        <Button onClick={() => addPart('image')}>Image</Button>
-      </ButtonGroup>
-
-      {/* <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <DebugProps />
-      </ErrorBoundary> */}
+    <div className={classes.list}>
+      <List>
+        {partIcons.map((item) => (
+          <>
+            <ListItem onClick={() => addPart(item.part)} className={classes.item}>
+              <ListItemAvatar>
+                <Avatar>{createElement(item.icon)}</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={item.part.toUpperCase()} />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </>
+        ))}
+      </List>
     </div>
   )
 }

@@ -12,6 +12,7 @@ import {
   useSelectedPartValue,
   useAnswers,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
 let log = debug('builder:single')
 
@@ -56,6 +57,7 @@ const Single = ({ pid, index }) => {
 
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
+
   const relabelAnswers = (path) => {
     if (path.endsWith('name')) return 'Label'
     if (path.endsWith('val')) return 'Value'
@@ -63,7 +65,8 @@ const InspectorProperties = () => {
   }
   return (
     <div>
-      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+      <QuestionProperty pid={selectedPart} />
+      {/* <Inspector.Pro perty pid={selectedPart} path="id" relabel="Question Id" /> */}
       <Inspector.Section heading="Answers">
         <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>

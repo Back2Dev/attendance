@@ -1,22 +1,20 @@
 import React, { createElement, useState } from 'react'
 import debug from 'debug'
-
 import {
   useSelectedPartValue,
   usePartsValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { list } from '/imports/ui/forms/survey-builder/utils'
-import { EditProperty } from './edit-property'
+import { EditProperty, QuestionProperty } from './edit-property'
 import { Section } from './section'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import { makeStyles } from '@material-ui/core/styles'
 import { DebugProps } from './debug-props'
 import { ErrorBoundary } from 'react-error-boundary'
 import PropTypes from 'prop-types'
-import {
-  useParts,
-  useSetSelectedPart,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { useSetSelectedPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
 
 const log = debug('builder:inspector')
 
@@ -47,8 +45,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
+      width: '90%%',
     },
+  },
+  jsonView: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: '0.9rem',
+    paddingRight: '0.9rem',
   },
 }))
 
@@ -69,7 +74,18 @@ const Inspector = () => {
 
   return (
     <div className={classes.root}>
-      change view <VisibilityIcon onClick={() => setViewJSON(!viewJSON)} />
+      <div className={classes.jsonView}>
+        <Typography variant="h6">change view</Typography>
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="span"
+          onClick={() => setViewJSON(!viewJSON)}
+        >
+          <VisibilityIcon />
+        </IconButton>
+      </div>
+
       {viewJSON ? (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <DebugProps />
@@ -83,5 +99,6 @@ const Inspector = () => {
 
 Inspector.Section = Section
 Inspector.Property = EditProperty
+Inspector.Question = QuestionProperty
 
 export { Inspector }
