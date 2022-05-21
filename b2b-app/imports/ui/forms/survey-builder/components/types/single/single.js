@@ -65,8 +65,9 @@ const InspectorProperties = () => {
   }
   return (
     <div>
-      <QuestionProperty pid={selectedPart} />
-      {/* <Inspector.Pro perty pid={selectedPart} path="id" relabel="Question Id" /> */}
+      <Inspector.Section heading="Question">
+        <QuestionProperty pid={selectedPart} />
+      </Inspector.Section>
       <Inspector.Section heading="Answers">
         <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>

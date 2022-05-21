@@ -15,6 +15,9 @@ import PropTypes from 'prop-types'
 import { useSetSelectedPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
+import Paper from '@material-ui/core/Paper'
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'
 
 const log = debug('builder:inspector')
 
@@ -48,12 +51,14 @@ const useStyles = makeStyles((theme) => ({
       width: '90%%',
     },
   },
-  jsonView: {
+  topAction: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingLeft: '0.9rem',
-    paddingRight: '0.9rem',
+    paddingRight: '0.7rem',
+  },
+  icon: {
+    padding: '4px',
   },
 }))
 
@@ -73,27 +78,36 @@ const Inspector = () => {
   if (!part) return null
 
   return (
-    <div className={classes.root}>
-      <div className={classes.jsonView}>
-        <Typography variant="h6">change view</Typography>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="span"
-          onClick={() => setViewJSON(!viewJSON)}
-        >
-          <VisibilityIcon />
-        </IconButton>
-      </div>
+    <>
+      <Paper square className={classes.topAction}>
+        {/* <Typography variant="h6">change view</Typography> */}
+        <Tooltip title="Add Section">
+          <IconButton aria-label="add section" className={classes.icon}>
+            <PlaylistAddIcon />
+          </IconButton>
+        </Tooltip>
 
-      {viewJSON ? (
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <DebugProps />
-        </ErrorBoundary>
-      ) : (
-        selectedPart !== null && createElement(part.config.inspectorProperties)
-      )}
-    </div>
+        <Tooltip title="View JSON">
+          <IconButton
+            aria-label="view json"
+            onClick={() => setViewJSON(!viewJSON)}
+            className={classes.icon}
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+      </Paper>
+
+      <div className={classes.root}>
+        {viewJSON ? (
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <DebugProps />
+          </ErrorBoundary>
+        ) : (
+          selectedPart !== null && createElement(part.config.inspectorProperties)
+        )}
+      </div>
+    </>
   )
 }
 

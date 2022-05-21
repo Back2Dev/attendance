@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 const Section = ({ heading, children }) => {
   return (
     <div>
-      <Typography style={{ marginTop: '10px' }} variant="h6">
+      <Typography style={{ marginTop: '10px' }} variant="body1">
         {heading}
       </Typography>
 

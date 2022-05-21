@@ -10,18 +10,25 @@ import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inl
 
 const log = debug('builder:edit-property')
 
-export const QuestionProperty = ({ pid }) => {
-  // const [checked, setChecked] = React.useState([])
-  const [id] = useRecoilState(editInspectorState({ pid, path: 'id' }))
-  const [prompt] = useRecoilState(editInspectorState({ pid, path: 'prompt' }))
-  const property = { id: id, prompt }
-  const OtherOptions = ['optional', 'placeholder']
-  // const children = Object.keys(property).map((f) =>
-  //   createElement(PropertyField, { path: f, pid })
-  // )
+const questionOptions = [
+  { label: 'Optional', value: 'optional' },
+  { label: 'Placeholder', value: 'placeholder' },
+  { label: 'Conditional', value: 'cond' },
+  { label: 'Paragraphs', value: 'p' },
+  { label: 'Headers', value: 'h3' },
+  { label: 'Skip', value: 'skip' },
+]
 
+const answerOptions = [
+  { label: 'Value', value: 'val' },
+  { label: 'Placeholder', value: 'placeholder' },
+  { label: 'Score', value: 'score' },
+  { label: 'Specify', value: 'specify' },
+]
+
+export const QuestionProperty = ({ pid }) => {
   return (
-    <PropertyCard property={property} OtherOptions={OtherOptions} pid={pid}>
+    <PropertyCard pid={pid} addOptions={questionOptions}>
       {/* {children} */}
     </PropertyCard>
   )
@@ -40,13 +47,7 @@ export const PropertyField = ({ relabel, path, pid, placeholder = 'Value' }) => 
   }
   // const style = { display: checked.includes(path) ? 'block' : 'none' }
   return (
-    <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
-      {/* <TextField
-        variant="outlined"
-        label={label}
-        value={property}
-        onChange={(e) => setProperty(e.target.value)}
-      /> */}
+    <div style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}>
       <InlineEdit
         label={label}
         text={property}
@@ -61,20 +62,10 @@ const EditProperty = ({ pid, path, relabel, checked = [] }) => {
   // TODO convert into recoil hook
   const [property] = useRecoilState(editInspectorState({ pid, path }))
 
-  if (typeof property === 'string') {
-    console.log('path', path)
-    if (path.endsWith('val'))
-      return (
-        <PropertyField pid={pid} path={path} relabel={relabel} />
-        // <div style={{ ...style, marginBottom: '1rem', marginTop: '1rem' }}>
-        //   <TextField
-        //     variant="outlined"
-        //     label={label}
-        //     value={property}
-        //     onChange={(e) => setProperty(e.target.value)}
-        //   />
-        // </div>
-      )
+  const showField = answerOptions.find((item) => path.endsWith(item.value))
+  //should be string...need fix
+  if (typeof property === 'string' || property === true) {
+    if (showField) return <PropertyField pid={pid} path={path} relabel={relabel} />
     else return null
   } else if (Array.isArray(property)) {
     const children = property.map((_, i) => {
@@ -95,11 +86,11 @@ const EditProperty = ({ pid, path, relabel, checked = [] }) => {
     return (
       <PropertyCard
         children={children}
-        property={property}
+        // property={property}
         pid={pid}
         path={path}
         relabel={relabel}
-        OtherOptions={['score']}
+        addOptions={answerOptions}
       />
     )
   }

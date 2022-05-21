@@ -49,7 +49,7 @@ const Parts = () => {
     <div className={classes.list}>
       <List>
         {partIcons.map((item) => (
-          <>
+          <div key={item.part}>
             <ListItem onClick={() => addPart(item.part)} className={classes.item}>
               <ListItemAvatar>
                 <Avatar>{createElement(item.icon)}</Avatar>
@@ -57,7 +57,7 @@ const Parts = () => {
               <ListItemText primary={item.part.toUpperCase()} />
             </ListItem>
             <Divider variant="inset" component="li" />
-          </>
+          </div>
         ))}
       </List>
     </div>
