@@ -2,7 +2,10 @@ import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { useRecoilState } from 'recoil'
 import { isPlainObject } from 'lodash'
-import { editInspectorState } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import {
+  editInspectorState,
+  getInspectorPart,
+} from '/imports/ui/forms/survey-builder/recoil/atoms'
 import debug from 'debug'
 import { TextField } from '@material-ui/core'
 import { PropertyCard } from './edit-property-card'
@@ -27,9 +30,23 @@ const answerOptions = [
 ]
 
 export const QuestionProperty = ({ pid }) => {
+  const [part] = useRecoilState(getInspectorPart({ pid }))
+  const children = questionOptions
+    .filter((f) => f.value !== 'optional')
+    .map((opt, i) =>
+      part[opt.value] === '' || part[opt.value]
+        ? createElement(PropertyField, {
+            key: i,
+            pid,
+            path: opt.value,
+            placeholder: opt.label,
+          })
+        : undefined
+    )
+
   return (
     <PropertyCard pid={pid} addOptions={questionOptions}>
-      {/* {children} */}
+      {children}
     </PropertyCard>
   )
 }
@@ -45,7 +62,7 @@ export const PropertyField = ({ relabel, path, pid, placeholder = 'Value' }) => 
   } else {
     label = path.slice(path.lastIndexOf('.') + 1)
   }
-  // const style = { display: checked.includes(path) ? 'block' : 'none' }
+
   return (
     <div style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}>
       <InlineEdit
@@ -58,15 +75,23 @@ export const PropertyField = ({ relabel, path, pid, placeholder = 'Value' }) => 
   )
 }
 
-const EditProperty = ({ pid, path, relabel, checked = [] }) => {
+const EditProperty = ({ pid, path, relabel }) => {
   // TODO convert into recoil hook
   const [property] = useRecoilState(editInspectorState({ pid, path }))
 
   const showField = answerOptions.find((item) => path.endsWith(item.value))
-  //should be string...need fix
-  if (typeof property === 'string' || property === true) {
-    if (showField) return <PropertyField pid={pid} path={path} relabel={relabel} />
-    else return null
+
+  if (typeof property === 'string') {
+    if (Boolean(showField)) {
+      return (
+        <PropertyField
+          placeholder={showField.label}
+          pid={pid}
+          path={path}
+          relabel={relabel}
+        />
+      )
+    } else return null
   } else if (Array.isArray(property)) {
     const children = property.map((_, i) => {
       return createElement(EditProperty, { key: i, pid, path: `${path}[${i}]`, relabel })
@@ -78,15 +103,14 @@ const EditProperty = ({ pid, path, relabel, checked = [] }) => {
         key: j,
         pid,
         path: path ? `${path}.${key}` : key,
+
         relabel,
-        checked,
       })
     })
 
     return (
       <PropertyCard
         children={children}
-        // property={property}
         pid={pid}
         path={path}
         relabel={relabel}

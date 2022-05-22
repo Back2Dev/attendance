@@ -63,49 +63,37 @@ const useStyles = makeStyles({
   },
 })
 
-const PropertyCard = ({ property, path, children, pid, ...props }) => {
+const PropertyCard = ({ path, children, pid, addOptions }) => {
   const classes = useStyles()
-  const [checked, setChecked] = useState([])
-
   const [part] = useRecoilState(getInspectorPart({ pid }))
-  //key/value should be set with boolean/string according to the syntex
-  const setPropertyByValue = useRecoilCallback(({ set }) => (type) => {
-    set(editInspectorState({ pid, path: type }), (property) => {
-      return !property
+  const options = [...addOptions].map((opt) => ({
+    label: opt.label,
+    value: path ? `${path}.${opt.value}` : opt.value,
+  }))
+
+  const showContent = Boolean(
+    options.find((opt) => get(part, opt.value) === '' || get(part, opt.value) === true)
+  )
+
+  const setPropertyByValue = useRecoilCallback(({ set }) => (path) => {
+    set(editInspectorState({ pid, path }), (property) => {
+      if (property === undefined) {
+        return path === 'optional' ? true : ''
+      } else {
+        return undefined
+      }
     })
   })
 
   const handleToggle = (value) => () => {
     setPropertyByValue(value)
-
-    const currentIndex = checked.indexOf(value)
-    const newChecked = [...checked]
-
-    if (currentIndex === -1) {
-      newChecked.push(value)
-    } else {
-      newChecked.splice(currentIndex, 1)
-    }
-
-    setChecked(newChecked)
   }
 
   return (
     <Card className={classes.root}>
       <CardHeader
         className={classes.header}
-        action={
-          <CardMenu
-            checked={checked}
-            setChecked={setChecked}
-            property={property}
-            path={path}
-            handleToggle={handleToggle}
-            pid={pid}
-            part={part}
-            {...props}
-          />
-        }
+        action={<CardMenu options={options} handleToggle={handleToggle} part={part} />}
         title={
           <PropertyField
             pid={pid}
@@ -118,10 +106,9 @@ const PropertyCard = ({ property, path, children, pid, ...props }) => {
             <Typography variant="body2">ID: </Typography>
             <PropertyField pid={pid} path={path ? `${path}.id` : 'id'} />
           </div>
-          //property.id}
         }
       />
-      {Boolean(checked.length) && (
+      {showContent && (
         <CardContent className={classes.content}>
           <div className={classes.badge}>
             {(part['optional'] || part[path]?.['opational']) && (
@@ -137,21 +124,9 @@ const PropertyCard = ({ property, path, children, pid, ...props }) => {
 
 export { PropertyCard }
 
-export default function CardMenu({
-  pid,
-  // setChecked,
-  part,
-  path,
-  addOptions,
-  handleToggle,
-}) {
+export default function CardMenu({ part, options, handleToggle }) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
-
-  const options = [...addOptions].map((opt) => ({
-    label: opt.label,
-    value: path ? `${path}.${opt.value}` : opt.value,
-  }))
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -177,6 +152,7 @@ export default function CardMenu({
           {options.map((item) => {
             const labelId = item.label
 
+            const checked = get(part, item.value)
             return (
               <ListItem
                 key={item.value}
@@ -188,7 +164,7 @@ export default function CardMenu({
                 <ListItemIcon className={classes.listIcon}>
                   <Checkbox
                     edge="start"
-                    checked={Boolean(get(part, item.value))}
+                    checked={Boolean(checked || checked === '')}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
