@@ -1,0 +1,148 @@
+S Plant
+
+Q Plant details
++id=plant
++type=single
++tooltip=Search for 
+  A Toyota Hilux ute
+  +id=toyota
+  A 18V Hammer drill
+  +id=drill
+  A 2009 Box trailer
+  +id=trailer
+  
+Q <h3>Plant details: Toyota Hi-Lux ute</h3>
+<img src="/images/hilux.png" alt="Toyota Hi-Lux ute" />
+<ul><li>Year: 2020</li>
+<li>Regn: YER 123</li>
+<li>Asset no: 123456</li>
+</ul>
+<h4>Current defects</h4>
+<table> <tr><th>Item</th><th>Photo</th><th>Status</th></tr>
+<tr><th valign="top">Tear in drivers seat</th><th><img src="/images/torn-seat.png" alt="torn seat" />
+</th><th valign="top">Repair scheduled 01/06/2022</th></tr>
+<tr><th valign="top">Scratch on rear fender</th><th><img src="/images/fender.png" alt="Scratched fender" />
+</th><th valign="top">No action required</th></tr>
+</table>
++id=999
++type=paragraph
++condition=plant = toyota
+
+Q <h3>Plant details: 18V Hammer drill</h3>
+<img src="/images/drill.png" alt="Makita hammer drill" />
+<ul><li>Year: 2020</li>
+<li>Manufacturer: Makita</li>
+<li>Asset no: 123456</li>
+</ul>
+<h5>Damage: None</h5>
+
++type=paragraph
++condition=plant = drill
+
+Q <h3>2009 Box trailer</h3>
+<img src="/images/trailer.png" alt="Box trailer" />
+<ul><li>Year: 2009</li>
+<li>Regn: YXR 123</li>
+<li>Asset no: 123456</li>
+</ul>
+<h5>Damage</h5>
+<ul><li>Cage broken - secured with cable ties</li>
+</ul>
++type=paragraph
++condition=plant = trailer
+
+S Vehicle inspection
+#+condition=plant = toyota
+
+Q Walk Around - Attach photos of any items that are unsatisfactory, and list at the bottom of the form.
++type=paragraph
+
+Q Wheel nuts
++type=single
+A OK
+A Attention required
++specify=Please specify what is required
+A N/A
+
+Q Oil leaks
++type=single
+A OK
+A Attention required
++specify=Please specify what is required
+A N/A
+
+Q Coolant leaks
++type=single
+A OK
+A Attention required
++specify=Please specify what is required
+A N/A
+
+S Fluid levels & readings
+
+Q Engine oil
++type=single
+A OK
+A Attention required
++specify=Please specify what is required
+A N/A
+
+Q Coolant
++type=single
+A OK
+A Attention required
++specify=Please specify what is required
+A N/A
+
+Q Brake fluid
++id=brakefluid
++type=single
+A OK
+A Attention required
++id=attention
++specify=Please specify what is required
+A N/A
+
+Q Please take a photo of the problem and attach here
+<br /> <img src="/images/upload.png" alt="upload" /> 
+
+
++type=paragraph
++condition=brakefluid eq attention
+
+
+Q Clutch fluid
++type=single
+A OK
+A Attention required
++specify=Please specify what is requiredS Plant
+
+S Faults / action required
+#+id=action
+
+Q Is action required on any of the above faults?
++id=faults
++type=single
+A Yes
++id=yes
+A No
++id=no
+
+Q Please describe any action required on faults
++condition=faults eq yes
++type=text
+A Details
++type=long
+
+Q Does the fault present a safety or environmental hazard ?
++id=hazard
++condition=faults = yes
++type=single
+A Yes
+A No
+A N/A
+
+Q Readings
++type=text
+A Odometer
+A Engine hours
