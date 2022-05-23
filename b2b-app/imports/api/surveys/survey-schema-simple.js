@@ -248,7 +248,7 @@ const getSchemas = (survey, currentData) => {
                 // )
                 break
               case 'single':
-                qSchema.uniforms.checkboxes = true
+                qSchema.uniforms.checkboxes = 'true'
                 qSchema.uniforms.options = answers.map((a) => {
                   return { label: a.name, value: a.value || a.id }
                 })
@@ -272,7 +272,7 @@ const getSchemas = (survey, currentData) => {
                 // )
                 break
               // case 'multiple':
-              //   qSchema.uniforms.checkboxes = true
+              //   qSchema.uniforms.checkboxes = "true"
               //   qSchema.uniforms.options = answers.map((a) => {
               //     return { label: a.name, value: a.value || a.id }
               //   })

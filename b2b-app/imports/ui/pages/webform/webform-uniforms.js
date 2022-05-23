@@ -185,13 +185,10 @@ const Prompt = ({ text, tooltip }) => {
     prompt = html2r(p)
   }
 
-  if (!tooltip) return <Typography>{prompt}</Typography>
+  if (!tooltip) return <>{prompt}</>
   return (
     <div>
-      <Typography>{prompt}</Typography>{' '}
-      <Typography>
-        <i>{html2r(tooltip)}</i>
-      </Typography>
+      <>{prompt}</> <i>{html2r(tooltip)}</i>
     </div>
   )
 }
