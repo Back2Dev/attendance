@@ -9,7 +9,7 @@
   "dependencies": {
     "aws-sdk": "^2.729.0",
     "aws-sns-sms": "^1.0.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "change-case": "^4.1.1",
     "debug": "^3.1.0",
     "git-rev": "^0.2.1",
