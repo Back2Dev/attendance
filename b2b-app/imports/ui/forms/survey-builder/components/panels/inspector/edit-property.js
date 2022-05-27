@@ -29,6 +29,32 @@ const answerOptions = [
   { label: 'Specify', value: 'specify' },
 ]
 
+const sectionOptions = [
+  { label: 'Paragraphs', value: 'p' },
+  { label: 'Headers', value: 'h3' },
+]
+
+export const SectionProperty = ({ pid }) => {
+  const [part] = useRecoilState(getInspectorPart({ pid }))
+
+  const children = sectionOptions.map((opt, i) =>
+    part[opt.value] === '' || part[opt.value]
+      ? createElement(PropertyField, {
+          key: i,
+          pid,
+          path: opt.value,
+          placeholder: opt.label,
+        })
+      : undefined
+  )
+
+  return (
+    <PropertyCard pid={pid} addOptions={sectionOptions} isSection={true}>
+      {children}
+    </PropertyCard>
+  )
+}
+
 export const QuestionProperty = ({ pid }) => {
   const [part] = useRecoilState(getInspectorPart({ pid }))
   const children = questionOptions

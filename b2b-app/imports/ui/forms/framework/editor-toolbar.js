@@ -78,6 +78,21 @@ export const EditorToolbar = () => {
           className="editorTools"
           style={{ display: 'table-cell', width: '33vw', textAlign: 'right' }}
         >
+          {/* toggle button for dnd editor */}
+
+          {formContext.layout === 'dnd' && (
+            <Tooltip title="View Form">
+              <Switch
+                checked={formContext.checked}
+                onChange={() => {
+                  formContext.setChecked(!formContext.checked)
+                  formContext.compileForm()
+                }}
+                name="viewForm"
+                color="primary"
+              />
+            </Tooltip>
+          )}
           <span>
             <Tooltip title="Settings">
               <IconButton

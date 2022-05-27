@@ -43,8 +43,9 @@ const mapDataToAtom = (data) => {
 }
 
 const Upload = ({ pid, index }) => {
+  const hide = ['moveUp', 'moveDown', 'add']
   return (
-    <Frame pid={pid} index={index}>
+    <Frame pid={pid} index={index} hide={hide}>
       <InnerUpload pid={pid} />
     </Frame>
   )

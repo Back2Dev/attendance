@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   useSelectedPartData,
   useSelectedPartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
+import { EditorContext } from '/imports/ui/forms/framework/framework'
 import Typography from '@material-ui/core/Typography'
+import ReactJson from 'react-json-view'
 
 const useStyles = makeStyles({
   root: {
@@ -21,10 +21,17 @@ const useStyles = makeStyles({
   },
 })
 
+const jsonViewConfig = {
+  displayDataTypes: false,
+  quotesOnKeys: false,
+}
+
 const DebugProps = () => {
   const classes = useStyles()
   const part = useSelectedPartData()
   const selectedPart = useSelectedPartValue()
+  const editorCtx = useContext(EditorContext)
+
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -38,15 +45,17 @@ const DebugProps = () => {
         </Typography>
 
         <Typography variant="h5" component="pre" className={classes.title}>
-          {JSON.stringify(part, null, 2)}
+          {!selectedPart ? (
+            <ReactJson
+              src={JSON.parse(editorCtx.editors[1].editorValue)}
+              {...jsonViewConfig}
+            />
+          ) : (
+            <ReactJson src={part} {...jsonViewConfig} />
+          )}
         </Typography>
       </CardContent>
     </Card>
-
-    // <div style={{ overflowX: 'scroll' }}>
-    //   Inspect part: {selectedPart}
-    //   <pre>{JSON.stringify(part, null, 2)}</pre>
-    // </div>
   )
 }
 

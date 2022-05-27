@@ -63,7 +63,7 @@ const useStyles = makeStyles({
   },
 })
 
-const PropertyCard = ({ path, children, pid, addOptions }) => {
+const PropertyCard = ({ path, children, pid, addOptions, isSection }) => {
   const classes = useStyles()
   const [part] = useRecoilState(getInspectorPart({ pid }))
   const options = [...addOptions].map((opt) => ({
@@ -97,8 +97,14 @@ const PropertyCard = ({ path, children, pid, addOptions }) => {
         title={
           <PropertyField
             pid={pid}
-            path={path ? `${path}.name` : 'prompt'}
-            placeholder={path ? 'Type Your Answer' : 'Type Your Question'}
+            path={path ? `${path}.name` : isSection ? 'name' : 'prompt'}
+            placeholder={
+              path
+                ? isSection
+                  ? 'Section Name'
+                  : 'Type Your Answer'
+                : 'Type Your Question'
+            }
           />
         }
         subheader={

@@ -1,11 +1,10 @@
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Forms from '/imports/api/forms/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './framework/framework'
-import config from './config'
+import { RecoilRoot } from 'recoil'
 
 const debug = require('debug')('app:editor')
 let history
@@ -19,8 +18,13 @@ const methods = { remove, update }
 
 const Loading = (props) => {
   if (props.loading) return <div>Loading...</div>
-  return <Edit {...props}></Edit>
+  return (
+    <RecoilRoot>
+      <Edit {...props}></Edit>
+    </RecoilRoot>
+  )
 }
+
 const Editor = withTracker((props) => {
   history = props.history
   const id = props.match.params.id

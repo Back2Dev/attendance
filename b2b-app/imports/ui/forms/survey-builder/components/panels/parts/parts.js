@@ -12,6 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
+import DnsIcon from '@material-ui/icons/Dns'
 
 const log = debug('builder:parts')
 
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const partIcons = [
+  { part: 'section', icon: DnsIcon },
   { part: 'single', icon: RadioButtonCheckedIcon },
   { part: 'multiple', icon: CheckBoxIcon },
   { part: 'image', icon: ImageIcon },

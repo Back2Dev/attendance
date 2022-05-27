@@ -3,6 +3,7 @@ import produce from 'immer'
 import { selectorFamily } from 'recoil'
 import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
+import { makeId } from '../../utils/makeId'
 
 export const defaultAnswer = { name: '', val: '' }
 
@@ -10,7 +11,8 @@ export const multipleAtom = atomFamily({
   key: 'multipleAtom',
   default: () => ({
     prompt: '',
-    id: '',
+    // id: '',
+    id: makeId(),
     type: 'multiple',
     answers: [makeListItem(defaultAnswer)],
   }),

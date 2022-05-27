@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { atom, useRecoilCallback, useRecoilState } from 'recoil'
 import { Box } from '@material-ui/core'
 import debug from 'debug'
-
+import Button from '@material-ui/core/Button'
 import { parse } from '/imports/api/forms/engine.js'
 import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { EditorContext } from '/imports/ui/forms/framework/framework'
@@ -21,6 +21,7 @@ const statusState = atom({
 const Toolbar = () => {
   const editorCtx = useContext(EditorContext)
   const [status, setStatus] = useRecoilState(statusState)
+
   const getSource = useRecoilCallback(
     ({ snapshot }) =>
       () => {
@@ -58,7 +59,7 @@ const Toolbar = () => {
 
   return (
     <Box display="flex">
-      <button onClick={save}>Save</button>
+      <Button onClick={save}>Save</Button>
       <Status msg={status} />
     </Box>
   )

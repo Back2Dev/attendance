@@ -5,7 +5,7 @@ import {
   usePartsValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { list } from '/imports/ui/forms/survey-builder/utils'
-import { EditProperty, QuestionProperty } from './edit-property'
+import { EditProperty, QuestionProperty, SectionProperty } from './edit-property'
 import { Section } from './section'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import { makeStyles } from '@material-ui/core/styles'
@@ -14,10 +14,8 @@ import { ErrorBoundary } from 'react-error-boundary'
 import PropTypes from 'prop-types'
 import { useSetSelectedPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import Paper from '@material-ui/core/Paper'
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'
 
 const log = debug('builder:inspector')
 
@@ -67,26 +65,20 @@ const useStyles = makeStyles((theme) => ({
 // FIXME: swap choice positions and the +val get cleared
 const Inspector = () => {
   const [viewJSON, setViewJSON] = useState(false)
+
   const classes = useStyles()
   const selectedPart = useSelectedPartValue()
   const parts = usePartsValue()
   // FIXME add onClose/Open handlers for drawer
 
-  if (!selectedPart) return null
+  // if (!selectedPart) return null
 
   const part = list.findById(parts, selectedPart)
-  if (!part) return null
+  // if (!part) return null
 
   return (
     <>
       <Paper square className={classes.topAction}>
-        {/* <Typography variant="h6">change view</Typography> */}
-        <Tooltip title="Add Section">
-          <IconButton aria-label="add section" className={classes.icon}>
-            <PlaylistAddIcon />
-          </IconButton>
-        </Tooltip>
-
         <Tooltip title="View JSON">
           <IconButton
             aria-label="view json"
@@ -104,7 +96,7 @@ const Inspector = () => {
             <DebugProps />
           </ErrorBoundary>
         ) : (
-          selectedPart !== null && createElement(part.config.inspectorProperties)
+          selectedPart !== null && part && createElement(part.config.inspectorProperties)
         )}
       </div>
     </>
@@ -114,5 +106,6 @@ const Inspector = () => {
 Inspector.Section = Section
 Inspector.Property = EditProperty
 Inspector.Question = QuestionProperty
+Inspector.SectionProperty = SectionProperty
 
 export { Inspector }

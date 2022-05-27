@@ -2,7 +2,7 @@ import { atomFamily } from 'recoil'
 import produce from 'immer'
 import { selectorFamily } from 'recoil'
 import { dataCache } from '../../data-cache'
-// import { makeListItem } from '../../utils/list'
+import { makeId } from '../../utils/makeId'
 
 export const defaultAnswer = { name: '', url: '' }
 
@@ -10,9 +10,10 @@ export const uploadAtom = atomFamily({
   key: 'uploadAtom',
   default: () => ({
     prompt: '',
-    id: '',
+    // id: '',
+    id: makeId(),
     type: 'upload',
-    answers: [],
+    // answers: [],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {

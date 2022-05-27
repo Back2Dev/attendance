@@ -450,7 +450,6 @@ const Progress = ({
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(0)
   const initialCompletion = new Set()
-
   const [models, setModels] = React.useState(
     steps.reduce((acc, step, ix) => {
       try {
@@ -466,7 +465,6 @@ const Progress = ({
       }
     }, {})
   )
-
   const [completed, setCompleted] = React.useState(initialCompletion)
   const isCompleted = (step) => completed.has(step)
   const [open, setOpen] = React.useState(false)
