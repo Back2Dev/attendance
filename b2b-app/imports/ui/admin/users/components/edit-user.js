@@ -57,7 +57,7 @@ export const userSchema = new SimpleSchema2Bridge(
     roles: {
       type: Array,
       uniforms: {
-        checkboxes: true,
+        checkboxes: 'true',
       },
     },
     'roles.$': {
