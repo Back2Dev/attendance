@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import useKeypress from './useKeypress'
-import useOnClickOutside from './useOnClickOutside'
+import useKeypress from './use-keypress'
+import useOnClickOutside from './use-onclick-outside'
 
 function InlineEdit({
   text = '',
