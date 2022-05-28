@@ -279,6 +279,7 @@ const Framework = ({ id, item, methods }) => {
           autoRun,
           toggleAutoRun,
           autoSave,
+          toggleAutoSave,
           compileForm,
           setChecked,
           checked,

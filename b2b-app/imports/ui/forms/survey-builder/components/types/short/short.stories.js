@@ -1,20 +1,15 @@
 import React from 'react'
-import { ShortText } from './short'
+import { Short } from '.'
 
 export default {
   title: 'Survey Builder/Types/Short',
-  component: ShortText,
+  component: Short,
 }
 
-const Template = (args) => <ShortText {...args} />
+const Template = (args) => <Short {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  title: 'test',
-  onClick: () => action('clicked'),
-}
-
-export const SomeOtherState = Template.bind({})
-SomeOtherState.args = {
-  //... different args
+  pid: 'pid',
+  index: 0,
 }

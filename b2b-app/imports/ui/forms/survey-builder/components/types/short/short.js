@@ -1,93 +1,97 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import TextFields from './short-text/textbox'
-import Buttons from './icon-buttons/actionButtons'
-import InlineEdit from '../../core/inline-edit'
-
 import debug from 'debug'
 
+import { ShortInner } from './inner'
+import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
-
+import { shortAtom, shortSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
-
-import { Question } from '/imports/ui/forms/survey-builder/components/question'
-import { Frame } from '/imports/ui/forms/survey-builder/components/frame'
-import {
-  shortAtom,
-  shortSource,
-} from '/imports/ui/forms/survey-builder/recoil/atoms/short-state'
-import { useShortQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks/use-short'
-import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
+import {
+  useSelectedPartValue,
+  useAnswers,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
-const log = debug('builder:short')
+let log = debug('builder:short')
 
 const schema = new SimpleSchema({
   id: String,
   prompt: String,
-  answer: Object,
-  'answer.title': String,
-  'answer.val': { type: String, optional: true },
-  'answer.score': { type: Number, optional: true },
+  answers: Array,
+  'answers.$': Object,
+  'answers.$.id': String,
+  'answers.$.name': String,
+  'answers.$.val': {
+    type: String,
+    optional: true,
+  },
 }).newContext()
 
 const mapDataToAtom = (data) => {
   const state = {
     id: data.id,
-    prompt: data.title,
-    answer: {
-      title: data.answers[0].title,
-      val: data.answers[0].val,
-      score: data.answers[0].score,
-    },
+    // prompt: data.title,
+    prompt: data.prompt,
+    // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
   }
+
   schema.validate(state)
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    // throw new Error('Invalid mapping from data to single state')
+    // throw new Error('Invalid mapping from data to short state')
   }
 
   return state
 }
-const ShortText = React.forwardRef(({ pid, ...otherprops }, ref) => {
-  const [index, changeIndex] = useState(0)
-  const [question, setQuestion] = useShortQuestion(pid)
-  // console.log(schema)
+
+const Short = ({ pid, index }) => {
+  const hide = ['moveUp', 'moveDown', 'add']
 
   return (
-    <Frame pid={pid} {...otherprops} ref={ref}>
-      <Question
-        placeholder="Type your new questions"
-        label={question.prompt}
-        onLabelChange={(text) =>
-          setQuestion((questionAtom) => {
-            return { ...questionAtom, prompt: text }
-          })
-        }
-      />
-
-      <Buttons />
+    <Frame pid={pid} index={index} hide={hide}>
+      <ShortInner pid={pid} />
     </Frame>
   )
-})
+}
 
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
 
+  const relabelAnswers = (path) => {
+    if (path.endsWith('name')) return 'Label'
+    if (path.endsWith('val')) return 'Value'
+    return 'Id'
+  }
   return (
     <div>
-      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
-      <Inspector.Property pid={selectedPart} path="prompt" relabel="Label" />
+      <Inspector.Section heading="Question">
+        <QuestionProperty pid={selectedPart} />
+      </Inspector.Section>
+      <Inspector.Section heading="Answers">
+        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
+      </Inspector.Section>
     </div>
   )
 }
 
-export { ShortText }
+Short.displayName = 'Short'
+
+Short.propTypes = {
+  /** id for this Short instance part */
+  pid: PropTypes.string.isRequired,
+  /** the position this question is rendered in the parts list */
+  index: PropTypes.number,
+}
+
+export { Short }
 
 TypeRegistry.register(
-  'text',
-  ShortText,
+  'short',
+  Short,
   shortSource,
   mapDataToAtom,
   shortAtom,

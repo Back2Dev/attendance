@@ -13,6 +13,9 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
 import DnsIcon from '@material-ui/icons/Dns'
+import ShortTextIcon from '@material-ui/icons/ShortText'
+import SubjectIcon from '@material-ui/icons/Subject'
+import Filter1Icon from '@material-ui/icons/Filter1'
 
 const log = debug('builder:parts')
 
@@ -38,6 +41,9 @@ const partIcons = [
   { part: 'section', icon: DnsIcon },
   { part: 'single', icon: RadioButtonCheckedIcon },
   { part: 'multiple', icon: CheckBoxIcon },
+  { part: 'short', icon: ShortTextIcon },
+  { part: 'long', icon: SubjectIcon },
+  { part: 'number', icon: Filter1Icon },
   { part: 'image', icon: ImageIcon },
   { part: 'upload', icon: PublishIcon },
 ]

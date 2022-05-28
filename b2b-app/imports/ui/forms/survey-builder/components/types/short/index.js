@@ -1,1 +1,1 @@
-export * from './short.js'
+export * from './short'

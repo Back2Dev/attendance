@@ -1,11 +1,11 @@
 import { useRecoilState } from 'recoil'
-import { shortAtom } from '../atoms/short-state'
+import { shortAtom, shortAnswer, shortQuestion } from '../atoms/short-state'
 
 export const useShortQuestion = (pid) => {
-  const state = useRecoilState(shortAtom(pid))
+  const state = useRecoilState(shortQuestion(pid))
   return state
 }
 
-export const useShort = (pid) => {
-  return useRecoilState(shortAtom(pid))
+export const useAnswerShort = (pid) => {
+  return useRecoilState(shortAnswer(pid))
 }

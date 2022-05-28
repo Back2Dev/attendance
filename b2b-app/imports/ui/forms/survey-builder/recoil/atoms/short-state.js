@@ -24,37 +24,61 @@ export const shortAtom = atomFamily({
   ],
 })
 
-// export const shortAnswer = selectorFamily({
-//   key: 'shortAnswer',
-//   get: (pid) => ({ get }) => {
-//     const short = get(shortAtom(pid))
-//     return short.answer
-//   },
-//   set: (pid) => ({ get, set }, newValue) => {
-//     const short = get(shortAnswer(pid))
+export const shortQuestion = selectorFamily({
+  key: 'shortQuestion',
+  get:
+    (pid) =>
+    ({ get }) => {
+      return get(shortAtom(pid)).prompt
+    },
+  set:
+    (pid) =>
+    ({ set, get }, newValue) => {
+      const single = get(shortAtom(pid))
+      const nextState = produce(single, (draft) => {
+        draft.prompt = newValue
+      })
+      set(shortAtom(pid), nextState)
+    },
+})
 
-//     const nextState = produce(short, (draft) => {
-//       draft.answer = newValue
-//     })
-//     set(shortAtom(pid), nextState)
-//   },
-// })
+export const shortAnswer = selectorFamily({
+  key: 'shortAnswer',
+  get:
+    (pid) =>
+    ({ get }) => {
+      const short = get(shortAtom(pid))
+      return short.answer
+    },
+  set:
+    (pid) =>
+    ({ get, set }, newValue) => {
+      const short = get(shortAnswer(pid))
+
+      const nextState = produce(short, (draft) => {
+        draft.answer = newValue
+      })
+      set(shortAtom(pid), nextState)
+    },
+})
 
 export const shortSource = selectorFamily({
   key: 'shortSource',
-  get: (pid) => ({ get }) => {
-    const { prompt, id, answer } = get(shortAtom(pid))
-    const source = [
-      `Q: ${prompt}`,
-      `+id: ${id}`,
-      '+type: text',
-      `A: ${answer.title}`,
-      `+val: ${answer.val}`,
-    ]
-      .flat(2)
-      .filter(Boolean)
-      .join('\n')
+  get:
+    (pid) =>
+    ({ get }) => {
+      const { prompt, id, answer } = get(shortAtom(pid))
+      const source = [
+        `Q: ${prompt}`,
+        `+id: ${id}`,
+        '+type: text',
+        `A: ${answer.title}`,
+        `+val: ${answer.val}`,
+      ]
+        .flat(2)
+        .filter(Boolean)
+        .join('\n')
 
-    return source
-  },
+      return source
+    },
 })
