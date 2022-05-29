@@ -43,7 +43,6 @@ const partIcons = [
   { part: 'multiple', icon: CheckBoxIcon },
   { part: 'short', icon: ShortTextIcon },
   { part: 'long', icon: SubjectIcon },
-  { part: 'number', icon: Filter1Icon },
   { part: 'image', icon: ImageIcon },
   { part: 'upload', icon: PublishIcon },
 ]

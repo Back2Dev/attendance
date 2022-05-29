@@ -5,15 +5,17 @@ import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 import { makeId } from '../../utils/makeId'
 
-export const defaultAnswer = { name: '', val: '' }
+export const defaultSection = { name: '', id: '', p: '', h3: '' }
 
 export const sectionAtom = atomFamily({
   key: 'sectionAtom',
   default: () => ({
     name: '',
     id: makeId(),
+    p: '',
+    h3: '',
     type: 'section',
-    questions: [makeListItem(defaultAnswer)],
+    questions: [makeListItem(defaultSection)],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {

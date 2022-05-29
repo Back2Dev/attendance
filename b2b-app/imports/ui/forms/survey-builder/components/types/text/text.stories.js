@@ -1,12 +1,12 @@
 import React from 'react'
-import { Short } from '.'
+import { Text } from '.'
 
 export default {
-  title: 'Survey Builder/Types/Short',
-  component: Short,
+  title: 'Survey Builder/Types/Text',
+  component: Text,
 }
 
-const Template = (args) => <Short {...args} />
+const Template = (args) => <Text {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

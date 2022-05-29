@@ -1,15 +1,15 @@
 import React from 'react'
 import { useSetRecoilState } from 'recoil'
-import { shortAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { useShortQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { ShortInner } from './inner'
+import { textAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { useTextQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { TextInner } from './inner'
 
 export default {
-  title: 'Survey Builder/Types/Short/Inner',
-  component: ShortInner,
+  title: 'Survey Builder/Types/Text/Inner',
+  component: TextInner,
 }
 
-const Template = (args) => <ShortInner {...args} />
+const Template = (args) => <TextInner {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
@@ -22,7 +22,7 @@ InitialLabel.args = {
 }
 InitialLabel.decorators = [
   (Story) => {
-    const setQuestion = useShortQuestion(Default.args.pid)[1]
+    const setQuestion = useTextQuestion(Default.args.pid)[1]
     setQuestion('This is a question?')
     return <Story />
   },
@@ -35,8 +35,8 @@ InitialList.args = {
 }
 InitialList.decorators = [
   (Story) => {
-    const setShort = useSetRecoilState(shortAtom(Default.args.pid))
-    setShort((prev) => ({ ...prev, answers: [{ name: '1st' }, { name: '2nd' }] }))
+    const setText = useSetRecoilState(textAtom(Default.args.pid))
+    setText((prev) => ({ ...prev, answers: [{ name: '1st' }, { name: '2nd' }] }))
     return <Story />
   },
 ]

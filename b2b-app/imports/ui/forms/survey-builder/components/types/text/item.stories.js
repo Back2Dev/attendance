@@ -2,7 +2,7 @@ import React from 'react'
 import { Item } from './item'
 
 export default {
-  title: 'Survey Builder/Types/Short/Inner/Item',
+  title: 'Survey Builder/Types/Text/Inner/Item',
   component: Item,
 }
 

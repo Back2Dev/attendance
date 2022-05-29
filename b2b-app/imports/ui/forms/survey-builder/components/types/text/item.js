@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import DragHandleIcon from '@material-ui/icons/DragHandle'
@@ -9,8 +8,27 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import debug from 'debug'
 import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inline-edit'
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import { makeStyles } from '@material-ui/core/styles'
 
 const log = debug('builder:item')
+
+const subType = [
+  { label: 'Text', value: 'text' },
+  { label: 'Email', value: 'email' },
+  { label: 'Number', value: 'number' },
+  { label: 'Date', value: 'date' },
+]
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+}))
 
 export const StyledItem = styled('li')(({ theme }) => ({
   listStyleType: 'none',
@@ -91,40 +109,60 @@ const Item = forwardRef(
   (
     {
       text,
-      placeholder,
-      onTextChange,
-      // onRemove,
+      type,
 
+      onTextChange,
+      onRemove,
+      onAdd,
       disableRemove,
       showMobileActions,
       pid,
-
+      index,
+      onChange,
       ...otherProps
     },
     ref
   ) => {
+    const classes = useStyles()
     const preventFocus = (e) => {
       // Actions stay visible after user clicks a button and mouse leaves Item. The reason this
       // happens is because Actions uses the 'focus-within' rule to make it visible. This fixes it by
       // preventing focus but still allows tabbing to work correctly.
       e.preventDefault()
     }
-    const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
+    // const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
 
     return (
       <StyledItem ref={ref} {...otherProps}>
-        <ListStyleType className="icon" />
-
+        {showMobileActions && <DragHandleIcon className="icon" />}
+        <FormControl className={classes.formControl}>
+          <InputLabel id="text-sub-type">Type</InputLabel>
+          <Select
+            labelId="text-sub-type"
+            id={`${pid}_${index}`}
+            value={type}
+            onChange={onChange}
+          >
+            {subType.map(({ label, value }) => (
+              <MenuItem key={value} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <InlineEdit
           className="inline-edit"
           text={text}
-          placeholder={placeholder}
+          placeholder={'Placeholder for the answer'}
           onTextChange={onTextChange}
           pid={pid}
         />
-        {/* <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
+        <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>
             <DragIndicatorIcon />
+            <IconButton size="small" onClick={onAdd} aria-label="add">
+              <AddIcon />
+            </IconButton>
           </Hidden>
 
           <IconButton
@@ -136,7 +174,7 @@ const Item = forwardRef(
           >
             <DeleteIcon />
           </IconButton>
-        </Actions> */}
+        </Actions>
       </StyledItem>
     )
   }

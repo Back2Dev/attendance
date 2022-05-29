@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
 
-import { ShortInner } from './inner'
+import { TextInner } from './inner'
 import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
-import { shortAtom, shortSource } from '../../../recoil/atoms'
+import { textAtom, textSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import {
@@ -14,7 +14,7 @@ import {
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
-let log = debug('builder:short')
+let log = debug('builder:text')
 
 const schema = new SimpleSchema({
   id: String,
@@ -35,25 +35,23 @@ const mapDataToAtom = (data) => {
     // prompt: data.title,
     prompt: data.prompt,
     // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
-    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
+    answers: data.answers.map(({ id, placeholder, type }) => ({ id, placeholder, type })),
   }
 
   schema.validate(state)
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    // throw new Error('Invalid mapping from data to short state')
+    // throw new Error('Invalid mapping from data to text state')
   }
 
   return state
 }
 
-const Short = ({ pid, index }) => {
-  const hide = ['moveUp', 'moveDown', 'add']
-
+const Text = ({ pid, index }) => {
   return (
-    <Frame pid={pid} index={index} hide={hide}>
-      <ShortInner pid={pid} />
+    <Frame pid={pid} index={index}>
+      <TextInner pid={pid} />
     </Frame>
   )
 }
@@ -78,22 +76,22 @@ const InspectorProperties = () => {
   )
 }
 
-Short.displayName = 'Short'
+Text.displayName = 'short'
 
-Short.propTypes = {
-  /** id for this Short instance part */
+Text.propTypes = {
+  /** id for this Text instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Short }
+export { Text }
 
 TypeRegistry.register(
   'short',
-  Short,
-  shortSource,
+  Text,
+  textSource,
   mapDataToAtom,
-  shortAtom,
+  textAtom,
   InspectorProperties
 )
