@@ -72,7 +72,9 @@ const PropertyCard = ({ path, children, pid, addOptions, isSection }) => {
   }))
 
   const showContent = Boolean(
-    options.find((opt) => get(part, opt.value) === '' || get(part, opt.value) === true)
+    options.find((opt) => {
+      return get(part, opt.value) !== undefined
+    })
   )
 
   const setPropertyByValue = useRecoilCallback(({ set }) => (path) => {
@@ -110,7 +112,8 @@ const PropertyCard = ({ path, children, pid, addOptions, isSection }) => {
         subheader={
           <div className={classes.id}>
             <Typography variant="body2">ID: </Typography>
-            <PropertyField pid={pid} path={path ? `${path}.id` : 'id'} />
+            {/* question, section : path=undefined id = id ; answer: id= _id  */}
+            <PropertyField pid={pid} path={path ? `${path}._id` : 'id'} />
           </div>
         }
       />

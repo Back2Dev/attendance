@@ -16,7 +16,6 @@ const TextInner = ({ pid }) => {
   const [question, setQuestion] = useTextQuestion(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  console.log('all', all)
   const showMobileActions = isMobile && selectedPart === pid
 
   return (
@@ -33,7 +32,7 @@ const TextInner = ({ pid }) => {
           onRemove={() => remove(i)}
           onAdd={() => add(i)}
           disableRemove={all.length === 1}
-          onTextChange={(placeholder) => update({ ...c, placeholder }, i)}
+          onTextChange={(name) => update({ ...c, name }, i)}
           onChange={({ target: { value } }) => update({ ...c, type: value }, i)}
           type={c.type}
           text={c.name}

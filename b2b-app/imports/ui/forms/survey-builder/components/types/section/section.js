@@ -51,7 +51,7 @@ const mapDataToAtom = (data) => {
 }
 
 const Section = ({ pid, index }) => {
-  const hide = ['moveUp', 'moveDown', 'add']
+  const hide = ['add']
   return (
     <Frame pid={pid} index={index} hide={hide}>
       <SectionInner pid={pid} />

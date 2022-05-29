@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const StyledItem = styled('li')(({ theme }) => ({
+export const StyledItem = styled('span')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
   alignItems: 'center',
@@ -144,7 +144,7 @@ const Item = forwardRef(
             onChange={onChange}
           >
             {subType.map(({ label, value }) => (
-              <MenuItem key={value} value={value}>
+              <MenuItem component="div" key={value} value={value}>
                 {label}
               </MenuItem>
             ))}
@@ -153,7 +153,7 @@ const Item = forwardRef(
         <InlineEdit
           className="inline-edit"
           text={text}
-          placeholder={'Placeholder for the answer'}
+          placeholder={'Label for the answer'}
           onTextChange={onTextChange}
           pid={pid}
         />

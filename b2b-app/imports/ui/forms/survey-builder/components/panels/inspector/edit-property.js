@@ -38,7 +38,7 @@ export const SectionProperty = ({ pid }) => {
   const [part] = useRecoilState(getInspectorPart({ pid }))
 
   const children = sectionOptions.map((opt, i) =>
-    part[opt.value] === '' || part[opt.value]
+    part[opt.value] !== undefined
       ? createElement(PropertyField, {
           key: i,
           pid,
@@ -60,7 +60,7 @@ export const QuestionProperty = ({ pid }) => {
   const children = questionOptions
     .filter((f) => f.value !== 'optional')
     .map((opt, i) =>
-      part[opt.value] === '' || part[opt.value]
+      part[opt.value] !== undefined
         ? createElement(PropertyField, {
             key: i,
             pid,
@@ -128,7 +128,9 @@ const EditProperty = ({ pid, path, relabel }) => {
       return createElement(EditProperty, {
         key: j,
         pid,
-        path: path ? `${path}.${key}` : key,
+        // path: path ? `${path}.${key}` : key,
+        //for answer, its key is _id not id
+        path: `${path}.${key === 'id' ? '_id' : key}`,
 
         relabel,
       })

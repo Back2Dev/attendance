@@ -124,12 +124,12 @@ const Item = forwardRef(
           pid={pid}
           index={index}
         />
-        <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
+        {/* <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>
             <DragIndicatorIcon />
-            {/* <IconButton size="small" onClick={onAdd} aria-label="add">
+            <IconButton size="small" onClick={onAdd} aria-label="add">
               <AddIcon />
-            </IconButton> */}
+            </IconButton>
           </Hidden>
 
           <IconButton
@@ -141,7 +141,7 @@ const Item = forwardRef(
           >
             <DeleteIcon />
           </IconButton>
-        </Actions>
+        </Actions> */}
       </StyledItem>
     )
   }

@@ -10,7 +10,7 @@ import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import {
   useSelectedPartValue,
-  useAnswers,
+  useTextAnswer,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
@@ -35,7 +35,7 @@ const mapDataToAtom = (data) => {
     // prompt: data.title,
     prompt: data.prompt,
     // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
-    answers: data.answers.map(({ id, placeholder, type }) => ({ id, placeholder, type })),
+    answers: data.answers.map(({ id, name, type }) => ({ id, name, type })),
   }
 
   schema.validate(state)
@@ -49,8 +49,9 @@ const mapDataToAtom = (data) => {
 }
 
 const Text = ({ pid, index }) => {
+  const { all, add } = useTextAnswer(pid)
   return (
-    <Frame pid={pid} index={index}>
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
       <TextInner pid={pid} />
     </Frame>
   )

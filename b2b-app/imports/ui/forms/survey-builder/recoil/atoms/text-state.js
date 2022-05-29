@@ -5,7 +5,7 @@ import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 import { makeId } from '../../utils/makeId'
 
-export const defaultTextAnswer = { placeholder: '', type: 'text' }
+export const defaultTextAnswer = { name: '', type: 'text' }
 
 export const textAtom = atomFamily({
   key: 'textAtom',
