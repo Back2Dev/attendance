@@ -33,7 +33,7 @@ const TextInner = ({ pid }) => {
           onAdd={() => add(i)}
           disableRemove={all.length === 1}
           onTextChange={(name) => update({ ...c, name }, i)}
-          onChange={({ target: { value } }) => update({ ...c, type: value }, i)}
+          onChange={(value) => update({ ...c, type: value }, i)}
           type={c.type}
           text={c.name}
           showMobileActions={showMobileActions}

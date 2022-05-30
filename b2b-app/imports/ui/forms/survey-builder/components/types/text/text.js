@@ -77,7 +77,7 @@ const InspectorProperties = () => {
   )
 }
 
-Text.displayName = 'short'
+Text.displayName = 'text'
 
 Text.propTypes = {
   /** id for this Text instance part */
@@ -89,7 +89,7 @@ Text.propTypes = {
 export { Text }
 
 TypeRegistry.register(
-  'short',
+  'text',
   Text,
   textSource,
   mapDataToAtom,

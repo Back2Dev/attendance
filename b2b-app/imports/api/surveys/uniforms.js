@@ -20,9 +20,11 @@ export default map2Uniforms = (survey) => {
       mv(q, 'title', 'prompt')
       q.answers.forEach((a) => {
         mv(a, 'title', 'name')
+        mv(a,'_id','id')
       })
     })
   })
+
   debug(newSurvey)
   return newSurvey
   // debug(survey)

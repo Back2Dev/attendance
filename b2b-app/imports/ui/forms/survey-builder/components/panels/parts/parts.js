@@ -41,8 +41,8 @@ const partIcons = [
   { part: 'section', icon: DnsIcon },
   { part: 'single', icon: RadioButtonCheckedIcon },
   { part: 'multiple', icon: CheckBoxIcon },
-  { part: 'short', icon: ShortTextIcon },
-  { part: 'long', icon: SubjectIcon },
+  { part: 'text', icon: ShortTextIcon },
+  // { part: 'long', icon: SubjectIcon },
   { part: 'image', icon: ImageIcon },
   { part: 'upload', icon: PublishIcon },
 ]

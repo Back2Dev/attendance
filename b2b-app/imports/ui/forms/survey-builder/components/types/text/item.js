@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import DragHandleIcon from '@material-ui/icons/DragHandle'
@@ -17,7 +17,8 @@ import { makeStyles } from '@material-ui/core/styles'
 const log = debug('builder:item')
 
 const subType = [
-  { label: 'Text', value: 'text' },
+  { label: 'Short', value: 'text' },
+  { label: 'Long', value: 'long' },
   { label: 'Email', value: 'email' },
   { label: 'Number', value: 'number' },
   { label: 'Date', value: 'date' },
@@ -30,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const StyledItem = styled('span')(({ theme }) => ({
+export const StyledItem = styled('span')(({ theme, textType }) => ({
   listStyleType: 'none',
   display: 'flex',
-  alignItems: 'center',
+  alignItems: textType==='long' ? 'flex-start' :'center',
   '.inline-edit': {
     marginLeft: theme.spacing(1),
     flexGrow: 1,
@@ -131,9 +132,10 @@ const Item = forwardRef(
       e.preventDefault()
     }
     // const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
+    const [textType, setTextType] = useState('text')
 
     return (
-      <StyledItem ref={ref} {...otherProps}>
+      <StyledItem ref={ref} {...otherProps} textType={textType}>
         {showMobileActions && <DragHandleIcon className="icon" />}
         <FormControl className={classes.formControl}>
           <InputLabel id="text-sub-type">Type</InputLabel>
@@ -141,7 +143,10 @@ const Item = forwardRef(
             labelId="text-sub-type"
             id={`${pid}_${index}`}
             value={type}
-            onChange={onChange}
+            onChange={({target:{value}}) => {
+              setTextType(value)
+              onChange(value)}
+            }
           >
             {subType.map(({ label, value }) => (
               <MenuItem component="div" key={value} value={value}>
@@ -156,6 +161,7 @@ const Item = forwardRef(
           placeholder={'Label for the answer'}
           onTextChange={onTextChange}
           pid={pid}
+          fieldStyle={textType==='long'?{minHeight:'150px'}:{}}
         />
         <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>

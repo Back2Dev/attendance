@@ -104,7 +104,6 @@ export const PropertyField = ({ relabel, path, pid, placeholder = 'Value' }) => 
 const EditProperty = ({ pid, path, relabel }) => {
   // TODO convert into recoil hook
   const [property] = useRecoilState(editInspectorState({ pid, path }))
-
   const showField = answerOptions.find((item) => path.endsWith(item.value))
 
   if (typeof property === 'string') {
@@ -129,8 +128,8 @@ const EditProperty = ({ pid, path, relabel }) => {
         key: j,
         pid,
         // path: path ? `${path}.${key}` : key,
-        //for answer, its key is _id not id
-        path: `${path}.${key === 'id' ? '_id' : key}`,
+        //id or _id
+        path: `${path}.${key === 'id' ? (property.id ? 'id' : '_id') : key}`,
 
         relabel,
       })

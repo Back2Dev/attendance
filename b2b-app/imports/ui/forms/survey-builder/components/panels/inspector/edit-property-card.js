@@ -90,6 +90,14 @@ const PropertyCard = ({ path, children, pid, addOptions, isSection }) => {
   const handleToggle = (value) => () => {
     setPropertyByValue(value)
   }
+  
+  const get_ID_path = (path) => {
+    if(!path){
+      return 'id'
+    }else{
+      return get(part, `${path}._id`) ? `${path}._id` : `${path}.id`
+    }
+  }
 
   return (
     <Card className={classes.root}>
@@ -113,7 +121,7 @@ const PropertyCard = ({ path, children, pid, addOptions, isSection }) => {
           <div className={classes.id}>
             <Typography variant="body2">ID: </Typography>
             {/* question, section : path=undefined id = id ; answer: id= _id  */}
-            <PropertyField pid={pid} path={path ? `${path}._id` : 'id'} />
+            <PropertyField pid={pid} path={get_ID_path(path)} />
           </div>
         }
       />
