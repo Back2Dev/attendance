@@ -12,6 +12,8 @@
 - Better validation in text mode, displays warnings
 - Fixed test mode crash (bad qtype)
 - TextForm: Show errors only in editor, not in JSON
+- Upgraded storybook
+- Report text mode form errors to the right panel
 
 ## 1.0.5
 
