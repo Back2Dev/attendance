@@ -2,19 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
 
-import { SectionInner } from './inner'
+import { TextInner } from './inner'
 import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
-import { sectionAtom, sectionSource } from '../../../recoil/atoms'
+import { textAtom, textSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import {
   useSelectedPartValue,
-  useAnswers,
+  useTextAnswer,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { SectionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
+import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
-let log = debug('builder:section')
+let log = debug('builder:text')
 
 const schema = new SimpleSchema({
   id: String,
@@ -30,31 +30,29 @@ const schema = new SimpleSchema({
 }).newContext()
 
 const mapDataToAtom = (data) => {
-  console.log('section mapDatatoAtom data', data)
   const state = {
     id: data.id,
-
     // prompt: data.title,
     prompt: data.prompt,
     // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
-    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
+    answers: data.answers.map(({ id, name, type }) => ({ id, name, type })),
   }
 
   schema.validate(state)
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    // throw new Error('Invalid mapping from data to section state')
+    // throw new Error('Invalid mapping from data to text state')
   }
 
   return state
 }
 
-const Section = ({ pid, index }) => {
-  const hide = ['add']
+const Text = ({ pid, index }) => {
+  const { all, add } = useTextAnswer(pid)
   return (
-    <Frame pid={pid} index={index} hide={hide}>
-      <SectionInner pid={pid} />
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
+      <TextInner pid={pid} />
     </Frame>
   )
 }
@@ -62,40 +60,39 @@ const Section = ({ pid, index }) => {
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
 
-  // const relabelAnswers = (path) => {
-  //   if (path.endsWith('name')) return 'Label'
-  //   if (path.endsWith('val')) return 'Value'
-  //   return 'Id'
-  // }
+  const relabelAnswers = (path) => {
+    if (path.endsWith('name')) return 'Label'
+    if (path.endsWith('val')) return 'Value'
+    return 'Id'
+  }
   return (
     <div>
-      <Inspector.SectionProperty pid={selectedPart} />
-      {/* <Inspector.Section heading="Question">
+      <Inspector.Section heading="Question">
         <QuestionProperty pid={selectedPart} />
       </Inspector.Section>
       <Inspector.Section heading="Answers">
         <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
-      </Inspector.Section> */}
+      </Inspector.Section>
     </div>
   )
 }
 
-Section.displayName = 'Section'
+Text.displayName = 'text'
 
-Section.propTypes = {
-  /** id for this Section instance part */
+Text.propTypes = {
+  /** id for this Text instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Section }
+export { Text }
 
 TypeRegistry.register(
-  'section',
-  Section,
-  sectionSource,
+  'text',
+  Text,
+  textSource,
   mapDataToAtom,
-  sectionAtom,
+  textAtom,
   InspectorProperties
 )

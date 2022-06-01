@@ -5,7 +5,7 @@ import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 import { makeId } from '../../utils/makeId'
 
-export const defaultAnswer = { name: '', val: '' }
+export const defaultImageAnswer = { prompt: '', name: '', val: '' }
 
 export const imageAtom = atomFamily({
   key: 'imageAtom',
@@ -14,7 +14,7 @@ export const imageAtom = atomFamily({
     // id: '',
     id: makeId(),
     type: 'image',
-    answers: [makeListItem(defaultAnswer)],
+    answers: [makeListItem(defaultImageAnswer)],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {

@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   edit: {
     ...theme.typography.body1,
+
     cursor: 'text',
     '&:focus': {
       outline: `1px solid ${theme.palette.primary.light}`,
@@ -45,6 +46,7 @@ const Edit = ({
   onAdd,
   pid,
   index,
+  fieldStyle,
   ...otherProps
 }) => {
   const classes = useStyles({ placeholder })
@@ -134,6 +136,7 @@ const Edit = ({
         spellCheck="false"
         role={isEditing ? 'textbox' : 'button'}
         aria-label={placeholder}
+        style={fieldStyle}
       />
     </div>
   )

@@ -1,5 +1,4 @@
-import React, { forwardRef } from 'react'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
+import React, { forwardRef, useState } from 'react'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import DragHandleIcon from '@material-ui/icons/DragHandle'
@@ -9,13 +8,33 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import debug from 'debug'
 import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inline-edit'
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import { makeStyles } from '@material-ui/core/styles'
 
 const log = debug('builder:item')
 
-export const StyledItem = styled('li')(({ theme }) => ({
+const subType = [
+  { label: 'Short', value: 'text' },
+  { label: 'Long', value: 'long' },
+  { label: 'Email', value: 'email' },
+  { label: 'Number', value: 'number' },
+  { label: 'Date', value: 'date' },
+]
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+}))
+
+export const StyledItem = styled('span')(({ theme, textType }) => ({
   listStyleType: 'none',
   display: 'flex',
-  alignItems: 'center',
+  alignItems: textType==='long' ? 'flex-start' :'center',
   '.inline-edit': {
     marginLeft: theme.spacing(1),
     flexGrow: 1,
@@ -91,7 +110,8 @@ const Item = forwardRef(
   (
     {
       text,
-      placeholder,
+      type,
+
       onTextChange,
       onRemove,
       onAdd,
@@ -99,32 +119,51 @@ const Item = forwardRef(
       showMobileActions,
       pid,
       index,
+      onChange,
       ...otherProps
     },
     ref
   ) => {
+    const classes = useStyles()
     const preventFocus = (e) => {
       // Actions stay visible after user clicks a button and mouse leaves Item. The reason this
       // happens is because Actions uses the 'focus-within' rule to make it visible. This fixes it by
       // preventing focus but still allows tabbing to work correctly.
       e.preventDefault()
     }
-    const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
+    // const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
+    const [textType, setTextType] = useState('text')
 
     return (
-      <StyledItem ref={ref} {...otherProps}>
-        <ListStyleType className="icon" />
-
+      <StyledItem ref={ref} {...otherProps} textType={textType}>
+        {showMobileActions && <DragHandleIcon className="icon" />}
+        <FormControl className={classes.formControl}>
+          <InputLabel id="text-sub-type">Type</InputLabel>
+          <Select
+            labelId="text-sub-type"
+            id={`${pid}_${index}`}
+            value={type}
+            onChange={({target:{value}}) => {
+              setTextType(value)
+              onChange(value)}
+            }
+          >
+            {subType.map(({ label, value }) => (
+              <MenuItem component="div" key={value} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <InlineEdit
           className="inline-edit"
           text={text}
-          placeholder={placeholder}
+          placeholder={'Label for the answer'}
           onTextChange={onTextChange}
-          onAdd={onAdd}
           pid={pid}
-          index={index}
+          fieldStyle={textType==='long'?{minHeight:'150px'}:{}}
         />
-        {/* <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
+        <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>
             <DragIndicatorIcon />
             <IconButton size="small" onClick={onAdd} aria-label="add">
@@ -141,7 +180,7 @@ const Item = forwardRef(
           >
             <DeleteIcon />
           </IconButton>
-        </Actions> */}
+        </Actions>
       </StyledItem>
     )
   }

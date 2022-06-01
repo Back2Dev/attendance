@@ -5,15 +5,17 @@ import { dataCache } from '../../data-cache'
 import { makeListItem } from '../../utils/list'
 import { makeId } from '../../utils/makeId'
 
-export const defaultAnswer = { name: '', val: '' }
+export const defaultSection = { name: '', p: '', h3: '' }
 
 export const sectionAtom = atomFamily({
   key: 'sectionAtom',
   default: () => ({
     name: '',
     id: makeId(),
+    p: '',
+    h3: '',
     type: 'section',
-    questions: [makeListItem(defaultAnswer)],
+    questions: [makeListItem(defaultSection)],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {
@@ -67,13 +69,13 @@ export const sectionSource = selectorFamily({
   get:
     (pid) =>
     ({ get }) => {
-      const { name, id } = get(sectionAtom(pid))
+      const { name, id, paragraphs, headers } = get(sectionAtom(pid))
       console.log('get section atom', get(sectionAtom(pid)))
       const source = [
         `S: ${name}`,
         `+id: ${id}`,
-        // paragraphs && `+p: ${paragraphs}`,
-        // headers && `+h3: ${headers}`,
+        paragraphs && `+p: ${paragraphs}`,
+        headers && `+h3: ${headers}`,
       ]
         .flat(2)
         .filter(Boolean)

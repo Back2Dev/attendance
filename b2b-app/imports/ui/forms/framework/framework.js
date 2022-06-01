@@ -14,6 +14,7 @@ import map2UiSchema from '/imports/api/surveys/ui-schema'
 import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { useRecoilCallback } from 'recoil'
 import { RecoilRoot } from 'recoil'
+import { makeId } from '../survey-builder/utils'
 
 const debug = require('debug')('app:forms:framework')
 
@@ -145,9 +146,13 @@ const Framework = ({ id, item, methods }) => {
   const compileForm = () => {
     if (layout === 'dnd') {
       const sourceJSON = getSource()
-      const sections = sourceJSON.reduce((acc, curr) => {
+      const sections = sourceJSON.reduce((acc, curr, index) => {
+        //if first one is not a section => create a  default section
+        if (index === 0 && curr.type !== 'section')
+          return [{ id: makeId(), name: 'Section 1', questions: [{ ...curr }] }]
+        //if type is section, then create an object
         if (curr.type === 'section') return [...acc, { ...curr, questions: [] }]
-
+        //put the question inside the last section we created
         acc[acc.length - 1].questions = [...acc[acc.length - 1].questions, curr]
         return acc
       }, [])
@@ -279,6 +284,7 @@ const Framework = ({ id, item, methods }) => {
           autoRun,
           toggleAutoRun,
           autoSave,
+          toggleAutoSave,
           compileForm,
           setChecked,
           checked,

@@ -55,7 +55,6 @@ export const singleAnswers = selectorFamily({
     (pid) =>
     ({ get, set }, newValue) => {
       const single = get(singleAtom(pid))
-
       const nextState = produce(single, (draft) => {
         draft.answers = newValue
       })
