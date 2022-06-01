@@ -1,3 +1,4 @@
+const { titleCase } = require('title-case')
 const fs = require('fs')
 var mkpath = require('mkpath')
 const { fixSQLTypes } = require('./parse-module')
@@ -5,7 +6,6 @@ const debug = require('debug')('module:templating')
 
 // This feels clumsy, something changed in the change-case module, but the doco doesn't explain how to bring in additional modules
 const cc = require('change-case')
-const { titleCase } = require('title-case')
 cc.kebabCase = (str) => cc.headerCase(str).toLowerCase()
 cc.titleCase = titleCase
 let idField = '_id'

@@ -1,0 +1,31 @@
+{
+  "collection": "punters",
+  "generate": "CRUD",
+  "fields": {
+    "memberNo": "String",
+    "name": "String",
+    "directDebit": "OptionalString",
+    "guestCard": "OptionalString",
+    "pre79Card": "OptionalString",
+    "carPass": "OptionalString",
+    "subscription": "OptionalString",
+    "guestCard": "OptionalString",
+    "pre79Card": "OptionalString",
+    "carPass": "OptionalString",
+    "payByInstalments": "OptionalString",
+    "item1": "OptionalString",
+    "item1Pmt": "OptionalString",
+    "item2": "OptionalString",
+    "item2Pmt": "OptionalString",
+    "item3": "OptionalString",
+    "item3Pmt": "OptionalString",
+    "item4": "OptionalString",
+    "item4Pmt": "OptionalString",
+    "item5": "OptionalString",
+    "item5Pmt": "OptionalString",
+    "firstName": "OptionalString",
+    "lastName": "OptionalString",
+    "status": "OptionalString",
+    "statusReason": "OptionalString"
+  }
+}

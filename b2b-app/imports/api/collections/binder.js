@@ -18,6 +18,7 @@ import MessageTemplates, {
 } from '/imports/api/message-templates/schema'
 import Messages, { MessagesSchema } from '/imports/api/messages/schema'
 import Notifications, { NotificationsSchema } from '/imports/api/notifications/schema'
+import Punters, { PuntersSchema } from '/imports/api/punters/schema'
 import Registrations, { RegistrationsSchema } from '/imports/api/registrations/schema'
 import ServiceItems, { ServiceItemsSchema } from '/imports/api/service-items/schema'
 import Sessions, { SessionsSchema } from '/imports/api/sessions/schema'
@@ -48,6 +49,8 @@ const getCollection = (name) => {
       return { collection: Messages, schema: MessagesSchema }
     case 'notifications':
       return { collection: Notifications, schema: NotificationsSchema }
+    case 'punters':
+      return { collection: Punters, schema: PuntersSchema }
     case 'registrations':
       return { collection: Registrations, schema: RegistrationsSchema }
     case 'service-items':
