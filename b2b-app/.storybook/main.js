@@ -12,6 +12,9 @@ module.exports = {
     // need these 2 lines because builder renders incomplete stories as it uses form/framework
     // context which imports preview-panel which logs a ReferenceError: EditorPanel not defined
     config.resolve.alias['meteor/meteor'] = require.resolve('./__mocks__/meteor.js')
+    config.resolve.alias['meteor/tracker'] = require.resolve(
+      './__mocks__/meteor-tracker.js'
+    )
     config.plugins.push(
       new instance.NormalModuleReplacementPlugin(
         /preview-panel/,
