@@ -13,6 +13,11 @@ import {
 
 const Punters = new Mongo.Collection('punters')
 
+const itemSchema = new SimpleSchema({
+  name: String,
+  payment: OptionalString,
+})
+
 export const PuntersSchema = new SimpleSchema({
   _id: OptionalRegExId,
 
@@ -34,14 +39,22 @@ export const PuntersSchema = new SimpleSchema({
   item4Pmt: OptionalString,
   item5: OptionalString,
   item5Pmt: OptionalString,
-  firstName: OptionalString,
-  lastName: OptionalString,
-  status: OptionalString,
+  items: { type: Array, optional: true },
+  'items.$': itemSchema,
+  itemCount: SimpleSchema.Integer,
+  status: { type: String, optional: true, defaultValue: 'active' },
   statusReason: OptionalString,
   createdAt,
   updatedAt,
 })
 
 Punters.attachSchema(PuntersSchema)
+if (Meteor.isServer)
+  Punters._ensureIndex(
+    {
+      memberNo: 1,
+    },
+    { name: 'memberNo' }
+  )
 
 export default Punters

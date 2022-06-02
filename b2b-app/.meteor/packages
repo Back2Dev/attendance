@@ -38,3 +38,4 @@ bozhao:link-accounts
 grove:call-async
 session@1.2.0
 johanbrook:publication-collector
+mikowals:batch-insert
