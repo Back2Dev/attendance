@@ -3,8 +3,10 @@ import produce from 'immer'
 import { selectorFamily } from 'recoil'
 import { dataCache } from '../../data-cache'
 import { makeId } from '../../utils/makeId'
+import { makeListItem } from '../../utils/list'
 
-export const defaultAnswer = { name: '', url: '' }
+export const defaultUploadAnswer = { name: '',val:'', url: '', accept:{ '.pdf': true, 'image/*': true, '.txt': true, 'video/*': false },maxSize:100, maxFiles:1, multiple:false}
+
 
 export const uploadAtom = atomFamily({
   key: 'uploadAtom',
@@ -13,7 +15,7 @@ export const uploadAtom = atomFamily({
     // id: '',
     id: makeId(),
     type: 'upload',
-    // answers: [],
+    answers: [makeListItem(defaultUploadAnswer)],
   }),
   effects_UNSTABLE: (pid) => [
     ({ setSelf }) => {

@@ -6,32 +6,41 @@ import debug from 'debug'
 import { dndAtom } from '../recoil/atoms'
 import { useDnd } from '../recoil/hooks'
 import { useDndSensor } from '../hooks'
+import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 const log = debug('builder:dnd')
 
 const DndProvider = ({ children }) => {
+  const { movePartToCanvas } = useParts()
+
   const setList = useRecoilCallback(
-    ({ set, snapshot }) => (result) => {
-      const { source, destination } = result
-      if (!destination) return
-      if (
-        destination.droppableId === source.droppableId &&
-        destination.index === source.index
-      ) {
-        return
-      }
-      const listAtoms = snapshot.getLoadable(dndAtom).contents
-      if (!listAtoms.has(source.droppableId)) {
-        log('dndAtom', listAtoms)
-        throw new Error('Cannot find list atom to reorder')
-      }
-      set(listAtoms.get(source.droppableId), (answers) => {
-        const items = Array.from(answers)
-        const [reorderedItem] = items.splice(source.index, 1)
-        items.splice(destination.index, 0, reorderedItem)
-        return items
-      })
-    },
+    ({ set, snapshot }) =>
+      (result) => {
+        const { source, destination } = result
+        if (!destination) return
+        if (
+          destination.droppableId === source.droppableId &&
+          destination.index === source.index
+        ) {
+          return
+        }
+        //allows question type to be dropped into canvas
+        if (source.droppableId === 'parts') {
+          if (source.droppableId === destination.droppableId) return
+          return movePartToCanvas(result.draggableId, destination.index)
+        }
+        const listAtoms = snapshot.getLoadable(dndAtom).contents
+        if (!listAtoms.has(source.droppableId)) {
+          log('dndAtom', listAtoms)
+          throw new Error('Cannot find list atom to reorder')
+        }
+        set(listAtoms.get(source.droppableId), (answers) => {
+          const items = Array.from(answers)
+          const [reorderedItem] = items.splice(source.index, 1)
+          items.splice(destination.index, 0, reorderedItem)
+          return items
+        })
+      },
     []
   )
 

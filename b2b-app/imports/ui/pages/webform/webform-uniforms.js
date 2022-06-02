@@ -49,6 +49,7 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
+import {DropZone} from '/imports/ui/forms/survey-builder/components/types/upload/item'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -332,7 +333,8 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} />
-          <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p>
+          {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
+          <DropZone />
         </span>
       )
 

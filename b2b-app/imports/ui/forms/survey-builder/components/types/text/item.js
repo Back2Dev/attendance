@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const StyledItem = styled('span')(({ theme, textType }) => ({
+export const StyledItem = styled('span')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
-  alignItems: textType==='long' ? 'flex-start' :'center',
+  alignItems: 'center',
   '.inline-edit': {
     marginLeft: theme.spacing(1),
     flexGrow: 1,
@@ -132,10 +132,10 @@ const Item = forwardRef(
       e.preventDefault()
     }
     // const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
-    const [textType, setTextType] = useState('text')
+
 
     return (
-      <StyledItem ref={ref} {...otherProps} textType={textType}>
+      <StyledItem ref={ref} {...otherProps} >
         {showMobileActions && <DragHandleIcon className="icon" />}
         <FormControl className={classes.formControl}>
           <InputLabel id="text-sub-type">Type</InputLabel>
@@ -144,7 +144,6 @@ const Item = forwardRef(
             id={`${pid}_${index}`}
             value={type}
             onChange={({target:{value}}) => {
-              setTextType(value)
               onChange(value)}
             }
           >
@@ -161,7 +160,7 @@ const Item = forwardRef(
           placeholder={'Label for the answer'}
           onTextChange={onTextChange}
           pid={pid}
-          fieldStyle={textType==='long'?{minHeight:'150px'}:{}}
+        
         />
         <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>

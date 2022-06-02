@@ -14,8 +14,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
 import DnsIcon from '@material-ui/icons/Dns'
 import ShortTextIcon from '@material-ui/icons/ShortText'
-import SubjectIcon from '@material-ui/icons/Subject'
-import Filter1Icon from '@material-ui/icons/Filter1'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 
 const log = debug('builder:parts')
 
@@ -42,7 +41,6 @@ const partIcons = [
   { part: 'single', icon: RadioButtonCheckedIcon },
   { part: 'multiple', icon: CheckBoxIcon },
   { part: 'text', icon: ShortTextIcon },
-  // { part: 'long', icon: SubjectIcon },
   { part: 'image', icon: ImageIcon },
   { part: 'upload', icon: PublishIcon },
 ]
@@ -54,19 +52,37 @@ const Parts = () => {
 
   return (
     <div className={classes.list}>
-      <List>
-        {partIcons.map((item) => (
-          <div key={item.part}>
-            <ListItem onClick={() => addPart(item.part)} className={classes.item}>
-              <ListItemAvatar>
-                <Avatar>{createElement(item.icon)}</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={item.part.toUpperCase()} />
-            </ListItem>
-            <Divider variant="inset" component="li" />
+      <Droppable key={'parts'} droppableId={`parts`} type="canvas">
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <List>
+              {partIcons.map((item, index) => (
+                <Draggable key={item.part} draggableId={item.part} index={index}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <ListItem
+                        onClick={() => addPart(item.part)}
+                        className={classes.item}
+                      >
+                        <ListItemAvatar>
+                          <Avatar>{createElement(item.icon)}</Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={item.part.toUpperCase()} />
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </List>
           </div>
-        ))}
-      </List>
+        )}
+      </Droppable>
     </div>
   )
 }

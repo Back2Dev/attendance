@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil'
 import { list } from '../../utils'
-import { defaultAnswer, uploadAnswers, uploadQuestion } from '../atoms'
+import { defaultUploadAnswer, uploadAnswers, uploadQuestion } from '../atoms'
 
 export const useUploadQuestion = (pid) => {
   const state = useRecoilState(uploadQuestion(pid))
@@ -11,7 +11,7 @@ export const useUploadAnswers = (pid) => {
   const [answers, setAnswers] = useRecoilState(uploadAnswers(pid))
 
   const add = (index) => {
-    setAnswers(list.add(answers, defaultAnswer, index))
+    setAnswers(list.add(answers, defaultUploadAnswer, index))
   }
 
   const update = (value, index) => {

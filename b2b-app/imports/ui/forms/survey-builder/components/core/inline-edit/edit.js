@@ -46,7 +46,6 @@ const Edit = ({
   onAdd,
   pid,
   index,
-  fieldStyle,
   ...otherProps
 }) => {
   const classes = useStyles({ placeholder })
@@ -136,7 +135,6 @@ const Edit = ({
         spellCheck="false"
         role={isEditing ? 'textbox' : 'button'}
         aria-label={placeholder}
-        style={fieldStyle}
       />
     </div>
   )

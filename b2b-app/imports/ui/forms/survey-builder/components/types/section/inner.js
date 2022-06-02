@@ -8,6 +8,7 @@ import {
   useSection,
   useSelectedPartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import {PropertyField} from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
 const SectionInner = ({ pid }) => {
   const [section, setSection] = useSection(pid)
@@ -23,6 +24,8 @@ const SectionInner = ({ pid }) => {
         label={section.name}
         onLabelChange={(text) => setSection((prev) => ({ ...prev, name: text }))}
       />
+      {section.h3 !==undefined && <PropertyField path={'h3'} pid={pid} placeholder={'Header'}/>}
+      {section.p ==undefined && <PropertyField path={'p'} pid={pid} placeholder={'Paragraph'}/>}
 
       {showMobileActions && (
         <Button

@@ -28,7 +28,8 @@ const schema = new SimpleSchema(
 ).newContext()
 
 const parse = (data) => {
-  sections = data.reduce((acc, { name, id }) => ({ ...acc, [id]: { name, id } }), {})
+  //if data from text editor don't have paragraph , then set default to ''
+  sections = data.reduce((acc, { name,title, id, p }) => ({ ...acc, [id]: { name: name || title, id, p:p??'' } }), {})
   questions = data.reduce(
     (acc, { questions }) => ({
       ...acc,

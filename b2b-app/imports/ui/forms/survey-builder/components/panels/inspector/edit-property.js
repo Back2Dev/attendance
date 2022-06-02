@@ -13,9 +13,13 @@ import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inl
 
 const log = debug('builder:edit-property')
 
-const questionOptions = [
+const commonOptions = [
   { label: 'Optional', value: 'optional' },
   { label: 'Placeholder', value: 'placeholder' },
+]
+
+const questionOptions = [
+  ...commonOptions,
   { label: 'Conditional', value: 'cond' },
   { label: 'Paragraphs', value: 'p' },
   { label: 'Headers', value: 'h3' },
@@ -23,8 +27,8 @@ const questionOptions = [
 ]
 
 const answerOptions = [
+  ...commonOptions,
   { label: 'Value', value: 'val' },
-  { label: 'Placeholder', value: 'placeholder' },
   { label: 'Score', value: 'score' },
   { label: 'Specify', value: 'specify' },
 ]
