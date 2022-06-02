@@ -25,6 +25,7 @@ Meteor.methods({
     }
   },
   'update.forms': (form) => {
+    console.log('form', form)
     try {
       const id = form._id
       delete form._id
@@ -48,10 +49,13 @@ Meteor.methods({
       }
     }
   },
-  's3.deleteObject': ({fileName}) => {
-    s3.deleteObject({Bucket:Meteor.settings.private.UPLOAD_BUCKET, Key:fileName}, function (err, data) {
+  's3.deleteObject': ({ fileName }) => {
+    s3.deleteObject(
+      { Bucket: Meteor.settings.private.UPLOAD_BUCKET, Key: fileName },
+      function (err, data) {
         if (err) return console.error(`Error: Could not delete file from s3 ${err}`)
         return console.info('file deleted from s3', fileName)
-      })
-    },
+      }
+    )
+  },
 })

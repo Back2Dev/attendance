@@ -49,6 +49,7 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
+import {DropZone} from '/imports/ui/forms/survey-builder/components/types/upload/item'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -185,13 +186,10 @@ const Prompt = ({ text, tooltip }) => {
     prompt = html2r(p)
   }
 
-  if (!tooltip) return <Typography>{prompt}</Typography>
+  if (!tooltip) return <>{prompt}</>
   return (
     <div>
-      <Typography>{prompt}</Typography>{' '}
-      <Typography>
-        <i>{html2r(tooltip)}</i>
-      </Typography>
+      <>{prompt}</> <i>{html2r(tooltip)}</i>
     </div>
   )
 }
@@ -335,7 +333,8 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} />
-          <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p>
+          {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
+          <DropZone />
         </span>
       )
 
@@ -450,7 +449,6 @@ const Progress = ({
   const classes = useStyles()
   const [activeStep, setActiveStep] = React.useState(0)
   const initialCompletion = new Set()
-
   const [models, setModels] = React.useState(
     steps.reduce((acc, step, ix) => {
       try {
@@ -466,7 +464,6 @@ const Progress = ({
       }
     }, {})
   )
-
   const [completed, setCompleted] = React.useState(initialCompletion)
   const isCompleted = (step) => completed.has(step)
   const [open, setOpen] = React.useState(false)

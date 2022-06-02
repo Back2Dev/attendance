@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
 
 const Section = ({ heading, children }) => {
   return (
     <div>
-      <h2>{heading}</h2>
+      <Typography style={{ marginTop: '10px' }} variant="body1">
+        {heading}
+      </Typography>
+
       {children}
     </div>
   )

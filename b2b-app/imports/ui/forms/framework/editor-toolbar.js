@@ -78,6 +78,21 @@ export const EditorToolbar = () => {
           className="editorTools"
           style={{ display: 'table-cell', width: '33vw', textAlign: 'right' }}
         >
+          {/* toggle button for dnd editor */}
+
+          {formContext.layout === 'dnd' && (
+            <Tooltip title="View Form">
+              <Switch
+                checked={formContext.checked}
+                onChange={() => {
+                  formContext.setChecked(!formContext.checked)
+                  formContext.compileForm()
+                }}
+                name="viewForm"
+                color="primary"
+              />
+            </Tooltip>
+          )}
           <span>
             <Tooltip title="Settings">
               <IconButton
@@ -120,7 +135,7 @@ export const EditorToolbar = () => {
                     <FormControlLabel
                       value="dnd"
                       control={<Radio />}
-                      label="Drag and Drop"
+                      label="Drag and drop"
                     />
                   </RadioGroup>
                 </FormControl>
@@ -134,7 +149,7 @@ export const EditorToolbar = () => {
                         color="primary"
                       />
                     }
-                    label="AutoRun"
+                    label="Auto run"
                   />
                 </FormGroup>
                 <FormGroup row>
@@ -147,7 +162,7 @@ export const EditorToolbar = () => {
                         color="primary"
                       />
                     }
-                    label="AutoSave"
+                    label="Auto save"
                   />
                 </FormGroup>
               </div>

@@ -27,3 +27,26 @@ export const editInspectorState = selectorFamily({
       set(config.atom(pid), nextState)
     },
 })
+
+export const getInspectorPart = selectorFamily({
+  key: 'getInspectorPart',
+  get:
+    ({ pid }) =>
+    ({ get }) => {
+      const parts = get(partsAtom)
+      const { config } = findById(parts, pid)
+      const state = get(config.atom(pid))
+      return state
+    },
+  set:
+    ({ pid, path }) =>
+    ({ get, set }, newValue) => {
+      const parts = get(partsAtom)
+      const { config } = findById(parts, pid)
+      const state = get(config.atom(pid))
+      const nextState = produce(state, (draft) => {
+        lset(draft, path, newValue)
+      })
+      set(config.atom(pid), nextState)
+    },
+})

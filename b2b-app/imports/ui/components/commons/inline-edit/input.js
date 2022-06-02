@@ -2,36 +2,16 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import useKeypress from './useKeypress'
-import useOnClickOutside from './useOnClickOutside'
+import useKeypress from './use-keypress'
+import useOnClickOutside from './use-onclick-outside'
 
-const StyledInlineEdit = styled.span`
-  /* these make sure it can work in any text element */
-  .inline-text_copy,
-  .inline-text_input {
-    font: inherit;
-    color: inherit;
-    text-align: inherit;
-    padding: 0;
-    background: none;
-    border: none;
-    outline: none;
-  }
-
-  .inline-text_copy {
-    cursor: pointer;
-    border-bottom: 1px dashed #999999;
-  }
-
-  .inline-text_input {
-    border-bottom: 1px solid #666666;
-    text-align: left;
-    overflow: hidden;
-    min-width: 30px;
-  }
-`
-
-function InlineEdit({ text = '', onSetText, placeholder = '', inputType = 'text' }) {
+function InlineEdit({
+  text = '',
+  onSetText,
+  placeholder = 'Untitled view',
+  inputType = 'text',
+  minWidth = 120,
+}) {
   const [isInputActive, setIsInputActive] = useState(false)
   const [inputValue, setInputValue] = useState(text)
 
@@ -41,7 +21,33 @@ function InlineEdit({ text = '', onSetText, placeholder = '', inputType = 'text'
 
   const enter = useKeypress('Enter')
   const esc = useKeypress('Escape')
+  const StyledInlineEdit = styled.span`
+    /* these make sure it can work in any text element */
+    .inline-text_copy,
+    .inline-text_input {
+      font: inherit;
+      color: inherit;
+      text-align: inherit;
+      padding: 0;
+      background: none;
+      border: none;
+      outline: none;
+    }
 
+    .inline-text_copy {
+      cursor: pointer;
+      border-bottom: 1px dashed #999999;
+      min-width: ${minWidth}px;
+      display: inline-block;
+    }
+
+    .inline-text_input {
+      border-bottom: 1px solid #666666;
+      text-align: left;
+      overflow: hidden;
+      min-width: ${minWidth}px;
+    }
+  `
   // update the inputValue state on text prop changed
   useEffect(() => {
     setInputValue(text || '')
@@ -106,8 +112,16 @@ function InlineEdit({ text = '', onSetText, placeholder = '', inputType = 'text'
     if (isInputActive) {
       return null
     }
+    const w = textWidth.current > minWidth ? textWidth.current : minWidth
     return (
-      <span ref={textRef} onClick={handleSpanClick} className="inline-text_copy">
+      <span
+        ref={textRef}
+        onClick={handleSpanClick}
+        className="inline-text_copy"
+        style={{
+          width: `${w}px`,
+        }}
+      >
         {text || placeholder}
       </span>
     )
@@ -123,12 +137,13 @@ function InlineEdit({ text = '', onSetText, placeholder = '', inputType = 'text'
       // set the width to the input length multiplied by the x height
       // it's not quite right but gets it close
       style: {
-        width: `${textWidth.current}px`,
+        width: `${textWidth.current || minWidth}px`,
         height: `${textHeight.current}px`,
       },
       value: inputValue,
       onChange: (event) => setInputValue(event.target.value),
       className: 'inline-text_input',
+      placeholder,
     }
 
     if (inputType === 'textarea') {

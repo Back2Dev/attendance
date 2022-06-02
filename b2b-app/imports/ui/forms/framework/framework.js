@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
@@ -11,6 +11,10 @@ import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
 import map2Uniforms from '/imports/api/surveys/uniforms'
 import map2UiSchema from '/imports/api/surveys/ui-schema'
+import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { useRecoilCallback } from 'recoil'
+import { RecoilRoot } from 'recoil'
+import { makeId } from '../survey-builder/utils'
 
 const debug = require('debug')('app:forms:framework')
 
@@ -123,22 +127,64 @@ const Framework = ({ id, item, methods }) => {
     setFormEditorInput(input)
   }
 
+  //tool-bar toggle to view/edit dnd form
+  const [checked, setChecked] = useState(false)
+
+  const getSource = useRecoilCallback(
+    ({ snapshot }) =>
+      () => {
+        const parts = snapshot.getLoadable(partsAtom).contents
+        const sourceJSON = parts.map(({ _id: pid, config }) => ({
+          ...snapshot.getLoadable(config.atom(pid)).contents,
+          type: config.component.name.toLowerCase(),
+        }))
+        return sourceJSON
+      },
+    []
+  )
+
   const compileForm = () => {
-    const result = parse(formEditorInput)
-    if (result.status === 'success') {
-      const specific = map2Uniforms(result.survey)
-      // const specific = map2UiSchema(result.survey)
-      debug({ specific })
+    if (layout === 'dnd') {
+      const sourceJSON = getSource()
+      const sections = sourceJSON.reduce((acc, curr, index) => {
+        //if first one is not a section => create a  default section
+        if (index === 0 && curr.type !== 'section')
+          return [{ id: makeId(), name: 'Section 1', questions: [{ ...curr }] }]
+        //if type is section, then create an object
+        if (curr.type === 'section') return [...acc, { ...curr, questions: [] }]
+        //put the question inside the last section we created
+        acc[acc.length - 1].questions = [...acc[acc.length - 1].questions, curr]
+        return acc
+      }, [])
+
+      let survey = {
+        sections,
+        name: 'Sample Survey',
+        slug: 'sample',
+        version: '1',
+        active: true,
+      }
+
+      const specific = map2Uniforms(survey)
       setRaw(specific)
 
-      setJsonEditorInput(JSON.stringify(result.survey, null, 2))
-      setErrors(result.errs)
-      showErrors(result.errs)
+      setJsonEditorInput(JSON.stringify(survey, null, 2))
     } else {
-      console.log(result)
-      setJsonEditorInput(JSON.stringify(result.survey, null, 2))
-      setErrors(result.errs)
-      showErrors(result.errs)
+      const result = parse(formEditorInput)
+      if (result.status === 'success') {
+        const specific = map2Uniforms(result.survey)
+        debug({ specific })
+        setRaw(specific)
+
+        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+        console.log('JSON result', result)
+        setErrors(result.errs)
+        showErrors(result.errs)
+      } else {
+        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+        setErrors(result.errs)
+        showErrors(result.errs)
+      }
     }
   }
 
@@ -234,11 +280,14 @@ const Framework = ({ id, item, methods }) => {
           ],
           errors: errors ? errors : 'No Errors',
           save,
+          setRaw,
           autoRun,
           toggleAutoRun,
           autoSave,
           toggleAutoSave,
           compileForm,
+          setChecked,
+          checked,
           editor,
           doc,
           setEditorDoc: (editor) => {

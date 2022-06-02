@@ -8,8 +8,15 @@ import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import AddIcon from '@material-ui/icons/Add'
 import styled from 'styled-components'
 import debug from 'debug'
+import { makeStyles } from '@material-ui/core/styles'
 
 const log = debug('builder:frame')
+
+const useStyles = makeStyles(() => ({
+  hideButton: {
+    display: 'none',
+  },
+}))
 
 const borderColor = (theme) =>
   theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
@@ -31,12 +38,14 @@ const Root = styled('li')(({ theme, isSelected }) => ({
 }))
 
 const DesktopFrame = React.forwardRef(
-  ({ children, selected, actions, ...otherProps }, ref) => {
+  ({ children, selected, actions, hide = [], ...otherProps }, ref) => {
+    const classes = useStyles()
     const actionTypes = {
       moveUp: {
         icon: KeyboardArrowUpIcon,
         handler: () =>
           actions.onMove({ dir: 'up', draggableId: otherProps['data-rbd-draggable-id'] }),
+        classes: hide.includes('moveUp') ? classes.hideButton : '',
       },
       moveDown: {
         icon: KeyboardArrowDownIcon,
@@ -45,13 +54,13 @@ const DesktopFrame = React.forwardRef(
             dir: 'down',
             draggableId: otherProps['data-rbd-draggable-id'],
           }),
+        classes: hide.includes('moveDown') ? classes.hideButton : '',
       },
       remove: { icon: CloseIcon, handler: actions.onRemove },
       add: {
         icon: AddIcon,
         handler: () => actions.onAdd(),
-        //disabled when question type is upload
-        disabled: !Boolean(actions.onAdd),
+        classes: hide.includes('add') ? classes.hideButton : '',
       },
     }
 
@@ -61,7 +70,8 @@ const DesktopFrame = React.forwardRef(
           size="small"
           key={i}
           onClick={actionTypes[t].handler}
-          disabled={actionTypes[t].disabled ?? false}
+          // disabled={actionTypes[t].disabled ?? false}
+          className={actionTypes[t].classes}
         >
           {createElement(actionTypes[t].icon)}
         </IconButton>

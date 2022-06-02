@@ -29,7 +29,7 @@ const PureFrame = React.forwardRef(
       selected,
       mobile,
       onAdd,
-      ...otherProps
+      ...props
     },
     ref
   ) => {
@@ -69,7 +69,7 @@ const PureFrame = React.forwardRef(
     }
     return createElement(
       mobile ? MobileFrame : DesktopFrame,
-      { actions, selected, ref, ...otherProps },
+      { actions, selected, ref, ...props },
       children
     )
   }
@@ -96,7 +96,7 @@ PureFrame.propTypes = {
   mobile: PropTypes.bool,
 }
 
-const Frame = ({ pid, index, children, onAdd }) => {
+const Frame = ({ pid, index, children, onAdd, ...props }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { removePart } = useParts()
   const { isMobile, dndMove } = useBuilder()
@@ -131,6 +131,7 @@ const Frame = ({ pid, index, children, onAdd }) => {
           {...provided.dragHandleProps}
           style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
           onAdd={onAdd}
+          {...props}
         >
           {children}
         </PureFrame>

@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   edit: {
     ...theme.typography.body1,
+
     cursor: 'text',
     '&:focus': {
       outline: `1px solid ${theme.palette.primary.light}`,

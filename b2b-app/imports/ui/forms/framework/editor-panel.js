@@ -51,6 +51,7 @@ export const EditorPanel = ({ editor }) => {
   const [timeoutId, setTimeoutId] = React.useState(null)
 
   const codemirrorRef = React.useRef()
+  if (editor.name === 'form') codemirrorOptions.lint = false
 
   // Modified from https://codemirror.net/addon/fold/markdown-fold.js
   // Registers a 'rangeFunction' for the fold add on, to define code folding of sections for the form schema
@@ -128,12 +129,14 @@ export const EditorPanel = ({ editor }) => {
       const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
         .clientHeight
       // eslint-disable-next-line no-unused-vars
-      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+      const current =
+        (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
     } else {
-      const height = document.getElementsByClassName('Pane vertical Pane1')[0]
-        .clientHeight
+      const height =
+        document.getElementsByClassName('Pane vertical Pane1')[0].clientHeight
       // eslint-disable-next-line no-unused-vars
-      const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+      const current =
+        (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
     }
   })
 
@@ -142,7 +145,8 @@ export const EditorPanel = ({ editor }) => {
     const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
       .clientHeight
     // eslint-disable-next-line no-unused-vars
-    const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+    const current =
+      (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
     setSplitSize(size)
   }
 
@@ -158,7 +162,8 @@ export const EditorPanel = ({ editor }) => {
           editor.editorType === 'form' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
         )[0].clientHeight
         // eslint-disable-next-line no-unused-vars
-        const current = (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+        const current =
+          (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
       }
     })
 
@@ -225,8 +230,11 @@ export const EditorPanel = ({ editor }) => {
           onChange={handleEditorInput}
           ref={codemirrorRef}
           editorDidMount={(editor) => {
-            formContext.setEditorDoc(editor)
-            CM.commands.save = () => formContext.save(false)
+            console.log('didMount', editor)
+            if (editor.options.mode === 'form') {
+              formContext.setEditorDoc(editor)
+              CM.commands.save = () => formContext.save(false)
+            }
           }}
           editorDidConfigure={reapplyFolds}
         />

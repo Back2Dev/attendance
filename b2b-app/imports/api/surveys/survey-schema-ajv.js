@@ -73,7 +73,7 @@ const getSchemas = (survey) => {
             break
           case 'single':
             qSchema.uniforms = {
-              checkboxes: true,
+              checkboxes: 'true',
             }
             qSchema.options = q.answers.map((a) => {
               return { label: a.name, value: a.value || a.id }

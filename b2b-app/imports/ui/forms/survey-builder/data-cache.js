@@ -28,8 +28,8 @@ const schema = new SimpleSchema(
 ).newContext()
 
 const parse = (data) => {
-  sections = data.reduce((acc, { title, id }) => ({ ...acc, [id]: title }))
-
+  //if data from text editor don't have paragraph , then set default to ''
+  sections = data.reduce((acc, { name,title, id, p }) => ({ ...acc, [id]: { name: name || title, id, p:p??'' } }), {})
   questions = data.reduce(
     (acc, { questions }) => ({
       ...acc,
@@ -77,23 +77,41 @@ const get = () => {
 }
 
 const getParts = () => {
-  return data
-    .map(({ questions }) =>
-      questions.map(({ id, type }) => {
+  // return data
+  //   .map(({ questions }) =>
+  //     questions.map(({ id, type }) => {
+  //       const config = TypeRegistry.get(type)
+  //       if (!config) {
+  //         return { _id: id, config: TypeRegistry.get('placeholder') }
+  //       }
+  //       return { _id: id, config }
+  //     })
+  //   )
+  //   .flat()
+  return data.reduce(
+    (acc, { id, questions }) => [
+      ...acc,
+      { _id: id, config: TypeRegistry.get('section') },
+      ...questions.map(({ id, type }) => {
         const config = TypeRegistry.get(type)
         if (!config) {
           return { _id: id, config: TypeRegistry.get('placeholder') }
         }
         return { _id: id, config }
-      })
-    )
-    .flat()
+      }),
+    ],
+    []
+  )
 }
 
 const getQuestion = (id) => {
   return questions[id] ? Object.freeze(questions[id]) : null
 }
 
-const dataCache = { set, get, getQuestion, getParts }
+const getSection = (id) => {
+  return sections[id] ? Object.freeze(sections[id]) : null
+}
+
+const dataCache = { set, get, getQuestion, getParts, getSection }
 
 export { dataCache }

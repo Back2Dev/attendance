@@ -12,6 +12,7 @@ import {
   useSelectedPartValue,
   useAnswers,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
 let log = debug('builder:single')
 
@@ -32,7 +33,9 @@ const mapDataToAtom = (data) => {
   const state = {
     id: data.id,
     prompt: data.title,
-    answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    // prompt: data.prompt,
+    // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
   }
 
   schema.validate(state)
@@ -56,6 +59,7 @@ const Single = ({ pid, index }) => {
 
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
+
   const relabelAnswers = (path) => {
     if (path.endsWith('name')) return 'Label'
     if (path.endsWith('val')) return 'Value'
@@ -63,7 +67,9 @@ const InspectorProperties = () => {
   }
   return (
     <div>
-      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+      <Inspector.Section heading="Question">
+        <QuestionProperty pid={selectedPart} />
+      </Inspector.Section>
       <Inspector.Section heading="Answers">
         <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
