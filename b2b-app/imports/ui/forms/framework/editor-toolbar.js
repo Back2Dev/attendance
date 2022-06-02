@@ -135,7 +135,7 @@ export const EditorToolbar = () => {
                     <FormControlLabel
                       value="dnd"
                       control={<Radio />}
-                      label="Drag and Drop"
+                      label="Drag and drop"
                     />
                   </RadioGroup>
                 </FormControl>
@@ -149,7 +149,7 @@ export const EditorToolbar = () => {
                         color="primary"
                       />
                     }
-                    label="AutoRun"
+                    label="Auto run"
                   />
                 </FormGroup>
                 <FormGroup row>
@@ -162,7 +162,7 @@ export const EditorToolbar = () => {
                         color="primary"
                       />
                     }
-                    label="AutoSave"
+                    label="Auto save"
                   />
                 </FormGroup>
               </div>
