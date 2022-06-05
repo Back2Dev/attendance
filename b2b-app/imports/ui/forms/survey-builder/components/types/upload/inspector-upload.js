@@ -7,26 +7,13 @@ import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/c
 
 const log = debug('builder:edit-upload-property')
 
-const initialProperty = {
-  maxFiles: 1,
-  maxSize: 100,
-  accept: { '.pdf': true, 'image/*': true, '.txt': true, 'video/*': false },
-}
 
 const EditProperty = ({ pid, path }) => {
   // TODO convert into recoil hook
+
   const [property, setProperty] = useRecoilState(editInspectorState({ pid, path }))
-
-  useEffect(() => {
-    if (property) {
-      return
-    }
-
-    setProperty(initialProperty)
-  }, [property])
-
   const onChange = (value) => {
-    setProperty(value)
+    setProperty([value])
   }
 
   return (
@@ -39,7 +26,7 @@ const EditProperty = ({ pid, path }) => {
             type="number"
             variant="outlined"
             style={{ marginBottom: '0.5em', marginTop: '0.5rem' }}
-            value={property?.maxFiles}
+            value={property[0]?.maxFiles}
             onChange={(e) => onChange({ ...property, maxFiles: e.target.value })}
           />
 
@@ -49,19 +36,19 @@ const EditProperty = ({ pid, path }) => {
             type="number"
             variant="outlined"
             style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
-            value={property?.maxSize}
-            onChange={(e) => onChange({ ...property, maxSize: e.target.value })}
+            value={property[0]?.maxSize}
+            onChange={(e) => onChange({ ...property[0], maxSize: e.target.value })}
           />
 
           <FormGroup>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={property?.accept?.['.pdf']}
+                  checked={property[0]?.accept?.['.pdf']}
                   onChange={(e) =>
                     onChange({
-                      ...property,
-                      accept: { ...property?.accept, '.pdf': e.target.checked },
+                      ...property[0],
+                      accept: { ...property[0]?.accept, '.pdf': e.target.checked },
                     })
                   }
                 />
@@ -71,11 +58,11 @@ const EditProperty = ({ pid, path }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={property?.accept?.['image/*']}
+                  checked={property[0]?.accept?.['image/*']}
                   onChange={(e) =>
                     onChange({
-                      ...property,
-                      accept: { ...property?.accept, 'image/*': e.target.checked },
+                      ...property[0],
+                      accept: { ...property[0]?.accept, 'image/*': e.target.checked },
                     })
                   }
                 />
@@ -85,11 +72,11 @@ const EditProperty = ({ pid, path }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={property?.accept?.['.txt']}
+                  checked={property[0]?.accept?.['.txt']}
                   onChange={(e) =>
                     onChange({
-                      ...property,
-                      accept: { ...property?.accept, '.txt': e.target.checked },
+                      ...property[0],
+                      accept: { ...property[0]?.accept, '.txt': e.target.checked },
                     })
                   }
                 />
@@ -99,11 +86,11 @@ const EditProperty = ({ pid, path }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={property?.accept?.['video/*']}
+                  checked={property[0]?.accept?.['video/*']}
                   onChange={(e) =>
                     onChange({
-                      ...property,
-                      accept: { ...property?.accept, 'video/*': e.target.checked },
+                      ...property[0],
+                      accept: { ...property[0]?.accept, 'video/*': e.target.checked },
                     })
                   }
                 />

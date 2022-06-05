@@ -29,8 +29,9 @@ const schema = new SimpleSchema({
   },
 }).newContext()
 
+//don't really need this for section.
 const mapDataToAtom = (data) => {
-  console.log('section mapDatatoAtom data', data)
+
   const state = {
     id: data.id,
 

@@ -59,20 +59,24 @@ function getNewId() {
 //   params: { Bucket: Meteor.settings.public.S3_BUCKET_NAME }
 // });
 
-export const DropZone = ({ pid }) => {
-  const [property, setProperty] = useRecoilState(
-    editInspectorState({ pid, path: 'answers' })
-  )
-  const { accept, maxFiles, maxSize } = useRecoilValue(uploadAnswersAccept(pid))
-  const [files, setFiles] = useState([])
-  const [question] = useUploadQuestion(pid)
+export const DropZone = (
+  // { pid }
+  ) => {
 
-  const uploader = new Slingshot.Upload('uploadQuestionType', { folder: question })
+
+  // const [property, setProperty] = useRecoilState(
+  //   editInspectorState({ pid, path: 'answers' })
+  // )
+  // const { accept, maxFiles, maxSize } = useRecoilValue(uploadAnswersAccept(pid))
+  const [files, setFiles] = useState([])
+  // const [question] = useUploadQuestion(pid)
+
+  const uploader = new Slingshot.Upload('uploadQuestionType', { folder: 'question' })
 
   const onDelete = (file) => {
     Meteor.call('s3.deleteObject', { fileName: file.name }, () => {
       setFiles((current) => current.filter((f) => f.file !== file))
-      setProperty([...property].filter((f) => f.name !== file.name))
+      // setProperty([...property].filter((f) => f.name !== file.name))
     })
 
     // Option: delete file directly from client-side with Cognito + Identity Pool(unAuth)
@@ -90,7 +94,7 @@ export const DropZone = ({ pid }) => {
         alert(error)
       } else {
         //For multiple upload, the downloadUrl always return the same??
-        setProperty((property) => [...property, { name: params.name, url: downloadUrl }])
+        // setProperty((property) => [...property, { name: params.name, url: downloadUrl }])
       }
 
       Tracker.autorun(() => {
@@ -144,10 +148,13 @@ export const DropZone = ({ pid }) => {
     isDragReject,
   } = useDropzone({
     onDrop,
-    accept: [...accept],
-    maxSize: maxSize * 1024 * 1024,
+    // accept: [...accept],
+    accept:[],
+    // maxSize: maxSize * 1024 * 1024,
+    maxSize: 100 * 1024 * 1024,
     multiple: false, //allow one file to be uploaded one time
-    maxFiles,
+    // maxFiles,
+    maxFiles:1,
   })
 
   const style = useMemo(
@@ -163,7 +170,7 @@ export const DropZone = ({ pid }) => {
   return (
     <Fragment>
       <Grid item>
-        <div {...getRootProps({ style })} name={pid} key={pid}>
+        <div {...getRootProps({ style })} >
           <input {...getInputProps()} />
           {isDragActive ? (
             <p>Drop the files here ...</p>

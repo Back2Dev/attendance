@@ -5,7 +5,7 @@ import {
   useRecoilValue,
 } from 'recoil'
 import debug from 'debug'
-
+import { makeId } from '/imports/ui/forms/survey-builder/utils/makeId'
 import { TypeRegistry } from '../../components/types/type-registry'
 import { list } from '../../utils'
 import { partsAtom } from '../atoms'
@@ -21,6 +21,17 @@ export const useParts = () => {
     set(partsAtom, (parts) => list.add(parts, { config: TypeRegistry.get(type) }))
   })
 
+  const movePartToCanvas = useRecoilCallback(({ set }) => (type, index) => {
+    set(partsAtom, (parts) => {
+      const l = [...parts]
+      l.splice(index, 0, {
+        config: TypeRegistry.get(type),
+        _id: makeId(),
+      })
+      return l
+    })
+  })
+
   const removePart = useRecoilTransaction_UNSTABLE(({ set, reset, get }) => (pid) => {
     const part = list.findById(get(partsAtom), pid)
     if (!part) return
@@ -33,7 +44,7 @@ export const useParts = () => {
     set(partsAtom, (parts) => list.moveById(parts, id, direction))
   })
 
-  return { addPart, removePart, movePart }
+  return { addPart, removePart, movePart, movePartToCanvas }
 }
 
 export const usePartsState = () => {

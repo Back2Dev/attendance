@@ -70,7 +70,6 @@ export const sectionSource = selectorFamily({
     (pid) =>
     ({ get }) => {
       const { name, id, paragraphs, headers } = get(sectionAtom(pid))
-      console.log('get section atom', get(sectionAtom(pid)))
       const source = [
         `S: ${name}`,
         `+id: ${id}`,

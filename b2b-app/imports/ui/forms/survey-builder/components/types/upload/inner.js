@@ -5,7 +5,6 @@ import { DropZone } from './item'
 
 export const InnerUpload = ({ pid }) => {
   const [question, setQuestion] = useUploadQuestion(pid)
-
   return (
     <div>
       <Question

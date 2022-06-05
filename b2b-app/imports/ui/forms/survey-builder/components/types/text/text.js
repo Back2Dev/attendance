@@ -32,8 +32,8 @@ const schema = new SimpleSchema({
 const mapDataToAtom = (data) => {
   const state = {
     id: data.id,
-    // prompt: data.title,
-    prompt: data.prompt,
+    prompt: data.title,
+    // prompt: data.prompt,
     // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
     answers: data.answers.map(({ id, name, type }) => ({ id, name, type })),
   }

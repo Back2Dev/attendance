@@ -9,6 +9,7 @@ import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import { EditProperty } from './inspector-upload'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
 let log = debug('builder:upload')
 
@@ -43,7 +44,7 @@ const mapDataToAtom = (data) => {
 }
 
 const Upload = ({ pid, index }) => {
-  const hide = ['moveUp', 'moveDown', 'add']
+  const hide = ['add']
   return (
     <Frame pid={pid} index={index} hide={hide}>
       <InnerUpload pid={pid} />
@@ -60,9 +61,11 @@ const InspectorProperties = () => {
   }
   return (
     <div>
-      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
+            <Inspector.Section heading="Question">
+        <QuestionProperty pid={selectedPart} />
+      </Inspector.Section>
       <Inspector.Section heading="File">
-        <EditProperty pid={selectedPart} path="val" relabel={relabelAnswers} />
+        <EditProperty pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
     </div>
   )

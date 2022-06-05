@@ -11,8 +11,11 @@ export const textAtom = atomFamily({
   key: 'textAtom',
   default: () => ({
     prompt: '',
+    // id: '',
     id: makeId(),
     type: 'text',
+    p:'',
+    h2:'',
     answers: [makeListItem(defaultTextAnswer)],
   }),
   effects_UNSTABLE: (pid) => [

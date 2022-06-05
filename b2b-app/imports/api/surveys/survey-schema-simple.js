@@ -314,6 +314,26 @@ const getSchemas = (survey, currentData) => {
                     return specifyId
                   })
                 break
+                case 'upload':
+                  qSchema.uniforms.value = answers.map((a) => a.val)
+                  qSchema.uniforms.component = ImageField
+                  qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+  
+                  answers
+                    .filter((a) => a.specify)
+                    .map((a) => {
+                      const specifyId = `${q.id}-${a.id}-specify`
+                      const uniforms = {}
+                      const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                      step.schema[specifyId] = {
+                        type: String,
+                        label: a.specify,
+                        optional,
+                        uniforms,
+                      }
+                      return specifyId
+                    })
+                  break
               // I don't know if we'll ever need this, just 'multi' instead
               // case 'boolean':
               //   qSchema.type = Boolean

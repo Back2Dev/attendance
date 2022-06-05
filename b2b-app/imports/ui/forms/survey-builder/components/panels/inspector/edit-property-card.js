@@ -80,7 +80,7 @@ const PropertyCard = ({ path, children, pid, addOptions, isSection }) => {
   const setPropertyByValue = useRecoilCallback(({ set }) => (path) => {
     set(editInspectorState({ pid, path }), (property) => {
       if (property === undefined) {
-        return path === 'optional' ? true : ''
+        return path.includes('optional') ? true : ''
       } else {
         return undefined
       }
