@@ -47,7 +47,7 @@ export default map2UiSchema = (survey) => {
 
   const qObj = (q) => {
     let que
-    switch (q.qtype) {
+    switch (q.type) {
       case 'multi':
         que = {
           type: 'array',
@@ -89,7 +89,7 @@ export default map2UiSchema = (survey) => {
 //   newSurvey.steps.forEach((step) => {
 //     mv(step, 'title', 'name')
 //     step.questions.forEach((q) => {
-//       mv(q, 'type', 'qtype')
+//       mv(q, 'type', 'type')
 //       mv(q, 'title', 'prompt')
 //       q.answers.forEach((a) => {
 //         mv(a, 'title', 'name')

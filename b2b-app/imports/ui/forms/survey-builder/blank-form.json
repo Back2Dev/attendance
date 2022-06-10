@@ -1,0 +1,31 @@
+{
+  "sections": [
+    {
+      "title": "Main",
+      "questions": [
+        {
+          "title": "Personal details",
+          "answers": [
+            {
+              "title": "Name",
+              "id": "name",
+              "type": "text"
+            },
+            {
+              "title": "Email",
+              "id": "email",
+              "type": "text"
+            }
+          ],
+          "id": "personal",
+          "type": "text"
+        }
+      ],
+      "id": "main"
+    }
+  ],
+  "name": "Sample Survey",
+  "slug": "sample",
+  "version": "1",
+  "active": true
+}

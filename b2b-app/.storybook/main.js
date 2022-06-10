@@ -23,6 +23,19 @@ module.exports = {
     //     path.resolve(__dirname, './__mocks__/api-survey-maps.js')
     //   )
     // )
+    config.resolve.alias['meteor/tracker'] = require.resolve(
+      './__mocks__/meteor-tracker.js'
+    )
+    config.plugins.push(
+      new instance.NormalModuleReplacementPlugin(
+        /preview-panel/,
+        path.resolve(__dirname, './__mocks__/preview-panel.js')
+      ),
+      new instance.NormalModuleReplacementPlugin(
+        /\/imports\/api\/surveys/,
+        path.resolve(__dirname, './__mocks__/api-survey-maps.js')
+      )
+    )
     //   config.plugins.push(
     //     new CircularDependencyPlugin({
     //       // exclude detection of files based on a RegExp

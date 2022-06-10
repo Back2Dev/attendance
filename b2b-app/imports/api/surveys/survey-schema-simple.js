@@ -5,6 +5,7 @@ import DatePicker from '/imports/ui/components/date-field'
 // lab@next has deprecated it. The newest version looks boring
 //import { DatePicker } from '@material-ui/lab'
 import GooglePlaces from '/imports/ui/components/google-places.js'
+import ImageField from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
 
 SimpleSchema.extendOptions(['uniforms'])
@@ -32,7 +33,7 @@ const checkVolume = function () {
 
 export const evaluate = (formData, context, condition) => {
   if (!Array.isArray(condition)) return true
-  debug(`Evaluate ${condition?.join()}`, formData, context)
+  debug(`Evaluate ${condition?.join()}`, { formData, context })
   if (!condition) return true
   const [lhs, op = 'truthy', rhs] = condition
   const [section, field = lhs] = lhs.split(/[\/\.]/)
@@ -42,10 +43,10 @@ export const evaluate = (formData, context, condition) => {
 
   // debug({ section, field, op, lhs, model })
   const value = model[field]
-  if (['equal', 'eq'].includes(op)) return value === rhs
-  if (['not equal', 'ne'].includes(op)) return value !== rhs
-  if (['falsy'].includes(op)) return !value
-  if (['contains'].includes(op)) return value && value.includes(rhs)
+  if (['equal', 'eq', '='].includes(op)) return value === rhs
+  if (['not equal', 'ne', '!='].includes(op)) return value !== rhs
+  if (['falsy', '!'].includes(op)) return !value
+  if (['contains', 'contain'].includes(op)) return value && value.includes(rhs)
   if (['truthy'].includes(op)) return !!value
 
   return false
@@ -62,7 +63,7 @@ const getOptionalFunc = (q, uniforms, optional) => {
       //   this.validationContext?._schema
       // )
       return !evaluate(
-        {},
+        this.obj,
         this.obj,
         this.validationContext?._schema[this.key].uniforms.condition
       )
@@ -125,7 +126,8 @@ const getSchemas = (survey, currentData) => {
         step.schema = {}
         step.visible = true
         if (!evaluate(currentData, { model: {} }, step.condition)) step.visible = false
-        else if (!step.questions) console.error(`Step ${ix} ${step.id} has no questions`)
+        else if (!step.questions)
+          console.error(`Section ${ix} ${step.id} has no questions`)
         else {
           step.questions.forEach((q) => {
             step.schema[q.id] = {
@@ -135,7 +137,7 @@ const getSchemas = (survey, currentData) => {
             }
             const qSchema = step.schema[q.id]
             const answers = getAnswers(currentData, q)
-            switch (q.qtype) {
+            switch (q.type) {
               case 'array':
                 step.schema[q.id].type = Array
                 step.schema[q.id].minCount = q.minCount || 1
@@ -216,7 +218,7 @@ const getSchemas = (survey, currentData) => {
                   }
                 })
                 break
-              case 'multi':
+              case 'multiple':
                 delete step.schema[q.id]
                 answers.forEach((a) => {
                   const id = `${q.id}-${a.id}`
@@ -246,7 +248,7 @@ const getSchemas = (survey, currentData) => {
                 // )
                 break
               case 'single':
-                qSchema.uniforms.checkboxes = true
+                qSchema.uniforms.checkboxes = 'true'
                 qSchema.uniforms.options = answers.map((a) => {
                   return { label: a.name, value: a.value || a.id }
                 })
@@ -269,6 +271,69 @@ const getSchemas = (survey, currentData) => {
                   })
                 // )
                 break
+              // case 'multiple':
+              //   qSchema.uniforms.checkboxes = "true"
+              //   qSchema.uniforms.options = answers.map((a) => {
+              //     return { label: a.name, value: a.value || a.id }
+              //   })
+              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+              //   answers
+              //     .filter((a) => a.specify)
+              //     .map((a) => {
+              //       const specifyId = `${q.id}-${a.id}-specify`
+              //       const uniforms = {}
+              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+              //       step.schema[specifyId] = {
+              //         type: Boolean,
+              //         label: a.specify,
+              //         optional,
+              //         uniforms,
+              //       }
+              //       return specifyId
+              //     })
+
+              //   break
+              case 'image':
+                qSchema.uniforms.value = answers.map((a) => a.val)
+                qSchema.uniforms.component = ImageField
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
+                break
+                case 'upload':
+                  qSchema.uniforms.value = answers.map((a) => a.val)
+                  qSchema.uniforms.component = ImageField
+                  qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+  
+                  answers
+                    .filter((a) => a.specify)
+                    .map((a) => {
+                      const specifyId = `${q.id}-${a.id}-specify`
+                      const uniforms = {}
+                      const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                      step.schema[specifyId] = {
+                        type: String,
+                        label: a.specify,
+                        optional,
+                        uniforms,
+                      }
+                      return specifyId
+                    })
+                  break
               // I don't know if we'll ever need this, just 'multi' instead
               // case 'boolean':
               //   qSchema.type = Boolean
@@ -285,6 +350,9 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'paragraph':
                 delete step.schema[q.id]
+                break
+              case 'signature':
+                // delete step.schema[q.id]
                 break
               case 'upload':
                 delete step.schema[q.id]
@@ -305,9 +373,11 @@ const getSchemas = (survey, currentData) => {
               // Need a better way to handle this
               default:
                 delete step.schema[q.id]
-                q.type = 'paragraph'
-                q.prompt = `Unknown question type for "${q.prompt}"`
+                q.prompt = `Unknown question type (${q.type}) for "${q.prompt}"`
                 console.log(`Unsupported question type: [${q.type}]`)
+                // Setting type to paragraph stops it trying to render a question
+                q.type = 'paragraph'
+              // q.type = 'paragraph'
             }
           })
         }

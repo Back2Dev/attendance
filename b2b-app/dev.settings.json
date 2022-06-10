@@ -6,6 +6,8 @@
     "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au",
     "DOCUMENTS_BUCKET": "staging-docs.mydomain.com.au",
     "UPLOAD_BUCKET": "staging-docs.mydomain.com.au",
+    "UPLOAD_QUESTION_BUCKET":"back2bike",
+    "IMAGE_QUESTION_BUCKET":"back2bike",
     "GOOGLE_SECRET": "YOUR-SECRET",
     "FACEBOOK_SECRET": "YOUR-SECRET",
     "MANDRILL_API_KEY": "YOUR-SECRET"
@@ -14,6 +16,8 @@
     "environment": "dev"
   },
   "public": {
-    "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au/"
+    "S3_REGION": "ap-southeast-2",
+    "S3_IDENTITY_POOL_ID": "",
+    "S3_BUCKET_NAME": ""
   }
 }
