@@ -16,7 +16,8 @@ import {
   shortAtom,
   shortSource,
 } from '/imports/ui/forms/survey-builder/recoil/atoms/short-state'
-import { useShortQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks/use-short'
+// import { useShortQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks/use-short'
+const useShortQuestion = () => {}
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 
