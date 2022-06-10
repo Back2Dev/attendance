@@ -1,0 +1,12 @@
+{
+  "collection": "teams",
+  "generate": "CRUD",
+  "fields": {
+    "name": "String",
+    "devs": {
+      "type": "Array",
+      "optional": true
+    }
+  },
+  "defaultObject": {}
+}

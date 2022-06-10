@@ -22,6 +22,9 @@ import Registrations, { RegistrationsSchema } from '/imports/api/registrations/s
 import ServiceItems, { ServiceItemsSchema } from '/imports/api/service-items/schema'
 import Sessions, { SessionsSchema } from '/imports/api/sessions/schema'
 import Settings, { SettingsSchema } from '/imports/api/settings/schema'
+import StandupNotes, { StandupNotesSchema } from '/imports/api/standup-notes/schema'
+import Standups, { StandupsSchema } from '/imports/api/standups/schema'
+import Teams, { TeamsSchema } from '/imports/api/teams/schema'
 import Surveys, { SurveysSchema } from '/imports/api/surveys/schema'
 import Tools, { ToolsSchema } from '/imports/api/tools/schema'
 import Triggers, { TriggersSchema } from '/imports/api/triggers/schema'
@@ -56,6 +59,12 @@ const getCollection = (name) => {
       return { collection: Sessions, schema: SessionsSchema }
     case 'settings':
       return { collection: Settings, schema: SettingsSchema }
+    case 'standup-notes':
+      return { collection: StandupNotes, schema: StandupNotesSchema }
+    case 'standups':
+      return { collection: Standups, schema: StandupsSchema }
+    case 'teams':
+      return { collection: Teams, schema: TeamsSchema }
     case 'surveys':
       return { collection: Surveys, schema: SurveysSchema }
     case 'tools':

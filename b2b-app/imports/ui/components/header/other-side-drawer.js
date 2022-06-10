@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import InfoIcon from '@material-ui/icons/Info'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import PhoneIcon from '@material-ui/icons/Phone'
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 
@@ -48,6 +49,7 @@ const greeterMenus = [
     link: '/services/new',
     icon: <Build />,
   },
+  { display: 'Daily Standup', link: '/daily-standup', icon: <EmojiPeopleIcon /> },
 ]
 
 const useStyles = makeStyles((theme) => ({
