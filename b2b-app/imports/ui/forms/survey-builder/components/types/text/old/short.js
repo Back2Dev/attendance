@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import TextFields from './short-text/textbox'
 import Buttons from './icon-buttons/actionButtons'
-import InlineEdit from '../../core/inline-edit'
+import InlineEdit from '../../../core/inline-edit'
 
 import debug from 'debug'
 
 import SimpleSchema from 'simpl-schema'
 
-import { TypeRegistry } from '../type-registry'
+import { TypeRegistry } from '../../type-registry'
 
 import { Question } from '/imports/ui/forms/survey-builder/components/question'
 import { Frame } from '/imports/ui/forms/survey-builder/components/frame'
