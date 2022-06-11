@@ -8,6 +8,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 Meteor installation, git, mongodb
 
+* Install Meteor here: https://www.meteor.com/install
+* 
+
 ## Installation & Setup
 
 1. Create a _**Development**_ folder and Clone the repository into the newly created _**Development**_ folder.
@@ -26,5 +29,5 @@ meteor npm install
 
 ```bash
 # serve at localhost:3080
-$ npm run debug.my-name
+$ npm run debug
 ```
