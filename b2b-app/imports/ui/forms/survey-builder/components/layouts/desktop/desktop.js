@@ -19,7 +19,7 @@ const DesktopLayout = ({ toolbar, left, center, right }) => {
         {toolbar}
       </Box>
       <Box position="relative" height="calc(100% - 40px)">
-        {!isFormViewing && (
+        {/* {!isFormViewing && (
           <Box
             position="absolute"
             top={0}
@@ -31,7 +31,7 @@ const DesktopLayout = ({ toolbar, left, center, right }) => {
           >
             {left}
           </Box>
-        )}
+        )} */}
         <Box
           position="absolute"
           top={0}

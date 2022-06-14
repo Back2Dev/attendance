@@ -12,7 +12,7 @@ import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { imageAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Question } from '/imports/ui/forms/survey-builder/components/question'
 
-export const InnerImage = ({ pid }) => {
+export const ImageInner = ({ pid }) => {
   const { all: imageboxList, add, update, remove } = useImageAnswers(pid)
   const theme = useTheme()
   const [question, setQuestion] = useImageQuestion(pid)
@@ -32,11 +32,11 @@ export const InnerImage = ({ pid }) => {
 
   return (
     <div>
-      <Question
+      {/* <Question
         placeholder="Type your question"
         label={question}
         onLabelChange={(text) => setQuestion(text)}
-      />
+      /> */}
       <DndDroppable pid={pid} listAtom={imageAnswers(pid)} type={pid}>
         {(provided) => (
           <ul

@@ -1,14 +1,29 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import { IconButton, Box } from '@material-ui/core'
+import { IconButton, Divider, Button, Grid } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import CloseIcon from '@material-ui/icons/Close'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+// import CloseIcon from '@material-ui/icons/Close'
+// import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import AddIcon from '@material-ui/icons/Add'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
+import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import Card from '@material-ui/core/Card'
+// import CardHeader from '@material-ui/core/CardHeader'
+// import CardMedia from '@material-ui/core/CardMedia'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
+import FormatColorFillIcon from '@material-ui/icons/FormatColorFill'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
+import MenuIcon from '@material-ui/icons/Menu'
+import UnfoldLessIcon from '@material-ui/icons/UnfoldLess'
+import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore'
 
 const log = debug('builder:frame')
 
@@ -16,31 +31,47 @@ const useStyles = makeStyles(() => ({
   hideButton: {
     display: 'none',
   },
-}))
-
-const borderColor = (theme) =>
-  theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
-
-const Root = styled('li')(({ theme, isSelected }) => ({
-  listStyle: 'none',
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(2),
-  outlineStyle: 'solid',
-  outlineWidth: 1,
-  outlineColor: isSelected ? theme.palette.primary.main : borderColor(theme),
-  '&:hover': {
-    outlineColor: isSelected ? theme.palette.primary.main : theme.palette.text.primary,
+  addPartButton: {
+    // display: 'none',
+    width: '100%',
+    background: 'white',
+    borderRadius: '10px',
+    // '&:hover': '{display:block}',
   },
-  '.dragIcon': {
-    color: theme.palette.action.active,
-    margin: 3,
+  cardBody: {
+    paddingTop: '0px',
   },
 }))
+
+// const borderColor = (theme) =>
+//   theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
+
+// const Root = styled('li')(({ theme, isSelected }) => ({
+//   listStyle: 'none',
+//   backgroundColor: theme.palette.background.paper,
+//   padding: theme.spacing(2),
+//   outlineStyle: 'solid',
+//   outlineWidth: 1,
+//   outlineColor: isSelected ? theme.palette.primary.main : borderColor(theme),
+//   '&:hover': {
+//     outlineColor: isSelected ? theme.palette.primary.main : theme.palette.text.primary,
+//   },
+//   '.dragIcon': {
+//     color: theme.palette.action.active,
+//     margin: 3,
+//   },
+// }))
 
 const DesktopFrame = React.forwardRef(
   ({ children, selected, actions, hide = [], ...otherProps }, ref) => {
     const classes = useStyles()
     const actionTypes = {
+      add: {
+        icon: AddIcon,
+        handler: () => actions.onAdd(),
+        classes: hide.includes('add') ? classes.hideButton : '',
+      },
+      remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
       moveUp: {
         icon: KeyboardArrowUpIcon,
         handler: () =>
@@ -56,12 +87,8 @@ const DesktopFrame = React.forwardRef(
           }),
         classes: hide.includes('moveDown') ? classes.hideButton : '',
       },
-      remove: { icon: CloseIcon, handler: actions.onRemove },
-      add: {
-        icon: AddIcon,
-        handler: () => actions.onAdd(),
-        classes: hide.includes('add') ? classes.hideButton : '',
-      },
+      color: { icon: FormatColorFillIcon, handler: () => {} },
+      copy: { icon: FileCopyIcon, handler: () => {} },
     }
 
     const createActions = (...types) =>
@@ -70,30 +97,87 @@ const DesktopFrame = React.forwardRef(
           size="small"
           key={i}
           onClick={actionTypes[t].handler}
-          // disabled={actionTypes[t].disabled ?? false}
           className={actionTypes[t].classes}
         >
           {createElement(actionTypes[t].icon)}
         </IconButton>
       ))
 
+    const { addPart } = useParts()
+
+    const handleChange = () => {}
+
     return (
-      <Root
-        onClick={actions.onSelect}
-        isSelected={selected}
-        onFocus={actions.onSelect}
-        onBlur={actions.onDeselect}
-        ref={ref}
-        {...otherProps}
-      >
-        <Box display="flex">
-          <Box flexGrow={1}>{children}</Box>
-          <Box flexGrow={0} display="flex" flexDirection="column">
-            {createActions('remove', 'moveUp', 'moveDown', 'add')}
-            <DragIndicatorIcon className="dragIcon" />
-          </Box>
-        </Box>
-      </Root>
+      <>
+        <Card
+          onClick={actions.onSelect}
+          // isSelected={selected}
+          onFocus={actions.onSelect}
+          onBlur={actions.onDeselect}
+          ref={ref}
+          {...otherProps}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+            }}
+          >
+            <IconButton aria-label="dragIcon">
+              <MenuIcon />
+            </IconButton>
+            <IconButton aria-label="collapse" style={{ position: 'absolute', right: 0 }}>
+              <UnfoldLessIcon />
+            </IconButton>
+          </div>
+
+          <CardContent className={classes.cardBody}>{children}</CardContent>
+          <CardActions>
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch checked={false} onChange={handleChange} name="header" />
+                    }
+                    label="Header Only"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={false}
+                        onChange={handleChange}
+                        name="optional"
+                        color="primary"
+                      />
+                    }
+                    label="Optional"
+                  />
+                </FormGroup>
+              </Grid>
+
+              <Grid item>
+                <Grid container space={4}>
+                  {createActions('color', 'copy')}
+                  <Divider orientation="vertical" flexItem />
+
+                  {createActions('add', 'moveUp', 'moveDown', 'remove')}
+                </Grid>
+              </Grid>
+            </Grid>
+          </CardActions>
+        </Card>
+        <Button
+          variant="outlined"
+          color="default"
+          className={classes.addPartButton}
+          onClick={() => addPart('undefined')}
+        >
+          <AddIcon />
+        </Button>
+      </>
     )
   }
 )

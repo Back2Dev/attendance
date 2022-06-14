@@ -3,7 +3,7 @@ import { useUploadQuestion } from '/imports/ui/forms/survey-builder/recoil/hooks
 import { Question } from '/imports/ui/forms/survey-builder/components/question'
 import { DropZone } from './item'
 
-export const InnerUpload = ({ pid }) => {
+export const UploadInner = ({ pid }) => {
   const [question, setQuestion] = useUploadQuestion(pid)
   return (
     <div>

@@ -1,14 +1,30 @@
-import React, { forwardRef } from 'react'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
-import DeleteIcon from '@material-ui/icons/Delete'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
-import DragHandleIcon from '@material-ui/icons/DragHandle'
+import React, { createElement } from 'react'
+// import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
+// import DeleteIcon from '@material-ui/icons/Delete'
+// import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+// import DragHandleIcon from '@material-ui/icons/DragHandle'
 import AddIcon from '@material-ui/icons/Add'
-import { IconButton, Hidden } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inline-edit'
+// import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inline-edit'
+import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+// import FilledInput from '@material-ui/core/FilledInput'
+// import FormControl from '@material-ui/core/FormControl'
+// import FormHelperText from '@material-ui/core/FormHelperText'
+// import Input from '@material-ui/core/Input'
+// import InputLabel from '@material-ui/core/InputLabel'
+// import Grid from '@material-ui/core/Grid'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
+// import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import CropOriginalIcon from '@material-ui/icons/CropOriginal'
+// import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import { MoreList } from './inner'
+
+// import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 const log = debug('builder:item')
 
@@ -30,6 +46,25 @@ export const StyledItem = styled('li')(({ theme }) => ({
     },
   },
 }))
+
+const useStyles = makeStyles({
+  underline: {
+    '&:before': {
+      'border-bottom': '1px solid white',
+    },
+    '&:hover:not(.Mui-disabled)::before': {
+      'border-bottom': '1px solid black',
+    },
+  },
+  answerField: {
+    '&:hover .MuiInputAdornment-root': {
+      visibility: 'visible',
+    },
+  },
+  InputAdornment: {
+    visibility: 'hidden',
+  },
+})
 
 export const Actions = styled('div')(({ theme, showMobileActions }) => {
   /**
@@ -86,66 +121,120 @@ export const Actions = styled('div')(({ theme, showMobileActions }) => {
   }
 })
 
+const style = {
+  question: { margin: 'normal' },
+  answer: {},
+  option: {
+    variant: 'filled',
+    size: 'small',
+    margin: 'dense',
+  },
+}
+
 /** A radio button with actions to move it up/down and delete. Used by Single component */
-const Item = forwardRef(
-  (
-    {
-      text,
-      placeholder,
-      onTextChange,
-      onRemove,
-      onAdd,
-      disableRemove,
-      showMobileActions,
-      pid,
-      index,
-      ...otherProps
+const Item = ({
+  text,
+  placeholder,
+  label,
+  onChange,
+  onRemove,
+  onAdd,
+  onUpload,
+  onDeleteOption,
+  actions = [],
+  disableRemove,
+  showMobileActions,
+  type = 'answer',
+  showMore,
+  ...props
+}) => {
+  // const preventFocus = (e) => {
+  // Actions stay visible after user clicks a button and mouse leaves Item. The reason this
+  // happens is because Actions uses the 'focus-within' rule to make it visible. This fixes it by
+  // preventing focus but still allows tabbing to work correctly.
+  // e.preventDefault()
+  // }
+  // const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
+  const classes = useStyles()
+
+  const actionTypes = {
+    add: {
+      icon: AddIcon,
+      handler: onAdd,
     },
-    ref
-  ) => {
-    const preventFocus = (e) => {
-      // Actions stay visible after user clicks a button and mouse leaves Item. The reason this
-      // happens is because Actions uses the 'focus-within' rule to make it visible. This fixes it by
-      // preventing focus but still allows tabbing to work correctly.
-      e.preventDefault()
-    }
-    const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
-
-    return (
-      <StyledItem ref={ref} {...otherProps}>
-        <ListStyleType className="icon" />
-
-        <InlineEdit
-          className="inline-edit"
-          text={text}
-          placeholder={placeholder}
-          onTextChange={onTextChange}
-          onAdd={onAdd}
-          pid={pid}
-          index={index}
-        />
-        <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
-          <Hidden xsDown>
-            <DragIndicatorIcon />
-            <IconButton size="small" onClick={onAdd} aria-label="add">
-              <AddIcon />
-            </IconButton>
-          </Hidden>
-
-          <IconButton
-            className="delete-button"
-            size="small"
-            onClick={onRemove}
-            aria-label="delete"
-            disabled={disableRemove}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Actions>
-      </StyledItem>
-    )
+    remove: { icon: DeleteOutlineIcon, handler: onRemove },
+    upload: { icon: CropOriginalIcon, handler: onUpload },
+    deleteOption: { icon: DeleteOutlineIcon, handler: onDeleteOption },
   }
-)
+
+  const createActions = (...types) =>
+    types.map((t, i) => (
+      <IconButton size="small" key={i} onClick={actionTypes[t].handler}>
+        {createElement(actionTypes[t].icon)}
+      </IconButton>
+    ))
+
+  return (
+    <TextField
+      {...style[type]}
+      fullWidth
+      label={label}
+      value={text ?? ''}
+      placeholder={placeholder}
+      onChange={onChange}
+      InputProps={{
+        classes: {
+          underline: type === 'answer' ? classes.underline : undefined,
+          root: classes.answerField,
+        },
+
+        endAdornment: (
+          <InputAdornment classes={{ root: classes.InputAdornment }} position="end">
+            {showMore && <MoreList {...props} />}
+
+            {createActions(...actions)}
+          </InputAdornment>
+        ),
+      }}
+    />
+    // <StyledItem ref={ref} {...otherProps}>
+    //   {showMobileActions !== undefined && <ListStyleType className="icon" />}
+
+    //   <InlineEdit
+    //     // className="inline-edit"
+    //     text={text}
+    //     placeholder={placeholder}
+    //     onTextChange={onTextChange}
+    //     onAdd={onAdd}
+    //     pid={pid}
+    //     index={index}
+    //     {...otherProps}
+    //   />
+    //   <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
+    //     {onAdd && (
+    //       <Hidden xsDown>
+    //         <DragIndicatorIcon />
+    //         <IconButton size="small" onClick={onAdd} aria-label="add">
+    //           <AddIcon />
+    //         </IconButton>
+    //       </Hidden>
+    //     )}
+
+    //     {onRemove && (
+    //       <IconButton
+    //         className="delete-button"
+    //         size="small"
+    //         onClick={onRemove}
+    //         aria-label="delete"
+    //         disabled={disableRemove}
+    //       >
+    //         <DeleteIcon />
+    //       </IconButton>
+    //     )}
+    //   </Actions>
+    // </StyledItem>
+  )
+}
 
 Item.displayName = 'Item'
 

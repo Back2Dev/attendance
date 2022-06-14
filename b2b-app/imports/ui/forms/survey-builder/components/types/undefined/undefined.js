@@ -1,17 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { UploadInner } from './inner'
+
+import { UndefinedInner } from './inner'
 import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
-import { uploadAtom, uploadSource } from '../../../recoil/atoms'
+import { undefinedAtom, undefinedSource } from '../../../recoil/atoms'
 import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
-import { EditProperty } from './inspector-upload'
-import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import {
+  useSelectedPartValue,
+  useAnswers,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
-let log = debug('builder:upload')
+let log = debug('builder:undefined')
 
 const schema = new SimpleSchema({
   id: String,
@@ -30,30 +33,33 @@ const mapDataToAtom = (data) => {
   const state = {
     id: data.id,
     prompt: data.title,
-    answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    // prompt: data.prompt,
+    // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
   }
 
   schema.validate(state)
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    // throw new Error('Invalid mapping from data to single state')
+    // throw new Error('Invalid mapping from data to undefined state')
   }
 
   return state
 }
 
-const Upload = ({ pid, index }) => {
-  const hide = ['add']
+const Undefined = ({ pid, index }) => {
+  const { all, add } = useAnswers(pid)
   return (
-    <Frame pid={pid} index={index} hide={hide}>
-      <UploadInner pid={pid} />
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
+      <UndefinedInner pid={pid} />
     </Frame>
   )
 }
 
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
+
   const relabelAnswers = (path) => {
     if (path.endsWith('name')) return 'Label'
     if (path.endsWith('val')) return 'Value'
@@ -64,29 +70,29 @@ const InspectorProperties = () => {
       <Inspector.Section heading="Question">
         <QuestionProperty pid={selectedPart} />
       </Inspector.Section>
-      <Inspector.Section heading="File">
-        <EditProperty pid={selectedPart} path="answers" relabel={relabelAnswers} />
+      <Inspector.Section heading="Answers">
+        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
     </div>
   )
 }
 
-Upload.displayName = 'Upload'
+Undefined.displayName = 'Undefined'
 
-Upload.propTypes = {
-  /** id for this Single instance part */
+Undefined.propTypes = {
+  /** id for this Undefined instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Upload }
+export { Undefined }
 
 TypeRegistry.register(
-  'upload',
-  Upload,
-  uploadSource,
+  'undefined',
+  Undefined,
+  undefinedSource,
   mapDataToAtom,
-  uploadAtom,
+  undefinedAtom,
   InspectorProperties
 )

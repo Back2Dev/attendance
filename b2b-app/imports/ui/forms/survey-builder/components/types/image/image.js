@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { InnerImage } from './inner'
+import { ImageInner } from './inner'
 import { Frame } from '../../frame'
 import SimpleSchema from 'simpl-schema'
 import { imageAtom, imageSource } from '../../../recoil/atoms'
@@ -47,7 +47,7 @@ const Image = ({ pid, index }) => {
   const { all, add } = useImageAnswers(pid)
   return (
     <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
-      <InnerImage pid={pid} />
+      <ImageInner pid={pid} />
     </Frame>
   )
 }

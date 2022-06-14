@@ -6,19 +6,19 @@ import { useTheme } from '@material-ui/core/styles'
 
 import { Item } from './item'
 import {
-  useMultipleAnswers,
-  useMultipleQuestion,
+  useUndefinedAnswers,
+  useUndefinedQuestion,
   useSelectedPartValue,
 } from '$sb/recoil/hooks'
-import { multipleAnswers } from '$sb/recoil/atoms'
+import { undefinedAnswers } from '$sb/recoil/atoms'
 import { DndDraggable, DndDroppable } from '$sb/context/dnd'
 import { useBuilder } from '$sb/context'
 import { Question } from '$sb/components/question'
 
 /** Single Choice question */
 const MultipleInner = ({ pid }) => {
-  const { all, add, update, remove } = useMultipleAnswers(pid)
-  const [question, setQuestion] = useMultipleQuestion(pid)
+  const { all, add, update, remove } = useUndefinedAnswers(pid)
+  const [question, setQuestion] = useUndefinedQuestion(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -36,12 +36,12 @@ const MultipleInner = ({ pid }) => {
 
   return (
     <div>
-      <Question
+      {/* <Question
         placeholder="Type your question"
         label={question}
         onLabelChange={(text) => setQuestion(text)}
-      />
-      <DndDroppable pid={pid} listAtom={multipleAnswers(pid)} type={pid}>
+      /> */}
+      <DndDroppable pid={pid} listAtom={undefinedAnswers(pid)} type={pid}>
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
