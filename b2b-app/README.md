@@ -20,8 +20,8 @@ Meteor installation, git, mongodb
 $ git clone https://github.com/Back2bikes/attendance.git
 # Or git clone git@github.com:Back2bikes/settler.git if you are using ssh
 
-# navigate into `se2-admin` folder and run
-cd settler/se2-admin
+# navigate into `b2b-app` folder and run
+cd attendance/b2b-app
 meteor npm install
 ```
 
