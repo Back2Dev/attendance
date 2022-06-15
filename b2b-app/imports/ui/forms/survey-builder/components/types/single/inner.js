@@ -31,29 +31,6 @@ const useStyles = makeStyles({
   listIcon: {
     minWidth: '0px',
   },
-  underline: {
-    '&:before': {
-      'border-bottom': '1px solid white',
-    },
-    '&:hover:not(.Mui-disabled)::before': {
-      'border-bottom': '1px solid black',
-    },
-  },
-  answerField: {
-    '&:hover .MuiInputAdornment-root': {
-      visibility: 'visible',
-    },
-  },
-  InputAdornment: {
-    visibility: 'hidden',
-  },
-  answerFieldOption: {
-    marginLeft: '30px',
-    marginBottom: '12px',
-  },
-  contentClassName: {
-    border: '0.5px dash lightgray',
-  },
   gridRoot: {
     flexGrow: 1,
   },
@@ -76,6 +53,7 @@ const getLabelFromKey = (key) => {
 const SingleInner = ({ pid }) => {
   const classes = useStyles()
   const { all, add, update, remove } = useUndefinedAnswers(pid)
+  // const [question, setQuestion] = useUndefinedQuestion(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()

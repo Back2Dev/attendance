@@ -36,11 +36,11 @@ const MultipleInner = ({ pid }) => {
 
   return (
     <div>
-      {/* <Question
+      <Question
         placeholder="Type your question"
         label={question}
         onLabelChange={(text) => setQuestion(text)}
-      /> */}
+      />
       <DndDroppable pid={pid} listAtom={undefinedAnswers(pid)} type={pid}>
         {(provided) => (
           <ul

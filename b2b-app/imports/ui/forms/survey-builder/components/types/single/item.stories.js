@@ -11,24 +11,57 @@ const Template = (args) => <Item {...args} />
 export const Default = Template.bind({})
 Default.args = {
   showMobileActions: false,
+  // text: 'Single',
+  placeholder: 'Placeholder',
+  label: 'Label',
+  isIdChecked: false,
+  // actions: ['remove'],
+  type: 'answer',
+  // showMore: true,
 }
 
-export const PrefilledText = Template.bind({})
-PrefilledText.args = {
-  text: 'Prefilled text',
+export const QuestionField = Template.bind({})
+QuestionField.args = {
+  ...Default.args,
+  showMore: true,
+  actions: ['add', 'remove', 'upload'],
+  type: 'question',
 }
 
-export const MoveUpDisabled = Template.bind({})
-MoveUpDisabled.args = {
-  disableMove: (direction) => direction === 'up',
+export const AnswerField = Template.bind({})
+AnswerField.args = {
+  ...Default.args,
+  actions: ['add', 'remove', 'upload'],
+  type: 'answer',
 }
 
-export const MoveDownDisabled = Template.bind({})
-MoveDownDisabled.args = {
-  disableMove: (direction) => direction === 'down',
+export const OptionField = Template.bind({})
+OptionField.args = {
+  ...Default.args,
+  actions: ['deleteOption'],
+  type: 'option',
 }
 
-export const RemoveDisabled = Template.bind({})
-RemoveDisabled.args = {
-  disableRemove: true,
-}
+// export const PrefilledText = Template.bind({})
+// PrefilledText.args = {
+//   ...Default.args,
+//   text: 'Prefilled text',
+// }
+
+// export const MoveUpDisabled = Template.bind({})
+// MoveUpDisabled.args = {
+//   ...Default.args,
+//   disableMove: (direction) => direction === 'up',
+// }
+
+// export const MoveDownDisabled = Template.bind({})
+// MoveDownDisabled.args = {
+//   ...Default.args,
+//   disableMove: (direction) => direction === 'down',
+// }
+
+// export const RemoveDisabled = Template.bind({})
+// RemoveDisabled.args = {
+//   ...Default.args,
+//   disableRemove: true,
+// }
