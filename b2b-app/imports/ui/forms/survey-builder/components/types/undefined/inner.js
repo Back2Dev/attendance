@@ -12,7 +12,7 @@ import {
 import { undefinedAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { Question } from '/imports/ui/forms/survey-builder/components/question'
+// import { Question } from '/imports/ui/forms/survey-builder/components/question'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -24,6 +24,7 @@ import { MultipleInner } from '../multiple/inner'
 import { UploadInner } from '../upload/inner'
 import { ImageInner } from '../image/inner'
 import { TextInner } from '../text/inner'
+import { SectionInner } from '../section/inner'
 import { useRecoilCallback, useRecoilState } from 'recoil'
 import {
   editInspectorState,
@@ -34,13 +35,15 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Grid from '@material-ui/core/Grid'
 import { Item } from '$sb/components/types/single/item'
 import { questionOptions } from '$sb/components/types/undefined/options'
+import { Question } from './question'
 
 const options = [
   { label: 'Single', value: 'single', component: SingleInner },
   { label: 'Multiple', value: 'multiple', component: MultipleInner },
   { label: 'Upload', value: 'upload', component: UploadInner },
-  { label: 'Image', value: 'image', component: ImageInner },
+  // { label: 'Image', value: 'image', component: ImageInner },
   { label: 'Text', value: 'text', component: TextInner },
+  { label: 'Section', value: 'section', component: SectionInner },
 ]
 
 const useStyles = makeStyles((theme) => ({
@@ -67,21 +70,39 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 /** Undefined Choice question */
-const UndefinedInner = ({ pid }) => {
+const UndefinedInner = ({ pid, type }) => {
   const classes = useStyles()
   const { all, add, update, remove } = useUndefinedAnswers(pid)
-  const [question, setQuestion] = useUndefinedQuestion(pid)
-  const theme = useTheme()
+  // const [question, setQuestion] = useUndefinedQuestion(pid)
+  // const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [isIdChecked, setIsIdChecked] = useState({})
-  const [type, setType] = useState('single')
+  // const [isIdChecked, setIsIdChecked] = useState({})
+  const [qType, setQType] = useState(type ?? 'single')
 
   const setTypeProperty = useRecoilCallback(({ set }) => (path, type) => {
-    set(editInspectorState({ pid, path }), (property) => {
+    set(editInspectorState({ pid, path }), () => {
       return type
     })
   })
+
+  const [part] = useRecoilState(getInspectorPart({ pid }))
+
+  const setPropertyByValue = useRecoilCallback(
+    ({ set }) =>
+      ({ path, value = undefined, pid }) => {
+        set(editInspectorState({ pid, path }), (property) => {
+          if (value) {
+            return value
+          }
+          if (property === undefined) {
+            return path.includes('optional') ? true : ''
+          } else {
+            return undefined
+          }
+        })
+      }
+  )
 
   // const getStyle = (style, snapshot, lockAxis) => {
   //   if (!snapshot.isDragging) return style
@@ -95,7 +116,7 @@ const UndefinedInner = ({ pid }) => {
   const showMobileActions = isMobile && selectedPart === pid
 
   const handleChange = ({ target: { value } }) => {
-    setType(value)
+    setQType(value)
     setTypeProperty('type', value)
   }
 
@@ -104,41 +125,12 @@ const UndefinedInner = ({ pid }) => {
       <div className={classes.gridRoot}>
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={8}>
-            <Item
-              onChange={({ target: { value } }) => setQuestion(value)}
-              label="Question"
-              text={question || ''}
-              showMobileActions={showMobileActions}
-              placeholder={'Type your question'}
-              showMore={true}
-              isIdChecked={isIdChecked}
-              setIsIdChecked={setIsIdChecked}
-              options={questionOptions}
-              type={'question'}
+            <Question
+              label={qType === 'section' ? 'Section Title' : 'Question'}
+              pid={pid}
+              part={part}
+              setPropertyByValue={setPropertyByValue}
             />
-
-            {/* <TextField
-
-              fullWidth
-              margin="normal"
-              label="Question"
-              value={question || ''}
-              placeholder="Type your question"
-              onChange={({ target: { value } }) => setQuestion(value)}
-              InputProps={{
-                classes: {
-                  root: classes.answerField,
-                },
-                endAdornment: (
-                  <InputAdornment
-                    position="end"
-                    classes={{ root: classes.InputAdornment }}
-                  >
-                    <MoreList handleToggle={handleToggle} part={undefined} />
-                  </InputAdornment>
-                ),
-              }}
-            /> */}
           </Grid>
           <Grid item xs={1}></Grid>
           <Grid item xs={2}>
@@ -146,7 +138,7 @@ const UndefinedInner = ({ pid }) => {
               fullWidth
               margin="normal"
               select
-              value={type}
+              value={qType}
               onChange={handleChange}
               label="Type"
             >
@@ -159,12 +151,13 @@ const UndefinedInner = ({ pid }) => {
           </Grid>
         </Grid>
       </div>
+
       {React.createElement(
-        options.find(({ value }) => {
-          return value === type
-        }).component,
+        (options.find(({ value }) => value === qType) || options[0]).component,
         {
           pid,
+          setPropertyByValue,
+          part,
         }
       )}
 

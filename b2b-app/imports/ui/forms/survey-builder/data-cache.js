@@ -29,7 +29,13 @@ const schema = new SimpleSchema(
 
 const parse = (data) => {
   //if data from text editor don't have paragraph , then set default to ''
-  sections = data.reduce((acc, { name,title, id, p }) => ({ ...acc, [id]: { name: name || title, id, p:p??'' } }), {})
+  sections = data.reduce(
+    (acc, { name, title, id, p }) => ({
+      ...acc,
+      [id]: { name: name || title, id, p: p ?? '' },
+    }),
+    {}
+  )
   questions = data.reduce(
     (acc, { questions }) => ({
       ...acc,
@@ -88,16 +94,23 @@ const getParts = () => {
   //     })
   //   )
   //   .flat()
+  console.log(data)
   return data.reduce(
-    (acc, { id, questions }) => [
+    (acc, { id: sectionID, questions }) => [
       ...acc,
-      { _id: id, config: TypeRegistry.get('section') },
+      {
+        _id: sectionID,
+        belongSection: sectionID,
+        type: 'section',
+        config: TypeRegistry.get('undefined'),
+      },
       ...questions.map(({ id, type }) => {
-        const config = TypeRegistry.get(type)
-        if (!config) {
-          return { _id: id, config: TypeRegistry.get('placeholder') }
-        }
-        return { _id: id, config }
+        const config = TypeRegistry.get('undefined')
+        // const config = TypeRegistry.get(type)
+        // if (!config) {
+        //   return { _id: id, config: TypeRegistry.get('placeholder') }
+        // }
+        return { _id: id, config, type, belongSection: sectionID }
       }),
     ],
     []

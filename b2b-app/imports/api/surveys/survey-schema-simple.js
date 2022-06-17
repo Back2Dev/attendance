@@ -115,6 +115,7 @@ const getAnswers = (formData, q) => {
 }
 
 const getSchemas = (survey, currentData) => {
+  console.log('survey', survey)
   return (
     survey.steps
       // .filter((step) => {
@@ -137,6 +138,7 @@ const getSchemas = (survey, currentData) => {
             }
             const qSchema = step.schema[q.id]
             const answers = getAnswers(currentData, q)
+
             switch (q.type) {
               case 'array':
                 step.schema[q.id].type = Array
@@ -314,26 +316,26 @@ const getSchemas = (survey, currentData) => {
                     return specifyId
                   })
                 break
-                case 'upload':
-                  qSchema.uniforms.value = answers.map((a) => a.val)
-                  qSchema.uniforms.component = ImageField
-                  qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
-  
-                  answers
-                    .filter((a) => a.specify)
-                    .map((a) => {
-                      const specifyId = `${q.id}-${a.id}-specify`
-                      const uniforms = {}
-                      const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                      step.schema[specifyId] = {
-                        type: String,
-                        label: a.specify,
-                        optional,
-                        uniforms,
-                      }
-                      return specifyId
-                    })
-                  break
+              case 'upload':
+                qSchema.uniforms.value = answers.map((a) => a.val)
+                qSchema.uniforms.component = ImageField
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
+                break
               // I don't know if we'll ever need this, just 'multi' instead
               // case 'boolean':
               //   qSchema.type = Boolean

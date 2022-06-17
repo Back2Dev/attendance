@@ -133,9 +133,8 @@ const Item = forwardRef(
     }
     // const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
 
-
     return (
-      <StyledItem ref={ref} {...otherProps} >
+      <StyledItem ref={ref} {...otherProps}>
         {showMobileActions && <DragHandleIcon className="icon" />}
         <FormControl className={classes.formControl}>
           <InputLabel id="text-sub-type">Type</InputLabel>
@@ -143,9 +142,9 @@ const Item = forwardRef(
             labelId="text-sub-type"
             id={`${pid}_${index}`}
             value={type}
-            onChange={({target:{value}}) => {
-              onChange(value)}
-            }
+            onChange={({ target: { value } }) => {
+              onChange(value)
+            }}
           >
             {subType.map(({ label, value }) => (
               <MenuItem component="div" key={value} value={value}>
@@ -160,7 +159,6 @@ const Item = forwardRef(
           placeholder={'Label for the answer'}
           onTextChange={onTextChange}
           pid={pid}
-        
         />
         <Actions onMouseDown={preventFocus} showMobileActions={showMobileActions}>
           <Hidden xsDown>

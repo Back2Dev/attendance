@@ -18,7 +18,9 @@ export const usePartsValue = () => {
 
 export const useParts = () => {
   const addPart = useRecoilCallback(({ set }) => (type) => {
-    set(partsAtom, (parts) => list.add(parts, { config: TypeRegistry.get(type) }))
+    set(partsAtom, (parts) =>
+      list.add(parts, { config: TypeRegistry.get(type), type: 'single' })
+    )
   })
 
   const movePartToCanvas = useRecoilCallback(({ set }) => (type, index) => {

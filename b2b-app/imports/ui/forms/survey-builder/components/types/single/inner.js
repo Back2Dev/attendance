@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
-import { useRecoilCallback, useRecoilState } from 'recoil'
 import { Item } from './item'
 import {
   useUndefinedAnswers,
@@ -11,14 +10,10 @@ import {
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import {
-  editInspectorState,
-  getInspectorPart,
-  undefinedAnswers,
-} from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { undefinedAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 
 import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import { singleOptions } from '$sb/components/types/undefined/options'
 
@@ -50,7 +45,7 @@ const getLabelFromKey = (key) => {
 }
 
 /** Single Choice question */
-const SingleInner = ({ pid }) => {
+const SingleInner = ({ pid, part, setPropertyByValue }) => {
   const classes = useStyles()
   const { all, add, update, remove } = useUndefinedAnswers(pid)
   // const [question, setQuestion] = useUndefinedQuestion(pid)
@@ -58,16 +53,16 @@ const SingleInner = ({ pid }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const [isIdChecked, setIsIdChecked] = useState({})
-  const [part] = useRecoilState(getInspectorPart({ pid }))
-  const setPropertyByValue = useRecoilCallback(({ set }) => (path) => {
-    set(editInspectorState({ pid, path }), (property) => {
-      if (property === undefined) {
-        return path.includes('optional') ? true : ''
-      } else {
-        return undefined
-      }
-    })
-  })
+  // const [part] = useRecoilState(getInspectorPart({ pid }))
+  // const setPropertyByValue = useRecoilCallback(({ set }) => (path) => {
+  //   set(editInspectorState({ pid, path }), (property) => {
+  //     if (property === undefined) {
+  //       return path.includes('optional') ? true : ''
+  //     } else {
+  //       return undefined
+  //     }
+  //   })
+  // })
 
   const getStyle = (style, snapshot, lockAxis) => {
     if (!snapshot.isDragging) return style
@@ -103,90 +98,134 @@ const SingleInner = ({ pid }) => {
                     style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
                     ref={provided.innerRef}
                   >
-                    {Object.entries(answer).map(([key, value]) => {
-                      const showField = () => {
-                        if (value === undefined) return false
+                    {Object.entries(answer)
+                      .reduce((acc, curr) => {
+                        if (curr[0] === 'name') {
+                          return [curr, ...acc]
+                        }
+                        return [...acc, curr]
+                      }, [])
+                      .map(([key, value]) => {
+                        const showField = () => {
+                          if (value === undefined) return false
 
-                        const isID = key === 'id' || key === '_id'
+                          const isID = key === 'id' || key === '_id'
 
-                        if (!isID) {
-                          return true
+                          if (!isID) {
+                            return true
+                          }
+
+                          if (isID && isIdChecked[`answers[${answerIndex}]`]) {
+                            return true
+                          }
+
+                          return false
                         }
 
-                        if (isID && isIdChecked[`answers[${answerIndex}]`]) {
-                          return true
+                        if (key === 'name') {
+                          return (
+                            <div className={classes.gridRoot} key={key}>
+                              <Grid container spacing={1} alignItems="flex-end">
+                                <Grid item>
+                                  <RadioButtonUncheckedIcon />
+                                </Grid>
+                                <Grid item xs={11}>
+                                  <Item
+                                    onRemove={() => remove(answerIndex)}
+                                    onAdd={() => add(answerIndex)}
+                                    disableRemove={all.length === 1}
+                                    onChange={({ target: { value } }) =>
+                                      setPropertyByValue({
+                                        path: `answers[${answerIndex}].name`,
+                                        value,
+                                        pid,
+                                      })
+                                    }
+                                    onToggle={(path) =>
+                                      setPropertyByValue({
+                                        path,
+                                        pid,
+                                      })
+                                    }
+                                    onUploadFinish={(value) =>
+                                      setPropertyByValue({
+                                        path: `answers[${answerIndex}].image`,
+                                        value,
+                                        pid,
+                                      })
+                                    }
+                                    index={`${pid}_${answerIndex}`}
+                                    text={value}
+                                    showMobileActions={showMobileActions}
+                                    placeholder={'Type your answer...'}
+                                    actions={['add', 'remove']}
+                                    part={part}
+                                    isIdChecked={isIdChecked}
+                                    setIsIdChecked={setIsIdChecked}
+                                    path={`answers[${answerIndex}]`}
+                                    showMore={true}
+                                    showUploadImage={true}
+                                    options={singleOptions}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </div>
+                          )
+                        } else if (key === 'image') {
+                          return (
+                            <img
+                              src={value}
+                              loading="lazy"
+                              style={{
+                                borderBottomLeftRadius: 4,
+                                borderBottomRightRadius: 4,
+                                display: 'block',
+                                width: '200px',
+                              }}
+                              key={key}
+                            />
+                          )
+                        } else {
+                          return (
+                            <div className={classes.gridRoot} key={key}>
+                              <Grid
+                                container
+                                spacing={1}
+                                alignItems="flex-end"
+                                style={showField() ? {} : { display: 'none' }}
+                              >
+                                <Grid item style={{ visibility: 'hidden' }}>
+                                  <RadioButtonUncheckedIcon />
+                                </Grid>
+
+                                <Grid item>
+                                  <Item
+                                    onDeleteOption={() =>
+                                      setPropertyByValue({
+                                        path: `answers[${answerIndex}].${key}`,
+                                      })
+                                    }
+                                    onChange={({ target: { value } }) =>
+                                      setPropertyByValue({
+                                        path: `answers[${answerIndex}].${key}`,
+                                        value,
+                                        pid,
+                                      })
+                                    }
+                                    label={getLabelFromKey(key)}
+                                    text={value}
+                                    showMobileActions={showMobileActions}
+                                    placeholder={key}
+                                    actions={['deleteOption']}
+                                    path={`answers[${answerIndex}]`}
+                                    type={'option'}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </div>
+                          )
                         }
-
-                        return false
-                      }
-
-                      if (key === 'name') {
-                        return (
-                          <div className={classes.gridRoot} key={key}>
-                            <Grid container spacing={1} alignItems="flex-end">
-                              <Grid item>
-                                <RadioButtonUncheckedIcon />
-                              </Grid>
-                              <Grid item xs={11}>
-                                <Item
-                                  onRemove={() => remove(answerIndex)}
-                                  onAdd={() => add(answerIndex)}
-                                  onUpload={() => {}}
-                                  disableRemove={all.length === 1}
-                                  onChange={({ target: { value } }) =>
-                                    update({ ...answer, [key]: value }, answerIndex)
-                                  }
-                                  setPropertyByValue={setPropertyByValue}
-                                  text={value}
-                                  showMobileActions={showMobileActions}
-                                  placeholder={'Type your answer...'}
-                                  actions={['add', 'upload', 'remove']}
-                                  part={part}
-                                  isIdChecked={isIdChecked}
-                                  setIsIdChecked={setIsIdChecked}
-                                  path={`answers[${answerIndex}]`}
-                                  showMore={true}
-                                  options={singleOptions}
-                                />
-                              </Grid>
-                            </Grid>
-                          </div>
-                        )
-                      } else {
-                        return (
-                          <div className={classes.gridRoot} key={key}>
-                            <Grid
-                              container
-                              spacing={1}
-                              alignItems="flex-end"
-                              style={showField() ? {} : { display: 'none' }}
-                            >
-                              <Grid item style={{ visibility: 'hidden' }}>
-                                <RadioButtonUncheckedIcon />
-                              </Grid>
-
-                              <Grid item>
-                                <Item
-                                  onDeleteOption={() =>
-                                    setPropertyByValue(`answers[${answerIndex}].${key}`)
-                                  }
-                                  onChange={({ target: { value } }) =>
-                                    update({ ...answer, [key]: value }, answerIndex)
-                                  }
-                                  label={getLabelFromKey(key)}
-                                  text={value}
-                                  showMobileActions={showMobileActions}
-                                  placeholder={key}
-                                  actions={['deleteOption']}
-                                  path={`answers[${answerIndex}]`}
-                                  type={'option'}
-                                />
-                              </Grid>
-                            </Grid>
-                          </div>
-                        )
-                      }
-                    })}
+                      })}
                   </div>
                 )}
               </DndDraggable>
@@ -233,13 +272,15 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
 import { get } from 'lodash'
 import { IconButton } from '@material-ui/core'
+import { image } from 'd3'
 
 export const MoreList = ({
   part,
   path,
-  setPropertyByValue,
+  // setPropertyByValue,
   isIdChecked,
   setIsIdChecked,
+  onToggle,
   options = [],
 }) => {
   const classes = useStyles()
@@ -255,9 +296,13 @@ export const MoreList = ({
 
   const handleToggle = (value) => () => {
     if (value.includes('id')) {
-      return setIsIdChecked({ ...isIdChecked, [path]: !isIdChecked[path] })
+      return setIsIdChecked({
+        ...isIdChecked,
+        [path ?? value]: !isIdChecked[path ?? value],
+      })
     }
-    setPropertyByValue(value)
+    onToggle(value)
+    // setPropertyByValue({ path: value })
   }
 
   const fieldOptions = [
@@ -281,11 +326,12 @@ export const MoreList = ({
         <List className={classes.list}>
           {fieldOptions.map((item) => {
             const labelId = item.label
-            // console.log('checked', item.label === 'ID', isIdChecked, path)
+
             const checked =
               item.label === 'ID'
-                ? isIdChecked[path]
+                ? isIdChecked[path ?? 'id']
                 : get(part, path ? `${path}.${item.value}` : item.value)
+
             return (
               <ListItem
                 key={item.value}

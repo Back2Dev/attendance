@@ -134,10 +134,13 @@ const Framework = ({ id, item, methods }) => {
     ({ snapshot }) =>
       () => {
         const parts = snapshot.getLoadable(partsAtom).contents
-        const sourceJSON = parts.map(({ _id: pid, config }) => ({
-          ...snapshot.getLoadable(config.atom(pid)).contents,
-          type: config.component.name.toLowerCase(),
-        }))
+        const sourceJSON = parts.map(({ _id: pid, config }) => {
+          const content = snapshot.getLoadable(config.atom(pid)).contents
+          return {
+            ...content,
+            type: content.type || config.component.name.toLowerCase(),
+          }
+        })
         return sourceJSON
       },
     []

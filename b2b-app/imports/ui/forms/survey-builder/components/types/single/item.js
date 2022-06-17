@@ -23,6 +23,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
 import CropOriginalIcon from '@material-ui/icons/CropOriginal'
 // import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import { MoreList } from './inner'
+import { UploadImage } from '$sb/components/types/undefined/upload'
 
 // import MoreVertIcon from '@material-ui/icons/MoreVert'
 
@@ -146,6 +147,7 @@ const Item = ({
   showMobileActions,
   type = 'answer',
   showMore,
+  showUploadImage,
   ...props
 }) => {
   // const preventFocus = (e) => {
@@ -163,7 +165,7 @@ const Item = ({
       handler: onAdd,
     },
     remove: { icon: DeleteOutlineIcon, handler: onRemove },
-    upload: { icon: CropOriginalIcon, handler: onUpload },
+    // upload: { icon: CropOriginalIcon, handler: onUpload },
     deleteOption: { icon: DeleteOutlineIcon, handler: onDeleteOption },
   }
 
@@ -191,6 +193,7 @@ const Item = ({
         endAdornment: (
           <InputAdornment classes={{ root: classes.InputAdornment }} position="end">
             {showMore && <MoreList {...props} />}
+            {showUploadImage && <UploadImage {...props} />}
 
             {createActions(...actions)}
           </InputAdornment>

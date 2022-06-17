@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React, { createElement, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, Divider, Button, Grid } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
@@ -63,8 +63,27 @@ const useStyles = makeStyles(() => ({
 // }))
 
 const DesktopFrame = React.forwardRef(
-  ({ children, selected, actions, hide = [], ...otherProps }, ref) => {
+  (
+    {
+      children,
+      selected,
+      actions,
+      hide = [],
+      setSectionState,
+      sectionState,
+      belongSection,
+      pid,
+      ...otherProps
+    },
+    ref
+  ) => {
     const classes = useStyles()
+    const [isFrameCollapse, setIsFrameCollapse] = useState(false)
+
+    useEffect(() => {
+      setIsFrameCollapse(sectionState)
+    }, [sectionState])
+
     const actionTypes = {
       add: {
         icon: AddIcon,
@@ -128,12 +147,30 @@ const DesktopFrame = React.forwardRef(
             <IconButton aria-label="dragIcon">
               <MenuIcon />
             </IconButton>
-            <IconButton aria-label="collapse" style={{ position: 'absolute', right: 0 }}>
-              <UnfoldLessIcon />
+            <IconButton
+              aria-label="collapse"
+              style={{ position: 'absolute', right: 0 }}
+              onClick={() => {
+                if (pid === belongSection) {
+                  setSectionState((prev) => ({
+                    ...prev,
+                    [belongSection]: !prev[belongSection],
+                  }))
+                } else {
+                  setIsFrameCollapse((prev) => !prev)
+                }
+              }}
+            >
+              {isFrameCollapse ? <UnfoldMoreIcon /> : <UnfoldLessIcon />}
             </IconButton>
           </div>
 
-          <CardContent className={classes.cardBody}>{children}</CardContent>
+          <CardContent
+            style={isFrameCollapse ? { display: 'none' } : { display: 'block' }}
+            className={classes.cardBody}
+          >
+            {children}
+          </CardContent>
           <CardActions>
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item>

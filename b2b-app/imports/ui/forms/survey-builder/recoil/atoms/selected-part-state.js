@@ -15,6 +15,7 @@ export const selectedPartData = selector({
     const pid = get(selectedPartAtom)
     if (pid === null) return null
     const part = list.findById(get(partsAtom), pid)
+    console.log('22', part)
     if (!part) return null
     const data = get(part.config.atom(pid))
     return data

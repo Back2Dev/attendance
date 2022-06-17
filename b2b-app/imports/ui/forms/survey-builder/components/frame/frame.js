@@ -131,6 +131,7 @@ const Frame = ({ pid, index, children, onAdd, ...props }) => {
           {...provided.dragHandleProps}
           style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
           onAdd={onAdd}
+          pid={pid}
           {...props}
         >
           {children}
