@@ -7,6 +7,8 @@ import { Item } from './item'
 import {
   useUndefinedAnswers,
   useSelectedPartValue,
+  usePartsValue,
+  usePartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
@@ -53,6 +55,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const [isIdChecked, setIsIdChecked] = useState({})
+  // const part = usePartValue(pid)
   // const [part] = useRecoilState(getInspectorPart({ pid }))
   // const setPropertyByValue = useRecoilCallback(({ set }) => (path) => {
   //   set(editInspectorState({ pid, path }), (property) => {
@@ -84,7 +87,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {all.map((answer, answerIndex) => (
+            {part?.answers?.map((answer, answerIndex) => (
               <DndDraggable
                 pid={pid}
                 itemId={answer.id || answer._id}
@@ -131,6 +134,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                                 </Grid>
                                 <Grid item xs={11}>
                                   <Item
+                                    underline={false}
                                     onRemove={() => remove(answerIndex)}
                                     onAdd={() => add(answerIndex)}
                                     disableRemove={all.length === 1}

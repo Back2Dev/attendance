@@ -47,42 +47,24 @@ const Canvas = () => {
       return { ...acc }
     }, {})
   )
-  console.log(parts)
+
   const canvasClicked = (e) => {
     // make sure to deselect only if canvas clicked. if it originated elsewhere, just ignore it
     if (e.target !== e.currentTarget) return
     if (isMobile) setDrawer(null)
     setSelectedPart(null)
   }
-  // console.log(sectionState)
 
-  // const getSource = useRecoilCallback(
-  //   ({ snapshot }) =>
-  //     () => {
-  //       let parts = snapshot.getLoadable(partsAtom).contents
-  //       let sectionID
-  //       let sectionStatus = {}
-  //       parts.reduce((acc, curr) => {
-  //         const contents = snapshot.getLoadable(curr.config.atom(curr._id)).contents
-  //         console.log('content', contents)
-  //         const type = contents.type || curr.config.component.name.toLowerCase()
+  let sectionID
+  const newParts = parts.map((item) => {
+    if (item.type === 'section') {
+      sectionID = item._id
+      return { ...item, belongSection: sectionID }
+    } else {
+      return { ...item, belongSection: sectionID }
+    }
+  })
 
-  //         curr['type'] = type
-  //         if (type === 'section') {
-  //           sectionID = contents.id || contents._id
-  //           sectionStatus = { ...sectionStatus, [sectionID]: false }
-  //         }
-  //         curr['belongSection'] = sectionID
-  //         return [...acc, curr]
-  //       }, [])
-  //       console.log(sectionStatus)
-  //       setSectionState(sectionStatus)
-  //       return parts
-  //     },
-  //   []
-  // )
-
-  // const [source] = useState(() => getSource())
   return (
     <Box height="100%">
       <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
@@ -92,7 +74,7 @@ const Canvas = () => {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {parts.map(({ _id, type, config: { component }, belongSection }, index) => {
+            {newParts.map(({ _id, type, belongSection }, index) => {
               return createElement(Undefined || Placeholder, {
                 key: _id,
                 pid: _id,

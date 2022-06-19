@@ -9,17 +9,14 @@ const add = (list, value, index = list.length - 1) => {
   if (list.length && !isValidIndex(list, index)) {
     throw new TypeError('invalid index arg')
   }
-  console.log(
-    'section',
-    list.filter(({ type }) => type === 'section')
-  )
 
-  const [lastSection] = list
-    .slice(0, index + 1)
-    .filter(({ type }) => type === 'section')
-    .slice(-1)
+  // const [lastSection] = list
+  //   .slice(0, index + 1)
+  //   .filter(({ type }) => type === 'section')
+  //   .slice(-1)
+
   const l = [...list]
-  l.splice(index + 1, 0, makeListItem({ ...value, belongSection: lastSection._id }))
+  l.splice(index + 1, 0, makeListItem(value))
   return l
 }
 

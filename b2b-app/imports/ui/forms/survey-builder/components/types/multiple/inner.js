@@ -197,6 +197,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
 
                                 <Grid item>
                                   <Item
+                                    underline={false}
                                     onDeleteOption={() =>
                                       setPropertyByValue({
                                         path: `answers[${answerIndex}].${key}`,

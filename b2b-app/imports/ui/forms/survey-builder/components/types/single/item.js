@@ -49,7 +49,7 @@ export const StyledItem = styled('li')(({ theme }) => ({
 }))
 
 const useStyles = makeStyles({
-  underline: {
+  hideUnderline: {
     '&:before': {
       'border-bottom': '1px solid white',
     },
@@ -146,6 +146,7 @@ const Item = ({
   disableRemove,
   showMobileActions,
   type = 'answer',
+  underline = true,
   showMore,
   showUploadImage,
   ...props
@@ -186,7 +187,7 @@ const Item = ({
       onChange={onChange}
       InputProps={{
         classes: {
-          underline: type === 'answer' ? classes.underline : undefined,
+          underline: underline ? undefined : classes.hideUnderline,
           root: classes.answerField,
         },
 

@@ -9,6 +9,7 @@ let log = debug('builder:data-cache')
 let data = []
 let sections = {}
 let questions = {}
+let parts = {}
 
 const schema = new SimpleSchema(
   {
@@ -36,6 +37,7 @@ const parse = (data) => {
     }),
     {}
   )
+
   questions = data.reduce(
     (acc, { questions }) => ({
       ...acc,
@@ -53,6 +55,25 @@ const parse = (data) => {
 
           return type.mapDataToAtom(v)
         }
+      ),
+    }),
+    {}
+  )
+
+  parts = data.reduce(
+    (acc, { id, questions, lineno, object, ...props }) => ({
+      ...acc,
+      [id]: { type: 'section', ...props },
+      ...questions.reduce(
+        (acc, { id, type, answers, lineno, object, grid, ...props }) => ({
+          ...acc,
+          [id]: {
+            type,
+            answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
+            ...props,
+          },
+        }),
+        {}
       ),
     }),
     {}
@@ -94,27 +115,28 @@ const getParts = () => {
   //     })
   //   )
   //   .flat()
-  console.log(data)
   return data.reduce(
-    (acc, { id: sectionID, questions }) => [
+    (acc, { id, questions, lineno, object, ...props }) => [
       ...acc,
       {
-        _id: sectionID,
-        belongSection: sectionID,
+        _id: id,
         type: 'section',
-        config: TypeRegistry.get('undefined'),
+        ...props,
       },
-      ...questions.map(({ id, type }) => {
-        const config = TypeRegistry.get('undefined')
-        // const config = TypeRegistry.get(type)
-        // if (!config) {
-        //   return { _id: id, config: TypeRegistry.get('placeholder') }
-        // }
-        return { _id: id, config, type, belongSection: sectionID }
+      ...questions.map(({ id, answers, lineno, object, grid, ...props }) => {
+        return {
+          _id: id,
+          answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
+          ...props,
+        }
       }),
     ],
     []
   )
+}
+
+const getPart = (id) => {
+  return parts[id] ? Object.freeze(parts[id]) : null
 }
 
 const getQuestion = (id) => {
@@ -125,6 +147,6 @@ const getSection = (id) => {
   return sections[id] ? Object.freeze(sections[id]) : null
 }
 
-const dataCache = { set, get, getQuestion, getParts, getSection }
+const dataCache = { set, get, getQuestion, getParts, getSection, getPart }
 
 export { dataCache }

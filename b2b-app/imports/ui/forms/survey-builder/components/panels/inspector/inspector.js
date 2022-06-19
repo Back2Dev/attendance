@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 // FIXME: hit enter on a textbox and instance gets unselected
 // FIXME: swap choice positions and the +val get cleared
 const Inspector = () => {
-  const [viewJSON, setViewJSON] = useState(false)
+  const [viewJSON, setViewJSON] = useState(true)
 
   const classes = useStyles()
   const selectedPart = useSelectedPartValue()
@@ -91,6 +91,14 @@ const Inspector = () => {
       </Paper>
 
       <div className={classes.root}>
+        {viewJSON && (
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <DebugProps />
+          </ErrorBoundary>
+        )}
+      </div>
+
+      {/* <div className={classes.root}>
         {viewJSON ? (
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <DebugProps />
@@ -98,7 +106,7 @@ const Inspector = () => {
         ) : (
           selectedPart !== null && part && createElement(part.config.inspectorProperties)
         )}
-      </div>
+      </div> */}
     </>
   )
 }

@@ -8,7 +8,7 @@ import debug from 'debug'
 import { makeId } from '/imports/ui/forms/survey-builder/utils/makeId'
 import { TypeRegistry } from '../../components/types/type-registry'
 import { list } from '../../utils'
-import { partsAtom } from '../atoms'
+import { partsAtom, partAtom } from '../atoms'
 
 const log = debug('builder:use-parts')
 
@@ -16,10 +16,18 @@ export const usePartsValue = () => {
   return useRecoilValue(partsAtom)
 }
 
+export const usePartValue = (pid) => {
+  useRecoilValue(getPartState(pid))
+}
+
 export const useParts = () => {
-  const addPart = useRecoilCallback(({ set }) => (type) => {
+  const addPart = useRecoilCallback(({ set }) => (index) => {
     set(partsAtom, (parts) =>
-      list.add(parts, { config: TypeRegistry.get(type), type: 'single' })
+      list.add(
+        parts,
+        { prompt: 'new Question', type: 'single', answers: [{ name: '' }] },
+        index
+      )
     )
   })
 

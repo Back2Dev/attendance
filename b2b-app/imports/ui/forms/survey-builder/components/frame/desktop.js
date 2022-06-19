@@ -73,6 +73,7 @@ const DesktopFrame = React.forwardRef(
       sectionState,
       belongSection,
       pid,
+      index,
       ...otherProps
     },
     ref
@@ -151,6 +152,7 @@ const DesktopFrame = React.forwardRef(
               aria-label="collapse"
               style={{ position: 'absolute', right: 0 }}
               onClick={() => {
+                console.log(pid, belongSection)
                 if (pid === belongSection) {
                   setSectionState((prev) => ({
                     ...prev,
@@ -210,7 +212,7 @@ const DesktopFrame = React.forwardRef(
           variant="outlined"
           color="default"
           className={classes.addPartButton}
-          onClick={() => addPart('undefined')}
+          onClick={() => addPart(index)}
         >
           <AddIcon />
         </Button>

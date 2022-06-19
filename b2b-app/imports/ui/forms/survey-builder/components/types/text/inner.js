@@ -19,6 +19,7 @@ import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const subType = [
   { label: 'Short', value: 'text' },
@@ -119,7 +120,16 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                   if (key === 'name') {
                     return (
                       <div className={classes.gridRoot} key={key}>
-                        <Grid container spacing={1} alignItems="flex-end">
+                        <Grid
+                          container
+                          spacing={1}
+                          alignItems="flex-end"
+                          // justifyContent="space-around"
+                        >
+                          <Grid item style={{ visibility: 'hidden' }}>
+                            <RadioButtonUncheckedIcon />
+                          </Grid>
+
                           <Grid item xs={2}>
                             <TextField
                               id={`${pid}_${answerIndex}`}
@@ -144,8 +154,9 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                             </TextField>
                           </Grid>
                           <Grid item xs={1}></Grid>
-                          <Grid item xs={9}>
+                          <Grid item xs={8}>
                             <Item
+                              underline={true}
                               onRemove={() => remove(answerIndex)}
                               onAdd={() => add(answerIndex)}
                               disableRemove={all.length === 1}

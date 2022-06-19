@@ -30,7 +30,15 @@ const getLabelFromKey = (key) => {
 }
 
 /** Question renders an editable label. It's a simple wrapper around InlineEdit */
-const Question = ({ pid, onDeleteOption, setPropertyByValue, part, label, ...props }) => {
+const Question = ({
+  pid,
+  onDeleteOption,
+  setPropertyByValue,
+  part,
+  label,
+  type,
+  ...props
+}) => {
   // const classes = useStyles()
   // const { all, add, update, remove } = useUndefinedAnswers(pid)
   // const [question, setQuestion] = useUndefinedQuestion(pid)
@@ -40,6 +48,7 @@ const Question = ({ pid, onDeleteOption, setPropertyByValue, part, label, ...pro
   const [isIdChecked, setIsIdChecked] = useState({})
   const showMobileActions = isMobile && selectedPart === pid
 
+  // console.log('pid', pid, 'part', part)
   return (
     <>
       {Object.entries(part)
@@ -68,7 +77,7 @@ const Question = ({ pid, onDeleteOption, setPropertyByValue, part, label, ...pro
 
           if (key === 'answers' || key === 'type') return null
           //only for section. section doesn't have prompt but name
-          if (key === 'prompt' || (label === 'Section' && key === 'name')) {
+          if (key === 'prompt' || (type === 'section' && key === 'name')) {
             return (
               <Grid container spacing={1} alignItems="flex-start" key={key}>
                 <Grid item style={{ visibility: 'hidden' }}>

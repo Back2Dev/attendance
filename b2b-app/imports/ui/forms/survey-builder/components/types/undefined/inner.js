@@ -29,6 +29,8 @@ import { useRecoilCallback, useRecoilState } from 'recoil'
 import {
   editInspectorState,
   getInspectorPart,
+  editPartState,
+  getPartState,
 } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -81,17 +83,20 @@ const UndefinedInner = ({ pid, type }) => {
   const [qType, setQType] = useState(type ?? 'single')
 
   const setTypeProperty = useRecoilCallback(({ set }) => (path, type) => {
-    set(editInspectorState({ pid, path }), () => {
+    // set(editInspectorState({ pid, path }), () => {
+    set(editPartState({ pid, path }), () => {
       return type
     })
   })
 
-  const [part] = useRecoilState(getInspectorPart({ pid }))
-
+  // const [part] = useRecoilState(getInspectorPart({ pid }))
+  const [part] = useRecoilState(getPartState({ pid }))
+  // console.log(part)
   const setPropertyByValue = useRecoilCallback(
     ({ set }) =>
       ({ path, value = undefined, pid }) => {
-        set(editInspectorState({ pid, path }), (property) => {
+        // set(editInspectorState({ pid, path }), (property) => {
+        set(editPartState({ pid, path }), (property) => {
           if (value) {
             return value
           }
@@ -126,7 +131,8 @@ const UndefinedInner = ({ pid, type }) => {
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={8}>
             <Question
-              label={qType === 'section' ? 'Section Title' : 'Question'}
+              label={type === 'section' ? 'Section' : 'Question'}
+              type={type}
               pid={pid}
               part={part}
               setPropertyByValue={setPropertyByValue}
