@@ -4,6 +4,7 @@ import keywords from './engine-keywords'
 const debug = require('debug')('app:forms:engine')
 
 const validQtypes = 'multiple single text array paragraph signature calc'.split(/\s+/)
+const noAnswers = 'paragraph'.split(/\s+/)
 let survey = { sections: [] }
 let currentStep
 let currentQ
@@ -151,7 +152,7 @@ export const parse = (source) => {
       section.questions.forEach((q) => {
         if (!validQtypes.includes(q.type))
           errs.push({ lineno: q.lineno, errCode: 'w-unk-type', line: q.type })
-        if (q.type === 'paragraph' && q.answers.length)
+        if (noAnswers.includes(q.type) && q.answers.length)
           errs.push({
             lineno: q.answers[0].lineno,
             errCode: 'w-ignore-attribs',

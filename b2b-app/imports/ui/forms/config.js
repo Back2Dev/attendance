@@ -9,6 +9,12 @@ import {
 } from '/imports/api/utils/schema-util'
 import { LongTextField, SubmitField } from 'uniforms-material'
 
+const dateFormat = {
+  inputFormat: 'DD/MM/YY HH:mm',
+  outputFormat: 'DD/MM/YY HH:mm',
+  invalidPlaceholder: '',
+}
+
 const editSchema = new SimpleSchema({
   name: {
     type: String,
@@ -45,10 +51,17 @@ export default config = {
     columns: [
       { field: 'name', title: 'name', editor: true, formatter: null },
       { field: 'slug', title: 'slug', editor: true, formatter: null },
-      { field: 'source', title: 'source', editor: true, formatter: null },
-      { field: 'survey', title: 'survey', editor: true, formatter: null },
       { field: 'revision', title: 'revision', editor: true, formatter: null },
       { field: 'active', title: 'active', editor: true, formatter: null },
+      {
+        field: 'updatedAt',
+        title: 'Updated',
+        editor: true,
+        formatter: 'datetime',
+        formatterParams: dateFormat,
+        sorter: 'date',
+        sorterParams: { format: 'YYYY-MM-DD HH:mm' },
+      },
     ],
   },
   add: {

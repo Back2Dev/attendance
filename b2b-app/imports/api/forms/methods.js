@@ -49,6 +49,23 @@ Meteor.methods({
       }
     }
   },
+  'upsert.forms': (form) => {
+    try {
+      if (!Forms.findOne({ slug: form.slug })) {
+        const id = Forms.insert(form)
+        return { status: 'success', message: `Added form` }
+      } else {
+        if (Forms.update({ slug: form.slug }, { $set: form }))
+          return { status: 'success', message: `Updated form` }
+        else return { status: 'success', message: `No change to form` }
+      }
+    } catch (e) {
+      return {
+        status: 'failed',
+        message: `Error adding form: ${e.message}`,
+      }
+    }
+  },
   's3.deleteObject': ({ fileName }) => {
     s3.deleteObject(
       { Bucket: Meteor.settings.private.UPLOAD_BUCKET, Key: fileName },
