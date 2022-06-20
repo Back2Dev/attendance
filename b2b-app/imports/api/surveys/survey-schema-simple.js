@@ -1,3 +1,4 @@
+import React from 'react'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import DatePicker from '/imports/ui/components/date-field'
@@ -7,6 +8,11 @@ import DatePicker from '/imports/ui/components/date-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
+import { LongTextField, NumField } from 'uniforms-material'
+
+const LongField = (props) => (
+  <LongTextField {...props} variant="outlined" rows="3"></LongTextField>
+)
 
 SimpleSchema.extendOptions(['uniforms'])
 SimpleSchema.setDefaultMessages({
@@ -172,7 +178,13 @@ const getSchemas = (survey, currentData) => {
                     subSchema[qaId].uniforms.margin = 'normal'
                     subSchema[qaId].uniforms.component = DatePicker
                   }
-
+                  if (a.type === 'long') {
+                    // subSchema[qaId].uniforms.margin = 'normal'
+                    subSchema[qaId].uniforms.component = LongField
+                  }
+                  if (a.type === 'number') {
+                    subSchema[qaId].uniforms.component = NumField
+                  }
                   if (a.type === 'email')
                     subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
