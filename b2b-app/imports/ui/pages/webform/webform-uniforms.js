@@ -49,6 +49,7 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
+import Geolocation from '/imports/ui/components/geolocation'
 import { DropZone } from '/imports/ui/forms/survey-builder/components/types/upload/item'
 
 const debug = require('debug')('app:webforms-progress')
@@ -122,7 +123,7 @@ const Specifiers = (q) => {
             <LongTextField
               name={otherId}
               id={otherId}
-              rows="2"
+              minRows="2"
               placeholder={a.placeholder}
               variant="outlined"
             ></LongTextField>
@@ -150,7 +151,7 @@ const TextQ = ({ q, a }) => {
           name={id}
           id={id}
           key={id}
-          rows="2"
+          minRows="2"
           placeholder={a.placeholder}
           variant="outlined"
         ></LongTextField>
@@ -319,6 +320,16 @@ const RenderQ = (q, ix) => {
         <span key={key} className="q-container">
           {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
           <Signature title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
+          <ErrorField name={q.id} id={q.id} />
+          <NoteIf note={q.note} field={q.id}></NoteIf>
+        </span>
+      )
+
+    case 'geolocation':
+      return (
+        <span key={key} className="q-container">
+          {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
+          <Geolocation title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>

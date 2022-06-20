@@ -11,7 +11,7 @@ import { cloneDeep } from 'lodash'
 import { LongTextField, NumField } from 'uniforms-material'
 
 const LongField = (props) => (
-  <LongTextField {...props} variant="outlined" rows="3"></LongTextField>
+  <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
 )
 
 SimpleSchema.extendOptions(['uniforms'])
@@ -366,7 +366,12 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 break
               case 'signature':
+                // TODO: declare a varible for the signature image? Or should it use slingshot
+                // directly like (I think) the upload field does?
                 // delete step.schema[q.id]
+                break
+              case 'geolocation':
+                // Nothing to do, just accept it as is
                 break
               case 'upload':
                 delete step.schema[q.id]
@@ -391,7 +396,6 @@ const getSchemas = (survey, currentData) => {
                 console.log(`Unsupported question type: [${q.type}]`)
                 // Setting type to paragraph stops it trying to render a question
                 q.type = 'paragraph'
-              // q.type = 'paragraph'
             }
           })
         }
