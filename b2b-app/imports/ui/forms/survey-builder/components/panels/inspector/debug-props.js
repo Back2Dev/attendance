@@ -31,7 +31,7 @@ const DebugProps = () => {
   const classes = useStyles()
   const part = useSelectedPartData()
   const selectedPart = useSelectedPartValue()
-  const editorCtx = useContext(EditorContext)
+  // const editorCtx = useContext(EditorContext)
   const parts = usePartsValue()
 
   return (
@@ -50,7 +50,7 @@ const DebugProps = () => {
           {!selectedPart ? (
             <ReactJson src={parts} {...jsonViewConfig} />
           ) : (
-            <ReactJson src={part} {...jsonViewConfig} />
+            <ReactJson src={part || {}} {...jsonViewConfig} />
           )}
         </Typography>
       </CardContent>

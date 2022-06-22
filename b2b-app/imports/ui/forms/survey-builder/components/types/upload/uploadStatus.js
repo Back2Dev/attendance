@@ -43,11 +43,11 @@ export function FileHeader({ file, onDelete }) {
   )
 }
 
-export function SingleFileUploadWithProgress({ file, onDelete, onUpload }) {
+export function SingleFileUploadWithProgress({ file, onDelete, onUpload, answerIndex }) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    onUpload(file, setProgress)
+    onUpload(file, setProgress, answerIndex)
   }, [])
 
   return (

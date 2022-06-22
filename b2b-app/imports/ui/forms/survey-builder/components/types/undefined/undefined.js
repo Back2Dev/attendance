@@ -10,7 +10,7 @@ import { TypeRegistry } from '../type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import {
   useSelectedPartValue,
-  useAnswers,
+  usePartAnswers,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
@@ -56,7 +56,8 @@ const Undefined = ({
   sectionState,
   belongSection,
 }) => {
-  const { all, add } = useAnswers(pid)
+  const { all, add } = usePartAnswers(pid)
+
   return (
     <Frame
       pid={pid}

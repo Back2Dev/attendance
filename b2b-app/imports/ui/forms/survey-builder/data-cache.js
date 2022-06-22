@@ -63,11 +63,12 @@ const parse = (data) => {
   parts = data.reduce(
     (acc, { id, questions, lineno, object, ...props }) => ({
       ...acc,
-      [id]: { type: 'section', ...props },
+      [id]: { type: 'section', ...props, _id: id },
       ...questions.reduce(
         (acc, { id, type, answers, lineno, object, grid, ...props }) => ({
           ...acc,
           [id]: {
+            _id: id,
             type,
             answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
             ...props,
@@ -95,7 +96,6 @@ const set = (parsedJson) => {
     throw new Error('Unexpected data shape')
   }
   data = parsedJson.sections
-
   parse(data)
 }
 

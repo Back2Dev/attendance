@@ -5,12 +5,14 @@ import {
   useRecoilValue,
 } from 'recoil'
 import debug from 'debug'
-import { makeId } from '/imports/ui/forms/survey-builder/utils/makeId'
-import { TypeRegistry } from '../../components/types/type-registry'
+// import { makeId } from '/imports/ui/forms/survey-builder/utils/makeId'
+// import { TypeRegistry } from '../../components/types/type-registry'
 import { list } from '../../utils'
-import { partsAtom, partAtom } from '../atoms'
+import { partsAtom, partAtom, partAnswers } from '../atoms'
 
 const log = debug('builder:use-parts')
+
+const defaultPart = { prompt: 'new Question', type: 'single', answers: [{ name: '' }] }
 
 export const usePartsValue = () => {
   return useRecoilValue(partsAtom)
@@ -22,30 +24,26 @@ export const usePartValue = (pid) => {
 
 export const useParts = () => {
   const addPart = useRecoilCallback(({ set }) => (index) => {
-    set(partsAtom, (parts) =>
-      list.add(
-        parts,
-        { prompt: 'new Question', type: 'single', answers: [{ name: '' }] },
-        index
-      )
-    )
+    set(partsAtom, (parts) => list.add(parts, defaultPart, index))
   })
 
-  const movePartToCanvas = useRecoilCallback(({ set }) => (type, index) => {
-    set(partsAtom, (parts) => {
-      const l = [...parts]
-      l.splice(index, 0, {
-        config: TypeRegistry.get(type),
-        _id: makeId(),
-      })
-      return l
-    })
-  })
+  // const movePartToCanvas = useRecoilCallback(({ set }) => (type, index) => {
+  //   set(partsAtom, (parts) => {
+  //     const l = [...parts]
+  //     l.splice(index, 0, {
+  //       config: TypeRegistry.get(type),
+  //       _id: makeId(),
+  //     })
+  //     return l
+  //   })
+  // })
 
   const removePart = useRecoilTransaction_UNSTABLE(({ set, reset, get }) => (pid) => {
-    const part = list.findById(get(partsAtom), pid)
-    if (!part) return
-    const atomState = part.config.atom(pid)
+    // const part = list.findById(get(partsAtom), pid)
+    // console.log()
+    // if (!part) return
+    // const atomState = part.config.atom(pid)
+    const atomState = partAtom(pid)
     reset(atomState)
     set(partsAtom, (parts) => list.removeById(parts, pid))
   })
@@ -54,9 +52,32 @@ export const useParts = () => {
     set(partsAtom, (parts) => list.moveById(parts, id, direction))
   })
 
-  return { addPart, removePart, movePart, movePartToCanvas }
+  return { addPart, removePart, movePart }
 }
 
 export const usePartsState = () => {
   return useRecoilState(partsAtom)
+}
+
+export const usePartAnswers = (pid) => {
+  const [answers, setAnswers] = useRecoilState(partAnswers(pid))
+
+  const add = (index) => {
+    setAnswers(list.add(answers, defaultPart.answers[0], index))
+  }
+
+  const update = (value, index) => {
+    setAnswers(list.update(answers, value, index))
+  }
+
+  const remove = (index) => {
+    setAnswers(list.remove(answers, index))
+  }
+
+  return {
+    all: answers,
+    add,
+    update,
+    remove,
+  }
 }

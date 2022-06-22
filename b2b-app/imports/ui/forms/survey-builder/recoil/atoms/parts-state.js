@@ -51,6 +51,31 @@ export const partAtom = atomFamily({
   ],
 })
 
+export const partAnswers = selectorFamily({
+  key: 'partAnswers',
+  get:
+    (pid) =>
+    ({ get }) => {
+      const part = get(partAtom(pid))
+      return part.answers
+    },
+  set:
+    (pid) =>
+    ({ get, set }, newValue) => {
+      const parts = get(partsAtom)
+      const part = get(partAtom(pid))
+      const nextState = produce(part, (draft) => {
+        draft.answers = newValue
+      })
+
+      set(partAtom(pid), nextState)
+      set(
+        partsAtom,
+        parts.map((part) => (part._id === pid ? nextState : part))
+      )
+    },
+})
+
 export const editPartState = selectorFamily({
   key: 'editPart',
   get:
@@ -68,6 +93,7 @@ export const editPartState = selectorFamily({
       const nextState = produce(part, (draft) => {
         lset(draft, path, newValue)
       })
+
       set(partAtom(pid), nextState)
       set(
         partsAtom,
@@ -93,6 +119,7 @@ export const getPartState = selectorFamily({
       const nextState = produce(part, (draft) => {
         lset(draft, path, newValue)
       })
+
       set(partAtom(pid), nextState)
     },
 })
