@@ -74,6 +74,8 @@ const DesktopFrame = React.forwardRef(
       belongSection,
       pid,
       index,
+      onAddPart,
+      onCopyPart,
       ...otherProps
     },
     ref
@@ -89,14 +91,12 @@ const DesktopFrame = React.forwardRef(
       add: {
         icon: AddIcon,
         handler: () => actions.onAdd(),
-        classes: hide.includes('add') ? classes.hideButton : '',
       },
       remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
       moveUp: {
         icon: KeyboardArrowUpIcon,
         handler: () =>
           actions.onMove({ dir: 'up', draggableId: otherProps['data-rbd-draggable-id'] }),
-        classes: hide.includes('moveUp') ? classes.hideButton : '',
       },
       moveDown: {
         icon: KeyboardArrowDownIcon,
@@ -105,10 +105,9 @@ const DesktopFrame = React.forwardRef(
             dir: 'down',
             draggableId: otherProps['data-rbd-draggable-id'],
           }),
-        classes: hide.includes('moveDown') ? classes.hideButton : '',
       },
       color: { icon: FormatColorFillIcon, handler: () => {} },
-      copy: { icon: FileCopyIcon, handler: () => {} },
+      copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
     }
 
     const createActions = (...types) =>
@@ -123,7 +122,7 @@ const DesktopFrame = React.forwardRef(
         </IconButton>
       ))
 
-    const { addPart } = useParts()
+    // const { addPart, copyPart } = useParts()
 
     const handleChange = () => {}
 
@@ -182,7 +181,7 @@ const DesktopFrame = React.forwardRef(
                     }
                     label="Header Only"
                   />
-                  <FormControlLabel
+                  {/* <FormControlLabel
                     control={
                       <Switch
                         checked={false}
@@ -192,7 +191,7 @@ const DesktopFrame = React.forwardRef(
                       />
                     }
                     label="Optional"
-                  />
+                  /> */}
                 </FormGroup>
               </Grid>
 
@@ -211,7 +210,7 @@ const DesktopFrame = React.forwardRef(
           variant="outlined"
           color="default"
           className={classes.addPartButton}
-          onClick={() => addPart(index)}
+          onClick={onAddPart}
         >
           <AddIcon />
         </Button>

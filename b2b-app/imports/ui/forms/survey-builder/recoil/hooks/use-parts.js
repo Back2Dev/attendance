@@ -5,10 +5,8 @@ import {
   useRecoilValue,
 } from 'recoil'
 import debug from 'debug'
-// import { makeId } from '/imports/ui/forms/survey-builder/utils/makeId'
-// import { TypeRegistry } from '../../components/types/type-registry'
 import { list } from '../../utils'
-import { partsAtom, partAtom, partAnswers } from '../atoms'
+import { partsAtom, partAtom, partAnswers, getPartState } from '../atoms'
 
 const log = debug('builder:use-parts')
 
@@ -27,22 +25,13 @@ export const useParts = () => {
     set(partsAtom, (parts) => list.add(parts, defaultPart, index))
   })
 
-  // const movePartToCanvas = useRecoilCallback(({ set }) => (type, index) => {
-  //   set(partsAtom, (parts) => {
-  //     const l = [...parts]
-  //     l.splice(index, 0, {
-  //       config: TypeRegistry.get(type),
-  //       _id: makeId(),
-  //     })
-  //     return l
-  //   })
-  // })
+  const copyPart = useRecoilCallback(({ set, snapshot }) => (pid, index) => {
+    const parts = snapshot.getLoadable(partsAtom).contents
+    const part = list.findById(parts, pid)
+    set(partsAtom, (parts) => list.add(parts, part, index))
+  })
 
   const removePart = useRecoilTransaction_UNSTABLE(({ set, reset, get }) => (pid) => {
-    // const part = list.findById(get(partsAtom), pid)
-    // console.log()
-    // if (!part) return
-    // const atomState = part.config.atom(pid)
     const atomState = partAtom(pid)
     reset(atomState)
     set(partsAtom, (parts) => list.removeById(parts, pid))
@@ -52,7 +41,7 @@ export const useParts = () => {
     set(partsAtom, (parts) => list.moveById(parts, id, direction))
   })
 
-  return { addPart, removePart, movePart }
+  return { addPart, removePart, movePart, copyPart }
 }
 
 export const usePartsState = () => {

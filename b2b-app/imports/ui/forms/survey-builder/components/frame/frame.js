@@ -29,6 +29,7 @@ const PureFrame = React.forwardRef(
       selected,
       mobile,
       onAdd,
+      onCopyPart,
       ...props
     },
     ref
@@ -66,6 +67,7 @@ const PureFrame = React.forwardRef(
       onDeselect: deselectFrame,
       onSelect: selectFrame,
       onAdd,
+      onCopyPart,
     }
     return createElement(
       mobile ? MobileFrame : DesktopFrame,
@@ -98,7 +100,8 @@ PureFrame.propTypes = {
 
 const Frame = ({ pid, index, children, onAdd, ...props }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
-  const { removePart } = useParts()
+  const { removePart, addPart, copyPart } = useParts()
+
   const { isMobile, dndMove } = useBuilder()
   const setDrawer = useSetDrawer()
   const theme = useTheme()
@@ -122,6 +125,8 @@ const Frame = ({ pid, index, children, onAdd, ...props }) => {
             removePart(pid)
             setSelectedPart(null)
           }}
+          onAddPart={() => addPart(index)}
+          onCopyPart={() => copyPart(pid, index)}
           onMove={(e, dir) => dndMove(e, dir)}
           onInspect={() => setDrawer('inspector')}
           onDeselect={() => setSelectedPart(null)}
