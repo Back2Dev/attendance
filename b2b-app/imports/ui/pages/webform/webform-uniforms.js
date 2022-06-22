@@ -49,7 +49,8 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
-import {DropZone} from '/imports/ui/forms/survey-builder/components/types/upload/item'
+import Geolocation from '/imports/ui/components/geolocation'
+import { DropZone } from '/imports/ui/forms/survey-builder/components/types/upload/item'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -122,7 +123,7 @@ const Specifiers = (q) => {
             <LongTextField
               name={otherId}
               id={otherId}
-              rows="2"
+              minRows="2"
               placeholder={a.placeholder}
               variant="outlined"
             ></LongTextField>
@@ -150,7 +151,7 @@ const TextQ = ({ q, a }) => {
           name={id}
           id={id}
           key={id}
-          rows="2"
+          minRows="2"
           placeholder={a.placeholder}
           variant="outlined"
         ></LongTextField>
@@ -179,17 +180,19 @@ const TextQ = ({ q, a }) => {
   }
 }
 
-const Prompt = ({ text, tooltip }) => {
+const Prompt = ({ text, tooltip, description }) => {
   let prompt = ''
   if (text) {
     const p = text.replace(/\n/g, '<br />')
     prompt = html2r(p)
   }
+  const desc = description ? html2r(description.replace(/\n/g, '<br />')) : ''
 
-  if (!tooltip) return <>{prompt}</>
   return (
     <div>
-      <>{prompt}</> <i>{html2r(tooltip)}</i>
+      <>{prompt}</>
+      {desc && <p>{desc}</p>}
+      {tooltip && <i>{html2r(tooltip)}</i>}
     </div>
   )
 }
@@ -220,7 +223,7 @@ const RenderQ = (q, ix) => {
     case 'text':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} />
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
             return (
@@ -238,7 +241,7 @@ const RenderQ = (q, ix) => {
     case 'multiple':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} />
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
             return (
@@ -308,15 +311,25 @@ const RenderQ = (q, ix) => {
     case 'paragraph':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} />
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
         </span>
       )
 
     case 'signature':
       return (
         <span key={key} className="q-container">
-          {/* <Prompt text={q.prompt} tooltip={q.tooltip} /> */}
+          {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
           <Signature title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
+          <ErrorField name={q.id} id={q.id} />
+          <NoteIf note={q.note} field={q.id}></NoteIf>
+        </span>
+      )
+
+    case 'geolocation':
+      return (
+        <span key={key} className="q-container">
+          {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
+          <Geolocation title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>
@@ -332,7 +345,7 @@ const RenderQ = (q, ix) => {
     case 'upload':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} />
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
           <DropZone />
         </span>
@@ -341,7 +354,7 @@ const RenderQ = (q, ix) => {
     default:
       return q.type ? (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} />
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           <AutoField name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
