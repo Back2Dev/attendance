@@ -102,6 +102,32 @@ export const editPartState = selectorFamily({
     },
 })
 
+export const headerOnly = selectorFamily({
+  key: 'headerOnly',
+  get:
+    ({ pid }) =>
+    ({ get }) => {
+      const parts = get(partsAtom)
+      const part = findById(parts, pid)
+      return part
+    },
+  set:
+    ({ pid }) =>
+    ({ get, set }, newValue) => {
+      const parts = get(partsAtom)
+      const part = findById(parts, pid)
+      const nextState = produce(part, () => {
+        return newValue
+      })
+
+      set(partAtom(pid), nextState)
+      set(
+        partsAtom,
+        parts.map((part) => (part._id === pid ? nextState : part))
+      )
+    },
+})
+
 export const getPartState = selectorFamily({
   key: 'getPartState',
   get:

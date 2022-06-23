@@ -38,13 +38,17 @@ const Question = ({
   const { isMobile } = useBuilder()
   const [isIdChecked, setIsIdChecked] = useState({})
   const showMobileActions = isMobile && selectedPart === pid
-  const fieldKey = qType === 'section' ? 'name' : 'prompt'
+
+  const fieldKey =
+    qType === 'section' ? 'name' : qType === 'paragraph' ? 'paragraph' : 'prompt'
+
+  const isHeaderOnly = qType === 'paragraph'
   const classes = useStyles()
 
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
-        <Grid item xs={8}>
+        <Grid item xs={isHeaderOnly ? 12 : 8}>
           <QuestionField
             fieldKey={fieldKey}
             pid={pid}
@@ -55,23 +59,26 @@ const Question = ({
             {...props}
           />
         </Grid>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={2}>
-          <TextField
-            fullWidth
-            // margin="normal"
-            select
-            value={qType}
-            onChange={handleChange}
-            label="Type"
-          >
-            {options.map(({ value, label }) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
+        {!isHeaderOnly && (
+          <>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={2}>
+              <TextField
+                fullWidth
+                select
+                value={qType}
+                onChange={handleChange}
+                label="Type"
+              >
+                {options.map(({ value, label }) => (
+                  <MenuItem key={value} value={value}>
+                    {label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </>
+        )}
 
         <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={8}>

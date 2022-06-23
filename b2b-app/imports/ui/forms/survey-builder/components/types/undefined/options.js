@@ -1,6 +1,6 @@
 export const questionOptions = [
   { label: 'Header', value: 'header' },
-  { label: 'Paragraph', value: 'paragraph' },
+  // { label: 'Paragraph', value: 'paragraph' },
   { label: 'Conditional ', value: 'conditional' },
   { label: 'Pipe ', value: 'pipe' },
   { label: 'Tooltip ', value: 'tooltip' },

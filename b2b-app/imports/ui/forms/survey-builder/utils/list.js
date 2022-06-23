@@ -10,10 +10,6 @@ const add = (list, value, index = list.length - 1) => {
     throw new TypeError('invalid index arg')
   }
 
-  // const [lastSection] = list
-  //   .slice(0, index + 1)
-  //   .filter(({ type }) => type === 'section')
-  //   .slice(-1)
   const l = [...list]
   l.splice(index + 1, 0, makeListItem(value))
   return l

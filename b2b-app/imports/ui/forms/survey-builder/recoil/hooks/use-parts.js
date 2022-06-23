@@ -5,12 +5,16 @@ import {
   useRecoilValue,
 } from 'recoil'
 import debug from 'debug'
-import { list } from '../../utils'
+import { list, makeId } from '../../utils'
 import { partsAtom, partAtom, partAnswers, getPartState } from '../atoms'
 
 const log = debug('builder:use-parts')
 
-const defaultPart = { prompt: 'new Question', type: 'single', answers: [{ name: '' }] }
+export const defaultPart = {
+  prompt: 'new Question',
+  type: 'single',
+  answers: [{ name: '', _id: makeId() }],
+}
 
 export const usePartsValue = () => {
   return useRecoilValue(partsAtom)

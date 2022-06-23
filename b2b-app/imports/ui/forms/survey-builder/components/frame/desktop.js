@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 // import styled from 'styled-components'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { useParts, defaultPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import Card from '@material-ui/core/Card'
 // import CardHeader from '@material-ui/core/CardHeader'
 // import CardMedia from '@material-ui/core/CardMedia'
@@ -40,6 +40,10 @@ const useStyles = makeStyles(() => ({
   },
   cardBody: {
     paddingTop: '0px',
+  },
+  gridPadding: {
+    // padding: '0 37px',
+    padding: '0 1rem',
   },
 }))
 
@@ -76,6 +80,8 @@ const DesktopFrame = React.forwardRef(
       index,
       onAddPart,
       onCopyPart,
+      setHeaderOnly,
+      type,
       ...otherProps
     },
     ref
@@ -106,7 +112,7 @@ const DesktopFrame = React.forwardRef(
             draggableId: otherProps['data-rbd-draggable-id'],
           }),
       },
-      color: { icon: FormatColorFillIcon, handler: () => {} },
+      // color: { icon: FormatColorFillIcon, handler: () => {} },
       copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
     }
 
@@ -123,8 +129,6 @@ const DesktopFrame = React.forwardRef(
       ))
 
     // const { addPart, copyPart } = useParts()
-
-    const handleChange = () => {}
 
     return (
       <>
@@ -172,36 +176,48 @@ const DesktopFrame = React.forwardRef(
             {children}
           </CardContent>
           <CardActions>
-            <Grid container alignItems="center" justifyContent="space-between">
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="space-between"
+              className={classes.gridPadding}
+            >
               <Grid item>
                 <FormGroup row>
                   <FormControlLabel
                     control={
-                      <Switch checked={false} onChange={handleChange} name="header" />
+                      <Switch
+                        checked={type === 'paragraph'}
+                        onChange={() => {
+                          if (type === 'paragraph') {
+                            setHeaderOnly({
+                              pid,
+                              content: { ...defaultPart },
+                            })
+                          } else {
+                            setHeaderOnly({
+                              pid,
+                              content: {
+                                paragraph: '',
+                                type: 'paragraph',
+                              },
+                            })
+                          }
+                        }}
+                        name="header"
+                      />
                     }
                     label="Header Only"
                   />
-                  {/* <FormControlLabel
-                    control={
-                      <Switch
-                        checked={false}
-                        onChange={handleChange}
-                        name="optional"
-                        color="primary"
-                      />
-                    }
-                    label="Optional"
-                  /> */}
                 </FormGroup>
               </Grid>
 
               <Grid item>
-                <Grid container space={4}>
-                  {createActions('color', 'copy')}
-                  <Divider orientation="vertical" flexItem />
-
-                  {createActions('add', 'moveUp', 'moveDown', 'remove')}
-                </Grid>
+                {/* <Grid container > */}
+                {/* {createActions('color', )} */}
+                {/* <Divider orientation="vertical" flexItem /> */}
+                {createActions('add', 'moveUp', 'moveDown', 'copy', 'remove')}
+                {/* </Grid> */}
               </Grid>
             </Grid>
           </CardActions>

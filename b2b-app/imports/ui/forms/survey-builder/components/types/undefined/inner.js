@@ -31,7 +31,9 @@ const UndefinedInner = ({ pid, type }) => {
   const { add } = useUndefinedAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [qType, setQType] = useState(type ?? 'single')
+  const qType = type ?? 'single'
+  // const [qType, setQType] = useState(type ?? 'single')
+  // console.log(type, qType, pid)
   const [part] = useRecoilState(getPartState({ pid }))
   const showMobileActions = isMobile && selectedPart === pid
 
@@ -72,14 +74,15 @@ const UndefinedInner = ({ pid, type }) => {
         handleChange={handleChange}
       />
 
-      {React.createElement(
-        (options.find(({ value }) => value === qType) || options[0]).component,
-        {
-          pid,
-          setPropertyByValue,
-          part,
-        }
-      )}
+      {qType !== 'paragraph' &&
+        React.createElement(
+          (options.find(({ value }) => value === qType) || options[0]).component,
+          {
+            pid,
+            setPropertyByValue,
+            part,
+          }
+        )}
 
       {showMobileActions && (
         <Button

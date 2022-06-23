@@ -14,6 +14,8 @@ import { DndDraggable } from '/imports/ui/forms/survey-builder/context'
 import { useTheme } from '@material-ui/styles'
 import { MobileFrame } from './mobile'
 import { DesktopFrame } from './desktop'
+import { useRecoilCallback, useRecoilState } from 'recoil'
+import { headerOnly } from '/imports/ui/forms/survey-builder/recoil/atoms'
 
 const log = debug('builder:frame')
 
@@ -115,6 +117,12 @@ const Frame = ({ pid, index, children, onAdd, ...props }) => {
     }
   }
 
+  const setHeaderOnly = useRecoilCallback(({ set }) => ({ pid, content }) => {
+    set(headerOnly({ pid }), (part) => {
+      return { ...content, _id: part._id }
+    })
+  })
+
   return (
     <DndDraggable pid={pid} index={index}>
       {(provided, snapshot, lockAxis) => (
@@ -138,6 +146,7 @@ const Frame = ({ pid, index, children, onAdd, ...props }) => {
           onAdd={onAdd}
           pid={pid}
           index={index}
+          setHeaderOnly={setHeaderOnly}
           {...props}
         >
           {children}
