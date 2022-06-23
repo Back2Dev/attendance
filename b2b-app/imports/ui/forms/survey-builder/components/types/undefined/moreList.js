@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -17,7 +17,6 @@ const useStyles = makeStyles({
   list: {
     width: '100%',
     maxWidth: 360,
-    // backgroundColor: theme.palette.background.paper,
   },
   listIcon: {
     minWidth: '0px',
@@ -60,7 +59,7 @@ export const MoreList = ({
   ]
 
   return (
-    <>
+    <Fragment>
       <IconButton aria-label="more" size="small" onClick={handleClick}>
         <MoreVertIcon />
       </IconButton>
@@ -83,7 +82,7 @@ export const MoreList = ({
             return (
               <ListItem
                 key={item.value}
-                role={undefined}
+                // role={undefined}
                 dense
                 button
                 onClick={handleToggle(path ? `${path}.${item.value}` : item.value)}
@@ -103,6 +102,6 @@ export const MoreList = ({
           })}
         </List>
       </Menu>
-    </>
+    </Fragment>
   )
 }

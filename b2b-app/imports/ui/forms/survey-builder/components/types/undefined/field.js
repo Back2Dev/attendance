@@ -79,6 +79,7 @@ const Field = ({
       value={text ?? ''}
       placeholder={placeholder}
       onChange={onChange}
+      onFocus={(e) => e.preventDefault()}
       InputProps={{
         classes: {
           underline: underline ? undefined : classes.hideUnderline,

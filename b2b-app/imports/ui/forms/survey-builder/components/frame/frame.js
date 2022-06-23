@@ -46,6 +46,7 @@ const PureFrame = React.forwardRef(
       ) {
         return
       }
+
       onSelect?.()
     }
 
@@ -55,10 +56,11 @@ const PureFrame = React.forwardRef(
         !selected ||
         (e.type === 'blur' &&
           e.currentTarget.contains(e.target) &&
-          e.currentTarget.contains(e.relatedTarget))
+          !e.currentTarget.contains(e.relatedTarget))
       ) {
         return
       }
+
       onDeselect?.()
     }
 
