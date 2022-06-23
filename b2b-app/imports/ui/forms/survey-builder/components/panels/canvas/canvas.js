@@ -1,14 +1,14 @@
 import React, { createElement, useState } from 'react'
-import { Box, Fab } from '@material-ui/core'
+import { Box, Fab, IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
-
+import { makeStyles } from '@material-ui/core/styles'
 import debug from 'debug'
-import { useRecoilCallback } from 'recoil'
 import { Placeholder } from '/imports/ui/forms/survey-builder/components/types'
 import {
   usePartsValue,
   useSelectedPartState,
   useSetDrawer,
+  useParts,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { DndDroppable, useBuilder } from '/imports/ui/forms/survey-builder/context'
@@ -16,6 +16,28 @@ import styled from 'styled-components'
 import { Undefined } from '$sb/components/types/undefined/undefined'
 
 const log = debug('builder:canvas')
+
+const useStyles = makeStyles(() => ({
+  hideButton: {
+    display: 'none',
+  },
+  addPartButton: {
+    background: 'white',
+    borderRadius: '10px',
+    display: 'block',
+    width: '100px',
+    boxShadow: '1px 1px 3px lightgray',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+
+  cardBody: {
+    paddingTop: '0px',
+  },
+  gridPadding: {
+    padding: '0 1rem',
+  },
+}))
 
 const AddButton = styled(Fab)(({ theme }) => ({
   position: 'fixed',
@@ -35,8 +57,10 @@ const List = styled('ul')(({ theme }) => ({
 // FIXME in mobile, when drawer is open the last part is obscured when scrolling to the bottom
 // TODO enable inertial scrolling
 const Canvas = () => {
+  const classes = useStyles()
   const parts = usePartsValue()
   const [selectedPart, setSelectedPart] = useSelectedPartState()
+  const { addPart } = useParts()
   const { isMobile } = useBuilder()
   const setDrawer = useSetDrawer()
   const [sectionState, setSectionState] = useState(
@@ -74,6 +98,17 @@ const Canvas = () => {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
+            {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
+            <IconButton
+              variant="outlined"
+              color="default"
+              className={classes.addPartButton}
+              onClick={() => addPart(0)}
+            >
+              <AddIcon />
+            </IconButton>
+            {/* </div> */}
+
             {newParts.map(({ _id, type, belongSection }, index) => {
               return createElement(Undefined || Placeholder, {
                 key: _id,

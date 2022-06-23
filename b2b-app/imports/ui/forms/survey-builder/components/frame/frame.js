@@ -102,7 +102,7 @@ PureFrame.propTypes = {
 
 const Frame = ({ pid, index, children, onAdd, ...props }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
-  const { removePart, addPart, copyPart } = useParts()
+  const { removePart, copyPart, addPart } = useParts()
 
   const { isMobile, dndMove } = useBuilder()
   const setDrawer = useSetDrawer()

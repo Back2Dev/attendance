@@ -32,11 +32,10 @@ const useStyles = makeStyles(() => ({
     display: 'none',
   },
   addPartButton: {
-    // display: 'none',
-    width: '100%',
     background: 'white',
     borderRadius: '10px',
-    // '&:hover': '{display:block}',
+    width: '100px',
+    boxShadow: '1px 1px 3px lightgray',
   },
   cardBody: {
     paddingTop: '0px',
@@ -127,8 +126,6 @@ const DesktopFrame = React.forwardRef(
           {createElement(actionTypes[t].icon)}
         </IconButton>
       ))
-
-    // const { addPart, copyPart } = useParts()
 
     return (
       <>
@@ -222,14 +219,16 @@ const DesktopFrame = React.forwardRef(
             </Grid>
           </CardActions>
         </Card>
-        <Button
-          variant="outlined"
-          color="default"
-          className={classes.addPartButton}
-          onClick={onAddPart}
-        >
-          <AddIcon />
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <IconButton
+            variant="outlined"
+            color="default"
+            className={classes.addPartButton}
+            onClick={onAddPart}
+          >
+            <AddIcon />
+          </IconButton>
+        </div>
       </>
     )
   }
