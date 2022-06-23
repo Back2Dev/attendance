@@ -37,7 +37,7 @@ const Item = forwardRef(
 
     const ListStyleType = showMobileActions ? DragHandleIcon : RadioButtonUncheckedIcon
 
-    const uploader = new Slingshot.Upload('imageQuestionType', { folder: question })
+    const uploader = new Slingshot.Upload('questionImage', { folder: question })
 
     const onUpload = async (params) => {
       uploader.send(params, function (error, downloadUrl) {

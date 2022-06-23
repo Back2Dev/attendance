@@ -3,7 +3,7 @@ import CropOriginalIcon from '@material-ui/icons/CropOriginal'
 import { IconButton } from '@material-ui/core'
 
 export const UploadImage = ({ onUploadFinish, index }) => {
-  const uploader = new Slingshot.Upload('imageQuestionType', { folder: 'question' }) //question
+  const uploader = new Slingshot.Upload('questionImage', { folder: 'question' }) //question
 
   const onUpload = async (params) => {
     uploader.send(params, function (error, downloadUrl) {

@@ -1,13 +1,11 @@
 {
   "private": {
     "S3_REGION": "ap-southeast-2",
-    "S3_ACCESS_KEY_ID": "AKIAQWWUX2IZSEI5JXPV",
-    "S3_SECRET_ACCESS_KEY": "xaV8taXurIqYsb+cgG+Mtn7YQ3C6EdH+2JYGh5Vi",
+    "S3_ACCESS_KEY_ID": "YOUR_KEY_HERE",
+    "S3_SECRET_ACCESS_KEY": "YOUR_KEY_HERE",
     "S3_PUBLIC_URL": "http://staging-docs.mydomain.com.au",
     "DOCUMENTS_BUCKET": "staging-docs.mydomain.com.au",
     "UPLOAD_BUCKET": "staging-docs.mydomain.com.au",
-    "UPLOAD_QUESTION_BUCKET": "back2bike",
-    "IMAGE_QUESTION_BUCKET": "back2bike",
     "GOOGLE_SECRET": "YOUR-SECRET",
     "FACEBOOK_SECRET": "YOUR-SECRET",
     "MANDRILL_API_KEY": "YOUR-SECRET"
