@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
+import { ImageWrapper } from '$sb/components/types/undefined/image'
 import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
@@ -109,16 +109,17 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
                         {' '}
                       </Grid>
                       <Grid item xs={2}>
-                        <img
-                          src={answer.image}
-                          loading="lazy"
-                          style={{
-                            borderBottomLeftRadius: 4,
-                            borderBottomRightRadius: 4,
-                            display: 'block',
-                            width: '200px',
-                          }}
-                        />
+                        {answer.image && (
+                          <ImageWrapper
+                            src={answer.image}
+                            onDeleteImage={() =>
+                              setPropertyByValue({
+                                pid,
+                                path: `answers[${answerIndex}].image`,
+                              })
+                            }
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </div>

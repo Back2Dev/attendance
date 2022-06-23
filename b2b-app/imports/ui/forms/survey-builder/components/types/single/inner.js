@@ -13,19 +13,7 @@ import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { makeStyles } from '@material-ui/core/styles'
 import { singleOptions } from '$sb/components/types/undefined/options'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/typesField'
-
-const useStyles = makeStyles({
-  list: {
-    width: '100%',
-    maxWidth: 360,
-  },
-  listIcon: {
-    minWidth: '0px',
-  },
-  gridRoot: {
-    flexGrow: 1,
-  },
-})
+import { ImageWrapper } from '$sb/components/types/undefined/image'
 
 const filterList = ['name', 'type', 'image', 'answers']
 
@@ -104,16 +92,17 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                           {' '}
                         </Grid>
                         <Grid item xs={2}>
-                          <img
-                            src={answer.image}
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: 'block',
-                              width: '200px',
-                            }}
-                          />
+                          {answer.image && (
+                            <ImageWrapper
+                              src={answer.image}
+                              onDeleteImage={() =>
+                                setPropertyByValue({
+                                  pid,
+                                  path: `answers[${answerIndex}].image`,
+                                })
+                              }
+                            />
+                          )}
                         </Grid>
                       </Grid>
                     </div>

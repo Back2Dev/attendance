@@ -13,18 +13,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useTheme } from '@material-ui/core/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/typesField'
+import { ImageWrapper } from '$sb/components/types/undefined/image'
 
 const filterList = ['name', 'type', 'image', 'answers']
-
-const subType = [
-  { label: 'Short', value: 'text' },
-  { label: 'Long', value: 'long' },
-  { label: 'Email', value: 'email' },
-  { label: 'Number', value: 'number' },
-  { label: 'Date', value: 'date' },
-]
-
-const useStyles = makeStyles({})
 
 const TextInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
@@ -101,16 +92,17 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                           {' '}
                         </Grid>
                         <Grid item xs={2}>
-                          <img
-                            src={answer.image}
-                            loading="lazy"
-                            style={{
-                              borderBottomLeftRadius: 4,
-                              borderBottomRightRadius: 4,
-                              display: 'block',
-                              width: '200px',
-                            }}
-                          />
+                          {answer.image && (
+                            <ImageWrapper
+                              src={answer.image}
+                              onDeleteImage={() =>
+                                setPropertyByValue({
+                                  pid,
+                                  path: `answers[${answerIndex}].image`,
+                                })
+                              }
+                            />
+                          )}
                         </Grid>
                       </Grid>
                     </div>

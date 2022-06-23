@@ -5,6 +5,7 @@ import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/ho
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { QuestionField, OptionField } from './typesField'
 import { makeStyles } from '@material-ui/core/styles'
+import { ImageWrapper } from '$sb/components/types/undefined/image'
 
 const options = [
   { label: 'Single', value: 'single' },
@@ -95,16 +96,17 @@ const Question = ({
           </Grid>
           <Grid item xs={1}></Grid>
           <Grid item xs={2}>
-            <img
-              src={part.image}
-              loading="lazy"
-              style={{
-                borderBottomLeftRadius: 4,
-                borderBottomRightRadius: 4,
-                display: 'block',
-                width: '200px',
-              }}
-            />
+            {part.image && (
+              <ImageWrapper
+                src={part.image}
+                onDeleteImage={() =>
+                  setPropertyByValue({
+                    pid,
+                    path: 'image',
+                  })
+                }
+              />
+            )}
           </Grid>
         </Grid>
       </Grid>

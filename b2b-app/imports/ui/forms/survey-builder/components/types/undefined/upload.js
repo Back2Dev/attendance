@@ -20,12 +20,6 @@ export const UploadImage = ({ onUploadFinish, index }) => {
   return (
     <div>
       <label htmlFor={`file-input-${index}`}>
-        {/* <img
-            alt=""
-            style={{ cursor: 'pointer', width: '150px', height: '150px' }}
-            src={val || 'https://picsum.photos/150?grayscale'}
-          /> */}
-
         <IconButton size="small" aria-label="upload" component="span">
           <CropOriginalIcon />
         </IconButton>
