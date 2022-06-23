@@ -161,7 +161,7 @@
     "jest-css-modules": "^1.1.0",
     "jest-junit-reporter": "^1.1.0",
     "jest-meteor-stubs": "^1.5.1",
-    "jsdom": "^11.10.0",
+    "jsdom": "^16.5.0",
     "meteor-node-stubs": "^0.2.4",
     "mocha": "^5.1.1",
     "mocha-junit-reporter": "^1.17.0",
