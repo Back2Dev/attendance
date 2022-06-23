@@ -1,0 +1,11 @@
+[
+  {
+    "body": "Dear *|recipientNickname|*, \nPlease change your password by clicking [here.] (*|url|*)",
+    "name": "convx-forgotpassword",
+    "oldSlug": null,
+    "revision": 3,
+    "slug": "forgot-password",
+    "subject": "Forgot password",
+    "type": "EMAIL"
+  }
+]
