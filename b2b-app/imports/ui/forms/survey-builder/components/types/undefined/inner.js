@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add'
 import {
   useUndefinedAnswers,
   useSelectedPartValue,
+  defaultPart,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import {
@@ -60,6 +61,12 @@ const UndefinedInner = ({ pid, type }) => {
   const handleChange = ({ target: { value } }) => {
     setQType(value)
     setPropertyByValue({ pid, value, path: 'type' })
+    //if type is section, set answers to an empty array, otherwise, set to default part
+    setPropertyByValue({
+      pid,
+      value: value === 'section' ? [] : defaultPart.answers,
+      path: 'answers',
+    })
   }
 
   return (

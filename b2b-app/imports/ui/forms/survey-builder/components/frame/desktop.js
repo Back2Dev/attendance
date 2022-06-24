@@ -93,10 +93,10 @@ const DesktopFrame = React.forwardRef(
     }, [sectionState])
 
     const actionTypes = {
-      add: {
-        icon: AddIcon,
-        handler: () => actions.onAdd(),
-      },
+      // add: {
+      //   icon: AddIcon,
+      //   handler: () => actions.onAdd(),
+      // },
       remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
       moveUp: {
         icon: KeyboardArrowUpIcon,
@@ -213,7 +213,7 @@ const DesktopFrame = React.forwardRef(
                 {/* <Grid container > */}
                 {/* {createActions('color', )} */}
                 {/* <Divider orientation="vertical" flexItem /> */}
-                {createActions('add', 'moveUp', 'moveDown', 'copy', 'remove')}
+                {createActions('moveUp', 'moveDown', 'copy', 'remove')}
                 {/* </Grid> */}
               </Grid>
             </Grid>

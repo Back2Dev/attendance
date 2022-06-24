@@ -273,7 +273,7 @@ export const AnswerField = ({
             showMore={true}
             showUploadImage={true}
             options={options}
-            fieldID={`${pid}_answer`}
+            fieldID={`${pid}_answer_${answerIndex}`}
             onKeyDown={(e) => {
               if (e.key === 'Tab') {
                 e.preventDefault()

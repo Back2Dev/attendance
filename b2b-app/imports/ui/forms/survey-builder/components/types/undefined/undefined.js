@@ -56,13 +56,13 @@ const Undefined = ({
   sectionState,
   belongSection,
 }) => {
-  const { all, add } = usePartAnswers(pid)
+  // const { all, add } = usePartAnswers(pid)
 
   return (
     <Frame
       pid={pid}
       index={index}
-      onAdd={() => add(all.length - 1)}
+      // onAdd={() => add(all.length - 1)}
       setSectionState={setSectionState}
       sectionState={sectionState}
       belongSection={belongSection}

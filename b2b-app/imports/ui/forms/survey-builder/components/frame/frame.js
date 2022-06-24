@@ -70,7 +70,7 @@ const PureFrame = React.forwardRef(
       onInspect,
       onDeselect: deselectFrame,
       onSelect: selectFrame,
-      onAdd,
+      // onAdd,
       onCopyPart,
     }
     return createElement(
@@ -102,7 +102,7 @@ PureFrame.propTypes = {
   mobile: PropTypes.bool,
 }
 
-const Frame = ({ pid, index, children, onAdd, ...props }) => {
+const Frame = ({ pid, index, children, ...props }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { removePart, copyPart, addPart } = useParts()
 
@@ -145,7 +145,6 @@ const Frame = ({ pid, index, children, onAdd, ...props }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
-          onAdd={onAdd}
           pid={pid}
           index={index}
           setHeaderOnly={setHeaderOnly}
