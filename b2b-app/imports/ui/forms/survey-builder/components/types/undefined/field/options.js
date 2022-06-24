@@ -27,3 +27,10 @@ export const textOptions = [
   { label: 'Specify ', value: 'specify' },
   { label: 'Skip ', value: 'skip' },
 ]
+
+export const uploadOptions = [
+  { label: 'Accept File', value: 'accept' },
+  { label: 'MaxSize', value: 'maxSize' },
+  // { label: 'multiple ', value: 'multiple' },
+  // { label: 'maxFiles ', value: 'maxFiles' },
+]

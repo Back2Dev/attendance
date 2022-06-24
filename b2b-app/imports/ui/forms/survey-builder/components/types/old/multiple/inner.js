@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { ImageWrapper } from '$sb/components/types/undefined/image'
+import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
-import { Item } from '$sb/components/types/single/item'
+// import { Item } from '$sb/components/types/single/item'
 import {
   useUndefinedAnswers,
   useUndefinedQuestion,
@@ -16,8 +16,8 @@ import { useBuilder } from '$sb/context'
 import { Question } from '$sb/components/question'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Grid } from '@material-ui/core'
-import { multipleOptions } from '$sb/components/types/undefined/options'
-import { AnswerField, OptionField } from '$sb/components/types/undefined/typesField'
+import { multipleOptions } from '$sb/components/types/undefined/field/options'
+import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 
 const useStyles = makeStyles({
   list: {

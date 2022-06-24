@@ -1,15 +1,15 @@
-import React from 'react'
-import { Field } from './field'
+import React, { Fragment } from 'react'
+import { Field } from '../field'
 import PropTypes from 'prop-types'
-import { Grid } from '@material-ui/core'
-import MenuItem from '@material-ui/core/MenuItem'
+import { Grid, Select, MenuItem, TextField } from '@material-ui/core'
+
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import TextField from '@material-ui/core/TextField'
-import { questionOptions } from '$sb/components/types/undefined/options'
+
+import { questionOptions } from '$sb/components/types/undefined/field/options'
 
 const useStyles = makeStyles(() => ({
   gridRoot: {
@@ -203,7 +203,7 @@ export const AnswerField = ({
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
         {type === 'text' && (
-          <>
+          <Fragment>
             <Grid item style={{ visibility: 'hidden' }}>
               <RadioButtonUncheckedIcon />
             </Grid>
@@ -221,15 +221,18 @@ export const AnswerField = ({
                   })
                 }
                 label="Type"
+                SelectProps={{
+                  native: true,
+                }}
               >
                 {subType.map(({ value, label }) => (
-                  <MenuItem key={value} value={value}>
+                  <option key={value} value={value}>
                     {label}
-                  </MenuItem>
+                  </option>
                 ))}
               </TextField>
             </Grid>
-          </>
+          </Fragment>
         )}
         <Grid item>{prefixIcon(type)}</Grid>
         <Grid item xs={type === 'text' ? 8 : 11}>
@@ -270,6 +273,20 @@ export const AnswerField = ({
             showMore={true}
             showUploadImage={true}
             options={options}
+            fieldID={`${pid}_answer`}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                onAdd()
+                setTimeout(
+                  () =>
+                    document
+                      .querySelectorAll(`[id ^='${pid}_answer']`)
+                      [answerIndex + 1].focus(),
+                  0
+                )
+              }
+            }}
           />
         </Grid>
       </Grid>

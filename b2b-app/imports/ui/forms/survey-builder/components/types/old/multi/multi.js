@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import debug from 'debug'
 
 import { MultiInner } from './inner'
-import { Frame } from '../../frame'
+import { Frame } from '$sb/components/frame'
 import SimpleSchema from 'simpl-schema'
-import { multiAtom, multiSource } from '../../../recoil/atoms'
-import { TypeRegistry } from '../type-registry'
+import { multiAtom, multiSource } from '$sb/recoil/atoms'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 

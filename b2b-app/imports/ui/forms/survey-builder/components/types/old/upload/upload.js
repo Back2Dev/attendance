@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-
-import { MultipleInner } from './inner'
-import { Frame } from '../../frame'
+import { UploadInner } from './inner'
+import { Frame } from '$sb/components/frame'
 import SimpleSchema from 'simpl-schema'
-import { multipleAtom, multipleSource } from '../../../recoil/atoms'
-import { TypeRegistry } from '../type-registry'
-import { Inspector } from '$sb/components/panels'
-import { useSelectedPartValue, useMultipleAnswers } from '$sb/recoil/hooks'
+import { uploadAtom, uploadSource } from '$sb/recoil/atoms'
+import { TypeRegistry } from '$sb/components/types/type-registry'
+import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
+import { EditProperty } from './inspector-upload'
+import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
-let log = debug('builder:multiple')
+let log = debug('builder:upload')
 
 const schema = new SimpleSchema({
   id: String,
@@ -36,17 +37,17 @@ const mapDataToAtom = (data) => {
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    throw new Error('Invalid mapping from data to multiple state')
+    // throw new Error('Invalid mapping from data to single state')
   }
 
   return state
 }
 
-const Multiple = ({ pid, index }) => {
-  const { all, add } = useMultipleAnswers(pid)
+const Upload = ({ pid, index }) => {
+  const hide = ['add']
   return (
-    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
-      <MultipleInner pid={pid} />
+    <Frame pid={pid} index={index} hide={hide}>
+      <UploadInner pid={pid} />
     </Frame>
   )
 }
@@ -60,30 +61,32 @@ const InspectorProperties = () => {
   }
   return (
     <div>
-      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
-      <Inspector.Section heading="Answers">
-        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
+      <Inspector.Section heading="Question">
+        <QuestionProperty pid={selectedPart} />
+      </Inspector.Section>
+      <Inspector.Section heading="File">
+        <EditProperty pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
     </div>
   )
 }
 
-Multiple.displayName = 'Multiple'
+Upload.displayName = 'Upload'
 
-Multiple.propTypes = {
-  /** id for this Multiple instance part */
+Upload.propTypes = {
+  /** id for this Single instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Multiple }
+export { Upload }
 
 TypeRegistry.register(
-  'multiple',
-  Multiple,
-  multipleSource,
+  'upload',
+  Upload,
+  uploadSource,
   mapDataToAtom,
-  multipleAtom,
+  uploadAtom,
   InspectorProperties
 )

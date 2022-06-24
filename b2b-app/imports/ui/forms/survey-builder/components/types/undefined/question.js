@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { TextField, Grid, MenuItem } from '@material-ui/core'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { QuestionField, OptionField } from './typesField'
+import { QuestionField, OptionField } from './field/typesField'
 import { makeStyles } from '@material-ui/core/styles'
-import { ImageWrapper } from '$sb/components/types/undefined/image'
+import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
 const options = [
   { label: 'Single', value: 'single' },
@@ -70,11 +70,14 @@ const Question = ({
                 value={qType}
                 onChange={handleChange}
                 label="Type"
+                SelectProps={{
+                  native: true,
+                }}
               >
                 {options.map(({ value, label }) => (
-                  <MenuItem key={value} value={value}>
+                  <option key={value} value={value}>
                     {label}
-                  </MenuItem>
+                  </option>
                 ))}
               </TextField>
             </Grid>

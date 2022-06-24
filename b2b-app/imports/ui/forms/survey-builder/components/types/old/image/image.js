@@ -1,18 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-
-import { SingleInner } from './inner'
-import { Frame } from '../../frame'
+import { ImageInner } from './inner'
+import { Frame } from '$sb/components/frame'
 import SimpleSchema from 'simpl-schema'
-import { singleAtom, singleSource } from '../../../recoil/atoms'
-import { TypeRegistry } from '../type-registry'
+import { imageAtom, imageSource } from '$sb/recoil/atoms'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import {
   useSelectedPartValue,
-  useAnswers,
+  useImageAnswers,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
 let log = debug('builder:single')
 
@@ -33,9 +31,7 @@ const mapDataToAtom = (data) => {
   const state = {
     id: data.id,
     prompt: data.title,
-    // prompt: data.prompt,
-    // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
-    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
+    answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
   }
 
   schema.validate(state)
@@ -44,22 +40,20 @@ const mapDataToAtom = (data) => {
     log('got', data)
     // throw new Error('Invalid mapping from data to single state')
   }
-
   return state
 }
 
-const Single = ({ pid, index }) => {
-  const { all, add } = useAnswers(pid)
+const Image = ({ pid, index }) => {
+  const { all, add } = useImageAnswers(pid)
   return (
     <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
-      <SingleInner pid={pid} />
+      <ImageInner pid={pid} />
     </Frame>
   )
 }
 
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
-
   const relabelAnswers = (path) => {
     if (path.endsWith('name')) return 'Label'
     if (path.endsWith('val')) return 'Value'
@@ -67,9 +61,7 @@ const InspectorProperties = () => {
   }
   return (
     <div>
-      <Inspector.Section heading="Question">
-        <QuestionProperty pid={selectedPart} />
-      </Inspector.Section>
+      <Inspector.Property pid={selectedPart} path="id" relabel="Question Id" />
       <Inspector.Section heading="Answers">
         <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
@@ -77,22 +69,22 @@ const InspectorProperties = () => {
   )
 }
 
-Single.displayName = 'Single'
+Image.displayName = 'Image'
 
-Single.propTypes = {
+Image.propTypes = {
   /** id for this Single instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Single }
+export { Image }
 
 TypeRegistry.register(
-  'single',
-  Single,
-  singleSource,
+  'image',
+  Image,
+  imageSource,
   mapDataToAtom,
-  singleAtom,
+  imageAtom,
   InspectorProperties
 )

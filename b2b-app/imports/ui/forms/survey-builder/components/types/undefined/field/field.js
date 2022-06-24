@@ -43,12 +43,13 @@ const Field = ({
   actions = [],
   disableRemove,
   showMobileActions,
-  //   type = 'answer',
   underline,
   showMore,
   showUploadImage,
   variant,
   size,
+  onKeyDown,
+  fieldID,
   ...props
 }) => {
   const classes = useStyles()
@@ -71,7 +72,7 @@ const Field = ({
 
   return (
     <TextField
-      //   {...style[type]}
+      id={fieldID}
       size={size}
       variant={variant}
       fullWidth
@@ -79,6 +80,7 @@ const Field = ({
       value={text ?? ''}
       placeholder={placeholder}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       onFocus={(e) => e.preventDefault()}
       InputProps={{
         classes: {

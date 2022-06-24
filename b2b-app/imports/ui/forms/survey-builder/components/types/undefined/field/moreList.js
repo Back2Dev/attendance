@@ -82,7 +82,6 @@ export const MoreList = ({
             return (
               <ListItem
                 key={item.value}
-                // role={undefined}
                 dense
                 button
                 onClick={handleToggle(path ? `${path}.${item.value}` : item.value)}

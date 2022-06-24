@@ -50,7 +50,7 @@ import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
 import Geolocation from '/imports/ui/components/geolocation'
-import { DropZone } from '/imports/ui/forms/survey-builder/components/types/upload/item'
+import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 
 const debug = require('debug')('app:webforms-progress')
 

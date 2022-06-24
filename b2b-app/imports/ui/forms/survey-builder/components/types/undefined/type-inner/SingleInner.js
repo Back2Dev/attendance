@@ -10,10 +10,9 @@ import {
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { makeStyles } from '@material-ui/core/styles'
-import { singleOptions } from '$sb/components/types/undefined/options'
-import { AnswerField, OptionField } from '$sb/components/types/undefined/typesField'
-import { ImageWrapper } from '$sb/components/types/undefined/image'
+import { singleOptions } from '$sb/components/types/undefined/field/options'
+import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
+import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
 const filterList = ['name', 'type', 'image', 'answers']
 

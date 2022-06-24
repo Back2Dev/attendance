@@ -1,17 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { UploadInner } from './inner'
-import { Frame } from '../../frame'
+
+import { SingleInner } from './inner'
+import { Frame } from '$sb/components/frame'
 import SimpleSchema from 'simpl-schema'
-import { uploadAtom, uploadSource } from '../../../recoil/atoms'
-import { TypeRegistry } from '../type-registry'
+import { singleAtom, singleSource } from '$sb/recoil/atoms'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
-import { EditProperty } from './inspector-upload'
-import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import {
+  useSelectedPartValue,
+  useAnswers,
+} from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
 
-let log = debug('builder:upload')
+let log = debug('builder:single')
 
 const schema = new SimpleSchema({
   id: String,
@@ -30,7 +33,9 @@ const mapDataToAtom = (data) => {
   const state = {
     id: data.id,
     prompt: data.title,
-    answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    // prompt: data.prompt,
+    // answers: data.answers.map(({ id, title, val }) => ({ id, name: title, val })),
+    answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
   }
 
   schema.validate(state)
@@ -43,17 +48,18 @@ const mapDataToAtom = (data) => {
   return state
 }
 
-const Upload = ({ pid, index }) => {
-  const hide = ['add']
+const Single = ({ pid, index }) => {
+  const { all, add } = useAnswers(pid)
   return (
-    <Frame pid={pid} index={index} hide={hide}>
-      <UploadInner pid={pid} />
+    <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
+      <SingleInner pid={pid} />
     </Frame>
   )
 }
 
 const InspectorProperties = () => {
   const selectedPart = useSelectedPartValue()
+
   const relabelAnswers = (path) => {
     if (path.endsWith('name')) return 'Label'
     if (path.endsWith('val')) return 'Value'
@@ -64,29 +70,29 @@ const InspectorProperties = () => {
       <Inspector.Section heading="Question">
         <QuestionProperty pid={selectedPart} />
       </Inspector.Section>
-      <Inspector.Section heading="File">
-        <EditProperty pid={selectedPart} path="answers" relabel={relabelAnswers} />
+      <Inspector.Section heading="Answers">
+        <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
       </Inspector.Section>
     </div>
   )
 }
 
-Upload.displayName = 'Upload'
+Single.displayName = 'Single'
 
-Upload.propTypes = {
+Single.propTypes = {
   /** id for this Single instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Upload }
+export { Single }
 
 TypeRegistry.register(
-  'upload',
-  Upload,
-  uploadSource,
+  'single',
+  Single,
+  singleSource,
   mapDataToAtom,
-  uploadAtom,
+  singleAtom,
   InspectorProperties
 )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Frame } from '/imports/ui/forms/survey-builder/components/frame'
+import { Frame } from '$sb/components/frame'
 import { TypeRegistry } from '/imports/ui/forms/survey-builder/components/types/type-registry'
 import {
   placeholderAtom,

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import debug from 'debug'
 
 import { SectionInner } from './inner'
-import { Frame } from '../../frame'
+import { Frame } from '$sb/components/frame'
 import SimpleSchema from 'simpl-schema'
-import { sectionAtom, sectionSource } from '../../../recoil/atoms'
-import { TypeRegistry } from '../type-registry'
+import { sectionAtom, sectionSource } from '$sb/recoil/atoms'
+import { TypeRegistry } from '$sb/components/types/type-registry'
 import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
 import {
   useSelectedPartValue,
@@ -31,7 +31,6 @@ const schema = new SimpleSchema({
 
 //don't really need this for section.
 const mapDataToAtom = (data) => {
-
   const state = {
     id: data.id,
 

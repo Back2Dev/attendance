@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
@@ -7,11 +7,13 @@ import {
   useSelectedPartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { SingleInner } from '../single/inner'
-import { MultipleInner } from '../multiple/inner'
-import { UploadInner } from '../upload/inner'
-import { TextInner } from '../text/inner'
-import { SectionInner } from '../section/inner'
+import {
+  SingleInner,
+  MultipleInner,
+  UploadInner,
+  TextInner,
+  SectionInner,
+} from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback, useRecoilState } from 'recoil'
 import {
   editPartState,
@@ -31,17 +33,13 @@ const UndefinedInner = ({ pid, type }) => {
   const { add } = useUndefinedAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const qType = type ?? 'single'
-  // const [qType, setQType] = useState(type ?? 'single')
-  // console.log(type, qType, pid)
+  const [qType, setQType] = useState(type ?? 'single')
   const [part] = useRecoilState(getPartState({ pid }))
   const showMobileActions = isMobile && selectedPart === pid
 
-  const setTypeProperty = useRecoilCallback(({ set }) => (path, type) => {
-    set(editPartState({ pid, path }), () => {
-      return type
-    })
-  })
+  useEffect(() => {
+    setQType(type)
+  }, [type])
 
   const setPropertyByValue = useRecoilCallback(
     ({ set }) =>
@@ -61,11 +59,11 @@ const UndefinedInner = ({ pid, type }) => {
 
   const handleChange = ({ target: { value } }) => {
     setQType(value)
-    setTypeProperty('type', value)
+    setPropertyByValue({ pid, value, path: 'type' })
   }
 
   return (
-    <>
+    <Fragment>
       <Question
         qType={qType}
         pid={pid}
@@ -95,7 +93,7 @@ const UndefinedInner = ({ pid, type }) => {
           New item
         </Button>
       )}
-    </>
+    </Fragment>
   )
 }
 

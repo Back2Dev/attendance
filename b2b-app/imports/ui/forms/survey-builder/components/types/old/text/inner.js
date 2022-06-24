@@ -7,13 +7,13 @@ import {
   usePartAnswers,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { textOptions } from '$sb/components/types/undefined/options'
+import { textOptions } from '$sb/components/types/undefined/field/options'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTheme } from '@material-ui/core/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { AnswerField, OptionField } from '$sb/components/types/undefined/typesField'
-import { ImageWrapper } from '$sb/components/types/undefined/image'
+import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
+import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
 const filterList = ['name', 'type', 'image', 'answers']
 

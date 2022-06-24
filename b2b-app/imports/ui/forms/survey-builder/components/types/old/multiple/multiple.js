@@ -1,18 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { ImageInner } from './inner'
-import { Frame } from '../../frame'
-import SimpleSchema from 'simpl-schema'
-import { imageAtom, imageSource } from '../../../recoil/atoms'
-import { TypeRegistry } from '../type-registry'
-import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
-import {
-  useSelectedPartValue,
-  useImageAnswers,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
 
-let log = debug('builder:single')
+import { MultipleInner } from './inner'
+import { Frame } from '$sb/components/frame'
+import SimpleSchema from 'simpl-schema'
+import { multipleAtom, multipleSource } from '$sb/recoil/atoms'
+import { TypeRegistry } from '$sb/components/types/type-registry'
+import { Inspector } from '$sb/components/panels'
+import { useSelectedPartValue, useMultipleAnswers } from '$sb/recoil/hooks'
+
+let log = debug('builder:multiple')
 
 const schema = new SimpleSchema({
   id: String,
@@ -38,16 +36,17 @@ const mapDataToAtom = (data) => {
   if (!schema.isValid()) {
     log('expected', schema._schema)
     log('got', data)
-    // throw new Error('Invalid mapping from data to single state')
+    throw new Error('Invalid mapping from data to multiple state')
   }
+
   return state
 }
 
-const Image = ({ pid, index }) => {
-  const { all, add } = useImageAnswers(pid)
+const Multiple = ({ pid, index }) => {
+  const { all, add } = useMultipleAnswers(pid)
   return (
     <Frame pid={pid} index={index} onAdd={() => add(all.length - 1)}>
-      <ImageInner pid={pid} />
+      <MultipleInner pid={pid} />
     </Frame>
   )
 }
@@ -69,22 +68,22 @@ const InspectorProperties = () => {
   )
 }
 
-Image.displayName = 'Image'
+Multiple.displayName = 'Multiple'
 
-Image.propTypes = {
-  /** id for this Single instance part */
+Multiple.propTypes = {
+  /** id for this Multiple instance part */
   pid: PropTypes.string.isRequired,
   /** the position this question is rendered in the parts list */
   index: PropTypes.number,
 }
 
-export { Image }
+export { Multiple }
 
 TypeRegistry.register(
-  'image',
-  Image,
-  imageSource,
+  'multiple',
+  Multiple,
+  multipleSource,
   mapDataToAtom,
-  imageAtom,
+  multipleAtom,
   InspectorProperties
 )

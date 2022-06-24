@@ -1,17 +1,14 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import TextFields from '../text/old/short-text/textbox'
-import Buttons from './icon-buttons/actionButtons'
-import InlineEdit from '../../inline-edit'
-import Question from '../../question'
+
+import Question from '../../../question'
 
 import debug from 'debug'
 
-import Frame from '../../frame'
-import SimpleSchema from 'simpl-schema'
-import { singleAtom, singleSource, singleSource } from '../../recoil/atoms'
-import TypeRegistry from '../type-registry'
-import { useQuestion } from '../../recoil/hooks'
+import { Frame } from '$sb/components/frame'
+
+import { singleAtom, singleSource, singleSource } from '$sb/recoil/atoms'
+import TypeRegistry from '$sb/components/types/type-registry'
+import { useQuestion } from '$sb/recoil/hooks'
 
 export const mapDataToAtom = (data) => {
   const state = {
