@@ -11,7 +11,7 @@ import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
 import map2Uniforms from '/imports/api/surveys/uniforms'
 import map2UiSchema from '/imports/api/surveys/ui-schema'
-import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { partsAtom, partAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { useRecoilCallback } from 'recoil'
 import { RecoilRoot } from 'recoil'
 import { makeId } from '../survey-builder/utils'
@@ -134,13 +134,9 @@ const Framework = ({ id, item, methods }) => {
     ({ snapshot }) =>
       () => {
         const parts = snapshot.getLoadable(partsAtom).contents
-        const sourceJSON = parts.map(({ _id: pid, config }) => {
-          const content = snapshot.getLoadable(config.atom(pid)).contents
-          return {
-            ...content,
-            type: content.type || config.component.name.toLowerCase(),
-          }
-        })
+        const sourceJSON = parts.map(
+          ({ pid }) => snapshot.getLoadable(partAtom(pid)).contents
+        )
         return sourceJSON
       },
     []
@@ -149,6 +145,7 @@ const Framework = ({ id, item, methods }) => {
   const compileForm = () => {
     if (layout === 'dnd') {
       const sourceJSON = getSource()
+
       const sections = sourceJSON.reduce((acc, curr, index) => {
         //if first one is not a section => create a  default section
         if (index === 0 && curr.type !== 'section')

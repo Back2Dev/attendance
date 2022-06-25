@@ -59,16 +59,17 @@ const parse = (data) => {
     }),
     {}
   )
-
+  //add pid as a unique key for each part, so that _id is editable
   parts = data.reduce(
     (acc, { id, questions, lineno, object, ...props }) => ({
       ...acc,
-      [id]: { type: 'section', ...props, _id: id },
+      [id]: { type: 'section', ...props, _id: id, pid: id },
       ...questions.reduce(
         (acc, { id, type, answers, lineno, object, grid, ...props }) => ({
           ...acc,
           [id]: {
             _id: id,
+            pid: id,
             type,
             answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
             ...props,
@@ -115,17 +116,20 @@ const getParts = () => {
   //     })
   //   )
   //   .flat()
+  console.log('data', data)
   return data.reduce(
     (acc, { id, questions, lineno, object, ...props }) => [
       ...acc,
       {
         _id: id,
+        pid: id,
         type: 'section',
         ...props,
       },
       ...questions.map(({ id, answers, lineno, object, grid, ...props }) => {
         return {
           _id: id,
+          pid: id,
           answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
           ...props,
         }

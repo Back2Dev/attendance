@@ -84,7 +84,8 @@ const removeById = (list, id) => {
 }
 
 const findById = (list, id) => {
-  return list.find(({ _id }) => _id === id)
+  // return list.find(({ _id }) => _id === id)
+  return list.find(({ pid }) => pid === id)
 }
 
 export { add, update, remove, removeById, move, moveById, findById, makeListItem }

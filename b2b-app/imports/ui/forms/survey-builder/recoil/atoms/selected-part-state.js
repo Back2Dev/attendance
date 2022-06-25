@@ -16,8 +16,9 @@ export const selectedPartData = selector({
     if (pid === null) return null
 
     // const part = list.findById(get(partsAtom), pid)
-    const parts = get(partsAtom)
-    const part = list.findById(parts, pid)
+    // const parts = get(partsAtom)
+    // const part = list.findById(parts, pid)
+    const part = get(partAtom(pid))
     if (!part) return null
     // const data = get(part.config.atom(pid))
 

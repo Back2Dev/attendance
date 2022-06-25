@@ -62,17 +62,17 @@ export const partAnswers = selectorFamily({
   set:
     (pid) =>
     ({ get, set }, newValue) => {
-      const parts = get(partsAtom)
+      // const parts = get(partsAtom)
       const part = get(partAtom(pid))
       const nextState = produce(part, (draft) => {
         draft.answers = newValue
       })
 
       set(partAtom(pid), nextState)
-      set(
-        partsAtom,
-        parts.map((part) => (part._id === pid ? nextState : part))
-      )
+      // set(
+      //   partsAtom,
+      //   parts.map((part) => (part._id === pid ? nextState : part))
+      // )
     },
 })
 
@@ -81,24 +81,26 @@ export const editPartState = selectorFamily({
   get:
     ({ pid, path }) =>
     ({ get }) => {
-      const parts = get(partsAtom)
-      const part = findById(parts, pid)
+      // const parts = get(partsAtom)
+      const part = get(partAtom(pid))
+      // const part = findById(parts, pid)
       return lget(part, path)
     },
   set:
     ({ pid, path }) =>
     ({ get, set }, newValue) => {
-      const parts = get(partsAtom)
-      const part = findById(parts, pid)
+      // const parts = get(partsAtom)
+      // const part = findById(parts, pid)
+      const part = get(partAtom(pid))
       const nextState = produce(part, (draft) => {
         lset(draft, path, newValue)
       })
 
       set(partAtom(pid), nextState)
-      set(
-        partsAtom,
-        parts.map((part) => (part._id === pid ? nextState : part))
-      )
+      // set(
+      //   partsAtom,
+      //   parts.map((part) => (part._id === pid ? nextState : part))
+      // )
     },
 })
 
@@ -107,45 +109,25 @@ export const headerOnly = selectorFamily({
   get:
     ({ pid }) =>
     ({ get }) => {
-      const parts = get(partsAtom)
-      const part = findById(parts, pid)
+      const part = get(partAtom(pid))
+      // const parts = get(partsAtom)
+      // const part = findById(parts, pid)
       return part
     },
   set:
     ({ pid }) =>
     ({ get, set }, newValue) => {
-      const parts = get(partsAtom)
-      const part = findById(parts, pid)
+      const part = get(partAtom(pid))
+      // const parts = get(partsAtom)
+      // const part = findById(parts, pid)
       const nextState = produce(part, () => {
         return newValue
       })
 
       set(partAtom(pid), nextState)
-      set(
-        partsAtom,
-        parts.map((part) => (part._id === pid ? nextState : part))
-      )
-    },
-})
-
-export const getPartState = selectorFamily({
-  key: 'getPartState',
-  get:
-    ({ pid }) =>
-    ({ get }) => {
-      const parts = get(partsAtom)
-      const part = findById(parts, pid)
-      return part
-    },
-  set:
-    ({ pid, path }) =>
-    ({ get, set }, newValue) => {
-      const parts = get(partsAtom)
-      const part = findById(parts, pid)
-      const nextState = produce(part, (draft) => {
-        lset(draft, path, newValue)
-      })
-
-      set(partAtom(pid), nextState)
+      // set(
+      //   partsAtom,
+      //   parts.map((part) => (part._id === pid ? nextState : part))
+      // )
     },
 })

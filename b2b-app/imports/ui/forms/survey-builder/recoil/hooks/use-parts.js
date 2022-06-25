@@ -6,7 +6,7 @@ import {
 } from 'recoil'
 import debug from 'debug'
 import { list, makeId } from '../../utils'
-import { partsAtom, partAtom, partAnswers, getPartState } from '../atoms'
+import { partsAtom, partAtom, partAnswers } from '../atoms'
 
 const log = debug('builder:use-parts')
 
@@ -21,7 +21,7 @@ export const usePartsValue = () => {
 }
 
 export const usePartValue = (pid) => {
-  useRecoilValue(getPartState(pid))
+  return useRecoilValue(partAtom(pid))
 }
 
 export const useParts = () => {

@@ -6,6 +6,7 @@ import {
   useUndefinedAnswers,
   useSelectedPartValue,
   defaultPart,
+  usePartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import {
@@ -16,10 +17,7 @@ import {
   SectionInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback, useRecoilState } from 'recoil'
-import {
-  editPartState,
-  getPartState,
-} from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Question } from './question'
 
 const options = [
@@ -35,7 +33,9 @@ const UndefinedInner = ({ pid, type }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const [qType, setQType] = useState(type ?? 'single')
-  const [part] = useRecoilState(getPartState({ pid }))
+
+  const part = usePartValue(pid)
+  // console.log('pid', pid, part)
   const showMobileActions = isMobile && selectedPart === pid
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const UndefinedInner = ({ pid, type }) => {
   const setPropertyByValue = useRecoilCallback(
     ({ set }) =>
       ({ path, value = undefined, pid }) => {
+        console.log(path, value, pid)
         set(editPartState({ pid, path }), (property) => {
           if (value) {
             return value

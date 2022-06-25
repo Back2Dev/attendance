@@ -88,7 +88,7 @@ const Canvas = () => {
       return { ...item, belongSection: sectionID }
     }
   })
-
+  W
   return (
     <Box height="100%">
       <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
@@ -109,10 +109,10 @@ const Canvas = () => {
             </IconButton>
             {/* </div> */}
 
-            {newParts.map(({ _id, type, belongSection }, index) => {
+            {newParts.map(({ _id, pid, type, belongSection }, index) => {
               return createElement(Undefined || Placeholder, {
-                key: _id,
-                pid: _id,
+                key: pid,
+                pid,
                 index,
                 type,
                 setSectionState,
