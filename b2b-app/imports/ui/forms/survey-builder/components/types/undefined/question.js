@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const filterList = ['answers', 'type', 'image']
+const filterList = ['answers', 'type', 'image', 'pid']
 /** Question renders an editable label. It's a simple wrapper around InlineEdit */
 const Question = ({
   pid,

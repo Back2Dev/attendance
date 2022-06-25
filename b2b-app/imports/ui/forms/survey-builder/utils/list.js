@@ -3,7 +3,10 @@ import { makeId } from './makeId'
 const isValidIndex = (list, index) =>
   Number.isInteger(index) && index >= 0 && index < list.length
 
-const makeListItem = (value = {}) => ({ ...value, _id: makeId() })
+const makeListItem = (value = {}) => {
+  const _id = makeId()
+  return { ...value, _id, pid: _id }
+}
 
 const add = (list, value, index = list.length - 1) => {
   if (list.length && !isValidIndex(list, index)) {

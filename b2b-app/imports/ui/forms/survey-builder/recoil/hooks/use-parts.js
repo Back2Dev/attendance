@@ -26,13 +26,28 @@ export const usePartValue = (pid) => {
 
 export const useParts = () => {
   const addPart = useRecoilCallback(({ set }) => (index) => {
-    set(partsAtom, (parts) => list.add(parts, defaultPart, index))
+    const newPart = list.makeListItem(defaultPart)
+
+    set(partsAtom, (parts) => {
+      const l = [...parts]
+      l.splice(index + 1, 0, newPart)
+
+      return l
+    })
+    set(partAtom(newPart.pid), () => newPart)
   })
 
   const copyPart = useRecoilCallback(({ set, snapshot }) => (pid, index) => {
-    const parts = snapshot.getLoadable(partsAtom).contents
-    const part = list.findById(parts, pid)
-    set(partsAtom, (parts) => list.add(parts, part, index))
+    const part = snapshot.getLoadable(partAtom(pid)).contents
+    const newPart = list.makeListItem(part)
+
+    set(partsAtom, (parts) => {
+      const l = [...parts]
+      l.splice(index + 1, 0, newPart)
+
+      return l
+    })
+    set(partAtom(newPart.pid), () => newPart)
   })
 
   const removePart = useRecoilTransaction_UNSTABLE(({ set, reset, get }) => (pid) => {

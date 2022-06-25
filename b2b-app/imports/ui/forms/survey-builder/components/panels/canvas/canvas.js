@@ -88,7 +88,7 @@ const Canvas = () => {
       return { ...item, belongSection: sectionID }
     }
   })
-  W
+
   return (
     <Box height="100%">
       <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">

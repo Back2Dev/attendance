@@ -14,7 +14,7 @@ import { singleOptions } from '$sb/components/types/undefined/field/options'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
-const filterList = ['name', 'type', 'image', 'answers']
+const filterList = ['name', 'type', 'image', 'answers', 'pid']
 
 /** Single Choice question */
 const SingleInner = ({ pid, part, setPropertyByValue }) => {

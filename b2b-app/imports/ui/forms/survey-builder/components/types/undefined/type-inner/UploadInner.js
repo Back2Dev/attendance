@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const filterList = ['name', 'type', 'image', 'answers']
+const filterList = ['name', 'type', 'image', 'answers', 'pid']
 
 export const UploadInner = ({ pid, part, setPropertyByValue }) => {
   const classes = useStyles()

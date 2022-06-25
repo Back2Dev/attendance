@@ -18,9 +18,10 @@ export default map2Uniforms = (survey) => {
     step.questions.forEach((q) => {
       // mv(q, 'type', 'qtype')
       mv(q, 'title', 'prompt')
+      mv(q, '_id', 'id')
       q.answers.forEach((a) => {
         mv(a, 'title', 'name')
-        mv(a,'_id','id')
+        mv(a, '_id', 'id')
       })
     })
   })

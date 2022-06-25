@@ -121,7 +121,6 @@ const getAnswers = (formData, q) => {
 }
 
 const getSchemas = (survey, currentData) => {
-  console.log('survey', survey)
   return (
     survey.steps
       // .filter((step) => {

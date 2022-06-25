@@ -35,17 +35,16 @@ const UndefinedInner = ({ pid, type }) => {
   const [qType, setQType] = useState(type ?? 'single')
 
   const part = usePartValue(pid)
-  // console.log('pid', pid, part)
+
   const showMobileActions = isMobile && selectedPart === pid
 
   useEffect(() => {
-    setQType(type)
-  }, [type])
+    setQType(part.type)
+  }, [part.type])
 
   const setPropertyByValue = useRecoilCallback(
     ({ set }) =>
       ({ path, value = undefined, pid }) => {
-        console.log(path, value, pid)
         set(editPartState({ pid, path }), (property) => {
           if (value) {
             return value

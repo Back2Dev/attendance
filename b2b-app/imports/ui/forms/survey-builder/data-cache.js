@@ -116,7 +116,7 @@ const getParts = () => {
   //     })
   //   )
   //   .flat()
-  console.log('data', data)
+
   return data.reduce(
     (acc, { id, questions, lineno, object, ...props }) => [
       ...acc,

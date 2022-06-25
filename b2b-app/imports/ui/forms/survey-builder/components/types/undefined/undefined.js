@@ -66,7 +66,6 @@ const Undefined = ({
       setSectionState={setSectionState}
       sectionState={sectionState}
       belongSection={belongSection}
-      type={type}
     >
       <UndefinedInner pid={pid} type={type} />
     </Frame>
