@@ -13,6 +13,7 @@ const options = [
   { label: 'Upload', value: 'upload' },
   { label: 'Text', value: 'text' },
   { label: 'Section', value: 'section' },
+  { label: 'Signature', value: 'signature' },
 ]
 
 const useStyles = makeStyles(() => ({

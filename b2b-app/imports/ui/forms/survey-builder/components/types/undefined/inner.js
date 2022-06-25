@@ -80,6 +80,7 @@ const UndefinedInner = ({ pid, type }) => {
       />
 
       {qType !== 'paragraph' &&
+        qType !== 'signature' &&
         React.createElement(
           (options.find(({ value }) => value === qType) || options[0]).component,
           {
