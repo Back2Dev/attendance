@@ -127,8 +127,10 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
 MultipleInner.propTypes = {
   /** single instance part id */
   pid: PropTypes.string.isRequired,
-  /** function gets called when any choice gets updated */
-  onChange: PropTypes.func,
+  /** function gets called when updating atom's value based on the input path argument */
+  setPropertyByValue: PropTypes.func,
+  /** Object contains question/answers, each pid correspond to a specific part  */
+  part: PropTypes.object.isRequired,
 }
 
 MultipleInner.defaultProps = {

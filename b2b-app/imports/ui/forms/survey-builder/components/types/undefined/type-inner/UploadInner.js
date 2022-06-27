@@ -11,6 +11,7 @@ import { AnswerField, OptionField } from '$sb/components/types/undefined/field/t
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { uploadOptions } from '$sb/components/types/undefined/field/options'
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(() => ({
   uploadBox: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles(() => ({
 
 const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
 
-export const UploadInner = ({ pid, part, setPropertyByValue }) => {
+const UploadInner = ({ pid, part, setPropertyByValue }) => {
   const classes = useStyles()
   const { add, remove } = usePartAnswers(pid)
   const selectedPart = useSelectedPartValue()
@@ -135,3 +136,18 @@ export const UploadInner = ({ pid, part, setPropertyByValue }) => {
     </div>
   )
 }
+
+UploadInner.propTypes = {
+  /** single instance part id */
+  pid: PropTypes.string.isRequired,
+  /** function gets called when updating atom's value based on the input path argument */
+  setPropertyByValue: PropTypes.func,
+  /** Object contains question/answers, each pid correspond to a specific part  */
+  part: PropTypes.object.isRequired,
+}
+
+UploadInner.defaultProps = {
+  initialList: [''],
+}
+
+export { UploadInner }

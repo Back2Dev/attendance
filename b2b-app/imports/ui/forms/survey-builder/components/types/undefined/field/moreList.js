@@ -1,9 +1,6 @@
 import React, { Fragment } from 'react'
-
 import { makeStyles } from '@material-ui/core/styles'
-
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-
 import Menu from '@material-ui/core/Menu'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -12,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
 import { get } from 'lodash'
 import { IconButton } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
   list: {
@@ -23,7 +21,7 @@ const useStyles = makeStyles({
   },
 })
 
-export const MoreList = ({
+const MoreList = ({
   part,
   path,
   isIdChecked,
@@ -104,3 +102,24 @@ export const MoreList = ({
     </Fragment>
   )
 }
+
+MoreList.propTypes = {
+  /** Object contains question/answers, each pid correspond to a specific part  */
+  part: PropTypes.object.isRequired,
+  /** a path act as an object key, and is used to get value from an object */
+  path: PropTypes.string,
+  /** object to record is ID option being checked */
+  isIdChecked: PropTypes.object,
+  /** function gets called when ID checked box is clicked*/
+  setIsIdChecked: PropTypes.func,
+  /** function gets called when checked box is clicked*/
+  onToggle: PropTypes.func,
+  /** checked box options*/
+  options: PropTypes.array,
+}
+
+MoreList.defaultProps = {
+  initialList: [''],
+}
+
+export { MoreList }

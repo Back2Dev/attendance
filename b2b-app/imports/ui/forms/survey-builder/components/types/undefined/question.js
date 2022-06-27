@@ -25,14 +25,13 @@ const useStyles = makeStyles(() => ({
 }))
 
 const filterList = ['answers', 'type', 'image', 'pid', 'optional']
-/** Question renders an editable label. It's a simple wrapper around InlineEdit */
+
 const Question = ({
   pid,
   onDeleteOption,
   setPropertyByValue,
   part,
   label,
-  type,
   qType,
   handleChange,
   ...props
@@ -122,14 +121,18 @@ const Question = ({
 }
 
 Question.propTypes = {
+  /** undefined instance part id */
+  pid: PropTypes.string.isRequired,
+  /** function gets called when delete button is clicked */
+  onDeleteOption: PropTypes.func,
+  /** function gets called when updating atom's value based on the input path argument */
+  setPropertyByValue: PropTypes.func,
+  /** question type, by default is "single"*/
+  qType: PropTypes.string.isRequired,
   /** initial label to show, defaults to empty string */
   label: PropTypes.string,
-  /** shows this text when label is blank */
-  placeholder: PropTypes.string.isRequired,
-  /** function gets called when editable field loses focus */
-  onLabelChange: PropTypes.func,
-  /** custom styling */
-  className: PropTypes.string,
+  /** function gets called when text changes */
+  handleChange: PropTypes.func,
 }
 
 Question.defaultProps = {

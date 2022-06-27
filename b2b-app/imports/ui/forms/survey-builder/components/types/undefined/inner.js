@@ -16,7 +16,7 @@ import {
   TextInner,
   SectionInner,
 } from '$sb/components/types/undefined/type-inner'
-import { useRecoilCallback, useRecoilState } from 'recoil'
+import { useRecoilCallback } from 'recoil'
 import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Question } from './question'
 
@@ -108,8 +108,8 @@ const UndefinedInner = ({ pid, type }) => {
 UndefinedInner.propTypes = {
   /** undefined instance part id */
   pid: PropTypes.string.isRequired,
-  /** function gets called when any choice gets updated */
-  onChange: PropTypes.func,
+  /** question type, by default is "single"*/
+  type: PropTypes.string,
 }
 
 UndefinedInner.defaultProps = {

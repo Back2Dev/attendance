@@ -30,8 +30,6 @@ const SectionInner = ({ pid }) => {
 SectionInner.propTypes = {
   /** single instance part id */
   pid: PropTypes.string.isRequired,
-  /** function gets called when any choice gets updated */
-  onChange: PropTypes.func,
 }
 
 SectionInner.defaultProps = {

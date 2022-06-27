@@ -2,6 +2,7 @@ import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-export const ImageWrapper = ({ src, onDeleteImage }) => {
+const ImageWrapper = ({ src, onDeleteImage }) => {
   const classes = useStyles()
 
   return (
@@ -49,3 +50,16 @@ export const ImageWrapper = ({ src, onDeleteImage }) => {
     </div>
   )
 }
+
+ImageWrapper.propTypes = {
+  /** image path for the question/answer */
+  src: PropTypes.string,
+  /** function gets called when delete button is clicked*/
+  onDeleteImage: PropTypes.string,
+}
+
+ImageWrapper.defaultProps = {
+  initialList: [''],
+}
+
+export { ImageWrapper }
