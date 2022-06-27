@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
   useSelectedPartData,
   useSelectedPartValue,
@@ -7,7 +7,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { EditorContext } from '/imports/ui/forms/framework/framework'
+// import { EditorContext } from '/imports/ui/forms/framework/framework'
 import Typography from '@material-ui/core/Typography'
 import ReactJson from 'react-json-view'
 
@@ -47,11 +47,7 @@ const DebugProps = () => {
         </Typography>
 
         <Typography variant="h5" component="pre" className={classes.title}>
-          {!selectedPart ? (
-            <ReactJson src={parts} {...jsonViewConfig} />
-          ) : (
-            <ReactJson src={part || {}} {...jsonViewConfig} />
-          )}
+          <ReactJson src={part || {}} {...jsonViewConfig} />
         </Typography>
       </CardContent>
     </Card>

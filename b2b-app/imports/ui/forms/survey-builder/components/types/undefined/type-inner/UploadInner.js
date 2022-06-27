@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
 
 export const UploadInner = ({ pid, part, setPropertyByValue }) => {
   const classes = useStyles()
@@ -88,6 +88,7 @@ export const UploadInner = ({ pid, part, setPropertyByValue }) => {
                         isIdChecked={isIdChecked}
                         setIsIdChecked={setIsIdChecked}
                         options={uploadOptions}
+                        helperText={answer.optional ?? undefined}
                       />
 
                       <Grid container spacing={1} alignItems="flex-start">

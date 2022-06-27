@@ -29,6 +29,11 @@ const useStyles = makeStyles({
   InputAdornment: {
     visibility: 'hidden',
   },
+  helperText: {
+    position: 'absolute',
+    right: '1px',
+    bottom: '-20px',
+  },
 })
 
 const Field = ({
@@ -50,6 +55,7 @@ const Field = ({
   size,
   onKeyDown,
   fieldID,
+  helperText = null,
   ...props
 }) => {
   const classes = useStyles()
@@ -81,6 +87,7 @@ const Field = ({
       placeholder={placeholder}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      helperText={helperText ? 'optional' : null}
       onFocus={(e) => e.preventDefault()}
       InputProps={{
         classes: {
@@ -95,6 +102,9 @@ const Field = ({
             {createActions(...actions)}
           </InputAdornment>
         ),
+      }}
+      FormHelperTextProps={{
+        className: classes.helperText,
       }}
     />
   )

@@ -5,6 +5,7 @@ export const questionOptions = [
   { label: 'Pipe ', value: 'pipe' },
   { label: 'Tooltip ', value: 'tooltip' },
   { label: 'Logic block ', value: 'logic' },
+  { label: 'Optional', value: 'optional' },
 ]
 
 export const singleOptions = [
@@ -26,6 +27,7 @@ export const textOptions = [
   { label: 'Score', value: 'score' },
   { label: 'Specify ', value: 'specify' },
   { label: 'Skip ', value: 'skip' },
+  { label: 'Optional', value: 'optional' },
 ]
 
 export const uploadOptions = [

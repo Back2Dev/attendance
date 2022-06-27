@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Field } from '../field'
 import PropTypes from 'prop-types'
-import { Grid, Select, MenuItem, TextField } from '@material-ui/core'
+import { Grid, Select, MenuItem, TextField, Chip } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
@@ -46,6 +46,7 @@ export const QuestionField = ({
   isIdChecked,
   setIsIdChecked,
   setPropertyByValue,
+  helperText,
   part,
 }) => {
   const selectedPart = useSelectedPartValue()
@@ -53,11 +54,11 @@ export const QuestionField = ({
   const showMobileActions = isMobile && selectedPart === pid
 
   return (
-    <Grid container spacing={1}>
+    <Fragment>
       <Grid item style={{ visibility: 'hidden' }}>
         <RadioButtonUncheckedIcon />
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={8}>
         <Field
           onChange={({ target: { value } }) =>
             setPropertyByValue({ path: fieldKey, value, pid })
@@ -66,6 +67,7 @@ export const QuestionField = ({
           text={part[fieldKey] || ''}
           showMobileActions={showMobileActions}
           placeholder={'Type your question/paragraph'}
+          helperText={helperText}
           showMore={true}
           showUploadImage={true}
           index={pid}
@@ -87,9 +89,10 @@ export const QuestionField = ({
           options={questionOptions}
           part={part}
           underline={true}
+          // variant="outlined"
         />
       </Grid>
-    </Grid>
+    </Fragment>
   )
 }
 
@@ -184,6 +187,7 @@ export const AnswerField = ({
   isIdChecked,
   setIsIdChecked,
   options,
+  helperText,
   type,
 }) => {
   const classes = useStyles()
@@ -202,38 +206,6 @@ export const AnswerField = ({
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
-        {type === 'text' && (
-          <Fragment>
-            <Grid item style={{ visibility: 'hidden' }}>
-              <RadioButtonUncheckedIcon />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                id={`${pid}_${answerIndex}`}
-                fullWidth
-                select
-                value={answer.type}
-                onChange={({ target: { value } }) =>
-                  setPropertyByValue({
-                    pid,
-                    path: `answers[${answerIndex}].type`,
-                    value,
-                  })
-                }
-                label="Type"
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                {subType.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-          </Fragment>
-        )}
         <Grid item>{prefixIcon(type)}</Grid>
         <Grid item xs={type === 'text' ? 8 : 11}>
           <Field
@@ -274,6 +246,8 @@ export const AnswerField = ({
             showUploadImage={true}
             options={options}
             fieldID={`${pid}_answer_${answerIndex}`}
+            // label="Answer"
+            helperText={helperText}
             onKeyDown={(e) => {
               if (e.key === 'Tab') {
                 e.preventDefault()
@@ -289,6 +263,39 @@ export const AnswerField = ({
             }}
           />
         </Grid>
+
+        {type === 'text' && (
+          <Fragment>
+            <Grid item style={{ visibility: 'hidden' }}>
+              <RadioButtonUncheckedIcon />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                id={`${pid}_${answerIndex}`}
+                fullWidth
+                select
+                value={answer.type}
+                onChange={({ target: { value } }) =>
+                  setPropertyByValue({
+                    pid,
+                    path: `answers[${answerIndex}].type`,
+                    value,
+                  })
+                }
+                label="Answer Type"
+                SelectProps={{
+                  native: true,
+                }}
+              >
+                {subType.map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
+          </Fragment>
+        )}
       </Grid>
     </div>
   )

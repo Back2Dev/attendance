@@ -14,7 +14,7 @@ import { singleOptions } from '$sb/components/types/undefined/field/options'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
 
 /** Single Choice question */
 const SingleInner = ({ pid, part, setPropertyByValue }) => {
@@ -73,6 +73,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                         setIsIdChecked={setIsIdChecked}
                         options={singleOptions}
                         type={'single'}
+                        helperText={answer.optional ?? undefined}
                       />
                       <Grid container spacing={1} alignItems="flex-start">
                         <Grid item xs={8}>

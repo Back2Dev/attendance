@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { TextField, Grid, MenuItem } from '@material-ui/core'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
@@ -6,6 +6,7 @@ import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { QuestionField, OptionField } from './field/typesField'
 import { makeStyles } from '@material-ui/core/styles'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const options = [
   { label: 'Single', value: 'single' },
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const filterList = ['answers', 'type', 'image', 'pid']
+const filterList = ['answers', 'type', 'image', 'pid', 'optional']
 /** Question renders an editable label. It's a simple wrapper around InlineEdit */
 const Question = ({
   pid,
@@ -50,30 +51,32 @@ const Question = ({
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
-        <Grid item xs={isHeaderOnly ? 12 : 8}>
-          <QuestionField
-            fieldKey={fieldKey}
-            pid={pid}
-            isIdChecked={isIdChecked}
-            setIsIdChecked={setIsIdChecked}
-            setPropertyByValue={setPropertyByValue}
-            part={part}
-            {...props}
-          />
-        </Grid>
+        <QuestionField
+          fieldKey={fieldKey}
+          pid={pid}
+          isIdChecked={isIdChecked}
+          setIsIdChecked={setIsIdChecked}
+          setPropertyByValue={setPropertyByValue}
+          part={part}
+          helperText={part['optional']}
+          {...props}
+        />
         {!isHeaderOnly && (
-          <>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={2}>
+          <Fragment>
+            <Grid item style={{ visibility: 'hidden' }}>
+              <RadioButtonUncheckedIcon />
+            </Grid>
+            <Grid item xs={3}>
               <TextField
                 fullWidth
                 select
                 value={qType}
                 onChange={handleChange}
-                label="Type"
+                label="Question Type"
                 SelectProps={{
                   native: true,
                 }}
+                // variant="outlined"
               >
                 {options.map(({ value, label }) => (
                   <option key={value} value={value}>
@@ -82,7 +85,7 @@ const Question = ({
                 ))}
               </TextField>
             </Grid>
-          </>
+          </Fragment>
         )}
 
         <Grid container spacing={1} alignItems="flex-start">

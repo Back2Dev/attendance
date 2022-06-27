@@ -14,7 +14,7 @@ import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
 
 const TextInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
@@ -72,6 +72,7 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                         setIsIdChecked={setIsIdChecked}
                         options={textOptions}
                         type={'text'}
+                        helperText={answer.optional ?? undefined}
                       />
 
                       <Grid container spacing={1} alignItems="flex-start">

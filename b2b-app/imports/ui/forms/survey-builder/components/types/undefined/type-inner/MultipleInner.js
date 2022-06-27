@@ -11,7 +11,7 @@ import { Button, Grid } from '@material-ui/core'
 import { multipleOptions } from '$sb/components/types/undefined/field/options'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
 
 const MultipleInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = useUndefinedAnswers(pid)
@@ -67,6 +67,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
                       isIdChecked={isIdChecked}
                       setIsIdChecked={setIsIdChecked}
                       options={multipleOptions}
+                      helperText={answer.optional ?? undefined}
                       type={'multiple'}
                     />
 
