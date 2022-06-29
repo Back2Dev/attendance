@@ -41,8 +41,7 @@ const Question = ({
   const [isIdChecked, setIsIdChecked] = useState({})
   const showMobileActions = isMobile && selectedPart === pid
 
-  const fieldKey =
-    qType === 'section' ? 'name' : qType === 'paragraph' ? 'paragraph' : 'prompt'
+  const fieldKey = qType === 'section' ? 'name' : 'prompt'
 
   const isHeaderOnly = qType === 'paragraph'
   const classes = useStyles()

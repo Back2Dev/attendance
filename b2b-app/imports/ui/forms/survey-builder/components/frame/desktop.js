@@ -195,7 +195,7 @@ const DesktopFrame = React.forwardRef(
                             setHeaderOnly({
                               pid,
                               content: {
-                                paragraph: '',
+                                prompt: '',
                                 type: 'paragraph',
                               },
                             })

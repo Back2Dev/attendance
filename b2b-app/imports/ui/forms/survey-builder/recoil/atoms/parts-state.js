@@ -131,3 +131,29 @@ export const headerOnly = selectorFamily({
       // )
     },
 })
+
+export const partSource = selectorFamily({
+  key: 'partSource',
+  get:
+    (pid) =>
+    ({ get }) => {
+      const { prompt, name, type, id, answers, optional } = get(partAtom(pid))
+      const source = [
+        `Q: ${prompt ?? name}`,
+        `+id: ${_id ?? id}`,
+        `+type: ${type}`,
+        optional && `+optional`,
+        answers.map(({ name, id, val, type }) => [
+          `A: ${name}`,
+          id && `+id: ${_id ?? id}`,
+          val && `+val: ${val}`,
+          `+type: ${type}`,
+        ]),
+      ]
+        .flat(2)
+        .filter(Boolean)
+        .join('\n')
+
+      return source
+    },
+})

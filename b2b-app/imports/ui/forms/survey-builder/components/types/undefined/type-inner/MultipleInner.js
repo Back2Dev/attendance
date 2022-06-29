@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
-import { useUndefinedAnswers, useSelectedPartValue } from '$sb/recoil/hooks'
-import { undefinedAnswers } from '$sb/recoil/atoms'
+import { usePartAnswers, useSelectedPartValue } from '$sb/recoil/hooks'
+import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { DndDraggable, DndDroppable } from '$sb/context/dnd'
 import { useBuilder } from '$sb/context'
 import { Button, Grid } from '@material-ui/core'
@@ -14,7 +14,7 @@ import { AnswerField, OptionField } from '$sb/components/types/undefined/field/t
 const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
 
 const MultipleInner = ({ pid, part, setPropertyByValue }) => {
-  const { add, remove } = useUndefinedAnswers(pid)
+  const { add, remove } = usePartAnswers(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -33,7 +33,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
 
   return (
     <div>
-      <DndDroppable pid={pid} listAtom={undefinedAnswers(pid)} type={pid}>
+      <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={pid}>
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
@@ -84,9 +84,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
                           path={`answers[${answerIndex}]`}
                         />
                       </Grid>
-                      <Grid item xs={1}>
-                        {' '}
-                      </Grid>
+                      <Grid item xs={1}></Grid>
                       <Grid item xs={2}>
                         {answer.image && (
                           <ImageWrapper

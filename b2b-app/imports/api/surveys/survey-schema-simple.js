@@ -6,7 +6,7 @@ import DatePicker from '/imports/ui/components/date-field'
 // lab@next has deprecated it. The newest version looks boring
 //import { DatePicker } from '@material-ui/lab'
 import GooglePlaces from '/imports/ui/components/google-places.js'
-import ImageField from '/imports/ui/components/image-field'
+import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField } from 'uniforms-material'
 
@@ -262,9 +262,13 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'single':
                 qSchema.uniforms.checkboxes = 'true'
+                qSchema.uniforms.component = RadioFieldWithImage
                 qSchema.uniforms.options = answers.map((a) => {
-                  return { label: a.name, value: a.value || a.id }
+                  return { label: a.name, value: a.value || a.id, image: a.image }
                 })
+
+                qSchema.label = q.prompt
+                qSchema.uniforms.required = q.optional
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
                 // debug(`${q.id} optional`, qSchema.optional)
 
@@ -307,26 +311,26 @@ const getSchemas = (survey, currentData) => {
               //     })
 
               //   break
-              case 'image':
-                qSchema.uniforms.value = answers.map((a) => a.val)
-                qSchema.uniforms.component = ImageField
-                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+              // case 'image':
+              //   qSchema.uniforms.value = answers.map((a) => a.val)
+              //   qSchema.uniforms.component = ImageField
+              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 
-                answers
-                  .filter((a) => a.specify)
-                  .map((a) => {
-                    const specifyId = `${q.id}-${a.id}-specify`
-                    const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                    step.schema[specifyId] = {
-                      type: String,
-                      label: a.specify,
-                      optional,
-                      uniforms,
-                    }
-                    return specifyId
-                  })
-                break
+              //   answers
+              //     .filter((a) => a.specify)
+              //     .map((a) => {
+              //       const specifyId = `${q.id}-${a.id}-specify`
+              //       const uniforms = {}
+              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+              //       step.schema[specifyId] = {
+              //         type: String,
+              //         label: a.specify,
+              //         optional,
+              //         uniforms,
+              //       }
+              //       return specifyId
+              //     })
+              //   break
               case 'upload':
                 qSchema.uniforms.value = answers.map((a) => a.val)
                 qSchema.uniforms.component = ImageField
@@ -399,6 +403,7 @@ const getSchemas = (survey, currentData) => {
           })
         }
         debug('schema', step.schema)
+
         step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))
         return step
       })

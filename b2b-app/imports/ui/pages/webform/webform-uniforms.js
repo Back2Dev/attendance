@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { cloneDeep } from 'lodash'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
@@ -51,6 +51,7 @@ import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
 import Geolocation from '/imports/ui/components/geolocation'
 import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
+import FormLabel from '@material-ui/core/FormLabel'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -190,7 +191,8 @@ const Prompt = ({ text, tooltip, description }) => {
 
   return (
     <div>
-      <>{prompt}</>
+      {/* <>{prompt}</> */}
+      <FormLabel component="legend">{prompt}</FormLabel>
       {desc && <p>{desc}</p>}
       {tooltip && <i>{html2r(tooltip)}</i>}
     </div>
@@ -224,11 +226,13 @@ const RenderQ = (q, ix) => {
       return (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
             return (
               <span key={iy}>
                 {TextQ({ q, a })}
+                {a.image && <img src={a.image} width="75px" height="75px" />}
                 <ErrorField name={id} id={id}>
                   {a.name || 'This'} is required
                 </ErrorField>
@@ -242,12 +246,13 @@ const RenderQ = (q, ix) => {
       return (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
             return (
               <div key={`a${key}${iy}`}>
                 <AutoField name={id} id={id} key={id} />
-
+                {a.image && <img src={a.image} width="75px" height="75px" />}
                 <NoteIf note={a.note} field={id}></NoteIf>
               </div>
             )
@@ -260,30 +265,34 @@ const RenderQ = (q, ix) => {
       return (
         <div key={key} className="q-container">
           <span>
-            <RadioField name={q.id} id={q.id} />
+            <AutoField name={q.id} id={q.id} />
           </span>
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
           {getAnswers(formData, q.answers).map((a, iy) => {
-            return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
           })}
         </div>
       )
 
-    case 'image':
-      return (
-        <div key={key} className="q-container">
-          <span>{q.prompt}</span>
-          <div style={{ display: 'flex' }}>
-            <AutoField name={q.id} id={q.id} />
-          </div>
-          <ErrorField name={q.id} id={q.id} />
-          {Specifiers(q)}
-          {getAnswers(formData, q.answers).map((a, iy) => {
-            return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
-          })}
-        </div>
-      )
+    // case 'image':
+    //   return (
+    //     <div key={key} className="q-container">
+    //       <span>{q.prompt}</span>
+    //       <div style={{ display: 'flex' }}>
+    //         <AutoField name={q.id} id={q.id} />
+    //       </div>
+    //       <ErrorField name={q.id} id={q.id} />
+    //       {Specifiers(q)}
+    //       {getAnswers(formData, q.answers).map((a, iy) => {
+    //         return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
+    //       })}
+    //     </div>
+    //   )
     // case 'date' :
     //   return (
     //     <div key={key}>
@@ -312,6 +321,7 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          {q.image && <img src={q.image} width="75px" height="75px" />}
         </span>
       )
 
