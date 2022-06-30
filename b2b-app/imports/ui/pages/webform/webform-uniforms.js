@@ -30,6 +30,7 @@ import {
   TextField,
   RadioField,
   ListField,
+  SelectField,
   NumField,
   DateField,
   ErrorField,
@@ -112,7 +113,7 @@ const Specifiers = (q) => {
     .map((a) => {
       const otherId = `${q.id}-${a.id}-specify`
       const condition =
-        q.type === ('single' || 'image' || 'multiple')
+        q.type === ('single' || 'image' || 'multiple' || 'dropdown')
           ? [q.id, 'equal', a.id]
           : [`${q.id}-${a.id}`]
       if (a.specifyType === 'long')
@@ -277,6 +278,39 @@ const RenderQ = (q, ix) => {
             )
           })}
         </div>
+      )
+
+    case 'dropdown':
+      const options = getAnswers(formData, q.answers).map((a, iy) => ({
+        label: a.name,
+        value: a.id,
+      }))
+      return (
+        <div key={key} className="q-container">
+          <span>
+            <AutoField name={q.id} id={q.id} options={options} />
+          </span>
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
+
+    case 'lookup':
+      return (
+        <span key={key} className="q-container">
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <span>
+            <AutoField name={q.id} id={q.id} />
+          </span>
+          <ErrorField name={q.id} id={q.id} />
+        </span>
       )
 
     // case 'image':

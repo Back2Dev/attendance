@@ -2,13 +2,11 @@ import React from 'react'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import DatePicker from '/imports/ui/components/date-field'
-// I would like to use a more modern looking date picker, but the
-// lab@next has deprecated it. The newest version looks boring
-//import { DatePicker } from '@material-ui/lab'
+import LookupField from '/imports/ui/components/lookup-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
-import { LongTextField, NumField } from 'uniforms-material'
+import { LongTextField, NumField, SelectField } from 'uniforms-material'
 
 const LongField = (props) => (
   <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
@@ -286,7 +284,6 @@ const getSchemas = (survey, currentData) => {
                     }
                     return specifyId
                   })
-                // )
                 break
               // case 'multiple':
               //   qSchema.uniforms.checkboxes = "true"
@@ -363,7 +360,7 @@ const getSchemas = (survey, currentData) => {
                 debug(`Rendering address field ${q.id}`)
                 qSchema.uniforms.margin = 'normal'
                 qSchema.uniforms.component = GooglePlaces
-                qSchema.uniforms.component = true
+                // qSchema.uniforms.component = true
                 break
               case 'paragraph':
                 delete step.schema[q.id]
@@ -375,6 +372,13 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'geolocation':
                 // Nothing to do, just accept it as is
+                break
+              case 'lookup':
+                qSchema.uniforms.margin = 'normal'
+                qSchema.uniforms.component = LookupField
+                break
+              case 'dropdown':
+                // Nothing to do, just accept it as is ??
                 break
               case 'upload':
                 delete step.schema[q.id]
