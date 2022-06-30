@@ -13,7 +13,7 @@ import Members from '/imports/api/members/schema.js'
  * @param  {Object} options   options map passed to Accounts.createUser()
  * @param  {Object} user      'proposed' User object to create
  * @return {Object}           User object to create
- */
+ **/
 
 Accounts.onCreateUser((options, user) => {
   const member = {
