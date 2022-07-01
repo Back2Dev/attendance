@@ -1,9 +1,14 @@
+/* eslint-disable no-use-before-define */
 import React from 'react'
+// import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField'
+import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import { FieldProps, connectField, filterDOMProps } from 'uniforms'
 
-function Lookup({
+const debug = require('debug')('app:tags-field')
+
+function Tags({
   disabled,
   error,
   errorMessage,
@@ -13,39 +18,36 @@ function Lookup({
   label,
   labelProps = { shrink: true, disableAnimation: true },
   name,
-  // options,
   onChange,
+  options,
   placeholder,
   showInlineError,
   defaultValue,
   value,
   ...props
 }) {
-  const options = ['Mr Boss', 'Bossy Dude']
-  const [val, setVal] = React.useState(defaultValue || value)
+  // const options = ['Mr Boss', 'Bossy Dude', 'Cross Patch', 'Grumpy', 'Oh shit']
+  const [val, setVal] = React.useState(defaultValue || value || [])
 
   return (
     <Autocomplete
       disabled={disabled}
       error={!!error}
       fullWidth
-      label={label}
       margin="dense"
-      name={name}
-      freeSolo
-      defaultValue={val || ''}
+      multiple
+      value={val}
+      options={options}
       onChange={(event, newValue) => {
+        debug({ newValue })
         setVal(newValue)
         onChange(newValue)
       }}
-      options={options}
-      placeholder={placeholder}
-      ref={inputRef}
       renderInput={(params) => (
-        <TextField {...params} label={label} margin="normal" variant="outlined" />
+        <TextField {...params} variant="standard" label={label} placeholder={label} />
       )}
     />
   )
 }
 
-export default connectField(Lookup, { kind: 'leaf' })
+export default connectField(Tags, { kind: 'leaf' })

@@ -244,21 +244,29 @@ const RenderQ = (q, ix) => {
         </div>
       )
     case 'multiple':
+      const choices = getAnswers(formData, q.answers).map((a, iy) => a.name)
       return (
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           {q.image && <img src={q.image} width="75px" height="75px" />}
-          {getAnswers(formData, q.answers).map((a, iy) => {
-            const id = `${q.id}-${a.id}`
-            return (
-              <div key={`a${key}${iy}`}>
-                <AutoField name={id} id={id} key={id} />
-                {a.image && <img src={a.image} width="75px" height="75px" />}
-                <NoteIf note={a.note} field={id}></NoteIf>
-              </div>
-            )
-          })}
-          {Specifiers(q)}
+
+          {q.answers.length > 10 && <AutoField name={q.id} id={q.id} options={choices} />}
+
+          {q.answers.length <= 10 && (
+            <div>
+              {getAnswers(formData, q.answers).map((a, iy) => {
+                const id = `${q.id}-${a.id}`
+                return (
+                  <div key={`a${key}${iy}`}>
+                    <AutoField name={id} id={id} key={id} />
+                    {a.image && <img src={a.image} width="75px" height="75px" />}
+                    <NoteIf note={a.note} field={id}></NoteIf>
+                  </div>
+                )
+              })}
+              {Specifiers(q)}
+            </div>
+          )}
           {/* <ErrorField name={q.id} id={q.id} /> */}
         </div>
       )
@@ -307,9 +315,30 @@ const RenderQ = (q, ix) => {
         <span key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           <span>
+            {getAnswers(formData, q.answers).map((a, iy) => {
+              const id = `${q.id}-${a.id}`
+              return (
+                <span key={iy}>
+                  <AutoField name={id} id={id} />
+                  {a.image && <img src={a.image} width="75px" height="75px" />}
+                  <ErrorField name={id} id={id}>
+                    {a.name || 'This'} is required
+                  </ErrorField>
+                  <NoteIf note={a.note} field={id}></NoteIf>
+                </span>
+              )
+            })}
+          </span>
+        </span>
+      )
+
+    case 'tree':
+      return (
+        <span key={key} className="q-container">
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <span>
             <AutoField name={q.id} id={q.id} />
           </span>
-          <ErrorField name={q.id} id={q.id} />
         </span>
       )
 

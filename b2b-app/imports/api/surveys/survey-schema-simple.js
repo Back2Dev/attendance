@@ -3,6 +3,8 @@ import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import DatePicker from '/imports/ui/components/date-field'
 import LookupField from '/imports/ui/components/lookup-field'
+import TagsField from '/imports/ui/components/tags-field'
+import TreeField from '/imports/ui/components/tree-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
 import { cloneDeep } from 'lodash'
@@ -231,32 +233,45 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'multiple':
                 delete step.schema[q.id]
-                answers.forEach((a) => {
-                  const id = `${q.id}-${a.id}`
-                  const uniforms = {}
-                  const optional = getOptionalFunc(q, uniforms, true)
-                  step.schema[id] = {
-                    type: Boolean,
-                    label: a.name,
-                    optional, // Need a way to count these and set a minimum #required
-                    uniforms,
-                  }
-                })
-                answers
-                  .filter((a) => a.specify)
-                  .map((a) => {
-                    const specifyId = `${q.id}-${a.id}-specify`
+                if (answers.length <= 10) {
+                  answers.forEach((a) => {
+                    const id = `${q.id}-${a.id}`
                     const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                    step.schema[specifyId] = {
-                      type: String,
-                      label: a.specify,
-                      optional,
+                    const optional = getOptionalFunc(q, uniforms, true)
+                    step.schema[id] = {
+                      type: Boolean,
+                      label: a.name,
+                      optional, // Need a way to count these and set a minimum #required
                       uniforms,
                     }
-                    return specifyId
                   })
-                // )
+                  answers
+                    .filter((a) => a.specify)
+                    .map((a) => {
+                      const specifyId = `${q.id}-${a.id}-specify`
+                      const uniforms = {}
+                      const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                      step.schema[specifyId] = {
+                        type: String,
+                        label: a.specify,
+                        optional,
+                        uniforms,
+                      }
+                      return specifyId
+                    })
+                } else {
+                  step.schema[q.id] = {
+                    type: Array,
+                    label: q.name,
+                    // optional, // Need a way to count these and set a minimum #required
+                    uniforms: {
+                      component: TagsField,
+                    },
+                  }
+                  step.schema[`${q.id}.$`] = {
+                    type: String,
+                  }
+                }
                 break
               case 'single':
                 qSchema.uniforms.checkboxes = 'true'
@@ -366,7 +381,7 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 break
               case 'signature':
-                // TODO: declare a varible for the signature image? Or should it use slingshot
+                // TODO: declare a variable for the signature image? Or should it use slingshot
                 // directly like (I think) the upload field does?
                 // delete step.schema[q.id]
                 break
@@ -374,8 +389,22 @@ const getSchemas = (survey, currentData) => {
                 // Nothing to do, just accept it as is
                 break
               case 'lookup':
-                qSchema.uniforms.margin = 'normal'
-                qSchema.uniforms.component = LookupField
+                delete step.schema[q.id]
+                answers.forEach((a) => {
+                  const id = `${q.id}-${a.id}`
+                  step.schema[id] = {
+                    type: String,
+                    label: a.name,
+                    uniforms: { component: LookupField },
+                  }
+                })
+                break
+              case 'tree':
+                step.schema[q.id] = {
+                  type: String,
+                  label: q.name,
+                  uniforms: { component: TreeField },
+                }
                 break
               case 'dropdown':
                 // Nothing to do, just accept it as is ??
