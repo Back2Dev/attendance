@@ -16,6 +16,7 @@
   "public": {
     "S3_REGION": "ap-southeast-2",
     "S3_IDENTITY_POOL_ID": "",
-    "S3_BUCKET_NAME": ""
+    "S3_BUCKET_NAME": "",
+    "environment": "dev"
   }
 }

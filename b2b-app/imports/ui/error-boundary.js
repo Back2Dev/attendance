@@ -3,10 +3,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 
+const debug = require('debug')('app:error-boundary')
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, pathname: props.location.pathname }
+    this.state = { hasError: false, pathname: props.location.pathname, message: '' }
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -29,7 +30,10 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
     // logErrorToMyService(error, errorInfo);
-    // console.log(this.props.location, error, errorInfo);
+    debug(this.props.location, error, errorInfo)
+    const newState = Object.assign({}, this.state)
+    newState.message = error.message
+    this.setState(newState)
   }
 
   render() {
@@ -37,8 +41,16 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div style={{ textAlign: 'center', padding: '24px' }}>
-          <img src="/images/oops.png"></img>
+          <img src="/images/oops.jpeg"></img>
           <h2>{msg}</h2>
+          {Meteor.settings.public.environment === 'dev' && (
+            <>
+              <pre>{this.state.message}</pre>
+              <p>
+                <i>More details in the browser console log</i>
+              </p>
+            </>
+          )}
           <div>
             <button onClick={() => this.props.history.goBack()}>{goBack}</button>
           </div>
@@ -57,7 +69,7 @@ ErrorBoundary.propTypes = {
 }
 
 ErrorBoundary.defaultProps = {
-  msg: 'My apologies, something went wrong',
+  msg: 'Oh no! Something went wrong',
   goBack: 'Go Back',
 }
 
