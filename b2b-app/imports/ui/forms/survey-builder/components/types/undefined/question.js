@@ -15,6 +15,7 @@ const options = [
   { label: 'Text', value: 'text' },
   { label: 'Section', value: 'section' },
   { label: 'Signature', value: 'signature' },
+  { label: 'Dropdown', value: 'dropdown' },
 ]
 
 const useStyles = makeStyles(() => ({

@@ -15,6 +15,7 @@ import {
   UploadInner,
   TextInner,
   SectionInner,
+  DropdownInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
 import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
@@ -26,6 +27,7 @@ const options = [
   { label: 'Upload', value: 'upload', component: UploadInner },
   { label: 'Text', value: 'text', component: TextInner },
   { label: 'Section', value: 'section', component: SectionInner },
+  { label: 'Dropdown', value: 'dropdown', component: DropdownInner },
 ]
 
 const UndefinedInner = ({ pid, type }) => {
@@ -33,7 +35,6 @@ const UndefinedInner = ({ pid, type }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const [qType, setQType] = useState(type ?? 'single')
-
   const part = usePartValue(pid)
 
   const showMobileActions = isMobile && selectedPart === pid
