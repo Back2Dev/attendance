@@ -5,6 +5,7 @@ import DatePicker from '/imports/ui/components/date-field'
 import LookupField from '/imports/ui/components/lookup-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
+import RatingField from '/imports/ui/components/rating-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
 
@@ -285,6 +286,27 @@ const getSchemas = (survey, currentData) => {
                     return specifyId
                   })
                 break
+              case 'rating':
+                qSchema.uniforms.component = RatingField
+                qSchema.uniforms.max = answers[0]?.max || 5
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
+                break
+
               // case 'multiple':
               //   qSchema.uniforms.checkboxes = "true"
               //   qSchema.uniforms.options = answers.map((a) => {
@@ -308,26 +330,7 @@ const getSchemas = (survey, currentData) => {
               //     })
 
               //   break
-              // case 'image':
-              //   qSchema.uniforms.value = answers.map((a) => a.val)
-              //   qSchema.uniforms.component = ImageField
-              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 
-              //   answers
-              //     .filter((a) => a.specify)
-              //     .map((a) => {
-              //       const specifyId = `${q.id}-${a.id}-specify`
-              //       const uniforms = {}
-              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-              //       step.schema[specifyId] = {
-              //         type: String,
-              //         label: a.specify,
-              //         optional,
-              //         uniforms,
-              //       }
-              //       return specifyId
-              //     })
-              //   break
               case 'upload':
                 qSchema.uniforms.value = answers.map((a) => a.val)
                 qSchema.uniforms.component = ImageField

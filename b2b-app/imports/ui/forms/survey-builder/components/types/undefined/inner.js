@@ -17,6 +17,7 @@ import {
   SectionInner,
   DropdownInner,
   LookupInner,
+  RatingInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
 import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
@@ -31,6 +32,7 @@ const options = [
   { label: 'Dropdown', value: 'dropdown', component: DropdownInner },
   { label: 'Lookup', value: 'lookup', component: LookupInner },
   { label: 'Geolocation', value: 'geolocation', component: null },
+  { label: 'Rating', value: 'rating', component: RatingInner },
 ]
 
 const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']

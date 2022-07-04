@@ -18,6 +18,7 @@ const options = [
   { label: 'Dropdown', value: 'dropdown' },
   { label: 'Geolocation', value: 'geolocation' },
   { label: 'Lookup', value: 'lookup' },
+  { label: 'Rating', value: 'rating' },
 ]
 
 const useStyles = makeStyles(() => ({

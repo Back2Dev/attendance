@@ -279,6 +279,24 @@ const RenderQ = (q, ix) => {
           })}
         </div>
       )
+    case 'rating':
+      return (
+        <div key={key} className="q-container">
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+
+          <AutoField name={q.id} id={q.id} />
+
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
 
     case 'dropdown':
       const options = getAnswers(formData, q.answers).map((a, iy) => ({
