@@ -31,13 +31,13 @@ const getLabelFromKey = (key) => {
   }
 }
 
-const subType = [
-  { label: 'Short', value: 'text' },
-  { label: 'Long', value: 'long' },
-  { label: 'Email', value: 'email' },
-  { label: 'Number', value: 'number' },
-  { label: 'Date', value: 'date' },
-]
+// const subType = [
+//   { label: 'Short', value: 'text' },
+//   { label: 'Long', value: 'long' },
+//   { label: 'Email', value: 'email' },
+//   { label: 'Number', value: 'number' },
+//   { label: 'Date', value: 'date' },
+// ]
 
 // fieldKey: 'name', 'prompt'
 export const QuestionField = ({
@@ -189,6 +189,7 @@ export const AnswerField = ({
   options,
   helperText,
   type,
+  children,
 }) => {
   const classes = useStyles()
 
@@ -246,7 +247,6 @@ export const AnswerField = ({
             showUploadImage={true}
             options={options}
             fieldID={`${pid}_answer_${answerIndex}`}
-            // label="Answer"
             helperText={helperText}
             onKeyDown={(e) => {
               if (e.key === 'Tab') {
@@ -264,38 +264,39 @@ export const AnswerField = ({
           />
         </Grid>
 
-        {type === 'text' && (
-          <Fragment>
-            <Grid item style={{ visibility: 'hidden' }}>
-              <RadioButtonUncheckedIcon />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                id={`${pid}_${answerIndex}`}
-                fullWidth
-                select
-                value={answer.type}
-                onChange={({ target: { value } }) =>
-                  setPropertyByValue({
-                    pid,
-                    path: `answers[${answerIndex}].type`,
-                    value,
-                  })
-                }
-                label="Answer Type"
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                {subType.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-          </Fragment>
-        )}
+        {
+          children && children
+          // <Fragment>
+          //   <Grid item style={{ visibility: 'hidden' }}>
+          //     <RadioButtonUncheckedIcon />
+          //   </Grid>
+          //   <Grid item xs={3}>
+          //     <TextField
+          //       id={`${pid}_${answerIndex}`}
+          //       fullWidth
+          //       select
+          //       value={answer.type}
+          //       onChange={({ target: { value } }) =>
+          //         setPropertyByValue({
+          //           pid,
+          //           path: `answers[${answerIndex}].type`,
+          //           value,
+          //         })
+          //       }
+          //       label="Answer Type"
+          //       SelectProps={{
+          //         native: true,
+          //       }}
+          //     >
+          //       {subType.map(({ value, label }) => (
+          //         <option key={value} value={value}>
+          //           {label}
+          //         </option>
+          //       ))}
+          //     </TextField>
+          //   </Grid>
+          // </Fragment>
+        }
       </Grid>
     </div>
   )

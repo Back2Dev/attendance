@@ -15,15 +15,16 @@ import { AnswerField, OptionField } from '$sb/components/types/undefined/field/t
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
-const subType = [
-  { label: 'Short', value: 'text' },
-  { label: 'Long', value: 'long' },
-  { label: 'Email', value: 'email' },
-  { label: 'Number', value: 'number' },
-  { label: 'Date', value: 'date' },
+const lookupCategories = [
+  { label: 'Company', value: 'company' },
+  { label: 'Group', value: 'group' },
+  { label: 'Title', value: 'title' },
+  { label: 'Position', value: 'position' },
+  { label: 'Level', value: 'level' },
+  { label: 'First Name', value: 'firstname' },
 ]
 
-const selector = (answer, answerIndex, pid, setPropertyByValue) => (
+const lookupSelector = (answer, answerIndex, pid, setPropertyByValue) => (
   <Fragment>
     <Grid item style={{ visibility: 'hidden' }}>
       <RadioButtonUncheckedIcon />
@@ -33,20 +34,20 @@ const selector = (answer, answerIndex, pid, setPropertyByValue) => (
         id={`${pid}_${answerIndex}`}
         fullWidth
         select
-        value={answer.type}
+        value={answer.lookup}
         onChange={({ target: { value } }) =>
           setPropertyByValue({
             pid,
-            path: `answers[${answerIndex}].type`,
+            path: `answers[${answerIndex}].lookup`,
             value,
           })
         }
-        label="Answer Type"
+        label="Lookup Type"
         SelectProps={{
           native: true,
         }}
       >
-        {subType.map(({ value, label }) => (
+        {lookupCategories.map(({ value, label }) => (
           <option key={value} value={value}>
             {label}
           </option>
@@ -56,9 +57,9 @@ const selector = (answer, answerIndex, pid, setPropertyByValue) => (
   </Fragment>
 )
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'lookup']
 
-const TextInner = ({ pid, part, setPropertyByValue }) => {
+const LookupInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -115,7 +116,12 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                         options={textOptions}
                         type={'text'}
                         helperText={answer.optional ?? undefined}
-                        children={selector(answer, answerIndex, pid, setPropertyByValue)}
+                        children={lookupSelector(
+                          answer,
+                          answerIndex,
+                          pid,
+                          setPropertyByValue
+                        )}
                       />
 
                       <Grid container spacing={1} alignItems="flex-start">
@@ -173,7 +179,7 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
   )
 }
 
-TextInner.propTypes = {
+LookupInner.propTypes = {
   /** single instance part id */
   pid: PropTypes.string.isRequired,
   /** function gets called when updating atom's value based on the input path argument */
@@ -182,8 +188,8 @@ TextInner.propTypes = {
   part: PropTypes.object.isRequired,
 }
 
-TextInner.defaultProps = {
+LookupInner.defaultProps = {
   initialList: [''],
 }
 
-export { TextInner }
+export { LookupInner }

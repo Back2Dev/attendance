@@ -16,6 +16,7 @@ import {
   TextInner,
   SectionInner,
   DropdownInner,
+  LookupInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
 import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
@@ -26,9 +27,13 @@ const options = [
   { label: 'Multiple', value: 'multiple', component: MultipleInner },
   { label: 'Upload', value: 'upload', component: UploadInner },
   { label: 'Text', value: 'text', component: TextInner },
-  { label: 'Section', value: 'section', component: SectionInner },
+  { label: 'Section', value: 'section', component: null },
   { label: 'Dropdown', value: 'dropdown', component: DropdownInner },
+  { label: 'Lookup', value: 'lookup', component: LookupInner },
+  { label: 'Geolocation', value: 'geolocation', component: null },
 ]
+
+const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']
 
 const UndefinedInner = ({ pid, type }) => {
   const { add } = useUndefinedAnswers(pid)
@@ -65,7 +70,7 @@ const UndefinedInner = ({ pid, type }) => {
     //if type is section, set answers to an empty array, otherwise, set to default part
     setPropertyByValue({
       pid,
-      value: value === 'section' ? [] : defaultPart.answers,
+      value: nonInnerType.includes(value) ? [] : defaultPart.answers,
       path: 'answers',
     })
   }
@@ -80,8 +85,7 @@ const UndefinedInner = ({ pid, type }) => {
         handleChange={handleChange}
       />
 
-      {qType !== 'paragraph' &&
-        qType !== 'signature' &&
+      {!nonInnerType.includes(qType) &&
         React.createElement(
           (options.find(({ value }) => value === qType) || options[0]).component,
           {

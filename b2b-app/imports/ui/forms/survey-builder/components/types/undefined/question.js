@@ -16,6 +16,8 @@ const options = [
   { label: 'Section', value: 'section' },
   { label: 'Signature', value: 'signature' },
   { label: 'Dropdown', value: 'dropdown' },
+  { label: 'Geolocation', value: 'geolocation' },
+  { label: 'Lookup', value: 'lookup' },
 ]
 
 const useStyles = makeStyles(() => ({
