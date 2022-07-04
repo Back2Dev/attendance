@@ -4,7 +4,7 @@ import keywords from './engine-keywords'
 const debug = require('debug')('app:forms:engine')
 
 const validQtypes =
-  'multiple single text array paragraph signature calc lookup dropdown rating tree'.split(
+  'multiple single text array paragraph signature calc lookup dropdown rating tree geolocation'.split(
     /\s+/
   )
 const noAnswers = 'paragraph'.split(/\s+/)
