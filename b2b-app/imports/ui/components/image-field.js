@@ -32,7 +32,6 @@ const ImageField = ({ value }) => {
 export default connectField(ImageField)
 
 export const RadioFieldWithImage = connectField(({ options, label, required }) => {
-  console.log('required', required)
   return (
     <FormControl component="fieldset" required={required}>
       <FormLabel component="legend">{label}</FormLabel>

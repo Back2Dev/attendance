@@ -6,6 +6,8 @@ import {
   useUndefinedAnswers,
   useSelectedPartValue,
   defaultPart,
+  getDefaultColumn,
+  getDefaultRow,
   usePartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
@@ -18,6 +20,7 @@ import {
   DropdownInner,
   LookupInner,
   RatingInner,
+  GridInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
 import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
@@ -33,6 +36,7 @@ const options = [
   { label: 'Lookup', value: 'lookup', component: LookupInner },
   { label: 'Geolocation', value: 'geolocation', component: null },
   { label: 'Rating', value: 'rating', component: RatingInner },
+  { label: 'Grid', value: 'grid', component: GridInner },
 ]
 
 const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']
@@ -75,6 +79,20 @@ const UndefinedInner = ({ pid, type }) => {
       value: nonInnerType.includes(value) ? [] : defaultPart.answers,
       path: 'answers',
     })
+
+    if (value === 'grid') {
+      setPropertyByValue({
+        pid,
+        value: {
+          columns: [
+            { ...getDefaultColumn(), field: 'name', editable: false },
+            getDefaultColumn(),
+          ],
+          rows: [getDefaultRow()],
+        },
+        path: 'answers[0]',
+      })
+    }
   }
 
   return (

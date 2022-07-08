@@ -6,6 +6,7 @@ import LookupField from '/imports/ui/components/lookup-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
 import RatingField from '/imports/ui/components/rating-field'
+import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
 
@@ -267,7 +268,6 @@ const getSchemas = (survey, currentData) => {
                 })
 
                 qSchema.label = q.prompt
-                qSchema.uniforms.required = q.optional
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
                 // debug(`${q.id} optional`, qSchema.optional)
 
@@ -288,7 +288,26 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'rating':
                 qSchema.uniforms.component = RatingField
-                qSchema.uniforms.max = answers[0]?.max || 5
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
+                break
+
+              case 'grid':
+                qSchema.uniforms.component = GridField
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 
                 answers

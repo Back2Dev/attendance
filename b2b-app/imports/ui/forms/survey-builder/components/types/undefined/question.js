@@ -19,6 +19,7 @@ const options = [
   { label: 'Geolocation', value: 'geolocation' },
   { label: 'Lookup', value: 'lookup' },
   { label: 'Rating', value: 'rating' },
+  { label: 'Grid', value: 'grid' },
 ]
 
 const useStyles = makeStyles(() => ({

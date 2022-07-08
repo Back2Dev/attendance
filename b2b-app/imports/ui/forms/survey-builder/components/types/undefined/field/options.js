@@ -36,3 +36,10 @@ export const uploadOptions = [
   // { label: 'multiple ', value: 'multiple' },
   // { label: 'maxFiles ', value: 'maxFiles' },
 ]
+
+export const gridColumnOptions = [
+  // { label: 'Width', value: 'width' },
+  // { label: 'Header Name', value: 'headerName' },
+  // { label: 'Type', value: 'type' },
+  { label: 'Description', value: 'description' },
+]

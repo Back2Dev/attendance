@@ -264,39 +264,89 @@ export const AnswerField = ({
           />
         </Grid>
 
-        {
-          children && children
-          // <Fragment>
-          //   <Grid item style={{ visibility: 'hidden' }}>
-          //     <RadioButtonUncheckedIcon />
-          //   </Grid>
-          //   <Grid item xs={3}>
-          //     <TextField
-          //       id={`${pid}_${answerIndex}`}
-          //       fullWidth
-          //       select
-          //       value={answer.type}
-          //       onChange={({ target: { value } }) =>
-          //         setPropertyByValue({
-          //           pid,
-          //           path: `answers[${answerIndex}].type`,
-          //           value,
-          //         })
-          //       }
-          //       label="Answer Type"
-          //       SelectProps={{
-          //         native: true,
-          //       }}
-          //     >
-          //       {subType.map(({ value, label }) => (
-          //         <option key={value} value={value}>
-          //           {label}
-          //         </option>
-          //       ))}
-          //     </TextField>
-          //   </Grid>
-          // </Fragment>
-        }
+        {children && children}
+      </Grid>
+    </div>
+  )
+}
+
+export const GridField = ({
+  underline = true,
+  onRemove,
+  onAdd,
+  disableRemove,
+  setPropertyByValue,
+  pid,
+  data,
+  dataIndex,
+  showMobileActions,
+  part,
+  isIdChecked,
+  setIsIdChecked,
+  options,
+  // helperText,
+  type,
+  // children,
+}) => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.gridRoot}>
+      <Grid container spacing={1} alignItems="flex-end">
+        <Grid item>
+          <RadioButtonUncheckedIcon style={{ visibility: 'hidden' }} />
+        </Grid>
+        <Grid item xs={11}>
+          <Field
+            underline={underline}
+            onRemove={onRemove}
+            onAdd={onAdd}
+            disableRemove={disableRemove}
+            onChange={({ target: { value } }) =>
+              setPropertyByValue({
+                path: `answers[0].${type}s[${dataIndex}].${
+                  type === 'row' ? 'name' : 'field'
+                }`,
+                value,
+                pid,
+              })
+            }
+            onToggle={(path) =>
+              setPropertyByValue({
+                path,
+                pid,
+              })
+            }
+            index={`${pid}_${dataIndex}`}
+            text={type === 'row' ? data.name : data.field}
+            showMobileActions={showMobileActions}
+            placeholder={`Type ${type} name...`}
+            actions={['add', 'remove']}
+            part={part}
+            isIdChecked={isIdChecked}
+            setIsIdChecked={setIsIdChecked}
+            path={`answers[0].${type}s[${dataIndex}]`}
+            showMore={true}
+            showUploadImage={false}
+            options={options}
+            fieldID={`${pid}_${type}_${dataIndex}`}
+            // helperText={helperText}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                onAdd()
+                const index = type === 'column' ? dataIndex : dataIndex + 1
+                setTimeout(
+                  () =>
+                    document.querySelectorAll(`[id ^='${pid}_${type}']`)[index].focus(),
+                  0
+                )
+              }
+            }}
+          />
+        </Grid>
+
+        {/* {children && children} */}
       </Grid>
     </div>
   )

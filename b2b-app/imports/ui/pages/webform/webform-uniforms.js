@@ -266,7 +266,7 @@ const RenderQ = (q, ix) => {
       return (
         <div key={key} className="q-container">
           <span>
-            <AutoField name={q.id} id={q.id} />
+            <AutoField name={q.id} id={q.id} required={q.optional} />
           </span>
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
@@ -284,7 +284,26 @@ const RenderQ = (q, ix) => {
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
 
-          <AutoField name={q.id} id={q.id} />
+          <AutoField name={q.id} id={q.id} max={q.answers[0]?.max} />
+
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
+
+    case 'grid':
+      return (
+        <div key={key} className="q-container">
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+
+          <AutoField name={q.id} id={q.id} data={q.answers[0]} />
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}

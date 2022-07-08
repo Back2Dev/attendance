@@ -76,6 +76,44 @@ export const partAnswers = selectorFamily({
     },
 })
 
+export const partGridColumns = selectorFamily({
+  key: 'partGridColumns',
+  get:
+    (pid) =>
+    ({ get }) => {
+      const part = get(partAtom(pid))
+      return part.answers[0].columns
+    },
+  set:
+    (pid) =>
+    ({ get, set }, newValue) => {
+      const part = get(partAtom(pid))
+      const nextState = produce(part, (draft) => {
+        draft.answers[0].columns = newValue
+      })
+      set(partAtom(pid), nextState)
+    },
+})
+
+export const partGridRows = selectorFamily({
+  key: 'partGridRows',
+  get:
+    (pid) =>
+    ({ get }) => {
+      const part = get(partAtom(pid))
+      return part.answers[0].rows
+    },
+  set:
+    (pid) =>
+    ({ get, set }, newValue) => {
+      const part = get(partAtom(pid))
+      const nextState = produce(part, (draft) => {
+        draft.answers[0].rows = newValue
+      })
+      set(partAtom(pid), nextState)
+    },
+})
+
 export const editPartState = selectorFamily({
   key: 'editPart',
   get:
