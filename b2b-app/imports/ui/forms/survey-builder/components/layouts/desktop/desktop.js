@@ -9,7 +9,7 @@ const DesktopLayout = ({ toolbar, left, center, right }) => {
 
   return (
     <Box height="calc(100vh - 64px - 48px)">
-      <Box
+      {/* <Box
         height={40}
         flex="0 1 auto"
         border="1px solid lightgrey"
@@ -17,7 +17,7 @@ const DesktopLayout = ({ toolbar, left, center, right }) => {
         alignItems="center"
       >
         {toolbar}
-      </Box>
+      </Box> */}
       <Box position="relative" height="calc(100% - 40px)">
         {/* {!isFormViewing && (
           <Box

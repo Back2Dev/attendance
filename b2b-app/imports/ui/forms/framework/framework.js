@@ -32,21 +32,57 @@ const Framework = ({ id, item, methods }) => {
     },
   }
 
+  const getSource = useRecoilCallback(
+    ({ snapshot }) =>
+      () => {
+        const parts = snapshot.getLoadable(partsAtom).contents
+        const sourceJSON = parts.map(
+          ({ pid }) => snapshot.getLoadable(partAtom(pid)).contents
+        )
+        return sourceJSON
+      },
+    []
+  )
+
   const save = (quit, autosave = false) => {
-    try {
-      methods.update(
-        id,
-        {
-          _id: id,
-          source: formEditorInput,
-          json: JSON.parse(jsonEditorInput),
-          survey: raw,
-          autosave,
-        },
-        quit
-      )
-    } catch (e) {
-      debug(`Update error ${e.message}`)
+    if (layout === 'dnd') {
+      console.log('dnd save not ready yet!')
+      //todo:
+      //1.compile JSON back to source syntext 2.save data to DB
+
+      // try {
+      //   const sourceJSON = getSource()
+      //   if (!sourceJSON) {
+      //     return
+      //   }
+      //   const compiled = parse(sourceJSON)
+      //   if (compiled.status !== 'success') {
+      //     throw new Error(`Source parser error: ${compiled.message}`)
+      //   }
+
+      //   log(sourceJSON)
+      //   log(compiled.survey)
+      //   updateFormInput(sourceJSON)
+
+      // } catch (e) {
+
+      // }
+    } else {
+      try {
+        methods.update(
+          id,
+          {
+            _id: id,
+            source: formEditorInput,
+            json: JSON.parse(jsonEditorInput),
+            survey: raw,
+            autosave,
+          },
+          quit
+        )
+      } catch (e) {
+        debug(`Update error ${e.message}`)
+      }
     }
   }
 
@@ -62,6 +98,8 @@ const Framework = ({ id, item, methods }) => {
     null,
     2
   )
+
+  const [viewJSON, setViewJSON] = React.useState(true)
 
   const [raw, setRaw] = React.useState({})
 
@@ -129,18 +167,6 @@ const Framework = ({ id, item, methods }) => {
 
   //tool-bar toggle to view/edit dnd form
   const [checked, setChecked] = useState(false)
-
-  const getSource = useRecoilCallback(
-    ({ snapshot }) =>
-      () => {
-        const parts = snapshot.getLoadable(partsAtom).contents
-        const sourceJSON = parts.map(
-          ({ pid }) => snapshot.getLoadable(partAtom(pid)).contents
-        )
-        return sourceJSON
-      },
-    []
-  )
 
   const compileForm = () => {
     if (layout === 'dnd') {
@@ -304,6 +330,8 @@ const Framework = ({ id, item, methods }) => {
           slug: item.slug,
           folds,
           updateFold,
+          viewJSON,
+          setViewJSON,
         }}
       >
         <EditorToolbar />
