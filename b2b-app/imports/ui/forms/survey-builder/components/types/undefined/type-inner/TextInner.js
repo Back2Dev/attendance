@@ -24,36 +24,31 @@ const subType = [
 ]
 
 const selector = (answer, answerIndex, pid, setPropertyByValue) => (
-  <Fragment>
-    <Grid item style={{ visibility: 'hidden' }}>
-      <RadioButtonUncheckedIcon />
-    </Grid>
-    <Grid item xs={3}>
-      <TextField
-        id={`${pid}_${answerIndex}`}
-        fullWidth
-        select
-        value={answer.type}
-        onChange={({ target: { value } }) =>
-          setPropertyByValue({
-            pid,
-            path: `answers[${answerIndex}].type`,
-            value,
-          })
-        }
-        label="Answer Type"
-        SelectProps={{
-          native: true,
-        }}
-      >
-        {subType.map(({ value, label }) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </TextField>
-    </Grid>
-  </Fragment>
+  <Grid style={{ marginLeft: '32px' }} item xs={12} md={4} lg={3}>
+    <TextField
+      id={`${pid}_${answerIndex}`}
+      fullWidth
+      select
+      value={answer.type}
+      onChange={({ target: { value } }) =>
+        setPropertyByValue({
+          pid,
+          path: `answers[${answerIndex}].type`,
+          value,
+        })
+      }
+      label="Answer Type"
+      SelectProps={{
+        native: true,
+      }}
+    >
+      {subType.map(({ value, label }) => (
+        <option key={value} value={value}>
+          {label}
+        </option>
+      ))}
+    </TextField>
+  </Grid>
 )
 
 const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']

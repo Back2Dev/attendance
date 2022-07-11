@@ -11,7 +11,6 @@ import ReactJson from 'react-json-view'
 
 const useStyles = makeStyles({
   root: {
-    // minWidth: 275,
     overflowX: 'scroll',
   },
 

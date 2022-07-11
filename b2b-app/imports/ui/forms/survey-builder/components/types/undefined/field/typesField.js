@@ -1,14 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Field } from '../field'
-import PropTypes from 'prop-types'
-import { Grid, Select, MenuItem, TextField, Chip } from '@material-ui/core'
-
+// import PropTypes from 'prop-types'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-
 import { questionOptions } from '$sb/components/types/undefined/field/options'
 
 const useStyles = makeStyles(() => ({
@@ -31,14 +29,6 @@ const getLabelFromKey = (key) => {
   }
 }
 
-// const subType = [
-//   { label: 'Short', value: 'text' },
-//   { label: 'Long', value: 'long' },
-//   { label: 'Email', value: 'email' },
-//   { label: 'Number', value: 'number' },
-//   { label: 'Date', value: 'date' },
-// ]
-
 // fieldKey: 'name', 'prompt'
 export const QuestionField = ({
   fieldKey,
@@ -54,45 +44,39 @@ export const QuestionField = ({
   const showMobileActions = isMobile && selectedPart === pid
 
   return (
-    <Fragment>
-      <Grid item style={{ visibility: 'hidden' }}>
-        <RadioButtonUncheckedIcon />
-      </Grid>
-      <Grid item xs={8}>
-        <Field
-          onChange={({ target: { value } }) =>
-            setPropertyByValue({ path: fieldKey, value, pid })
-          }
-          label={getLabelFromKey(fieldKey)}
-          text={part[fieldKey] || ''}
-          showMobileActions={showMobileActions}
-          placeholder={'Type your question/paragraph'}
-          helperText={helperText}
-          showMore={true}
-          showUploadImage={true}
-          index={pid}
-          onToggle={(path) =>
-            setPropertyByValue({
-              path,
-              pid,
-            })
-          }
-          onUploadFinish={(value) =>
-            setPropertyByValue({
-              path: 'image',
-              value,
-              pid,
-            })
-          }
-          isIdChecked={isIdChecked}
-          setIsIdChecked={setIsIdChecked}
-          options={questionOptions}
-          part={part}
-          underline={true}
-          // variant="outlined"
-        />
-      </Grid>
-    </Fragment>
+    <Grid item style={{ marginLeft: '32px' }} xs={12} md={7} lg={8}>
+      <Field
+        onChange={({ target: { value } }) =>
+          setPropertyByValue({ path: fieldKey, value, pid })
+        }
+        label={getLabelFromKey(fieldKey)}
+        text={part[fieldKey] || ''}
+        showMobileActions={showMobileActions}
+        placeholder={'Type your question/paragraph'}
+        helperText={helperText}
+        showMore={true}
+        showUploadImage={true}
+        index={pid}
+        onToggle={(path) =>
+          setPropertyByValue({
+            path,
+            pid,
+          })
+        }
+        onUploadFinish={(value) =>
+          setPropertyByValue({
+            path: 'image',
+            value,
+            pid,
+          })
+        }
+        isIdChecked={isIdChecked}
+        setIsIdChecked={setIsIdChecked}
+        options={questionOptions}
+        part={part}
+        underline={true}
+      />
+    </Grid>
   )
 }
 
@@ -138,10 +122,10 @@ export const OptionField = ({
             alignItems="flex-end"
             style={showField() ? {} : { display: 'none' }}
           >
-            <Grid item style={{ visibility: 'hidden' }}>
+            {/* <Grid item style={{ visibility: 'hidden' }}>
               <RadioButtonUncheckedIcon />
-            </Grid>
-            <Grid item>
+            </Grid> */}
+            <Grid item style={{ marginLeft: '32px' }}>
               <Field
                 onDeleteOption={() => {
                   if (isID) {
@@ -208,7 +192,7 @@ export const AnswerField = ({
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
         <Grid item>{prefixIcon(type)}</Grid>
-        <Grid item xs={type === 'text' ? 8 : 11}>
+        <Grid item xs={11} md={type === 'text' ? 7 : 11} lg={type === 'text' ? 8 : 11}>
           <Field
             underline={underline}
             onRemove={onRemove}
@@ -293,10 +277,10 @@ export const GridField = ({
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
-        <Grid item>
+        {/* <Grid item>
           <RadioButtonUncheckedIcon style={{ visibility: 'hidden' }} />
-        </Grid>
-        <Grid item xs={11}>
+        </Grid> */}
+        <Grid item xs={11} style={{ marginLeft: '32px' }}>
           <Field
             underline={underline}
             onRemove={onRemove}
@@ -345,8 +329,6 @@ export const GridField = ({
             }}
           />
         </Grid>
-
-        {/* {children && children} */}
       </Grid>
     </div>
   )

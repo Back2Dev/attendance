@@ -48,7 +48,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
   return (
     <Fragment>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={`${pid}_column`}>
             {(provided) => (
               <ul
@@ -120,7 +120,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
           </DndDroppable>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={`${pid}_row`}>
             {(provided) => (
               <ul
