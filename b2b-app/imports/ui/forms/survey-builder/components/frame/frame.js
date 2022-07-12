@@ -149,6 +149,7 @@ const Frame = ({ pid, index, children, ...props }) => {
           index={index}
           setHeaderOnly={setHeaderOnly}
           type={type}
+          snapshot={snapshot}
           {...props}
         >
           {children}

@@ -1,4 +1,4 @@
-import React, { createElement, useEffect, useState } from 'react'
+import React, { createElement, useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, Divider, Button, Grid } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
@@ -41,7 +41,6 @@ const useStyles = makeStyles(() => ({
     paddingTop: '0px',
   },
   gridPadding: {
-    // padding: '0 37px',
     padding: '0 1rem',
   },
 }))
@@ -81,6 +80,7 @@ const DesktopFrame = React.forwardRef(
       onCopyPart,
       setHeaderOnly,
       type,
+      snapshot,
       ...otherProps
     },
     ref
@@ -128,7 +128,7 @@ const DesktopFrame = React.forwardRef(
       ))
 
     return (
-      <>
+      <Fragment>
         <Card
           onClick={actions.onSelect}
           // isSelected={selected}
@@ -209,17 +209,16 @@ const DesktopFrame = React.forwardRef(
                 </FormGroup>
               </Grid>
 
-              <Grid item>
-                {/* <Grid container > */}
-                {/* {createActions('color', )} */}
-                {/* <Divider orientation="vertical" flexItem /> */}
-                {createActions('moveUp', 'moveDown', 'copy', 'remove')}
-                {/* </Grid> */}
-              </Grid>
+              <Grid item>{createActions('moveUp', 'moveDown', 'copy', 'remove')}</Grid>
             </Grid>
           </CardActions>
         </Card>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: snapshot.isDragging ? 'none' : 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <IconButton
             variant="outlined"
             color="default"
@@ -229,7 +228,7 @@ const DesktopFrame = React.forwardRef(
             <AddIcon />
           </IconButton>
         </div>
-      </>
+      </Fragment>
     )
   }
 )
