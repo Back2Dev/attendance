@@ -18,7 +18,7 @@ WebApp.connectHandlers.use('/tracking', (req, res, next) => {
       action: 'click',
       originalUrl: req.originalUrl,
       agent: req.headers['user-agent'],
-      ip: req.socket.remoteAddress,
+      ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
       query: req.query,
       when: new Date(),
     }
@@ -42,7 +42,7 @@ WebApp.connectHandlers.use('/pixel', (req, res, next) => {
       action: 'read',
       originalUrl: req.originalUrl,
       agent: req.headers['user-agent'],
-      ip: req.socket.remoteAddress,
+      ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
       query: req.query,
       when: new Date(),
     }
