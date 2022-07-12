@@ -1,24 +1,18 @@
 import React, { createElement, useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { IconButton, Divider, Button, Grid } from '@material-ui/core'
+import { IconButton, Grid } from '@material-ui/core'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-// import CloseIcon from '@material-ui/icons/Close'
-// import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import AddIcon from '@material-ui/icons/Add'
-// import styled from 'styled-components'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParts, defaultPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
+import { defaultPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import Card from '@material-ui/core/Card'
-// import CardHeader from '@material-ui/core/CardHeader'
-// import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import FormatColorFillIcon from '@material-ui/icons/FormatColorFill'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -27,42 +21,32 @@ import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore'
 
 const log = debug('builder:frame')
 
-const useStyles = makeStyles(() => ({
-  hideButton: {
-    display: 'none',
-  },
-  addPartButton: {
-    background: 'white',
-    borderRadius: '10px',
-    width: '100px',
-    boxShadow: '1px 1px 3px lightgray',
-  },
-  cardBody: {
-    paddingTop: '0px',
-  },
-  gridPadding: {
-    padding: '0 1rem',
-  },
-}))
+const borderColor = (theme) =>
+  theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
 
-// const borderColor = (theme) =>
-//   theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
-
-// const Root = styled('li')(({ theme, isSelected }) => ({
-//   listStyle: 'none',
-//   backgroundColor: theme.palette.background.paper,
-//   padding: theme.spacing(2),
-//   outlineStyle: 'solid',
-//   outlineWidth: 1,
-//   outlineColor: isSelected ? theme.palette.primary.main : borderColor(theme),
-//   '&:hover': {
-//     outlineColor: isSelected ? theme.palette.primary.main : theme.palette.text.primary,
-//   },
-//   '.dragIcon': {
-//     color: theme.palette.action.active,
-//     margin: 3,
-//   },
-// }))
+const useStyles = (selected) =>
+  makeStyles((theme) => ({
+    cardRoot: {
+      outlineStyle: 'solid',
+      outlineWidth: 1,
+      outlineColor: selected ? theme.palette.primary.main : borderColor(theme),
+    },
+    hideButton: {
+      display: 'none',
+    },
+    addPartButton: {
+      background: 'white',
+      borderRadius: '10px',
+      width: '100px',
+      boxShadow: '1px 1px 3px lightgray',
+    },
+    cardBody: {
+      paddingTop: '0px',
+    },
+    gridPadding: {
+      padding: '0 1rem',
+    },
+  }))
 
 const DesktopFrame = React.forwardRef(
   (
@@ -85,7 +69,7 @@ const DesktopFrame = React.forwardRef(
     },
     ref
   ) => {
-    const classes = useStyles()
+    const classes = useStyles(selected)()
     const [isFrameCollapse, setIsFrameCollapse] = useState(false)
 
     useEffect(() => {
@@ -93,10 +77,6 @@ const DesktopFrame = React.forwardRef(
     }, [sectionState])
 
     const actionTypes = {
-      // add: {
-      //   icon: AddIcon,
-      //   handler: () => actions.onAdd(),
-      // },
       remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
       moveUp: {
         icon: KeyboardArrowUpIcon,
@@ -111,7 +91,6 @@ const DesktopFrame = React.forwardRef(
             draggableId: otherProps['data-rbd-draggable-id'],
           }),
       },
-      // color: { icon: FormatColorFillIcon, handler: () => {} },
       copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
     }
 
@@ -130,8 +109,8 @@ const DesktopFrame = React.forwardRef(
     return (
       <Fragment>
         <Card
+          className={classes.cardRoot}
           onClick={actions.onSelect}
-          // isSelected={selected}
           onFocus={actions.onSelect}
           onBlur={actions.onDeselect}
           ref={ref}
