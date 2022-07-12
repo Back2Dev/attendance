@@ -47,7 +47,7 @@ export const EditorToolbar = () => {
   const isDnDMode = formContext.layout === 'dnd'
 
   return (
-    <Paper square>
+    <Paper square id="back-to-top-anchor">
       <div className="editorBar">
         <div style={{ display: 'table-cell', width: '33vw' }}>
           {formContext.layout === 'single' ? (

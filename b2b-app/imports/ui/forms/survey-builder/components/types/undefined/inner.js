@@ -23,13 +23,16 @@ import {
   GridInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
-import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import {
+  editPartState,
+  editPartsState,
+} from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Question } from './question'
 
 const options = [
   { label: 'Single', value: 'single', component: SingleInner },
   { label: 'Multiple', value: 'multiple', component: MultipleInner },
-  { label: 'Upload', value: 'upload', component: UploadInner },
+  { label: 'Upload', value: 'upload', component: null },
   { label: 'Text', value: 'text', component: TextInner },
   { label: 'Section', value: 'section', component: null },
   { label: 'Dropdown', value: 'dropdown', component: DropdownInner },
@@ -39,7 +42,7 @@ const options = [
   { label: 'Grid', value: 'grid', component: GridInner },
 ]
 
-const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']
+const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section', 'upload']
 
 const UndefinedInner = ({ pid, type }) => {
   const { add } = useUndefinedAnswers(pid)
@@ -70,6 +73,12 @@ const UndefinedInner = ({ pid, type }) => {
       }
   )
 
+  const updateCanvas = useRecoilCallback(({ set }) => ({ value: type }) => {
+    set(editPartsState({ pid }), (property) => {
+      return { ...property, type }
+    })
+  })
+
   const handleChange = ({ target: { value } }) => {
     setQType(value)
     setPropertyByValue({ pid, value, path: 'type' })
@@ -92,6 +101,11 @@ const UndefinedInner = ({ pid, type }) => {
         },
         path: 'answers[0]',
       })
+    }
+
+    //need to rerender canvas if new section is added
+    if (value === 'section') {
+      updateCanvas({ value })
     }
   }
 

@@ -24,15 +24,26 @@ const log = debug('builder:frame')
 const borderColor = (theme) =>
   theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
 
-const useStyles = (selected) =>
+const useStyles = (selected, color) =>
   makeStyles((theme) => ({
     cardRoot: {
       outlineStyle: 'solid',
       outlineWidth: 1,
       outlineColor: selected ? theme.palette.primary.main : borderColor(theme),
+
+      background: `conic-gradient(from 90deg at top 5px left 5px, #0000 90deg, ${color} 0) 0 0, conic-gradient(from 180deg at top 5px right 5px, #0000 90deg, ${color} 0) 100% 0, conic-gradient(from 0deg at bottom 5px left 5px, #0000 90deg, ${color} 0) 0 100%, conic-gradient(from -90deg at bottom 5px right 5px, #0000 90deg, ${color} 0) 100% 100%`,
+      backgroundSize: '10px',
+      backgroundOrigin: 'border-box',
+      backgroundRepeat: 'no-repeat',
     },
-    hideButton: {
-      display: 'none',
+    collapseIcon: {
+      position: 'absolute',
+      right: 0,
+    },
+    collapseHelperText: {
+      position: 'absolute',
+      left: '15px',
+      color,
     },
     addPartButton: {
       background: 'white',
@@ -54,7 +65,6 @@ const DesktopFrame = React.forwardRef(
       children,
       selected,
       actions,
-      hide = [],
       setSectionState,
       sectionState,
       belongSection,
@@ -65,11 +75,12 @@ const DesktopFrame = React.forwardRef(
       setHeaderOnly,
       type,
       snapshot,
+      color,
       ...otherProps
     },
     ref
   ) => {
-    const classes = useStyles(selected)()
+    const classes = useStyles(selected, color)()
     const [isFrameCollapse, setIsFrameCollapse] = useState(false)
 
     useEffect(() => {
@@ -94,8 +105,8 @@ const DesktopFrame = React.forwardRef(
       copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
     }
 
-    const createActions = (...types) =>
-      types.map((t, i) => (
+    const createActions = (...newActions) =>
+      newActions.map((t, i) => (
         <IconButton
           size="small"
           key={i}
@@ -124,12 +135,14 @@ const DesktopFrame = React.forwardRef(
               position: 'relative',
             }}
           >
+            <h3 className={classes.collapseHelperText}>{isFrameCollapse && type}</h3>
+
             <IconButton aria-label="dragIcon">
               <MenuIcon />
             </IconButton>
             <IconButton
               aria-label="collapse"
-              style={{ position: 'absolute', right: 0 }}
+              className={classes.collapseIcon}
               onClick={() => {
                 if (pid === belongSection) {
                   setSectionState((prev) => ({

@@ -13,7 +13,7 @@ const DesktopLayout = ({ center, right }) => {
         {center}
       </Box>
 
-      {!isFormViewing && (
+      {!isFormViewing && formContext.viewJSON && (
         <Box position="absolute" top="10px" right="10px" height="100%" width="382px">
           {right}
         </Box>

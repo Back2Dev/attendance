@@ -104,7 +104,7 @@ PureFrame.propTypes = {
 const Frame = ({ pid, index, children, ...props }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { removePart, copyPart, addPart } = useParts()
-  const { type } = usePartValue(pid)
+
   const { isMobile, dndMove } = useBuilder()
   const setDrawer = useSetDrawer()
   const theme = useTheme()
@@ -148,7 +148,6 @@ const Frame = ({ pid, index, children, ...props }) => {
           pid={pid}
           index={index}
           setHeaderOnly={setHeaderOnly}
-          type={type}
           snapshot={snapshot}
           {...props}
         >

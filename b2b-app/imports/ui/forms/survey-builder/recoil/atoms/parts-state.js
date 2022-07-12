@@ -1,7 +1,7 @@
 import { atom, selectorFamily, atomFamily } from 'recoil'
 import produce from 'immer'
 import { dataCache } from '../../data-cache'
-import { findById } from '/imports/ui/forms/survey-builder/utils/list'
+// import { findById } from '/imports/ui/forms/survey-builder/utils/list'
 import { get as lget, set as lset } from 'lodash'
 import { makeListItem } from '$sb/utils/list'
 import { makeId } from '$sb/utils/makeId'
@@ -62,7 +62,6 @@ export const partAnswers = selectorFamily({
   set:
     (pid) =>
     ({ get, set }, newValue) => {
-      // const parts = get(partsAtom)
       const part = get(partAtom(pid))
       const nextState = produce(part, (draft) => {
         draft.answers = newValue
@@ -133,12 +132,32 @@ export const editPartState = selectorFamily({
       const nextState = produce(part, (draft) => {
         lset(draft, path, newValue)
       })
-
       set(partAtom(pid), nextState)
-      // set(
-      //   partsAtom,
-      //   parts.map((part) => (part._id === pid ? nextState : part))
-      // )
+    },
+})
+
+//force rerender canvas when new question type is "section" because we need to re-categorise each questions to a specific section
+export const editPartsState = selectorFamily({
+  key: 'editParts',
+  get:
+    ({ pid }) =>
+    ({ get }) => {
+      const part = get(partAtom(pid))
+      return part
+    },
+  set:
+    ({ pid }) =>
+    ({ get, set }, newValue) => {
+      const parts = get(partsAtom)
+      set(
+        partsAtom,
+        parts.map((part) => {
+          if (part._id === pid) {
+            return newValue
+          }
+          return part
+        })
+      )
     },
 })
 
@@ -163,10 +182,6 @@ export const headerOnly = selectorFamily({
       })
 
       set(partAtom(pid), nextState)
-      // set(
-      //   partsAtom,
-      //   parts.map((part) => (part._id === pid ? nextState : part))
-      // )
     },
 })
 
