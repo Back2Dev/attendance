@@ -134,6 +134,7 @@ export default function SideDrawer() {
                       primary={menu.display}
                       className={classes.listItem}
                       disableTypography
+                      data-cy={menu.id}
                     />
                     {open.includes(menu.id) ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
