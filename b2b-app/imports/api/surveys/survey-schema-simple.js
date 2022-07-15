@@ -1,14 +1,17 @@
 import React from 'react'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import DatePicker from '/imports/ui/components/date-field'
+// import DatePicker from '/imports/ui/components/date-field'
 import LookupField from '/imports/ui/components/lookup-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
+import PasswordField from '/imports/ui/components/password-field.js'
+// import PhoneField from '/imports/ui/components/phone-field.js'
 import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
 import RatingField from '/imports/ui/components/rating-field'
 import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
+import DateField from '/imports/ui/components/date-field'
 
 const LongField = (props) => (
   <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
@@ -184,6 +187,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'number') {
                     subSchema[qaId].uniforms.component = NumField
                   }
+
                   if (a.type === 'email')
                     subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
@@ -207,6 +211,14 @@ const getSchemas = (survey, currentData) => {
                     optional,
                     uniforms,
                   }
+                  if (a.confirmPassword) {
+                    step.schema[`${qaId}_2`] = {
+                      type: String,
+                      label: 'Confirm Password',
+                      optional,
+                      uniforms,
+                    }
+                  }
                   if (a.re) {
                     step.schema[qaId].regEx = new RegExp(a.re)
                     step.schema[qaId].custom = checkVolume
@@ -217,14 +229,29 @@ const getSchemas = (survey, currentData) => {
                     step.schema[qaId].uniforms.component = GooglePlaces
                     step.schema[qaId].uniforms.autocompleteBugFix = true
                   }
-                  if (a.type === 'date') {
-                    step.schema[qaId].type = Date
-                    step.schema[qaId].uniforms.margin = 'normal'
-                    step.schema[qaId].uniforms.component = DatePicker
+                  // if (a.type === 'date') {
+                  //   step.schema[qaId].type = Date
+                  //   step.schema[qaId].uniforms.margin = 'normal'
+                  //   step.schema[qaId].uniforms.component = DateField
+                  // }
+
+                  // if (a.type === 'phoneNumber') {
+                  //   step.schema[qaId].uniforms.margin = 'normal'
+                  //   step.schema[qaId].uniforms.component = PhoneField
+                  // }
+
+                  if (a.type === 'password') {
+                    step.schema[qaId].uniforms.type = 'password'
+                    if (a.confirmPassword) {
+                      step.schema[`${qaId}_2`].uniforms.type = 'password'
+                      //todo: confirm password is not working
+                      step.schema[`${qaId}_2`].uniforms.const = { $data: `1/${qaId}` }
+                    }
                   }
 
                   if (a.type === 'email')
                     step.schema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+
                   if (a.type === 'calculated') {
                     step.schema[qaId].optional = false
                     step.schema[qaId].uniforms.expression = a.expression

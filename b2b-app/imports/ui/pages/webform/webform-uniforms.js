@@ -27,16 +27,9 @@ import {
   AutoField,
   AutoForm,
   LongTextField,
-  TextField,
-  RadioField,
-  ListField,
-  SelectField,
   NumField,
-  DateField,
   ErrorField,
-  ErrorsField,
   SubmitField,
-  BoolField,
 } from 'uniforms-material'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import { Context, useForm, useField } from 'uniforms'
@@ -50,6 +43,8 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
+import PhoneField from '/imports/ui/components/phone-field'
+// import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
 import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -146,6 +141,9 @@ const TextQ = ({ q, a }) => {
   const { formData } = React.useContext(WebformContext)
 
   const id = `${q.id}-${a.id}`
+
+  //not sure why multiline with &#10; not work for placeholder
+
   switch (a.type) {
     case 'long':
       return (
@@ -159,14 +157,40 @@ const TextQ = ({ q, a }) => {
         ></LongTextField>
       )
     // TODO: Make this work
-    // case 'date':
-    //   return <DatePicker disabled name={id} id={id} key={id}></DatePicker>
+    case 'date':
+      return <AutoField name={id} id={id} key={id} placeholder={a.name}></AutoField>
     case 'number':
       return (
         <NumField name={id} id={id} key={id} defaultValue={a.defaultValue}></NumField>
       )
     case 'calculated':
       return <span>{a.defaultValue}</span>
+
+    case 'phoneNumber':
+      return <PhoneField name={id} id={id} key={id} placeholder={a.name}></PhoneField>
+
+    case 'password':
+      return (
+        // <PasswordField
+        //   name={id}
+        //   id={id}
+        //   key={id}
+        //   placeholder={a.name}
+        //   confirmPassword={a.confirmPassword}
+        // ></PasswordField>
+        <Fragment>
+          <AutoField name={id} id={id} key={id} placeholder={a.name} />
+          {a.confirmPassword && (
+            <AutoField
+              name={`${id}_2`}
+              id={`${id}_2`}
+              key={`${id}_2`}
+              placeholder={a.name}
+            />
+          )}
+        </Fragment>
+      )
+
     // return (
     //   <TextField
     //     disabled
@@ -178,7 +202,7 @@ const TextQ = ({ q, a }) => {
     //   ></TextField>
     // )
     default:
-      return <AutoField name={id} id={id} key={id} />
+      return <AutoField name={id} id={id} key={id} placeholder={a.name} />
   }
 }
 
@@ -284,7 +308,7 @@ const RenderQ = (q, ix) => {
         <div key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
 
-          <AutoField name={q.id} id={q.id} max={q.answers[0]?.max} />
+          <AutoField name={q.id} id={q.id} max={q.answers[0]?.max || 1} />
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}

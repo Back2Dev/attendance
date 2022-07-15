@@ -118,7 +118,7 @@ const Frame = ({ pid, index, children, ...props }) => {
     }
   }
 
-  const setHeaderOnly = useRecoilCallback(({ set }) => ({ pid, content }) => {
+  const setHeaderOnly = useRecoilCallback(({ set }) => ({ pid }) => {
     set(headerOnly({ pid }), (part) => {
       const _id = part.pid
       return { ...content, _id, pid: _id }

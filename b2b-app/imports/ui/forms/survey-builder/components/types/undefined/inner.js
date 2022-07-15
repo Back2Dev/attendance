@@ -44,6 +44,12 @@ const options = [
 
 const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section', 'upload']
 
+const booleanOptionsType = ['optional', 'confirmPassword']
+
+const checkIsBooleanType = (path) => {
+  return booleanOptionsType.some((opt) => path.includes(opt))
+}
+
 const UndefinedInner = ({ pid, type }) => {
   const { add } = useUndefinedAnswers(pid)
   const selectedPart = useSelectedPartValue()
@@ -65,7 +71,7 @@ const UndefinedInner = ({ pid, type }) => {
             return value
           }
           if (property === undefined) {
-            return path.includes('optional') ? true : ''
+            return checkIsBooleanType(path) ? true : ''
           } else {
             return undefined
           }

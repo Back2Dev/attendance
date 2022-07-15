@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Box, TextField, Grid } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
@@ -7,14 +7,7 @@ import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
-// maxOptions = [
-//   { lable: '5', value: 5 },
-//   { lable: '10', value: 10 },
-//   { lable: '15', value: 15 },
-//   { lable: '20', value: 20 },
-// ]
-
-maxOptions = ['5', '10', '15', '20']
+const maxOptions = Array.from({ length: 10 }, (_, i) => String(i + 1))
 
 const RatingInner = ({ pid, part, setPropertyByValue }) => {
   const selectedPart = useSelectedPartValue()
@@ -49,16 +42,11 @@ const RatingInner = ({ pid, part, setPropertyByValue }) => {
               {item}
             </option>
           ))}
-          {/* {maxOptions.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))} */}
         </TextField>
       </Grid>
       <Grid item xs={6}>
         <Box component="fieldset" mb={3} borderColor="transparent">
-          <Rating name={pid} max={Number(part.answers?.[0]?.max) || 5} readOnly />
+          <Rating name={pid} max={Number(part.answers?.[0]?.max) || 1} readOnly />
         </Box>
       </Grid>
 

@@ -21,6 +21,9 @@ const subType = [
   { label: 'Email', value: 'email' },
   { label: 'Number', value: 'number' },
   { label: 'Date', value: 'date' },
+  { label: 'Password', value: 'password' },
+  { label: 'Address', value: 'address' },
+  { label: 'PhoneNumber', value: 'phoneNumber' },
 ]
 
 const selector = (answer, answerIndex, pid, setPropertyByValue) => (
@@ -51,7 +54,28 @@ const selector = (answer, answerIndex, pid, setPropertyByValue) => (
   </Grid>
 )
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
+const getOptions = (textType) => {
+  const getExtra = () => {
+    switch (textType) {
+      case 'password':
+        return [{ value: 'confirmPassword', label: 'Confirm Password' }]
+      default:
+        return []
+    }
+  }
+
+  return [...textOptions, ...getExtra()]
+}
+
+const filterList = [
+  'name',
+  'type',
+  'image',
+  'answers',
+  'pid',
+  'optional',
+  'confirmPassword',
+]
 
 const TextInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
@@ -107,7 +131,7 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                         part={part}
                         isIdChecked={isIdChecked}
                         setIsIdChecked={setIsIdChecked}
-                        options={textOptions}
+                        options={getOptions(answer.type)}
                         type={'text'}
                         helperText={answer.optional ?? undefined}
                         children={selector(answer, answerIndex, pid, setPropertyByValue)}
