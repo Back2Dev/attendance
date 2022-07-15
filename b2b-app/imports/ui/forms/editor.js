@@ -29,7 +29,7 @@ const Editor = withTracker((props) => {
   history = props.history
   const id = props.match.params.id
   const subsHandle = Meteor.subscribe('id.forms', id)
-  const item = Forms.findOne(id) || {}
+  const item = Forms.findOne({ $or: [{ _id: id }, { slug: id }] }) || {}
   return {
     id,
     item,
