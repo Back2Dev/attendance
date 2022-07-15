@@ -11,7 +11,7 @@ Meteor.publish('all.forms', () => {
 
 Meteor.publish('id.forms', (id) => {
   return [
-    Forms.find(id),
+    Forms.find({ $or: [{ _id: id }, { slug: id }] }),
     /* Commented out related publications (if any) - best to add these in manually as required
      
     */
