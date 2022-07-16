@@ -4,7 +4,7 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 // import DatePicker from '/imports/ui/components/date-field'
 import LookupField from '/imports/ui/components/lookup-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
-import PasswordField from '/imports/ui/components/password-field.js'
+
 // import PhoneField from '/imports/ui/components/phone-field.js'
 import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
 import RatingField from '/imports/ui/components/rating-field'
@@ -12,6 +12,7 @@ import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
 import DateField from '/imports/ui/components/date-field'
+import PasswordField from '/imports/ui/components/password-field'
 
 const LongField = (props) => (
   <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
@@ -242,10 +243,15 @@ const getSchemas = (survey, currentData) => {
 
                   if (a.type === 'password') {
                     step.schema[qaId].uniforms.type = 'password'
+                    step.schema[qaId].uniforms.component = PasswordField
                     if (a.confirmPassword) {
                       step.schema[`${qaId}_2`].uniforms.type = 'password'
-                      //todo: confirm password is not working
-                      step.schema[`${qaId}_2`].uniforms.const = { $data: `1/${qaId}` }
+                      step.schema[`${qaId}_2`].uniforms.component = PasswordField
+                      step.schema[`${qaId}_2`].custom = function () {
+                        if (this.value !== this.siblingField(qaId).value) {
+                          return 'passwordMismatch'
+                        }
+                      }
                     }
                   }
 
@@ -456,6 +462,7 @@ const getSchemas = (survey, currentData) => {
           })
         }
         debug('schema', step.schema)
+        console.log('step.schema', step)
 
         step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))
         return step

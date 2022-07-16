@@ -44,7 +44,7 @@ import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
 import PhoneField from '/imports/ui/components/phone-field'
-// import PasswordField from '/imports/ui/components/password-field'
+import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
 import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -171,22 +171,21 @@ const TextQ = ({ q, a }) => {
 
     case 'password':
       return (
-        // <PasswordField
-        //   name={id}
-        //   id={id}
-        //   key={id}
-        //   placeholder={a.name}
-        //   confirmPassword={a.confirmPassword}
-        // ></PasswordField>
         <Fragment>
           <AutoField name={id} id={id} key={id} placeholder={a.name} />
+          <ErrorField name={id} id={id} />
           {a.confirmPassword && (
-            <AutoField
-              name={`${id}_2`}
-              id={`${id}_2`}
-              key={`${id}_2`}
-              placeholder={a.name}
-            />
+            <Fragment>
+              <AutoField
+                name={`${id}_2`}
+                id={`${id}_2`}
+                key={`${id}_2`}
+                placeholder={a.name}
+              />
+              <ErrorField name={`${id}_2`} id={`${id}_2`}>
+                Password inconsistent
+              </ErrorField>
+            </Fragment>
           )}
         </Fragment>
       )
