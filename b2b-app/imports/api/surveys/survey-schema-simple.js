@@ -1,12 +1,9 @@
 import React from 'react'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-// import DatePicker from '/imports/ui/components/date-field'
 import LookupField from '/imports/ui/components/lookup-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
-
-// import PhoneField from '/imports/ui/components/phone-field.js'
-import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
+import RadioImageField from '/imports/ui/components/radio-image-field'
 import RatingField from '/imports/ui/components/rating-field'
 import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
@@ -295,8 +292,8 @@ const getSchemas = (survey, currentData) => {
                 // )
                 break
               case 'single':
-                qSchema.uniforms.checkboxes = 'true'
-                qSchema.uniforms.component = RadioFieldWithImage
+                // qSchema.uniforms.checkboxes = 'true'
+                qSchema.uniforms.component = RadioImageField
                 qSchema.uniforms.options = answers.map((a) => {
                   return { label: a.name, value: a.value || a.id, image: a.image }
                 })
