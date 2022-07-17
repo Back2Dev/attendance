@@ -13,6 +13,7 @@ import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
 import DateField from '/imports/ui/components/date-field'
 import PasswordField from '/imports/ui/components/password-field'
+import { UploadField } from '/imports/ui/components/upload-field'
 
 const LongField = (props) => (
   <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
@@ -384,8 +385,8 @@ const getSchemas = (survey, currentData) => {
               //   break
 
               case 'upload':
-                qSchema.uniforms.value = answers.map((a) => a.val)
-                qSchema.uniforms.component = ImageField
+                // qSchema.uniforms.value = answers.map((a) => a.val)
+                qSchema.uniforms.component = UploadField
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 
                 answers

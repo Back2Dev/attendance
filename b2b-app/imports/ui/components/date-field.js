@@ -63,12 +63,12 @@ import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import { connectField } from 'uniforms'
 
-const DateField = ({ placeholder, id }) => {
-  const [selectedDate, setSelectedDate] = React.useState()
+const DateField = ({ placeholder, id, value, onChange }) => {
+  // const [selectedDate, setSelectedDate] = React.useState()
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date)
-  }
+  // const handleDateChange = (date) => {
+  //   setSelectedDate(date)
+  // }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -77,8 +77,8 @@ const DateField = ({ placeholder, id }) => {
         id={id}
         label={placeholder}
         format="MM/dd/yyyy"
-        value={selectedDate}
-        onChange={handleDateChange}
+        value={value}
+        onChange={onChange}
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}

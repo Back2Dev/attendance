@@ -32,7 +32,7 @@ import { Question } from './question'
 const options = [
   { label: 'Single', value: 'single', component: SingleInner },
   { label: 'Multiple', value: 'multiple', component: MultipleInner },
-  { label: 'Upload', value: 'upload', component: null },
+  { label: 'Upload', value: 'upload', component: UploadInner },
   { label: 'Text', value: 'text', component: TextInner },
   { label: 'Section', value: 'section', component: null },
   { label: 'Dropdown', value: 'dropdown', component: DropdownInner },
@@ -42,7 +42,7 @@ const options = [
   { label: 'Grid', value: 'grid', component: GridInner },
 ]
 
-const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section', 'upload']
+const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']
 
 const booleanOptionsType = ['optional', 'confirmPassword']
 

@@ -451,7 +451,12 @@ const RenderQ = (q, ix) => {
         <span key={key} className="q-container">
           <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
           {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
-          <DropZone />
+          <AutoField
+            name={q.id}
+            id={q.id}
+            maxSize={q.answers[0].maxSize}
+            accept={q.answers[0].accept}
+          />
         </span>
       )
 
