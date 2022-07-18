@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
-import { Button, Paper, Typography, Grid } from '@material-ui/core'
+import { Button, Paper, Typography } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
-import CardMedia from '@material-ui/core/CardMedia'
+// import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
-import CardActions from '@material-ui/core/CardActions'
+// import CardActions from '@material-ui/core/CardActions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import './signature.css'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: { borderTop: '1px solid #eee', marginBottom: '10px' },
   mobile: {
     marginTop: '10px',
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default Sign = ({ title, subheader, showPreview = false }) => {
+export default Sign = ({ title, subheader, showPreview = false, header }) => {
   const [dataURL, setDataURL] = React.useState(null)
   const sigRef = React.useRef()
   const classes = useStyles()
@@ -44,7 +44,7 @@ export default Sign = ({ title, subheader, showPreview = false }) => {
   const clear = () => {
     sigRef.current && sigRef.current.clear()
   }
-  const updateURL = () => {}
+  // const updateURL = () => {}
 
   return (
     <div>
@@ -53,7 +53,11 @@ export default Sign = ({ title, subheader, showPreview = false }) => {
           className={classes.header}
           titleTypographyProps={{ variant: 'body1' }}
           title={title}
-          subheader={subheader}
+          subheader={
+            <Fragment>
+              <p>{header}</p> <p>{subheader}</p>{' '}
+            </Fragment>
+          }
           action={
             <Button onClick={clear} className={classes.clearBtn} type="button">
               X

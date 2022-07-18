@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   header: {},
 }))
 
-const Geolocation = ({ title, subheader, id }) => {
+const Geolocation = ({ title, subheader, id, header }) => {
   const [lat, setLat] = useState(null)
   const [lng, setLng] = useState(null)
   const [status, setStatus] = useState(null)
@@ -59,7 +59,12 @@ const Geolocation = ({ title, subheader, id }) => {
           className={classes.header}
           titleTypographyProps={{ variant: 'body1' }}
           title={title}
-          subheader={subheader}
+          subheader={
+            <Fragment>
+              {' '}
+              <p>{header}</p> <p>{subheader}</p>
+            </Fragment>
+          }
           action={<button onClick={getLocation}>Get Location</button>}
         />
         <CardContent>

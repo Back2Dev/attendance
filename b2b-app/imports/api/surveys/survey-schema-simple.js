@@ -270,7 +270,7 @@ const getSchemas = (survey, currentData) => {
                 answers.forEach((a) => {
                   const id = `${q.id}-${a.id}`
                   const uniforms = {}
-                  const optional = getOptionalFunc(q, uniforms, true)
+                  const optional = getOptionalFunc(q, uniforms, !!q.optional)
                   step.schema[id] = {
                     type: Boolean,
                     label: a.name,
@@ -283,11 +283,11 @@ const getSchemas = (survey, currentData) => {
                   .map((a) => {
                     const specifyId = `${q.id}-${a.id}-specify`
                     const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    // const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
                     step.schema[specifyId] = {
                       type: String,
                       label: a.specify,
-                      optional,
+                      // optional,
                       uniforms,
                     }
                     return specifyId
@@ -300,9 +300,10 @@ const getSchemas = (survey, currentData) => {
                 qSchema.uniforms.options = answers.map((a) => {
                   return { label: a.name, value: a.value || a.id, image: a.image }
                 })
-
+                let optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
                 qSchema.label = q.prompt
-                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+                // qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+                qSchema.uniforms.required = !optional
                 // debug(`${q.id} optional`, qSchema.optional)
 
                 answers
@@ -434,6 +435,8 @@ const getSchemas = (survey, currentData) => {
                 qSchema.uniforms.component = LookupField
                 break
               case 'dropdown':
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+                qSchema.label = ''
                 // Nothing to do, just accept it as is ??
                 break
               case 'upload':

@@ -228,7 +228,7 @@ const TextQ = ({ q, a }) => {
   }
 }
 
-const Prompt = ({ text, tooltip, description }) => {
+const Prompt = ({ text, tooltip, description, header }) => {
   let prompt = ''
   if (text) {
     const p = text.replace(/\n/g, '<br />')
@@ -240,6 +240,7 @@ const Prompt = ({ text, tooltip, description }) => {
     <div>
       {/* <>{prompt}</> */}
       <FormLabel component="legend">{prompt}</FormLabel>
+      <h4>{header ?? ''}</h4>
       {desc && <p>{desc}</p>}
       {tooltip && <i>{html2r(tooltip)}</i>}
     </div>
@@ -247,7 +248,6 @@ const Prompt = ({ text, tooltip, description }) => {
 }
 const RenderQ = (q, ix) => {
   const { formData } = React.useContext(WebformContext)
-
   const key = `q${q.id}${ix}`
   switch (q.type) {
     // case 'array':
@@ -271,7 +271,12 @@ const RenderQ = (q, ix) => {
     case 'text':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
@@ -291,7 +296,12 @@ const RenderQ = (q, ix) => {
     case 'multiple':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
@@ -310,9 +320,15 @@ const RenderQ = (q, ix) => {
     case 'single':
       return (
         <div key={key} className="q-container">
-          <span>
-            <AutoField name={q.id} id={q.id} required={q.optional} />
-          </span>
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
+
+          <AutoField name={q.id} id={q.id} required={q.optional} />
+
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -327,7 +343,12 @@ const RenderQ = (q, ix) => {
     case 'rating':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
 
           <AutoField name={q.id} id={q.id} max={q.answers[0]?.max || 1} />
 
@@ -346,7 +367,12 @@ const RenderQ = (q, ix) => {
     case 'grid':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
 
           <AutoField name={q.id} id={q.id} data={q.answers[0]} />
 
@@ -369,10 +395,17 @@ const RenderQ = (q, ix) => {
       }))
       return (
         <div key={key} className="q-container">
-          <span>
-            <AutoField name={q.id} id={q.id} options={options} />
-          </span>
-          <ErrorField name={q.id} id={q.id} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
+          <AutoField name={q.id} id={q.id} options={options} />
+
+          <ErrorField name={q.id} id={q.id}>
+            Please select!
+          </ErrorField>
           {Specifiers(q)}
           {getAnswers(formData, q.answers).map((a, iy) => {
             return (
@@ -387,7 +420,12 @@ const RenderQ = (q, ix) => {
     case 'lookup':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
           <span>
             <AutoField name={q.id} id={q.id} />
           </span>
@@ -436,7 +474,12 @@ const RenderQ = (q, ix) => {
     case 'paragraph':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
           {q.image && <img src={q.image} width="75px" height="75px" />}
         </span>
       )
@@ -445,7 +488,13 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
-          <Signature title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
+          <Signature
+            title={q.prompt}
+            subheader={q.tooltip}
+            name={q.id}
+            id={q.id}
+            header={q.header}
+          />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>
@@ -455,7 +504,13 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
-          <Geolocation title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
+          <Geolocation
+            title={q.prompt}
+            subheader={q.tooltip}
+            name={q.id}
+            id={q.id}
+            header={q.header}
+          />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>
@@ -471,7 +526,12 @@ const RenderQ = (q, ix) => {
     case 'upload':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
           {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
           <AutoField
             name={q.id}
@@ -485,7 +545,12 @@ const RenderQ = (q, ix) => {
     default:
       return q.type ? (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
           <AutoField name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
@@ -756,6 +821,7 @@ const Progress = ({
                 <StepLabel className={classes.steplabel} data-cy={`step-${step.id}`}>
                   {step.name}
                 </StepLabel>
+                <h4>{step.header ?? ''}</h4>
                 <StepContent>
                   <Card key={step.id} variant="outlined">
                     <CardContent>
