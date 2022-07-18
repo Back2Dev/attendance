@@ -158,7 +158,14 @@ const TextQ = ({ q, a }) => {
       )
     // TODO: Make this work
     case 'date':
-      return <AutoField name={id} id={id} key={id} placeholder={a.name}></AutoField>
+      return (
+        <Fragment>
+          <AutoField name={id} id={id} key={id} placeholder={a.name}></AutoField>
+          <ErrorField name={id} id={id}>
+            Date is required or is invalid
+          </ErrorField>
+        </Fragment>
+      )
     case 'number':
       return (
         <NumField name={id} id={id} key={id} defaultValue={a.defaultValue}></NumField>
@@ -167,23 +174,39 @@ const TextQ = ({ q, a }) => {
       return <span>{a.defaultValue}</span>
 
     case 'phoneNumber':
-      return <PhoneField name={id} id={id} key={id} placeholder={a.name}></PhoneField>
+      return (
+        <Fragment>
+          <PhoneField
+            name={id}
+            id={id}
+            key={id}
+            placeholder={a.name}
+            required={!a.optional}
+          ></PhoneField>
+          <ErrorField name={id} id={id}>
+            Phone Number is required or is invalid
+          </ErrorField>
+        </Fragment>
+      )
 
     case 'password':
       return (
         <Fragment>
-          <AutoField name={id} id={id} key={id} placeholder={a.name} />
-          <ErrorField name={id} id={id} />
+          <AutoField name={id} id={id} key={id} placeholder={a.name} label="Password" />
+          <ErrorField name={id} id={id}>
+            Password is required or is invalid
+          </ErrorField>
           {a.confirmPassword && (
             <Fragment>
               <AutoField
                 name={`${id}_2`}
                 id={`${id}_2`}
                 key={`${id}_2`}
-                placeholder={a.name}
+                label={'Confirm Password'}
+                placeholder={'Confirm Password'}
               />
               <ErrorField name={`${id}_2`} id={`${id}_2`}>
-                Password inconsistent
+                Confirm Password is required or is inconsistent
               </ErrorField>
             </Fragment>
           )}
@@ -226,7 +249,6 @@ const RenderQ = (q, ix) => {
   const { formData } = React.useContext(WebformContext)
 
   const key = `q${q.id}${ix}`
-
   switch (q.type) {
     // case 'array':
     //   return (
@@ -257,9 +279,9 @@ const RenderQ = (q, ix) => {
               <span key={iy}>
                 {TextQ({ q, a })}
                 {a.image && <img src={a.image} width="75px" height="75px" />}
-                <ErrorField name={id} id={id}>
+                {/* <ErrorField name={id} id={id}>
                   {a.name || 'This'} is required
-                </ErrorField>
+                </ErrorField> */}
                 <NoteIf note={a.note} field={id}></NoteIf>
               </span>
             )

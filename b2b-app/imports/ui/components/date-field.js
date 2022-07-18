@@ -63,16 +63,11 @@ import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import { connectField } from 'uniforms'
 
-const DateField = ({ placeholder, id, value, onChange }) => {
-  // const [selectedDate, setSelectedDate] = React.useState()
-
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date)
-  // }
-
+const DateField = ({ placeholder, id, value, onChange, required }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
+        required={required}
         margin="normal"
         id={id}
         label={placeholder}

@@ -6,7 +6,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { connectField } from 'uniforms'
 
-const PasswordField = ({ id, placeholder, onChange, value }) => {
+const PasswordField = ({ id, placeholder, onChange, value, label, required }) => {
   const [hide, setHide] = useState(true)
   const toggle = () => setHide((prev) => !prev)
 
@@ -18,6 +18,8 @@ const PasswordField = ({ id, placeholder, onChange, value }) => {
     <Box>
       <Box marginTop="16px">
         <TextField
+          required={required}
+          label={label}
           id={id}
           type={hide ? 'password' : 'text'}
           fullWidth

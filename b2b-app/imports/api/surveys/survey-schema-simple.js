@@ -200,7 +200,7 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 answers.forEach((a) => {
                   const qaId = `${q.id}-${a.id}`
-                  let optional = !!a.optional
+                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
                   const uniforms = {}
                   optional = getOptionalFunc(q, uniforms, optional)
 
@@ -227,12 +227,14 @@ const getSchemas = (survey, currentData) => {
                     step.schema[qaId].uniforms.margin = 'normal'
                     step.schema[qaId].uniforms.component = GooglePlaces
                     step.schema[qaId].uniforms.autocompleteBugFix = true
+                    step.schema[qaId].uniforms.required = !optional
                   }
-                  // if (a.type === 'date') {
-                  //   step.schema[qaId].type = Date
-                  //   step.schema[qaId].uniforms.margin = 'normal'
-                  //   step.schema[qaId].uniforms.component = DateField
-                  // }
+                  if (a.type === 'date') {
+                    // step.schema[qaId].type = Date
+                    // step.schema[qaId].uniforms.margin = 'normal'
+                    step.schema[qaId].uniforms.required = !optional
+                    step.schema[qaId].uniforms.component = DateField
+                  }
 
                   // if (a.type === 'phoneNumber') {
                   //   step.schema[qaId].uniforms.margin = 'normal'
@@ -242,6 +244,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'password') {
                     step.schema[qaId].uniforms.type = 'password'
                     step.schema[qaId].uniforms.component = PasswordField
+                    step.schema[qaId].uniforms.required = !optional
                     if (a.confirmPassword) {
                       step.schema[`${qaId}_2`].uniforms.type = 'password'
                       step.schema[`${qaId}_2`].uniforms.component = PasswordField
@@ -460,8 +463,6 @@ const getSchemas = (survey, currentData) => {
           })
         }
         debug('schema', step.schema)
-        console.log('step.schema', step)
-
         step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))
         return step
       })
