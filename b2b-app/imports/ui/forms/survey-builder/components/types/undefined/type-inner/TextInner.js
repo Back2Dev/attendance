@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid, TextField } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
@@ -13,7 +13,6 @@ import { useTheme } from '@material-ui/core/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const subType = [
   { label: 'Short', value: 'text' },
@@ -67,6 +66,19 @@ const getOptions = (textType) => {
   return [...textOptions, ...getExtra()]
 }
 
+const booleanField = ['optional', 'confirmPassword']
+
+const getHelperText = (answer) => {
+  const hasBoolean = Object.entries(answer).filter(
+    ([key, value]) => value && booleanField.includes(key)
+  )
+
+  if (!hasBoolean.length) return undefined
+  const helperText = hasBoolean.map(([key]) => key).join(', ')
+
+  return helperText
+}
+
 const filterList = [
   'name',
   'type',
@@ -92,7 +104,6 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
       background: theme.palette.background.paper,
     }
   }
-  const [isIdChecked, setIsIdChecked] = useState({})
 
   return (
     <div>
@@ -107,9 +118,9 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
               return (
                 <DndDraggable
                   pid={pid}
-                  itemId={answer.id || answer._id}
+                  itemId={`${pid}_${answerIndex}`}
                   index={answerIndex}
-                  key={answer.id || answer._id || `${pid}_${answerIndex}`}
+                  key={`${pid}_${answerIndex}`}
                 >
                   {(provided, snapshot, lockAxis) => (
                     <div
@@ -129,11 +140,10 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                         answerIndex={answerIndex}
                         showMobileActions={showMobileActions}
                         part={part}
-                        isIdChecked={isIdChecked}
-                        setIsIdChecked={setIsIdChecked}
+                        pid_index={`${pid}_${answerIndex}`}
                         options={getOptions(answer.type)}
                         type={'text'}
-                        helperText={answer.optional ?? undefined}
+                        helperText={getHelperText(answer)}
                         children={selector(answer, answerIndex, pid, setPropertyByValue)}
                       />
 
@@ -143,8 +153,7 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                             part={part.answers[answerIndex]}
                             filterList={[...filterList]}
                             setPropertyByValue={setPropertyByValue}
-                            isIdChecked={isIdChecked}
-                            setIsIdChecked={setIsIdChecked}
+                            pid_index={`${pid}_${answerIndex}`}
                             showMobileActions={showMobileActions}
                             pid={pid}
                             path={`answers[${answerIndex}]`}

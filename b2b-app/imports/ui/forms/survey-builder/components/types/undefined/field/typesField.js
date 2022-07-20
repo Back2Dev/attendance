@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from '../field'
-// import PropTypes from 'prop-types'
+import { useRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
@@ -8,6 +8,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { questionOptions } from '$sb/components/types/undefined/field/options'
+import { IdAtom } from '$sb/recoil/atoms'
 
 const useStyles = makeStyles(() => ({
   gridRoot: {
@@ -33,11 +34,10 @@ const getLabelFromKey = (key) => {
 export const QuestionField = ({
   fieldKey,
   pid,
-  isIdChecked,
-  setIsIdChecked,
   setPropertyByValue,
   helperText,
   part,
+  ...props
 }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -70,11 +70,10 @@ export const QuestionField = ({
             pid,
           })
         }
-        isIdChecked={isIdChecked}
-        setIsIdChecked={setIsIdChecked}
         options={questionOptions}
         part={part}
         underline={true}
+        {...props}
       />
     </Grid>
   )
@@ -84,55 +83,32 @@ export const OptionField = ({
   filterList,
   part,
   setPropertyByValue,
-  isIdChecked,
-  setIsIdChecked,
+  pid_index,
   showMobileActions,
   pid,
   path,
 }) => {
   const ID = part['id'] ? 'id' : '_id'
   const classes = useStyles()
+  const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
 
   return Object.entries(part)
     .filter(([key, value]) => !filterList.includes(key) && value !== undefined)
     .map(([key, value]) => {
       const isID = key === ID
-
-      const showField = () => {
-        if (!isID) {
-          return true
-        }
-
-        if (isID && isIdChecked[ID]) {
-          return true
-        }
-
-        if (isID && isIdChecked[path]) {
-          return true
-        }
-
-        return false
+      const getStyle = () => {
+        if (isID && !showId) return { display: 'none' }
+        else return {}
       }
 
       return (
         <div className={classes.gridRoot} key={key}>
-          <Grid
-            container
-            spacing={1}
-            alignItems="flex-end"
-            style={showField() ? {} : { display: 'none' }}
-          >
-            {/* <Grid item style={{ visibility: 'hidden' }}>
-              <RadioButtonUncheckedIcon />
-            </Grid> */}
+          <Grid container spacing={1} alignItems="flex-end" style={getStyle()}>
             <Grid item style={{ marginLeft: '32px' }}>
               <Field
                 onDeleteOption={() => {
                   if (isID) {
-                    return setIsIdChecked((prev) => ({
-                      ...prev,
-                      [path ?? key]: false,
-                    }))
+                    return setShowId(!showId)
                   }
 
                   setPropertyByValue({ path: path ? `${path}.${key}` : key, pid })
@@ -168,12 +144,10 @@ export const AnswerField = ({
   answerIndex,
   showMobileActions,
   part,
-  isIdChecked,
-  setIsIdChecked,
   options,
-  helperText,
   type,
   children,
+  ...props
 }) => {
   const classes = useStyles()
 
@@ -224,14 +198,11 @@ export const AnswerField = ({
             placeholder={'Type your answer...'}
             actions={['add', 'remove']}
             part={part}
-            isIdChecked={isIdChecked}
-            setIsIdChecked={setIsIdChecked}
             path={`answers[${answerIndex}]`}
             showMore={true}
             showUploadImage={true}
             options={options}
             fieldID={`${pid}_answer_${answerIndex}`}
-            helperText={helperText}
             onKeyDown={(e) => {
               if (e.key === 'Tab') {
                 e.preventDefault()
@@ -245,6 +216,7 @@ export const AnswerField = ({
                 )
               }
             }}
+            {...props}
           />
         </Grid>
 
@@ -265,21 +237,16 @@ export const GridField = ({
   dataIndex,
   showMobileActions,
   part,
-  isIdChecked,
-  setIsIdChecked,
   options,
   // helperText,
   type,
-  // children,
+  ...props
 }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
-        {/* <Grid item>
-          <RadioButtonUncheckedIcon style={{ visibility: 'hidden' }} />
-        </Grid> */}
         <Grid item xs={11} style={{ marginLeft: '32px' }}>
           <Field
             underline={underline}
@@ -307,8 +274,6 @@ export const GridField = ({
             placeholder={`Type ${type} name...`}
             actions={['add', 'remove']}
             part={part}
-            isIdChecked={isIdChecked}
-            setIsIdChecked={setIsIdChecked}
             path={`answers[0].${type}s[${dataIndex}]`}
             showMore={true}
             showUploadImage={false}
@@ -327,6 +292,7 @@ export const GridField = ({
                 )
               }
             }}
+            {...props}
           />
         </Grid>
       </Grid>

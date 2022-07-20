@@ -87,7 +87,7 @@ const Field = ({
       placeholder={placeholder}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      helperText={helperText ? 'optional' : null}
+      helperText={helperText}
       onFocus={(e) => e.preventDefault()}
       InputProps={{
         classes: {

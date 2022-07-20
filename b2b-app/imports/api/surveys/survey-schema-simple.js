@@ -437,6 +437,7 @@ const getSchemas = (survey, currentData) => {
               case 'dropdown':
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
                 qSchema.label = ''
+                // qSchema.uniforms.textFieldProps = { helperText: 'this is a helper' }
                 // Nothing to do, just accept it as is ??
                 break
               case 'upload':

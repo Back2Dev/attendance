@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
@@ -32,7 +32,6 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [isIdChecked, setIsIdChecked] = useState({})
 
   const getStyle = (style, snapshot, lockAxis) => {
     if (!snapshot.isDragging) return style
@@ -63,9 +62,9 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                     return (
                       <DndDraggable
                         pid={pid}
-                        itemId={column._id || column.id}
+                        itemId={`column_${pid}_${columnIndex}`}
                         index={columnIndex}
-                        key={column._id || column.id}
+                        key={`column_${pid}_${columnIndex}`}
                       >
                         {(provided, snapshot, lockAxis) => (
                           <div
@@ -88,8 +87,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                               dataIndex={columnIndex}
                               showMobileActions={showMobileActions}
                               part={part}
-                              isIdChecked={isIdChecked}
-                              setIsIdChecked={setIsIdChecked}
+                              pid_index={`column_${pid}_${index}`}
                               options={gridColumnOptions}
                               type={'column'}
                               // helperText={answer.optional ?? undefined}
@@ -100,8 +98,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                                   part={part.answers[0]?.columns[columnIndex]}
                                   filterList={[...filterList]}
                                   setPropertyByValue={setPropertyByValue}
-                                  isIdChecked={isIdChecked}
-                                  setIsIdChecked={setIsIdChecked}
+                                  pid_index={`column_${pid}_${index}`}
                                   showMobileActions={showMobileActions}
                                   pid={pid}
                                   path={`answers[0].columns[${columnIndex}]`}
@@ -132,9 +129,9 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                   return (
                     <DndDraggable
                       pid={pid}
-                      itemId={row._id || row.id}
+                      itemId={`row_${pid}_${rowIndex}`}
                       index={rowIndex}
-                      key={row._id || row.id}
+                      key={`row_${pid}_${rowIndex}`}
                     >
                       {(provided, snapshot, lockAxis) => (
                         <div
@@ -157,8 +154,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                             dataIndex={rowIndex}
                             showMobileActions={showMobileActions}
                             part={part}
-                            isIdChecked={isIdChecked}
-                            setIsIdChecked={setIsIdChecked}
+                            pid_index={`row_${pid}_${rowIndex}`}
                             options={[]}
                             type={'row'}
                             // helperText={answer.optional ?? undefined}
@@ -169,8 +165,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                                 part={part.answers[0]?.rows[rowIndex]}
                                 filterList={[...filterList]}
                                 setPropertyByValue={setPropertyByValue}
-                                isIdChecked={isIdChecked}
-                                setIsIdChecked={setIsIdChecked}
+                                pid_index={`row_${pid}_${rowIndex}`}
                                 showMobileActions={showMobileActions}
                                 pid={pid}
                                 path={`answers[0].rows[${rowIndex}]`}

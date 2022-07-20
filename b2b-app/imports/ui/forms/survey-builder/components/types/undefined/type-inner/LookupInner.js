@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid, TextField } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
@@ -74,7 +74,6 @@ const LookupInner = ({ pid, part, setPropertyByValue }) => {
       background: theme.palette.background.paper,
     }
   }
-  const [isIdChecked, setIsIdChecked] = useState({})
 
   return (
     <div>
@@ -89,9 +88,9 @@ const LookupInner = ({ pid, part, setPropertyByValue }) => {
               return (
                 <DndDraggable
                   pid={pid}
-                  itemId={answer.id || answer._id}
+                  itemId={`${pid}_${answerIndex}`}
                   index={answerIndex}
-                  key={answer.id || answer._id || `${pid}_${answerIndex}`}
+                  key={`${pid}_${answerIndex}`}
                 >
                   {(provided, snapshot, lockAxis) => (
                     <div
@@ -111,8 +110,7 @@ const LookupInner = ({ pid, part, setPropertyByValue }) => {
                         answerIndex={answerIndex}
                         showMobileActions={showMobileActions}
                         part={part}
-                        isIdChecked={isIdChecked}
-                        setIsIdChecked={setIsIdChecked}
+                        pid_index={`${pid}_${answerIndex}`}
                         options={textOptions}
                         type={'text'}
                         helperText={answer.optional ?? undefined}
@@ -130,8 +128,7 @@ const LookupInner = ({ pid, part, setPropertyByValue }) => {
                             part={part.answers[answerIndex]}
                             filterList={[...filterList]}
                             setPropertyByValue={setPropertyByValue}
-                            isIdChecked={isIdChecked}
-                            setIsIdChecked={setIsIdChecked}
+                            pid_index={`${pid}_${answerIndex}`}
                             showMobileActions={showMobileActions}
                             pid={pid}
                             path={`answers[${answerIndex}]`}

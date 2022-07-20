@@ -22,7 +22,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [isIdChecked, setIsIdChecked] = useState({})
+  // const [isIdChecked, setIsIdChecked] = useState({})
 
   const getStyle = (style, snapshot, lockAxis) => {
     if (!snapshot.isDragging) return style
@@ -48,9 +48,11 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
               return (
                 <DndDraggable
                   pid={pid}
-                  itemId={answer.id || answer._id}
+                  // itemId={answer.id || answer._id}
+                  itemId={`${pid}_${answerIndex}`}
                   index={answerIndex}
-                  key={answer.id || answer._id || `${pid}_${answerIndex}`}
+                  // key={answer.id || answer._id || `${pid}_${answerIndex}`}
+                  key={`${pid}_${answerIndex}`}
                 >
                   {(provided, snapshot, lockAxis) => (
                     <div
@@ -69,8 +71,9 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                         answerIndex={answerIndex}
                         showMobileActions={showMobileActions}
                         part={part}
-                        isIdChecked={isIdChecked}
-                        setIsIdChecked={setIsIdChecked}
+                        pid_index={`${pid}_${answerIndex}`}
+                        // isIdChecked={isIdChecked}
+                        // setIsIdChecked={setIsIdChecked}
                         options={singleOptions}
                         type={'single'}
                         helperText={answer.optional ?? undefined}
@@ -81,8 +84,9 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                             part={part.answers[answerIndex]}
                             filterList={[...filterList]}
                             setPropertyByValue={setPropertyByValue}
-                            isIdChecked={isIdChecked}
-                            setIsIdChecked={setIsIdChecked}
+                            // isIdChecked={isIdChecked}
+                            // setIsIdChecked={setIsIdChecked}
+                            pid_index={`${pid}_${answerIndex}`}
                             showMobileActions={showMobileActions}
                             pid={pid}
                             path={`answers[${answerIndex}]`}

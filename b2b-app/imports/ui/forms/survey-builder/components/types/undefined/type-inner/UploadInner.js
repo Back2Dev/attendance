@@ -1,18 +1,8 @@
 import React from 'react'
 import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
-import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import PropTypes from 'prop-types'
 
-// const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
-
 const UploadInner = ({ pid, part, setPropertyByValue }) => {
-  // const classes = useStyles()
-  // const { add, remove } = usePartAnswers(pid)
-  // const selectedPart = useSelectedPartValue()
-  // const { isMobile } = useBuilder()
-  // const showMobileActions = isMobile && selectedPart === pid
-  // const theme = useTheme()
   const onChangeAccept = (fileType, checked) => {
     setPropertyByValue({
       path: 'answers[0].accept',

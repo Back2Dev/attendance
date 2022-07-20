@@ -31,7 +31,7 @@ const DropdownInner = ({ pid, part, setPropertyByValue }) => {
       background: theme.palette.background.paper,
     }
   }
-  const [isIdChecked, setIsIdChecked] = useState({})
+  // const [isIdChecked, setIsIdChecked] = useState({})
 
   return (
     <div>
@@ -46,9 +46,9 @@ const DropdownInner = ({ pid, part, setPropertyByValue }) => {
               return (
                 <DndDraggable
                   pid={pid}
-                  itemId={answer.id || answer._id}
+                  itemId={`{pid}_${answerIndex}`}
                   index={answerIndex}
-                  key={answer.id || answer._id || `${pid}_${answerIndex}`}
+                  key={`${pid}_${answerIndex}`}
                 >
                   {(provided, snapshot, lockAxis) => (
                     <div
@@ -68,8 +68,9 @@ const DropdownInner = ({ pid, part, setPropertyByValue }) => {
                         answerIndex={answerIndex}
                         showMobileActions={showMobileActions}
                         part={part}
-                        isIdChecked={isIdChecked}
-                        setIsIdChecked={setIsIdChecked}
+                        // isIdChecked={isIdChecked}
+                        // setIsIdChecked={setIsIdChecked}
+                        pid_index={`${pid}_${answerIndex}`}
                         options={textOptions}
                         type={'dropdown'}
                         helperText={answer.optional ?? undefined}
@@ -81,8 +82,9 @@ const DropdownInner = ({ pid, part, setPropertyByValue }) => {
                             part={part.answers[answerIndex]}
                             filterList={[...filterList]}
                             setPropertyByValue={setPropertyByValue}
-                            isIdChecked={isIdChecked}
-                            setIsIdChecked={setIsIdChecked}
+                            // isIdChecked={isIdChecked}
+                            // setIsIdChecked={setIsIdChecked}
+                            pid_index={`${pid}_${answerIndex}`}
                             showMobileActions={showMobileActions}
                             pid={pid}
                             path={`answers[${answerIndex}]`}

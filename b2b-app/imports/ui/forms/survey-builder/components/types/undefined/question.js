@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { TextField, Grid } from '@material-ui/core'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
@@ -6,7 +6,6 @@ import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { QuestionField, OptionField } from './field/typesField'
 import { makeStyles } from '@material-ui/core/styles'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
-// import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const options = [
   { label: 'Single', value: 'single' },
@@ -43,11 +42,8 @@ const Question = ({
 }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [isIdChecked, setIsIdChecked] = useState({})
   const showMobileActions = isMobile && selectedPart === pid
-
   const fieldKey = qType === 'section' ? 'name' : 'prompt'
-
   const isHeaderOnly = qType === 'paragraph'
   const classes = useStyles()
 
@@ -57,8 +53,7 @@ const Question = ({
         <QuestionField
           fieldKey={fieldKey}
           pid={pid}
-          isIdChecked={isIdChecked}
-          setIsIdChecked={setIsIdChecked}
+          pid_index={pid}
           setPropertyByValue={setPropertyByValue}
           part={part}
           helperText={part['optional']}
@@ -91,8 +86,7 @@ const Question = ({
               part={part}
               filterList={[...filterList, fieldKey, qType === 'section' && 'prompt']}
               setPropertyByValue={setPropertyByValue}
-              isIdChecked={isIdChecked}
-              setIsIdChecked={setIsIdChecked}
+              pid_index={pid}
               showMobileActions={showMobileActions}
               pid={pid}
               path={undefined}

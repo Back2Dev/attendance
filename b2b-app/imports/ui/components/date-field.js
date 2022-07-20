@@ -72,8 +72,8 @@ const DateField = ({ placeholder, id, value, onChange, required }) => {
         id={id}
         label={placeholder}
         format="MM/dd/yyyy"
-        value={value}
-        onChange={onChange}
+        value={value || new Date()}
+        onChange={(date) => onChange(date)}
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}
