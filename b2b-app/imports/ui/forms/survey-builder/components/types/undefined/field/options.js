@@ -28,6 +28,17 @@ export const textOptions = [
   { label: 'Specify ', value: 'specify' },
   { label: 'Skip ', value: 'skip' },
   { label: 'Optional', value: 'optional' },
+  { label: 'Note', value: 'note' },
+  { label: 'PlaceHolder', value: 'placeholder' },
+]
+
+export const dropdownOptions = [
+  { label: 'Populate', value: 'populate' },
+  { label: 'Score', value: 'score' },
+  { label: 'Specify ', value: 'specify' },
+  { label: 'Skip ', value: 'skip' },
+  { label: 'Optional', value: 'optional' },
+  // { label: 'Note', value: 'note' },
 ]
 
 export const uploadOptions = [

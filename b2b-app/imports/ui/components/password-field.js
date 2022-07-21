@@ -6,7 +6,15 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { connectField } from 'uniforms'
 
-const PasswordField = ({ id, placeholder, onChange, value, label, required }) => {
+const PasswordField = ({
+  id,
+  placeholder,
+  onChange,
+  value,
+  label,
+  required,
+  helperText,
+}) => {
   const [hide, setHide] = useState(true)
   const toggle = () => setHide((prev) => !prev)
 
@@ -15,33 +23,32 @@ const PasswordField = ({ id, placeholder, onChange, value, label, required }) =>
   }
 
   return (
-    <Box>
-      <Box marginTop="16px">
-        <TextField
-          required={required}
-          label={label}
-          id={id}
-          type={hide ? 'password' : 'text'}
-          fullWidth
-          value={value}
-          onChange={({ target: { value } }) => onChange(value)}
-          placeholder={placeholder}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={toggle}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {hide ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-    </Box>
+    <TextField
+      required={required}
+      label={label}
+      id={id}
+      variant="outlined"
+      margin="dense"
+      type={hide ? 'password' : 'text'}
+      fullWidth
+      value={value}
+      onChange={({ target: { value } }) => onChange(value)}
+      placeholder={placeholder}
+      helperText={helperText}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={toggle}
+              onMouseDown={handleMouseDownPassword}
+            >
+              {hide ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
   )
 }
 

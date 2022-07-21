@@ -63,14 +63,14 @@ import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import { connectField } from 'uniforms'
 
-const DateField = ({ placeholder, id, value, onChange, required }) => {
+const DateField = ({ placeholder, id, value, onChange, required, helperText, label }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
         required={required}
-        margin="normal"
+        margin="dense"
         id={id}
-        label={placeholder}
+        label={label}
         format="MM/dd/yyyy"
         value={value || new Date()}
         onChange={(date) => onChange(date)}
@@ -79,6 +79,8 @@ const DateField = ({ placeholder, id, value, onChange, required }) => {
         }}
         fullWidth
         placeholder={placeholder}
+        helperText={helperText}
+        inputVariant="outlined"
       />
     </MuiPickersUtilsProvider>
   )

@@ -41,6 +41,7 @@ function GoogleMaps({
   autocompleteBugFix,
   name,
   required,
+  helperText,
 }) {
   const classes = useStyles()
   const [val, setVal] = React.useState(defaultValue || value)
@@ -130,10 +131,12 @@ function GoogleMaps({
         return (
           <TextField
             {...params}
+            margin="dense"
             required={required}
             name={name}
             label={label || 'Property address'}
             error={error != null}
+            variant="outlined"
             inputProps={
               autocompleteBugFix
                 ? {
@@ -145,6 +148,7 @@ function GoogleMaps({
                   }
             }
             fullWidth
+            helperText={helperText}
           />
         )
       }}

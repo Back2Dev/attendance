@@ -43,7 +43,7 @@ function Lookup({
       placeholder={placeholder}
       ref={inputRef}
       renderInput={(params) => (
-        <TextField {...params} label={label} margin="normal" variant="outlined" />
+        <TextField {...params} label={label} margin="dense" variant="outlined" />
       )}
     />
   )

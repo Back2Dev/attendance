@@ -200,9 +200,15 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 answers.forEach((a) => {
                   const qaId = `${q.id}-${a.id}`
+                  console.log('a', a)
+                  let uniforms = {}
                   let optional = q.optional !== undefined ? !!q.optional : !!a.optional
-                  const uniforms = {}
                   optional = getOptionalFunc(q, uniforms, optional)
+                  uniforms = {
+                    helperText: a.note,
+                    required: !optional,
+                    placeholder: a.placeholder,
+                  }
 
                   step.schema[qaId] = {
                     type: String,
@@ -210,6 +216,7 @@ const getSchemas = (survey, currentData) => {
                     optional,
                     uniforms,
                   }
+
                   if (a.confirmPassword) {
                     step.schema[`${qaId}_2`] = {
                       type: String,
@@ -218,6 +225,21 @@ const getSchemas = (survey, currentData) => {
                       uniforms,
                     }
                   }
+                  if (a.type === 'long') {
+                    step.schema[qaId].uniforms = {
+                      ...uniforms,
+                      component: LongField,
+                      minRows: 2,
+                      variant: 'outlined',
+                    }
+                  }
+                  if (a.type === 'number') {
+                    step.schema[qaId].uniforms = {
+                      ...uniforms,
+                      component: NumField,
+                    }
+                  }
+
                   if (a.re) {
                     step.schema[qaId].regEx = new RegExp(a.re)
                     step.schema[qaId].custom = checkVolume
@@ -230,10 +252,10 @@ const getSchemas = (survey, currentData) => {
                     step.schema[qaId].uniforms.required = !optional
                   }
                   if (a.type === 'date') {
-                    // step.schema[qaId].type = Date
-                    // step.schema[qaId].uniforms.margin = 'normal'
-                    step.schema[qaId].uniforms.required = !optional
-                    step.schema[qaId].uniforms.component = DateField
+                    step.schema[qaId].uniforms = {
+                      ...uniforms,
+                      component: DateField,
+                    }
                   }
 
                   // if (a.type === 'phoneNumber') {
@@ -242,11 +264,11 @@ const getSchemas = (survey, currentData) => {
                   // }
 
                   if (a.type === 'password') {
-                    step.schema[qaId].uniforms.type = 'password'
+                    // step.schema[qaId].uniforms.type = 'password'
                     step.schema[qaId].uniforms.component = PasswordField
-                    step.schema[qaId].uniforms.required = !optional
+                    // step.schema[qaId].uniforms.required = !optional
                     if (a.confirmPassword) {
-                      step.schema[`${qaId}_2`].uniforms.type = 'password'
+                      // step.schema[`${qaId}_2`].uniforms.type = 'password'
                       step.schema[`${qaId}_2`].uniforms.component = PasswordField
                       step.schema[`${qaId}_2`].custom = function () {
                         if (this.value !== this.siblingField(qaId).value) {
@@ -258,6 +280,7 @@ const getSchemas = (survey, currentData) => {
 
                   if (a.type === 'email')
                     step.schema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                  step.schema[qaId].uniforms.variant = 'outlined'
 
                   if (a.type === 'calculated') {
                     step.schema[qaId].optional = false

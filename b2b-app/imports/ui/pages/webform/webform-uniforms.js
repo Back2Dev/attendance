@@ -17,12 +17,13 @@ import Fab from '@material-ui/core/Fab'
 import Tooltip from '@material-ui/core/Tooltip'
 import Paper from '@material-ui/core/Paper'
 import Slide from '@material-ui/core/Slide'
+import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import DoneIcon from '@material-ui/icons/Done'
 import InfoIcon from '@material-ui/icons/Info'
+import Box from '@material-ui/core/Box'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-
 import {
   AutoField,
   AutoForm,
@@ -141,48 +142,41 @@ const TextQ = ({ q, a }) => {
   const { formData } = React.useContext(WebformContext)
 
   const id = `${q.id}-${a.id}`
-
+  const placeholder = a.placeholder || a.name
   //not sure why multiline with &#10; not work for placeholder
 
   switch (a.type) {
-    case 'long':
-      return (
-        <LongTextField
-          name={id}
-          id={id}
-          key={id}
-          minRows="2"
-          placeholder={a.placeholder}
-          variant="outlined"
-        ></LongTextField>
-      )
+    // case 'long':
+    //   return (
+    //     <LongTextField
+    //       name={id}
+    //       id={id}
+    //       key={id}
+    //       minRows="2"
+    //       variant="outlined"
+    //     ></LongTextField>
+    //   )
     // TODO: Make this work
-    case 'date':
-      return (
-        <Fragment>
-          <AutoField name={id} id={id} key={id} placeholder={a.name}></AutoField>
-          <ErrorField name={id} id={id}>
-            Date is required or is invalid
-          </ErrorField>
-        </Fragment>
-      )
-    case 'number':
-      return (
-        <NumField name={id} id={id} key={id} defaultValue={a.defaultValue}></NumField>
-      )
+    // case 'date':
+    //   return (
+    //     <Fragment>
+    //       <AutoField name={id} id={id} key={id}></AutoField>
+    //       <ErrorField name={id} id={id}>
+    //         Date is required or is invalid
+    //       </ErrorField>
+    //     </Fragment>
+    //   )
+    // case 'number':
+    //   return (
+    //     <NumField name={id} id={id} key={id} defaultValue={a.defaultValue} ></NumField>
+    //   )
     case 'calculated':
       return <span>{a.defaultValue}</span>
 
     case 'phoneNumber':
       return (
         <Fragment>
-          <PhoneField
-            name={id}
-            id={id}
-            key={id}
-            placeholder={a.name}
-            required={!a.optional}
-          ></PhoneField>
+          <PhoneField name={id} id={id} key={id}></PhoneField>
           <ErrorField name={id} id={id}>
             Phone Number is required or is invalid
           </ErrorField>
@@ -192,7 +186,7 @@ const TextQ = ({ q, a }) => {
     case 'password':
       return (
         <Fragment>
-          <AutoField name={id} id={id} key={id} placeholder={a.name} label="Password" />
+          <AutoField placeholder={placeholder} name={id} id={id} key={id} />
           <ErrorField name={id} id={id}>
             Password is required or is invalid
           </ErrorField>
@@ -213,22 +207,12 @@ const TextQ = ({ q, a }) => {
         </Fragment>
       )
 
-    // return (
-    //   <TextField
-    //     disabled
-    //     name={id}
-    //     id={id}
-    //     key={id}
-    //     labelProps={{ shrink: true, disableAnimation: true }}
-    //     defaultValue={a.defaultValue}
-    //   ></TextField>
-    // )
     default:
-      return <AutoField name={id} id={id} key={id} placeholder={a.name} />
+      return <AutoField name={id} id={id} key={id} placeholder={placeholder} />
   }
 }
 
-const Prompt = ({ text, tooltip, description, header }) => {
+const Prompt = ({ text, tooltip, description, header, required = true }) => {
   let prompt = ''
   if (text) {
     const p = text.replace(/\n/g, '<br />')
@@ -238,11 +222,22 @@ const Prompt = ({ text, tooltip, description, header }) => {
 
   return (
     <div>
-      {/* <>{prompt}</> */}
-      <FormLabel component="legend">{prompt}</FormLabel>
-      <h4>{header ?? ''}</h4>
+      <Box display="flex" alignItems="center">
+        <FormLabel component="legend" required={required}>
+          {prompt}
+        </FormLabel>
+        {tooltip && (
+          <Tooltip title={tooltip}>
+            <IconButton aria-label="tooltip">
+              <InfoIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Box>
+
+      {header && <h4>{header}</h4>}
       {desc && <p>{desc}</p>}
-      {tooltip && <i>{html2r(tooltip)}</i>}
+      {/* {tooltip && <i>{html2r(tooltip)}</i>} */}
     </div>
   )
 }
@@ -276,6 +271,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -301,6 +297,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -325,6 +322,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
 
           <AutoField name={q.id} id={q.id} required={q.optional} />
@@ -348,6 +346,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
 
           <AutoField name={q.id} id={q.id} max={q.answers[0]?.max || 1} />
@@ -372,6 +371,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
 
           <AutoField name={q.id} id={q.id} data={q.answers[0]} />
@@ -400,6 +400,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           <AutoField name={q.id} id={q.id} options={options} />
 
@@ -425,6 +426,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           <span>
             <AutoField name={q.id} id={q.id} />
@@ -479,6 +481,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
         </span>
@@ -487,13 +490,20 @@ const RenderQ = (q, ix) => {
     case 'signature':
       return (
         <span key={key} className="q-container">
-          {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           <Signature
-            title={q.prompt}
-            subheader={q.tooltip}
+            // title={q.prompt}
+            // subheader={q.tooltip}
             name={q.id}
             id={q.id}
-            header={q.header}
+            // header={q.header}
+            required={!q.optional}
           />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
@@ -504,12 +514,20 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           <Geolocation
-            title={q.prompt}
-            subheader={q.tooltip}
+            // title={q.prompt}
+            // subheader={q.tooltip}
             name={q.id}
             id={q.id}
-            header={q.header}
+            // header={q.header}
+            required={!q.optional}
           />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
@@ -531,6 +549,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
           <AutoField
@@ -550,6 +569,7 @@ const RenderQ = (q, ix) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={!q.optional}
           />
           <AutoField name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />

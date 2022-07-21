@@ -7,7 +7,7 @@ import {
   usePartAnswers,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { textOptions } from '$sb/components/types/undefined/field/options'
+import { dropdownOptions } from '$sb/components/types/undefined/field/options'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
 import { useTheme } from '@material-ui/core/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
@@ -71,7 +71,7 @@ const DropdownInner = ({ pid, part, setPropertyByValue }) => {
                         // isIdChecked={isIdChecked}
                         // setIsIdChecked={setIsIdChecked}
                         pid_index={`${pid}_${answerIndex}`}
-                        options={textOptions}
+                        options={dropdownOptions}
                         type={'dropdown'}
                         helperText={answer.optional ?? undefined}
                       />

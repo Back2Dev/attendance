@@ -10,27 +10,30 @@ const MuiTextField = React.forwardRef((props, ref) => {
   return <TextField inputProps={{ maxLength: 20 }} inputRef={ref} {...props} />
 })
 
-function PhoneField({ id, placeholder, required, value, onChange }) {
+function PhoneField({ id, placeholder, required, value, onChange, helperText, label }) {
   // const [value, setValue] = React.useState()
 
   //if turn on international property, then placeholder will not work
   return (
-    <Box marginTop="16px">
-      <PhoneInput
-        id={id}
-        defaultCountry="AU"
-        // international
-        withCountryCallingCode
-        countryCallingCodeEditable={false}
-        onChange={onChange}
-        value={value}
-        placeholder={placeholder}
-        // label="Phone-Number"
-        label={placeholder}
-        inputComponent={MuiTextField}
-        required={required}
-      />
-    </Box>
+    // <Box marginTop="16px">
+    <PhoneInput
+      id={id}
+      margin="dense"
+      defaultCountry="AU"
+      international
+      withCountryCallingCode
+      countryCallingCodeEditable={false}
+      onChange={onChange}
+      value={value}
+      placeholder={placeholder}
+      helperText={helperText}
+      // label="Phone-Number"
+      label={label}
+      inputComponent={MuiTextField}
+      required={required}
+      variant="outlined"
+    />
+    // </Box>
   )
 }
 

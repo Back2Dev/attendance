@@ -6,9 +6,10 @@ import { HiddenField } from 'uniforms-material'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { useEffect } from 'react'
+import { Button, Box } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
-  root: { borderTop: '1px solid #eee', marginBottom: '10px' },
+  root: { borderTop: '1px solid #eee', margin: '5px 0' },
   mobile: {
     marginTop: '10px',
   },
@@ -53,31 +54,40 @@ const Geolocation = ({ title, subheader, id, header }) => {
   useEffect(() => getLocation(), [])
 
   return (
-    <div className="Geo">
-      <Card className={classes.root}>
-        <CardHeader
-          className={classes.header}
-          titleTypographyProps={{ variant: 'body1' }}
-          title={title}
-          subheader={
-            <Fragment>
-              {' '}
-              <p>{header}</p> <p>{subheader}</p>
-            </Fragment>
-          }
-          action={<button onClick={getLocation}>Get Location</button>}
-        />
-        <CardContent>
-          {status && <p>{status}</p>}
-          {!status && (
-            <p>
-              Latitude: {lat}, Longitude: {lng}
-            </p>
-          )}
-          <HiddenField name={id} value={lat + ',' + lng} />;
-        </CardContent>
-      </Card>
-    </div>
+    <Card className={classes.root}>
+      {/* <CardHeader
+        className={classes.header}
+        titleTypographyProps={{ variant: 'body1' }}
+        title={title}
+        subheader={
+          <Box>
+            <p>{header}</p> <p>{subheader}</p>
+          </Box>
+        }
+        action={
+          <Button variant="outlined" onClick={getLocation}>
+            Get Location
+          </Button>
+        }
+      /> */}
+      <CardContent>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box>
+            {status && <p>{status}</p>}
+            {!status && (
+              <p>
+                Latitude: {lat}, Longitude: {lng}
+              </p>
+            )}
+            <HiddenField name={id} value={lat + ',' + lng} />
+          </Box>
+
+          <Button variant="outlined" onClick={getLocation}>
+            Get Location
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   )
 }
 
