@@ -102,7 +102,7 @@ const OperatorField = ({ pid, setPropertyByValue, value = '*' }) => {
 
 const CalculationInner = ({ pid, part, setPropertyByValue }) => {
   const classes = useStyles()
-  const [exptype, setExpType] = useState({ 0: 'integer', 1: 'integer' })
+  // const [exptype, setExpType] = useState({ 0: 'integer', 1: 'integer' })
   const expValue = part.answers[0]?.expression
   return (
     <div className={classes.gridRoot}>

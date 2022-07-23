@@ -114,7 +114,7 @@ const UndefinedInner = ({ pid, type }) => {
     if (value === 'calculation') {
       setPropertyByValue({
         pid,
-        // value: ['integer', 0,'+','integer',0],
+
         value: {
           target1: 'integer',
           targetValue1: 0,

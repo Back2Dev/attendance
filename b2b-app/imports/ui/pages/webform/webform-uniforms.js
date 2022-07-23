@@ -298,16 +298,24 @@ const RenderQ = (q, ix, model) => {
       )
 
     case 'calculation':
-      return <span>{model[q.id]} </span>
-    //   const a = q.answers[0]
-    //   const type1 = a.expression[0]
-    //   const input1 = a.expression[1]
-    //   const input1result = q.answers.find((a) => a[type1] === input1 )
-    //   const operator = a.expression[2]
-    //   const type2 = a.expression[3]
-    //   const input2 = a.expression[4]
+      const answer = q.answers[0]?.expression
+      const { target1, targetValue1, target2, targetValue2, operator } = answer
+      const isPureCal = target1 === 'integer' && target2 === 'integer'
 
-    //   return <span></span>
+      return (
+        <div className="q-container">
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+          />
+          <span>
+            {isPureCal ? eval(`${targetValue1}${operator}${targetValue2}`) : model[q.id]}
+          </span>
+        </div>
+      )
+
     case 'multiple':
       return (
         <div key={key} className="q-container">
@@ -708,7 +716,7 @@ const Progress = ({
   const [models, setModels] = React.useState(
     steps.reduce((acc, step, ix) => {
       try {
-        const model = formData[step.id] ? formData[step.id] : {}
+        const model = formData[step.id] ?? {}
         // const valCtx = step.bridge.schema.newContext()
         const valCtx = new SimpleSchema(step.bridge.schema).newContext()
         valCtx.validate(model)
@@ -814,7 +822,6 @@ const Progress = ({
 
   // TODO: If the expression is a string, parse and calculate it
   const calc = (expression, model) => {
-    console.log('calc', expression, model)
     if (Array.isArray(expression)) {
       const firstNum =
         typeof expression[0] === 'string' ? model[expression[0]] : expression[0]
@@ -838,6 +845,7 @@ const Progress = ({
       if (!step.visible && ix <= acc) return acc + 1
       return acc
     }, activeStep)
+
     const step = steps[stepix]
     if (step?.schema) {
       const { schema } = step
@@ -850,8 +858,9 @@ const Progress = ({
         }
       })
     }
-    models[step.id] = cloneDeep(model)
-    setModels(models)
+    // models[step.id] = cloneDeep(model)
+    // setModels(models)
+    setModels((prev) => ({ ...prev, [step.id]: cloneDeep(model) }))
   }
 
   const progress = Math.min((100 * completed.size) / numSteps(), 100)

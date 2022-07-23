@@ -389,7 +389,8 @@ const getSchemas = (survey, currentData) => {
                 break
 
               case 'calculation':
-                const getExpId = (q, target, targetValue) => {
+                const getExpId = (target, targetValue) => {
+                  if (target === 'integer') return targetValue
                   let expId
                   step.questions.forEach((q) => {
                     if (q[target] === targetValue) {
@@ -399,7 +400,7 @@ const getSchemas = (survey, currentData) => {
 
                     q.answers.forEach((a) => {
                       if (a[target] === targetValue) {
-                        expId = `${q.id}-${a.id}`
+                        return (expId = `${q.id}-${a.id}`)
                       }
                     })
                   })
@@ -409,17 +410,10 @@ const getSchemas = (survey, currentData) => {
                 const a = q.answers[0]
                 const { target1, targetValue1, target2, operator, targetValue2 } =
                   a.expression
-                // const targetValue1 = a.expression[1]
-                // const operator = a.expression[2]
-                // const target2 = a.expression[3]
-                // const targetValue2 = a.expression[4]
-                const expId1 = getExpId(q, target1, targetValue1)
-                const expId2 = getExpId(q, target2, targetValue2)
-                console.log(expId1, operator, expId2)
+                const expId1 = getExpId(target1, targetValue1)
+                const expId2 = getExpId(target2, targetValue2)
+
                 qSchema.uniforms.expression = [expId1, operator, expId2]
-                //   const operator = a.expression[2]
-                //   const type2 = a.expression[3]
-                //   const input2 = a.expression[4]
 
                 break
 
