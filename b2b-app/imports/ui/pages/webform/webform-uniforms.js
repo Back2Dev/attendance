@@ -143,6 +143,7 @@ const TextQ = ({ q, a }) => {
 
   const id = `${q.id}-${a.id}`
   const placeholder = a.placeholder || a.name
+  const errorMessage = a.errorMessage
   //not sure why multiline with &#10; not work for placeholder
 
   switch (a.type) {
@@ -178,7 +179,7 @@ const TextQ = ({ q, a }) => {
         <Fragment>
           <PhoneField name={id} id={id} key={id}></PhoneField>
           <ErrorField name={id} id={id}>
-            Phone Number is required or is invalid
+            {errorMessage || 'Phone Number is required or is invalid'}
           </ErrorField>
         </Fragment>
       )
@@ -188,7 +189,7 @@ const TextQ = ({ q, a }) => {
         <Fragment>
           <AutoField placeholder={placeholder} name={id} id={id} key={id} />
           <ErrorField name={id} id={id}>
-            Password is required or is invalid
+            {errorMessage || 'Password is required or is invalid'}
           </ErrorField>
           {a.confirmPassword && (
             <Fragment>
@@ -200,7 +201,7 @@ const TextQ = ({ q, a }) => {
                 placeholder={'Confirm Password'}
               />
               <ErrorField name={`${id}_2`} id={`${id}_2`}>
-                Confirm Password is required or is inconsistent
+                {errorMessage || 'Confirm Password is required or is inconsistent'}
               </ErrorField>
             </Fragment>
           )}
@@ -208,7 +209,12 @@ const TextQ = ({ q, a }) => {
       )
 
     default:
-      return <AutoField name={id} id={id} key={id} placeholder={placeholder} />
+      return (
+        <Fragment>
+          <AutoField name={id} id={id} key={id} placeholder={placeholder} />
+          <ErrorField name={id} id={id} errorMessage={errorMessage || 'invalid!!'} />
+        </Fragment>
+      )
   }
 }
 
@@ -241,8 +247,9 @@ const Prompt = ({ text, tooltip, description, header, required = true }) => {
     </div>
   )
 }
-const RenderQ = (q, ix) => {
+const RenderQ = (q, ix, model) => {
   const { formData } = React.useContext(WebformContext)
+
   const key = `q${q.id}${ix}`
   switch (q.type) {
     // case 'array':
@@ -289,6 +296,18 @@ const RenderQ = (q, ix) => {
           })}
         </div>
       )
+
+    case 'calculation':
+      return <span>{model[q.id]} </span>
+    //   const a = q.answers[0]
+    //   const type1 = a.expression[0]
+    //   const input1 = a.expression[1]
+    //   const input1result = q.answers.find((a) => a[type1] === input1 )
+    //   const operator = a.expression[2]
+    //   const type2 = a.expression[3]
+    //   const input2 = a.expression[4]
+
+    //   return <span></span>
     case 'multiple':
       return (
         <div key={key} className="q-container">
@@ -630,11 +649,13 @@ const useStyles = makeStyles((theme) =>
 // from a component is prohibited.
 function DisplayIf({ children, condition }) {
   const uniforms = useForm()
+
   return condition(uniforms) ? React.Children.only(children) : null
 }
 
 function NoteIf({ note, field, value }) {
   const context = useForm()
+
   if (!note) return null
   let show = !field
   if (!show) {
@@ -646,6 +667,12 @@ function NoteIf({ note, field, value }) {
     </span>
   ) : null
 }
+
+// function GetCalculation({ id }) {
+//   const context = useForm()
+
+//   return <span>{context.model?.[id]}</span>
+// }
 
 const StyledRenderQ = styled.div`
   .q-container {
@@ -787,6 +814,16 @@ const Progress = ({
 
   // TODO: If the expression is a string, parse and calculate it
   const calc = (expression, model) => {
+    console.log('calc', expression, model)
+    if (Array.isArray(expression)) {
+      const firstNum =
+        typeof expression[0] === 'string' ? model[expression[0]] : expression[0]
+      const secondNum =
+        typeof expression[2] === 'string' ? model[expression[2]] : expression[2]
+      const operator = expression[1]
+
+      return eval(`${firstNum}${operator}${secondNum}`)
+    }
     if (typeof expression === 'function') return expression(model)
     // Replace tokens with values from model
     const result = eval(expression)
@@ -866,7 +903,7 @@ const Progress = ({
                                   }
                                 >
                                   <span key={`m${q.id}`}>
-                                    {RenderQ(q, iy)}
+                                    {RenderQ(q, iy, models[step.id])}
                                     {q.note && RenderNote(q.note)}
                                   </span>
                                 </DisplayIf>

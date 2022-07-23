@@ -19,6 +19,7 @@ const options = [
   { label: 'Lookup', value: 'lookup' },
   { label: 'Rating', value: 'rating' },
   { label: 'Grid', value: 'grid' },
+  { label: 'Calculation', value: 'calculation' },
 ]
 
 const useStyles = makeStyles(() => ({

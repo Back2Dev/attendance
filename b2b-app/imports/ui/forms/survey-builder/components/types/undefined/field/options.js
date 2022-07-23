@@ -30,6 +30,8 @@ export const textOptions = [
   { label: 'Optional', value: 'optional' },
   { label: 'Note', value: 'note' },
   { label: 'PlaceHolder', value: 'placeholder' },
+  { label: 'Regex', value: 'regEx' },
+  { label: 'Error Message', value: 'errorMessage' },
 ]
 
 export const dropdownOptions = [

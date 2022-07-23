@@ -36,6 +36,7 @@ export default Sign = ({ showPreview = false }) => {
   const classes = useStyles()
 
   const trim = () => {
+    console.log('toData', sigRef.current.toData())
     if (sigRef.current) {
       setDataURL(sigRef.current.getTrimmedCanvas().toDataURL('image/jpg'))
     }

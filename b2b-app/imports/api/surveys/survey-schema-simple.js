@@ -200,10 +200,12 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 answers.forEach((a) => {
                   const qaId = `${q.id}-${a.id}`
-                  console.log('a', a)
+
                   let uniforms = {}
                   let optional = q.optional !== undefined ? !!q.optional : !!a.optional
                   optional = getOptionalFunc(q, uniforms, optional)
+
+                  // const regEx = new RegExp(a.regEx)
                   uniforms = {
                     helperText: a.note,
                     required: !optional,
@@ -215,6 +217,7 @@ const getSchemas = (survey, currentData) => {
                     label: a.name,
                     optional,
                     uniforms,
+                    regEx: new RegExp(a.regEx),
                   }
 
                   if (a.confirmPassword) {
@@ -226,6 +229,7 @@ const getSchemas = (survey, currentData) => {
                     }
                   }
                   if (a.type === 'long') {
+                    // step.schema[qaId].custom = customizedValidation
                     step.schema[qaId].uniforms = {
                       ...uniforms,
                       component: LongField,
@@ -246,7 +250,7 @@ const getSchemas = (survey, currentData) => {
                     // step.schema[qaId].optional = true
                   }
                   if (a.type === 'address') {
-                    step.schema[qaId].uniforms.margin = 'normal'
+                    // step.schema[qaId].uniforms.margin = 'normal'
                     step.schema[qaId].uniforms.component = GooglePlaces
                     step.schema[qaId].uniforms.autocompleteBugFix = true
                     step.schema[qaId].uniforms.required = !optional
@@ -272,7 +276,7 @@ const getSchemas = (survey, currentData) => {
                       step.schema[`${qaId}_2`].uniforms.component = PasswordField
                       step.schema[`${qaId}_2`].custom = function () {
                         if (this.value !== this.siblingField(qaId).value) {
-                          return 'passwordMismatch'
+                          return 'password mismatch'
                         }
                       }
                     }
@@ -382,6 +386,41 @@ const getSchemas = (survey, currentData) => {
                     }
                     return specifyId
                   })
+                break
+
+              case 'calculation':
+                const getExpId = (q, target, targetValue) => {
+                  let expId
+                  step.questions.forEach((q) => {
+                    if (q[target] === targetValue) {
+                      return (expId = q.id)
+                      // return true
+                    }
+
+                    q.answers.forEach((a) => {
+                      if (a[target] === targetValue) {
+                        expId = `${q.id}-${a.id}`
+                      }
+                    })
+                  })
+
+                  return expId
+                }
+                const a = q.answers[0]
+                const { target1, targetValue1, target2, operator, targetValue2 } =
+                  a.expression
+                // const targetValue1 = a.expression[1]
+                // const operator = a.expression[2]
+                // const target2 = a.expression[3]
+                // const targetValue2 = a.expression[4]
+                const expId1 = getExpId(q, target1, targetValue1)
+                const expId2 = getExpId(q, target2, targetValue2)
+                console.log(expId1, operator, expId2)
+                qSchema.uniforms.expression = [expId1, operator, expId2]
+                //   const operator = a.expression[2]
+                //   const type2 = a.expression[3]
+                //   const input2 = a.expression[4]
+
                 break
 
               // case 'multiple':

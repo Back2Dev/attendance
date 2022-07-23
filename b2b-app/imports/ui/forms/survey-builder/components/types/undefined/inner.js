@@ -21,6 +21,7 @@ import {
   LookupInner,
   RatingInner,
   GridInner,
+  CalculationInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
 import {
@@ -40,6 +41,7 @@ const options = [
   { label: 'Geolocation', value: 'geolocation', component: null },
   { label: 'Rating', value: 'rating', component: RatingInner },
   { label: 'Grid', value: 'grid', component: GridInner },
+  { label: 'Calculation', value: 'calculation', component: CalculationInner },
 ]
 
 const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']
@@ -106,6 +108,21 @@ const UndefinedInner = ({ pid, type }) => {
           rows: [getDefaultRow()],
         },
         path: 'answers[0]',
+      })
+    }
+
+    if (value === 'calculation') {
+      setPropertyByValue({
+        pid,
+        // value: ['integer', 0,'+','integer',0],
+        value: {
+          target1: 'integer',
+          targetValue1: 0,
+          operator: '+',
+          target2: 'integer',
+          targetValue2: 0,
+        },
+        path: 'answers[0].expression',
       })
     }
 
