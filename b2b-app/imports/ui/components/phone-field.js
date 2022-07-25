@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { connectField } from 'uniforms'
-import { TextField, Box } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
@@ -11,11 +11,8 @@ const MuiTextField = React.forwardRef((props, ref) => {
 })
 
 function PhoneField({ id, placeholder, required, value, onChange, helperText, label }) {
-  // const [value, setValue] = React.useState()
-
   //if turn on international property, then placeholder will not work
   return (
-    // <Box marginTop="16px">
     <PhoneInput
       id={id}
       margin="dense"
@@ -33,7 +30,6 @@ function PhoneField({ id, placeholder, required, value, onChange, helperText, la
       required={required}
       variant="outlined"
     />
-    // </Box>
   )
 }
 

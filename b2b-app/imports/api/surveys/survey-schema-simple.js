@@ -229,7 +229,6 @@ const getSchemas = (survey, currentData) => {
                     }
                   }
                   if (a.type === 'long') {
-                    // step.schema[qaId].custom = customizedValidation
                     step.schema[qaId].uniforms = {
                       ...uniforms,
                       component: LongField,

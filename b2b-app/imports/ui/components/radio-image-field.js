@@ -9,7 +9,10 @@ import FormControl from '@material-ui/core/FormControl'
 const RadioImageField = ({ options, onChange, value, required }) => {
   return (
     <FormControl component="fieldset" required={required}>
-      <RadioGroup onChange={({ target: { value } }) => onChange(value)} value={value}>
+      <RadioGroup
+        onChange={({ target: { value } }) => onChange(value)}
+        value={value || ''}
+      >
         {options.map(({ label, value, image }) => (
           <Fragment key={value}>
             <FormControlLabel value={value} control={<Radio />} label={label} />

@@ -887,7 +887,7 @@ const Progress = ({
                 <StepLabel className={classes.steplabel} data-cy={`step-${step.id}`}>
                   {step.name}
                 </StepLabel>
-                <h4>{step.header ?? ''}</h4>
+                {step.header && <h4>{step.header}</h4>}
                 <StepContent>
                   <Card key={step.id} variant="outlined">
                     <CardContent>
