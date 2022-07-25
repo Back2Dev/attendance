@@ -530,9 +530,10 @@ const RenderQ = (q, ix, model) => {
             name={q.id}
             id={q.id}
             // header={q.header}
-            required={!q.optional}
           />
-          <ErrorField name={q.id} id={q.id} />
+          <ErrorField name={q.id} id={q.id}>
+            Can't be empty!!
+          </ErrorField>
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>
       )

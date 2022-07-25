@@ -478,6 +478,7 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 break
               case 'signature':
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
                 // TODO: declare a varible for the signature image? Or should it use slingshot
                 // directly like (I think) the upload field does?
                 // delete step.schema[q.id]
