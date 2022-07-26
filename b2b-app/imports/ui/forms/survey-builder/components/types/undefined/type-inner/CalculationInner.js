@@ -36,7 +36,7 @@ const TargetField = ({ pid, setPropertyByValue, value = 'integer', target }) => 
         })
         // setExpType(value)
       }}
-      label="Exp Type"
+      label="Target"
       SelectProps={{
         native: true,
       }}
@@ -53,11 +53,9 @@ const TargetField = ({ pid, setPropertyByValue, value = 'integer', target }) => 
 const TargetValueField = ({ pid, setPropertyByValue, value = 0, targetValue }) => {
   return (
     <TextField
-      // id={`${pid}_${expressionIndex}`}
       fullWidth
-      label="Exp Value"
+      label="Target Value"
       value={value}
-      //   type={type === 'integer' ? 'number' : 'text'}
       InputLabelProps={{
         shrink: true,
       }}

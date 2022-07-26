@@ -25,7 +25,7 @@ export const multipleOptions = [
 export const textOptions = [
   { label: 'Populate', value: 'populate' },
   { label: 'Score', value: 'score' },
-  { label: 'Specify ', value: 'specify' },
+  // { label: 'Specify ', value: 'specify' },
   { label: 'Skip ', value: 'skip' },
   { label: 'Optional', value: 'optional' },
   { label: 'Note', value: 'note' },

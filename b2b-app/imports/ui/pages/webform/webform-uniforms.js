@@ -45,9 +45,9 @@ import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
 import PhoneField from '/imports/ui/components/phone-field'
-import PasswordField from '/imports/ui/components/password-field'
+// import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
-import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
+// import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 import FormLabel from '@material-ui/core/FormLabel'
 
 const debug = require('debug')('app:webforms-progress')
@@ -112,27 +112,31 @@ const Specifiers = (q) => {
         q.type === ('single' || 'image' || 'multiple' || 'dropdown')
           ? [q.id, 'equal', a.id]
           : [`${q.id}-${a.id}`]
-      if (a.specifyType === 'long')
-        return (
-          <DisplayIf
-            key={otherId}
-            condition={(context) => evaluate(formData, context.model, condition)}
-          >
-            <LongTextField
-              name={otherId}
-              id={otherId}
-              minRows="2"
-              placeholder={a.placeholder}
-              variant="outlined"
-            ></LongTextField>
-          </DisplayIf>
-        )
+
       return (
         <DisplayIf
           key={otherId}
           condition={(context) => evaluate(formData, context.model, condition)}
         >
-          <AutoField name={otherId} id={otherId} />
+          {a.specifyType === 'long' ? (
+            <LongTextField
+              name={otherId}
+              id={otherId}
+              minRows="2"
+              label={a.specify}
+              placeholder={a.placeholder}
+              variant="outlined"
+            />
+          ) : (
+            <AutoField
+              name={otherId}
+              id={otherId}
+              variant="outlined"
+              margin="dense"
+              label={a.specify}
+              placeholder={a.placeholder}
+            />
+          )}
         </DisplayIf>
       )
     })
@@ -301,7 +305,6 @@ const RenderQ = (q, ix, model) => {
       const answer = q.answers[0]?.expression
       const { target1, targetValue1, target2, targetValue2, operator } = answer
       const isPureCal = target1 === 'integer' && target2 === 'integer'
-
       return (
         <div className="q-container">
           <Prompt
@@ -309,6 +312,7 @@ const RenderQ = (q, ix, model) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
+            required={false}
           />
           <span>
             {isPureCal ? eval(`${targetValue1}${operator}${targetValue2}`) : model[q.id]}

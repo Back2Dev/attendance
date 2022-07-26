@@ -75,8 +75,8 @@ const UndefinedInner = ({ pid, type }) => {
           if (property === undefined) {
             return checkIsBooleanType(path) ? true : ''
           }
-          //make sure id filed will never be set to undefined
-          else if (path.includes('id') && value === '') {
+          //if the text length is 0, do not set to undefined
+          else if (value === '') {
             return ''
           } else {
             return undefined

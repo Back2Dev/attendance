@@ -11,7 +11,7 @@ import { Button, Grid } from '@material-ui/core'
 import { multipleOptions } from '$sb/components/types/undefined/field/options'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
 const MultipleInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)

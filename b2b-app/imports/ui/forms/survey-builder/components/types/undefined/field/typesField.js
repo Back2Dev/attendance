@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Field } from '../field'
 import { useRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
@@ -9,6 +9,8 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { questionOptions } from '$sb/components/types/undefined/field/options'
 import { IdAtom } from '$sb/recoil/atoms'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles(() => ({
   gridRoot: {
@@ -119,12 +121,33 @@ export const OptionField = ({
                 label={getLabelFromKey(key)}
                 text={value || ''}
                 showMobileActions={showMobileActions}
-                placeholder={key}
+                key={key}
                 actions={['deleteOption']}
                 type={'option'}
                 variant="filled"
                 underline={true}
                 size={'small'}
+                specify={
+                  key === 'specify' ? (
+                    <Button
+                      onClick={() => {
+                        //default is short
+                        const newType =
+                          part.specifyType === 'short' || !part.specifyType
+                            ? 'long'
+                            : 'short'
+
+                        setPropertyByValue({
+                          path: `${path}.specifyType`,
+                          value: newType,
+                          pid,
+                        })
+                      }}
+                    >
+                      {part.specifyType ?? 'short'}
+                    </Button>
+                  ) : null
+                }
               />
             </Grid>
           </Grid>

@@ -14,7 +14,7 @@ import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
 const DropdownInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)

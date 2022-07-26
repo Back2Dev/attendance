@@ -349,7 +349,7 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'rating':
                 qSchema.uniforms.component = RatingField
-                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
 
                 answers
                   .filter((a) => a.specify)
@@ -369,7 +369,7 @@ const getSchemas = (survey, currentData) => {
 
               case 'grid':
                 qSchema.uniforms.component = GridField
-                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
 
                 answers
                   .filter((a) => a.specify)
@@ -389,12 +389,11 @@ const getSchemas = (survey, currentData) => {
 
               case 'calculation':
                 const getExpId = (target, targetValue) => {
-                  if (target === 'integer') return targetValue
+                  if (target === 'integer') return Number(targetValue)
                   let expId
                   step.questions.forEach((q) => {
                     if (q[target] === targetValue) {
                       return (expId = q.id)
-                      // return true
                     }
 
                     q.answers.forEach((a) => {
@@ -411,7 +410,6 @@ const getSchemas = (survey, currentData) => {
                   a.expression
                 const expId1 = getExpId(target1, targetValue1)
                 const expId2 = getExpId(target2, targetValue2)
-
                 qSchema.uniforms.expression = [expId1, operator, expId2]
 
                 break
