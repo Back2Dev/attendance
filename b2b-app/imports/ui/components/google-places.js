@@ -148,7 +148,7 @@ function GoogleMaps({
                   }
             }
             fullWidth
-            helperText={helperText}
+            helperText={!error && helperText}
           />
         )
       }}

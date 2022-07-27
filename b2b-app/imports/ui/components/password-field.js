@@ -14,6 +14,7 @@ const PasswordField = ({
   label,
   required,
   helperText,
+  error,
 }) => {
   const [hide, setHide] = useState(true)
   const toggle = () => setHide((prev) => !prev)
@@ -24,6 +25,7 @@ const PasswordField = ({
 
   return (
     <TextField
+      error={error}
       required={required}
       label={label}
       id={id}
@@ -34,7 +36,8 @@ const PasswordField = ({
       value={value}
       onChange={({ target: { value } }) => onChange(value)}
       placeholder={placeholder}
-      helperText={helperText}
+      helperText={!error && helperText}
+      autocomplete={false}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

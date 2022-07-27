@@ -81,7 +81,7 @@ export const partGridColumns = selectorFamily({
     (pid) =>
     ({ get }) => {
       const part = get(partAtom(pid))
-      return part.answers[0].columns
+      return part.answers[0]?.columns
     },
   set:
     (pid) =>
@@ -100,7 +100,7 @@ export const partGridRows = selectorFamily({
     (pid) =>
     ({ get }) => {
       const part = get(partAtom(pid))
-      return part.answers[0].rows
+      return part.answers[0]?.rows
     },
   set:
     (pid) =>

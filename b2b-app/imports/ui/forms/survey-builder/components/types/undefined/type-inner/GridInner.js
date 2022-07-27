@@ -95,7 +95,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                             <Grid container spacing={1} alignItems="flex-start">
                               <Grid item xs={8}>
                                 <OptionField
-                                  part={part.answers[0]?.columns[columnIndex]}
+                                  part={part.answers[0]?.columns?.[columnIndex]}
                                   filterList={[...filterList]}
                                   setPropertyByValue={setPropertyByValue}
                                   pid_index={`column_${pid}_${index}`}

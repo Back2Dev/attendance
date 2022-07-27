@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 const Field = ({
   text,
-  key,
+  fieldkey,
   placeholder,
   label,
   onChange,
@@ -85,7 +85,7 @@ const Field = ({
       fullWidth
       label={label}
       value={text ?? ''}
-      placeholder={placeholder || key}
+      placeholder={placeholder || fieldkey}
       onChange={onChange}
       onKeyDown={onKeyDown}
       helperText={helperText}

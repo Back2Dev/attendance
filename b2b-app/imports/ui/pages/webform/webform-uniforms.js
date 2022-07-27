@@ -216,7 +216,7 @@ const TextQ = ({ q, a }) => {
       return (
         <Fragment>
           <AutoField name={id} id={id} key={id} placeholder={placeholder} />
-          <ErrorField name={id} id={id} errorMessage={errorMessage || 'invalid!!'} />
+          <ErrorField name={id} id={id} errorMessage={errorMessage} />
         </Fragment>
       )
   }
@@ -294,7 +294,7 @@ const RenderQ = (q, ix, model) => {
                 {/* <ErrorField name={id} id={id}>
                   {a.name || 'This'} is required
                 </ErrorField> */}
-                <NoteIf note={a.note} field={id}></NoteIf>
+                {/* <NoteIf note={a.note} field={id}></NoteIf> */}
               </span>
             )
           })}
@@ -472,9 +472,7 @@ const RenderQ = (q, ix, model) => {
     //       <span>{q.prompt}</span>
     //       <div style={{ display: 'flex' }}>
     //         <AutoField name={q.id} id={q.id} />
-    //       </div>
-    //       <ErrorField name={q.id} id={q.id} />
-    //       {Specifiers(q)}
+    //       </div>s
     //       {getAnswers(formData, q.answers).map((a, iy) => {
     //         return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
     //       })}

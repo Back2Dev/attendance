@@ -18,7 +18,6 @@ function Lookup({
   showInlineError,
   defaultValue,
   value,
-  ...props
 }) {
   const options = ['Mr Boss', 'Bossy Dude']
   const [val, setVal] = React.useState(defaultValue || value)

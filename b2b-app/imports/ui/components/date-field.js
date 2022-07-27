@@ -63,7 +63,16 @@ import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import { connectField } from 'uniforms'
 
-const DateField = ({ placeholder, id, value, onChange, required, helperText, label }) => {
+const DateField = ({
+  placeholder,
+  id,
+  value,
+  onChange,
+  required,
+  helperText,
+  label,
+  error,
+}) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
@@ -79,7 +88,8 @@ const DateField = ({ placeholder, id, value, onChange, required, helperText, lab
         }}
         fullWidth
         placeholder={placeholder}
-        helperText={helperText}
+        error={error}
+        helperText={!error && helperText}
         inputVariant="outlined"
       />
     </MuiPickersUtilsProvider>

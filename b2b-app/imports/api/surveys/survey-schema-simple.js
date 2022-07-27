@@ -231,8 +231,8 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'long') {
                     step.schema[qaId].uniforms = {
                       ...uniforms,
-                      component: LongField,
-                      minRows: 2,
+                      component: LongTextField,
+                      minRows: '3',
                       variant: 'outlined',
                     }
                   }

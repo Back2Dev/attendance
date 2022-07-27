@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
@@ -31,7 +31,6 @@ const DropdownInner = ({ pid, part, setPropertyByValue }) => {
       background: theme.palette.background.paper,
     }
   }
-  // const [isIdChecked, setIsIdChecked] = useState({})
 
   return (
     <div>
