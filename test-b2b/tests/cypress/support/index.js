@@ -27,12 +27,17 @@ import './commands'
 //   return result
 // }
 
-const MongoURL = 'mongodb://127.0.0.1:27017/se'
-// const MongoURL = 'mongodb://localhost:3081/meteor'
-
 global.login = (username, password) => {
   cy.window().then((win) => {
+    if (!win.Meteor) alert('Meteor not found - wrong url?')
     win.Meteor.loginWithPassword(username, password)
+  })
+}
+
+global.adminLogin = (username, password) => {
+  cy.window().then((win) => {
+    win.Meteor.loginWithPassword(username, password)
+    win.localStorage.setItem('viewas', 'ADM')
   })
 }
 
@@ -55,20 +60,10 @@ global.loadCypressFixtures = () => {
   console.log('Loaded fixtures')
 }
 
-global.resetDatabase = () => {
-  cy.exec(`mongo ${MongoURL} --eval "db.dropDatabase()"`)
-  console.log('Database has been reset')
-}
-
 global.resetCollections = () => {
   cy.window().then(async (win) => {
     await win.Meteor.callAsync('resetCollections')
   })
-  // const collections =
-  //   'users listings members jobs tasks notifications_2 property_issues notifications_items'
-  // collections.split(/\s/g).forEach((collection) => {
-  //   cy.exec(`mongo ${MongoURL} --eval "db.${collection}.remove({})"`)
-  // })
 }
 
 global.seedDatabase = () => {

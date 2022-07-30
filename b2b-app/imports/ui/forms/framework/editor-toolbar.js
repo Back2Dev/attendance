@@ -184,6 +184,7 @@ export const EditorToolbar = () => {
                 <IconButton
                   color="secondary"
                   aria-label="run form"
+                  data-cy="run-form"
                   onClick={() => {
                     formContext.compileForm()
                   }}

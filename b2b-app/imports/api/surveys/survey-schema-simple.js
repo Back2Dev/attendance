@@ -295,7 +295,7 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'multiple':
                 delete step.schema[q.id]
-                if (anwers.length >= 10) {
+                if (answers.length <= 10) {
                   answers.forEach((a) => {
                     const id = `${q.id}-${a.id}`
                     const uniforms = {}
@@ -307,19 +307,6 @@ const getSchemas = (survey, currentData) => {
                       uniforms,
                     }
                   })
-                  answers
-                    .filter((a) => a.specify)
-                    .map((a) => {
-                      const specifyId = `${q.id}-${a.id}-specify`
-                      const uniforms = {}
-                      // const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                      step.schema[specifyId] = {
-                        type: String,
-                        label: a.specify,
-                        // optional,
-                        uniforms,
-                      }
-                    })
                   answers
                     .filter((a) => a.specify)
                     .map((a) => {
@@ -338,7 +325,7 @@ const getSchemas = (survey, currentData) => {
                   step.schema[q.id] = {
                     type: Array,
                     label: q.name,
-                    // optional, // Need a way to count these and set a minimum #required
+                    // optional, // Need a way to count these and set  a minimum #required
                     uniforms: {
                       component: TagsField,
                     },
