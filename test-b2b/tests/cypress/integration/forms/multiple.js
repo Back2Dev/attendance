@@ -1,3 +1,4 @@
+import forms from '/tests/cypress/fixtures/forms'
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test. We do this because of some ugly js errors
@@ -12,51 +13,9 @@ describe('log into app and create a form with a multiple question', () => {
 
   it('logs in from home page', () => {
     adminLogin('mike.king@mydomain.com.au', 'me2')
-    cy.wait(2000)
-    cy.visit('/admin/forms')
-    cy.getSettled('#add').click()
-    cy.get('[name=name]').clear().type('Test Multiple')
-    cy.get('[name=slug]').clear().type('test-multiple')
-    cy.get('[name=source]').clear().type(`
-    S Part 1
-    +id=part1
-    
-    Q Which sports do you play?
-    +type=multiple
-    +id=play
-    +optional=1
-    A Golf
-    A Soccer
-    A Tennis
-    A Footy
-    A Squash
-    A Croquet
-    A Lawn bowls
-    A Trugo
-    A Curling
-#    A Skiing
-
-    S Part 2
-    +id=part2
-
-    Q Which sports do you watch?
-    +type=multiple
-    +id=watch
-    // +optional=1
-    A Golf
-    A Soccer
-    A Tennis
-    A Footy
-    A Squash
-    A Croquet
-    A Lawn bowls
-    A Trugo
-    A Curling
-    A Skiing
-    `)
-    cy.get('[name=revision]').clear().type('1')
-    cy.get('[name=active]').click()
-    cy.get('button[type=submit]').click()
+    cy.window().then(async (win) => {
+      await win.Meteor.callAsync('insert.forms', forms.multiple)
+    })
     cy.visit('/admin/forms/edit/test-multiple')
     // Compile and run the form...
     cy.get('[data-cy="run-form"]').click()
