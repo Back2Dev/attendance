@@ -83,7 +83,7 @@
     "lodash": "^4.17.21",
     "mailparser": "^2.7.1",
     "minimist": "^1.2.0",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.25",
     "nan": "^2.14.0",
     "node-cron": "^1.2.1",
