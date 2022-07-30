@@ -7,8 +7,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 })
 describe('log into app and create a form with a multiple question', () => {
   before(function () {
-    cy.visit('/')
-    freshDatabase()
+    freshDatabase() // This does a cy.visit('/') for us already
   })
 
   it('logs in from home page', () => {

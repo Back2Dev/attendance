@@ -42,4 +42,18 @@ module.exports = {
     active: true,
     revision: 1,
   },
+  signature: {
+    slug: 'test-signature',
+    name: 'Test Signature',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Please sign here
+    +type=signature
+
+    `,
+    active: true,
+    revision: 1,
+  },
 }
