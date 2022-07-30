@@ -48,26 +48,10 @@ const mapDataToAtom = (data) => {
   return state
 }
 
-const Undefined = ({
-  pid,
-  index,
-  type,
-  setSectionState,
-  sectionState,
-  belongSection,
-}) => {
-  // const { all, add } = usePartAnswers(pid)
-
+const Undefined = ({ ...props }) => {
   return (
-    <Frame
-      pid={pid}
-      index={index}
-      // onAdd={() => add(all.length - 1)}
-      setSectionState={setSectionState}
-      sectionState={sectionState}
-      belongSection={belongSection}
-    >
-      <UndefinedInner pid={pid} type={type} />
+    <Frame {...props}>
+      <UndefinedInner {...props} />
     </Frame>
   )
 }

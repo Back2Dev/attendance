@@ -25,9 +25,22 @@ export const multipleOptions = [
 export const textOptions = [
   { label: 'Populate', value: 'populate' },
   { label: 'Score', value: 'score' },
+  // { label: 'Specify ', value: 'specify' },
+  { label: 'Skip ', value: 'skip' },
+  { label: 'Optional', value: 'optional' },
+  { label: 'Note', value: 'note' },
+  { label: 'PlaceHolder', value: 'placeholder' },
+  { label: 'Regex', value: 'regEx' },
+  { label: 'Error Message', value: 'errorMessage' },
+]
+
+export const dropdownOptions = [
+  { label: 'Populate', value: 'populate' },
+  { label: 'Score', value: 'score' },
   { label: 'Specify ', value: 'specify' },
   { label: 'Skip ', value: 'skip' },
   { label: 'Optional', value: 'optional' },
+  // { label: 'Note', value: 'note' },
 ]
 
 export const uploadOptions = [
@@ -35,4 +48,11 @@ export const uploadOptions = [
   { label: 'MaxSize', value: 'maxSize' },
   // { label: 'multiple ', value: 'multiple' },
   // { label: 'maxFiles ', value: 'maxFiles' },
+]
+
+export const gridColumnOptions = [
+  // { label: 'Width', value: 'width' },
+  // { label: 'Header Name', value: 'headerName' },
+  // { label: 'Type', value: 'type' },
+  { label: 'Description', value: 'description' },
 ]

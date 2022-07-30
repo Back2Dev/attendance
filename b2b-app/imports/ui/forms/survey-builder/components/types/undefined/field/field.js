@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React, { createElement, useState } from 'react'
 import AddIcon from '@material-ui/icons/Add'
 import { IconButton } from '@material-ui/core'
 import PropTypes from 'prop-types'
@@ -38,12 +38,14 @@ const useStyles = makeStyles({
 
 const Field = ({
   text,
+  fieldkey,
   placeholder,
   label,
   onChange,
   onRemove,
   onAdd,
   onUpload,
+  specify,
   onDeleteOption,
   actions = [],
   disableRemove,
@@ -59,7 +61,6 @@ const Field = ({
   ...props
 }) => {
   const classes = useStyles()
-
   const actionTypes = {
     add: {
       icon: AddIcon,
@@ -84,10 +85,10 @@ const Field = ({
       fullWidth
       label={label}
       value={text ?? ''}
-      placeholder={placeholder}
+      placeholder={placeholder || fieldkey}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      helperText={helperText ? 'optional' : null}
+      helperText={helperText}
       onFocus={(e) => e.preventDefault()}
       InputProps={{
         classes: {
@@ -99,6 +100,7 @@ const Field = ({
           <InputAdornment classes={{ root: classes.InputAdornment }} position="end">
             {showMore && <MoreList {...props} />}
             {showUploadImage && <UploadImage {...props} />}
+            {specify}
             {createActions(...actions)}
           </InputAdornment>
         ),

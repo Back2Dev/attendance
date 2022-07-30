@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
 import AddIcon from '@material-ui/icons/Add'
@@ -11,14 +11,13 @@ import { Button, Grid } from '@material-ui/core'
 import { multipleOptions } from '$sb/components/types/undefined/field/options'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional']
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
 const MultipleInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [isIdChecked, setIsIdChecked] = useState({})
 
   const getStyle = (style, snapshot, lockAxis) => {
     if (!snapshot.isDragging) return style
@@ -43,9 +42,9 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
             {part?.answers?.map((answer, answerIndex) => (
               <DndDraggable
                 pid={pid}
-                itemId={answer.id || answer._id}
+                itemId={`${pid}_${answerIndex}`}
                 index={answerIndex}
-                key={answer.id || answer._id}
+                key={`${pid}_${answerIndex}`}
               >
                 {(provided, snapshot, lockAxis) => (
                   <div
@@ -64,8 +63,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
                       answerIndex={answerIndex}
                       showMobileActions={showMobileActions}
                       part={part}
-                      isIdChecked={isIdChecked}
-                      setIsIdChecked={setIsIdChecked}
+                      pid_index={`${pid}_${answerIndex}`}
                       options={multipleOptions}
                       helperText={answer.optional ?? undefined}
                       type={'multiple'}
@@ -77,8 +75,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
                           part={part.answers[answerIndex]}
                           filterList={[...filterList]}
                           setPropertyByValue={setPropertyByValue}
-                          isIdChecked={isIdChecked}
-                          setIsIdChecked={setIsIdChecked}
+                          pid_index={`${pid}_${answerIndex}`}
                           showMobileActions={showMobileActions}
                           pid={pid}
                           path={`answers[${answerIndex}]`}

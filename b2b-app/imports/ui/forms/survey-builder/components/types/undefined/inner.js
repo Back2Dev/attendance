@@ -6,6 +6,8 @@ import {
   useUndefinedAnswers,
   useSelectedPartValue,
   defaultPart,
+  getDefaultColumn,
+  getDefaultRow,
   usePartValue,
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
@@ -15,9 +17,17 @@ import {
   UploadInner,
   TextInner,
   SectionInner,
+  DropdownInner,
+  LookupInner,
+  RatingInner,
+  GridInner,
+  CalculationInner,
 } from '$sb/components/types/undefined/type-inner'
 import { useRecoilCallback } from 'recoil'
-import { editPartState } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import {
+  editPartState,
+  editPartsState,
+} from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { Question } from './question'
 
 const options = [
@@ -25,15 +35,28 @@ const options = [
   { label: 'Multiple', value: 'multiple', component: MultipleInner },
   { label: 'Upload', value: 'upload', component: UploadInner },
   { label: 'Text', value: 'text', component: TextInner },
-  { label: 'Section', value: 'section', component: SectionInner },
+  { label: 'Section', value: 'section', component: null },
+  { label: 'Dropdown', value: 'dropdown', component: DropdownInner },
+  { label: 'Lookup', value: 'lookup', component: LookupInner },
+  { label: 'Geolocation', value: 'geolocation', component: null },
+  { label: 'Rating', value: 'rating', component: RatingInner },
+  { label: 'Grid', value: 'grid', component: GridInner },
+  { label: 'Calculation', value: 'calculation', component: CalculationInner },
 ]
+
+const nonInnerType = ['paragraph', 'signature', 'geolocation', 'section']
+
+const booleanOptionsType = ['optional', 'confirmPassword']
+
+const checkIsBooleanType = (path) => {
+  return booleanOptionsType.some((opt) => path.includes(opt))
+}
 
 const UndefinedInner = ({ pid, type }) => {
   const { add } = useUndefinedAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const [qType, setQType] = useState(type ?? 'single')
-
   const part = usePartValue(pid)
 
   const showMobileActions = isMobile && selectedPart === pid
@@ -50,7 +73,11 @@ const UndefinedInner = ({ pid, type }) => {
             return value
           }
           if (property === undefined) {
-            return path.includes('optional') ? true : ''
+            return checkIsBooleanType(path) ? true : ''
+          }
+          //if the text length is 0, do not set to undefined
+          else if (value === '') {
+            return ''
           } else {
             return undefined
           }
@@ -58,15 +85,55 @@ const UndefinedInner = ({ pid, type }) => {
       }
   )
 
+  const updateCanvas = useRecoilCallback(({ set }) => ({ value: type }) => {
+    set(editPartsState({ pid }), (property) => {
+      return { ...property, type }
+    })
+  })
+
   const handleChange = ({ target: { value } }) => {
     setQType(value)
     setPropertyByValue({ pid, value, path: 'type' })
     //if type is section, set answers to an empty array, otherwise, set to default part
     setPropertyByValue({
       pid,
-      value: value === 'section' ? [] : defaultPart.answers,
+      value: nonInnerType.includes(value) ? [] : defaultPart.answers,
       path: 'answers',
     })
+
+    if (value === 'grid') {
+      setPropertyByValue({
+        pid,
+        value: {
+          columns: [
+            { ...getDefaultColumn(), field: 'name', editable: false },
+            getDefaultColumn(),
+          ],
+          rows: [getDefaultRow()],
+        },
+        path: 'answers[0]',
+      })
+    }
+
+    if (value === 'calculation') {
+      setPropertyByValue({
+        pid,
+
+        value: {
+          target1: 'integer',
+          targetValue1: 0,
+          operator: '+',
+          target2: 'integer',
+          targetValue2: 0,
+        },
+        path: 'answers[0].expression',
+      })
+    }
+
+    //need to rerender canvas if new section is added
+    if (value === 'section') {
+      updateCanvas({ value })
+    }
   }
 
   return (
@@ -79,8 +146,7 @@ const UndefinedInner = ({ pid, type }) => {
         handleChange={handleChange}
       />
 
-      {qType !== 'paragraph' &&
-        qType !== 'signature' &&
+      {!nonInnerType.includes(qType) &&
         React.createElement(
           (options.find(({ value }) => value === qType) || options[0]).component,
           {

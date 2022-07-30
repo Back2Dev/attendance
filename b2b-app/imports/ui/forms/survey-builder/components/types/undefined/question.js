@@ -1,12 +1,11 @@
-import React, { useState, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Grid, MenuItem } from '@material-ui/core'
+import { TextField, Grid } from '@material-ui/core'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { QuestionField, OptionField } from './field/typesField'
 import { makeStyles } from '@material-ui/core/styles'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const options = [
   { label: 'Single', value: 'single' },
@@ -15,6 +14,12 @@ const options = [
   { label: 'Text', value: 'text' },
   { label: 'Section', value: 'section' },
   { label: 'Signature', value: 'signature' },
+  { label: 'Dropdown', value: 'dropdown' },
+  { label: 'Geolocation', value: 'geolocation' },
+  { label: 'Lookup', value: 'lookup' },
+  { label: 'Rating', value: 'rating' },
+  { label: 'Grid', value: 'grid' },
+  { label: 'Calculation', value: 'calculation' },
 ]
 
 const useStyles = makeStyles(() => ({
@@ -38,11 +43,8 @@ const Question = ({
 }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [isIdChecked, setIsIdChecked] = useState({})
   const showMobileActions = isMobile && selectedPart === pid
-
   const fieldKey = qType === 'section' ? 'name' : 'prompt'
-
   const isHeaderOnly = qType === 'paragraph'
   const classes = useStyles()
 
@@ -52,38 +54,31 @@ const Question = ({
         <QuestionField
           fieldKey={fieldKey}
           pid={pid}
-          isIdChecked={isIdChecked}
-          setIsIdChecked={setIsIdChecked}
+          pid_index={pid}
           setPropertyByValue={setPropertyByValue}
           part={part}
           helperText={part['optional']}
           {...props}
         />
         {!isHeaderOnly && (
-          <Fragment>
-            <Grid item style={{ visibility: 'hidden' }}>
-              <RadioButtonUncheckedIcon />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                select
-                value={qType}
-                onChange={handleChange}
-                label="Question Type"
-                SelectProps={{
-                  native: true,
-                }}
-                // variant="outlined"
-              >
-                {options.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-          </Fragment>
+          <Grid style={{ marginLeft: '32px' }} item xs={12} md={4} lg={3}>
+            <TextField
+              fullWidth
+              select
+              value={qType}
+              onChange={handleChange}
+              label="Question Type"
+              SelectProps={{
+                native: true,
+              }}
+            >
+              {options.map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </TextField>
+          </Grid>
         )}
 
         <Grid container spacing={1} alignItems="flex-start">
@@ -92,8 +87,7 @@ const Question = ({
               part={part}
               filterList={[...filterList, fieldKey, qType === 'section' && 'prompt']}
               setPropertyByValue={setPropertyByValue}
-              isIdChecked={isIdChecked}
-              setIsIdChecked={setIsIdChecked}
+              pid_index={pid}
               showMobileActions={showMobileActions}
               pid={pid}
               path={undefined}

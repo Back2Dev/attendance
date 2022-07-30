@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid, Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
 import {
   useSelectedPartValue,
   usePartAnswers,
@@ -11,6 +11,11 @@ import { AnswerField, OptionField } from '$sb/components/types/undefined/field/t
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { uploadOptions } from '$sb/components/types/undefined/field/options'
 import { makeStyles } from '@material-ui/core/styles'
+
+import PropTypes from 'prop-types'
+import { useRecoilState } from 'recoil'
+import { editInspectorState } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import debug from 'debug'
 
 const useStyles = makeStyles(() => ({
   uploadBox: {
@@ -39,20 +44,105 @@ export const UploadInner = ({ pid, part, setPropertyByValue }) => {
   const { isMobile } = useBuilder()
   const showMobileActions = isMobile && selectedPart === pid
   const theme = useTheme()
-
-  const getStyle = (style, snapshot, lockAxis) => {
-    if (!snapshot.isDragging) return style
-    return {
-      ...lockAxis('y', style),
-      boxShadow: theme.shadows[3],
-      background: theme.palette.background.paper,
-    }
+  const onChangeAccept = (fileType, checked) => {
+    setPropertyByValue({
+      path: 'answers[0].accept',
+      value: { ...part.answers[0]?.accept, [fileType]: checked },
+      pid,
+    })
   }
-  const [isIdChecked, setIsIdChecked] = useState({})
 
   return (
     <div>
-      <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={pid}>
+      <Fragment>
+        {/* <TextField
+            id="maxFiles"
+            label="MaxFiles"
+            type="number"
+            variant="outlined"
+            style={{ marginBottom: '0.5em', marginTop: '0.5rem' }}
+            value={property[0]?.maxFiles}
+            onChange={(e) => onChange({ ...property, maxFiles: e.target.value })}
+          /> */}
+
+        <TextField
+          id="MaxSize"
+          label="MaxSize"
+          type="number"
+          variant="outlined"
+          style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+          value={part.answers[0]?.maxSize}
+          // onChange={(e) => onChange({ ...property[0], maxSize: e.target.value })}
+          onChange={({ target: { value } }) =>
+            setPropertyByValue({ path: 'answers[0].maxSize', value, pid })
+          }
+        />
+
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={part.answers[0]?.accept?.['.pdf']}
+                onChange={({ target: { checked } }) => onChangeAccept('.pdf', checked)}
+                // onChange={(e) =>
+                //   onChange({
+                //     ...part.answers[0],
+                //     accept: { ...part.answers[0]?.accept, '.pdf': e.target.checked },
+                //   })
+                // }
+              />
+            }
+            label="PDF"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={part.answers[0]?.accept?.['image/*']}
+                onChange={({ target: { checked } }) => onChangeAccept('image/*', checked)}
+                // onChange={(e) =>
+                //   onChange({
+                //     ...part.answers[0],
+                //     accept: { ...part.answers[0]?.accept, 'image/*': e.target.checked },
+                //   })
+                // }
+              />
+            }
+            label="IMG"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={part.answers[0]?.accept?.['.txt']}
+                onChange={({ target: { checked } }) => onChangeAccept('.txt', checked)}
+                // onChange={(e) =>
+                //   onChange({
+                //     ...part.answers[0],
+                //     accept: { ...part.answers[0]?.accept, '.txt': e.target.checked },
+                //   })
+                // }
+              />
+            }
+            label="TEXT"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={part.answers[0]?.accept?.['video/*']}
+                onChange={({ target: { checked } }) => onChangeAccept('video/*', checked)}
+                // onChange={(e) =>
+                //   onChange({
+                //     ...part.answers[0],
+                //     accept: { ...part.answers[0]?.accept, 'video/*': e.target.checked },
+                //   })
+                // }
+              />
+            }
+            label="VIDEO"
+          />
+        </FormGroup>
+      </Fragment>
+
+      {/* <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={pid}>
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
@@ -118,7 +208,7 @@ export const UploadInner = ({ pid, part, setPropertyByValue }) => {
             {provided.placeholder}
           </ul>
         )}
-      </DndDroppable>
+      </DndDroppable> */}
 
       {showMobileActions && (
         <Button

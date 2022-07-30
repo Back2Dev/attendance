@@ -1,14 +1,18 @@
 import React from 'react'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import DatePicker from '/imports/ui/components/date-field'
 import LookupField from '/imports/ui/components/lookup-field'
 import TagsField from '/imports/ui/components/tags-field'
 import TreeField from '/imports/ui/components/tree-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
-import ImageField, { RadioFieldWithImage } from '/imports/ui/components/image-field'
+import RadioImageField from '/imports/ui/components/radio-image-field'
+import RatingField from '/imports/ui/components/rating-field'
+import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
+import DateField from '/imports/ui/components/date-field'
+import PasswordField from '/imports/ui/components/password-field'
+import { UploadField } from '/imports/ui/components/upload-field'
 
 const LongField = (props) => (
   <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
@@ -184,6 +188,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'number') {
                     subSchema[qaId].uniforms.component = NumField
                   }
+
                   if (a.type === 'email')
                     subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
@@ -197,34 +202,91 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 answers.forEach((a) => {
                   const qaId = `${q.id}-${a.id}`
-                  let optional = !!a.optional
-                  const uniforms = {}
+
+                  let uniforms = {}
+                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
                   optional = getOptionalFunc(q, uniforms, optional)
+
+                  // const regEx = new RegExp(a.regEx)
+                  uniforms = {
+                    helperText: a.note,
+                    required: !optional,
+                    placeholder: a.placeholder,
+                  }
 
                   step.schema[qaId] = {
                     type: String,
                     label: a.name,
                     optional,
                     uniforms,
+                    regEx: new RegExp(a.regEx),
                   }
+
+                  if (a.confirmPassword) {
+                    step.schema[`${qaId}_2`] = {
+                      type: String,
+                      label: 'Confirm Password',
+                      optional,
+                      uniforms,
+                    }
+                  }
+                  if (a.type === 'long') {
+                    step.schema[qaId].uniforms = {
+                      ...uniforms,
+                      component: LongTextField,
+                      minRows: '3',
+                      variant: 'outlined',
+                    }
+                  }
+                  if (a.type === 'number') {
+                    step.schema[qaId].uniforms = {
+                      ...uniforms,
+                      component: NumField,
+                    }
+                  }
+
                   if (a.re) {
                     step.schema[qaId].regEx = new RegExp(a.re)
                     step.schema[qaId].custom = checkVolume
                     // step.schema[qaId].optional = true
                   }
                   if (a.type === 'address') {
-                    step.schema[qaId].uniforms.margin = 'normal'
+                    // step.schema[qaId].uniforms.margin = 'normal'
                     step.schema[qaId].uniforms.component = GooglePlaces
                     step.schema[qaId].uniforms.autocompleteBugFix = true
+                    step.schema[qaId].uniforms.required = !optional
                   }
                   if (a.type === 'date') {
-                    step.schema[qaId].type = Date
-                    step.schema[qaId].uniforms.margin = 'normal'
-                    step.schema[qaId].uniforms.component = DatePicker
+                    step.schema[qaId].uniforms = {
+                      ...uniforms,
+                      component: DateField,
+                    }
+                  }
+
+                  // if (a.type === 'phoneNumber') {
+                  //   step.schema[qaId].uniforms.margin = 'normal'
+                  //   step.schema[qaId].uniforms.component = PhoneField
+                  // }
+
+                  if (a.type === 'password') {
+                    // step.schema[qaId].uniforms.type = 'password'
+                    step.schema[qaId].uniforms.component = PasswordField
+                    // step.schema[qaId].uniforms.required = !optional
+                    if (a.confirmPassword) {
+                      // step.schema[`${qaId}_2`].uniforms.type = 'password'
+                      step.schema[`${qaId}_2`].uniforms.component = PasswordField
+                      step.schema[`${qaId}_2`].custom = function () {
+                        if (this.value !== this.siblingField(qaId).value) {
+                          return 'password mismatch'
+                        }
+                      }
+                    }
                   }
 
                   if (a.type === 'email')
                     step.schema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                  step.schema[qaId].uniforms.variant = 'outlined'
+
                   if (a.type === 'calculated') {
                     step.schema[qaId].optional = false
                     step.schema[qaId].uniforms.expression = a.expression
@@ -233,11 +295,11 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'multiple':
                 delete step.schema[q.id]
-                if (answers.length <= 10) {
+                if (anwers.length >= 10) {
                   answers.forEach((a) => {
                     const id = `${q.id}-${a.id}`
                     const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, true)
+                    const optional = getOptionalFunc(q, uniforms, !!q.optional)
                     step.schema[id] = {
                       type: Boolean,
                       label: a.name,
@@ -245,6 +307,19 @@ const getSchemas = (survey, currentData) => {
                       uniforms,
                     }
                   })
+                  answers
+                    .filter((a) => a.specify)
+                    .map((a) => {
+                      const specifyId = `${q.id}-${a.id}-specify`
+                      const uniforms = {}
+                      // const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                      step.schema[specifyId] = {
+                        type: String,
+                        label: a.specify,
+                        // optional,
+                        uniforms,
+                      }
+                    })
                   answers
                     .filter((a) => a.specify)
                     .map((a) => {
@@ -274,15 +349,15 @@ const getSchemas = (survey, currentData) => {
                 }
                 break
               case 'single':
-                qSchema.uniforms.checkboxes = 'true'
-                qSchema.uniforms.component = RadioFieldWithImage
+                // qSchema.uniforms.checkboxes = 'true'
+                qSchema.uniforms.component = RadioImageField
                 qSchema.uniforms.options = answers.map((a) => {
                   return { label: a.name, value: a.value || a.id, image: a.image }
                 })
-
+                let optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
                 qSchema.label = q.prompt
-                qSchema.uniforms.required = q.optional
-                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+                // qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+                qSchema.uniforms.required = !optional
                 // debug(`${q.id} optional`, qSchema.optional)
 
                 answers
@@ -300,6 +375,73 @@ const getSchemas = (survey, currentData) => {
                     return specifyId
                   })
                 break
+              case 'rating':
+                qSchema.uniforms.component = RatingField
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
+                break
+
+              case 'grid':
+                qSchema.uniforms.component = GridField
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+
+                answers
+                  .filter((a) => a.specify)
+                  .map((a) => {
+                    const specifyId = `${q.id}-${a.id}-specify`
+                    const uniforms = {}
+                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                    step.schema[specifyId] = {
+                      type: String,
+                      label: a.specify,
+                      optional,
+                      uniforms,
+                    }
+                    return specifyId
+                  })
+                break
+
+              case 'calculation':
+                const getExpId = (target, targetValue) => {
+                  if (target === 'integer') return Number(targetValue)
+                  let expId
+                  step.questions.forEach((q) => {
+                    if (q[target] === targetValue) {
+                      return (expId = q.id)
+                    }
+
+                    q.answers.forEach((a) => {
+                      if (a[target] === targetValue) {
+                        return (expId = `${q.id}-${a.id}`)
+                      }
+                    })
+                  })
+
+                  return expId
+                }
+                const a = q.answers[0]
+                const { target1, targetValue1, target2, operator, targetValue2 } =
+                  a.expression
+                const expId1 = getExpId(target1, targetValue1)
+                const expId2 = getExpId(target2, targetValue2)
+                qSchema.uniforms.expression = [expId1, operator, expId2]
+
+                break
+
               // case 'multiple':
               //   qSchema.uniforms.checkboxes = "true"
               //   qSchema.uniforms.options = answers.map((a) => {
@@ -323,29 +465,10 @@ const getSchemas = (survey, currentData) => {
               //     })
 
               //   break
-              // case 'image':
-              //   qSchema.uniforms.value = answers.map((a) => a.val)
-              //   qSchema.uniforms.component = ImageField
-              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 
-              //   answers
-              //     .filter((a) => a.specify)
-              //     .map((a) => {
-              //       const specifyId = `${q.id}-${a.id}-specify`
-              //       const uniforms = {}
-              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-              //       step.schema[specifyId] = {
-              //         type: String,
-              //         label: a.specify,
-              //         optional,
-              //         uniforms,
-              //       }
-              //       return specifyId
-              //     })
-              //   break
               case 'upload':
-                qSchema.uniforms.value = answers.map((a) => a.val)
-                qSchema.uniforms.component = ImageField
+                // qSchema.uniforms.value = answers.map((a) => a.val)
+                qSchema.uniforms.component = UploadField
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
 
                 answers
@@ -381,7 +504,8 @@ const getSchemas = (survey, currentData) => {
                 delete step.schema[q.id]
                 break
               case 'signature':
-                // TODO: declare a variable for the signature image? Or should it use slingshot
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
+                // TODO: declare a varible for the signature image? Or should it use slingshot
                 // directly like (I think) the upload field does?
                 // delete step.schema[q.id]
                 break
@@ -407,6 +531,9 @@ const getSchemas = (survey, currentData) => {
                 }
                 break
               case 'dropdown':
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+                qSchema.label = ''
+                // qSchema.uniforms.textFieldProps = { helperText: 'this is a helper' }
                 // Nothing to do, just accept it as is ??
                 break
               case 'upload':
@@ -436,7 +563,6 @@ const getSchemas = (survey, currentData) => {
           })
         }
         debug('schema', step.schema)
-
         step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))
         return step
       })

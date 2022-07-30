@@ -19,7 +19,6 @@ function Lookup({
   showInlineError,
   defaultValue,
   value,
-  ...props
 }) {
   const options = ['Mr Boss', 'Bossy Dude']
   const [val, setVal] = React.useState(defaultValue || value)
@@ -42,7 +41,7 @@ function Lookup({
       placeholder={placeholder}
       ref={inputRef}
       renderInput={(params) => (
-        <TextField {...params} label={label} margin="normal" variant="outlined" />
+        <TextField {...params} label={label} margin="dense" variant="outlined" />
       )}
     />
   )

@@ -14,6 +14,9 @@ import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { DndDroppable, useBuilder } from '/imports/ui/forms/survey-builder/context'
 import styled from 'styled-components'
 import { Undefined } from '$sb/components/types/undefined/undefined'
+import { ScrollTop } from '/imports/ui/components/scroll-to-top'
+
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 
 const log = debug('builder:canvas')
 
@@ -54,9 +57,26 @@ const List = styled('ul')(({ theme }) => ({
   },
 }))
 
+const randomColor = () => {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16)
+}
+
+const defaultColor = [
+  '#8B0000',
+  '#A52A2A',
+  '#FF7F50',
+  '#6495ED',
+  '#8B008B',
+  '#8FBC8F',
+  '#FF1493',
+  '#1E90FF',
+]
+
+const colorList = [...defaultColor, ...Array.from({ length: 100 }, () => randomColor())]
+
 // FIXME in mobile, when drawer is open the last part is obscured when scrolling to the bottom
 // TODO enable inertial scrolling
-const Canvas = () => {
+const Canvas = (props) => {
   const classes = useStyles()
   const parts = usePartsValue()
   const [selectedPart, setSelectedPart] = useSelectedPartState()
@@ -80,13 +100,16 @@ const Canvas = () => {
   }
 
   let sectionID
+  let color
+  let index = 0
   const newParts = parts.map((item) => {
     if (item.type === 'section') {
+      index += 1
       sectionID = item._id
-      return { ...item, belongSection: sectionID }
-    } else {
-      return { ...item, belongSection: sectionID }
+      color = colorList[index]
     }
+
+    return { ...item, belongSection: sectionID, color }
   })
 
   return (
@@ -98,7 +121,6 @@ const Canvas = () => {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
             <IconButton
               variant="outlined"
               color="default"
@@ -107,9 +129,8 @@ const Canvas = () => {
             >
               <AddIcon />
             </IconButton>
-            {/* </div> */}
 
-            {newParts.map(({ _id, pid, type, belongSection }, index) => {
+            {newParts.map(({ _id, pid, type, belongSection, color }, index) => {
               return createElement(Undefined || Placeholder, {
                 key: pid,
                 pid,
@@ -118,6 +139,7 @@ const Canvas = () => {
                 setSectionState,
                 belongSection,
                 sectionState: sectionState[belongSection],
+                color,
               })
             })}
             {provided.placeholder}
@@ -137,6 +159,12 @@ const Canvas = () => {
           <AddIcon />
         </AddButton>
       )}
+
+      <ScrollTop {...props}>
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
     </Box>
   )
 }

@@ -104,7 +104,7 @@ PureFrame.propTypes = {
 const Frame = ({ pid, index, children, ...props }) => {
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { removePart, copyPart, addPart } = useParts()
-  const { type } = usePartValue(pid)
+
   const { isMobile, dndMove } = useBuilder()
   const setDrawer = useSetDrawer()
   const theme = useTheme()
@@ -118,7 +118,7 @@ const Frame = ({ pid, index, children, ...props }) => {
     }
   }
 
-  const setHeaderOnly = useRecoilCallback(({ set }) => ({ pid, content }) => {
+  const setHeaderOnly = useRecoilCallback(({ set }) => ({ pid }) => {
     set(headerOnly({ pid }), (part) => {
       const _id = part.pid
       return { ...content, _id, pid: _id }
@@ -148,7 +148,7 @@ const Frame = ({ pid, index, children, ...props }) => {
           pid={pid}
           index={index}
           setHeaderOnly={setHeaderOnly}
-          type={type}
+          snapshot={snapshot}
           {...props}
         >
           {children}

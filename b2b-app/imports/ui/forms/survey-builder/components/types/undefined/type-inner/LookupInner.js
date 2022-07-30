@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid, TextField } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
@@ -13,83 +13,53 @@ import { useTheme } from '@material-ui/core/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/types/undefined/field/typesField'
 import { ImageWrapper } from '$sb/components/types/undefined/field/image'
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
-const subType = [
-  { label: 'Short', value: 'text' },
-  { label: 'Long', value: 'long' },
-  { label: 'Email', value: 'email' },
-  { label: 'Number', value: 'number' },
-  { label: 'Date', value: 'date' },
-  { label: 'Password', value: 'password' },
-  { label: 'Address', value: 'address' },
-  { label: 'PhoneNumber', value: 'phoneNumber' },
+const lookupCategories = [
+  { label: 'Company', value: 'company' },
+  { label: 'Group', value: 'group' },
+  { label: 'Title', value: 'title' },
+  { label: 'Position', value: 'position' },
+  { label: 'Level', value: 'level' },
+  { label: 'First Name', value: 'firstname' },
 ]
 
-const selector = (answer, answerIndex, pid, setPropertyByValue) => (
-  <Grid style={{ marginLeft: '32px' }} item xs={12} md={4} lg={3}>
-    <TextField
-      id={`${pid}_${answerIndex}`}
-      fullWidth
-      select
-      value={answer.type}
-      onChange={({ target: { value } }) =>
-        setPropertyByValue({
-          pid,
-          path: `answers[${answerIndex}].type`,
-          value,
-        })
-      }
-      label="Answer Type"
-      SelectProps={{
-        native: true,
-      }}
-    >
-      {subType.map(({ value, label }) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </TextField>
-  </Grid>
+const lookupSelector = (answer, answerIndex, pid, setPropertyByValue) => (
+  <Fragment>
+    <Grid item style={{ visibility: 'hidden' }}>
+      <RadioButtonUncheckedIcon />
+    </Grid>
+    <Grid item xs={3}>
+      <TextField
+        id={`${pid}_${answerIndex}`}
+        fullWidth
+        select
+        value={answer.lookup}
+        onChange={({ target: { value } }) =>
+          setPropertyByValue({
+            pid,
+            path: `answers[${answerIndex}].lookup`,
+            value,
+          })
+        }
+        label="Lookup Type"
+        SelectProps={{
+          native: true,
+        }}
+      >
+        {lookupCategories.map(({ value, label }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </TextField>
+    </Grid>
+  </Fragment>
 )
 
-const getOptions = (textType) => {
-  const getExtra = () => {
-    switch (textType) {
-      case 'password':
-        return [{ value: 'confirmPassword', label: 'Confirm Password' }]
-      default:
-        return []
-    }
-  }
+const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'lookup']
 
-  return [...textOptions, ...getExtra()]
-}
-
-const booleanField = ['optional', 'confirmPassword']
-
-const getHelperText = (answer) => {
-  const hasBoolean = Object.entries(answer).filter(
-    ([key, value]) => value && booleanField.includes(key)
-  )
-
-  if (!hasBoolean.length) return undefined
-  const helperText = hasBoolean.map(([key]) => key).join(', ')
-
-  return helperText
-}
-
-const filterList = [
-  'name',
-  'type',
-  'image',
-  'answers',
-  'pid',
-  'optional',
-  'confirmPassword',
-]
-
-const TextInner = ({ pid, part, setPropertyByValue }) => {
+const LookupInner = ({ pid, part, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -141,10 +111,15 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
                         showMobileActions={showMobileActions}
                         part={part}
                         pid_index={`${pid}_${answerIndex}`}
-                        options={getOptions(answer.type)}
+                        options={textOptions}
                         type={'text'}
-                        helperText={getHelperText(answer)}
-                        children={selector(answer, answerIndex, pid, setPropertyByValue)}
+                        helperText={answer.optional ?? undefined}
+                        children={lookupSelector(
+                          answer,
+                          answerIndex,
+                          pid,
+                          setPropertyByValue
+                        )}
                       />
 
                       <Grid container spacing={1} alignItems="flex-start">
@@ -201,7 +176,7 @@ const TextInner = ({ pid, part, setPropertyByValue }) => {
   )
 }
 
-TextInner.propTypes = {
+LookupInner.propTypes = {
   /** single instance part id */
   pid: PropTypes.string.isRequired,
   /** function gets called when updating atom's value based on the input path argument */
@@ -210,8 +185,8 @@ TextInner.propTypes = {
   part: PropTypes.object.isRequired,
 }
 
-TextInner.defaultProps = {
+LookupInner.defaultProps = {
   initialList: [''],
 }
 
-export { TextInner }
+export { LookupInner }

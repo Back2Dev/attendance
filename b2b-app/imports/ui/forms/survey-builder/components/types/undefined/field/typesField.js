@@ -1,15 +1,16 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
 import { Field } from '../field'
-import PropTypes from 'prop-types'
-import { Grid, Select, MenuItem, TextField, Chip } from '@material-ui/core'
-
+import { useRecoilState } from 'recoil'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-
 import { questionOptions } from '$sb/components/types/undefined/field/options'
+import { IdAtom } from '$sb/recoil/atoms'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles(() => ({
   gridRoot: {
@@ -31,68 +32,52 @@ const getLabelFromKey = (key) => {
   }
 }
 
-const subType = [
-  { label: 'Short', value: 'text' },
-  { label: 'Long', value: 'long' },
-  { label: 'Email', value: 'email' },
-  { label: 'Number', value: 'number' },
-  { label: 'Date', value: 'date' },
-]
-
 // fieldKey: 'name', 'prompt'
 export const QuestionField = ({
   fieldKey,
   pid,
-  isIdChecked,
-  setIsIdChecked,
   setPropertyByValue,
   helperText,
   part,
+  ...props
 }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const showMobileActions = isMobile && selectedPart === pid
 
   return (
-    <Fragment>
-      <Grid item style={{ visibility: 'hidden' }}>
-        <RadioButtonUncheckedIcon />
-      </Grid>
-      <Grid item xs={8}>
-        <Field
-          onChange={({ target: { value } }) =>
-            setPropertyByValue({ path: fieldKey, value, pid })
-          }
-          label={getLabelFromKey(fieldKey)}
-          text={part[fieldKey] || ''}
-          showMobileActions={showMobileActions}
-          placeholder={'Type your question/paragraph'}
-          helperText={helperText}
-          showMore={true}
-          showUploadImage={true}
-          index={pid}
-          onToggle={(path) =>
-            setPropertyByValue({
-              path,
-              pid,
-            })
-          }
-          onUploadFinish={(value) =>
-            setPropertyByValue({
-              path: 'image',
-              value,
-              pid,
-            })
-          }
-          isIdChecked={isIdChecked}
-          setIsIdChecked={setIsIdChecked}
-          options={questionOptions}
-          part={part}
-          underline={true}
-          // variant="outlined"
-        />
-      </Grid>
-    </Fragment>
+    <Grid item style={{ marginLeft: '32px' }} xs={12} md={7} lg={8}>
+      <Field
+        onChange={({ target: { value } }) =>
+          setPropertyByValue({ path: fieldKey, value, pid })
+        }
+        label={getLabelFromKey(fieldKey)}
+        text={part[fieldKey] || ''}
+        showMobileActions={showMobileActions}
+        placeholder={'Type your question/paragraph'}
+        helperText={helperText}
+        showMore={true}
+        showUploadImage={true}
+        index={pid}
+        onToggle={(path) =>
+          setPropertyByValue({
+            path,
+            pid,
+          })
+        }
+        onUploadFinish={(value) =>
+          setPropertyByValue({
+            path: 'image',
+            value,
+            pid,
+          })
+        }
+        options={questionOptions}
+        part={part}
+        underline={true}
+        {...props}
+      />
+    </Grid>
   )
 }
 
@@ -100,55 +85,32 @@ export const OptionField = ({
   filterList,
   part,
   setPropertyByValue,
-  isIdChecked,
-  setIsIdChecked,
+  pid_index,
   showMobileActions,
   pid,
   path,
 }) => {
   const ID = part['id'] ? 'id' : '_id'
   const classes = useStyles()
+  const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
 
   return Object.entries(part)
     .filter(([key, value]) => !filterList.includes(key) && value !== undefined)
     .map(([key, value]) => {
       const isID = key === ID
-
-      const showField = () => {
-        if (!isID) {
-          return true
-        }
-
-        if (isID && isIdChecked[ID]) {
-          return true
-        }
-
-        if (isID && isIdChecked[path]) {
-          return true
-        }
-
-        return false
+      const getStyle = () => {
+        if (isID && !showId) return { display: 'none' }
+        else return {}
       }
 
       return (
         <div className={classes.gridRoot} key={key}>
-          <Grid
-            container
-            spacing={1}
-            alignItems="flex-end"
-            style={showField() ? {} : { display: 'none' }}
-          >
-            <Grid item style={{ visibility: 'hidden' }}>
-              <RadioButtonUncheckedIcon />
-            </Grid>
-            <Grid item>
+          <Grid container spacing={1} alignItems="flex-end" style={getStyle()}>
+            <Grid item style={{ marginLeft: '32px' }}>
               <Field
                 onDeleteOption={() => {
                   if (isID) {
-                    return setIsIdChecked((prev) => ({
-                      ...prev,
-                      [path ?? key]: false,
-                    }))
+                    return setShowId(!showId)
                   }
 
                   setPropertyByValue({ path: path ? `${path}.${key}` : key, pid })
@@ -159,12 +121,33 @@ export const OptionField = ({
                 label={getLabelFromKey(key)}
                 text={value || ''}
                 showMobileActions={showMobileActions}
-                placeholder={key}
+                fieldkey={key}
                 actions={['deleteOption']}
                 type={'option'}
                 variant="filled"
                 underline={true}
                 size={'small'}
+                specify={
+                  key === 'specify' ? (
+                    <Button
+                      onClick={() => {
+                        //default is short
+                        const newType =
+                          part.specifyType === 'short' || !part.specifyType
+                            ? 'long'
+                            : 'short'
+
+                        setPropertyByValue({
+                          path: `${path}.specifyType`,
+                          value: newType,
+                          pid,
+                        })
+                      }}
+                    >
+                      {part.specifyType ?? 'short'}
+                    </Button>
+                  ) : null
+                }
               />
             </Grid>
           </Grid>
@@ -184,11 +167,10 @@ export const AnswerField = ({
   answerIndex,
   showMobileActions,
   part,
-  isIdChecked,
-  setIsIdChecked,
   options,
-  helperText,
   type,
+  children,
+  ...props
 }) => {
   const classes = useStyles()
 
@@ -207,7 +189,7 @@ export const AnswerField = ({
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
         <Grid item>{prefixIcon(type)}</Grid>
-        <Grid item xs={type === 'text' ? 8 : 11}>
+        <Grid item xs={11} md={type === 'text' ? 7 : 11} lg={type === 'text' ? 8 : 11}>
           <Field
             underline={underline}
             onRemove={onRemove}
@@ -239,15 +221,11 @@ export const AnswerField = ({
             placeholder={'Type your answer...'}
             actions={['add', 'remove']}
             part={part}
-            isIdChecked={isIdChecked}
-            setIsIdChecked={setIsIdChecked}
             path={`answers[${answerIndex}]`}
             showMore={true}
             showUploadImage={true}
             options={options}
             fieldID={`${pid}_answer_${answerIndex}`}
-            // label="Answer"
-            helperText={helperText}
             onKeyDown={(e) => {
               if (e.key === 'Tab') {
                 e.preventDefault()
@@ -261,41 +239,85 @@ export const AnswerField = ({
                 )
               }
             }}
+            {...props}
           />
         </Grid>
 
-        {type === 'text' && (
-          <Fragment>
-            <Grid item style={{ visibility: 'hidden' }}>
-              <RadioButtonUncheckedIcon />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                id={`${pid}_${answerIndex}`}
-                fullWidth
-                select
-                value={answer.type}
-                onChange={({ target: { value } }) =>
-                  setPropertyByValue({
-                    pid,
-                    path: `answers[${answerIndex}].type`,
-                    value,
-                  })
-                }
-                label="Answer Type"
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                {subType.map(({ value, label }) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-          </Fragment>
-        )}
+        {children && children}
+      </Grid>
+    </div>
+  )
+}
+
+export const GridField = ({
+  underline = true,
+  onRemove,
+  onAdd,
+  disableRemove,
+  setPropertyByValue,
+  pid,
+  data,
+  dataIndex,
+  showMobileActions,
+  part,
+  options,
+  // helperText,
+  type,
+  ...props
+}) => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.gridRoot}>
+      <Grid container spacing={1} alignItems="flex-end">
+        <Grid item xs={11} style={{ marginLeft: '32px' }}>
+          <Field
+            underline={underline}
+            onRemove={onRemove}
+            onAdd={onAdd}
+            disableRemove={disableRemove}
+            onChange={({ target: { value } }) =>
+              setPropertyByValue({
+                path: `answers[0].${type}s[${dataIndex}].${
+                  type === 'row' ? 'name' : 'field'
+                }`,
+                value,
+                pid,
+              })
+            }
+            onToggle={(path) =>
+              setPropertyByValue({
+                path,
+                pid,
+              })
+            }
+            index={`${pid}_${dataIndex}`}
+            text={type === 'row' ? data.name : data.field}
+            showMobileActions={showMobileActions}
+            placeholder={`Type ${type} name...`}
+            actions={['add', 'remove']}
+            part={part}
+            path={`answers[0].${type}s[${dataIndex}]`}
+            showMore={true}
+            showUploadImage={false}
+            options={options}
+            fieldID={`${pid}_${type}_${dataIndex}`}
+            // helperText={helperText}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                onAdd()
+                const index = type === 'column' ? dataIndex : dataIndex + 1
+                setTimeout(
+                  () =>
+                    document.querySelectorAll(`[id ^='${pid}_${type}']`)[index].focus(),
+                  0
+                )
+              }
+            }}
+            {...props}
+          />
+        </Grid>
       </Grid>
     </div>
   )

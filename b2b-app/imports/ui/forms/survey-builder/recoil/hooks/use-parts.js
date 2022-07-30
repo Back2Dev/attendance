@@ -6,7 +6,7 @@ import {
 } from 'recoil'
 import debug from 'debug'
 import { list, makeId } from '../../utils'
-import { partsAtom, partAtom, partAnswers } from '../atoms'
+import { partsAtom, partAtom, partAnswers, partGridColumns, partGridRows } from '../atoms'
 
 const log = debug('builder:use-parts')
 
@@ -87,5 +87,48 @@ export const usePartAnswers = (pid) => {
     add,
     update,
     remove,
+  }
+}
+
+export const getDefaultColumn = () => ({
+  field: '',
+  id: makeId(),
+  width: 200,
+  editable: true,
+})
+export const getDefaultRow = () => ({ id: makeId(), name: '' })
+
+export const usePartGrid = (pid) => {
+  const [columns, setColumns] = useRecoilState(partGridColumns(pid))
+  const [rows, setRows] = useRecoilState(partGridRows(pid))
+
+  const add = (list, value, index = list.length - 1) => {
+    const l = [...list]
+    l.splice(index + 1, 0, { ...value, id: makeId() })
+    return l
+  }
+
+  const addColumn = (index) => {
+    setColumns(add(columns, { ...getDefaultColumn() }, index))
+  }
+
+  const removeColumn = (index) => {
+    setColumns(list.remove(columns, index))
+  }
+
+  const addRow = (index) => {
+    setRows(add(rows, getDefaultRow(), index))
+  }
+
+  const removeRow = (index) => {
+    setRows(list.remove(rows, index))
+  }
+
+  return {
+    // all: columns,
+    addColumn,
+    removeColumn,
+    addRow,
+    removeRow,
   }
 }

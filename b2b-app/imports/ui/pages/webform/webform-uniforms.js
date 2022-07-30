@@ -17,26 +17,20 @@ import Fab from '@material-ui/core/Fab'
 import Tooltip from '@material-ui/core/Tooltip'
 import Paper from '@material-ui/core/Paper'
 import Slide from '@material-ui/core/Slide'
+import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import DoneIcon from '@material-ui/icons/Done'
 import InfoIcon from '@material-ui/icons/Info'
+import Box from '@material-ui/core/Box'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-
 import {
   AutoField,
   AutoForm,
   LongTextField,
-  TextField,
-  RadioField,
-  ListField,
-  SelectField,
   NumField,
-  DateField,
   ErrorField,
-  ErrorsField,
   SubmitField,
-  BoolField,
 } from 'uniforms-material'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import { Context, useForm, useField } from 'uniforms'
@@ -50,8 +44,10 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
+import PhoneField from '/imports/ui/components/phone-field'
+// import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
-import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
+// import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 import FormLabel from '@material-ui/core/FormLabel'
 
 const debug = require('debug')('app:webforms-progress')
@@ -116,27 +112,31 @@ const Specifiers = (q) => {
         q.type === ('single' || 'image' || 'multiple' || 'dropdown')
           ? [q.id, 'equal', a.id]
           : [`${q.id}-${a.id}`]
-      if (a.specifyType === 'long')
-        return (
-          <DisplayIf
-            key={otherId}
-            condition={(context) => evaluate(formData, context.model, condition)}
-          >
-            <LongTextField
-              name={otherId}
-              id={otherId}
-              minRows="2"
-              placeholder={a.placeholder}
-              variant="outlined"
-            ></LongTextField>
-          </DisplayIf>
-        )
+
       return (
         <DisplayIf
           key={otherId}
           condition={(context) => evaluate(formData, context.model, condition)}
         >
-          <AutoField name={otherId} id={otherId} />
+          {a.specifyType === 'long' ? (
+            <LongTextField
+              name={otherId}
+              id={otherId}
+              minRows="2"
+              label={a.specify}
+              placeholder={a.placeholder}
+              variant="outlined"
+            />
+          ) : (
+            <AutoField
+              name={otherId}
+              id={otherId}
+              variant="outlined"
+              margin="dense"
+              label={a.specify}
+              placeholder={a.placeholder}
+            />
+          )}
         </DisplayIf>
       )
     })
@@ -146,43 +146,83 @@ const TextQ = ({ q, a }) => {
   const { formData } = React.useContext(WebformContext)
 
   const id = `${q.id}-${a.id}`
+  const placeholder = a.placeholder || a.name
+  const errorMessage = a.errorMessage
+  //not sure why multiline with &#10; not work for placeholder
+
   switch (a.type) {
-    case 'long':
-      return (
-        <LongTextField
-          name={id}
-          id={id}
-          key={id}
-          minRows="2"
-          placeholder={a.placeholder}
-          variant="outlined"
-        ></LongTextField>
-      )
+    // case 'long':
+    //   return (
+    //     <LongTextField
+    //       name={id}
+    //       id={id}
+    //       key={id}
+    //       minRows="2"
+    //       variant="outlined"
+    //     ></LongTextField>
+    //   )
     // TODO: Make this work
     // case 'date':
-    //   return <DatePicker disabled name={id} id={id} key={id}></DatePicker>
-    case 'number':
-      return (
-        <NumField name={id} id={id} key={id} defaultValue={a.defaultValue}></NumField>
-      )
+    //   return (
+    //     <Fragment>
+    //       <AutoField name={id} id={id} key={id}></AutoField>
+    //       <ErrorField name={id} id={id}>
+    //         Date is required or is invalid
+    //       </ErrorField>
+    //     </Fragment>
+    //   )
+    // case 'number':
+    //   return (
+    //     <NumField name={id} id={id} key={id} defaultValue={a.defaultValue} ></NumField>
+    //   )
     case 'calculated':
       return <span>{a.defaultValue}</span>
-    // return (
-    //   <TextField
-    //     disabled
-    //     name={id}
-    //     id={id}
-    //     key={id}
-    //     labelProps={{ shrink: true, disableAnimation: true }}
-    //     defaultValue={a.defaultValue}
-    //   ></TextField>
-    // )
+
+    case 'phoneNumber':
+      return (
+        <Fragment>
+          <PhoneField name={id} id={id} key={id}></PhoneField>
+          <ErrorField name={id} id={id}>
+            {errorMessage || 'Phone Number is required or is invalid'}
+          </ErrorField>
+        </Fragment>
+      )
+
+    case 'password':
+      return (
+        <Fragment>
+          <AutoField placeholder={placeholder} name={id} id={id} key={id} />
+          <ErrorField name={id} id={id}>
+            {errorMessage || 'Password is required or is invalid'}
+          </ErrorField>
+          {a.confirmPassword && (
+            <Fragment>
+              <AutoField
+                name={`${id}_2`}
+                id={`${id}_2`}
+                key={`${id}_2`}
+                label={'Confirm Password'}
+                placeholder={'Confirm Password'}
+              />
+              <ErrorField name={`${id}_2`} id={`${id}_2`}>
+                {errorMessage || 'Confirm Password is required or is inconsistent'}
+              </ErrorField>
+            </Fragment>
+          )}
+        </Fragment>
+      )
+
     default:
-      return <AutoField name={id} id={id} key={id} />
+      return (
+        <Fragment>
+          <AutoField name={id} id={id} key={id} placeholder={placeholder} />
+          <ErrorField name={id} id={id} errorMessage={errorMessage} />
+        </Fragment>
+      )
   }
 }
 
-const Prompt = ({ text, tooltip, description }) => {
+const Prompt = ({ text, tooltip, description, header, required = true }) => {
   let prompt = ''
   if (text) {
     const p = text.replace(/\n/g, '<br />')
@@ -192,18 +232,29 @@ const Prompt = ({ text, tooltip, description }) => {
 
   return (
     <div>
-      {/* <>{prompt}</> */}
-      <FormLabel component="legend">{prompt}</FormLabel>
+      <Box display="flex" alignItems="center">
+        <FormLabel component="legend" required={required}>
+          {prompt}
+        </FormLabel>
+        {tooltip && (
+          <Tooltip title={tooltip}>
+            <IconButton aria-label="tooltip">
+              <InfoIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Box>
+
+      {header && <h4>{header}</h4>}
       {desc && <p>{desc}</p>}
-      {tooltip && <i>{html2r(tooltip)}</i>}
+      {/* {tooltip && <i>{html2r(tooltip)}</i>} */}
     </div>
   )
 }
-const RenderQ = (q, ix) => {
+const RenderQ = (q, ix, model) => {
   const { formData } = React.useContext(WebformContext)
 
   const key = `q${q.id}${ix}`
-
   switch (q.type) {
     // case 'array':
     //   return (
@@ -226,7 +277,13 @@ const RenderQ = (q, ix) => {
     case 'text':
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
             const id = `${q.id}-${a.id}`
@@ -234,20 +291,46 @@ const RenderQ = (q, ix) => {
               <span key={iy}>
                 {TextQ({ q, a })}
                 {a.image && <img src={a.image} width="75px" height="75px" />}
-                <ErrorField name={id} id={id}>
+                {/* <ErrorField name={id} id={id}>
                   {a.name || 'This'} is required
-                </ErrorField>
-                <NoteIf note={a.note} field={id}></NoteIf>
+                </ErrorField> */}
+                {/* <NoteIf note={a.note} field={id}></NoteIf> */}
               </span>
             )
           })}
         </div>
       )
+
+    case 'calculation':
+      const answer = q.answers[0]?.expression
+      const { target1, targetValue1, target2, targetValue2, operator } = answer
+      const isPureCal = target1 === 'integer' && target2 === 'integer'
+      return (
+        <div className="q-container">
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={false}
+          />
+          <span>
+            {isPureCal ? eval(`${targetValue1}${operator}${targetValue2}`) : model[q.id]}
+          </span>
+        </div>
+      )
+
     case 'multiple':
       const choices = getAnswers(formData, q.answers).map((a, iy) => a.name)
       return (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           {q.image && <img src={q.image} width="75px" height="75px" />}
 
           {q.answers.length > 10 && <AutoField name={q.id} id={q.id} options={choices} />}
@@ -273,9 +356,65 @@ const RenderQ = (q, ix) => {
     case 'single':
       return (
         <div key={key} className="q-container">
-          <span>
-            <AutoField name={q.id} id={q.id} />
-          </span>
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+
+          <AutoField name={q.id} id={q.id} required={q.optional} />
+
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
+    case 'rating':
+      return (
+        <div key={key} className="q-container">
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+
+          <AutoField name={q.id} id={q.id} max={q.answers[0]?.max || 1} />
+
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
+
+    case 'grid':
+      return (
+        <div key={key} className="q-container">
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+
+          <AutoField name={q.id} id={q.id} data={q.answers[0]} />
+
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -295,10 +434,18 @@ const RenderQ = (q, ix) => {
       }))
       return (
         <div key={key} className="q-container">
-          <span>
-            <AutoField name={q.id} id={q.id} options={options} />
-          </span>
-          <ErrorField name={q.id} id={q.id} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+          <AutoField name={q.id} id={q.id} options={options} />
+
+          <ErrorField name={q.id} id={q.id}>
+            Please select!
+          </ErrorField>
           {Specifiers(q)}
           {getAnswers(formData, q.answers).map((a, iy) => {
             return (
@@ -313,7 +460,13 @@ const RenderQ = (q, ix) => {
     case 'lookup':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           <span>
             {getAnswers(formData, q.answers).map((a, iy) => {
               const id = `${q.id}-${a.id}`
@@ -348,9 +501,7 @@ const RenderQ = (q, ix) => {
     //       <span>{q.prompt}</span>
     //       <div style={{ display: 'flex' }}>
     //         <AutoField name={q.id} id={q.id} />
-    //       </div>
-    //       <ErrorField name={q.id} id={q.id} />
-    //       {Specifiers(q)}
+    //       </div>s
     //       {getAnswers(formData, q.answers).map((a, iy) => {
     //         return <NoteIf key={iy} note={a.note} field={q.id} value={a.id}></NoteIf>
     //       })}
@@ -383,7 +534,13 @@ const RenderQ = (q, ix) => {
     case 'paragraph':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           {q.image && <img src={q.image} width="75px" height="75px" />}
         </span>
       )
@@ -391,9 +548,23 @@ const RenderQ = (q, ix) => {
     case 'signature':
       return (
         <span key={key} className="q-container">
-          {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
-          <Signature title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
-          <ErrorField name={q.id} id={q.id} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+          <Signature
+            // title={q.prompt}
+            // subheader={q.tooltip}
+            name={q.id}
+            id={q.id}
+            // header={q.header}
+          />
+          <ErrorField name={q.id} id={q.id}>
+            Can't be empty!!
+          </ErrorField>
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>
       )
@@ -402,7 +573,21 @@ const RenderQ = (q, ix) => {
       return (
         <span key={key} className="q-container">
           {/* <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description}  /> */}
-          <Geolocation title={q.prompt} subheader={q.tooltip} name={q.id} id={q.id} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+          <Geolocation
+            // title={q.prompt}
+            // subheader={q.tooltip}
+            name={q.id}
+            id={q.id}
+            // header={q.header}
+            required={!q.optional}
+          />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
         </span>
@@ -418,16 +603,33 @@ const RenderQ = (q, ix) => {
     case 'upload':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
-          <DropZone />
+          <AutoField
+            name={q.id}
+            id={q.id}
+            maxSize={q.answers[0].maxSize}
+            accept={q.answers[0].accept}
+          />
         </span>
       )
 
     default:
       return q.type ? (
         <div key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
           <AutoField name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />
           <NoteIf note={q.note} field={q.id}></NoteIf>
@@ -487,11 +689,13 @@ const useStyles = makeStyles((theme) =>
 // from a component is prohibited.
 function DisplayIf({ children, condition }) {
   const uniforms = useForm()
+
   return condition(uniforms) ? React.Children.only(children) : null
 }
 
 function NoteIf({ note, field, value }) {
   const context = useForm()
+
   if (!note) return null
   let show = !field
   if (!show) {
@@ -503,6 +707,12 @@ function NoteIf({ note, field, value }) {
     </span>
   ) : null
 }
+
+// function GetCalculation({ id }) {
+//   const context = useForm()
+
+//   return <span>{context.model?.[id]}</span>
+// }
 
 const StyledRenderQ = styled.div`
   .q-container {
@@ -538,7 +748,7 @@ const Progress = ({
   const [models, setModels] = React.useState(
     steps.reduce((acc, step, ix) => {
       try {
-        const model = formData[step.id] ? formData[step.id] : {}
+        const model = formData[step.id] ?? {}
         // const valCtx = step.bridge.schema.newContext()
         const valCtx = new SimpleSchema(step.bridge.schema).newContext()
         valCtx.validate(model)
@@ -644,6 +854,15 @@ const Progress = ({
 
   // TODO: If the expression is a string, parse and calculate it
   const calc = (expression, model) => {
+    if (Array.isArray(expression)) {
+      const firstNum =
+        typeof expression[0] === 'string' ? model[expression[0]] : expression[0]
+      const secondNum =
+        typeof expression[2] === 'string' ? model[expression[2]] : expression[2]
+      const operator = expression[1]
+
+      return eval(`${firstNum}${operator}${secondNum}`)
+    }
     if (typeof expression === 'function') return expression(model)
     // Replace tokens with values from model
     const result = eval(expression)
@@ -658,6 +877,7 @@ const Progress = ({
       if (!step.visible && ix <= acc) return acc + 1
       return acc
     }, activeStep)
+
     const step = steps[stepix]
     if (step?.schema) {
       const { schema } = step
@@ -670,8 +890,9 @@ const Progress = ({
         }
       })
     }
-    models[step.id] = cloneDeep(model)
-    setModels(models)
+    // models[step.id] = cloneDeep(model)
+    // setModels(models)
+    setModels((prev) => ({ ...prev, [step.id]: cloneDeep(model) }))
   }
 
   const progress = Math.min((100 * completed.size) / numSteps(), 100)
@@ -698,6 +919,7 @@ const Progress = ({
                 <StepLabel className={classes.steplabel} data-cy={`step-${step.id}`}>
                   {step.name}
                 </StepLabel>
+                {step.header && <h4>{step.header}</h4>}
                 <StepContent>
                   <Card key={step.id} variant="outlined">
                     <CardContent>
@@ -722,7 +944,7 @@ const Progress = ({
                                   }
                                 >
                                   <span key={`m${q.id}`}>
-                                    {RenderQ(q, iy)}
+                                    {RenderQ(q, iy, models[step.id])}
                                     {q.note && RenderNote(q.note)}
                                   </span>
                                 </DisplayIf>

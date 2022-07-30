@@ -10,6 +10,8 @@ import Checkbox from '@material-ui/core/Checkbox'
 import { get } from 'lodash'
 import { IconButton } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import { useRecoilState } from 'recoil'
+import { IdAtom } from '$sb/recoil/atoms'
 
 const useStyles = makeStyles({
   list: {
@@ -21,15 +23,9 @@ const useStyles = makeStyles({
   },
 })
 
-const MoreList = ({
-  part,
-  path,
-  isIdChecked,
-  setIsIdChecked,
-  onToggle,
-  options = [],
-}) => {
+const MoreList = ({ part, path, onToggle, options = [], pid_index }) => {
   const classes = useStyles()
+  const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
   const [anchorEl, setAnchorEl] = React.useState(null)
   const ID = part['id'] ? 'id' : '_id'
   const handleClick = (event) => {
@@ -42,10 +38,7 @@ const MoreList = ({
 
   const handleToggle = (value) => () => {
     if (value.includes('id')) {
-      return setIsIdChecked((prev) => ({
-        ...prev,
-        [path ?? value]: !prev[path ?? value],
-      }))
+      return setShowId(!showId)
     }
     onToggle(value)
   }
@@ -74,7 +67,7 @@ const MoreList = ({
 
             const checked =
               item.label === 'ID'
-                ? isIdChecked[ID]
+                ? showId
                 : get(part, path ? `${path}.${item.value}` : item.value)
 
             return (
