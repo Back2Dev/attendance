@@ -792,7 +792,11 @@ const Progress = ({
         <div>
           {progress === 100 ? (
             <div>
-              <Alert severity="success" className={classes.instructions}>
+              <Alert
+                data-cy="completed"
+                severity="success"
+                className={classes.instructions}
+              >
                 All steps completed
               </Alert>
               {task.role === 'PM' && currentRole === 'PM' && (

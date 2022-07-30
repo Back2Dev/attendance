@@ -93,8 +93,6 @@ Cypress.Commands.add('ApproveDocument', (element) => {
   cy.wait(2000).get('[data-cy=approve]').should('be.enabled').click()
 })
 
-
-
 Cypress.Commands.add('manualLogin', (person) => {
   cy.get('[data-cy=email-input]').should('exist').type(person.username)
   cy.get('[data-cy=password-input]').should('exist').type(person.password)
@@ -105,4 +103,12 @@ Cypress.Commands.add('SendNotification', (element) => {
   cy.get(element).should('be.enabled').click({ force: true })
   // Checks if button is disabled on next-steps
   cy.get(element).should('be.disabled')
+})
+
+/////////////////////for test purpose only remove later//////////////
+Cypress.Commands.add('LoginDemo', () => {
+  cy.visit('/login')
+  cy.get('[data-cy=email-input]').type('mike@mydomin.com.au')
+  cy.get('[data-cy=password-input]').type('me2')
+  cy.get('[data-cy=login-btn]').should('exist').click()
 })

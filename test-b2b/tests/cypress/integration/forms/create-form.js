@@ -28,11 +28,26 @@ describe('log into app and create a service', () => {
     cy.get('[data-cy=admin]').click()
     cy.get('[href="/admin/forms"]').should('exist').click()
     cy.get('#add').click()
-    cy.get('[name=name]').clear().type('Lucidity Incident Report')
-    cy.get('[name=slug]').clear().type('luc-incident')
-    cy.get('[name=source]').type(' ')
+    cy.get('[name=name]').clear().type('Test Incident Report')
+    cy.get('[name=slug]').clear().type('test-101')
+    cy.get('[name=source]').clear().type(`
+    S General
+    +id = incident-report-general
+    
+    Q Entered by:
+    +type=text
+    +id=entered-by
+    A Name(will be logged in user)
+    `)
     cy.get('[name=revision]').clear().type('1')
     cy.get('[name=active]').click()
-    cy.contains('Submit').click()
+    cy.get('button[type=submit]').click()
+    cy.visit('/admin/forms/edit/test-101')
+    cy.get('.editorTools > span > button:nth-child(2)').click()
+  })
+
+  it('tests recently created form', () => {
+    cy.get('#entered-by-name-will-be-logged-in-user-').should('exist').type('Some one')
+    cy.get('[data-cy=next-step]').click()
   })
 })
