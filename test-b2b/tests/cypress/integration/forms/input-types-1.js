@@ -12,7 +12,7 @@ describe('log into app and create a service', () => {
     cy.visit('/admin/forms')
     cy.loginFromHomepage('mike.king@mydomain.com.au', 'me2')
     cy.visit('/admin/forms')
-    cy.get('#add').click()
+    cy.getSettled('#add').click()
     cy.get('[name=name]').clear().type('Test Incident Report')
     cy.get('[name=slug]').clear().type('test-101')
     cy.get('[name=source]').clear().type(`

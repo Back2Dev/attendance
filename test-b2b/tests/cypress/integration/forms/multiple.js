@@ -18,7 +18,7 @@ describe('log into app and create a form with a multiple question', () => {
     })
     cy.visit('/admin/forms/edit/test-multiple')
     // Compile and run the form...
-    cy.get('[data-cy="run-form"]').click()
+    cy.getSettled('[data-cy="run-form"]').click()
 
     // check with missing inputs - first question is optional, so that's ok
     cy.get('[data-cy=next-step]').click()
