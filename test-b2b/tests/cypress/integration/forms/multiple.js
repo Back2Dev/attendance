@@ -16,7 +16,8 @@ describe('log into app and create a form with a multiple question', () => {
     cy.window().then(async (win) => {
       await win.Meteor.callAsync('insert.forms', forms.multiple)
     })
-    cy.visit('/admin/forms/edit/test-multiple')
+    cy.getSettled('[data-cy=forms]').should('exist').click()
+    cy.get(':nth-child(3) > .formatterCell > .MuiSvgIcon-root').click()
     // Compile and run the form...
     cy.getSettled('[data-cy="run-form"]').click()
 
