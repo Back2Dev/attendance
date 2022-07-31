@@ -3,7 +3,7 @@ import { Box, Fab, IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { makeStyles } from '@material-ui/core/styles'
 import debug from 'debug'
-import { Placeholder } from '/imports/ui/forms/survey-builder/components/types'
+import { Placeholder } from '/imports/ui/forms/survey-builder/components/old/types'
 import {
   usePartsValue,
   useSelectedPartState,
@@ -13,7 +13,7 @@ import {
 import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { DndDroppable, useBuilder } from '/imports/ui/forms/survey-builder/context'
 import styled from 'styled-components'
-import { Undefined } from '$sb/components/types/undefined/undefined'
+import { Question } from '$sb/components/question'
 import { ScrollTop } from '/imports/ui/components/scroll-to-top'
 
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
@@ -131,7 +131,7 @@ const Canvas = (props) => {
             </IconButton>
 
             {newParts.map(({ _id, pid, type, belongSection, color }, index) => {
-              return createElement(Undefined || Placeholder, {
+              return createElement(Question || Placeholder, {
                 key: pid,
                 pid,
                 index,

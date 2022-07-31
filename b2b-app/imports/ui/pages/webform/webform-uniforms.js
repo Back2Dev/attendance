@@ -47,7 +47,6 @@ import Signature from '/imports/ui/components/signature'
 import PhoneField from '/imports/ui/components/phone-field'
 // import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
-// import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 import FormLabel from '@material-ui/core/FormLabel'
 
 const debug = require('debug')('app:webforms-progress')
