@@ -105,12 +105,40 @@ Cypress.Commands.add('SendNotification', (element) => {
   cy.get(element).should('be.disabled')
 })
 
-/////////////////////for test purpose only remove later//////////////
-Cypress.Commands.add('LoginDemo', () => {
-  cy.visit('/login')
-  cy.get('[data-cy=email-input]').type('mike@mydomin.com.au')
-  cy.get('[data-cy=password-input]').type('me2')
-  cy.get('[data-cy=login-btn]').should('exist').click()
+Cypress.Commands.add('createBasicForm', () => {
+  cy.visit('/')
+  cy.loginFromHomepage('mike.king@mydomain.com.au', 'me2')
+  cy.visit('/admin/forms')
+  cy.get('#add').click()
+  cy.get('[name=name]').clear().type('Test')
+  cy.get('[name=slug]').clear().type('test-101')
+  cy.get('[name=source]').clear().type(`
+  S Test ${'\n'}
+    `)
+
+  cy.get('[name=revision]').clear().type('1')
+  cy.get('[name=active]').click()
+  cy.get('button[type=submit]').click()
+  cy.visit('/admin/forms/edit/test-101')
+  cy.get('.editorTools > span > button:nth-child(2)').click()
+  cy.get('.CodeMirror textarea').type(`\n`, {
+    force: true,
+  })
+})
+
+Cypress.Commands.add('addInputField', (data = {}) => {
+  let { title, value, type, id, optional } = data
+  cy.get('.CodeMirror textarea')
+    // we use `force: true` below because the textarea is hidden
+    // and by default Cypress won't interact with hidden elements
+    .type(
+      `${title ? title : ''} ${value ? value + '\n' : ''}${
+        type ? '+type=' + type + '\n' : ''
+      }${id ? '+id=' + id + '\n' : ''}${optional ? '+type=optional\n' : ''}`,
+      {
+        force: true,
+      }
+    )
 })
 
 Cypress.Commands.add('getSettled', (selector, opts = {}) => {

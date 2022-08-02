@@ -42,9 +42,6 @@ describe('log into app and create a service', () => {
     +type=signature
     A pls sign
 
-
-
-   
     `)
     cy.get('[name=revision]').clear().type('1')
     cy.get('[name=active]').click()

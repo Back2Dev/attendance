@@ -91,8 +91,13 @@ describe('log into app and create a service', () => {
     cy.get('p#entered-by-mobile-number').should('not.exist')
 
     // type date
-    cy.get('input#entered-by-date').type('2022-03-12')
-    cy.get('p#entered-by-date').should('not.exist')
+    cy.get('.MuiPickersBasePicker-pickerView').should('not.exist')
+    cy.get('#entered-by-date-label').next().find('button').click()
+    cy.get('.MuiPickersBasePicker-pickerView')
+      .find('.MuiPickersCalendar-week:nth-child(2)>div')
+      .eq(0)
+      .click()
+    cy.get('button').contains('OK').click()
 
     cy.get('input#entered-by-password').type('secret')
     cy.get('p#entered-by-password').should('not.exist')
