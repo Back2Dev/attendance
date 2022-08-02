@@ -1,3 +1,32 @@
+// Cypress.on('uncaught:exception', (err, runnable) => {
+//   // returning false here prevents Cypress from
+//   // failing the test. We do this because of some ugly js errors
+//   // from a js library we are using
+//   return false
+// })
+// describe('creates a form', () => {
+//   before(function () {
+//     freshDatabase()
+//   })
+//   it('logs in from hompage, creates a form and fills the form builder', () => {
+//     cy.createBasicForm()
+//     cy.addInputField({
+//       title: 'Q',
+//       value: 'Email',
+//       type: 'text',
+//     })
+//     cy.addInputField({
+//       title: 'A',
+//       value: 'Enter email',
+//       type: 'email',
+//     })
+//     cy.get('.editorTools > span > button:nth-child(2)').click()
+
+//     // click next without any input
+//     cy.get('[data-cy=next-step]').click()
+//   })
+// })
+
 import forms from '/tests/cypress/fixtures/forms'
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from

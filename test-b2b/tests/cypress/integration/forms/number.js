@@ -8,37 +8,32 @@ describe('creates a form', () => {
   before(function () {
     freshDatabase()
   })
-  it('logs in from hompage, creates a form with dropdown input type', () => {
+  it('logs in from hompage, creates a form with number input type', () => {
     cy.createBasicForm()
     cy.addInputField({
       title: 'Q',
-      value: 'Dropdown',
-      type: 'dropdown',
+      value: 'Number',
+      type: 'text',
     })
     cy.addInputField({
       title: 'A',
-      value: 'value 1',
-    })
-    cy.addInputField({
-      title: 'A',
-      value: 'value 2',
-    })
-    cy.addInputField({
-      title: 'A',
-      value: 'value 3',
+      value: 'Enter number',
+      type: 'number',
     })
     cy.get('.editorTools > span > button:nth-child(2)').click()
 
-    // click next without any input
+    //   // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#dropdown').should('exist')
+    cy.get('p#number-enter-number').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
-    // give a valid input
-    cy.get('div#dropdown').click({ force: true })
-    cy.get('[data-value="value-1"]').click()
-    cy.get('p#dropdown').should('not.exist')
+    //   // give an invalid input
+    cy.get('input#number-enter-number').type('text')
+    cy.get('p#number-enter-number').should('exist')
 
+    //   // give a valid input
+    cy.get('input#number-enter-number').clear().type('12321312')
+    cy.get('p#number-enter-number').should('not.exist')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })
