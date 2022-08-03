@@ -282,7 +282,7 @@ const getSchemas = (survey, currentData) => {
                   }
 
                   if (a.type === 'email')
-                    step.schema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                  step.schema[qaId].regEx =  a.regEx ? new RegExp(a.regEx) : SimpleSchema.RegEx.EmailWithTLD
                   step.schema[qaId].uniforms.variant = 'outlined'
 
                   if (a.type === 'calculated') {

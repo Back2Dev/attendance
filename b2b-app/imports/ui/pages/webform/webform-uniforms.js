@@ -175,6 +175,16 @@ const TextQ = ({ q, a }) => {
     //   return (
     //     <NumField name={id} id={id} key={id} defaultValue={a.defaultValue} ></NumField>
     //   )
+    case 'email':
+      return (
+        <Fragment>
+          <AutoField name={id} id={id} key={id}></AutoField>
+          <ErrorField name={id} id={id}>
+            {errorMessage ?? null}
+          </ErrorField>
+        </Fragment>
+      )
+
     case 'calculated':
       return <span>{a.defaultValue}</span>
 
