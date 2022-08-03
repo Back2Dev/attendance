@@ -3,12 +3,13 @@ import mapValues from 'lodash/mapValues'
 import debug from 'debug'
 
 import SimpleSchema from 'simpl-schema'
-import { TypeRegistry } from './components/types/type-registry'
+import { TypeRegistry } from './components/old/types/type-registry'
 
 let log = debug('builder:data-cache')
 let data = []
 let sections = {}
 let questions = {}
+let parts = {}
 
 const schema = new SimpleSchema(
   {
@@ -29,7 +30,14 @@ const schema = new SimpleSchema(
 
 const parse = (data) => {
   //if data from text editor don't have paragraph , then set default to ''
-  sections = data.reduce((acc, { name,title, id, p }) => ({ ...acc, [id]: { name: name || title, id, p:p??'' } }), {})
+  sections = data.reduce(
+    (acc, { name, title, id, p }) => ({
+      ...acc,
+      [id]: { name: name || title, id, p: p ?? '' },
+    }),
+    {}
+  )
+
   questions = data.reduce(
     (acc, { questions }) => ({
       ...acc,
@@ -51,6 +59,27 @@ const parse = (data) => {
     }),
     {}
   )
+  //add pid as a unique key for each part, so that _id is editable
+  parts = data.reduce(
+    (acc, { id, questions, lineno, object, ...props }) => ({
+      ...acc,
+      [id]: { type: 'section', ...props, _id: id, pid: id },
+      ...questions.reduce(
+        (acc, { id, type, answers, lineno, object, grid, ...props }) => ({
+          ...acc,
+          [id]: {
+            _id: id,
+            pid: id,
+            type,
+            answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
+            ...props,
+          },
+        }),
+        {}
+      ),
+    }),
+    {}
+  )
 }
 
 const set = (parsedJson) => {
@@ -68,7 +97,6 @@ const set = (parsedJson) => {
     throw new Error('Unexpected data shape')
   }
   data = parsedJson.sections
-
   parse(data)
 }
 
@@ -88,20 +116,31 @@ const getParts = () => {
   //     })
   //   )
   //   .flat()
+
   return data.reduce(
-    (acc, { id, questions }) => [
+    (acc, { id, questions, lineno, object, ...props }) => [
       ...acc,
-      { _id: id, config: TypeRegistry.get('section') },
-      ...questions.map(({ id, type }) => {
-        const config = TypeRegistry.get(type)
-        if (!config) {
-          return { _id: id, config: TypeRegistry.get('placeholder') }
+      {
+        _id: id,
+        pid: id,
+        type: 'section',
+        ...props,
+      },
+      ...questions.map(({ id, answers, lineno, object, grid, ...props }) => {
+        return {
+          _id: id,
+          pid: id,
+          answers: answers.map(({ lineno, object, ...props }) => ({ ...props })),
+          ...props,
         }
-        return { _id: id, config }
       }),
     ],
     []
   )
+}
+
+const getPart = (id) => {
+  return parts[id] ? Object.freeze(parts[id]) : null
 }
 
 const getQuestion = (id) => {
@@ -112,6 +151,6 @@ const getSection = (id) => {
   return sections[id] ? Object.freeze(sections[id]) : null
 }
 
-const dataCache = { set, get, getQuestion, getParts, getSection }
+const dataCache = { set, get, getQuestion, getParts, getSection, getPart }
 
 export { dataCache }

@@ -119,7 +119,7 @@ Slingshot.fileRestrictions('uploadQuestionType', {
 Slingshot.createDirective('uploadQuestionType', Slingshot.S3Storage, {
   AWSAccessKeyId: Meteor.settings.private.S3_ACCESS_KEY_ID,
   AWSSecretAccessKey: Meteor.settings.private.S3_SECRET_ACCESS_KEY,
-  bucket: Meteor.settings.private.UPLOAD_QUESTION_BUCKET,
+  bucket: Meteor.settings.private.UPLOAD_BUCKET,
   region: Meteor.settings.private.S3_REGION,
 
   authorize: function () {
@@ -137,15 +137,15 @@ Slingshot.createDirective('uploadQuestionType', Slingshot.S3Storage, {
   },
 })
 
-Slingshot.fileRestrictions('imageQuestionType', {
+Slingshot.fileRestrictions('questionImage', {
   allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
   maxSize: null,
 })
 
-Slingshot.createDirective('imageQuestionType', Slingshot.S3Storage, {
+Slingshot.createDirective('questionImage', Slingshot.S3Storage, {
   AWSAccessKeyId: Meteor.settings.private.S3_ACCESS_KEY_ID,
   AWSSecretAccessKey: Meteor.settings.private.S3_SECRET_ACCESS_KEY,
-  bucket: Meteor.settings.private.IMAGE_QUESTION_BUCKET,
+  bucket: Meteor.settings.private.UPLOAD_BUCKET,
   region: Meteor.settings.private.S3_REGION,
 
   authorize: function () {

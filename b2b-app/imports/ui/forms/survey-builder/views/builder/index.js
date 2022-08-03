@@ -13,7 +13,7 @@ import { BuilderViewDesktop } from './desktop'
 register itself to the TypeRegistry. This needs to be done before it is used by the data-cache so
 that is why it's imported here. Do NOT import this from within data-cache otherwise you get cyclic
 imports which will result in Placeholder rendering errors because some of its imports will be undefined */
-import '/imports/ui/forms/survey-builder/components/types/placeholder'
+import '/imports/ui/forms/survey-builder/components/old/types/placeholder'
 
 const NavController = styled(NavigationController)({
   position: 'relative',

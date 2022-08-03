@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { EditorContext } from './framework'
 import './resizer.css'
-
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -9,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import SaveIcon from '@material-ui/icons/Save'
 import SettingsIcon from '@material-ui/icons/Settings'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 import Tooltip from '@material-ui/core/Tooltip'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -25,7 +25,7 @@ export const EditorToolbar = () => {
   const [settings, setSettings] = React.useState(false)
   const anchorEl = React.useRef(null)
 
-  const settingsButton = React.useRef(null)
+  // const settingsButton = React.useRef(null)
 
   const handleLayoutChange = (event) => {
     formContext.changeLayout(event.target.value)
@@ -44,8 +44,10 @@ export const EditorToolbar = () => {
     setSettings(settings ? false : true)
   }
 
+  const isDnDMode = formContext.layout === 'dnd'
+
   return (
-    <Paper square>
+    <Paper square id="back-to-top-anchor">
       <div className="editorBar">
         <div style={{ display: 'table-cell', width: '33vw' }}>
           {formContext.layout === 'single' ? (
@@ -80,18 +82,30 @@ export const EditorToolbar = () => {
         >
           {/* toggle button for dnd editor */}
 
-          {formContext.layout === 'dnd' && (
-            <Tooltip title="View Form">
-              <Switch
-                checked={formContext.checked}
-                onChange={() => {
-                  formContext.setChecked(!formContext.checked)
-                  formContext.compileForm()
-                }}
-                name="viewForm"
-                color="primary"
-              />
-            </Tooltip>
+          {isDnDMode && (
+            <Fragment>
+              <Tooltip title="View Form">
+                <Switch
+                  checked={formContext.checked}
+                  onChange={() => {
+                    formContext.setChecked(!formContext.checked)
+                    formContext.compileForm()
+                  }}
+                  name="viewForm"
+                  color="primary"
+                />
+              </Tooltip>
+
+              <Tooltip title="View JSON">
+                <IconButton
+                  aria-label="view json"
+                  onClick={() => formContext.setViewJSON(!formContext.viewJSON)}
+                  // className={classes.icon}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+              </Tooltip>
+            </Fragment>
           )}
           <span>
             <Tooltip title="Settings">
@@ -102,7 +116,6 @@ export const EditorToolbar = () => {
                 onClick={() => {
                   handleSettings()
                 }}
-                ref={settingsButton}
               >
                 <SettingsIcon />
               </IconButton>
@@ -119,7 +132,6 @@ export const EditorToolbar = () => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              anchorEl={settingsButton.current}
             >
               <div style={{ padding: '8px' }}>
                 <FormControl component="fieldset">
@@ -167,17 +179,19 @@ export const EditorToolbar = () => {
                 </FormGroup>
               </div>
             </Popover>
-            <Tooltip title="Run form">
-              <IconButton
-                color="secondary"
-                aria-label="run form"
-                onClick={() => {
-                  formContext.compileForm()
-                }}
-              >
-                <PlayArrowIcon />
-              </IconButton>
-            </Tooltip>
+            {!isDnDMode && (
+              <Tooltip title="Run form">
+                <IconButton
+                  color="secondary"
+                  aria-label="run form"
+                  onClick={() => {
+                    formContext.compileForm()
+                  }}
+                >
+                  <PlayArrowIcon />
+                </IconButton>
+              </Tooltip>
+            )}
             <Tooltip title="Save">
               <IconButton
                 color="primary"

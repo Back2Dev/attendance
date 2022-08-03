@@ -3,12 +3,16 @@ import { makeId } from './makeId'
 const isValidIndex = (list, index) =>
   Number.isInteger(index) && index >= 0 && index < list.length
 
-const makeListItem = (value = {}) => ({ ...value, _id: makeId() })
+const makeListItem = (value = {}) => {
+  const _id = makeId()
+  return { ...value, _id, pid: _id }
+}
 
 const add = (list, value, index = list.length - 1) => {
   if (list.length && !isValidIndex(list, index)) {
     throw new TypeError('invalid index arg')
   }
+
   const l = [...list]
   l.splice(index + 1, 0, makeListItem(value))
   return l
@@ -83,7 +87,8 @@ const removeById = (list, id) => {
 }
 
 const findById = (list, id) => {
-  return list.find(({ _id }) => _id === id)
+  // return list.find(({ _id }) => _id === id)
+  return list.find(({ pid }) => pid === id)
 }
 
 export { add, update, remove, removeById, move, moveById, findById, makeListItem }

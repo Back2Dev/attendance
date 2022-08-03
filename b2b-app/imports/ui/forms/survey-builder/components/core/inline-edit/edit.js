@@ -43,9 +43,11 @@ const Edit = ({
   text,
   onTextChange,
   className,
+  contentClassName,
   onAdd,
   pid,
   index,
+
   ...otherProps
 }) => {
   const classes = useStyles({ placeholder })
@@ -125,7 +127,7 @@ const Edit = ({
         tabIndex="0"
         id={`${pid}_${Date.now()}`}
         innerRef={editEl}
-        className={classes.edit}
+        className={clsx(classes.edit, contentClassName)}
         html={val}
         onChange={changeText}
         onKeyDown={onKeyDown}

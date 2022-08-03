@@ -11,8 +11,6 @@ import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
 const log = debug('builder:dnd')
 
 const DndProvider = ({ children }) => {
-  const { movePartToCanvas } = useParts()
-
   const setList = useRecoilCallback(
     ({ set, snapshot }) =>
       (result) => {
@@ -24,16 +22,13 @@ const DndProvider = ({ children }) => {
         ) {
           return
         }
-        //allows question type to be dropped into canvas
-        if (source.droppableId === 'parts') {
-          if (source.droppableId === destination.droppableId) return
-          return movePartToCanvas(result.draggableId, destination.index)
-        }
+
         const listAtoms = snapshot.getLoadable(dndAtom).contents
         if (!listAtoms.has(source.droppableId)) {
           log('dndAtom', listAtoms)
           throw new Error('Cannot find list atom to reorder')
         }
+
         set(listAtoms.get(source.droppableId), (answers) => {
           const items = Array.from(answers)
           const [reorderedItem] = items.splice(source.index, 1)
@@ -62,7 +57,6 @@ DndProvider.propTypes = {
 /** Registers a pid to a list atom in addition to rendering a react-beautiful-dnd Droppable */
 const DndDroppable = ({ pid, listAtom, children, ...otherProps }) => {
   useDnd(pid, listAtom)
-
   return (
     <Droppable droppableId={pid} {...otherProps}>
       {children}
