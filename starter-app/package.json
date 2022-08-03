@@ -62,7 +62,7 @@
     "markdown-it": "^12.3.2",
     "material-ui-phone-number": "^2.2.6",
     "meteor-node-stubs": "^1.0.1",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "namecase": "^1.1.2",
     "node-cron": "^2.0.3",
     "pdf-lib": "^1.16.0",
