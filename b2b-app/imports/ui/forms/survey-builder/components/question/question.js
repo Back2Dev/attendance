@@ -1,33 +1,95 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InlineEdit } from '../core/inline-edit'
+import debug from 'debug'
 
-/** Question renders an editable label. It's a simple wrapper around InlineEdit */
-const Question = ({ placeholder, label, onLabelChange, className, ...otherProps }) => {
+import { Inner } from './inner'
+import { Frame } from '$sb/components/frame'
+// import SimpleSchema from 'simpl-schema'
+// import { undefinedAtom, undefinedSource } from '../../../../recoil/atoms'
+
+// import { Inspector } from '/imports/ui/forms/survey-builder/components/panels'
+// import {
+//   useSelectedPartValue,
+//   usePartAnswers,
+// } from '/imports/ui/forms/survey-builder/recoil/hooks'
+// import { QuestionProperty } from '/imports/ui/forms/survey-builder/components/panels/inspector/edit-property'
+
+let log = debug('builder:question')
+
+// const schema = new SimpleSchema({
+//   id: String,
+//   prompt: String,
+//   answers: Array,
+//   'answers.$': Object,
+//   'answers.$.id': String,
+//   'answers.$.name': String,
+//   'answers.$.val': {
+//     type: String,
+//     optional: true,
+//   },
+// }).newContext()
+
+// const mapDataToAtom = (data) => {
+//   const state = {
+//     id: data.id,
+//     prompt: data.title,
+//     answers: data.answers.map(({ id, name, val }) => ({ id, name, val })),
+//   }
+
+//   schema.validate(state)
+//   if (!schema.isValid()) {
+//     log('expected', schema._schema)
+//     log('got', data)
+//     // throw new Error('Invalid mapping from data to undefined state')
+//   }
+
+//   return state
+// }
+
+const Question = ({ ...props }) => {
   return (
-    <InlineEdit
-      placeholder={placeholder}
-      text={label}
-      onTextChange={onLabelChange}
-      className={className}
-      {...otherProps}
-    />
+    <Frame {...props}>
+      <Inner {...props} />
+    </Frame>
   )
 }
 
-Question.propTypes = {
-  /** initial label to show, defaults to empty string */
-  label: PropTypes.string,
-  /** shows this text when label is blank */
-  placeholder: PropTypes.string.isRequired,
-  /** function gets called when editable field loses focus */
-  onLabelChange: PropTypes.func,
-  /** custom styling */
-  className: PropTypes.string,
-}
+// const InspectorProperties = () => {
+//   const selectedPart = useSelectedPartValue()
 
-Question.defaultProps = {
-  placeholder: 'Type your question',
+//   const relabelAnswers = (path) => {
+//     if (path.endsWith('name')) return 'Label'
+//     if (path.endsWith('val')) return 'Value'
+//     return 'Id'
+//   }
+//   return (
+//     <div>
+//       <Inspector.Section heading="Question">
+//         <QuestionProperty pid={selectedPart} />
+//       </Inspector.Section>
+//       <Inspector.Section heading="Answers">
+//         <Inspector.Property pid={selectedPart} path="answers" relabel={relabelAnswers} />
+//       </Inspector.Section>
+//     </div>
+//   )
+// }
+
+Question.displayName = 'Question'
+
+Question.propTypes = {
+  /** id for this Question instance part */
+  pid: PropTypes.string.isRequired,
+  /** the position this question is rendered in the parts list */
+  index: PropTypes.number,
 }
 
 export { Question }
+
+// TypeRegistry.register(
+//   'undefined',
+//   Question,
+//   undefinedSource,
+//   mapDataToAtom,
+//   undefinedAtom,
+//   InspectorProperties
+// )
