@@ -56,4 +56,57 @@ module.exports = {
     active: true,
     revision: 1,
   },
+  address: {
+    slug: 'test-address',
+    name: 'Test Address',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter your address
+    +type=text
+    A Your Residential Address
+    +type=address
+    +id=residential
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  single: {
+    slug: 'test-single',
+    name: 'Test Single',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Select a practice
+    +type=single
+    A vic
+    A nsw
+    A wa
+    +type=single
+    +id=single
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  date: {
+    slug: 'test-date',
+    name: 'Test date',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter date
+    +type=text
+    A Date
+    +type=date
+    
+
+    `,
+    active: true,
+    revision: 1,
+  },
 }

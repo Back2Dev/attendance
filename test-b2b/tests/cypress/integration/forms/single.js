@@ -1,43 +1,34 @@
+import forms from '/tests/cypress/fixtures/forms'
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test. We do this because of some ugly js errors
   // from a js library we are using
   return false
 })
-describe('creates a form', () => {
+describe('log into app and create a form with a multiple question', () => {
   before(function () {
-    freshDatabase()
+    freshDatabase() // This does a cy.visit('/') for us already
   })
-  it('logs in from hompage, creates a form with single input type', () => {
-    cy.createBasicForm()
-    cy.addInputField({
-      title: 'Q',
-      value: 'Single',
-      type: 'single',
-      id: 'single',
+
+  it('logs in from home page', () => {
+    adminLogin('mike.king@mydomain.com.au', 'me2')
+    cy.window().then(async (win) => {
+      await win.Meteor.callAsync('insert.forms', forms.single)
     })
-    cy.addInputField({
-      title: 'A',
-      value: 'Pls select 1',
-    })
-    cy.addInputField({
-      title: 'A',
-      value: 'Pls select 2',
-    })
-    cy.addInputField({
-      title: 'A',
-      value: 'Pls select 3',
-    })
-    cy.get('.editorTools > span > button:nth-child(2)').click()
+    cy.getSettled('[data-cy=forms]').should('exist').click()
+    // Compile and run the form...
+    cy.get(':nth-child(3) > .formatterCell > .MuiSvgIcon-root').click()
+
+    cy.getSettled('[data-cy="run-form"]').click()
 
     // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#single').should('exist')
+    cy.get('p#select-a-practice').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     //   // give a valid input
-    cy.get('[value="pls-select-1"]').click()
-    cy.get('p#text-enter-text').should('not.exist')
+    cy.get('[value="vic"]').click()
+    cy.get('p#select-a-practice').should('not.exist')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })
