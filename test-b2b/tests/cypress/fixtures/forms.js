@@ -109,4 +109,40 @@ module.exports = {
     active: true,
     revision: 1,
   },
+  dropdown: {
+    slug: 'test-dropdown',
+    name: 'Test dropdown',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q dropdown
+    +type=dropdown
+    
+    A value-1
+    +type=dropdown
+    +id=dropdown
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  number: {
+    slug: 'test-number',
+    name: 'Test number',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q enter costs
+    +type=text
+    
+    A costs input
+    +type=text
+    +id=number
+
+    `,
+    active: true,
+    revision: 1,
+  },
 }

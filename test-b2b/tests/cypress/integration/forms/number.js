@@ -1,39 +1,37 @@
+import forms from '/tests/cypress/fixtures/forms'
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
   // failing the test. We do this because of some ugly js errors
   // from a js library we are using
   return false
 })
-describe('creates a form', () => {
+describe('log into app and create a form with a multiple question', () => {
   before(function () {
-    freshDatabase()
+    freshDatabase() // This does a cy.visit('/') for us already
   })
-  it('logs in from hompage, creates a form with number input type', () => {
-    cy.createBasicForm()
-    cy.addInputField({
-      title: 'Q',
-      value: 'Number',
-      type: 'text',
+
+  it('logs in from home page', () => {
+    adminLogin('mike.king@mydomain.com.au', 'me2')
+    cy.window().then(async (win) => {
+      await win.Meteor.callAsync('insert.forms', forms.number)
     })
-    cy.addInputField({
-      title: 'A',
-      value: 'Enter number',
-      type: 'number',
-    })
-    cy.get('.editorTools > span > button:nth-child(2)').click()
+    cy.getSettled('[data-cy=forms]').should('exist').click()
+    cy.get(':nth-child(3) > .formatterCell > .MuiSvgIcon-root').click()
+    // Compile and run the form...
+    cy.getSettled('[data-cy="run-form"]').click()
 
     //   // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#number-enter-number').should('exist')
+    cy.get('p#costs-input').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     //   // give an invalid input
-    cy.get('input#number-enter-number').type('text')
-    cy.get('p#number-enter-number').should('exist')
+    cy.get('input#enter-costs-number').type('text')
+    cy.get('p#enter-conveyer-costs').should('exist')
 
     //   // give a valid input
-    cy.get('input#number-enter-number').clear().type('12321312')
-    cy.get('p#number-enter-number').should('not.exist')
+    cy.get('input#enter-costs-number').clear().type('12321312')
+    cy.get('p#["enter-costs-number"]').should('not.exist')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })
