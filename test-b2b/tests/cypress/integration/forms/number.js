@@ -10,6 +10,7 @@ describe('log into app and create a form with a multiple question', () => {
     freshDatabase() // This does a cy.visit('/') for us already
   })
 
+  // todo write code to detect errors
   it('logs in from home page', () => {
     adminLogin('mike.king@mydomain.com.au', 'me2')
     cy.window().then(async (win) => {
@@ -22,7 +23,7 @@ describe('log into app and create a form with a multiple question', () => {
 
     //   // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#costs-input').should('exist')
+    cy.get('p#enter-costs-costs-label').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     //   // give an invalid input

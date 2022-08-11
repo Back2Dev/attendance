@@ -137,9 +137,45 @@ module.exports = {
     Q enter costs
     +type=text
     
-    A costs input
+    A value-1
     +type=text
-    +id=number
+    +id=costs
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  long: {
+    slug: 'test-long',
+    name: 'Test long',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q enter adornment cost
+    +type=text
+    
+    A please enter adorment cost
+    +type=long
+    +id=long
+
+    `,
+    active: true,
+    revision: 1,
+  },
+
+  password: {
+    slug: 'test-password',
+    name: 'Test Password',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter your password
+    +type=text
+    A Your Password
+    +type=password
+    +id=password
 
     `,
     active: true,
