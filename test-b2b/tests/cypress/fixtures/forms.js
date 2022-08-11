@@ -181,4 +181,38 @@ module.exports = {
     active: true,
     revision: 1,
   },
+  paragraph: {
+    slug: 'test-paragraph',
+    name: 'Test paragraph',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter a paragraph
+    +type=text
+    A Your paragraph
+    +type=paragraph
+    +id=paragraph
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  text: {
+    slug: 'test-text',
+    name: 'Test text',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter conveyancer name
+    +type=text
+    A conveyancers name
+    +type=text
+    +id=text
+
+    `,
+    active: true,
+    revision: 1,
+  },
 }

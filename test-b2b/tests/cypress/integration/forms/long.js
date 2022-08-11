@@ -9,6 +9,7 @@ describe('log into app and create a form with a long question', () => {
   before(function () {
     freshDatabase() // This does a cy.visit('/') for us already
   })
+  // todo enter code for better validation
 
   it('logs in from home page', () => {
     adminLogin('mike.king@mydomain.com.au', 'me2')
