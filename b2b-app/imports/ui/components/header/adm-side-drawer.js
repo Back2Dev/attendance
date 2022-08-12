@@ -122,7 +122,7 @@ export default function SideDrawer() {
               return (
                 <ListItem key={index}>
                   <ListItemIcon>{menu.icon()}</ListItemIcon>
-                  <ListItemText primary={menu.display} />
+                  <ListItemText primary={menu.display} data-cy={menu.id} />
                 </ListItem>
               )
             } else {
@@ -134,6 +134,7 @@ export default function SideDrawer() {
                       primary={menu.display}
                       className={classes.listItem}
                       disableTypography
+                      data-cy={menu.id}
                     />
                     {open.includes(menu.id) ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>

@@ -1,0 +1,16 @@
+{
+  "collection": "schemas",
+  "generate": "CRUD",
+  "fields": {
+    "name": "String",
+    "fields": {
+      "type": "Array",
+      "optional": true
+    },
+    "fields.$": "FieldSchema",
+    "active": {
+      "type": "Boolean",
+      "defaultValue": true
+    }
+  }
+}

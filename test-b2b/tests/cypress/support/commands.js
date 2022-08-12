@@ -93,8 +93,6 @@ Cypress.Commands.add('ApproveDocument', (element) => {
   cy.wait(2000).get('[data-cy=approve]').should('be.enabled').click()
 })
 
-
-
 Cypress.Commands.add('manualLogin', (person) => {
   cy.get('[data-cy=email-input]').should('exist').type(person.username)
   cy.get('[data-cy=password-input]').should('exist').type(person.password)
@@ -105,4 +103,40 @@ Cypress.Commands.add('SendNotification', (element) => {
   cy.get(element).should('be.enabled').click({ force: true })
   // Checks if button is disabled on next-steps
   cy.get(element).should('be.disabled')
+})
+
+Cypress.Commands.add('getSettled', (selector, opts = {}) => {
+  /**
+   * Resolves issue where element is detached DOM
+   * USAGE:
+   * cy.getSettled(`button`, { retries: 2, delay: 500 }).click();
+   * OR
+   * cy.getSettled(`button`).click();
+   */
+  const retries = opts.retries || 3
+  const delay = opts.delay || 100
+  cy.log(selector)
+
+  const isAttached = (resolve, count = 0) => {
+    const el = Cypress.$(selector)
+    // is element attached to the DOM?
+    count = Cypress.dom.isAttached(el) ? count + 1 : 0
+
+    // hit our base case, return the element
+    if (count >= retries) {
+      return resolve(el)
+    }
+
+    // retry after a bit of a delay
+    setTimeout(() => isAttached(resolve, count), delay)
+  }
+
+  // wrap, so we can chain cypress commands off the result
+  return cy.wrap(null).then(() => {
+    return new Cypress.Promise((resolve) => {
+      return isAttached(resolve, 0)
+    }).then((el) => {
+      return cy.wrap(el)
+    })
+  })
 })
