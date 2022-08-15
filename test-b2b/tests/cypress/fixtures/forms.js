@@ -215,4 +215,55 @@ module.exports = {
     active: true,
     revision: 1,
   },
+  scale: {
+    slug: 'test-scale',
+    name: 'Test scale',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter weight of house
+    +type=text
+    A house weight
+    +type=scale
+    +id=scale
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  email: {
+    slug: 'test-email',
+    name: 'Test email',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter conveyancer email
+    +type=text
+    A conveyancer email
+    +type=email
+    +id=email
+
+    `,
+    active: true,
+    revision: 1,
+  },
+  files: {
+    slug: 'test-file',
+    name: 'Test file',
+    source: `
+    S Part 1
+    +id=part1
+    
+    Q Enter upload caf file
+    +type=text
+    A caf file
+    +type=file
+    +id=file
+
+    `,
+    active: true,
+    revision: 1,
+  },
 }
