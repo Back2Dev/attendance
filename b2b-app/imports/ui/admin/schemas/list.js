@@ -1,6 +1,7 @@
 // ui layer
 import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useHistory } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import DataGrid, { SelectColumn, TextEditor } from 'react-data-grid'
 import MuiTicker from '/imports/ui/utils/data-grid/tick.js'
@@ -43,6 +44,8 @@ const useStyles = makeStyles({
   },
 })
 
+let push
+
 const List = ({ data, methods }) => {
   const classes = useStyles()
   const [rows, setRows] = useState([])
@@ -53,6 +56,7 @@ const List = ({ data, methods }) => {
     setRows(data)
   }, [data])
   const [open, setOpen] = useState(false)
+  push = useHistory()?.push
 
   const handleClose = () => {
     setOpen(false)
@@ -88,8 +92,8 @@ const List = ({ data, methods }) => {
         editor: TextEditor,
       },
       {
-        key: 'approvalRequired',
-        name: 'Approval Required',
+        key: 'active',
+        name: 'Active',
         width: 200,
         type: 'boolean',
         formatter(props) {
@@ -181,10 +185,10 @@ const List = ({ data, methods }) => {
       <Typography
         variant="h1"
         align="center"
-        id="h1-doctypes-header"
+        id="h1-schemas-header"
         className={classes.root}
       >
-        Document types
+        Schemas
       </Typography>
       <Grid container spacing={1} direction="column">
         <Grid item className={classes.addSpace}></Grid>
@@ -193,19 +197,19 @@ const List = ({ data, methods }) => {
             <Button
               variant="contained"
               color="primary"
-              id="add-doctype-button"
+              id="add-schema-button"
               onClick={() => {
                 setOpen(true)
               }}
             >
-              Add Document type
+              Add Schema
             </Button>
           </Grid>
           <Grid item>
             <Button
               variant="contained"
               color="secondary"
-              id="remove-doctype-button"
+              id="remove-schema-button"
               onClick={handleRemove}
               disabled={!selectedRows.size}
             >
@@ -219,7 +223,7 @@ const List = ({ data, methods }) => {
             onChange={updateInput}
             variant="outlined"
             size="small"
-            id="search-doc-type"
+            id="search-schema"
             label="Search"
             InputProps={{
               endAdornment: (
@@ -255,7 +259,12 @@ const List = ({ data, methods }) => {
           />
         </Grid>
       </Grid>
-      <AddModal handleClose={handleClose} open={open} insert={methods.insert} />
+      <AddModal
+        handleClose={handleClose}
+        open={open}
+        insert={methods.insert}
+        push={push}
+      />
     </Container>
   )
 }

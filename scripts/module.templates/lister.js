@@ -4,13 +4,13 @@ import { useTracker } from 'meteor/react-meteor-data'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import React from 'react'
 import Loader from '/imports/ui/components/commons/loading.js'
-import DocTypes from '/imports/api/doc-types/schema'
+import MyCollection from '/imports/api/my-collection/schema'
 import List from './list'
 
 const getData = () =>
   useTracker(() => {
-    const subscription = Meteor.subscribe('all.docTypes')
-    const data = DocTypes.find({}).fetch()
+    const subscription = Meteor.subscribe('all.myCollection')
+    const data = MyCollection.find({}).fetch()
     return { data, isLoading: !subscription.ready() }
   }, [])
 

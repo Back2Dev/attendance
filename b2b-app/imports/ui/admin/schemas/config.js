@@ -16,18 +16,16 @@ const dateFormat = {
 }
 
 const editSchema = new SimpleSchema({
-  
-  "name": String,
-  "fields": {
-    "type": Array,
-    "optional": true
+  name: String,
+  fields: {
+    type: Array,
+    optional: true,
   },
-  "fields.$": "FieldSchema",
-  "active": {
-    "type": Boolean,
-    "defaultValue": true
-  }
-,
+  'fields.$': 'FieldSchema',
+  active: {
+    type: Boolean,
+    defaultValue: true,
+  },
 })
 
 //
@@ -43,15 +41,16 @@ export default config = {
   },
   edit: { schema: new SimpleSchema2Bridge(editSchema) },
   list: {
-    columns: [{ field: 'name', title: 'name', editor: true , formatter: null},
-  { field: 'fields', title: 'fields', editor: true , formatter: null},
-  { field: 'active', title: 'active', editor: true , formatter: null}],
+    columns: [
+      { field: 'name', title: 'name', editor: true, formatter: null },
+      { field: 'fields', title: 'fields', editor: true, formatter: null },
+      { field: 'active', title: 'active', editor: true, formatter: null },
+    ],
   },
   add: {
     defaultObject: {
-  "name": "Untitled",
-  "description": "Description",
-  "code": "XXX"
-},
+      name: 'Untitled',
+      slug: 'xxx',
+    },
   },
 }

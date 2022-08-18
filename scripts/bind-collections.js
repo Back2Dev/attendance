@@ -18,7 +18,7 @@ const debug = require('debug')('app:collection-scripts')
 const opts = require('minimist')(process.argv.slice(2))
 const folder = opts.folder || 'b2b-app'
 
-if (opts.help ) {
+if (opts.help) {
   console.log(`
 #Usage:
 	node scripts/bind-collections.js [--help]  [--folder=b2b-app]
@@ -37,27 +37,35 @@ Where
 
 const unwanted = 'users collections profiles audits logs utils counters'.split(/[\s,]+/)
 const apiFolder = `${folder}/imports/api`
-const collections = fs.readdirSync(apiFolder)
-.filter(dir => fs.lstatSync(`${apiFolder}/${dir}`).isDirectory() )
-.filter(dir => dir.match(/s$/))
-.filter(dir => !unwanted.includes(dir))
-.map(dir => ({folder: dir, collection: cc.titleCase(dir).replace('-',''), name: cc.pascalCase(dir)}))
+const collections = fs
+  .readdirSync(apiFolder)
+  .filter((dir) => fs.lstatSync(`${apiFolder}/${dir}`).isDirectory())
+  .filter((dir) => dir.match(/s$/))
+  .filter((dir) => !unwanted.includes(dir))
+  .map((dir) => ({
+    folder: dir,
+    collection: cc.titleCase(dir).replace('-', ''),
+    name: cc.pascalCase(dir),
+  }))
 const mergeData = {
   IMPORT_SCHEMAS: collections
-  .map(c =>`import ${c.name}, { ${c.collection}Schema } from '/imports/api/${c.folder}/schema'`)
-  .join('\n'),
+    .map(
+      (c) =>
+        `import ${c.name}, { ${c.collection}Schema } from '/imports/api/${c.folder}/schema'`
+    )
+    .join('\n'),
   COLLECTION_CASES: collections
-  .map(c =>    {
-    return `case '${c.folder}':
+    .map((c) => {
+      return `case '${c.folder}':
   return { collection: ${c.name}, schema: ${c.collection}Schema }`
-})
-  .join('\n')
+    })
+    .join('\n'),
 }
-debug (mergeData)
+debug(mergeData)
 //
 // Now do the magic
 //
-const f = 'scripts/generator-templates/imports/api/collections/binder.js'
+const f = './binder-template.js'
 const destf = f.replace('scripts/generator-templates', folder)
 console.info(`Templating file ${f} => ${destf}`)
 const t = fs.readFileSync(f, 'utf8')

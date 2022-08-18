@@ -8,7 +8,7 @@
  * - Publications list /imports/startup/server/generated-pubs.js
  */
 module.exports = [
-  { id: 'audits', menu: 'Audits', fixtures: 0, pubs: 1 },
+  { id: 'audits', menu: 'Audits', fixtures: 0, pubs: 0 },
   { id: 'cronjobs', menu: 'Cronjobs', fixtures: 1, pubs: 1 },
   { id: 'triggers', menu: 'Triggers', fixtures: 1, pubs: 1 },
   { id: 'message-templates', menu: 'Message templates', fixtures: 1, pubs: 1 },
@@ -29,7 +29,8 @@ module.exports = [
   { id: 'users', menu: 'Users', fixtures: 0, pubs: 0, factory: 0 },
   { id: 'calendar', menu: 'Calendar', fixtures: 0, pubs: 0, factory: 0 },
   { id: 'register', menu: 'Register', fixtures: 0, pubs: 0, factory: 0 },
-  { id: 'standup-notes', menu: 'standupNotes', fixtures: 0, pubs: 0, factory: 0 },
-  { id: 'standups', menu: 'Standups', fixtures: 0, pubs: 0, factory: 0 },
-  { id: 'teams', menu: 'Teams', fixtures: 0, pubs: 0, factory: 0 },
+  { id: 'standup-notes', menu: 'Standup Notes', fixtures: 1, pubs: 0, factory: 0 },
+  { id: 'standups', menu: 'Standups', fixtures: 0, pubs: 1, factory: 0 },
+  { id: 'teams', menu: 'Teams', fixtures: 0, pubs: 1, factory: 0 },
+  { id: 'schemas', menu: 'Schemas', fixtures: 0, pubs: 1, factory: 0 },
 ]

@@ -60,7 +60,7 @@ function doTemplating(pkg, dry_run, folder, tdir, willDo, legacy, nextFunc) {
           .filter((m) => m.menu || m.route)
           .map(
             (m) =>
-              `const ${m.collection} = lazy(() => import('/imports/ui/admin/${m.id}/lister.js'))`
+              `const ${m.collection} = lazy(() => import('/imports/ui/admin/${m.id}'))`
           )
           .join('\n'),
         routeMarkup: modules

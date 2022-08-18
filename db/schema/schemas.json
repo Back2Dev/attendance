@@ -7,7 +7,7 @@
       "type": "Array",
       "optional": true
     },
-    "fields.$": "FieldSchema",
+    "fields.$": "FieldsSchema",
     "active": {
       "type": "Boolean",
       "defaultValue": true

@@ -181,10 +181,10 @@ const List = ({ data, methods }) => {
       <Typography
         variant="h1"
         align="center"
-        id="h1-doctypes-header"
+        id="h1-mycollections-header"
         className={classes.root}
       >
-        Document types
+        MyCollection
       </Typography>
       <Grid container spacing={1} direction="column">
         <Grid item className={classes.addSpace}></Grid>
@@ -193,7 +193,7 @@ const List = ({ data, methods }) => {
             <Button
               variant="contained"
               color="primary"
-              id="add-doctype-button"
+              id="add-mycollection-button"
               onClick={() => {
                 setOpen(true)
               }}
@@ -205,7 +205,7 @@ const List = ({ data, methods }) => {
             <Button
               variant="contained"
               color="secondary"
-              id="remove-doctype-button"
+              id="remove-mycollection-button"
               onClick={handleRemove}
               disabled={!selectedRows.size}
             >
@@ -219,7 +219,7 @@ const List = ({ data, methods }) => {
             onChange={updateInput}
             variant="outlined"
             size="small"
-            id="search-doc-type"
+            id="search-my-collection"
             label="Search"
             InputProps={{
               endAdornment: (

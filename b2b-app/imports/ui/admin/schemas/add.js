@@ -11,10 +11,10 @@ import config from './config'
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:add')
 
-const Add = ({ item, methods }) => {
+const Add = ({ item, methods, insert, handleClose }) => {
   const save = (model) => {
     try {
-      methods.save(model)
+      insert(model)
     } catch (e) {
       alert(`Save error ${e.message}`)
     }
@@ -56,5 +56,7 @@ Add.propTypes = {
   loading: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   methods: PropTypes.object.isRequired,
+  insert: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 }
 export default Add
