@@ -72,6 +72,7 @@ const getAnswers = (formData, answers) => {
             formData[section][field] &&
             Array.isArray(formData[section][field]) &&
             formData[section][field]
+              .filter(Boolean)
               .map((row) => {
                 return row[selector.field]
               })
