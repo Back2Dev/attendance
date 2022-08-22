@@ -139,4 +139,10 @@ CONSTANTS.JOB_STATUS_MAPPING = {
   completed: [{ next: 'in-progress', label: 'Re-open' }],
 }
 
+CONSTANTS.SERVICE_TYPES = {
+  minor: 'Minor service',
+  major: 'Major service',
+  custom: 'Custom service',
+}
+
 export default CONSTANTS

@@ -4,13 +4,14 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { Helmet } from 'react-helmet'
 import { Skeleton } from '@material-ui/lab'
-import { Grid, Link, Typography } from '@material-ui/core'
+import { Grid, Link, Typography, Button } from '@material-ui/core'
 // import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
 // import MechanicSelector from './info-mechanic'
 import ExpectedPickupDate from './info-expected-pickup'
+import { useHistory } from 'react-router'
 
 const StyledJobInfo = styled.div`
   .header-container {
@@ -38,6 +39,7 @@ const StyledJobInfo = styled.div`
 
 function JobInfo() {
   const { item, loading } = useContext(JobsDetailsContext)
+  const history = useHistory()
 
   const renderData = (data) => {
     if (loading || !item) {
@@ -53,9 +55,13 @@ function JobInfo() {
       </Helmet>
       <div className="header-container">
         <Typography variant="h1" className="title">
-          {item?.isRefurbish ? 'Refurbish' : item?.name}: {item?.bikeName}{' '}
+          {item?.jobNo} {item?.isRefurbish ? 'Refurbish' : item?.name}: {item?.bikeName}{' '}
           {`$${item?.totalCost / 100}`}
         </Typography>
+        <Button
+          variant='outlined'
+          onClick={() => history.push('/services')}
+        >Services</Button>
       </div>
       <Grid container>
         <Grid item xs={12} md={item?.lastContacted ? 2 : 3} className="info-item">
@@ -93,7 +99,7 @@ function JobInfo() {
             </Grid>
             <Grid item xs={7} md={12}>
               <div className="data">
-                {renderData(item?.isRefurbish ? 'Refurbish' : 'Custom service')}
+                {renderData(CONSTANTS.SERVICE_TYPES[item?.serviceType] || 'N/A')}
               </div>
             </Grid>
           </Grid>

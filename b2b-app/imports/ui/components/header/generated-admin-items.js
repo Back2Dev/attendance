@@ -1,5 +1,5 @@
 export default items = [
-    { display: 'Audits', link: '/admin/audits' },
+  { display: 'Audits', link: '/admin/audits' },
   { display: 'Cronjobs', link: '/admin/cronjobs' },
   { display: 'Triggers', link: '/admin/triggers' },
   { display: 'Message templates', link: '/admin/message-templates' },
@@ -18,4 +18,7 @@ export default items = [
   { display: 'Users', link: '/admin/users' },
   { display: 'Calendar', link: '/admin/calendar' },
   { display: 'Register', link: '/admin/register' },
+  { display: 'standupNotes', link: '/admin/standup-notes' },
+  { display: 'standups', link: '/admin/standups' },
+  { display: 'teams', link: '/admin/teams' },
 ]

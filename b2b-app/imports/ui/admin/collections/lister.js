@@ -12,7 +12,7 @@ import Loader from '/imports/ui/components/commons/loading.js'
 import CollectionsList from './list'
 import config from './config'
 
-const debug = require('debug')('se:lister')
+const debug = require('debug')('app:lister')
 const idField = '_id'
 let push
 const dateFormat = {

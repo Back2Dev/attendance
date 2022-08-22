@@ -20,9 +20,15 @@ const Tools = lazy(() => import('/imports/ui/admin/tools'))
 const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs'))
-const Forms = lazy(() => import('/imports/ui/admin/forms'))
+const Forms = lazy(() => import('/imports/ui/forms'))
 const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
 const Collections = lazy(() => import('/imports/ui/admin/collections'))
+const Users = lazy(() => import('/imports/ui/admin/users'))
+const Calendar = lazy(() => import('/imports/ui/admin/calendar'))
+const Register = lazy(() => import('/imports/ui/admin/register'))
+const StandupNotes = lazy(() => import('/imports/ui/admin/standup-notes'))
+const Standups = lazy(() => import('/imports/ui/admin/standups'))
+const Teams = lazy(() => import('/imports/ui/admin/teams'))
 
 //
 // This file contains a list of routes for database admin pages
@@ -49,6 +55,12 @@ export default GeneratedRoutes = () => {
         <Route path="/admin/forms" component={Forms} />
         <Route path="/admin/registrations" component={Registrations} />
         <Route path="/admin/collections" component={Collections} />
+        <Route path="/admin/users" component={Users} />
+        <Route path="/admin/calendar" component={Calendar} />
+        <Route path="/admin/register" component={Register} />
+        <Route path="/admin/standup-notes" component={StandupNotes} />
+        <Route path="/admin/standups" component={Standups} />
+        <Route path="/admin/teams" component={Teams} />
       </Switch>
     </Suspense>
   )

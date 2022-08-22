@@ -3,22 +3,18 @@ import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { reactFormatter } from 'react-tabulator'
+import Eye from '@material-ui/icons/Visibility'
+import PencilSquare from '@material-ui/icons/Edit'
 import ServiceItems from '/imports/api/service-items/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
-import Eye from '@material-ui/icons/Visibility'
-import PencilSquare from '@material-ui/icons/Edit'
 import ServiceItemsList from './list'
 import config from './config'
 
 const debug = require('debug')('app:lister')
+
 const idField = '_id'
 let push
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: '',
-}
 
 const remove = (id) => meteorCall('rm.serviceItems', 'Deleting', id)
 const update = (form) => meteorCall('update.serviceItems', 'updating', form)
@@ -42,15 +38,6 @@ const archive = async (rowids) => {
 const methods = { remove, update, insert, view, edit, add, archive }
 
 // Config data
-
-const editIcon = (cell, formatterParams) => {
-  //plain text value
-  return "<i class='fa fa-edit'></i>"
-}
-const viewIcon = (cell, formatterParams) => {
-  //plain text value
-  return "<i class='fa fa-eye'></i>"
-}
 
 const stdCols = [
   {
@@ -80,7 +67,7 @@ const stdCols = [
     hozAlign: 'center',
     cellClick: (e, cell) => {
       const id = cell.getData()[idField]
-      if (!id) alert(`Could not get id from [${idField}]`)
+      if (!id) alert(`Could not get id  from [${idField}]`)
       else methods.edit(id)
     },
   },

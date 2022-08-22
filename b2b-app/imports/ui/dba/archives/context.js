@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import getCollection from '/imports/api/collections/collections.js'
+import getCollection from '/imports/api/collections/binder'
 
-import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
+import { showError, showSuccess } from '/imports/ui/utils/toast-alerts'
 
 export const ArchivesContext = React.createContext()
 

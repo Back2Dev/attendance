@@ -1,6 +1,6 @@
 import { Factory } from 'meteor/dburles:factory'
 import MessageTemplates from '/imports/api/message-templates/schema'
-const templates = require('/tests/fixtures/json/message-templates.json')
+const templates = require('./fixtures/json/message-templates.json')
 
 Factory.define('messageTemplates', MessageTemplates, {
   name: 'A message template',
@@ -29,8 +29,7 @@ const testTemplates = [
     slug: 'a-email-template',
     subject: 'test email',
     type: 'EMAIL',
-    body:
-      'Dear *|conveyancer|*, We have now assigned a customer to your property settlement. *|customer|* has been assigned to *|address|*',
+    body: 'Dear *|conveyancer|*, We have now assigned a customer to your property settlement. *|customer|* has been assigned to *|address|*',
   },
 
   {

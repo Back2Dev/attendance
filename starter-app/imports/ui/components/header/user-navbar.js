@@ -242,6 +242,7 @@ export default function UserNavbar() {
           className={classes.profileItem}
           onClick={() => setExpanded(!expanded)}
           key="switch"
+          data-cy="switch-role"
         >
           Switch role
         </MenuItem>
@@ -268,7 +269,7 @@ export default function UserNavbar() {
           </RadioGroup>
         </FormControl>
       </Collapse>
-      <MenuItem onClick={onLogout} className={classes.profileItem} key="logout">
+      <MenuItem onClick={onLogout} className={classes.profileItem} key="logout" data-cy="log-out">
         Log out
       </MenuItem>
     </Menu>

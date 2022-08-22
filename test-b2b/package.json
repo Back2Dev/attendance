@@ -1,0 +1,26 @@
+{
+  "name": "test-b2b",
+  "version": "1.0.0",
+  "description": "End to end testing for b2b app",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "./node_modules/cypress/bin/cypress open --config integrationFolder=tests/cypress/integration/",
+    "cypress:run": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/working/",
+    "cypress:run:services": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/services/",
+    "cypress:nw": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration/not-working/",
+    "cypress:record": "./node_modules/cypress/bin/cypress run --config integrationFolder=tests/cypress/integration --record --key 7f96e2e6-b3ad-4fdc-8b70-af7cfc31f7da"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prettier": "^2.5.1"
+  },
+  "devDependencies": {
+    "cypress": "^9.3.1",
+    "cypress-file-upload": "^5.0.8"
+  }
+}

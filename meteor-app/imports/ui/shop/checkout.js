@@ -1,5 +1,16 @@
 import React from 'react'
-import { Card, Segment, Button, Menu, Label, Input, Icon, Grid, Form, Header } from 'semantic-ui-react'
+import {
+  Card,
+  Segment,
+  Button,
+  Menu,
+  Label,
+  Input,
+  Icon,
+  Grid,
+  Form,
+  Header,
+} from 'semantic-ui-react'
 import Alert from '/imports/ui/utils/alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
@@ -35,7 +46,7 @@ const Checkout = ({ history }) => {
     setIcon('meh outline')
   }
 
-  const adminDoIt = async e => {
+  const adminDoIt = async (e) => {
     e.preventDefault()
     try {
       switch (method) {
@@ -73,7 +84,7 @@ const Checkout = ({ history }) => {
     }
   }
 
-  const changeMethod = e => {
+  const changeMethod = (e) => {
     setMethod(e.target.value)
     setShowDate(NEED_DATE.includes(e.target.value))
   }
@@ -87,7 +98,7 @@ const Checkout = ({ history }) => {
     }
   }
 
-  const changeDiscount = e => {
+  const changeDiscount = (e) => {
     state.discount = e.target.value
     if (e.target.value.match(/^\$\d+/)) {
       const disc = parseInt(e.target.value.replace('$', ''))
@@ -111,7 +122,7 @@ const Checkout = ({ history }) => {
       )
       if (!promo) {
         setPromo({
-          status: `Promo code "${code}" not found`
+          status: `Promo code "${code}" not found`,
         })
         setIcon('cancel')
       } else {
@@ -127,10 +138,14 @@ const Checkout = ({ history }) => {
     }
   }
 
-  const markAsPaid = async paymentMethod => {
-    const result = await Meteor.callAsync('markAsPaid', sessionStorage.getItem('mycart') || state._id, paymentMethod)
+  const markAsPaid = async (paymentMethod) => {
+    const result = await Meteor.callAsync(
+      'markAsPaid',
+      sessionStorage.getItem('mycart') || state._id,
+      paymentMethod
+    )
     if (result.status === 'ok') {
-      history.push(`/shop/paid/${member._id}`)
+      history.push(`/shop/paid/${member?._id}`)
     } else {
       Alert.error(result.error)
     }
@@ -142,7 +157,12 @@ const Checkout = ({ history }) => {
         <h4>Checkout </h4>
         <Segment raised color="red">
           <p>You have nothing in your shopping cart</p>
-          <Button id="continue" type="button" primary onClick={() => history.push('/shop')}>
+          <Button
+            id="continue"
+            type="button"
+            primary
+            onClick={() => history.push('/shop')}
+          >
             Continue shopping
           </Button>
         </Segment>
@@ -162,33 +182,64 @@ const Checkout = ({ history }) => {
           <SecurityModal />
         </Menu.Item>
         <Menu.Item position="right">
-          <Button type="button" color="green" floated="right" id="menu_buy_now" onClick={buyNow}>
+          <Button
+            type="button"
+            color="green"
+            floated="right"
+            id="menu_buy_now"
+            onClick={buyNow}
+          >
             Buy now {!state._id && '!'}
           </Button>
         </Menu.Item>
       </Menu>
       <Segment>
         <Card.Group centered>
-          {state.products.map(p => {
-            return <ProductCard {...p} key={p._id} mode="remove" prodQty={state.prodqty[p._id]} />
+          {state.products.map((p) => {
+            return (
+              <ProductCard
+                {...p}
+                key={p._id}
+                mode="remove"
+                prodQty={state.prodqty[p._id]}
+              />
+            )
           })}
         </Card.Group>
       </Segment>
 
       <div style={{ textAlign: 'center' }}>
-        <Button id="continue" type="button" primary onClick={() => history.push('/shop/type/membership')}>
+        <Button
+          id="continue"
+          type="button"
+          primary
+          onClick={() => history.push('/shop/type/membership')}
+        >
           Continue shopping
         </Button>
-        <Button type="button" color="green" style={{ marginLeft: '16px' }} onClick={buyNow} id="buy_now">
+        <Button
+          type="button"
+          color="green"
+          style={{ marginLeft: '16px' }}
+          onClick={buyNow}
+          id="buy_now"
+        >
           Buy now {!state._id && '!'}
         </Button>
         <Input
           style={{ float: 'right' }}
-          action={<Button id="check" color="teal" onClick={checkPromo} content="Check" />}
+          action={
+            <Button
+              id="check"
+              color="teal"
+              onClick={checkPromo}
+              content="Check"
+            />
+          }
           iconPosition="left"
           icon={icon}
           placeholder="Promo code"
-          onChange={e => setCode(e.target.value)}
+          onChange={(e) => setCode(e.target.value)}
           labelPosition="right"
           name="promo"
         />
@@ -196,7 +247,11 @@ const Checkout = ({ history }) => {
       <div style={{ textAlign: 'center' }} />
       {promo && promo.discount > 0 && !promo.admin && (
         <Header style={{ textAlign: 'center' }}>
-          <Icon name="flag checkered" color="green" style={{ display: 'inline' }} />
+          <Icon
+            name="flag checkered"
+            color="green"
+            style={{ display: 'inline' }}
+          />
           Yay! You found...
           <br />
           {promo.description}
@@ -214,13 +269,19 @@ const Checkout = ({ history }) => {
                   <Header as="h2" icon>
                     <Icon name="flag checkered" color="green" />
                     {promo.description}
-                    <Header.Subheader>Select payment method</Header.Subheader>
+                    <Header.Subheader>
+                      Select payment method
+                    </Header.Subheader>
                   </Header>
                   <Form>
                     <Form.Group grouped>
                       <Label>Charge: ${discountedPrice}</Label>
                       <br />
-                      <Input name="discount" onChange={changeDiscount} placeholder="Discount amount" />
+                      <Input
+                        name="discount"
+                        onChange={changeDiscount}
+                        placeholder="Discount amount"
+                      />
                       {member && member.paymentCustId && (
                         <Form.Field
                           label="&nbsp; Charge to credit card"
@@ -245,7 +306,7 @@ const Checkout = ({ history }) => {
                             name="note"
                             type="note"
                             placeholder="Note to add to email"
-                            onChange={e => setNote(e.target.value)}
+                            onChange={(e) => setNote(e.target.value)}
                           ></Form.TextArea>
 
                           <Input
@@ -253,7 +314,7 @@ const Checkout = ({ history }) => {
                             type="email"
                             placeholder="Email"
                             defaultValue={email}
-                            onChange={e => setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </>
                       )}
@@ -281,13 +342,30 @@ const Checkout = ({ history }) => {
                         value="cash"
                         onChange={changeMethod}
                       />
-                      {showDate && <Input name="date" placeholder="Date paid (leave blank for today)" />}
+                      {showDate && (
+                        <Input
+                          name="date"
+                          placeholder="Date paid (leave blank for today)"
+                        />
+                      )}
                     </Form.Group>
                   </Form>
-                  <Button id="cancel" type="button" color="red" inverted onClick={adminCancel}>
+                  <Button
+                    id="cancel"
+                    type="button"
+                    color="red"
+                    inverted
+                    onClick={adminCancel}
+                  >
                     Cancel
                   </Button>
-                  <Button id="doit" type="button" color="green" inverted onClick={adminDoIt}>
+                  <Button
+                    id="doit"
+                    type="button"
+                    color="green"
+                    inverted
+                    onClick={adminDoIt}
+                  >
                     Do it
                   </Button>
                 </Segment>

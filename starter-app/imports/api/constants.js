@@ -7,6 +7,8 @@ const CONSTANTS = {}
 CONSTANTS.ROLES = {
   ADM: 'Admin',
   SYS: 'System',
+  CUS: 'Customer',
+  MGR: 'Manager'
 }
 
 // Notificaton roles adds a 'USR' role, for the current user

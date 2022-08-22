@@ -15,14 +15,18 @@ export default map2Uniforms = (survey) => {
   delete newSurvey.sections
   newSurvey.steps.forEach((step) => {
     mv(step, 'title', 'name')
+    mv(step, '_id', 'id')
     step.questions.forEach((q) => {
-      mv(q, 'type', 'qtype')
+      // mv(q, 'type', 'qtype')
       mv(q, 'title', 'prompt')
-      q.answers.forEach((a) => {
+      mv(q, '_id', 'id')
+      q.answers?.forEach((a) => {
         mv(a, 'title', 'name')
+        mv(a, '_id', 'id')
       })
     })
   })
+
   debug(newSurvey)
   return newSurvey
   // debug(survey)

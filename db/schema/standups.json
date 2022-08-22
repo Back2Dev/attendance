@@ -1,0 +1,13 @@
+{
+  "collection": "standups",
+  "generate": "CRUD",
+  "fields": {
+    "teamId": "String",
+    "when": "Date",
+    "notes": {
+      "type": "Array",
+      "optional": true
+    }
+  },
+  "defaultObject": {}
+}

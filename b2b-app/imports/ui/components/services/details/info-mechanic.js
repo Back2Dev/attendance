@@ -96,11 +96,11 @@ function MechanicSelector() {
         open={open}
         onClose={hideSelector}
         aria-labelledby="Mechanic selector"
-        aria-describedby="Select a Mechanic"
+        aria-describedby="Select mechanic"
       >
         <StyledBoxContent elevation={3}>
           <Paper className="paper">
-            <Typography variant="h2">Select a mechanic</Typography>
+            <Typography variant="h2">Select mechanic</Typography>
             <Autocomplete
               options={mechanics}
               getOptionLabel={(option) => option.name}

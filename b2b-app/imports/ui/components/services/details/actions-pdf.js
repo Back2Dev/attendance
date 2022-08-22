@@ -14,10 +14,14 @@ function CreatePDF() {
   const { item } = useContext(JobsDetailsContext)
 
   const createPdf = () => {
-    const serviceItems = item.serviceItems
+    const { serviceType, serviceItems, assessor, jobNo } = item
     const bikeDetails = {
       bikeName: item.bikeName,
-      pickup: item.pickupDate,
+      dropoffDate: item.dropoffDate,
+      pickupDate: item.pickupDate,
+      budget: item.budget,
+      replacementBike: item.replacementBike,
+      note: item.note,
     }
     const contactData = {
       memberData: item.memberId
@@ -29,12 +33,19 @@ function CreatePDF() {
         : null,
     }
 
-    createJobCard({ serviceItems, bikeDetails, contactData })
+    createJobCard({
+      serviceType,
+      serviceItems,
+      bikeDetails,
+      contactData,
+      assessor,
+      jobNo,
+    })
   }
 
   return (
     <StyledCreatePDF>
-      <Button variant="contained" startIcon={<DescriptionIcon />} onClick={createPdf}>
+      <Button variant="contained" data-cy="job-card" startIcon={<DescriptionIcon />} onClick={createPdf}>
         Job Card
       </Button>
     </StyledCreatePDF>

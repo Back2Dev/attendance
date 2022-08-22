@@ -29,14 +29,14 @@ import {
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
-import ImportExportIcon from '@material-ui/icons/ImportExport'
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 
 import { showError } from '/imports/ui/utils/toast-alerts.js'
 
 import Collections from '/imports/api/collections/schema'
-import getCollection from '/imports/api/collections/collections.js'
+import getCollection from '/imports/api/collections/binder'
 import { getFieldType } from '/imports/api/collections/utils.js'
-
+import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
 const StyledViewForm = styled.div`
@@ -104,7 +104,7 @@ function ViewForm() {
   const [selectedColumns, setSelectedColumn] = useState([])
   const [sortOrder, setSortOrder] = useState({
     column: '',
-    order: 'asc',
+    order: 'ASC',
   })
 
   const { collection } = useTracker(() => {
@@ -215,7 +215,11 @@ function ViewForm() {
   if (!rawC) {
     return (
       <StyledViewForm>
-        <Typography variant="h1">Opps! the collection was not found</Typography>
+        <Typography variant="h1">Oops! The collection has no definition</Typography>
+        <Typography>
+          Either the collection doesn't exist, or maybe you need to run
+          scripts/bind-collections.js
+        </Typography>
       </StyledViewForm>
     )
   }
@@ -241,12 +245,12 @@ function ViewForm() {
               {...draggableProvided.draggableProps}
             >
               <TableCell className="drag-handler" {...draggableProvided.dragHandleProps}>
-                <ImportExportIcon />
+                <DragIndicatorIcon />
               </TableCell>
-              <TableCell className="column-name">{col.name}</TableCell>
               <TableCell className="column-label">
                 <TextField
                   value={col.label}
+                  placeholder={col.name}
                   onChange={(event) => {
                     setSelectedColumn(
                       selectedColumns.map((item) => {
@@ -375,15 +379,16 @@ function ViewForm() {
   return (
     <StyledViewForm>
       <Typography variant="h1">
-        {theView ? `Edit view ${theView.name}` : 'Add new view'}
+        {theView ? `Editing data view: ` : 'Add new data view: '}
+        <InlineEdit
+          text={newViewName}
+          onSetText={(v) => setNewViewName(v)}
+          placeholder="View name"
+          minWidth={200}
+        />
       </Typography>
       <div className="view-configs">
         <div>
-          <TextField
-            label="View name"
-            value={newViewName}
-            onChange={(event) => setNewViewName(event.target.value)}
-          />
           <FormControlLabel
             control={
               <Checkbox
@@ -394,7 +399,7 @@ function ViewForm() {
                 color="primary"
               />
             }
-            label="Read only"
+            label="Grid will not be editable"
           />
         </div>
         <IconButton
@@ -412,7 +417,6 @@ function ViewForm() {
           <TableHead>
             <TableRow>
               <TableCell width={40} />
-              <TableCell>Field name</TableCell>
               <TableCell>Column Label</TableCell>
               <TableCell>Column filter</TableCell>
               <TableCell>Read only</TableCell>

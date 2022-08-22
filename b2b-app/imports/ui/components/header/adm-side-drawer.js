@@ -16,9 +16,9 @@ import SettingsEthernet from '@material-ui/icons/SettingsEthernet'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import MenuIcon from '@material-ui/icons/Menu'
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
 import { makeStyles } from '@material-ui/core/styles'
 import adminItems from './generated-admin-items'
-
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 
 const adminMenus = [
@@ -46,6 +46,7 @@ const adminMenus = [
     items: [
       { display: 'Services', link: '/services' },
       { display: 'Create Services', link: '/services/new' },
+      { display: 'Daily Standup', link: '/daily-standup', icon: <EmojiPeopleIcon /> },
     ],
   },
 ]

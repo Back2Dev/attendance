@@ -57,6 +57,7 @@ Fixtures.loadUsers = function () {
           email: user.email,
           password: user.password ? user.password : Fixtures.config.defaultPassword,
           username: user.username ? user.username : user.name,
+          core: true,
         })
         if (user.roles) {
           Roles.setUserRoles(id, user.roles)

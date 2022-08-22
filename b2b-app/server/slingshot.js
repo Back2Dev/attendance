@@ -103,3 +103,62 @@ Slingshot.createDirective('publicUploads', Slingshot.S3Storage, {
     return filename
   },
 })
+
+Slingshot.fileRestrictions('uploadQuestionType', {
+  allowedFileTypes: [
+    'image/png',
+    'image/jpeg',
+    'image/gif',
+    'application/pdf',
+    'text/plain',
+    'video/*',
+  ],
+  maxSize: null,
+})
+
+Slingshot.createDirective('uploadQuestionType', Slingshot.S3Storage, {
+  AWSAccessKeyId: Meteor.settings.private.S3_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.private.S3_SECRET_ACCESS_KEY,
+  bucket: Meteor.settings.private.UPLOAD_BUCKET,
+  region: Meteor.settings.private.S3_REGION,
+
+  authorize: function () {
+    // if (!this.userId) {
+    //   const message = 'Please login before posting files'
+    //   throw new Meteor.Error('Login Required', message)
+    // }
+    return true
+  },
+
+  key: function (file, metaContext) {
+    const filename = file.name
+    debug(`filename for upload is ${filename}`)
+    return filename
+  },
+})
+
+Slingshot.fileRestrictions('questionImage', {
+  allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
+  maxSize: null,
+})
+
+Slingshot.createDirective('questionImage', Slingshot.S3Storage, {
+  AWSAccessKeyId: Meteor.settings.private.S3_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.private.S3_SECRET_ACCESS_KEY,
+  bucket: Meteor.settings.private.UPLOAD_BUCKET,
+  region: Meteor.settings.private.S3_REGION,
+
+  authorize: function () {
+    // if (!this.userId) {
+    //   const message = 'Please login before posting files'
+    //   throw new Meteor.Error('Login Required', message)
+    // }
+    return true
+  },
+
+  key: function (file, metaContext) {
+    const filename = file.name
+    debug(`filename for upload is ${filename}`)
+    return filename
+  },
+})

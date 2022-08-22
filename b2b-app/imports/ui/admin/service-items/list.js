@@ -19,7 +19,6 @@ const List = ({ items, methods, columns }) => {
       alert('I have no data for you to download yet')
       return null
     }
-
     tableRef.current.table.download('csv', 'ServiceItems.csv')
   }
 
@@ -84,9 +83,9 @@ const List = ({ items, methods, columns }) => {
 
   let Contents
   if (!items.length) {
-    Contents = <span>No data found</span>
+    Contents = () => <span>No data found</span>
   } else {
-    Contents = (
+    Contents = () => (
       <ReactTabulator
         ref={tableRef}
         columns={columns}
@@ -127,7 +126,7 @@ const List = ({ items, methods, columns }) => {
 
 List.propTypes = {
   loading: PropTypes.bool.isRequired,
-  items: PropTypes.array,
+  items: PropTypes.array.isRequired,
   methods: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
 }

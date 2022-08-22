@@ -44,9 +44,18 @@ export const JobUpdateStatusParamsSchema = new SimpleSchema({
     type: String,
     allowedValues: Object.keys(CONSTANTS.JOB_STATUS_READABLE),
   },
+  history: OptionalString,
 })
 
+export const ServiceType = {
+  type: String,
+  label: 'Service type',
+  allowedValues: ['minor', 'major', 'custom'],
+  defaultValue: 'custom',
+}
+
 export const JobCreateParamsSchema = new SimpleSchema({
+  serviceType: ServiceType,
   serviceItems: Array,
   'serviceItems.$': ServiceItemsSchema.pick(
     '_id',
@@ -54,7 +63,8 @@ export const JobCreateParamsSchema = new SimpleSchema({
     'price',
     'code',
     'category',
-    'used'
+    'used',
+    'tags'
   ),
   bikeDetails: new SimpleSchema({
     assessor: OptionalString,
@@ -65,6 +75,7 @@ export const JobCreateParamsSchema = new SimpleSchema({
       type: Number,
       optional: true,
     },
+    replacementBike: OptionalString,
     note: OptionalString,
   }),
   refurbish: {
@@ -83,16 +94,9 @@ export const JobCreateParamsSchema = new SimpleSchema({
       name: String,
       mobile: OptionalString,
       email: OptionalString,
-      address: OptionalString,
     }),
     optional: true,
   },
-  // pickup: new SimpleSchema({
-  //   urgent: Boolean,
-  //   dropOffDate: String,
-  //   pickupDate: String,
-  //   replacementBike: { type: String, optional: true },
-  // }),
 })
 
 export const JobUpdateParamsSchema = new SimpleSchema({
@@ -112,13 +116,11 @@ export const JobsSchema = new SimpleSchema({
     label: 'Customer phone number',
   },
   email: { type: String, optional: true, label: 'Customer email' },
-  address: { type: String, optional: true, label: 'Customer address' },
   isRefurbish: { type: Boolean, label: 'Is a refurbishment', defaultValue: false },
   bikeName: String,
   // make: { type: String, label: 'Bike make' },
   // model: { type: String, optional: true, label: 'Bike model' },
   // color: { type: String, label: 'Bike color' },
-  // bikeType: { type: String, optional: true, label: 'Bike Type' },
   budget: { type: SimpleSchema.Integer, optional: true },
   bikeValue: {
     type: SimpleSchema.Integer,
@@ -130,6 +132,7 @@ export const JobsSchema = new SimpleSchema({
     optional: true,
     label: 'Bike holds sentimental value',
   },
+  serviceType: ServiceType,
   serviceItems: {
     type: Array,
     label: 'Details of services/parts required',
@@ -140,7 +143,8 @@ export const JobsSchema = new SimpleSchema({
     'price',
     'code',
     'category',
-    'used'
+    'used',
+    'tags'
   ),
   totalCost: {
     type: SimpleSchema.Integer,
@@ -154,7 +158,8 @@ export const JobsSchema = new SimpleSchema({
       const check = calcServicesCost === this.value
       if (!check) {
         return new Meteor.Error(
-          'Total services/parts cost not equal the sum of its parts!'
+          `Total service/parts cost ${this.value} not equal the sum of its parts ${calcServicesCost}!`
+          // 'Total services/parts cost not equal the sum of its parts!'
         )
       }
     },
