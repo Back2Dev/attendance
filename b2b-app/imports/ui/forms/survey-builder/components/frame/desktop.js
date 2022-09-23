@@ -50,6 +50,8 @@ const useStyles = (selected, color) =>
       borderRadius: '10px',
       width: '100px',
       boxShadow: '1px 1px 3px lightgray',
+      // position: 'absolute',
+      // bottom: 0,
     },
     cardBody: {
       paddingTop: '0px',
@@ -59,171 +61,146 @@ const useStyles = (selected, color) =>
     },
   }))
 
-const DesktopFrame = React.forwardRef(
-  (
-    {
-      children,
-      selected,
-      actions,
-      setSectionState,
-      sectionState,
-      belongSection,
-      pid,
-      index,
-      onAddPart,
-      onCopyPart,
-      setHeaderOnly,
-      type,
-      snapshot,
-      color,
-      ...otherProps
-    },
-    ref
-  ) => {
-    const classes = useStyles(selected, color)()
-    const [isFrameCollapse, setIsFrameCollapse] = useState(false)
+const DesktopFrame = ({ question, children, ...props }) => {
+  const classes = useStyles((selected = false), (color = 'black'))()
+  const [isFrameCollapse, setIsFrameCollapse] = useState(false)
 
-    useEffect(() => {
-      setIsFrameCollapse(sectionState)
-    }, [sectionState])
+  // useEffect(() => {
+  //   setIsFrameCollapse(sectionState)
+  // }, [sectionState])
 
-    const actionTypes = {
-      remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
-      moveUp: {
-        icon: KeyboardArrowUpIcon,
-        handler: () =>
-          actions.onMove({ dir: 'up', draggableId: otherProps['data-rbd-draggable-id'] }),
-      },
-      moveDown: {
-        icon: KeyboardArrowDownIcon,
-        handler: () =>
-          actions.onMove({
-            dir: 'down',
-            draggableId: otherProps['data-rbd-draggable-id'],
-          }),
-      },
-      copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
-    }
+  // const actionTypes = {
+  //   remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
+  //   moveUp: {
+  //     icon: KeyboardArrowUpIcon,
+  //     handler: () =>
+  //       actions.onMove({ dir: 'up', draggableId: otherProps['data-rbd-draggable-id'] }),
+  //   },
+  //   moveDown: {
+  //     icon: KeyboardArrowDownIcon,
+  //     handler: () =>
+  //       actions.onMove({
+  //         dir: 'down',
+  //         draggableId: otherProps['data-rbd-draggable-id'],
+  //       }),
+  //   },
+  //   copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
+  // }
 
-    const createActions = (...newActions) =>
-      newActions.map((t, i) => (
-        <IconButton
-          size="small"
-          key={i}
-          onClick={actionTypes[t].handler}
-          className={actionTypes[t].classes}
-        >
-          {createElement(actionTypes[t].icon)}
-        </IconButton>
-      ))
+  // const createActions = (...newActions) =>
+  //   newActions.map((t, i) => (
+  //     <IconButton
+  //       size="small"
+  //       key={i}
+  //       onClick={actionTypes[t].handler}
+  //       className={actionTypes[t].classes}
+  //     >
+  //       {createElement(actionTypes[t].icon)}
+  //     </IconButton>
+  //   ))
 
-    return (
-      <Fragment>
-        <Card
+  return (
+    <Fragment>
+      {/* <Card
           className={classes.cardRoot}
           onClick={actions.onSelect}
           onFocus={actions.onSelect}
           onBlur={actions.onDeselect}
           ref={ref}
           {...otherProps}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-            }}
-          >
-            <h3 className={classes.collapseHelperText}>{isFrameCollapse && type}</h3>
+        > */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
+        <h3 className={classes.collapseHelperText}>{isFrameCollapse && type}</h3>
 
-            <IconButton aria-label="dragIcon">
-              <MenuIcon />
-            </IconButton>
-            <IconButton
-              aria-label="collapse"
-              className={classes.collapseIcon}
-              onClick={() => {
-                if (pid === belongSection) {
-                  setSectionState((prev) => ({
-                    ...prev,
-                    [belongSection]: !prev[belongSection],
-                  }))
-                } else {
-                  setIsFrameCollapse((prev) => !prev)
-                }
-              }}
-            >
-              {isFrameCollapse ? <UnfoldMoreIcon /> : <UnfoldLessIcon />}
-            </IconButton>
-          </div>
-
-          <CardContent
-            style={isFrameCollapse ? { display: 'none' } : { display: 'block' }}
-            className={classes.cardBody}
-          >
-            {children}
-          </CardContent>
-          <CardActions>
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="space-between"
-              className={classes.gridPadding}
-            >
-              <Grid item>
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={type === 'paragraph'}
-                        onChange={() => {
-                          if (type === 'paragraph') {
-                            setHeaderOnly({
-                              pid,
-                              content: { ...defaultPart },
-                            })
-                          } else {
-                            setHeaderOnly({
-                              pid,
-                              content: {
-                                prompt: '',
-                                type: 'paragraph',
-                              },
-                            })
-                          }
-                        }}
-                        name="header"
-                      />
-                    }
-                    label="Header Only"
-                  />
-                </FormGroup>
-              </Grid>
-
-              <Grid item>{createActions('moveUp', 'moveDown', 'copy', 'remove')}</Grid>
-            </Grid>
-          </CardActions>
-        </Card>
-        <div
-          style={{
-            display: snapshot.isDragging ? 'none' : 'flex',
-            justifyContent: 'center',
+        <IconButton aria-label="dragIcon">
+          <MenuIcon />
+        </IconButton>
+        <IconButton
+          aria-label="collapse"
+          className={classes.collapseIcon}
+          onClick={() => {
+            // if (pid === belongSection) {
+            //   setSectionState((prev) => ({
+            //     ...prev,
+            //     [belongSection]: !prev[belongSection],
+            //   }))
+            // } else {
+            //   setIsFrameCollapse((prev) => !prev)
+            // }
           }}
         >
-          <IconButton
-            variant="outlined"
-            color="default"
-            className={classes.addPartButton}
-            onClick={onAddPart}
-          >
-            <AddIcon />
-          </IconButton>
-        </div>
-      </Fragment>
-    )
-  }
-)
+          {isFrameCollapse ? <UnfoldMoreIcon /> : <UnfoldLessIcon />}
+        </IconButton>
+      </div>
+
+      <CardContent
+        style={isFrameCollapse ? { display: 'none' } : { display: 'block' }}
+        className={classes.cardBody}
+      >
+        {children}
+      </CardContent>
+      <CardActions>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="space-between"
+          className={classes.gridPadding}
+        >
+          <Grid item>
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={question.type === 'paragraph'}
+                    onChange={() => {
+                      // if (type === 'paragraph') {
+                      //   setHeaderOnly({
+                      //     pid,
+                      //     content: { ...defaultPart },
+                      //   })
+                      // } else {
+                      //   setHeaderOnly({
+                      //     pid,
+                      //     content: {
+                      //       prompt: '',
+                      //       type: 'paragraph',
+                      //     },
+                      //   })
+                      // }
+                    }}
+                    name="header"
+                  />
+                }
+                label="Header Only"
+              />
+            </FormGroup>
+          </Grid>
+
+          {/* <Grid item>{createActions('moveUp', 'moveDown', 'copy', 'remove')}</Grid> */}
+        </Grid>
+      </CardActions>
+      {/* </Card> */}
+      <div
+        style={{
+          display: 'flex',
+          // display: snapshot.isDragging ? 'none' : 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton variant="outlined" color="default" className={classes.addPartButton}>
+          <AddIcon />
+        </IconButton>
+      </div>
+    </Fragment>
+  )
+}
 
 DesktopFrame.displayName = 'DesktopFrame'
 

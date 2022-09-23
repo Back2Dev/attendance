@@ -98,10 +98,10 @@ const OperatorField = ({ pid, setPropertyByValue, value = '*' }) => {
   )
 }
 
-const CalculationInner = ({ pid, part, setPropertyByValue }) => {
+const CalculationInner = ({ pid, question, setPropertyByValue }) => {
   const classes = useStyles()
   // const [exptype, setExpType] = useState({ 0: 'integer', 1: 'integer' })
-  const expValue = part.answers[0]?.expression
+  const expValue = question.answers[0]?.expression
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
@@ -161,7 +161,7 @@ CalculationInner.propTypes = {
   /** function gets called when updating atom's value based on the input path argument */
   setPropertyByValue: PropTypes.func,
   /** Object contains question/answers, each pid correspond to a specific part  */
-  part: PropTypes.object.isRequired,
+  question: PropTypes.object.isRequired,
 }
 
 CalculationInner.defaultProps = {

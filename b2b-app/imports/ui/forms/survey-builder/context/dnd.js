@@ -70,7 +70,7 @@ DndDroppable.propTypes = {
   children: PropTypes.func,
 }
 
-const DndDraggable = ({ pid, itemId, children, ...otherProps }) => {
+const DndDraggable = ({ qid, itemId, children, ...otherProps }) => {
   /* locks dragging to Y axis only */
   function lockAxis(axis, style) {
     if (style?.transform) {
@@ -90,7 +90,7 @@ const DndDraggable = ({ pid, itemId, children, ...otherProps }) => {
     return style
   }
   return (
-    <Draggable draggableId={`${pid}-${itemId}`} {...otherProps}>
+    <Draggable draggableId={`${qid}-${itemId}`} {...otherProps}>
       {(provided, snapshot) => children(provided, snapshot, lockAxis)}
     </Draggable>
   )

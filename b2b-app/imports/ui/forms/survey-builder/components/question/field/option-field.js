@@ -39,18 +39,18 @@ const useStyles = makeStyles({
 
 export const OptionField = ({
   filterList,
-  part,
+  question,
   setPropertyByValue,
   pid_index,
   showMobileActions,
   pid,
   path,
 }) => {
-  const ID = part['id'] ? 'id' : '_id'
+  const ID = question['id'] ? 'id' : '_id'
   const classes = useStyles()
   const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
 
-  return Object.entries(part)
+  return Object.entries(question)
     .filter(([key, value]) => !filterList.includes(key) && value !== undefined)
     .map(([key, value]) => {
       const isID = key === ID
@@ -89,7 +89,7 @@ export const OptionField = ({
                       onClick={() => {
                         //default is short
                         const newType =
-                          part.specifyType === 'short' || !part.specifyType
+                          question.specifyType === 'short' || !question.specifyType
                             ? 'long'
                             : 'short'
 
@@ -100,7 +100,7 @@ export const OptionField = ({
                         })
                       }}
                     >
-                      {part.specifyType ?? 'short'}
+                      {question.specifyType ?? 'short'}
                     </Button>
                   ) : null
                 }

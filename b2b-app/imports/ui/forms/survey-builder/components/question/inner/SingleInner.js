@@ -17,7 +17,7 @@ import { FieldImage } from '$sb/components/question/field'
 const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
 /** Single Choice question */
-const SingleInner = ({ pid, part, setPropertyByValue }) => {
+const SingleInner = ({ pid, question, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
@@ -44,7 +44,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {part?.answers?.map((answer, answerIndex) => {
+            {question?.answers?.map((answer, answerIndex) => {
               return (
                 <DndDraggable
                   pid={pid}
@@ -64,13 +64,13 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                       <AnswerField
                         onRemove={() => remove(answerIndex)}
                         onAdd={() => add(answerIndex)}
-                        disableRemove={part.answers.length === 1}
+                        disableRemove={question.answers.length === 1}
                         setPropertyByValue={setPropertyByValue}
                         pid={pid}
                         answer={answer}
                         answerIndex={answerIndex}
                         showMobileActions={showMobileActions}
-                        part={part}
+                        question={question}
                         pid_index={`${pid}_${answerIndex}`}
                         // isIdChecked={isIdChecked}
                         // setIsIdChecked={setIsIdChecked}
@@ -81,7 +81,7 @@ const SingleInner = ({ pid, part, setPropertyByValue }) => {
                       <Grid container spacing={1} alignItems="flex-start">
                         <Grid item xs={8}>
                           <OptionField
-                            part={part.answers[answerIndex]}
+                            question={question.answers[answerIndex]}
                             filterList={[...filterList]}
                             setPropertyByValue={setPropertyByValue}
                             // isIdChecked={isIdChecked}

@@ -23,11 +23,11 @@ const useStyles = makeStyles({
   },
 })
 
-const OptionList = ({ part, path, onToggle, options = [], pid_index }) => {
+const OptionList = ({ question, path, onToggle, options = [], pid_index }) => {
   const classes = useStyles()
   const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const ID = part['id'] ? 'id' : '_id'
+  const ID = question['id'] ? 'id' : '_id'
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -68,7 +68,7 @@ const OptionList = ({ part, path, onToggle, options = [], pid_index }) => {
             const checked =
               item.label === 'ID'
                 ? showId
-                : get(part, path ? `${path}.${item.value}` : item.value)
+                : get(question, path ? `${path}.${item.value}` : item.value)
 
             return (
               <ListItem
@@ -97,8 +97,8 @@ const OptionList = ({ part, path, onToggle, options = [], pid_index }) => {
 }
 
 OptionList.propTypes = {
-  /** Object contains question/answers, each pid correspond to a specific part  */
-  part: PropTypes.object.isRequired,
+  /** Object contains question/answers, each pid correspond to a specific question  */
+  question: PropTypes.object.isRequired,
   /** a path act as an object key, and is used to get value from an object */
   path: PropTypes.string,
   /** object to record is ID option being checked */

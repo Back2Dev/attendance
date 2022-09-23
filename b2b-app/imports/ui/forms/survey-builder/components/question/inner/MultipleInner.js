@@ -15,7 +15,7 @@ import { FieldImage } from '$sb/components/question/field'
 
 const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
-const MultipleInner = ({ pid, part, setPropertyByValue }) => {
+const MultipleInner = ({ pid, question, setPropertyByValue }) => {
   const { add, remove } = usePartAnswers(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
@@ -41,7 +41,7 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {part?.answers?.map((answer, answerIndex) => (
+            {question?.answers?.map((answer, answerIndex) => (
               <DndDraggable
                 pid={pid}
                 itemId={`${pid}_${answerIndex}`}
@@ -58,13 +58,13 @@ const MultipleInner = ({ pid, part, setPropertyByValue }) => {
                     <AnswerField
                       onRemove={() => remove(answerIndex)}
                       onAdd={() => add(answerIndex)}
-                      disableRemove={part.answers.length === 1}
+                      disableRemove={question.answers.length === 1}
                       setPropertyByValue={setPropertyByValue}
                       pid={pid}
                       answer={answer}
                       answerIndex={answerIndex}
                       showMobileActions={showMobileActions}
-                      part={part}
+                      part={question}
                       pid_index={`${pid}_${answerIndex}`}
                       options={multipleOptions}
                       helperText={answer.optional ?? undefined}

@@ -21,7 +21,7 @@ export const GridField = ({
   data,
   dataIndex,
   showMobileActions,
-  part,
+  question,
   options,
   // helperText,
   type,
@@ -58,7 +58,7 @@ export const GridField = ({
             showMobileActions={showMobileActions}
             placeholder={`Type ${type} name...`}
             actions={['add', 'remove']}
-            part={part}
+            question={question}
             path={`answers[0].${type}s[${dataIndex}]`}
             showMore={true}
             showUploadImage={false}

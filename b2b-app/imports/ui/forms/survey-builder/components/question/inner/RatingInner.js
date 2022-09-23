@@ -9,7 +9,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const maxOptions = Array.from({ length: 10 }, (_, i) => String(i + 1))
 
-const RatingInner = ({ pid, part, setPropertyByValue }) => {
+const RatingInner = ({ pid, question, setPropertyByValue }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   const showMobileActions = isMobile && selectedPart === pid
@@ -24,7 +24,7 @@ const RatingInner = ({ pid, part, setPropertyByValue }) => {
           id={`${pid}_${0}`}
           fullWidth
           select
-          value={part.answers?.[0]?.max}
+          value={question.answers?.[0]?.max}
           onChange={({ target: { value } }) =>
             setPropertyByValue({
               pid,
@@ -46,7 +46,7 @@ const RatingInner = ({ pid, part, setPropertyByValue }) => {
       </Grid>
       <Grid item xs={6}>
         <Box component="fieldset" mb={3} borderColor="transparent">
-          <Rating name={pid} max={Number(part.answers?.[0]?.max) || 1} readOnly />
+          <Rating name={pid} max={Number(question.answers?.[0]?.max) || 1} readOnly />
         </Box>
       </Grid>
 

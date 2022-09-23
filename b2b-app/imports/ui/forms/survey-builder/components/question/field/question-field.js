@@ -45,7 +45,7 @@ const QuestionField = ({
   pid,
   setPropertyByValue,
   helperText,
-  part,
+  question,
   ...props
 }) => {
   const selectedPart = useSelectedPartValue()
@@ -59,7 +59,7 @@ const QuestionField = ({
           setPropertyByValue({ path: fieldKey, value, pid })
         }
         label={getLabelFromKey(fieldKey)}
-        text={part[fieldKey] || ''}
+        text={question[fieldKey] || ''}
         showMobileActions={showMobileActions}
         placeholder={'Type your question/paragraph'}
         helperText={helperText}
@@ -80,7 +80,7 @@ const QuestionField = ({
           })
         }
         options={questionOptions}
-        part={part}
+        question={question}
         underline={true}
         {...props}
       />
@@ -106,41 +106,50 @@ const options = [
 const filterList = ['answers', 'type', 'image', 'pid', 'optional']
 
 const Question = ({
-  pid,
-  onDeleteOption,
-  setPropertyByValue,
-  part,
-  label,
-  qType,
-  handleChange,
+  // pid,
+  // onDeleteOption,
+  // setPropertyByValue,
+  // part,
+  // label,
+  // qType,
+  // handleChange,
+  question,
   ...props
 }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const showMobileActions = isMobile && selectedPart === pid
-  const fieldKey = qType === 'section' ? 'name' : 'prompt'
-  const isHeaderOnly = qType === 'paragraph'
+  // const showMobileActions = isMobile && selectedPart === pid
+  // const fieldKey = qType === 'section' ? 'name' : 'prompt'
+  const isHeaderOnly = question.type === 'paragraph'
   const classes = useStyles()
 
   return (
     <div className={classes.gridRoot}>
       <Grid container spacing={1} alignItems="flex-end">
-        <QuestionField
+        <Grid style={{ marginLeft: '32px' }} item xs={12} md={7} lg={8}>
+          <TextField
+            fullWidth
+            value={question.prompt}
+            // onChange={handleChange}
+            label="Question"
+          />
+        </Grid>
+        {/* <QuestionField
           fieldKey={fieldKey}
-          pid={pid}
-          pid_index={pid}
-          setPropertyByValue={setPropertyByValue}
+          // pid={pid}
+          // pid_index={pid}
+          // setPropertyByValue={setPropertyByValue}
           part={part}
           helperText={part['optional']}
           {...props}
-        />
+        /> */}
         {!isHeaderOnly && (
           <Grid style={{ marginLeft: '32px' }} item xs={12} md={4} lg={3}>
             <TextField
               fullWidth
               select
-              value={qType}
-              onChange={handleChange}
+              value={question.type}
+              // onChange={handleChange}
               label="Question Type"
               SelectProps={{
                 native: true,
@@ -155,7 +164,7 @@ const Question = ({
           </Grid>
         )}
 
-        <Grid container spacing={1} alignItems="flex-start">
+        {/* <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={8}>
             <OptionField
               part={part}
@@ -181,7 +190,7 @@ const Question = ({
               />
             )}
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   )

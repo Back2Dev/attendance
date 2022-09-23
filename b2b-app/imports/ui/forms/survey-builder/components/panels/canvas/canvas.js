@@ -1,5 +1,5 @@
 import React, { createElement, useState, useContext } from 'react'
-import { Box, Fab, IconButton, Paper } from '@material-ui/core'
+import { Box, Fab, IconButton, Paper, TextField } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { makeStyles } from '@material-ui/core/styles'
 import debug from 'debug'
@@ -85,14 +85,6 @@ const Canvas = (props) => {
   const { addPart } = useParts()
   const { isMobile } = useBuilder()
   const setDrawer = useSetDrawer()
-  const [sectionState, setSectionState] = useState(
-    parts.reduce((acc, { type, _id }) => {
-      if (type === 'section') {
-        return { ...acc, [_id]: false }
-      }
-      return { ...acc }
-    }, {})
-  )
 
   const canvasClicked = (e) => {
     // make sure to deselect only if canvas clicked. if it originated elsewhere, just ignore it
@@ -101,18 +93,6 @@ const Canvas = (props) => {
     setSelectedPart(null)
   }
 
-  // let sectionID
-  // let color
-  // let index = 0
-  // const newParts = parts.map((item) => {
-  //   if (item.type === 'section') {
-  //     index += 1
-  //     sectionID = item._id
-  //     color = colorList[index]
-  //   }
-
-  //   return { ...item, belongSection: sectionID, color }
-  // })
   console.log('sections', sections)
   return (
     <Box>
@@ -121,9 +101,17 @@ const Canvas = (props) => {
           <Paper
             elevation={3}
             key={section.id}
-            style={{ border: `2px ${colorList[index]} solid` }}
+            style={{ margin: '1rem 0' }}
+            // style={{ border: `2px ${colorList[index]} solid` }}
           >
-            <h3>{section.name}</h3>
+            <Box style={{ padding: '1rem 2rem 0rem 2rem' }}>
+              <TextField
+                fullWidth
+                value={section.name}
+                // onChange={handleChange}
+                // label="Section"
+              />
+            </Box>
             {section.questions.map((question) => {
               // <h4 key={question.id}>{question.prompt}</h4>
               console.log(question)
@@ -135,37 +123,20 @@ const Canvas = (props) => {
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
-                      <IconButton
+                      {/* <IconButton
                         variant="outlined"
                         color="default"
                         className={classes.addPartButton}
                         onClick={() => addPart(0)}
                       >
                         <AddIcon />
-                      </IconButton>
-                      {/* {createElement(Question || Placeholder, {
-                        key: pid,
-                        pid,
+                      </IconButton> */}
+                      {createElement(Question || Placeholder, {
                         index,
-                        type,
-                        setSectionState,
-                        belongSection,
-                        sectionState: sectionState[belongSection],
-                        question
-                      })} */}
+                        type: question.type,
+                        question,
+                      })}
 
-                      {/* {newParts.map(({ _id, pid, type, belongSection, color }, index) => {
-                        return createElement(Question || Placeholder, {
-                          key: pid,
-                          pid,
-                          index,
-                          type,
-                          setSectionState,
-                          belongSection,
-                          sectionState: sectionState[belongSection],
-                          color,
-                        })
-                      })} */}
                       {provided.placeholder}
                     </List>
                   )}

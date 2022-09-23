@@ -42,7 +42,7 @@ export const AnswerField = ({
   answer,
   answerIndex,
   showMobileActions,
-  part,
+  question,
   options,
   type,
   children,
@@ -96,7 +96,7 @@ export const AnswerField = ({
             showMobileActions={showMobileActions}
             placeholder={'Type your answer...'}
             actions={['add', 'remove']}
-            part={part}
+            question={question}
             path={`answers[${answerIndex}]`}
             showMore={true}
             showUploadImage={true}

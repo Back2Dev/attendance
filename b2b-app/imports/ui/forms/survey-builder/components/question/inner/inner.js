@@ -50,107 +50,103 @@ const checkIsBooleanType = (path) => {
   return booleanOptionsType.some((opt) => path.includes(opt))
 }
 
-const Inner = ({ pid, type }) => {
-  const { add } = useAnswers(pid)
+const Inner = ({ question }) => {
+  // const { add } = useAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
-  const [qType, setQType] = useState(type ?? 'single')
-  const part = usePartValue(pid)
+  // const [qType, setQType] = useState(type ?? 'single')
+  // const part = usePartValue(pid)
 
   const showMobileActions = isMobile && selectedPart === pid
 
-  useEffect(() => {
-    setQType(part.type)
-  }, [part.type])
+  // useEffect(() => {
+  //   setQType(question.type)
+  // }, [question.type])
 
-  const setPropertyByValue = useRecoilCallback(
-    ({ set }) =>
-      ({ path, value = undefined, pid }) => {
-        set(editPartState({ pid, path }), (property) => {
-          if (value) {
-            return value
-          }
-          if (property === undefined) {
-            return checkIsBooleanType(path) ? true : ''
-          }
-          //if the text length is 0, do not set to undefined
-          else if (value === '') {
-            return ''
-          } else {
-            return undefined
-          }
-        })
-      }
-  )
+  // const setPropertyByValue = useRecoilCallback(
+  //   ({ set }) =>
+  //     ({ path, value = undefined, pid }) => {
+  //       set(editPartState({ pid, path }), (property) => {
+  //         if (value) {
+  //           return value
+  //         }
+  //         if (property === undefined) {
+  //           return checkIsBooleanType(path) ? true : ''
+  //         }
+  //         //if the text length is 0, do not set to undefined
+  //         else if (value === '') {
+  //           return ''
+  //         } else {
+  //           return undefined
+  //         }
+  //       })
+  //     }
+  // )
 
-  const updateCanvas = useRecoilCallback(({ set }) => ({ value: type }) => {
-    set(editPartsState({ pid }), (property) => {
-      return { ...property, type }
-    })
-  })
+  // const updateCanvas = useRecoilCallback(({ set }) => ({ value: type }) => {
+  //   set(editPartsState({ pid }), (property) => {
+  //     return { ...property, type }
+  //   })
+  // })
 
-  const handleChange = ({ target: { value } }) => {
-    setQType(value)
-    setPropertyByValue({ pid, value, path: 'type' })
-    //if type is section, set answers to an empty array, otherwise, set to default part
-    setPropertyByValue({
-      pid,
-      value: nonInnerType.includes(value) ? [] : defaultPart.answers,
-      path: 'answers',
-    })
+  // const handleChange = ({ target: { value } }) => {
+  //   setQType(value)
+  //   setPropertyByValue({ pid, value, path: 'type' })
+  //   //if type is section, set answers to an empty array, otherwise, set to default part
+  //   setPropertyByValue({
+  //     pid,
+  //     value: nonInnerType.includes(value) ? [] : defaultPart.answers,
+  //     path: 'answers',
+  //   })
 
-    if (value === 'grid') {
-      setPropertyByValue({
-        pid,
-        value: {
-          columns: [
-            { ...getDefaultColumn(), field: 'name', editable: false },
-            getDefaultColumn(),
-          ],
-          rows: [getDefaultRow()],
-        },
-        path: 'answers[0]',
-      })
-    }
+  //   if (value === 'grid') {
+  //     setPropertyByValue({
+  //       pid,
+  //       value: {
+  //         columns: [
+  //           { ...getDefaultColumn(), field: 'name', editable: false },
+  //           getDefaultColumn(),
+  //         ],
+  //         rows: [getDefaultRow()],
+  //       },
+  //       path: 'answers[0]',
+  //     })
+  //   }
 
-    if (value === 'calculation') {
-      setPropertyByValue({
-        pid,
+  //   if (value === 'calculation') {
+  //     setPropertyByValue({
+  //       pid,
 
-        value: {
-          target1: 'integer',
-          targetValue1: 0,
-          operator: '+',
-          target2: 'integer',
-          targetValue2: 0,
-        },
-        path: 'answers[0].expression',
-      })
-    }
+  //       value: {
+  //         target1: 'integer',
+  //         targetValue1: 0,
+  //         operator: '+',
+  //         target2: 'integer',
+  //         targetValue2: 0,
+  //       },
+  //       path: 'answers[0].expression',
+  //     })
+  //   }
 
-    //need to rerender canvas if new section is added
-    if (value === 'section') {
-      updateCanvas({ value })
-    }
-  }
+  //   //need to rerender canvas if new section is added
+  //   if (value === 'section') {
+  //     updateCanvas({ value })
+  //   }
+  // }
 
   return (
     <Fragment>
       <Question
-        qType={qType}
-        pid={pid}
-        part={part}
-        setPropertyByValue={setPropertyByValue}
-        handleChange={handleChange}
+        question={question}
+        // setPropertyByValue={setPropertyByValue}
+        // handleChange={handleChange}
       />
 
-      {!nonInnerType.includes(qType) &&
+      {!nonInnerType.includes(question.type) &&
         React.createElement(
-          (options.find(({ value }) => value === qType) || options[0]).component,
+          (options.find(({ value }) => value === question.type) || options[0]).component,
           {
-            pid,
-            setPropertyByValue,
-            part,
+            question,
           }
         )}
 
@@ -160,7 +156,7 @@ const Inner = ({ pid, type }) => {
           color="default"
           size="small"
           startIcon={<AddIcon />}
-          onClick={() => add()}
+          // onClick={() => add()}
         >
           New item
         </Button>
@@ -171,7 +167,7 @@ const Inner = ({ pid, type }) => {
 
 Inner.propTypes = {
   /** undefined instance part id */
-  pid: PropTypes.string.isRequired,
+  // pid: PropTypes.string.isRequired,
   /** question type, by default is "single"*/
   type: PropTypes.string,
 }

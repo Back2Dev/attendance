@@ -26,7 +26,7 @@ const filterList = [
   'editable',
 ]
 
-const GridInner = ({ pid, part, setPropertyByValue }) => {
+const GridInner = ({ pid, question, setPropertyByValue }) => {
   const { addColumn, removeColumn, addRow, removeRow } = usePartGrid(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
@@ -54,7 +54,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {part?.answers?.[0]?.columns
+                {question?.answers?.[0]?.columns
                   ?.filter((c) => c.field !== 'name')
                   ?.map((column, index) => {
                     const columnIndex = index + 1
@@ -79,13 +79,13 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                             <GridField
                               onRemove={() => removeColumn(columnIndex)}
                               onAdd={() => addColumn(columnIndex)}
-                              disableRemove={part.answers[0]?.columns?.length === 1}
+                              disableRemove={question.answers[0]?.columns?.length === 1}
                               setPropertyByValue={setPropertyByValue}
                               pid={pid}
                               data={column}
                               dataIndex={columnIndex}
                               showMobileActions={showMobileActions}
-                              part={part}
+                              question={question}
                               pid_index={`column_${pid}_${index}`}
                               options={gridColumnOptions}
                               type={'column'}
@@ -94,7 +94,7 @@ const GridInner = ({ pid, part, setPropertyByValue }) => {
                             <Grid container spacing={1} alignItems="flex-start">
                               <Grid item xs={8}>
                                 <OptionField
-                                  part={part.answers[0]?.columns?.[columnIndex]}
+                                  question={question.answers[0]?.columns?.[columnIndex]}
                                   filterList={[...filterList]}
                                   setPropertyByValue={setPropertyByValue}
                                   pid_index={`column_${pid}_${index}`}
