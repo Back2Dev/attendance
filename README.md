@@ -1,6 +1,10 @@
 # Attendance app
 Workshop attendance app
 
+We are now working on version 2 (updated to Material UI)
+
+Setup instructions are here: [b2b-app](/b2b-app)
+
 [![Back2bikes workshop](http://img.youtube.com/vi/0u2h09ZFhyc/0.jpg)](http://www.youtube.com/watch?v=0u2h09ZFhyc)
 
 ## Our challenge
