@@ -23,12 +23,12 @@ describe('log into app and create a form with a multiple question', () => {
 
     // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#text-enter-text').should('exist')
+    cy.get('p#enter-conveyancer-name-text').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     // give a valid input
-    cy.get('input#text-enter-text').clear().type('text')
-    cy.get('p#text-enter-text').should('not.exist')
+    cy.get('input#enter-conveyancer-name-text').clear().type('text')
+    cy.get('p#enter-conveyancer-name-text').should('not.exist')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })

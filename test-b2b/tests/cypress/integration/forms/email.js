@@ -22,16 +22,16 @@ describe('log into app and create a form with a multiple question', () => {
 
     // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#email-enter-email').should('exist')
+    cy.contains('conveyancer email').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     // give an invalid input
-    cy.get('input#email-enter-email').type('invalidemail')
-    cy.get('p#email-enter-email').should('exist')
+    cy.get('input#enter-conveyancer-email-email').type('invalidemail')
+    // need to check the color
 
     // give valid input
-    cy.get('input#email-enter-email').clear().type('validemail@gmail.com')
-    cy.get('p#email-enter-email').should('not.exist')
+    cy.get('input#enter-conveyancer-email-email').clear().type('validemail@gmail.com')
+    // todo: need check the color
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })
