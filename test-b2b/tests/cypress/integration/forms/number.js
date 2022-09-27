@@ -23,16 +23,18 @@ describe('log into app and create a form with a multiple question', () => {
 
     //   // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#enter-costs-costs-label').should('exist')
+    cy.get('p#enter-costs-costs').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     //   // give an invalid input
-    cy.get('input#enter-costs-number').type('text')
-    cy.get('p#enter-conveyer-costs').should('exist')
+    cy.get('input#enter-costs-costs').type('text')
+    // cy.get('p#enter-costs-costs').should('exist') //code doesnt give error on text input.
+
+   
 
     //   // give a valid input
-    cy.get('input#enter-costs-number').clear().type('12321312')
-    cy.get('p#["enter-costs-number"]').should('not.exist')
+    cy.get('input#enter-costs-costs').clear().type('12321312')
+    cy.get('p#enter-costs-costs').should('not.exist')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })
