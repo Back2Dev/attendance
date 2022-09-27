@@ -17,8 +17,8 @@ import { FieldImage } from '$sb/components/question/field'
 const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
 /** Single Choice question */
-const SingleInner = ({ pid, question, setPropertyByValue }) => {
-  const { add, remove } = usePartAnswers(pid)
+const SingleInner = ({ question,  }) => {
+  // const { add, remove } = usePartAnswers(pid)
   const theme = useTheme()
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -33,11 +33,11 @@ const SingleInner = ({ pid, question, setPropertyByValue }) => {
     }
   }
 
-  const showMobileActions = isMobile && selectedPart === pid
+  // const showMobileActions = isMobile && selectedPart === pid
 
   return (
     <div>
-      <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={pid}>
+      <DndDroppable id={question.id} listAtom={partAnswers(pid)} type={pid}>
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
@@ -47,12 +47,12 @@ const SingleInner = ({ pid, question, setPropertyByValue }) => {
             {question?.answers?.map((answer, answerIndex) => {
               return (
                 <DndDraggable
-                  pid={pid}
+                  pid={answerIndex}
                   // itemId={answer.id || answer._id}
-                  itemId={`${pid}_${answerIndex}`}
+                  itemId={`${answerIndex}_${answerIndex}`}
                   index={answerIndex}
-                  // key={answer.id || answer._id || `${pid}_${answerIndex}`}
-                  key={`${pid}_${answerIndex}`}
+                  // key={answer.id || answer._id || `${answerIndex}_${answerIndex}`}
+                  key={`${answerIndex}_${answerIndex}`}
                 >
                   {(provided, snapshot, lockAxis) => (
                     <div
@@ -118,7 +118,7 @@ const SingleInner = ({ pid, question, setPropertyByValue }) => {
           </ul>
         )}
       </DndDroppable>
-      {showMobileActions && (
+      {/* {showMobileActions && (
         <Button
           variant="outlined"
           color="default"
@@ -128,7 +128,7 @@ const SingleInner = ({ pid, question, setPropertyByValue }) => {
         >
           New item
         </Button>
-      )}
+      )} */}
     </div>
   )
 }

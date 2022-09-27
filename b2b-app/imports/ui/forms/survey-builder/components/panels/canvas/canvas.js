@@ -17,69 +17,31 @@ import { Question } from '$sb/components/question'
 import { ScrollTop } from '/imports/ui/components/scroll-to-top'
 import { EditorContext } from '/imports/ui/forms/framework/framework'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import Section from '../../question/section'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Random } from 'meteor/random'
 
 const log = debug('builder:canvas')
 
-const useStyles = makeStyles(() => ({
-  hideButton: {
-    display: 'none',
-  },
-  addPartButton: {
-    background: 'white',
-    borderRadius: '10px',
-    display: 'block',
-    width: '100px',
-    boxShadow: '1px 1px 3px lightgray',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-
-  cardBody: {
-    paddingTop: '0px',
-  },
-  gridPadding: {
-    padding: '0 1rem',
-  },
-}))
-
-const AddButton = styled(Fab)(({ theme }) => ({
-  position: 'fixed',
-  bottom: theme.spacing(2),
-  right: theme.spacing(2),
-}))
-
-const List = styled('ul')(({ theme }) => ({
-  listStyle: 'none',
-  padding: theme.spacing(2),
-  margin: 0,
-  '& > * + *': {
-    margin: theme.spacing(2, 0, 0, 0),
-  },
-}))
-
-const randomColor = () => {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16)
+const defaultQuestion = {
+  id: '',
+  answers: [],
+  prompt: 'New Question',
+  type: 'text',
 }
 
-const defaultColor = [
-  '#8B0000',
-  '#A52A2A',
-  '#FF7F50',
-  '#6495ED',
-  '#8B008B',
-  '#8FBC8F',
-  '#FF1493',
-  '#1E90FF',
-]
-
-const colorList = [...defaultColor, ...Array.from({ length: 100 }, () => randomColor())]
+const defaultSection = {
+  id: `New-Section-${Random.id()}`,
+  questions: [],
+  name: 'New Section',
+}
 
 // FIXME in mobile, when drawer is open the last part is obscured when scrolling to the bottom
 // TODO enable inertial scrolling
 const Canvas = (props) => {
-  const classes = useStyles()
   const { editors } = useContext(EditorContext)
   const sections = JSON.parse(editors[1].editorValue).sections || []
+  const updateEditor = editors[1].updateEditor
   const parts = usePartsValue()
   const [selectedPart, setSelectedPart] = useSelectedPartState()
   const { addPart } = useParts()
@@ -93,114 +55,157 @@ const Canvas = (props) => {
     setSelectedPart(null)
   }
 
+  const onSectionChange = ({ sIndex, key, value }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+      newSection.sections[sIndex][key] = value
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const onQuestionChange = ({ sIndex, qIndex, key, value }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+      newSection.sections[sIndex].questions[qIndex][key] = value
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const onAnswerChange = ({ sIndex, qIndex, aIndex, key, value }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+      newSection.sections[sIndex].questions[qIndex].answers[aIndex][key] = value
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const onAddSection = ({ sIndex }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+      newSection.sections.splice(sIndex + 1, 0, defaultSection)
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const onAddQuestion = ({ sIndex, qIndex }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+      const newQuestion = {
+        ...defaultQuestion,
+        id: `${newSection.sections[sIndex]}-${Random.id()}`,
+      }
+      newSection.sections[sIndex].questions.splice(qIndex + 1, 0, newQuestion)
+
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const onRemoveQuestion = ({ sIndex, qIndex }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+
+      newSection.sections[sIndex].questions.splice(qIndex, 1)
+
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result
+  }
+
+  function onDragEnd(result) {
+    if (!result.destination) {
+      return
+    }
+
+    if (result.destination.index === result.source.index) {
+      return
+    }
+
+    const quotes = reorder(state.quotes, result.source.index, result.destination.index)
+
+    // setState({ quotes });
+  }
+
   console.log('sections', sections)
   return (
     <Box>
-      {sections.map((section, index) => {
-        return (
-          <Paper
-            elevation={3}
-            key={section.id}
-            style={{ margin: '1rem 0' }}
-            // style={{ border: `2px ${colorList[index]} solid` }}
-          >
-            <Box style={{ padding: '1rem 2rem 0rem 2rem' }}>
-              <TextField
-                fullWidth
-                value={section.name}
-                // onChange={handleChange}
-                // label="Section"
-              />
-            </Box>
-            {section.questions.map((question) => {
-              // <h4 key={question.id}>{question.prompt}</h4>
-              console.log(question)
-              return (
-                <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
-                  {(provided) => (
-                    <List
-                      onClick={canvasClicked}
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {/* <IconButton
-                        variant="outlined"
-                        color="default"
-                        className={classes.addPartButton}
-                        onClick={() => addPart(0)}
+      <DragDropContext onDragEnd={onDragEnd}>
+        {sections.map((section, sIndex) => {
+          return (
+            <Box>
+              <Paper elevation={3} key={section.id} style={{ margin: '1rem 0' }}>
+                <Section
+                  section={section}
+                  onSectionChange={({ key, value }) =>
+                    onSectionChange({ sIndex, key, value })
+                  }
+                />
+                <Droppable key={sIndex} droppableId={`section-${sIndex}`}>
+                  {(provided) =>
+                    section.questions.map((question, qIndex) => (
+                      // <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
+
+                      <Box
+                        style={{ padding: '0.5rem', margin: '0.5rem' }}
+                        key={qIndex}
+                        onClick={canvasClicked}
+                        // {...provided.droppableProps}
+                        ref={provided.innerRef}
                       >
-                        <AddIcon />
-                      </IconButton> */}
-                      {createElement(Question || Placeholder, {
-                        index,
-                        type: question.type,
-                        question,
-                      })}
+                        {createElement(Question || Placeholder, {
+                          type: question.type,
+                          question,
+                          onQuestionChange: ({ key, value }) =>
+                            onQuestionChange({ sIndex, qIndex, key, value }),
+                          onAnswerChange: ({ aIndex, key, value }) =>
+                            onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
+                          qIndex,
+                          // onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
+                          onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
+                        })}
 
-                      {provided.placeholder}
-                    </List>
-                  )}
-                </DndDroppable>
-              )
-            })}
-          </Paper>
-        )
-      })}
+                        {provided.placeholder}
+                        <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} />
+                      </Box>
+                    ))
+                  }
+                </Droppable>
+              </Paper>
+              <AddBtn onAdd={() => onAddSection({ sIndex })} />
+            </Box>
+          )
+        })}
+      </DragDropContext>
     </Box>
-    // <Box height="100%">
-    //   <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
-    //     {(provided) => (
-    //       <List
-    //         onClick={canvasClicked}
-    //         {...provided.droppableProps}
-    //         ref={provided.innerRef}
-    //       >
-    //         <IconButton
-    //           variant="outlined"
-    //           color="default"
-    //           className={classes.addPartButton}
-    //           onClick={() => addPart(0)}
-    //         >
-    //           <AddIcon />
-    //         </IconButton>
-
-    //         {newParts.map(({ _id, pid, type, belongSection, color }, index) => {
-    //           return createElement(Question || Placeholder, {
-    //             key: pid,
-    //             pid,
-    //             index,
-    //             type,
-    //             setSectionState,
-    //             belongSection,
-    //             sectionState: sectionState[belongSection],
-    //             color,
-    //           })
-    //         })}
-    //         {provided.placeholder}
-    //       </List>
-    //     )}
-    //   </DndDroppable>
-    //   {isMobile && selectedPart === null && (
-    //     <AddButton
-    //       color="primary"
-    //       size="medium"
-    //       aria-label="add"
-    //       onClick={(e) => {
-    //         e.stopPropagation()
-    //         setDrawer('parts')
-    //       }}
-    //     >
-    //       <AddIcon />
-    //     </AddButton>
-    //   )}
-
-    //   <ScrollTop {...props}>
-    //     <Fab color="secondary" size="small" aria-label="scroll back to top">
-    //       <KeyboardArrowUpIcon />
-    //     </Fab>
-    //   </ScrollTop>
-    // </Box>
   )
 }
 
 export { Canvas }
+
+const AddBtn = React.memo(({ onAdd }) => {
+  return (
+    <IconButton
+      variant="outlined"
+      color="default"
+      style={{
+        background: 'white',
+        borderRadius: '10px',
+        display: 'block',
+        width: '50px',
+        boxShadow: '1px 1px 3px lightgray',
+        marginTop: '1rem',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}
+      onClick={() => onAdd()}
+    >
+      <AddIcon />
+    </IconButton>
+  )
+})

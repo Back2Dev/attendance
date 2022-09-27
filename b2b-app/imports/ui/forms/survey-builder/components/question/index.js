@@ -12,10 +12,8 @@ const Question = ({ ...props }) => {
 }
 
 Question.displayName = 'Question'
-
 Question.propTypes = {
-  pid: PropTypes.string.isRequired,
-  index: PropTypes.number,
+
 }
 
 export { Question }

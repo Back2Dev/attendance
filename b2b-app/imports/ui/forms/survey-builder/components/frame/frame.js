@@ -9,14 +9,27 @@ import {
 } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context/builder'
 import { DndDraggable } from '/imports/ui/forms/survey-builder/context'
-import { Card } from '@material-ui/core'
+import {
+  Card,
+  Box,
+  IconButton,
+  CardHeader,
+  TextField,
+  Grid,
+  Divider,
+} from '@material-ui/core'
 import { useTheme } from '@material-ui/styles'
 import { MobileFrame } from './mobile'
 import { DesktopFrame } from './desktop'
 import { useRecoilCallback } from 'recoil'
 import { headerOnly } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import AddIcon from '@material-ui/icons/Add'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import CancelIcon from '@material-ui/icons/Cancel'
+import { Question } from '$sb/components/question/field'
 
-const Frame = ({ question, children, ...props }) => {
+const Frame = ({ question, children, qIndex, onRemoveQuestion, ...props }) => {
   // const [selectedPart, setSelectedPart] = useSelectedPartState()
   // const { removePart, copyPart, addPart } = useParts()
   const { isMobile, dndMove } = useBuilder()
@@ -70,23 +83,24 @@ const Frame = ({ question, children, ...props }) => {
   // }
 
   return (
-    <DndDraggable qid={question.id}>
-      {(provided, snapshot, lockAxis) => (
-        <Card
+    <Draggable draggableId={question.id} index={qIndex}>
+      {(provided, snapshot) => (
+        <Box
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={{
-            ...getStyle(provided.draggableProps.style, snapshot, lockAxis),
-            position: 'relative',
-          }}
+          // style={{
+          //   ...getStyle(provided.draggableProps.style, snapshot, lockAxis),
+          //   position: 'relative',
+          // }}
         >
+          {/* <Divider variant="middle" /> */}
           {createElement(
             isMobile ? MobileFrame : DesktopFrame,
             { question, ...props },
             children
           )}
-        </Card>
+        </Box>
 
         // <PureFrame
         //   selected={selectedPart === pid}
@@ -112,7 +126,7 @@ const Frame = ({ question, children, ...props }) => {
         //   {children}
         // </PureFrame>
       )}
-    </DndDraggable>
+    </Draggable>
   )
 }
 

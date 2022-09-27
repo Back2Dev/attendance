@@ -13,6 +13,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/question/field'
 import { FieldImage } from '$sb/components/question/field'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 const subType = [
   { label: 'Short', value: 'text' },
@@ -96,18 +97,9 @@ const TextInner = ({ pid, question, setPropertyByValue }) => {
   const showMobileActions = isMobile && selectedPart === pid
   const theme = useTheme()
 
-  const getStyle = (style, snapshot, lockAxis) => {
-    if (!snapshot.isDragging) return style
-    return {
-      ...lockAxis('y', style),
-      boxShadow: theme.shadows[3],
-      background: theme.palette.background.paper,
-    }
-  }
-
   return (
     <div>
-      <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={pid}>
+      <Droppable droppableId="answer">
         {(provided) => (
           <ul
             style={{ paddingLeft: 0 }}
@@ -116,17 +108,12 @@ const TextInner = ({ pid, question, setPropertyByValue }) => {
           >
             {question?.answers?.map((answer, answerIndex) => {
               return (
-                <DndDraggable
-                  pid={pid}
-                  itemId={`${pid}_${answerIndex}`}
-                  index={answerIndex}
-                  key={`${pid}_${answerIndex}`}
-                >
-                  {(provided, snapshot, lockAxis) => (
+                <Draggable draggableId={question.id} index={answerIndex}>
+                  {(provided, snapshot) => (
                     <div
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
+                      // style={getStyle(provided.draggableProps.style, snapshot, )}
                       ref={provided.innerRef}
                     >
                       <AnswerField
@@ -178,13 +165,13 @@ const TextInner = ({ pid, question, setPropertyByValue }) => {
                       </Grid>
                     </div>
                   )}
-                </DndDraggable>
+                </Draggable>
               )
             })}
             {provided.placeholder}
           </ul>
         )}
-      </DndDroppable>
+      </Droppable>
 
       {showMobileActions && (
         <Button

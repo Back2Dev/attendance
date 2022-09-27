@@ -1,15 +1,27 @@
 import React, { createElement, useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { IconButton, Grid } from '@material-ui/core'
+
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import AddIcon from '@material-ui/icons/Add'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
 import { defaultPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardActions from '@material-ui/core/CardActions'
+import {
+  Card,
+  Box,
+  IconButton,
+  CardHeader,
+  CardContent,
+  CardActions,
+  TextField,
+  Grid,
+  Divider,
+} from '@material-ui/core'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import CancelIcon from '@material-ui/icons/Cancel'
+import { Question } from '$sb/components/question/field'
+
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
@@ -54,6 +66,7 @@ const useStyles = (selected, color) =>
       // bottom: 0,
     },
     cardBody: {
+      backgroundColor: 'lightgray',
       paddingTop: '0px',
     },
     gridPadding: {
@@ -100,7 +113,21 @@ const DesktopFrame = ({ question, children, ...props }) => {
   //   ))
 
   return (
-    <Fragment>
+    <Card>
+      <CardHeader
+        avatar={
+          <IconButton aria-label="settings">
+            <CancelIcon />
+          </IconButton>
+        }
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={<Question question={question} />}
+        // subheader="September 14, 2016"
+      />
       {/* <Card
           className={classes.cardRoot}
           onClick={actions.onSelect}
@@ -109,7 +136,7 @@ const DesktopFrame = ({ question, children, ...props }) => {
           ref={ref}
           {...otherProps}
         > */}
-      <div
+      {/* <div
         style={{
           display: 'flex',
           justifyContent: 'center',
@@ -126,26 +153,13 @@ const DesktopFrame = ({ question, children, ...props }) => {
           aria-label="collapse"
           className={classes.collapseIcon}
           onClick={() => {
-            // if (pid === belongSection) {
-            //   setSectionState((prev) => ({
-            //     ...prev,
-            //     [belongSection]: !prev[belongSection],
-            //   }))
-            // } else {
-            //   setIsFrameCollapse((prev) => !prev)
-            // }
           }}
         >
           {isFrameCollapse ? <UnfoldMoreIcon /> : <UnfoldLessIcon />}
         </IconButton>
-      </div>
+      </div> */}
 
-      <CardContent
-        style={isFrameCollapse ? { display: 'none' } : { display: 'block' }}
-        className={classes.cardBody}
-      >
-        {children}
-      </CardContent>
+      <CardContent className={classes.cardBody}>{children}</CardContent>
       <CardActions>
         <Grid
           container
@@ -159,22 +173,7 @@ const DesktopFrame = ({ question, children, ...props }) => {
                 control={
                   <Switch
                     checked={question.type === 'paragraph'}
-                    onChange={() => {
-                      // if (type === 'paragraph') {
-                      //   setHeaderOnly({
-                      //     pid,
-                      //     content: { ...defaultPart },
-                      //   })
-                      // } else {
-                      //   setHeaderOnly({
-                      //     pid,
-                      //     content: {
-                      //       prompt: '',
-                      //       type: 'paragraph',
-                      //     },
-                      //   })
-                      // }
-                    }}
+                    onChange={() => {}}
                     name="header"
                   />
                 }
@@ -187,7 +186,7 @@ const DesktopFrame = ({ question, children, ...props }) => {
         </Grid>
       </CardActions>
       {/* </Card> */}
-      <div
+      {/* <div
         style={{
           display: 'flex',
           // display: snapshot.isDragging ? 'none' : 'flex',
@@ -197,8 +196,8 @@ const DesktopFrame = ({ question, children, ...props }) => {
         <IconButton variant="outlined" color="default" className={classes.addPartButton}>
           <AddIcon />
         </IconButton>
-      </div>
-    </Fragment>
+      </div> */}
+    </Card>
   )
 }
 

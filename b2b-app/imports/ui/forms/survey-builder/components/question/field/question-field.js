@@ -20,9 +20,13 @@ import { OptionField } from './option-field'
 import { FieldImage } from './image'
 
 const useStyles = makeStyles(() => ({
-  gridRoot: {
-    flexGrow: 1,
-    marginBottom: '0.5rem',
+  hideUnderline: {
+    '&:before': {
+      'border-bottom': '1px solid white',
+    },
+    '&:hover:not(.Mui-disabled)::before': {
+      'border-bottom': '1px solid black',
+    },
   },
 }))
 
@@ -124,47 +128,47 @@ const Question = ({
   const classes = useStyles()
 
   return (
-    <div className={classes.gridRoot}>
-      <Grid container spacing={1} alignItems="flex-end">
-        <Grid style={{ marginLeft: '32px' }} item xs={12} md={7} lg={8}>
-          <TextField
-            fullWidth
-            value={question.prompt}
-            // onChange={handleChange}
-            label="Question"
-          />
-        </Grid>
-        {/* <QuestionField
-          fieldKey={fieldKey}
-          // pid={pid}
-          // pid_index={pid}
-          // setPropertyByValue={setPropertyByValue}
-          part={part}
-          helperText={part['optional']}
-          {...props}
-        /> */}
-        {!isHeaderOnly && (
-          <Grid style={{ marginLeft: '32px' }} item xs={12} md={4} lg={3}>
-            <TextField
-              fullWidth
-              select
-              value={question.type}
-              // onChange={handleChange}
-              label="Question Type"
-              SelectProps={{
-                native: true,
-              }}
-            >
-              {options.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </TextField>
-          </Grid>
-        )}
+    // <div className={classes.hideUnderline}>
+    <Grid container spacing={1} alignItems="flex-end">
+      <Grid item xs={12} md={8} lg={9}>
+        <TextField
+          fullWidth
+          value={question.prompt}
+          InputProps={{
+            classes: {
+              underline: classes.hideUnderline,
+            },
+          }}
+          // onChange={handleChange}
+          placeholder="Question"
+        />
+      </Grid>
 
-        {/* <Grid container spacing={1} alignItems="flex-start">
+      <Grid item xs={12} md={3} lg={2}>
+        <TextField
+          fullWidth
+          select
+          value={question.type}
+          InputProps={{
+            classes: {
+              underline: classes.hideUnderline,
+            },
+          }}
+          // onChange={handleChange}
+          placeholder="Question Type"
+          // SelectProps={{
+          //   native: true,
+          // }}
+        >
+          {options.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </TextField>
+      </Grid>
+
+      {/* <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={8}>
             <OptionField
               part={part}
@@ -191,8 +195,8 @@ const Question = ({
             )}
           </Grid>
         </Grid> */}
-      </Grid>
-    </div>
+    </Grid>
+    // </div>
   )
 }
 

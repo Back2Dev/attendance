@@ -136,11 +136,9 @@ const Inner = ({ question }) => {
 
   return (
     <Fragment>
-      <Question
+      {/* <Question
         question={question}
-        // setPropertyByValue={setPropertyByValue}
-        // handleChange={handleChange}
-      />
+      /> */}
 
       {!nonInnerType.includes(question.type) &&
         React.createElement(
