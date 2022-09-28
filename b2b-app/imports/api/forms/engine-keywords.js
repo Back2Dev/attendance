@@ -1,7 +1,8 @@
 const keywords = {
-  question: 'id description type condition optional tooltip required note populate'.split(
-    /[\s,]+/
-  ),
+  question:
+    'id description type condition optional tooltip required note populate minCount maxCount max'.split(
+      /[\s,]+/
+    ),
   step: 'id description type'.split(/[\s,]+/),
   section: 'id description type'.split(/[\s,]+/),
   grid: 'id type'.split(/[\s,]+/),
