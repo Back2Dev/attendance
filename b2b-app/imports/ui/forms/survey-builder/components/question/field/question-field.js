@@ -9,15 +9,18 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { questionOptions } from '$sb/components/question/field/options'
 import { IdAtom } from '$sb/recoil/atoms'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Button from '@material-ui/core/Button'
+
 import PropTypes from 'prop-types'
-import { TextField, Grid } from '@material-ui/core'
+import { TextField, Grid, InputAdornment, Button } from '@material-ui/core'
 // import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 // import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { OptionField } from './option-field'
 // import { makeStyles } from '@material-ui/core/styles'
 import { FieldImage } from './image'
+import SimpleSchema from 'simpl-schema'
+
+import { OptionList } from './option-list'
+import { UploadImage } from './upload'
 
 const useStyles = makeStyles(() => ({
   hideUnderline: {
@@ -43,55 +46,6 @@ export const getLabelFromKey = (key) => {
   }
 }
 
-// fieldKey: 'name', 'prompt'
-const QuestionField = ({
-  fieldKey,
-  pid,
-  setPropertyByValue,
-  helperText,
-  question,
-  ...props
-}) => {
-  const selectedPart = useSelectedPartValue()
-  const { isMobile } = useBuilder()
-  const showMobileActions = isMobile && selectedPart === pid
-
-  return (
-    <Grid item style={{ marginLeft: '32px' }} xs={12} md={7} lg={8}>
-      <Field
-        onChange={({ target: { value } }) =>
-          setPropertyByValue({ path: fieldKey, value, pid })
-        }
-        label={getLabelFromKey(fieldKey)}
-        text={question[fieldKey] || ''}
-        showMobileActions={showMobileActions}
-        placeholder={'Type your question/paragraph'}
-        helperText={helperText}
-        showMore={true}
-        showUploadImage={true}
-        index={pid}
-        onToggle={(path) =>
-          setPropertyByValue({
-            path,
-            pid,
-          })
-        }
-        onUploadFinish={(value) =>
-          setPropertyByValue({
-            path: 'image',
-            value,
-            pid,
-          })
-        }
-        options={questionOptions}
-        question={question}
-        underline={true}
-        {...props}
-      />
-    </Grid>
-  )
-}
-
 const options = [
   { label: 'Single', value: 'single' },
   { label: 'Multiple', value: 'multiple' },
@@ -107,82 +61,105 @@ const options = [
   { label: 'Calculation', value: 'calculation' },
 ]
 
-const filterList = ['answers', 'type', 'image', 'pid', 'optional']
+const questionSchema = new SimpleSchema({ id: String, prompt: String, type: String })
 
-const Question = ({
-  // pid,
-  // onDeleteOption,
-  // setPropertyByValue,
-  // part,
-  // label,
-  // qType,
-  // handleChange,
-  question,
-  ...props
-}) => {
+const Question = ({ onQuestionChange, question }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   // const showMobileActions = isMobile && selectedPart === pid
-  // const fieldKey = qType === 'section' ? 'name' : 'prompt'
-  const isHeaderOnly = question.type === 'paragraph'
+
   const classes = useStyles()
+  const cleanQuestion = questionSchema.clean(question)
+  const [showField, setShowField] = useState(() =>
+    Object.keys(questionOptions).reduce((acc, cur) => {
+      return {
+        ...acc,
+        [cur]: false,
+      }
+    }, {})
+  )
+
+  const onToggle = (key) => {
+    // setShowField((prev) => {
+    //   prev[key] = !prev[key]
+    //   console.log(prev)
+    //   return prev
+    // })
+    setShowField({ ...showField, [key]: !showField[key] })
+  }
 
   return (
-    // <div className={classes.hideUnderline}>
-    <Grid container spacing={1} alignItems="flex-end">
-      <Grid item xs={12} md={8} lg={9}>
-        <TextField
-          fullWidth
-          value={question.prompt}
-          InputProps={{
-            classes: {
-              underline: classes.hideUnderline,
-            },
-          }}
-          // onChange={handleChange}
-          placeholder="Question"
-        />
-      </Grid>
+    <div className={classes.hideUnderline}>
+      <Grid container spacing={1} alignItems="flex-end">
+        <Grid item xs={12} md={8} lg={9}>
+          <TextField
+            fullWidth
+            value={cleanQuestion.prompt}
+            InputProps={{
+              classes: {
+                underline: classes.hideUnderline,
+              },
+              endAdornment: (
+                <InputAdornment classes={{ root: classes.InputAdornment }} position="end">
+                  <OptionList
+                    options={questionOptions}
+                    onToggle={onToggle}
+                    showField={showField}
+                  />
+                  {/* <UploadImage {...props} /> */}
+                  {/* {specify} */}
+                  {/* {createActions(...actions)} */}
+                </InputAdornment>
+              ),
+            }}
+            onChange={({ target: { value } }) =>
+              onQuestionChange({ key: 'prompt', value })
+            }
+            label="Question"
+            placeholder="Question"
+          />
+        </Grid>
 
-      <Grid item xs={12} md={3} lg={2}>
-        <TextField
-          fullWidth
-          select
-          value={question.type}
-          InputProps={{
-            classes: {
-              underline: classes.hideUnderline,
-            },
-          }}
-          // onChange={handleChange}
-          placeholder="Question Type"
-          // SelectProps={{
-          //   native: true,
-          // }}
-        >
-          {options.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </TextField>
-      </Grid>
+        <Grid item xs={12} md={3} lg={2}>
+          <TextField
+            fullWidth
+            select
+            value={cleanQuestion.type}
+            InputProps={{
+              classes: {
+                underline: classes.hideUnderline,
+              },
+            }}
+            onChange={({ target: { value } }) => onQuestionChange({ key: 'type', value })}
+            label="Question Type"
+            placeholder="Question Type"
+          >
+            {options.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </TextField>
+        </Grid>
 
-      {/* <Grid container spacing={1} alignItems="flex-start">
-          <Grid item xs={8}>
-            <OptionField
-              part={part}
-              filterList={[...filterList, fieldKey, qType === 'section' && 'prompt']}
-              setPropertyByValue={setPropertyByValue}
-              pid_index={pid}
-              showMobileActions={showMobileActions}
-              pid={pid}
-              path={undefined}
-            />
-          </Grid>
+        <Grid container spacing={1} alignItems="flex-start">
+          {Object.entries(showField)
+            .filter(([_, show]) => show)
+            .map(([key]) => {
+              return (
+                <TextField
+                  key={key}
+                  fullWidth
+                  value={question[key] || ''}
+                  onChange={({ target: { value } }) => onQuestionChange({ key, value })}
+                  label={questionOptions[key]}
+                  // placeholder="Question"
+                />
+              )
+            })}
           <Grid item xs={1}></Grid>
           <Grid item xs={2}>
-            {part.image && (
+            {/* {part.image && (
               <FieldImage
                 src={part.image}
                 onDeleteImage={() =>
@@ -192,27 +169,17 @@ const Question = ({
                   })
                 }
               />
-            )}
+            )} */}
           </Grid>
-        </Grid> */}
-    </Grid>
-    // </div>
+        </Grid>
+      </Grid>
+    </div>
   )
 }
 
 Question.propTypes = {
-  /** undefined instance part id */
-  pid: PropTypes.string.isRequired,
-  /** function gets called when delete button is clicked */
-  onDeleteOption: PropTypes.func,
-  /** function gets called when updating atom's value based on the input path argument */
-  setPropertyByValue: PropTypes.func,
-  /** question type, by default is "single"*/
-  qType: PropTypes.string.isRequired,
-  /** initial label to show, defaults to empty string */
-  label: PropTypes.string,
   /** function gets called when text changes */
-  handleChange: PropTypes.func,
+  onQuestionChange: PropTypes.func,
 }
 
 Question.defaultProps = {

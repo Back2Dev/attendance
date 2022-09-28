@@ -50,7 +50,7 @@ const checkIsBooleanType = (path) => {
   return booleanOptionsType.some((opt) => path.includes(opt))
 }
 
-const Inner = ({ question }) => {
+const Inner = ({ question, onQuestionChange }) => {
   // const { add } = useAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -136,9 +136,7 @@ const Inner = ({ question }) => {
 
   return (
     <Fragment>
-      {/* <Question
-        question={question}
-      /> */}
+      <Question question={question} onQuestionChange={onQuestionChange} />
 
       {!nonInnerType.includes(question.type) &&
         React.createElement(

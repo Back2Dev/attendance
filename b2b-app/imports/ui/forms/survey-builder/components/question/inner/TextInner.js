@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, TextField } from '@material-ui/core'
+import { Button, Grid, TextField, InputAdornment, Box } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import {
   useSelectedPartValue,
@@ -14,6 +14,16 @@ import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/question/field'
 import { FieldImage } from '$sb/components/question/field'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { OptionList } from '$sb/components/question/field/option-list'
+import SimpleSchema from 'simpl-schema'
+
+const textSchema = new SimpleSchema({
+  answers: Array,
+  'answers.$': Object,
+  'answers.$.id': String,
+  'answers.$.name': String,
+  'answers.$.type': String,
+})
 
 const subType = [
   { label: 'Short', value: 'text' },
@@ -26,76 +36,8 @@ const subType = [
   { label: 'PhoneNumber', value: 'phoneNumber' },
 ]
 
-const selector = (answer, answerIndex, pid, setPropertyByValue) => (
-  <Grid style={{ marginLeft: '32px' }} item xs={12} md={4} lg={3}>
-    <TextField
-      id={`${pid}_${answerIndex}`}
-      fullWidth
-      select
-      value={answer.type}
-      onChange={({ target: { value } }) =>
-        setPropertyByValue({
-          pid,
-          path: `answers[${answerIndex}].type`,
-          value,
-        })
-      }
-      label="Answer Type"
-      SelectProps={{
-        native: true,
-      }}
-    >
-      {subType.map(({ value, label }) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </TextField>
-  </Grid>
-)
-
-const getOptions = (textType) => {
-  const getExtra = () => {
-    switch (textType) {
-      case 'password':
-        return [{ value: 'confirmPassword', label: 'Confirm Password' }]
-      default:
-        return []
-    }
-  }
-
-  return [...textOptions, ...getExtra()]
-}
-
-const booleanField = ['optional', 'confirmPassword']
-
-const getHelperText = (answer) => {
-  const hasBoolean = Object.entries(answer).filter(
-    ([key, value]) => value && booleanField.includes(key)
-  )
-
-  if (!hasBoolean.length) return undefined
-  const helperText = hasBoolean.map(([key]) => key).join(', ')
-
-  return helperText
-}
-
-const filterList = [
-  'name',
-  'type',
-  'image',
-  'answers',
-  'pid',
-  'optional',
-  'confirmPassword',
-]
-
-const TextInner = ({ pid, question, setPropertyByValue }) => {
-  const { add, remove } = usePartAnswers(pid)
-  const selectedPart = useSelectedPartValue()
-  const { isMobile } = useBuilder()
-  const showMobileActions = isMobile && selectedPart === pid
-  const theme = useTheme()
+const TextInner = ({ question, onAnswerChange }) => {
+  const cleanAnswer = textSchema.clean(question).answers
 
   return (
     <div>
@@ -106,63 +48,22 @@ const TextInner = ({ pid, question, setPropertyByValue }) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {question?.answers?.map((answer, answerIndex) => {
+            {cleanAnswer?.map((answer, aIndex) => {
               return (
-                <Draggable draggableId={question.id} index={answerIndex}>
+                <Draggable draggableId={answer.id} index={aIndex}>
                   {(provided, snapshot) => (
                     <div
+                      key={aIndex}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       // style={getStyle(provided.draggableProps.style, snapshot, )}
                       ref={provided.innerRef}
                     >
-                      <AnswerField
-                        underline={true}
-                        onRemove={() => remove(answerIndex)}
-                        onAdd={() => add(answerIndex)}
-                        disableRemove={question.answers.length === 1}
-                        setPropertyByValue={setPropertyByValue}
-                        pid={pid}
+                      <Answer
                         answer={answer}
-                        answerIndex={answerIndex}
-                        showMobileActions={showMobileActions}
-                        question={question}
-                        pid_index={`${pid}_${answerIndex}`}
-                        options={getOptions(answer.type)}
-                        type={'text'}
-                        helperText={getHelperText(answer)}
-                        children={selector(answer, answerIndex, pid, setPropertyByValue)}
+                        onAnswerChange={onAnswerChange}
+                        aIndex={aIndex}
                       />
-
-                      <Grid container spacing={1} alignItems="flex-start">
-                        <Grid item xs={8}>
-                          <OptionField
-                            question={question.answers[answerIndex]}
-                            filterList={[...filterList]}
-                            setPropertyByValue={setPropertyByValue}
-                            pid_index={`${pid}_${answerIndex}`}
-                            showMobileActions={showMobileActions}
-                            pid={pid}
-                            path={`answers[${answerIndex}]`}
-                          />
-                        </Grid>
-                        <Grid item xs={1}>
-                          {' '}
-                        </Grid>
-                        <Grid item xs={2}>
-                          {answer.image && (
-                            <FieldImage
-                              src={answer.image}
-                              onDeleteImage={() =>
-                                setPropertyByValue({
-                                  pid,
-                                  path: `answers[${answerIndex}].image`,
-                                })
-                              }
-                            />
-                          )}
-                        </Grid>
-                      </Grid>
                     </div>
                   )}
                 </Draggable>
@@ -173,7 +74,7 @@ const TextInner = ({ pid, question, setPropertyByValue }) => {
         )}
       </Droppable>
 
-      {showMobileActions && (
+      {/* {showMobileActions && (
         <Button
           variant="outlined"
           color="default"
@@ -183,7 +84,7 @@ const TextInner = ({ pid, question, setPropertyByValue }) => {
         >
           New item
         </Button>
-      )}
+      )} */}
     </div>
   )
 }
@@ -202,3 +103,110 @@ TextInner.defaultProps = {
 }
 
 export { TextInner }
+
+const Answer = ({ answer, onAnswerChange, aIndex }) => {
+  const [showField, setShowField] = useState(() =>
+    Object.keys(textOptions).reduce((acc, cur) => {
+      return {
+        ...acc,
+        [cur]: false,
+      }
+    }, {})
+  )
+
+  const onToggle = (key) => {
+    setShowField({ ...showField, [key]: !showField[key] })
+  }
+
+  return (
+    <Box>
+      <Grid container spacing={1} alignItems="flex-end">
+        <Grid item xs={12} md={8} lg={9}>
+          <TextField
+            fullWidth
+            onChange={({ target: { value } }) =>
+              onAnswerChange({ aIndex, key: 'name', value })
+            }
+            value={answer.name}
+            InputProps={{
+              // classes: {
+              //   underline: classes.hideUnderline,
+              // },
+              endAdornment: (
+                <InputAdornment
+                  // classes={{ root: classes.InputAdornment }}
+                  position="end"
+                >
+                  <OptionList
+                    options={textOptions}
+                    onToggle={onToggle}
+                    showField={showField}
+                  />
+                  {/* <UploadImage {...props} /> */}
+                  {/* {specify} */}
+                  {/* {createActions(...actions)} */}
+                </InputAdornment>
+              ),
+            }}
+            label="Answer"
+            placeholder="Type some anwer..."
+          />
+        </Grid>
+        <Grid item xs={12} md={3} lg={2}>
+          <TextField
+            fullWidth
+            select
+            value={answer.type}
+            onChange={({ target: { value } }) =>
+              onAnswerChange({
+                aIndex,
+                key: 'type',
+                value,
+              })
+            }
+            label="Answer Type"
+          >
+            {subType.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </TextField>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={1} alignItems="flex-start">
+        <Grid item xs={8}>
+          {Object.entries(showField)
+            .filter(([_, show]) => show)
+            .map(([key]) => {
+              return (
+                <TextField
+                  key={key}
+                  fullWidth
+                  value={answer[key] || ''}
+                  onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+                  label={textOptions[key]}
+                  // placeholder="Question"
+                />
+              )
+            })}
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          {/* {answer.image && (
+                            <FieldImage
+                              src={answer.image}
+                              onDeleteImage={() =>
+                                setPropertyByValue({
+                                  pid,
+                                  path: `answers[${aIndex}].image`,
+                                })
+                              }
+                            />
+                          )} */}
+        </Grid>
+      </Grid>
+    </Box>
+  )
+}

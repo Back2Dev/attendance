@@ -23,11 +23,11 @@ const useStyles = makeStyles({
   },
 })
 
-const OptionList = ({ question, path, onToggle, options = [], pid_index }) => {
+const OptionList = ({ options = {}, onToggle, showField = {} }) => {
   const classes = useStyles()
-  const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
+  // const [showId, setShowId] = useRecoilState(IdAtom(pid_index))
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const ID = question['id'] ? 'id' : '_id'
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -35,19 +35,6 @@ const OptionList = ({ question, path, onToggle, options = [], pid_index }) => {
   const handleClose = () => {
     setAnchorEl(null)
   }
-
-  const handleToggle = (value) => () => {
-    if (value.includes('id')) {
-      return setShowId(!showId)
-    }
-    onToggle(value)
-  }
-
-  const fieldOptions = [
-    { label: 'ID', value: ID },
-    { label: 'Value', value: 'value' },
-    ...options,
-  ]
 
   return (
     <Fragment>
@@ -62,34 +49,19 @@ const OptionList = ({ question, path, onToggle, options = [], pid_index }) => {
         onClose={handleClose}
       >
         <List className={classes.list}>
-          {fieldOptions.map((item) => {
-            const labelId = item.label
-
-            const checked =
-              item.label === 'ID'
-                ? showId
-                : get(question, path ? `${path}.${item.value}` : item.value)
-
-            return (
-              <ListItem
-                key={item.value}
-                dense
-                button
-                onClick={handleToggle(path ? `${path}.${item.value}` : item.value)}
-              >
-                <ListItemIcon className={classes.listIcon}>
-                  <Checkbox
-                    edge="start"
-                    checked={Boolean(checked || checked === '')}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={item.label} />
-              </ListItem>
-            )
-          })}
+          {Object.entries(options).map(([key, label]) => (
+            <ListItem key={key} button onClick={() => onToggle(key)}>
+              <ListItemIcon className={classes.listIcon}>
+                <Checkbox
+                  edge="start"
+                  checked={showField[key]}
+                  tabIndex={-1}
+                  disableRipple
+                />
+              </ListItemIcon>
+              <ListItemText id={key} primary={label} />
+            </ListItem>
+          ))}
         </List>
       </Menu>
     </Fragment>

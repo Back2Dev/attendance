@@ -25,7 +25,7 @@ const log = debug('builder:canvas')
 
 const defaultQuestion = {
   id: '',
-  answers: [],
+  answers: [{ name: '', id: Random.id() }],
   prompt: 'New Question',
   type: 'text',
 }

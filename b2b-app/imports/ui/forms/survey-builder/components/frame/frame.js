@@ -29,7 +29,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { Question } from '$sb/components/question/field'
 
-const Frame = ({ question, children, qIndex, onRemoveQuestion, ...props }) => {
+const Frame = ({ question, children, qIndex, ...props }) => {
   // const [selectedPart, setSelectedPart] = useSelectedPartState()
   // const { removePart, copyPart, addPart } = useParts()
   const { isMobile, dndMove } = useBuilder()

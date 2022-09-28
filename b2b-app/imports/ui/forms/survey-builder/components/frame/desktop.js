@@ -66,7 +66,7 @@ const useStyles = (selected, color) =>
       // bottom: 0,
     },
     cardBody: {
-      backgroundColor: 'lightgray',
+      backgroundColor: 'whte',
       paddingTop: '0px',
     },
     gridPadding: {
@@ -74,7 +74,7 @@ const useStyles = (selected, color) =>
     },
   }))
 
-const DesktopFrame = ({ question, children, ...props }) => {
+const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
   const classes = useStyles((selected = false), (color = 'black'))()
   const [isFrameCollapse, setIsFrameCollapse] = useState(false)
 
@@ -116,7 +116,7 @@ const DesktopFrame = ({ question, children, ...props }) => {
     <Card>
       <CardHeader
         avatar={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={() => onRemoveQuestion()}>
             <CancelIcon />
           </IconButton>
         }
@@ -125,7 +125,7 @@ const DesktopFrame = ({ question, children, ...props }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={<Question question={question} />}
+        title={question.prompt}
         // subheader="September 14, 2016"
       />
       {/* <Card
