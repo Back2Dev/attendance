@@ -3,7 +3,7 @@ import mapValues from 'lodash/mapValues'
 import debug from 'debug'
 
 import SimpleSchema from 'simpl-schema'
-import { TypeRegistry } from './components/types/type-registry'
+import { TypeRegistry } from './components/old/types/type-registry'
 
 let log = debug('builder:data-cache')
 let data = []

@@ -47,7 +47,6 @@ import Signature from '/imports/ui/components/signature'
 import PhoneField from '/imports/ui/components/phone-field'
 // import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
-// import { DropZone } from '/imports/ui/forms/survey-builder/components/types/old/upload/item'
 import FormLabel from '@material-ui/core/FormLabel'
 
 const debug = require('debug')('app:webforms-progress')
@@ -75,6 +74,7 @@ const getAnswers = (formData, answers) => {
             formData[section][field] &&
             Array.isArray(formData[section][field]) &&
             formData[section][field]
+              .filter(Boolean)
               .map((row) => {
                 return row[selector.field]
               })
@@ -175,6 +175,16 @@ const TextQ = ({ q, a }) => {
     //   return (
     //     <NumField name={id} id={id} key={id} defaultValue={a.defaultValue} ></NumField>
     //   )
+    case 'email':
+      return (
+        <Fragment>
+          <AutoField name={id} id={id} key={id}></AutoField>
+          <ErrorField name={id} id={id}>
+            {errorMessage ?? null}
+          </ErrorField>
+        </Fragment>
+      )
+
     case 'calculated':
       return <span>{a.defaultValue}</span>
 
