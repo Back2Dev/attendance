@@ -285,7 +285,9 @@ const getSchemas = (survey, currentData) => {
                   }
 
                   if (a.type === 'email')
-                  step.schema[qaId].regEx =  a.regEx ? new RegExp(a.regEx) : SimpleSchema.RegEx.EmailWithTLD
+                    step.schema[qaId].regEx = a.regEx
+                      ? new RegExp(a.regEx)
+                      : SimpleSchema.RegEx.EmailWithTLD
                   step.schema[qaId].uniforms.variant = 'outlined'
 
                   if (a.type === 'calculated') {
@@ -365,22 +367,32 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'rating':
                 qSchema.uniforms.component = RatingField
+                console.log('rating', { q })
+                qSchema.uniforms.max = q.max || 7
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
 
-                answers
-                  .filter((a) => a.specify)
-                  .map((a) => {
-                    const specifyId = `${q.id}-${a.id}-specify`
-                    const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                    step.schema[specifyId] = {
-                      type: String,
-                      label: a.specify,
-                      optional,
-                      uniforms,
-                    }
-                    return specifyId
-                  })
+                answers.forEach((a) => {
+                  const qaId = `${q.id}-${a.id}`
+
+                  let uniforms = {}
+                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
+                  optional = getOptionalFunc(q, uniforms, optional)
+
+                  // const regEx = new RegExp(a.regEx)
+                  uniforms = {
+                    helperText: a.note,
+                    required: !optional,
+                    placeholder: a.placeholder,
+                    component: RatingField,
+                  }
+
+                  step.schema[qaId] = {
+                    type: String,
+                    label: a.name,
+                    optional,
+                    uniforms,
+                  }
+                })
                 break
 
               case 'grid':
@@ -486,7 +498,6 @@ const getSchemas = (survey, currentData) => {
                 debug(`Rendering address field ${q.id}`)
                 qSchema.uniforms.margin = 'normal'
                 qSchema.uniforms.component = GooglePlaces
-                // qSchema.uniforms.component = true
                 break
               case 'paragraph':
                 delete step.schema[q.id]

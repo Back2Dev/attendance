@@ -398,7 +398,16 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
 
-          <AutoField name={q.id} id={q.id} max={q.answers[0]?.max || 1} />
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            const id = `${q.id}-${a.id}`
+            return (
+              <div key={`a${key}${iy}`}>
+                <AutoField name={id} id={id} key={id} max={q.max || 5} />
+                {a.image && <img src={a.image} width="75px" height="75px" />}
+                <NoteIf note={a.note} field={id}></NoteIf>
+              </div>
+            )
+          })}
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
