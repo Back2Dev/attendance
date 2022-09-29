@@ -420,6 +420,39 @@ const RenderQ = (q, ix, model) => {
           })}
         </div>
       )
+    case 'slider':
+      return (
+        <div key={key} className="q-container">
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
+          />
+
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            const id = `${q.id}-${a.id}`
+            return (
+              <div key={`a${key}${iy}`}>
+                <AutoField name={id} id={id} key={id} max={q.max || 5} />
+                {a.image && <img src={a.image} width="75px" height="75px" />}
+                <NoteIf note={a.note} field={id}></NoteIf>
+              </div>
+            )
+          })}
+
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
 
     case 'grid':
       return (

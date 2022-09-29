@@ -7,6 +7,7 @@ import TreeField from '/imports/ui/components/tree-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import RadioImageField from '/imports/ui/components/radio-image-field'
 import RatingField from '/imports/ui/components/rating-field'
+import SliderField from '/imports/ui/components/slider-field'
 import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
@@ -366,7 +367,6 @@ const getSchemas = (survey, currentData) => {
                   })
                 break
               case 'rating':
-                qSchema.uniforms.component = RatingField
                 console.log('rating', { q })
                 qSchema.uniforms.max = q.max || 7
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
@@ -384,6 +384,34 @@ const getSchemas = (survey, currentData) => {
                     required: !optional,
                     placeholder: a.placeholder,
                     component: RatingField,
+                  }
+
+                  step.schema[qaId] = {
+                    type: String,
+                    label: a.name,
+                    optional,
+                    uniforms,
+                  }
+                })
+                break
+              case 'slider':
+                console.log('slider', { q })
+                qSchema.uniforms.max = q.max || 100
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+
+                answers.forEach((a) => {
+                  const qaId = `${q.id}-${a.id}`
+
+                  let uniforms = {}
+                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
+                  optional = getOptionalFunc(q, uniforms, optional)
+
+                  // const regEx = new RegExp(a.regEx)
+                  uniforms = {
+                    helperText: a.note,
+                    required: !optional,
+                    placeholder: a.placeholder,
+                    component: SliderField,
                   }
 
                   step.schema[qaId] = {

@@ -1,6 +1,6 @@
 const keywords = {
   question:
-    'id description type condition optional tooltip required note populate minCount maxCount max'.split(
+    'id description type condition optional tooltip required note populate minCount maxCount max variant'.split(
       /[\s,]+/
     ),
   step: 'id description type'.split(/[\s,]+/),
