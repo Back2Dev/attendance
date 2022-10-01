@@ -40,28 +40,42 @@ const Section = React.memo(
     const [sectionCollapse, setSectionCollapse] = useState(false)
 
     return (
-      <Box style={{ padding: '1rem 2rem 0rem 2rem' }}>
-        <Box>
-          <IconButton aria-label="close" onClick={() => onRemoveQuestion()}>
+      <Box style={{}}>
+        <Box bgcolor="lightgray">
+          <IconButton
+            style={{ padding: '0.5rem' }}
+            aria-label="close"
+            onClick={() => onRemoveQuestion()}
+          >
             <CancelIcon />
           </IconButton>
           {sectionCollapse ? (
-            <IconButton aria-label="fold" onClick={() => setSectionCollapse(false)}>
+            <IconButton
+              style={{ padding: '0.5rem' }}
+              aria-label="fold"
+              onClick={() => setSectionCollapse(false)}
+            >
               <SwapVerticalCircleIcon />
             </IconButton>
           ) : (
-            <IconButton aria-label="unfold" onClick={() => setSectionCollapse(true)}>
+            <IconButton
+              style={{ padding: '0.5rem' }}
+              aria-label="unfold"
+              onClick={() => setSectionCollapse(true)}
+            >
               <RemoveCircleIcon />
             </IconButton>
           )}
         </Box>
-        <TextField
-          fullWidth
-          value={section.name}
-          onChange={(e) => {
-            onSectionChange({ key: 'name', value: e.target.value })
-          }}
-        />
+        <Box style={{ padding: '0 0.5rem 1rem 0.5rem', margin: '0.5rem' }}>
+          <TextField
+            fullWidth
+            value={section.name}
+            onChange={(e) => {
+              onSectionChange({ key: 'name', value: e.target.value })
+            }}
+          />
+        </Box>
 
         <Droppable key={sIndex} droppableId={`section-${sIndex}`}>
           {(provided) =>

@@ -57,7 +57,6 @@ const useStyles = (selected, color) =>
     },
     cardBody: {
       backgroundColor: 'whte',
-      paddingTop: '0px',
     },
     gridPadding: {
       padding: '0 1rem',
@@ -81,31 +80,44 @@ const DesktopFrame = ({
   return (
     <Card>
       <CardHeader
+        style={{ background: 'lightgray', padding: '0.3rem' }}
         avatar={
           <Box>
-            <IconButton aria-label="close" onClick={() => onRemoveQuestion()}>
+            <IconButton
+              style={{ padding: '0.3rem' }}
+              aria-label="close"
+              onClick={() => onRemoveQuestion()}
+            >
               <CancelIcon />
             </IconButton>
             {collapse ? (
-              <IconButton aria-label="fold" onClick={() => setCollapse(false)}>
+              <IconButton
+                style={{ padding: '0.3rem' }}
+                aria-label="fold"
+                onClick={() => setCollapse(false)}
+              >
                 <SwapVerticalCircleIcon />
               </IconButton>
             ) : (
-              <IconButton aria-label="unfold" onClick={() => setCollapse(true)}>
+              <IconButton
+                style={{ padding: '0.3rem' }}
+                aria-label="unfold"
+                onClick={() => setCollapse(true)}
+              >
                 <RemoveCircleIcon />
               </IconButton>
             )}
           </Box>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={question.prompt}
+        // action={
+        //   <IconButton style={{ padding: '0.3rem' }} aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
+        title={<Box>{collapse ? question.prompt : ''}</Box>}
       />
       {!collapse && (
-        <Box>
+        <Box style={{ padding: '0.3prem' }}>
           <CardContent className={classes.cardBody}>{children}</CardContent>
           <CardActions>
             <Grid
