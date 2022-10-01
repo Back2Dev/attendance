@@ -30,6 +30,8 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
 import MenuIcon from '@material-ui/icons/Menu'
 import UnfoldLessIcon from '@material-ui/icons/UnfoldLess'
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore'
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
+import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
 
 const log = debug('builder:frame')
 
@@ -76,7 +78,7 @@ const useStyles = (selected, color) =>
 
 const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
   const classes = useStyles((selected = false), (color = 'black'))()
-  const [isFrameCollapse, setIsFrameCollapse] = useState(false)
+  const [collapse, setCollapse] = useState(false)
 
   // useEffect(() => {
   //   setIsFrameCollapse(sectionState)
@@ -116,9 +118,20 @@ const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
     <Card>
       <CardHeader
         avatar={
-          <IconButton aria-label="settings" onClick={() => onRemoveQuestion()}>
-            <CancelIcon />
-          </IconButton>
+          <Box>
+            <IconButton aria-label="close" onClick={() => onRemoveQuestion()}>
+              <CancelIcon />
+            </IconButton>
+            {collapse ? (
+              <IconButton aria-label="fold" onClick={() => setCollapse(false)}>
+                <SwapVerticalCircleIcon />
+              </IconButton>
+            ) : (
+              <IconButton aria-label="unfold" onClick={() => setCollapse(true)}>
+                <RemoveCircleIcon />
+              </IconButton>
+            )}
+          </Box>
         }
         action={
           <IconButton aria-label="settings">
@@ -159,32 +172,36 @@ const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
         </IconButton>
       </div> */}
 
-      <CardContent className={classes.cardBody}>{children}</CardContent>
-      <CardActions>
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="space-between"
-          className={classes.gridPadding}
-        >
-          <Grid item>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={question.type === 'paragraph'}
-                    onChange={() => {}}
-                    name="header"
+      {!collapse && (
+        <Box>
+          <CardContent className={classes.cardBody}>{children}</CardContent>
+          <CardActions>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="space-between"
+              className={classes.gridPadding}
+            >
+              <Grid item>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={question.type === 'paragraph'}
+                        onChange={() => {}}
+                        name="header"
+                      />
+                    }
+                    label="Header Only"
                   />
-                }
-                label="Header Only"
-              />
-            </FormGroup>
-          </Grid>
+                </FormGroup>
+              </Grid>
 
-          {/* <Grid item>{createActions('moveUp', 'moveDown', 'copy', 'remove')}</Grid> */}
-        </Grid>
-      </CardActions>
+              {/* <Grid item>{createActions('moveUp', 'moveDown', 'copy', 'remove')}</Grid> */}
+            </Grid>
+          </CardActions>
+        </Box>
+      )}
       {/* </Card> */}
       {/* <div
         style={{
