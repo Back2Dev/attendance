@@ -142,40 +142,19 @@ const Canvas = (props) => {
               <Paper elevation={3} key={section.id} style={{ margin: '1rem 0' }}>
                 <Section
                   section={section}
+                  sIndex={sIndex}
                   onSectionChange={({ key, value }) =>
                     onSectionChange({ sIndex, key, value })
                   }
-                />
-                <Droppable key={sIndex} droppableId={`section-${sIndex}`}>
-                  {(provided) =>
-                    section.questions.map((question, qIndex) => (
-                      // <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
-
-                      <Box
-                        style={{ padding: '0.5rem', margin: '0.5rem' }}
-                        key={qIndex}
-                        onClick={canvasClicked}
-                        // {...provided.droppableProps}
-                        ref={provided.innerRef}
-                      >
-                        {createElement(Question || Placeholder, {
-                          type: question.type,
-                          question,
-                          onQuestionChange: ({ key, value }) =>
-                            onQuestionChange({ sIndex, qIndex, key, value }),
-                          onAnswerChange: ({ aIndex, key, value }) =>
-                            onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
-                          qIndex,
-                          // onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
-                          onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
-                        })}
-
-                        {provided.placeholder}
-                        <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} />
-                      </Box>
-                    ))
+                  onQuestionChange={({ qIndex, key, value }) =>
+                    onQuestionChange({ sIndex, qIndex, key, value })
                   }
-                </Droppable>
+                  onAnswerChange={({ qIndex, aIndex, key, value }) =>
+                    onAnswerChange({ sIndex, qIndex, aIndex, key, value })
+                  }
+                  onRemoveQuestion={({ qIndex }) => onRemoveQuestion({ sIndex, qIndex })}
+                  onAddQuestion={({ qIndex }) => onAddQuestion({ sIndex, qIndex })}
+                />
               </Paper>
               <AddBtn onAdd={() => onAddSection({ sIndex })} />
             </Box>
@@ -188,7 +167,7 @@ const Canvas = (props) => {
 
 export { Canvas }
 
-const AddBtn = React.memo(({ onAdd }) => {
+export const AddBtn = React.memo(({ onAdd }) => {
   return (
     <IconButton
       variant="outlined"

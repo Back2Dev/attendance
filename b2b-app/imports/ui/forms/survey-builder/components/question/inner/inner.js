@@ -50,7 +50,7 @@ const checkIsBooleanType = (path) => {
   return booleanOptionsType.some((opt) => path.includes(opt))
 }
 
-const Inner = ({ question, onQuestionChange }) => {
+const Inner = ({ question, onQuestionChange, ...props }) => {
   // const { add } = useAnswers(pid)
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
@@ -143,6 +143,7 @@ const Inner = ({ question, onQuestionChange }) => {
           (options.find(({ value }) => value === question.type) || options[0]).component,
           {
             question,
+            ...props,
           }
         )}
 

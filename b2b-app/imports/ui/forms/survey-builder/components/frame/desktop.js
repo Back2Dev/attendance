@@ -1,12 +1,8 @@
-import React, { createElement, useEffect, useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import AddIcon from '@material-ui/icons/Add'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
-import { defaultPart } from '/imports/ui/forms/survey-builder/recoil/hooks'
+
 import {
   Card,
   Box,
@@ -14,24 +10,16 @@ import {
   CardHeader,
   CardContent,
   CardActions,
-  TextField,
   Grid,
-  Divider,
 } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { Question } from '$sb/components/question/field'
-
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import FileCopyIcon from '@material-ui/icons/FileCopy'
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
-import MenuIcon from '@material-ui/icons/Menu'
-import UnfoldLessIcon from '@material-ui/icons/UnfoldLess'
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
+import { useEffect } from 'react'
 
 const log = debug('builder:frame')
 
@@ -76,43 +64,19 @@ const useStyles = (selected, color) =>
     },
   }))
 
-const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
+const DesktopFrame = ({
+  question,
+  children,
+  onRemoveQuestion,
+  sectionCollapse,
+  ...props
+}) => {
   const classes = useStyles((selected = false), (color = 'black'))()
-  const [collapse, setCollapse] = useState(false)
+  const [collapse, setCollapse] = useState(sectionCollapse)
 
-  // useEffect(() => {
-  //   setIsFrameCollapse(sectionState)
-  // }, [sectionState])
-
-  // const actionTypes = {
-  //   remove: { icon: DeleteOutlineIcon, handler: actions.onRemove },
-  //   moveUp: {
-  //     icon: KeyboardArrowUpIcon,
-  //     handler: () =>
-  //       actions.onMove({ dir: 'up', draggableId: otherProps['data-rbd-draggable-id'] }),
-  //   },
-  //   moveDown: {
-  //     icon: KeyboardArrowDownIcon,
-  //     handler: () =>
-  //       actions.onMove({
-  //         dir: 'down',
-  //         draggableId: otherProps['data-rbd-draggable-id'],
-  //       }),
-  //   },
-  //   copy: { icon: FileCopyIcon, handler: () => actions.onCopyPart() },
-  // }
-
-  // const createActions = (...newActions) =>
-  //   newActions.map((t, i) => (
-  //     <IconButton
-  //       size="small"
-  //       key={i}
-  //       onClick={actionTypes[t].handler}
-  //       className={actionTypes[t].classes}
-  //     >
-  //       {createElement(actionTypes[t].icon)}
-  //     </IconButton>
-  //   ))
+  useEffect(() => {
+    setCollapse(sectionCollapse)
+  }, [sectionCollapse])
 
   return (
     <Card>
@@ -139,39 +103,7 @@ const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
           </IconButton>
         }
         title={question.prompt}
-        // subheader="September 14, 2016"
       />
-      {/* <Card
-          className={classes.cardRoot}
-          onClick={actions.onSelect}
-          onFocus={actions.onSelect}
-          onBlur={actions.onDeselect}
-          ref={ref}
-          {...otherProps}
-        > */}
-      {/* <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-        }}
-      >
-        <h3 className={classes.collapseHelperText}>{isFrameCollapse && type}</h3>
-
-        <IconButton aria-label="dragIcon">
-          <MenuIcon />
-        </IconButton>
-        <IconButton
-          aria-label="collapse"
-          className={classes.collapseIcon}
-          onClick={() => {
-          }}
-        >
-          {isFrameCollapse ? <UnfoldMoreIcon /> : <UnfoldLessIcon />}
-        </IconButton>
-      </div> */}
-
       {!collapse && (
         <Box>
           <CardContent className={classes.cardBody}>{children}</CardContent>
@@ -202,18 +134,6 @@ const DesktopFrame = ({ question, children, onRemoveQuestion, ...props }) => {
           </CardActions>
         </Box>
       )}
-      {/* </Card> */}
-      {/* <div
-        style={{
-          display: 'flex',
-          // display: snapshot.isDragging ? 'none' : 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <IconButton variant="outlined" color="default" className={classes.addPartButton}>
-          <AddIcon />
-        </IconButton>
-      </div> */}
     </Card>
   )
 }
