@@ -1,0 +1,14 @@
+{
+  "collection": "pdfTemplates",
+  "generate": "CRUD",
+  "fields": {
+    "name": "String",
+    "revision": { "type": "SimpleSchema.Integer", "defaultValue": "1" },
+    "description": "OptionalString",
+    "active": {
+      "type": "Boolean",
+      "defaultValue": true
+    },
+    "source": "OptionalString"
+  }
+}
