@@ -3,12 +3,8 @@
 
 const _ = require('lodash')
 const fs = require('fs')
-const shell = require('shelljs/global')
-const recursive = require('recursive-readdir')
 require('shelljs/global')
 const git = require('git-rev')
-const gitTag = require('git-tag')({ localOnly: true })
-const gitStatus = require('git-status')
 
 const doTemplating = require('./deploy-lib.js')
 
@@ -19,7 +15,6 @@ const doTemplating = require('./deploy-lib.js')
  * * * * * * * * * * * * * * * * * */
 // This file contains the list of targets that can be built
 const choices = require('./choices')
-const modules = require('./modules')
 
 // the "opts" object will contain all the command line parameters and options
 // So the first parameter will be in the opts._ array, eg the first one will be in opts._[0]
@@ -58,11 +53,11 @@ function ABORT(msg) {
 // Recurse through the templates directory and mailmerge them into the target app
 //   (you could template more than just the version no if you like)
 //
-const tdir = './templates'
+const tdir = './scripts/generator-templates'
 try {
   fs.existsSync(tdir)
 } catch (e) {
-  throw new Error("Can't find templates directory " + e)
+  throw new Error("Can't find generator-templates directory " + e)
 }
 
 let level = ''
@@ -91,7 +86,8 @@ git.long(function (str) {
 })
 
 console.log('Templating...')
-doTemplating(pkg, opts.dry_run, choice, tdir, willDo, opts.legacy, mainGame)
+const omit = 'binder'
+doTemplating(pkg, opts.dry_run, choice.app, tdir, willDo, omit, mainGame)
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // The main game....

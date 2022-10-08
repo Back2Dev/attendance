@@ -26,8 +26,8 @@ const choices = {
     level: 'patch',
     branch: 'develop'
   },
-  'b2b-test': {
-    app: 'meteor-app',
+  'b2b-app': {
+    app: 'b2b-app',
     name: 'b2b-test',
     level: '',
     branch: 'develop'
