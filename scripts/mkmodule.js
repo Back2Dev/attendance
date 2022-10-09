@@ -22,5 +22,14 @@ fs.readFile(args[0], { encoding: 'utf-8' }, function (err, data) {
     // Use the object to iterate over the templates and put things into the project
     const db = args[2] || 'mongo'
     templater.templating(config, args[1], db)
+    console.log(`
+
+Admin code for ${args[1]} templated OK.
+
+You probably want to issue this command next:
+
+node scripts/module.templating ${args[1]}
+
+    `)
   }
 })
