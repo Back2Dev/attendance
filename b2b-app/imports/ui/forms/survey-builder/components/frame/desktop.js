@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,6 +11,7 @@ import {
   CardContent,
   CardActions,
   Grid,
+  Collapse,
 } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CancelIcon from '@material-ui/icons/Cancel'
@@ -20,6 +21,10 @@ import Switch from '@material-ui/core/Switch'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
 import { useEffect } from 'react'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 
 const log = debug('builder:frame')
 
@@ -72,13 +77,14 @@ const DesktopFrame = ({
 }) => {
   const classes = useStyles((selected = false), (color = 'black'))()
   const [collapse, setCollapse] = useState(sectionCollapse)
+  const [showJSON, setShowJSON] = useState(false)
 
   useEffect(() => {
     setCollapse(sectionCollapse)
   }, [sectionCollapse])
 
   return (
-    <Card>
+    <Fragment>
       <CardHeader
         style={{ background: 'lightgray', padding: '0.3rem' }}
         avatar={
@@ -119,7 +125,7 @@ const DesktopFrame = ({
       {!collapse && (
         <Box style={{ padding: '0.3prem' }}>
           <CardContent className={classes.cardBody}>{children}</CardContent>
-          <CardActions>
+          <CardActions style={{ padding: '0.1rem' }}>
             <Grid
               container
               alignItems="center"
@@ -140,13 +146,47 @@ const DesktopFrame = ({
                   />
                 </FormGroup>
               </Grid>
+              <Grid>
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="unfold"
+                  onClick={() => {}}
+                >
+                  <FileCopyIcon />
+                </IconButton>
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="unfold"
+                  onClick={() => {}}
+                >
+                  <ExpandLessIcon />
+                </IconButton>
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="unfold"
+                  onClick={() => {}}
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="unfold"
+                  onClick={() => setShowJSON(!showJSON)}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+              </Grid>
 
               {/* <Grid item>{createActions('moveUp', 'moveDown', 'copy', 'remove')}</Grid> */}
             </Grid>
           </CardActions>
+
+          <Collapse in={showJSON} timeout="auto" unmountOnExit>
+            <CardContent>This is where JSON shown</CardContent>
+          </Collapse>
         </Box>
       )}
-    </Card>
+    </Fragment>
   )
 }
 

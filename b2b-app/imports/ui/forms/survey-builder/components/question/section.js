@@ -1,31 +1,39 @@
 import React, { createElement, useState, useContext } from 'react'
-import { Box, Fab, IconButton, Paper, TextField } from '@material-ui/core'
+import {
+  Box,
+  Fab,
+  Card,
+  IconButton,
+  Paper,
+  TextField,
+  InputAdornment,
+  Grid,
+} from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { makeStyles } from '@material-ui/core/styles'
-import debug from 'debug'
+
 import { Placeholder } from '/imports/ui/forms/survey-builder/components/old/types'
-import {
-  usePartsValue,
-  useSelectedPartState,
-  useSetDrawer,
-  useParts,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { partsAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { DndDroppable, useBuilder } from '/imports/ui/forms/survey-builder/context'
-import styled from 'styled-components'
+
 import { Question } from '$sb/components/question'
-import { ScrollTop } from '/imports/ui/components/scroll-to-top'
-import { EditorContext } from '/imports/ui/forms/framework/framework'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Random } from 'meteor/random'
 
 import CancelIcon from '@material-ui/icons/Cancel'
 
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
 import { AddBtn } from '$sb/components/panels/canvas/canvas'
+import { Inner } from '$sb/components/question/inner/inner'
+import { Frame } from '$sb/components/frame'
+import { sectionOptions } from '$sb/components/question/field/options'
+import { OptionList } from '$sb/components/question/field/option-list'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? 'lightblue' : 'white',
+  padding: 8,
+  // width: 500
+})
 
 const Section = React.memo(
   ({
@@ -38,6 +46,23 @@ const Section = React.memo(
     onAddQuestion,
   }) => {
     const [sectionCollapse, setSectionCollapse] = useState(false)
+    const [showField, setShowField] = useState(() =>
+      Object.keys(sectionOptions).reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur]: false,
+        }
+      }, {})
+    )
+
+    const onToggle = (key) => {
+      // setShowField((prev) => {
+      //   prev[key] = !prev[key]
+      //   console.log(prev)
+      //   return prev
+      // })
+      setShowField({ ...showField, [key]: !showField[key] })
+    }
 
     return (
       <Box style={{}}>
@@ -51,7 +76,7 @@ const Section = React.memo(
           </IconButton>
           {sectionCollapse ? (
             <IconButton
-              style={{ padding: '0.5rem' }}
+              style={{ padding: '0.3rem' }}
               aria-label="fold"
               onClick={() => setSectionCollapse(false)}
             >
@@ -59,13 +84,21 @@ const Section = React.memo(
             </IconButton>
           ) : (
             <IconButton
-              style={{ padding: '0.5rem' }}
+              style={{ padding: '0.3rem' }}
               aria-label="unfold"
               onClick={() => setSectionCollapse(true)}
             >
               <RemoveCircleIcon />
             </IconButton>
           )}
+
+          <IconButton
+            style={{ padding: '0.5rem' }}
+            aria-label="add-question"
+            onClick={() => onAddQuestion({ qIndex: section.questions.length - 1 })}
+          >
+            <AddCircleIcon />
+          </IconButton>
         </Box>
         <Box style={{ padding: '0 0.5rem 1rem 0.5rem', margin: '0.5rem' }}>
           <TextField
@@ -74,37 +107,170 @@ const Section = React.memo(
             onChange={(e) => {
               onSectionChange({ key: 'name', value: e.target.value })
             }}
+            InputProps={{
+              // classes: {
+              //   underline: classes.hideUnderline,
+              // },
+              endAdornment: (
+                <InputAdornment
+                  // classes={{ root: classes.InputAdornment }}
+                  position="end"
+                >
+                  <OptionList
+                    options={sectionOptions}
+                    onToggle={onToggle}
+                    showField={showField}
+                  />
+                  {/* <UploadImage {...props} /> */}
+                  {/* {specify} */}
+                  {/* {createActions(...actions)} */}
+                </InputAdornment>
+              ),
+            }}
           />
+
+          {/* Options */}
+          <Grid container spacing={1} alignItems="flex-start">
+            {Object.entries(showField)
+              .filter(([_, show]) => show)
+              .map(([key]) => {
+                return (
+                  <TextField
+                    key={key}
+                    fullWidth
+                    value={section[key] || ''}
+                    onChange={({ target: { value } }) => onSectionChange({ key, value })}
+                    label={sectionOptions[key]}
+                    // placeholder="Question"
+                  />
+                )
+              })}
+            <Grid item xs={1}></Grid>
+            <Grid item xs={2}>
+              {/* {part.image && (
+              <FieldImage
+                src={part.image}
+                onDeleteImage={() =>
+                  setPropertyByValue({
+                    pid,
+                    path: 'image',
+                  })
+                }
+              />
+            )} */}
+            </Grid>
+          </Grid>
         </Box>
 
-        <Droppable key={sIndex} droppableId={`section-${sIndex}`}>
-          {(provided) =>
-            section.questions.map((question, qIndex) => (
-              // <DndDroppable pid="canvas" listAtom={partsAtom} type="canvas">
-
-              <Box
-                style={{ padding: '0.5rem', margin: '0.5rem' }}
-                key={qIndex}
-                // onClick={canvasClicked}
-                // {...provided.droppableProps}
+        {/*DnD Question */}
+        <Droppable key={sIndex} droppableId={section.id}>
+          {
+            (provided, snapshot) => (
+              <div
+                style={{
+                  ...getListStyle(snapshot.isDraggingOver),
+                  padding: '0.5rem',
+                  margin: '0.5rem',
+                }}
+                key={section.id}
                 ref={provided.innerRef}
               >
-                {createElement(Question || Placeholder, {
-                  type: question.type,
-                  question,
-                  onQuestionChange: ({ key, value }) =>
-                    onQuestionChange({ sIndex, qIndex, key, value }),
-                  onAnswerChange: ({ aIndex, key, value }) =>
-                    onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
-                  qIndex,
-                  onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
-                  sectionCollapse,
+                {section.questions.map((question, qIndex) => {
+                  const questionProps = {
+                    type: question.type,
+                    question,
+                    onQuestionChange: ({ key, value }) =>
+                      onQuestionChange({ sIndex, qIndex, key, value }),
+                    onAnswerChange: ({ aIndex, key, value }) =>
+                      onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
+                    qIndex,
+                    onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
+                    sectionCollapse,
+                    onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
+                    isDraggingOver: snapshot.isDraggingOver,
+                  }
+                  return (
+                    <Draggable draggableId={question.id} key={question.id} index={qIndex}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <Question {...questionProps} />
+                          {/* <DesktopFrame question={question} {...props}>
+                        {children}
+                    </DesktopFrame> */}
+                          {!snapshot.isDraggingOver && (
+                            <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} />
+                          )}
+                        </div>
+                      )}
+                    </Draggable>
+                  )
                 })}
-
                 {provided.placeholder}
-                <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} />
-              </Box>
-            ))
+              </div>
+            )
+
+            // (provided, snapshot) =>
+            //   section.questions.map((question, qIndex) => {
+            //     const questionProps = {
+            //       type: question.type,
+            //       question,
+            //       onQuestionChange: ({ key, value }) =>
+            //         onQuestionChange({ sIndex, qIndex, key, value }),
+            //       onAnswerChange: ({ aIndex, key, value }) =>
+            //         onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
+            //       qIndex,
+            //       onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
+            //       sectionCollapse,
+            //       onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
+            //       isDraggingOver: snapshot.isDraggingOver,
+            //     }
+
+            //     return (
+            //       <div
+            //         style={{
+            //           ...getListStyle(snapshot.isDraggingOver),
+            //           padding: '0.5rem',
+            //           margin: '0.5rem',
+            //         }}
+            //         key={question.id}
+            //         ref={provided.innerRef}
+            //       >
+            //         <Draggable draggableId={question.id} key={question.id} index={qIndex}>
+            //           {(provided, snapshot) => (
+            //             <div
+            //               ref={provided.innerRef}
+            //               {...provided.draggableProps}
+            //               {...provided.dragHandleProps}
+            //             >
+            //               <Question {...questionProps} />
+            //               {/* <DesktopFrame question={question} {...props}>
+            //               {children}
+            //             </DesktopFrame> */}
+            //             </div>
+            //           )}
+            //         </Draggable>
+            //           {/* {createElement(Question || Placeholder, {
+            //           type: question.type,
+            //           question,
+            //           onQuestionChange: ({ key, value }) =>
+            //             onQuestionChange({ sIndex, qIndex, key, value }),
+            //           onAnswerChange: ({ aIndex, key, value }) =>
+            //             onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
+            //           qIndex,
+            //           onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
+            //           sectionCollapse,
+            //           onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
+            //         })} */}
+
+            //           {/* <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} /> */}
+            //         {provided.placeholder}
+            //       </div>
+            //     )
+            //   })
           }
         </Droppable>
       </Box>

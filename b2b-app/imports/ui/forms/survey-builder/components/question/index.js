@@ -12,8 +12,6 @@ const Question = ({ ...props }) => {
 }
 
 Question.displayName = 'Question'
-Question.propTypes = {
-
-}
+Question.propTypes = {}
 
 export { Question }

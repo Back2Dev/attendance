@@ -96,7 +96,7 @@ export const EditorToolbar = () => {
                 />
               </Tooltip>
 
-              <Tooltip title="View JSON">
+              {/* <Tooltip title="View JSON">
                 <IconButton
                   aria-label="view json"
                   onClick={() => formContext.setViewJSON(!formContext.viewJSON)}
@@ -104,7 +104,7 @@ export const EditorToolbar = () => {
                 >
                   <VisibilityIcon />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </Fragment>
           )}
           <span>

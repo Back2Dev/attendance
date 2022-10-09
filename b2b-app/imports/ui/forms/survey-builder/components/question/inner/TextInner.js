@@ -50,7 +50,7 @@ const TextInner = ({ question, onAnswerChange }) => {
           >
             {cleanAnswer?.map((answer, aIndex) => {
               return (
-                <Draggable draggableId={answer.id} index={aIndex}>
+                <Draggable draggableId={answer.id} key={aIndex} index={aIndex}>
                   {(provided, snapshot) => (
                     <div
                       key={aIndex}
@@ -90,12 +90,8 @@ const TextInner = ({ question, onAnswerChange }) => {
 }
 
 TextInner.propTypes = {
-  /** single instance part id */
-  pid: PropTypes.string.isRequired,
-  /** function gets called when updating atom's value based on the input path argument */
-  setPropertyByValue: PropTypes.func,
-  /** Object contains question/answers, each pid correspond to a specific part  */
   question: PropTypes.object.isRequired,
+  onAnswerChange: PropTypes.func,
 }
 
 TextInner.defaultProps = {

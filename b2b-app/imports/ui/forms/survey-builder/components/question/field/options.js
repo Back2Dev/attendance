@@ -1,3 +1,8 @@
+export const sectionOptions = {
+  id: 'ID',
+  value: 'Value',
+}
+
 export const questionOptions = {
   id: 'ID',
   value: 'Value',

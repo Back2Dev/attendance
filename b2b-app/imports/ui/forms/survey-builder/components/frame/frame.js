@@ -28,8 +28,16 @@ import AddIcon from '@material-ui/icons/Add'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { Question } from '$sb/components/question/field'
+import { AddBtn } from '$sb/components/panels/canvas/canvas'
 
-const Frame = ({ question, children, qIndex, ...props }) => {
+const Frame = ({
+  question,
+  children,
+  qIndex,
+  onAddQuestion,
+  // isDraggingOver,
+  ...props
+}) => {
   // const [selectedPart, setSelectedPart] = useSelectedPartState()
   // const { removePart, copyPart, addPart } = useParts()
   const { isMobile, dndMove } = useBuilder()
@@ -83,59 +91,31 @@ const Frame = ({ question, children, qIndex, ...props }) => {
   // }
 
   return (
-    <Draggable draggableId={question.id} index={qIndex}>
-      {(provided, snapshot) => (
-        <Box
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          // style={{
-          //   ...getStyle(provided.draggableProps.style, snapshot, lockAxis),
-          //   position: 'relative',
-          // }}
-        >
-          {/* <Divider variant="middle" /> */}
-          {createElement(
-            isMobile ? MobileFrame : DesktopFrame,
-            { question, ...props },
-            children
-          )}
-        </Box>
+    // <Draggable draggableId={question.id} key={question.id} index={qIndex}>
+    //   {(provided, snapshot) => (
+    <Card
+    // ref={provided.innerRef}
+    // {...provided.draggableProps}
+    // {...provided.dragHandleProps}
+    >
+      {/* {createElement(children, { question, ...props })} */}
+      <DesktopFrame question={question} {...props}>
+        {children}
+      </DesktopFrame>
+      {/* {!isDraggingOver && <AddBtn onAdd={() => onAddQuestion()} />} */}
+    </Card>
 
-        // <PureFrame
-        //   selected={selectedPart === pid}
-        //   onSelect={() => setSelectedPart(pid)}
-        //   onRemove={() => {
-        //     removePart(pid)
-        //     setSelectedPart(null)
-        //   }}
-        //   onAddPart={() => addPart(index)}
-        //   onCopyPart={() => copyPart(pid, index)}
-        //   onMove={(e, dir) => dndMove(e, dir)}
-        //   onInspect={() => setDrawer('inspector')}
-        //   onDeselect={() => setSelectedPart(null)}
-
-        //   mobile={isMobile}
-
-        //   pid={pid}
-        //   index={index}
-
-        //   snapshot={snapshot}
-        //   {...props}
-        // >
-        //   {children}
-        // </PureFrame>
-      )}
-    </Draggable>
+    //   )}
+    // </Draggable>
   )
 }
 
 Frame.displayName = 'Frame'
 
 Frame.propTypes = {
-  pid: PropTypes.string,
-  children: PropTypes.node,
-  index: PropTypes.number,
+  // pid: PropTypes.string,
+  // children: PropTypes.node,
+  // index: PropTypes.number,
 }
 
-export { Frame, PureFrame }
+export { Frame }

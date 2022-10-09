@@ -57,7 +57,7 @@ const Inner = ({ question, onQuestionChange, ...props }) => {
   // const [qType, setQType] = useState(type ?? 'single')
   // const part = usePartValue(pid)
 
-  const showMobileActions = isMobile && selectedPart === pid
+  // const showMobileActions = isMobile && selectedPart === pid
 
   // useEffect(() => {
   //   setQType(question.type)
@@ -147,7 +147,7 @@ const Inner = ({ question, onQuestionChange, ...props }) => {
           }
         )}
 
-      {showMobileActions && (
+      {/* {showMobileActions && (
         <Button
           variant="outlined"
           color="default"
@@ -157,7 +157,7 @@ const Inner = ({ question, onQuestionChange, ...props }) => {
         >
           New item
         </Button>
-      )}
+      )} */}
     </Fragment>
   )
 }
@@ -166,11 +166,7 @@ Inner.propTypes = {
   /** undefined instance part id */
   // pid: PropTypes.string.isRequired,
   /** question type, by default is "single"*/
-  type: PropTypes.string,
-}
-
-Inner.defaultProps = {
-  initialList: [''],
+  // type: PropTypes.string,
 }
 
 export { Inner }

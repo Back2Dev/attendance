@@ -92,7 +92,7 @@ const Canvas = (props) => {
       const newSection = JSON.parse(prev)
       const newQuestion = {
         ...defaultQuestion,
-        id: `${newSection.sections[sIndex]}-${Random.id()}`,
+        id: `${newSection.sections[sIndex].id}-${Random.id()}`,
       }
       newSection.sections[sIndex].questions.splice(qIndex + 1, 0, newQuestion)
 
@@ -110,8 +110,8 @@ const Canvas = (props) => {
     })
   }
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list)
+  const reorder = (questions, startIndex, endIndex) => {
+    const result = Array.from(questions)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
 
@@ -119,17 +119,26 @@ const Canvas = (props) => {
   }
 
   function onDragEnd(result) {
-    if (!result.destination) {
+    const { source, destination } = result
+
+    if (!destination) {
       return
     }
 
-    if (result.destination.index === result.source.index) {
+    if (source.droppableId !== destination.droppableId) {
       return
     }
 
-    const quotes = reorder(state.quotes, result.source.index, result.destination.index)
+    sections.forEach((sec) => {
+      if (sec.id === destination.droppableId) {
+        sec.questions = reorder(sec.questions, source.index, destination.index)
+      }
+    })
 
-    // setState({ quotes });
+    updateEditor((prev) => {
+      prev.sections = JSON.stringify(sections)
+      return prev
+    })
   }
 
   console.log('sections', sections)
@@ -138,8 +147,8 @@ const Canvas = (props) => {
       <DragDropContext onDragEnd={onDragEnd}>
         {sections.map((section, sIndex) => {
           return (
-            <Box>
-              <Paper elevation={3} key={section.id} style={{ margin: '1rem 0' }}>
+            <Box key={section.id}>
+              <Paper elevation={3} style={{ margin: '1rem 0' }}>
                 <Section
                   section={section}
                   sIndex={sIndex}
@@ -178,9 +187,7 @@ export const AddBtn = React.memo(({ onAdd }) => {
         display: 'block',
         width: '50px',
         boxShadow: '1px 1px 3px lightgray',
-        marginTop: '1rem',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        margin: '1rem auto',
       }}
       onClick={() => onAdd()}
     >
