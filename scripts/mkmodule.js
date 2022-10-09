@@ -26,9 +26,11 @@ fs.readFile(args[0], { encoding: 'utf-8' }, function (err, data) {
 
 Admin code for ${args[1]} templated OK.
 
-You probably want to issue this command next:
+You probably want to do the following next: 
 
-node scripts/module.templating ${args[1]}
+  * Edit ${args[1]}/imports/api/admin-items.js
+  * Add the line   { id: 'your-collection', menu: 'Your Collection', fixtures: 0, pubs: 1, factory: 0 },
+  * node scripts/module.templating ${args[1]}
 
     `)
   }
