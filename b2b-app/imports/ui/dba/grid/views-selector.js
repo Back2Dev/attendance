@@ -46,7 +46,7 @@ function ViewsSelector({ showDefault = true }) {
 
   const renderMenuItems = () => {
     if (!sortedViews?.length) {
-      return <MenuItem value="">No View available</MenuItem>
+      return <MenuItem value="">No view available</MenuItem>
     }
     return sortedViews.map((item) => (
       <MenuItem value={item.slug} key={item.slug}>

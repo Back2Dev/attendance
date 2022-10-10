@@ -70,9 +70,15 @@ const StyledGrid = styled.div`
 const StyledArchiveBox = styled.div``
 
 function Grid() {
-  const { theCollection, schema, theView, rows, updateCell, archive } = useContext(
-    CollectionContext
-  )
+  const {
+    theCollection,
+    schema,
+    theView,
+    rows,
+    updateCell,
+    archive,
+    link2Archives = false,
+  } = useContext(CollectionContext)
   debug(theCollection, schema, { theView })
 
   const history = useHistory()
@@ -140,25 +146,6 @@ function Grid() {
 
   const handleArchiveBtnClick = () => {
     setOpenArchiveDialog(true)
-    // showConfirm({
-    //   message: (
-    //     <TextField
-    //       onChange={(event) => {
-    //         setArchiveLabel(event.target.value)
-    //         setTimeout(() => {
-    //           handleArchiveBtnClick()
-    //         }, 10)
-    //       }}
-    //     />
-    //   ),
-    //   onConfirm: () => {
-    //     archive({
-    //       selectedIds: Array.from(selectedRows),
-    //       label: archiveLabel,
-    //     })
-    //     setArchiveLabel('')
-    //   },
-    // })
   }
 
   const handleRowsChange = (newRows) => {
@@ -260,14 +247,14 @@ function Grid() {
     <StyledGrid style={{ height: pageHeight | 'auto' }}>
       <div className="header">
         <Typography variant="h1">{theCollection._name}</Typography>
-        <Button
-          variant="text"
-          onClick={() => history.push(`/dba/archives/${theCollection._name}`)}
-        >
-          Archives
-        </Button>
-      </div>
-      <div className="filter-container">
+        {link2Archives && (
+          <Button
+            variant="text"
+            onClick={() => history.push(`/dba/archives/${theCollection._name}`)}
+          >
+            Archives
+          </Button>
+        )}
         <div className="left">
           <SearchBox
             className="search-box"
@@ -321,7 +308,7 @@ function Grid() {
         aria-describedby="archive-dialog-description"
       >
         <StyledArchiveBox>
-          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogTitle>Delete this view\nAre you sure?</DialogTitle>
           <DialogContent>
             <TextField
               value={archiveLabel}
