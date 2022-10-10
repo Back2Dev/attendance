@@ -1,5 +1,5 @@
-import React, { createElement, useState, useContext } from 'react'
-import { Box, Fab, IconButton, Paper, TextField } from '@material-ui/core'
+import React, { useEffect, useState, useContext } from 'react'
+import { Box, Card, IconButton, Paper, TextField } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { makeStyles } from '@material-ui/core/styles'
 import debug from 'debug'
@@ -25,7 +25,7 @@ const log = debug('builder:canvas')
 
 const defaultQuestion = {
   id: '',
-  answers: [{ name: '', id: Random.id() }],
+  answers: [{ name: 'Type the answer here...', id: Random.id(), type: 'text' }],
   prompt: 'New Question',
   type: 'text',
 }
@@ -47,6 +47,7 @@ const Canvas = (props) => {
   const { addPart } = useParts()
   const { isMobile } = useBuilder()
   const setDrawer = useSetDrawer()
+  const [dndMove, setDndMove] = useState(null)
 
   const canvasClicked = (e) => {
     // make sure to deselect only if canvas clicked. if it originated elsewhere, just ignore it
@@ -54,6 +55,28 @@ const Canvas = (props) => {
     if (isMobile) setDrawer(null)
     setSelectedPart(null)
   }
+
+  const DndSensor = (api) => {
+    const move = ({ dir, draggableId }) => {
+      if (!draggableId) return
+
+      const preDrag = api.tryGetLock(draggableId)
+      if (!preDrag) return
+
+      const actions = preDrag.snapLift()
+      if (dir === 'up') {
+        actions.moveUp()
+      } else if (dir === 'down') {
+        actions.moveDown()
+      }
+      setTimeout(actions.drop, 0) // wait for move animation to finish
+    }
+
+    useEffect(() => {
+      setDndMove(() => move)
+    }, [])
+  }
+  const onMove = (e, dir) => dndMove(e, dir)
 
   const onSectionChange = ({ sIndex, key, value }) => {
     updateEditor((prev) => {
@@ -87,11 +110,11 @@ const Canvas = (props) => {
     })
   }
 
-  const onAddQuestion = ({ sIndex, qIndex }) => {
+  const onAddQuestion = ({ sIndex, qIndex, copied }) => {
     updateEditor((prev) => {
       const newSection = JSON.parse(prev)
       const newQuestion = {
-        ...defaultQuestion,
+        ...(copied ?? defaultQuestion),
         id: `${newSection.sections[sIndex].id}-${Random.id()}`,
       }
       newSection.sections[sIndex].questions.splice(qIndex + 1, 0, newQuestion)
@@ -129,48 +152,66 @@ const Canvas = (props) => {
       return
     }
 
-    sections.forEach((sec) => {
-      if (sec.id === destination.droppableId) {
-        sec.questions = reorder(sec.questions, source.index, destination.index)
-      }
-    })
+    //dnd questions
+    if (result.type.startsWith('section')) {
+      sections.forEach((sec) => {
+        if (sec.id === destination.droppableId) {
+          sec.questions = reorder(sec.questions, source.index, destination.index)
+        }
+      })
 
-    updateEditor((prev) => {
-      prev.sections = JSON.stringify(sections)
-      return prev
-    })
+      updateEditor((prev) => {
+        prev.sections = JSON.stringify(sections)
+        return prev
+      })
+    }
+    //dnd answers
+    else if (result.type.startsWith('question')) {
+      sections.forEach((sec) => {
+        sec.questions.forEach((que) => {
+          if (que.id === destination.droppableId) {
+            que.answers = reorder(que.answers, source.index, destination.index)
+          }
+        })
+      })
+
+      updateEditor((prev) => {
+        const newSection = JSON.parse(prev)
+        newSection.sections = sections
+        return JSON.stringify(newSection)
+      })
+    }
   }
 
   console.log('sections', sections)
   return (
-    <Box>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {sections.map((section, sIndex) => {
-          return (
-            <Box key={section.id}>
-              <Paper elevation={3} style={{ margin: '1rem 0' }}>
-                <Section
-                  section={section}
-                  sIndex={sIndex}
-                  onSectionChange={({ key, value }) =>
-                    onSectionChange({ sIndex, key, value })
-                  }
-                  onQuestionChange={({ qIndex, key, value }) =>
-                    onQuestionChange({ sIndex, qIndex, key, value })
-                  }
-                  onAnswerChange={({ qIndex, aIndex, key, value }) =>
-                    onAnswerChange({ sIndex, qIndex, aIndex, key, value })
-                  }
-                  onRemoveQuestion={({ qIndex }) => onRemoveQuestion({ sIndex, qIndex })}
-                  onAddQuestion={({ qIndex }) => onAddQuestion({ sIndex, qIndex })}
-                />
-              </Paper>
-              <AddBtn onAdd={() => onAddSection({ sIndex })} />
-            </Box>
-          )
-        })}
-      </DragDropContext>
-    </Box>
+    <DragDropContext onDragEnd={onDragEnd} sensors={[DndSensor]}>
+      {sections.map((section, sIndex) => {
+        return (
+          <Box style={{ marginTop: '1rem' }} key={section.id}>
+            <Card>
+              <Section
+                section={section}
+                sIndex={sIndex}
+                onSectionChange={({ key, value }) =>
+                  onSectionChange({ sIndex, key, value })
+                }
+                onQuestionChange={({ qIndex, key, value }) =>
+                  onQuestionChange({ sIndex, qIndex, key, value })
+                }
+                onAnswerChange={({ qIndex, aIndex, key, value }) =>
+                  onAnswerChange({ sIndex, qIndex, aIndex, key, value })
+                }
+                onRemoveQuestion={({ qIndex }) => onRemoveQuestion({ sIndex, qIndex })}
+                onAddQuestion={({ qIndex }) => onAddQuestion({ sIndex, qIndex })}
+                onMove={onMove}
+              />
+            </Card>
+            <AddBtn onAdd={() => onAddSection({ sIndex })} />
+          </Box>
+        )
+      })}
+    </DragDropContext>
   )
 }
 

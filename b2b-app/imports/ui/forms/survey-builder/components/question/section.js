@@ -1,7 +1,7 @@
 import React, { createElement, useState, useContext } from 'react'
 import {
   Box,
-  Fab,
+  CardHeader,
   Card,
   IconButton,
   Paper,
@@ -44,6 +44,7 @@ const Section = React.memo(
     onAnswerChange,
     onRemoveQuestion,
     onAddQuestion,
+    onMove,
   }) => {
     const [sectionCollapse, setSectionCollapse] = useState(false)
     const [showField, setShowField] = useState(() =>
@@ -65,41 +66,46 @@ const Section = React.memo(
     }
 
     return (
-      <Box style={{}}>
-        <Box bgcolor="lightgray">
-          <IconButton
-            style={{ padding: '0.5rem' }}
-            aria-label="close"
-            onClick={() => onRemoveQuestion()}
-          >
-            <CancelIcon />
-          </IconButton>
-          {sectionCollapse ? (
-            <IconButton
-              style={{ padding: '0.3rem' }}
-              aria-label="fold"
-              onClick={() => setSectionCollapse(false)}
-            >
-              <SwapVerticalCircleIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              style={{ padding: '0.3rem' }}
-              aria-label="unfold"
-              onClick={() => setSectionCollapse(true)}
-            >
-              <RemoveCircleIcon />
-            </IconButton>
-          )}
+      <Box>
+        <CardHeader
+          style={{ background: 'lightgray', padding: '0.3rem' }}
+          avatar={
+            <Box>
+              <IconButton
+                style={{ padding: '0.3rem' }}
+                aria-label="close"
+                onClick={() => onRemoveQuestion()}
+              >
+                <CancelIcon />
+              </IconButton>
+              {sectionCollapse ? (
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="fold"
+                  onClick={() => setSectionCollapse(false)}
+                >
+                  <SwapVerticalCircleIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="unfold"
+                  onClick={() => setSectionCollapse(true)}
+                >
+                  <RemoveCircleIcon />
+                </IconButton>
+              )}
+              <IconButton
+                style={{ padding: '0.5rem' }}
+                aria-label="add-question"
+                onClick={() => onAddQuestion({ qIndex: section.questions.length - 1 })}
+              >
+                <AddCircleIcon />
+              </IconButton>
+            </Box>
+          }
+        />
 
-          <IconButton
-            style={{ padding: '0.5rem' }}
-            aria-label="add-question"
-            onClick={() => onAddQuestion({ qIndex: section.questions.length - 1 })}
-          >
-            <AddCircleIcon />
-          </IconButton>
-        </Box>
         <Box style={{ padding: '0 0.5rem 1rem 0.5rem', margin: '0.5rem' }}>
           <TextField
             fullWidth
@@ -163,12 +169,11 @@ const Section = React.memo(
         </Box>
 
         {/*DnD Question */}
-        <Droppable key={sIndex} droppableId={section.id}>
+        <Droppable key={sIndex} droppableId={section.id} type={`section-${section.id}`}>
           {
             (provided, snapshot) => (
               <div
                 style={{
-                  ...getListStyle(snapshot.isDraggingOver),
                   padding: '0.5rem',
                   margin: '0.5rem',
                 }}
@@ -188,26 +193,13 @@ const Section = React.memo(
                     sectionCollapse,
                     onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
                     isDraggingOver: snapshot.isDraggingOver,
+                    onCopyQuestion: () => onAddQuestion({ sIndex, qIndex, question }),
+                    onMoveUp: () => onMove({ dir: 'up', draggableId: question.id }),
+                    onMoveDown: () => onMove({ dir: 'down', draggableId: question.id }),
+                    moveUpDisabled: qIndex === 0,
+                    moveDownDisabled: qIndex === section.questions.length - 1,
                   }
-                  return (
-                    <Draggable draggableId={question.id} key={question.id} index={qIndex}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <Question {...questionProps} />
-                          {/* <DesktopFrame question={question} {...props}>
-                        {children}
-                    </DesktopFrame> */}
-                          {!snapshot.isDraggingOver && (
-                            <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} />
-                          )}
-                        </div>
-                      )}
-                    </Draggable>
-                  )
+                  return <Question key={question.id} {...questionProps} />
                 })}
                 {provided.placeholder}
               </div>

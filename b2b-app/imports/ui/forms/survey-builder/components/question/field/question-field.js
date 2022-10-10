@@ -23,7 +23,9 @@ import { OptionList } from './option-list'
 import { UploadImage } from './upload'
 
 const useStyles = makeStyles(() => ({
-  hideUnderline: {
+  root: {
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
     '&:before': {
       'border-bottom': '1px solid white',
     },
@@ -80,86 +82,73 @@ const Question = ({ onQuestionChange, question }) => {
   )
 
   const onToggle = (key) => {
-    // setShowField((prev) => {
-    //   prev[key] = !prev[key]
-    //   console.log(prev)
-    //   return prev
-    // })
     setShowField({ ...showField, [key]: !showField[key] })
   }
 
   return (
-    <div className={classes.hideUnderline}>
-      <Grid container spacing={1} alignItems="flex-end">
-        <Grid item xs={12} md={8} lg={9}>
-          <TextField
-            fullWidth
-            value={cleanQuestion.prompt}
-            InputProps={{
-              classes: {
-                underline: classes.hideUnderline,
-              },
-              endAdornment: (
-                <InputAdornment classes={{ root: classes.InputAdornment }} position="end">
-                  <OptionList
-                    options={questionOptions}
-                    onToggle={onToggle}
-                    showField={showField}
-                  />
-                  {/* <UploadImage {...props} /> */}
-                  {/* {specify} */}
-                  {/* {createActions(...actions)} */}
-                </InputAdornment>
-              ),
-            }}
-            onChange={({ target: { value } }) =>
-              onQuestionChange({ key: 'prompt', value })
-            }
-            label="Question"
-            placeholder="Question"
-          />
-        </Grid>
-
-        <Grid item xs={12} md={3} lg={2}>
-          <TextField
-            fullWidth
-            select
-            value={cleanQuestion.type}
-            InputProps={{
-              classes: {
-                underline: classes.hideUnderline,
-              },
-            }}
-            onChange={({ target: { value } }) => onQuestionChange({ key: 'type', value })}
-            label="Question Type"
-            placeholder="Question Type"
-          >
-            {options.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </TextField>
-        </Grid>
-
-        <Grid container spacing={1} alignItems="flex-start">
-          {Object.entries(showField)
-            .filter(([_, show]) => show)
-            .map(([key]) => {
-              return (
-                <TextField
-                  key={key}
-                  fullWidth
-                  value={question[key] || ''}
-                  onChange={({ target: { value } }) => onQuestionChange({ key, value })}
-                  label={questionOptions[key]}
-                  // placeholder="Question"
+    <Grid container spacing={3} alignItems="flex-end" className={classes.root}>
+      <Grid item xs={12} md={9} lg={10}>
+        <TextField
+          fullWidth
+          value={cleanQuestion.prompt}
+          InputProps={{
+            // classes: {
+            //   underline: classes.root,
+            // },
+            endAdornment: (
+              <InputAdornment classes={{ root: classes.InputAdornment }} position="end">
+                <OptionList
+                  options={questionOptions}
+                  onToggle={onToggle}
+                  showField={showField}
                 />
-              )
-            })}
-          <Grid item xs={1}></Grid>
-          <Grid item xs={2}>
-            {/* {part.image && (
+                {/* <UploadImage {...props} /> */}
+                {/* {specify} */}
+                {/* {createActions(...actions)} */}
+              </InputAdornment>
+            ),
+          }}
+          onChange={({ target: { value } }) => onQuestionChange({ key: 'prompt', value })}
+          label="Question"
+          placeholder="Question"
+        />
+      </Grid>
+
+      <Grid item xs={12} md={3} lg={2}>
+        <TextField
+          fullWidth
+          select
+          value={cleanQuestion.type}
+          onChange={({ target: { value } }) => onQuestionChange({ key: 'type', value })}
+          label="Question Type"
+          placeholder="Question Type"
+        >
+          {options.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </TextField>
+      </Grid>
+
+      <Grid container spacing={1} alignItems="flex-start">
+        {Object.entries(showField)
+          .filter(([_, show]) => show)
+          .map(([key]) => {
+            return (
+              <TextField
+                key={key}
+                fullWidth
+                value={question[key] || ''}
+                onChange={({ target: { value } }) => onQuestionChange({ key, value })}
+                label={questionOptions[key]}
+                // placeholder="Question"
+              />
+            )
+          })}
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          {/* {part.image && (
               <FieldImage
                 src={part.image}
                 onDeleteImage={() =>
@@ -170,10 +159,9 @@ const Question = ({ onQuestionChange, question }) => {
                 }
               />
             )} */}
-          </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   )
 }
 

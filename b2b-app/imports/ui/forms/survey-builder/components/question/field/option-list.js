@@ -69,22 +69,12 @@ const OptionList = ({ options = {}, onToggle, showField = {} }) => {
 }
 
 OptionList.propTypes = {
-  /** Object contains question/answers, each pid correspond to a specific question  */
-  question: PropTypes.object.isRequired,
-  /** a path act as an object key, and is used to get value from an object */
-  path: PropTypes.string,
-  /** object to record is ID option being checked */
-  isIdChecked: PropTypes.object,
-  /** function gets called when ID checked box is clicked*/
-  setIsIdChecked: PropTypes.func,
   /** function gets called when checked box is clicked*/
   onToggle: PropTypes.func,
-  /** checked box options*/
-  options: PropTypes.array,
-}
-
-OptionList.defaultProps = {
-  initialList: [''],
+  /** The dropdown options after each input field*/
+  options: PropTypes.object,
+  /** show fields that are selected through the dropdown options*/
+  showField: PropTypes.object,
 }
 
 export { OptionList }

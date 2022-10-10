@@ -1,8 +1,7 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
 import { makeStyles } from '@material-ui/core/styles'
-
 import {
   Card,
   Box,
@@ -12,8 +11,8 @@ import {
   CardActions,
   Grid,
   Collapse,
+  Typography,
 } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import CancelIcon from '@material-ui/icons/Cancel'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -25,57 +24,38 @@ import FileCopyIcon from '@material-ui/icons/FileCopy'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import VisibilityIcon from '@material-ui/icons/Visibility'
+import DragHandleIcon from '@material-ui/icons/DragHandle'
+import ReactJson from 'react-json-view'
 
 const log = debug('builder:frame')
 
-const borderColor = (theme) =>
-  theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'
+const jsonViewConfig = {
+  displayDataTypes: false,
+  quotesOnKeys: false,
+}
 
-const useStyles = (selected, color) =>
-  makeStyles((theme) => ({
-    cardRoot: {
-      outlineStyle: 'solid',
-      outlineWidth: 1,
-      outlineColor: selected ? theme.palette.primary.main : borderColor(theme),
-
-      background: `conic-gradient(from 90deg at top 5px left 5px, #0000 90deg, ${color} 0) 0 0, conic-gradient(from 180deg at top 5px right 5px, #0000 90deg, ${color} 0) 100% 0, conic-gradient(from 0deg at bottom 5px left 5px, #0000 90deg, ${color} 0) 0 100%, conic-gradient(from -90deg at bottom 5px right 5px, #0000 90deg, ${color} 0) 100% 100%`,
-      backgroundSize: '10px',
-      backgroundOrigin: 'border-box',
-      backgroundRepeat: 'no-repeat',
+const useStyles = makeStyles(() => ({
+  root: {
+    '& .MuiCardHeader-avatar': {
+      flex: 1,
+      margin: '0px',
     },
-    collapseIcon: {
-      position: 'absolute',
-      right: 0,
-    },
-    collapseHelperText: {
-      position: 'absolute',
-      left: '15px',
-      color,
-    },
-    addPartButton: {
-      background: 'white',
-      borderRadius: '10px',
-      width: '100px',
-      boxShadow: '1px 1px 3px lightgray',
-      // position: 'absolute',
-      // bottom: 0,
-    },
-    cardBody: {
-      backgroundColor: 'whte',
-    },
-    gridPadding: {
-      padding: '0 1rem',
-    },
-  }))
+  },
+}))
 
 const DesktopFrame = ({
   question,
   children,
   onRemoveQuestion,
   sectionCollapse,
-  ...props
+  dragHandleProps,
+  onCopyQuestion,
+  onMoveUp,
+  onMoveDown,
+  moveUpDisabled,
+  moveDownDisabled,
 }) => {
-  const classes = useStyles((selected = false), (color = 'black'))()
+  const classes = useStyles()
   const [collapse, setCollapse] = useState(sectionCollapse)
   const [showJSON, setShowJSON] = useState(false)
 
@@ -84,53 +64,73 @@ const DesktopFrame = ({
   }, [sectionCollapse])
 
   return (
-    <Fragment>
+    <Card className={classes.root}>
       <CardHeader
         style={{ background: 'lightgray', padding: '0.3rem' }}
         avatar={
-          <Box>
-            <IconButton
-              style={{ padding: '0.3rem' }}
-              aria-label="close"
-              onClick={() => onRemoveQuestion()}
-            >
-              <CancelIcon />
-            </IconButton>
-            {collapse ? (
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <Box>
               <IconButton
                 style={{ padding: '0.3rem' }}
-                aria-label="fold"
-                onClick={() => setCollapse(false)}
+                aria-label="close"
+                onClick={() => onRemoveQuestion()}
               >
-                <SwapVerticalCircleIcon />
+                <CancelIcon />
               </IconButton>
-            ) : (
+              {collapse ? (
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="fold"
+                  onClick={() => setCollapse(false)}
+                >
+                  <SwapVerticalCircleIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  style={{ padding: '0.3rem' }}
+                  aria-label="unfold"
+                  onClick={() => setCollapse(true)}
+                >
+                  <RemoveCircleIcon />
+                </IconButton>
+              )}
+            </Box>
+            <Box>{collapse ? question.prompt : ''}</Box>
+            {/* <Box>
               <IconButton
+                {...dragHandleProps}
                 style={{ padding: '0.3rem' }}
-                aria-label="unfold"
-                onClick={() => setCollapse(true)}
+                variant="outlined"
+                color="default"
               >
-                <RemoveCircleIcon />
+                <DragHandleIcon />
               </IconButton>
-            )}
+            </Box>
+            <Box></Box> */}
           </Box>
         }
-        // action={
-        //   <IconButton style={{ padding: '0.3rem' }} aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={<Box>{collapse ? question.prompt : ''}</Box>}
+        title={
+          <IconButton
+            {...dragHandleProps}
+            style={{ padding: '0.3rem' }}
+            variant="outlined"
+            color="default"
+          >
+            <DragHandleIcon />
+          </IconButton>
+        }
+        // title={<Box>{collapse ? question.prompt : ''}</Box>}
       />
+
       {!collapse && (
         <Box style={{ padding: '0.3prem' }}>
-          <CardContent className={classes.cardBody}>{children}</CardContent>
-          <CardActions style={{ padding: '0.1rem' }}>
+          <CardContent>{children}</CardContent>
+          <CardActions style={{ padding: '1rem' }}>
             <Grid
               container
               alignItems="center"
               justifyContent="space-between"
-              className={classes.gridPadding}
+              // className={classes.gridPadding}
             >
               <Grid item>
                 <FormGroup row>
@@ -149,22 +149,24 @@ const DesktopFrame = ({
               <Grid>
                 <IconButton
                   style={{ padding: '0.3rem' }}
-                  aria-label="unfold"
-                  onClick={() => {}}
+                  aria-label="copy-question"
+                  onClick={() => onCopyQuestion()}
                 >
                   <FileCopyIcon />
                 </IconButton>
                 <IconButton
                   style={{ padding: '0.3rem' }}
-                  aria-label="unfold"
-                  onClick={() => {}}
+                  aria-label="move-up"
+                  onClick={() => onMoveUp()}
+                  disabled={moveUpDisabled}
                 >
                   <ExpandLessIcon />
                 </IconButton>
                 <IconButton
                   style={{ padding: '0.3rem' }}
-                  aria-label="unfold"
-                  onClick={() => {}}
+                  aria-label="move-down"
+                  onClick={() => onMoveDown()}
+                  disabled={moveDownDisabled}
                 >
                   <ExpandMoreIcon />
                 </IconButton>
@@ -182,15 +184,17 @@ const DesktopFrame = ({
           </CardActions>
 
           <Collapse in={showJSON} timeout="auto" unmountOnExit>
-            <CardContent>This is where JSON shown</CardContent>
+            <CardContent>
+              <Typography variant="p">
+                <ReactJson src={question} {...jsonViewConfig} />
+              </Typography>
+            </CardContent>
           </Collapse>
         </Box>
       )}
-    </Fragment>
+    </Card>
   )
 }
-
-DesktopFrame.displayName = 'DesktopFrame'
 
 DesktopFrame.propTypes = {
   /** A question type component */
