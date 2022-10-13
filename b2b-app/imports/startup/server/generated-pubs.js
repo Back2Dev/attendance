@@ -30,5 +30,6 @@ import '/imports/api/registrations/server/publications'
 import '/imports/api/collections/server/publications'
 import '/imports/api/standups/server/publications'
 import '/imports/api/teams/server/publications'
+import '/imports/api/pdf-templates/server/publications'
 
 // END GENERATED PUBS

@@ -32,4 +32,5 @@ module.exports = [
   { id: 'standup-notes', menu: 'Standup Notes', fixtures: 1, pubs: 0, factory: 0 },
   { id: 'standups', menu: 'Standups', fixtures: 0, pubs: 1, factory: 0 },
   { id: 'teams', menu: 'Teams', fixtures: 0, pubs: 1, factory: 0 },
+  { id: 'pdf-templates', menu: 'PDF Templates', fixtures: 0, pubs: 1, factory: 0 },
 ]

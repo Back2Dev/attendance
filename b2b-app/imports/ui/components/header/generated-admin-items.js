@@ -21,4 +21,5 @@ export default items = [
   { display: 'Standup Notes', link: '/admin/standup-notes' },
   { display: 'Standups', link: '/admin/standups' },
   { display: 'Teams', link: '/admin/teams' },
+  { display: 'PDF Templates', link: '/admin/pdf-templates' },
 ]
