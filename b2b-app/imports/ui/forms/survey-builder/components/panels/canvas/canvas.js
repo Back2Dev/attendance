@@ -110,14 +110,28 @@ const Canvas = (props) => {
     })
   }
 
-  const onAddQuestion = ({ sIndex, qIndex, copied }) => {
+  const onAddQuestion = ({ sIndex, qIndex, question }) => {
     updateEditor((prev) => {
       const newSection = JSON.parse(prev)
       const newQuestion = {
-        ...(copied ?? defaultQuestion),
+        ...(question ?? defaultQuestion),
         id: `${newSection.sections[sIndex].id}-${Random.id()}`,
       }
       newSection.sections[sIndex].questions.splice(qIndex + 1, 0, newQuestion)
+
+      return JSON.stringify(newSection)
+    })
+  }
+
+  const onAddAnswer = ({ sIndex, qIndex, aIndex, defaultAnswer }) => {
+    updateEditor((prev) => {
+      const newSection = JSON.parse(prev)
+
+      newSection.sections[sIndex].questions[qIndex].answers.splice(
+        aIndex + 1,
+        0,
+        defaultAnswer
+      )
 
       return JSON.stringify(newSection)
     })
@@ -167,6 +181,7 @@ const Canvas = (props) => {
     }
     //dnd answers
     else if (result.type.startsWith('question')) {
+      console.log(result)
       sections.forEach((sec) => {
         sec.questions.forEach((que) => {
           if (que.id === destination.droppableId) {
@@ -203,7 +218,10 @@ const Canvas = (props) => {
                   onAnswerChange({ sIndex, qIndex, aIndex, key, value })
                 }
                 onRemoveQuestion={({ qIndex }) => onRemoveQuestion({ sIndex, qIndex })}
-                onAddQuestion={({ qIndex }) => onAddQuestion({ sIndex, qIndex })}
+                onAddQuestion={({ qIndex, question }) =>
+                  onAddQuestion({ sIndex, qIndex, question })
+                }
+                onAddAnswer={onAddAnswer}
                 onMove={onMove}
               />
             </Card>
@@ -226,7 +244,7 @@ export const AddBtn = React.memo(({ onAdd }) => {
         background: 'white',
         borderRadius: '10px',
         display: 'block',
-        width: '50px',
+        width: '40px',
         boxShadow: '1px 1px 3px lightgray',
         margin: '1rem auto',
       }}

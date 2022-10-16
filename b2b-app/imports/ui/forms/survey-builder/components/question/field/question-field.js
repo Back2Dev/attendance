@@ -11,7 +11,7 @@ import { questionOptions } from '$sb/components/question/field/options'
 import { IdAtom } from '$sb/recoil/atoms'
 
 import PropTypes from 'prop-types'
-import { TextField, Grid, InputAdornment, Button } from '@material-ui/core'
+import { TextField, Grid, InputAdornment, Button, MenuItem } from '@material-ui/core'
 // import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 // import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { OptionField } from './option-field'
@@ -53,7 +53,7 @@ const options = [
   { label: 'Multiple', value: 'multiple' },
   { label: 'Upload', value: 'upload' },
   { label: 'Text', value: 'text' },
-  { label: 'Section', value: 'section' },
+  // { label: 'Section', value: 'section' },
   { label: 'Signature', value: 'signature' },
   { label: 'Dropdown', value: 'dropdown' },
   { label: 'Geolocation', value: 'geolocation' },
@@ -124,9 +124,9 @@ const Question = ({ onQuestionChange, question }) => {
           placeholder="Question Type"
         >
           {options.map(({ value, label }) => (
-            <option key={value} value={value}>
+            <MenuItem key={value} value={value}>
               {label}
-            </option>
+            </MenuItem>
           ))}
         </TextField>
       </Grid>

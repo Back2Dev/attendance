@@ -26,7 +26,7 @@ const Question = (props) => {
                 background: 'white',
                 borderRadius: '10px',
                 display: 'block',
-                width: '50px',
+                width: '40px',
                 boxShadow: '1px 1px 3px lightgray',
                 margin: '1rem auto',
               }}

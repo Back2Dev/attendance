@@ -45,6 +45,7 @@ const Section = React.memo(
     onRemoveQuestion,
     onAddQuestion,
     onMove,
+    onAddAnswer,
   }) => {
     const [sectionCollapse, setSectionCollapse] = useState(false)
     const [showField, setShowField] = useState(() =>
@@ -192,6 +193,8 @@ const Section = React.memo(
                     onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
                     sectionCollapse,
                     onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
+                    onAddAnswer: ({ aIndex, defaultAnswer }) =>
+                      onAddAnswer({ sIndex, qIndex, aIndex, defaultAnswer }),
                     isDraggingOver: snapshot.isDraggingOver,
                     onCopyQuestion: () => onAddQuestion({ sIndex, qIndex, question }),
                     onMoveUp: () => onMove({ dir: 'up', draggableId: question.id }),

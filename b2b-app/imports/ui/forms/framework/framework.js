@@ -170,26 +170,7 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     if (layout === 'dnd') {
-      const sourceJSON = getSource()
-
-      const sections = sourceJSON.reduce((acc, curr, index) => {
-        //if first one is not a section => create a  default section
-        if (index === 0 && curr.type !== 'section')
-          return [{ id: makeId(), name: 'Section 1', questions: [{ ...curr }] }]
-        //if type is section, then create an object
-        if (curr.type === 'section') return [...acc, { ...curr, questions: [] }]
-        //put the question inside the last section we created
-        acc[acc.length - 1].questions = [...acc[acc.length - 1].questions, curr]
-        return acc
-      }, [])
-
-      let survey = {
-        sections,
-        name: 'Sample Survey',
-        slug: 'sample',
-        version: '1',
-        active: true,
-      }
+      let survey = JSON.parse(jsonEditorInput)
 
       const specific = map2Uniforms(survey)
       setRaw(specific)

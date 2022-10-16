@@ -26,6 +26,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import DragHandleIcon from '@material-ui/icons/DragHandle'
 import ReactJson from 'react-json-view'
+import { Random } from 'meteor/random'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 
 const log = debug('builder:frame')
 
@@ -54,6 +56,7 @@ const DesktopFrame = ({
   onMoveDown,
   moveUpDisabled,
   moveDownDisabled,
+  onAddAnswer,
 }) => {
   const classes = useStyles()
   const [collapse, setCollapse] = useState(sectionCollapse)
@@ -94,6 +97,22 @@ const DesktopFrame = ({
                   <RemoveCircleIcon />
                 </IconButton>
               )}
+              <IconButton
+                style={{ padding: '0.5rem' }}
+                aria-label="add-question"
+                onClick={() =>
+                  onAddAnswer({
+                    aIndex: question.answers.length - 1,
+                    defaultAnswer: {
+                      name: 'Type the answer here...',
+                      id: Random.id(),
+                      type: 'text',
+                    },
+                  })
+                }
+              >
+                <AddCircleIcon />
+              </IconButton>
             </Box>
             <Box>{collapse ? question.prompt : ''}</Box>
             {/* <Box>
@@ -150,7 +169,10 @@ const DesktopFrame = ({
                 <IconButton
                   style={{ padding: '0.3rem' }}
                   aria-label="copy-question"
-                  onClick={() => onCopyQuestion()}
+                  onClick={() => {
+                    console.log(onCopyQuestion)
+                    onCopyQuestion()
+                  }}
                 >
                   <FileCopyIcon />
                 </IconButton>
