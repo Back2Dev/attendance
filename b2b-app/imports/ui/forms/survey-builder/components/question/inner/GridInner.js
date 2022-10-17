@@ -1,6 +1,13 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid } from '@material-ui/core'
+import {
+  Button,
+  Grid,
+  Box,
+  IconButton,
+  TextField,
+  InputAdornment,
+} from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { useTheme } from '@material-ui/core/styles'
 import {
@@ -14,40 +21,94 @@ import { gridColumnOptions } from '$sb/components/question/field/options'
 
 import { OptionField, GridField } from '$sb/components/question/field'
 
-const filterList = [
-  'name',
-  'type',
-  'image',
-  'answers',
-  'pid',
-  'optional',
-  'field',
-  'width',
-  'editable',
-]
+import { Droppable, Draggable } from 'react-beautiful-dnd'
+import SimpleSchema from 'simpl-schema'
+import { makeStyles } from '@material-ui/core/styles'
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import { OptionList } from '$sb/components/question/field/option-list'
 
-const GridInner = ({ pid, question, setPropertyByValue }) => {
-  const { addColumn, removeColumn, addRow, removeRow } = usePartGrid(pid)
-  const theme = useTheme()
-  const selectedPart = useSelectedPartValue()
-  const { isMobile } = useBuilder()
+const useStyles = makeStyles(() => ({
+  root: {
+    position: 'relative',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+    '& .drag-icon': {
+      display: 'none',
+    },
+    '&:hover .drag-icon': {
+      display: 'inline',
+      position: 'absolute',
+      left: '-15px',
+      bottom: '3px',
+    },
+  },
+}))
 
-  const getStyle = (style, snapshot, lockAxis) => {
-    if (!snapshot.isDragging) return style
-    return {
-      ...lockAxis('y', style),
-      boxShadow: theme.shadows[3],
-      background: theme.palette.background.paper,
-    }
-  }
+const gridSchema = new SimpleSchema({
+  answers: Array,
+  'answers.$': Object,
+  'answers.$.id': String,
+  'answers.$.name': String,
+  'answers.$.type': String,
+  'answers.$.row': { type: Array, defaultValue: [{ field: 'New row..' }] },
+  'answers.$.row.$.name': String,
+  'answers.$.column': { type: Array, defaultValue: [{ field: 'New column..' }] },
+  'answers.$.column.$.field': String,
+})
+const GridInner = ({ question, onAnswerChange }) => {
+  const cleanAnswer = gridSchema.clean(question).answers
+  // const { addColumn, removeColumn, addRow, removeRow } = usePartGrid(pid)
+  // const theme = useTheme()
+  // const selectedPart = useSelectedPartValue()
+  // const { isMobile } = useBuilder()
 
-  const showMobileActions = isMobile && selectedPart === pid
+  // const getStyle = (style, snapshot, lockAxis) => {
+  //   if (!snapshot.isDragging) return style
+  //   return {
+  //     ...lockAxis('y', style),
+  //     boxShadow: theme.shadows[3],
+  //     background: theme.palette.background.paper,
+  //   }
+  // }
+
+  // const showMobileActions = isMobile && selectedPart === pid
 
   return (
     <Fragment>
       <Grid container>
         <Grid item xs={12} md={6}>
-          <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={`${pid}_column`}>
+          <Droppable
+            droppableId={`question-col-${question.id}`}
+            type={`question-col-${question.id}`}
+          >
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {cleanAnswer?.map((answer, aIndex) => {
+                  return (
+                    <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
+                      {(provided, snapshot) => (
+                        <div
+                          key={aIndex}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          <ColumnRow
+                            dragHandleProps={provided.dragHandleProps}
+                            answer={answer}
+                            onAnswerChange={onAnswerChange}
+                            aIndex={aIndex}
+                            type={'column'}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  )
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          {/* <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={`${pid}_column`}>
             {(provided) => (
               <ul
                 style={{ paddingLeft: 0 }}
@@ -113,11 +174,42 @@ const GridInner = ({ pid, question, setPropertyByValue }) => {
                 {provided.placeholder}
               </ul>
             )}
-          </DndDroppable>
+          </DndDroppable> */}
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={`${pid}_row`}>
+          <Droppable
+            droppableId={`question-row-${question.id}`}
+            type={`question-row-${question.id}`}
+          >
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {cleanAnswer?.map((answer, aIndex) => {
+                  return (
+                    <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
+                      {(provided, snapshot) => (
+                        <div
+                          key={aIndex}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          <ColumnRow
+                            dragHandleProps={provided.dragHandleProps}
+                            answer={answer}
+                            onAnswerChange={onAnswerChange}
+                            aIndex={aIndex}
+                            type={'row'}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  )
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          {/* <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={`${pid}_row`}>
             {(provided) => (
               <ul
                 style={{ paddingLeft: 0 }}
@@ -180,7 +272,7 @@ const GridInner = ({ pid, question, setPropertyByValue }) => {
                 {provided.placeholder}
               </ul>
             )}
-          </DndDroppable>
+          </DndDroppable> */}
         </Grid>
       </Grid>
 
@@ -200,16 +292,136 @@ const GridInner = ({ pid, question, setPropertyByValue }) => {
 }
 
 GridInner.propTypes = {
-  /** single instance part id */
-  pid: PropTypes.string.isRequired,
-  /** function gets called when updating atom's value based on the input path argument */
-  setPropertyByValue: PropTypes.func,
-  /** Object contains question/answers, each pid correspond to a specific part  */
-  part: PropTypes.object.isRequired,
-}
-
-GridInner.defaultProps = {
-  initialList: [''],
+  question: PropTypes.object.isRequired,
+  onAnswerChange: PropTypes.func,
 }
 
 export { GridInner }
+
+const ColumnRow = ({ answer, onAnswerChange, aIndex, dragHandleProps, type }) => {
+  const classes = useStyles()
+  const [showField, setShowField] = useState(() =>
+    Object.keys(gridColumnOptions).reduce((acc, cur) => {
+      return {
+        ...acc,
+        [cur]: false,
+      }
+    }, {})
+  )
+
+  const onToggle = (key) => {
+    setShowField({ ...showField, [key]: !showField[key] })
+  }
+
+  const onColRowChange = ({ aIndex, type, value }) => {
+    onAnswerChange({ aIndex, key: type, value })
+  }
+
+  return (
+    <Box className={classes.root}>
+      <Grid container spacing={3} alignItems="flex-end">
+        <IconButton
+          {...dragHandleProps}
+          className="drag-icon"
+          variant="outlined"
+          color="default"
+        >
+          <DragIndicatorIcon />
+        </IconButton>
+        <Grid item xs={12} md={9} lg={10}>
+          <TextField
+            fullWidth
+            onChange={({ target: { value } }) =>
+              onAnswerChange({
+                aIndex,
+                key: `${type}_${type === 'row' ? 'name' : 'field'}`,
+                value,
+              })
+            }
+            value={answer.name}
+            InputProps={{
+              // classes: {
+              //   underline: classes.hideUnderline,
+              // },
+              endAdornment: (
+                <InputAdornment
+                  // classes={{ root: classes.InputAdornment }}
+                  position="end"
+                >
+                  <OptionList
+                    options={gridColumnOptions}
+                    onToggle={onToggle}
+                    showField={showField}
+                  />
+                  {/* <UploadImage {...props} /> */}
+                  {/* {specify} */}
+                  {/* {createActions(...actions)} */}
+                </InputAdornment>
+              ),
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CheckBoxOutlineBlankIcon />
+                </InputAdornment>
+              ),
+            }}
+            label="Answer"
+            placeholder="Type some anwer..."
+          />
+        </Grid>
+        {/* <Grid item xs={12} md={3} lg={2}>
+          <TextField
+            fullWidth
+            select
+            value={answer.type}
+            onChange={({ target: { value } }) =>
+              onAnswerChange({
+                aIndex,
+                key: 'type',
+                value,
+              })
+            }
+            label="Answer Type"
+          >
+            {subType.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </TextField>
+        </Grid> */}
+      </Grid>
+
+      <Grid container spacing={1} alignItems="flex-start">
+        <Grid item xs={8}>
+          {Object.entries(showField)
+            .filter(([_, show]) => show)
+            .map(([key]) => {
+              return (
+                <TextField
+                  key={key}
+                  fullWidth
+                  value={answer[key] || ''}
+                  onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+                  label={gridColumnOptions[key]}
+                />
+              )
+            })}
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          {/* {answer.image && (
+                            <FieldImage
+                              src={answer.image}
+                              onDeleteImage={() =>
+                                setPropertyByValue({
+                                  pid,
+                                  path: `answers[${aIndex}].image`,
+                                })
+                              }
+                            />
+                          )} */}
+        </Grid>
+      </Grid>
+    </Box>
+  )
+}

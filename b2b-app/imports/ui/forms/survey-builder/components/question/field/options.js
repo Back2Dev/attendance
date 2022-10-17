@@ -51,6 +51,11 @@ export const uploadOptions = {
   maxSize: 'MaxSize',
 }
 
+export const ratingOptions = {
+  id: 'ID',
+  value: 'Value',
+}
+
 export const gridColumnOptions = {
   description: 'Description',
 }

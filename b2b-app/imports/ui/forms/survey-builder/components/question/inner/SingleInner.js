@@ -1,32 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  Grid,
-  Box,
-  IconButton,
-  TextField,
-  InputAdornment,
-} from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import { useTheme } from '@material-ui/core/styles'
-import {
-  usePartAnswers,
-  useSelectedPartValue,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
-import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
+import { Grid, Box, IconButton, TextField, InputAdornment } from '@material-ui/core'
 import { singleOptions } from '$sb/components/question/field/options'
-import { AnswerField, OptionField } from '$sb/components/question/field'
-import { FieldImage } from '$sb/components/question/field'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import SimpleSchema from 'simpl-schema'
 import { makeStyles } from '@material-ui/core/styles'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { OptionList } from '$sb/components/question/field/option-list'
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
-// const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -56,22 +37,6 @@ const singleSchema = new SimpleSchema({
 /** Single Choice question */
 const SingleInner = ({ question, onAnswerChange }) => {
   const cleanAnswer = singleSchema.clean(question).answers
-  // const { add, remove } = usePartAnswers(pid)
-  const theme = useTheme()
-  const selectedPart = useSelectedPartValue()
-  const { isMobile } = useBuilder()
-  // const [isIdChecked, setIsIdChecked] = useState({})
-
-  // const getStyle = (style, snapshot, lockAxis) => {
-  //   if (!snapshot.isDragging) return style
-  //   return {
-  //     ...lockAxis('y', style),
-  //     boxShadow: theme.shadows[3],
-  //     background: theme.palette.background.paper,
-  //   }
-  // }
-
-  // const showMobileActions = isMobile && selectedPart === pid
 
   return (
     <Droppable droppableId={question.id} type={`question-${question.id}`}>
@@ -104,10 +69,6 @@ SingleInner.propTypes = {
   question: PropTypes.object.isRequired,
   onAnswerChange: PropTypes.func,
 }
-
-// SingleInner.defaultProps = {
-//   initialList: [''],
-// }
 
 export { SingleInner }
 

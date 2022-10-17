@@ -29,12 +29,6 @@ import { sectionOptions } from '$sb/components/question/field/options'
 import { OptionList } from '$sb/components/question/field/option-list'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'white',
-  padding: 8,
-  // width: 500
-})
-
 const Section = React.memo(
   ({
     section,
