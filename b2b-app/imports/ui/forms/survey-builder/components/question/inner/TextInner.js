@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
-  Button,
+  MenuItem,
   Grid,
   TextField,
   InputAdornment,
@@ -68,11 +68,7 @@ const TextInner = ({ question, onAnswerChange }) => {
   return (
     <Droppable droppableId={question.id} type={`question-${question.id}`}>
       {(provided) => (
-        <div
-          // style={{ paddingLeft: 0 }}
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-        >
+        <div ref={provided.innerRef} {...provided.droppableProps}>
           {cleanAnswer?.map((answer, aIndex) => {
             return (
               <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
@@ -175,9 +171,9 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
             label="Answer Type"
           >
             {subType.map(({ value, label }) => (
-              <option key={value} value={value}>
+              <MenuItem key={value} value={value}>
                 {label}
-              </option>
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -195,7 +191,6 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
                   value={answer[key] || ''}
                   onChange={({ target: { value } }) => onAnswerChange({ key, value })}
                   label={textOptions[key]}
-                  // placeholder="Question"
                 />
               )
             })}

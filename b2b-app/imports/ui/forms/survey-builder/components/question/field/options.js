@@ -57,5 +57,6 @@ export const ratingOptions = {
 }
 
 export const gridColumnOptions = {
-  description: 'Description',
+  id: 'ID',
+  value: 'Value',
 }

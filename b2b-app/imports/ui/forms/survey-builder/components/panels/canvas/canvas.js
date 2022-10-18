@@ -20,14 +20,26 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import Section from '../../question/section'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { Random } from 'meteor/random'
+import SimpleSchema from 'simpl-schema'
+import { cloneDeep } from 'lodash'
 
 const log = debug('builder:canvas')
 
 const defaultQuestion = {
   id: '',
-  answers: [{ name: 'Type the answer here...', id: Random.id(), type: 'text' }],
+  answers: [
+    {
+      name: 'Type the answer here...',
+      id: Random.id(),
+      type: 'text',
+      max: '5',
+      maxSize: 100,
+    },
+  ],
   prompt: 'New Question',
   type: 'text',
+  rows: [{ name: 'New row..', id: Random.id() }],
+  columns: [{ field: 'New column..', id: Random.id(), editable: true, width: 200 }],
 }
 
 const defaultSection = {
@@ -36,25 +48,68 @@ const defaultSection = {
   name: 'New Section',
 }
 
+const sectionSchema = new SimpleSchema(
+  {
+    id: String,
+    name: String,
+    questions: Array,
+
+    'questions.$': Object,
+
+    'questions.$.id': String,
+    'questions.$.value': String,
+    'questions.$.prompt': String,
+    'questions.$.name': String,
+    'questions.$.type': String,
+
+    'questions.$.answers': { type: Array, defaultValue: [defaultQuestion.answers] },
+    'questions.$.answers.$': Object,
+    'questions.$.answers.$.id': String,
+    'questions.$.answers.$.value': String,
+    'questions.$.answers.$.name': String,
+    'questions.$.answers.$.type': String,
+    'questions.$.answers.$.max': String,
+    'questions.$.answers.$.maxSize': SimpleSchema.Integer,
+    'questions.$.answers.$.accept': { type: Object, blackbox: true },
+
+    'questions.$.rows': { type: Array, defaultValue: defaultQuestion.rows },
+    'questions.$.rows.$': Object,
+    'questions.$.rows.$.id': String,
+    'questions.$.rows.$.value': String,
+    'questions.$.rows.$.name': String,
+
+    'questions.$.columns': { type: Array, defaultValue: defaultQuestion.columns },
+    'questions.$.columns.$': Object,
+    'questions.$.columns.$.id': String,
+    'questions.$.columns.$.field': String,
+    'questions.$.columns.$.value': String,
+  },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
+
 // FIXME in mobile, when drawer is open the last part is obscured when scrolling to the bottom
 // TODO enable inertial scrolling
-const Canvas = (props) => {
+const Canvas = () => {
   const { editors } = useContext(EditorContext)
-  const sections = JSON.parse(editors[1].editorValue).sections || []
+  const sections = editors[1].editorValue.sections || []
   const updateEditor = editors[1].updateEditor
-  const parts = usePartsValue()
-  const [selectedPart, setSelectedPart] = useSelectedPartState()
-  const { addPart } = useParts()
-  const { isMobile } = useBuilder()
-  const setDrawer = useSetDrawer()
+  // const parts = usePartsValue()
+  // const [selectedPart, setSelectedPart] = useSelectedPartState()
+  // const { addPart } = useParts()
+  // const { isMobile } = useBuilder()
+  // const setDrawer = useSetDrawer()
   const [dndMove, setDndMove] = useState(null)
 
-  const canvasClicked = (e) => {
-    // make sure to deselect only if canvas clicked. if it originated elsewhere, just ignore it
-    if (e.target !== e.currentTarget) return
-    if (isMobile) setDrawer(null)
-    setSelectedPart(null)
-  }
+  // const canvasClicked = (e) => {
+  //   // make sure to deselect only if canvas clicked. if it originated elsewhere, just ignore it
+  //   if (e.target !== e.currentTarget) return
+  //   if (isMobile) setDrawer(null)
+  //   setSelectedPart(null)
+  // }
 
   const DndSensor = (api) => {
     const move = ({ dir, draggableId }) => {
@@ -80,52 +135,64 @@ const Canvas = (props) => {
 
   const onSectionChange = ({ sIndex, key, value }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
       newSection.sections[sIndex][key] = value
-      return JSON.stringify(newSection)
+      return newSection
     })
   }
 
   const onQuestionChange = ({ sIndex, qIndex, key, value }) => {
+    console.log('value', value, value.length)
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
       newSection.sections[sIndex].questions[qIndex][key] = value
-      return JSON.stringify(newSection)
+      return newSection
     })
   }
 
   const onAnswerChange = ({ sIndex, qIndex, aIndex, key, value }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
       newSection.sections[sIndex].questions[qIndex].answers[aIndex][key] = value
-      return JSON.stringify(newSection)
+      return newSection
+    })
+  }
+
+  const onGridChange = ({ sIndex, qIndex, aIndex, key, value, type = 'rows' }) => {
+    updateEditor((prev) => {
+      let newSection = cloneDeep(prev)
+      if (!newSection.sections[sIndex].questions[qIndex][type]) {
+        newSection.sections[sIndex] = sectionSchema.clean(newSection.sections[sIndex])
+      }
+      newSection.sections[sIndex].questions[qIndex][type][aIndex][key] = value
+      return newSection
     })
   }
 
   const onAddSection = ({ sIndex }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
       newSection.sections.splice(sIndex + 1, 0, defaultSection)
-      return JSON.stringify(newSection)
+      return newSection
     })
   }
 
   const onAddQuestion = ({ sIndex, qIndex, question }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
       const newQuestion = {
         ...(question ?? defaultQuestion),
         id: `${newSection.sections[sIndex].id}-${Random.id()}`,
       }
       newSection.sections[sIndex].questions.splice(qIndex + 1, 0, newQuestion)
 
-      return JSON.stringify(newSection)
+      return newSection
     })
   }
 
   const onAddAnswer = ({ sIndex, qIndex, aIndex, defaultAnswer }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
 
       newSection.sections[sIndex].questions[qIndex].answers.splice(
         aIndex + 1,
@@ -133,17 +200,33 @@ const Canvas = (props) => {
         defaultAnswer
       )
 
-      return JSON.stringify(newSection)
+      return newSection
+    })
+  }
+
+  const onAddGrid = ({ sIndex, qIndex, aIndex, defaultGrid, type = 'rows' }) => {
+    updateEditor((prev) => {
+      let newSection = cloneDeep(prev)
+      if (!newSection.sections[sIndex].questions[qIndex][type]) {
+        newSection.sections[sIndex] = sectionSchema.clean(newSection.sections[sIndex])
+      }
+      newSection.sections[sIndex].questions[qIndex][type].splice(
+        aIndex + 1,
+        0,
+        defaultGrid
+      )
+
+      return newSection
     })
   }
 
   const onRemoveQuestion = ({ sIndex, qIndex }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = cloneDeep(prev)
 
       newSection.sections[sIndex].questions.splice(qIndex, 1)
 
-      return JSON.stringify(newSection)
+      return newSection
     })
   }
 
@@ -175,13 +258,12 @@ const Canvas = (props) => {
       })
 
       updateEditor((prev) => {
-        prev.sections = JSON.stringify(sections)
+        prev.sections = sections
         return prev
       })
     }
     //dnd answers
     else if (result.type.startsWith('question')) {
-      console.log(result)
       sections.forEach((sec) => {
         sec.questions.forEach((que) => {
           if (que.id === destination.droppableId) {
@@ -191,22 +273,41 @@ const Canvas = (props) => {
       })
 
       updateEditor((prev) => {
-        const newSection = JSON.parse(prev)
+        const newSection = cloneDeep(prev)
         newSection.sections = sections
-        return JSON.stringify(newSection)
+        return newSection
+      })
+    }
+    //dnd grid
+    else if (result.type.startsWith('grid')) {
+      const gridType = result.type.includes('row') ? 'rows' : 'columns'
+      sections.forEach((sec) => {
+        sec.questions.forEach((que) => {
+          if (`grid-${gridType}-${que.id}` === destination.droppableId) {
+            que[gridType] = reorder(que[gridType], source.index, destination.index)
+          }
+        })
+      })
+
+      updateEditor((prev) => {
+        const newSection = cloneDeep(prev)
+        newSection.sections = sections
+        return newSection
       })
     }
   }
 
-  console.log('sections', sections)
   return (
     <DragDropContext onDragEnd={onDragEnd} sensors={[DndSensor]}>
       {sections.map((section, sIndex) => {
+        console.log('BeforecleanSection', section.questions[0].prompt.length)
+        const cleanSection = sectionSchema.clean(section)
+        console.log('cleanSection', cleanSection.questions[0])
         return (
-          <Box style={{ marginTop: '1rem' }} key={section.id}>
+          <Box style={{ marginTop: '1rem' }} key={cleanSection.id}>
             <Card>
               <Section
-                section={section}
+                section={cleanSection}
                 sIndex={sIndex}
                 onSectionChange={({ key, value }) =>
                   onSectionChange({ sIndex, key, value })
@@ -217,11 +318,15 @@ const Canvas = (props) => {
                 onAnswerChange={({ qIndex, aIndex, key, value }) =>
                   onAnswerChange({ sIndex, qIndex, aIndex, key, value })
                 }
+                onGridChange={({ qIndex, aIndex, key, value, type }) =>
+                  onGridChange({ sIndex, qIndex, aIndex, key, value, type })
+                }
                 onRemoveQuestion={({ qIndex }) => onRemoveQuestion({ sIndex, qIndex })}
                 onAddQuestion={({ qIndex, question }) =>
                   onAddQuestion({ sIndex, qIndex, question })
                 }
                 onAddAnswer={onAddAnswer}
+                onAddGrid={onAddGrid}
                 onMove={onMove}
               />
             </Card>

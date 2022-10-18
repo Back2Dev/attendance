@@ -263,7 +263,6 @@ const Prompt = ({ text, tooltip, description, header, required = true }) => {
 }
 const RenderQ = (q, ix, model) => {
   const { formData } = React.useContext(WebformContext)
-
   const key = `q${q.id}${ix}`
   switch (q.type) {
     // case 'array':
@@ -390,7 +389,12 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
 
-          <AutoField name={q.id} id={q.id} max={q.answers[0]?.max || 1} />
+          <AutoField
+            name={q.id}
+            id={q.id}
+            answer={q.answers[0]?.name}
+            max={q.answers[0]?.max || 1}
+          />
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
@@ -415,7 +419,7 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
 
-          <AutoField name={q.id} id={q.id} data={q.answers[0]} />
+          <AutoField name={q.id} id={q.id} rows={q.rows} columns={q.columns} />
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}

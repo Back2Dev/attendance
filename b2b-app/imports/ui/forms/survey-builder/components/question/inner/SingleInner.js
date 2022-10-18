@@ -26,13 +26,20 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const singleSchema = new SimpleSchema({
-  answers: Array,
-  'answers.$': Object,
-  'answers.$.id': String,
-  'answers.$.name': String,
-  'answers.$.type': String,
-})
+const singleSchema = new SimpleSchema(
+  {
+    answers: Array,
+    'answers.$': Object,
+    'answers.$.id': String,
+    'answers.$.name': String,
+    'answers.$.type': String,
+  },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
 
 /** Single Choice question */
 const SingleInner = ({ question, onAnswerChange }) => {

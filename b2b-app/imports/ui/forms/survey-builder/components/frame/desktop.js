@@ -97,22 +97,24 @@ const DesktopFrame = ({
                   <RemoveCircleIcon />
                 </IconButton>
               )}
-              <IconButton
-                style={{ padding: '0.5rem' }}
-                aria-label="add-question"
-                onClick={() =>
-                  onAddAnswer({
-                    aIndex: question.answers.length - 1,
-                    defaultAnswer: {
-                      name: 'Type the answer here...',
-                      id: Random.id(),
-                      type: 'text',
-                    },
-                  })
-                }
-              >
-                <AddCircleIcon />
-              </IconButton>
+              {question.type !== 'grid' && (
+                <IconButton
+                  style={{ padding: '0.5rem' }}
+                  aria-label="add-question"
+                  onClick={() =>
+                    onAddAnswer({
+                      aIndex: question.answers.length - 1,
+                      defaultAnswer: {
+                        name: 'Type the answer here...',
+                        id: Random.id(),
+                        type: 'text',
+                      },
+                    })
+                  }
+                >
+                  <AddCircleIcon />
+                </IconButton>
+              )}
             </Box>
             <Box>{collapse ? question.prompt : ''}</Box>
             {/* <Box>
@@ -169,10 +171,7 @@ const DesktopFrame = ({
                 <IconButton
                   style={{ padding: '0.3rem' }}
                   aria-label="copy-question"
-                  onClick={() => {
-                    console.log(onCopyQuestion)
-                    onCopyQuestion()
-                  }}
+                  onClick={() => onCopyQuestion()}
                 >
                   <FileCopyIcon />
                 </IconButton>

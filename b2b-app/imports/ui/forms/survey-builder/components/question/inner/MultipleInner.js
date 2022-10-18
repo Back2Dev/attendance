@@ -28,13 +28,20 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const multipleSchema = new SimpleSchema({
-  answers: Array,
-  'answers.$': Object,
-  'answers.$.id': String,
-  'answers.$.name': String,
-  'answers.$.type': String,
-})
+const multipleSchema = new SimpleSchema(
+  {
+    answers: Array,
+    'answers.$': Object,
+    'answers.$.id': String,
+    'answers.$.name': String,
+    'answers.$.type': String,
+  },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
 
 const MultipleInner = ({ question, onAnswerChange }) => {
   const cleanAnswer = multipleSchema.clean(question).answers

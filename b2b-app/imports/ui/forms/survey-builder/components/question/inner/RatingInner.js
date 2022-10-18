@@ -37,44 +37,84 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const ratingSchema = new SimpleSchema({
-  answers: Array,
-  'answers.$': Object,
-  'answers.$.id': String,
-  'answers.$.name': String,
-  'answers.$.type': String,
-  'answers.$.max': { type: String, defaultValue: '5' },
-})
+const ratingSchema = new SimpleSchema(
+  {
+    answers: Array,
+    'answers.$': Object,
+    'answers.$.id': String,
+    'answers.$.name': String,
+    'answers.$.type': String,
+    'answers.$.max': { type: String, defaultValue: '5' },
+  },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
 
 const maxOptions = Array.from({ length: 10 }, (_, i) => String(i + 1))
 
 const RatingInner = ({ question, onAnswerChange }) => {
-  const cleanAnswer = ratingSchema.clean(question).answers
-  console.log('cleanAnswer', cleanAnswer)
+  const classes = useStyles()
   return (
-    <Droppable droppableId={question.id} type={`question-${question.id}`}>
-      {(provided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps}>
-          {cleanAnswer?.map((answer, aIndex) => {
-            return (
-              <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
-                {(provided, snapshot) => (
-                  <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
-                    <Answer
-                      dragHandleProps={provided.dragHandleProps}
-                      answer={answer}
-                      onAnswerChange={onAnswerChange}
-                      aIndex={aIndex}
-                    />
-                  </div>
-                )}
-              </Draggable>
-            )
-          })}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+    <Box className={classes.root}>
+      <Grid container spacing={3} alignItems="flex-end">
+        <Grid item xs={12} md={9} lg={10}>
+          <TextField
+            fullWidth
+            onChange={({ target: { value } }) =>
+              onAnswerChange({ aIndex: 0, key: 'name', value })
+            }
+            value={question.answers[0].name}
+            label="Answer"
+            placeholder="Type some anwer..."
+          />
+        </Grid>
+        <Grid item xs={12} md={3} lg={2}>
+          <TextField
+            fullWidth
+            onChange={({ target: { value } }) =>
+              onAnswerChange({ aIndex: 0, key: 'max', value })
+            }
+            select
+            value={question.answers[0]?.max || '5'}
+            label="Max Number"
+            placeholder="Select rate..."
+          >
+            {maxOptions.map((item) => (
+              <MenuItem key={item} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+      </Grid>
+    </Box>
+    // <Droppable droppableId={question.id} type={`question-${question.id}`}>
+    //   {(provided) => (
+    //     <div ref={provided.innerRef} {...provided.droppableProps}>
+    //       {cleanAnswer?.map((answer, aIndex) => {
+    //         return (
+    //           <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
+    //             {(provided, snapshot) => (
+    //               <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
+    //                 <Answer
+    //                   dragHandleProps={provided.dragHandleProps}
+    //                   answer={answer}
+    //                   onAnswerChange={onAnswerChange}
+    //                   aIndex={aIndex}
+    //                 />
+    //               </div>
+    //             )}
+    //           </Draggable>
+    //         )
+    //       })}
+    //       {provided.placeholder}
+    //     </div>
+    //   )}
+    // </Droppable>
+
     // <Grid container spacing={1} alignItems="flex-start">
     //   <Grid item style={{ visibility: 'hidden' }}>
     //     <RadioButtonUncheckedIcon />
@@ -132,117 +172,117 @@ RatingInner.propTypes = {
 
 export { RatingInner }
 
-const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
-  const classes = useStyles()
-  const [showField, setShowField] = useState(() =>
-    Object.keys(ratingOptions).reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur]: false,
-      }
-    }, {})
-  )
+// const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
+//   const classes = useStyles()
+//   const [showField, setShowField] = useState(() =>
+//     Object.keys(ratingOptions).reduce((acc, cur) => {
+//       return {
+//         ...acc,
+//         [cur]: false,
+//       }
+//     }, {})
+//   )
 
-  const onToggle = (key) => {
-    setShowField({ ...showField, [key]: !showField[key] })
-  }
+//   const onToggle = (key) => {
+//     setShowField({ ...showField, [key]: !showField[key] })
+//   }
 
-  return (
-    <Box className={classes.root}>
-      <Grid container spacing={3} alignItems="flex-end">
-        <IconButton
-          {...dragHandleProps}
-          className="drag-icon"
-          variant="outlined"
-          color="default"
-        >
-          <DragIndicatorIcon />
-        </IconButton>
-        <Grid item xs={12} md={9} lg={10}>
-          <TextField
-            fullWidth
-            onChange={({ target: { value } }) =>
-              onAnswerChange({ aIndex, key: 'name', value })
-            }
-            value={answer.name}
-            InputProps={{
-              // classes: {
-              //   underline: classes.hideUnderline,
-              // },
-              endAdornment: (
-                <InputAdornment
-                  // classes={{ root: classes.InputAdornment }}
-                  position="end"
-                >
-                  <OptionList
-                    options={ratingOptions}
-                    onToggle={onToggle}
-                    showField={showField}
-                  />
-                  {/* <UploadImage {...props} /> */}
-                  {/* {specify} */}
-                  {/* {createActions(...actions)} */}
-                </InputAdornment>
-              ),
-            }}
-            label="Answer"
-            placeholder="Type some anwer..."
-          />
-        </Grid>
-        <Grid item xs={12} md={3} lg={2}>
-          <TextField
-            fullWidth
-            select
-            value={answer.max}
-            onChange={({ target: { value } }) =>
-              onAnswerChange({
-                aIndex,
-                key: 'max',
-                value,
-              })
-            }
-            label="Max Number"
-          >
-            {maxOptions.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-      </Grid>
+//   return (
+//     <Box className={classes.root}>
+//       <Grid container spacing={3} alignItems="flex-end">
+//         <IconButton
+//           {...dragHandleProps}
+//           className="drag-icon"
+//           variant="outlined"
+//           color="default"
+//         >
+//           <DragIndicatorIcon />
+//         </IconButton>
+//         <Grid item xs={12} md={9} lg={10}>
+//           <TextField
+//             fullWidth
+//             onChange={({ target: { value } }) =>
+//               onAnswerChange({ aIndex, key: 'name', value })
+//             }
+//             value={answer.name}
+//             InputProps={{
+//               // classes: {
+//               //   underline: classes.hideUnderline,
+//               // },
+//               endAdornment: (
+//                 <InputAdornment
+//                   // classes={{ root: classes.InputAdornment }}
+//                   position="end"
+//                 >
+//                   <OptionList
+//                     options={ratingOptions}
+//                     onToggle={onToggle}
+//                     showField={showField}
+//                   />
+//                   {/* <UploadImage {...props} /> */}
+//                   {/* {specify} */}
+//                   {/* {createActions(...actions)} */}
+//                 </InputAdornment>
+//               ),
+//             }}
+//             label="Answer"
+//             placeholder="Type some anwer..."
+//           />
+//         </Grid>
+//         <Grid item xs={12} md={3} lg={2}>
+//           <TextField
+//             fullWidth
+//             select
+//             value={answer.max}
+//             onChange={({ target: { value } }) =>
+//               onAnswerChange({
+//                 aIndex,
+//                 key: 'max',
+//                 value,
+//               })
+//             }
+//             label="Max Number"
+//           >
+//             {maxOptions.map((item) => (
+//               <MenuItem key={item} value={item}>
+//                 {item}
+//               </MenuItem>
+//             ))}
+//           </TextField>
+//         </Grid>
+//       </Grid>
 
-      <Grid container spacing={1} alignItems="flex-start">
-        <Grid item xs={8}>
-          {Object.entries(showField)
-            .filter(([_, show]) => show)
-            .map(([key]) => {
-              return (
-                <TextField
-                  key={key}
-                  fullWidth
-                  value={answer[key] || ''}
-                  onChange={({ target: { value } }) => onAnswerChange({ key, value })}
-                  label={ratingOptions[key]}
-                />
-              )
-            })}
-        </Grid>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={2}>
-          {/* {answer.image && (
-                            <FieldImage
-                              src={answer.image}
-                              onDeleteImage={() =>
-                                setPropertyByValue({
-                                  pid,
-                                  path: `answers[${aIndex}].image`,
-                                })
-                              }
-                            />
-                          )} */}
-        </Grid>
-      </Grid>
-    </Box>
-  )
-}
+//       <Grid container spacing={1} alignItems="flex-start">
+//         <Grid item xs={8}>
+//           {Object.entries(showField)
+//             .filter(([_, show]) => show)
+//             .map(([key]) => {
+//               return (
+//                 <TextField
+//                   key={key}
+//                   fullWidth
+//                   value={answer[key] || ''}
+//                   onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+//                   label={ratingOptions[key]}
+//                 />
+//               )
+//             })}
+//         </Grid>
+//         <Grid item xs={1}></Grid>
+//         <Grid item xs={2}>
+//           {/* {answer.image && (
+//                             <FieldImage
+//                               src={answer.image}
+//                               onDeleteImage={() =>
+//                                 setPropertyByValue({
+//                                   pid,
+//                                   path: `answers[${aIndex}].image`,
+//                                 })
+//                               }
+//                             />
+//                           )} */}
+//         </Grid>
+//       </Grid>
+//     </Box>
+//   )
+// }

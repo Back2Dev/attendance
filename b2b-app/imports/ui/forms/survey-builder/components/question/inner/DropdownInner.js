@@ -26,13 +26,20 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const dropdownSchema = new SimpleSchema({
-  answers: Array,
-  'answers.$': Object,
-  'answers.$.id': String,
-  'answers.$.name': String,
-  'answers.$.type': String,
-})
+const dropdownSchema = new SimpleSchema(
+  {
+    answers: Array,
+    'answers.$': Object,
+    'answers.$.id': String,
+    'answers.$.name': String,
+    'answers.$.type': String,
+  },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
 
 const DropdownInner = ({ question, onAnswerChange }) => {
   const cleanAnswer = dropdownSchema.clean(question).answers

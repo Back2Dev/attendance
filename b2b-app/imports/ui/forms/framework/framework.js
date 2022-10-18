@@ -32,41 +32,11 @@ const Framework = ({ id, item, methods }) => {
     },
   }
 
-  const getSource = useRecoilCallback(
-    ({ snapshot }) =>
-      () => {
-        const parts = snapshot.getLoadable(partsAtom).contents
-        const sourceJSON = parts.map(
-          ({ pid }) => snapshot.getLoadable(partAtom(pid)).contents
-        )
-        return sourceJSON
-      },
-    []
-  )
-
   const save = (quit, autosave = false) => {
     if (layout === 'dnd') {
       console.log('dnd save not ready yet!')
       //todo:
       //1.compile JSON back to source syntext 2.save data to DB
-
-      // try {
-      //   const sourceJSON = getSource()
-      //   if (!sourceJSON) {
-      //     return
-      //   }
-      //   const compiled = parse(sourceJSON)
-      //   if (compiled.status !== 'success') {
-      //     throw new Error(`Source parser error: ${compiled.message}`)
-      //   }
-
-      //   log(sourceJSON)
-      //   log(compiled.survey)
-      //   updateFormInput(sourceJSON)
-
-      // } catch (e) {
-
-      // }
     } else {
       try {
         methods.update(
@@ -74,7 +44,7 @@ const Framework = ({ id, item, methods }) => {
           {
             _id: id,
             source: formEditorInput,
-            json: JSON.parse(jsonEditorInput),
+            json: jsonEditorInput,
             survey: raw,
             autosave,
           },
@@ -93,11 +63,7 @@ const Framework = ({ id, item, methods }) => {
   // State of the form editor, exposed in the EditorContext
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
-  const [jsonEditorInput, setJsonEditorInput] = React.useState(
-    JSON.stringify(item.json, null, 2),
-    null,
-    2
-  )
+  const [jsonEditorInput, setJsonEditorInput] = React.useState(item.json)
 
   const [viewJSON, setViewJSON] = React.useState(true)
 
@@ -170,7 +136,7 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     if (layout === 'dnd') {
-      let survey = JSON.parse(jsonEditorInput)
+      let survey = { ...jsonEditorInput }
 
       const specific = map2Uniforms(survey)
       setRaw(specific)
@@ -183,12 +149,12 @@ const Framework = ({ id, item, methods }) => {
         debug({ specific })
         setRaw(specific)
 
-        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+        setJsonEditorInput(result.survey)
         console.log('JSON result', result)
         setErrors(result.errs)
         showErrors(result.errs)
       } else {
-        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+        setJsonEditorInput(result.survey)
         setErrors(result.errs)
         showErrors(result.errs)
       }

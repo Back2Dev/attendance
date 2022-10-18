@@ -18,9 +18,9 @@ import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/con
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { gridColumnOptions } from '$sb/components/question/field/options'
-
+import { Random } from 'meteor/random'
 import { OptionField, GridField } from '$sb/components/question/field'
-
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import SimpleSchema from 'simpl-schema'
 import { makeStyles } from '@material-ui/core/styles'
@@ -32,6 +32,7 @@ const useStyles = makeStyles(() => ({
     position: 'relative',
     paddingLeft: '1.5rem',
     paddingRight: '1.5rem',
+    marginTop: '1.5rem',
     '& .drag-icon': {
       display: 'none',
     },
@@ -44,19 +45,30 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const gridSchema = new SimpleSchema({
-  answers: Array,
-  'answers.$': Object,
-  'answers.$.id': String,
-  'answers.$.name': String,
-  'answers.$.type': String,
-  'answers.$.row': { type: Array, defaultValue: [{ field: 'New row..' }] },
-  'answers.$.row.$.name': String,
-  'answers.$.column': { type: Array, defaultValue: [{ field: 'New column..' }] },
-  'answers.$.column.$.field': String,
-})
-const GridInner = ({ question, onAnswerChange }) => {
-  const cleanAnswer = gridSchema.clean(question).answers
+const gridSchema = new SimpleSchema(
+  {
+    rows: { type: Array, defaultValue: [{ name: 'New row', id: 'row' }] },
+    'rows.$': Object,
+    'rows.$.id': String,
+    'rows.$.name': String,
+    'rows.$.value': String,
+
+    columns: { type: Array, defaultValue: [{ field: 'New column', id: 'column' }] },
+    'columns.$': Object,
+    'columns.$.id': String,
+    'columns.$.field': String,
+    'columns.$.value': String,
+  },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
+
+const GridInner = ({ question, onGridChange, onAddGrid }) => {
+  // const cleanRows = gridSchema.clean(question).rows
+  // const cleanColumns = gridSchema.clean(question).columns
   // const { addColumn, removeColumn, addRow, removeRow } = usePartGrid(pid)
   // const theme = useTheme()
   // const selectedPart = useSelectedPartValue()
@@ -78,12 +90,12 @@ const GridInner = ({ question, onAnswerChange }) => {
       <Grid container>
         <Grid item xs={12} md={6}>
           <Droppable
-            droppableId={`question-col-${question.id}`}
-            type={`question-col-${question.id}`}
+            droppableId={`grid-columns-${question.id}`}
+            type={`grid-columns-${question.id}`}
           >
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                {cleanAnswer?.map((answer, aIndex) => {
+                {question.columns?.map((answer, aIndex) => {
                   return (
                     <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
                       {(provided, snapshot) => (
@@ -95,9 +107,10 @@ const GridInner = ({ question, onAnswerChange }) => {
                           <ColumnRow
                             dragHandleProps={provided.dragHandleProps}
                             answer={answer}
-                            onAnswerChange={onAnswerChange}
+                            onGridChange={onGridChange}
                             aIndex={aIndex}
-                            type={'column'}
+                            onAddGrid={onAddGrid}
+                            type={'columns'}
                           />
                         </div>
                       )}
@@ -179,12 +192,12 @@ const GridInner = ({ question, onAnswerChange }) => {
 
         <Grid item xs={12} md={6}>
           <Droppable
-            droppableId={`question-row-${question.id}`}
-            type={`question-row-${question.id}`}
+            droppableId={`grid-rows-${question.id}`}
+            type={`grid-rows-${question.id}`}
           >
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                {cleanAnswer?.map((answer, aIndex) => {
+                {question.rows?.map((answer, aIndex) => {
                   return (
                     <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
                       {(provided, snapshot) => (
@@ -196,9 +209,10 @@ const GridInner = ({ question, onAnswerChange }) => {
                           <ColumnRow
                             dragHandleProps={provided.dragHandleProps}
                             answer={answer}
-                            onAnswerChange={onAnswerChange}
+                            onGridChange={onGridChange}
+                            onAddGrid={onAddGrid}
                             aIndex={aIndex}
-                            type={'row'}
+                            type={'rows'}
                           />
                         </div>
                       )}
@@ -276,7 +290,7 @@ const GridInner = ({ question, onAnswerChange }) => {
         </Grid>
       </Grid>
 
-      {showMobileActions && (
+      {/* {showMobileActions && (
         <Button
           variant="outlined"
           color="default"
@@ -286,19 +300,27 @@ const GridInner = ({ question, onAnswerChange }) => {
         >
           New item
         </Button>
-      )}
+      )} */}
     </Fragment>
   )
 }
 
 GridInner.propTypes = {
   question: PropTypes.object.isRequired,
-  onAnswerChange: PropTypes.func,
+  onGridChange: PropTypes.func,
 }
 
 export { GridInner }
 
-const ColumnRow = ({ answer, onAnswerChange, aIndex, dragHandleProps, type }) => {
+const ColumnRow = ({
+  answer,
+  onGridChange,
+  aIndex,
+  dragHandleProps,
+  type = 'rows',
+  onAddGrid,
+}) => {
+  const key = type === 'rows' ? 'name' : 'field'
   const classes = useStyles()
   const [showField, setShowField] = useState(() =>
     Object.keys(gridColumnOptions).reduce((acc, cur) => {
@@ -313,10 +335,6 @@ const ColumnRow = ({ answer, onAnswerChange, aIndex, dragHandleProps, type }) =>
     setShowField({ ...showField, [key]: !showField[key] })
   }
 
-  const onColRowChange = ({ aIndex, type, value }) => {
-    onAnswerChange({ aIndex, key: type, value })
-  }
-
   return (
     <Box className={classes.root}>
       <Grid container spacing={3} alignItems="flex-end">
@@ -328,17 +346,18 @@ const ColumnRow = ({ answer, onAnswerChange, aIndex, dragHandleProps, type }) =>
         >
           <DragIndicatorIcon />
         </IconButton>
-        <Grid item xs={12} md={9} lg={10}>
+        <Grid item xs={12} md={12} lg={12}>
           <TextField
             fullWidth
             onChange={({ target: { value } }) =>
-              onAnswerChange({
+              onGridChange({
                 aIndex,
-                key: `${type}_${type === 'row' ? 'name' : 'field'}`,
+                key,
                 value,
+                type,
               })
             }
-            value={answer.name}
+            value={answer[key]}
             InputProps={{
               // classes: {
               //   underline: classes.hideUnderline,
@@ -353,44 +372,36 @@ const ColumnRow = ({ answer, onAnswerChange, aIndex, dragHandleProps, type }) =>
                     onToggle={onToggle}
                     showField={showField}
                   />
+
+                  <IconButton
+                    style={{ padding: '0.5rem' }}
+                    aria-label="add-grid"
+                    onClick={() =>
+                      onAddGrid({
+                        aIndex,
+                        defaultGrid: {
+                          [key]: 'Type the col/row here...',
+                          id: Random.id(),
+                          editable: true,
+                          width: 200,
+                        },
+                        type,
+                      })
+                    }
+                  >
+                    <AddCircleIcon />
+                  </IconButton>
                   {/* <UploadImage {...props} /> */}
                   {/* {specify} */}
                   {/* {createActions(...actions)} */}
                 </InputAdornment>
               ),
-              startAdornment: (
-                <InputAdornment position="start">
-                  <CheckBoxOutlineBlankIcon />
-                </InputAdornment>
-              ),
             }}
-            label="Answer"
-            placeholder="Type some anwer..."
+            label={type.toUpperCase()}
+            placeholder="Type some row/col..."
           />
         </Grid>
-        {/* <Grid item xs={12} md={3} lg={2}>
-          <TextField
-            fullWidth
-            select
-            value={answer.type}
-            onChange={({ target: { value } }) =>
-              onAnswerChange({
-                aIndex,
-                key: 'type',
-                value,
-              })
-            }
-            label="Answer Type"
-          >
-            {subType.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </TextField>
-        </Grid> */}
       </Grid>
-
       <Grid container spacing={1} alignItems="flex-start">
         <Grid item xs={8}>
           {Object.entries(showField)
@@ -401,7 +412,9 @@ const ColumnRow = ({ answer, onAnswerChange, aIndex, dragHandleProps, type }) =>
                   key={key}
                   fullWidth
                   value={answer[key] || ''}
-                  onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+                  onChange={({ target: { value } }) =>
+                    onGridChange({ aIndex, key, value, type })
+                  }
                   label={gridColumnOptions[key]}
                 />
               )

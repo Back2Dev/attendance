@@ -36,10 +36,12 @@ const Section = React.memo(
     sIndex,
     onQuestionChange,
     onAnswerChange,
+    onGridChange,
     onRemoveQuestion,
     onAddQuestion,
     onMove,
     onAddAnswer,
+    onAddGrid,
   }) => {
     const [sectionCollapse, setSectionCollapse] = useState(false)
     const [showField, setShowField] = useState(() =>
@@ -142,7 +144,6 @@ const Section = React.memo(
                     value={section[key] || ''}
                     onChange={({ target: { value } }) => onSectionChange({ key, value })}
                     label={sectionOptions[key]}
-                    // placeholder="Question"
                   />
                 )
               })}
@@ -165,102 +166,45 @@ const Section = React.memo(
 
         {/*DnD Question */}
         <Droppable key={sIndex} droppableId={section.id} type={`section-${section.id}`}>
-          {
-            (provided, snapshot) => (
-              <div
-                style={{
-                  padding: '0.5rem',
-                  margin: '0.5rem',
-                }}
-                key={section.id}
-                ref={provided.innerRef}
-              >
-                {section.questions.map((question, qIndex) => {
-                  const questionProps = {
-                    type: question.type,
-                    question,
-                    onQuestionChange: ({ key, value }) =>
-                      onQuestionChange({ sIndex, qIndex, key, value }),
-                    onAnswerChange: ({ aIndex, key, value }) =>
-                      onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
-                    qIndex,
-                    onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
-                    sectionCollapse,
-                    onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
-                    onAddAnswer: ({ aIndex, defaultAnswer }) =>
-                      onAddAnswer({ sIndex, qIndex, aIndex, defaultAnswer }),
-                    isDraggingOver: snapshot.isDraggingOver,
-                    onCopyQuestion: () => onAddQuestion({ sIndex, qIndex, question }),
-                    onMoveUp: () => onMove({ dir: 'up', draggableId: question.id }),
-                    onMoveDown: () => onMove({ dir: 'down', draggableId: question.id }),
-                    moveUpDisabled: qIndex === 0,
-                    moveDownDisabled: qIndex === section.questions.length - 1,
-                  }
-                  return <Question key={question.id} {...questionProps} />
-                })}
-                {provided.placeholder}
-              </div>
-            )
-
-            // (provided, snapshot) =>
-            //   section.questions.map((question, qIndex) => {
-            //     const questionProps = {
-            //       type: question.type,
-            //       question,
-            //       onQuestionChange: ({ key, value }) =>
-            //         onQuestionChange({ sIndex, qIndex, key, value }),
-            //       onAnswerChange: ({ aIndex, key, value }) =>
-            //         onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
-            //       qIndex,
-            //       onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
-            //       sectionCollapse,
-            //       onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
-            //       isDraggingOver: snapshot.isDraggingOver,
-            //     }
-
-            //     return (
-            //       <div
-            //         style={{
-            //           ...getListStyle(snapshot.isDraggingOver),
-            //           padding: '0.5rem',
-            //           margin: '0.5rem',
-            //         }}
-            //         key={question.id}
-            //         ref={provided.innerRef}
-            //       >
-            //         <Draggable draggableId={question.id} key={question.id} index={qIndex}>
-            //           {(provided, snapshot) => (
-            //             <div
-            //               ref={provided.innerRef}
-            //               {...provided.draggableProps}
-            //               {...provided.dragHandleProps}
-            //             >
-            //               <Question {...questionProps} />
-            //               {/* <DesktopFrame question={question} {...props}>
-            //               {children}
-            //             </DesktopFrame> */}
-            //             </div>
-            //           )}
-            //         </Draggable>
-            //           {/* {createElement(Question || Placeholder, {
-            //           type: question.type,
-            //           question,
-            //           onQuestionChange: ({ key, value }) =>
-            //             onQuestionChange({ sIndex, qIndex, key, value }),
-            //           onAnswerChange: ({ aIndex, key, value }) =>
-            //             onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
-            //           qIndex,
-            //           onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
-            //           sectionCollapse,
-            //           onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
-            //         })} */}
-
-            //           {/* <AddBtn onAdd={() => onAddQuestion({ sIndex, qIndex })} /> */}
-            //         {provided.placeholder}
-            //       </div>
-            //     )
-            //   })
-          }
+          {(provided, snapshot) => (
+            <div
+              style={{
+                padding: '0.5rem',
+                margin: '0.5rem',
+              }}
+              key={section.id}
+              ref={provided.innerRef}
+            >
+              {section.questions.map((question, qIndex) => {
+                const questionProps = {
+                  type: question.type,
+                  question,
+                  onQuestionChange: ({ key, value }) =>
+                    onQuestionChange({ sIndex, qIndex, key, value }),
+                  onAnswerChange: ({ aIndex, key, value }) =>
+                    onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
+                  onGridChange: ({ aIndex, key, value, type }) =>
+                    onGridChange({ sIndex, qIndex, aIndex, key, value, type }),
+                  qIndex,
+                  onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
+                  sectionCollapse,
+                  onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
+                  onAddAnswer: ({ aIndex, defaultAnswer }) =>
+                    onAddAnswer({ sIndex, qIndex, aIndex, defaultAnswer }),
+                  onAddGrid: ({ aIndex, defaultGrid, type }) =>
+                    onAddGrid({ sIndex, qIndex, aIndex, defaultGrid, type }),
+                  isDraggingOver: snapshot.isDraggingOver,
+                  onCopyQuestion: () => onAddQuestion({ sIndex, qIndex, question }),
+                  onMoveUp: () => onMove({ dir: 'up', draggableId: question.id }),
+                  onMoveDown: () => onMove({ dir: 'down', draggableId: question.id }),
+                  moveUpDisabled: qIndex === 0,
+                  moveDownDisabled: qIndex === section.questions.length - 1,
+                }
+                return <Question key={question.id} {...questionProps} />
+              })}
+              {provided.placeholder}
+            </div>
+          )}
         </Droppable>
       </Box>
     )

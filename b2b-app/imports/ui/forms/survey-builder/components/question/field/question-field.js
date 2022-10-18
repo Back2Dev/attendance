@@ -57,13 +57,20 @@ const options = [
   { label: 'Signature', value: 'signature' },
   { label: 'Dropdown', value: 'dropdown' },
   { label: 'Geolocation', value: 'geolocation' },
-  { label: 'Lookup', value: 'lookup' },
+  // { label: 'Lookup', value: 'lookup' },
   { label: 'Rating', value: 'rating' },
   { label: 'Grid', value: 'grid' },
-  { label: 'Calculation', value: 'calculation' },
+  // { label: 'Calculation', value: 'calculation' },
 ]
 
-const questionSchema = new SimpleSchema({ id: String, prompt: String, type: String })
+const questionSchema = new SimpleSchema(
+  { id: String, prompt: String, type: String },
+  {
+    clean: {
+      trimStrings: false,
+    },
+  }
+)
 
 const Question = ({ onQuestionChange, question }) => {
   const selectedPart = useSelectedPartValue()
@@ -84,7 +91,7 @@ const Question = ({ onQuestionChange, question }) => {
   const onToggle = (key) => {
     setShowField({ ...showField, [key]: !showField[key] })
   }
-
+  console.log('cleanQuestion.prompt', cleanQuestion.prompt.length)
   return (
     <Grid container spacing={3} alignItems="flex-end" className={classes.root}>
       <Grid item xs={12} md={9} lg={10}>
