@@ -6,3 +6,11 @@ const nanoid = customAlphabet(
 )
 
 export { nanoid as makeId }
+
+export const slugify = (text) => {
+  if (!text || typeof text !== 'string') return 'no-name'
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+}

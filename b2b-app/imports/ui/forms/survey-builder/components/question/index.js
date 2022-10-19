@@ -11,7 +11,7 @@ const Question = (props) => {
   const { question, qIndex, onAddQuestion, isDraggingOver } = props
 
   return (
-    <Draggable draggableId={question.id} key={question.id} index={qIndex}>
+    <Draggable draggableId={question._id} key={question._id} index={qIndex}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <DesktopFrame dragHandleProps={provided.dragHandleProps} {...props}>

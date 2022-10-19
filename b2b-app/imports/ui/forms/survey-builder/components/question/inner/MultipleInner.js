@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Box, IconButton, TextField, InputAdornment } from '@material-ui/core'
 import { multipleOptions } from '$sb/components/question/field/options'
-
 import { Droppable, Draggable } from 'react-beautiful-dnd'
-import SimpleSchema from 'simpl-schema'
 import { makeStyles } from '@material-ui/core/styles'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { OptionList } from '$sb/components/question/field/option-list'
-
+import { slugify } from '$sb/utils'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -28,37 +27,21 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const multipleSchema = new SimpleSchema(
-  {
-    answers: Array,
-    'answers.$': Object,
-    'answers.$.id': String,
-    'answers.$.name': String,
-    'answers.$.type': String,
-  },
-  {
-    clean: {
-      trimStrings: false,
-    },
-  }
-)
-
-const MultipleInner = ({ question, onAnswerChange }) => {
-  const cleanAnswer = multipleSchema.clean(question).answers
-
+const MultipleInner = ({ question, ...props }) => {
   return (
-    <Droppable droppableId={question.id} type={`question-${question.id}`}>
+    <Droppable droppableId={question._id} type={`question-${question._id}`}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
-          {cleanAnswer?.map((answer, aIndex) => {
+          {question.answers?.map((answer, aIndex) => {
             return (
-              <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
+              <Draggable draggableId={answer._id} key={answer._id} index={aIndex}>
                 {(provided, snapshot) => (
                   <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
                     <Answer
                       dragHandleProps={provided.dragHandleProps}
                       answer={answer}
-                      onAnswerChange={onAnswerChange}
+                      question={question}
+                      {...props}
                       aIndex={aIndex}
                     />
                   </div>
@@ -75,12 +58,19 @@ const MultipleInner = ({ question, onAnswerChange }) => {
 
 MultipleInner.propTypes = {
   question: PropTypes.object.isRequired,
-  onAnswerChange: PropTypes.func,
+  onQuestionChange: PropTypes.func,
 }
 
 export { MultipleInner }
 
-const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
+const Answer = ({
+  answer,
+  question,
+  onQuestionChange,
+  aIndex,
+  dragHandleProps,
+  onRemoveAnswer,
+}) => {
   const classes = useStyles()
   const [showField, setShowField] = useState(() =>
     Object.keys(multipleOptions).reduce((acc, cur) => {
@@ -109,9 +99,11 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
         <Grid item xs={12} md={9} lg={10}>
           <TextField
             fullWidth
-            onChange={({ target: { value } }) =>
-              onAnswerChange({ aIndex, key: 'name', value })
-            }
+            onChange={({ target: { value } }) => {
+              question.answers[aIndex].name = value
+              question.answers[aIndex].id = slugify(value)
+              onQuestionChange({ question })
+            }}
             value={answer.name}
             InputProps={{
               // classes: {
@@ -126,6 +118,9 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
                     options={multipleOptions}
                     onToggle={onToggle}
                     showField={showField}
+                  />
+                  <RemoveAnsBtn
+                    onRemoveAnswer={() => onRemoveAnswer({ _id: answer._id })}
                   />
                   {/* <UploadImage {...props} /> */}
                   {/* {specify} */}
@@ -148,7 +143,7 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
             select
             value={answer.type}
             onChange={({ target: { value } }) =>
-              onAnswerChange({
+              onQuestionChange({
                 aIndex,
                 key: 'type',
                 value,
@@ -175,7 +170,10 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
                   key={key}
                   fullWidth
                   value={answer[key] || ''}
-                  onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+                  onChange={({ target: { value } }) => {
+                    question.answers[aIndex][key] = value
+                    onQuestionChange({ question })
+                  }}
                   label={multipleOptions[key]}
                 />
               )

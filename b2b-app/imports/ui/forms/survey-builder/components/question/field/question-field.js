@@ -18,7 +18,7 @@ import { OptionField } from './option-field'
 // import { makeStyles } from '@material-ui/core/styles'
 import { FieldImage } from './image'
 import SimpleSchema from 'simpl-schema'
-
+import { slugify } from '$sb/utils'
 import { OptionList } from './option-list'
 import { UploadImage } from './upload'
 
@@ -64,7 +64,7 @@ const options = [
 ]
 
 const questionSchema = new SimpleSchema(
-  { id: String, prompt: String, type: String },
+  { id: String, _id: String, prompt: String, type: String },
   {
     clean: {
       trimStrings: false,
@@ -76,9 +76,8 @@ const Question = ({ onQuestionChange, question }) => {
   const selectedPart = useSelectedPartValue()
   const { isMobile } = useBuilder()
   // const showMobileActions = isMobile && selectedPart === pid
-
   const classes = useStyles()
-  const cleanQuestion = questionSchema.clean(question)
+  // const cleanQuestion = questionSchema.clean(question)
   const [showField, setShowField] = useState(() =>
     Object.keys(questionOptions).reduce((acc, cur) => {
       return {
@@ -91,13 +90,12 @@ const Question = ({ onQuestionChange, question }) => {
   const onToggle = (key) => {
     setShowField({ ...showField, [key]: !showField[key] })
   }
-  console.log('cleanQuestion.prompt', cleanQuestion.prompt.length)
   return (
     <Grid container spacing={3} alignItems="flex-end" className={classes.root}>
       <Grid item xs={12} md={9} lg={10}>
         <TextField
           fullWidth
-          value={cleanQuestion.prompt}
+          value={question.prompt}
           InputProps={{
             // classes: {
             //   underline: classes.root,
@@ -115,7 +113,11 @@ const Question = ({ onQuestionChange, question }) => {
               </InputAdornment>
             ),
           }}
-          onChange={({ target: { value } }) => onQuestionChange({ key: 'prompt', value })}
+          onChange={({ target: { value } }) => {
+            question.prompt = value
+            question.id = slugify(value)
+            onQuestionChange({ question })
+          }}
           label="Question"
           placeholder="Question"
         />
@@ -125,8 +127,12 @@ const Question = ({ onQuestionChange, question }) => {
         <TextField
           fullWidth
           select
-          value={cleanQuestion.type}
-          onChange={({ target: { value } }) => onQuestionChange({ key: 'type', value })}
+          value={question.type}
+          onChange={({ target: { value } }) => {
+            question.type = value
+
+            onQuestionChange({ question })
+          }}
           label="Question Type"
           placeholder="Question Type"
         >
@@ -147,7 +153,10 @@ const Question = ({ onQuestionChange, question }) => {
                 key={key}
                 fullWidth
                 value={question[key] || ''}
-                onChange={({ target: { value } }) => onQuestionChange({ key, value })}
+                onChange={({ target: { value } }) => {
+                  question[key] = value
+                  onQuestionChange({ question })
+                }}
                 label={questionOptions[key]}
                 // placeholder="Question"
               />

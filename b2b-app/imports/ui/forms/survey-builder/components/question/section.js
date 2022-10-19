@@ -1,33 +1,22 @@
-import React, { createElement, useState, useContext } from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   CardHeader,
-  Card,
   IconButton,
-  Paper,
   TextField,
   InputAdornment,
   Grid,
 } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import { makeStyles } from '@material-ui/core/styles'
-
-import { Placeholder } from '/imports/ui/forms/survey-builder/components/old/types'
-
 import { Question } from '$sb/components/question'
-
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-
+import { Droppable } from 'react-beautiful-dnd'
 import CancelIcon from '@material-ui/icons/Cancel'
-
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
 import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
-import { AddBtn } from '$sb/components/panels/canvas/canvas'
-import { Inner } from '$sb/components/question/inner/inner'
-import { Frame } from '$sb/components/frame'
 import { sectionOptions } from '$sb/components/question/field/options'
 import { OptionList } from '$sb/components/question/field/option-list'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
+import { Random } from 'meteor/random'
+import { slugify } from '$sb/utils'
 
 const Section = React.memo(
   ({
@@ -35,9 +24,9 @@ const Section = React.memo(
     onSectionChange,
     sIndex,
     onQuestionChange,
-    onAnswerChange,
-    onGridChange,
     onRemoveQuestion,
+    onRemoveSection,
+    onRemoveAnswer,
     onAddQuestion,
     onMove,
     onAddAnswer,
@@ -71,7 +60,7 @@ const Section = React.memo(
               <IconButton
                 style={{ padding: '0.3rem' }}
                 aria-label="close"
-                onClick={() => onRemoveQuestion()}
+                onClick={() => onRemoveSection({ _id: section._id })}
               >
                 <CancelIcon />
               </IconButton>
@@ -107,8 +96,10 @@ const Section = React.memo(
           <TextField
             fullWidth
             value={section.name}
-            onChange={(e) => {
-              onSectionChange({ key: 'name', value: e.target.value })
+            onChange={({ target: { value } }) => {
+              section.name = value
+              section.id = slugify(value)
+              onSectionChange({ section })
             }}
             InputProps={{
               // classes: {
@@ -142,7 +133,13 @@ const Section = React.memo(
                     key={key}
                     fullWidth
                     value={section[key] || ''}
-                    onChange={({ target: { value } }) => onSectionChange({ key, value })}
+                    onChange={({ target: { value } }) =>
+                      // onSectionChange({ key, value, section })
+                      {
+                        section[key] = value
+                        onSectionChange({ section })
+                      }
+                    }
                     label={sectionOptions[key]}
                   />
                 )
@@ -165,28 +162,26 @@ const Section = React.memo(
         </Box>
 
         {/*DnD Question */}
-        <Droppable key={sIndex} droppableId={section.id} type={`section-${section.id}`}>
+        <Droppable key={sIndex} droppableId={section._id} type={`section-${section._id}`}>
           {(provided, snapshot) => (
             <div
               style={{
                 padding: '0.5rem',
                 margin: '0.5rem',
               }}
-              key={section.id}
+              key={section._id}
               ref={provided.innerRef}
             >
               {section.questions.map((question, qIndex) => {
+                //data from text editor may not have this property
+                // if (!question._id) question._id = Random.id()
                 const questionProps = {
                   type: question.type,
                   question,
-                  onQuestionChange: ({ key, value }) =>
-                    onQuestionChange({ sIndex, qIndex, key, value }),
-                  onAnswerChange: ({ aIndex, key, value }) =>
-                    onAnswerChange({ sIndex, qIndex, aIndex, key, value }),
-                  onGridChange: ({ aIndex, key, value, type }) =>
-                    onGridChange({ sIndex, qIndex, aIndex, key, value, type }),
+                  onQuestionChange,
                   qIndex,
-                  onRemoveQuestion: () => onRemoveQuestion({ sIndex, qIndex }),
+                  onRemoveAnswer,
+                  onRemoveQuestion,
                   sectionCollapse,
                   onAddQuestion: () => onAddQuestion({ sIndex, qIndex }),
                   onAddAnswer: ({ aIndex, defaultAnswer }) =>
@@ -195,12 +190,12 @@ const Section = React.memo(
                     onAddGrid({ sIndex, qIndex, aIndex, defaultGrid, type }),
                   isDraggingOver: snapshot.isDraggingOver,
                   onCopyQuestion: () => onAddQuestion({ sIndex, qIndex, question }),
-                  onMoveUp: () => onMove({ dir: 'up', draggableId: question.id }),
-                  onMoveDown: () => onMove({ dir: 'down', draggableId: question.id }),
+                  onMoveUp: () => onMove({ dir: 'up', draggableId: question._id }),
+                  onMoveDown: () => onMove({ dir: 'down', draggableId: question._id }),
                   moveUpDisabled: qIndex === 0,
                   moveDownDisabled: qIndex === section.questions.length - 1,
                 }
-                return <Question key={question.id} {...questionProps} />
+                return <Question key={question._id} {...questionProps} />
               })}
               {provided.placeholder}
             </div>

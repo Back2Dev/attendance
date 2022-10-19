@@ -63,7 +63,11 @@ const Framework = ({ id, item, methods }) => {
   // State of the form editor, exposed in the EditorContext
   const [formEditorInput, setFormEditorInput] = React.useState(item.source)
 
-  const [jsonEditorInput, setJsonEditorInput] = React.useState(item.json)
+  const [jsonEditorInput, setJsonEditorInput] = React.useState(
+    JSON.stringify(item.json, null, 2),
+    null,
+    2
+  )
 
   const [viewJSON, setViewJSON] = React.useState(true)
 
@@ -136,7 +140,7 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     if (layout === 'dnd') {
-      let survey = { ...jsonEditorInput }
+      let survey = JSON.parse(jsonEditorInput)
 
       const specific = map2Uniforms(survey)
       setRaw(specific)
@@ -149,12 +153,12 @@ const Framework = ({ id, item, methods }) => {
         debug({ specific })
         setRaw(specific)
 
-        setJsonEditorInput(result.survey)
-        console.log('JSON result', result)
+        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
+
         setErrors(result.errs)
         showErrors(result.errs)
       } else {
-        setJsonEditorInput(result.survey)
+        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
         setErrors(result.errs)
         showErrors(result.errs)
       }

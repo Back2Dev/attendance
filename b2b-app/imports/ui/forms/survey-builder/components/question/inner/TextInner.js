@@ -8,23 +8,14 @@ import {
   Box,
   IconButton,
 } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import {
-  useSelectedPartValue,
-  usePartAnswers,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { textOptions } from '$sb/components/question/field/options'
-import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
-import { useTheme } from '@material-ui/core/styles'
-import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { AnswerField, OptionField } from '$sb/components/question/field'
-import { FieldImage } from '$sb/components/question/field'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { OptionList } from '$sb/components/question/field/option-list'
 import SimpleSchema from 'simpl-schema'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { makeStyles } from '@material-ui/core/styles'
+import { slugify } from '$sb/utils'
+import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -62,23 +53,22 @@ const subType = [
   { label: 'PhoneNumber', value: 'phoneNumber' },
 ]
 
-const TextInner = ({ question, onAnswerChange }) => {
-  const cleanAnswer = textSchema.clean(question).answers
-
+const TextInner = ({ question, ...props }) => {
   return (
-    <Droppable droppableId={question.id} type={`question-${question.id}`}>
+    <Droppable droppableId={question._id} type={`question-${question._id}`}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
-          {cleanAnswer?.map((answer, aIndex) => {
+          {question.answers?.map((answer, aIndex) => {
             return (
-              <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
+              <Draggable draggableId={answer._id} key={answer._id} index={aIndex}>
                 {(provided, snapshot) => (
                   <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
                     <Answer
                       dragHandleProps={provided.dragHandleProps}
                       answer={answer}
-                      onAnswerChange={onAnswerChange}
+                      {...props}
                       aIndex={aIndex}
+                      question={question}
                     />
                   </div>
                 )}
@@ -94,12 +84,19 @@ const TextInner = ({ question, onAnswerChange }) => {
 
 TextInner.propTypes = {
   question: PropTypes.object.isRequired,
-  onAnswerChange: PropTypes.func,
+  onQuestionChange: PropTypes.func.isRequired,
 }
 
 export { TextInner }
 
-const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
+const Answer = ({
+  answer,
+  onQuestionChange,
+  onRemoveAnswer,
+  aIndex,
+  dragHandleProps,
+  question,
+}) => {
   const classes = useStyles()
   const [showField, setShowField] = useState(() =>
     Object.keys(textOptions).reduce((acc, cur) => {
@@ -128,9 +125,11 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
         <Grid item xs={12} md={9} lg={10}>
           <TextField
             fullWidth
-            onChange={({ target: { value } }) =>
-              onAnswerChange({ aIndex, key: 'name', value })
-            }
+            onChange={({ target: { value } }) => {
+              question.answers[aIndex].name = value
+              question.answers[aIndex].id = slugify(value)
+              onQuestionChange({ question })
+            }}
             value={answer.name}
             InputProps={{
               // classes: {
@@ -145,6 +144,9 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
                     options={textOptions}
                     onToggle={onToggle}
                     showField={showField}
+                  />
+                  <RemoveAnsBtn
+                    onRemoveAnswer={() => onRemoveAnswer({ _id: answer._id })}
                   />
                   {/* <UploadImage {...props} /> */}
                   {/* {specify} */}
@@ -161,13 +163,10 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
             fullWidth
             select
             value={answer.type}
-            onChange={({ target: { value } }) =>
-              onAnswerChange({
-                aIndex,
-                key: 'type',
-                value,
-              })
-            }
+            onChange={({ target: { value } }) => {
+              question.answers[aIndex].type = value
+              onQuestionChange({ question })
+            }}
             label="Answer Type"
           >
             {subType.map(({ value, label }) => (
@@ -189,7 +188,10 @@ const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
                   key={key}
                   fullWidth
                   value={answer[key] || ''}
-                  onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+                  onChange={({ target: { value } }) => {
+                    question.answers[aIndex][key] = value
+                    onQuestionChange({ question })
+                  }}
                   label={textOptions[key]}
                 />
               )

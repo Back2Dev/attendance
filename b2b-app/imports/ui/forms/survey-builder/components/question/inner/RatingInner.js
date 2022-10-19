@@ -19,6 +19,7 @@ import SimpleSchema from 'simpl-schema'
 import { makeStyles } from '@material-ui/core/styles'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { OptionList } from '$sb/components/question/field/option-list'
+import { slugify } from '$sb/utils'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -55,7 +56,7 @@ const ratingSchema = new SimpleSchema(
 
 const maxOptions = Array.from({ length: 10 }, (_, i) => String(i + 1))
 
-const RatingInner = ({ question, onAnswerChange }) => {
+const RatingInner = ({ question, onQuestionChange }) => {
   const classes = useStyles()
   return (
     <Box className={classes.root}>
@@ -63,9 +64,11 @@ const RatingInner = ({ question, onAnswerChange }) => {
         <Grid item xs={12} md={9} lg={10}>
           <TextField
             fullWidth
-            onChange={({ target: { value } }) =>
-              onAnswerChange({ aIndex: 0, key: 'name', value })
-            }
+            onChange={({ target: { value } }) => {
+              question.answers[0].name = value
+              question.answers[0].id = slugify(value)
+              onQuestionChange({ question })
+            }}
             value={question.answers[0].name}
             label="Answer"
             placeholder="Type some anwer..."
@@ -74,9 +77,10 @@ const RatingInner = ({ question, onAnswerChange }) => {
         <Grid item xs={12} md={3} lg={2}>
           <TextField
             fullWidth
-            onChange={({ target: { value } }) =>
-              onAnswerChange({ aIndex: 0, key: 'max', value })
-            }
+            onChange={({ target: { value } }) => {
+              question.answers[0].max = value
+              onQuestionChange({ question })
+            }}
             select
             value={question.answers[0]?.max || '5'}
             label="Max Number"
@@ -102,7 +106,7 @@ const RatingInner = ({ question, onAnswerChange }) => {
     //                 <Answer
     //                   dragHandleProps={provided.dragHandleProps}
     //                   answer={answer}
-    //                   onAnswerChange={onAnswerChange}
+    //                   onQuestionChange={onQuestionChange}
     //                   aIndex={aIndex}
     //                 />
     //               </div>
@@ -167,12 +171,12 @@ const RatingInner = ({ question, onAnswerChange }) => {
 
 RatingInner.propTypes = {
   question: PropTypes.object.isRequired,
-  onAnswerChange: PropTypes.func,
+  onQuestionChange: PropTypes.func,
 }
 
 export { RatingInner }
 
-// const Answer = ({ answer, onAnswerChange, aIndex, dragHandleProps }) => {
+// const Answer = ({ answer, onQuestionChange, aIndex, dragHandleProps }) => {
 //   const classes = useStyles()
 //   const [showField, setShowField] = useState(() =>
 //     Object.keys(ratingOptions).reduce((acc, cur) => {
@@ -202,7 +206,7 @@ export { RatingInner }
 //           <TextField
 //             fullWidth
 //             onChange={({ target: { value } }) =>
-//               onAnswerChange({ aIndex, key: 'name', value })
+//               onQuestionChange({ aIndex, key: 'name', value })
 //             }
 //             value={answer.name}
 //             InputProps={{
@@ -235,7 +239,7 @@ export { RatingInner }
 //             select
 //             value={answer.max}
 //             onChange={({ target: { value } }) =>
-//               onAnswerChange({
+//               onQuestionChange({
 //                 aIndex,
 //                 key: 'max',
 //                 value,
@@ -262,7 +266,7 @@ export { RatingInner }
 //                   key={key}
 //                   fullWidth
 //                   value={answer[key] || ''}
-//                   onChange={({ target: { value } }) => onAnswerChange({ key, value })}
+//                   onChange={({ target: { value } }) => onQuestionChange({ key, value })}
 //                   label={ratingOptions[key]}
 //                 />
 //               )

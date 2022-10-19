@@ -1,18 +1,12 @@
 import React from 'react'
 import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import { slugify } from '$sb/utils'
 
-// onChange={({ target: { value } }) =>
-// onAnswerChange({ aIndex, key: 'name', value })
-// }
-
-const UploadInner = ({ question, onAnswerChange }) => {
+const UploadInner = ({ question, onQuestionChange }) => {
   const onChangeAccept = (fileType, checked) => {
-    onAnswerChange({
-      aIndex: 0,
-      value: { ...question.answers[0]?.accept, [fileType]: checked },
-      key: 'accept',
-    })
+    question.answers[0].accept = { ...question.answers[0]?.accept, [fileType]: checked }
+    onQuestionChange({ question })
   }
 
   return (
@@ -25,7 +19,11 @@ const UploadInner = ({ question, onAnswerChange }) => {
         style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
         value={Number(question.answers[0]?.maxSize) || 100}
         onChange={({ target: { value } }) =>
-          onAnswerChange({ key: 'maxSize', value, aIndex: 0 })
+          // onQuestionChange({ key: 'maxSize', value, aIndex: 0 })
+          {
+            question.answers[0].maxSize = value
+            onQuestionChange({ question })
+          }
         }
       />
 
@@ -85,7 +83,7 @@ const UploadInner = ({ question, onAnswerChange }) => {
 
 UploadInner.propTypes = {
   question: PropTypes.object.isRequired,
-  onAnswerChange: PropTypes.func,
+  onQuestionChange: PropTypes.func,
 }
 
 export { UploadInner }

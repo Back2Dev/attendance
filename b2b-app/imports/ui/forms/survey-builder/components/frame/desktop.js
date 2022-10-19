@@ -76,7 +76,7 @@ const DesktopFrame = ({
               <IconButton
                 style={{ padding: '0.3rem' }}
                 aria-label="close"
-                onClick={() => onRemoveQuestion()}
+                onClick={() => onRemoveQuestion({ _id: question._id })}
               >
                 <CancelIcon />
               </IconButton>
