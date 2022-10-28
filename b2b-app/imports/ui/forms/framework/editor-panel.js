@@ -19,7 +19,7 @@ export const EditorPanel = ({ editor }) => {
   const [splitSize, setSplitSize] = React.useState('85%')
   const [timeoutId, setTimeoutId] = React.useState(null)
 
-  // const codemirrorRef = React.useRef()
+  // let codemirrorRef = React.useRef()
 
   // if (editor.name === 'form') codemirrorOptions.lint = false
 
@@ -46,11 +46,13 @@ export const EditorPanel = ({ editor }) => {
 
   // Resize the codemirror components height when the split is changed
   const resize = (size) => {
-    const height = document.getElementsByClassName('Pane horizontal Pane1')[0]
-      .clientHeight
-    // eslint-disable-next-line no-unused-vars
-    const current =
-      (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+    const height = document
+      .getElementsByClassName('Pane horizontal Pane1')[0]
+      .clientHeight(
+        // eslint-disable-next-line no-unused-vars
+
+        (cmEditor.current.editor.display.wrapper.style.height = `${height}px`)
+      )
     setSplitSize(size)
   }
 
@@ -65,9 +67,9 @@ export const EditorPanel = ({ editor }) => {
         const height = document.getElementsByClassName(
           editor.editorType === 'form' ? 'Pane horizontal Pane1' : 'Pane vertical Pane1'
         )[0].clientHeight
-        // eslint-disable-next-line no-unused-vars
-        const current =
-          (codemirrorRef.current.editor.display.wrapper.style.height = `${height}px`)
+        if (cmEditor.current && cmEditor.current.display)
+          cmEditor.current.editor.display.wrapper.style.height = `${height}px`
+        else console.log('No current codemirror ref')
       }
     })
 
@@ -111,28 +113,23 @@ export const EditorPanel = ({ editor }) => {
     })
   )
 
-  React.useEffect(()=> {
+  React.useEffect(() => {
     //editor state
     const editorState = EditorState.create({
-      extensions: [
-        keymap.of([
-          ...defaultKeymap, 
-          ...[indentWithTab], 
-        ]),
-      ]
-    });
+      extensions: [keymap.of([...defaultKeymap, ...[indentWithTab]])],
+    })
 
-    //editor view  
+    //editor view
     const editorView = new EditorView({
       state: editorState,
       doc: editor.editorValue,
       parent: cmEditor.current,
     })
 
-    return() =>{
-      editorView.destroy();
+    return () => {
+      editorView.destroy()
     }
-  },[]);
+  }, [])
 
   const cmEditor = React.useRef()
 
