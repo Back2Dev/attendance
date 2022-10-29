@@ -124,27 +124,29 @@ const Section = React.memo(
           />
 
           {/* Options */}
-          <Grid container spacing={1} alignItems="flex-start">
+          <Grid container spacing={3} alignItems="flex-end">
             {Object.entries(showField)
               .filter(([_, show]) => show)
               .map(([key]) => {
                 return (
-                  <TextField
-                    key={key}
-                    fullWidth
-                    value={section[key] || ''}
-                    onChange={({ target: { value } }) =>
-                      // onSectionChange({ key, value, section })
-                      {
-                        section[key] = value
-                        onSectionChange({ section })
+                  <Grid item xs={12} md={9} lg={10} key={key}>
+                    <TextField
+                      key={key}
+                      fullWidth
+                      value={section[key] || ''}
+                      onChange={({ target: { value } }) =>
+                        // onSectionChange({ key, value, section })
+                        {
+                          section[key] = value
+                          onSectionChange({ section })
+                        }
                       }
-                    }
-                    label={sectionOptions[key]}
-                  />
+                      label={sectionOptions[key]}
+                    />
+                  </Grid>
                 )
               })}
-            <Grid item xs={1}></Grid>
+
             <Grid item xs={2}>
               {/* {part.image && (
               <FieldImage

@@ -73,11 +73,7 @@ const questionSchema = new SimpleSchema(
 )
 
 const Question = ({ onQuestionChange, question }) => {
-  const selectedPart = useSelectedPartValue()
-  const { isMobile } = useBuilder()
-  // const showMobileActions = isMobile && selectedPart === pid
   const classes = useStyles()
-  // const cleanQuestion = questionSchema.clean(question)
   const [showField, setShowField] = useState(() =>
     Object.keys(questionOptions).reduce((acc, cur) => {
       return {
@@ -89,6 +85,11 @@ const Question = ({ onQuestionChange, question }) => {
 
   const onToggle = (key) => {
     setShowField({ ...showField, [key]: !showField[key] })
+
+    if (key === 'optional') {
+      question.optional = !Boolean(question.optional)
+      onQuestionChange({ question })
+    }
   }
   return (
     <Grid container spacing={3} alignItems="flex-end" className={classes.root}>
@@ -96,6 +97,7 @@ const Question = ({ onQuestionChange, question }) => {
         <TextField
           fullWidth
           value={question.prompt}
+          // helperText={question.optional ? 'optional' : null}
           InputProps={{
             // classes: {
             //   underline: classes.root,
@@ -144,27 +146,55 @@ const Question = ({ onQuestionChange, question }) => {
         </TextField>
       </Grid>
 
-      <Grid container spacing={1} alignItems="flex-start">
-        {Object.entries(showField)
-          .filter(([_, show]) => show)
-          .map(([key]) => {
-            return (
-              <TextField
-                key={key}
-                fullWidth
-                value={question[key] || ''}
-                onChange={({ target: { value } }) => {
-                  question[key] = value
-                  onQuestionChange({ question })
-                }}
-                label={questionOptions[key]}
-                // placeholder="Question"
-              />
-            )
-          })}
-        <Grid item xs={1}></Grid>
-        <Grid item xs={2}>
-          {/* {part.image && (
+      {Object.entries(showField)
+        .filter(([_, show]) => show)
+        .map(([key]) => {
+          switch (typeof question[key]) {
+            case 'boolean':
+              return (
+                <Grid item xs={12} md={9} lg={10} key={key}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    margin="dense"
+                    select
+                    value={question[key] || false}
+                    onChange={({ target: { value } }) => {
+                      question[key] = value
+                      onQuestionChange({ question })
+                    }}
+                    label={questionOptions[key]}
+                  >
+                    <MenuItem key={'true'} value={true}>
+                      True
+                    </MenuItem>
+                    <MenuItem key={'false'} value={false}>
+                      False
+                    </MenuItem>
+                  </TextField>
+                </Grid>
+              )
+            default:
+              return (
+                <Grid item xs={12} md={9} lg={10} key={key}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    margin="dense"
+                    value={question[key] || ''}
+                    onChange={({ target: { value } }) => {
+                      question[key] = value
+                      onQuestionChange({ question })
+                    }}
+                    label={questionOptions[key]}
+                  />
+                </Grid>
+              )
+          }
+        })}
+
+      {/* <Grid item xs={2}>
+        {part.image && (
               <FieldImage
                 src={part.image}
                 onDeleteImage={() =>
@@ -174,9 +204,8 @@ const Question = ({ onQuestionChange, question }) => {
                   })
                 }
               />
-            )} */}
-        </Grid>
-      </Grid>
+            )}
+      </Grid> */}
     </Grid>
   )
 }

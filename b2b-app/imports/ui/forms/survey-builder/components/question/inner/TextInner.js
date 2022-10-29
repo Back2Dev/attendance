@@ -109,6 +109,11 @@ const Answer = ({
 
   const onToggle = (key) => {
     setShowField({ ...showField, [key]: !showField[key] })
+    if (key === 'optional') {
+      question.answers[aIndex].optional = !Boolean(question.answers[aIndex].optional)
+      console.log(question.answers[aIndex])
+      onQuestionChange({ question })
+    }
   }
 
   return (
@@ -182,19 +187,78 @@ const Answer = ({
         <Grid item xs={8}>
           {Object.entries(showField)
             .filter(([_, show]) => show)
+
             .map(([key]) => {
-              return (
-                <TextField
-                  key={key}
-                  fullWidth
-                  value={answer[key] || ''}
-                  onChange={({ target: { value } }) => {
-                    question.answers[aIndex][key] = value
-                    onQuestionChange({ question })
-                  }}
-                  label={textOptions[key]}
-                />
-              )
+              switch (typeof question[key]) {
+                case 'boolean':
+                  return (
+                    <Grid item xs={12} md={9} lg={10} key={key}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        margin="dense"
+                        select
+                        value={answer[key] || false}
+                        onChange={({ target: { value } }) => {
+                          question.answers[aIndex].value = !Boolean(
+                            question.answers[aIndex].value
+                          )
+
+                          onQuestionChange({ question })
+                        }}
+                        label={questionOptions[key]}
+                      >
+                        <MenuItem key={'true'} value={true}>
+                          True
+                        </MenuItem>
+                        <MenuItem key={'false'} value={false}>
+                          False
+                        </MenuItem>
+                      </TextField>
+                    </Grid>
+                  )
+                default:
+                  return (
+                    <Grid item xs={12} md={9} lg={10} key={key}>
+                      <TextField
+                        fullWidth
+                        value={answer[key] || ''}
+                        onChange={({ target: { value } }) => {
+                          if (key === 'optional') {
+                            question.answers[aIndex].optional = !Boolean(
+                              question.answers[aIndex].optional
+                            )
+                          } else {
+                            question.answers[aIndex][key] = value
+                          }
+
+                          onQuestionChange({ question })
+                        }}
+                        label={textOptions[key]}
+                      />
+                    </Grid>
+                  )
+              }
+
+              // return (
+              //   <TextField
+              //     key={key}
+              //     fullWidth
+              //     value={answer[key] || ''}
+              //     onChange={({ target: { value } }) => {
+              //       if (key === 'optional') {
+              //         question.answers[aIndex].optional = !Boolean(
+              //           question.answers[aIndex].optional
+              //         )
+              //       } else {
+              //         question.answers[aIndex][key] = value
+              //       }
+
+              //       onQuestionChange({ question })
+              //     }}
+              //     label={textOptions[key]}
+              //   />
+              // )
             })}
         </Grid>
         <Grid item xs={1}></Grid>

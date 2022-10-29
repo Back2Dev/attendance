@@ -44,7 +44,7 @@ const Framework = ({ id, item, methods }) => {
           {
             _id: id,
             source: formEditorInput,
-            json: jsonEditorInput,
+            json: JSON.parse(jsonEditorInput),
             survey: raw,
             autosave,
           },
