@@ -111,7 +111,6 @@ const Answer = ({
     setShowField({ ...showField, [key]: !showField[key] })
     if (key === 'optional') {
       question.answers[aIndex].optional = !Boolean(question.answers[aIndex].optional)
-      console.log(question.answers[aIndex])
       onQuestionChange({ question })
     }
   }
@@ -189,7 +188,9 @@ const Answer = ({
             .filter(([_, show]) => show)
 
             .map(([key]) => {
-              switch (typeof question[key]) {
+              const fieldType = typeof question.answers[aIndex][key]
+              console.log(fieldType, key)
+              switch (fieldType) {
                 case 'boolean':
                   return (
                     <Grid item xs={12} md={9} lg={10} key={key}>
@@ -206,7 +207,7 @@ const Answer = ({
 
                           onQuestionChange({ question })
                         }}
-                        label={questionOptions[key]}
+                        label={key}
                       >
                         <MenuItem key={'true'} value={true}>
                           True
@@ -222,6 +223,7 @@ const Answer = ({
                     <Grid item xs={12} md={9} lg={10} key={key}>
                       <TextField
                         fullWidth
+                        type={fieldType}
                         value={answer[key] || ''}
                         onChange={({ target: { value } }) => {
                           if (key === 'optional') {
