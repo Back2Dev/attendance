@@ -11,11 +11,12 @@ import {
 import { textOptions } from '$sb/components/question/field/options'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { OptionList } from '$sb/components/question/field/option-list'
-import SimpleSchema from 'simpl-schema'
+import OptionField from '$sb/components/question/field/option-field'
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
 import { makeStyles } from '@material-ui/core/styles'
 import { slugify } from '$sb/utils'
 import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
+import { Random } from 'meteor/random'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -29,18 +30,10 @@ const useStyles = makeStyles(() => ({
       display: 'inline',
       position: 'absolute',
       left: '-15px',
-      bottom: '3px',
+      top: '15px',
     },
   },
 }))
-
-const textSchema = new SimpleSchema({
-  answers: Array,
-  'answers.$': Object,
-  'answers.$.id': String,
-  'answers.$.name': String,
-  'answers.$.type': String,
-})
 
 const subType = [
   { label: 'Short', value: 'text' },
@@ -96,6 +89,7 @@ const Answer = ({
   aIndex,
   dragHandleProps,
   question,
+  onAddAnswer,
 }) => {
   const classes = useStyles()
   const [showField, setShowField] = useState(() =>
@@ -128,11 +122,24 @@ const Answer = ({
         </IconButton>
         <Grid item xs={12} md={9} lg={10}>
           <TextField
+            id={answer._id}
             fullWidth
             onChange={({ target: { value } }) => {
               question.answers[aIndex].name = value
               question.answers[aIndex].id = slugify(value)
               onQuestionChange({ question })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                onAddAnswer({
+                  aIndex,
+                  defaultAnswer: {
+                    name: 'Type the answer here...',
+                    type: 'text',
+                  },
+                })
+              }
             }}
             value={answer.name}
             InputProps={{
@@ -184,84 +191,13 @@ const Answer = ({
 
       <Grid container spacing={1} alignItems="flex-start">
         <Grid item xs={8}>
-          {Object.entries(showField)
-            .filter(([_, show]) => show)
-
-            .map(([key]) => {
-              const fieldType = typeof question.answers[aIndex][key]
-              console.log(fieldType, key)
-              switch (fieldType) {
-                case 'boolean':
-                  return (
-                    <Grid item xs={12} md={9} lg={10} key={key}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        margin="dense"
-                        select
-                        value={answer[key] || false}
-                        onChange={({ target: { value } }) => {
-                          question.answers[aIndex].value = !Boolean(
-                            question.answers[aIndex].value
-                          )
-
-                          onQuestionChange({ question })
-                        }}
-                        label={key}
-                      >
-                        <MenuItem key={'true'} value={true}>
-                          True
-                        </MenuItem>
-                        <MenuItem key={'false'} value={false}>
-                          False
-                        </MenuItem>
-                      </TextField>
-                    </Grid>
-                  )
-                default:
-                  return (
-                    <Grid item xs={12} md={9} lg={10} key={key}>
-                      <TextField
-                        fullWidth
-                        type={fieldType}
-                        value={answer[key] || ''}
-                        onChange={({ target: { value } }) => {
-                          if (key === 'optional') {
-                            question.answers[aIndex].optional = !Boolean(
-                              question.answers[aIndex].optional
-                            )
-                          } else {
-                            question.answers[aIndex][key] = value
-                          }
-
-                          onQuestionChange({ question })
-                        }}
-                        label={textOptions[key]}
-                      />
-                    </Grid>
-                  )
-              }
-
-              // return (
-              //   <TextField
-              //     key={key}
-              //     fullWidth
-              //     value={answer[key] || ''}
-              //     onChange={({ target: { value } }) => {
-              //       if (key === 'optional') {
-              //         question.answers[aIndex].optional = !Boolean(
-              //           question.answers[aIndex].optional
-              //         )
-              //       } else {
-              //         question.answers[aIndex][key] = value
-              //       }
-
-              //       onQuestionChange({ question })
-              //     }}
-              //     label={textOptions[key]}
-              //   />
-              // )
-            })}
+          <OptionField
+            showField={showField}
+            answer={answer}
+            onQuestionChange={onQuestionChange}
+            question={question}
+            aIndex={aIndex}
+          />
         </Grid>
         <Grid item xs={1}></Grid>
         <Grid item xs={2}>

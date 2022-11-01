@@ -147,26 +147,7 @@ const DesktopFrame = ({
         <Box style={{ padding: '0.3prem' }}>
           <CardContent>{children}</CardContent>
           <CardActions style={{ padding: '1rem' }}>
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="space-between"
-              // className={classes.gridPadding}
-            >
-              <Grid item>
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={question.type === 'paragraph'}
-                        onChange={() => {}}
-                        name="header"
-                      />
-                    }
-                    label="Header Only"
-                  />
-                </FormGroup>
-              </Grid>
+            <Grid container alignItems="center" justifyContent="flex-end">
               <Grid>
                 <IconButton
                   style={{ padding: '0.3rem' }}
@@ -206,9 +187,7 @@ const DesktopFrame = ({
 
           <Collapse in={showJSON} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography variant="p">
-                <ReactJson src={question} {...jsonViewConfig} />
-              </Typography>
+              <ReactJson src={question} {...jsonViewConfig} />
             </CardContent>
           </Collapse>
         </Box>

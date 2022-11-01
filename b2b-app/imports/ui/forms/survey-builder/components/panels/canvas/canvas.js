@@ -225,9 +225,9 @@ const Canvas = () => {
   }
 
   const onAddAnswer = ({ sIndex, qIndex, aIndex, defaultAnswer }) => {
+    const _id = Random.id()
     updateEditor((prev) => {
       const newSection = JSON.parse(prev)
-      const _id = Random.id()
       newSection.sections[sIndex].questions[qIndex].answers.splice(aIndex + 1, 0, {
         ...defaultAnswer,
         id: _id,
@@ -236,6 +236,7 @@ const Canvas = () => {
 
       return JSON.stringify(newSection, null, 2)
     })
+    setTimeout(() => document.querySelector(`#${_id}`).focus(), 0)
   }
 
   const onAddGrid = ({ sIndex, qIndex, aIndex, defaultGrid, type = 'rows' }) => {
