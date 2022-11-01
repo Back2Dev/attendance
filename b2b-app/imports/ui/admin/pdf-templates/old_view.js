@@ -56,13 +56,6 @@ const View = ({ item }) => {
 }
 
 View.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    revision: PropTypes.number.isRequired,
-    updatedAt: PropTypes.string,
-    description: PropTypes.string,
-    source: PropTypes.string,
-    active: PropTypes.bool.isRequired,
-  }),
+  item: PropTypes.object.isRequired,
 }
 export default View

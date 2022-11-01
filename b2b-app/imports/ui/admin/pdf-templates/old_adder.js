@@ -11,19 +11,20 @@ import config from './config'
 const debug = require('debug')('app:adder')
 let push
 
+const methods = {
+  save: (form) => {
+    meteorCall('insert.pdfTemplates', 'saving', form)
+    push('/admin/pdf-templates')
+  },
+  goBack: useHistory().goBack,
+}
+
 const Loading = (props) => {
   push = useHistory()?.push
   if (props.loading) return <Loader loading />
   return <Add {...props}></Add>
 }
 const Adder = withTracker((props) => {
-  const methods = {
-    save: (form) => {
-      meteorCall('insert.pdfTemplates', 'saving', form)
-      push('/admin/pdf-templates')
-    },
-    goBack: useHistory().goBack,
-  }
   const defaultObject = config?.add?.defaultObject || {}
   return {
     item: defaultObject,

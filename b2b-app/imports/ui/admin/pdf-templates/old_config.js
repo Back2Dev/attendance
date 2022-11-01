@@ -32,7 +32,7 @@ const editSchema = new SimpleSchema({
 //
 // Configuration to control display of individual records in a table
 //
-const config = {
+export default config = {
   view: {
     header: true, // Displays a heading row
     rows: [
@@ -58,5 +58,3 @@ const config = {
     },
   },
 }
-
-export default config

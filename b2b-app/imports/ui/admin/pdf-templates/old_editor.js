@@ -9,19 +9,19 @@ import Edit from './edit'
 import config from './config'
 
 const debug = require('debug')('app:editor')
-// const dateFormat = {
-//   inputFormat: 'DD/MM/YY hh:mm',
-//   outputFormat: 'DD/MM/YY h:mm A',
-//   invalidPlaceholder: '',
-// }
+const dateFormat = {
+  inputFormat: 'DD/MM/YY hh:mm',
+  outputFormat: 'DD/MM/YY h:mm A',
+  invalidPlaceholder: '',
+}
 let history
 
-// const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
-// const update = (id, form) => {
-//   meteorCall('update.pdfTemplates', 'updating', form)
-//   history.push('/admin/pdf-templates')
-// }
-// const methods = { remove, update }
+const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
+const update = (id, form) => {
+  meteorCall('update.pdfTemplates', 'updating', form)
+  history.push('/admin/pdf-templates')
+}
+const methods = { remove, update }
 
 const Loading = (props) => {
   if (props.loading) return <Loader loading />
@@ -35,7 +35,7 @@ const Editor = withTracker((props) => {
   return {
     id,
     item,
-    // methods,
+    methods,
     loading: !subsHandle.ready(),
   }
 })(Loading)

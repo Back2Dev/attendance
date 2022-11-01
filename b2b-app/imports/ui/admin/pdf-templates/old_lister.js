@@ -95,15 +95,15 @@ const PdfTemplatesWrapper = (props) => {
 
 const PdfTemplatesLister = withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.pdfTemplates')
-  // const items = PdfTemplates.find({}).map((row) => {
-  //   row.search = obj2Search(row)
-  //   return row
-  // })
-  const columns = stdCols.concat(config.list.columns)
+  const items = PdfTemplates.find({}).map((row) => {
+    row.search = obj2Search(row)
+    return row
+  })
+  const columns = config.list.columns
   return {
-    // items,
+    items,
     methods,
-    // columns,
+    columns,
     loading: !subsHandle.ready(),
   }
 })(PdfTemplatesWrapper)

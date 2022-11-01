@@ -1,20 +1,19 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+// import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
-import TemplateContext from './context'
 
 const schemaBridge = config.edit.schema
+
 const debug = require('debug')('app:edit')
 
-const Edit = ({ item }) => {
-  const { methods } = React.useContext(TemplateContext)
-
+const Edit = ({ id, item, methods }) => {
   const save = (model) => {
     try {
-      methods.update(item.id, model)
+      methods.update(id, model)
     } catch (e) {
       alert(`Update error ${e.message}`)
     }
@@ -35,7 +34,7 @@ const Edit = ({ item }) => {
         schema={schemaBridge}
         model={item}
         onSubmit={save}
-        autoField={CustomAutoField}
+        // autoField={CustomAutoField}
       />
       <Button type="button" onClick={back}>
         Cancel
@@ -46,20 +45,9 @@ const Edit = ({ item }) => {
 }
 
 Edit.propTypes = {
-  loading: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  // item: PropTypes.shape({
-  //   name: PropTypes.string.isRequired,
-  //   revision: PropTypes.number.isRequired,
-  //   updatedAt: PropTypes.any,
-  //   description: PropTypes.string,
-  //   source: PropTypes.string,
-  //   active: PropTypes.bool.isRequired,
-  // }),
-  // methods: PropTypes.shape({
-  //   update: PropTypes.func.isRequired,
-  //   goBack: PropTypes.func,
-  // }),
+  loading: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
 }
-
 export default Edit

@@ -51,25 +51,7 @@ const Add = ({ item, methods }) => {
 
 Add.propTypes = {
   loading: PropTypes.bool.isRequired,
-  item: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    revision: PropTypes.number,
-    updatedAt: PropTypes.string,
-    description: PropTypes.string,
-    source: PropTypes.string,
-    active: PropTypes.bool,
-  }),
-  methods: PropTypes.shape({
-    save: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired,
-  }),
-}
-
-Add.defaultProps = {
-  item: {
-    revision: 1,
-    active: true,
-  },
+  item: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
 }
 export default Add

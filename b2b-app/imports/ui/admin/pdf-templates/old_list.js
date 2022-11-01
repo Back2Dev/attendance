@@ -8,28 +8,13 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import config from './config'
 const debug = require('debug')('app:add')
-import { PdfTemplateContext } from './context'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
-const List = () => {
-  const { items, methods } = React.useContext(PdfTemplateContext)
+const List = ({ items, methods }) => {
   const [rowsSelected, setRowsSelected] = React.useState([])
-  const [pdfs, setPdfs] = React.useState([])
+
   const tableRef = React.useRef(null)
-  React.useEffect(() => {
-    if (!items) {
-      setPdfs([])
-      console.log('No PDF templates found')
-      return
-    }
-    // const allPdfs = items.map((row) => {
-    //   row.search = obj2Search(row)
-    //   return row
-    // })
-    // setPdfs(allPdfs)
-    console.log('items: ', { items })
-  }, [items])
 
   const stdCols = [
     {
@@ -117,7 +102,7 @@ const List = () => {
     rowsSelected.forEach((id) => methods.remove(id))
     if (idField === 'id') {
       // Latency compensation for non-reactive database
-      const newRows = pdfs.filter((row) => !rowsSelected.includes(row[idField]))
+      const newRows = items.filter((row) => !rowsSelected.includes(row[idField]))
       setRows(newRows)
       setRowsSelected([])
     }
@@ -133,27 +118,17 @@ const List = () => {
     methods.archive(rowsSelected)
   }
   let Contents
-  if (!pdfs) {
-    Contents = () => (
-      <>
-        <span>No data found</span>
-        <p>items: {items}</p>
-        <p>pdfs: {pdfs}</p>
-        <p>methods: {methods}</p>
-      </>
-    )
+  if (!items.length) {
+    Contents = () => <span>No data found</span>
   } else {
     Contents = () => (
-      <>
-        <h1>items: {pdfs}</h1>
-        <ReactTabulator
-          ref={tableRef}
-          columns={stdCols.concat(config.list.columns)}
-          data={pdfs}
-          options={tableOptions}
-          cellEdited={onCellEdited}
-        />
-      </>
+      <ReactTabulator
+        ref={tableRef}
+        columns={stdCols.concat(config.list.columns)}
+        data={items}
+        options={tableOptions}
+        cellEdited={onCellEdited}
+      />
     )
   }
   const searchChange = (e) => {
@@ -187,25 +162,8 @@ const List = () => {
 
 List.propTypes = {
   loading: PropTypes.bool.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      revision: PropTypes.number.isRequired,
-      updatedAt: PropTypes.any,
-      description: PropTypes.string,
-      source: PropTypes.string,
-      active: PropTypes.bool.isRequired,
-    })
-  ),
-  methods: PropTypes.shape({
-    remove: PropTypes.func.isRequired,
-    edit: PropTypes.func.isRequired,
-    insert: PropTypes.func.isRequired,
-    view: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired,
-    archive: PropTypes.func.isRequired,
-    goBack: PropTypes.func,
-  }),
-  columns: PropTypes.arrayOf(PropTypes.object),
+  items: PropTypes.array,
+  methods: PropTypes.object.isRequired,
+  columns: PropTypes.array.isRequired,
 }
 export default List
