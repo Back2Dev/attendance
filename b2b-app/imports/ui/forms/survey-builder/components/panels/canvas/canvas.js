@@ -236,6 +236,8 @@ const Canvas = () => {
 
       return JSON.stringify(newSection, null, 2)
     })
+    //focusing on the answer after it is added
+    console.log('_id', _id)
     setTimeout(() => document.querySelector(`#${_id}`).focus(), 0)
   }
 

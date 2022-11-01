@@ -70,6 +70,7 @@ const Answer = ({
   aIndex,
   dragHandleProps,
   onRemoveAnswer,
+  onAddAnswer,
 }) => {
   const classes = useStyles()
   const [showField, setShowField] = useState(() =>
@@ -103,6 +104,18 @@ const Answer = ({
               question.answers[aIndex].name = value
               question.answers[aIndex].id = slugify(value)
               onQuestionChange({ question })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                onAddAnswer({
+                  aIndex,
+                  defaultAnswer: {
+                    name: 'Type the answer here...',
+                    type: 'text',
+                  },
+                })
+              }
             }}
             value={answer.name}
             InputProps={{

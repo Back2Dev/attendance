@@ -151,30 +151,6 @@ const TextQ = ({ q, a }) => {
   //not sure why multiline with &#10; not work for placeholder
 
   switch (a.type) {
-    // case 'long':
-    //   return (
-    //     <LongTextField
-    //       name={id}
-    //       id={id}
-    //       key={id}
-    //       minRows="2"
-    //       variant="outlined"
-    //     ></LongTextField>
-    //   )
-    // TODO: Make this work
-    // case 'date':
-    //   return (
-    //     <Fragment>
-    //       <AutoField name={id} id={id} key={id}></AutoField>
-    //       <ErrorField name={id} id={id}>
-    //         Date is required or is invalid
-    //       </ErrorField>
-    //     </Fragment>
-    //   )
-    // case 'number':
-    //   return (
-    //     <NumField name={id} id={id} key={id} defaultValue={a.defaultValue} ></NumField>
-    //   )
     case 'email':
       return (
         <Fragment>
@@ -226,7 +202,11 @@ const TextQ = ({ q, a }) => {
       return (
         <Fragment>
           <AutoField name={id} id={id} key={id} placeholder={placeholder} />
-          <ErrorField name={id} id={id} errorMessage={errorMessage} />
+          <ErrorField
+            name={id}
+            id={id}
+            errorMessage={errorMessage || 'This field is required!'}
+          />
         </Fragment>
       )
   }

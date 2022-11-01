@@ -203,7 +203,7 @@ const getSchemas = (survey, currentData) => {
                   const qaId = `${q.id}-${a.id}`
 
                   let uniforms = {}
-                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
+                  let optional = q.optional !== undefined ? q.optional : a.optional
                   optional = getOptionalFunc(q, uniforms, optional)
 
                   // const regEx = new RegExp(a.regEx)
