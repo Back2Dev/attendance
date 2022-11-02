@@ -9,13 +9,14 @@ import TemplateContext from './context'
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:edit')
 
-const Edit = ({ item }) => {
-  const { methods } = React.useContext(TemplateContext)
+const Edit = () => {
+  const { item, methods } = React.useContext(TemplateContext)
 
   const save = (model) => {
     try {
-      methods.update(item.id, model)
+      methods.update(item._id, model)
     } catch (e) {
+      console.log('error: ', e)
       alert(`Update error ${e.message}`)
     }
   }
@@ -46,20 +47,21 @@ const Edit = ({ item }) => {
 }
 
 Edit.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired,
-  // item: PropTypes.shape({
-  //   name: PropTypes.string.isRequired,
-  //   revision: PropTypes.number.isRequired,
-  //   updatedAt: PropTypes.any,
-  //   description: PropTypes.string,
-  //   source: PropTypes.string,
-  //   active: PropTypes.bool.isRequired,
-  // }),
-  // methods: PropTypes.shape({
-  //   update: PropTypes.func.isRequired,
-  //   goBack: PropTypes.func,
-  // }),
+  // loading: PropTypes.bool.isRequired,
+  // id: PropTypes.string.isRequired,
+  item: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    revision: PropTypes.number.isRequired,
+    updatedAt: PropTypes.any,
+    description: PropTypes.string,
+    source: PropTypes.string,
+    active: PropTypes.bool.isRequired,
+  }),
+  methods: PropTypes.shape({
+    update: PropTypes.func.isRequired,
+    goBack: PropTypes.func,
+  }),
 }
 
 export default Edit

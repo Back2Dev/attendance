@@ -10,6 +10,8 @@ import config from './config'
 const debug = require('debug')('app:add')
 import PdfTemplateContext from './context'
 
+import { obj2Search } from '/imports/api/util'
+
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
 const List = () => {
@@ -24,12 +26,13 @@ const List = () => {
       console.log('No PDF templates found')
       return
     }
-    // const allPdfs = items.map((row) => {
-    //   row.search = obj2Search(row)
-    //   return row
-    // })
-    // setPdfs(allPdfs)
+    const allPdfs = items.map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    setPdfs(allPdfs)
     console.log('items: ', { items })
+    console.log('methods: ', { methods })
   }, [items])
 
   const stdCols = [
@@ -138,15 +141,11 @@ const List = () => {
     Contents = () => (
       <>
         <span>No data found</span>
-        <p>items: {items}</p>
-        <p>pdfs: {pdfs}</p>
-        <p>methods: {methods}</p>
       </>
     )
   } else {
     Contents = () => (
       <>
-        <h1>items: {pdfs}</h1>
         <ReactTabulator
           ref={tableRef}
           columns={stdCols.concat(config.list.columns)}
@@ -187,7 +186,7 @@ const List = () => {
 }
 
 List.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loadingPdfs: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

@@ -22,10 +22,10 @@ const Loading = (props) => {
   if (props.loading) return <Loader loading />
   return <View {...props}></View>
 }
-const Tracker = withTracker((props) => {
+const Viewer = withTracker((props) => {
   history = props.history
   const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.pdf-templates', id)
+  const subsHandle = Meteor.subscribe('id.pdfTemplates', id)
   const item = PdfTemplates.findOne(id) || {}
   return {
     id,
@@ -36,4 +36,4 @@ const Tracker = withTracker((props) => {
   }
 })(Loading)
 
-export default Tracker
+export default Viewer

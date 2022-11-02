@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import config from './config'
+import PdfTemplateContext from './context'
 
 const debug = require('debug')('app:edit')
 
@@ -20,8 +21,9 @@ const useStyles = makeStyles({
   },
 })
 
-const View = ({ item }) => {
+const View = () => {
   const classes = useStyles()
+  const { item, methods } = React.useContext(PdfTemplateContext)
 
   return (
     <div>
@@ -59,7 +61,7 @@ View.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string.isRequired,
     revision: PropTypes.number.isRequired,
-    updatedAt: PropTypes.string,
+    updatedAt: PropTypes.any,
     description: PropTypes.string,
     source: PropTypes.string,
     active: PropTypes.bool.isRequired,

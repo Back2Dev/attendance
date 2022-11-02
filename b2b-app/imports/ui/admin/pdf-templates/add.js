@@ -6,11 +6,14 @@ import { Box, Container, Grid, Typography } from '@material-ui/core'
 import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-material'
 // import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
+import PdfTemplateContext from './context'
 
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:add')
 
-const Add = ({ item, methods }) => {
+const Add = () => {
+  const item = config?.add?.defaultObject || {}
+  const { methods } = React.useContext(PdfTemplateContext)
   const save = (model) => {
     try {
       methods.save(model)

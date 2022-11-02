@@ -1,10 +1,37 @@
 import React from 'react'
 import List from './list'
+import PdfTemplateContext from './context'
+import { actions } from '@storybook/addon-actions'
 
 export default {
   title: 'pdf-template/List',
   component: { List },
-  argTypes: {},
+  argTypes: {
+    sMethods: {
+      //   remove: {
+      //     type: actions,
+      //   },
+      //   edit: {
+      //     type: actions,
+      //   },
+      //   insert: {
+      //     type: actions,
+      //   },
+      //   view: {
+      //     type: actions,
+      //   },
+      //   add: {
+      //     type: actions,
+      //   },
+      //   archive: {
+      //     type: actions,
+      //   },
+      //   goBack: {
+      //     type: actions,
+      //   },
+      // },
+    },
+  },
 }
 const items = [
   {
@@ -48,14 +75,19 @@ const items = [
     active: true,
   },
 ]
-const Template = (args) => <List {...args} />
-
+const Template = (args) => {
+  return (
+    <PdfTemplateContext {...args}>
+      <List />
+    </PdfTemplateContext>
+  )
+}
 export const List1 = Template.bind({})
 
 List1.args = {
   loading: false,
-  items: items,
-  methods: {
+  source: items,
+  sMethods: {
     remove: (id) => console.log('removing item: ', id),
     edit: (form) => console.log('updating form: ', form),
     insert: (form) => console.log('inserting item: ', form),
