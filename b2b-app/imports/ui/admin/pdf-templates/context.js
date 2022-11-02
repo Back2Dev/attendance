@@ -13,7 +13,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
-export const PdfTemplateContext = React.createContext('pdf-template')
+const PdfTemplateContext = React.createContext({})
 
 export const PdfTemplateProvider = (props) => {
   const { children } = props
@@ -64,9 +64,14 @@ export const PdfTemplateProvider = (props) => {
 
   const { loadingPdfs, items = [] } = useTracker(() => {
     const sub = Meteor.subscribe('all.pdfTemplates')
+
+    let items
+    if (sub.ready()) {
+      items = PdfTemplates.find({}).fetch()
+    }
     return {
       loadingPdfs: !sub.ready(),
-      items: PdfTemplates.find({}).fetch(),
+      items,
       // items: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
     }
   })
@@ -98,13 +103,14 @@ export const PdfTemplateProvider = (props) => {
   return (
     <PdfTemplateContext.Provider
       value={{
-        loading,
+        // loading,
         loadingPdfs,
         items,
         // loadingPdf,
         // item,
         methods,
-        columns,
+        // columns,
+        test: 'I am not a robout',
       }}
     >
       {children}
@@ -112,11 +118,7 @@ export const PdfTemplateProvider = (props) => {
   )
 }
 
-PdfTemplateProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export const PdfTemplateConsumer = PdfTemplateContext.Consumer
+export default PdfTemplateContext
 
 // let push
 

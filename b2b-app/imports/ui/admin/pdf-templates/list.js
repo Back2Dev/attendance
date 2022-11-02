@@ -8,15 +8,16 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import config from './config'
 const debug = require('debug')('app:add')
-import { PdfTemplateContext } from './context'
+import PdfTemplateContext from './context'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
 const List = () => {
-  const { items, methods } = React.useContext(PdfTemplateContext)
+  const { items, methods, loadingPdfs } = React.useContext(PdfTemplateContext)
   const [rowsSelected, setRowsSelected] = React.useState([])
   const [pdfs, setPdfs] = React.useState([])
   const tableRef = React.useRef(null)
+
   React.useEffect(() => {
     if (!items) {
       setPdfs([])

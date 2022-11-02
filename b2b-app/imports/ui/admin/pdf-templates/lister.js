@@ -11,6 +11,7 @@ import PencilSquare from '@material-ui/icons/Edit'
 import Loader from '/imports/ui/components/commons/loading.js'
 import PdfTemplatesList from './list'
 import config from './config'
+import { PdfTemplateProvider } from './context'
 
 const debug = require('debug')('app:lister')
 const idField = '_id'
@@ -90,7 +91,11 @@ const stdCols = [
 const PdfTemplatesWrapper = (props) => {
   push = useHistory()?.push
   if (props.loading) return <Loader loading />
-  return <PdfTemplatesList {...props}></PdfTemplatesList>
+  return (
+    <PdfTemplateProvider>
+      <PdfTemplatesList {...props}></PdfTemplatesList>
+    </PdfTemplateProvider>
+  )
 }
 
 const PdfTemplatesLister = withTracker((props) => {
@@ -100,12 +105,7 @@ const PdfTemplatesLister = withTracker((props) => {
   //   return row
   // })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    // items,
-    methods,
-    // columns,
-    loading: !subsHandle.ready(),
-  }
+  return {}
 })(PdfTemplatesWrapper)
 
 export default PdfTemplatesLister
