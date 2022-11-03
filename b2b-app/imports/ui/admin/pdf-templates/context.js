@@ -17,8 +17,17 @@ export const PdfTemplateProvider = (props) => {
   useEffect(() => () => (mounted.current = false), [])
   const [item, setItem] = useState({})
 
-  const [pdfid, setPdfid] = useState()
-  // window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) || ''
+  let docId
+  if (
+    window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) ==
+    'pdf-templates'
+  ) {
+    docId = ''
+  } else {
+    docId = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1)
+  }
+  const [pdfid, setPdfid] = useState(docId)
+
   push = useHistory()?.push
   const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
 
