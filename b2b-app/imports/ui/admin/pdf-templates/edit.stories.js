@@ -1,5 +1,6 @@
 import React from 'react'
 import Edit from './edit'
+import PdfTemplateProvider from './context'
 
 export default {
   title: 'pdf-template/Edit',
@@ -10,45 +11,49 @@ export default {
     },
   },
 }
-const Template = (args) => <Edit {...args} />
+const Template = (args) => {
+  return (
+    <PdfTemplateProvider {...args}>
+      <Edit />
+    </PdfTemplateProvider>
+  )
+}
 
 export const Edit1 = Template.bind({})
 
 Edit1.args = {
-  id: 'item1',
-  methods: {
-    update: (form) => {
-      console.log('updating form', form)
+  sbmethods: {
+    update: (model) => {
+      console.log('story updated')
     },
-    remove: (id) => {
-      console.log('deleting item', id)
+    goBack: () => {
+      console.log('go back')
     },
-    goBack: () => console.log('go back'),
   },
-  item: {
+  sbitem: {
     name: 'sample1',
-    revision: 1,
-    active: true,
+    description: 'sample1',
+    revision: 2,
+    active: false,
+    _id: 'sample1',
   },
-  loading: false,
 }
 export const Edit2 = Template.bind({})
 
 Edit2.args = {
-  id: 'item2',
-  methods: {
-    update: (form) => {
-      console.log('updating form', form)
+  sbmethods: {
+    update: (model) => {
+      console.log('story updated')
     },
-    remove: (id) => {
-      console.log('deleting item', id)
+    goBack: () => {
+      console.log('go back')
     },
-    goBack: () => console.log('go back'),
   },
-  item: {
+  sbitem: {
     name: 'sample2',
+    description: 'sample2',
     revision: 2,
     active: false,
+    _id: 'sample2',
   },
-  loading: false,
 }

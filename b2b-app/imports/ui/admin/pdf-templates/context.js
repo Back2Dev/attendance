@@ -9,10 +9,16 @@ import config from './config'
 import PropTypes from 'prop-types'
 
 const PdfTemplateContext = React.createContext({})
+//PdfTemplateContext.displayName = 'PdfTemplateContext'
 
-export const PdfTemplateProvider = (props) => {
-  const { children } = props
-
+export const PdfTemplateProvider = ({
+  children,
+  sbmethods,
+  sbitems,
+  sbitem,
+  sbpdfid,
+  sbLoadingPdfs,
+}) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
   const [item, setItem] = useState({})
@@ -28,7 +34,7 @@ export const PdfTemplateProvider = (props) => {
   }
   const [pdfid, setPdfid] = useState(docId)
 
-  push = useHistory()?.push
+  let push = useHistory()?.push
   const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
 
   const save = (form) => {
@@ -53,8 +59,8 @@ export const PdfTemplateProvider = (props) => {
   }
 
   const view = (id) => {
-    setPdfid(id)
     push(`/admin/pdf-templates/view/${id}`)
+    setPdfid(id)
   }
 
   const archive = async (rowids) => {
@@ -114,3 +120,5 @@ export const PdfTemplateProvider = (props) => {
 }
 
 export default PdfTemplateContext
+
+export const PdfTemplateConsumer = PdfTemplateContext.Consumer
