@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
 import { Box, Container, Grid, Typography } from '@material-ui/core'
-import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-material'
-// import { CustomAutoField } from '/imports/ui/components/forms'
+import { AutoForm } from 'uniforms-material'
+import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
 import PdfTemplateContext from './context'
 
@@ -42,7 +42,7 @@ const Add = () => {
           schema={schemaBridge}
           model={item}
           onSubmit={save}
-          // autoField={CustomAutoField}
+          autoField={CustomAutoField}
         />
         <Button type="button" onClick={back}>
           Cancel

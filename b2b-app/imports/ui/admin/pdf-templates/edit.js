@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+// import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
 import TemplateContext from './context'
 
@@ -14,7 +14,7 @@ const Edit = () => {
 
   const save = (model) => {
     try {
-      methods.update(item._id, model)
+      methods.update(model)
     } catch (e) {
       console.log('error: ', e)
       alert(`Update error ${e.message}`)
@@ -36,7 +36,7 @@ const Edit = () => {
         schema={schemaBridge}
         model={item}
         onSubmit={save}
-        autoField={CustomAutoField}
+        // autoField={CustomAutoField}
       />
       <Button type="button" onClick={back}>
         Cancel
@@ -50,7 +50,7 @@ Edit.propTypes = {
   // loading: PropTypes.bool.isRequired,
   // id: PropTypes.string.isRequired,
   item: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
     name: PropTypes.string.isRequired,
     revision: PropTypes.number.isRequired,
     updatedAt: PropTypes.any,

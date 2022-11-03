@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useHistory } from 'react-router-dom'
@@ -7,7 +7,6 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
 import config from './config'
 import PropTypes from 'prop-types'
-import { SettingsRemote } from '@material-ui/icons'
 
 const PdfTemplateContext = React.createContext({})
 
@@ -17,8 +16,9 @@ export const PdfTemplateProvider = (props) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
   const [item, setItem] = useState({})
-  const [pdfid, setPdfid] = useState()
 
+  const [pdfid, setPdfid] = useState()
+  // window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) || ''
   push = useHistory()?.push
   const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
 
@@ -27,8 +27,8 @@ export const PdfTemplateProvider = (props) => {
     push('/admin/pdf-templates')
   }
 
-  const update = (id, form) => {
-    meteorCall('update.pdfTemplates', 'updating', form)
+  const update = (form) => {
+    meteorCall('update.pdfTemplates', 'updating', form).then((res) => setItem(form))
     push('/admin/pdf-templates')
   }
 
@@ -39,8 +39,8 @@ export const PdfTemplateProvider = (props) => {
   const add = () => push(`/admin/pdf-templates/add`)
 
   const edit = (id) => {
-    setPdfid(id)
     push(`/admin/pdf-templates/edit/${id}`)
+    setPdfid(id)
   }
 
   const view = (id) => {
@@ -62,17 +62,17 @@ export const PdfTemplateProvider = (props) => {
     }
   }
 
-  const methods = { remove, save, update, insert, view, edit, add, archive, goBack }
+  methods = { remove, save, update, insert, view, edit, add, archive, goBack }
 
   const { loadingPdfs, items = [] } = useTracker(() => {
+    let pdfs
     const sub = Meteor.subscribe('list.pdfTemplates')
-    let items
     if (sub.ready()) {
-      items = PdfTemplates.find({}).fetch()
+      pdfs = PdfTemplates.find({}).fetch()
     }
     return {
       loadingPdfs: !sub.ready(),
-      items,
+      items: pdfs,
     }
   })
   let history
@@ -92,12 +92,13 @@ export const PdfTemplateProvider = (props) => {
       value={{
         loadingPdfs,
         items,
-        // loadingPdf,
         item,
+        pdfid,
         methods: methods,
         test: 'I am not a robout',
       }}
     >
+      {loadingPdfs && <div>loading</div>}
       {children}
     </PdfTemplateContext.Provider>
   )

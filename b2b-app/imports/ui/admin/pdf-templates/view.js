@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 const View = () => {
   const classes = useStyles()
-  const { item, methods } = React.useContext(PdfTemplateContext)
+  const { item } = React.useContext(PdfTemplateContext)
 
   return (
     <div>
