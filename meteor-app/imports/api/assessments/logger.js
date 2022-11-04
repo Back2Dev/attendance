@@ -10,19 +10,19 @@ export const LoggerSchema = new SimpleSchema({
   aId: { type: String, label: 'Assessment ID' },
   status: {
     type: SimpleSchema.Integer,
-    label: 'Updated status'
+    label: 'Updated status',
   },
   eventType: {
     type: SimpleSchema.Integer,
-    label: 'Type of event'
+    label: 'Type of event',
   },
   data: {
     type: String,
     label: 'Log data', // mechanic name etc
-    optional: true
+    optional: true,
   },
   createdAt,
-  updatedAt
+  updatedAt,
 })
 
 Logger.attachSchema(LoggerSchema)
@@ -31,6 +31,6 @@ export default Logger
 
 Meteor.startup(() => {
   if (Meteor.isServer) {
-    Logger.rawCollection().ensureIndex({ aId: 1 })
+    Logger.rawCollection().createIndex({ aId: 1 })
   }
 })
