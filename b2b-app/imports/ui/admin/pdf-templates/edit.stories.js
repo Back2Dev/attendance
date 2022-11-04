@@ -1,6 +1,5 @@
 import React from 'react'
 import Edit from './edit'
-import PdfTemplateProvider from './context'
 
 export default {
   title: 'pdf-template/Edit',
@@ -12,11 +11,7 @@ export default {
   },
 }
 const Template = (args) => {
-  return (
-    <PdfTemplateProvider {...args}>
-      <Edit />
-    </PdfTemplateProvider>
-  )
+  return <Edit {...args} />
 }
 
 export const Edit1 = Template.bind({})

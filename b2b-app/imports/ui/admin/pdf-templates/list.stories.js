@@ -1,60 +1,35 @@
 import React from 'react'
 import List from './list'
-import PdfTemplateProvider, { PdfTemplateConsumer } from './context'
 import { actions } from '@storybook/addon-actions'
-
-const args = {
-  sbLoadingPdfs: false,
-  sbitems: items,
-  sbmethods: {
-    remove: (id) => console.log('removing item: ', id),
-    edit: (form) => console.log('updating form: ', form),
-    insert: (form) => console.log('inserting item: ', form),
-    view: (id) => console.log('viewing form id: ', id),
-    add: (form) => console.log('adding form: ', form),
-    archive: (rowids) => console.log('archiving forms from: ', rowids),
-    goBack: () => console.log('go back'),
-  },
-}
 
 export default {
   title: 'pdf-template/List',
   component: { List },
-  // argTypes: {
-  // sbmethods: {
-  //   remove: {
-  //     type: actions,
-  //   },
-  //   edit: {
-  //     type: actions,
-  //   },
-  //   insert: {
-  //     type: actions,
-  //   },
-  //   view: {
-  //     type: actions,
-  //   },
-  //   add: {
-  //     type: actions,
-  //   },
-  //   archive: {
-  //     type: actions,
-  //   },
-  //   goBack: {
-  //     type: actions,
-  //   },
-  // },
-  // },
-  // },
-  decorators: [
-    (Story) => {
-      return (
-        <PdfTemplateConsumer>
-          <Story />
-        </PdfTemplateConsumer>
-      )
+  argTypes: {
+    sbmethods: {
+      remove: {
+        type: actions,
+      },
+      edit: {
+        type: actions,
+      },
+      insert: {
+        type: actions,
+      },
+      view: {
+        type: actions,
+      },
+      add: {
+        type: actions,
+      },
+      archive: {
+        type: actions,
+      },
+      goBack: {
+        type: actions,
+      },
     },
-  ],
+  },
 }
 
 const items = [
@@ -100,11 +75,7 @@ const items = [
   },
 ]
 const Template = (args) => {
-  return (
-    <PdfTemplateProvider {...args}>
-      <List />
-    </PdfTemplateProvider>
-  )
+  return <List {...args} />
 }
 export const List1 = Template.bind({})
 
@@ -119,5 +90,6 @@ List1.args = {
     add: (form) => console.log('adding form: ', form),
     archive: (rowids) => console.log('archiving forms from: ', rowids),
     goBack: () => console.log('go back'),
+    update: (form) => console.log('updating form', form),
   },
 }

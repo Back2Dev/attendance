@@ -8,14 +8,25 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import config from './config'
 const debug = require('debug')('app:add')
-import PdfTemplateContext from './context'
+const PdfTemplateContext = React.lazy(() => {
+  import('./context')
+})
 
 import { obj2Search } from '/imports/api/util'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
-const List = () => {
-  const { items, methods, loadingPdfs } = React.useContext(PdfTemplateContext)
+const List = ({ sbitems = [], sbmethods = {} }) => {
+  let items
+  let methods
+  if (sbitems && sbmethods) {
+    items = sbitems
+    methods = sbmethods
+  } else {
+    const context = React.useContext(PdfTemplateContext)
+    items = context.items
+    methods = context.methods
+  }
   const [rowsSelected, setRowsSelected] = React.useState([])
   const [pdfs, setPdfs] = React.useState([])
   const tableRef = React.useRef(null)

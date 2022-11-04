@@ -4,16 +4,24 @@ import moment from 'moment'
 import Button from '@material-ui/core/Button'
 import { Box, Container, Grid, Typography } from '@material-ui/core'
 import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+// import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
-import PdfTemplateContext from './context'
+const PdfTemplateContext = React.lazy(() => {
+  import('./context')
+})
 
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:add')
 
-const Add = () => {
+const Add = ({ sbmethods = {} }) => {
   const item = config?.add?.defaultObject || {}
-  const { methods } = React.useContext(PdfTemplateContext)
+  let methods
+  if (!sbmethods) {
+    const context = React.useContext(PdfTemplateContext)
+    methods = context.methods
+  } else {
+    methods = sbmethods
+  }
   const save = (model) => {
     try {
       methods.save(model)
@@ -42,7 +50,7 @@ const Add = () => {
           schema={schemaBridge}
           model={item}
           onSubmit={save}
-          autoField={CustomAutoField}
+          // autoField={CustomAutoField}
         />
         <Button type="button" onClick={back}>
           Cancel
@@ -53,7 +61,7 @@ const Add = () => {
 }
 
 Add.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   item: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

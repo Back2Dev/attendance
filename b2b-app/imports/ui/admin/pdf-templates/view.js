@@ -11,7 +11,9 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import config from './config'
-import PdfTemplateContext from './context'
+const PdfTemplateContext = React.lazy(() => {
+  import('./context')
+})
 
 const debug = require('debug')('app:edit')
 
@@ -21,9 +23,15 @@ const useStyles = makeStyles({
   },
 })
 
-const View = () => {
+const View = ({ sbitem = {} }) => {
   const classes = useStyles()
-  const { item } = React.useContext(PdfTemplateContext)
+  let item
+  if (sbitem) {
+    item = sbitem
+  } else {
+    const context = React.useContext(PdfTemplateContext)
+    item = context.item
+  }
 
   return (
     <div>

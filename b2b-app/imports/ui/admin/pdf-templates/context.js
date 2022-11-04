@@ -77,7 +77,7 @@ export const PdfTemplateProvider = ({
     }
   }
 
-  methods = { remove, save, update, insert, view, edit, add, archive, goBack }
+  const methods = { remove, save, update, insert, view, edit, add, archive, goBack }
 
   const { loadingPdfs, items = [] } = useTracker(() => {
     let pdfs
