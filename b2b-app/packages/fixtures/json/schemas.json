@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Hand tool",
+    "slug": "tool",
+    "extends": "asset",
+    "active": true
+  },
+  {
+    "name": "Motor Vehicle",
+    "slug": "vehicle",
+    "active": true,
+    "extends": "asset"
+  },
+  {
+    "name": "Asset",
+    "slug": "asset",
+    "active": true,
+    "extends": "core"
+  },
+  {
+    "name": "Core",
+    "active": true,
+    "slug": "core",
+    "extends": ""
+  }
+]

@@ -20,12 +20,13 @@ Fixtures.loadAssets = function (items) {
       Fixtures.data[thing] = JSON.parse(Assets.getText(jsonFile))
     } catch (e) {
       // Does it look like a plain text file?
+      console.log(`File: ${jsonFile} is being tried as text`)
       const names = Assets.getText(jsonFile).split(/\n/)
       if (names.length) {
         Fixtures.data[thing] = names.map((name) => {
           return { name }
         })
-      } else console.error(`Error parsing JSON fixtures data file: ${jsonFile}\n  - error message is : '${e.message}'`)
+      } else console.trace(`Error parsing JSON fixtures data file: ${jsonFile}\n  - error message is : '${e.message}'`)
     }
   })
 }

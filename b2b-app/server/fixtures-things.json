@@ -3,57 +3,80 @@
     "table": "users",
     "name": "users",
     "key": "username",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
-
   {
     "table": "cronjobs",
     "name": "cronjobs",
     "key": "name",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
   {
     "table": "messageTemplates",
     "name": "message-templates",
     "key": "name",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
-
   {
     "table": "settings",
     "name": "settings",
     "key": "key",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
   {
     "table": "courses",
     "name": "courses",
     "key": "slug",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
   {
     "table": "events",
     "name": "events",
     "key": "name",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
   {
     "table": "triggers",
     "name": "triggers",
     "key": "slug",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
   {
     "table": "tools",
     "name": "tools",
     "key": "name",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
   },
-
   {
     "table": "serviceItems",
     "name": "service-items",
     "key": "name",
-    "env": ["all"]
+    "env": [
+      "all"
+    ]
+  },
+  {
+    "table": "schemas",
+    "name": "schemas",
+    "key": "slug",
+    "env": [
+      "all"
+    ]
   }
 ]

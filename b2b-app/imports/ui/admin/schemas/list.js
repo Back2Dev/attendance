@@ -50,7 +50,7 @@ const List = ({ data, methods }) => {
   const classes = useStyles()
   const [rows, setRows] = useState([])
   const [selectedRows, setSelectedRows] = useState(new Set())
-  const defaultSortColums = [{ columnKey: 'updatedAt', direction: 'DESC' }]
+  const defaultSortColums = []
   const [sortColumns, setSortColumns] = useState(defaultSortColums)
   useEffect(() => {
     setRows(data)
@@ -81,12 +81,20 @@ const List = ({ data, methods }) => {
       {
         key: 'name',
         name: 'Name',
+        width: 300,
         sortable: true,
         editor: TextEditor,
       },
       {
         key: 'slug',
         name: 'Slug',
+        width: 200,
+        sortable: true,
+        editor: TextEditor,
+      },
+      {
+        key: 'extends',
+        name: 'Extends',
         width: 200,
         sortable: true,
         editor: TextEditor,

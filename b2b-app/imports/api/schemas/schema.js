@@ -23,26 +23,27 @@ const ALLOWED_TYPES = {
 const Schemas = new Mongo.Collection('schemas')
 
 export const FieldsSchema = new SimpleSchema({
+  colName: { type: String, label: 'Field id' },
+  label: { type: String, label: 'Display label (for UI)' },
   type: {
     type: String,
     allowedValues: Object.keys(ALLOWED_TYPES),
   },
-  name: String,
-  core: Boolean,
   defaultValue: OptionalString, // Will this work?
-  optional: Boolean,
-  label: OptionalString,
+  optional: { type: Boolean, defaultValue: false },
 })
 
 export const SchemasSchema = new SimpleSchema({
   _id: OptionalRegExId,
 
-  name: String,
+  name: { type: String, label: 'Collection name' },
+  slug: { type: String, label: 'Collection id' },
+  extends: OptionalString,
   fields: {
     type: Array,
     optional: true,
   },
-  'fields.$': 'FieldsSchema',
+  'fields.$': FieldsSchema,
   active: {
     type: Boolean,
     defaultValue: true,

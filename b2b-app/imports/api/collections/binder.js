@@ -26,6 +26,7 @@ import StandupNotes, { StandupNotesSchema } from '/imports/api/standup-notes/sch
 import Standups, { StandupsSchema } from '/imports/api/standups/schema'
 import Teams, { TeamsSchema } from '/imports/api/teams/schema'
 import Surveys, { SurveysSchema } from '/imports/api/surveys/schema'
+import Schemas, { SchemasSchema } from '/imports/api/schemas/schema'
 import Tools, { ToolsSchema } from '/imports/api/tools/schema'
 import Triggers, { TriggersSchema } from '/imports/api/triggers/schema'
 
@@ -71,6 +72,8 @@ const getCollection = (name) => {
       return { collection: Tools, schema: ToolsSchema }
     case 'triggers':
       return { collection: Triggers, schema: TriggersSchema }
+    case 'schemas':
+      return { collection: Schemas, schema: SchemasSchema }
     default:
       return null
   }

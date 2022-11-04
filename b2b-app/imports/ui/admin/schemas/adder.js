@@ -1,8 +1,6 @@
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
+import { withTracker } from 'meteor/react-meteor-data'
 import { useHistory } from 'react-router-dom'
-import Schemas from '/imports/api/schemas/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
 import Add from './add'
@@ -23,6 +21,7 @@ const Loading = (props) => {
   if (props.loading) return <Loader loading />
   return <Add {...props}></Add>
 }
+
 const Adder = withTracker((props) => {
   const defaultObject = config?.add?.defaultObject || {}
   return {
@@ -31,4 +30,5 @@ const Adder = withTracker((props) => {
     loading: false,
   }
 })(Loading)
+
 export default Adder

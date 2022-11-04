@@ -13,6 +13,7 @@ const EXTRA_THINGS = [
   'tools',
   'triggers',
   'service-items',
+  'schemas',
 ]
 const things = ['users'].concat(EXTRA_THINGS)
 

@@ -1,5 +1,6 @@
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import { FieldsSchema } from '/imports/api/schemas/schema'
 import {
   OptionalRegExId,
   RegExId,
@@ -17,11 +18,13 @@ const dateFormat = {
 
 const editSchema = new SimpleSchema({
   name: String,
+  slug: String,
+  extends: OptionalString,
   fields: {
     type: Array,
     optional: true,
   },
-  'fields.$': 'FieldSchema',
+  'fields.$': FieldsSchema,
   active: {
     type: Boolean,
     defaultValue: true,
@@ -50,7 +53,8 @@ export default config = {
   add: {
     defaultObject: {
       name: 'Untitled',
-      slug: 'xxx',
+      slug: 'untitled',
+      extends: 'core',
     },
   },
 }
