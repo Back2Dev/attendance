@@ -16,20 +16,17 @@ const PdfTemplates = new Mongo.Collection('pdfTemplates')
 export const PdfTemplatesSchema = new SimpleSchema({
   _id: OptionalRegExId,
 
-  
-  "name": String,
-  "revision": {
-    "type": SimpleSchema.Integer,
-    "defaultValue": "1"
+  name: String,
+  revision: {
+    type: SimpleSchema.Integer,
+    defaultValue: '1',
   },
-  "description": OptionalString,
-  "active": {
-    "type": Boolean,
-    "defaultValue": true
+  description: OptionalString,
+  active: {
+    type: Boolean,
+    defaultValue: true,
   },
-  "source": OptionalString
-,
-
+  source: OptionalString,
   createdAt,
   updatedAt,
 })
