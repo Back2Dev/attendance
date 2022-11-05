@@ -1,19 +1,12 @@
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import {
-  OptionalRegExId,
-  RegExId,
-  OptionalString,
-  Blackbox,
-  OptionalBlackbox,
-  OptionalInteger,
-} from '/imports/api/utils/schema-util'
+import { OptionalString } from '/imports/api/utils/schema-util'
 
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: '',
-}
+// const dateFormat = {
+//   inputFormat: 'DD/MM/YY hh:mm',
+//   outputFormat: 'DD/MM/YY h:mm A',
+//   invalidPlaceholder: '',
+// }
 
 const editSchema = new SimpleSchema({
   name: String,
@@ -46,7 +39,7 @@ const addSchema = new SimpleSchema({
 //
 // Configuration to control display of individual records in a table
 //
-export default config = {
+const config = {
   view: {
     header: true, // Displays a heading row
     rows: [
@@ -80,3 +73,5 @@ export default config = {
     ],
   },
 }
+
+export default config
