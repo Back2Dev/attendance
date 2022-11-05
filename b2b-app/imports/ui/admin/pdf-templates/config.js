@@ -16,19 +16,31 @@ const dateFormat = {
 }
 
 const editSchema = new SimpleSchema({
-  
-  "name": String,
-  "revision": {
-    "type": SimpleSchema.Integer,
-    "defaultValue": "1"
+  name: String,
+  revision: {
+    type: SimpleSchema.Integer,
+    defaultValue: '1',
   },
-  "description": OptionalString,
-  "active": {
-    "type": Boolean,
-    "defaultValue": true
+  description: OptionalString,
+  active: {
+    type: Boolean,
+    defaultValue: true,
   },
-  "source": OptionalString
-,
+  source: OptionalString,
+})
+
+const addSchema = new SimpleSchema({
+  name: String,
+  revision: {
+    type: SimpleSchema.Integer,
+    defaultValue: '1',
+  },
+  description: OptionalString,
+  active: {
+    type: Boolean,
+    defaultValue: true,
+  },
+  source: OptionalString,
 })
 
 //
@@ -43,18 +55,28 @@ export default config = {
     ],
   },
   edit: { schema: new SimpleSchema2Bridge(editSchema) },
-  list: {
-    columns: [{ field: 'name', title: 'name', editor: true , formatter: null},
-  { field: 'revision', title: 'revision', editor: true , formatter: null},
-  { field: 'description', title: 'description', editor: true , formatter: null},
-  { field: 'active', title: 'active', editor: true , formatter: null},
-  { field: 'source', title: 'source', editor: true , formatter: null}],
-  },
   add: {
+    schema: new SimpleSchema2Bridge(addSchema),
     defaultObject: {
-  "name": "Untitled",
-  "description": "Description",
-  "code": "XXX"
-},
+      name: 'Untitled',
+      description: 'Description',
+      revision: '1',
+      active: true,
+    },
+  },
+  list: {
+    columns: [
+      { field: 'name', title: 'name', editor: true, formatter: null },
+      { field: 'revision', title: 'revision', editor: true, formatter: null },
+      { field: 'description', title: 'description', editor: true, formatter: null },
+      { field: 'active', title: 'active', editor: true, formatter: null },
+      { field: 'source', title: 'source', editor: true, formatter: null },
+    ],
+  },
+  browse: {
+    columns: [
+      { field: 'name', title: 'name', formatter: null },
+      { field: '_id', title: '', formatter: null },
+    ],
   },
 }
