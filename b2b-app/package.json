@@ -102,6 +102,7 @@
     "node-cron": "^2.0.3",
     "numeral": "^2.0.6",
     "patch-package": "6.4.7",
+    "pd-playground": "^1.0.1",
     "pdf-lib": "^1.16.0",
     "pdfmake": "^0.1.71",
     "prismjs": "^1.27.0",
