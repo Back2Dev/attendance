@@ -9,13 +9,9 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { questionOptions } from '$sb/components/question/field/options'
 import { IdAtom } from '$sb/recoil/atoms'
-
+import OptionField from '$sb/components/question/field/option-field'
 import PropTypes from 'prop-types'
 import { TextField, Grid, InputAdornment, Button, MenuItem } from '@material-ui/core'
-// import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
-// import { useBuilder } from '/imports/ui/forms/survey-builder/context'
-import { OptionField } from './option-field'
-// import { makeStyles } from '@material-ui/core/styles'
 import { FieldImage } from './image'
 import SimpleSchema from 'simpl-schema'
 import { slugify } from '$sb/utils'
@@ -132,7 +128,6 @@ const Question = ({ onQuestionChange, question }) => {
           value={question.type}
           onChange={({ target: { value } }) => {
             question.type = value
-
             onQuestionChange({ question })
           }}
           label="Question Type"
@@ -146,53 +141,56 @@ const Question = ({ onQuestionChange, question }) => {
         </TextField>
       </Grid>
 
-      {Object.entries(showField)
-        .filter(([_, show]) => show)
-        .map(([key]) => {
-          switch (typeof question[key]) {
-            case 'boolean':
-              return (
-                <Grid item xs={12} md={9} lg={10} key={key}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    margin="dense"
-                    select
-                    value={question[key] || false}
-                    onChange={({ target: { value } }) => {
-                      question[key] = value
-                      onQuestionChange({ question })
-                    }}
-                    label={questionOptions[key]}
-                  >
-                    <MenuItem key={'true'} value={true}>
-                      True
-                    </MenuItem>
-                    <MenuItem key={'false'} value={false}>
-                      False
-                    </MenuItem>
-                  </TextField>
-                </Grid>
-              )
-            default:
-              return (
-                <Grid item xs={12} md={9} lg={10} key={key}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    margin="dense"
-                    value={question[key] || ''}
-                    onChange={({ target: { value } }) => {
-                      question[key] = value
-                      onQuestionChange({ question })
-                    }}
-                    label={questionOptions[key]}
-                  />
-                </Grid>
-              )
-          }
-        })}
-
+      <Grid container spacing={1} alignItems="flex-start">
+        {Object.entries(showField)
+          .filter(([_, show]) => show)
+          .map(([key]) => {
+            switch (typeof question[key]) {
+              case 'boolean':
+                return (
+                  <Grid item xs={12} md={8} lg={8} key={key}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      margin="dense"
+                      select
+                      value={question[key] || false}
+                      onChange={({ target: { value } }) => {
+                        question[key] = value
+                        onQuestionChange({ question })
+                      }}
+                      label={questionOptions[key]}
+                      variant="filled"
+                    >
+                      <MenuItem key={'true'} value={true}>
+                        True
+                      </MenuItem>
+                      <MenuItem key={'false'} value={false}>
+                        False
+                      </MenuItem>
+                    </TextField>
+                  </Grid>
+                )
+              default:
+                return (
+                  <Grid item xs={12} md={8} lg={8} key={key}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      margin="dense"
+                      value={question[key] || ''}
+                      onChange={({ target: { value } }) => {
+                        question[key] = value
+                        onQuestionChange({ question })
+                      }}
+                      label={questionOptions[key]}
+                      variant="filled"
+                    />
+                  </Grid>
+                )
+            }
+          })}
+      </Grid>
       {/* <Grid item xs={2}>
         {part.image && (
               <FieldImage

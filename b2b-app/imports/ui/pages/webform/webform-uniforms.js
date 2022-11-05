@@ -44,7 +44,7 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
-import PhoneField from '/imports/ui/components/phone-field'
+import PhoneField from '/imports/ui/components/mui-phone-number'
 // import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -165,15 +165,7 @@ const TextQ = ({ q, a }) => {
       return <span>{a.defaultValue}</span>
 
     case 'phoneNumber':
-      return (
-        <Fragment>
-          <PhoneField name={id} id={id} key={id}></PhoneField>
-          <ErrorField name={id} id={id}>
-            {errorMessage || 'Phone Number is required or is invalid'}
-          </ErrorField>
-        </Fragment>
-      )
-
+      return <PhoneField name={id} id={id} key={id}></PhoneField>
     case 'password':
       return (
         <Fragment>

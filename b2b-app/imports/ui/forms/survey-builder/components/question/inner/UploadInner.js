@@ -10,7 +10,7 @@ const UploadInner = ({ question, onQuestionChange }) => {
   }
 
   return (
-    <div>
+    <div style={{ padding: '2rem' }}>
       <TextField
         id="MaxSize"
         label="MaxSize(MB)"

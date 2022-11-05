@@ -152,7 +152,7 @@ const Answer = ({
                   position="end"
                 >
                   <OptionList
-                    options={textOptions}
+                    options={customOptions(answer.type)}
                     onToggle={onToggle}
                     showField={showField}
                   />
@@ -216,4 +216,18 @@ const Answer = ({
       </Grid>
     </Box>
   )
+}
+
+const customOptions = (type) => {
+  switch (type) {
+    case 'password':
+      return { ...textOptions, confirmPassword: 'Confirm Password' }
+    case 'phoneNumber':
+      let phoneOptions = { ...textOptions }
+      delete phoneOptions.placeholder
+      delete phoneOptions.label
+      return phoneOptions
+    default:
+      return textOptions
+  }
 }
