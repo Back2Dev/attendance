@@ -14,6 +14,6 @@ Meteor.publish('id.pdfTemplates', (id) => {
 Meteor.publish('all.names.pdfTemplates', () => {
   return PdfTemplates.find(
     {},
-    { fields: { name: 1 }, limit: 50, sort: { createdAt: -1 } }
+    { fields: { name: 1, source: 1 }, limit: 50, sort: { createdAt: -1 } }
   )
 })
