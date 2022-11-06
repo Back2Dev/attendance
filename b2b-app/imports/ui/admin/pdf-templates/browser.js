@@ -106,15 +106,11 @@ const PdfTemplatesNameLister = withTracker(
 const PdfTemplatesBrowser = () => {
   const [, setSample] = React.useState('')
   const [selectedTemplate, setSelectedTemplate] = React.useState('')
-  const [availableSources, setAvailableSources] = React.useState([])
 
   // code state
   const [code, setCode] = React.useState('dd = {content: "Hello "}')
 
-  const addANewRow = () => {
-    methods.add()
-  }
-  const btn = { action: addANewRow, id: 'add', caption: 'Save', color: 'primary' }
+  const btn = { id: 'add', caption: 'Save', color: 'primary' }
 
   React.useEffect(() => {
     const items = PdfTemplates.find(
@@ -124,7 +120,7 @@ const PdfTemplatesBrowser = () => {
       row.search = obj2Search(row)
       return row
     })
-    if (items.length > 0) setCode(items[0].source || '{content: ["Hello World!"]')
+    if (items.length > 0) setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
   }, [selectedTemplate])
 
   return (
@@ -174,7 +170,7 @@ const PdfTemplatesBrowser = () => {
             <Button
               id={btn.id}
               key={btn.id}
-              onClick={btn.action}
+              onClick={() => methods.update({ _id: selectedTemplate, source: code })}
               color={btn.color}
               variant="contained"
             >
