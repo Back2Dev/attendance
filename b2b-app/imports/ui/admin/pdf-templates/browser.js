@@ -11,6 +11,7 @@ import config from './config'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { TextField } from '@material-ui/core'
 import { Button } from '/imports/ui/utils/generic'
+import PdfPlayground from 'pd-playground'
 
 // const debug = require('debug')('app:lister')
 // const idField = '_id'
@@ -105,11 +106,27 @@ const PdfTemplatesNameLister = withTracker(
 const PdfTemplatesBrowser = () => {
   const [, setSample] = React.useState('')
   const [selectedTemplate, setSelectedTemplate] = React.useState('')
+  const [availableSources, setAvailableSources] = React.useState([])
+
+  // code state
+  const [code, setCode] = React.useState('dd = {content: "Hello "}')
 
   const addANewRow = () => {
     methods.add()
   }
   const btn = { action: addANewRow, id: 'add', caption: 'Save', color: 'primary' }
+
+  React.useEffect(() => {
+    const items = PdfTemplates.find(
+      { _id: selectedTemplate },
+      { fields: { name: 1, source: 1 } }
+    ).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    if (items.length > 0) setCode(items[0].source || '{content: ["Hello World!"]')
+  }, [selectedTemplate])
+
   return (
     <div>
       <div
@@ -131,9 +148,14 @@ const PdfTemplatesBrowser = () => {
           style={{
             width: '100%',
             height: '600px',
-            border: 'solid red 10px',
+            border: 'solid grey 10px',
+            overflow: 'scroll',
           }}
-        ></div>
+        >
+          <PdfPlayground code={code} setCode={setCode} />
+          {/*         
+          <Playground /> */}
+        </div>
         <div style={{ padding: '10px' }}>
           <div style={{ float: 'left' }}>
             <Autocomplete
