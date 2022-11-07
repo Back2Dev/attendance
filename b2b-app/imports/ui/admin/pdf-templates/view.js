@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,9 +11,11 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import config from './config'
-const PdfTemplateContext = React.lazy(() => {
-  import('./context')
-})
+// import loadable from '@loadable/component'
+// const PdfTemplateContext = loadable(() => {
+//   import('./context')
+// })
+import PdfTemplateContext from './context'
 
 const debug = require('debug')('app:edit')
 
@@ -23,7 +25,7 @@ const useStyles = makeStyles({
   },
 })
 
-const View = ({ sbitem = {} }) => {
+const View = ({ sbitem }) => {
   const classes = useStyles()
   let item
   if (sbitem) {
@@ -31,7 +33,9 @@ const View = ({ sbitem = {} }) => {
   } else {
     const context = React.useContext(PdfTemplateContext)
     item = context.item
+    console.log(item)
   }
+  // const { item } = React.useContext(PdfTemplateContext)
 
   return (
     <div>

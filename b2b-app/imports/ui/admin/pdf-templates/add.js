@@ -6,22 +6,22 @@ import { Box, Container, Grid, Typography } from '@material-ui/core'
 import { AutoForm } from 'uniforms-material'
 // import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
-const PdfTemplateContext = React.lazy(() => {
-  import('./context')
-})
+import PdfTemplateContext from './context'
 
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:add')
 
-const Add = ({ sbmethods = {} }) => {
+const Add = ({ sbmethods }) => {
   const item = config?.add?.defaultObject || {}
+
   let methods
-  if (!sbmethods) {
+  if (sbmethods) {
+    methods = sbmethods
+  } else {
     const context = React.useContext(PdfTemplateContext)
     methods = context.methods
-  } else {
-    methods = sbmethods
   }
+  // const { methods } = React.useContext(PdfTemplateContext)
   const save = (model) => {
     try {
       methods.save(model)

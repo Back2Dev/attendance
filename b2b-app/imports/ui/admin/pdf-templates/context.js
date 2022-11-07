@@ -11,14 +11,7 @@ import PropTypes from 'prop-types'
 const PdfTemplateContext = React.createContext({})
 //PdfTemplateContext.displayName = 'PdfTemplateContext'
 
-export const PdfTemplateProvider = ({
-  children,
-  sbmethods,
-  sbitems,
-  sbitem,
-  sbpdfid,
-  sbLoadingPdfs,
-}) => {
+export const PdfTemplateProvider = (props) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
   const [item, setItem] = useState({})
@@ -38,13 +31,15 @@ export const PdfTemplateProvider = ({
   const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
 
   const save = (form) => {
-    meteorCall('insert.pdfTemplates', 'saving', form)
-    push('/admin/pdf-templates')
+    meteorCall('insert.pdfTemplates', 'saving', form).then(() =>
+      push('/admin/pdf-templates')
+    )
   }
 
   const update = (form) => {
-    meteorCall('update.pdfTemplates', 'updating', form).then((res) => setItem(form))
-    push('/admin/pdf-templates')
+    meteorCall('update.pdfTemplates', 'updating', form)
+      .then((res) => setItem(form))
+      .then(() => push('/admin/pdf-templates'))
   }
 
   const goBack = useHistory().goBack
@@ -114,7 +109,7 @@ export const PdfTemplateProvider = ({
       }}
     >
       {loadingPdfs && <div>loading</div>}
-      {children}
+      {props.children}
     </PdfTemplateContext.Provider>
   )
 }
