@@ -8,8 +8,8 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import config from './config'
 const debug = require('debug')('app:add')
-import { obj2Search } from '/imports/api/util'
 import PdfTemplateContext from './context'
+import { obj2Search } from '/imports/api/util'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
@@ -33,7 +33,7 @@ const List = () => {
     setPdfs(allPdfs)
     console.log('items: ', { items })
     console.log('methods: ', { methods })
-  }, [items, loadingPdfs])
+  }, [items])
 
   const stdCols = [
     {
