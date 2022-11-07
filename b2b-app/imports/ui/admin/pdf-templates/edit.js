@@ -4,29 +4,13 @@ import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
 // import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
-
-// const PdfTemplateContext = React.lazy(() => {
-//   import('./context')
-// })
 import PdfTemplateContext from './context'
 
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:edit')
 
-const Edit = ({ sbitem, sbmethods }) => {
-  let item
-  let methods
-
-  if (sbmethods && sbitem) {
-    methods = sbmethods
-    item = sbitem
-  } else {
-    const context = React.useContext(PdfTemplateContext)
-    methods = context.methods
-    item = context.item
-  }
-
-  // const { item, methods } = React.useContext(PdfTemplateContext)
+const Edit = () => {
+  const { item, methods } = React.useContext(PdfTemplateContext)
 
   const save = (model) => {
     try {

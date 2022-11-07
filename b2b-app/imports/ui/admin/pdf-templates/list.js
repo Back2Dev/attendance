@@ -8,28 +8,13 @@ import Eye from '@material-ui/icons/Visibility'
 import PencilSquare from '@material-ui/icons/Edit'
 import config from './config'
 const debug = require('debug')('app:add')
-// const PdfTemplateContext = React.lazy(() => {
-//   import('./context')
-// })
-import PdfTemplateContext from './context'
-
 import { obj2Search } from '/imports/api/util'
+import PdfTemplateContext from './context'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
-const List = ({ sbitems, sbmethods }) => {
-  let items
-  let methods
-  if (sbitems && sbmethods) {
-    items = sbitems
-    methods = sbmethods
-  } else {
-    const context = React.useContext(PdfTemplateContext)
-    items = context.items
-    methods = context.methods
-  }
-
-  // const { items, methods } = React.useContext(PdfTemplateContext)
+const List = () => {
+  const { items, methods, loadingPdfs } = React.useContext(PdfTemplateContext)
 
   const [rowsSelected, setRowsSelected] = React.useState([])
   const [pdfs, setPdfs] = React.useState([])
@@ -48,7 +33,7 @@ const List = ({ sbitems, sbmethods }) => {
     setPdfs(allPdfs)
     console.log('items: ', { items })
     console.log('methods: ', { methods })
-  }, [items])
+  }, [items, loadingPdfs])
 
   const stdCols = [
     {
@@ -152,7 +137,7 @@ const List = ({ sbitems, sbmethods }) => {
     methods.archive(rowsSelected)
   }
   let Contents
-  if (!pdfs) {
+  if (!pdfs.length) {
     Contents = () => (
       <>
         <span>No data found</span>

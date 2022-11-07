@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Route, Switch, useHistory } from 'react-router-dom'
-import Loading from '/imports/ui/components/commons/loading.js'
-// import Lister from './lister.js'
-import Edit from './edit.js'
-import View from './view.js'
-import Add from './add.js'
-import NotFound from '/imports/ui/components/commons/not-found.js'
-import { PdfTemplateProvider } from './context'
-import PdfTemplatesList from './list'
-
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
+import { useHistory } from 'react-router-dom'
 import PdfTemplates from '/imports/api/pdf-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
+import Loader from '/imports/ui/components/commons/loading.js'
+import config from './config'
+import PropTypes from 'prop-types'
 
-export default function PdfTemplatesApp() {
+const PdfTemplateContext = React.createContext({})
+//PdfTemplateContext.displayName = 'PdfTemplateContext'
+
+export const PdfTemplateProvider = (props) => {
+  const mounted = useRef(true)
+  useEffect(() => () => (mounted.current = false), [])
   const [item, setItem] = useState({})
 
   let docId
@@ -75,8 +74,8 @@ export default function PdfTemplatesApp() {
 
   const methods = { remove, save, update, insert, view, edit, add, archive, goBack }
 
-  const { loadingPdfs, items } = useTracker(() => {
-    let pdfs = []
+  const { loadingPdfs, items = [] } = useTracker(() => {
+    let pdfs
     const sub = Meteor.subscribe('list.pdfTemplates')
     if (sub.ready()) {
       pdfs = PdfTemplates.find({}).fetch()
@@ -86,7 +85,6 @@ export default function PdfTemplatesApp() {
       items: pdfs,
     }
   })
-
   let history
 
   useEffect(() => {
@@ -99,21 +97,23 @@ export default function PdfTemplatesApp() {
     }
   }, [pdfid])
 
-  const initialState = {
-    loadingPdfs: loadingPdfs,
-    item: item,
-    items: items,
-    methods: methods,
-  }
   return (
-    <PdfTemplateProvider value={initialState}>
-      <Switch>
-        <Route path="/admin/pdf-templates/edit/:id" exact component={Edit} />
-        <Route path="/admin/pdf-templates/add/" exact component={Add} />
-        <Route path="/admin/pdf-templates/view/:id" exact component={View} />
-        <Route path="/admin/pdf-templates" exact component={PdfTemplatesList} />
-        <Route component={NotFound} />
-      </Switch>
-    </PdfTemplateProvider>
+    <PdfTemplateContext.Provider
+      value={{
+        loadingPdfs,
+        items,
+        item,
+        pdfid,
+        methods: methods,
+        test: 'I am not a robout',
+      }}
+    >
+      {loadingPdfs && <div>loading</div>}
+      {props.children}
+    </PdfTemplateContext.Provider>
   )
 }
+
+export default PdfTemplateContext
+
+export const PdfTemplateConsumer = PdfTemplateContext.Consumer

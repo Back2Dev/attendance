@@ -11,10 +11,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import config from './config'
-// import loadable from '@loadable/component'
-// const PdfTemplateContext = loadable(() => {
-//   import('./context')
-// })
+
 import PdfTemplateContext from './context'
 
 const debug = require('debug')('app:edit')
@@ -25,17 +22,9 @@ const useStyles = makeStyles({
   },
 })
 
-const View = ({ sbitem }) => {
+const View = () => {
   const classes = useStyles()
-  let item
-  if (sbitem) {
-    item = sbitem
-  } else {
-    const context = React.useContext(PdfTemplateContext)
-    item = context.item
-    console.log(item)
-  }
-  // const { item } = React.useContext(PdfTemplateContext)
+  const { item } = React.useContext(PdfTemplateContext)
 
   return (
     <div>
