@@ -14,6 +14,7 @@ import {
   Typography,
   Button,
 } from '@material-ui/core'
+import { Edit } from '@material-ui/icons'
 import SearchIcon from '@material-ui/icons/Search'
 import AddModal from './components/add-modal'
 import config from './config'
@@ -119,6 +120,22 @@ const List = ({ data, methods }) => {
         sortable: true,
         type: 'date',
         formatter: ({ row }) => moment(row.updatedAt).format('DD/MM/YYYY HH:mm'),
+      },
+      {
+        key: 'edit-pencil',
+        name: 'Edit',
+        type: 'boolean',
+        formatter({ row: { slug, _id: id } }) {
+          if (slug === 'asset' || slug === 'core') return <span></span>
+          return (
+            <span
+              style={{ marginLeft: '40%', cursor: 'pointer' }}
+              onClick={() => push(`/admin/schemas/edit/${id}`)}
+            >
+              <Edit />
+            </span>
+          )
+        },
       },
     ]
   })
