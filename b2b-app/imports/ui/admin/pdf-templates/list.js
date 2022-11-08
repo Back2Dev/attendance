@@ -2,17 +2,87 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
-import { ReactTabulator } from 'react-tabulator'
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import { TabAppbar } from '/imports/ui/utils/generic'
-
+import Eye from '@material-ui/icons/Visibility'
+import PencilSquare from '@material-ui/icons/Edit'
+import config from './config'
 const debug = require('debug')('app:add')
+// const PdfTemplateContext = React.lazy(() => {
+//   import('./context')
+// })
+import PdfTemplateContext from './context'
+
+import { obj2Search } from '/imports/api/util'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
-const List = ({ items, methods, columns }) => {
-  const [rowsSelected, setRowsSelected] = React.useState([])
+const List = ({ sbitems, sbmethods }) => {
+  let items
+  let methods
+  if (sbitems && sbmethods) {
+    items = sbitems
+    methods = sbmethods
+  } else {
+    const context = React.useContext(PdfTemplateContext)
+    items = context.items
+    methods = context.methods
+  }
 
+  // const { items, methods } = React.useContext(PdfTemplateContext)
+
+  const [rowsSelected, setRowsSelected] = React.useState([])
+  const [pdfs, setPdfs] = React.useState([])
   const tableRef = React.useRef(null)
+
+  React.useEffect(() => {
+    if (!items) {
+      setPdfs([])
+      console.log('No PDF templates found')
+      return
+    }
+    const allPdfs = items.map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    setPdfs(allPdfs)
+    console.log('items: ', { items })
+    console.log('methods: ', { methods })
+  }, [items])
+
+  const stdCols = [
+    {
+      formatter: 'rowSelection',
+      width: 25,
+      hozAlign: 'center',
+      headerSort: false,
+      cellClick: function (e, cell) {
+        cell.getRow().toggleSelect()
+      },
+    },
+    {
+      formatter: reactFormatter(<Eye />),
+      headerSort: false,
+      width: 25,
+      hozAlign: 'center',
+      cellClick: (e, cell) => {
+        const id = cell.getData()[idField]
+        if (!id) alert(`Could not get id from [${idField}]`)
+        else methods.view(id)
+      },
+    },
+    {
+      formatter: reactFormatter(<PencilSquare />),
+      width: 25,
+      headerSort: false,
+      hozAlign: 'center',
+      cellClick: (e, cell) => {
+        const id = cell.getData()[idField]
+        if (!id) alert(`Could not get id from [${idField}]`)
+        else methods.edit(id)
+      },
+    },
+  ]
 
   const downloadCSV = () => {
     if (!tableRef || !tableRef.current) {
@@ -66,7 +136,7 @@ const List = ({ items, methods, columns }) => {
     rowsSelected.forEach((id) => methods.remove(id))
     if (idField === 'id') {
       // Latency compensation for non-reactive database
-      const newRows = items.filter((row) => !rowsSelected.includes(row[idField]))
+      const newRows = pdfs.filter((row) => !rowsSelected.includes(row[idField]))
       setRows(newRows)
       setRowsSelected([])
     }
@@ -81,18 +151,24 @@ const List = ({ items, methods, columns }) => {
     if (rowsSelected.length === 0) alert('Please select one or more items to Archive')
     methods.archive(rowsSelected)
   }
-
-  if (!items.length) {
-    Contents = () => <span>No data found</span>
+  let Contents
+  if (!pdfs) {
+    Contents = () => (
+      <>
+        <span>No data found</span>
+      </>
+    )
   } else {
     Contents = () => (
-      <ReactTabulator
-        ref={tableRef}
-        columns={columns}
-        data={items}
-        options={tableOptions}
-        cellEdited={onCellEdited}
-      />
+      <>
+        <ReactTabulator
+          ref={tableRef}
+          columns={stdCols.concat(config.list.columns)}
+          data={pdfs}
+          options={tableOptions}
+          cellEdited={onCellEdited}
+        />
+      </>
     )
   }
   const searchChange = (e) => {
@@ -125,9 +201,26 @@ const List = ({ items, methods, columns }) => {
 }
 
 List.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  items: PropTypes.array,
-  methods: PropTypes.object.isRequired,
-  columns: PropTypes.array.isRequired,
+  loadingPdfs: PropTypes.bool,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      revision: PropTypes.number.isRequired,
+      updatedAt: PropTypes.any,
+      description: PropTypes.string,
+      source: PropTypes.string,
+      active: PropTypes.bool.isRequired,
+    })
+  ),
+  methods: PropTypes.shape({
+    remove: PropTypes.func.isRequired,
+    edit: PropTypes.func.isRequired,
+    insert: PropTypes.func.isRequired,
+    view: PropTypes.func.isRequired,
+    add: PropTypes.func.isRequired,
+    archive: PropTypes.func.isRequired,
+    goBack: PropTypes.func,
+  }),
+  columns: PropTypes.arrayOf(PropTypes.object),
 }
 export default List
