@@ -1,5 +1,6 @@
 import React from 'react'
 import Edit from './edit'
+import { PdfTemplateProvider } from './context'
 
 export default {
   title: 'pdf-template/Edit',
@@ -11,13 +12,17 @@ export default {
   },
 }
 const Template = (args) => {
-  return <Edit {...args} />
+  return (
+    <PdfTemplateProvider value={args}>
+      <Edit />
+    </PdfTemplateProvider>
+  )
 }
 
 export const Edit1 = Template.bind({})
 
 Edit1.args = {
-  sbmethods: {
+  methods: {
     update: (model) => {
       console.log('story updated')
     },
@@ -25,7 +30,7 @@ Edit1.args = {
       console.log('go back')
     },
   },
-  sbitem: {
+  item: {
     name: 'sample1',
     description: 'sample1',
     revision: 2,
@@ -36,7 +41,7 @@ Edit1.args = {
 export const Edit2 = Template.bind({})
 
 Edit2.args = {
-  sbmethods: {
+  methods: {
     update: (model) => {
       console.log('story updated')
     },
@@ -44,7 +49,7 @@ Edit2.args = {
       console.log('go back')
     },
   },
-  sbitem: {
+  item: {
     name: 'sample2',
     description: 'sample2',
     revision: 2,

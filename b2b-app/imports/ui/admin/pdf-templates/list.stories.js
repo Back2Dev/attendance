@@ -1,12 +1,13 @@
 import React from 'react'
 import List from './list'
 import { actions } from '@storybook/addon-actions'
+import { PdfTemplateProvider } from './context'
 
 export default {
   title: 'pdf-template/List',
   component: { List },
   argTypes: {
-    sbmethods: {
+    methods: {
       remove: {
         type: actions,
       },
@@ -75,14 +76,18 @@ const items = [
   },
 ]
 const Template = (args) => {
-  return <List {...args} />
+  return (
+    <PdfTemplateProvider value={args}>
+      <List />
+    </PdfTemplateProvider>
+  )
 }
 export const List1 = Template.bind({})
 
 List1.args = {
-  sbLoadingPdfs: false,
-  sbitems: items,
-  sbmethods: {
+  loadingPdfs: false,
+  items: items,
+  methods: {
     remove: (id) => console.log('removing item: ', id),
     edit: (form) => console.log('updating form: ', form),
     insert: (form) => console.log('inserting item: ', form),

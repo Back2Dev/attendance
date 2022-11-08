@@ -1,5 +1,6 @@
 import React from 'react'
 import Add from './add'
+import { PdfTemplateProvider } from './context'
 
 export default {
   title: 'pdf-template/Add',
@@ -12,13 +13,17 @@ export default {
 }
 
 const Template = (args) => {
-  return <Add {...args} />
+  return (
+    <PdfTemplateProvider value={args}>
+      <Add />
+    </PdfTemplateProvider>
+  )
 }
 
 export const Add1 = Template.bind({})
 
 Add1.args = {
-  sbmethods: {
+  methods: {
     save: (form) => {
       console.log('form', form)
     },

@@ -1,5 +1,6 @@
 import React from 'react'
 import View from './view'
+import { PdfTemplateProvider } from './context'
 
 export default {
   title: 'pdf-template/View',
@@ -7,12 +8,16 @@ export default {
 }
 
 const Template = (args) => {
-  return <View {...args} />
+  return (
+    <PdfTemplateProvider value={args}>
+      <View />
+    </PdfTemplateProvider>
+  )
 }
 export const View1 = Template.bind({})
 
 View1.args = {
-  sbitem: {
+  item: {
     _id: 'item1',
     name: 'item1',
     revision: 1,
