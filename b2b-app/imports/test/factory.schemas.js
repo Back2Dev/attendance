@@ -109,20 +109,35 @@ function compileSchemas(schemasList) {
    */
   const compileData = {}
 
+  /**
+   * @type {{
+      schema: SchemaData;
+      children: any[];
+    }[]}
+   */
+  const compileFrontier = []
+
   schemasList.forEach((schema) => {
     // Compile all data types
-    schema.fields.forEach((field) => {
-      if (ALLOWED_TYPES[field.type]) field.type = ALLOWED_TYPES[field.type]
-    })
+    if (schema.fields)
+      schema.fields.forEach((field) => {
+        if (ALLOWED_TYPES[field.type]) field.type = ALLOWED_TYPES[field.type]
+      })
+
     compileData[schema.slug] = {
       schema,
       children: [],
     }
-
-    compileData[schema.extends].children.push(schema.slug)
   })
 
-  const compileFrontier = [compileData['core']]
+  schemasList.forEach((schema) => {
+    if (schema.extends) {
+      compileData[schema.extends].children.push(schema.slug)
+    } else {
+      compileFrontier.push(compileData[schema.slug])
+    }
+  })
+
   const compiledSchemas = {}
   let schemaData
   while ((schemaData = compileFrontier.pop())) {
