@@ -1,27 +1,28 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+// import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
+import PdfTemplateContext from './context'
 
 const schemaBridge = config.edit.schema
-
 const debug = require('debug')('app:edit')
 
-const Edit = ({ id, item, methods }) => {
+const Edit = () => {
+  const { item, methods } = React.useContext(PdfTemplateContext)
+
   const save = (model) => {
     try {
-      methods.update(id, model)
+      methods.update(model)
     } catch (e) {
+      console.log('error: ', e)
       alert(`Update error ${e.message}`)
     }
   }
 
-  const { goBack } = useHistory()
   const back = () => {
-    goBack()
+    methods.goBack()
   }
 
   const [data, SetData] = React.useState({})
@@ -35,7 +36,7 @@ const Edit = ({ id, item, methods }) => {
         schema={schemaBridge}
         model={item}
         onSubmit={save}
-        autoField={CustomAutoField}
+        // autoField={CustomAutoField}
       />
       <Button type="button" onClick={back}>
         Cancel
@@ -46,9 +47,21 @@ const Edit = ({ id, item, methods }) => {
 }
 
 Edit.propTypes = {
-  id: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired,
-  methods: PropTypes.object.isRequired,
+  // loading: PropTypes.bool.isRequired,
+  // id: PropTypes.string.isRequired,
+  item: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    revision: PropTypes.number.isRequired,
+    updatedAt: PropTypes.any,
+    description: PropTypes.string,
+    source: PropTypes.string,
+    active: PropTypes.bool.isRequired,
+  }),
+  methods: PropTypes.shape({
+    update: PropTypes.func.isRequired,
+    goBack: PropTypes.func,
+  }),
 }
+
 export default Edit
