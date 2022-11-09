@@ -30,9 +30,17 @@ describe('schemas', () => {
 
     // Now Iterate through the sub-schemas
     const allSchemas = Schemas.find({}).fetch()
+    // ...
 
     /* Now iterate through them and build complete schema objects, 
     one for each "end" schema, ie Car, Bus Tool
     */
+    // ...
+
+    /**
+     * And finally, validate some test objects against the various schemas
+     * - we need to test both success and failure scenarios
+     */
+    // ...
   })
 })
