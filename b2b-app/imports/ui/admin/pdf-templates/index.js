@@ -6,6 +6,7 @@ import Edit from './edit.js'
 import View from './view.js'
 import Add from './add.js'
 import NotFound from '/imports/ui/components/commons/not-found.js'
+import Browser from './browser'
 import { PdfTemplateProvider } from './context'
 import PdfTemplatesList from './list'
 
@@ -39,7 +40,7 @@ export default function PdfTemplatesApp() {
 
   const update = (form) => {
     meteorCall('update.pdfTemplates', 'updating', form)
-      .then((res) => setItem(form))
+      .then(() => setItem(form))
       .then(() => push('/admin/pdf-templates'))
   }
 
@@ -47,7 +48,7 @@ export default function PdfTemplatesApp() {
 
   const insert = (form) => meteorCall('insert.pdfTemplates', 'adding', form)
 
-  const add = () => push(`/admin/pdf-templates/add`)
+  const add = () => push('/admin/pdf-templates/add')
 
   const edit = (id) => {
     push(`/admin/pdf-templates/edit/${id}`)
@@ -62,7 +63,7 @@ export default function PdfTemplatesApp() {
   const archive = async (rowids) => {
     const name = prompt('Please enter a name for the archive')
     const text = confirm(
-      `Are you sure you want to archive this PdfTemplates and related entities?`
+      'Are you sure you want to archive this PdfTemplates and related entities?'
     )
 
     if (name && text) {
@@ -87,8 +88,6 @@ export default function PdfTemplatesApp() {
     }
   })
 
-  let history
-
   useEffect(() => {
     if (pdfid) {
       meteorCall('find.pdfTemplates', 'finding pdf template by id ', pdfid).then(
@@ -112,6 +111,7 @@ export default function PdfTemplatesApp() {
         <Route path="/admin/pdf-templates/add/" exact component={Add} />
         <Route path="/admin/pdf-templates/view/:id" exact component={View} />
         <Route path="/admin/pdf-templates" exact component={PdfTemplatesList} />
+        <Route path="/admin/pdf-templates/browse/" exact component={Browser} />
         <Route component={NotFound} />
       </Switch>
     </PdfTemplateProvider>
