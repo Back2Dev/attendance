@@ -77,7 +77,7 @@ export default function PdfTemplatesApp() {
 
   const { loadingPdfs, items } = useTracker(() => {
     let pdfs = []
-    const sub = Meteor.subscribe('list.pdfTemplates')
+    const sub = Meteor.subscribe('all.names.pdfTemplates')
     if (sub.ready()) {
       pdfs = PdfTemplates.find({}).fetch()
     }
