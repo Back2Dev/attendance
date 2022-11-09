@@ -69,7 +69,7 @@ const config = {
   browse: {
     columns: [
       { field: 'name', title: 'name', formatter: null },
-      { field: '_id', title: '', formatter: null, headerSort: false },
+      { field: '_id', title: '', width: 25, formatter: null, headerSort: false },
     ],
   },
 }
