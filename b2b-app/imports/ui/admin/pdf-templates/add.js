@@ -11,17 +11,10 @@ import PdfTemplateContext from './context'
 const schemaBridge = config.add.schema
 const debug = require('debug')('app:add')
 
-const Add = ({ sbmethods }) => {
+const Add = () => {
   const item = config?.add?.defaultObject || {}
 
-  let methods
-  if (sbmethods) {
-    methods = sbmethods
-  } else {
-    const context = React.useContext(PdfTemplateContext)
-    methods = context.methods
-  }
-  // const { methods } = React.useContext(PdfTemplateContext)
+  const { methods } = React.useContext(PdfTemplateContext)
   const save = (model) => {
     try {
       methods.save(model)
