@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import Loading from '/imports/ui/components/commons/loading.js'
 // import Lister from './lister.js'
 import Edit from './edit.js'
 import View from './view.js'
