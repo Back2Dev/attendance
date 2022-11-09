@@ -12,6 +12,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import { TextField } from '@material-ui/core'
 import { Button } from '/imports/ui/utils/generic'
 import PdfPlayground from 'pd-playground'
+import { Delete, Save } from '@material-ui/icons'
 
 // const debug = require('debug')('app:lister')
 // const idField = '_id'
@@ -110,8 +111,6 @@ const PdfTemplatesBrowser = () => {
   // code state
   const [code, setCode] = React.useState('dd = {content: "Hello "}')
 
-  const btn = { id: 'add', caption: 'Save', color: 'primary' }
-
   React.useEffect(() => {
     const items = PdfTemplates.find(
       { _id: selectedTemplate },
@@ -121,6 +120,7 @@ const PdfTemplatesBrowser = () => {
       return row
     })
     if (items.length > 0) setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
+    else setCode('dd = {content: ["Hello World!"]}')
   }, [selectedTemplate])
 
   return (
@@ -168,13 +168,28 @@ const PdfTemplatesBrowser = () => {
           </div>
           <div style={{ float: 'right' }}>
             <Button
-              id={btn.id}
-              key={btn.id}
+              id={'delete'}
+              key={'delete'}
+              onClick={() => {
+                methods.remove(selectedTemplate)
+                setSelectedTemplate(null)
+              }}
+              color={'error'}
+              variant="contained"
+              style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
+            >
+              <Delete />
+              {'Delete'}
+            </Button>
+            <Button
+              id={'add'}
+              key={'add'}
               onClick={() => methods.update({ _id: selectedTemplate, source: code })}
-              color={btn.color}
+              color={'primary'}
               variant="contained"
             >
-              {btn.caption}
+              <Save />
+              {'Save'}
             </Button>
           </div>
         </div>
