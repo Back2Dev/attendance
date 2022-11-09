@@ -7,7 +7,9 @@ import { expect } from 'chai'
 
 import Schemas from './schema'
 import Factory from '/imports/test/factories'
-import '/imports/test/factory.schemas'
+import { assetSchemas } from '/imports/test/schemas.factory'
+
+const debug = require('debug')('app:schemas-test')
 
 const badSchemas = [
   // no name
@@ -19,24 +21,18 @@ const goodSchemas = []
 goodSchemas.push(Factory.build('schemas'))
 
 describe('schemas', () => {
-  goodSchemas.forEach((good, i) => {
-    describe('query database good schemas', () => {
-      // beforeEach(resetDatabase)
-      it('success if database query matches', () => {
-        const id = Schemas.insert(good)
-        const thing = Schemas.findOne(id)
-        const fields = ["name","fields","fields.$","active"] || []
-        fields.forEach((field) => {
-          expect(thing[field]).to.equal(good[field])
-        })
-      })
-    })
-  })
-  badSchemas.forEach((bad, i) => {
-    describe('SchemasSchema bad schemas', () => {
-      it(`Succeeds on BAD Schemas insert ${i + 1}`, () => {
-        expect(() => Schemas.insert(bad)).to.throw()
-      })
-    })
+  // beforeEach(resetDatabase)
+  it('create asset schemas', () => {
+    // This will insert the asset sub-schemas into the database
+    const schemas = assetSchemas()
+    debug({ schemas })
+    expect(schemas.length).to.equal(6) // There are 6 sub-schemas in the asset list, including intermediate sub-schemas
+
+    // Now Iterate through the sub-schemas
+    const allSchemas = Schemas.find({}).fetch()
+
+    /* Now iterate through them and build complete schema objects, 
+    one for each "end" schema, ie Car, Bus Tool
+    */
   })
 })
