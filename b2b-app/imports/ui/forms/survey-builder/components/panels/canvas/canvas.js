@@ -138,8 +138,8 @@ const sectionSchema = new SimpleSchema(
 const Canvas = () => {
   const { editors } = useContext(EditorContext)
 
-  const sections = (JSON.parse(editors[1].editorValue).sections || []).map((section) =>
-    sectionSchema.clean(section)
+  const sections = (JSON.parse(editors[1].editorValue || '{}').sections || []).map(
+    (section) => sectionSchema.clean(section)
   )
   const updateEditor = editors[1].updateEditor
   const [dndMove, setDndMove] = useState(null)
@@ -198,8 +198,9 @@ const Canvas = () => {
 
   const onAddSection = ({ sIndex }) => {
     updateEditor((prev) => {
-      const newSection = JSON.parse(prev)
+      const newSection = JSON.parse(prev || '{"sections":[]}')
       const _id = Random.id()
+
       newSection.sections.splice(sIndex + 1, 0, {
         ...defaultSection,
         id: _id,
@@ -382,6 +383,7 @@ const Canvas = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd} sensors={[DndSensor]}>
+      {!Boolean(sections.length) && <AddBtn onAdd={() => onAddSection({ sIndex: 0 })} />}
       {sections.map((section, sIndex) => {
         console.log(section)
         return (
