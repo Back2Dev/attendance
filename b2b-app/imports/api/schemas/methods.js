@@ -30,7 +30,7 @@ Meteor.methods({
   'insert.schemas': (form) => {
     try {
       const id = Schemas.insert(form)
-      return { status: 'success', message: `Added schema` }
+      return { status: 'success', message: 'Added schema' }
     } catch (e) {
       return {
         status: 'failed',
