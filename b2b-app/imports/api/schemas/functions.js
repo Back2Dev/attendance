@@ -8,67 +8,132 @@ const ALLOWED_TYPES = {
   object: Object,
   date: Date,
 }
+
 /**
- * @param {SchemaData[]} schemasList
- * @return {{
- * compiledSchemas: Object.<string, SimpleSchema>,
- * compileData: Object.<string, {schema: SchemaData, children: string[]}>
- * }}
+ * @typedef {{
+ *   name: string;
+ *   slug: string;
+ *   active: boolean;
+ *   fields: {
+ *      optional: boolean;
+ *      colName: string;
+ *      label: string;
+ *      type: string;
+ *   }[];
+ *   extends?: undefined;
+ * }} SchemaDocument
+ *
+ * @typedef {{
+ *   children: string[];
+ *   schema: SchemaDocument;
+ * }} SchemaCompileData
  */
-function compileSchemas(schemasList) {
-  /**
-   * @type {Object.<string, {schema: SchemaData, children: string[]}>}
-   */
-  const compileData = {}
 
-  /**
-   * @type {{
-      schema: SchemaData;
-      children: any[];
-    }[]}
-   */
-  const compileFrontier = []
+/**
+ * @type {Object.<string, SimpleSchema>}
+ */
+export const compiledSchemas = {}
 
-  schemasList.forEach((schema) => {
+/**
+ * @type {Object.<string, SchemaCompileData>}
+ */
+export const compileData = {}
+
+/**
+ *
+ * @param {SchemaDocument[]} schemaDocumentsList
+ */
+function resolveDataTypesOfSchemaDocuments(schemaDocumentsList) {
+  schemaDocumentsList.forEach((schemaDoc) => {
     // Compile all data types
-    if (schema.fields)
-      schema.fields.forEach((field) => {
+    if (schemaDoc.fields)
+      schemaDoc.fields.forEach((field) => {
         if (ALLOWED_TYPES[field.type]) field.type = ALLOWED_TYPES[field.type]
       })
+  })
+}
 
+export function clearSchemas() {
+  Object.keys(compiledSchemas).forEach((key) => {
+    delete compiledSchemas[key]
+  })
+  Object.keys(compileData).forEach((key) => {
+    delete compileData[key]
+  })
+}
+
+/**
+ * @param {SchemaCompileData} graphRoot
+ */
+export function compileSchemaGraphStartingFrom(graphRoot) {
+  /**
+   * @type {SchemaCompileData[]}
+   */
+  const compileFrontier = [graphRoot]
+
+  let schemaCompileData
+  while ((schemaCompileData = compileFrontier.pop())) {
+    let schemaDocument = schemaCompileData.schema
+    let compiledSchema = new SimpleSchema(schemaDocument)
+
+    if (schemaDocument.extends)
+      compiledSchema = compiledSchema.extend(compiledSchemas[schemaDocument.extends])
+
+    // Factory.define(`schema.${schema.slug}`, Schemas, compiledSchema)
+    compiledSchemas[schemaDocument.slug] = compiledSchema
+    schemaCompileData.children.forEach((child) => {
+      compileFrontier.push(compileData[child])
+    })
+  }
+}
+
+/**
+ *
+ * @param {SchemaDocument[]} schemaDocumentsList
+ * @returns {SchemaCompileData[]}
+ */
+function buildGraph(schemaDocumentsList) {
+  /**
+   * @type {SchemaCompileData[]}
+   */
+  const rootFrontier = []
+  schemaDocumentsList.forEach((schema) => {
+    if (schema.extends) {
+      compileData[schema.extends].children.push(schema.slug)
+    } else {
+      rootFrontier.push(compileData[schema.slug])
+    }
+  })
+  return rootFrontier
+}
+
+/**
+ * @param {SchemaDocument[]} schemaDocumentsList
+ * @return {{
+ * compiledSchemas: Object.<string, SimpleSchema>,
+ * compileData: Object.<string, SchemaCompileData>
+ * }}
+ */
+export function compileSchemaDocuments(schemaDocumentsList) {
+  resolveDataTypesOfSchemaDocuments(schemaDocumentsList)
+
+  schemaDocumentsList.forEach((schema) => {
     compileData[schema.slug] = {
       schema,
       children: [],
     }
   })
 
-  schemasList.forEach((schema) => {
-    if (schema.extends) {
-      compileData[schema.extends].children.push(schema.slug)
-    } else {
-      compileFrontier.push(compileData[schema.slug])
-    }
+  /**
+   * @type {SchemaCompileData[]}
+   */
+  const rootFrontier = buildGraph(schemaDocumentsList)
+
+  rootFrontier.forEach((graphRoot) => {
+    compileSchemaGraphStartingFrom(graphRoot)
   })
 
-  /**
-   * @type {Object.<string, SimpleSchema>}
-   */
-  const compiledSchemas = {}
-  let schemaData
-  while ((schemaData = compileFrontier.pop())) {
-    let schema = schemaData.schema
-    let compiledSchema = new SimpleSchema(schemaData.schema)
-
-    if (schema.extends)
-      compiledSchema = compiledSchema.extend(compiledSchemas[schema.extends])
-
-    // Factory.define(`schema.${schema.slug}`, Schemas, compiledSchema)
-    compiledSchemas[schema.slug] = compiledSchema
-    schemaData.children.forEach((child) => {
-      compileFrontier.push(compileData[child])
-    })
-  }
   return { compiledSchemas, compileData }
 }
 
-export { compileSchemas }
+export { compileSchemaDocuments as compileSchemas }
