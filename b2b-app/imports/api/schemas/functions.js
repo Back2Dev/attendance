@@ -10,6 +10,10 @@ const ALLOWED_TYPES = {
 }
 /**
  * @param {SchemaData[]} schemasList
+ * @return {{
+ * compiledSchemas: Object.<string, SimpleSchema>,
+ * compileData: Object.<string, {schema: SchemaData, children: string[]}>
+ * }}
  */
 function compileSchemas(schemasList) {
   /**
@@ -46,6 +50,9 @@ function compileSchemas(schemasList) {
     }
   })
 
+  /**
+   * @type {Object.<string, SimpleSchema>}
+   */
   const compiledSchemas = {}
   let schemaData
   while ((schemaData = compileFrontier.pop())) {
@@ -55,13 +62,13 @@ function compileSchemas(schemasList) {
     if (schema.extends)
       compiledSchema = compiledSchema.extend(compiledSchemas[schema.extends])
 
-    Factory.define(`schema.${schema.slug}`, Schemas, compiledSchema)
+    // Factory.define(`schema.${schema.slug}`, Schemas, compiledSchema)
     compiledSchemas[schema.slug] = compiledSchema
     schemaData.children.forEach((child) => {
       compileFrontier.push(compileData[child])
     })
   }
-  return compiledSchemas
+  return { compiledSchemas, compileData }
 }
 
-compileSchemas(Object.values(samples))
+export { compileSchemas }
