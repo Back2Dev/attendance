@@ -8,7 +8,7 @@ import { AutoForm } from 'uniforms-material'
 import config from './config'
 import PdfTemplateContext from './context'
 
-const schemaBridge = config.edit.schema
+const schemaBridge = config.add.schema
 const debug = require('debug')('app:add')
 
 const Add = () => {

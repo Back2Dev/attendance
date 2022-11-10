@@ -1,21 +1,28 @@
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import {
-  OptionalRegExId,
-  RegExId,
-  OptionalString,
-  Blackbox,
-  OptionalBlackbox,
-  OptionalInteger,
-} from '/imports/api/utils/schema-util'
+import { OptionalString } from '/imports/api/utils/schema-util'
 
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: '',
-}
+// const dateFormat = {
+//   inputFormat: 'DD/MM/YY hh:mm',
+//   outputFormat: 'DD/MM/YY h:mm A',
+//   invalidPlaceholder: '',
+// }
 
 const editSchema = new SimpleSchema({
+  name: String,
+  revision: {
+    type: SimpleSchema.Integer,
+    defaultValue: '1',
+  },
+  description: OptionalString,
+  active: {
+    type: Boolean,
+    defaultValue: true,
+  },
+  source: OptionalString,
+})
+
+const addSchema = new SimpleSchema({
   name: String,
   revision: {
     type: SimpleSchema.Integer,
@@ -41,6 +48,15 @@ const config = {
     ],
   },
   edit: { schema: new SimpleSchema2Bridge(editSchema) },
+  add: {
+    schema: new SimpleSchema2Bridge(addSchema),
+    defaultObject: {
+      name: 'Untitled',
+      description: 'Description',
+      revision: '1',
+      active: true,
+    },
+  },
   list: {
     columns: [
       { field: 'name', title: 'name', editor: true, formatter: null },
@@ -50,12 +66,11 @@ const config = {
       { field: 'source', title: 'source', editor: true, formatter: null },
     ],
   },
-  add: {
-    defaultObject: {
-      name: 'Untitled',
-      description: 'Description',
-      code: 'XXX',
-    },
+  browse: {
+    columns: [
+      { field: 'name', title: 'name', formatter: null },
+      { field: '_id', title: '', width: 25, formatter: null, headerSort: false },
+    ],
   },
 }
 
