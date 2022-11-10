@@ -2,19 +2,20 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { resetDatabase } from '/imports/test/util-test'
+// import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 
-import Schemas from './schema'
+import Schemas, { SchemaDocuments } from './schema'
 import Factory from '/imports/test/factories'
 import { assetSchemas } from '/imports/test/schemas.factory'
+import { compileSchemas } from './functions'
 
 const debug = require('debug')('app:schemas-test')
 
-const badSchemas = [
-  // no name
-  {},
-]
+// const badSchemas = [
+//   // no name
+//   {},
+// ]
 
 const goodSchemas = []
 
@@ -30,12 +31,14 @@ describe('schemas', () => {
 
     // Now Iterate through the sub-schemas
     const allSchemas = Schemas.find({}).fetch()
-    // ...
 
     /* Now iterate through them and build complete schema objects, 
     one for each "end" schema, ie Car, Bus Tool
     */
-    // ...
+    const { compiledSchemas } = compileSchemas(allSchemas)
+    Object.keys(compiledSchemas).forEach((slug) => {
+      Factory.define(`schema.${slug}`, SchemaDocuments, compiledSchemas[slug])
+    })
 
     /**
      * And finally, validate some test objects against the various schemas
