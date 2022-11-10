@@ -3,9 +3,9 @@ import SimpleSchema from 'simpl-schema'
 
 import {
   OptionalRegExId,
-  Blackbox,
-  OptionalBlackbox,
-  OptionalInteger,
+  // Blackbox,
+  // OptionalBlackbox,
+  // OptionalInteger,
   OptionalString,
   createdAt,
   updatedAt,
@@ -21,6 +21,8 @@ const ALLOWED_TYPES = {
 }
 
 const Schemas = new Mongo.Collection('schemas')
+
+export const SchemaDocuments = new Mongo.Collection('schemaDocuments')
 
 export const FieldsSchema = new SimpleSchema({
   colName: { type: String, label: 'Field id' },
