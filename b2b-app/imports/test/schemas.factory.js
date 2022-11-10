@@ -4,7 +4,7 @@ import { Factory } from 'meteor/dburles:factory'
 // import CONSTANTS from '/imports/api/constants'
 import Schemas from '/imports/api/schemas/schema'
 
-const debug = require('debug')('app:schemas-test')
+// const debug = require('debug')('app:schemas-test')
 
 /**
  * @typedef {{
