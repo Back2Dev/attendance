@@ -228,6 +228,17 @@ function relinkEditedSourcesToParents() {
  * @param {SchemaDocument[]} schemaDocumentsList
  */
 export function initAllSchemaDocuments(schemaDocumentsList) {
+  clearSchemas()
+  compileEditedSchemaDocs(schemaDocumentsList)
+}
+
+/**
+ * Can be called with one or more schema documents, to compile the edited schemas, ideally once edited,
+ * as this is a full compilation which is more resource intensive. All previous compilations
+ * are retained unless they within the schema documents provided, or extend the schema documents provided.
+ * @param {SchemaDocument[]} schemaDocumentsList
+ */
+function compileEditedSchemaDocs(schemaDocumentsList) {
   resolveDataTypesOfSchemaDocuments(schemaDocumentsList)
 
   setSources(schemaDocumentsList)
