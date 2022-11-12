@@ -243,7 +243,7 @@ export function initAllSchemaDocuments(schemaDocumentsList) {
  * are retained unless they within the schema documents provided, or extend the schema documents provided.
  * @param {SchemaDocument[]} schemaDocumentsList
  */
-function compileEditedSchemaDocs(schemaDocumentsList) {
+export function compileEditedSchemaDocs(schemaDocumentsList) {
   resolveDataTypesOfSchemaDocuments(schemaDocumentsList)
 
   setSources(schemaDocumentsList)
@@ -258,5 +258,3 @@ function compileEditedSchemaDocs(schemaDocumentsList) {
     compileSchemaGraphStartingFrom(graphRoot)
   })
 }
-
-export { initAllSchemaDocuments as compileSchemas }
