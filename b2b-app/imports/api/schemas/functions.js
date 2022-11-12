@@ -1,5 +1,9 @@
 // @ts-check
 import SimpleSchema from 'simpl-schema'
+import {
+  OptionalRegExId,
+  // @ts-ignore
+} from '/imports/api/utils/schema-util'
 /**
  * @typedef {import('simpl-schema').SimpleSchemaDefinition} SimpleSchemaDefinition
  */
@@ -72,6 +76,7 @@ function compileSchemaObject(schemaDocument) {
    * @type {SimpleSchemaDefinition}
    */
   const assembledObject = {}
+  assembledObject._id = OptionalRegExId
   if (schemaDocument.fields)
     schemaDocument.fields.forEach((field) => {
       const { colName, ...props } = field
