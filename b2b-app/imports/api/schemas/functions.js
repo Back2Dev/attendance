@@ -133,6 +133,8 @@ function setSources(schemaDocumentsList) {
         parents: new Set(),
         parentsRemainingToCompile: 0,
       }
+    } else {
+      compileData[schema.slug].schema = schema
     }
     editedSources.add(schema.slug)
   })
