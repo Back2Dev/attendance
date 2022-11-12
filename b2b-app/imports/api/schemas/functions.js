@@ -195,7 +195,7 @@ function linkEditedSourcesToParents() {
   editedSources.forEach((slug) => {
     const schemaDoc = compileData[slug].schema
     // TODO: Change here if implementing multiple inheritance
-    const parents = [schemaDoc.extends]
+    const parents = [schemaDoc.extends].filter((parent)=>(!!parent))
 
     parents.forEach((parentSlug) => {
       if (compileData[parentSlug]) {
