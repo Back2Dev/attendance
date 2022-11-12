@@ -8,7 +8,7 @@ import { expect } from 'chai'
 import Schemas, { SchemaDocuments } from './schema'
 import Factory from '/imports/test/factories'
 import { assetSchemas } from '/imports/test/schemas.factory'
-import { compileSchemas } from './functions'
+import { compileSchemas, compiledSchemas } from './functions'
 
 const debug = require('debug')('app:schemas-test')
 
@@ -35,7 +35,7 @@ describe('schemas', () => {
     /* Now iterate through them and build complete schema objects, 
     one for each "end" schema, ie Car, Bus Tool
     */
-    const { compiledSchemas } = compileSchemas(allSchemas)
+    compileSchemas(allSchemas)
     Object.keys(compiledSchemas).forEach((slug) => {
       Factory.define(`schema.${slug}`, SchemaDocuments, compiledSchemas[slug])
     })
