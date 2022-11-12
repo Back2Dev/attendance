@@ -97,6 +97,8 @@ export function compileSchemaGraphStartingFrom(graphRoot) {
   while ((schemaCompileData = compileFrontier.pop())) {
     let schemaDocument = schemaCompileData.schema
 
+    editedSources.delete(schemaDocument.slug)
+
     // @ts-ignore
     let compiledSchema = new SimpleSchema(schemaDocument)
 
