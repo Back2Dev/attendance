@@ -58,7 +58,7 @@ export const rootFrontier = new Set()
 const editedSources = new Set()
 
 /**
- *
+ * Matches the string datatypes with the correct type expected by simple schema
  * @param {SchemaDocument[]} schemaDocumentsList
  */
 function resolveDataTypesOfSchemaDocuments(schemaDocumentsList) {
@@ -71,6 +71,9 @@ function resolveDataTypesOfSchemaDocuments(schemaDocumentsList) {
   })
 }
 
+/**
+ * Deletes all schemas and makes the root frontier, compiledSchemas and compileData blank slates
+ */
 export function clearSchemas() {
   rootFrontier.clear()
   Object.keys(compiledSchemas).forEach((key) => {
