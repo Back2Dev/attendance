@@ -5,8 +5,8 @@ const debug = require('debug')('app:schemas')
 Meteor.methods({
   'rm.schemas': (id) => {
     try {
-      const n = Schemas.remove(id)
-      return { status: 'success', message: `Removed schema` }
+      Schemas.remove(id)
+      return { status: 'success', message: 'Removed schema' }
     } catch (e) {
       return {
         status: 'failed',
