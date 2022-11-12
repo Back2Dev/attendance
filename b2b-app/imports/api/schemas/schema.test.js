@@ -8,7 +8,7 @@ import { expect } from 'chai'
 import Schemas, { SchemaDocuments } from './schema'
 import Factory from '/imports/test/factories'
 import { assetSchemas } from '/imports/test/schemas.factory'
-import { initAllSchemaDocuments, compiledSchemas } from './functions'
+import { initAllSchemaDocuments, compiledSchemas, newCompilations } from './functions'
 
 const debug = require('debug')('app:schemas-test')
 
@@ -37,8 +37,19 @@ describe('schemas', () => {
     */
     initAllSchemaDocuments(allSchemaDocuments)
     Object.keys(compiledSchemas).forEach((slug) => {
+      console.log(`schema.${slug}`)
+      console.log(compiledSchemas[slug])
       Factory.define(`schema.${slug}`, SchemaDocuments, compiledSchemas[slug])
     })
+
+    console.log(
+      compiledSchemas.core.validate({ createdAt: new Date(), updatedAt: new Date() })
+    )
+    try {
+      console.log(compiledSchemas.core.validate({}))
+    } catch (e) {
+      console.log('PASS!')
+    }
 
     /**
      * And finally, validate some test objects against the various schemas
