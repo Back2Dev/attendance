@@ -52,10 +52,33 @@ export const compileData = {}
 export const rootFrontier = new Set()
 
 /**
- * Contains only the newly edited sources
+ * Contains only the newly edited sources before they are compiled
  * @type {Set<string>}
  */
 const editedSources = new Set()
+
+/**
+ * Contains the newly compiled sources after they are compiled, until cleared
+ * @type {Set<string>}
+ */
+export const newCompilations = new Set()
+
+/**
+ * Compiles the schema object into a SimpleSchema and returns that
+ * @param {SchemaDocument} schemaDocument
+ */
+function compileSchemaObject(schemaDocument) {
+  /**
+   * @type {SimpleSchemaDefinition}
+   */
+  const assembledObject = {}
+  if (schemaDocument.fields)
+    schemaDocument.fields.forEach((field) => {
+      const { colName, ...props } = field
+      assembledObject[colName] = props
+    })
+  return new SimpleSchema(assembledObject)
+}
 
 /**
  * Matches the string datatypes with the correct type expected by simple schema
@@ -101,9 +124,9 @@ export function compileSchemaGraphStartingFrom(graphRoot) {
     let schemaDocument = schemaCompileData.schema
 
     editedSources.delete(schemaDocument.slug)
+    newCompilations.add(schemaDocument.slug)
 
-    // @ts-ignore
-    let compiledSchema = new SimpleSchema(schemaDocument)
+    let compiledSchema = compileSchemaObject(schemaDocument)
 
     schemaCompileData.parents.forEach((parent) => {
       compiledSchema = compiledSchema.extend(compiledSchemas[parent])
