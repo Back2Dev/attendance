@@ -72,7 +72,7 @@ describe('schemas', () => {
     /**
      * @type {SchemaDocument}
      */
-    const newVehicleSchema = { ...compileData.vehicle.schema }
+    let newVehicleSchema = { ...compileData.vehicle.schema }
     newVehicleSchema.fields.push({
       colName: 'wheels',
       label: 'No. of Wheels',
@@ -105,5 +105,22 @@ describe('schemas', () => {
       wheels: 6,
     })
     console.log('Test 5:', works ? 'PASS' : 'FAIL')
+
+    newVehicleSchema = { ...compileData.vehicle.schema }
+    newVehicleSchema.extends = undefined
+
+    newCompilations.clear()
+    compileEditedSchemaDocs([newVehicleSchema])
+
+    console.log('Test 6:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
+
+    works = !compiledSchemas.bus.validate({
+      seats: 20,
+      model: 'Leyland',
+      rego: 'HOTWHEELS',
+      wheels: 6,
+    })
+
+    console.log('Test 7:', works ? 'PASS' : 'FAIL')
   })
 })
