@@ -223,6 +223,7 @@ function unlinkEditedSourcesFromParents() {
         compileData[parentSlug].children.delete(slug)
       }
     })
+    parents.clear()
   })
 }
 
