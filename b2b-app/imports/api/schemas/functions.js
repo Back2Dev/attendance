@@ -236,9 +236,6 @@ export function initAllSchemaDocuments(schemaDocumentsList) {
 
   const newRootFrontier = findCompilableRoots()
 
-  // Since everything is being compiled now, all new found roots are root components
-  newRootFrontier.forEach((rootSchemaDoc) => rootFrontier.add(rootSchemaDoc))
-
   newRootFrontier.forEach((graphRoot) => {
     compileSchemaGraphStartingFrom(graphRoot)
   })
