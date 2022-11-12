@@ -180,6 +180,9 @@ function unlinkEditedSourcesFromParents() {
   editedSources.forEach((slug) => {
     const { parents } = compileData[slug]
 
+    // Delete from root frontier if this is a root
+    rootFrontier.delete(slug)
+
     parents.forEach((parentSlug) => {
       if (compileData[parentSlug]) {
         compileData[parentSlug].children.delete(slug)
@@ -195,7 +198,9 @@ function linkEditedSourcesToParents() {
   editedSources.forEach((slug) => {
     const schemaDoc = compileData[slug].schema
     // TODO: Change here if implementing multiple inheritance
-    const parents = [schemaDoc.extends].filter((parent)=>(!!parent))
+    const parents = [schemaDoc.extends].filter((parent) => !!parent)
+
+    if (parents.length === 0) rootFrontier.add(slug)
 
     parents.forEach((parentSlug) => {
       if (compileData[parentSlug]) {
