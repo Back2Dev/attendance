@@ -1,4 +1,8 @@
+// @ts-check
 import SimpleSchema from 'simpl-schema'
+/**
+ * @typedef {import('simpl-schema').SimpleSchemaDefinition} SimpleSchemaDefinition
+ */
 
 const ALLOWED_TYPES = {
   string: String,
@@ -10,6 +14,7 @@ const ALLOWED_TYPES = {
 }
 
 /**
+ * TODO: Change extends if implementing multiple inheritance
  * @typedef {{
  *   name: string;
  *   slug: string;
@@ -20,12 +25,14 @@ const ALLOWED_TYPES = {
  *      label: string;
  *      type: string;
  *   }[];
- *   extends?: undefined;
+ *   extends?: string;
  * }} SchemaDocument
  *
  * @typedef {{
- *   children: string[];
+ *   children: Set<string>;
  *   schema: SchemaDocument;
+ *   parents: Set<string>;
+ *   parentsRemainingToCompile: number;
  * }} SchemaCompileData
  */
 
@@ -38,6 +45,17 @@ export const compiledSchemas = {}
  * @type {Object.<string, SchemaCompileData>}
  */
 export const compileData = {}
+
+/**
+ * @type {Set<string>}
+ */
+export const rootFrontier = new Set()
+
+/**
+ * Contains only the newly edited sources
+ * @type {Set<string>}
+ */
+const editedSources = new Set()
 
 /**
  *
@@ -54,6 +72,7 @@ function resolveDataTypesOfSchemaDocuments(schemaDocumentsList) {
 }
 
 export function clearSchemas() {
+  rootFrontier.clear()
   Object.keys(compiledSchemas).forEach((key) => {
     delete compiledSchemas[key]
   })
@@ -63,77 +82,161 @@ export function clearSchemas() {
 }
 
 /**
- * @param {SchemaCompileData} graphRoot
+ * @param {string} graphRoot
  */
 export function compileSchemaGraphStartingFrom(graphRoot) {
   /**
    * @type {SchemaCompileData[]}
    */
-  const compileFrontier = [graphRoot]
+  const compileFrontier = [compileData[graphRoot]]
 
+  /**
+   * @type {SchemaCompileData}
+   */
   let schemaCompileData
   while ((schemaCompileData = compileFrontier.pop())) {
     let schemaDocument = schemaCompileData.schema
+
+    // @ts-ignore
     let compiledSchema = new SimpleSchema(schemaDocument)
 
-    if (schemaDocument.extends)
-      compiledSchema = compiledSchema.extend(compiledSchemas[schemaDocument.extends])
+    schemaCompileData.parents.forEach((parent) => {
+      compiledSchema = compiledSchema.extend(compiledSchemas[parent])
+    })
 
     // Factory.define(`schema.${schema.slug}`, Schemas, compiledSchema)
     compiledSchemas[schemaDocument.slug] = compiledSchema
     schemaCompileData.children.forEach((child) => {
-      compileFrontier.push(compileData[child])
+      let remaining = Math.max(compileData[child].parentsRemainingToCompile - 1, 0)
+      compileData[child].parentsRemainingToCompile = remaining
+      if (remaining <= 0) compileFrontier.push(compileData[child])
     })
   }
 }
 
 /**
- *
+ * Sets the source schemas/schema documents to be compiled later on.
+ * This does not replace the compiled schemas until compileSchemaGraphStartingFrom
+ * function is called, and does not build the graph until build graph is called.
  * @param {SchemaDocument[]} schemaDocumentsList
- * @returns {SchemaCompileData[]}
  */
-function buildGraph(schemaDocumentsList) {
-  /**
-   * @type {SchemaCompileData[]}
-   */
-  const rootFrontier = []
+function setSources(schemaDocumentsList) {
   schemaDocumentsList.forEach((schema) => {
-    if (schema.extends) {
-      compileData[schema.extends].children.push(schema.slug)
-    } else {
-      rootFrontier.push(compileData[schema.slug])
+    // Check if it is a newly added schema
+    if (!compileData[schema.slug]) {
+      // If it is create the new schema compile data
+      compileData[schema.slug] = {
+        schema,
+        children: new Set(),
+        parents: new Set(),
+        parentsRemainingToCompile: 0,
+      }
     }
+    editedSources.add(schema.slug)
   })
-  return rootFrontier
 }
 
 /**
- * @param {SchemaDocument[]} schemaDocumentsList
- * @return {{
- * compiledSchemas: Object.<string, SimpleSchema>,
- * compileData: Object.<string, SchemaCompileData>
- * }}
+ * Finds the roots of the graph consisting of only roots to be compiled
+ * @returns {string[]}
  */
-export function compileSchemaDocuments(schemaDocumentsList) {
-  resolveDataTypesOfSchemaDocuments(schemaDocumentsList)
-
-  schemaDocumentsList.forEach((schema) => {
-    compileData[schema.slug] = {
-      schema,
-      children: [],
+function findCompilableRoots() {
+  /**
+   * @type {string[]}
+   */
+  const roots = []
+  editedSources.forEach((slug) => {
+    if (compileData[slug].parentsRemainingToCompile <= 0) {
+      roots.push(slug)
     }
   })
-
-  /**
-   * @type {SchemaCompileData[]}
-   */
-  const rootFrontier = buildGraph(schemaDocumentsList)
-
-  rootFrontier.forEach((graphRoot) => {
-    compileSchemaGraphStartingFrom(graphRoot)
-  })
-
-  return { compiledSchemas, compileData }
+  return roots
 }
 
-export { compileSchemaDocuments as compileSchemas }
+/**
+ * Counts all the compilable parents of all schemas
+ */
+function countCompilableParents() {
+  // First set all compilable parents to 0 so that this function
+  // counts correctly
+  editedSources.forEach((slug) => {
+    compileData[slug].children.forEach((childSlug) => {
+      compileData[childSlug].parentsRemainingToCompile = 0
+    })
+  })
+
+  // Then count all the parents to be compiled for each child
+  editedSources.forEach((slug) => {
+    compileData[slug].children.forEach((childSlug) => {
+      compileData[childSlug].parentsRemainingToCompile += 1
+    })
+  })
+}
+
+/**
+ * Unlinks edited sources from the parent(used when sources are edited)
+ */
+function unlinkEditedSourcesFromParents() {
+  editedSources.forEach((slug) => {
+    const { parents } = compileData[slug]
+
+    parents.forEach((parentSlug) => {
+      if (compileData[parentSlug]) {
+        compileData[parentSlug].children.delete(slug)
+      }
+    })
+  })
+}
+
+/**
+ * Links edited sources to the appropriate parent(used when sources are edited)
+ */
+function linkEditedSourcesToParents() {
+  editedSources.forEach((slug) => {
+    const schemaDoc = compileData[slug].schema
+    // TODO: Change here if implementing multiple inheritance
+    const parents = [schemaDoc.extends]
+
+    parents.forEach((parentSlug) => {
+      if (compileData[parentSlug]) {
+        compileData[parentSlug].children.add(schemaDoc.slug)
+        compileData[schemaDoc.slug].parents.add(parentSlug)
+      }
+    })
+  })
+}
+
+/**
+ * Unlinks and re-links edited sources to the appropriate parent(used when sources are edited).
+ */
+function relinkEditedSourcesToParents() {
+  unlinkEditedSourcesFromParents()
+  linkEditedSourcesToParents()
+}
+
+/**
+ * Should be called with all schema documents, to initialize the schemas, ideally only once,
+ * as this is a full compilation which is more resource intensive. All previous compilations
+ * are cleared off.
+ * @param {SchemaDocument[]} schemaDocumentsList
+ */
+export function initAllSchemaDocuments(schemaDocumentsList) {
+  resolveDataTypesOfSchemaDocuments(schemaDocumentsList)
+
+  setSources(schemaDocumentsList)
+
+  relinkEditedSourcesToParents()
+
+  countCompilableParents()
+
+  const newRootFrontier = findCompilableRoots()
+
+  // Since everything is being compiled now, all new found roots are root components
+  newRootFrontier.forEach((rootSchemaDoc) => rootFrontier.add(rootSchemaDoc))
+
+  newRootFrontier.forEach((graphRoot) => {
+    compileSchemaGraphStartingFrom(graphRoot)
+  })
+}
+
+export { initAllSchemaDocuments as compileSchemas }
