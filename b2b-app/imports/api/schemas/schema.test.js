@@ -4,11 +4,20 @@
 
 // import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
+/**
+ * @typedef {import('./functions').SchemaDocument} SchemaDocument
+ */
 
 import Schemas, { SchemaDocuments } from './schema'
 import Factory from '/imports/test/factories'
 import { assetSchemas } from '/imports/test/schemas.factory'
-import { initAllSchemaDocuments, compiledSchemas, newCompilations } from './functions'
+import {
+  initAllSchemaDocuments,
+  compiledSchemas,
+  newCompilations,
+  compileData,
+  compileEditedSchemaDocs,
+} from './functions'
 
 const debug = require('debug')('app:schemas-test')
 
@@ -37,24 +46,64 @@ describe('schemas', () => {
     */
     initAllSchemaDocuments(allSchemaDocuments)
     Object.keys(compiledSchemas).forEach((slug) => {
-      console.log(`schema.${slug}`)
-      console.log(compiledSchemas[slug])
       Factory.define(`schema.${slug}`, SchemaDocuments, compiledSchemas[slug])
     })
-
-    console.log(
-      compiledSchemas.core.validate({ createdAt: new Date(), updatedAt: new Date() })
-    )
-    try {
-      console.log(compiledSchemas.core.validate({}))
-    } catch (e) {
-      console.log('PASS!')
-    }
 
     /**
      * And finally, validate some test objects against the various schemas
      * - we need to test both success and failure scenarios
      */
-    // ...
+    console.log(
+      'Test 1:',
+      compiledSchemas.core.validate({ createdAt: new Date(), updatedAt: new Date() })
+        ? 'FAIL'
+        : 'PASS'
+    )
+    let works = false
+    try {
+      console.log(compiledSchemas.core.validate({}))
+    } catch (e) {
+      works = true
+    }
+    console.log('Test 2:', works ? 'PASS' : 'FAIL')
+
+    newCompilations.clear()
+
+    /**
+     * @type {SchemaDocument}
+     */
+    const newVehicleSchema = { ...compileData.vehicle.schema }
+    newVehicleSchema.fields.push({
+      colName: 'wheels',
+      label: 'No. of Wheels',
+      optional: false,
+      type: 'number',
+    })
+    compileEditedSchemaDocs([newVehicleSchema])
+    console.log('Test 3:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
+
+    works = false
+    try {
+      compiledSchemas.bus.validate({
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        seats: 20,
+        model: 'Leyland',
+        rego: 'HOTWHEELS',
+      })
+    } catch (e) {
+      works = true
+    }
+    console.log('Test 4:', works ? 'PASS' : 'FAIL')
+
+    works = !compiledSchemas.bus.validate({
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      seats: 20,
+      model: 'Leyland',
+      rego: 'HOTWHEELS',
+      wheels: 6,
+    })
+    console.log('Test 5:', works ? 'PASS' : 'FAIL')
   })
 })
