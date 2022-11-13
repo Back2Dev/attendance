@@ -1,4 +1,5 @@
 // schema.test.js
+// @ts-check
 
 /* eslint-disable no-unused-expressions */
 
@@ -9,7 +10,9 @@ import { expect } from 'chai'
  */
 
 import Schemas, { SchemaDocuments } from './schema'
+// @ts-ignore
 import Factory from '/imports/test/factories'
+// @ts-ignore
 import { assetSchemas } from '/imports/test/schemas.factory'
 import {
   initAllSchemaDocuments,
@@ -44,6 +47,7 @@ describe('schemas', () => {
     /* Now iterate through them and build complete schema objects, 
     one for each "end" schema, ie Car, Bus Tool
     */
+    // @ts-ignore
     initAllSchemaDocuments(allSchemaDocuments)
     Object.keys(compiledSchemas).forEach((slug) => {
       Factory.define(`schema.${slug}`, SchemaDocuments, compiledSchemas[slug])
@@ -55,7 +59,8 @@ describe('schemas', () => {
      */
     console.log(
       'Test 1:',
-      compiledSchemas.core.validate({ createdAt: new Date(), updatedAt: new Date() })
+      compiledSchemas.core.validate({ createdAt: new Date(), updatedAt: new Date() }) !==
+        undefined
         ? 'FAIL'
         : 'PASS'
     )
@@ -77,7 +82,7 @@ describe('schemas', () => {
       colName: 'wheels',
       label: 'No. of Wheels',
       optional: false,
-      type: 'number',
+      type: 'integer',
     })
     compileEditedSchemaDocs([newVehicleSchema])
     console.log('Test 3:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
@@ -96,14 +101,15 @@ describe('schemas', () => {
     }
     console.log('Test 4:', works ? 'PASS' : 'FAIL')
 
-    works = !compiledSchemas.bus.validate({
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      seats: 20,
-      model: 'Leyland',
-      rego: 'HOTWHEELS',
-      wheels: 6,
-    })
+    works =
+      compiledSchemas.bus.validate({
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        seats: 20,
+        model: 'Leyland',
+        rego: 'HOTWHEELS',
+        wheels: 6,
+      }) == undefined
     console.log('Test 5:', works ? 'PASS' : 'FAIL')
 
     newVehicleSchema = { ...compileData.vehicle.schema }
@@ -114,12 +120,13 @@ describe('schemas', () => {
 
     console.log('Test 6:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
 
-    works = !compiledSchemas.bus.validate({
-      seats: 20,
-      model: 'Leyland',
-      rego: 'HOTWHEELS',
-      wheels: 6,
-    })
+    works =
+      compiledSchemas.bus.validate({
+        seats: 20,
+        model: 'Leyland',
+        rego: 'HOTWHEELS',
+        wheels: 6,
+      }) == undefined
 
     console.log('Test 7:', works ? 'PASS' : 'FAIL')
   })
