@@ -33,6 +33,10 @@ export const FieldsSchema = new SimpleSchema({
   },
   defaultValue: OptionalString, // Will this work?
   optional: { type: Boolean, defaultValue: false },
+  isFieldValueLocked: {
+    type: Boolean,
+    defaultValue: false,
+  },
 })
 
 export const SchemasSchema = new SimpleSchema({
@@ -49,6 +53,14 @@ export const SchemasSchema = new SimpleSchema({
   active: {
     type: Boolean,
     defaultValue: true,
+  },
+  isDocumentInsertLocked: {
+    type: Boolean,
+    defaultValue: false, // By default anyone can insert a document into the collection
+  },
+  isSchemaEditLocked: {
+    type: Boolean,
+    defaultValue: true, // By default only the super admin can edit the schemas
   },
   createdAt,
   updatedAt,
