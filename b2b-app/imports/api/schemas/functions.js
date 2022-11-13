@@ -28,8 +28,13 @@ const ALLOWED_TYPES = {
  *      colName: string;
  *      label: string;
  *      type: string;
+ *      isFieldValueLocked?: boolean;
  *   }[];
  *   extends?: string;
+ *   isDocumentInsertLocked?: boolean;
+ *   isSchemaEditLocked?: boolean;
+ *   createdAt: Date;
+ *   updatedAt: Date;
  * }} SchemaDocument
  *
  * @typedef {{
@@ -79,7 +84,8 @@ function compileSchemaObject(schemaDocument) {
   assembledObject._id = OptionalRegExId
   if (schemaDocument.fields)
     schemaDocument.fields.forEach((field) => {
-      const { colName, ...props } = field
+      // eslint-disable-next-line no-unused-vars
+      const { isFieldValueLocked, colName, ...props } = field
       assembledObject[colName] = props
     })
   return new SimpleSchema(assembledObject)
