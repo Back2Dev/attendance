@@ -18,18 +18,20 @@ const ALLOWED_TYPES = {
 }
 
 /**
+ * @typedef {{
+ *   optional: boolean;
+ *   colName: string;
+ *   label: string;
+ *   type: string;
+ *   isFieldValueLocked?: boolean;
+ * }} SchemaDocumentField
+ *
  * TODO: Change extends if implementing multiple inheritance
  * @typedef {{
  *   name: string;
  *   slug: string;
  *   active: boolean;
- *   fields: {
- *      optional: boolean;
- *      colName: string;
- *      label: string;
- *      type: string;
- *      isFieldValueLocked?: boolean;
- *   }[];
+ *   fields: SchemaDocumentField[];
  *   extends?: string;
  *   isDocumentInsertLocked?: boolean;
  *   isSchemaEditLocked?: boolean;
