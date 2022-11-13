@@ -24,6 +24,7 @@ const ALLOWED_TYPES = {
  *   label: string;
  *   type: string;
  *   isFieldValueLocked?: boolean;
+ *   defaultValue?: string;
  * }} SchemaDocumentField
  *
  * TODO: Change extends if implementing multiple inheritance
@@ -73,6 +74,37 @@ const editedSources = new Set()
  * @type {Set<string>}
  */
 export const newCompilations = new Set()
+
+/**
+ *
+ * @param {SchemaDocumentField} field
+ */
+function resolveDefaultValueOfField(field) {
+  if (!field.defaultValue) {
+    return undefined
+  }
+  switch (field.type.toLowerCase()) {
+    case 'string':
+      return field.defaultValue
+    case 'boolean':
+      return field.defaultValue.toLowerCase() === 'true'
+    case 'integer':
+      return ~~field.defaultValue
+    case 'array':
+    case 'object':
+      try {
+        return JSON.parse(field.defaultValue)
+      } catch (e) {
+        return undefined
+      }
+    case 'date':
+      try {
+        return new Date(field.defaultValue)
+      } catch (e) {
+        return undefined
+      }
+  }
+}
 
 /**
  * Compiles the schema object into a SimpleSchema and returns that
