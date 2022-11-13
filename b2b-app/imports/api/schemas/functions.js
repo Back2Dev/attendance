@@ -119,24 +119,23 @@ function compileSchemaObject(schemaDocument) {
   if (schemaDocument.fields)
     schemaDocument.fields.forEach((field) => {
       // eslint-disable-next-line no-unused-vars
-      const { isFieldValueLocked, colName, ...props } = field
-      assembledObject[colName] = props
+      const { isFieldValueLocked, type, defaultValue, colName, ...props } = field
+      assembledObject[colName] = {
+        ...props,
+        type: resolveDataTypeOfField(field),
+        defaultValue: resolveDefaultValueOfField(field),
+      }
     })
   return new SimpleSchema(assembledObject)
 }
 
 /**
  * Matches the string datatypes with the correct type expected by simple schema
- * @param {SchemaDocument[]} schemaDocumentsList
+ * @param {SchemaDocumentField} field
  */
-function resolveDataTypesOfSchemaDocuments(schemaDocumentsList) {
-  schemaDocumentsList.forEach((schemaDoc) => {
-    // Compile all data types
-    if (schemaDoc.fields)
-      schemaDoc.fields.forEach((field) => {
-        if (ALLOWED_TYPES[field.type]) field.type = ALLOWED_TYPES[field.type]
-      })
-  })
+function resolveDataTypeOfField(field) {
+  if (ALLOWED_TYPES[field.type]) return ALLOWED_TYPES[field.type]
+  return undefined
 }
 
 /**
@@ -313,8 +312,6 @@ export function initAllSchemaDocuments(schemaDocumentsList) {
  * @param {SchemaDocument[]} schemaDocumentsList
  */
 export function compileEditedSchemaDocs(schemaDocumentsList) {
-  resolveDataTypesOfSchemaDocuments(schemaDocumentsList)
-
   setSources(schemaDocumentsList)
 
   relinkEditedSourcesToParents()
