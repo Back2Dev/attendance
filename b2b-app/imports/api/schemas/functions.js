@@ -18,11 +18,12 @@ const ALLOWED_TYPES = {
 }
 
 /**
+ * @typedef {'string' | 'boolean' | 'integer' | 'array' | 'object' | 'date'} AllowedType
  * @typedef {{
  *   optional: boolean;
  *   colName: string;
  *   label: string;
- *   type: string;
+ *   type: AllowedType;
  *   isFieldValueLocked?: boolean;
  *   defaultValue?: string;
  * }} SchemaDocumentField
@@ -76,7 +77,7 @@ const editedSources = new Set()
 export const newCompilations = new Set()
 
 /**
- *
+ * Resolves the relevant field's default value
  * @param {SchemaDocumentField} field
  */
 function resolveDefaultValueOfField(field) {
@@ -109,6 +110,7 @@ function resolveDefaultValueOfField(field) {
 /**
  * Compiles the schema object into a SimpleSchema and returns that
  * @param {SchemaDocument} schemaDocument
+ * @return {SimpleSchema}
  */
 function compileSchemaObject(schemaDocument) {
   /**
@@ -120,17 +122,18 @@ function compileSchemaObject(schemaDocument) {
     schemaDocument.fields.forEach((field) => {
       // eslint-disable-next-line no-unused-vars
       const { isFieldValueLocked, type, defaultValue, colName, ...props } = field
-      assembledObject[colName] = {
+      const assembledField = {
         ...props,
         type: resolveDataTypeOfField(field),
         defaultValue: resolveDefaultValueOfField(field),
       }
+      assembledObject[colName] = assembledField
     })
   return new SimpleSchema(assembledObject)
 }
 
 /**
- * Matches the string datatypes with the correct type expected by simple schema
+ * Matches the string datatypes of the given field with the correct type expected by simple schema
  * @param {SchemaDocumentField} field
  */
 function resolveDataTypeOfField(field) {
