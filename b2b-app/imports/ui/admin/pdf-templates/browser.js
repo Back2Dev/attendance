@@ -76,8 +76,19 @@ const PdfTemplatesNameLister = withTracker(
 )(PdfTemplatesWrapper)
 
 const PdfTemplatesBrowser = () => {
+  let docId
+  if (
+    window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) ==
+    'pdf-templates'
+  ) {
+    docId = ''
+  } else {
+    docId = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1)
+    console.log('docId: ', docId)
+  }
   const [, setSample] = React.useState('')
-  const [selectedTemplate, setSelectedTemplate] = React.useState('')
+
+  const [selectedTemplate, setSelectedTemplate] = React.useState(docId)
   const [file, setFile] = React.useState({ name: 'New Item' })
 
   // code state
@@ -92,23 +103,46 @@ const PdfTemplatesBrowser = () => {
       return row
     })
     console.log('items: ' + JSON.stringify(items[0]))
+    console.log('selected  new template ' + selectedTemplate)
+
     if (items.length > 0) {
       setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
       setFile(items[0])
+      push(`/admin/pdf-templates/browse/${items[0]._id}`)
     } else setCode('dd = {content: ["Hello World!"]}')
   }, [selectedTemplate])
+
+  React.useEffect(() => {
+    const items = PdfTemplates.find(
+      { _id: selectedTemplate },
+      { fields: { name: 1, source: 1 } }
+    ).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    console.log('items initial: ' + JSON.stringify(items[0]))
+    console.log('selected starting template ' + selectedTemplate)
+
+    if (items.length > 0) {
+      setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
+      setFile(items[0])
+      push(`/admin/pdf-templates/browse/${items[0]._id}`)
+    } else setCode('dd = {content: ["Hello World!"]}')
+  }, [])
 
   const drawerWidth = 240
 
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
+      height: `calc(100% - 128px)`,
     },
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      marginTop: '64px',
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -117,6 +151,7 @@ const PdfTemplatesBrowser = () => {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      marginTop: '64px',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -130,6 +165,9 @@ const PdfTemplatesBrowser = () => {
     },
     drawerPaper: {
       width: drawerWidth,
+      marginTop: '64px',
+      position: 'absolute',
+      height: `calc(100% - 64px)`,
     },
     drawerHeader: {
       display: 'flex',
@@ -141,12 +179,14 @@ const PdfTemplatesBrowser = () => {
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
+      // padding: theme.spacing(1),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
       marginLeft: -drawerWidth,
+      marginTop: '64px',
+      height: `calc(100 - 128px)`,
     },
     contentShift: {
       transition: theme.transitions.create('margin', {
@@ -155,6 +195,9 @@ const PdfTemplatesBrowser = () => {
       }),
       marginLeft: 0,
       width: `calc(100% - ${drawerWidth}px)`,
+      height: `calc(100 - 128px)`,
+
+      marginTop: '64px',
     },
   }))
 
@@ -173,10 +216,11 @@ const PdfTemplatesBrowser = () => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
+        height="64px"
+        position="absolute"
       >
         <Toolbar>
           <IconButton
@@ -190,7 +234,6 @@ const PdfTemplatesBrowser = () => {
           </IconButton>
           <Typography variant="h6" noWrap>
             {file.name}
-            {console.log(file.name)}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -221,63 +264,73 @@ const PdfTemplatesBrowser = () => {
       >
         <div
           style={{
-            width: '90%',
-            display: 'inline-block',
+            width: '95%',
+            display: 'block',
             margin: '2%',
+            border: '1px solid black',
+            height: '100%',
+            overflow: 'scroll',
           }}
         >
           <div
             style={{
               width: '100%',
-              height: '100%',
-              border: 'solid grey 10px',
-              overflow: 'scroll',
+              // height: '70%',
+              border: 'solid grey 2%',
+              // overflow: 'scroll',
             }}
           >
             <PdfPlayground code={code} setCode={setCode} />
           </div>
-          <div style={{ padding: '10px' }}>
-            <div style={{ float: 'left' }}>
-              <Autocomplete
-                id="message-search"
-                style={{ width: 300 }}
-                options={['Sample 1', 'Sample 2', 'Sample 3'].map((t) => t)}
-                onChange={(event, newValue) => {
-                  setSample(newValue)
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Sample" variant="outlined" />
-                )}
-              />
-            </div>
-            <div style={{ float: 'right' }}>
-              <Button
-                id={'delete'}
-                key={'delete'}
-                onClick={() => {
-                  methods.remove(selectedTemplate)
-                  setSelectedTemplate(null)
-                }}
-                color={'error'}
-                variant="contained"
-                style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
-              >
-                <Delete />
-                {'Delete'}
-              </Button>
-              <Button
-                id={'add'}
-                key={'add'}
-                onClick={() => methods.update({ _id: selectedTemplate, source: code })}
-                color={'primary'}
-                variant="contained"
-              >
-                <Save />
-                {'Save'}
-              </Button>
-            </div>
+        </div>
+        <div
+        // style={{
+        //   padding: '5px',
+        //   width: '95%',
+        //   margin: '2px',
+        //   border: 'solid red 2px',
+        // }}
+        >
+          <div style={{ float: 'left', marginLeft: '2.25%' }}>
+            <Autocomplete
+              id="message-search"
+              style={{ width: 300 }}
+              options={['Sample 1', 'Sample 2', 'Sample 3'].map((t) => t)}
+              onChange={(event, newValue) => {
+                setSample(newValue)
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Sample" variant="outlined" />
+              )}
+            />
+          </div>
+          <div style={{ float: 'right', marginRight: '4%' }}>
+            <Button
+              id={'delete'}
+              key={'delete'}
+              onClick={() => {
+                methods.remove(selectedTemplate)
+                setSelectedTemplate(null)
+              }}
+              variant="contained"
+              style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
+            >
+              <Delete />
+              {'Delete'}
+            </Button>
+            <Button
+              id={'add'}
+              key={'add'}
+              onClick={() => methods.update({ _id: selectedTemplate, source: code })}
+              color={'primary'}
+              variant="contained"
+            >
+              <Save />
+              {'Save'}
+            </Button>
           </div>
         </div>
+        {/* </div> */}
       </main>
     </div>
   )
