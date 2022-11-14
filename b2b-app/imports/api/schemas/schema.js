@@ -11,13 +11,14 @@ import {
   updatedAt,
 } from '/imports/api/utils/schema-util'
 
-const ALLOWED_TYPES = {
+export const ALLOWED_TYPES = {
   string: String,
   boolean: Boolean,
   integer: SimpleSchema.Integer,
   array: Array,
   object: Object,
   date: Date,
+  foreignKey: String,
 }
 
 const Schemas = new Mongo.Collection('schemas')
@@ -36,6 +37,10 @@ export const FieldsSchema = new SimpleSchema({
   isFieldValueLocked: {
     type: Boolean,
     defaultValue: false,
+  },
+  relatedCollection: {
+    type: String,
+    optional: true,
   },
 })
 
