@@ -38,7 +38,15 @@ export const FieldsSchema = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
   },
+
+  // For foreign key fields only
   relatedCollection: {
+    type: String,
+    optional: true,
+  },
+
+  // For foreign key fields and object fields only
+  displayFormat: {
     type: String,
     optional: true,
   },
