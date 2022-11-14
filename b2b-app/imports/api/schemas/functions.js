@@ -323,3 +323,14 @@ export function compileEditedSchemaDocs(schemaDocumentsList) {
     compileSchemaGraphStartingFrom(graphRoot)
   })
 }
+
+/**
+ * Checks whether the given user can store a document in the relevant document store
+ * under the given schema.
+ * @param {boolean} isSuperAdmin
+ * @param {string} schemaSlug
+ * @return {boolean}
+ */
+export function canStoreDocument(isSuperAdmin, schemaSlug) {
+  return isSuperAdmin || compileData[schemaSlug].schema.isDocumentInsertLocked
+}
