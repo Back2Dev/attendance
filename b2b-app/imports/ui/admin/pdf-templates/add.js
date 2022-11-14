@@ -1,17 +1,20 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
 import { Box, Container, Grid, Typography } from '@material-ui/core'
-import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+import { AutoForm } from 'uniforms-material'
+// import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
+import PdfTemplateContext from './context'
 
-const schemaBridge = config.edit.schema
+const schemaBridge = config.add.schema
 const debug = require('debug')('app:add')
 
-const Add = ({ item, methods }) => {
+const Add = () => {
+  const item = config?.add?.defaultObject || {}
+
+  const { methods } = React.useContext(PdfTemplateContext)
   const save = (model) => {
     try {
       methods.save(model)
@@ -24,10 +27,8 @@ const Add = ({ item, methods }) => {
 
   const changed = (model) => {}
 
-  const { goBack } = useHistory()
-
   const back = () => {
-    goBack()
+    methods.goBack()
   }
 
   return (
@@ -42,7 +43,7 @@ const Add = ({ item, methods }) => {
           schema={schemaBridge}
           model={item}
           onSubmit={save}
-          autoField={CustomAutoField}
+          // autoField={CustomAutoField}
         />
         <Button type="button" onClick={back}>
           Cancel
@@ -53,8 +54,26 @@ const Add = ({ item, methods }) => {
 }
 
 Add.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired,
-  methods: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
+  item: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    revision: PropTypes.number,
+    updatedAt: PropTypes.string,
+    description: PropTypes.string,
+    source: PropTypes.string,
+    active: PropTypes.bool,
+  }),
+  methods: PropTypes.shape({
+    save: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }),
+}
+
+Add.defaultProps = {
+  item: {
+    revision: 1,
+    active: true,
+  },
 }
 export default Add

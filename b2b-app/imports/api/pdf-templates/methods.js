@@ -38,4 +38,15 @@ Meteor.methods({
       }
     }
   },
+  'find.pdfTemplates': (id) => {
+    try {
+      const item = PdfTemplates.findOne({ _id: id })
+      return { status: 'success', message: `Found pdftemplate`, item }
+    } catch (e) {
+      return {
+        status: 'failed',
+        message: e.message,
+      }
+    }
+  },
 })
