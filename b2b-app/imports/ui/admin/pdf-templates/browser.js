@@ -25,6 +25,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import PdfTemplateContext from './context'
 
 let push
 
@@ -33,6 +34,8 @@ const update = (form) => meteorCall('update.pdfTemplates', 'updating', form)
 const insert = (form) => meteorCall('insert.pdfTemplates', 'adding', form)
 const add = () => push('/admin/pdf-templates/add')
 const edit = (id) => push(`/admin/pdf-templates/edit/${id}`)
+const browse = (id) => push(`/admin/pdf-templates/browse/${id}`)
+
 const view = (id) => push(`/admin/pdf-templates/view/${id}`)
 const archive = async (rowids) => {
   const name = prompt('Please enter a name for the archive')
@@ -47,88 +50,119 @@ const archive = async (rowids) => {
     })
   }
 }
-const methods = { remove, update, insert, view, edit, add, archive }
+const methods = { remove, update, insert, view, edit, add, archive, browse }
 
-const PdfTemplatesWrapper = (props) => {
-  push = useHistory()?.push
-  // eslint-disable-next-line react/prop-types
-  if (props.loading) return <Loader loading />
-  return <PdfTemplatesBrowse {...props}></PdfTemplatesBrowse>
-}
+// const PdfTemplatesWrapper = (props) => {
+// push = useHistory()?.push
+//   // eslint-disable-next-line react/prop-types
+//   if (props.loading) return <Loader loading />
+//   return <PdfTemplatesBrowse {...props}></PdfTemplatesBrowse>
+// }
 
-const PdfTemplatesNameLister = withTracker(
-  ({ setSelectedTemplate, selectedTemplate }) => {
-    const subsHandle = Meteor.subscribe('all.names.pdfTemplates')
-    const items = PdfTemplates.find({}, { fields: { name: 1 } }).map((row) => {
-      row.search = obj2Search(row)
-      return row
-    })
-    const columns = config.browse.columns
-    return {
-      items,
-      methods,
-      columns,
-      loading: !subsHandle.ready(),
-      setSelectedTemplate,
-      selectedTemplate,
-    }
-  }
-)(PdfTemplatesWrapper)
+// const PdfTemplatesNameLister = withTracker(
+//   ({ setSelectedTemplate, selectedTemplate }) => {
+//     const subsHandle = Meteor.subscribe('all.names.pdfTemplates')
+//     const items = PdfTemplates.find({}, { fields: { name: 1 } }).map((row) => {
+//       row.search = obj2Search(row)
+//       return row
+//     })
+//     const columns = config.browse.columns
+//     return {
+//       items,
+//       methods,
+//       columns,
+//       loading: !subsHandle.ready(),
+//       // setSelectedTemplate,
+//       // selectedTemplate,
+//     }
+//   }
+// )(PdfTemplatesWrapper)
 
 const PdfTemplatesBrowser = () => {
-  let docId
-  if (
-    window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) ==
-    'pdf-templates'
-  ) {
-    docId = ''
-  } else {
-    docId = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1)
-    console.log('docId: ', docId)
-  }
+  const { items, item, setItem, pdfid, setPdfid } = React.useContext(PdfTemplateContext)
+
+  // let docId = ''
+  // if (
+  //   window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) !==
+  //   'pdf-templates'
+  // ) {
+  //   docId = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1)
+  //   console.log('Setting docId from request path: ', docId)
+  // }
   const [, setSample] = React.useState('')
 
-  const [selectedTemplate, setSelectedTemplate] = React.useState(docId)
-  const [file, setFile] = React.useState({ name: 'New Item' })
+  // const [selectedTemplate, setSelectedTemplate] = React.useState('')
+  // const [file, setFile] = React.useState(item || { name: 'New Item' })
 
   // code state
-  const [code, setCode] = React.useState('dd = {content: "Hello "}')
+  const [code, setCode] = React.useState(item.source || 'dd = {content: "Hello "}')
+  push = useHistory()?.push
+  // React.useEffect(() => {
+  //   const items = PdfTemplates.find(
+  //     { _id: selectedTemplate },
+  //     { fields: { name: 1, source: 1 } }
+  //   ).map((row) => {
+  //     row.search = obj2Search(row)
+  //     return row
+  //   })
+  //   console.log('items 1: ' + JSON.stringify(items[0]))
+  //   console.log('selected  new template 1 ' + selectedTemplate)
+
+  // if (items.length > 0) {
+  //   setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
+  //   setFile(items[0])
+  //   push(`/admin/pdf-templates/browse/${items[0]._id}`)
+  // } else setCode('dd = {content: ["Hello World!"]}')
+  //   if (item) {
+  //     setCode(item.source || 'dd = {content: ["Hello World!"]}')
+  //     setFile(item)
+  //     push(`/admin/pdf-templates/browse/${item._id}`)
+  //   }
+  // }, [selectedTemplate, item])
+
+  // React.useEffect(() => {
+  //   const items = PdfTemplates.find(
+  //     { _id: docId },
+  //     { fields: { name: 1, source: 1 } }
+  //   ).map((row) => {
+  //     row.search = obj2Search(row)
+  //     return row
+  //   })
+  //   console.log('items 2: ' + JSON.stringify(items[0]))
+  //   console.log('selected  new template 2 ' + docId)
+  //   //setSelectedTemplate(docId)
+
+  //   if (items.length > 0) {
+  //     setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
+  //     setFile(items[0])
+  //     push(`/admin/pdf-templates/browse/${items[0]._id}`)
+  //   } else setCode('dd = {content: ["Hello World!"]}')
+  // }, [])
+
+  // React.useEffect(() => {
+  //   if (docId) {
+  //     setSelectedTemplate(docId)
+  //   }
+  //   const items = PdfTemplates.find(
+  //     { _id: selectedTemplate },
+  //     { fields: { name: 1, source: 1 } }
+  //   ).map((row) => {
+  //     row.search = obj2Search(row)
+  //     return row
+  //   })
+  //   console.log('items initial: ' + JSON.stringify(items[0]))
+  //   console.log('selected starting template ' + selectedTemplate)
+
+  //   if (items.length > 0) {
+  //     setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
+  //     setFile(items[0])
+  //     push(`/admin/pdf-templates/browse/${items[0]._id}`)
+  //   } else setCode('dd = {content: ["Hello World!"]}')
+  // }, [])
 
   React.useEffect(() => {
-    const items = PdfTemplates.find(
-      { _id: selectedTemplate },
-      { fields: { name: 1, source: 1 } }
-    ).map((row) => {
-      row.search = obj2Search(row)
-      return row
-    })
-    console.log('items: ' + JSON.stringify(items[0]))
-    console.log('selected  new template ' + selectedTemplate)
-
-    if (items.length > 0) {
-      setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
-      setFile(items[0])
-      push(`/admin/pdf-templates/browse/${items[0]._id}`)
-    } else setCode('dd = {content: ["Hello World!"]}')
-  }, [selectedTemplate])
-
-  React.useEffect(() => {
-    const items = PdfTemplates.find(
-      { _id: selectedTemplate },
-      { fields: { name: 1, source: 1 } }
-    ).map((row) => {
-      row.search = obj2Search(row)
-      return row
-    })
-    console.log('items initial: ' + JSON.stringify(items[0]))
-    console.log('selected starting template ' + selectedTemplate)
-
-    if (items.length > 0) {
-      setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
-      setFile(items[0])
-      push(`/admin/pdf-templates/browse/${items[0]._id}`)
-    } else setCode('dd = {content: ["Hello World!"]}')
-  }, [])
+    setCode(item.source)
+  }, [item, pdfid])
 
   const drawerWidth = 240
 
@@ -233,7 +267,7 @@ const PdfTemplatesBrowser = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {file.name}
+            {item ? item.name : 'New File'}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -252,9 +286,9 @@ const PdfTemplatesBrowser = () => {
           </IconButton>
         </div>
         <Divider />
-        <PdfTemplatesNameLister
-          setSelectedTemplate={setSelectedTemplate}
-          selectedTemplate={selectedTemplate}
+        <PdfTemplatesBrowse
+        // setSelectedTemplate={setSelectedTemplate}
+        // selectedTemplate={selectedTemplate}
         />
       </Drawer>
       <main
@@ -309,8 +343,8 @@ const PdfTemplatesBrowser = () => {
               id={'delete'}
               key={'delete'}
               onClick={() => {
-                methods.remove(selectedTemplate)
-                setSelectedTemplate(null)
+                methods.remove(pdfid)
+                setPdfid(null)
               }}
               variant="contained"
               style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
@@ -321,7 +355,7 @@ const PdfTemplatesBrowser = () => {
             <Button
               id={'add'}
               key={'add'}
-              onClick={() => methods.update({ _id: selectedTemplate, source: code })}
+              onClick={() => methods.update({ _id: pdfid, source: code })}
               color={'primary'}
               variant="contained"
             >

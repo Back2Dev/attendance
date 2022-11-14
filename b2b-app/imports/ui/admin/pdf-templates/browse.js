@@ -4,21 +4,31 @@ import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
 import { ReactTabulator } from 'react-tabulator'
 import { TabAppbar } from '/imports/ui/utils/generic'
+import PdfTemplateContext from './context'
+import config from './config'
 
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
-const Browse = ({ items, methods, columns, setSelectedTemplate, selectedTemplate }) => {
+const Browse = () => {
   const tableRef = React.useRef(null)
+  const { loadingPdfs, items, methods, pdfid, setPdfid, item } =
+    React.useContext(PdfTemplateContext)
 
-  const onRowClick = (_, rowComponent) =>
-    setSelectedTemplate(rowComponent._row.data[idField])
+  // const [selectedTemplate, setSelectedTemplate] = React.useState(item._id)
+  const onRowClick = (_, rowComponent) => {
+    console.log('rowComponent id: ', rowComponent._row.data[idField])
+    // setPdfid(rowComponent._row.data[idField])
+    // console.log('pdfid: ', pdfid)
+    const id = rowComponent._row.data[idField]
+    if (!id) alert(`Could not get id from [${idField}]`)
+    else methods.browse(id)
+  }
 
+  const columns = config.browse.columns
   columns[1].formatter = (cell) => {
     const x = document.createElement('span')
     x.innerHTML =
-      cell._cell.initialValue === selectedTemplate
-        ? '<span style="float: right;">✔️</span>'
-        : ''
+      cell._cell.initialValue === pdfid ? '<span style="float: right;">✔️</span>' : ''
     x.style.width = '100%'
     return x
   }
@@ -83,11 +93,11 @@ const Browse = ({ items, methods, columns, setSelectedTemplate, selectedTemplate
 }
 
 Browse.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  items: PropTypes.array,
-  methods: PropTypes.object.isRequired,
-  columns: PropTypes.array.isRequired,
-  setSelectedTemplate: PropTypes.func.isRequired,
-  selectedTemplate: PropTypes.string.isRequired,
+  // loading: PropTypes.bool.isRequired,
+  // items: PropTypes.array,
+  // methods: PropTypes.object.isRequired,
+  // columns: PropTypes.array.isRequired,
+  // setSelectedTemplate: PropTypes.func.isRequired,
+  // selectedTemplate: PropTypes.string.isRequired,
 }
 export default Browse

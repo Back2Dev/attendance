@@ -14,7 +14,11 @@ import PdfTemplates from '/imports/api/pdf-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 
 export default function PdfTemplatesApp() {
-  const [item, setItem] = useState({})
+  const [item, setItem] = useState({
+    name: 'New File',
+    source: 'dd= {content: ["NO content!"]}',
+  })
+  // const [code, setCode] = useState('dd= {content: ["NO content!"]}')
 
   let docId
   if (
@@ -58,6 +62,11 @@ export default function PdfTemplatesApp() {
     setPdfid(id)
   }
 
+  const browse = (id) => {
+    push(`/admin/pdf-templates/browse/${id}`)
+    setPdfid(id)
+  }
+
   const archive = async (rowids) => {
     const name = prompt('Please enter a name for the archive')
     const text = confirm(
@@ -72,7 +81,18 @@ export default function PdfTemplatesApp() {
     }
   }
 
-  const methods = { remove, save, update, insert, view, edit, add, archive, goBack }
+  const methods = {
+    remove,
+    save,
+    update,
+    insert,
+    view,
+    edit,
+    add,
+    archive,
+    goBack,
+    browse,
+  }
 
   const { loadingPdfs, items } = useTracker(() => {
     let pdfs = []
@@ -93,6 +113,9 @@ export default function PdfTemplatesApp() {
           setItem(res.item)
         }
       )
+      // .then((resp) => {
+      //   setCode(item.source)
+      // })
     }
   }, [pdfid])
 
@@ -101,6 +124,8 @@ export default function PdfTemplatesApp() {
     item: item,
     items: items,
     methods: methods,
+    pdfid: pdfid,
+    // code: code,
   }
   return (
     <PdfTemplateProvider value={initialState}>
@@ -108,8 +133,8 @@ export default function PdfTemplatesApp() {
         <Route path="/admin/pdf-templates/edit/:id" exact component={Edit} />
         <Route path="/admin/pdf-templates/add/" exact component={Add} />
         <Route path="/admin/pdf-templates/view/:id" exact component={View} />
-        <Route path="/admin/pdf-templates" exact component={PdfTemplatesList} />
-        <Route path="/admin/pdf-templates/browse/" exact component={Browser} />
+        <Route path="/admin/pdf-templates/browse/:id" exact component={Browser} />
+        <Route path="/admin/pdf-templates" exact component={Browser} />
         <Route component={NotFound} />
       </Switch>
     </PdfTemplateProvider>

@@ -21,6 +21,16 @@ function pdfTemplateReducer(state, action) {
         ...state,
         methods: payload,
       }
+    case 'setPdfid':
+      return {
+        ...state,
+        pdfid: payload,
+      }
+    case 'setCode':
+      return {
+        ...state,
+        code: payload,
+      }
     default:
       return state
   }
@@ -30,6 +40,8 @@ export const PdfTemplateProvider = (props) => {
     items: [],
     item: {},
     methods: {},
+    pdfid: '',
+    code: 'dd= {content: ["Hello World!"]}',
   })
   const setItems = (data) => {
     dispatch({ type: 'setItems', payload: data })
@@ -40,9 +52,15 @@ export const PdfTemplateProvider = (props) => {
   const setMethods = (data) => {
     dispatch({ type: 'setMethods', payload: data })
   }
+  const setPdfid = (data) => {
+    dispatch({ type: 'setPdfid', payload: data })
+  }
+  const setCode = (data) => {
+    dispatch({ type: 'setCode', payload: data })
+  }
   return (
     <PdfTemplateContext.Provider
-      value={{ ...props.value, setItem, setItems, setMethods }}
+      value={{ ...props.value, setItem, setItems, setMethods, setPdfid, setCode }}
     >
       {props.children}
     </PdfTemplateContext.Provider>
