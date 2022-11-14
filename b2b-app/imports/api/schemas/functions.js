@@ -12,13 +12,14 @@ import { ALLOWED_TYPES } from './schema'
 /**
  * @typedef {'string' | 'boolean' | 'integer' | 'array' | 'object' | 'date' | 'foreignKey'} AllowedType
  * @typedef {{
- *   optional: boolean;
  *   colName: string;
  *   label: string;
  *   type: AllowedType;
- *   isFieldValueLocked?: boolean;
  *   defaultValue?: string;
- *   relatedCollection?: string;
+ *   optional: boolean;
+ *   isFieldValueLocked?: boolean;
+ *   relatedCollection?: string; // For foreign key fields only
+ *   displayFormat?: string; // For foreign key fields and object fields only
  * }} SchemaDocumentField
  *
  * TODO: Change extends if implementing multiple inheritance
@@ -115,9 +116,10 @@ function compileSchemaObject(schemaDocument) {
   if (schemaDocument.fields)
     schemaDocument.fields.forEach((field) => {
       // eslint-disable-next-line no-unused-vars
-      const { isFieldValueLocked, type, defaultValue, colName, ...props } = field
+      const { colName, label, optional } = field
       const assembledField = {
-        ...props,
+        label,
+        optional,
         type: resolveDataTypeOfField(field),
         defaultValue: resolveDefaultValueOfField(field),
       }
