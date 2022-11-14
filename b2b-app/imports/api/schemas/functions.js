@@ -4,21 +4,13 @@ import {
   OptionalRegExId,
   // @ts-ignore
 } from '/imports/api/utils/schema-util'
+import { ALLOWED_TYPES } from './schema'
 /**
  * @typedef {import('simpl-schema').SimpleSchemaDefinition} SimpleSchemaDefinition
  */
 
-const ALLOWED_TYPES = {
-  string: String,
-  boolean: Boolean,
-  integer: SimpleSchema.Integer,
-  array: Array,
-  object: Object,
-  date: Date,
-}
-
 /**
- * @typedef {'string' | 'boolean' | 'integer' | 'array' | 'object' | 'date'} AllowedType
+ * @typedef {'string' | 'boolean' | 'integer' | 'array' | 'object' | 'date' | 'foreignKey'} AllowedType
  * @typedef {{
  *   optional: boolean;
  *   colName: string;
@@ -26,6 +18,7 @@ const ALLOWED_TYPES = {
  *   type: AllowedType;
  *   isFieldValueLocked?: boolean;
  *   defaultValue?: string;
+ *   relatedCollection?: string;
  * }} SchemaDocumentField
  *
  * TODO: Change extends if implementing multiple inheritance
@@ -84,8 +77,9 @@ function resolveDefaultValueOfField(field) {
   if (!field.defaultValue) {
     return undefined
   }
-  switch (field.type.toLowerCase()) {
+  switch (field.type) {
     case 'string':
+    case 'foreignKey':
       return field.defaultValue
     case 'boolean':
       return field.defaultValue.toLowerCase() === 'true'
