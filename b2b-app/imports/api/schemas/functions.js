@@ -377,3 +377,20 @@ function resolveDefaultValuesForInsert(schemaSlug, changes) {
     }
   })
 }
+
+/**
+ *
+ * @param {boolean} isSuperAdmin Whether the user performing the operation is a super admin
+ * @param {string} schemaSlug What is the slug of the schema/collection being inserted into or updated?
+ * @param {Object.<string, any>} changes The document being inserted or the changes being updated
+ * @param {boolean} isInsert True if this is an insert operation, false otherwise
+ */
+function resolveAllFieldValuesForUpdateOrInsert(
+  isSuperAdmin,
+  schemaSlug,
+  changes,
+  isInsert
+) {
+  if (!isSuperAdmin) deleteAllLockedFields(schemaSlug, changes)
+  if (isInsert) resolveDefaultValuesForInsert(schemaSlug, changes)
+}
