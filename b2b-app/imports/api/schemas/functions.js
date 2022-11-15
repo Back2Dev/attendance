@@ -394,3 +394,33 @@ function resolveAllFieldValuesForUpdateOrInsert(
   if (!isSuperAdmin) deleteAllLockedFields(schemaSlug, changes)
   if (isInsert) resolveDefaultValuesForInsert(schemaSlug, changes)
 }
+
+/**
+ * Validates the given document against the given schema
+ * @param {boolean} isSuperAdmin Whether the user performing the operation is a super admin
+ * @param {string} schemaSlug What is the slug of the schema/collection being inserted into or updated?
+ * @param {Object.<string, any>} document Only if updating document
+ * @param {Object.<string, any>} changes The document being inserted or the changes being updated
+ * @return {Object.<string, any>} True if upsert-able, false otherwise
+ * @throws {string[]}
+ */
+export function performAllDocumentValidations(
+  isSuperAdmin,
+  schemaSlug,
+  changes,
+  document
+) {
+  resolveAllFieldValuesForUpdateOrInsert(
+    isSuperAdmin,
+    schemaSlug,
+    changes,
+    document == undefined
+  )
+  const finalDoc = { ...document, ...changes }
+  /**
+   * @type {string[]}
+   */
+  const errors = validateDocumentAgainstSchema(schemaSlug, finalDoc)
+  if (errors.length > 0) throw errors
+  return finalDoc
+}
