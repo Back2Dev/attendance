@@ -338,3 +338,18 @@ export function canStoreDocument(isSuperAdmin, schemaSlug) {
 function extractErrors(e) {
   return e.details.map((err) => err.message)
 }
+
+/**
+ * Validates the given document against the compiled schema of the given slug
+ * @param {string} schemaSlug
+ * @param {Object.<string, any>} document
+ * @return {string[]} Empty array if valid, array with errors otherwise
+ */
+export function validateDocumentAgainstSchema(schemaSlug, document) {
+  try {
+    compiledSchemas[schemaSlug].validate(document)
+    return []
+  } catch (e) {
+    return extractErrors(e)
+  }
+}
