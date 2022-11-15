@@ -20,6 +20,7 @@ import {
   newCompilations,
   compileData,
   compileEditedSchemaDocs,
+  performAllDocumentValidations,
 } from './functions'
 
 const debug = require('debug')('app:schemas-test')
@@ -57,20 +58,24 @@ describe('schemas', () => {
      * And finally, validate some test objects against the various schemas
      * - we need to test both success and failure scenarios
      */
-    console.log(
-      'Test 1:',
-      compiledSchemas.core.validate({ createdAt: new Date(), updatedAt: new Date() }) !==
-        undefined
-        ? 'FAIL'
-        : 'PASS'
-    )
+    /**
+     * @type {string[]}
+     */
+
+    // TEST 1
+    let errors = []
     let works = false
-    try {
-      console.log(compiledSchemas.core.validate({}))
-    } catch (e) {
-      works = true
-    }
-    console.log('Test 2:', works ? 'PASS' : 'FAIL')
+    errors = performAllDocumentValidations(
+      true,
+      'core',
+      { createdAt: new Date(), updatedAt: new Date() },
+      true
+    )
+    console.log('Test 1:', errors.length !== 0 ? 'FAIL' : 'PASS')
+
+    // TEST 2
+    errors = performAllDocumentValidations(true, 'core', {}, true)
+    console.log('Test 2:', errors.length === 2 ? 'PASS' : 'FAIL')
 
     newCompilations.clear()
 
@@ -87,30 +92,34 @@ describe('schemas', () => {
     compileEditedSchemaDocs([newVehicleSchema])
     console.log('Test 3:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
 
-    works = false
-    try {
-      compiledSchemas.bus.validate({
+    errors = performAllDocumentValidations(
+      true,
+      'bus',
+      {
         createdAt: new Date(),
         updatedAt: new Date(),
         seats: 20,
         model: 'Leyland',
         rego: 'HOTWHEELS',
-      })
-    } catch (e) {
-      works = true
-    }
-    console.log('Test 4:', works ? 'PASS' : 'FAIL')
+      },
+      true
+    )
+    console.log('Test 4:', errors.length === 1 ? 'PASS' : 'FAIL')
 
-    works =
-      compiledSchemas.bus.validate({
+    errors = performAllDocumentValidations(
+      true,
+      'bus',
+      {
         createdAt: new Date(),
         updatedAt: new Date(),
         seats: 20,
         model: 'Leyland',
         rego: 'HOTWHEELS',
         wheels: 6,
-      }) == undefined
-    console.log('Test 5:', works ? 'PASS' : 'FAIL')
+      },
+      true
+    )
+    console.log('Test 5:', errors.length === 0 ? 'PASS' : 'FAIL')
 
     newVehicleSchema = { ...compileData.vehicle.schema }
     newVehicleSchema.extends = undefined
@@ -120,14 +129,17 @@ describe('schemas', () => {
 
     console.log('Test 6:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
 
-    works =
-      compiledSchemas.bus.validate({
+    errors = performAllDocumentValidations(
+      true,
+      'bus',
+      {
         seats: 20,
         model: 'Leyland',
         rego: 'HOTWHEELS',
         wheels: 6,
-      }) == undefined
-
-    console.log('Test 7:', works ? 'PASS' : 'FAIL')
+      },
+      true
+    )
+    console.log('Test 7:', errors.length === 0 ? 'PASS' : 'FAIL')
   })
 })
