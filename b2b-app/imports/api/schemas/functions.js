@@ -349,7 +349,7 @@ function extractErrors(e) {
  */
 export function validateDocumentAgainstSchema(schemaSlug, document, options) {
   try {
-    compiledSchemas[schemaSlug].validate(document)
+    compiledSchemas[schemaSlug].validate(document, options)
     return []
   } catch (e) {
     return extractErrors(e)
