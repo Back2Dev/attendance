@@ -6,19 +6,13 @@ import Add from './add.js'
 import NotFound from '/imports/ui/components/commons/not-found.js'
 import Browser from './browser'
 import { PdfTemplateProvider } from './context'
-import PdfTemplatesList from './list'
-
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import PdfTemplates from '/imports/api/pdf-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 
 export default function PdfTemplatesApp() {
-  const [item, setItem] = useState({
-    name: 'New File',
-    source: 'dd= {content: ["NO content!"]}',
-  })
-  // const [code, setCode] = useState('dd= {content: ["NO content!"]}')
+  const [item, setItem] = useState({})
 
   let docId
   if (
@@ -32,18 +26,22 @@ export default function PdfTemplatesApp() {
   const [pdfid, setPdfid] = useState(docId)
 
   let push = useHistory()?.push
+
   const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
 
+  const browse = (id) => {
+    push(`/admin/pdf-templates/browse/${id}`)
+    setPdfid(id)
+  }
+
   const save = (form) => {
-    meteorCall('insert.pdfTemplates', 'saving', form).then(() =>
-      push('/admin/pdf-templates')
-    )
+    meteorCall('insert.pdfTemplates', 'saving', form).then((res) => {
+      browse(res.id)
+    })
   }
 
   const update = (form) => {
-    meteorCall('update.pdfTemplates', 'updating', form)
-      .then(() => setItem(form))
-      .then(() => push('/admin/pdf-templates'))
+    meteorCall('update.pdfTemplates', 'updating', form).then(() => setItem(form))
   }
 
   const goBack = useHistory().goBack
@@ -59,11 +57,6 @@ export default function PdfTemplatesApp() {
 
   const view = (id) => {
     push(`/admin/pdf-templates/view/${id}`)
-    setPdfid(id)
-  }
-
-  const browse = (id) => {
-    push(`/admin/pdf-templates/browse/${id}`)
     setPdfid(id)
   }
 
@@ -113,9 +106,6 @@ export default function PdfTemplatesApp() {
           setItem(res.item)
         }
       )
-      // .then((resp) => {
-      //   setCode(item.source)
-      // })
     }
   }, [pdfid])
 
@@ -125,7 +115,6 @@ export default function PdfTemplatesApp() {
     items: items,
     methods: methods,
     pdfid: pdfid,
-    // code: code,
   }
   return (
     <PdfTemplateProvider value={initialState}>

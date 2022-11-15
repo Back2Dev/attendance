@@ -30,7 +30,7 @@ Meteor.methods({
   'insert.pdfTemplates': (form) => {
     try {
       const id = PdfTemplates.insert(form)
-      return { status: 'success', message: `Added pdftemplate` }
+      return { status: 'success', message: `Added ${id} pdftemplate`, id }
     } catch (e) {
       return {
         status: 'failed',

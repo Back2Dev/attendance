@@ -1,13 +1,6 @@
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import PdfTemplates from '/imports/api/pdf-templates/schema'
-import { meteorCall } from '/imports/ui/utils/meteor'
-import { obj2Search } from '/imports/api/util'
-import Loader from '/imports/ui/components/commons/loading.js'
 import PdfTemplatesBrowse from './browse'
-import config from './config'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { TextField } from '@material-ui/core'
 import { Button } from '/imports/ui/utils/generic'
@@ -27,141 +20,38 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import PdfTemplateContext from './context'
 
-let push
-
-const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
-const update = (form) => meteorCall('update.pdfTemplates', 'updating', form)
-const insert = (form) => meteorCall('insert.pdfTemplates', 'adding', form)
-const add = () => push('/admin/pdf-templates/add')
-const edit = (id) => push(`/admin/pdf-templates/edit/${id}`)
-const browse = (id) => push(`/admin/pdf-templates/browse/${id}`)
-
-const view = (id) => push(`/admin/pdf-templates/view/${id}`)
-const archive = async (rowids) => {
-  const name = prompt('Please enter a name for the archive')
-  const text = confirm(
-    'Are you sure you want to archive this PdfTemplates and related entities?'
-  )
-
-  if (name && text) {
-    meteorCall('archive.pdfTemplates', `Archiving PdfTemplates to ${name}`, {
-      name,
-      ids: rowids,
-    })
-  }
-}
-const methods = { remove, update, insert, view, edit, add, archive, browse }
-
-// const PdfTemplatesWrapper = (props) => {
-// push = useHistory()?.push
-//   // eslint-disable-next-line react/prop-types
-//   if (props.loading) return <Loader loading />
-//   return <PdfTemplatesBrowse {...props}></PdfTemplatesBrowse>
-// }
-
-// const PdfTemplatesNameLister = withTracker(
-//   ({ setSelectedTemplate, selectedTemplate }) => {
-//     const subsHandle = Meteor.subscribe('all.names.pdfTemplates')
-//     const items = PdfTemplates.find({}, { fields: { name: 1 } }).map((row) => {
-//       row.search = obj2Search(row)
-//       return row
-//     })
-//     const columns = config.browse.columns
-//     return {
-//       items,
-//       methods,
-//       columns,
-//       loading: !subsHandle.ready(),
-//       // setSelectedTemplate,
-//       // selectedTemplate,
-//     }
-//   }
-// )(PdfTemplatesWrapper)
-
 const PdfTemplatesBrowser = () => {
-  const { items, item, setItem, pdfid, setPdfid } = React.useContext(PdfTemplateContext)
-
-  // let docId = ''
-  // if (
-  //   window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1) !==
-  //   'pdf-templates'
-  // ) {
-  //   docId = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1)
-  //   console.log('Setting docId from request path: ', docId)
-  // }
+  const { items, item, setItem, pdfid, setPdfid, methods, loadingPdfs } =
+    React.useContext(PdfTemplateContext)
   const [, setSample] = React.useState('')
-
-  // const [selectedTemplate, setSelectedTemplate] = React.useState('')
-  // const [file, setFile] = React.useState(item || { name: 'New Item' })
+  const [file, setFile] = React.useState(item.name || 'New File')
 
   // code state
   const [code, setCode] = React.useState(item.source || 'dd = {content: "Hello "}')
+
   push = useHistory()?.push
-  // React.useEffect(() => {
-  //   const items = PdfTemplates.find(
-  //     { _id: selectedTemplate },
-  //     { fields: { name: 1, source: 1 } }
-  //   ).map((row) => {
-  //     row.search = obj2Search(row)
-  //     return row
-  //   })
-  //   console.log('items 1: ' + JSON.stringify(items[0]))
-  //   console.log('selected  new template 1 ' + selectedTemplate)
-
-  // if (items.length > 0) {
-  //   setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
-  //   setFile(items[0])
-  //   push(`/admin/pdf-templates/browse/${items[0]._id}`)
-  // } else setCode('dd = {content: ["Hello World!"]}')
-  //   if (item) {
-  //     setCode(item.source || 'dd = {content: ["Hello World!"]}')
-  //     setFile(item)
-  //     push(`/admin/pdf-templates/browse/${item._id}`)
-  //   }
-  // }, [selectedTemplate, item])
-
-  // React.useEffect(() => {
-  //   const items = PdfTemplates.find(
-  //     { _id: docId },
-  //     { fields: { name: 1, source: 1 } }
-  //   ).map((row) => {
-  //     row.search = obj2Search(row)
-  //     return row
-  //   })
-  //   console.log('items 2: ' + JSON.stringify(items[0]))
-  //   console.log('selected  new template 2 ' + docId)
-  //   //setSelectedTemplate(docId)
-
-  //   if (items.length > 0) {
-  //     setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
-  //     setFile(items[0])
-  //     push(`/admin/pdf-templates/browse/${items[0]._id}`)
-  //   } else setCode('dd = {content: ["Hello World!"]}')
-  // }, [])
-
-  // React.useEffect(() => {
-  //   if (docId) {
-  //     setSelectedTemplate(docId)
-  //   }
-  //   const items = PdfTemplates.find(
-  //     { _id: selectedTemplate },
-  //     { fields: { name: 1, source: 1 } }
-  //   ).map((row) => {
-  //     row.search = obj2Search(row)
-  //     return row
-  //   })
-  //   console.log('items initial: ' + JSON.stringify(items[0]))
-  //   console.log('selected starting template ' + selectedTemplate)
-
-  //   if (items.length > 0) {
-  //     setCode(items[0].source || 'dd = {content: ["Hello World!"]}')
-  //     setFile(items[0])
-  //     push(`/admin/pdf-templates/browse/${items[0]._id}`)
-  //   } else setCode('dd = {content: ["Hello World!"]}')
-  // }, [])
 
   React.useEffect(() => {
-    setCode(item.source)
+    if (!pdfid || !item) {
+      if (items.length > 0) {
+        setItem(items[0])
+      } else {
+        setCode('dd = {content: ["Hello World!"]}')
+        setFile('New File')
+      }
+    }
+  }, [loadingPdfs])
+
+  const handleSave = (e, form) => {
+    if (pdfid) {
+      methods.update({ _id: pdfid, source: code })
+    } else {
+      methods.save({ name: file, source: code, revision: 1 })
+    }
+  }
+
+  React.useEffect(() => {
+    setCode(item.source || 'dd = {content: ["Hello World!"]}')
   }, [item, pdfid])
 
   const drawerWidth = 240
@@ -170,6 +60,7 @@ const PdfTemplatesBrowser = () => {
     root: {
       display: 'flex',
       height: `calc(100% - 128px)`,
+      minHeight: '700px',
     },
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
@@ -213,14 +104,14 @@ const PdfTemplatesBrowser = () => {
     },
     content: {
       flexGrow: 1,
-      // padding: theme.spacing(1),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
       marginLeft: -drawerWidth,
       marginTop: '64px',
-      height: `calc(100 - 128px)`,
+      height: `calc(100% - 128px)`,
+      minHeight: '582px',
     },
     contentShift: {
       transition: theme.transitions.create('margin', {
@@ -229,8 +120,8 @@ const PdfTemplatesBrowser = () => {
       }),
       marginLeft: 0,
       width: `calc(100% - ${drawerWidth}px)`,
-      height: `calc(100 - 128px)`,
-
+      height: `calc(100% - 128px)`,
+      minHeight: '582px',
       marginTop: '64px',
     },
   }))
@@ -286,10 +177,7 @@ const PdfTemplatesBrowser = () => {
           </IconButton>
         </div>
         <Divider />
-        <PdfTemplatesBrowse
-        // setSelectedTemplate={setSelectedTemplate}
-        // selectedTemplate={selectedTemplate}
-        />
+        <PdfTemplatesBrowse />
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -304,27 +192,20 @@ const PdfTemplatesBrowser = () => {
             border: '1px solid black',
             height: '100%',
             overflow: 'scroll',
+            minHeight: '560px',
           }}
         >
           <div
             style={{
               width: '100%',
-              // height: '70%',
+              minHeight: '560px',
               border: 'solid grey 2%',
-              // overflow: 'scroll',
             }}
           >
             <PdfPlayground code={code} setCode={setCode} />
           </div>
         </div>
-        <div
-        // style={{
-        //   padding: '5px',
-        //   width: '95%',
-        //   margin: '2px',
-        //   border: 'solid red 2px',
-        // }}
-        >
+        <div>
           <div style={{ float: 'left', marginLeft: '2.25%' }}>
             <Autocomplete
               id="message-search"
@@ -355,7 +236,7 @@ const PdfTemplatesBrowser = () => {
             <Button
               id={'add'}
               key={'add'}
-              onClick={() => methods.update({ _id: pdfid, source: code })}
+              onClick={handleSave}
               color={'primary'}
               variant="contained"
             >
@@ -364,7 +245,6 @@ const PdfTemplatesBrowser = () => {
             </Button>
           </div>
         </div>
-        {/* </div> */}
       </main>
     </div>
   )
