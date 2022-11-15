@@ -368,3 +368,12 @@ function deleteAllLockedFields(schemaSlug, changes) {
     }
   })
 }
+
+function resolveDefaultValuesForInsert(schemaSlug, changes) {
+  compileData[schemaSlug].schema.fields.forEach((field) => {
+    const defaultValue = resolveDefaultValueOfField(field)
+    if (changes[field.colName] == undefined && defaultValue != undefined) {
+      changes[field.colName] = defaultValue
+    }
+  })
+}
