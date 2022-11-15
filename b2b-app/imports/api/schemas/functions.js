@@ -395,6 +395,7 @@ function resolveAllFieldValuesForUpdateOrInsert(
 ) {
   if (!isSuperAdmin) deleteAllLockedFields(schemaSlug, changes)
   if (isInsert) resolveDefaultValuesForInsert(schemaSlug, changes)
+  compiledSchemas[schemaSlug].clean(changes)
 }
 
 /**
