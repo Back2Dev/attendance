@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles'
@@ -12,6 +12,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import config from './config'
 
+import PdfTemplateContext from './context'
+
 const debug = require('debug')('app:edit')
 
 const useStyles = makeStyles({
@@ -20,8 +22,9 @@ const useStyles = makeStyles({
   },
 })
 
-const View = ({ item }) => {
+const View = () => {
   const classes = useStyles()
+  const { item } = React.useContext(PdfTemplateContext)
 
   return (
     <div>
@@ -56,6 +59,13 @@ const View = ({ item }) => {
 }
 
 View.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    revision: PropTypes.number.isRequired,
+    updatedAt: PropTypes.any,
+    description: PropTypes.string,
+    source: PropTypes.string,
+    active: PropTypes.bool.isRequired,
+  }),
 }
 export default View

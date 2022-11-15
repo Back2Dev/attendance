@@ -26,6 +26,12 @@ module.exports = {
     config.resolve.alias['meteor/tracker'] = require.resolve(
       './__mocks__/meteor-tracker.js'
     )
+    config.resolve.alias['meteor/mongo'] = require.resolve('./__mocks__/meteor-mongo.js')
+
+    config.resolve.alias['meteor/react-meteor-data'] = require.resolve(
+      './__mocks__/react-meteor-data.js'
+    )
+
     config.plugins.push(
       new instance.NormalModuleReplacementPlugin(
         /preview-panel/,

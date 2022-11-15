@@ -30,11 +30,22 @@ Meteor.methods({
   'insert.pdfTemplates': (form) => {
     try {
       const id = PdfTemplates.insert(form)
-      return { status: 'success', message: `Added pdftemplate` }
+      return { status: 'success', message: `Added ${id} pdftemplate`, id }
     } catch (e) {
       return {
         status: 'failed',
         message: `Error adding pdftemplate: ${e.message}`,
+      }
+    }
+  },
+  'find.pdfTemplates': (id) => {
+    try {
+      const item = PdfTemplates.findOne({ _id: id })
+      return { status: 'success', message: `Found pdftemplate`, item }
+    } catch (e) {
+      return {
+        status: 'failed',
+        message: e.message,
       }
     }
   },
