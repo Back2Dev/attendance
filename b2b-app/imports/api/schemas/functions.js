@@ -353,3 +353,18 @@ export function validateDocumentAgainstSchema(schemaSlug, document) {
     return extractErrors(e)
   }
 }
+
+/**
+ * Prepares all locked fields for insert or update.
+ * If this is used to prepare for insert, then default fields will be used as the value.
+ * Else, it will simply be deleted.
+ * @param {string} schemaSlug
+ * @param {{ [x: string]: any; }} [changes]
+ */
+function deleteAllLockedFields(schemaSlug, changes) {
+  compileData[schemaSlug].schema.fields.forEach((field) => {
+    if (field.isFieldValueLocked) {
+      delete changes[field.colName]
+    }
+  })
+}
