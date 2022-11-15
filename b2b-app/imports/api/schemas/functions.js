@@ -334,3 +334,7 @@ export function compileEditedSchemaDocs(schemaDocumentsList) {
 export function canStoreDocument(isSuperAdmin, schemaSlug) {
   return isSuperAdmin || compileData[schemaSlug].schema.isDocumentInsertLocked
 }
+
+function extractErrors(e) {
+  return e.details.map((err) => err.message)
+}
