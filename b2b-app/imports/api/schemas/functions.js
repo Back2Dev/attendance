@@ -7,6 +7,7 @@ import {
 import { ALLOWED_TYPES } from './schema'
 /**
  * @typedef {import('simpl-schema').SimpleSchemaDefinition} SimpleSchemaDefinition
+ * @typedef {import('simpl-schema').ValidationOption} ValidationOption
  */
 
 /**
@@ -343,9 +344,10 @@ function extractErrors(e) {
  * Validates the given document against the compiled schema of the given slug
  * @param {string} schemaSlug
  * @param {Object.<string, any>} document
+ * @param {ValidationOption} options
  * @return {string[]} Empty array if valid, array with errors otherwise
  */
-export function validateDocumentAgainstSchema(schemaSlug, document) {
+export function validateDocumentAgainstSchema(schemaSlug, document, options) {
   try {
     compiledSchemas[schemaSlug].validate(document)
     return []
@@ -399,28 +401,18 @@ function resolveAllFieldValuesForUpdateOrInsert(
  * Validates the given document against the given schema
  * @param {boolean} isSuperAdmin Whether the user performing the operation is a super admin
  * @param {string} schemaSlug What is the slug of the schema/collection being inserted into or updated?
- * @param {Object.<string, any>} document Only if updating document
- * @param {Object.<string, any>} changes The document being inserted or the changes being updated
- * @return {Object.<string, any>} True if upsert-able, false otherwise
- * @throws {string[]}
+ * @param {boolean} isInsert Only if updating document
+ * @param {Object.<string, any>} changes The document being inserted or the changes being updated (THIS IS ALSO EDITED AS NECESSARY)
+ * @return {string[]} The errors if
  */
 export function performAllDocumentValidations(
   isSuperAdmin,
   schemaSlug,
   changes,
-  document
+  isInsert
 ) {
-  resolveAllFieldValuesForUpdateOrInsert(
-    isSuperAdmin,
-    schemaSlug,
-    changes,
-    document == undefined
-  )
-  const finalDoc = { ...document, ...changes }
-  /**
-   * @type {string[]}
-   */
-  const errors = validateDocumentAgainstSchema(schemaSlug, finalDoc)
-  if (errors.length > 0) throw errors
-  return finalDoc
+  resolveAllFieldValuesForUpdateOrInsert(isSuperAdmin, schemaSlug, changes, isInsert)
+  const testDoc = isInsert ? { $set: changes } : changes
+
+  return validateDocumentAgainstSchema(schemaSlug, testDoc, { modifier: isInsert })
 }
