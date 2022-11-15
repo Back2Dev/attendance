@@ -58,24 +58,24 @@ describe('schemas', () => {
      * And finally, validate some test objects against the various schemas
      * - we need to test both success and failure scenarios
      */
+
     /**
-     * @type {string[]}
+     * @param {number} testNo
+     * @param {string} schemaSlug
+     * @param {Object.<string, any>} document
+     * @param {number} noOfErrors
+     * @return {void}
      */
+    function testValidation(testNo, schemaSlug, document, noOfErrors) {
+      let errors = performAllDocumentValidations(true, schemaSlug, document, true)
+      console.log(`Test ${testNo}:`, errors.length === noOfErrors ? 'PASS' : 'FAIL')
+    }
 
     // TEST 1
-    let errors = []
-    let works = false
-    errors = performAllDocumentValidations(
-      true,
-      'core',
-      { createdAt: new Date(), updatedAt: new Date() },
-      true
-    )
-    console.log('Test 1:', errors.length !== 0 ? 'FAIL' : 'PASS')
+    testValidation(1, 'core', { createdAt: new Date(), updatedAt: new Date() }, 0)
 
     // TEST 2
-    errors = performAllDocumentValidations(true, 'core', {}, true)
-    console.log('Test 2:', errors.length === 2 ? 'PASS' : 'FAIL')
+    testValidation(2, 'core', {}, 2)
 
     newCompilations.clear()
 
@@ -92,8 +92,8 @@ describe('schemas', () => {
     compileEditedSchemaDocs([newVehicleSchema])
     console.log('Test 3:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
 
-    errors = performAllDocumentValidations(
-      true,
+    testValidation(
+      4,
       'bus',
       {
         createdAt: new Date(),
@@ -102,12 +102,11 @@ describe('schemas', () => {
         model: 'Leyland',
         rego: 'HOTWHEELS',
       },
-      true
+      1
     )
-    console.log('Test 4:', errors.length === 1 ? 'PASS' : 'FAIL')
 
-    errors = performAllDocumentValidations(
-      true,
+    testValidation(
+      5,
       'bus',
       {
         createdAt: new Date(),
@@ -117,9 +116,8 @@ describe('schemas', () => {
         rego: 'HOTWHEELS',
         wheels: 6,
       },
-      true
+      0
     )
-    console.log('Test 5:', errors.length === 0 ? 'PASS' : 'FAIL')
 
     newVehicleSchema = { ...compileData.vehicle.schema }
     newVehicleSchema.extends = undefined
@@ -129,8 +127,8 @@ describe('schemas', () => {
 
     console.log('Test 6:', newCompilations.size === 3 ? 'PASS' : 'FAIL')
 
-    errors = performAllDocumentValidations(
-      true,
+    testValidation(
+      7,
       'bus',
       {
         seats: 20,
@@ -138,8 +136,7 @@ describe('schemas', () => {
         rego: 'HOTWHEELS',
         wheels: 6,
       },
-      true
+      0
     )
-    console.log('Test 7:', errors.length === 0 ? 'PASS' : 'FAIL')
   })
 })
