@@ -413,7 +413,7 @@ export function performAllDocumentValidations(
   isInsert
 ) {
   resolveAllFieldValuesForUpdateOrInsert(isSuperAdmin, schemaSlug, changes, isInsert)
-  const testDoc = isInsert ? { $set: changes } : changes
+  const testDoc = !isInsert ? { $set: changes } : changes
 
-  return validateDocumentAgainstSchema(schemaSlug, testDoc, { modifier: isInsert })
+  return validateDocumentAgainstSchema(schemaSlug, testDoc, { modifier: !isInsert })
 }
