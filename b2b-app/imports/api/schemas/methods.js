@@ -3,6 +3,9 @@ import Schemas from './schema'
 require('debug')('app:schemas')
 import { deleteSchema, compileData, initAllSchemaDocuments } from './functions'
 
+// Initialize all the schemas
+initAllSchemaDocuments(Schemas.find({}))
+
 Meteor.methods({
   'rm.schemas': (slug) => {
     try {
