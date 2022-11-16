@@ -1,10 +1,16 @@
 import { Meteor } from 'meteor/meteor'
 import Schemas from './schema'
-const debug = require('debug')('app:schemas')
+require('debug')('app:schemas')
+import { deleteSchema, compileData, initAllSchemaDocuments } from './functions'
 
 Meteor.methods({
-  'rm.schemas': (id) => {
+  'rm.schemas': (slug) => {
     try {
+      const id = compileData[slug].schema._id
+      const childChanges = deleteSchema(slug)
+      childChanges.forEach((change) => {
+        Schemas.update(change._id, { $set: { extends: change.extends } })
+      })
       Schemas.remove(id)
       return { status: 'success', message: 'Removed schema' }
     } catch (e) {
