@@ -25,6 +25,7 @@ import { ALLOWED_TYPES } from './schema'
  *
  * TODO: Change extends if implementing multiple inheritance
  * @typedef {{
+ *   _id: string;
  *   name: string;
  *   slug: string;
  *   active: boolean;
@@ -416,4 +417,28 @@ export function performAllDocumentValidations(
   const testDoc = !isInsert ? { $set: changes } : changes
 
   return validateDocumentAgainstSchema(schemaSlug, testDoc, { modifier: !isInsert })
+}
+
+/**
+ * Deletes the schema from compileData and
+ * @param {string} schemaSlug
+ * @return {{extends: string, _id: string}[]} Objects containing the id and the new extends parameter
+ */
+export function deleteSchema(schemaSlug) {
+  /**
+   * Making the of the deleting schema the parent each child
+   */
+  const parentSlug = compileData[schemaSlug].schema.extends
+  /**
+   * @type {SchemaDocument[]}
+   */
+  const newSources = []
+  compileData[schemaSlug].children.forEach((childSlug) => {
+    compileData[childSlug].schema.extends = parentSlug
+    newSources.push(compileData[childSlug].schema)
+  })
+  delete compiledSchemas[schemaSlug]
+  delete compileData[schemaSlug]
+  compileEditedSchemaDocs(newSources)
+  return newSources.map((doc) => ({ extends: doc.extends, _id: doc._id }))
 }
