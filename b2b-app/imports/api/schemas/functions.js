@@ -205,7 +205,11 @@ function setSources(schemaDocumentsList) {
         parentsRemainingToCompile: 0,
       }
     } else {
-      compileData[schema.slug].schema = schema
+      // Change only the actual new changes of the schema document while retaining the old unchanged ones
+      const oldSchema = compileData[schema.slug].schema
+      Object.keys(schema).forEach((key) => {
+        oldSchema[key] = schema[key]
+      })
     }
     editedSources.add(schema.slug)
   })
@@ -427,6 +431,7 @@ export function performAllDocumentValidations(
 export function deleteSchema(schemaSlug) {
   /**
    * Making the of the deleting schema the parent each child
+   * TODO: Change to implement multiple inheritance
    */
   const parentSlug = compileData[schemaSlug].schema.extends
   /**
