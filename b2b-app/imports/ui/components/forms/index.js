@@ -7,7 +7,7 @@ import SlateField from './slate-field'
 import EventRepeatField from './event-repeat'
 // import JSONField from './json-field'
 import SignatureField from './signature-field.js'
-import SchemaFieldsEditor from './schema-fields-editor'
+import SchemaFieldsEditor from '../../admin/schemas/components/schema-fields-editor'
 
 // const debug = require('debug')('app:forms')
 
