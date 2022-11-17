@@ -68,8 +68,9 @@ const config = {
   },
   browse: {
     columns: [
-      { field: 'name', title: 'name', formatter: null },
-      { field: '_id', title: '', width: 25, formatter: null, headerSort: false },
+      { field: 'name', title: 'PDFTemplates', formatter: null },
+      { field: '_id', title: '_id', width: 25, formatter: null, headerSort: false },
+      { field: '_id', title: '_id', width: 25, formatter: null, headerSort: false },
     ],
   },
 }

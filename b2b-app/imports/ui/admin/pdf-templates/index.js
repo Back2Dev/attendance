@@ -27,7 +27,10 @@ export default function PdfTemplatesApp() {
 
   let push = useHistory()?.push
 
-  const remove = (id) => meteorCall('rm.pdfTemplates', 'Deleting', id)
+  const remove = (id) => {
+    meteorCall('rm.pdfTemplates', 'Deleting', id)
+    push(`/admin/pdf-templates/`)
+  }
 
   const browse = (id) => {
     push(`/admin/pdf-templates/browse/${id}`)

@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import 'react-tabulator/lib/styles.css'
 import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
-import { ReactTabulator } from 'react-tabulator'
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import { TabAppbar } from '/imports/ui/utils/generic'
 import PdfTemplateContext from './context'
 import config from './config'
+import { useHistory } from 'react-router-dom'
 
+import { AddCircleSharpIcon, Delete } from '@material-ui/icons'
 const idField = '_id'
 const FILTER_NAME = 'pdf-templates:filter'
 const Browse = () => {
@@ -19,6 +21,20 @@ const Browse = () => {
     else methods.browse(id)
   }
 
+  const hnadleDelete = (_, rowComponent) => {
+    const id = rowComponent._row.data[idField]
+    if (!id) alert(`Could not get id from [${idField}]`)
+    else {
+      if (id === pdfid) {
+        methods.remove(id)
+        push = useHistory().push
+        push(`/admin/pdf-templates/`)
+      } else {
+        methods.remove(id)
+      }
+    }
+  }
+  push = useHistory()?.push
   const columns = config.browse.columns
   columns[1].formatter = (cell) => {
     const x = document.createElement('span')
@@ -27,7 +43,24 @@ const Browse = () => {
     x.style.width = '100%'
     return x
   }
+  const onCellEdited = (cell) => {
+    debug('cellEdited', cell)
+    methods.update(cell._cell.row.data)
+  }
+  const stdCols = [
+    {
+      formatter: reactFormatter(<Delete />),
+      width: 25,
+      headerSort: false,
+      hozAlign: 'center',
+      cellClick: () => {
+        methods.remove(pdfid)
+        setPdfid(null)
+      },
+    },
+  ]
   const tableOptions = {
+    cellEdited: onCellEdited,
     //width: 100,
     // layout: 'fitData',
     pagination: 'local', //enable local pagination.
@@ -56,7 +89,7 @@ const Browse = () => {
     Contents = () => (
       <ReactTabulator
         ref={tableRef}
-        columns={columns}
+        columns={columns.concat(stdCols)}
         data={items}
         options={tableOptions}
         style={{ height: '100%' }}

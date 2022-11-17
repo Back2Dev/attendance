@@ -2,10 +2,10 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import PdfTemplatesBrowse from './browse'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import { TextField } from '@material-ui/core'
+import { TextField, Fab, Zoom } from '@material-ui/core'
 import { Button } from '/imports/ui/utils/generic'
 import PdfPlayground from 'pd-playground'
-import { Delete, Save } from '@material-ui/icons'
+import { Delete, Save, AddCircleSharpIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
@@ -19,6 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import PdfTemplateContext from './context'
+import { red, green, blue } from '@material-ui/core/colors'
 
 const PdfTemplatesBrowser = () => {
   const { items, item, setItem, pdfid, setPdfid, methods, loadingPdfs } =
@@ -109,7 +110,6 @@ const PdfTemplatesBrowser = () => {
         duration: theme.transitions.duration.leavingScreen,
       }),
       marginLeft: -drawerWidth,
-      marginTop: '64px',
       height: `calc(100% - 128px)`,
       minHeight: '582px',
     },
@@ -122,7 +122,35 @@ const PdfTemplatesBrowser = () => {
       width: `calc(100% - ${drawerWidth}px)`,
       height: `calc(100% - 128px)`,
       minHeight: '582px',
-      marginTop: '64px',
+    },
+    fab: {
+      position: 'absolute',
+      top: theme.spacing(5),
+      left: theme.spacing(2),
+    },
+    fabRed: {
+      color: theme.palette.common.white,
+      backgroundColor: red[500],
+      '&:hover': {
+        backgroundColor: red[600],
+      },
+    },
+    fabGreen: {
+      color: theme.palette.common.white,
+      backgroundColor: green[500],
+      '&:hover': {
+        backgroundColor: green[600],
+      },
+      position: 'absolute',
+      right: theme.spacing(4),
+      bottom: theme.spacing(4),
+    },
+    fabBlue: {
+      color: theme.palette.common.white,
+      backgroundColor: blue[500],
+      '&:hover': {
+        backgroundColor: blue[600],
+      },
     },
   }))
 
@@ -137,10 +165,34 @@ const PdfTemplatesBrowser = () => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+  const transitionDuration = {
+    enter: theme.transitions.duration.enteringScreen,
+    exit: theme.transitions.duration.leavingScreen,
+  }
+  const fabs = {
+    delete: {
+      color: 'primary',
+      className: clsx(classes.fab, classes.fabRed),
+      icon: <Delete />,
+      label: 'Delete',
+    },
+    save: {
+      color: 'secondary',
+      className: classes.fabGreen,
+      icon: <Save />,
+      label: 'Save',
+    },
+    expand: {
+      color: 'primary',
+      className: clsx(classes.fab, classes.fabBlue),
+      icon: <ChevronRightIcon />,
+      label: 'Expand',
+    },
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
+      {/* `<AppBar
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -161,7 +213,27 @@ const PdfTemplatesBrowser = () => {
             {item ? item.name : 'New File'}
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
+
+      <Zoom
+        key={fabs.expand}
+        in={open === false}
+        timeout={transitionDuration}
+        style={{
+          transitionDelay: `${open === false ? transitionDuration.exit : 0}ms`,
+        }}
+        unmountOnExit
+      >
+        <Fab
+          aria-label={fabs.expand.label}
+          className={fabs.expand.className}
+          color={fabs.expand.color}
+          onClick={handleDrawerOpen}
+        >
+          {fabs.expand.icon}
+        </Fab>
+      </Zoom>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -233,7 +305,25 @@ const PdfTemplatesBrowser = () => {
               <Delete />
               {'Delete'}
             </Button>
-            <Button
+            {/* <Zoom
+              key={fabs.save}
+              in={open === false}
+              timeout={transitionDuration}
+              style={{
+                transitionDelay: `${open === false ? transitionDuration.exit : 0}ms`,
+              }}
+              unmountOnExit
+            > */}
+            <Fab
+              aria-label={fabs.save.label}
+              className={fabs.save.className}
+              color={fabs.save.color}
+              onClick={handleSave}
+            >
+              {fabs.save.icon}
+            </Fab>
+            {/* </Zoom> */}
+            {/* <Button
               id={'add'}
               key={'add'}
               onClick={handleSave}
@@ -242,7 +332,7 @@ const PdfTemplatesBrowser = () => {
             >
               <Save />
               {'Save'}
-            </Button>
+            </Button> */}
           </div>
         </div>
       </main>
