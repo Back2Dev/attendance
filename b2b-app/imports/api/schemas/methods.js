@@ -1,7 +1,13 @@
+// @ts-check
 import { Meteor } from 'meteor/meteor'
 import Schemas from './schema'
 require('debug')('app:schemas')
-import { deleteSchema, compileData, initAllSchemaDocuments } from './functions'
+import {
+  deleteSchema,
+  compileData,
+  initAllSchemaDocuments,
+  compileEditedSchemaDocs,
+} from './functions'
 
 // Initialize all the schemas
 initAllSchemaDocuments(Schemas.find({}))
@@ -27,6 +33,8 @@ Meteor.methods({
     try {
       const id = form._id
       delete form._id
+      compileEditedSchemaDocs([form])
+      delete form.slug
       const n = Schemas.update(id, { $set: form })
       return { status: 'success', message: `Updated ${n} schema(s)` }
     } catch (e) {
@@ -39,6 +47,8 @@ Meteor.methods({
   'insert.schemas': (form) => {
     try {
       const id = Schemas.insert(form)
+      form._id = id
+      compileEditedSchemaDocs([form])
       return { status: 'success', message: 'Added schema' }
     } catch (e) {
       return {
