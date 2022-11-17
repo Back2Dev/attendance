@@ -5,12 +5,13 @@ import ToolsField from '/imports/ui/components/forms/tools-selector.js'
 import CoursesField from '/imports/ui/components/forms/course-selector.js'
 import SlateField from './slate-field'
 import EventRepeatField from './event-repeat'
-import JSONField from './json-field'
+// import JSONField from './json-field'
 import SignatureField from './signature-field.js'
+import SchemaFieldsEditor from './schema-fields-editor'
 
-const debug = require('debug')('app:forms')
+// const debug = require('debug')('app:forms')
 
-const myComponent = ({ name, fieldType, ...rest }) => {
+const myComponent = ({ name, fieldType }) => {
   // console.log({ name, fieldType, rest })
   // console.log(fieldType.name)
   switch (name) {
@@ -29,6 +30,8 @@ const myComponent = ({ name, fieldType, ...rest }) => {
       return CoursesField
     case 'repeat':
       return EventRepeatField
+    case 'fields':
+      return SchemaFieldsEditor
     default:
       return null
   }
