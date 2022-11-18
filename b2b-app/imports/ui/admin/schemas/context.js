@@ -2,6 +2,7 @@ import React from 'react'
 import { useTracker } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
 import Schemas from '/imports/api/schemas/schema'
+import PropTypes from 'prop-types'
 
 const getData = () =>
   useTracker(() => {
@@ -15,6 +16,9 @@ export default SchemasContext
 
 function SchemasContextProvider({ children }) {
   return <SchemasContext.Provider value={{ getData }}>{children}</SchemasContext.Provider>
+}
+SchemasContextProvider.propTypes = {
+  children: PropTypes.element,
 }
 
 export { SchemasContextProvider }
