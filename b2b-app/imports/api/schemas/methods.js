@@ -8,6 +8,7 @@ import {
   initAllSchemaDocuments,
   compileEditedSchemaDocs,
   performAllDocumentValidations,
+  findAllDescendants,
 } from './functions'
 
 // Initialize all the schemas
@@ -62,16 +63,16 @@ Meteor.methods({
   // SCHEMAS_COLLECTIONS
   'rm.schemas.collections': (form) => {
     try {
+      const slugs = new Set(findAllDescendants(form.collection))
       SchemasCollections.find(form.id).forEach((doc) => {
-        if (
-          doc.collections.some((slug) => form.collection === slug) &&
-          doc.collections.length === 0
-        ) {
+        const collections = doc.collections.filter((slug) => !slugs.has(slug))
+        if (collections.length <= 0) {
           SchemasCollections.remove(form.id)
         } else {
+          SchemasCollections.update(form.id, { $set: { collections } })
         }
       })
-      return { status: 'success', message: 'Removed document' }
+      return { status: 'success', message: 'Removed document from collection/s' }
     } catch (e) {
       return {
         status: 'failed',
