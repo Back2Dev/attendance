@@ -11,19 +11,6 @@ const Lister = (props) => {
   const context = useContext(SchemasContext)
   const { data, isLoading } = context.getData()
 
-  const methods = {
-    update: (row) => {
-      meteorCall('update.schemas', null, row)
-    },
-    remove: (rows) => {
-      Array.from(rows).forEach((row) => {
-        meteorCall('rm.schemas', null, row)
-      })
-    },
-    insert: (form) => {
-      meteorCall('insert.schemas', null, form)
-    },
-  }
   if (isLoading) return <Loader loading component="circular" />
 
   data.map((d) => {
@@ -33,7 +20,7 @@ const Lister = (props) => {
 
   const editProps = {
     data,
-    methods,
+    methods: context.methods,
   }
 
   return <List {...editProps} />
