@@ -23,7 +23,7 @@ export const ALLOWED_TYPES = {
 
 const Schemas = new Mongo.Collection('schemas')
 
-export const SchemaDocuments = new Mongo.Collection('schemaDocuments')
+export const SchemasCollections = new Mongo.Collection('schemasCollections')
 
 export const FieldsSchema = new SimpleSchema({
   colName: { type: String, label: 'Field id' },
