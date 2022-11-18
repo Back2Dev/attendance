@@ -19,10 +19,29 @@ const fieldsAlwaysVisible = [
   'isFieldValueLocked',
 ]
 
-function SchemaFieldComponent(props) {
-  const form = useForm()
+function SchemaSelector(prop) {
   const context = useContext(SchemasContext)
   const { data, isLoading } = context.getData()
+  return (
+    <>
+      {!isLoading && (
+        <SelectField
+          allowedValues={data.map((schema) => schema.slug)}
+          transform={(value) => {
+            const schema = data.filter((schema) => schema.slug === value)[0]
+            return `${schema.name} (${schema.slug})`
+          }}
+        />
+      )}
+    </>
+  )
+}
+
+const ConnectedSchemaSelector = connectField(SchemaSelector)
+export { ConnectedSchemaSelector }
+
+function SchemaFieldComponent(props) {
+  const form = useForm()
   const schemaField = form.model.fields[~~props.name.split('.')[1]]
   let fields = fieldsAlwaysVisible
   const isFK = schemaField !== undefined && schemaField.type === 'foreignKey'
@@ -34,16 +53,7 @@ function SchemaFieldComponent(props) {
       {fields.map((fieldName) => (
         <AutoField key={fieldName} name={fieldName} />
       ))}
-      {isFK && !isLoading && (
-        <SelectField
-          allowedValues={data.map((schema) => schema.slug)}
-          transform={(value) => {
-            const schema = data.filter((schema) => schema.slug === value)[0]
-            return `${schema.name} (${schema.slug})`
-          }}
-          name="relatedCollection"
-        />
-      )}
+      {isFK && <ConnectedSchemaSelector name="relatedCollection" />}
     </NestField>
   )
 }
