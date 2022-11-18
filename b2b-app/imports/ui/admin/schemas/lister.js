@@ -2,20 +2,14 @@
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import { meteorCall } from '/imports/ui/utils/meteor'
-import React from 'react'
+import React, { useContext } from 'react'
 import Loader from '/imports/ui/components/commons/loading.js'
-import Schemas from '/imports/api/schemas/schema'
 import List from './list'
-
-const getData = () =>
-  useTracker(() => {
-    const subscription = Meteor.subscribe('all.schemas')
-    const data = Schemas.find({}).fetch()
-    return { data, isLoading: !subscription.ready() }
-  }, [])
+import SchemasContext from './context'
 
 const Lister = (props) => {
-  const { data, isLoading } = getData()
+  const context = useContext(SchemasContext)
+  const { data, isLoading } = context.getData()
 
   const methods = {
     update: (row) => {
