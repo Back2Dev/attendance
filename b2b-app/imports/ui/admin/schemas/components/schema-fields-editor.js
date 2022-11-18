@@ -1,7 +1,14 @@
 import { connectField, useForm } from 'uniforms'
-import React from 'react'
-import { ListField, ListItemField, NestField } from 'uniforms-material'
+import React, { useContext } from 'react'
+import {
+  AutoField,
+  ListField,
+  ListItemField,
+  NestField,
+  SelectField,
+} from 'uniforms-material'
 import PropTypes from 'prop-types'
+import SchemasContext from '../context'
 
 const fieldsAlwaysVisible = [
   'colName',
@@ -14,12 +21,31 @@ const fieldsAlwaysVisible = [
 
 function SchemaFieldComponent(props) {
   const form = useForm()
+  const context = useContext(SchemasContext)
+  const { data, isLoading } = context.getData()
   const schemaField = form.model.fields[~~props.name.split('.')[1]]
   let fields = fieldsAlwaysVisible
-  if (schemaField !== undefined && schemaField.type === 'foreignKey') {
-    fields = fieldsAlwaysVisible.concat(['relatedCollection', 'displayFormat'])
+  const isFK = schemaField !== undefined && schemaField.type === 'foreignKey'
+  if (isFK) {
+    fields = fieldsAlwaysVisible.concat(['displayFormat'])
   }
-  return <NestField fields={fields}></NestField>
+  return (
+    <NestField fields={fields}>
+      {fields.map((fieldName) => (
+        <AutoField key={fieldName} name={fieldName} />
+      ))}
+      {isFK && !isLoading && (
+        <SelectField
+          allowedValues={data.map((schema) => schema.slug)}
+          transform={(value) => {
+            const schema = data.filter((schema) => schema.slug === value)[0]
+            return `${schema.name} (${schema.slug})`
+          }}
+          name="relatedCollection"
+        />
+      )}
+    </NestField>
+  )
 }
 SchemaFieldComponent.propTypes = {
   name: PropTypes.string,
