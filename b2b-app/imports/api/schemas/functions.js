@@ -447,3 +447,27 @@ export function deleteSchema(schemaSlug) {
   compileEditedSchemaDocs(newSources)
   return newSources.map((doc) => ({ extends: doc.extends, _id: doc._id }))
 }
+
+/**
+ * Finds all the descendants of the schema with the given slug
+ * @param {string} schemaSlug
+ */
+export function findAllDescendants(schemaSlug) {
+  const descendants = new Set([schemaSlug])
+  const checkFrontier = [schemaSlug]
+  let slug
+  while ((slug = checkFrontier.pop())) {
+    compileData[slug].children.forEach((child) => {
+      if (!descendants.has(child)) {
+        checkFrontier.push(child)
+        descendants.add(child)
+      }
+    })
+  }
+  /**
+   * @type {string[]}
+   */
+  const descendantsArray = []
+  descendants.forEach((desc) => descendantsArray.push(desc))
+  return descendantsArray
+}
