@@ -3,15 +3,15 @@ import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
-import { Box, Container, Grid, Typography } from '@material-ui/core'
-import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
-import config from './config'
+import { Box, Container, Typography } from '@material-ui/core'
+import { AutoForm } from 'uniforms-material'
+import { CustomManualAndAuto } from '/imports/ui/components/forms'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import { SchemaDocumentSelectorCreator } from './components/doc-selector'
 
 const debug = require('debug')('app:add')
 
-const Add = ({ item, methods, insert, handleClose, schema, slug }) => {
+const Add = ({ item, methods, insert, handleClose, schema, slug, schemaObj }) => {
   const save = (model) => {
     try {
       insert(model)
@@ -42,7 +42,14 @@ const Add = ({ item, methods, insert, handleClose, schema, slug }) => {
           schema={new SimpleSchema2Bridge(schema)}
           model={item}
           onSubmit={save}
-          autoField={CustomAutoField}
+          autoField={CustomManualAndAuto((props) => {
+            const field = schemaObj.fields.filter(
+              (field) => field.colName === props.name
+            )[0]
+            if (field && field.type === 'foreignKey')
+              return SchemaDocumentSelectorCreator(field)
+            return undefined
+          })}
         />
         <Button type="button" onClick={back}>
           Cancel
