@@ -41,6 +41,7 @@ const myComponent = ({ name, fieldType }) => {
     case '_id':
       return hiddenField
     case 'extends':
+    case 'schema':
       return ConnectedSchemaSelector
     default:
       return null
@@ -60,3 +61,20 @@ export const CustomAutoField = connectField(CustomAuto, {
   ensureValue: false,
   initialValue: false,
 })
+
+const CustomManualAndAuto = (selector) => {
+  const CustomField = (props) => {
+    // This way we don't care about unhandled cases - we use default
+    // AutoField as a fallback component.
+    // debug(props)
+    const Component = selector(props) || myComponent(props) || AutoField
+
+    return <Component {...props} name="" />
+  }
+  return connectField(CustomField, {
+    ensureValue: false,
+    initialValue: false,
+  })
+}
+
+export { CustomManualAndAuto }
