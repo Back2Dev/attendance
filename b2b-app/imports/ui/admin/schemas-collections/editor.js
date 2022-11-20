@@ -42,11 +42,11 @@ const Loading = (props) => {
       setIsLoading(false)
       setSchema(compileSchemaObject(response.data))
     })
-  }, [])
+  }, [props.match.params.slug])
 
   if (isLoading) return <Loader loading component="circular" />
   if (props.loading) return <Loader loading />
-  return <Edit {...props} schema={schema}></Edit>
+  return <Edit {...props} schema={schema} slug={slug}></Edit>
 }
 const Editor = withTracker((props) => {
   history = props.history
