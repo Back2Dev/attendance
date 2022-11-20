@@ -9,6 +9,8 @@ import {
   compileEditedSchemaDocs,
   performAllDocumentValidations,
   findAllDescendants,
+  getAllFieldsOfSchema,
+  findAllAntecedents,
 } from './functions'
 
 // Initialize all the schemas
@@ -133,6 +135,24 @@ Meteor.methods({
       return {
         status: 'failed',
         message: `Error adding schema: ${e.message}`,
+      }
+    }
+  },
+  'all.fields.schemas': (schemaSlug) => {
+    try {
+      return {
+        status: 'success',
+        message: 'Successfully retrieved schema fields',
+        data: {
+          fields: getAllFieldsOfSchema(schemaSlug),
+          descendants: findAllDescendants(schemaSlug),
+          antecedents: findAllAntecedents(schemaSlug),
+        },
+      }
+    } catch (e) {
+      return {
+        status: 'failed',
+        message: e.message,
       }
     }
   },
