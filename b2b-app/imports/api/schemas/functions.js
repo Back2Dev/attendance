@@ -211,6 +211,9 @@ function setSources(schemaDocumentsList) {
         oldSchema[key] = schema[key]
       })
     }
+    if (!compileData[schema.slug].schema.fields) {
+      compileData[schema.slug].schema.fields = []
+    }
     editedSources.add(schema.slug)
   })
 }
@@ -386,6 +389,33 @@ function resolveDefaultValuesForInsert(schemaSlug, changes) {
 }
 
 /**
+ * Returns the set of fields for the given schema
+ * @param {string} schemaSlug
+ * @returns {Set<string>}
+ */
+function getFieldsSet(schemaSlug) {
+  const fields = new Set()
+  compileData[schemaSlug].schema.fields.forEach((field) => {
+    fields.add(field.colName)
+  })
+  return fields
+}
+
+/**
+ * Prepares all for insert/update by deleting the unnecessary fields in the given changes.
+ * @param {string} schemaSlug
+ * @param {{ [x: string]: any; }} [changes]
+ */
+function deleteAllUnnecessaryFields(schemaSlug, changes) {
+  const fields = getFieldsSet(schemaSlug)
+  Object.keys(changes).forEach((colName) => {
+    if (!fields.has(colName)) {
+      delete changes[colName]
+    }
+  })
+}
+
+/**
  *
  * @param {boolean} isSuperAdmin Whether the user performing the operation is a super admin
  * @param {string} schemaSlug What is the slug of the schema/collection being inserted into or updated?
@@ -398,6 +428,7 @@ function resolveAllFieldValuesForUpdateOrInsert(
   changes,
   isInsert
 ) {
+  deleteAllUnnecessaryFields(schemaSlug, changes)
   if (!isSuperAdmin) deleteAllLockedFields(schemaSlug, changes)
   if (isInsert) resolveDefaultValuesForInsert(schemaSlug, changes)
   compiledSchemas[schemaSlug].clean(changes)
