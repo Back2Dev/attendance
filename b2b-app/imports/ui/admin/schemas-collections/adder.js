@@ -24,12 +24,14 @@ const methods = {
 const Loading = (props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [schema, setSchema] = useState(new SimpleSchema({}))
+  const [schemaObj, setSchemaObj] = useState({})
 
   useEffect(() => {
     meteorCall('all.fields.schemas', undefined, props.match.params.slug, false).then(
       (response) => {
         console.log(response)
         setIsLoading(false)
+        setSchemaObj(response.data)
         setSchema(compileSchemaObject(response.data))
       }
     )
@@ -45,6 +47,7 @@ const Loading = (props) => {
       insert={methods.save}
       schema={schema}
       slug={props.match.params.slug}
+      schemaObj={schemaObj}
     ></Add>
   )
 }
