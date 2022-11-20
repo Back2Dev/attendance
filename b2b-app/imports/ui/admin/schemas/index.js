@@ -8,6 +8,7 @@ import Editor from './editor.js'
 import Viewer from './viewer.js'
 import Adder from './adder.js'
 import NotFound from '/imports/ui/components/commons/not-found.js'
+import Collections from '../schemas-collections'
 import { SchemasContextProvider } from './context'
 
 export default function Schemas() {
@@ -18,6 +19,7 @@ export default function Schemas() {
         <Route path="/admin/schemas/add/" exact component={Adder} />
         <Route path="/admin/schemas/view/:id" exact component={Viewer} />
         <Route path="/admin/schemas" exact component={Lister} />
+        <Route path="/admin/schemas/collections" component={Collections} />
         <Route component={NotFound} />
       </Switch>
     </SchemasContextProvider>
