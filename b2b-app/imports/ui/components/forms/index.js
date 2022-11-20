@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { connectField } from 'uniforms'
 import { AutoField } from 'uniforms-material'
 import ToolsField from '/imports/ui/components/forms/tools-selector.js'
@@ -7,9 +7,15 @@ import SlateField from './slate-field'
 import EventRepeatField from './event-repeat'
 // import JSONField from './json-field'
 import SignatureField from './signature-field.js'
-import SchemaFieldsEditor from '../../admin/schemas/components/schema-fields-editor'
+import SchemaFieldsEditor, {
+  ConnectedSchemaSelector,
+} from '../../admin/schemas/components/schema-fields-editor'
 
 // const debug = require('debug')('app:forms')
+
+const hiddenField = () => {
+  return <></>
+}
 
 const myComponent = ({ name, fieldType }) => {
   // console.log({ name, fieldType, rest })
@@ -32,6 +38,10 @@ const myComponent = ({ name, fieldType }) => {
       return EventRepeatField
     case 'fields':
       return SchemaFieldsEditor
+    case '_id':
+      return hiddenField
+    case 'extends':
+      return ConnectedSchemaSelector
     default:
       return null
   }
