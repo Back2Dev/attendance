@@ -3,13 +3,14 @@ import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { AutoForm } from 'uniforms-material'
-import { CustomAutoField } from '/imports/ui/components/forms'
+import { CustomAutoField, CustomManualAndAuto } from '/imports/ui/components/forms'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import SimpleSchema from 'simpl-schema'
+import { compileSchemaObject } from '../../../api/schemas/functions'
 
 const debug = require('debug')('app:edit')
 
-const Edit = ({ id, item, methods, schema }) => {
+const Edit = ({ id, item, methods, schema, slug }) => {
   const save = (model) => {
     try {
       methods.update(id, model)
@@ -17,6 +18,8 @@ const Edit = ({ id, item, methods, schema }) => {
       alert(`Update error ${e.message}`)
     }
   }
+
+  const history = useHistory()
 
   const { goBack } = useHistory()
   const back = () => {
@@ -29,13 +32,50 @@ const Edit = ({ id, item, methods, schema }) => {
 
   return (
     <div>
-      <div>Edit Schemas - {data.name}</div>
+      <div>
+        Edit {slug} - {data.name}
+      </div>
       <AutoForm
         schema={new SimpleSchema2Bridge(schema)}
         model={item}
         onSubmit={save}
-        autoField={CustomAutoField}
+        autoField={CustomManualAndAuto((props) => {
+          console.log(props)
+          return undefined
+        })}
       />
+      <div style={{ border: '5px solid black', padding: '10px', margin: '10px' }}>
+        Available in:{' '}
+        {item.collections.map((collection) => (
+          <a
+            href={`/admin/schemas/collections/${collection}/edit/${item._id}`}
+            key={collection}
+            style={{ padding: '10px' }}
+          >
+            {collection}
+          </a>
+        ))}
+        <AutoForm
+          schema={
+            new SimpleSchema2Bridge(
+              compileSchemaObject({
+                fields: [
+                  {
+                    type: 'string',
+                    colName: 'schema',
+                    label: 'Add to (collection):',
+                  },
+                ],
+              })
+            )
+          }
+          model={item}
+          onSubmit={({ _id, schema }) => {
+            history.push(`/admin/schemas/collections/${schema}/edit/${_id}`)
+          }}
+          autoField={CustomAutoField}
+        />
+      </div>
       <Button type="button" onClick={back}>
         Cancel
       </Button>
