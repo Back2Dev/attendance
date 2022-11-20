@@ -31,6 +31,10 @@ Meteor.publish('all.schemas.collections', (collection) => {
   })
 })
 
+Meteor.publish('all.schemas.all.collections', (collection) => {
+  return SchemasCollections.find({})
+})
+
 Meteor.publish('id.schemas.collections', (id) => {
   return [SchemasCollections.find(id)]
 })
