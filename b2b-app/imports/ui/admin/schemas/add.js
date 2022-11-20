@@ -12,9 +12,11 @@ const schemaBridge = config.edit.schema
 const debug = require('debug')('app:add')
 
 const Add = ({ item, methods, insert, handleClose }) => {
+  const history = useHistory()
   const save = (model) => {
     try {
       insert(model)
+      history.go(0)
     } catch (e) {
       alert(`Save error ${e.message}`)
     }
