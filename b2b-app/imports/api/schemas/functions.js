@@ -109,7 +109,7 @@ function resolveDefaultValueOfField(field) {
  * @param {SchemaDocument} schemaDocument
  * @return {SimpleSchema}
  */
-function compileSchemaObject(schemaDocument) {
+export function compileSchemaObject(schemaDocument) {
   /**
    * @type {SimpleSchemaDefinition}
    */
@@ -441,6 +441,10 @@ export function deleteSchema(schemaSlug) {
   compileData[schemaSlug].children.forEach((childSlug) => {
     compileData[childSlug].schema.extends = parentSlug
     newSources.push(compileData[childSlug].schema)
+    compileData[childSlug].parents.delete(schemaSlug)
+  })
+  compileData[schemaSlug].parents.forEach((parentSlug) => {
+    compileData[parentSlug].children.delete(schemaSlug)
   })
   delete compiledSchemas[schemaSlug]
   delete compileData[schemaSlug]
@@ -464,10 +468,52 @@ export function findAllDescendants(schemaSlug) {
       }
     })
   }
+  return setToArray(descendants)
+}
+
+/**
+ * Converts sets to arrays
+ * @param {Set<string>} set
+ */
+function setToArray(set) {
+  const array = []
+  set.forEach((desc) => array.push(desc))
+  return array
+}
+
+/**
+ * Finds all the antecedents(ancestors) of the schema with the given slug
+ * @param {string} schemaSlug
+ * @return {string[]}
+ */
+export function findAllAntecedents(schemaSlug) {
+  const antecedents = new Set([schemaSlug])
+  const checkFrontier = [schemaSlug]
+  let slug
+  while ((slug = checkFrontier.pop())) {
+    compileData[slug].parents.forEach((parent) => {
+      if (!antecedents.has(parent)) {
+        checkFrontier.push(parent)
+        antecedents.add(parent)
+      }
+    })
+  }
+  return setToArray(antecedents)
+}
+
+/**
+ * Finds all the fields of the given schema(including those extended) and returns them
+ * @param {string} schemaSlug
+ * @returns
+ */
+export function getAllFieldsOfSchema(schemaSlug) {
   /**
-   * @type {string[]}
+   * @type {SchemaDocumentField[]}
    */
-  const descendantsArray = []
-  descendants.forEach((desc) => descendantsArray.push(desc))
-  return descendantsArray
+  const fields = []
+  findAllAntecedents(schemaSlug).forEach((antecedent) => {
+    const antecedentFields = compileData[antecedent].schema.fields
+    if (antecedentFields) antecedentFields.forEach((field) => fields.push(field))
+  })
+  return fields
 }
