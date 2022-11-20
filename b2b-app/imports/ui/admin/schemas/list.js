@@ -14,7 +14,7 @@ import {
   Typography,
   Button,
 } from '@material-ui/core'
-import { Edit } from '@material-ui/icons'
+import { Edit, Visibility } from '@material-ui/icons'
 import SearchIcon from '@material-ui/icons/Search'
 import AddModal from './components/add-modal'
 import config from './config'
@@ -125,14 +125,29 @@ const List = ({ data, methods }) => {
         key: 'edit-pencil',
         name: 'Edit',
         type: 'boolean',
-        formatter({ row: { slug, _id: id } }) {
-          if (slug === 'asset' || slug === 'core') return <span></span>
+        formatter({ row: { _id: id } }) {
           return (
             <span
               style={{ marginLeft: '40%', cursor: 'pointer' }}
               onClick={() => push(`/admin/schemas/edit/${id}`)}
             >
               <Edit />
+            </span>
+          )
+        },
+      },
+      {
+        key: 'view-collection-eye',
+        name: 'Collection',
+        type: 'boolean',
+        width: 100,
+        formatter({ row: { slug } }) {
+          return (
+            <span
+              style={{ marginLeft: '40%', cursor: 'pointer' }}
+              onClick={() => push(`/admin/schemas/collections/${slug}/list/`)}
+            >
+              <Visibility />
             </span>
           )
         },
@@ -190,7 +205,7 @@ const List = ({ data, methods }) => {
   }, [rows, sortColumns])
 
   const handleRemove = () => {
-    methods.remove(selectedRows)
+    methods.remove(data.filter((obj) => selectedRows.has(obj._id)).map((obj) => obj.slug))
     setSelectedRows(new Set())
   }
 
