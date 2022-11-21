@@ -7,10 +7,14 @@ import { CustomAutoField, CustomManualAndAuto } from '/imports/ui/components/for
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import SimpleSchema from 'simpl-schema'
 import { compileSchemaObject } from '../../../api/schemas/functions'
+import {
+  SchemaDocumentSelectorCreator,
+  CreateCustomListField,
+} from './components/doc-selector'
 
 const debug = require('debug')('app:edit')
 
-const Edit = ({ id, item, methods, schema, slug }) => {
+const Edit = ({ id, item, methods, schema, slug, schemaObj }) => {
   const save = (model) => {
     try {
       methods.update(id, model)
@@ -40,7 +44,17 @@ const Edit = ({ id, item, methods, schema, slug }) => {
         model={item}
         onSubmit={save}
         autoField={CustomManualAndAuto((props) => {
-          console.log(props)
+          if (!schemaObj.fields) return undefined
+
+          const field = schemaObj.fields.filter(
+            (field) => field.colName === props.name
+          )[0]
+
+          console.log(field)
+
+          if (field && field.type === 'foreignKey')
+            return SchemaDocumentSelectorCreator(field)
+          else if (field && field.type === 'array') return CreateCustomListField(field)
           return undefined
         })}
       />
