@@ -44,7 +44,9 @@ function SchemaFieldComponent(props) {
   const form = useForm()
   const schemaField = form.model.fields[~~props.name.split('.')[1]]
   let fields = fieldsAlwaysVisible
-  const isFK = schemaField !== undefined && schemaField.type === 'foreignKey'
+  const isFK =
+    schemaField !== undefined &&
+    (schemaField.type === 'foreignKey' || schemaField.type === 'array')
   if (isFK) {
     fields = fieldsAlwaysVisible.concat(['displayFormat'])
   }
