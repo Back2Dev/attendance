@@ -118,14 +118,25 @@ export function compileSchemaObject(schemaDocument) {
   if (schemaDocument.fields)
     schemaDocument.fields.forEach((field) => {
       // eslint-disable-next-line no-unused-vars
-      const { colName, label, optional } = field
-      const assembledField = {
+      const { colName, label, optional, type } = field
+      /**
+       * @type {{ label: string; optional: boolean; type: DateConstructor | BooleanConstructor | StringConstructor | ArrayConstructor | "SimpleSchema.Integer" | ObjectConstructor; defaultValue?: any; }}
+       */
+      let assembledField = {
         label,
         optional,
         type: resolveDataTypeOfField(field),
         defaultValue: resolveDefaultValueOfField(field),
       }
       assembledObject[colName] = assembledField
+      if (type === 'array') {
+        assembledField = {
+          label,
+          optional,
+          type: ALLOWED_TYPES.string,
+        }
+        assembledObject[colName + '.$'] = assembledField
+      }
     })
   return new SimpleSchema(assembledObject)
 }
