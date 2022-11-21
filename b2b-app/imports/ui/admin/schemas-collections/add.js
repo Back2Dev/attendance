@@ -7,7 +7,10 @@ import { Box, Container, Typography } from '@material-ui/core'
 import { AutoForm } from 'uniforms-material'
 import { CustomManualAndAuto } from '/imports/ui/components/forms'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { SchemaDocumentSelectorCreator } from './components/doc-selector'
+import {
+  SchemaDocumentSelectorCreator,
+  CreateCustomListField,
+} from './components/doc-selector'
 
 const debug = require('debug')('app:add')
 
@@ -48,6 +51,7 @@ const Add = ({ item, methods, insert, handleClose, schema, slug, schemaObj }) =>
             )[0]
             if (field && field.type === 'foreignKey')
               return SchemaDocumentSelectorCreator(field)
+            else if (field && field.type === 'array') return CreateCustomListField(field)
             return undefined
           })}
         />
