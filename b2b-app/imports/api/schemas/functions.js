@@ -406,9 +406,23 @@ function resolveDefaultValuesForInsert(schemaSlug, changes) {
  */
 function getFieldsSet(schemaSlug) {
   const fields = new Set()
-  compileData[schemaSlug].schema.fields.forEach((field) => {
-    fields.add(field.colName)
-  })
+  const frontier = [compileData[schemaSlug]]
+  const checkedParents = new Set([schemaSlug])
+  /**
+   * @type {SchemaCompileData}
+   */
+  let schemaData
+  while ((schemaData = frontier.pop())) {
+    schemaData.schema.fields.forEach((field) => {
+      fields.add(field.colName)
+    })
+    schemaData.parents.forEach((schemaSlug) => {
+      if (!checkedParents.has(schemaSlug)) {
+        frontier.push(compileData[schemaSlug])
+        checkedParents.add(schemaSlug)
+      }
+    })
+  }
   return fields
 }
 
