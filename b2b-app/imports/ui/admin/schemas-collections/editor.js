@@ -34,19 +34,21 @@ const methods = { remove, update }
 const Loading = (props) => {
   const [isLoading, setIsLoading] = useState(true)
   const [schema, setSchema] = useState(new SimpleSchema({}))
+  const [schemaObj, setSchemaObj] = useState({})
   history = useHistory()
   slug = props.match.params.slug
 
   useEffect(() => {
     meteorCall('all.fields.schemas', undefined, slug, false).then((response) => {
       setIsLoading(false)
+      setSchemaObj(response.data)
       setSchema(compileSchemaObject(response.data))
     })
   }, [props.match.params.slug])
 
   if (isLoading) return <Loader loading component="circular" />
   if (props.loading) return <Loader loading />
-  return <Edit {...props} schema={schema} slug={slug}></Edit>
+  return <Edit {...props} schema={schema} slug={slug} schemaObj={schemaObj}></Edit>
 }
 const Editor = withTracker((props) => {
   history = props.history
