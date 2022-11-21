@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SelectField } from 'uniforms-material'
+import { SelectField, ListField, ListItemField, AutoField } from 'uniforms-material'
 import { connectField } from 'uniforms'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { Meteor } from 'meteor/meteor'
@@ -52,4 +52,21 @@ function SchemaDocumentSelectorCreator(field) {
   return connectField(SchemaDocumentSelector)
 }
 
-export { SchemaDocumentSelectorCreator }
+function CreateCustomListField(field) {
+  const ItemField = field.relatedCollection
+    ? SchemaDocumentSelectorCreator(field)
+    : AutoField
+  console.log(field)
+  function CustomListField() {
+    return (
+      <ListField>
+        <ListItemField name="$">
+          <ItemField />
+        </ListItemField>
+      </ListField>
+    )
+  }
+  return connectField(CustomListField)
+}
+
+export { SchemaDocumentSelectorCreator, CreateCustomListField }
