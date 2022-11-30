@@ -1,15 +1,12 @@
 import React from 'react'
 import Edit from './edit'
 import { PdfTemplateProvider } from './context'
+import { action } from '@storybook/addon-actions'
 
 export default {
   title: 'pdf-template/Edit',
   component: { Edit },
-  argTypes: {
-    loading: {
-      control: 'boolean',
-    },
-  },
+  argTypes: {},
 }
 const Template = (args) => {
   return (
@@ -23,12 +20,8 @@ export const Edit1 = Template.bind({})
 
 Edit1.args = {
   methods: {
-    update: (model) => {
-      console.log('story updated')
-    },
-    goBack: () => {
-      console.log('go back')
-    },
+    update: action('Updating form Data'),
+    goBack: action('Cancelling'),
   },
   item: {
     name: 'sample1',
@@ -42,12 +35,8 @@ export const Edit2 = Template.bind({})
 
 Edit2.args = {
   methods: {
-    update: (model) => {
-      console.log('story updated')
-    },
-    goBack: () => {
-      console.log('go back')
-    },
+    update: action('updating'),
+    goBack: action('canceling'),
   },
   item: {
     name: 'sample2',

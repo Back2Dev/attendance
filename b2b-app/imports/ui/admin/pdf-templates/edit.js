@@ -10,7 +10,7 @@ const schemaBridge = config.edit.schema
 const debug = require('debug')('app:edit')
 
 const Edit = () => {
-  const { item, methods } = React.useContext(PdfTemplateContext)
+  const { item, methods, loading } = React.useContext(PdfTemplateContext)
 
   const save = (model) => {
     try {

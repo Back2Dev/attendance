@@ -11,7 +11,14 @@ import PdfTemplateContext from './context'
 const schemaBridge = config.add.schema
 const debug = require('debug')('app:add')
 
-const Add = () => {
+const Add = ({
+  titlecolor,
+  alignment,
+  cancelButtoncolor,
+  headingsize,
+  titlesize,
+  subtitleColor,
+}) => {
   const item = config?.add?.defaultObject || {}
 
   const { methods } = React.useContext(PdfTemplateContext)
@@ -33,9 +40,9 @@ const Add = () => {
 
   return (
     <Container>
-      <Box my={7}>
-        <Typography variant="h1">pdfTemplates: {item.name}</Typography>
-        <Typography color="primary" variant="h5">
+      <Box my={7} sx={{ color: titlecolor, textAlign: alignment }}>
+        <Typography variant={titlesize}>pdfTemplates: {item.name}</Typography>
+        <Typography variant={headingsize} color={subtitleColor}>
           {item.type} (Revision {item.revision}: &nbsp;
           {moment(item.updatedAt).format('DD/MM/YY HH:mm')} )
         </Typography>
@@ -45,7 +52,7 @@ const Add = () => {
           onSubmit={save}
           // autoField={CustomAutoField}
         />
-        <Button type="button" onClick={back}>
+        <Button type="button" onClick={back} style={{ color: cancelButtoncolor }}>
           Cancel
         </Button>
       </Box>
@@ -54,7 +61,6 @@ const Add = () => {
 }
 
 Add.propTypes = {
-  loading: PropTypes.bool,
   item: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -68,6 +74,11 @@ Add.propTypes = {
     save: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }),
+  cancelButtoncolor: PropTypes.string,
+  titlesize: PropTypes.string,
+  headingsize: PropTypes.string,
+  titlecolor: PropTypes.string,
+  alignment: PropTypes.string,
 }
 
 Add.defaultProps = {
@@ -75,5 +86,10 @@ Add.defaultProps = {
     revision: 1,
     active: true,
   },
+  titlecolor: 'purple',
+  alignment: 'left',
+  cancelButtoncolor: 'red',
+  headingsize: 'h1',
+  titlesize: 'h4',
 }
 export default Add

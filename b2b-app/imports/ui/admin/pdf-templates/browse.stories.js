@@ -1,11 +1,11 @@
 import React from 'react'
-import List from './list'
+import Browse from './browse'
 import { action } from '@storybook/addon-actions'
 import { PdfTemplateProvider } from './context'
 
 export default {
-  title: 'pdf-template/List',
-  component: { List },
+  title: 'pdf-template/Browse',
+  component: { Browse },
   argTypes: {},
 }
 
@@ -52,13 +52,9 @@ const items = [
   },
 ]
 const Template = (args) => {
-  return (
-    <PdfTemplateProvider value={args}>
-      <List />
-    </PdfTemplateProvider>
-  )
+  return <Browse {...args} />
 }
-export const List1 = Template.bind({})
+export const BrowseFiles = Template.bind({})
 
 List1.args = {
   loadingPdfs: false,
@@ -73,4 +69,9 @@ List1.args = {
     goBack: action('Navigating to Previous'),
     update: action('Updating form'),
   },
+  items,
+  methods,
+  columns,
+  setSelectedTemplate,
+  selectedTemplate,
 }
