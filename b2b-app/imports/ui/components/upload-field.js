@@ -147,7 +147,7 @@ function getNewId() {
   return ++currentId
 }
 
-export const UploadField = ({ accept, maxSize = 100, onChange }) => {
+export const UploadField = ({ accept = 'application/pdf', maxSize = 100, onChange }) => {
   const [files, setFiles] = useState([])
   const uploader = new Slingshot.Upload('uploadQuestionType', { folder: 'question' })
 
@@ -290,3 +290,5 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, answerI
     </Grid>
   )
 }
+
+export default UploadField

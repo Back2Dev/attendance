@@ -11,4 +11,5 @@ const keywords = {
       /[\s,]+/
     ),
 }
+
 export default keywords
