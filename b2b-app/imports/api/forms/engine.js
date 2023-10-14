@@ -21,6 +21,8 @@ const slugify = (text) => {
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-/, '')
+    .replace(/-$/, '')
 }
 
 const addQ = (survey, title, lineno) => {

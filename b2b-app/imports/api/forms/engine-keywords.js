@@ -7,7 +7,7 @@ const keywords = {
   section: 'id description type'.split(/[\s,]+/),
   grid: 'id type'.split(/[\s,]+/),
   answer:
-    'id type value specify specifyType freesolo placeholder optional regex note category'.split(
+    'id type value specify specifyType freesolo placeholder optional regex note category heading footer'.split(
       /[\s,]+/
     ),
 }

@@ -11,6 +11,7 @@ import { LongTextField, NumField, SelectField } from 'uniforms-material'
 import DateField from '/imports/ui/components/date-field'
 import PasswordField from '/imports/ui/components/password-field'
 import { UploadField } from '/imports/ui/components/upload-field'
+import TableField from '/imports/ui/components/table-field'
 import dbg from 'debug'
 const debug = dbg('app:survey-schema')
 
@@ -423,30 +424,6 @@ const getSchemas = (survey, currentData) => {
 
                 break
 
-              // case 'multiple':
-              //   qSchema.uniforms.checkboxes = "true"
-              //   qSchema.uniforms.options = answers.map((a) => {
-              //     return { label: a.name, value: a.value || a.id }
-              //   })
-              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
-
-              //   answers
-              //     .filter((a) => a.specify)
-              //     .map((a) => {
-              //       const specifyId = `${q.id}-${a.id}-specify`
-              //       const uniforms = {}
-              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-              //       step.schema[specifyId] = {
-              //         type: Boolean,
-              //         label: a.specify,
-              //         optional,
-              //         uniforms,
-              //       }
-              //       return specifyId
-              //     })
-
-              //   break
-
               case 'upload':
                 // qSchema.uniforms.value = answers.map((a) => a.val)
                 qSchema.uniforms.component = UploadField
@@ -489,7 +466,8 @@ const getSchemas = (survey, currentData) => {
                 // Nothing to do, just accept it as is ??
                 break
               case 'table':
-                step.schema[q.id].type = Array
+                qSchema.uniforms.component = TableField
+                // step.schema[q.id].type = Array
                 // qSchema.uniforms.component = TableField
                 step.schema[q.id].minCount = q.minCount || 1
                 step.schema[q.id].label = ''
