@@ -6,5 +6,7 @@
   "search.exclude": {
     "**/.meteor": true
   },
+  "cSpell.words": ["viewas"],
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

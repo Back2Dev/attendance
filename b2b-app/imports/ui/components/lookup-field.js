@@ -19,7 +19,16 @@ function Lookup({
   defaultValue,
   value,
 }) {
-  const options = ['Mr Boss', 'Bossy Dude']
+  // TODO: These need to come in as props...
+  const options = [
+    'Mr Boss',
+    'Bossy Dude',
+    'John Doe',
+    'Jane Doe',
+    'Andreas Vollenweider',
+    'Vangelis',
+    'Henry Kissinger',
+  ]
   const [val, setVal] = React.useState(defaultValue || value)
 
   return (
