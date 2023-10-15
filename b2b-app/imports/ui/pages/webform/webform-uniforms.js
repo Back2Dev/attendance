@@ -48,6 +48,7 @@ import PhoneField from '/imports/ui/components/mui-phone-number'
 // import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
 import FormLabel from '@material-ui/core/FormLabel'
+import CustomForm from '/imports/ui/components/forms/custom'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -880,62 +881,74 @@ const Progress = ({
                 <StepContent>
                   <Card key={step.id} variant="outlined">
                     <CardContent>
-                      <AutoForm
-                        schema={step.bridge}
-                        onSubmit={nextStep}
-                        onChangeModel={changeModel}
-                        model={models[step.id]}
-                        ref={(ref) => (step.formRef = ref)}
-                      >
-                        <div key={`main${ix}`}>
-                          {step.prompt && (
-                            <div>{html2r(step.prompt.replace(/\n/g, '<br />'))}</div>
-                          )}
-                          {step.questions.map((q, iy) => {
-                            return (
-                              <StyledRenderQ key={`${iy}`}>
-                                <DisplayIf
-                                  key={q.id}
-                                  condition={(context) =>
-                                    evaluate(formData, context.model, q.condition)
-                                  }
-                                >
-                                  <span key={`m${q.id}`}>
-                                    {RenderQ(q, iy, models[step.id])}
-                                    {q.note && RenderNote(q.note)}
-                                  </span>
-                                </DisplayIf>
-                              </StyledRenderQ>
-                            )
-                          })}
-                        </div>
-                        <Grid container>
-                          <Grid item sm={12} align="right">
-                            <Button
-                              id="goback"
-                              disabled={activeStep === 0}
-                              onClick={() => {
-                                setTimeout(goBack, 0)
-                              }}
-                              className={classes.backButton}
-                              key="back2"
-                              type="button"
-                              variant="outlined"
-                              color="primary"
-                              data-cy="back-step"
-                            >
-                              Back
-                            </Button>
-                            <SubmitField
-                              className="next"
-                              color="primary"
-                              data-cy="next-step"
-                            >
-                              Next
-                            </SubmitField>
+                      {step.custom && (
+                        <CustomForm
+                          form={step.form}
+                          schema={step.bridge}
+                          onSubmit={nextStep}
+                          onChangeModel={changeModel}
+                          model={models[step.id]}
+                          ref={(ref) => (step.formRef = ref)}
+                        ></CustomForm>
+                      )}
+                      {!step.custom && (
+                        <AutoForm
+                          schema={step.bridge}
+                          onSubmit={nextStep}
+                          onChangeModel={changeModel}
+                          model={models[step.id]}
+                          ref={(ref) => (step.formRef = ref)}
+                        >
+                          <div key={`main${ix}`}>
+                            {step.prompt && (
+                              <div>{html2r(step.prompt.replace(/\n/g, '<br />'))}</div>
+                            )}
+                            {step.questions.map((q, iy) => {
+                              return (
+                                <StyledRenderQ key={`${iy}`}>
+                                  <DisplayIf
+                                    key={q.id}
+                                    condition={(context) =>
+                                      evaluate(formData, context.model, q.condition)
+                                    }
+                                  >
+                                    <span key={`m${q.id}`}>
+                                      {RenderQ(q, iy, models[step.id])}
+                                      {q.note && RenderNote(q.note)}
+                                    </span>
+                                  </DisplayIf>
+                                </StyledRenderQ>
+                              )
+                            })}
+                          </div>
+                          <Grid container>
+                            <Grid item sm={12} align="right">
+                              <Button
+                                id="goback"
+                                disabled={activeStep === 0}
+                                onClick={() => {
+                                  setTimeout(goBack, 0)
+                                }}
+                                className={classes.backButton}
+                                key="back2"
+                                type="button"
+                                variant="outlined"
+                                color="primary"
+                                data-cy="back-step"
+                              >
+                                Back
+                              </Button>
+                              <SubmitField
+                                className="next"
+                                color="primary"
+                                data-cy="next-step"
+                              >
+                                Next
+                              </SubmitField>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </AutoForm>
+                        </AutoForm>
+                      )}
                     </CardContent>
                   </Card>
                 </StepContent>
