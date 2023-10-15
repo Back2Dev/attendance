@@ -7,6 +7,7 @@ import React from 'react'
 // import TableHead from '@mui/material/TableHead'
 // import TableRow from '@mui/material/TableRow'
 // import Paper from '@mui/material/Paper'
+import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -34,27 +35,32 @@ const rows = [
 const TableField = (props) => {
   const { id, name } = props
   debug({ props })
+  const cols = ['spent', 'activity', 'should']
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>should</TableCell>
-            <TableCell align="right">Activity</TableCell>
-            <TableCell align="right">spent;(g)</TableCell>
+            {cols.map((col) => (
+              <TableCell>{col}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, rowix) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.spent}
-              </TableCell>
-              <TableCell align="right">{row.activity}</TableCell>
-              <TableCell align="right">{row.should}</TableCell>
+              {cols.map((col) => {
+                return (
+                  <TableCell component="th" scope="row">
+                    <FormControl size="3">
+                      <TextField id={`${id}.${col}.${rowix}`} defaultValue={row[col]} />
+                    </FormControl>
+                  </TableCell>
+                )
+              })}
             </TableRow>
           ))}
         </TableBody>
