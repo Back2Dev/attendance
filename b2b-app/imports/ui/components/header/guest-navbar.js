@@ -1,12 +1,20 @@
 import React, { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
-import { Menu, MenuItem, IconButton, Toolbar, Typography } from '@material-ui/core'
+import {
+  Menu,
+  MenuItem,
+  IconButton,
+  Toolbar,
+  Typography,
+  Tooltip,
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'
 import MoreVert from '@material-ui/icons/MoreVert'
 import AddIcon from '@material-ui/icons/Add'
+import info from '/imports/api/version'
 // import Auth from '/imports/ui/components/account/auth.js'
 // import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
 
@@ -139,9 +147,11 @@ export default function UserNavbar() {
   return (
     <AppBar position="static" className={classes.appBar}>
       <Toolbar>
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
-        </Link>
+        <Tooltip title={`B2B version ${info?.version()}`}>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
+          </Link>
+        </Tooltip>
         {guestMenu &&
           guestMenu.map((item, index) => {
             return (

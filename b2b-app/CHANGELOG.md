@@ -2,6 +2,8 @@
 
 ## Next
 
+- Show version
+- forms - put survey in state straight away
 - Rewrote user admin
 - Added signature qtype (almost done)
 - Meteor 2.7.2 update

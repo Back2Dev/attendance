@@ -71,8 +71,8 @@ const Framework = ({ id, item, methods }) => {
 
   const [viewJSON, setViewJSON] = React.useState(true)
 
-  const [raw, setRaw] = React.useState({})
-
+  const [raw, setRaw] = React.useState(item.survey || {})
+  debug({ survey: item.survey })
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(
     localStorage.getItem('formEditorAutoRun') === 'true' ? true : false
