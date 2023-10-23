@@ -7,7 +7,7 @@
 
 var versionService = {
   version: function () {
-    return '2.0.1 Friday Oct 20, 2023'
+    return '2.0.2 Monday Oct 23, 2023'
   },
 }
 

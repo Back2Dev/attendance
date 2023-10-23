@@ -148,20 +148,15 @@ const Framework = ({ id, item, methods }) => {
       setJsonEditorInput(JSON.stringify(survey, null, 2))
     } else {
       const result = parse(formEditorInput)
-      if (result.status === 'success') {
+      // Update regardless of errors
+      if (result.survey) {
         const specific = map2Uniforms(result.survey)
         debug({ specific })
         setRaw(specific)
-
         setJsonEditorInput(JSON.stringify(result.survey, null, 2))
-
-        setErrors(result.errs)
-        showErrors(result.errs)
-      } else {
-        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
-        setErrors(result.errs)
-        showErrors(result.errs)
       }
+      setErrors(result.errs)
+      showErrors(result.errs)
     }
   }
 
