@@ -1,143 +1,190 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import {
-  useSelectedPartValue,
-  usePartAnswers,
-} from '/imports/ui/forms/survey-builder/recoil/hooks'
-import { useBuilder } from '/imports/ui/forms/survey-builder/context'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { Grid, Box, IconButton, TextField, InputAdornment } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import { OptionList } from '$sb/components/question/field/option-list'
 import { dropdownOptions } from '$sb/components/question/field/options'
-import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
-import { useTheme } from '@material-ui/core/styles'
-import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { AnswerField, OptionField } from '$sb/components/question/field'
-import { FieldImage } from '$sb/components/question/field'
+import { slugify } from '$sb/utils'
+import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
 
-const filterList = ['name', 'type', 'image', 'answers', 'pid', 'optional', 'specifyType']
+const useStyles = makeStyles(() => ({
+  root: {
+    position: 'relative',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+    '& .drag-icon': {
+      display: 'none',
+    },
+    '&:hover .drag-icon': {
+      display: 'inline',
+      position: 'absolute',
+      left: '-15px',
+      bottom: '3px',
+    },
+  },
+}))
 
-const DropdownInner = ({ pid, part, setPropertyByValue }) => {
-  const { add, remove } = usePartAnswers(pid)
-  const selectedPart = useSelectedPartValue()
-  const { isMobile } = useBuilder()
-  const showMobileActions = isMobile && selectedPart === pid
-  const theme = useTheme()
+const DropdownInner = ({ question, ...props }) => {
+  return (
+    <Droppable droppableId={question._id} type={`question-${question._id}`}>
+      {(provided) => (
+        <div ref={provided.innerRef} {...provided.droppableProps}>
+          {question.answers?.map((answer, aIndex) => {
+            return (
+              <Draggable draggableId={answer._id} key={answer._id} index={aIndex}>
+                {(provided, snapshot) => (
+                  <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
+                    <Answer
+                      dragHandleProps={provided.dragHandleProps}
+                      answer={answer}
+                      question={question}
+                      {...props}
+                      aIndex={aIndex}
+                    />
+                  </div>
+                )}
+              </Draggable>
+            )
+          })}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  )
+}
 
-  const getStyle = (style, snapshot, lockAxis) => {
-    if (!snapshot.isDragging) return style
-    return {
-      ...lockAxis('y', style),
-      boxShadow: theme.shadows[3],
-      background: theme.palette.background.paper,
-    }
+DropdownInner.propTypes = {
+  question: PropTypes.object.isRequired,
+  onQuestionChange: PropTypes.func,
+}
+
+export { DropdownInner }
+
+const Answer = ({
+  answer,
+  question,
+  onQuestionChange,
+  onRemoveAnswer,
+  aIndex,
+  dragHandleProps,
+  onAddAnswer,
+}) => {
+  const classes = useStyles()
+  const [showField, setShowField] = useState(() =>
+    Object.keys(dropdownOptions).reduce((acc, cur) => {
+      return {
+        ...acc,
+        [cur]: false,
+      }
+    }, {})
+  )
+
+  const onToggle = (key) => {
+    setShowField({ ...showField, [key]: !showField[key] })
   }
 
   return (
-    <div>
-      <DndDroppable pid={pid} listAtom={partAnswers(pid)} type={pid}>
-        {(provided) => (
-          <ul
-            style={{ paddingLeft: 0 }}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {part?.answers?.map((answer, answerIndex) => {
-              return (
-                <DndDraggable
-                  pid={pid}
-                  itemId={`{pid}_${answerIndex}`}
-                  index={answerIndex}
-                  key={`${pid}_${answerIndex}`}
+    <Box className={classes.root}>
+      <Grid container spacing={3} alignItems="flex-end">
+        <IconButton
+          {...dragHandleProps}
+          className="drag-icon"
+          variant="outlined"
+          color="default"
+        >
+          <DragIndicatorIcon />
+        </IconButton>
+        <Grid item xs={12} md={9} lg={10}>
+          <TextField
+            fullWidth
+            onChange={({ target: { value } }) => {
+              question.answers[aIndex].name = value
+              question.answers[aIndex].id = slugify(value)
+              onQuestionChange({ question })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                onAddAnswer({
+                  aIndex,
+                  defaultAnswer: {
+                    name: 'Type the answer here...',
+                    type: 'text',
+                  },
+                })
+              }
+            }}
+            value={answer.name}
+            InputProps={{
+              // classes: {
+              //   underline: classes.hideUnderline,
+              // },
+              endAdornment: (
+                <InputAdornment
+                  // classes={{ root: classes.InputAdornment }}
+                  position="end"
                 >
-                  {(provided, snapshot, lockAxis) => (
-                    <div
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getStyle(provided.draggableProps.style, snapshot, lockAxis)}
-                      ref={provided.innerRef}
-                    >
-                      <AnswerField
-                        underline={true}
-                        onRemove={() => remove(answerIndex)}
-                        onAdd={() => add(answerIndex)}
-                        disableRemove={part.answers.length === 1}
-                        setPropertyByValue={setPropertyByValue}
-                        pid={pid}
-                        answer={answer}
-                        answerIndex={answerIndex}
-                        showMobileActions={showMobileActions}
-                        part={part}
-                        pid_index={`${pid}_${answerIndex}`}
-                        options={dropdownOptions}
-                        type={'dropdown'}
-                        helperText={answer.optional ?? undefined}
-                      />
+                  <OptionList
+                    options={dropdownOptions}
+                    onToggle={onToggle}
+                    showField={showField}
+                  />
+                  <RemoveAnsBtn
+                    onRemoveAnswer={() => onRemoveAnswer({ _id: answer._id })}
+                  />
+                  {/* <UploadImage {...props} /> */}
+                  {/* {specify} */}
+                  {/* {createActions(...actions)} */}
+                </InputAdornment>
+              ),
+              // startAdornment: (
+              //   <InputAdornment position="start">
+              //     <ArrowDropDownIcon />
+              //   </InputAdornment>
+              // ),
+            }}
+            label="Answer"
+            placeholder="Type some anwer..."
+          />
+        </Grid>
+      </Grid>
 
-                      <Grid container spacing={1} alignItems="flex-start">
-                        <Grid item xs={8}>
-                          <OptionField
-                            part={part.answers[answerIndex]}
-                            filterList={[...filterList]}
-                            setPropertyByValue={setPropertyByValue}
-                            pid_index={`${pid}_${answerIndex}`}
-                            showMobileActions={showMobileActions}
-                            pid={pid}
-                            path={`answers[${answerIndex}]`}
-                          />
-                        </Grid>
-                        <Grid item xs={1}>
-                          {' '}
-                        </Grid>
-                        <Grid item xs={2}>
-                          {answer.image && (
+      <Grid container spacing={1} alignItems="flex-start">
+        <Grid item xs={8}>
+          {Object.entries(showField)
+            .filter(([_, show]) => show)
+            .map(([key]) => {
+              return (
+                <TextField
+                  key={key}
+                  fullWidth
+                  value={answer[key] || ''}
+                  onChange={({ target: { value } }) => {
+                    question.answers[aIndex][key] = value
+                    onQuestionChange({ question })
+                  }}
+                  label={dropdownOptions[key]}
+                />
+              )
+            })}
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          {/* {answer.image && (
                             <FieldImage
                               src={answer.image}
                               onDeleteImage={() =>
                                 setPropertyByValue({
                                   pid,
-                                  path: `answers[${answerIndex}].image`,
+                                  path: `answers[${aIndex}].image`,
                                 })
                               }
                             />
-                          )}
-                        </Grid>
-                      </Grid>
-                    </div>
-                  )}
-                </DndDraggable>
-              )
-            })}
-            {provided.placeholder}
-          </ul>
-        )}
-      </DndDroppable>
-
-      {showMobileActions && (
-        <Button
-          variant="outlined"
-          color="default"
-          size="small"
-          startIcon={<AddIcon />}
-          onClick={() => add()}
-        >
-          New item
-        </Button>
-      )}
-    </div>
+                          )} */}
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
-
-DropdownInner.propTypes = {
-  /** single instance part id */
-  pid: PropTypes.string.isRequired,
-  /** function gets called when updating atom's value based on the input path argument */
-  setPropertyByValue: PropTypes.func,
-  /** Object contains question/answers, each pid correspond to a specific part  */
-  part: PropTypes.object.isRequired,
-}
-
-DropdownInner.defaultProps = {
-  initialList: [''],
-}
-
-export { DropdownInner }

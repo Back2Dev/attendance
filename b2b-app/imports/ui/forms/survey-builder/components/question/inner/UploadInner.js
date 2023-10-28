@@ -1,37 +1,29 @@
 import React from 'react'
 import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import { slugify } from '$sb/utils'
 
-const UploadInner = ({ pid, part, setPropertyByValue }) => {
+const UploadInner = ({ question, onQuestionChange }) => {
   const onChangeAccept = (fileType, checked) => {
-    setPropertyByValue({
-      path: 'answers[0].accept',
-      value: { ...part.answers[0]?.accept, [fileType]: checked },
-      pid,
-    })
+    question.answers[0].accept = { ...question.answers[0]?.accept, [fileType]: checked }
+    onQuestionChange({ question })
   }
 
   return (
-    <div>
-      {/* <TextField
-            id="maxFiles"
-            label="MaxFiles"
-            type="number"
-            variant="outlined"
-            style={{ marginBottom: '0.5em', marginTop: '0.5rem' }}
-            value={property[0]?.maxFiles}
-            onChange={(e) => onChange({ ...property, maxFiles: e.target.value })}
-          /> */}
-
+    <div style={{ padding: '2rem' }}>
       <TextField
         id="MaxSize"
         label="MaxSize(MB)"
         type="number"
         variant="outlined"
         style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
-        value={Number(part.answers[0]?.maxSize) / (1024 * 1024) || 100}
+        value={Number(question.answers[0]?.maxSize) || 100}
         onChange={({ target: { value } }) =>
-          setPropertyByValue({ path: 'answers[0].maxSize', value, pid })
+          // onQuestionChange({ key: 'maxSize', value, aIndex: 0 })
+          {
+            question.answers[0].maxSize = value
+            onQuestionChange({ question })
+          }
         }
       />
 
@@ -39,7 +31,7 @@ const UploadInner = ({ pid, part, setPropertyByValue }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={part.answers[0]?.accept?.['.pdf'] || false}
+              checked={question.answers[0]?.accept?.['.pdf'] || false}
               onChange={({ target: { checked } }) => onChangeAccept('.pdf', checked)}
             />
           }
@@ -48,7 +40,7 @@ const UploadInner = ({ pid, part, setPropertyByValue }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={part.answers[0]?.accept?.['image/*'] || false}
+              checked={question.answers[0]?.accept?.['image/*'] || false}
               onChange={({ target: { checked } }) => onChangeAccept('image/*', checked)}
             />
           }
@@ -57,7 +49,7 @@ const UploadInner = ({ pid, part, setPropertyByValue }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={part.answers[0]?.accept?.['.txt'] || false}
+              checked={question.answers[0]?.accept?.['.txt'] || false}
               onChange={({ target: { checked } }) => onChangeAccept('.txt', checked)}
             />
           }
@@ -66,7 +58,7 @@ const UploadInner = ({ pid, part, setPropertyByValue }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={part.answers[0]?.accept?.['video/*'] || false}
+              checked={question.answers[0]?.accept?.['video/*'] || false}
               onChange={({ target: { checked } }) => onChangeAccept('video/*', checked)}
             />
           }
@@ -90,16 +82,8 @@ const UploadInner = ({ pid, part, setPropertyByValue }) => {
 }
 
 UploadInner.propTypes = {
-  /** single instance part id */
-  pid: PropTypes.string.isRequired,
-  /** function gets called when updating atom's value based on the input path argument */
-  setPropertyByValue: PropTypes.func,
-  /** Object contains question/answers, each pid correspond to a specific part  */
-  part: PropTypes.object.isRequired,
-}
-
-UploadInner.defaultProps = {
-  initialList: [''],
+  question: PropTypes.object.isRequired,
+  onQuestionChange: PropTypes.func,
 }
 
 export { UploadInner }

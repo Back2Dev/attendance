@@ -5,17 +5,16 @@ import Rating from '@material-ui/lab/Rating'
 import HeartIcon from '@material-ui/icons/FavoriteBorderOutlined'
 import ThumbIcon from '@material-ui/icons/ThumbUpAltOutlined'
 
-const RatingField = ({ value, onChange, field, name, ...rest }) => {
+const RatingField = ({ value, onChange, field, name, max = 7 }) => {
   // const [value, setValue] = React.useState(1)
   const [hover, setHover] = React.useState(-1)
 
-  console.log('rest', rest)
-  const max = rest?.max || 7
   return (
     <Box component="fieldset" mb={3} borderColor="transparent">
       {field.label}
       <br />
       <br />
+      {answer}
       <Rating
         name={name}
         size="small"

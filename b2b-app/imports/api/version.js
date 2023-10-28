@@ -6,11 +6,9 @@
  */
 
 var versionService = {
+  version: function () {
+    return '2.0.2 Monday Oct 23, 2023'
+  },
+}
 
-  version: function() {
-    return "2.0.0"
-  }
-
-};
-
-module.exports = versionService;
+module.exports = versionService

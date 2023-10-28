@@ -13,16 +13,17 @@ export default map2Uniforms = (survey) => {
   // debugger
   const newSurvey = Object.assign({}, survey, { ['steps']: survey['sections'] })
   delete newSurvey.sections
+
   newSurvey.steps.forEach((step) => {
     mv(step, 'title', 'name')
-    mv(step, '_id', 'id')
+    // mv(step, '_id', 'id')
     step.questions.forEach((q) => {
       // mv(q, 'type', 'qtype')
       mv(q, 'title', 'prompt')
-      mv(q, '_id', 'id')
+      // mv(q, '_id', 'id')
       q.answers?.forEach((a) => {
         mv(a, 'title', 'name')
-        mv(a, '_id', 'id')
+        // mv(a, '_id', 'id')
       })
     })
   })

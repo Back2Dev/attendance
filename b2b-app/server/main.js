@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
- const cron = require('node-cron')
+const cron = require('node-cron')
 const debug = require('debug')('app:server')
 
 //

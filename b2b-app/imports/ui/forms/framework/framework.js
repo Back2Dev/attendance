@@ -32,41 +32,11 @@ const Framework = ({ id, item, methods }) => {
     },
   }
 
-  const getSource = useRecoilCallback(
-    ({ snapshot }) =>
-      () => {
-        const parts = snapshot.getLoadable(partsAtom).contents
-        const sourceJSON = parts.map(
-          ({ pid }) => snapshot.getLoadable(partAtom(pid)).contents
-        )
-        return sourceJSON
-      },
-    []
-  )
-
   const save = (quit, autosave = false) => {
     if (layout === 'dnd') {
       console.log('dnd save not ready yet!')
       //todo:
       //1.compile JSON back to source syntext 2.save data to DB
-
-      // try {
-      //   const sourceJSON = getSource()
-      //   if (!sourceJSON) {
-      //     return
-      //   }
-      //   const compiled = parse(sourceJSON)
-      //   if (compiled.status !== 'success') {
-      //     throw new Error(`Source parser error: ${compiled.message}`)
-      //   }
-
-      //   log(sourceJSON)
-      //   log(compiled.survey)
-      //   updateFormInput(sourceJSON)
-
-      // } catch (e) {
-
-      // }
     } else {
       try {
         methods.update(
@@ -101,8 +71,8 @@ const Framework = ({ id, item, methods }) => {
 
   const [viewJSON, setViewJSON] = React.useState(true)
 
-  const [raw, setRaw] = React.useState({})
-
+  const [raw, setRaw] = React.useState(item.survey || {})
+  debug({ survey: item.survey })
   const [errors, setErrors] = React.useState(parse(formEditorInput).errs)
   const [autoRun, setAutoRun] = React.useState(
     localStorage.getItem('formEditorAutoRun') === 'true' ? true : false
@@ -170,26 +140,7 @@ const Framework = ({ id, item, methods }) => {
 
   const compileForm = () => {
     if (layout === 'dnd') {
-      const sourceJSON = getSource()
-
-      const sections = sourceJSON.reduce((acc, curr, index) => {
-        //if first one is not a section => create a  default section
-        if (index === 0 && curr.type !== 'section')
-          return [{ id: makeId(), name: 'Section 1', questions: [{ ...curr }] }]
-        //if type is section, then create an object
-        if (curr.type === 'section') return [...acc, { ...curr, questions: [] }]
-        //put the question inside the last section we created
-        acc[acc.length - 1].questions = [...acc[acc.length - 1].questions, curr]
-        return acc
-      }, [])
-
-      let survey = {
-        sections,
-        name: 'Sample Survey',
-        slug: 'sample',
-        version: '1',
-        active: true,
-      }
+      let survey = JSON.parse(jsonEditorInput)
 
       const specific = map2Uniforms(survey)
       setRaw(specific)
@@ -197,20 +148,15 @@ const Framework = ({ id, item, methods }) => {
       setJsonEditorInput(JSON.stringify(survey, null, 2))
     } else {
       const result = parse(formEditorInput)
-      if (result.status === 'success') {
+      // Update regardless of errors
+      if (result.survey) {
         const specific = map2Uniforms(result.survey)
         debug({ specific })
         setRaw(specific)
-
         setJsonEditorInput(JSON.stringify(result.survey, null, 2))
-        console.log('JSON result', result)
-        setErrors(result.errs)
-        showErrors(result.errs)
-      } else {
-        setJsonEditorInput(JSON.stringify(result.survey, null, 2))
-        setErrors(result.errs)
-        showErrors(result.errs)
       }
+      setErrors(result.errs)
+      showErrors(result.errs)
     }
   }
 

@@ -3,6 +3,11 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
 import SearchIcon from '@material-ui/icons/Search'
 
+/**
+ *
+ * THIS MAY BE AN ORPHAN...
+ *
+ */
 const CustomSearchField = ({ _id, _placeholder, callback }) => {
   return (
     <TextField

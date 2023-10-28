@@ -91,7 +91,7 @@ const UploadStep = ({ activeStep, setActiveStep }) => {
       {propertyDetails && (
         <>
           <Typography>
-            <b>Property address:</b> <br />
+            <b>Address:</b> <br />
             {propertyDetails.propertyAddress}
           </Typography>
           <br />

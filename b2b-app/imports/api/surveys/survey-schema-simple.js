@@ -14,6 +14,9 @@ import { LongTextField, NumField, SelectField } from 'uniforms-material'
 import DateField from '/imports/ui/components/date-field'
 import PasswordField from '/imports/ui/components/password-field'
 import { UploadField } from '/imports/ui/components/upload-field'
+import TableField from '/imports/ui/components/table-field'
+import dbg from 'debug'
+const debug = dbg('app:survey-schema')
 
 const LongField = (props) => (
   <LongTextField {...props} variant="outlined" minRows="3"></LongTextField>
@@ -27,7 +30,6 @@ SimpleSchema.setDefaultMessages({
     },
   },
 })
-const debug = require('debug')('app:survey-schema')
 
 const checkVolume = function () {
   debug(`Checking ${this.key} ${this.value}`, this.definition)
@@ -41,7 +43,9 @@ const checkVolume = function () {
   ])
   return 'notUnique'
 }
-
+//
+// This function is called by the <DisplayIf> component, to test the condition
+// - the result determines if the field should be displayed or not
 export const evaluate = (formData, context, condition) => {
   if (!Array.isArray(condition)) return true
   debug(`Evaluate ${condition?.join()}`, { formData, context })
@@ -54,17 +58,19 @@ export const evaluate = (formData, context, condition) => {
 
   // debug({ section, field, op, lhs, model })
   const value = model[field]
-  if (['equal', 'eq', '='].includes(op)) return value === rhs
-  if (['not equal', 'ne', '!='].includes(op)) return value !== rhs
-  if (['falsy', '!'].includes(op)) return !value
-  if (['contains', 'contain'].includes(op)) return value && value.includes(rhs)
-  if (['truthy'].includes(op)) return !!value
-
-  return false
+  let result = false // Default to NO
+  if (['equal', 'eq', '='].includes(op)) result = value === rhs
+  if (['not equal', 'ne', '!='].includes(op)) result = value !== rhs
+  if (['falsy', '!'].includes(op)) result = !value
+  if (['contains', 'contain'].includes(op)) result = value && value.includes(rhs)
+  if (['truthy'].includes(op)) result = !!value
+  debug({ result })
+  return result
 }
 
 const getOptionalFunc = (q, uniforms, optional) => {
-  // If the question is conditional, create a function instead of the regular "optional" property
+  // If the question is conditional, create a function instead of
+  // the regular "optional" property
   if (q.condition && !optional) {
     uniforms.condition = q.condition
     return function () {
@@ -148,6 +154,7 @@ const getSchemas = (survey, currentData) => {
               uniforms: {},
             }
             const qSchema = step.schema[q.id]
+            let subSchema = {}
             const answers = getAnswers(currentData, q)
 
             switch (q.type) {
@@ -155,7 +162,7 @@ const getSchemas = (survey, currentData) => {
                 step.schema[q.id].type = Array
                 step.schema[q.id].minCount = q.minCount || 1
                 step.schema[q.id].label = ''
-                const subSchema = {}
+                step.schema[q.id].uniforms.addIcon = q.plus || 'Add another'
                 answers.forEach((a) => {
                   const qaId = `${q.id}-${a.id}`
                   let optional = !!a.optional
@@ -181,7 +188,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'date') {
                     subSchema[qaId].type = Date
                     subSchema[qaId].uniforms.margin = 'normal'
-                    subSchema[qaId].uniforms.component = DatePicker
+                    subSchema[qaId].uniforms.component = DateField
                   }
                   if (a.type === 'long') {
                     // subSchema[qaId].uniforms.margin = 'normal'
@@ -470,49 +477,10 @@ const getSchemas = (survey, currentData) => {
 
                 break
 
-              // case 'multiple':
-              //   qSchema.uniforms.checkboxes = "true"
-              //   qSchema.uniforms.options = answers.map((a) => {
-              //     return { label: a.name, value: a.value || a.id }
-              //   })
-              //   qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
-
-              //   answers
-              //     .filter((a) => a.specify)
-              //     .map((a) => {
-              //       const specifyId = `${q.id}-${a.id}-specify`
-              //       const uniforms = {}
-              //       const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-              //       step.schema[specifyId] = {
-              //         type: Boolean,
-              //         label: a.specify,
-              //         optional,
-              //         uniforms,
-              //       }
-              //       return specifyId
-              //     })
-
-              //   break
-
               case 'upload':
                 // qSchema.uniforms.value = answers.map((a) => a.val)
                 qSchema.uniforms.component = UploadField
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, qSchema.optional)
-
-                answers
-                  .filter((a) => a.specify)
-                  .map((a) => {
-                    const specifyId = `${q.id}-${a.id}-specify`
-                    const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                    step.schema[specifyId] = {
-                      type: String,
-                      label: a.specify,
-                      optional,
-                      uniforms,
-                    }
-                    return specifyId
-                  })
                 break
               // I don't know if we'll ever need this, just 'multi' instead
               // case 'boolean':
@@ -563,8 +531,59 @@ const getSchemas = (survey, currentData) => {
                 // qSchema.uniforms.textFieldProps = { helperText: 'this is a helper' }
                 // Nothing to do, just accept it as is ??
                 break
-              case 'upload':
-                delete step.schema[q.id]
+              case 'table':
+                qSchema.uniforms.component = TableField
+                // step.schema[q.id].type = Array
+                // qSchema.uniforms.component = TableField
+                step.schema[q.id].minCount = q.minCount || 1
+                step.schema[q.id].label = ''
+                step.schema[q.id].uniforms.addIcon = q.plus || 'Add another'
+                step.schema[q.id].uniforms.removeIcon = 'Remove'
+                subSchema = {}
+                answers.forEach((a, ix) => {
+                  // const qaId = getQAId(q.id, answers, ix) //`${q.id}__${a.id}`
+                  const qaId = `${q.id}__${a.id}`
+                  let optional = !!a.optional
+                  const uniforms = {}
+                  optional = getOptionalFunc(q, uniforms, optional)
+
+                  subSchema[qaId] = {
+                    type: String,
+                    label: a.name,
+                    optional,
+                    uniforms,
+                  }
+                  if (a.re) {
+                    subSchema[qaId].regEx = new RegExp(a.re)
+                    subSchema[qaId].custom = checkVolume
+                    // subSchema[qaId].optional = true
+                  }
+                  if (a.type === 'address') {
+                    subSchema[qaId].uniforms.margin = 'normal'
+                    subSchema[qaId].uniforms.component = GooglePlaces
+                    subSchema[qaId].uniforms.autocompleteBugFix = true
+                  }
+                  if (a.type === 'date') {
+                    subSchema[qaId].type = Date
+                    subSchema[qaId].uniforms.margin = 'normal'
+                    subSchema[qaId].uniforms.component = DateField
+                  }
+                  if (a.type === 'long') {
+                    // subSchema[qaId].uniforms.margin = 'normal'
+                    subSchema[qaId].uniforms.component = LongField
+                  }
+                  if (a.type === 'number') {
+                    subSchema[qaId].uniforms.component = NumField
+                  }
+
+                  if (a.type === 'email')
+                    subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                  if (a.type === 'calculated') {
+                    subSchema[qaId].optional = false
+                    subSchema[qaId].uniforms.expression = a.expression
+                  }
+                })
+                step.schema[`${q.id}.$`] = new SimpleSchema(subSchema)
                 break
               case 'date':
                 delete step.schema[q.id]
@@ -575,7 +594,7 @@ const getSchemas = (survey, currentData) => {
                     label: a.name,
                     // This is NOT THE ONE YOU WANT !
                     // It's for an individual field, not a list
-                    uniforms: { component: DatePicker },
+                    uniforms: { component: DateField },
                   }
                 })
                 break

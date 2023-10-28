@@ -16,6 +16,7 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
+  Tooltip,
 } from '@material-ui/core'
 import GroupIcon from '@material-ui/icons/Group'
 import MoreVert from '@material-ui/icons/MoreVert'
@@ -26,6 +27,7 @@ import OtherSideDrawer from './other-side-drawer'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import CONSTANTS from '/imports/api/constants'
 import { convertAvatar } from '/imports/api/util.js'
+import info from '/imports/api/version'
 
 // import Auth from '/imports/ui/components/account/auth.js'
 // import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
@@ -346,9 +348,15 @@ export default function UserNavbar() {
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
           {isAdmin && viewas === 'ADM' ? <ADMSideDrawer /> : <OtherSideDrawer />}
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
-          </Link>
+          <Tooltip title={`B2B version ${info?.version()}`}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <img
+                className={classes.logo}
+                src="/images/logo.png"
+                alt="Back2bikes logo"
+              />
+            </Link>
+          </Tooltip>
           {userMenu &&
             userMenu.map((item, index) => {
               return (

@@ -4,7 +4,7 @@ import keywords from './engine-keywords'
 const debug = require('debug')('app:forms:engine')
 
 const validQtypes =
-  'multiple single text array slider paragraph signature calc lookup dropdown rating tree geolocation scale date file upload short'.split(
+  'multiple single text array slider paragraph signature calc lookup dropdown rating tree geolocation scale date file table upload short'.split(
     /\s+/
   )
 const aliases = { type: { file: 'upload', short: 'text', num: 'number' } }
@@ -25,6 +25,8 @@ const slugify = (text) => {
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-/, '')
+    .replace(/-$/, '')
 }
 
 const addQ = (survey, title, lineno) => {

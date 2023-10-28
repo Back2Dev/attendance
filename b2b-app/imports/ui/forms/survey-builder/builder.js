@@ -19,9 +19,9 @@ const Builder = () => {
     <>
       <RecoilDevtools />
       <BuilderProvider>
-        <DndProvider>
-          <BuilderView json={json} />
-        </DndProvider>
+        {/* <DndProvider> */}
+        <BuilderView json={json} />
+        {/* </DndProvider> */}
       </BuilderProvider>
     </>
   )

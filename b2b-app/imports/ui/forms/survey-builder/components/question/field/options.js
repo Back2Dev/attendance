@@ -1,58 +1,62 @@
-export const questionOptions = [
-  { label: 'Header', value: 'header' },
-  // { label: 'Paragraph', value: 'paragraph' },
-  { label: 'Conditional ', value: 'conditional' },
-  { label: 'Pipe ', value: 'pipe' },
-  { label: 'Tooltip ', value: 'tooltip' },
-  { label: 'Logic block ', value: 'logic' },
-  { label: 'Optional', value: 'optional' },
-]
+export const sectionOptions = {
+  id: 'ID',
+  value: 'Value',
+}
 
-export const singleOptions = [
-  { label: 'Populate', value: 'populate' },
-  { label: 'Score', value: 'score' },
-  { label: 'Specify ', value: 'specify' },
-  { label: 'Skip ', value: 'skip' },
-]
+export const questionOptions = {
+  id: 'ID',
+  value: 'Value',
+  header: 'Header',
+  conditional: 'Conditional',
+  pipe: 'Pipe',
+  tooltip: 'Tooltip',
+  optional: 'Optional',
+}
 
-export const multipleOptions = [
-  { label: 'Populate', value: 'populate' },
-  { label: 'Score', value: 'score' },
-  { label: 'Specify ', value: 'specify' },
-  { label: 'Skip ', value: 'skip' },
-]
+export const textOptions = {
+  populate: 'Populate',
+  score: 'Score',
+  skip: 'Skip ',
+  optional: 'Optional',
+  note: 'Note',
+  placeholder: 'PlaceHolder',
+  regEx: 'Regex',
+  errorMessage: 'Error Message',
+}
 
-export const textOptions = [
-  { label: 'Populate', value: 'populate' },
-  { label: 'Score', value: 'score' },
-  // { label: 'Specify ', value: 'specify' },
-  { label: 'Skip ', value: 'skip' },
-  { label: 'Optional', value: 'optional' },
-  { label: 'Note', value: 'note' },
-  { label: 'PlaceHolder', value: 'placeholder' },
-  { label: 'Regex', value: 'regEx' },
-  { label: 'Error Message', value: 'errorMessage' },
-]
+export const singleOptions = {
+  populate: 'Populate',
+  score: 'Score',
+  specify: 'Specify',
+  skip: 'Skip',
+}
 
-export const dropdownOptions = [
-  { label: 'Populate', value: 'populate' },
-  { label: 'Score', value: 'score' },
-  { label: 'Specify ', value: 'specify' },
-  { label: 'Skip ', value: 'skip' },
-  { label: 'Optional', value: 'optional' },
-  // { label: 'Note', value: 'note' },
-]
+export const multipleOptions = {
+  populate: 'Populate',
+  score: 'Score',
+  specify: 'Specify',
+  skip: 'Skip',
+}
 
-export const uploadOptions = [
-  { label: 'Accept File', value: 'accept' },
-  { label: 'MaxSize', value: 'maxSize' },
-  // { label: 'multiple ', value: 'multiple' },
-  // { label: 'maxFiles ', value: 'maxFiles' },
-]
+export const dropdownOptions = {
+  populate: 'Populate',
+  score: 'Score',
+  specify: 'Specify',
+  skip: 'Skip',
+  optional: 'Optional',
+}
 
-export const gridColumnOptions = [
-  // { label: 'Width', value: 'width' },
-  // { label: 'Header Name', value: 'headerName' },
-  // { label: 'Type', value: 'type' },
-  { label: 'Description', value: 'description' },
-]
+export const uploadOptions = {
+  accept: 'Accept File',
+  maxSize: 'MaxSize',
+}
+
+export const ratingOptions = {
+  id: 'ID',
+  value: 'Value',
+}
+
+export const gridColumnOptions = {
+  id: 'ID',
+  value: 'Value',
+}

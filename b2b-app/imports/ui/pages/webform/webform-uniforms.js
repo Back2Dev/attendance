@@ -44,10 +44,11 @@ import html2r from '/imports/ui/utils/html2r'
 import WebformContext from './context'
 import { GreenButton, GreenFabButton } from '/imports/ui/utils/generic'
 import Signature from '/imports/ui/components/signature'
-import PhoneField from '/imports/ui/components/phone-field'
+import PhoneField from '/imports/ui/components/mui-phone-number'
 // import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
 import FormLabel from '@material-ui/core/FormLabel'
+import CustomForm from '/imports/ui/components/forms/custom'
 
 const debug = require('debug')('app:webforms-progress')
 
@@ -151,30 +152,6 @@ const TextQ = ({ q, a }) => {
   //not sure why multiline with &#10; not work for placeholder
 
   switch (a.type) {
-    // case 'long':
-    //   return (
-    //     <LongTextField
-    //       name={id}
-    //       id={id}
-    //       key={id}
-    //       minRows="2"
-    //       variant="outlined"
-    //     ></LongTextField>
-    //   )
-    // TODO: Make this work
-    // case 'date':
-    //   return (
-    //     <Fragment>
-    //       <AutoField name={id} id={id} key={id}></AutoField>
-    //       <ErrorField name={id} id={id}>
-    //         Date is required or is invalid
-    //       </ErrorField>
-    //     </Fragment>
-    //   )
-    // case 'number':
-    //   return (
-    //     <NumField name={id} id={id} key={id} defaultValue={a.defaultValue} ></NumField>
-    //   )
     case 'email':
       return (
         <Fragment>
@@ -189,15 +166,7 @@ const TextQ = ({ q, a }) => {
       return <span>{a.defaultValue}</span>
 
     case 'phoneNumber':
-      return (
-        <Fragment>
-          <PhoneField name={id} id={id} key={id}></PhoneField>
-          <ErrorField name={id} id={id}>
-            {errorMessage || 'Phone Number is required or is invalid'}
-          </ErrorField>
-        </Fragment>
-      )
-
+      return <PhoneField name={id} id={id} key={id}></PhoneField>
     case 'password':
       return (
         <Fragment>
@@ -226,7 +195,11 @@ const TextQ = ({ q, a }) => {
       return (
         <Fragment>
           <AutoField name={id} id={id} key={id} placeholder={placeholder} />
-          <ErrorField name={id} id={id} errorMessage={errorMessage} />
+          <ErrorField
+            name={id}
+            id={id}
+            errorMessage={errorMessage || 'This field is required!'}
+          />
         </Fragment>
       )
   }
@@ -263,7 +236,6 @@ const Prompt = ({ text, tooltip, description, header, required = true }) => {
 }
 const RenderQ = (q, ix, model) => {
   const { formData } = React.useContext(WebformContext)
-
   const key = `q${q.id}${ix}`
   switch (q.type) {
     // case 'array':
@@ -465,7 +437,7 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
 
-          <AutoField name={q.id} id={q.id} data={q.answers[0]} />
+          <AutoField name={q.id} id={q.id} rows={q.rows} columns={q.columns} />
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
@@ -975,62 +947,74 @@ const Progress = ({
                 <StepContent>
                   <Card key={step.id} variant="outlined">
                     <CardContent>
-                      <AutoForm
-                        schema={step.bridge}
-                        onSubmit={nextStep}
-                        onChangeModel={changeModel}
-                        model={models[step.id]}
-                        ref={(ref) => (step.formRef = ref)}
-                      >
-                        <div key={`main${ix}`}>
-                          {step.prompt && (
-                            <div>{html2r(step.prompt.replace(/\n/g, '<br />'))}</div>
-                          )}
-                          {step.questions.map((q, iy) => {
-                            return (
-                              <StyledRenderQ key={`${iy}`}>
-                                <DisplayIf
-                                  key={q.id}
-                                  condition={(context) =>
-                                    evaluate(formData, context.model, q.condition)
-                                  }
-                                >
-                                  <span key={`m${q.id}`}>
-                                    {RenderQ(q, iy, models[step.id])}
-                                    {q.note && RenderNote(q.note)}
-                                  </span>
-                                </DisplayIf>
-                              </StyledRenderQ>
-                            )
-                          })}
-                        </div>
-                        <Grid container>
-                          <Grid item sm={12} align="right">
-                            <Button
-                              id="goback"
-                              disabled={activeStep === 0}
-                              onClick={() => {
-                                setTimeout(goBack, 0)
-                              }}
-                              className={classes.backButton}
-                              key="back2"
-                              type="button"
-                              variant="outlined"
-                              color="primary"
-                              data-cy="back-step"
-                            >
-                              Back
-                            </Button>
-                            <SubmitField
-                              className="next"
-                              color="primary"
-                              data-cy="next-step"
-                            >
-                              Next
-                            </SubmitField>
+                      {step.custom && (
+                        <CustomForm
+                          form={step.form}
+                          schema={step.bridge}
+                          onSubmit={nextStep}
+                          onChangeModel={changeModel}
+                          model={models[step.id]}
+                          ref={(ref) => (step.formRef = ref)}
+                        ></CustomForm>
+                      )}
+                      {!step.custom && (
+                        <AutoForm
+                          schema={step.bridge}
+                          onSubmit={nextStep}
+                          onChangeModel={changeModel}
+                          model={models[step.id]}
+                          ref={(ref) => (step.formRef = ref)}
+                        >
+                          <div key={`main${ix}`}>
+                            {step.prompt && (
+                              <div>{html2r(step.prompt.replace(/\n/g, '<br />'))}</div>
+                            )}
+                            {step.questions.map((q, iy) => {
+                              return (
+                                <StyledRenderQ key={`${iy}`}>
+                                  <DisplayIf
+                                    key={q.id}
+                                    condition={(context) =>
+                                      evaluate(formData, context.model, q.condition)
+                                    }
+                                  >
+                                    <span key={`m${q.id}`}>
+                                      {RenderQ(q, iy, models[step.id])}
+                                      {q.note && RenderNote(q.note)}
+                                    </span>
+                                  </DisplayIf>
+                                </StyledRenderQ>
+                              )
+                            })}
+                          </div>
+                          <Grid container>
+                            <Grid item sm={12} align="right">
+                              <Button
+                                id="goback"
+                                disabled={activeStep === 0}
+                                onClick={() => {
+                                  setTimeout(goBack, 0)
+                                }}
+                                className={classes.backButton}
+                                key="back2"
+                                type="button"
+                                variant="outlined"
+                                color="primary"
+                                data-cy="back-step"
+                              >
+                                Back
+                              </Button>
+                              <SubmitField
+                                className="next"
+                                color="primary"
+                                data-cy="next-step"
+                              >
+                                Next
+                              </SubmitField>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </AutoForm>
+                        </AutoForm>
+                      )}
                     </CardContent>
                   </Card>
                 </StepContent>
