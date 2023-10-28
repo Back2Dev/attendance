@@ -185,7 +185,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'date') {
                     subSchema[qaId].type = Date
                     subSchema[qaId].uniforms.margin = 'normal'
-                    subSchema[qaId].uniforms.component = DatePicker
+                    subSchema[qaId].uniforms.component = DateField
                   }
                   if (a.type === 'long') {
                     // subSchema[qaId].uniforms.margin = 'normal'
@@ -500,7 +500,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'date') {
                     subSchema[qaId].type = Date
                     subSchema[qaId].uniforms.margin = 'normal'
-                    subSchema[qaId].uniforms.component = DatePicker
+                    subSchema[qaId].uniforms.component = DateField
                   }
                   if (a.type === 'long') {
                     // subSchema[qaId].uniforms.margin = 'normal'
@@ -528,7 +528,7 @@ const getSchemas = (survey, currentData) => {
                     label: a.name,
                     // This is NOT THE ONE YOU WANT !
                     // It's for an individual field, not a list
-                    uniforms: { component: DatePicker },
+                    uniforms: { component: DateField },
                   }
                 })
                 break

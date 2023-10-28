@@ -134,7 +134,7 @@ function GoogleMaps({
             margin="dense"
             required={required}
             name={name}
-            label={label || 'Property address'}
+            label={label || 'Address'}
             error={error != null}
             variant="outlined"
             inputProps={
