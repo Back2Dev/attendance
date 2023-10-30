@@ -22,5 +22,14 @@ describe('log into app and create a form with a multiple question', () => {
 
     //   // click next without any input
     cy.get('[data-cy=next-step]').click()
+
+    cy.get('p#enter-weight-of-house-scale').should('exist')
+    cy.get('[data-cy="next-step"]').should('be.disabled')
+
+    // give a valid input
+    cy.get('input#enter-weight-of-house-scale').clear().type('3232')
+    cy.get('p#enter-weight-of-house-scale').should('not.exist')
+    cy.get('[data-cy="next-step"]').click()
+    cy.get('[data-cy=completed]').should('exist')
   })
 })
