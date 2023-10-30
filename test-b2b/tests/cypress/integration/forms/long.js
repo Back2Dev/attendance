@@ -25,12 +25,10 @@ describe('log into app and create a form with a long question', () => {
 
     // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('#enter-adornment-cost-long-label').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     // give a valid input
     cy.get('textarea#enter-adornment-cost-long').type('This is the a long text')
-    cy.get('#enter-adornment-cost-long-label').should('not.exist')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })

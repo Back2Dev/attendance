@@ -26,7 +26,7 @@ describe('log into app and create a service', () => {
     //opens  manager menu navigates to create service page and adds minor service', function () {
     cy.get('[data-cy=adm-drawer]').click()
     cy.get('[data-cy=admin]').click()
-    cy.get('[href="/admin/forms"]').should('exist').click()
+    cy.get('[href="/admin/forms"]').eq(1).should('exist').click()
     cy.get('#add').click()
     cy.get('[name=name]').clear().type('Test Incident Report')
     cy.get('[name=slug]').clear().type('test-101')

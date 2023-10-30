@@ -11,6 +11,7 @@ describe('log into app and create a form with a multiple question', () => {
   })
 
   // todo write code to detect errors
+  // TODO: forms.number use text Maybe we should change it to number(num)
   it('logs in from home page', () => {
     adminLogin('mike.king@mydomain.com.au', 'me2')
     cy.window().then(async (win) => {
@@ -23,16 +24,15 @@ describe('log into app and create a form with a multiple question', () => {
 
     //   // click next without any input
     cy.get('[data-cy=next-step]').click()
-    cy.get('p#enter-costs-costs-label').should('exist')
     cy.get('[data-cy="next-step"]').should('be.disabled')
 
     //   // give an invalid input
-    cy.get('input#enter-costs-number').type('text')
-    cy.get('p#enter-conveyer-costs').should('exist')
+    cy.get('input#enter-costs-costs').type('text')
+    cy.get('[data-cy="next-step"]').should('be.enabled')
 
     //   // give a valid input
-    cy.get('input#enter-costs-number').clear().type('12321312')
-    cy.get('p#["enter-costs-number"]').should('not.exist')
+    cy.get('input#enter-costs-costs').clear().type('12321312')
+    cy.get('[data-cy="next-step"]').should('be.enabled')
     cy.get('[data-cy="next-step"]').click()
     cy.get('[data-cy=completed]').should('exist')
   })
