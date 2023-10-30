@@ -19,7 +19,7 @@ function Signature({ sigRef, setDisabled, id, name = () => {} }) {
     <SignatureCanvas
       penColor="green"
       ref={sigRef}
-      canvasProps={{ className: classes.sigCanvas, 'data-cy': 'signCanvas' }}
+      canvasProps={{ className: classes.sigCanvas, id: 'sign-canvas' }}
       onEnd={() => setDisabled(false)}
       id={id}
       name={name}

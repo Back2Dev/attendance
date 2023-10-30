@@ -303,6 +303,7 @@ const RenderQ = (q, ix, model) => {
       )
 
     case 'multiple':
+      const choices = getAnswers(formData, q.answers).map((a, iy) => a.name)
       return (
         <div key={key} className="q-container">
           <Prompt
@@ -313,17 +314,24 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
-          {getAnswers(formData, q.answers).map((a, iy) => {
-            const id = `${q.id}-${a.id}`
-            return (
-              <div key={`a${key}${iy}`}>
-                <AutoField name={id} id={id} key={id} />
-                {a.image && <img src={a.image} width="75px" height="75px" />}
-                <NoteIf note={a.note} field={id}></NoteIf>
-              </div>
-            )
-          })}
-          {Specifiers(q)}
+
+          {q.answers.length > 10 && <AutoField name={q.id} id={q.id} options={choices} />}
+
+          {q.answers.length <= 10 && (
+            <div>
+              {getAnswers(formData, q.answers).map((a, iy) => {
+                const id = `${q.id}-${a.id}`
+                return (
+                  <div key={`a${key}${iy}`}>
+                    <AutoField name={id} id={id} key={id} />
+                    {a.image && <img src={a.image} width="75px" height="75px" />}
+                    <NoteIf note={a.note} field={id}></NoteIf>
+                  </div>
+                )
+              })}
+              {Specifiers(q)}
+            </div>
+          )}
           {/* <ErrorField name={q.id} id={q.id} /> */}
         </div>
       )
@@ -362,12 +370,49 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
 
-          <AutoField
-            name={q.id}
-            id={q.id}
-            answer={q.answers[0]?.name}
-            max={q.answers[0]?.max || 1}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            const id = `${q.id}-${a.id}`
+            return (
+              <div key={`a${key}${iy}`}>
+                <AutoField name={id} id={id} key={id} max={q.max || 5} />
+                {a.image && <img src={a.image} width="75px" height="75px" />}
+                <NoteIf note={a.note} field={id}></NoteIf>
+              </div>
+            )
+          })}
+
+          <ErrorField name={q.id} id={q.id} />
+          {Specifiers(q)}
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            return (
+              <Fragment key={iy}>
+                <NoteIf note={a.note} field={q.id} value={a.id}></NoteIf>
+              </Fragment>
+            )
+          })}
+        </div>
+      )
+    case 'slider':
+      return (
+        <div key={key} className="q-container">
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            header={q.header}
+            required={!q.optional}
           />
+
+          {getAnswers(formData, q.answers).map((a, iy) => {
+            const id = `${q.id}-${a.id}`
+            return (
+              <div key={`a${key}${iy}`}>
+                <AutoField name={id} id={id} key={id} max={q.max || 5} />
+                {a.image && <img src={a.image} width="75px" height="75px" />}
+                <NoteIf note={a.note} field={id}></NoteIf>
+              </div>
+            )
+          })}
 
           <ErrorField name={q.id} id={q.id} />
           {Specifiers(q)}
@@ -447,9 +492,30 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
           <span>
+            {getAnswers(formData, q.answers).map((a, iy) => {
+              const id = `${q.id}-${a.id}`
+              return (
+                <span key={iy}>
+                  <AutoField name={id} id={id} />
+                  {a.image && <img src={a.image} width="75px" height="75px" />}
+                  <ErrorField name={id} id={id}>
+                    {a.name || 'This'} is required
+                  </ErrorField>
+                  <NoteIf note={a.note} field={id}></NoteIf>
+                </span>
+              )
+            })}
+          </span>
+        </span>
+      )
+
+    case 'tree':
+      return (
+        <span key={key} className="q-container">
+          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <span>
             <AutoField name={q.id} id={q.id} />
           </span>
-          <ErrorField name={q.id} id={q.id} />
         </span>
       )
 
@@ -984,7 +1050,11 @@ const Progress = ({
         <div>
           {progress === 100 ? (
             <div>
-              <Alert severity="success" className={classes.instructions}>
+              <Alert
+                data-cy="completed"
+                severity="success"
+                className={classes.instructions}
+              >
                 All steps completed
               </Alert>
               {task.role === 'PM' && currentRole === 'PM' && (

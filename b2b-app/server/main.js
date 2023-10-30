@@ -1,9 +1,9 @@
-import { Meteor } from 'meteor/meteor' 
+import { Meteor } from 'meteor/meteor'
 const cron = require('node-cron')
 const debug = require('debug')('app:server')
 
 //
-// Importing the data api's makes sure collections are set up properly. 
+// Importing the data api's makes sure collections are set up properly.
 //
 import '/imports/lib/validator'
 import './fixtures'
@@ -16,6 +16,7 @@ import logger from '/imports/lib/log'
 // TODO: Work out if this is needed, I suspect not
 import './accounts'
 import './migrations'
+import './click-through'
 Meteor.startup(() => {
   if (Meteor.isServer) {
   }

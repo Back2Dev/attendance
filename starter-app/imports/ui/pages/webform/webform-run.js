@@ -434,7 +434,7 @@ const Progress = ({ steps, save, formData, epilogue, setPreview }) => {
         <div>
           {activeStep === steps.length && completed.size === steps.length ? (
             <div>
-              <Typography className={classes.instructions}>
+              <Typography data-cy="completed" className={classes.instructions}>
                 All steps completed
               </Typography>
               <Button id="start-again" onClick={handleReset}>

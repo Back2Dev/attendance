@@ -2,9 +2,12 @@ import React from 'react'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import LookupField from '/imports/ui/components/lookup-field'
+import TagsField from '/imports/ui/components/tags-field'
+import TreeField from '/imports/ui/components/tree-field'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import RadioImageField from '/imports/ui/components/radio-image-field'
 import RatingField from '/imports/ui/components/rating-field'
+import SliderField from '/imports/ui/components/slider-field'
 import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
 import { LongTextField, NumField, SelectField } from 'uniforms-material'
@@ -303,32 +306,45 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'multiple':
                 delete step.schema[q.id]
-                answers.forEach((a) => {
-                  const id = `${q.id}-${a.id}`
-                  const uniforms = {}
-                  const optional = getOptionalFunc(q, uniforms, !!q.optional)
-                  step.schema[id] = {
-                    type: Boolean,
-                    label: a.name,
-                    optional, // Need a way to count these and set a minimum #required
-                    uniforms,
-                  }
-                })
-                answers
-                  .filter((a) => a.specify)
-                  .map((a) => {
-                    const specifyId = `${q.id}-${a.id}-specify`
+                if (answers.length <= 10) {
+                  answers.forEach((a) => {
+                    const id = `${q.id}-${a.id}`
                     const uniforms = {}
-                    // const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                    step.schema[specifyId] = {
-                      type: String,
-                      label: a.specify,
-                      // optional,
+                    const optional = getOptionalFunc(q, uniforms, !!q.optional)
+                    step.schema[id] = {
+                      type: Boolean,
+                      label: a.name,
+                      optional, // Need a way to count these and set a minimum #required
                       uniforms,
                     }
-                    return specifyId
                   })
-                // )
+                  answers
+                    .filter((a) => a.specify)
+                    .map((a) => {
+                      const specifyId = `${q.id}-${a.id}-specify`
+                      const uniforms = {}
+                      const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
+                      step.schema[specifyId] = {
+                        type: String,
+                        label: a.specify,
+                        optional,
+                        uniforms,
+                      }
+                      return specifyId
+                    })
+                } else {
+                  step.schema[q.id] = {
+                    type: Array,
+                    label: q.name,
+                    // optional, // Need a way to count these and set  a minimum #required
+                    uniforms: {
+                      component: TagsField,
+                    },
+                  }
+                  step.schema[`${q.id}.$`] = {
+                    type: String,
+                  }
+                }
                 break
               case 'single':
                 // qSchema.uniforms.checkboxes = 'true'
@@ -358,23 +374,60 @@ const getSchemas = (survey, currentData) => {
                   })
                 break
               case 'rating':
-                qSchema.uniforms.component = RatingField
+                console.log('rating', { q })
+                qSchema.uniforms.max = q.max || 7
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
 
-                answers
-                  .filter((a) => a.specify)
-                  .map((a) => {
-                    const specifyId = `${q.id}-${a.id}-specify`
-                    const uniforms = {}
-                    const optional = getOptionalFunc(q, uniforms, !a.specifyRequired)
-                    step.schema[specifyId] = {
-                      type: String,
-                      label: a.specify,
-                      optional,
-                      uniforms,
-                    }
-                    return specifyId
-                  })
+                answers.forEach((a) => {
+                  const qaId = `${q.id}-${a.id}`
+
+                  let uniforms = {}
+                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
+                  optional = getOptionalFunc(q, uniforms, optional)
+
+                  // const regEx = new RegExp(a.regEx)
+                  uniforms = {
+                    helperText: a.note,
+                    required: !optional,
+                    placeholder: a.placeholder,
+                    component: RatingField,
+                  }
+
+                  step.schema[qaId] = {
+                    type: String,
+                    label: a.name,
+                    optional,
+                    uniforms,
+                  }
+                })
+                break
+              case 'slider':
+                console.log('slider', { q })
+                qSchema.uniforms.max = q.max || 100
+                qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)
+
+                answers.forEach((a) => {
+                  const qaId = `${q.id}-${a.id}`
+
+                  let uniforms = {}
+                  let optional = q.optional !== undefined ? !!q.optional : !!a.optional
+                  optional = getOptionalFunc(q, uniforms, optional)
+
+                  // const regEx = new RegExp(a.regEx)
+                  uniforms = {
+                    helperText: a.note,
+                    required: !optional,
+                    placeholder: a.placeholder,
+                    component: SliderField,
+                  }
+
+                  step.schema[qaId] = {
+                    type: String,
+                    label: a.name,
+                    optional,
+                    uniforms,
+                  }
+                })
                 break
 
               case 'grid':
@@ -441,7 +494,6 @@ const getSchemas = (survey, currentData) => {
                 debug(`Rendering address field ${q.id}`)
                 qSchema.uniforms.margin = 'normal'
                 qSchema.uniforms.component = GooglePlaces
-                // qSchema.uniforms.component = true
                 break
               case 'paragraph':
                 delete step.schema[q.id]
@@ -456,8 +508,22 @@ const getSchemas = (survey, currentData) => {
                 // Nothing to do, just accept it as is
                 break
               case 'lookup':
-                qSchema.uniforms.margin = 'normal'
-                qSchema.uniforms.component = LookupField
+                delete step.schema[q.id]
+                answers.forEach((a) => {
+                  const id = `${q.id}-${a.id}`
+                  step.schema[id] = {
+                    type: String,
+                    label: a.name,
+                    uniforms: { component: LookupField },
+                  }
+                })
+                break
+              case 'tree':
+                step.schema[q.id] = {
+                  type: String,
+                  label: q.name,
+                  uniforms: { component: TreeField },
+                }
                 break
               case 'dropdown':
                 qSchema.optional = getOptionalFunc(q, qSchema.uniforms, !!q.optional)

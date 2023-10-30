@@ -55,6 +55,7 @@ const options = [
   { label: 'Geolocation', value: 'geolocation' },
   // { label: 'Lookup', value: 'lookup' },
   { label: 'Rating', value: 'rating' },
+  { label: 'Slider', value: 'slider' },
   { label: 'Grid', value: 'grid' },
   // { label: 'Calculation', value: 'calculation' },
 ]

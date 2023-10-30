@@ -93,8 +93,6 @@ Cypress.Commands.add('ApproveDocument', (element) => {
   cy.wait(2000).get('[data-cy=approve]').should('be.enabled').click()
 })
 
-
-
 Cypress.Commands.add('manualLogin', (person) => {
   cy.get('[data-cy=email-input]').should('exist').type(person.username)
   cy.get('[data-cy=password-input]').should('exist').type(person.password)
@@ -105,4 +103,76 @@ Cypress.Commands.add('SendNotification', (element) => {
   cy.get(element).should('be.enabled').click({ force: true })
   // Checks if button is disabled on next-steps
   cy.get(element).should('be.disabled')
+})
+
+Cypress.Commands.add('createBasicForm', () => {
+  cy.visit('/')
+  cy.loginFromHomepage('mike.king@mydomain.com.au', 'me2')
+  cy.visit('/admin/forms')
+  cy.get('#add').click()
+  cy.get('[name=name]').clear().type('Test')
+  cy.get('[name=slug]').clear().type('test-101')
+  cy.get('[name=source]').clear().type(`
+  S Test ${'\n'}
+    `)
+
+  cy.get('[name=revision]').clear().type('1')
+  cy.get('[name=active]').click()
+  cy.get('button[type=submit]').click()
+  cy.visit('/admin/forms/edit/test-101')
+  cy.get('.editorTools > span > button:nth-child(2)').click()
+  cy.get('.CodeMirror textarea').type(`\n`, {
+    force: true,
+  })
+})
+
+Cypress.Commands.add('addInputField', (data = {}) => {
+  let { title, value, type, id, optional } = data
+  cy.get('.CodeMirror textarea')
+    // we use `force: true` below because the textarea is hidden
+    // and by default Cypress won't interact with hidden elements
+    .type(
+      `${title ? title : ''} ${value ? value + '\n' : ''}${
+        type ? '+type=' + type + '\n' : ''
+      }${id ? '+id=' + id + '\n' : ''}${optional ? '+type=optional\n' : ''}`,
+      {
+        force: true,
+      }
+    )
+})
+
+Cypress.Commands.add('getSettled', (selector, opts = {}) => {
+  /**
+   * Resolves issue where element is detached DOM
+   * USAGE:
+   * cy.getSettled(`button`, { retries: 2, delay: 500 }).click();
+   * OR
+   * cy.getSettled(`button`).click();
+   */
+  const retries = opts.retries || 3
+  const delay = opts.delay || 100
+  cy.log(selector)
+
+  const isAttached = (resolve, count = 0) => {
+    const el = Cypress.$(selector)
+    // is element attached to the DOM?
+    count = Cypress.dom.isAttached(el) ? count + 1 : 0
+
+    // hit our base case, return the element
+    if (count >= retries) {
+      return resolve(el)
+    }
+
+    // retry after a bit of a delay
+    setTimeout(() => isAttached(resolve, count), delay)
+  }
+
+  // wrap, so we can chain cypress commands off the result
+  return cy.wrap(null).then(() => {
+    return new Cypress.Promise((resolve) => {
+      return isAttached(resolve, 0)
+    }).then((el) => {
+      return cy.wrap(el)
+    })
+  })
 })

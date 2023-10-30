@@ -13,6 +13,7 @@ function Lookup({
   label,
   labelProps = { shrink: true, disableAnimation: true },
   name,
+  // options,
   onChange,
   placeholder,
   showInlineError,
@@ -36,9 +37,7 @@ function Lookup({
       disabled={disabled}
       error={!!error}
       fullWidth
-      helperText={(error && showInlineError && errorMessage) || helperText}
       label={label}
-      InputLabelProps={{ ...labelProps, ...InputLabelProps }}
       margin="dense"
       name={name}
       freeSolo

@@ -370,6 +370,7 @@ export default function UserNavbar() {
                     to={item.link}
                     style={{ color: 'white', textDecoration: 'none' }}
                     id={item.display.toLowerCase() + '-nav-item'}
+                    data-cy={item.id}
                     className={classes.navItem}
                   >
                     <span className={classes.icon}>{item.icon()}</span>

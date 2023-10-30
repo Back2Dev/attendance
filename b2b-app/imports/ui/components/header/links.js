@@ -6,7 +6,7 @@ import PhoneIcon from '@material-ui/icons/Phone'
 import EventIcon from '@material-ui/icons/Event'
 
 const DashBoardMenuIcon = () => <Dashboard fontSize="small" />
-const BookingsMenuIcon = () => <EventIcon fontSize="small" />
+const FormsMenuIcon = () => <EventIcon fontSize="small" />
 const SupportMenuIcon = () => <HelpIcon fontSize="small" />
 const HomeMenuIcon = () => <HomeIcon fontSize="small" />
 const ContactMenuIcon = () => <PhoneIcon fontSize="small" />
@@ -16,16 +16,19 @@ export const userMenu = [
     display: 'Dashboard',
     link: '/dashboard',
     icon: DashBoardMenuIcon,
+    id: 'dashboard',
   },
   {
-    display: 'Bookings',
-    link: '/bookings',
-    icon: BookingsMenuIcon,
+    display: 'Forms',
+    link: '/admin/forms',
+    icon: FormsMenuIcon,
+    id: 'forms',
   },
   {
     display: 'Support',
     link: '/support',
     icon: SupportMenuIcon,
+    id: 'support',
   },
 ]
 

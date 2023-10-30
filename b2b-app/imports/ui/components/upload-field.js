@@ -203,3 +203,5 @@ export function SingleFileUploadWithProgress({ file, onDelete, onUpload, answerI
     </Grid>
   )
 }
+
+export default UploadField

@@ -4,9 +4,13 @@ import keywords from './engine-keywords'
 const debug = require('debug')('app:forms:engine')
 
 const validQtypes =
-  'multiple single text array paragraph signature calc lookup dropdown rating table upload'.split(
+  'multiple single text array slider paragraph signature calc lookup dropdown rating tree geolocation scale date file table upload short'.split(
     /\s+/
   )
+const aliases = { type: { file: 'upload', short: 'text', num: 'number' } }
+// Additional types (which alias back to text)
+const textQtypes = 'email password mobile address long date'.split(/[\s,]+/)
+const allQtypes = validQtypes.concat(textQtypes)
 const noAnswers = 'paragraph'.split(/\s+/)
 let survey = { sections: [] }
 let currentStep
@@ -60,6 +64,10 @@ const addGrid = (survey, title, lineno) => {
 
 const addAnswer = (survey, text, lineno) => {
   currentA = { title: text, id: slugify(text), type: 'text', object: 'answer', lineno }
+  if (textQtypes.includes(currentQ.type)) {
+    currentA.type = currentQ.type
+    currentQ.type = 'text'
+  }
   if (!currentQ) {
     return { errCode: 'e-no-ans' }
   } else currentQ.answers.push(currentA)
@@ -67,7 +75,12 @@ const addAnswer = (survey, text, lineno) => {
 }
 
 const objects = [
-  { name: 'Question', letters: 'QT', method: addQ, keywords: keywords.question },
+  {
+    name: 'Question',
+    letters: 'QT',
+    method: addQ,
+    keywords: keywords.question.concat(keywords.additional),
+  },
   { name: 'Grid', letters: 'G', method: addGrid, keywords: keywords.grid },
   { name: 'Answer', letters: 'A', method: addAnswer, keywords: keywords.answer },
   { name: 'Step', letters: 'S', method: addStep, keywords: keywords.step },
@@ -150,12 +163,21 @@ export const parse = (source) => {
         }
       }
     })
+    // Resolve aliases
+    survey.sections.forEach((section) => {
+      section.questions.forEach((q) => {
+        Object.keys(aliases).forEach((key) => {
+          if (q[key] && aliases[key][q[key]]) q[key] = aliases[key][q[key]]
+        })
+        q.answers.forEach((a) => {})
+      })
+    })
     // Some post-checking for consistency
     survey.sections.forEach((section) => {
       if (section.id === 'no-slug')
         errs.push({ lineno: section.lineno, errCode: 'w-missing-title' })
       section.questions.forEach((q) => {
-        if (!validQtypes.includes(q.type))
+        if (!allQtypes.includes(q.type))
           errs.push({ lineno: q.lineno, errCode: 'w-unk-type', line: q.type })
         if (noAnswers.includes(q.type) && q.answers.length)
           errs.push({
