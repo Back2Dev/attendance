@@ -277,7 +277,7 @@ const RenderQ = (q, ix, model) => {
                   {a.name || 'This'} is required
                 </ErrorField> */}
                 <Explain text={a.explain} />
-                
+
                 {/* <NoteIf note={a.note} field={id}></NoteIf> */}
               </span>
             )
@@ -318,21 +318,21 @@ const RenderQ = (q, ix, model) => {
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {tags && <AutoField name={q.id} id={q.id} options={choices} />}
-          (!tags && (
-          <div>
-            {getAnswers(formData, q.answers).map((a, iy) => {
-              const id = `${q.id}-${a.id}`
-              return (
-                <div key={`a${key}${iy}`}>
-                  <AutoField name={id} id={id} key={id} />
-                  {a.image && <img src={a.image} width="75px" height="75px" />}
-                  <Explain text={a.explain} />
-                  <NoteIf note={a.note} field={id}></NoteIf>
-                </div>
-              )
-            })}
-            {Specifiers(q)}
-          </div>
+          {!tags && (
+            <div>
+              {getAnswers(formData, q.answers).map((a, iy) => {
+                const id = `${q.id}-${a.id}`
+                return (
+                  <div key={`a${key}${iy}`}>
+                    <AutoField name={id} id={id} key={id} />
+                    {a.image && <img src={a.image} width="75px" height="75px" />}
+                    <Explain text={a.explain} />
+                    <NoteIf note={a.note} field={id}></NoteIf>
+                  </div>
+                )
+              })}
+              {Specifiers(q)}
+            </div>
           )}
           {/* <ErrorField name={q.id} id={q.id} /> */}
         </div>
@@ -719,7 +719,7 @@ function DisplayIf({ children, condition }) {
   return condition(uniforms) ? React.Children.only(children) : null
 }
 
-const Explain = ({ text }) => {
+function Explain({ text }) {
   if (!text) return null
 
   return (
