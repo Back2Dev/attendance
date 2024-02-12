@@ -7,6 +7,8 @@
     "**/.meteor": true
   },
   "cSpell.words": ["viewas"],
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

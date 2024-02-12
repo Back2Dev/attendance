@@ -276,6 +276,8 @@ const RenderQ = (q, ix, model) => {
                 {/* <ErrorField name={id} id={id}>
                   {a.name || 'This'} is required
                 </ErrorField> */}
+                <Explain text={a.explain} />
+                
                 {/* <NoteIf note={a.note} field={id}></NoteIf> */}
               </span>
             )
@@ -304,6 +306,7 @@ const RenderQ = (q, ix, model) => {
 
     case 'multiple':
       const choices = getAnswers(formData, q.answers).map((a, iy) => a.name)
+      const tags = q.answers.length > 10 && !q.expand
       return (
         <div key={key} className="q-container">
           <Prompt
@@ -314,23 +317,22 @@ const RenderQ = (q, ix, model) => {
             required={!q.optional}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
-
-          {q.answers.length > 10 && <AutoField name={q.id} id={q.id} options={choices} />}
-
-          {q.answers.length <= 10 && (
-            <div>
-              {getAnswers(formData, q.answers).map((a, iy) => {
-                const id = `${q.id}-${a.id}`
-                return (
-                  <div key={`a${key}${iy}`}>
-                    <AutoField name={id} id={id} key={id} />
-                    {a.image && <img src={a.image} width="75px" height="75px" />}
-                    <NoteIf note={a.note} field={id}></NoteIf>
-                  </div>
-                )
-              })}
-              {Specifiers(q)}
-            </div>
+          {tags && <AutoField name={q.id} id={q.id} options={choices} />}
+          (!tags && (
+          <div>
+            {getAnswers(formData, q.answers).map((a, iy) => {
+              const id = `${q.id}-${a.id}`
+              return (
+                <div key={`a${key}${iy}`}>
+                  <AutoField name={id} id={id} key={id} />
+                  {a.image && <img src={a.image} width="75px" height="75px" />}
+                  <Explain text={a.explain} />
+                  <NoteIf note={a.note} field={id}></NoteIf>
+                </div>
+              )
+            })}
+            {Specifiers(q)}
+          </div>
           )}
           {/* <ErrorField name={q.id} id={q.id} /> */}
         </div>
@@ -715,6 +717,16 @@ function DisplayIf({ children, condition }) {
   const uniforms = useForm()
 
   return condition(uniforms) ? React.Children.only(children) : null
+}
+
+const Explain = ({ text }) => {
+  if (!text) return null
+
+  return (
+    <blockquote>
+      <i>{html2r(text)}</i>
+    </blockquote>
+  )
 }
 
 function NoteIf({ note, field, value }) {

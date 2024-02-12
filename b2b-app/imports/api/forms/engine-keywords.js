@@ -1,6 +1,6 @@
 const keywords = {
   question:
-    'id description type condition optional tooltip required note populate minCount maxCount max variant plus custom'.split(
+    'id description type condition optional tooltip required note populate minCount maxCount max variant plus custom expand'.split(
       /[\s,]+/
     ),
   step: 'id description type custom form'.split(/[\s,]+/),
@@ -8,7 +8,7 @@ const keywords = {
 
   grid: 'id type'.split(/[\s,]+/),
   answer:
-    'id type value specify specifyType freesolo placeholder optional regex note category heading footer min max'.split(
+    'id type value specify specifyType freesolo placeholder optional regex note explain category heading footer min max'.split(
       /[\s,]+/
     ),
 }
