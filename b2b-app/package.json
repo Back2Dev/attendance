@@ -1,7 +1,7 @@
 {
   "name": "back2bikes-attendance",
   "private": false,
-  "version": "2.0.2",
+  "version": "2.0.3",
   "scripts": {
     "visualize": "meteor --production --extra-packages bundle-visualizer --settings dev.mikkel.settings.json",
     "newman": "newman run tests/agentbox/postman/webhooks.postman_collection.json -e tests/agentbox/postman/se-webhooks.postman_environment.json",

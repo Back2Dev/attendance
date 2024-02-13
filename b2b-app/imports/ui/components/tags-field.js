@@ -32,7 +32,7 @@ function Tags({
   return (
     <Autocomplete
       disabled={disabled}
-      error={!!error}
+      // error={!!error}
       fullWidth
       margin="dense"
       multiple

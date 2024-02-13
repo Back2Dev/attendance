@@ -306,7 +306,7 @@ const getSchemas = (survey, currentData) => {
                 break
               case 'multiple':
                 delete step.schema[q.id]
-                if (answers.length <= 10) {
+                if (answers.length <= 10 || q.expand) {
                   answers.forEach((a) => {
                     const id = `${q.id}-${a.id}`
                     const uniforms = {}
