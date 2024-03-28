@@ -29,6 +29,21 @@ const slugify = (text) => {
     .replace(/-$/, '')
 }
 
+const addElement =  (survey, title, lineno) => {
+  currentQ = {
+    title,
+    answers: [],
+    grid: [],
+    id: slugify(title),
+    type: 'text',
+    object: 'question',
+    elements:[]
+    lineno,
+  }
+  currentStep.questions.push(currentQ)
+  return currentQ
+}
+
 const addQ = (survey, title, lineno) => {
   if (!currentStep) addStep(survey, `Section ${survey.sections.length + 1}`, 1)
   currentQ = {
@@ -75,6 +90,16 @@ const addAnswer = (survey, text, lineno) => {
 }
 
 const objects = [
+  {
+    name: 'Element',
+    letters:
+      'H1 H2 H3 H4 H5 P UL OL LI BR IMG BQ BLOCKQUOTE HREF TABLE TR TH TD TBODY'.split(
+        /[\s,]+/
+      ),
+    convert: { BQ: 'BLOCKQUOTE', HREF: 'A' },
+    method: addElement,
+    keywords: keywords.element,
+  },
   {
     name: 'Question',
     letters: 'QT',

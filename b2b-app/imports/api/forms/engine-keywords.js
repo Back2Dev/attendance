@@ -11,6 +11,7 @@ const keywords = {
     'id type value specify specifyType freesolo placeholder optional regex note explain category heading footer min max'.split(
       /[\s,]+/
     ),
+  element: 'style data-cy'.split(/[\s,]+/),
 }
 
 export default keywords
