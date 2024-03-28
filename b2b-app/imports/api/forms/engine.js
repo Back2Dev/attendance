@@ -29,15 +29,16 @@ const slugify = (text) => {
     .replace(/-$/, '')
 }
 
-const addElement =  (survey, title, lineno) => {
+const addElement = (survey, title, lineno) => {
   currentQ = {
     title,
+    elements:[title]
     answers: [],
     grid: [],
     id: slugify(title),
     type: 'text',
     object: 'question',
-    elements:[]
+    elements: [],
     lineno,
   }
   currentStep.questions.push(currentQ)
@@ -46,16 +47,20 @@ const addElement =  (survey, title, lineno) => {
 
 const addQ = (survey, title, lineno) => {
   if (!currentStep) addStep(survey, `Section ${survey.sections.length + 1}`, 1)
-  currentQ = {
-    title,
-    answers: [],
-    grid: [],
-    id: slugify(title),
-    type: 'text',
-    object: 'question',
-    lineno,
+  if (currentQ) currentQ.title = title
+  else {
+    currentQ = {
+      title,
+      elements:[title]
+      answers: [],
+      grid: [],
+      id: slugify(title),
+      type: 'text',
+      object: 'question',
+      lineno,
+    }
+    currentStep.questions.push(currentQ)
   }
-  currentStep.questions.push(currentQ)
   return currentQ
 }
 
