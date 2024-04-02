@@ -107,13 +107,13 @@ const Specifiers = (q) => {
 
   return getAnswers(formData, q.answers)
     .filter((a) => a.specify)
-    .map((a) => {
-      const otherId = `${q.id}-${a.id}-specify`
+    .map((a, ix) => {
+      const qaId = getQAId(q.id, q.answers, ix)
+      const otherId = `${qaId}__specify`
       const condition =
         q.type === ('single' || 'image' || 'multiple' || 'dropdown')
           ? [q.id, 'equal', a.id]
-          : [`${q.id}-${a.id}`]
-
+          : [qaId]
       return (
         <DisplayIf
           key={otherId}
@@ -166,7 +166,15 @@ const TextQ = ({ q, a }) => {
       return <span>{a.defaultValue}</span>
 
     case 'phoneNumber':
-      return <PhoneField name={id} id={id} key={id}></PhoneField>
+      return (
+        <Fragment>
+          <PhoneField name={id} id={id} key={id}></PhoneField>
+          <ErrorField name={id} id={id}>
+            {errorMessage || 'Phone Number is required or is invalid'}
+          </ErrorField>
+        </Fragment>
+      )
+
     case 'password':
       return (
         <Fragment>
@@ -205,7 +213,7 @@ const TextQ = ({ q, a }) => {
   }
 }
 
-const Prompt = ({ text, tooltip, description, header, required = true }) => {
+const Prompt = ({ text, tooltip, description, header, required = true, question }) => {
   let prompt = ''
   if (text) {
     const p = text.replace(/\n/g, '<br />')
@@ -215,9 +223,10 @@ const Prompt = ({ text, tooltip, description, header, required = true }) => {
 
   return (
     <div>
-      <Box display="flex" alignItems="center">
+      <Box alignItems="center">
+        <>{prompt}</>
         <FormLabel component="legend" required={required}>
-          {prompt}
+          {question || '?'}
         </FormLabel>
         {tooltip && (
           <Tooltip title={tooltip}>
@@ -265,6 +274,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -297,6 +307,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={false}
+            question={q.question}
           />
           <span>
             {isPureCal ? eval(`${targetValue1}${operator}${targetValue2}`) : model[q.id]}
@@ -315,6 +326,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
           {tags && <AutoField name={q.id} id={q.id} options={choices} />}
@@ -346,6 +358,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
 
           <AutoField name={q.id} id={q.id} required={q.optional} />
@@ -370,6 +383,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
 
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -403,6 +417,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
 
           {getAnswers(formData, q.answers).map((a, iy) => {
@@ -437,6 +452,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
 
           <AutoField name={q.id} id={q.id} rows={q.rows} columns={q.columns} />
@@ -466,6 +482,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           <AutoField name={q.id} id={q.id} options={options} />
 
@@ -492,6 +509,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           <span>
             {getAnswers(formData, q.answers).map((a, iy) => {
@@ -514,7 +532,12 @@ const RenderQ = (q, ix, model) => {
     case 'tree':
       return (
         <span key={key} className="q-container">
-          <Prompt text={q.prompt} tooltip={q.tooltip} description={q.description} />
+          <Prompt
+            text={q.prompt}
+            tooltip={q.tooltip}
+            description={q.description}
+            question={q.question}
+          />
           <span>
             <AutoField name={q.id} id={q.id} />
           </span>
@@ -565,7 +588,8 @@ const RenderQ = (q, ix, model) => {
             tooltip={q.tooltip}
             description={q.description}
             header={q.header}
-            required={!q.optional}
+            required={false}
+            question={q.question}
           />
           {q.image && <img src={q.image} width="75px" height="75px" />}
         </span>
@@ -580,6 +604,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           <Signature
             // title={q.prompt}
@@ -605,6 +630,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           <Geolocation
             // title={q.prompt}
@@ -635,6 +661,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           {/* <p>UPLOAD FIELD NOT SUPPORTED - PLEASE USE DOCUMENT REQUEST MECHANISM</p> */}
           <AutoField
@@ -655,6 +682,7 @@ const RenderQ = (q, ix, model) => {
             description={q.description}
             header={q.header}
             required={!q.optional}
+            question={q.question}
           />
           <AutoField name={q.id} id={q.id} />
           <ErrorField name={q.id} id={q.id} />

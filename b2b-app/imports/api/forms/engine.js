@@ -29,29 +29,47 @@ const slugify = (text) => {
     .replace(/-$/, '')
 }
 
-const addElement = (survey, title, lineno) => {
-  currentQ = {
-    title,
-    elements:[title]
-    answers: [],
-    grid: [],
-    id: slugify(title),
-    type: 'text',
-    object: 'question',
-    elements: [],
-    lineno,
-  }
-  currentStep.questions.push(currentQ)
-  return currentQ
-}
+const convert = { BQ: 'blockquote', HREF: 'a' }
 
-const addQ = (survey, title, lineno) => {
-  if (!currentStep) addStep(survey, `Section ${survey.sections.length + 1}`, 1)
-  if (currentQ) currentQ.title = title
-  else {
+const addElement = (survey, matches, lineno) => {
+  const [orig, close, key, title] = matches
+  const tag = convert[key] || key.toLowerCase()
+  const el = { tag, contents: title, close: !!close }
+  if (current && current.object === 'question') {
+    current.elements.push(el)
+    return current
+  } else {
     currentQ = {
       title,
-      elements:[title]
+      elements: [el],
+      answers: [],
+      grid: [],
+      type: 'text',
+      // object: 'question',
+      lineno,
+    }
+    currentStep.questions.push(currentQ)
+    return currentQ
+  }
+}
+
+const addQ = (survey, matches, lineno) => {
+  const title = matches[2]
+  const tag = 'span'
+  const el = { tag, contents: title }
+  if (!currentStep) addStep(survey, `Section ${survey.sections.length + 1}`, 1)
+  if (current && !current.object) {
+    current.title = title
+    current.question = title
+    current.id = slugify(title)
+    if (current.elements) current.elements.push(el)
+    else current.elements = [el]
+    return current
+  } else {
+    currentQ = {
+      title,
+      question: title,
+      elements: [el],
       answers: [],
       grid: [],
       id: slugify(title),
@@ -64,7 +82,8 @@ const addQ = (survey, title, lineno) => {
   return currentQ
 }
 
-const addStep = (survey, title, lineno) => {
+const addStep = (survey, matches, lineno) => {
+  const title = matches[2]
   currentStep = {
     title: title || `Section ${survey.sections.length + 1}`,
     questions: [],
@@ -76,13 +95,15 @@ const addStep = (survey, title, lineno) => {
   return currentStep
 }
 
-const addGrid = (survey, title, lineno) => {
+const addGrid = (survey, matches, lineno) => {
+  const title = matches[2]
   currentGrid = { title, id: slugify(title), object: 'grid', lineno }
   currentQ.grid.push(currentGrid)
   return currentGrid
 }
 
-const addAnswer = (survey, text, lineno) => {
+const addAnswer = (survey, matches, lineno) => {
+  const text = matches[2]
   currentA = { title: text, id: slugify(text), type: 'text', object: 'answer', lineno }
   if (textQtypes.includes(currentQ.type)) {
     currentA.type = currentQ.type
@@ -98,10 +119,10 @@ const objects = [
   {
     name: 'Element',
     letters:
-      'H1 H2 H3 H4 H5 P UL OL LI BR IMG BQ BLOCKQUOTE HREF TABLE TR TH TD TBODY'.split(
+      'H6 H1 H2 H3 H4 H5 P UL OL LI BR HR IMG BQ BLOCKQUOTE HREF TABLE TR TH TD TBODY'.split(
         /[\s,]+/
       ),
-    convert: { BQ: 'BLOCKQUOTE', HREF: 'A' },
+    convert: { BQ: 'blockquote', HREF: 'a' },
     method: addElement,
     keywords: keywords.element,
   },
@@ -119,7 +140,9 @@ const objects = [
 const findObject = (name) => objects.find((o) => o.name.toLowerCase() === name)
 
 objects.forEach((o) => {
-  o.regex = new RegExp(`^\\s*[${o.letters}][:\\s=]+(.*)\$`, 'i')
+  if (Array.isArray(o.letters))
+    o.regex = new RegExp(`^\\s*([\/]*)(${o.letters.join('|')})[:\\s=]*(.*)\$`, 'i')
+  else o.regex = new RegExp(`^\\s*([${o.letters}])[:\\s=]+(.*)\$`, 'i')
 })
 
 export const parse = (source) => {
@@ -148,7 +171,7 @@ export const parse = (source) => {
           if (m) {
             // debug(`${o.name}: ${m[1]}`)
             if (o.method) {
-              const res = o.method(survey, m[1], lineno, line)
+              const res = o.method(survey, m, lineno, line)
               if (res.errCode) errs.push({ lineno, errCode: res.errCode, line })
               else current = res
             }
@@ -215,6 +238,29 @@ export const parse = (source) => {
             errCode: 'w-ignore-attribs',
             line: q.type,
           })
+        if (q.elements) {
+          q.prompt = new DOMParser().parseFromString(
+            q.elements
+              .map((el) => {
+                el.contents = el.contents?.trim() || ''
+                if (el.close) return `</${el.tag}>`
+                return el.contents
+                  ? `<${el.tag}>${el.contents}</${el.tag}>`
+                  : `<${el.tag} />`
+              })
+              .join(''),
+            'text/html'
+          ).body.innerHTML
+          console.log({ prompt: q.prompt })
+          // q.prompt = q.elements
+          //   .map((el) => {
+          //     el.contents = el.contents?.trim() || ''
+          //     return el.contents
+          //       ? `<${el.tag}>${el.contents}</${el.tag}>`
+          //       : `<${el.tag} />`
+          //   })
+          //   .join('')
+        }
       })
     })
     if (errs.length) {
@@ -229,6 +275,7 @@ export const parse = (source) => {
 
     return { status: 'success', message: '', survey }
   } catch (e) {
+    console.error(e)
     return { status: 'exception', message: `Error in parse: ${e.message}` }
   }
 }
