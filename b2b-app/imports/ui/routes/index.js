@@ -10,6 +10,7 @@ const DBAdminPage = lazy(() => import('/imports/ui/pages/dbadmin'))
 const HacksPage = lazy(() => import('/imports/ui/pages/hacks.js'))
 // const Dashboard = lazy(() => import('/imports/ui/pages/dashboard.js'))
 const BookingsPage = lazy(() => import('/imports/ui/pages/bookings.js'))
+// const DivePage = lazy(() => import('/imports/ui/pages/dive'))
 const SessionsPage = lazy(() => import('/imports/ui/pages/sessions.js'))
 const ServicesPage = lazy(() => import('/imports/ui/pages/services.js'))
 const DailyStandupPage = lazy(() => import('/imports/ui/admin/teams/daily-standup.js'))
@@ -70,6 +71,7 @@ export default function MainRoutes() {
         <SecureRoute path="/dashboard" component={UserPage} />
 
         <SecureRoute path="/bookings" component={BookingsPage} />
+        {/* <SecureRoute path="/dive" component={DivePage} /> */}
         <SecureRoute path="/sessions" component={SessionsPage} />
         <SecureRoute path="/services" component={ServicesPage} />
         <SecureRoute path="/daily-standup" component={DailyStandupPage} />

@@ -69,7 +69,7 @@ ErrorBoundary.propTypes = {
 }
 
 ErrorBoundary.defaultProps = {
-  msg: 'Oh no! Something went wrong',
+  msg: 'Oh no! Something is not quite right :(',
   goBack: 'Go Back',
 }
 

@@ -34,7 +34,10 @@ export const BookingsProvider = (props) => {
     return {
       loading: !sub.ready(),
       events: Events.find(
-        { status: 'active', when: { $gt: new Date() } },
+        {
+          status: 'active',
+          when: { $gt: new Date() },
+        },
         { sort: { when: 1 } }
       ).fetch(),
     }

@@ -27,7 +27,7 @@ const Edit = ({ id, item, methods }) => {
   const [data, SetData] = React.useState({})
 
   React.useEffect(() => SetData(item), [item])
-
+  debug({ schemaBridge })
   return (
     <div>
       <div>Edit Events - {data.name}</div>
