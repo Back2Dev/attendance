@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import StandupNotes from '/imports/api/standup-notes/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
@@ -11,6 +10,7 @@ import PencilSquare from '@mui/icons-material/Edit'
 import Loader from '/imports/ui/components/commons/loading.js'
 import StandupNotesList from './list'
 import config from './config'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:lister')
 const idField = '_id'

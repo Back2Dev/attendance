@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useRef, useReducer } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useTracker } from 'meteor/react-meteor-data'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -19,6 +18,7 @@ import { showError } from '/imports/ui/utils/toast-alerts'
 // import ChatClientHelper from '/imports/modules/chat/api/helper.js'
 
 import Item from './item'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledNotificationsIcon = styled.div`
   display: flex;

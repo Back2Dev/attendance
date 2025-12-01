@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import SecureRoute from '/imports/ui/utils/secure-route.js'
 
 import Loading from '/imports/ui/components/commons/loading.js'
@@ -44,41 +44,118 @@ const TestPage = lazy(() => import('/imports/ui/pages/test.js'))
 export default function MainRoutes() {
   return (
     <Suspense fallback={<Loading loading />}>
-      <Switch>
+      <Routes>
         {/* TODO Change back to secure route after debugging */}
-        <SecureRoute roles={['ADM']} path="/admin" component={AdminPage} />
-        <SecureRoute roles={['ADM']} path="/dba" component={DBAdminPage} />
-        <SecureRoute roles={['ADM']} path="/hacks" component={HacksPage} />
-        <Route path="/" exact component={HomePage} />
-        <Route path="/logged-out" exact component={LoggedOut} />
+        <Route
+          path="/admin/*"
+          element={
+            <SecureRoute roles={['ADM']}>
+              <AdminPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/dba/*"
+          element={
+            <SecureRoute roles={['ADM']}>
+              <DBAdminPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/hacks/*"
+          element={
+            <SecureRoute roles={['ADM']}>
+              <HacksPage />
+            </SecureRoute>
+          }
+        />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/logged-out" element={<LoggedOut />} />
         {/* Onboarding routes */}
-        <Route path="/reset-password/:userId/:token" exact component={ResetPassword} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/reset-password/:userId/:token" element={<ResetPassword />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         {/*
         TODO: Shorten this url - most of it is probably redundant - quite likely it
         could be simply /signup/:token
         */}
 
-        <Route path="/confirmation-sent" component={ConfirmationSent} />
-        <Route path="/signed-up/:userId/:token" component={ConfirmPassword} />
-        <Route path="/forgot" component={ForgotPassword} />
-        <Route path="/add-google" component={AddGoogleConfirm} />
-        <Route path="/add-facebook" component={AddFacebookConfirm} />
+        <Route path="/confirmation-sent" element={<ConfirmationSent />} />
+        <Route path="/signed-up/:userId/:token" element={<ConfirmPassword />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/add-google" element={<AddGoogleConfirm />} />
+        <Route path="/add-facebook" element={<AddFacebookConfirm />} />
         {/* Task pages routes */}
 
-        <SecureRoute path="/profile" component={UserPage} />
-        <SecureRoute path="/dashboard" component={UserPage} />
+        <Route
+          path="/profile"
+          element={
+            <SecureRoute>
+              <UserPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <SecureRoute>
+              <UserPage />
+            </SecureRoute>
+          }
+        />
 
-        <SecureRoute path="/bookings" component={BookingsPage} />
-        {/* <SecureRoute path="/dive" component={DivePage} /> */}
-        <SecureRoute path="/sessions" component={SessionsPage} />
-        <SecureRoute path="/services" component={ServicesPage} />
-        <SecureRoute path="/daily-standup" component={DailyStandupPage} />
-        <SecureRoute path="/support" component={SupportPage} />
-        <SecureRoute path="/test" component={TestPage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+        <Route
+          path="/bookings"
+          element={
+            <SecureRoute>
+              <BookingsPage />
+            </SecureRoute>
+          }
+        />
+        {/* <Route path="/dive" element={<SecureRoute component={DivePage} />} /> */}
+        <Route
+          path="/sessions"
+          element={
+            <SecureRoute>
+              <SessionsPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/services"
+          element={
+            <SecureRoute>
+              <ServicesPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/daily-standup"
+          element={
+            <SecureRoute>
+              <DailyStandupPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/support"
+          element={
+            <SecureRoute>
+              <SupportPage />
+            </SecureRoute>
+          }
+        />
+        <Route
+          path="/test"
+          element={
+            <SecureRoute>
+              <TestPage />
+            </SecureRoute>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </Suspense>
   )
 }

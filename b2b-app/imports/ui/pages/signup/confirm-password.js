@@ -1,5 +1,4 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import { Typography } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles';
@@ -7,6 +6,7 @@ import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
 import PasswordValidator from '/imports/ui/utils/password-validation/password-validator.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
+import useHistory from '/imports/ui/utils/history'
 
 const passwordSchema = {
   password: { type: String, label: 'New password' },

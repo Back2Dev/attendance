@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
 import { Typography, Button } from '@mui/material'
 
 import { JobsListingProvider } from './listing/context'
 import JobsListing from './listing/listing'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledServicingHome = styled.div`
   margin: 60px auto;

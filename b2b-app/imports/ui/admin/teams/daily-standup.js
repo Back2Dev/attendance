@@ -3,7 +3,6 @@ import { Button, TextField, Typography } from '@mui/material'
 
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { useHistory } from 'react-router-dom'
 import Teams from '/imports/api/teams/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
@@ -12,6 +11,7 @@ import PencilSquare from '@mui/icons-material/Edit'
 import Loader from '/imports/ui/components/commons/loading.js'
 //import TeamsList from './list'
 import config from './config'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:lister')
 let push

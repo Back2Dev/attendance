@@ -1,6 +1,5 @@
 import React, { useEffect, lazy } from 'react'
 import styled from 'styled-components'
-import { Route, Switch } from 'react-router-dom'
 
 import { Grid } from '@mui/material'
 import GeneratedRoutes from '/imports/ui/routes/generated-routes'

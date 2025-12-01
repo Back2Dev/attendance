@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { Grid, Paper, Typography, Link, Button, TextField } from '@mui/material'
 import {
   AutoForm,
@@ -13,6 +13,7 @@ import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import log from '/imports/lib/log'
+import useHistory from '/imports/ui/utils/history'
 
 let emailSchema = new SimpleSchema2Bridge(
   new SimpleSchema({

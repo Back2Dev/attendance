@@ -1,38 +1,65 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { FormLabel, Paper, IconButton, Tooltip } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import SignatureCanvas from 'react-signature-canvas'
+import { connectField } from 'uniforms'
+import { Box, Button, FormLabel, Paper, Typography } from '@mui/material'
+import SignaturePad from 'react-signature-pad-wrapper'
 
-const useStyles = makeStyles((theme) => ({
-  sigCanvas: {
-    width: '100%',
-    height: '150px',
-    borderRadius: '4px',
-    border: '2px solid #ccc',
-  },
-}))
+const SignatureField = ({
+  onChange,
+  value,
+  label,
+  error,
+  helperText,
+  errorMessage,
+}) => {
+  const padRef = useRef(null)
 
-function Signature({ sigRef, setDisabled, id, name = () => {} }) {
-  const classes = useStyles()
+  const clear = () => {
+    padRef.current?.clear()
+    onChange('')
+  }
+
+  const save = () => {
+    if (padRef.current && !padRef.current.isEmpty()) {
+      onChange(padRef.current.toDataURL())
+    }
+  }
 
   return (
-    <SignatureCanvas
-      penColor="green"
-      ref={sigRef}
-      canvasProps={{ className: classes.sigCanvas, id: 'sign-canvas' }}
-      onEnd={() => setDisabled(false)}
-      id={id}
-      name={name}
-    />
+    <Box>
+      {label && <FormLabel>{label}</FormLabel>}
+      <Paper variant="outlined" sx={{ p: 1, mt: 1 }}>
+        <SignaturePad ref={padRef} options={{ penColor: 'black' }} />
+      </Paper>
+      <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+        <Button size="small" onClick={clear} variant="outlined">
+          Clear
+        </Button>
+        <Button size="small" onClick={save} variant="contained">
+          Save
+        </Button>
+      </Box>
+      {error && (
+        <Typography variant="caption" color="error">
+          {errorMessage}
+        </Typography>
+      )}
+      {!error && helperText && (
+        <Typography variant="caption" color="textSecondary">
+          {helperText}
+        </Typography>
+      )}
+    </Box>
   )
 }
 
-Signature.propTypes = {
-  sigRef: PropTypes.object.isRequired,
-  setDisabled: PropTypes.func,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+SignatureField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  error: PropTypes.bool,
+  helperText: PropTypes.string,
+  errorMessage: PropTypes.string,
 }
 
-export default Signature
+export default connectField(SignatureField)

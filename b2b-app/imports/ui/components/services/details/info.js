@@ -11,8 +11,7 @@ import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'
 // import MechanicSelector from './info-mechanic'
 import ExpectedPickupDate from './info-expected-pickup'
-import { useHistory } from 'react-router'
-
+import useHistory from '/imports/ui/utils/history'
 const StyledJobInfo = styled.div`
   .header-container {
     display: flex;

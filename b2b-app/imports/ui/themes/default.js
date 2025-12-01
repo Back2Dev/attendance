@@ -1,9 +1,6 @@
-import { createTheme, adaptV4Theme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-// Use the default breakpoint helpers from a base theme
-const breakpoints = createTheme().breakpoints;
-
-export default createTheme(adaptV4Theme({
+export const baseThemeOptions = {
   typography: {
     htmlFontSize: 16,
     fontSize: 14,
@@ -46,20 +43,41 @@ export default createTheme(adaptV4Theme({
     },
     primary1Color: '#00acc1',
   },
-  overrides: {
+  components: {
     MuiTooltip: {
-      tooltip: {
-        fontSize: '0.85em',
-        fontFamily: 'GothamRoundedMedium',
-      },
-    },
-    MuiContainer: {
-      root: {
-        [breakpoints.down('sm')]: {
-          paddingLeft: '8px',
-          paddingRight: '8px',
+      styleOverrides: {
+        tooltip: {
+          fontSize: '0.85em',
+          fontFamily: 'GothamRoundedMedium',
         },
       },
     },
   },
-}))
+};
+
+export const createAppTheme = (options = baseThemeOptions) => {
+  const theme = createTheme({ ...options });
+
+  theme.components = {
+    ...theme.components,
+    MuiContainer: {
+      ...theme.components?.MuiContainer,
+      styleOverrides: {
+        ...theme.components?.MuiContainer?.styleOverrides,
+        root: {
+          ...(theme.components?.MuiContainer?.styleOverrides?.root || {}),
+          [theme.breakpoints.down('sm')]: {
+            paddingLeft: '8px',
+            paddingRight: '8px',
+          },
+        },
+      },
+    },
+  };
+
+  return theme;
+};
+
+const defaultTheme = createAppTheme();
+
+export default defaultTheme;

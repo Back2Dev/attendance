@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import faker from 'faker'
 
 import { Typography } from '@mui/material'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 const StyledBeautifulDnD = styled.div`
   .item {

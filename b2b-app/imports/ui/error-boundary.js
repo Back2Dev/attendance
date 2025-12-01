@@ -1,17 +1,17 @@
 import { Meteor } from 'meteor/meteor'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 const debug = require('debug')('app:error-boundary')
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, pathname: props.location.pathname, message: '' }
+    this.state = { hasError: false, pathname: props.pathname, message: '' }
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { pathname } = props.location
+    const { pathname } = props
     if (pathname !== state.pathname) {
       // try to clear error when location changed
       return {
@@ -52,7 +52,7 @@ class ErrorBoundary extends React.Component {
             </>
           )}
           <div>
-            <button onClick={() => this.props.history.goBack()}>{goBack}</button>
+            <button onClick={() => this.props.navigate(-1)}>{goBack}</button>
           </div>
         </div>
       )
@@ -73,4 +73,10 @@ ErrorBoundary.defaultProps = {
   goBack: 'Go Back',
 }
 
-export default withRouter(ErrorBoundary)
+const ErrorBoundaryWrapper = (props) => {
+  const location = useLocation()
+  const navigate = useNavigate()
+  return <ErrorBoundary {...props} pathname={location.pathname} navigate={navigate} />
+}
+
+export default ErrorBoundaryWrapper

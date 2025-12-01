@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useContext } from 'react'
 import { Session } from 'meteor/session'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   AppBar,
   Avatar,
@@ -32,6 +32,7 @@ import NotificationsIcon from '/imports/ui/components/notifications/bell.js'
 import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
 import { showInfo, showError } from '/imports/ui/utils/toast-alerts'
 import { userMenu, guestMenu } from './links.js'
+import useHistory from '/imports/ui/utils/history'
 
 const hoverFilter =
   'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)'

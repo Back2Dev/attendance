@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { lighten } from '@mui/material/styles';
@@ -20,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import CONSTANTS from '/imports/api/constants'
+import useHistory from '/imports/ui/utils/history'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

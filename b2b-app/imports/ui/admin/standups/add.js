@@ -1,5 +1,4 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@mui/material/Button'
@@ -7,6 +6,7 @@ import { Box, Container, Grid, Typography } from '@mui/material'
 import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-mui'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
+import useHistory from '/imports/ui/utils/history'
 
 const schemaBridge = config.edit.schema
 const debug = require('debug')('app:add')

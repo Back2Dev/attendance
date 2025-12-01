@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   AppBar,
   Box,
@@ -19,6 +19,7 @@ import info from '/imports/api/version'
 // import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
 
 import { guestMenu } from './links.js'
+import useHistory from '/imports/ui/utils/history'
 
 export default function UserNavbar() {
   const [anchorEl, setAnchorEl] = React.useState(null)

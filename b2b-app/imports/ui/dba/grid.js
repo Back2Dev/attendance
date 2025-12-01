@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
 import DataGrid, { SelectColumn } from '/imports/ui/components/commons/mui-rdg'
-import { useHistory } from 'react-router'
-
 import {
   Button,
   TextField,
@@ -25,6 +23,7 @@ import DataFormatter from './grid/formaters'
 import CellEditor from './grid/editors'
 import { CollectionContext } from './context'
 import ViewsSelector from './grid/views-selector'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:dba-grid')
 

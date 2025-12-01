@@ -1,5 +1,4 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import Button from '@mui/material/Button'
@@ -9,6 +8,7 @@ import { CustomAutoField } from '/imports/ui/components/forms'
 import HTMLTemplate from '/imports/api/email-template'
 
 import { schemaBridge } from './edit-schema'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:edit')
 

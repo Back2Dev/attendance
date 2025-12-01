@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 import { Menu, MenuItem, IconButton } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
@@ -79,7 +80,9 @@ const Item = ({ item, onClick }) => {
         }}
       >
         <div className="message">
-          <ReactMarkdown source={item.message || 'N/A'} />
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {item.message || 'N/A'}
+          </ReactMarkdown>
         </div>
         <div className="info">{renderDate()}</div>
       </div>

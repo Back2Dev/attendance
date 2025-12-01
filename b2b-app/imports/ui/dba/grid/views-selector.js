@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { useHistory } from 'react-router'
-
 import { FormControl, MenuItem, Select, IconButton } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 
 import { CollectionContext } from '../context'
 import { useMemo } from 'react'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:dba-grid-views-selector')
 

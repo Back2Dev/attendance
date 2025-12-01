@@ -1,7 +1,6 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { useHistory } from 'react-router-dom'
 import CONSTANTS from '/imports/api/constants'
 import { saveAs } from 'file-saver'
 import { blobToFile } from '/imports/ui/utils/files'
@@ -13,6 +12,7 @@ import Surveys from '/imports/api/surveys/schema'
 import Practices from '/imports/api/practices/schema'
 import Profiles from '/imports/api/profiles/schema'
 import WebformPage from './webform-page'
+import useHistory from '/imports/ui/utils/history'
 
 const FIELDTYPES = {
   text: 'string',

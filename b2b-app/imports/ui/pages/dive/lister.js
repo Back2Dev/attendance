@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import Triggers from '/imports/api/triggers/schema'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'

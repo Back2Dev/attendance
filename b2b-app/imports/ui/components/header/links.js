@@ -19,12 +19,6 @@ export const userMenu = [
     id: 'dashboard',
   },
   {
-    display: 'Forms',
-    link: '/admin/forms',
-    icon: FormsMenuIcon,
-    id: 'forms',
-  },
-  {
     display: 'Support',
     link: '/support',
     icon: SupportMenuIcon,

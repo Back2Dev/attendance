@@ -12,7 +12,6 @@ export default items = [
   { display: 'Sessions', link: '/admin/sessions' },
   { display: 'Service items', link: '/admin/service-items' },
   { display: 'Jobs', link: '/admin/jobs' },
-  { display: 'Forms', link: '/admin/forms' },
   { display: 'Registrations', link: '/admin/registrations' },
   { display: 'Collections', link: '/admin/collections' },
   { display: 'Users', link: '/admin/users' },

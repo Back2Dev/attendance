@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
@@ -17,10 +17,10 @@ function BookingsPage() {
         <title>Bookings</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Switch>
-          <Route path="/bookings/history" component={BookingsHistory} />
-          <Route component={Bookings} />
-        </Switch>
+        <Routes>
+          <Route path="history" element={<BookingsHistory />} />
+          <Route path="*" element={<Bookings />} />
+        </Routes>
       </Container>
     </StyledBookingsPage>
   )

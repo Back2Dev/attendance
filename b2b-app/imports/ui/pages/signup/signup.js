@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Meteor } from 'meteor/meteor'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { AutoForm, AutoFields, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
@@ -13,6 +13,7 @@ import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.
 import TextDivider from '/imports/ui/components/text-divider.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
 let userSchema = new SimpleSchema2Bridge(
   new SimpleSchema({

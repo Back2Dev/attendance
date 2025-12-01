@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useReducer, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'

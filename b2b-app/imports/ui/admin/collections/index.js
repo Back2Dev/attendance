@@ -1,6 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-
+import { Routes, Route } from 'react-router-dom'
 import Loading from '/imports/ui/components/commons/loading.js'
 
 import Lister from './lister.js'
@@ -11,12 +10,12 @@ import NotFound from '/imports/ui/components/commons/not-found.js'
 
 export default function Collections() {
   return (
-    <Switch>
-      <Route path="/admin/collections/edit/:id" exact component={Editor} />
-      <Route path="/admin/collections/add/" exact component={Adder} />
-      <Route path="/admin/collections/view/:id" exact component={Viewer} />
-      <Route path="/admin/collections" exact component={Lister} />
-      <Route component={NotFound} />
-    </Switch>
+    <Routes>
+      <Route path="/admin/collections/edit/:id" element={<Editor />} />
+      <Route path="/admin/collections/add/" element={<Adder />} />
+      <Route path="/admin/collections/view/:id" element={<Viewer />} />
+      <Route path="/admin/collections" element={<Lister />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }

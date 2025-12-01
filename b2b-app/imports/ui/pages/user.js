@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
@@ -18,11 +18,11 @@ function UserPage() {
         <title>Member</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Switch>
-          <Route path="/profile/:id" component={PublicProfile} />
-          <Route path="/profile" component={UserPreferences} />
-          <Route component={Portal} />
-        </Switch>
+        <Routes>
+          <Route path="/profile/:id" element={<PublicProfile />} />
+          <Route path="/profile" element={<UserPreferences />} />
+          <Route path="*" element={<Portal />} />
+        </Routes>
       </Container>
     </StyledUserPage>
   )

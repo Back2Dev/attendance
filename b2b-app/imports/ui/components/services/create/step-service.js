@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
-import { useHistory } from 'react-router'
 import React, { useEffect, useRef, useReducer, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -13,6 +12,7 @@ import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
 import ServiceItem from './service-item'
 import Loading from '../../commons/loading'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledServiceStep = styled.div`
   margin: 20px 0;

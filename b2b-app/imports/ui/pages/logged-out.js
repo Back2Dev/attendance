@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { Typography, Link, Button } from '@mui/material'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'

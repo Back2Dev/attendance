@@ -2,9 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
-import { useParams } from 'react-router'
-import { useHistory } from 'react-router'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { useParams } from 'react-router-dom'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 import {
   Typography,
@@ -38,6 +37,7 @@ import getCollection from '/imports/api/collections/binder'
 import { getFieldType } from '/imports/api/collections/utils.js'
 import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledViewForm = styled.div`
   padding: 40px 20px;

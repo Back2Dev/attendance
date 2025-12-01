@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
+import '/imports/startup/patch-uniforms'
 import App from '/imports/ui/app'
 
 Meteor.startup(() => {

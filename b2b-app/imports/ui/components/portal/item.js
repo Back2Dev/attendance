@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment'
-import { useHistory } from 'react-router'
 import { Link as RouterLink } from 'react-router-dom'
 import { Link } from '@mui/material'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledSessionItem = styled.div`
   margin-bottom: 20px;

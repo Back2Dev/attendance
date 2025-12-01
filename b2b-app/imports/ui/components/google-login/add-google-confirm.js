@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { Grid, Paper, Typography, Link, Button } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles';
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
 const useStyles = makeStyles((theme) => ({}))
 

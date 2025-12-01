@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import ServiceItems from '/imports/api/service-items/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import View from './view'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:viewer')
 const idField = '_id'

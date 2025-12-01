@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { Grid, Paper, Typography, Link, Button, TextField } from '@mui/material'
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
@@ -7,6 +7,7 @@ import PasswordValidator from '/imports/ui/utils/password-validation/password-va
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
 const passwordSchema = {
   password: { type: String, label: 'New password' },

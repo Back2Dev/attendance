@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react'
-import { useHistory } from 'react-router-dom'
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
@@ -10,6 +9,7 @@ import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
+import useHistory from '/imports/ui/utils/history'
 
 let userSchema = new SimpleSchema2Bridge(
   new SimpleSchema({

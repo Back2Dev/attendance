@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { showError } from '/imports/ui/utils/toast-alerts'
-import { useHistory } from 'react-router-dom'
 import makeStyles from '@mui/styles/makeStyles';
 import withStyles from '@mui/styles/withStyles';
 import { Button } from '@mui/material'
+import useHistory from '/imports/ui/utils/history'
 
 const useStyles = makeStyles((theme) => ({
   button: {

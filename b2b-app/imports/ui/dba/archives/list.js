@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import DataGrid, { SelectColumn } from '/imports/ui/components/commons/mui-rdg'
-import { useHistory } from 'react-router'
 import { Typography, Button, FormControlLabel, Switch } from '@mui/material'
 import RestoreIcon from '@mui/icons-material/Restore'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
@@ -17,6 +16,7 @@ import {
   getFieldType,
   getComparator,
 } from '/imports/api/collections/utils.js'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledArchivesList = styled.div`
   padding: 40px 20px;

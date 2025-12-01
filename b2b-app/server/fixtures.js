@@ -7,7 +7,6 @@ import Messages from '/imports/api/messages/schema'
 import { Notifications, NotificationItems } from '/imports/api/notifications/schema'
 import Jobs from '/imports/api/jobs/schema'
 import Events from '/imports/api/events/schema'
-import Forms from '/imports/api/forms/schema'
 const debug = require('debug')('app:fixtures')
 
 // Get the database definition for the target tables
@@ -120,6 +119,5 @@ Meteor.methods({
     Notifications.remove({})
     NotificationItems.remove({})
     Events.remove({})
-    Forms.remove({})
   },
 })

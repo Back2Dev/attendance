@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import { Box, Typography, Container, Paper, Button, Grid } from '@mui/material'
@@ -10,6 +9,7 @@ import { AutoForm, AutoFields, ErrorsField } from 'uniforms-mui'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import { bridge as schema } from '/imports/api/support/schema-form.js'
 import ThankYouPage from './thank-you'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledSuportForm = styled(Container)`
   margin: 60px auto;

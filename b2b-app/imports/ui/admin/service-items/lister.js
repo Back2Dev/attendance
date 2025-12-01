@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Eye from '@mui/icons-material/Visibility'
 import PencilSquare from '@mui/icons-material/Edit'
@@ -10,6 +9,7 @@ import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
 import ServiceItemsList from './list'
 import config from './config'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:lister')
 

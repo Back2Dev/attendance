@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:editor')
 const dateFormat = {

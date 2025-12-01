@@ -43,6 +43,6 @@ export default class UserLoginSchemaBridge extends Bridge {
   }
 
   getValidator() {
-    return this.validator
+    return this.validator || (() => null)
   }
 }

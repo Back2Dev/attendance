@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import StandupNotes from '/imports/api/standup-notes/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
 import Add from './add'
 import config from './config'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:adder')
 let push

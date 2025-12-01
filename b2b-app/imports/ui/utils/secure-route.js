@@ -1,22 +1,25 @@
 /* global Roles */
 import { Meteor } from 'meteor/meteor'
 import React, { lazy, useContext } from 'react'
-import { Route } from 'react-router-dom'
-
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 
 const NotAuthorized = lazy(() => import('/imports/ui/components/not-authorized.js'))
 const Login = lazy(() => import('/imports/ui/components/account/login.js'))
 
-export default function SecureRoute({ roles, ...rest }) {
+// Returns plain content so it can be used inside <Route element={...}> or directly.
+export default function SecureRoute({ roles, component: Component, element, children }) {
   const { isLoggedIn, loading } = useContext(AccountContext)
   const hasRights = roles ? Roles.userIsInRole(Meteor.userId(), roles) : true
-  if (isLoggedIn && hasRights) {
-    return <Route {...rest} />
-  } else if (isLoggedIn && !hasRights) {
-    return <NotAuthorized />
-  } else if (!loading && !isLoggedIn) {
-    return <Login />
+
+  if (!isLoggedIn) {
+    return !loading ? <Login /> : null
   }
-  return <></>
+
+  if (!hasRights) {
+    return <NotAuthorized />
+  }
+
+  if (element) return element
+  if (Component) return <Component />
+  return children || null
 }

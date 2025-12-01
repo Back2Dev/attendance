@@ -11,8 +11,7 @@ import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
 import { JobsListingContext } from './context'
 import moment from 'moment'
-import { useHistory } from 'react-router'
-
+import useHistory from '/imports/ui/utils/history'
 const StyledJobsListing = styled.div`
   .filter-container {
     // display: flex;
