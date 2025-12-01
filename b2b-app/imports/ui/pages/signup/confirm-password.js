@@ -2,11 +2,11 @@ import React from 'react'
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import { Typography } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles';
+import { useNavigate, useParams } from 'react-router-dom'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
 import PasswordValidator from '/imports/ui/utils/password-validation/password-validator.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
-import useHistory from '/imports/ui/utils/history'
 
 const passwordSchema = {
   password: { type: String, label: 'New password' },
@@ -25,13 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ConfirmPassword = (props) => {
+const ConfirmPassword = () => {
   const [submitEnabled, setSubmitEnabled] = React.useState(true)
   const classes = useStyles()
-  const { push } = useHistory()
-
-  const userId = props.match.params.userId
-  const token = props.match.params.token
+  const navigate = useNavigate()
+  const { userId, token } = useParams()
 
   const add = (form) => {
     form.userId = userId
@@ -45,7 +43,7 @@ const ConfirmPassword = (props) => {
           if (error) {
             showError(error.message)
           } else {
-            push('/dashboard')
+            navigate('/dashboard')
           }
         })
       }

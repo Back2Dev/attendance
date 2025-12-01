@@ -12,10 +12,10 @@ export default function Events() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/events/edit/:id" element={<Editor />} />
-        <Route path="/admin/events/add/" element={<Adder />} />
-        <Route path="/admin/events/view/:id" element={<Viewer />} />
-        <Route path="/admin/events" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

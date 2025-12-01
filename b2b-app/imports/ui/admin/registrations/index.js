@@ -12,10 +12,10 @@ export default function Registrations() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/registrations/edit/:id" element={<Editor />} />
-        <Route path="/admin/registrations/add/" element={<Adder />} />
-        <Route path="/admin/registrations/view/:id" element={<Viewer />} />
-        <Route path="/admin/registrations" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

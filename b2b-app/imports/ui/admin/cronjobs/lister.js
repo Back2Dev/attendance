@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Cronjobs from '/imports/api/cronjobs/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
@@ -10,52 +10,21 @@ import Eye from '@mui/icons-material/Visibility'
 import PencilSquare from '@mui/icons-material/Edit'
 import List from './list'
 
-const debug = require('debug')('app:lister')
+const debug = require('debug')('app:cronjobs/lister')
 const idField = '_id'
-let history
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
   outputFormat: 'DD/MM/YY h:mm A',
   invalidPlaceholder: '',
 }
 
-const remove = (id) => meteorCall('rm.cronjobs', 'Deleting', id)
-const update = (form) => meteorCall('update.cronjobs', 'updating', form)
-const insert = (form) => meteorCall('insert.cronjobs', 'adding', form)
-const edit = (id) => history.push(`/admin/cronjobs/edit/${id}`)
-const view = (id) => history.push(`/admin/cronjobs/view/${id}`)
-const archive = async (rowids) => {
-  const name = prompt('Please enter a name for the archive')
-  const text = confirm(
-    `Are you sure you want to archive this Cronjobs and related entities?`
-  )
-
-  if (name && text) {
-    meteorCall('archive.cronjobs', `Archiving Cronjobs to ${name}`, {
-      name,
-      ids: rowids,
-    })
-  }
-}
-const methods = { remove, update, insert, view, edit, archive }
-
-// Config data
-
 const defaultObject = {
   name: 'untitled',
   frequency: '1 hour',
   type: 'unknown',
 }
-const editIcon = (cell, formatterParams) => {
-  //plain text value
-  return "<i class='fa fa-edit'></i>"
-}
-const viewIcon = (cell, formatterParams) => {
-  //plain text value
-  return "<i class='fa fa-eye'></i>"
-}
 
-const columns = [
+const columns = (methods) => [
   {
     formatter: 'rowSelection',
     width: 25,
@@ -112,44 +81,43 @@ const columns = [
     formatterParams: { outputFormat: 'HH:mm:ss' },
   },
 ]
-const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <List {...props}></List>
-}
-const CronjobsLister = withTracker((props) => {
-  history = props.history
-  const subsHandle = Meteor.subscribe('all.cronjobs')
-  const items = Cronjobs.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
 
-  return {
-    items,
-    methods,
-    columns,
-    defaultObject,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+const CronjobsLister = () => {
+  const navigate = useNavigate()
 
-const Lister = () => {
-  const [loading, setLoading] = React.useState(true)
-  const [rows, setRows] = React.useState([])
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const { status, data } = await meteorCall('fetch.cronjobs')
-      setRows(data)
-      setLoading(false)
+  const methods = useMemo(() => {
+    const edit = (id) => navigate(`/admin/cronjobs/edit/${id}`)
+    const view = (id) => navigate(`/admin/cronjobs/view/${id}`)
+    const archive = async (rowids) => {
+      const name = prompt('Please enter a name for the archive')
+      const text = confirm(`Are you sure you want to archive this Cronjobs and related entities?`)
+      if (name && text) {
+        meteorCall('archive.cronjobs', `Archiving Cronjobs to ${name}`, {
+          name,
+          ids: rowids,
+        })
+      }
     }
-    fetchData()
+    return {
+      remove: (id) => meteorCall('rm.cronjobs', 'Deleting', id),
+      update: (form) => meteorCall('update.cronjobs', 'updating', form),
+      insert: (form) => meteorCall('insert.cronjobs', 'adding', form),
+      edit,
+      view,
+      archive,
+    }
+  }, [navigate])
+
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.cronjobs')
+    const items = Cronjobs.find({}).map((row) => ({ ...row, search: obj2Search(row) }))
+    return { items, loading: !subsHandle.ready() }
   }, [])
 
-  const props = { items: rows, methods, columns, defaultObject, loading }
-  debug('props', props)
   if (loading) return <div>Loading...</div>
-  return <List {...props}></List>
+  return (
+    <List items={items} methods={methods} columns={columns(methods)} defaultObject={defaultObject} loading={loading} />
+  )
 }
 
-export default idField === 'id' ? Lister : CronjobsLister
+export default CronjobsLister

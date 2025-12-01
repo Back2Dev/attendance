@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { Grid } from '@mui/material'
 import GeneratedRoutes from '/imports/ui/routes/generated-routes'
-import ManualRoutes from '/imports/ui/routes/manual-routes'
 import NotFoundComponent from '/imports/ui/components/commons/not-found.js'
 
 const StyledAdminPage = styled.div``
@@ -22,7 +21,6 @@ function AdminPage() {
       <Grid container>
         <Grid item xs={12}>
           <GeneratedRoutes />
-          <ManualRoutes />
           {/* <Route component={NotFoundComponent} /> */}
         </Grid>
       </Grid>

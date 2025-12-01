@@ -12,10 +12,10 @@ export default function MessageTemplates() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/message-templates/edit/:id" element={<Editor />} />
-        <Route path="/admin/message-templates/add/" element={<Adder />} />
-        <Route path="/admin/message-templates/view/:id" element={<Viewer />} />
-        <Route path="/admin/message-templates" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

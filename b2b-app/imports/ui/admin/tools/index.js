@@ -12,10 +12,10 @@ export default function Tools() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/tools/edit/:id" element={<Editor />} />
-        <Route path="/admin/tools/add/" element={<Adder />} />
-        <Route path="/admin/tools/view/:id" element={<Viewer />} />
-        <Route path="/admin/tools" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

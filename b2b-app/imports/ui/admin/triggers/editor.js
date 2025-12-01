@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import Triggers from '/imports/api/triggers/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
@@ -11,29 +12,32 @@ const dateFormat = {
   outputFormat: 'DD/MM/YY h:mm A',
   invalidPlaceholder: '',
 }
-let history
 
-const remove = (id) => meteorCall('rm.triggers', 'Deleting', id)
-const update = (id, form) => {
-  meteorCall('update.triggers', 'updating', form)
-  history.push('/admin/triggers')
-}
-const methods = { remove, update }
+const Editor = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <Edit {...props}></Edit>
+  const { item, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('id.triggers', id)
+    return {
+      loading: !subsHandle.ready(),
+      item: Triggers.findOne(id) || {},
+    }
+  }, [id])
+
+  const methods = useMemo(
+    () => ({
+      remove: (targetId) => meteorCall('rm.triggers', 'Deleting', targetId),
+      update: (targetId, form) => {
+        meteorCall('update.triggers', 'updating', form)
+        navigate('/admin/triggers')
+      },
+    }),
+    [navigate]
+  )
+
+  if (loading) return <div>Loading...</div>
+  return <Edit id={id} item={item} methods={methods} loading={loading} />
 }
-const Editor = withTracker((props) => {
-  history = props.history
-  const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.triggers', id)
-  const item = Triggers.findOne(id) || {}
-  return {
-    id,
-    item,
-    methods,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+
 export default Editor

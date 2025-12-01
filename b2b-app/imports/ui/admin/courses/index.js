@@ -12,10 +12,10 @@ export default function Courses() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/courses/edit/:id" element={<Editor />} />
-        <Route path="/admin/courses/add/" element={<Adder />} />
-        <Route path="/admin/courses/view/:id" element={<Viewer />} />
-        <Route path="/admin/courses" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

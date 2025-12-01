@@ -13,12 +13,12 @@ import NotFound from '/imports/ui/components/commons/not-found'
 export default function StandupNotes() {
   return (
     <Routes>
-      <Route path="/admin/standup-notes/edit/:id" element={<Editor />} />
-      <Route path="/admin/standup-notes/add" element={<Adder />} />
-      <Route path="/admin/standup-notes/view/:id" element={<Viewer />} />
-      <Route path="/admin/standup-notes/meeting" element={<Meeting />} />
-      <Route path="/admin/standup-notes/add-member" element={<AddMember />} />
-      <Route path="/admin/standup-notes" element={<Lister />} />
+      <Route path="edit/:id" element={<Editor />} />
+      <Route path="add" element={<Adder />} />
+      <Route path="view/:id" element={<Viewer />} />
+      <Route path="meeting" element={<Meeting />} />
+      <Route path="add-member" element={<AddMember />} />
+      <Route index element={<Lister />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

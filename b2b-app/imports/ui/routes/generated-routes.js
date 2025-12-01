@@ -8,7 +8,7 @@ import Loading from '/imports/ui/components/commons/loading.js'
 
 // Generated lazy imports go here...
 const Audits = lazy(() => import('/imports/ui/admin/audits'))
-const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs'))
+const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs/lister'))
 const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
 const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
 const Members = lazy(() => import('/imports/ui/admin/members'))
@@ -33,33 +33,35 @@ const Teams = lazy(() => import('/imports/ui/admin/teams'))
 // This file contains a list of routes for database admin pages
 // It is generated from a list of modules
 //
-export default GeneratedRoutes = () => {
+const GeneratedRoutes = () => {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
         {/** Generated routes go here */}
-        <Route path="/admin/audits" element={<Audits />} />
-        <Route path="/admin/cronjobs" element={<Cronjobs />} />
-        <Route path="/admin/triggers" element={<Triggers />} />
-        <Route path="/admin/message-templates" element={<MessageTemplates />} />
-        <Route path="/admin/members" element={<Members />} />
-        <Route path="/admin/settings" element={<Settings />} />
-        <Route path="/admin/surveys" element={<Surveys />} />
-        <Route path="/admin/events" element={<Events />} />
-        <Route path="/admin/courses" element={<Courses />} />
-        <Route path="/admin/tools" element={<Tools />} />
-        <Route path="/admin/sessions" element={<Sessions />} />
-        <Route path="/admin/service-items" element={<ServiceItems />} />
-        <Route path="/admin/jobs" element={<Jobs />} />
-        <Route path="/admin/registrations" element={<Registrations />} />
-        <Route path="/admin/collections" element={<Collections />} />
-        <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin/calendar" element={<Calendar />} />
-        <Route path="/admin/register" element={<Register />} />
-        <Route path="/admin/standup-notes" element={<StandupNotes />} />
-        <Route path="/admin/standups" element={<Standups />} />
-        <Route path="/admin/teams" element={<Teams />} />
+        <Route path="audits/*" element={<Audits />} />
+        <Route path="cronjobs/*" element={<Cronjobs />} />
+        <Route path="triggers/*" element={<Triggers />} />
+        <Route path="message-templates/*" element={<MessageTemplates />} />
+        <Route path="members/*" element={<Members />} />
+        <Route path="settings/*" element={<Settings />} />
+        <Route path="surveys/*" element={<Surveys />} />
+        <Route path="events/*" element={<Events />} />
+        <Route path="courses/*" element={<Courses />} />
+        <Route path="tools/*" element={<Tools />} />
+        <Route path="sessions/*" element={<Sessions />} />
+        <Route path="service-items/*" element={<ServiceItems />} />
+        <Route path="jobs/*" element={<Jobs />} />
+        <Route path="registrations/*" element={<Registrations />} />
+        <Route path="collections/*" element={<Collections />} />
+        <Route path="users/*" element={<Users />} />
+        <Route path="calendar/*" element={<Calendar />} />
+        <Route path="register/*" element={<Register />} />
+        <Route path="standup-notes/*" element={<StandupNotes />} />
+        <Route path="standups/*" element={<Standups />} />
+        <Route path="teams/*" element={<Teams />} />
       </Routes>
     </Suspense>
   )
 }
+
+export default GeneratedRoutes

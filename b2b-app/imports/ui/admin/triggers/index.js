@@ -8,9 +8,9 @@ import NotFound from '/imports/ui/components/commons/not-found'
 export default function Triggers() {
   return (
     <Routes>
-      <Route path="/admin/triggers/edit/:id" element={<Editor />} />
-      <Route path="/admin/triggers/view/:id" element={<Viewer />} />
-      <Route path="/admin/triggers" element={<Lister />} />
+      <Route path="edit/:id" element={<Editor />} />
+      <Route path="view/:id" element={<Viewer />} />
+      <Route index element={<Lister />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

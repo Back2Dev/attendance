@@ -11,11 +11,11 @@ import Meet from '/imports/ui/admin/standup-notes/meeting-box'
 export default function Standups() {
   return (
     <Routes>
-      <Route path="/admin/standups/edit/:id" element={<Editor />} />
-      <Route path="/admin/standups/add/" element={<Adder />} />
-      <Route path="/admin/standups/view/:id" element={<Viewer />} />
-      <Route path="/admin/standups/meet/:id" element={<Meet />} />
-      <Route path="/admin/standups" element={<Lister />} />
+      <Route path="edit/:id" element={<Editor />} />
+      <Route path="add/" element={<Adder />} />
+      <Route path="view/:id" element={<Viewer />} />
+      <Route path="meet/:id" element={<Meet />} />
+      <Route index element={<Lister />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

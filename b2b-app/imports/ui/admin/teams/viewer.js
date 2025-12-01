@@ -1,39 +1,40 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import Teams from '/imports/api/teams/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
 import View from './view'
-import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:viewer')
 const idField = '_id'
-let push
 
-const remove = (id) => meteorCall('rm.teams', 'Deleting', id)
-const update = (id, form) => {
-  meteorCall('update.teams', 'updating', { id, form })
-  push('/admin/teams')
+const Viewer = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const { item, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('id.teams', id)
+    return {
+      loading: !subsHandle.ready(),
+      item: Teams.findOne(id) || {},
+    }
+  }, [id])
+
+  const { remove, update } = useMemo(
+    () => ({
+      remove: (targetId) => meteorCall('rm.teams', 'Deleting', targetId),
+      update: (targetId, form) => {
+        meteorCall('update.teams', 'updating', { id: targetId, form })
+        navigate('/admin/teams')
+      },
+    }),
+    [navigate]
+  )
+
+  if (loading) return <Loader loading />
+  return <View id={id} item={item} remove={remove} update={update} loading={loading} />
 }
 
-const Loading = (props) => {
-  push = useHistory()?.push
-  if (props.loading) return <Loader loading />
-  return <View {...props}></View>
-}
-const Tracker = withTracker((props) => {
-  history = props.history
-  const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.teams', id)
-  const item = Teams.findOne(id) || {}
-  return {
-    id,
-    item,
-    remove,
-    update,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
-
-export default Tracker
+export default Viewer

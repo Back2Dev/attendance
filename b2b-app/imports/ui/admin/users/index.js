@@ -7,8 +7,8 @@ import NotFound from '/imports/ui/components/commons/not-found'
 export default function Users() {
   return (
     <Routes>
-      <Route path="/admin/users/:userId" element={<Editor />} />
-      <Route path="/admin/users" element={<Lister />} />
+      <Route path=":userId" element={<Editor />} />
+      <Route index element={<Lister />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

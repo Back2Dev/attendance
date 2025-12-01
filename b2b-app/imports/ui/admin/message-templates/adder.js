@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Add from './add'
-import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:adder')
 const dateFormat = {
@@ -12,7 +12,6 @@ const dateFormat = {
   outputFormat: 'DD/MM/YY h:mm A',
   invalidPlaceholder: '',
 }
-let push
 const defaultObject = {
   name: 'Untitled',
   slug: 'untitled',
@@ -21,42 +20,39 @@ const defaultObject = {
   subject: 'Your property',
 }
 
-const methods = {
-  save: (form) => {
-    meteorCall('insert.messageTemplates', 'updating', form)
+const Adder = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-    push('/admin/message-templates')
-  },
-}
-
-const Loading = (props) => {
-  push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <Add {...props}></Add>
-}
-const Adder = withTracker((props) => {
-  let loading = false
-  let item
-  const id = props.match.params.id
-  if (id) {
+  const { item, loading } = useTracker(() => {
+    if (!id) {
+      return { loading: false, item: defaultObject }
+    }
     const subsHandle = Meteor.subscribe('idslug.messageTemplates', id)
-    loading = !subsHandle.ready()
     let query = id
     if (!MessageTemplates.findOne(id)) query = { slug: id }
-    item = MessageTemplates.findOne(query) || {}
-    if (item._id) {
-      item.oldSlug = item.slug
-      item.slug = item.slug + '-copy'
-      if (item.name) item.name = 'Copy of ' + item.name
-      delete item._id
+    const found = MessageTemplates.findOne(query) || {}
+    if (found._id) {
+      found.oldSlug = found.slug
+      found.slug = `${found.slug}-copy`
+      if (found.name) found.name = `Copy of ${found.name}`
+      delete found._id
     }
-  } else {
-    item = defaultObject
-  }
-  return {
-    item,
-    methods,
-    loading,
-  }
-})(Loading)
+    return { loading: !subsHandle.ready(), item: found }
+  }, [id])
+
+  const methods = useMemo(
+    () => ({
+      save: (form) => {
+        meteorCall('insert.messageTemplates', 'updating', form)
+        navigate('/admin/message-templates')
+      },
+    }),
+    [navigate]
+  )
+
+  if (loading) return <div>Loading...</div>
+  return <Add item={item} methods={methods} loading={loading} />
+}
+
 export default Adder

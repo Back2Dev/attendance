@@ -11,10 +11,10 @@ import NotFound from '/imports/ui/components/commons/not-found.js'
 export default function Teams() {
   return (
     <Routes>
-      <Route path="/admin/teams/edit/:id" element={<Editor />} />
-      <Route path="/admin/teams/add/" element={<Adder />} />
-      <Route path="/admin/teams/view/:id" element={<Viewer />} />
-      <Route path="/admin/teams" element={<Lister />} />
+      <Route path="edit/:id" element={<Editor />} />
+      <Route path="add/" element={<Adder />} />
+      <Route path="view/:id" element={<Viewer />} />
+      <Route index element={<Lister />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

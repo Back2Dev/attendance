@@ -12,10 +12,10 @@ export default function Jobs() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/jobs/edit/:id" element={<Editor />} />
-        <Route path="/admin/jobs/add/" element={<Adder />} />
-        <Route path="/admin/jobs/view/:id" element={<Viewer />} />
-        <Route path="/admin/jobs" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

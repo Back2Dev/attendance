@@ -12,10 +12,10 @@ export default function Sessions() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/sessions/edit/:id" element={<Editor />} />
-        <Route path="/admin/sessions/add/" element={<Adder />} />
-        <Route path="/admin/sessions/view/:id" element={<Viewer />} />
-        <Route path="/admin/sessions" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

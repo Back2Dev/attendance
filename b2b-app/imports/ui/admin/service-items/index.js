@@ -12,10 +12,10 @@ export default function ServiceItems() {
   return (
     <Suspense fallback={<Loading loading />}>
       <Routes>
-        <Route path="/admin/service-items/edit/:id" element={<Editor />} />
-        <Route path="/admin/service-items/add/" element={<Adder />} />
-        <Route path="/admin/service-items/view/:id" element={<Viewer />} />
-        <Route path="/admin/service-items" element={<Lister />} />
+        <Route path="edit/:id" element={<Editor />} />
+        <Route path="add/" element={<Adder />} />
+        <Route path="view/:id" element={<Viewer />} />
+        <Route index element={<Lister />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

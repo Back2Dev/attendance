@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom'
 import { Grid, Paper, Typography, Link, Button, TextField } from '@mui/material'
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
@@ -7,7 +7,6 @@ import PasswordValidator from '/imports/ui/utils/password-validation/password-va
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
-import useHistory from '/imports/ui/utils/history'
 
 const passwordSchema = {
   password: { type: String, label: 'New password' },
@@ -19,13 +18,12 @@ const passwordSchema = {
 
 const bridge = new PasswordBridge(passwordSchema, PasswordValidator)
 
-const ResetPassword = (props) => {
-  const userId = props.match.params.userId
-  const token = props.match.params.token
+const ResetPassword = () => {
+  const { userId, token } = useParams()
   const [submitted, setSubmittted] = React.useState(false)
   const { user } = useContext(AccountContext)
 
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
   const submit = (values) => {
     setSubmittted(true)
@@ -34,7 +32,7 @@ const ResetPassword = (props) => {
         setSubmittted(false)
         showError(err)
       } else {
-        push('/login')
+        navigate('/login')
         showSuccess('Password was changed')
       }
     })
@@ -46,7 +44,7 @@ const ResetPassword = (props) => {
       if (error) {
         showError(error.message)
       } else {
-        push('/logged-out')
+        navigate('/logged-out')
       }
     })
   }

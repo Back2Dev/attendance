@@ -1,38 +1,39 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import Courses from '/imports/api/courses/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import View from './view'
-import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:viewer')
 const idField = '_id'
-let push
 
-const remove = (id) => meteorCall('rm.courses', 'Deleting', id)
-const update = (id, form) => {
-  meteorCall('update.courses', 'updating', { id, form })
-  push('/admin/courses')
+const Viewer = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const { item, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('id.courses', id)
+    return {
+      loading: !subsHandle.ready(),
+      item: Courses.findOne(id) || {},
+    }
+  }, [id])
+
+  const { remove, update } = useMemo(
+    () => ({
+      remove: (targetId) => meteorCall('rm.courses', 'Deleting', targetId),
+      update: (targetId, form) => {
+        meteorCall('update.courses', 'updating', { id: targetId, form })
+        navigate('/admin/courses')
+      },
+    }),
+    [navigate]
+  )
+
+  if (loading) return <div>Loading...</div>
+  return <View id={id} item={item} remove={remove} update={update} loading={loading} />
 }
 
-const Loading = (props) => {
-  push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <View {...props}></View>
-}
-const Tracker = withTracker((props) => {
-  history = props.history
-  const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.courses', id)
-  const item = Courses.findOne(id) || {}
-  return {
-    id,
-    item,
-    remove,
-    update,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
-
-export default Tracker
+export default Viewer
