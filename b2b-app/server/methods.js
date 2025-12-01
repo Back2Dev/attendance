@@ -37,7 +37,7 @@ const searchStr = function (name) {
 }
 
 Meteor.methods({
-  showUser(email) {
+  async showUser(email) {
     createLog({
       type: CONSTANTS.LOG_EVENT_TYPES.METHOD_CALL,
       data: {
@@ -53,14 +53,14 @@ Meteor.methods({
     }
   },
 
-  rmUser(username) {
+  async rmUser(username) {
     if (Meteor.isClient) return
     new SimpleSchema({
       username: { type: String },
     }).validate({ username })
 
     try {
-      Meteor.users.remove({ username })
+      await Meteor.users.removeAsync({ username })
       createLog({
         type: CONSTANTS.LOG_EVENT_TYPES.USER_DELETE,
         data: {
@@ -80,7 +80,7 @@ Meteor.methods({
       name: 'Audited me',
     })
   },
-  sendTrigger: ({
+  sendTrigger: async ({
     user,
     member,
     people = [],
@@ -90,8 +90,8 @@ Meteor.methods({
   }) => {
     try {
       const trigger =
-        Triggers.findOne({ slug }) ||
-        Triggers.findOne({ slug: CONSTANTS.UNKNOWN_TRIGGER })
+        (await Triggers.findOneAsync({ slug })) ||
+        (await Triggers.findOneAsync({ slug: CONSTANTS.UNKNOWN_TRIGGER }))
       if (!trigger) {
         log.error(`Could not find trigger ${slug}`)
         return null
@@ -113,11 +113,11 @@ Meteor.methods({
         people.push(user)
       }
       const { notifications } = trigger
-      notifications.forEach((notification) => {
-        // Find the corresponding template (recipients are in the notification)
-        const template = MessageTemplates.findOne({ slug: notification.text })
-        if (!template)
+      for (const notification of notifications) {
+        const template = await MessageTemplates.findOneAsync({ slug: notification.text })
+        if (!template) {
           throw new Meteor.Error(`Could not find message template: ${notification.text}`)
+        }
         let body
         let form
         let url
@@ -126,16 +126,13 @@ Meteor.methods({
             return notification.recipients.includes(roleObj._id)
           })
         })
-        // Check if the notification is APP, EMAIL or SMS
         switch (template.type) {
           case 'APP':
-            // The filtered people are now the recipients of the current notification
-            filteredPeople.forEach((recipient) => {
+            for (const recipient of filteredPeople) {
               body = convertMergeTags(template.body, {
                 nickname: notification.userInfo ? user?.name : recipient?.name,
                 address: 'Address',
                 type: 'Transaction type',
-                // this only works for 1 role (when signing up)
                 userName: user.name || 'User',
                 role:
                   user.roles[0]._id === 'USR'
@@ -157,16 +154,14 @@ Meteor.methods({
                 },
                 url,
               })
-            })
+            }
             break
           case 'EMAIL':
-            filteredPeople.forEach((recipient) => {
+            for (const recipient of filteredPeople) {
               body = convertMergeTags(template.body, {
                 nickname: recipient?.name || 'User',
                 address: 'Address',
                 type: 'Type',
-                // this role and email only works for new signups (1 role)
-                // defaults to Customer if role is USR
                 name: user?.name || 'User',
                 role:
                   user.roles[0]._id === 'USR'
@@ -180,7 +175,6 @@ Meteor.methods({
               const subject = convertMergeTags(template.subject, {
                 name: user?.name || 'Customer',
               })
-              // Create the form
               form = {
                 type: 'email',
                 to: recipient.emails[0].address,
@@ -207,7 +201,6 @@ Meteor.methods({
                     'Reply-To': 'do-not-reply@mydomain.com.au',
                   },
                   important: true,
-                  // bcc_address: 'do-not-reply@mydomain.com.au',
                   tags: [trigger.slug],
                   recipient_metadata: [
                     { rcpt: 'do-not-reply@mydomain.com.au', values: { some: 'value' } },
@@ -215,19 +208,17 @@ Meteor.methods({
                 },
               }
 
-              // Send the form
-              Meteor.call('insert.messages', form)
-            })
+              await Meteor.callAsync('insert.messages', form)
+            }
             break
           case 'SMS':
-            filteredPeople.forEach((recipient) => {
+            for (const recipient of filteredPeople) {
               body = convertMergeTags(template.body, {
                 nickname: recipient?.name || 'User',
                 address: 'Address',
                 type: 'Type',
               })
 
-              // Create the form
               form = {
                 type: 'sms',
                 to: recipient.mobile,
@@ -240,14 +231,13 @@ Meteor.methods({
                 },
               }
 
-              // Send the form
-              Meteor.call('insert.messages', form)
-            })
+              await Meteor.callAsync('insert.messages', form)
+            }
             break
           default:
             throw new Meteor.Error('An error has occurred')
         }
-      })
+      }
     } catch (e) {
       // Log the error, but don't rethrow it
       log.error(`Error in sendTrigger: ${e.message}`)

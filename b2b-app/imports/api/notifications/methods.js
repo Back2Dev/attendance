@@ -13,7 +13,7 @@ Meteor.methods({
    * @return {string} result.status - success or failed
    * @return {string} result.message - the message
    */
-  NotiMarkAllRead() {
+  async NotiMarkAllRead() {
     const { userId } = this
     if (!userId) {
       return {
@@ -21,13 +21,13 @@ Meteor.methods({
         message: 'Not logged in user',
       }
     }
-    const theNotification = Notifications.findOne({ userId })
+    const theNotification = await Notifications.findOneAsync({ userId })
     if (!theNotification) {
       logger.info(`No nofitications for user ${userId}`, { userId })
       return { status: 'info', message: 'No notification' }
     }
     // mark all items read
-    const n = NotificationItems.update(
+    const n = await NotificationItems.updateAsync(
       { notificationId: theNotification._id },
       {
         $set: {
@@ -51,7 +51,7 @@ Meteor.methods({
    * @return {string} result.status - success or failed
    * @return {string} result.message - the message
    */
-  NotiMarkItemRead({ itemId, read = true }) {
+  async NotiMarkItemRead({ itemId, read = true }) {
     if (!Match.test(itemId, String)) {
       return { status: 'failed', message: 'invalid itemId' }
     }
@@ -65,18 +65,21 @@ Meteor.methods({
         message: 'Not logged in user',
       }
     }
-    const theItem = NotificationItems.findOne({ _id: itemId })
+    const theItem = await NotificationItems.findOneAsync({ _id: itemId })
     if (!theItem) {
       logger.warn(`Item was not found with id ${itemId}`, { itemId, userId, read })
       return { status: 'failed', message: `Item was not found with id ${itemId}` }
     }
-    const theNotification = Notifications.findOne({ _id: theItem.notificationId, userId })
+    const theNotification = await Notifications.findOneAsync({
+      _id: theItem.notificationId,
+      userId,
+    })
     if (!theNotification) {
       logger.warn('Permission denied', { itemId, userId, read })
       return { status: 'failed', message: 'Permission denied' }
     }
     // perform update
-    const n = NotificationItems.update(
+    const n = await NotificationItems.updateAsync(
       { _id: itemId },
       { $set: { read, readAt: new Date() } }
     )
@@ -92,7 +95,7 @@ Meteor.methods({
    * @return {string} result.status - can be success or failed
    * @return {string} result.message
    */
-  notificationsCheck() {
+  async notificationsCheck() {
     const { userId } = this
     if (!userId) {
       return {
@@ -102,7 +105,7 @@ Meteor.methods({
     }
     // update the notification
     try {
-      const n = Notifications.update(
+      const n = await Notifications.updateAsync(
         { userId },
         {
           $set: {
@@ -133,7 +136,7 @@ Meteor.methods({
    * @param {boolean} firstTimeFetch
    * @returns {[Object]} notification items
    */
-  notificationsGetRecently({
+  async notificationsGetRecently({
     notificationId,
     after = null,
     limit = 10,
@@ -155,7 +158,7 @@ Meteor.methods({
     }
 
     // get the notification
-    const notification = Notifications.findOne({
+    const notification = await Notifications.findOneAsync({
       _id: notificationId,
       userId,
     })
@@ -189,7 +192,7 @@ Meteor.methods({
         createdAt: -1,
       },
       limit,
-    }).fetch()
+    }).fetchAsync()
   },
 
   /**
@@ -199,7 +202,7 @@ Meteor.methods({
    * @param {number} limit
    * @returns {[Object]} notification items
    */
-  notificationsGetMore({ notificationId, before, limit = 10 }) {
+  async async notificationsGetMore({ notificationId, before, limit = 10 }) {
     if (!Match.test(notificationId, String)) {
       throw new Meteor.Error('notifications.getMore.1', 'Invalid notification')
     }
@@ -216,7 +219,7 @@ Meteor.methods({
     }
 
     // get the notification
-    const notification = Notifications.findOne({
+    const notification = await Notifications.findOneAsync({
       _id: notificationId,
       userId,
     })
@@ -247,7 +250,7 @@ Meteor.methods({
         createdAt: -1,
       },
       limit,
-    }).fetch()
+    }).fetchAsync()
   },
 
   /**

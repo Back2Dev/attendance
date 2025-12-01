@@ -30,10 +30,10 @@ const uc1 = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // S T A R T U P  Function to load up dummy data for testing
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Meteor.startup(function () {
+Meteor.startup(async function () {
   if (Meteor.settings.env.environment === 'test') {
     console.log('Cleaning up database... ')
-    Meteor.users.remove({})
+    await Meteor.users.removeAsync({})
   }
 
   Fixtures.loadAssets([
@@ -44,8 +44,9 @@ Meteor.startup(function () {
   Fixtures.loadBootThings() // Load (boot-time)  fixtures
   // Fix the members
   // TODO: Add members to fixtures data and remove this
-  Meteor.users.find({}).forEach((user) => {
-    const p = Members.findOne({ userId: user._id })
+  const users = await Meteor.users.rawCollection().find({}).toArray()
+  for (const user of users) {
+    const p = await Members.findOneAsync({ userId: user._id })
     if (!p) {
       let name = user.username
       let nickname = user.name?.split(' ')[0] || 'Hey you'
@@ -54,8 +55,7 @@ Meteor.startup(function () {
         nickname = uc1(matches[1])
         name = [uc1(matches[1]), uc1(matches[2])].join(' ')
       }
-      // debug(`Adding member for ${name} (AKA ${nickname})`)
-      Members.insert({
+      await Members.insertAsync({
         name,
         nickname,
         userId: user._id,
@@ -63,7 +63,7 @@ Meteor.startup(function () {
         status: 'active',
       })
     }
-  })
+  }
 })
 
 Meteor.methods({
@@ -71,7 +71,7 @@ Meteor.methods({
   // Be aware that you can restrict which environment(s) the data
   // is loaded to using the configs above
 
-  seedFixtures() {
+  async seedFixtures() {
     Fixtures.loadAssets([
       ...Fixtures.config.things.map((t) => t.name),
       ...Fixtures.config.boot.map((t) => t.name),
@@ -79,8 +79,9 @@ Meteor.methods({
     Fixtures.loadBootThings() // Load (boot-time) fixtures
     // Fix the members
     // TODO: Add members to fixtures data and remove this
-    Meteor.users.find({}).forEach((user) => {
-      const p = Members.findOne({ userId: user._id })
+    const users = await Meteor.users.rawCollection().find({}).toArray()
+    for (const user of users) {
+      const p = await Members.findOneAsync({ userId: user._id })
       if (!p) {
         let name = user.name || user.username
         let nickname
@@ -92,7 +93,7 @@ Meteor.methods({
           nickname = 'Hey you'
         }
         // debug(`Adding member for ${user.username}`)
-        Members.insert({
+        await Members.insertAsync({
           name,
           userId: user._id,
           nickname,
@@ -101,23 +102,23 @@ Meteor.methods({
           status: 'active',
         })
       }
-    })
+    }
     Fixtures.loadThings() // Loads (non boot-time)  fixtures
   },
-  'seedFixtures+test'() {
-    Meteor.call('seedFixtures')
+  async 'seedFixtures+test'() {
+    await Meteor.callAsync('seedFixtures')
   },
-  loadFixtures(thing) {
+  async loadFixtures(thing) {
     // Must check for admin here
     Fixtures.loadThings(thing) // Loads (non boot-time) fixtures
   },
-  resetCollections() {
+  async resetCollections() {
     // Meteor.users.remove({})
-    Members.remove({})
-    Jobs.remove({})
-    Messages.remove({})
-    Notifications.remove({})
-    NotificationItems.remove({})
-    Events.remove({})
+    await Members.removeAsync({})
+    await Jobs.removeAsync({})
+    await Messages.removeAsync({})
+    await Notifications.removeAsync({})
+    await NotificationItems.removeAsync({})
+    await Events.removeAsync({})
   },
 })

@@ -15,7 +15,7 @@ import Members from '/imports/api/members/schema.js'
  * @return {Object}           User object to create
  **/
 
-Accounts.onCreateUser((options, user) => {
+Accounts.onCreateUser(async (options, user) => {
   const member = {
     userId: user._id,
     notifyBy: ['EMAIL', 'SMS'],
@@ -23,7 +23,7 @@ Accounts.onCreateUser((options, user) => {
   const { google, facebook, twitter } = user.services
   if (google) {
     const { email, name, picture } = google
-    const existingUser = Accounts.findUserByEmail(email)
+    const existingUser = await Accounts.findUserByEmail(email)
     if (existingUser) {
       throw new Meteor.Error(409, 'Account already exists', {
         google: google,
@@ -41,7 +41,7 @@ Accounts.onCreateUser((options, user) => {
   if (facebook) {
     const { email, name, picture } = facebook
 
-    const existingUser = Accounts.findUserByEmail(email)
+    const existingUser = await Accounts.findUserByEmail(email)
     if (existingUser) {
       throw new Meteor.Error(409, 'Account already exists', {
         facebook: facebook,
@@ -59,14 +59,12 @@ Accounts.onCreateUser((options, user) => {
   }
 
   // this user should not have member record at this moment, but let do a double check
-  const existingMember = Members.findOne({ userId: member.userId })
+  const existingMember = await Members.findOneAsync({ userId: member.userId })
   if (!existingMember && member.name) {
     // calculate the nickname
     member.nickname = member.name.split(' ')[0] || member.name
 
-    Meteor.call('insert.members', member, (err) => {
-      console.log(err)
-    })
+    await Meteor.callAsync('insert.members', member)
   }
 
   const admins = Roles.getUsersInRole('ADM').fetch()
@@ -161,10 +159,10 @@ Accounts.onLoginFailure(function (arg) {
 })
 
 Meteor.methods({
-  tmForgotPassword: function (email) {
+  tmForgotPassword: async function (email) {
     check(email, String)
     // First try and find the user by email
-    const user = Accounts.findUserByEmail(email)
+    const user = await Accounts.findUserByEmail(email)
     if (user) {
       return true
     } else {

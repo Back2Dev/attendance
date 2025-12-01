@@ -20,7 +20,7 @@ import { getFieldConditionByFilter } from '/imports/api/collections/utils.js'
 const debug = require('debug')('app:collections')
 
 Meteor.methods({
-  'collections.getArchives'({ collectionName }) {
+  'collections.getArchives': async function ({ collectionName }) {
     // validate data
     try {
       !GetArchivesProps.validate({
@@ -34,7 +34,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
@@ -47,10 +47,10 @@ Meteor.methods({
     }
     return {
       status: 'success',
-      rows: Archives.find(conditions).fetch(),
+      rows: await Archives.find(conditions).fetchAsync(),
     }
   },
-  'collections.removeArchives'({ ids }) {
+  'collections.removeArchives': async function ({ ids }) {
     // validate data
     try {
       !RemoveProps.validate({
@@ -64,21 +64,21 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
 
     // remove
-    Archives.remove({ _id: { $in: ids } }, { multi: true })
+    await Archives.removeAsync({ _id: { $in: ids } }, { multi: true })
 
     return {
       status: 'success',
       message: 'Removed',
     }
   },
-  'collections.restore'({ ids, keepTheCopy = false }) {
+  'collections.restore': async function ({ ids, keepTheCopy = false }) {
     // validate data
     try {
       !RestoreProps.validate({
@@ -93,7 +93,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
@@ -101,9 +101,9 @@ Meteor.methods({
 
     const operationSuccess = []
     const operationFailed = []
-    ids.map((id) => {
+    for (const id of ids) {
       // find the archived record
-      const archivedRecord = Archives.findOne({ _id: id })
+      const archivedRecord = await Archives.findOneAsync({ _id: id })
       if (!archivedRecord) {
         operationFailed.push(id)
         return
@@ -118,27 +118,25 @@ Meteor.methods({
 
       // restore the data
       const restoredRecordIds = []
-      archivedRecord.data.map((archivedDataItem) => {
-        let insertedId
+      for (const archivedDataItem of archivedRecord.data) {
         try {
-          insertedId = dbCollection.insert(JSON.parse(archivedDataItem.data))
+          const insertedId = await dbCollection.insertAsync(JSON.parse(archivedDataItem.data))
           restoredRecordIds.push(insertedId)
         } catch (e) {
           debug('error inserting', archivedRecord.type, archivedDataItem.data)
-          return
         }
-      })
+      }
       if (restoredRecordIds.length !== archivedRecord.data.length) {
         operationFailed.push(id)
       }
 
       if (!keepTheCopy) {
         // remove the archived data
-        Archives.remove({ _id: id })
+        await Archives.removeAsync({ _id: id })
       }
 
       operationSuccess.push(id)
-    })
+    }
 
     if (operationSuccess.length === 0) {
       return {
@@ -159,7 +157,7 @@ Meteor.methods({
       message: 'restored',
     }
   },
-  'collections.archive'({ collectionName, label, recordIds }) {
+  'collections.archive': async function ({ collectionName, label, recordIds }) {
     // validate data
     try {
       !ArchiveProps.validate({
@@ -175,7 +173,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
@@ -191,7 +189,7 @@ Meteor.methods({
     }
 
     // get the record
-    const theRecords = dbCollection.find({ _id: { $in: recordIds } }).fetch()
+    const theRecords = await dbCollection.find({ _id: { $in: recordIds } }).fetchAsync()
     if (!theRecords.length) {
       return {
         status: 'failed',
@@ -202,7 +200,7 @@ Meteor.methods({
     }
 
     // insert all records to archives collection
-    const insertedId = Archives.insert({
+    const insertedId = await Archives.insertAsync({
       type: collectionName,
       label,
       data: theRecords.map((theRecord) => {
@@ -224,7 +222,7 @@ Meteor.methods({
     }
 
     // remove the record from original collection
-    const n = dbCollection.remove({ _id: { $in: recordIds } })
+    const n = await dbCollection.removeAsync({ _id: { $in: recordIds } })
     debug('removed', n)
     if (!n) {
       return {
@@ -238,7 +236,7 @@ Meteor.methods({
       message: `Archived ${n} records`,
     }
   },
-  'collections.updateCell'({ collectionName, rowId, column, value }) {
+  'collections.updateCell': async function ({ collectionName, rowId, column, value }) {
     // validate data
     try {
       !UpdateCellProps.validate({
@@ -255,14 +253,14 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
 
     // find the record in Collections
-    const collection = Collections.findOne({ name: collectionName })
+    const collection = await Collections.findOneAsync({ name: collectionName })
     if (!collection) {
       return { status: 'failed', message: 'Collection was not found' }
     }
@@ -278,7 +276,7 @@ Meteor.methods({
 
     // peform update
     try {
-      const affectedRows = dbCollection.update(
+      const affectedRows = await dbCollection.updateAsync(
         { _id: rowId },
         {
           $set: {
@@ -307,7 +305,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
@@ -364,7 +362,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
@@ -439,7 +437,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
