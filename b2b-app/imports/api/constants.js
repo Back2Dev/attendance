@@ -107,6 +107,8 @@ CONSTANTS.BADGES = [
     title: 'Must be very famous?',
     icon: '/badges/star.png',
   },
+  { code: 'twins', title: 'Twin tanks', icon: '/badges/twins.jpg' },
+  { code: 'rescue', title: 'Rescue diver', icon: '/badges/rescue.jpg' },
 ]
 
 CONSTANTS.JOB_STATUS_READABLE = {
