@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, FormGroup, TextField, FormControlLabel } from '@material-ui/core'
+import { Checkbox, FormGroup, TextField, FormControlLabel } from '@mui/material'
 import PropTypes from 'prop-types'
 import { slugify } from '$sb/utils'
 

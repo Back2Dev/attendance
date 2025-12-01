@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Box, Card, IconButton } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { Box, Card, IconButton } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import debug from 'debug'
 import { EditorContext } from '/imports/ui/forms/framework/framework'
 import Section from '../../question/section'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { Random } from 'meteor/random'
 import SimpleSchema from 'simpl-schema'
-import ClearIcon from '@material-ui/icons/Clear'
+import ClearIcon from '@mui/icons-material/Clear'
 
 const log = debug('builder:canvas')
 
@@ -429,16 +429,16 @@ export const AddBtn = React.memo(({ onAdd }) => {
         margin: '1rem auto',
       }}
       onClick={() => onAdd()}
-    >
+      size="large">
       <AddIcon />
     </IconButton>
-  )
+  );
 })
 
 export const RemoveAnsBtn = React.memo(({ onRemoveAnswer }) => {
   return (
-    <IconButton variant="outlined" color="default" onClick={onRemoveAnswer}>
+    <IconButton variant="outlined" color="default" onClick={onRemoveAnswer} size="large">
       <ClearIcon />
     </IconButton>
-  )
+  );
 })

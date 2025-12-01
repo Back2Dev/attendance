@@ -1,12 +1,12 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Box, Fade } from '@material-ui/core'
+import { Button, Box, Fade } from '@mui/material'
 import styled from 'styled-components'
-import CheckIcon from '@material-ui/icons/Check'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import DeleteIcon from '@material-ui/icons/Delete'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import CheckIcon from '@mui/icons-material/Check'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import DeleteIcon from '@mui/icons-material/Delete'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import debug from 'debug'
 
 const log = debug('builder:frame')

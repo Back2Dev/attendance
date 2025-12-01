@@ -6,15 +6,15 @@ import {
   TextField,
   InputAdornment,
   Grid,
-} from '@material-ui/core'
+} from '@mui/material'
 import { Question } from '$sb/components/question'
 import { Droppable } from 'react-beautiful-dnd'
-import CancelIcon from '@material-ui/icons/Cancel'
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
-import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle'
 import { sectionOptions } from '$sb/components/question/field/options'
 import { OptionList } from '$sb/components/question/field/option-list'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { Random } from 'meteor/random'
 import { slugify } from '$sb/utils'
 
@@ -61,7 +61,7 @@ const Section = React.memo(
                 style={{ padding: '0.3rem' }}
                 aria-label="close"
                 onClick={() => onRemoveSection({ _id: section._id })}
-              >
+                size="large">
                 <CancelIcon />
               </IconButton>
               {sectionCollapse ? (
@@ -69,7 +69,7 @@ const Section = React.memo(
                   style={{ padding: '0.3rem' }}
                   aria-label="fold"
                   onClick={() => setSectionCollapse(false)}
-                >
+                  size="large">
                   <SwapVerticalCircleIcon />
                 </IconButton>
               ) : (
@@ -77,7 +77,7 @@ const Section = React.memo(
                   style={{ padding: '0.3rem' }}
                   aria-label="unfold"
                   onClick={() => setSectionCollapse(true)}
-                >
+                  size="large">
                   <RemoveCircleIcon />
                 </IconButton>
               )}
@@ -85,13 +85,12 @@ const Section = React.memo(
                 style={{ padding: '0.5rem' }}
                 aria-label="add-question"
                 onClick={() => onAddQuestion({ qIndex: section.questions.length - 1 })}
-              >
+                size="large">
                 <AddCircleIcon />
               </IconButton>
             </Box>
           }
         />
-
         <Box style={{ padding: '0 0.5rem 1rem 0.5rem', margin: '0.5rem' }}>
           <TextField
             fullWidth
@@ -162,7 +161,6 @@ const Section = React.memo(
             </Grid>
           </Grid>
         </Box>
-
         {/*DnD Question */}
         <Droppable key={sIndex} droppableId={section._id} type={`section-${section._id}`}>
           {(provided, snapshot) => (
@@ -204,7 +202,7 @@ const Section = React.memo(
           )}
         </Droppable>
       </Box>
-    )
+    );
   }
 )
 

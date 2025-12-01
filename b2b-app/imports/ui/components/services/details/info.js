@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import moment from 'moment'
 import numeral from 'numeral'
 import { Helmet } from 'react-helmet'
-import { Skeleton } from '@material-ui/lab'
-import { Grid, Link, Typography, Button } from '@material-ui/core'
-// import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
+import { Skeleton } from '@mui/material';
+import { Grid, Link, Typography, Button } from '@mui/material'
+// import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 
 import { JobsDetailsContext } from './context'
 import CONSTANTS from '../../../../api/constants'

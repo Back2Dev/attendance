@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 
@@ -15,16 +15,14 @@ const SectionInner = ({ pid }) => {
       {showMobileActions && (
         <Button
           variant="outlined"
-          color="default"
           size="small"
           startIcon={<AddIcon />}
-          onClick={() => add()}
-        >
+          onClick={() => add()}>
           New item
         </Button>
       )}
     </div>
-  )
+  );
 }
 
 SectionInner.propTypes = {

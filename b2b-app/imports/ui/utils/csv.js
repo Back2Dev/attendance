@@ -44,5 +44,5 @@ export function sanitizeValueForCSV(value) {
   return value
     .toString()
     .replace(/\n|,/g, ' ')
-    .replace(',', '')
+    .replace(',', '');
 }

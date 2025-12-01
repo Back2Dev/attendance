@@ -5,10 +5,10 @@ import styled from 'styled-components'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoField, TextField, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoField, TextField, ErrorsField } from 'uniforms-mui'
 
 import { ServiceContext } from './context'
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 import moment from 'moment'
 
 const bikeFormSchema = new SimpleSchema({

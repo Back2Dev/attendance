@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
 
 import ServicingHome from '/imports/ui/components/services/home'
 import CreateService from '/imports/ui/components/services/create'

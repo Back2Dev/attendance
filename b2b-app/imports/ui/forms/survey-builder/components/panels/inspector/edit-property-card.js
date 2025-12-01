@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardHeader from '@material-ui/core/CardHeader'
-import IconButton from '@material-ui/core/IconButton'
-import Menu from '@material-ui/core/Menu'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Checkbox from '@material-ui/core/Checkbox'
-import Chip from '@material-ui/core/Chip'
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardHeader from '@mui/material/CardHeader'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Checkbox from '@mui/material/Checkbox'
+import Chip from '@mui/material/Chip'
 import { PropertyField } from './edit-property'
-import AddIcon from '@material-ui/icons/Add'
-import Typography from '@material-ui/core/Typography'
+import AddIcon from '@mui/icons-material/Add'
+import Typography from '@mui/material/Typography'
 import { useRecoilCallback, useRecoilState } from 'recoil'
 import {
   editInspectorState,
@@ -155,7 +155,7 @@ export default function CardMenu({ part, options, handleToggle }) {
 
   return (
     <div>
-      <IconButton aria-label="add" onClick={handleClick}>
+      <IconButton aria-label="add" onClick={handleClick} size="large">
         <AddIcon />
       </IconButton>
       <Menu
@@ -194,5 +194,5 @@ export default function CardMenu({ part, options, handleToggle }) {
         </List>
       </Menu>
     </div>
-  )
+  );
 }

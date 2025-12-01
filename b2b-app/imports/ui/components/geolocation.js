@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-import { HiddenField } from 'uniforms-material'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import { HiddenField } from 'uniforms-mui'
 
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 import { useEffect } from 'react'
-import { Button, Box } from '@material-ui/core'
+import { Button, Box } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
   root: { borderTop: '1px solid #eee', margin: '5px 0' },

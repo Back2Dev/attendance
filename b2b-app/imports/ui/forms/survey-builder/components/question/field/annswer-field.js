@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { Field } from './base'
 import { useRecoilState } from 'recoil'
-import { Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { questionOptions } from '$sb/components/question/field/options'
 import { IdAtom } from '$sb/recoil/atoms'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Button from '@material-ui/core/Button'
+import InputAdornment from '@mui/material/InputAdornment'
+import Button from '@mui/material/Button'
 
 const useStyles = makeStyles(() => ({
   gridRoot: {

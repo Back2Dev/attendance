@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
 import config from './config'
 import PageEditor from './components/page-editor'
 

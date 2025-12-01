@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
-import { CssBaseline, Container } from '@material-ui/core'
+import { CssBaseline, Container } from '@mui/material'
 
 import Header from '/imports/ui/components/header'
 import Footer from '/imports/ui/components/footer'

@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
 
 import SessionDetails from '/imports/ui/components/session-details.js'
 

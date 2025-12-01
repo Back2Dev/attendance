@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import { useHistory } from 'react-router'
 import { Link as RouterLink } from 'react-router-dom'
-import { Link } from '@material-ui/core'
+import { Link } from '@mui/material'
 
 const StyledSessionItem = styled.div`
   margin-bottom: 20px;

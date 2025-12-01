@@ -2,7 +2,7 @@ import React, { useEffect, Suspense, lazy } from 'react'
 import styled from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 
 import Loading from '/imports/ui/components/commons/loading.js'
 

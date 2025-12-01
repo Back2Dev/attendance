@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, Chip, TextField, Typography } from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import { Button, Chip, TextField, Typography } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'

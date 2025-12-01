@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
-import MomentUtils from '@date-io/moment'
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
 
 function DateOnlyField({ onChange, value, disabled = false }) {
@@ -16,23 +16,24 @@ function DateOnlyField({ onChange, value, disabled = false }) {
   }
 
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <KeyboardDatePicker
-        style={{ width: '100%' }}
-        margin="normal"
-        id="date-picker"
-        label="Birthday Date"
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <DatePicker
+        slotProps={{
+          textField: {
+            fullWidth: true,
+            margin: 'normal',
+            id: 'date-picker',
+            label: 'Birthday Date',
+            disabled,
+          },
+        }}
         value={newValue}
         minDate={!disabled && moment()}
         format="DD/MM/yyyy"
         views={['year', 'month', 'date']}
         onChange={handleChange}
-        KeyboardButtonProps={{
-          'aria-label': 'change date',
-        }}
-        disabled={disabled}
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   )
 }
 

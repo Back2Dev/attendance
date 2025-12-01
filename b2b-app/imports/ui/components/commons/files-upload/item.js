@@ -4,8 +4,8 @@ import React, { useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { LinearProgress, IconButton, Typography } from '@material-ui/core'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import { LinearProgress, IconButton, Typography } from '@mui/material'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 import { showError } from '/imports/ui/utils/toast-alerts'
 

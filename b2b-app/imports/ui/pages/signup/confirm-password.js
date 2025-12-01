@@ -1,8 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
-import { Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
+import { Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
 import PasswordValidator from '/imports/ui/utils/password-validation/password-validator.js'

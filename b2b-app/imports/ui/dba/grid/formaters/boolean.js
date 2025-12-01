@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Checkbox } from '@material-ui/core'
+import { Checkbox } from '@mui/material'
 import styled from 'styled-components'
 import { CollectionContext } from '../../context'
 

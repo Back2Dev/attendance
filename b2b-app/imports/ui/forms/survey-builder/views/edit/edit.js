@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { IconButton } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
+import { IconButton } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import debug from 'debug'
 
 import { Content } from './content'
@@ -36,14 +36,14 @@ const EditView = ({ navigationController }) => {
       navigationController={navigationController}
       backTitle="Builder"
       navRight={
-        <IconButton onClick={deleteParts}>
+        <IconButton onClick={deleteParts} size="large">
           <DeleteIcon />
         </IconButton>
       }
     >
       <Content onSelect={onSelect} />
     </MobileLayout>
-  )
+  );
 }
 
 EditView.propTypes = {

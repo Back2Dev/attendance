@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import debug from 'debug'
 import { EditProperty, QuestionProperty, SectionProperty } from './edit-property'
 import { Section } from './section'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 import { DebugProps } from './debug-props'
 import { ErrorBoundary } from 'react-error-boundary'
 import PropTypes from 'prop-types'

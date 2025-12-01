@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 import { useLocation } from 'react-router-dom'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 

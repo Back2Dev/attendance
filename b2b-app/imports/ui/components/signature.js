@@ -1,14 +1,14 @@
 import React from 'react'
 import SignatureCanvas from 'react-signature-canvas'
-import { Button, Box } from '@material-ui/core'
-// import Card from '@material-ui/core/Card'
-// import CardHeader from '@material-ui/core/CardHeader'
-// import CardMedia from '@material-ui/core/CardMedia'
-// import CardContent from '@material-ui/core/CardContent'
-// import CardActions from '@material-ui/core/CardActions'
+import { Button, Box } from '@mui/material'
+// import Card from '@mui/material/Card'
+// import CardHeader from '@mui/material/CardHeader'
+// import CardMedia from '@mui/material/CardMedia'
+// import CardContent from '@mui/material/CardContent'
+// import CardActions from '@mui/material/CardActions'
 import { connectField } from 'uniforms'
 
-// import { makeStyles } from '@material-ui/core/styles'
+// import { makeStyles } from '@mui/material/styles'
 import './signature.css'
 
 // const useStyles = makeStyles(() => ({
@@ -48,18 +48,6 @@ const Sign = ({ showPreview = false, onChange }) => {
   // const updateURL = () => {}
 
   return (
-    <Box marginTop="5px">
-      <SignatureCanvas
-        ref={sigRef}
-        penColor="green"
-        canvasProps={{ className: 'sigCanvas' }}
-        onEnd={trim}
-      />
-
-      <Button variant="outlined" onClick={clear}>
-        Clear
-      </Button>
-    </Box>
     // <Card className={classes.root}>
     //   <CardHeader
     //       className={classes.header}
@@ -90,12 +78,22 @@ const Sign = ({ showPreview = false, onChange }) => {
     //       <img className={classes.sigImage} src={dataURL} />
     //     </CardContent>
     //   )}
-
     //   <Button onClick={clear} variant="text" color="error">
     //     Clear
     //   </Button>
     // </Card>
-  )
+    <Box marginTop="5px">
+      <SignatureCanvas
+        ref={sigRef}
+        penColor="green"
+        canvasProps={{ className: 'sigCanvas' }}
+        onEnd={trim}
+      />
+      <Button variant="outlined" onClick={clear}>
+        Clear
+      </Button>
+    </Box>
+  );
 }
 
 export default connectField(Sign)

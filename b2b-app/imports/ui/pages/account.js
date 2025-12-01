@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 
 // import Register from '/imports/ui/components/account/register.js';
 // import Confirm from '/imports/ui/components/account/confirm.js';

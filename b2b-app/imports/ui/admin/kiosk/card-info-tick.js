@@ -1,10 +1,10 @@
 import React from 'react'
-import Card from '@material-ui/core/Card'
-import { makeStyles } from '@material-ui/core/styles'
-import CardMedia from '@material-ui/core/CardMedia'
-import CardContent from '@material-ui/core/CardContent'
-import { CardActions } from '@material-ui/core'
-import { CardActionArea, Typography, Button, Label } from '@material-ui/core'
+import Card from '@mui/material/Card'
+import makeStyles from '@mui/styles/makeStyles';
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+import { CardActions } from '@mui/material'
+import { CardActionArea, Typography, Button, Label } from '@mui/material'
 
 const useStyles = makeStyles({
   root: {

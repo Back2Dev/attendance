@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 import clsx from 'clsx'
 
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useRefCallback, useDidMountEffect } from '/imports/ui/forms/survey-builder/hooks'
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '&:empty::before': {
       content: (props) => `"${props.placeholder}"`,
-      opacity: theme.palette.type === 'light' ? 0.42 : 0.5,
+      opacity: theme.palette.mode === 'light' ? 0.42 : 0.5,
     },
   },
 }))

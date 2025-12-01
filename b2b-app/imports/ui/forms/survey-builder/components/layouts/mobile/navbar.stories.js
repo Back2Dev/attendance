@@ -1,6 +1,6 @@
-import { Avatar, Button, ButtonGroup, IconButton } from '@material-ui/core'
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
-import DeleteIcon from '@material-ui/icons/Delete'
+import { Avatar, Button, ButtonGroup, IconButton } from '@mui/material'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import DeleteIcon from '@mui/icons-material/Delete'
 import React from 'react'
 import { Navbar } from './navbar'
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Card,
   Box,
@@ -12,22 +12,22 @@ import {
   Grid,
   Collapse,
   Typography,
-} from '@material-ui/core'
-import CancelIcon from '@material-ui/icons/Cancel'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
-import SwapVerticalCircleIcon from '@material-ui/icons/SwapVerticalCircle'
+} from '@mui/material'
+import CancelIcon from '@mui/icons-material/Cancel'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle'
 import { useEffect } from 'react'
-import FileCopyIcon from '@material-ui/icons/FileCopy'
-import ExpandLessIcon from '@material-ui/icons/ExpandLess'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import DragHandleIcon from '@material-ui/icons/DragHandle'
+import FileCopyIcon from '@mui/icons-material/FileCopy'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ReactJson from 'react-json-view'
 import { Random } from 'meteor/random'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 const log = debug('builder:frame')
 
@@ -77,7 +77,7 @@ const DesktopFrame = ({
                 style={{ padding: '0.3rem' }}
                 aria-label="close"
                 onClick={() => onRemoveQuestion({ _id: question._id })}
-              >
+                size="large">
                 <CancelIcon />
               </IconButton>
               {collapse ? (
@@ -85,7 +85,7 @@ const DesktopFrame = ({
                   style={{ padding: '0.3rem' }}
                   aria-label="fold"
                   onClick={() => setCollapse(false)}
-                >
+                  size="large">
                   <SwapVerticalCircleIcon />
                 </IconButton>
               ) : (
@@ -93,7 +93,7 @@ const DesktopFrame = ({
                   style={{ padding: '0.3rem' }}
                   aria-label="unfold"
                   onClick={() => setCollapse(true)}
-                >
+                  size="large">
                   <RemoveCircleIcon />
                 </IconButton>
               )}
@@ -111,7 +111,7 @@ const DesktopFrame = ({
                       },
                     })
                   }
-                >
+                  size="large">
                   <AddCircleIcon />
                 </IconButton>
               )}
@@ -136,13 +136,12 @@ const DesktopFrame = ({
             style={{ padding: '0.3rem' }}
             variant="outlined"
             color="default"
-          >
+            size="large">
             <DragHandleIcon />
           </IconButton>
         }
         // title={<Box>{collapse ? question.prompt : ''}</Box>}
       />
-
       {!collapse && (
         <Box style={{ padding: '0.3prem' }}>
           <CardContent>{children}</CardContent>
@@ -153,7 +152,7 @@ const DesktopFrame = ({
                   style={{ padding: '0.3rem' }}
                   aria-label="copy-question"
                   onClick={() => onCopyQuestion()}
-                >
+                  size="large">
                   <FileCopyIcon />
                 </IconButton>
                 <IconButton
@@ -161,7 +160,7 @@ const DesktopFrame = ({
                   aria-label="move-up"
                   onClick={() => onMoveUp()}
                   disabled={moveUpDisabled}
-                >
+                  size="large">
                   <ExpandLessIcon />
                 </IconButton>
                 <IconButton
@@ -169,14 +168,14 @@ const DesktopFrame = ({
                   aria-label="move-down"
                   onClick={() => onMoveDown()}
                   disabled={moveDownDisabled}
-                >
+                  size="large">
                   <ExpandMoreIcon />
                 </IconButton>
                 <IconButton
                   style={{ padding: '0.3rem' }}
                   aria-label="unfold"
                   onClick={() => setShowJSON(!showJSON)}
-                >
+                  size="large">
                   <VisibilityIcon />
                 </IconButton>
               </Grid>
@@ -193,7 +192,7 @@ const DesktopFrame = ({
         </Box>
       )}
     </Card>
-  )
+  );
 }
 
 DesktopFrame.propTypes = {

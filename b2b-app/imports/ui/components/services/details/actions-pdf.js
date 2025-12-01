@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '@material-ui/core'
-import DescriptionIcon from '@material-ui/icons/Description'
+import { Button } from '@mui/material'
+import DescriptionIcon from '@mui/icons-material/Description'
 
 import createJobCard from '/imports/ui/utils/job-card-pdf.js'
 

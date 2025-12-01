@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 import { JobsDetailsContext } from './context'
 

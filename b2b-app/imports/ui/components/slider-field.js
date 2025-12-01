@@ -1,8 +1,9 @@
 import React from 'react'
 import { connectField } from 'uniforms'
-import { Box } from '@material-ui/core'
-import Slider from '@material-ui/core/Slider'
-import { withStyles, makeStyles } from '@material-ui/core/styles'
+import { Box } from '@mui/material'
+import Slider from '@mui/material/Slider'
+import withStyles from '@mui/styles/withStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const PrettoSlider = withStyles({
   root: {

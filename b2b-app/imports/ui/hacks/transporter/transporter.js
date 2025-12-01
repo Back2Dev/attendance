@@ -1,6 +1,6 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import makeStyles from '@mui/styles/makeStyles';
+import Autocomplete from '@mui/material/Autocomplete'
 import {
   Container,
   Collapse,
@@ -11,7 +11,7 @@ import {
   CardActions,
   CardActionArea,
   Card,
-} from '@material-ui/core'
+} from '@mui/material'
 import EmailCard from './components/email'
 import SMSCard from './components/sms'
 

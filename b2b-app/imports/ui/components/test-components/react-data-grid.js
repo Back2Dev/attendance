@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { FormLabel, Button } from '@material-ui/core'
+import { FormLabel, Button } from '@mui/material'
 
-import DataGrid, { SelectColumn, TextEditor, SelectCellFormatter } from 'react-data-grid'
+import DataGrid, { SelectColumn, TextEditor, SelectCellFormatter } from '/imports/ui/components/commons/mui-rdg'
 
 import ModalEdit from '/imports/ui/utils/data-grid/modal-text-area.js'
 import MuiSelector from '/imports/ui/utils/data-grid/selector.js'

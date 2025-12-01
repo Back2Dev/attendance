@@ -5,9 +5,9 @@ import React from 'react'
 import Surveys from '/imports/api/surveys/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
-import { reactFormatter } from 'react-tabulator'
-import Eye from '@material-ui/icons/Visibility'
-import PencilSquare from '@material-ui/icons/Edit'
+import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
+import Eye from '@mui/icons-material/Visibility'
+import PencilSquare from '@mui/icons-material/Edit'
 import List from './list'
 
 const debug = require('debug')('app:lister')

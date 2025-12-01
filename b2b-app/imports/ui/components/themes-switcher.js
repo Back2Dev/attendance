@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 
-import { Button } from "@material-ui/core";
+import { IconButton, Tooltip } from "@mui/material";
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 import { MyThemeContext } from "/imports/ui/contexts/theme-context.js";
 
@@ -13,14 +15,13 @@ export default function ThemeSwitcher() {
     setTheme(theme === "default" ? "dark" : "default");
   };
 
+  const isDark = theme === "dark";
+
   return (
-    <Button
-      variant="contained"
-      color="secondary"
-      size="small"
-      onClick={toggleTheme}
-    >
-      {theme}
-    </Button>
+    <Tooltip title={`Switch to ${isDark ? 'light' : 'dark'} mode`}>
+      <IconButton color="inherit" size="large" onClick={toggleTheme} aria-label="toggle theme">
+        {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+      </IconButton>
+    </Tooltip>
   );
 }

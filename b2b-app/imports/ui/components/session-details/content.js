@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import PageDisplay from '/imports/ui/admin/courses/components/page-display'
-import { Skeleton } from '@material-ui/lab'
+import { Skeleton } from '@mui/material';
 
 import { SessionDetailsContext } from './context'
 
@@ -18,9 +18,9 @@ function DetailsContent() {
   if (loading || !event) {
     return (
       <StyledDetailsContent>
-        <Skeleton variant="rect" height={300} />
+        <Skeleton variant="rectangular" height={300} />
       </StyledDetailsContent>
-    )
+    );
   }
 
   return (

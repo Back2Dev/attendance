@@ -26,7 +26,7 @@ const slugify = (text) => {
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-/, '')
-    .replace(/-$/, '')
+    .replace(/-$/, '');
 }
 
 const convert = { BQ: 'blockquote', HREF: 'a' }

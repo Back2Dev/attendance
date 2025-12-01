@@ -1,5 +1,5 @@
 import React from 'react'
-import Chip from '@material-ui/core/Chip'
+import Chip from '@mui/material/Chip'
 import styled from 'styled-components'
 
 const StyledChip = styled(Chip)`

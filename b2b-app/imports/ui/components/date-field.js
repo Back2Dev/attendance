@@ -1,10 +1,9 @@
 //Native input controls support by browsers isn't perfect. Have a look at @material-ui/pickers for a richer solution.
 //Just find a better way to implement DatePicker, so use KeyboardDatePicker instead of TextField
 
-import 'date-fns'
 import React from 'react'
-import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { connectField } from 'uniforms'
 
 const DateField = ({
@@ -18,25 +17,29 @@ const DateField = ({
   error,
 }) => {
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDatePicker
-        required={required}
-        margin="dense"
-        id={id}
-        label={label}
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <DatePicker
+        slotProps={{
+          textField: {
+            required,
+            margin: 'dense',
+            id,
+            label,
+            fullWidth: true,
+            placeholder,
+            error,
+            helperText: !error && helperText,
+            variant: 'outlined',
+          },
+          openPickerButton: {
+            'aria-label': 'change date',
+          },
+        }}
         format="MM/dd/yyyy"
         value={value || new Date()}
         onChange={(date) => onChange(date)}
-        KeyboardButtonProps={{
-          'aria-label': 'change date',
-        }}
-        fullWidth
-        placeholder={placeholder}
-        error={error}
-        helperText={!error && helperText}
-        inputVariant="outlined"
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   )
 }
 

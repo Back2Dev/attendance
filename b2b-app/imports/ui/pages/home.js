@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Typography, Button } from '@material-ui/core'
-import EmailIcon from '@material-ui/icons/Email'
-import { makeStyles } from '@material-ui/core/styles'
+import { Typography, Button } from '@mui/material'
+import EmailIcon from '@mui/icons-material/Email'
+import makeStyles from '@mui/styles/makeStyles';
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
 import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'

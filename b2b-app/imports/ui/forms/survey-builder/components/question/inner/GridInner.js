@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Box, IconButton, TextField, InputAdornment } from '@material-ui/core'
+import { Grid, Box, IconButton, TextField, InputAdornment } from '@mui/material'
 import { gridColumnOptions } from '$sb/components/question/field/options'
 import { Random } from 'meteor/random'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
-import { makeStyles } from '@material-ui/core/styles'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import makeStyles from '@mui/styles/makeStyles';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { OptionList } from '$sb/components/question/field/option-list'
 import { slugify } from '$sb/utils'
 import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
@@ -159,7 +159,7 @@ const ColumnRow = ({
           className="drag-icon"
           variant="outlined"
           color="default"
-        >
+          size="large">
           <DragIndicatorIcon />
         </IconButton>
         <Grid item xs={12} md={12} lg={12}>
@@ -205,7 +205,7 @@ const ColumnRow = ({
                         type,
                       })
                     }
-                  >
+                    size="large">
                     <AddCircleIcon />
                   </IconButton>
                   <RemoveAnsBtn
@@ -256,5 +256,5 @@ const ColumnRow = ({
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }

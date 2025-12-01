@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from '@mui/material/Typography'
 import { Context, useForm } from 'uniforms'
 import {
   AutoForm,
@@ -9,7 +9,7 @@ import {
   ErrorsField,
   SubmitField,
   RadioField,
-} from 'uniforms-material'
+} from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import GooglePlaces from '/imports/ui/components/google-places.js'

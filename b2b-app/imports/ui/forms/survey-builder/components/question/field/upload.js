@@ -1,6 +1,6 @@
 import React from 'react'
-import CropOriginalIcon from '@material-ui/icons/CropOriginal'
-import { IconButton } from '@material-ui/core'
+import CropOriginalIcon from '@mui/icons-material/CropOriginal'
+import { IconButton } from '@mui/material'
 
 export const UploadImage = ({ onUploadFinish, index }) => {
   const uploader = new Slingshot.Upload('questionImage', { folder: 'question' }) //question

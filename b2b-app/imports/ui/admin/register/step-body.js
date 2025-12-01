@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
-import { Typography, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import StepContent from '@material-ui/core/StepContent'
+import { Typography, Paper } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import StepContent from '@mui/material/StepContent'
 
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { RegisterContext } from './context'

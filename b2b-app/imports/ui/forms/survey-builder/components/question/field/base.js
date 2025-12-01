@@ -1,12 +1,12 @@
 import React, { createElement, useState } from 'react'
-import AddIcon from '@material-ui/icons/Add'
-import { IconButton } from '@material-ui/core'
+import AddIcon from '@mui/icons-material/Add'
+import { IconButton } from '@mui/material'
 import PropTypes from 'prop-types'
 import debug from 'debug'
-import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline'
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { OptionList } from './option-list'
 import { UploadImage } from './upload'
 

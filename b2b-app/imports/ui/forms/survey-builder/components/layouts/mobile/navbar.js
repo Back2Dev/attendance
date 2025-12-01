@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, Typography } from '@material-ui/core'
-import { styled } from '@material-ui/styles'
-import { compose, typography, palette, sizing, spacing } from '@material-ui/system'
+import { Button, Grid, Typography } from '@mui/material'
+import { styled } from '@mui/styles'
+import { compose, typography, palette, sizing, spacing } from '@mui/system'
 import debug from 'debug'
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 
 const log = debug('builder:navbar')
 const StyledGrid = styled(Grid)(compose(typography, palette, sizing, spacing))

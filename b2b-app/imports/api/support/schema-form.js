@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 // import { connectField } from 'uniforms'
-import { LongTextField } from 'uniforms-material'
+import { LongTextField } from 'uniforms-mui'
 
 export const SupportFormSchema = new SimpleSchema({
   subject: {

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { useHistory, Link as RouterLink } from 'react-router-dom'
-import { Grid, Paper, Typography, Link, Button, TextField } from '@material-ui/core'
+import { Grid, Paper, Typography, Link, Button, TextField } from '@mui/material'
 import {
   AutoForm,
   AutoField,
   ErrorsField,
   SubmitField,
   RadioField,
-} from 'uniforms-material'
+} from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'

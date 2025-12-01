@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { Link as RouterLink, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Typography, Link } from '@material-ui/core'
+import { Typography, Link } from '@mui/material'
 
 import SecureRoute from '/imports/ui/utils/secure-route.js'
 
@@ -19,7 +19,7 @@ const TestSecureRoute = lazy(() =>
   import('/imports/ui/components/test-components/test-secure-route.js')
 )
 const TestDataGrid = lazy(() =>
-  import('/imports/ui/components/test-components/react-data-grid.js')
+  import('/imports/ui/components/test-components//imports/ui/components/commons/mui-rdg.js')
 )
 const TestUseTracker = lazy(() =>
   import('/imports/ui/components/test-components/test-usetracker.js')
@@ -82,7 +82,7 @@ export default function TestPage() {
         </Link>
       </div>
       <div>
-        <Link component={RouterLink} to="/test/react-data-grid">
+        <Link component={RouterLink} to="/test//imports/ui/components/commons/mui-rdg">
           Test React Data Grid
         </Link>
       </div>
@@ -105,7 +105,7 @@ export default function TestPage() {
             <Route path="/test/theme" component={TestThemes} />
             <Route path="/test/error" component={TestError} />
             <SecureRoute path="/test/secure" component={TestSecureRoute} />
-            <Route path="/test/react-data-grid" component={TestDataGrid} />
+            <Route path="/test//imports/ui/components/commons/mui-rdg" component={TestDataGrid} />
             <Route path="/test/usetracker" component={TestUseTracker} />
             <Route path="/test/inline-edit" component={InlineEditTest} />
             <Route path="/test/beautiful-dnd" component={BeautifulDnDTest} />

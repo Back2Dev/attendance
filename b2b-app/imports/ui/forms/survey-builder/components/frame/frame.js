@@ -17,16 +17,16 @@
 //   TextField,
 //   Grid,
 //   Divider,
-// } from '@material-ui/core'
-// import { useTheme } from '@material-ui/styles'
+// } from '@mui/material'
+// import { useTheme } from '@mui/styles'
 // import { MobileFrame } from './mobile'
 // import { DesktopFrame } from './desktop'
 // import { useRecoilCallback } from 'recoil'
 // import { headerOnly } from '/imports/ui/forms/survey-builder/recoil/atoms'
 // import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-// import AddIcon from '@material-ui/icons/Add'
-// import MoreVertIcon from '@material-ui/icons/MoreVert'
-// import CancelIcon from '@material-ui/icons/Cancel'
+// import AddIcon from '@mui/icons-material/Add'
+// import MoreVertIcon from '@mui/icons-material/MoreVert'
+// import CancelIcon from '@mui/icons-material/Cancel'
 // import { Question } from '$sb/components/question/field'
 // import { AddBtn } from '$sb/components/panels/canvas/canvas'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Popover } from '@material-ui/core'
+import { Popover } from '@mui/material'
 
 const StyledPopoverUtil = styled.div``
 const StyledPopover = styled.div`

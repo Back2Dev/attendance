@@ -7,7 +7,7 @@ import {
   getInspectorPart,
 } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import debug from 'debug'
-import { TextField } from '@material-ui/core'
+import { TextField } from '@mui/material'
 import { PropertyCard } from './edit-property-card'
 import { InlineEdit } from '/imports/ui/forms/survey-builder/components/core/inline-edit'
 

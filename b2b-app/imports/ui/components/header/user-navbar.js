@@ -3,144 +3,39 @@ import { Meteor } from 'meteor/meteor'
 import React, { useContext } from 'react'
 import { Session } from 'meteor/session'
 import { Link, useHistory } from 'react-router-dom'
-import AppBar from '@material-ui/core/AppBar'
 import {
+  AppBar,
   Avatar,
+  Box,
+  Collapse,
+  FormControl,
+  FormControlLabel,
+  IconButton,
   Menu,
   MenuItem,
-  IconButton,
-  Toolbar,
-  Typography,
-  Collapse,
   Radio,
   RadioGroup,
-  FormControlLabel,
-  FormControl,
+  Toolbar,
   Tooltip,
-} from '@material-ui/core'
-import GroupIcon from '@material-ui/icons/Group'
-import MoreVert from '@material-ui/icons/MoreVert'
-import ExitToApp from '@material-ui/icons/ExitToApp'
-import { makeStyles } from '@material-ui/core/styles'
+  Typography,
+} from '@mui/material'
+import GroupIcon from '@mui/icons-material/Group'
+import MoreVert from '@mui/icons-material/MoreVert'
+import ExitToApp from '@mui/icons-material/ExitToApp'
 import ADMSideDrawer from './adm-side-drawer'
 import OtherSideDrawer from './other-side-drawer'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import CONSTANTS from '/imports/api/constants'
 import { convertAvatar } from '/imports/api/util.js'
 import info from '/imports/api/version'
-
-// import Auth from '/imports/ui/components/account/auth.js'
-// import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
 import NotificationsIcon from '/imports/ui/components/notifications/bell.js'
+import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
 import { showInfo, showError } from '/imports/ui/utils/toast-alerts'
-import { userMenu } from './links.js'
+import { userMenu, guestMenu } from './links.js'
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    backgroundColor: 'black',
-    color: 'white',
-    height: '64px',
-  },
-  role: {
-    fontFamily: 'GothamRoundedMedium',
-    fontSize: 14,
-  },
-  logo: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-      height: 60,
-      '&:hover': {
-        filter:
-          "brightness(1.3) invert(0.17) saturate(2.6) sepia(0.25) url('#teal-white')",
-      },
-    },
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'inline-flex',
-      verticalAlign: 'middle',
-    },
-  },
-  icon: {
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent: 'center',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  links: {
-    flexGrow: 1,
-    textAlign: 'center',
-    fontSize: 14,
-  },
-  navItem: {
-    '&:hover': {
-      filter:
-        'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)',
-    },
-  },
-  linkText: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'inline',
-    },
-    fontFamily: 'GothamRoundedMedium',
-    '&:hover': {
-      color: '#4794fc',
-    },
-  },
-  accountIcon: {
-    [theme.breakpoints.up('md')]: {
-      '&:hover': {
-        filter:
-          'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)',
-      },
-    },
-  },
-  profileItem: {
-    fontFamily: 'GothamRoundedMedium',
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      float: 'right',
-    },
-  },
-  subMenuItems: {
-    marginLeft: '15px',
-  },
-  sectionMobile: {
-    display: 'inline',
-    float: 'right',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
-  expandedOpen: {
-    marginRight: '10px',
-  },
-  roleLong: {
-    fontFamily: 'GothamRoundedMedium',
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
-    },
-  },
-  roleAbbr: {
-    fontFamily: 'GothamRoundedMedium',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-}))
+const hoverFilter =
+  'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)'
+const avatarSize = 24
 
 export default function UserNavbar() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -148,7 +43,6 @@ export default function UserNavbar() {
   const [expanded, setExpanded] = React.useState(false)
   const [role, setRole] = React.useState()
 
-  const classes = useStyles()
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -162,14 +56,12 @@ export default function UserNavbar() {
     const prevRole = localStorage.getItem('viewas')
 
     if (!prevRole || !Roles.userIsInRole(user, [prevRole])) {
-      // defaults the role to the first role available
       if (roles) {
         Session.set('viewas', roles[0]?._id)
         localStorage.setItem('viewas', roles[0]?._id)
         setRole(Session.get('viewas'))
       }
     } else {
-      // if prev role found then set to session var
       Session.set('viewas', prevRole)
       setRole(prevRole)
     }
@@ -218,7 +110,6 @@ export default function UserNavbar() {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      getContentAnchorEl={null}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       id={menuId}
@@ -226,7 +117,7 @@ export default function UserNavbar() {
       keepMounted
       open={isMenuOpen}
       onClose={closeMenu}
-      className={expanded ? classes.expandedOpen : null}
+      PaperProps={{ sx: expanded ? { mr: '10px' } : {} }}
     >
       <MenuItem
         onClick={() => {
@@ -234,7 +125,7 @@ export default function UserNavbar() {
         }}
         component={Link}
         to="/profile"
-        className={classes.profileItem}
+        sx={{ fontFamily: 'GothamRoundedMedium' }}
         key="prefs"
         data-cy="a-tag-profile"
       >
@@ -242,7 +133,7 @@ export default function UserNavbar() {
       </MenuItem>
       {roles?.length > 1 && (
         <MenuItem
-          className={classes.profileItem}
+          sx={{ fontFamily: 'GothamRoundedMedium' }}
           onClick={() => setExpanded(!expanded)}
           key="switch"
           data-cy="switch-role"
@@ -261,7 +152,7 @@ export default function UserNavbar() {
             {roles?.map((_role) => {
               return (
                 <FormControlLabel
-                  className={classes.subMenuItems}
+                  sx={{ ml: '15px' }}
                   value={_role}
                   control={<Radio />}
                   label={CONSTANTS.ROLES[_role] || _role}
@@ -274,7 +165,7 @@ export default function UserNavbar() {
       </Collapse>
       <MenuItem
         onClick={onLogout}
-        className={classes.profileItem}
+        sx={{ fontFamily: 'GothamRoundedMedium' }}
         key="logout"
         data-cy="logout-menu"
       >
@@ -301,13 +192,14 @@ export default function UserNavbar() {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+          size="large"
         >
-          <Avatar src={convertAvatar(member?.avatar)} className={classes.small} />
+          <Avatar src={convertAvatar(member?.avatar)} sx={{ width: avatarSize, height: avatarSize }} />
         </IconButton>
         Member
       </MenuItem>
       <MenuItem onClick={() => setExpanded(!expanded)} key="switch">
-        <IconButton aria-label="set-role" color="inherit">
+        <IconButton aria-label="set-role" color="inherit" size="large">
           <GroupIcon />
         </IconButton>
         Switch role
@@ -323,7 +215,7 @@ export default function UserNavbar() {
             {roles?.map((_role) => {
               return (
                 <FormControlLabel
-                  className={classes.subMenuItems}
+                  sx={{ ml: '15px' }}
                   value={_role}
                   control={<Radio />}
                   label={CONSTANTS.ROLES[_role]}
@@ -335,7 +227,7 @@ export default function UserNavbar() {
         </FormControl>
       </Collapse>
       <MenuItem onClick={onLogout} key="logout">
-        <IconButton aria-label="logout" color="inherit" data-cy="logout-icon">
+        <IconButton aria-label="logout" color="inherit" data-cy="logout-icon" size="large">
           <ExitToApp />
         </IconButton>
         Log out
@@ -343,50 +235,128 @@ export default function UserNavbar() {
     </Menu>
   )
 
+  const navItems = userMenu || guestMenu
+
   return (
     <>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position="static" sx={{ backgroundColor: 'black', color: 'white', height: '64px' }}>
         <Toolbar>
           {isAdmin && viewas === 'ADM' ? <ADMSideDrawer /> : <OtherSideDrawer />}
           <Tooltip title={`B2B version ${info?.version()}`}>
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <img
-                className={classes.logo}
+              <Box
+                component="img"
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                  height: 60,
+                  '&:hover': {
+                    filter:
+                      "brightness(1.3) invert(0.17) saturate(2.6) sepia(0.25) url('#teal-white')",
+                  },
+                }}
                 src="/images/logo.png"
                 alt="Back2bikes logo"
               />
             </Link>
           </Tooltip>
-          {userMenu &&
-            userMenu.map((item, index) => {
+          {navItems &&
+            navItems.map((item, index) => {
               return (
                 <Typography
                   key={item.display + index}
                   color="inherit"
-                  className={classes.links}
+                  sx={{ flexGrow: 1, textAlign: 'center', fontSize: 14 }}
                   noWrap
                 >
-                  <Link
-                    to={item.link}
-                    style={{ color: 'white', textDecoration: 'none' }}
-                    id={item.display.toLowerCase() + '-nav-item'}
-                    data-cy={item.id}
-                    className={classes.navItem}
-                  >
-                    <span className={classes.icon}>{item.icon()}</span>
-                    <span className={classes.linkText}>{item.display}</span>
-                  </Link>
+                  {item.external ? (
+                    <a
+                      href={item.link}
+                      style={{ color: 'white', textDecoration: 'none' }}
+                      id={item.display.toLowerCase() + '-nav-item'}
+                    >
+                      <Box
+                        component="span"
+                        sx={{
+                          display: { xs: 'flex', md: 'none' },
+                          verticalAlign: 'middle',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {item.icon()}
+                      </Box>
+                      <Box
+                        component="span"
+                        sx={{
+                          display: { xs: 'none', md: 'inline' },
+                          fontFamily: 'GothamRoundedMedium',
+                          '&:hover': { color: '#4794fc' },
+                        }}
+                      >
+                        {item.display}
+                      </Box>
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.link}
+                      style={{ color: 'white', textDecoration: 'none' }}
+                      id={item.display.toLowerCase() + '-nav-item'}
+                      data-cy={item.id}
+                    >
+                      <Box
+                        component="span"
+                        sx={{
+                          display: { xs: 'flex', md: 'none' },
+                          verticalAlign: 'middle',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          '&:hover': { filter: hoverFilter },
+                        }}
+                      >
+                        {item.icon()}
+                      </Box>
+                      <Box
+                        component="span"
+                        sx={{
+                          display: { xs: 'none', md: 'inline' },
+                          fontFamily: 'GothamRoundedMedium',
+                          '&:hover': { color: '#4794fc' },
+                        }}
+                      >
+                        {item.display}
+                      </Box>
+                    </Link>
+                  )}
                 </Typography>
               )
             })}
           {roles?.length > 1 && (
             <>
-              <div className={classes.roleLong}>{CONSTANTS.ROLES[viewas]}</div>
-              <Typography className={classes.roleAbbr}>{viewas}</Typography>
+              <Box
+                sx={{
+                  fontFamily: 'GothamRoundedMedium',
+                  display: { xs: 'none', lg: 'block' },
+                  mr: 1,
+                }}
+              >
+                {CONSTANTS.ROLES[viewas]}
+              </Box>
+              <Typography
+                sx={{ fontFamily: 'GothamRoundedMedium', display: { xs: 'block', md: 'none' } }}
+              >
+                {viewas}
+              </Typography>
             </>
           )}
           <NotificationsIcon />
-          <div className={classes.sectionDesktop} key="1">
+          <ThemeSwitcher />
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              float: 'right',
+            }}
+            key="1"
+          >
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -395,11 +365,18 @@ export default function UserNavbar() {
               aria-haspopup="true"
               onClick={profileMenuOpen}
               color="inherit"
+              size="large"
             >
-              <Avatar src={convertAvatar(member?.avatar)} className={classes.small} />
+              <Avatar src={convertAvatar(member?.avatar)} sx={{ width: avatarSize, height: avatarSize }} />
             </IconButton>
-          </div>
-          <div className={classes.sectionMobile} key="2">
+          </Box>
+          <Box
+            sx={{
+              display: { xs: 'inline', md: 'none' },
+              float: 'right',
+            }}
+            key="2"
+          >
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -407,10 +384,11 @@ export default function UserNavbar() {
               aria-haspopup="true"
               onClick={mobileMenuOpen}
               color="inherit"
+              size="large"
             >
               <MoreVert />
             </IconButton>
-          </div>
+          </Box>
           {renderMobileMenu}
           {renderMenu}
         </Toolbar>

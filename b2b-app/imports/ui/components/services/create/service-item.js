@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { IconButton } from '@material-ui/core'
-import ClearIcon from '@material-ui/icons/Clear'
+import { IconButton } from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear'
 
 import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 

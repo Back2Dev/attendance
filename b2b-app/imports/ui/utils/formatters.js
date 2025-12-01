@@ -19,7 +19,7 @@ export const profitFormatter = (cell, formatterParams, onRendered) => {
 
 const dollars = (cents, decimals) => {
   if (cents)
-    return `$${(cents / 100).toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`
+    return `$${(cents / 100).toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
   return ''
 }
 
@@ -82,7 +82,7 @@ export const objectFormatter = (cell) => {
 }
 
 export const cardFormatter = (cell) => {
-  return cell.getValue().replace(/XXXX-XXXX-XX/, '')
+  return cell.getValue().replace(/XXXX-XXXX-XX/, '');
 }
 
 // Non-tabulator functions...
@@ -94,5 +94,5 @@ export const dollarFormatter = (n, decimals) => {
 // Non-tabulator function
 export const numberFormatter = (n, decimals) => {
   if (isNaN(n)) return ''
-  return dollars(Math.floor(n * 100), decimals).replace(/^\$/, '')
+  return dollars(Math.floor(n * 100), decimals).replace(/^\$/, '');
 }

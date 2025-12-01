@@ -1,12 +1,12 @@
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
 import defaultTheme from './default'
 // console.log('default', defaultTheme)
 
-export default createTheme({
+export default createTheme(adaptV4Theme({
   ...defaultTheme,
   palette: {
-    type: 'dark',
+    mode: 'dark',
     primary: {
       light: '#7986cb',
       main: '#9aa9ff',
@@ -35,4 +35,4 @@ export default createTheme({
   appBar: {
     color: '#00acc1',
   },
-})
+}))

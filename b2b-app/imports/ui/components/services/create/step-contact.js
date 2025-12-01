@@ -16,13 +16,13 @@ import {
   FormControlLabel,
   Link,
   IconButton,
-} from '@material-ui/core'
+} from '@mui/material'
 
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoField, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorsField } from 'uniforms-mui'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'

@@ -1,9 +1,9 @@
-import { createTheme } from '@material-ui/core/styles'
-import createBreakpoints from '@material-ui/core/styles/createBreakpoints'
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
-const breakpoints = createBreakpoints({})
+// Use the default breakpoint helpers from a base theme
+const breakpoints = createTheme().breakpoints;
 
-export default createTheme({
+export default createTheme(adaptV4Theme({
   typography: {
     htmlFontSize: 16,
     fontSize: 14,
@@ -62,4 +62,4 @@ export default createTheme({
       },
     },
   },
-})
+}))

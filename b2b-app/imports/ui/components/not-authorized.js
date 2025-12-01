@@ -2,7 +2,7 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Typography, Link } from '@material-ui/core'
+import { Typography, Link } from '@mui/material'
 
 const StyledNotAuthorized = styled.div`
   margin: 60px auto;

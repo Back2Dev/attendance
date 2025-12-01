@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { IconButton, Box } from '@material-ui/core'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import TextField from '@material-ui/core/TextField'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import { IconButton, Box } from '@mui/material'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { connectField } from 'uniforms'
 
 const PasswordField = ({
@@ -45,14 +45,14 @@ const PasswordField = ({
               aria-label="toggle password visibility"
               onClick={toggle}
               onMouseDown={handleMouseDownPassword}
-            >
+              size="large">
               {hide ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         ),
       }}
     />
-  )
+  );
 }
 
 export default connectField(PasswordField)

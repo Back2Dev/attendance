@@ -7,7 +7,7 @@ import {
   OptionalBlackbox,
   OptionalInteger,
 } from '/imports/api/utils/schema-util'
-import { LongTextField, SubmitField } from 'uniforms-material'
+import { LongTextField, SubmitField } from 'uniforms-mui'
 
 const dateFormat = {
   inputFormat: 'DD/MM/YY HH:mm',

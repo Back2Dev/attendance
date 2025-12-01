@@ -1,5 +1,5 @@
 import React from 'react'
-import { AutoForm } from 'uniforms-material'
+import { AutoForm } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 

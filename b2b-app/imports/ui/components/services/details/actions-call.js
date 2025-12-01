@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 
-import { Typography, Modal, Paper, TextField, Button } from '@material-ui/core'
-import CallIcon from '@material-ui/icons/Call'
+import { Typography, Modal, Paper, TextField, Button } from '@mui/material'
+import CallIcon from '@mui/icons-material/Call'
 
 import { JobsDetailsContext } from './context'
 

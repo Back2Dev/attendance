@@ -26,10 +26,10 @@ import {
   InputLabel,
   RadioGroup,
   Radio,
-} from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import DeleteIcon from '@material-ui/icons/Delete'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 
 import { showError } from '/imports/ui/utils/toast-alerts.js'
 
@@ -316,15 +316,15 @@ function ViewForm() {
                       selectedColumns.filter((item) => item.name !== col.name)
                     )
                   }}
-                >
+                  size="large">
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
           )}
         </Draggable>
-      )
-    })
+      );
+    });
   }
 
   const renderSortByColumn = () => {
@@ -408,7 +408,7 @@ function ViewForm() {
               onConfirm: () => handleDelete(),
             })
           }}
-        >
+          size="large">
           <DeleteIcon />
         </IconButton>
       </div>
@@ -533,7 +533,7 @@ function ViewForm() {
         </StyledModalBox>
       </Modal>
     </StyledViewForm>
-  )
+  );
 }
 
 export default ViewForm

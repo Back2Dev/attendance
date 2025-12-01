@@ -1,6 +1,6 @@
 import React from 'react'
 import { connectField } from 'uniforms'
-import { AutoField } from 'uniforms-material'
+import { AutoField } from 'uniforms-mui'
 import ToolsField from '/imports/ui/components/forms/tools-selector.js'
 import CoursesField from '/imports/ui/components/forms/course-selector.js'
 import SlateField from './slate-field'

@@ -13,6 +13,7 @@ import NotFound from '/imports/ui/components/commons/not-found.js'
 
 export default function Forms() {
   return (
+    // <Framework />
     <Switch>
       <Route path="/admin/forms/old-edit/:id" exact component={OldEditor} />
       <Route path="/admin/forms/edit/:id" exact component={Editor} />
@@ -21,6 +22,5 @@ export default function Forms() {
       <Route path="/admin/forms" exact component={Lister} />
       <Route component={NotFound} />
     </Switch>
-    // <Framework />
-  )
+  );
 }

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Button, Stepper, Step, StepButton, StepLabel } from '@material-ui/core'
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
+import { Button, Stepper, Step, StepButton, StepLabel } from '@mui/material'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 
 import { showWarning } from '/imports/ui/utils/toast-alerts'
 import { useConfirm } from '../../commons/confirm-box'
@@ -49,7 +49,7 @@ const StyledJobActions = styled.div`
     }
   }
   ${({ theme }) => `
-    ${theme.breakpoints.down('xs')} {
+    ${theme.breakpoints.down('sm')} {
       flex-direction: column;
       .stepper {
         margin-bottom: 10px;

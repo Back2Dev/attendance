@@ -44,7 +44,7 @@ export const accessByPathNextLevel = (obj, path, mkpath) => {
     if (!acc[path] && mkpath) acc[path] = {}
     if (acc[path]) return acc[path] || ''
     return ''
-  }, obj)
+  }, obj);
 }
 
 export const setByPath = (obj, path, value) => {
@@ -58,7 +58,7 @@ export const setByPath = (obj, path, value) => {
       return acc[path] || ''
     }
     return ''
-  }, obj)
+  }, obj);
 }
 
 const funcs = {
@@ -111,7 +111,7 @@ export const populateDoc = (data, spec, docType) => {
 
 export const cleanPhone = (ph) => {
   if (!ph || typeof ph !== 'string') return ''
-  return ph.replace(/[\s\-\(\)]/g, '').replace(/^0/, '+61')
+  return ph.replace(/[\s\-\(\)]/g, '').replace(/^0/, '+61');
 }
 
 export const makeUserSerial = (id, first, last) => {
@@ -154,7 +154,7 @@ export const obj2Search = (obj, recurse) => {
       }
     })
     .filter((x) => x) // Clean out nulls and empty strings
-    .join(' ') // Separated by spaces, but it probably doesn't matter
+    .join(' '); // Separated by spaces, but it probably doesn't matter
 }
 
 export function capitaliseFirst(string) {

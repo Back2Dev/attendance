@@ -8,9 +8,9 @@ import {
   Paper,
   TextField,
   Button,
-} from '@material-ui/core'
-import BuildIcon from '@material-ui/icons/Build'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+} from '@mui/material'
+import BuildIcon from '@mui/icons-material/Build'
+import Autocomplete from '@mui/material/Autocomplete'
 
 import { JobsDetailsContext } from './context'
 

@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
 const BuilderContext = createContext()
 
 const BuilderProvider = ({ children }) => {
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const [dndMove, setDndMove] = useState(null)
 
   return (

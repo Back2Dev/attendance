@@ -10,7 +10,7 @@ import RatingField from '/imports/ui/components/rating-field'
 import SliderField from '/imports/ui/components/slider-field'
 import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
-import { LongTextField, NumField, SelectField } from 'uniforms-material'
+import { LongTextField, NumField, SelectField } from 'uniforms-mui'
 import DateField from '/imports/ui/components/date-field'
 import PasswordField from '/imports/ui/components/password-field'
 import { UploadField } from '/imports/ui/components/upload-field'
@@ -123,7 +123,7 @@ const getAnswers = (formData, q) => {
         .flat()
         .filter(Boolean)
         .map((name, ix) => {
-          return { id: name.replace(/\W/g, '-').toLowerCase(), name }
+          return { id: name.replace(/\W/g, '-').toLowerCase(), name };
         })
       debug('Computed answers', list)
       return list

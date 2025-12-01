@@ -1,24 +1,24 @@
 import React, { Fragment } from 'react'
 import { EditorContext } from './framework'
 import './resizer.css'
-import Paper from '@material-ui/core/Paper'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import IconButton from '@material-ui/core/IconButton'
-import SaveIcon from '@material-ui/icons/Save'
-import SettingsIcon from '@material-ui/icons/Settings'
-import PlayArrowIcon from '@material-ui/icons/PlayArrow'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import Tooltip from '@material-ui/core/Tooltip'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
-import Popover from '@material-ui/core/Popover'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-import { Typography } from '@material-ui/core'
+import Paper from '@mui/material/Paper'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import IconButton from '@mui/material/IconButton'
+import SaveIcon from '@mui/icons-material/Save'
+import SettingsIcon from '@mui/icons-material/Settings'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import Tooltip from '@mui/material/Tooltip'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Switch from '@mui/material/Switch'
+import Popover from '@mui/material/Popover'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControl from '@mui/material/FormControl'
+import FormLabel from '@mui/material/FormLabel'
+import { Typography } from '@mui/material'
 
 export const EditorToolbar = () => {
   const formContext = React.useContext(EditorContext)
@@ -116,7 +116,7 @@ export const EditorToolbar = () => {
                 onClick={() => {
                   handleSettings()
                 }}
-              >
+                size="large">
                 <SettingsIcon />
               </IconButton>
             </Tooltip>
@@ -188,7 +188,7 @@ export const EditorToolbar = () => {
                   onClick={() => {
                     formContext.compileForm()
                   }}
-                >
+                  size="large">
                   <PlayArrowIcon />
                 </IconButton>
               </Tooltip>
@@ -198,7 +198,7 @@ export const EditorToolbar = () => {
                 color="primary"
                 aria-label="save"
                 onClick={() => formContext.save(false)}
-              >
+                size="large">
                 <SaveIcon />
               </IconButton>
             </Tooltip>
@@ -206,5 +206,5 @@ export const EditorToolbar = () => {
         </div>
       </div>
     </Paper>
-  )
+  );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 import AddMember from './add-member'
 
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -12,7 +12,7 @@ import {
   RadioGroup,
   FormControl,
   FormLabel,
-} from '@material-ui/core'
+} from '@mui/material'
 import styled from 'styled-components'
 import moment from 'moment'
 

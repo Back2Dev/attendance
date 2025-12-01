@@ -1,7 +1,7 @@
 import React from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
-import { makeStyles } from '@material-ui/core/styles'
+import IconButton from '@mui/material/IconButton'
+import DeleteIcon from '@mui/icons-material/Delete'
+import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles(() => ({

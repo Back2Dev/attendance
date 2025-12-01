@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor'
 import { useHistory, Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Grid, Button, Typography, TextField, Link } from '@material-ui/core'
+import { Grid, Button, Typography, TextField, Link } from '@mui/material'
 
 import { showError } from '/imports/ui/utils/toast-alerts'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'

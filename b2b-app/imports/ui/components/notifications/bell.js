@@ -5,9 +5,9 @@ import { useTracker } from 'meteor/react-meteor-data'
 import styled from 'styled-components'
 import moment from 'moment'
 
-import { Badge, Button, Menu, MenuItem } from '@material-ui/core'
-import NotificationNoneIcon from '@material-ui/icons/NotificationsNone'
-import NotificationActiveIcon from '@material-ui/icons/NotificationsActive'
+import { Badge, Button, Menu, MenuItem } from '@mui/material'
+import NotificationNoneIcon from '@mui/icons-material/NotificationsNone'
+import NotificationActiveIcon from '@mui/icons-material/NotificationsActive'
 
 import {
   Notifications,

@@ -7,13 +7,13 @@ import {
   InputAdornment,
   Box,
   IconButton,
-} from '@material-ui/core'
+} from '@mui/material'
 import { textOptions } from '$sb/components/question/field/options'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { OptionList } from '$sb/components/question/field/option-list'
 import SimpleSchema from 'simpl-schema'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
-import { makeStyles } from '@material-ui/core/styles'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
+import makeStyles from '@mui/styles/makeStyles';
 import { slugify } from '$sb/utils'
 import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
 import { Fragment } from 'react'

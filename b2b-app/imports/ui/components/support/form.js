@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
-import { Box, Typography, Container, Paper, Button, Grid } from '@material-ui/core'
-import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+import { Box, Typography, Container, Paper, Button, Grid } from '@mui/material'
+import { AutoForm, AutoFields, ErrorsField } from 'uniforms-mui'
 
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import { bridge as schema } from '/imports/api/support/schema-form.js'
@@ -77,7 +77,7 @@ function SupportForm() {
       </Typography>
       <Box display="flex" justifyContent="center" className="form-container">
         <Paper elevation={2} className="form-wrapper">
-          <Grid container direction="row" justify="space-evenly" alignItems="center">
+          <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
             <Grid item xs={12} sm={6}>
               <AutoForm
                 ref={formRef}
@@ -119,7 +119,7 @@ function SupportForm() {
         </Paper>
       </Box>
     </StyledSuportForm>
-  )
+  );
 }
 
 export default SupportForm

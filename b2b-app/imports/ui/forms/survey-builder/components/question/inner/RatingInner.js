@@ -8,16 +8,16 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
-} from '@material-ui/core'
-import Rating from '@material-ui/lab/Rating'
-import AddIcon from '@material-ui/icons/Add'
+} from '@mui/material'
+import Rating from '@mui/material/Rating'
+import AddIcon from '@mui/icons-material/Add'
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { useSelectedPartValue } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { ratingOptions } from '$sb/components/question/field/options'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import SimpleSchema from 'simpl-schema'
-import { makeStyles } from '@material-ui/core/styles'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import makeStyles from '@mui/styles/makeStyles';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { OptionList } from '$sb/components/question/field/option-list'
 import { slugify } from '$sb/utils'
 
@@ -59,6 +59,75 @@ const maxOptions = Array.from({ length: 10 }, (_, i) => String(i + 1))
 const RatingInner = ({ question, onQuestionChange }) => {
   const classes = useStyles()
   return (
+    // <Droppable droppableId={question.id} type={`question-${question.id}`}>
+    //   {(provided) => (
+    //     <div ref={provided.innerRef} {...provided.droppableProps}>
+    //       {cleanAnswer?.map((answer, aIndex) => {
+    //         return (
+    //           <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
+    //             {(provided, snapshot) => (
+    //               <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
+    //                 <Answer
+    //                   dragHandleProps={provided.dragHandleProps}
+    //                   answer={answer}
+    //                   onQuestionChange={onQuestionChange}
+    //                   aIndex={aIndex}
+    //                 />
+    //               </div>
+    //             )}
+    //           </Draggable>
+    //         )
+    //       })}
+    //       {provided.placeholder}
+    //     </div>
+    //   )}
+    // </Droppable>
+    // <Grid container spacing={1} alignItems="flex-start">
+    //   <Grid item style={{ visibility: 'hidden' }}>
+    //     <RadioButtonUncheckedIcon />
+    //   </Grid>
+    //   <Grid item xs={3}>
+    //     <TextField
+    //       id={`${pid}_${0}`}
+    //       fullWidth
+    //       select
+    //       value={question.answers?.[0]?.max}
+    //       onChange={({ target: { value } }) =>
+    //         setPropertyByValue({
+    //           pid,
+    //           path: `answers[${0}].max`,
+    //           value,
+    //         })
+    //       }
+    //       label="Max Number"
+    //       SelectProps={{
+    //         native: true,
+    //       }}
+    //     >
+    //       {maxOptions.map((item) => (
+    //         <option key={item} value={item}>
+    //           {item}
+    //         </option>
+    //       ))}
+    //     </TextField>
+    //   </Grid>
+    //   <Grid item xs={6}>
+    //     <Box component="fieldset" mb={3} borderColor="transparent">
+    //       <Rating name={pid} max={Number(question.answers?.[0]?.max) || 1} readOnly />
+    //     </Box>
+    //   </Grid>
+    //   {showMobileActions && (
+    //     <Button
+    //       variant="outlined"
+    //       color="default"
+    //       size="small"
+    //       startIcon={<AddIcon />}
+    //       onClick={() => add()}
+    //     >
+    //       New item
+    //     </Button>
+    //   )}
+    // </Grid>
     <Box className={classes.root}>
       <Grid container spacing={3} alignItems="flex-end">
         <Grid item xs={12} md={9} lg={10}>
@@ -95,78 +164,7 @@ const RatingInner = ({ question, onQuestionChange }) => {
         </Grid>
       </Grid>
     </Box>
-    // <Droppable droppableId={question.id} type={`question-${question.id}`}>
-    //   {(provided) => (
-    //     <div ref={provided.innerRef} {...provided.droppableProps}>
-    //       {cleanAnswer?.map((answer, aIndex) => {
-    //         return (
-    //           <Draggable draggableId={answer.id} key={answer.id} index={aIndex}>
-    //             {(provided, snapshot) => (
-    //               <div key={aIndex} {...provided.draggableProps} ref={provided.innerRef}>
-    //                 <Answer
-    //                   dragHandleProps={provided.dragHandleProps}
-    //                   answer={answer}
-    //                   onQuestionChange={onQuestionChange}
-    //                   aIndex={aIndex}
-    //                 />
-    //               </div>
-    //             )}
-    //           </Draggable>
-    //         )
-    //       })}
-    //       {provided.placeholder}
-    //     </div>
-    //   )}
-    // </Droppable>
-
-    // <Grid container spacing={1} alignItems="flex-start">
-    //   <Grid item style={{ visibility: 'hidden' }}>
-    //     <RadioButtonUncheckedIcon />
-    //   </Grid>
-    //   <Grid item xs={3}>
-    //     <TextField
-    //       id={`${pid}_${0}`}
-    //       fullWidth
-    //       select
-    //       value={question.answers?.[0]?.max}
-    //       onChange={({ target: { value } }) =>
-    //         setPropertyByValue({
-    //           pid,
-    //           path: `answers[${0}].max`,
-    //           value,
-    //         })
-    //       }
-    //       label="Max Number"
-    //       SelectProps={{
-    //         native: true,
-    //       }}
-    //     >
-    //       {maxOptions.map((item) => (
-    //         <option key={item} value={item}>
-    //           {item}
-    //         </option>
-    //       ))}
-    //     </TextField>
-    //   </Grid>
-    //   <Grid item xs={6}>
-    //     <Box component="fieldset" mb={3} borderColor="transparent">
-    //       <Rating name={pid} max={Number(question.answers?.[0]?.max) || 1} readOnly />
-    //     </Box>
-    //   </Grid>
-
-    //   {showMobileActions && (
-    //     <Button
-    //       variant="outlined"
-    //       color="default"
-    //       size="small"
-    //       startIcon={<AddIcon />}
-    //       onClick={() => add()}
-    //     >
-    //       New item
-    //     </Button>
-    //   )}
-    // </Grid>
-  )
+  );
 }
 
 RatingInner.propTypes = {

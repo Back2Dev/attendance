@@ -1,9 +1,9 @@
 import React from 'react'
 import { connectField } from 'uniforms'
-import { Box } from '@material-ui/core'
-import Rating from '@material-ui/lab/Rating'
-import HeartIcon from '@material-ui/icons/FavoriteBorderOutlined'
-import ThumbIcon from '@material-ui/icons/ThumbUpAltOutlined'
+import { Box } from '@mui/material'
+import Rating from '@mui/material/Rating'
+import HeartIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import ThumbIcon from '@mui/icons-material/ThumbUpAltOutlined'
 
 const RatingField = ({ value, onChange, field, name, max = 7 }) => {
   // const [value, setValue] = React.useState(1)

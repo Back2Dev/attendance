@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import faker from 'faker'
 
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 const StyledBeautifulDnD = styled.div`

@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react'
 import { useHistory } from 'react-router-dom'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { Grid, Typography, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Typography, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'

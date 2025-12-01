@@ -1,4 +1,4 @@
-import { TextEditor } from 'react-data-grid'
+import { TextEditor } from '/imports/ui/components/commons/mui-rdg'
 import PropTypes from 'prop-types'
 
 import React from 'react'

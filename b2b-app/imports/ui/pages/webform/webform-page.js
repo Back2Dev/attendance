@@ -12,12 +12,12 @@ import {
   Button,
   Collapse,
   Link,
-  makeStyles,
   Typography,
-} from '@material-ui/core'
-import CreateIcon from '@material-ui/icons/Create'
-import SkipPrevious from '@material-ui/icons/SkipPrevious'
-import VisibilityIcon from '@material-ui/icons/Visibility'
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CreateIcon from '@mui/icons-material/Create'
+import SkipPrevious from '@mui/icons-material/SkipPrevious'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 import WebformRun from './webform-run'
 import WebformPreview from './webform-preview'
 import '/imports/ui/styles/custom-styles.css'
@@ -154,7 +154,7 @@ const Webform = ({
       <Grid
         container
         direction="row"
-        justify="space-around"
+        justifyContent="space-around"
         alignItems="center"
         className={classes.root}
       >
@@ -253,7 +253,7 @@ const Webform = ({
         </Container>
       </Grid>
     </WebformContext.Provider>
-  )
+  );
 }
 
 Webform.propTypes = {

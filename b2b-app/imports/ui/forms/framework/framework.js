@@ -1,20 +1,12 @@
 import React, { useState } from 'react'
 import { HotKeys } from 'react-hotkeys'
 import { useHistory } from 'react-router-dom'
-import SplitPane from 'react-split-pane'
 import { Builder } from '../survey-builder/builder'
 import { DoubleLayout } from './double-layout'
-import { EditorPanel } from './editor-panel'
 import { EditorToolbar } from './editor-toolbar'
-import { PreviewPanel } from './preview-panel'
 import { SingleLayout } from './single-layout'
 import { parse } from '/imports/api/forms/engine.js'
 import map2Uniforms from '/imports/api/surveys/uniforms'
-import map2UiSchema from '/imports/api/surveys/ui-schema'
-import { partsAtom, partAtom } from '/imports/ui/forms/survey-builder/recoil/atoms'
-import { useRecoilCallback } from 'recoil'
-import { RecoilRoot } from 'recoil'
-import { makeId } from '../survey-builder/utils'
 
 const debug = require('debug')('app:forms:framework')
 

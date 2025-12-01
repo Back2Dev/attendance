@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Container } from '@material-ui/core'
-import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
-import { ReactTabulator } from 'react-tabulator'
+import { Box, Container } from '@mui/material'
+import MuiGrid from '/imports/ui/components/commons/mui-grid'
 import { TabAppbar } from '/imports/ui/utils/generic'
 
 const debug = require('debug')('app:add')
@@ -90,7 +88,7 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
       Contents = () => <span>No data found</span>
     } else {
       Contents = () => (
-        <ReactTabulator
+        <MuiGrid
           ref={tableRef}
           columns={columns}
           data={items}

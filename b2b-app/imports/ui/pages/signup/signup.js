@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { Meteor } from 'meteor/meteor'
 import { useHistory, Link as RouterLink } from 'react-router-dom'
-import { AutoForm, AutoFields, ErrorsField, SubmitField } from 'uniforms-material'
+import { AutoForm, AutoFields, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { Grid, Typography, Link, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Typography, Link, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'

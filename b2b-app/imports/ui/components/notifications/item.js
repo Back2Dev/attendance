@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
 
-import { Menu, MenuItem, IconButton } from '@material-ui/core'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import { Menu, MenuItem, IconButton } from '@mui/material'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import CONSTANTS from '/imports/api/constants'
 import { showError } from '/imports/ui/utils/toast-alerts'
 

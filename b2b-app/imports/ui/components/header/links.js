@@ -1,9 +1,9 @@
 import React from 'react'
-import Dashboard from '@material-ui/icons/Dashboard'
-import HelpIcon from '@material-ui/icons/Help'
-import HomeIcon from '@material-ui/icons/Home'
-import PhoneIcon from '@material-ui/icons/Phone'
-import EventIcon from '@material-ui/icons/Event'
+import Dashboard from '@mui/icons-material/Dashboard'
+import HelpIcon from '@mui/icons-material/Help'
+import HomeIcon from '@mui/icons-material/Home'
+import PhoneIcon from '@mui/icons-material/Phone'
+import EventIcon from '@mui/icons-material/Event'
 
 const DashBoardMenuIcon = () => <Dashboard fontSize="small" />
 const FormsMenuIcon = () => <EventIcon fontSize="small" />

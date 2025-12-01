@@ -2,7 +2,7 @@ import React from 'react'
 
 import BillboardChart from 'react-billboardjs'
 import 'billboard.js/dist/billboard.css'
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import { bar, line } from 'billboard.js'
 
 const CHART_DATA = {

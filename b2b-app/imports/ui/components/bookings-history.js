@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 import { BookingsHistoryProvider } from '/imports/ui/components/bookings-history/context.js'
 import SessionsListing from '/imports/ui/components/bookings-history/sessions.js'

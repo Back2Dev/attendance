@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Typography, Button, Grid } from '@material-ui/core'
+import { Typography, Button, Grid } from '@mui/material'
 import { connectField } from 'uniforms'
 import {
   AutoForm,
@@ -9,7 +9,7 @@ import {
   ErrorsField,
   SubmitField,
   ValidatedForm,
-} from 'uniforms-material'
+} from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'

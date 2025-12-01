@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 import { useCodeJar, ReactCodeJar } from 'react-codejar'
 import Prism from 'prismjs'
 import 'prismjs/themes/prism.css'

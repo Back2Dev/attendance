@@ -8,7 +8,7 @@ import BikeStep from './create/step-bike'
 import ContactStep from './create/step-contact'
 // import PickupStep from './create/step-pickup'
 import CreateServiceHeader from './create/header'
-import { Paper } from '@material-ui/core'
+import { Paper } from '@mui/material'
 
 const StyledCreateService = styled.div`
   margin: 60px auto;

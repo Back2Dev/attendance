@@ -6,8 +6,8 @@ import {
   ListItemIcon,
   Typography,
   ListItemText,
-} from '@material-ui/core'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+} from '@mui/material'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 

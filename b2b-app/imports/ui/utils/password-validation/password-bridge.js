@@ -21,25 +21,25 @@ export default class UserLoginSchemaBridge extends Bridge {
   }
 
   getField(name) {
-    return this.schema[name.replace(/\.\d+/g, '.$')]
+    return this.schema[name.replace(/\.\d+/g, '.$')];
   }
 
   getType(name) {
-    return this.schema[name.replace(/\.\d+/g, '.$')].type
+    return this.schema[name.replace(/\.\d+/g, '.$')].type;
   }
 
   getProps(name) {
-    return this.schema[name.replace(/\.\d+/g, '.$')]
+    return this.schema[name.replace(/\.\d+/g, '.$')];
   }
 
   getInitialValue(name) {
-    return this.schema[name.replace(/\.\d+/g, '.$')].initialValue
+    return this.schema[name.replace(/\.\d+/g, '.$')].initialValue;
   }
 
   getSubfields(name) {
     return name
       ? this.schema[name.replace(/\.\d+/g, '.$')].subfields || []
-      : Object.keys(this.schema).filter((field) => field.indexOf('.') === -1)
+      : Object.keys(this.schema).filter((field) => field.indexOf('.') === -1);
   }
 
   getValidator() {

@@ -12,7 +12,7 @@ let push
 
 const remove = (id) => meteorCall('rm.events', 'Deleting', { id })
 const update = (id, form) => {
-  meteorCall('update.events', 'updating', { id, form })
+  meteorCall('update.events', 'updating', { form: { ...form, _id: id } })
   push('/admin/events')
 }
 

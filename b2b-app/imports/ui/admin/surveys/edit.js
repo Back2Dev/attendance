@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AutoForm } from 'uniforms-material'
+import { AutoForm } from 'uniforms-mui'
 import { CustomAutoField } from '/imports/ui/components/forms'
 
 import { schemaBridge } from './edit-schema'

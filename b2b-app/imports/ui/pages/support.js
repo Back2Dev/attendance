@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 
 import NotFoundComponent from '/imports/ui/components/commons/not-found.js'
 import SecureRoute from '/imports/ui/utils/secure-route.js'

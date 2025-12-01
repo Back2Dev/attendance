@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
 import {
   Card,
   CardHeader,
@@ -11,8 +12,8 @@ import {
   TableBody,
   TableRow,
   TableCell as MuiTableCell,
-} from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit'
+} from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 import { Bridge } from 'uniforms'
 
 const TableCell = withStyles({
@@ -63,7 +64,7 @@ const ConfirmData = ({ title, onEdit, schemaBridge, fieldValues }) => {
       <CardHeader
         title={title}
         action={
-          <IconButton aria-label={'edit ' + title} onClick={onEdit}>
+          <IconButton aria-label={'edit ' + title} onClick={onEdit} size="large">
             <EditIcon />
           </IconButton>
         }
@@ -81,7 +82,7 @@ const ConfirmData = ({ title, onEdit, schemaBridge, fieldValues }) => {
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 ConfirmData.propTypes = {

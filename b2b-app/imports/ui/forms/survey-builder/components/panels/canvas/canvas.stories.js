@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useParts } from '/imports/ui/forms/survey-builder/recoil/hooks'
 import { Canvas } from './canvas'
-import { Box } from '@material-ui/core'
+import { Box } from '@mui/material'
 
 export default {
   title: 'Survey Builder/Panels/Canvas',

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useHistory } from 'react-router'
 
-import { FormControl, MenuItem, Select, IconButton } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import EditIcon from '@material-ui/icons/Edit'
+import { FormControl, MenuItem, Select, IconButton } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import EditIcon from '@mui/icons-material/Edit'
 
 import { CollectionContext } from '../context'
 import { useMemo } from 'react'
@@ -76,7 +76,7 @@ function ViewsSelector({ showDefault = true }) {
           onClick={() =>
             history.push(`/dba/${collectionKebab}/edit-view/${theView.slug}`)
           }
-        >
+          size="large">
           <EditIcon />
         </IconButton>
       )}
@@ -86,11 +86,11 @@ function ViewsSelector({ showDefault = true }) {
         className="btn btn-add"
         component="span"
         onClick={() => history.push(`/dba/${collectionKebab}/add-view`)}
-      >
+        size="large">
         <AddIcon />
       </IconButton>
     </StyledViewsSelector>
-  )
+  );
 }
 
 ViewsSelector.propTypes = {

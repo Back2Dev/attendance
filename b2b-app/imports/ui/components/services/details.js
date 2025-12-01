@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 
 import { JobsDetailsProvider } from './details/context'
 import JobInfo from './details/info'

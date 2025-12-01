@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState, useRef } from 'react'
 import styled from 'styled-components'
-import DataGrid, { SelectColumn } from 'react-data-grid'
+import DataGrid, { SelectColumn } from '/imports/ui/components/commons/mui-rdg'
 import { useHistory } from 'react-router'
 
 import {
@@ -11,8 +11,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from '@material-ui/core'
-import ArchiveIcon from '@material-ui/icons/Archive'
+} from '@mui/material'
+import ArchiveIcon from '@mui/icons-material/Archive'
 
 import { useWindowSize } from '/imports/ui/utils/window-size.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'

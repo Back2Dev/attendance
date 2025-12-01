@@ -1,6 +1,6 @@
 // Email message creator
 import React from 'react'
-import { AutoForm } from 'uniforms-material'
+import { AutoForm } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import {
@@ -10,7 +10,7 @@ import {
   Typography,
   CardActions,
   Button,
-} from '@material-ui/core'
+} from '@mui/material'
 import HTMLTemplate from '/imports/api/email-template'
 
 let schema = new SimpleSchema2Bridge(new SimpleSchema({ email: String }))

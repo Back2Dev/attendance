@@ -121,5 +121,5 @@ export function sanitizeValueForCSV(value) {
   if (_.isString(value) && value.match(/^0/)) {
     value = value.replace(/^0/, ' 0') // eslint-disable-line no-param-reassign
   }
-  return value.toString().replace(/\n|,/g, ' ')
+  return value.toString().replace(/\n|,/g, ' ');
 }

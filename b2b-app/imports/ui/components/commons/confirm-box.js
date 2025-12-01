@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core'
+} from '@mui/material'
 
 const StyledConfirmBox = styled.div`
   min-width: 300px;

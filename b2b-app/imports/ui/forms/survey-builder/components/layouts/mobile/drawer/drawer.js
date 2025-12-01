@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { default as MuiDrawer } from '@material-ui/core/Drawer'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
-import { Box, IconButton } from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close'
+import { default as MuiDrawer } from '@mui/material/Drawer'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
+import { Box, IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import { useSetDrawer } from '/imports/ui/forms/survey-builder/recoil/hooks'
 
 const useStyles = makeStyles({

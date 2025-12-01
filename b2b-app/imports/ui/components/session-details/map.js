@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Skeleton } from '@material-ui/lab'
+import { Skeleton } from '@mui/material';
 
 import { SessionDetailsContext } from './context'
 
@@ -14,9 +14,9 @@ function DetailsMap() {
   if (loading || !event) {
     return (
       <StyledDetailsMap>
-        <Skeleton variant="rect" height={300} />
+        <Skeleton variant="rectangular" height={300} />
       </StyledDetailsMap>
-    )
+    );
   }
 
   if (!event.courseId || !course) {

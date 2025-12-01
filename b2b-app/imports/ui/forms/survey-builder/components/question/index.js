@@ -4,8 +4,8 @@ import { Inner } from './inner'
 import { Frame } from '$sb/components/frame'
 import { DesktopFrame } from '$sb/components/frame/desktop'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import AddIcon from '@material-ui/icons/Add'
-import { Box, Fab, IconButton, Paper, TextField } from '@material-ui/core'
+import AddIcon from '@mui/icons-material/Add'
+import { Box, Fab, IconButton, Paper, TextField } from '@mui/material'
 
 const Question = (props) => {
   const { question, qIndex, onAddQuestion, isDraggingOver } = props
@@ -31,14 +31,14 @@ const Question = (props) => {
                 margin: '1rem auto',
               }}
               onClick={() => onAddQuestion()}
-            >
+              size="large">
               <AddIcon />
             </IconButton>
           )}
         </div>
       )}
     </Draggable>
-  )
+  );
 }
 
 export { Question }

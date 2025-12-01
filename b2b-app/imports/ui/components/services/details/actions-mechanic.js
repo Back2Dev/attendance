@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
-import { Typography, Modal, Paper, TextField, Button } from '@material-ui/core'
-import BuildIcon from '@material-ui/icons/Build'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import { Typography, Modal, Paper, TextField, Button } from '@mui/material'
+import BuildIcon from '@mui/icons-material/Build'
+import Autocomplete from '@mui/material/Autocomplete'
 
 import { JobsDetailsContext } from './context'
 

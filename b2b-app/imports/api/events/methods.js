@@ -252,23 +252,27 @@ Meteor.methods({
       }
     }
   },
-  'update.events'({ form, recurring }) {
+  'update.events'({ form = {}, id: idParam, recurring }) {
     try {
-      const id = form._id
-      delete form._id
-      const n = Events.update(id, { $set: form })
+      const id = form._id || idParam
+      if (!id) {
+        throw new Meteor.Error('invalid-argument', 'Missing event _id')
+      }
+
+      const updateDoc = { ...form }
+      delete updateDoc._id
+      const n = Events.update(id, { $set: updateDoc })
 
       if (n) {
         const updateData = {}
-        if (form.courseId) {
-          // debug(form.courseId)
-          const course = Courses.findOne({ _id: form.courseId })
+        if (updateDoc.courseId) {
+          const course = Courses.findOne({ _id: updateDoc.courseId })
           if (course) {
             updateData.course = CourseItemSchema.clean(course)
           }
         }
-        if (form.backupCourseId) {
-          const backupCourse = Courses.findOne({ _id: form.backupCourseId })
+        if (updateDoc.backupCourseId) {
+          const backupCourse = Courses.findOne({ _id: updateDoc.backupCourseId })
           if (backupCourse) {
             updateData.backupCourse = CourseItemSchema.clean(backupCourse)
           }
@@ -285,6 +289,9 @@ Meteor.methods({
 
       if (n && recurring) {
         const updatedEvent = Events.findOne({ _id: id })
+        if (!updatedEvent) {
+          throw new Meteor.Error('not-found', 'Event not found after update')
+        }
         debug(recurring, updatedEvent)
         const {
           _id,

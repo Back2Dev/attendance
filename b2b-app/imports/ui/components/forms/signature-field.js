@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormLabel, makeStyles, Paper, IconButton, Tooltip } from '@material-ui/core'
+import { FormLabel, Paper, IconButton, Tooltip } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import SignatureCanvas from 'react-signature-canvas'
 
 const useStyles = makeStyles((theme) => ({

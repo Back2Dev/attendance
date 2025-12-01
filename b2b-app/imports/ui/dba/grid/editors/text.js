@@ -1,8 +1,8 @@
 import React, { useContext, useState, useMemo } from 'react'
 import styled from 'styled-components'
-import { TextField } from '@material-ui/core'
-import { TextEditor } from 'react-data-grid'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import { TextField } from '@mui/material'
+import { TextEditor } from '/imports/ui/components/commons/mui-rdg'
+import Autocomplete from '@mui/material/Autocomplete'
 import PropTypes from 'prop-types'
 
 import { CollectionContext } from '../../context'

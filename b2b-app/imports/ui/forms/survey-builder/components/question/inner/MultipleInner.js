@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Box, IconButton, TextField, InputAdornment } from '@material-ui/core'
+import { Grid, Box, IconButton, TextField, InputAdornment } from '@mui/material'
 import { multipleOptions } from '$sb/components/question/field/options'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
-import { makeStyles } from '@material-ui/core/styles'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+import makeStyles from '@mui/styles/makeStyles';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { OptionList } from '$sb/components/question/field/option-list'
 import { slugify } from '$sb/utils'
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import { RemoveAnsBtn } from '$sb/components/panels/canvas/canvas'
 
 const useStyles = makeStyles(() => ({
@@ -94,7 +94,7 @@ const Answer = ({
           className="drag-icon"
           variant="outlined"
           color="default"
-        >
+          size="large">
           <DragIndicatorIcon />
         </IconButton>
         <Grid item xs={12} md={9} lg={10}>
@@ -172,7 +172,6 @@ const Answer = ({
           </TextField>
         </Grid> */}
       </Grid>
-
       <Grid container spacing={1} alignItems="flex-start">
         <Grid item xs={8}>
           {Object.entries(showField)
@@ -208,5 +207,5 @@ const Answer = ({
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }

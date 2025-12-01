@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, TextField } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { Button, Grid, TextField } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import {
   useSelectedPartValue,
   usePartAnswers,
@@ -9,11 +9,11 @@ import {
 import { useBuilder } from '/imports/ui/forms/survey-builder/context'
 import { textOptions } from '$sb/components/question/field/options'
 import { DndDraggable, DndDroppable } from '/imports/ui/forms/survey-builder/context/dnd'
-import { useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@mui/material/styles'
 import { partAnswers } from '/imports/ui/forms/survey-builder/recoil/atoms'
 import { AnswerField, OptionField } from '$sb/components/question/field'
 import { FieldImage } from '$sb/components/question/field'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 
 const lookupCategories = [
   { label: 'Company', value: 'company' },
@@ -160,20 +160,17 @@ const LookupInner = ({ pid, part, setPropertyByValue }) => {
           </ul>
         )}
       </DndDroppable>
-
       {showMobileActions && (
         <Button
           variant="outlined"
-          color="default"
           size="small"
           startIcon={<AddIcon />}
-          onClick={() => add()}
-        >
+          onClick={() => add()}>
           New item
         </Button>
       )}
     </div>
-  )
+  );
 }
 
 LookupInner.propTypes = {

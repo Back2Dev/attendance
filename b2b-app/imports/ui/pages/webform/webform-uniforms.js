@@ -1,29 +1,30 @@
 import React, { Fragment } from 'react'
 import { cloneDeep } from 'lodash'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import styled from 'styled-components'
 import SimpleSchema from 'simpl-schema'
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import Typography from '@material-ui/core/Typography'
-import StepContent from '@material-ui/core/StepContent'
-import StepLabel from '@material-ui/core/StepLabel'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import Alert from '@material-ui/lab/Alert'
-import Fab from '@material-ui/core/Fab'
-import Tooltip from '@material-ui/core/Tooltip'
-import Paper from '@material-ui/core/Paper'
-import Slide from '@material-ui/core/Slide'
-import IconButton from '@material-ui/core/IconButton'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import DoneIcon from '@material-ui/icons/Done'
-import InfoIcon from '@material-ui/icons/Info'
-import Box from '@material-ui/core/Box'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Stepper from '@mui/material/Stepper'
+import Step from '@mui/material/Step'
+import Typography from '@mui/material/Typography'
+import StepContent from '@mui/material/StepContent'
+import StepLabel from '@mui/material/StepLabel'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Alert from '@mui/material/Alert'
+import Fab from '@mui/material/Fab'
+import Tooltip from '@mui/material/Tooltip'
+import Paper from '@mui/material/Paper'
+import Slide from '@mui/material/Slide'
+import IconButton from '@mui/material/IconButton'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import DoneIcon from '@mui/icons-material/Done'
+import InfoIcon from '@mui/icons-material/Info'
+import Box from '@mui/material/Box'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   AutoField,
   AutoForm,
@@ -31,7 +32,7 @@ import {
   NumField,
   ErrorField,
   SubmitField,
-} from 'uniforms-material'
+} from 'uniforms-mui'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import { Context, useForm, useField } from 'uniforms'
 import { LinearProgressWithLabel } from '/imports/ui/utils/generic'
@@ -47,7 +48,7 @@ import Signature from '/imports/ui/components/signature'
 import PhoneField from '/imports/ui/components/mui-phone-number'
 // import PasswordField from '/imports/ui/components/password-field'
 import Geolocation from '/imports/ui/components/geolocation'
-import FormLabel from '@material-ui/core/FormLabel'
+import FormLabel from '@mui/material/FormLabel'
 import CustomForm from '/imports/ui/components/forms/custom'
 
 const debug = require('debug')('app:webforms-progress')
@@ -230,18 +231,17 @@ const Prompt = ({ text, tooltip, description, header, required = true, question 
         </FormLabel>
         {tooltip && (
           <Tooltip title={tooltip}>
-            <IconButton aria-label="tooltip">
+            <IconButton aria-label="tooltip" size="large">
               <InfoIcon />
             </IconButton>
           </Tooltip>
         )}
       </Box>
-
       {header && <h4>{header}</h4>}
       {desc && <p>{desc}</p>}
       {/* {tooltip && <i>{html2r(tooltip)}</i>} */}
     </div>
-  )
+  );
 }
 const RenderQ = (q, ix, model) => {
   const { formData } = React.useContext(WebformContext)
@@ -732,7 +732,7 @@ const useStyles = makeStyles((theme) =>
       },
       borderRadius: '20px',
       backgroundColor: 'white',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         right: '5px',
       },
     },
@@ -1156,7 +1156,7 @@ const Progress = ({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 const WebformPage = ({
