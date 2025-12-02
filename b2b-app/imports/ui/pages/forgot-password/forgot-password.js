@@ -28,9 +28,14 @@ const ForgotPassword = () => {
 
   const { user } = useContext(AccountContext)
 
-  const submit = (values) => {
+  const submit = async (values) => {
     setSubmittted(true)
-    Meteor.call('sendResetPasswordEmail', values.email)
+    try {
+      await Meteor.callAsync('sendResetPasswordEmail', values.email)
+    } catch (error) {
+      log.error('Failed to send reset password email', error)
+      setSubmittted(false)
+    }
   }
 
   const onLogout = (e) => {

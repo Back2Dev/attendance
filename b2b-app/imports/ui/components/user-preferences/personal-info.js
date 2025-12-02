@@ -56,14 +56,13 @@ export default function UserPreferences() {
   const userMember = Object.assign({}, member, user)
   userMember.sms = userMember?.notifyBy?.includes('SMS')
 
-  const editUserMember = (form) => {
-    Meteor.call('editUserMember', form, (err) => {
-      if (err) {
-        showError(err)
-      } else {
-        showSuccess('Member updated')
-      }
-    })
+  const editUserMember = async (form) => {
+    try {
+      await Meteor.callAsync('editUserMember', form)
+      showSuccess('Member updated')
+    } catch (err) {
+      showError(err)
+    }
   }
 
   return (

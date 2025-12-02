@@ -312,26 +312,28 @@ function ContactStep() {
   const searchTimeout = useRef(null)
   const searchMember = (keyword) => {
     Meteor.clearTimeout(searchTimeout.current)
-    searchTimeout.current = Meteor.setTimeout(() => {
+    searchTimeout.current = Meteor.setTimeout(async () => {
       // only search when the keyword is long enough
       if (keyword.length < 1) {
         dispatch({ type: 'clear' })
         return
       }
       dispatch({ type: 'setSearching', payload: { searching: true, keyword } })
-      Meteor.call('members.search', { keyword }, (error, result) => {
+      try {
+        const result = await Meteor.callAsync('members.search', { keyword })
         if (!mounted.current) {
-          return
-        }
-        if (error) {
-          showError(error.message)
-          dispatch({ type: 'setSearching', payload: { searching: false, keyword } })
           return
         }
         if (result) {
           dispatch({ type: 'setMembers', payload: { members: result.members, keyword } })
         }
-      })
+      } catch (error) {
+        if (mounted.current) {
+          showError(error.message)
+          dispatch({ type: 'setSearching', payload: { searching: false, keyword } })
+        }
+        return
+      }
     }, 500)
   }
 

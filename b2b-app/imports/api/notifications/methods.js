@@ -202,7 +202,7 @@ Meteor.methods({
    * @param {number} limit
    * @returns {[Object]} notification items
    */
-  async async notificationsGetMore({ notificationId, before, limit = 10 }) {
+  async notificationsGetMore({ notificationId, before, limit = 10 }) {
     if (!Match.test(notificationId, String)) {
       throw new Meteor.Error('notifications.getMore.1', 'Invalid notification')
     }

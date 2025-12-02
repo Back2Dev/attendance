@@ -1,6 +1,7 @@
 import { findBykeyword, findAndReplace, sendMessages } from './functions'
 import { Random } from 'meteor/random'
 import { Meteor } from 'meteor/meteor'
+import { Promise } from 'meteor/promise'
 import { resetDatabase } from '/imports/api/cleaner'
 import { insertSettings } from '/imports/api/settings/server/helper'
 import { createTestTemplates } from '/imports/test/factory.message-templates'
@@ -229,7 +230,7 @@ describe('Test messages functions', () => {
       badMessages.map((message) => {
         let result
         expect(() => {
-          result = Meteor.call('insert.messages', message)
+          result = Promise.await(Meteor.callAsync('insert.messages', message))
         }).not.to.throw()
         // debug(result)
         expect(result).to.have.property('status').which.equal('failed')
@@ -239,7 +240,7 @@ describe('Test messages functions', () => {
       goodMessages.map((message) => {
         let result
         expect(() => {
-          result = Meteor.call('insert.messages', message)
+          result = Promise.await(Meteor.callAsync('insert.messages', message))
         }).not.to.throw()
         debug(result)
         expect(result).to.have.property('status').which.equal('success')
@@ -264,7 +265,7 @@ describe('Test messages functions', () => {
     it(`cancel.messages should not work with a invalid/not found message id`, () => {
       let result
       expect(() => {
-        result = Meteor.call('cancel.messages', Random.id())
+        result = Promise.await(Meteor.callAsync('cancel.messages', Random.id()))
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
@@ -273,7 +274,7 @@ describe('Test messages functions', () => {
       let result
       // insert the message
       expect(() => {
-        result = Meteor.call('insert.messages', willBeCancelled)
+        result = Promise.await(Meteor.callAsync('insert.messages', willBeCancelled))
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
@@ -281,7 +282,7 @@ describe('Test messages functions', () => {
       // then call cancel
       const { id } = result
       expect(() => {
-        result = Meteor.call('cancel.messages', id)
+        result = Promise.await(Meteor.callAsync('cancel.messages', id))
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
@@ -304,13 +305,13 @@ describe('merge message functions', () => {
       body: 'This is a test',
     }
     const subject = 'test email merge'
-    const result = createEmail(form, subject)
+    const result = Promise.await(createEmail(form, subject))
     expect(result).to.have.property('status').which.equal('success')
   })
   it('fails to merge email data due to bad data', () => {
     const form = 'bad data'
     const subject = 'test email merge'
-    const result = createEmail(form, subject)
+    const result = Promise.await(createEmail(form, subject))
     expect(result).to.have.property('status').which.equal('failed')
   })
   it('Successfully merges sms data and inserts messages', () => {
@@ -320,7 +321,7 @@ describe('merge message functions', () => {
       body: 'testing message',
       priority: 5,
     }
-    const result = createSMS(form)
+    const result = Promise.await(createSMS(form))
     expect(result).to.have.property('status').which.equal('success')
   })
   it('fails to merge sms data due to missing data', () => {

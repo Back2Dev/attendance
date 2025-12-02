@@ -190,17 +190,16 @@ const WebformBox = withTracker((props) => {
     const canvas = sigRef.current.getCanvas()
     canvas.toBlob((blob) => {
       const uploader = new Slingshot.Upload('publicUploads', metaContext)
-      uploader.send(blob, function (error, downloadUrl) {
+      uploader.send(blob, async function (error, downloadUrl) {
         if (error) {
           showError(error)
         } else {
-          Meteor.call('uploaded.signature', { fileName, folder }, (err, res) => {
-            if (err) {
-              showError(err)
-            } else {
-              showSuccess(res.message)
-            }
-          })
+          try {
+            const res = await Meteor.callAsync('uploaded.signature', { fileName, folder })
+            showSuccess(res.message)
+          } catch (err) {
+            showError(err)
+          }
         }
       })
     })

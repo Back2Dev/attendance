@@ -41,15 +41,12 @@ function SupportForm() {
 
   const formRef = useRef()
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     console.log('submit', data)
     setLoading(true)
-    Meteor.call('support.create', data, (error, result) => {
+    try {
+      const result = await Meteor.callAsync('support.create', data)
       setLoading(false)
-      if (error) {
-        showError(error.message)
-        return
-      }
       if (result?.status === 'failed') {
         showError(result?.message)
         return
@@ -60,7 +57,10 @@ function SupportForm() {
         return
       }
       showError('Unknown error!')
-    })
+    } catch (error) {
+      setLoading(false)
+      showError(error.message)
+    }
   }
 
   if (finished) {

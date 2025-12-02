@@ -27,23 +27,22 @@ const Item = ({ item, onClick }) => {
     setAnchorEl(null)
   }
 
-  const updateItemReadStatus = (newRead) => {
-    Meteor.call(
-      'NotiMarkItemRead',
-      { itemId: item._id, read: newRead },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-        }
-        if (result.status === 'failed') {
-          showError(result.message)
-        }
-        if (result.status === 'success') {
-          // update the local item, or should we do this despite result?
-          LocalNotificationItems.update({ _id: item._id }, { $set: { read: newRead } })
-        }
+  const updateItemReadStatus = async (newRead) => {
+    try {
+      const result = await Meteor.callAsync('NotiMarkItemRead', {
+        itemId: item._id,
+        read: newRead,
+      })
+      if (result.status === 'failed') {
+        showError(result.message)
+        return
       }
-    )
+      if (result.status === 'success') {
+        LocalNotificationItems.update({ _id: item._id }, { $set: { read: newRead } })
+      }
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   const handleReadMarking = () => {

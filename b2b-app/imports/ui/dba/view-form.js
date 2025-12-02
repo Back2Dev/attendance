@@ -143,60 +143,54 @@ function ViewForm() {
     }
   }, [theView])
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('submit')
-    Meteor.call(
-      'collections.updateView',
-      {
+    try {
+      const result = await Meteor.callAsync('collections.updateView', {
         collectionName,
         viewSlug,
         viewName: newViewName,
         readOnly,
         columns: selectedColumns,
         sortOrder,
-      },
-      (error, result) => {
-        console.log(error, result)
+      })
+      console.log(null, result)
 
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result) {
-          if (result.status === 'failed') {
-            showError(result.message)
-            return
-          }
-
-          // go to new view
-          if (result.view?.slug) {
-            history.push(`/dba/${collectionName}/${result.view?.slug}`)
-            return
-          }
-        }
-
-        history.push(`/dba/${collectionName}`)
-      }
-    )
-  }
-
-  const handleDelete = () => {
-    Meteor.call(
-      'collections.deleteView',
-      { collectionName, viewSlug },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result?.status === 'failed') {
+      if (result) {
+        if (result.status === 'failed') {
           showError(result.message)
           return
         }
-        // redirect
-        history.push(`/dba/${collectionName}`)
+
+        // go to new view
+        if (result.view?.slug) {
+          history.push(`/dba/${collectionName}/${result.view?.slug}`)
+          return
+        }
       }
-    )
+
+      history.push(`/dba/${collectionName}`)
+    } catch (error) {
+      console.log(error, null)
+      showError(error.message)
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const result = await Meteor.callAsync('collections.deleteView', {
+        collectionName,
+        viewSlug,
+      })
+      if (result?.status === 'failed') {
+        showError(result.message)
+        return
+      }
+      // redirect
+      history.push(`/dba/${collectionName}`)
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   const onDragEnd = (result) => {

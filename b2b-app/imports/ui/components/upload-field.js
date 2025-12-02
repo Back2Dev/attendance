@@ -55,10 +55,13 @@ export const UploadField = ({
   const [files, setFiles] = useState([])
   const uploader = new Slingshot.Upload('uploadQuestionType', { folder: 'question' })
 
-  const onDelete = (file) => {
-    Meteor.call('s3.deleteObject', { fileName: file.name }, () => {
+  const onDelete = async (file) => {
+    try {
+      await Meteor.callAsync('s3.deleteObject', { fileName: file.name })
       setFiles((current) => current.filter((f) => f.file !== file))
-    })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const onUpload = (params, setProgress) => {

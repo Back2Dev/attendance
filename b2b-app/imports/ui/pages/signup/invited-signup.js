@@ -89,36 +89,43 @@ const InvitedSignup = (props) => {
   const { userId, invitedEmail, invitedName, invitedMobile } = state
 
   useEffect(() => {
-    Meteor.call('getUserFromToken', token, (error, result) => {
-      if (error) {
-        showError(error.message)
-        dispatch({ type: 'setLoading', payload: false })
-      }
-      if (result) {
+    let isMounted = true
+    ;(async () => {
+      try {
+        const result = await Meteor.callAsync('getUserFromToken', token)
+        if (!isMounted || !result) return
         const { status, message, userId, email, name, mobile } = result
         if (status === 'failed') {
-          return showError(message)
+          showError(message)
+          return
         }
-        return dispatch({ type: 'setData', payload: { userId, email, name, mobile } })
+        dispatch({ type: 'setData', payload: { userId, email, name, mobile } })
+      } catch (error) {
+        if (isMounted) {
+          showError(error.message || error)
+          dispatch({ type: 'setLoading', payload: false })
+        }
       }
-    })
-  }, [])
+    })()
+    return () => {
+      isMounted = false
+    }
+  }, [token])
 
-  const signup = (form) => {
+  const signup = async (form) => {
     form.invitedEmail = invitedEmail
     form.invitedName = invitedName
     Object.keys(form).map(
       (key) => (form[key] = typeof form[key] == 'string' ? form[key].trim() : form[key])
     )
     setSubmitEnabled(false)
-    Meteor.call('invitedSignup', form, userId, token, (err) => {
-      if (err) {
-        showError(err)
-        setSubmitEnabled(true)
-      } else {
-        push('/confirmation-sent', { name: form.name })
-      }
-    })
+    try {
+      await Meteor.callAsync('invitedSignup', form, userId, token)
+      push('/confirmation-sent', { name: form.name })
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const onLogout = (e) => {

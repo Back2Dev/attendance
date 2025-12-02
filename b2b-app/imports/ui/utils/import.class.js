@@ -21,17 +21,25 @@ class ImportClass extends Component {
 
   }
 
-  importAll(e) {
+  async importAll(e) {
     e.preventDefault()
-    Meteor.call('importAll')
+    try {
+      await Meteor.callAsync('importAll')
+    } catch (error) {
+      alert(error.message || error)
+    }
   }
 
-  importSome(e) {
+  async importSome(e) {
     e.preventDefault()
-    Meteor.call('importSome')
+    try {
+      await Meteor.callAsync('importSome')
+    } catch (error) {
+      alert(error.message || error)
+    }
   }
 
-  save(e){
+  async save(e){
     e.preventDefault()
 // 
 // Validate the following inputs
@@ -54,9 +62,14 @@ class ImportClass extends Component {
     })
     if (ok) {
       console.log("Saving",importData)
-      Meteor.call("importClass",importData)
-      this.setState({saved: true})
-      return true
+      try {
+        await Meteor.callAsync("importClass",importData)
+        this.setState({saved: true})
+        return true
+      } catch (error) {
+        alert(error.message || error)
+        return false
+      }
     } else {
       alert("All input fields are required")
       return false
@@ -86,4 +99,3 @@ ImportClass.propTypes = {
 };
 
 export default ImportClass;
-

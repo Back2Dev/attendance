@@ -23,9 +23,9 @@ const MeetingBox = () => {
     }
   }, [id])
 
-  const save = (form) => {
+  const save = async (form) => {
     form.when = new Date()
-    Meteor.call('insert.standups', form)
+    await meteorCall('insert.standups', 'saving standup', form)
     navigate('/admin/standups')
   }
 

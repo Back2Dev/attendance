@@ -196,31 +196,29 @@ const NotificationsIcon = () => {
     dispatch({ type: 'setLoading', payload: true })
     const limit = 10
     Meteor.clearTimeout(getRecentlyTimeout.current)
-    getRecentlyTimeout.current = Meteor.setTimeout(() => {
+    getRecentlyTimeout.current = Meteor.setTimeout(async () => {
       if (mounted.current !== true) {
         return
       }
       console.log('call now', notificationId)
-      Meteor.call(
-        'notificationsGetRecently',
-        {
+      try {
+        const result = await Meteor.callAsync('notificationsGetRecently', {
           notificationId,
           limit,
           firstTimeFetch: firstTimeFetch.current,
-        },
-        (error, result) => {
-          if (mounted.current !== true) {
-            return
-          }
-          if (error) {
-            dispatch({ type: 'setLoading', payload: false })
-            console.log('error', error.message)
-            return
-          }
-          firstTimeFetch.current = false
-          dispatch({ type: 'setItems', payload: { items: result, limit, updatedAt } })
+        })
+        if (mounted.current !== true) {
+          return
         }
-      )
+        firstTimeFetch.current = false
+        dispatch({ type: 'setItems', payload: { items: result, limit, updatedAt } })
+      } catch (error) {
+        if (mounted.current !== true) {
+          return
+        }
+        dispatch({ type: 'setLoading', payload: false })
+        console.log('error', error.message)
+      }
     }, 300)
   }
 
@@ -254,7 +252,7 @@ const NotificationsIcon = () => {
   const handleClose = () => {
     dispatch({ type: 'setAnchorEl', payload: null })
     // call method check
-    Meteor.call('notificationsCheck', {}, (error) => {
+    Meteor.callAsync('notificationsCheck', {}).catch((error) => {
       if (error) {
         console.log('error', error.message)
       }
@@ -281,7 +279,7 @@ const NotificationsIcon = () => {
     }
   }
 
-  const handleLoadMore = () => {
+  const handleLoadMore = async () => {
     if (!notification) {
       console.log('no notification')
       return
@@ -298,37 +296,32 @@ const NotificationsIcon = () => {
     }
     dispatch({ type: 'setLoading', payload: true })
     const limit = 30
-    Meteor.call(
-      'notificationsGetMore',
-      {
+    try {
+      const result = await Meteor.callAsync('notificationsGetMore', {
         notificationId,
         before,
         limit,
-      },
-      (error, result) => {
-        if (error) {
-          dispatch({ type: 'setLoading', payload: false })
-          console.log('error', error.message)
-          return
-        }
-        dispatch({ type: 'setItems', payload: { items: result, limit, updatedAt } })
-      }
-    )
+      })
+      dispatch({ type: 'setItems', payload: { items: result, limit, updatedAt } })
+    } catch (error) {
+      dispatch({ type: 'setLoading', payload: false })
+      console.log('error', error.message)
+    }
   }
 
-  const markAllRead = () => {
-    Meteor.call('NotiMarkAllRead', (error, result) => {
-      if (error) {
-        showError(error.message)
-      }
+  const markAllRead = async () => {
+    try {
+      const result = await Meteor.callAsync('NotiMarkAllRead')
       if (result.status === 'failed') {
         showError(result.message)
+        return
       }
       if (result.status === 'success') {
-        // update the local item, or should we do this despite result?
         LocalNotificationItems.update({}, { $set: { read: true } }, { multi: true })
       }
-    })
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   const renderItems = () => {

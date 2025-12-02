@@ -23,7 +23,9 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
 
   const onCellEdited = (cell) => {
     debug('cellEdited', cell)
-    methods.update(cell._cell.row.data)
+    const data = { ...cell._cell.row.data }
+    delete data.search
+    methods.update(data)
   }
 
   const tableOptions = {

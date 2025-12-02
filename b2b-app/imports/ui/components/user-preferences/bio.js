@@ -33,22 +33,25 @@ function Biography() {
   const [favorites, setFavorites] = useState(member?.favorites || [])
   const [loading, setloading] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setloading(true)
-    Meteor.call('members.updateBio', { bio, favorites }, (err, result) => {
-      if (!mounted) {
+    try {
+      const result = await Meteor.callAsync('members.updateBio', { bio, favorites })
+      if (!mounted.current) {
         return
       }
       setloading(false)
-      if (err) {
-        showError(err)
-      }
       if (result.status === 'failed') {
         showError(result.message)
       } else {
         showSuccess('Member updated')
       }
-    })
+    } catch (err) {
+      if (mounted.current) {
+        setloading(false)
+        showError(err)
+      }
+    }
   }
 
   return (

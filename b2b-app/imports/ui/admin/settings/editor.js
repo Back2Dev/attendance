@@ -17,9 +17,13 @@ const Editor = () => {
     }
   }, [id])
 
-  const save = (form) => {
-    Meteor.call('update.Settings', form)
-    navigate('/admin/settings')
+  const save = async (form) => {
+    try {
+      await Meteor.callAsync('update.Settings', form)
+      navigate('/admin/settings')
+    } catch (error) {
+      console.error(error)
+    }
   }
   const cancel = () => navigate('/admin/settings')
 

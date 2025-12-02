@@ -37,41 +37,45 @@ export default function UserPreferences() {
   const { user } = useContext(AccountContext)
 
   useEffect(() => {
-    Meteor.call('userServices', (err, res) => {
-      if (err) {
-        showError(err)
-      } else {
+    let isMounted = true
+    ;(async () => {
+      try {
+        const res = await Meteor.callAsync('userServices')
+        if (!isMounted) return
         setUserServices(res)
         if (!res.includes('password')) {
           setShowPassword(false)
         }
+      } catch (err) {
+        if (isMounted) {
+          showError(err)
+        }
       }
-    })
+    })()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
-  const changePassword = (form) => {
+  const changePassword = async (form) => {
     form.id = user._id
-    Meteor.call('setOwnPassword', { ...form, oldPassword: password }, false, function (
-      err
-    ) {
-      if (err) {
-        showError(err.message)
-      } else {
-        showSuccess('Changed password')
-        setShowPassword(true)
-      }
-    })
+    try {
+      await Meteor.callAsync('setOwnPassword', { ...form, oldPassword: password }, false)
+      showSuccess('Changed password')
+      setShowPassword(true)
+    } catch (err) {
+      showError(err.message || err)
+    }
   }
 
-  const verifyPassword = () => {
-    Meteor.call('verifyPassword', password, function (err) {
-      if (err) {
-        showError(err.message)
-      } else {
-        showSuccess('Password matched')
-        setShowPassword(false)
-      }
-    })
+  const verifyPassword = async () => {
+    try {
+      await Meteor.callAsync('verifyPassword', password)
+      showSuccess('Password matched')
+      setShowPassword(false)
+    } catch (err) {
+      showError(err.message || err)
+    }
   }
 
   const renderOldPassword = () => {

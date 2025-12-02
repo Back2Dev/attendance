@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Promise } from 'meteor/promise'
 import { resetDatabase } from '/imports/api/cleaner'
 import { expect } from 'chai'
 import { Factory } from 'meteor/dburles:factory'
@@ -41,13 +42,13 @@ describe('User publications', () => {
     it('creates a message to be sent to user for a password reset', () => {
       const testEmail = 'connie.convey@test.com'
       expect(() => {
-        Meteor.call('sendResetPasswordEmail', testEmail)
+        Promise.await(Meteor.callAsync('sendResetPasswordEmail', testEmail))
       }).to.not.throw()
       const message = Messages.findOne({ to: testEmail })
       expect(message).to.not.be.empty
     })
     it('fails to create a message when there is no email', () => {
-      const result = Meteor.call('sendResetPasswordEmail')
+      const result = Promise.await(Meteor.callAsync('sendResetPasswordEmail'))
       expect(result).to.have.property('status').which.equal('failed')
     })
     // TODO : Fix this test

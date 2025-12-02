@@ -17,7 +17,7 @@ class Importer extends Component {
     this.save = this.save.bind(this);
   }
 
-  save(e){
+  async save(e){
     e.preventDefault();
 // 
 // Validate the following inputs
@@ -41,9 +41,14 @@ class Importer extends Component {
     })
     if (ok) {
       console.log("Saving",importData)
-      Meteor.call("importData",importData)
-      this.setState({saved: true})
-      return true
+      try {
+        await Meteor.callAsync("importData",importData)
+        this.setState({saved: true})
+        return true
+      } catch (error) {
+        alert(error.message || error)
+        return false
+      }
     } else {
       alert("All input fields are required")
       return false
@@ -70,4 +75,3 @@ Importer.propTypes = {
 };
 
 export default Importer;
-

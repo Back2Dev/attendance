@@ -16,16 +16,15 @@ const AddGoogleConfirm = () => {
   const { push } = useHistory()
   const { user } = useContext(AccountContext)
 
-  const addGoogle = (google) => {
-    Meteor.call('updateGoogle', google, function (err) {
-      if (err) {
-        showError(err)
-      } else {
-        showSuccess('Added Google to your account')
-        sessionStorage.clear()
-        push('/login')
-      }
-    })
+  const addGoogle = async (google) => {
+    try {
+      await Meteor.callAsync('updateGoogle', google)
+      showSuccess('Added Google to your account')
+      sessionStorage.clear()
+      push('/login')
+    } catch (err) {
+      showError(err)
+    }
   }
 
   const google = JSON.parse(sessionStorage.getItem('google'))

@@ -21,18 +21,17 @@ export const ArchivesProvider = ({ children, collectionName }) => {
     []
   )
 
-  const getRows = () => {
-    Meteor.call('collections.getArchives', { collectionName }, (error, result) => {
-      if (error) {
-        showError(error.message)
-        return
-      }
+  const getRows = async () => {
+    try {
+      const result = await Meteor.callAsync('collections.getArchives', { collectionName })
       if (result?.status === 'failed') {
         showError(result.message)
         return
       }
       setRows(result.rows)
-    })
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   useEffect(() => {
@@ -41,57 +40,47 @@ export const ArchivesProvider = ({ children, collectionName }) => {
     getRows()
   }, [collectionName])
 
-  const restore = ({ selectedIds, keepTheCopy = false }) => {
+  const restore = async ({ selectedIds, keepTheCopy = false }) => {
     console.log('restore', selectedIds, keepTheCopy)
-    Meteor.call(
-      'collections.restore',
-      {
+    try {
+      const result = await Meteor.callAsync('collections.restore', {
         ids: selectedIds,
         keepTheCopy,
-      },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result?.status === 'failed') {
-          showError(result?.message)
-          return
-        }
-        if (result?.status === 'success') {
-          showSuccess(result.message)
-        }
-
-        // reload data
-        getRows()
+      })
+      if (result?.status === 'failed') {
+        showError(result?.message)
+        return
       }
-    )
+      if (result?.status === 'success') {
+        showSuccess(result.message)
+      }
+
+      // reload data
+      getRows()
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
-  const remove = ({ selectedIds }) => {
+  const remove = async ({ selectedIds }) => {
     console.log('remove', selectedIds)
-    Meteor.call(
-      'collections.removeArchives',
-      {
+    try {
+      const result = await Meteor.callAsync('collections.removeArchives', {
         ids: selectedIds,
-      },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result?.status === 'failed') {
-          showError(result?.message)
-          return
-        }
-        if (result?.status === 'success') {
-          showSuccess(result.message)
-        }
-
-        // reload data
-        getRows()
+      })
+      if (result?.status === 'failed') {
+        showError(result?.message)
+        return
       }
-    )
+      if (result?.status === 'success') {
+        showSuccess(result.message)
+      }
+
+      // reload data
+      getRows()
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   return (

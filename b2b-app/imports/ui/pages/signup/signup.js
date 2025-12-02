@@ -68,22 +68,19 @@ const Signup = () => {
   const { push } = useHistory()
   const { user } = useContext(AccountContext)
 
-  const signup = (form) => {
+  const signup = async (form) => {
     Object.keys(form).map(
       (key) => (form[key] = typeof form[key] == 'string' ? form[key].trim() : form[key])
     )
     setSubmitEnabled(false)
-    Meteor.call('userExists', form.email, function (err) {
-      if (err) {
-        showError(err)
-        setSubmitEnabled(true)
-      }
-    })
-    Meteor.call('signup', form, (err) => {
-      if (!err) {
-        push('/confirmation-sent', { name: form.name })
-      }
-    })
+    try {
+      await Meteor.callAsync('userExists', form.email)
+      await Meteor.callAsync('signup', form)
+      push('/confirmation-sent', { name: form.name })
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const onLogout = (e) => {

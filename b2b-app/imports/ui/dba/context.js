@@ -67,25 +67,23 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
 
   const rawC = React.useMemo(() => getCollection(collectionName), [collectionName])
 
-  const getRows = () => {
+  const getRows = async () => {
     if (theView === undefined) {
       return
     }
-    Meteor.call(
-      'collections.getRows',
-      { collectionName, viewSlug: theView?.slug },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result?.status === 'failed') {
-          showError(result.message)
-          return
-        }
-        setRows(result.rows)
+    try {
+      const result = await Meteor.callAsync('collections.getRows', {
+        collectionName,
+        viewSlug: theView?.slug,
+      })
+      if (result?.status === 'failed') {
+        showError(result.message)
+        return
       }
-    )
+      setRows(result.rows)
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   useEffect(() => {
@@ -98,35 +96,31 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     getRows()
   }, [collectionName, theView])
 
-  const updateCell = ({ rowId, column, value, cb, localOnly }) => {
+  const updateCell = async ({ rowId, column, value, cb, localOnly }) => {
     debug('updateCell', { rowId, column, value })
 
     // call api to update data
     if (localOnly !== true) {
-      Meteor.call(
-        'collections.updateCell',
-        {
+      try {
+        const result = await Meteor.callAsync('collections.updateCell', {
           collectionName,
           rowId,
           column,
           value,
-        },
-        (error, result) => {
-          if (error) {
-            showError(error.message)
-            return
-          }
-          if (result?.status === 'failed') {
-            showError(result?.message)
-            typeof cb === 'function' && cb(result)
-            return
-          }
-          if (result?.status === 'success') {
-            showSuccess('Data updated')
-            typeof cb === 'function' && cb(result)
-          }
+        })
+        if (result?.status === 'failed') {
+          showError(result?.message)
+          typeof cb === 'function' && cb(result)
+          return
         }
-      )
+        if (result?.status === 'success') {
+          showSuccess('Data updated')
+          typeof cb === 'function' && cb(result)
+        }
+      } catch (error) {
+        showError(error.message)
+        return
+      }
     }
     const newRows = rows.map((row) => {
       if (row._id === rowId) {
@@ -139,32 +133,27 @@ export const CollectionProvider = ({ children, collectionName, viewName }) => {
     setRows(newRows)
   }
 
-  const archive = ({ selectedIds, label }) => {
+  const archive = async ({ selectedIds, label }) => {
     debug('archive', selectedIds, label)
-    Meteor.call(
-      'collections.archive',
-      {
+    try {
+      const result = await Meteor.callAsync('collections.archive', {
         collectionName,
         label,
         recordIds: selectedIds,
-      },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result?.status === 'failed') {
-          showError(result?.message)
-          return
-        }
-        if (result?.status === 'success') {
-          showSuccess(result.message)
-        }
-
-        // reload data
-        getRows()
+      })
+      if (result?.status === 'failed') {
+        showError(result?.message)
+        return
       }
-    )
+      if (result?.status === 'success') {
+        showSuccess(result.message)
+      }
+
+      // reload data
+      getRows()
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   return (

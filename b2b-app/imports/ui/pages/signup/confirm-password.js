@@ -31,23 +31,25 @@ const ConfirmPassword = () => {
   const navigate = useNavigate()
   const { userId, token } = useParams()
 
-  const add = (form) => {
+  const add = async (form) => {
     form.userId = userId
     form.token = token
-    Meteor.call('verifyUser', form, function (err) {
-      if (err) {
-        showError(err)
-      } else {
-        showSuccess('Added password')
-        Meteor.loginWithPassword({ id: userId }, form.password, (error) => {
-          if (error) {
-            showError(error.message)
-          } else {
-            navigate('/dashboard')
-          }
-        })
-      }
-    })
+    setSubmitEnabled(false)
+    try {
+      await Meteor.callAsync('verifyUser', form)
+      showSuccess('Added password')
+      Meteor.loginWithPassword({ id: userId }, form.password, (error) => {
+        if (error) {
+          showError(error.message)
+          setSubmitEnabled(true)
+        } else {
+          navigate('/dashboard')
+        }
+      })
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const renderForm = () => {

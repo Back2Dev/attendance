@@ -28,10 +28,8 @@ const Editor = () => {
   const methods = useMemo(
     () => ({
       remove: (targetId) => meteorCall('rm.cronjobs', 'Deleting', targetId),
-      update: (targetId, form) => {
-        meteorCall('update.cronjobs', 'updating', form)
-        navigate('/admin/cronjobs')
-      },
+      update: (targetId, form) =>
+        meteorCall('update.cronjobs', 'updating cronjob', { _id: targetId, ...form }),
     }),
     [navigate]
   )

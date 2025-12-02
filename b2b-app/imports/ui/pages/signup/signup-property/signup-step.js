@@ -41,18 +41,17 @@ let userSchema = new SimpleSchema2Bridge(
 const SignupStep = ({ activeStep, setActiveStep }) => {
   const { user } = useContext(AccountContext)
 
-  const toUploadContract = (form) => {
+  const toUploadContract = async (form) => {
     Object.keys(form).map(
       (key) => (form[key] = typeof form[key] == 'string' ? form[key].trim() : form[key])
     )
-    Meteor.call('userExists', form.email, function (err) {
-      if (err) {
-        showError(err)
-      } else {
-        sessionStorage.setItem('userDetails', JSON.stringify(form))
-        setActiveStep(activeStep + 1)
-      }
-    })
+    try {
+      await Meteor.callAsync('userExists', form.email)
+      sessionStorage.setItem('userDetails', JSON.stringify(form))
+      setActiveStep(activeStep + 1)
+    } catch (err) {
+      showError(err)
+    }
   }
 
   const prefilled = sessionStorage.getItem('userDetails')

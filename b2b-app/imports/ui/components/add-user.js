@@ -19,9 +19,13 @@ let userSchema = new SimpleSchema2Bridge(
 )
 
 const AddUser = ({ closeModal }) => {
-  const add = (form) => {
-    Meteor.call('addNewUser', form)
-    closeModal()
+  const add = async (form) => {
+    try {
+      await Meteor.callAsync('addNewUser', form)
+      closeModal()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Promise } from 'meteor/promise'
 import sinon from 'sinon'
 
 /**
@@ -15,7 +16,7 @@ export const callStubbed = (user, method, ...args) => {
   userIdStub.returns(user._id)
 
   try {
-    const result = Meteor.call(method, ...args)
+    const result = Promise.await(Meteor.callAsync(method, ...args))
     userStub.restore()
     userIdStub.restore()
     return result

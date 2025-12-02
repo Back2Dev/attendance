@@ -1,5 +1,6 @@
 import { Random } from 'meteor/random'
 import { Meteor } from 'meteor/meteor'
+import { Promise } from 'meteor/promise'
 import { resetDatabase } from '/imports/api/cleaner'
 import { insertSettings } from '/imports/api/settings/server/helper'
 import { createTestTemplates } from '/imports/test/factory.message-templates'
@@ -145,7 +146,7 @@ describe('Test messages methods', () => {
       badMessages.map((message) => {
         let result
         expect(() => {
-          result = Meteor.call('insert.messages', message)
+          result = Promise.await(Meteor.callAsync('insert.messages', message))
         }).not.to.throw()
         // debug(result)
         expect(result).to.have.property('status').which.equal('failed')
@@ -155,7 +156,7 @@ describe('Test messages methods', () => {
       goodMessages.map((message) => {
         let result
         expect(() => {
-          result = Meteor.call('insert.messages', message)
+          result = Promise.await(Meteor.callAsync('insert.messages', message))
         }).not.to.throw()
         // debug(result)
         expect(result).to.have.property('status').which.equal('success')
@@ -163,13 +164,13 @@ describe('Test messages methods', () => {
       })
     })
     it(`send.messages only send emails`, () => {
-      const result = Meteor.call('send.messages', 'email')
+      const result = Promise.await(Meteor.callAsync('send.messages', 'email'))
       expect(result).to.be.a('object')
       expect(result.status).to.be.a('string')
       expect(result.message).to.be.a('string')
     })
     it(`send.messages should work`, () => {
-      const result = Meteor.call('send.messages')
+      const result = Promise.await(Meteor.callAsync('send.messages'))
       debug(result)
       expect(result).to.be.a('object')
       expect(result.status).to.be.a('string')
@@ -180,7 +181,7 @@ describe('Test messages methods', () => {
     it(`cancel.messages should not work with a invalid/not found message id`, () => {
       let result
       expect(() => {
-        result = Meteor.call('cancel.messages', Random.id())
+        result = Promise.await(Meteor.callAsync('cancel.messages', Random.id()))
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
@@ -189,7 +190,7 @@ describe('Test messages methods', () => {
       let result
       // insert the message
       expect(() => {
-        result = Meteor.call('insert.messages', willBeCancelled)
+        result = Promise.await(Meteor.callAsync('insert.messages', willBeCancelled))
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
@@ -197,7 +198,7 @@ describe('Test messages methods', () => {
       // then call cancel
       const { id } = result
       expect(() => {
-        result = Meteor.call('cancel.messages', id)
+        result = Promise.await(Meteor.callAsync('cancel.messages', id))
       }).not.to.throw()
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')

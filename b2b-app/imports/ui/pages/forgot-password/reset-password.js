@@ -25,17 +25,16 @@ const ResetPassword = () => {
 
   const navigate = useNavigate()
 
-  const submit = (values) => {
+  const submit = async (values) => {
     setSubmittted(true)
-    Meteor.call('resetUserPassword', values.password, userId, token, (err, data) => {
-      if (err) {
-        setSubmittted(false)
-        showError(err)
-      } else {
-        navigate('/login')
-        showSuccess('Password was changed')
-      }
-    })
+    try {
+      await Meteor.callAsync('resetUserPassword', values.password, userId, token)
+      navigate('/login')
+      showSuccess('Password was changed')
+    } catch (err) {
+      setSubmittted(false)
+      showError(err)
+    }
   }
 
   const onLogout = (e) => {

@@ -13,19 +13,18 @@ const AddFacebookConfirm = () => {
   const { push } = useHistory()
   const { user } = useContext(AccountContext)
 
-  const addGoogle = (facebook) => {
+  const addGoogle = async (facebook) => {
     setSubmitEnabled(false)
-    Meteor.call('updateFacebook', facebook, function (err) {
-      if (err) {
-        showError(err)
-        setSubmitEnabled(true)
-      } else {
-        showSuccess('Added Facebook to your account')
-        setSubmitEnabled(true)
-        sessionStorage.clear()
-        push('/login')
-      }
-    })
+    try {
+      await Meteor.callAsync('updateFacebook', facebook)
+      showSuccess('Added Facebook to your account')
+      setSubmitEnabled(true)
+      sessionStorage.clear()
+      push('/login')
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const facebook = JSON.parse(sessionStorage.getItem('facebook'))

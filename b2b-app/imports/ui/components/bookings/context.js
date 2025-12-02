@@ -45,44 +45,46 @@ export const BookingsProvider = (props) => {
 
   const [submiting, setSubmiting] = useState(false)
   // book action
-  const book = ({ eventId, toolId }) => {
+  const book = async ({ eventId, toolId }) => {
     setSubmiting(true)
-    Meteor.call('book.events', { eventId, toolId }, (error, result) => {
+    try {
+      const result = await Meteor.callAsync('book.events', { eventId, toolId })
       if (!mounted.current) {
         return
       }
       setSubmiting(false)
-      if (error) {
+      if (result?.status === 'success') {
+        showSuccess('Event booked successfully')
+      } else {
+        showError(result?.message || 'Unknown error')
+      }
+    } catch (error) {
+      if (mounted.current) {
+        setSubmiting(false)
         showError(error.message)
       }
-      if (result) {
-        if (result.status === 'success') {
-          showSuccess('Event booked successfully')
-        } else {
-          showError(result.message || 'Unknown error')
-        }
-      }
-    })
+    }
   }
   // cancel action
-  const cancel = ({ sessionId }) => {
+  const cancel = async ({ sessionId }) => {
     setSubmiting(true)
-    Meteor.call('cancel.events', { sessionId }, (error, result) => {
+    try {
+      const result = await Meteor.callAsync('cancel.events', { sessionId })
       if (!mounted.current) {
         return
       }
       setSubmiting(false)
-      if (error) {
+      if (result?.status === 'success') {
+        showSuccess('Event booking cancelled successfully')
+      } else {
+        showError(result?.message || 'Unknown error')
+      }
+    } catch (error) {
+      if (mounted.current) {
+        setSubmiting(false)
         showError(error.message)
       }
-      if (result) {
-        if (result.status === 'success') {
-          showSuccess('Event booking cancelled successfully')
-        } else {
-          showError(result.message || 'Unknown error')
-        }
-      }
-    })
+    }
   }
 
   return (
