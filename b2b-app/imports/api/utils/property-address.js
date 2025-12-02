@@ -18,7 +18,7 @@ const debug = require('debug')('app:utils:address')
  * @returns {string[]} result.data.types
  */
 export const getAddressObject = async (address) => {
-  const apiKey = getCfg('geocoding-api-key')
+  const apiKey = await getCfg('geocoding-api-key')
   if (!apiKey) {
     return {
       status: 'failed',

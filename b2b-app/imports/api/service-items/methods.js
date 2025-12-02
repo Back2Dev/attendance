@@ -3,9 +3,9 @@ import ServiceItems from './schema'
 const debug = require('debug')('target:serviceItems')
 
 Meteor.methods({
-  'rm.serviceItems': (id) => {
+  'rm.serviceItems': async (id) => {
     try {
-      const n = ServiceItems.remove(id)
+      const n = await ServiceItems.removeAsync(id)
       return { status: 'success', message: 'Removed service_item' }
     } catch (e) {
       return {
@@ -14,11 +14,11 @@ Meteor.methods({
       }
     }
   },
-  'update.serviceItems': (form) => {
+  'update.serviceItems': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = ServiceItems.update(id, { $set: form })
+      const n = await ServiceItems.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} service_item(s)` }
     } catch (e) {
       return {
@@ -27,9 +27,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.serviceItems': (form) => {
+  'insert.serviceItems': async (form) => {
     try {
-      const id = ServiceItems.insert(form)
+      const id = await ServiceItems.insertAsync(form)
       return { status: 'success', message: 'Added service_item' }
     } catch (e) {
       return {

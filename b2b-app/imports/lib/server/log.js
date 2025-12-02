@@ -30,10 +30,12 @@ const release = version()
  * Attempt to get the current Meteor User
  * @return {Object|Null}
  */
-function getUser() {
+async function getUser() {
   try {
     if (!Meteor.userId()) return { _id: 'UNKNOWN', username: 'Not logged in' }
-    return Meteor.users.findOne(Meteor.userId())
+    return Meteor.users.findOneAsync
+      ? await Meteor.users.findOneAsync({ _id: Meteor.userId() })
+      : Meteor.users.findOne(Meteor.userId())
   } catch (err) {
     return null
   }
@@ -162,9 +164,9 @@ function hijackDebug(log) {
  *   log.error(String, Object)
  */
 function trackErrors(log) {
-  log.error = (...args) => {
+  log.error = async (...args) => {
     // eslint-disable-line no-param-reassign
-    const user = getUser()
+    const user = await getUser()
     const exception = args.find((arg) => arg instanceof Error)
 
     // use Sentry if it's been configured

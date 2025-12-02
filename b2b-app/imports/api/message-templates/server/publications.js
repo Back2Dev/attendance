@@ -22,9 +22,9 @@ Meteor.publish('id.messageTemplates', (id) => {
   ]
 })
 
-Meteor.publish('idslug.messageTemplates', (id) => {
+Meteor.publish('idslug.messageTemplates', async (id) => {
   let query = id
-  if (!MessageTemplates.findOne(id)) query = { slug: id }
+  if (!(await MessageTemplates.findOneAsync(id))) query = { slug: id }
   return [
     MessageTemplates.find(query),
   ]

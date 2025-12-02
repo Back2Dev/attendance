@@ -20,7 +20,7 @@ Meteor.methods({
    * @returns {String} result.status
    * @returns {String} result.message
    */
-  'cancel.events'({ sessionId }) {
+  'cancel.events': async function ({ sessionId }) {
     debug({ sessionId })
     try {
       CancelBookingParamsSchema.validate({ sessionId })
@@ -34,7 +34,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
 
-    const member = Members.findOne({ userId: this.userId })
+    const member = await Members.findOneAsync({ userId: this.userId })
     if (!member) {
       return {
         status: 'failed',
@@ -43,7 +43,7 @@ Meteor.methods({
     }
 
     // select the session
-    const session = Sessions.findOne({
+    const session = await Sessions.findOneAsync({
       _id: sessionId,
       memberId: member._id,
       status: 'booked',
@@ -56,7 +56,7 @@ Meteor.methods({
     }
 
     try {
-      const updated = Sessions.update(
+      const updated = await Sessions.updateAsync(
         {
           _id: session._id,
         },
@@ -72,10 +72,8 @@ Meteor.methods({
     }
 
     // remove the member item inside the event.members
-    Events.update(
-      {
-        _id: session.eventId,
-      },
+    await Events.updateAsync(
+      { _id: session.eventId },
       {
         $pull: {
           members: { 'session._id': session._id },
@@ -85,7 +83,7 @@ Meteor.methods({
 
     // enable selected tool in the event
     if (session.toolId) {
-      Events.update(
+      await Events.updateAsync(
         { _id: session.eventId, tools: { $elemMatch: { _id: session.toolId } } },
         {
           $set: { 'tools.$.available': true },
@@ -105,7 +103,7 @@ Meteor.methods({
    * @returns {String} result.message
    * @returns {String} result.sessionId, the session id just created
    */
-  'book.events'({ eventId, toolId }) {
+  'book.events': async function ({ eventId, toolId }) {
     // debug({ eventId, toolId })
     try {
       BookParamsSchema.validate({ eventId, toolId })
@@ -115,7 +113,7 @@ Meteor.methods({
     }
 
     // select the event
-    const event = Events.findOne({ _id: eventId })
+    const event = await Events.findOneAsync({ _id: eventId })
     if (!event) {
       return { status: 'failed', message: `Event was not found with id ${eventId}` }
     }
@@ -142,7 +140,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const member = Members.findOne({ userId: this.userId })
+    const member = await Members.findOneAsync({ userId: this.userId })
     if (!member) {
       return {
         status: 'failed',
@@ -155,13 +153,15 @@ Meteor.methods({
 
     // get the course
     if (event.courseId) {
-      const course = Courses.findOne({ _id: event.courseId })
-      sessionName += `: ${course.title}`
+      const course = await Courses.findOneAsync({ _id: event.courseId })
+      if (course) {
+        sessionName += `: ${course.title}`
+      }
     }
 
     let sessionId
     try {
-      sessionId = Sessions.insert({
+      sessionId = await Sessions.insertAsync({
         memberId: member._id,
         eventId: eventId,
         name: sessionName,
@@ -179,7 +179,7 @@ Meteor.methods({
     // update the members array of event
     const memberItem = MemberItemSchema.clean({
       ...member,
-      session: Sessions.findOne({ _id: sessionId }),
+      session: await Sessions.findOneAsync({ _id: sessionId }),
     })
     debug({ memberItem })
     const updateData = {}
@@ -189,16 +189,11 @@ Meteor.methods({
       updateData.$set = { members: [memberItem] }
     }
     debug({ updateData })
-    Events.update(
-      {
-        _id: eventId,
-      },
-      updateData
-    )
+    await Events.updateAsync({ _id: eventId }, updateData)
 
     // disable the booked tool
     if (foundTool) {
-      Events.update(
+      await Events.updateAsync(
         { _id: eventId, tools: { $elemMatch: { _id: foundTool._id } } },
         {
           $set: { 'tools.$.available': false },
@@ -208,8 +203,8 @@ Meteor.methods({
 
     return { status: 'success', sessionId }
   },
-  'rm.events'({ id, recurring }) {
-    const eventToDelete = Events.findOne({ _id: id })
+  'rm.events': async function ({ id, recurring }) {
+    const eventToDelete = await Events.findOneAsync({ _id: id })
     if (!eventToDelete) {
       return {
         status: 'failed',
@@ -218,7 +213,7 @@ Meteor.methods({
     }
 
     try {
-      const n = Events.remove(id)
+      const n = await Events.removeAsync(id)
 
       if (n) {
         const theRef = eventToDelete.repeat?.ref
@@ -230,14 +225,17 @@ Meteor.methods({
             // delete this event only, then do nothing
             break
           case 'all':
-            Events.remove({
+            await Events.removeAsync({
               $or: [{ 'repeat.ref': theRef }, { _id: theRef }],
             })
             // update all events in this series
             break
           case 'furture':
             // update furture events
-            Events.remove({ 'repeat.ref': theRef, when: { $gt: eventToDelete.when } })
+            await Events.removeAsync({
+              'repeat.ref': theRef,
+              when: { $gt: eventToDelete.when },
+            })
             break
           default:
             break
@@ -252,7 +250,7 @@ Meteor.methods({
       }
     }
   },
-  'update.events'({ form = {}, id: idParam, recurring }) {
+  'update.events': async function ({ form = {}, id: idParam, recurring }) {
     try {
       const id = form._id || idParam
       if (!id) {
@@ -261,24 +259,26 @@ Meteor.methods({
 
       const updateDoc = { ...form }
       delete updateDoc._id
-      const n = Events.update(id, { $set: updateDoc })
+      const n = await Events.updateAsync(id, { $set: updateDoc })
 
       if (n) {
         const updateData = {}
         if (updateDoc.courseId) {
-          const course = Courses.findOne({ _id: updateDoc.courseId })
+          const course = await Courses.findOneAsync({ _id: updateDoc.courseId })
           if (course) {
             updateData.course = CourseItemSchema.clean(course)
           }
         }
         if (updateDoc.backupCourseId) {
-          const backupCourse = Courses.findOne({ _id: updateDoc.backupCourseId })
+          const backupCourse = await Courses.findOneAsync({
+            _id: updateDoc.backupCourseId,
+          })
           if (backupCourse) {
             updateData.backupCourse = CourseItemSchema.clean(backupCourse)
           }
         }
         if (updateData.course || updateData.backupCourse) {
-          Events.update(
+          await Events.updateAsync(
             { _id: id },
             {
               $set: updateData,
@@ -288,7 +288,7 @@ Meteor.methods({
       }
 
       if (n && recurring) {
-        const updatedEvent = Events.findOne({ _id: id })
+        const updatedEvent = await Events.findOneAsync({ _id: id })
         if (!updatedEvent) {
           throw new Meteor.Error('not-found', 'Event not found after update')
         }
@@ -314,7 +314,7 @@ Meteor.methods({
             // update this event only, then do nothing
             break
           case 'all':
-            Events.update(
+            await Events.updateAsync(
               {
                 $or: [{ 'repeat.ref': theRef }, { _id: theRef }],
               },
@@ -329,7 +329,7 @@ Meteor.methods({
             break
           case 'furture':
             // update furture events
-            Events.update(
+            await Events.updateAsync(
               { 'repeat.ref': theRef, when: { $gt: when } },
               {
                 $set: updateData,
@@ -352,39 +352,34 @@ Meteor.methods({
       }
     }
   },
-  'insert.events'({ form }) {
+  'insert.events': async function ({ form }) {
     try {
-      const id = Events.insert(form)
+      const id = await Events.insertAsync(form)
 
       // we need to get the course information and update the event
       if (id) {
         const updateData = {}
         if (form.courseId) {
           // debug(form.courseId)
-          const course = Courses.findOne({ _id: form.courseId })
+          const course = await Courses.findOneAsync({ _id: form.courseId })
           if (course) {
             updateData.course = CourseItemSchema.clean(course)
           }
         }
         if (form.backupCourseId) {
-          const backupCourse = Courses.findOne({ _id: form.backupCourseId })
+          const backupCourse = await Courses.findOneAsync({ _id: form.backupCourseId })
           if (backupCourse) {
             updateData.backupCourse = CourseItemSchema.clean(backupCourse)
           }
         }
         if (updateData.course || updateData.backupCourse) {
-          Events.update(
-            { _id: id },
-            {
-              $set: updateData,
-            }
-          )
+          await Events.updateAsync({ _id: id }, { $set: updateData })
         }
       }
 
       // handle event recurring
       if (form.repeat?.factor) {
-        const insertedEvent = Events.findOne({ _id: id })
+        const insertedEvent = await Events.findOneAsync({ _id: id })
         delete insertedEvent._id
 
         const { factor, every, dow, dom, util } = form.repeat
@@ -399,7 +394,7 @@ Meteor.methods({
             while (theEventDay < util) {
               // create event
               console.log({ theEventDay })
-              Events.insert({
+              await Events.insertAsync({
                 ...insertedEvent,
                 when: theEventDay,
                 repeat: {
@@ -419,12 +414,12 @@ Meteor.methods({
             }
             theEventWeek = moment(form.when).toDate()
             while (theEventWeek < util) {
-              dow.map((theDay) => {
+              for (const theDay of dow) {
                 theEventDay = moment(theEventWeek).day(theDay).toDate()
                 if (theEventDay < util && theEventDay > form.when) {
                   // create event
                   console.log({ theEventDay }, moment(theEventDay).day())
-                  Events.insert({
+                  await Events.insertAsync({
                     ...insertedEvent,
                     when: theEventDay,
                     repeat: {
@@ -433,7 +428,7 @@ Meteor.methods({
                     },
                   })
                 }
-              })
+              }
               theEventWeek = moment(theEventWeek).add(every, factor).toDate()
             }
             break

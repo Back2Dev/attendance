@@ -49,6 +49,7 @@ export class EmailTransport {
       enabled: true,
       maxRetries: undefined, // undefined mean it won't handle
     }
+    this.loadedFromCfgs = false
 
     if (settings) {
       const { enabled, maxRetries } = settings
@@ -58,20 +59,23 @@ export class EmailTransport {
       if (maxRetries !== undefined) {
         this.settings.maxRetries = maxRetries
       }
-    } else {
-      // get the config to decide which type of message is enabled
-      const cfgs = getCfgs(['emailEnabled', 'emailMaxRetries'])
-      debug({ cfgs })
-      if (cfgs) {
-        if (cfgs['emailEnabled']) {
-          this.settings.enabled = cfgs['emailEnabled'] === 'true'
-        }
-        if (cfgs['emailMaxRetries']) {
-          this.settings.maxRetries = parseInt(cfgs['emailMaxRetries'], 10)
-        }
-      }
-      // debug('settings', this.settings)
+      this.loadedFromCfgs = true
     }
+  }
+
+  async ensureSettingsFromCfgs() {
+    if (this.loadedFromCfgs) return
+    const cfgs = await getCfgs(['emailEnabled', 'emailMaxRetries'])
+    debug({ cfgs })
+    if (cfgs) {
+      if (cfgs['emailEnabled']) {
+        this.settings.enabled = cfgs['emailEnabled'] === 'true'
+      }
+      if (cfgs['emailMaxRetries']) {
+        this.settings.maxRetries = parseInt(cfgs['emailMaxRetries'], 10)
+      }
+    }
+    this.loadedFromCfgs = true
   }
 
   /**
@@ -116,6 +120,7 @@ export class EmailTransport {
    *    - { result.res.data } Object the json object (expecting)
    */
   async send(message) {
+    await this.ensureSettingsFromCfgs()
     logger.info('Attempting to send email', { to: message.to, subject: message.subject })
 
     if (this.settings.enabled !== true) {

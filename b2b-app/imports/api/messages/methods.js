@@ -11,10 +11,10 @@ require('./server/transports/sms')
 require('./server/transports/email')
 
 Meteor.methods({
-  'rm.messages': (id) => {
+  'rm.messages': async (id) => {
     try {
       logger.info(`Removed message with ${id}`)
-      Messages.remove(id)
+      await Messages.removeAsync(id)
       return { status: 'success', message: 'Removed message' }
     } catch (e) {
       logger.error(`Error when removing message: ${e.message}`)
@@ -24,11 +24,11 @@ Meteor.methods({
       }
     }
   },
-  'update.messages': (form) => {
+  'update.messages': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Messages.update(id, { $set: form })
+      const n = await Messages.updateAsync(id, { $set: form })
       logger.audit(`Updated ${n} messages`, form)
       return { status: 'success', message: `Updated ${n} message(s)` }
     } catch (e) {
@@ -47,7 +47,7 @@ Meteor.methods({
    * - { message } String - success or error message
    * - { id } String inserted message id (if status is success)
    */
-  'insert.messages': (form) => {
+  'insert.messages': async (form) => {
     check(form, Object)
     // try to verify with data transports
     const verifyResult = Transporter.verify(form)
@@ -59,7 +59,7 @@ Meteor.methods({
       }
     }
     try {
-      const id = Messages.insert(form)
+      const id = await Messages.insertAsync(form)
       logger.audit('successfuly inserted new message', { id })
       return { status: 'success', message: 'Added message', id }
     } catch (e) {
@@ -92,10 +92,10 @@ Meteor.methods({
    * - { status } String - success or failed
    * - { message } String - success or error message
    */
-  'cancel.messages'(id) {
+  async 'cancel.messages'(id) {
     check(id, String)
     try {
-      const n = Messages.update(
+      const n = await Messages.updateAsync(
         { _id: id },
         {
           $set: {
@@ -124,9 +124,9 @@ Meteor.methods({
       }
     }
   },
-  'fetch.messages'() {
+  async 'fetch.messages'() {
     try {
-      const data = Messages.find({}).fetch()
+      const data = await Messages.find({}).fetchAsync()
       return { status: 'success', data }
     } catch (e) {
       logger.error(`Error fetching messages: ${e.message}`)

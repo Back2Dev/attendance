@@ -289,7 +289,7 @@ Meteor.methods({
       return { status: 'failed', message: `Update error: ${e.message}` }
     }
   },
-  'collections.deleteView'({ collectionName, viewSlug }) {
+  'collections.deleteView': async function ({ collectionName, viewSlug }) {
     // validate data
     try {
       !DeleteViewProps.validate({
@@ -312,12 +312,12 @@ Meteor.methods({
     }
 
     // find the record in Collections
-    const collection = Collections.findOne({ name: collectionName })
+    const collection = await Collections.findOneAsync({ name: collectionName })
     if (!collection) {
       return { status: 'failed', message: 'Collection was not found' }
     }
 
-    const n = Collections.update(
+    const n = await Collections.updateAsync(
       { name: collectionName },
       {
         $pull: { views: { slug: viewSlug } },
@@ -335,7 +335,7 @@ Meteor.methods({
       message: '',
     }
   },
-  'collections.updateView'({
+  'collections.updateView': async function ({
     collectionName,
     viewSlug,
     viewName,
@@ -386,10 +386,10 @@ Meteor.methods({
     }
 
     // find the record in Collections
-    const collection = Collections.findOne({ name: collectionName })
+    const collection = await Collections.findOneAsync({ name: collectionName })
     if (!collection) {
       // then we need to create new collection
-      const collectionId = Collections.insert({
+      const collectionId = await Collections.insertAsync({
         name: collectionName,
         views: [viewItem],
       })
@@ -408,7 +408,7 @@ Meteor.methods({
         newViews.push(viewItem)
       }
 
-      const n = Collections.update(
+      const n = await Collections.updateAsync(
         {
           name: collectionName,
         },
@@ -426,7 +426,7 @@ Meteor.methods({
       }
     }
   },
-  'collections.getRows'({ collectionName, viewSlug }) {
+  'collections.getRows': async function ({ collectionName, viewSlug }) {
     try {
       GetRowsProps.validate({ collectionName, viewSlug })
     } catch (error) {
@@ -451,7 +451,7 @@ Meteor.methods({
       }
     }
 
-    const collection = Collections.findOne({ name: collectionName })
+    const collection = await Collections.findOneAsync({ name: collectionName })
 
     const conditions = []
     const queryOptions = {
@@ -492,12 +492,12 @@ Meteor.methods({
 
     return {
       status: 'success',
-      rows: dbCollection.find(queryCondition, queryOptions).fetch(),
+      rows: await dbCollection.find(queryCondition, queryOptions).fetchAsync(),
     }
   },
-  'rm.collections': (id) => {
+  'rm.collections': async (id) => {
     try {
-      const n = Collections.remove(id)
+      const n = await Collections.removeAsync(id)
       return { status: 'success', message: `Removed collection` }
     } catch (e) {
       return {
@@ -506,11 +506,11 @@ Meteor.methods({
       }
     }
   },
-  'update.collections': (form) => {
+  'update.collections': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Collections.update(id, { $set: form })
+      const n = await Collections.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} collection(s)` }
     } catch (e) {
       return {
@@ -519,9 +519,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.collections': (form) => {
+  'insert.collections': async (form) => {
     try {
-      const id = Collections.insert(form)
+      const id = await Collections.insertAsync(form)
       return { status: 'success', message: `Added collection` }
     } catch (e) {
       return {

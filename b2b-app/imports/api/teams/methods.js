@@ -3,9 +3,9 @@ import Teams from './schema'
 const debug = require('debug')('app:teams')
 
 Meteor.methods({
-  'rm.teams': (id) => {
+  'rm.teams': async (id) => {
     try {
-      const n = Teams.remove(id)
+      const n = await Teams.removeAsync(id)
       return { status: 'success', message: `Removed team` }
     } catch (e) {
       return {
@@ -14,11 +14,11 @@ Meteor.methods({
       }
     }
   },
-  'update.teams': (form) => {
+  'update.teams': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Teams.update(id, { $set: form })
+      const n = await Teams.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} team(s)` }
     } catch (e) {
       return {
@@ -27,9 +27,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.teams': (form) => {
+  'insert.teams': async (form) => {
     try {
-      const id = Teams.insert(form)
+      const id = await Teams.insertAsync(form)
       return { status: 'success', message: `Added team` }
     } catch (e) {
       return {

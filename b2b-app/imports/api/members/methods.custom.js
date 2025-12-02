@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
 import logger from '/imports/lib/log'
-import { Promise } from 'meteor/promise'
 
 import Members from '/imports/api/members/schema'
 const debug = require('debug')('app:members')
@@ -14,7 +13,7 @@ const s3config = new aws.Config({
 const s3 = new aws.S3(s3config)
 
 Meteor.methods({
-  'upload.avatar': (data) => {
+  'upload.avatar': async (data) => {
     try {
       const user_id = Meteor.userId()
       let s3params = {
@@ -38,8 +37,8 @@ Meteor.methods({
           })
         })
       }
-      Promise.await(uploadFile(s3params))
-      Members.update(
+      await uploadFile(s3params)
+      await Members.updateAsync(
         { userId: user_id },
         {
           $set: {

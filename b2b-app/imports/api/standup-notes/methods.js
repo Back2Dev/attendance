@@ -3,9 +3,9 @@ import StandupNotes from './schema'
 const debug = require('debug')('app:standupNotes')
 
 Meteor.methods({
-  'rm.standupNotes': (id) => {
+  'rm.standupNotes': async (id) => {
     try {
-      const n = StandupNotes.remove(id)
+      const n = await StandupNotes.removeAsync(id)
       return { status: 'success', message: `Removed standupnote` }
     } catch (e) {
       return {
@@ -14,11 +14,11 @@ Meteor.methods({
       }
     }
   },
-  'update.standupNotes': (form) => {
+  'update.standupNotes': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = StandupNotes.update(id, { $set: form })
+      const n = await StandupNotes.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} standupnote(s)` }
     } catch (e) {
       return {
@@ -27,9 +27,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.standupNotes': (form) => {
+  'insert.standupNotes': async (form) => {
     try {
-      const id = StandupNotes.insert(form)
+      const id = await StandupNotes.insertAsync(form)
       return { status: 'success', message: `Added standupnote` }
     } catch (e) {
       return {

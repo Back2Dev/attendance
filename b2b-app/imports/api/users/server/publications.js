@@ -13,6 +13,26 @@ const debug = require('debug')('app:users')
 
 const publicFields = { username: 1, emails: 1, roles: 1 }
 
+const fetchCursor = (cursor) => (cursor.fetchAsync ? cursor.fetchAsync() : cursor.fetch())
+const findUserByEmail = (...args) =>
+  Accounts.findUserByEmailAsync
+    ? Accounts.findUserByEmailAsync(...args)
+    : Accounts.findUserByEmail(...args)
+const setPassword = (...args) =>
+  Accounts.setPasswordAsync ? Accounts.setPasswordAsync(...args) : Accounts.setPassword(...args)
+const setUsername = (...args) =>
+  Accounts.setUsernameAsync ? Accounts.setUsernameAsync(...args) : Accounts.setUsername(...args)
+const addEmail = (...args) =>
+  Accounts.addEmailAsync ? Accounts.addEmailAsync(...args) : Accounts.addEmail(...args)
+const removeEmail = (...args) =>
+  Accounts.removeEmailAsync ? Accounts.removeEmailAsync(...args) : Accounts.removeEmail(...args)
+const createUser = (...args) =>
+  Accounts.createUserAsync ? Accounts.createUserAsync(...args) : Accounts.createUser(...args)
+const checkPassword = (...args) =>
+  Accounts._checkPasswordAsync
+    ? Accounts._checkPasswordAsync(...args)
+    : Accounts._checkPassword(...args)
+
 Meteor.publish('getAllUsers', () => {
   return [
     Meteor.users.find({}, { fields: publicFields }),
@@ -69,22 +89,22 @@ Meteor.publish('getUser', (userId) => {
 })
 
 Meteor.methods({
-  allUsers() {
-    Meteor.users.find({})
+  async allUsers() {
+    return fetchCursor(Meteor.users.find({}, { fields: publicFields }))
   },
-  getUserFromToken(token) {
+  async getUserFromToken(token) {
     let email
     let mobile
     let name
 
-    const user = Meteor.users.findOne(
+    const user = await Meteor.users.findOneAsync(
       { 'services.email.invitationToken.token': token },
       { fields: { _id: 1, username: 1 } }
     )
     if (!user) {
       return { status: 'failed', message: `Failed to find user with token${token}` }
     }
-    const member = Members.findOne(
+    const member = await Members.findOneAsync(
       { userId: user._id },
       { fields: { name: 1, mobile: 1 } }
     )
@@ -96,7 +116,7 @@ Meteor.methods({
       }
     }
 
-    let userId = user._id
+    const userId = user._id
     email = user.username
     name = member.name
     mobile = member.mobile
@@ -110,22 +130,22 @@ Meteor.methods({
       mobile,
     }
   },
-  verifyUser({ userId, password, token }) {
-    const user = Meteor.users.findOne({ _id: userId })
-    const confirmationToken = user.services.email.confirmationToken
-    const findEmail = user.emails.find(
-      (emailObj) => emailObj.address === confirmationToken.email
+  async verifyUser({ userId, password, token }) {
+    const user = await Meteor.users.findOneAsync({ _id: userId })
+    const confirmationToken = user?.services?.email?.confirmationToken
+    const findEmail = user?.emails?.find(
+      (emailObj) => emailObj.address === confirmationToken?.email
     )
     if (
       !user ||
-      !confirmationToken.token === token ||
-      findEmail.verified ||
-      moment(confirmationToken.expiryAt).isBefore()
+      confirmationToken?.token !== token ||
+      findEmail?.verified ||
+      moment(confirmationToken?.expiryAt).isBefore()
     ) {
       throw new Meteor.Error(403, 'Verify email link expired')
     } else {
-      Accounts.setPassword(userId, password)
-      Meteor.users.update(
+      await setPassword(userId, password)
+      await Meteor.users.updateAsync(
         {
           _id: userId,
           'emails.address': confirmationToken.email,
@@ -137,53 +157,51 @@ Meteor.methods({
           },
         }
       )
-      Members.update({ userId }, { $set: { status: 'active' } })
+      await Members.updateAsync({ userId }, { $set: { status: 'active' } })
       return { status: 'success', message: 'Confirmed email and password' }
     }
   },
-  updateUserRoles(user) {
+  async updateUserRoles(user) {
     try {
-      Roles.setUserRoles(user._id, user.roles)
+      await Roles.setUserRoles(user._id, user.roles)
       return { status: 'success', message: 'Updated user roles' }
     } catch (e) {
       return { status: 'failed', message: `Error updating user roles: ${e.message}` }
     }
   },
-  deleteUsers(id) {
+  async deleteUsers(id) {
     try {
-      Meteor.users.remove(id)
+      await Meteor.users.removeAsync(id)
       return { status: 'success', message: 'deleted user' }
     } catch (e) {
       return { status: 'failed', message: `Error deleting user: ${e.message}` }
     }
   },
-  updateUser(user) {
+  async updateUser(user) {
     try {
-      Accounts.setUsername(user._id, user.username)
+      await setUsername(user._id, user.username)
       if (user.oldValue) {
-        Accounts.removeEmail(user._id, user.oldValue)
-        Accounts.addEmail(user._id, user.emails)
+        await removeEmail(user._id, user.oldValue)
+        await addEmail(user._id, user.emails)
       }
-      Roles.setUserRoles(user._id, user.roles)
+      await Roles.setUserRoles(user._id, user.roles)
       return { status: 'success', message: 'Updated user' }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }
     }
   },
-  updateMemberPassword(formData, confirmPass) {
+  async updateMemberPassword(formData, confirmPass) {
     const userId = formData.userId
-    if (Meteor.user()) {
-      const oldEmail = Meteor.user().emails
+    if (this.userId) {
+      const currentUser = await Meteor.users.findOneAsync({ _id: this.userId })
+      const oldEmail = currentUser?.emails
       try {
-        // update member form
-        Meteor.call('members.update', formData._id, formData)
-        // update user password
-        Accounts.setPassword(userId, confirmPass, { logout: false })
-        // update user email
-        Accounts.setUsername(userId, formData.email)
+        await Meteor.callAsync('members.update', formData._id, formData)
+        await setPassword(userId, confirmPass, { logout: false })
+        await setUsername(userId, formData.email)
         if (oldEmail) {
-          Accounts.removeEmail(userId, oldEmail[0].address)
-          Accounts.addEmail(userId, formData.email)
+          await removeEmail(userId, oldEmail[0].address)
+          await addEmail(userId, formData.email)
         }
         return { status: 'success', message: 'Updated user' }
       } catch (e) {
@@ -193,24 +211,24 @@ Meteor.methods({
       return { status: 'success', message: 'No user associated with account' }
     }
   },
-  setUserPassword({ id, newPassword }) {
+  async setUserPassword({ id, newPassword }) {
     try {
-      Accounts.setPassword(id, newPassword)
+      await setPassword(id, newPassword)
       return { status: 'success', message: 'Updated password' }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }
     }
   },
-  setOwnPassword({ password, oldPassword }, logout = true) {
+  async setOwnPassword({ password, oldPassword }, logout = true) {
     const { userId } = this
     if (!userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const user = Meteor.user()
+    const user = await Meteor.users.findOneAsync({ _id: userId })
     try {
       if (oldPassword) {
-        const verifyResult = Accounts._checkPassword(user, oldPassword)
-        if (verifyResult.error) {
+        const verifyResult = await checkPassword(user, oldPassword)
+        if (verifyResult?.error) {
           throw new Meteor.Error('An error has occurred')
         }
       }
@@ -219,36 +237,43 @@ Meteor.methods({
     }
 
     try {
-      Accounts.setPassword(userId, password, { logout: logout })
-      const user = Meteor.user()
-      const member = Members.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
-      Meteor.call('sendTrigger', { slug: 'password-changed', user, member })
+      await setPassword(userId, password, { logout: logout })
+      const refreshedUser = await Meteor.users.findOneAsync({ _id: userId })
+      const member = await Members.findOneAsync(
+        { userId },
+        { fields: { name: 1, avatar: 1 } }
+      )
+      await Meteor.callAsync('sendTrigger', {
+        slug: 'password-changed',
+        user: refreshedUser,
+        member,
+      })
     } catch (e) {
       throw new Meteor.Error(e.message)
     }
   },
-  verifyPassword(password) {
+  async verifyPassword(password) {
     if (this.userId) {
-      let user = Meteor.user()
-      let result = Accounts._checkPassword(user, password)
-      if (result.error) {
+      const user = await Meteor.users.findOneAsync({ _id: this.userId })
+      const result = await checkPassword(user, password)
+      if (result?.error) {
         throw new Meteor.Error(result.error.reason)
       }
     } else {
       throw new Meteor.Error('No user found')
     }
   },
-  userServices() {
-    let user = Meteor.user()
-    const services = user.services
+  async userServices() {
+    const user = await Meteor.users.findOneAsync({ _id: this.userId })
+    const services = user?.services || {}
     return Object.keys(services)
   },
-  sendResetPasswordEmail: function (email) {
+  async sendResetPasswordEmail(email) {
     if (!Match.test(email, String)) {
       return { status: 'failed', message: 'invalid email' }
     }
     try {
-      const user = Accounts.findUserByEmail(email)
+      const user = await findUserByEmail(email)
       if (!user) return { status: 'failed', message: `No user found with email ${email}` }
 
       if (user && user.services.password) {
@@ -260,14 +285,15 @@ Meteor.methods({
           expiryAt: moment().add(1, 'days').toDate(),
         }
         const member =
-          Members.findOne({ userId: user._id }, { fields: { name: 1 } }) || []
+          (await Members.findOneAsync({ userId: user._id }, { fields: { name: 1 } })) ||
+          []
         user.name = member.name || 'User'
 
-        Meteor.users.update(
+        await Meteor.users.updateAsync(
           { _id: user._id },
           { $set: { 'services.password.forgotPassToken': tokenRecord } }
         )
-        return Meteor.call('sendTrigger', {
+        return Meteor.callAsync('sendTrigger', {
           member,
           user,
           slug: 'reset-password',
@@ -281,39 +307,42 @@ Meteor.methods({
       throw new Meteor.Error(`method sendResetPasswordEmail failed: ${e.message}`)
     }
   },
-  resetUserPassword: function (password, userId, token) {
+  async resetUserPassword(password, userId, token) {
     try {
       // different to the 'setPassword' method as it needs  a token
-      const user = Meteor.users.findOne({ _id: userId })
-      const userToken = user.services.password.forgotPassToken
+      const user = await Meteor.users.findOneAsync({ _id: userId })
+      const userToken = user?.services?.password?.forgotPassToken
 
-      if (!user || token !== userToken.token || moment(userToken.expiryAt).isBefore()) {
+      if (!user || token !== userToken?.token || moment(userToken.expiryAt).isBefore()) {
         throw new Meteor.Error('Email link expired')
       } else {
-        Accounts.setPassword(userId, password)
-        Meteor.users.update(
+        await setPassword(userId, password)
+        await Meteor.users.updateAsync(
           { _id: userId },
           { $unset: { 'services.password.forgotPassToken': '' } }
         )
-        const member = Members.findOne({ userId }, { fields: { name: 1, avatar: 1 } })
+        const member = await Members.findOneAsync(
+          { userId },
+          { fields: { name: 1, avatar: 1 } }
+        )
 
-        Meteor.call('sendTrigger', { slug: 'password-changed', user, member })
+        await Meteor.callAsync('sendTrigger', { slug: 'password-changed', user, member })
       }
     } catch (e) {
       throw new Meteor.Error('Your email link may have expired')
     }
   },
-  addNewUser({ email, password, roles, mobile, name, serial }) {
+  async addNewUser({ email, password, roles, mobile, name, serial }) {
     try {
-      const exist = Accounts.findUserByEmail(email) // Checks for existing user by email
+      const exist = await findUserByEmail(email) // Checks for existing user by email
       if (exist)
         return { status: 'failed', message: 'A user with this email already exists' }
       if (!password) password = 'Password1'
       if (roles.length < 1) roles.push('CUS') // if form does have any roles attached
-      const userId = Accounts.createUser({ email, username: email, password })
+      const userId = await createUser({ email, username: email, password })
       if (userId) {
-        Roles.addUsersToRoles(userId, roles)
-        Members.insert({
+        await Roles.addUsersToRoles(userId, roles)
+        await Members.insertAsync({
           userId,
           name: name,
           nickname: name.split(' ')[0] || name,
@@ -327,11 +356,10 @@ Meteor.methods({
       return { status: 'failed', message: error.message }
     }
   },
-  editUserMember({ name, nickname, mobile, sms }) {
+  async editUserMember({ name, nickname, mobile, sms }) {
     try {
-      const user = Meteor.user()
-      const userId = user._id
-      const member = Members.findOne({ userId })
+      const userId = this.userId
+      const member = await Members.findOneAsync({ userId })
       const newMember = {
         userId,
         name,
@@ -340,7 +368,7 @@ Meteor.methods({
         notifyBy: sms ? ['EMAIL', 'SMS'] : ['EMAIL'],
       }
       if (member) {
-        Members.update(
+        await Members.updateAsync(
           { userId },
           {
             $set: newMember,
@@ -357,7 +385,7 @@ Meteor.methods({
         })
         debug({ updateData })
         try {
-          Events.update(
+          await Events.updateAsync(
             {
               members: { $elemMatch: { _id: member._id } },
             },
@@ -376,14 +404,14 @@ Meteor.methods({
         if (!newMember.nickname) {
           newMember.nickname = newMember.name.split(' ')[0] || newMember.name
         }
-        Members.insert(newMember)
+        await Members.insertAsync(newMember)
       }
       return { status: 'success', message: 'Added user account' }
     } catch (error) {
       return { status: 'failed', message: error.message }
     }
   },
-  signup({ email, name, mobile }) {
+  async signup({ email, name, mobile }) {
     try {
       const roles = ['CUS']
       const token = Random.secret()
@@ -393,28 +421,28 @@ Meteor.methods({
         createdAt: new Date(),
         expiryAt: moment().add(3, 'days').toDate(),
       }
-      const userId = Accounts.createUser({
+      const userId = await createUser({
         email,
         username: email,
       })
       if (userId) {
-        Meteor.users.update(
+        await Meteor.users.updateAsync(
           { _id: userId },
           { $set: { 'services.email.confirmationToken': tokenRecord } }
         )
-        Roles.addUsersToRoles(userId, roles)
-        Members.insert({
+        await Roles.addUsersToRoles(userId, roles)
+        await Members.insertAsync({
           userId,
           name,
           nickname: name.split(' ')[0] || name,
           mobile: mobile,
           notifyBy: ['EMAIL', 'SMS'],
         })
-        const user = Meteor.users.findOne({ _id: userId })
-        const member = Members.findOne({ userId })
-        const admins = Roles.getUsersInRole('ADM').fetch()
+        const user = await Meteor.users.findOneAsync({ _id: userId })
+        const member = await Members.findOneAsync({ userId })
+        const admins = await fetchCursor(Roles.getUsersInRole('ADM'))
 
-        Meteor.call('sendTrigger', {
+        await Meteor.callAsync('sendTrigger', {
           member,
           user,
           slug: 'signup',
@@ -428,21 +456,22 @@ Meteor.methods({
     }
   },
 
-  userExists(email) {
+  async userExists(email) {
     // if logged in, check if the username is the logged in one and do nothing if it's the same
     if (this.userId) {
-      let user = Meteor.user()
-      if (user.emails[0].address === email) {
+      const user = await Meteor.users.findOneAsync({ _id: this.userId })
+      if (user?.emails?.[0]?.address === email) {
         return
       }
     }
-    if (Meteor.users.findOne({ 'emails.0.address': email })) {
+    const existingUser = await Meteor.users.findOneAsync({ 'emails.0.address': email })
+    if (existingUser) {
       throw new Meteor.Error('A user with email ' + email + ' already exists')
     }
   },
-  updateGoogle({ id, google }) {
+  async updateGoogle({ id, google }) {
     try {
-      Meteor.users.update(
+      await Meteor.users.updateAsync(
         { _id: id },
         {
           $set: {
@@ -455,9 +484,9 @@ Meteor.methods({
       return { status: 'failed', message: error.message }
     }
   },
-  updateFacebook({ id, facebook }) {
+  async updateFacebook({ id, facebook }) {
     try {
-      Meteor.users.update(
+      await Meteor.users.updateAsync(
         { _id: id },
         {
           $set: {

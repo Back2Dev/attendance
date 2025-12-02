@@ -3,30 +3,30 @@ import Settings from './schema'
 const debug = require('debug')('app:settings')
 
 Meteor.methods({
-  'rm.settings': id => {
+  'rm.settings': async (id) => {
     try {
-      const n = Settings.remove(id)
+      const n = await Settings.removeAsync(id)
       return { status: 'success', message: `Removed setting` }
     } catch (e) {
       return { status: 'failed', message: `Error removing setting: ${e.message}` }
     }
   },
-  'update.settings': form => {
+  'update.settings': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Settings.update(id, { $set: form })
+      const n = await Settings.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} setting(s)` }
     } catch (e) {
       return { status: 'failed', message: `Error updating setting: ${e.message}` }
     }
   },
-  'insert.settings': form => {
+  'insert.settings': async (form) => {
     try {
-      const id = Settings.insert(form)
+      const id = await Settings.insertAsync(form)
       return { status: 'success', message: `Added setting` }
     } catch (e) {
       return { status: 'failed', message: `Error adding setting: ${e.message}` }
     }
-  }
+  },
 })

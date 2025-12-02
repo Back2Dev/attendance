@@ -3,9 +3,9 @@ import Tools from './schema'
 const debug = require('debug')('target:tools')
 
 Meteor.methods({
-  'rm.tools': (id) => {
+  'rm.tools': async (id) => {
     try {
-      const n = Tools.remove(id)
+      const n = await Tools.removeAsync(id)
       return { status: 'success', message: `Removed tool` }
     } catch (e) {
       return {
@@ -14,11 +14,11 @@ Meteor.methods({
       }
     }
   },
-  'update.tools': (form) => {
+  'update.tools': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Tools.update(id, { $set: form })
+      const n = await Tools.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} tool(s)` }
     } catch (e) {
       return {
@@ -27,9 +27,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.tools': (form) => {
+  'insert.tools': async (form) => {
     try {
-      const id = Tools.insert(form)
+      const id = await Tools.insertAsync(form)
       return { status: 'success', message: `Added tool` }
     } catch (e) {
       return {

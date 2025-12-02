@@ -4,9 +4,9 @@ import Audits from './schema'
 const debug = require('debug')('target:audits')
 
 Meteor.methods({
-  'rm.audits': (id) => {
+  'rm.audits': async (id) => {
     try {
-      Audits.remove(id)
+      await Audits.removeAsync(id)
       logger.audit('Removed audit', { id })
       return { status: 'success', message: 'Removed audit' }
     } catch (e) {
@@ -17,11 +17,11 @@ Meteor.methods({
       }
     }
   },
-  'update.audits': (form) => {
+  'update.audits': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Audits.update(id, { $set: form })
+      const n = await Audits.updateAsync(id, { $set: form })
       logger.audit('Updated audits', { data: form })
       return { status: 'success', message: `Updated ${n} audit(s)` }
     } catch (e) {
@@ -35,9 +35,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.audits': (form) => {
+  'insert.audits': async (form) => {
     try {
-      Audits.insert(form)
+      await Audits.insertAsync(form)
       logger.audit('Inserted audits', { data: form })
       return { status: 'success', message: 'Added audit' }
     } catch (e) {

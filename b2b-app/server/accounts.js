@@ -71,7 +71,7 @@ Accounts.onCreateUser(async (options, user) => {
 
   // TODO: Find a neater way of preventing emails going out when fixtures are inserted
   if (Meteor.settings.env.enironment === 'prod')
-    Meteor.call('sendTrigger', {
+    await Meteor.callAsync('sendTrigger', {
       member,
       user,
       slug: 'new-user',
@@ -80,50 +80,54 @@ Accounts.onCreateUser(async (options, user) => {
 
   return user
 })
-const googleService = ServiceConfiguration.configurations.findOne({ service: 'google' })
-if (!googleService) {
-  ServiceConfiguration.configurations.upsert(
-    { service: 'google' },
-    {
-      $set: {
-        loginStyle: 'popup',
-        clientId:
-          '539249286175-irmtj1ufg0adm1eqpbdqon46gdtfeq3s.apps.googleusercontent.com',
-        secret: Meteor.settings.private.GOOGLE_SECRET,
-      },
-    }
-  )
-}
-const facebookService = ServiceConfiguration.configurations.findOne({
-  service: 'facebook',
+Meteor.startup(async () => {
+  const googleService = await ServiceConfiguration.configurations.findOneAsync({
+    service: 'google',
+  })
+  if (!googleService) {
+    await ServiceConfiguration.configurations.upsertAsync(
+      { service: 'google' },
+      {
+        $set: {
+          loginStyle: 'popup',
+          clientId:
+            '539249286175-irmtj1ufg0adm1eqpbdqon46gdtfeq3s.apps.googleusercontent.com',
+          secret: Meteor.settings.private.GOOGLE_SECRET,
+        },
+      }
+    )
+  }
+  const facebookService = await ServiceConfiguration.configurations.findOneAsync({
+    service: 'facebook',
+  })
+  if (!facebookService) {
+    await ServiceConfiguration.configurations.upsertAsync(
+      { service: 'facebook' },
+      {
+        $set: {
+          loginStyle: 'popup',
+          appId: '757510828304258',
+          secret: Meteor.settings.private.FACEBOOK_SECRET,
+        },
+      }
+    )
+  }
+  const twitterService = await ServiceConfiguration.configurations.findOneAsync({
+    service: 'twitter',
+  })
+  if (!twitterService) {
+    await ServiceConfiguration.configurations.upsertAsync(
+      { service: 'twitter' },
+      {
+        $set: {
+          loginStyle: 'popup',
+          consumerKey: 'the-app-id',
+          secret: 'the-secret-string',
+        },
+      }
+    )
+  }
 })
-if (!facebookService) {
-  ServiceConfiguration.configurations.upsert(
-    { service: 'facebook' },
-    {
-      $set: {
-        loginStyle: 'popup',
-        appId: '757510828304258',
-        secret: Meteor.settings.private.FACEBOOK_SECRET,
-      },
-    }
-  )
-}
-const twitterService = ServiceConfiguration.configurations.findOne({
-  service: 'twitter',
-})
-if (!twitterService) {
-  ServiceConfiguration.configurations.upsert(
-    { service: 'twitter' },
-    {
-      $set: {
-        loginStyle: 'popup',
-        consumerKey: 'the-app-id',
-        secret: 'the-secret-string',
-      },
-    }
-  )
-}
 
 Accounts.onLogin(function updateLastLoggedIn() {
   // this fires whenever a user loads a page cold because it includes

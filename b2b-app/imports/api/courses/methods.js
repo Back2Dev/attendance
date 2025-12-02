@@ -4,9 +4,9 @@ import Courses from './schema'
 const debug = require('debug')('app:courses')
 
 Meteor.methods({
-  'rm.courses': (id) => {
+  'rm.courses': async (id) => {
     try {
-      const n = Courses.remove(id)
+      const n = await Courses.removeAsync(id)
       return { status: 'success', message: `Removed course` }
     } catch (e) {
       return {
@@ -15,18 +15,18 @@ Meteor.methods({
       }
     }
   },
-  'update.courses': (form) => {
+  'update.courses': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Courses.update(id, { $set: form })
+      const n = await Courses.updateAsync(id, { $set: form })
 
       // update the event
       if (n) {
-        const updatedCourse = Courses.findOne({ _id: id })
+        const updatedCourse = await Courses.findOneAsync({ _id: id })
 
         // update the Event course
-        Events.update(
+        await Events.updateAsync(
           { 'course._id': id },
           {
             $set: {
@@ -37,7 +37,7 @@ Meteor.methods({
         )
 
         // update the Event backupCourse
-        Events.update(
+        await Events.updateAsync(
           { 'backupCourse._id': id },
           {
             $set: {
@@ -56,9 +56,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.courses': (form) => {
+  'insert.courses': async (form) => {
     try {
-      const id = Courses.insert(form)
+      const id = await Courses.insertAsync(form)
       return { status: 'success', message: `Added course` }
     } catch (e) {
       return {
@@ -67,9 +67,9 @@ Meteor.methods({
       }
     }
   },
-  'update.page.courses': ({ id, model }) => {
+  'update.page.courses': async ({ id, model }) => {
     try {
-      Courses.update(id, {
+      await Courses.updateAsync(id, {
         $set: {
           pageContent: model,
         },
