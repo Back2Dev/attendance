@@ -11,8 +11,8 @@ import { showError } from '/imports/ui/utils/toast-alerts'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
 import useHistory from '/imports/ui/utils/history'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: { type: String, max: 200 },
     email: {
       type: String,
@@ -28,8 +28,8 @@ let userSchema = new SimpleSchema2Bridge(
         component: MaterialPhoneNumber,
       },
     },
-  })
-)
+  }),
+})
 
 const useStyles = makeStyles((theme) => ({
   paper: {

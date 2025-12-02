@@ -24,8 +24,8 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import VpnKeyIcon from '@mui/icons-material/VpnKey'
 import Icon from '@mui/material/Icon'
 
-export const userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+export const userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: {
       type: String,
       max: 200,
@@ -69,8 +69,8 @@ export const userSchema = new SimpleSchema2Bridge(
         },
       },
     },
-  })
-)
+  }),
+})
 
 const useStyles = makeStyles((theme) => ({
   topGrid: {

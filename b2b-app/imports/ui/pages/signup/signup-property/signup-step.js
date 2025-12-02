@@ -18,8 +18,8 @@ import TextDivider from '/imports/ui/components/text-divider.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: { type: String, max: 200 },
     email: {
       type: String,
@@ -35,8 +35,8 @@ let userSchema = new SimpleSchema2Bridge(
         component: MaterialPhoneNumber,
       },
     },
-  })
-)
+  }),
+})
 
 const SignupStep = ({ activeStep, setActiveStep }) => {
   const { user } = useContext(AccountContext)

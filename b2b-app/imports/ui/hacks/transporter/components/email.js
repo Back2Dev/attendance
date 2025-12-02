@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import HTMLTemplate from '/imports/api/email-template'
 
-let schema = new SimpleSchema2Bridge(new SimpleSchema({ email: String }))
+let schema = new SimpleSchema2Bridge({ schema: new SimpleSchema({ email: String }) })
 
 const renderFields = (template) => {
   let fields = template.match(/([^`]+(?=`))|([^*|]+(?=\|\*))/g).reduce(
@@ -24,7 +24,7 @@ const renderFields = (template) => {
     { recipient: String }
   )
 
-  schema = new SimpleSchema2Bridge(new SimpleSchema(fields))
+  schema = new SimpleSchema2Bridge({ schema: new SimpleSchema(fields) })
 }
 
 export default function EmailCard({ name, body: template, slug, sendEmail }) {

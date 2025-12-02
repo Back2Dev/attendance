@@ -200,7 +200,7 @@ function BikeStep({ initialData }) {
       <div className={classes.join(' ')}>
         <AutoForm
           ref={formRef}
-          schema={new SimpleSchema2Bridge(bikeFormSchema)}
+          schema={new SimpleSchema2Bridge({ schema: bikeFormSchema })}
           model={details}
           onChangeModel={(model) => {
             // console.log(model)

@@ -11,8 +11,8 @@ import GooglePlaces from '/imports/ui/components/google-places.js'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: {
       type: String,
     },
@@ -40,8 +40,8 @@ let userSchema = new SimpleSchema2Bridge(
         label: 'I would like to receive SMS notifications',
       },
     },
-  })
-)
+  }),
+})
 
 const useStyles = makeStyles((theme) => ({
   mobile: {

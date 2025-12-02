@@ -164,7 +164,7 @@ function PickupStep({ initialData }) {
         <div className="form-container">
           <AutoForm
             ref={formRef}
-            schema={new SimpleSchema2Bridge(pickupFormSchema)}
+            schema={new SimpleSchema2Bridge({ schema: pickupFormSchema })}
             model={pickup}
             onSubmit={handleSubmit}
             onChange={(field, data) => {

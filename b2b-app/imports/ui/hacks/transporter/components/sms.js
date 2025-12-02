@@ -40,7 +40,7 @@ const renderFields = (body) => {
       to: { type: String, label: 'To (Mobile no)', defaultValue: '+61' },
     }
   }
-  schema = new SimpleSchema2Bridge(new SimpleSchema(fields))
+  schema = new SimpleSchema2Bridge({ schema: new SimpleSchema(fields) })
 }
 
 export default function SMSCard({ body, name, slug, sendSMS }) {

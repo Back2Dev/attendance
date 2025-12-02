@@ -187,11 +187,11 @@ const termsFormSchema = new SimpleSchema({
   },
 })
 
-const contactFormBridge = new SimpleSchema2Bridge(contactFormSchema)
-const aboutFormBridge = new SimpleSchema2Bridge(aboutFormSchema)
-const emergencyFormBridge = new SimpleSchema2Bridge(emergencyFormSchema)
-const avatarFormBridge = new SimpleSchema2Bridge(avatarFormSchema)
-const termsFormBridge = new SimpleSchema2Bridge(termsFormSchema)
+const contactFormBridge = new SimpleSchema2Bridge({ schema: contactFormSchema })
+const aboutFormBridge = new SimpleSchema2Bridge({ schema: aboutFormSchema })
+const emergencyFormBridge = new SimpleSchema2Bridge({ schema: emergencyFormSchema })
+const avatarFormBridge = new SimpleSchema2Bridge({ schema: avatarFormSchema })
+const termsFormBridge = new SimpleSchema2Bridge({ schema: termsFormSchema })
 
 export {
   contactFormBridge,

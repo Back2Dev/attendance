@@ -14,8 +14,8 @@ import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 
-const listingSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+const listingSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     transactionType: {
       type: String,
       allowedValues: ['buy', 'sell', 'contract-review'],
@@ -49,8 +49,8 @@ const listingSchema = new SimpleSchema2Bridge(
       type: String,
       uniforms: { component: GooglePlaces },
     },
-  })
-)
+  }),
+})
 
 const DisplayIf = ({ children, condition }) => {
   const uniforms = useForm()

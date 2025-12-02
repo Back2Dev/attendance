@@ -53,13 +53,15 @@ const List = ({ items, methods, columns }) => {
   if (idField === 'id') tableOptions.reactiveData = true
   const deleteRows = () => {
     if (!tableRef.current?.table) {
-      alert("Please select one or more items to delete")
+      alert('Please select one or more items to delete')
       return
     }
     const selectedIds = tableRef.current.table.getSelectedIds?.() || []
-    if (selectedIds.length === 0) alert("Please select one or more items to delete")
+    if (selectedIds.length === 0) {
+      alert('Please select one or more items to delete')
+      return
+    }
     selectedIds.forEach((id) => methods.remove(id))
-  }
   }
 
   const addANewRow = () => {
@@ -68,14 +70,18 @@ const List = ({ items, methods, columns }) => {
 
   const archiveData = () => {
     if (!tableRef.current?.table) {
-      alert("Please select one or more items to Archive")
+      alert('Please select one or more items to Archive')
       return
     }
     const selectedIds = tableRef.current.table.getSelectedIds?.() || []
-    if (selectedIds.length === 0) alert("Please select one or more items to Archive")
+    if (selectedIds.length === 0) {
+      alert('Please select one or more items to Archive')
+      return
+    }
     methods.archive(selectedIds)
   }
 
+  let Contents
   if (!items.length) {
     Contents = () => <span>No data found</span>
   } else {

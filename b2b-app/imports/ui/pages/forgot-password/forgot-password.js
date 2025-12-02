@@ -15,13 +15,13 @@ import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import log from '/imports/lib/log'
 import useHistory from '/imports/ui/utils/history'
 
-let emailSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let emailSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     email: {
       type: String,
     },
-  })
-)
+  }),
+})
 
 const ForgotPassword = () => {
   const [submitted, setSubmittted] = React.useState(false)

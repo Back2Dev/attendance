@@ -609,7 +609,7 @@ const getSchemas = (survey, currentData) => {
           })
         }
         debug('schema', step.schema)
-        step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))
+        step.bridge = new SimpleSchema2Bridge({ schema: new SimpleSchema(step.schema) })
         return step
       })
   )

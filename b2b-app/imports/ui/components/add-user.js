@@ -3,8 +3,8 @@ import { AutoForm } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     email: String,
     password: { type: String, min: 7, uniforms: { type: 'password' } },
     name: String,
@@ -15,8 +15,8 @@ let userSchema = new SimpleSchema2Bridge(
       type: String,
       allowedValues: ['CUS', 'MEM'],
     },
-  })
-)
+  }),
+})
 
 const AddUser = ({ closeModal }) => {
   const add = async (form) => {

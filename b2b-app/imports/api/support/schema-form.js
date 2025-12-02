@@ -21,4 +21,4 @@ export const SupportFormSchema = new SimpleSchema({
   },
 })
 
-export const bridge = new SimpleSchema2Bridge(SupportFormSchema)
+export const bridge = new SimpleSchema2Bridge({ schema: SupportFormSchema })

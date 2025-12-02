@@ -15,16 +15,16 @@ import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
 import useHistory from '/imports/ui/utils/history'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: { type: String, max: 200 },
     email: {
       type: String,
       max: 200,
       regEx: SimpleSchema.RegEx.EmailWithTLD,
     },
-  })
-)
+  }),
+})
 // This new code is causing errors
 // const emailCheckingTimeout = useRef(null)
 // const handleChange = (key, value) => {

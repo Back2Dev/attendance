@@ -450,7 +450,7 @@ function ContactStep() {
         </div>
         <AutoForm
           ref={formRef}
-          schema={new SimpleSchema2Bridge(memberFormSchema)}
+          schema={new SimpleSchema2Bridge({ schema: memberFormSchema })}
           model={memberData}
           onSubmit={handleSubmit}
           onChange={(field, data) => {
