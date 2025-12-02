@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor'
+import 'meteor/aldeed:collection2'
+import 'meteor/aldeed:collection2/main'
 
 import React from 'react'
 import { createRoot } from 'react-dom/client'

@@ -6,6 +6,7 @@ import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import { Typography, Container } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles';
+import RegEx from '/imports/api/regexp'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
@@ -28,7 +29,7 @@ let userSchema = new SimpleSchema2Bridge({
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },

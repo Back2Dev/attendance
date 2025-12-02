@@ -1,5 +1,5 @@
 import React from 'react'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import LookupField from '/imports/ui/components/lookup-field'
 import TagsField from '/imports/ui/components/tags-field'
@@ -16,6 +16,7 @@ import PasswordField from '/imports/ui/components/password-field'
 import { UploadField } from '/imports/ui/components/upload-field'
 import TableField from '/imports/ui/components/table-field'
 import dbg from 'debug'
+import RegEx from '/imports/api/regexp'
 const debug = dbg('app:survey-schema')
 
 const LongField = (props) => (
@@ -199,7 +200,7 @@ const getSchemas = (survey, currentData) => {
                   }
 
                   if (a.type === 'email')
-                    subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                    subSchema[qaId].regEx = RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
                     subSchema[qaId].optional = false
                     subSchema[qaId].uniforms.expression = a.expression
@@ -295,7 +296,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'email')
                     step.schema[qaId].regEx = a.regEx
                       ? new RegExp(a.regEx)
-                      : SimpleSchema.RegEx.EmailWithTLD
+                      : RegEx.EmailWithTLD
                   step.schema[qaId].uniforms.variant = 'outlined'
 
                   if (a.type === 'calculated') {
@@ -577,7 +578,7 @@ const getSchemas = (survey, currentData) => {
                   }
 
                   if (a.type === 'email')
-                    subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                    subSchema[qaId].regEx = RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
                     subSchema[qaId].optional = false
                     subSchema[qaId].uniforms.expression = a.expression

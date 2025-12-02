@@ -6,7 +6,7 @@
 import { Meteor } from 'meteor/meteor'
 import _debug from 'debug'
 import { check } from 'meteor/check'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 // import { checkSuperAdmin } from '/imports/api/util-auth';
 

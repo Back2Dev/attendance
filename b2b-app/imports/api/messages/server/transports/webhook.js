@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import { RegExId } from '/imports/api/utils/schema-util'
 import { getCfgs } from '/imports/api/settings/server/helper'
 import Transporter from './index'

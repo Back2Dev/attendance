@@ -20,9 +20,14 @@ Fixtures.loadAssets = function (items) {
       Fixtures.data[thing] = JSON.parse(Assets.getText(jsonFile))
     } catch (e) {
       // Does it look like a plain text file?
-      const names = Assets.getText(jsonFile).split(/\n/)
+      const names = (Assets.getText && Assets.getText(jsonFile)) || ''
+      if (!names) {
+        console.error(`Error reading fixtures data file: ${jsonFile}\n  - error message is : '${e.message}'`)
+        return
+      }
+      const nameList = names.split(/\n/)
       if (names.length) {
-        Fixtures.data[thing] = names.map((name) => {
+        Fixtures.data[thing] = nameList.map((name) => {
           return { name }
         })
       } else console.error(`Error parsing JSON fixtures data file: ${jsonFile}\n  - error message is : '${e.message}'`)
@@ -196,5 +201,7 @@ Fixtures.loadThese = function (list, which) {
     })
   // Don't auto create users unless the db is empty
   // TODO: put these under config control (ie per selected environments only)
-  if (Meteor.users.find().count() === 0) Fixtures.loadUsers()
+  Meteor.users.find().countAsync().then((n) => {
+    if (n === 0) Fixtures.loadUsers()
+  })
 }

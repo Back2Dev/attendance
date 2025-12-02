@@ -1,4 +1,4 @@
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import { getCfgs } from '/imports/api/settings/server/helper'
 import Transporter from './index'
 import logger from '/imports/lib/log'

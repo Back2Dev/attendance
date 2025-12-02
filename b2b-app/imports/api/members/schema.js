@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 import {
   OptionalRegExId,
@@ -12,58 +12,47 @@ import CONSTANTS from '/imports/api/constants'
 const Members = new Mongo.Collection('members')
 
 if (Meteor.isServer) {
-  Members._ensureIndex(
-    {
-      _id: 'text',
-      name: 'text',
-      email: 'text',
-      mobile: 'text',
-      emergencyContact: 'text',
-    },
-    {
-      weights: {
-        _id: 30,
-        name: 15,
-        email: 10,
-        mobile: 8,
-        emergencyContact: 5,
+  const ensureIndexes = async () => {
+    const collection = Members.rawCollection()
+    await collection.createIndex(
+      {
+        _id: 'text',
+        name: 'text',
+        email: 'text',
+        mobile: 'text',
+        emergencyContact: 'text',
       },
-      name: 'member_text_search',
-    }
-  )
-  Members._ensureIndex(
-    {
-      name: 1,
-      email: 1,
-      mobile: 1,
-      address: 1,
-    },
-    { name: 'member_regex_search' }
-  )
-  Members._ensureIndex(
-    {
-      name: 1,
-    },
-    { name: 'member_name' }
-  )
-  Members._ensureIndex(
-    {
-      email: 1,
-    },
-    { name: 'member_email' }
-  )
-  Members._ensureIndex(
-    {
-      mobile: 1,
-    },
-    { name: 'member_mobile' }
-  )
-  Members._ensureIndex(
-    {
-      address: 1,
-    },
-    { name: 'member_address' }
-  )
+      {
+        weights: {
+          _id: 30,
+          name: 15,
+          email: 10,
+          mobile: 8,
+          emergencyContact: 5,
+        },
+        name: 'member_text_search',
+      }
+    )
+    await collection.createIndex(
+      {
+        name: 1,
+        email: 1,
+        mobile: 1,
+        address: 1,
+      },
+      { name: 'member_regex_search' }
+    )
+    await collection.createIndex({ name: 1 }, { name: 'member_name' })
+    await collection.createIndex({ email: 1 }, { name: 'member_email' })
+    await collection.createIndex({ mobile: 1 }, { name: 'member_mobile' })
+    await collection.createIndex({ address: 1 }, { name: 'member_address' })
+  }
+
+  Meteor.startup(() => {
+    ensureIndexes().catch((err) =>
+      console.error('Error creating indexes for members', err)
+    )
+  })
 }
 
 export const AddBadgeParamsSchema = new SimpleSchema({

@@ -1,17 +1,16 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 import { OptionalRegExId, createdAt, updatedAt } from '/imports/api/utils/schema-util'
 
 const Settings = new Mongo.Collection('settings')
 if (Meteor.isServer) {
-  Settings._ensureIndex(
-    {
-      key: 1,
-    },
-    { unique: true, name: 'key_unique' }
-  )
+  Meteor.startup(() => {
+    Settings.rawCollection()
+      .createIndex({ key: 1 }, { unique: true, name: 'key_unique' })
+      .catch((err) => console.error('Error creating settings index', err))
+  })
 }
 
 export const SettingsSchema = new SimpleSchema({

@@ -11,6 +11,7 @@ import {
 } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import RegEx from '/imports/api/regexp'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
 import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.js'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
@@ -24,13 +25,13 @@ let userSchema = new SimpleSchema2Bridge({
     email: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
     },
     mobile: {
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },

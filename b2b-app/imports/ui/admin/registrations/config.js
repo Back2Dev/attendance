@@ -7,6 +7,7 @@ import {
   OptionalBlackbox,
   OptionalInteger,
 } from '/imports/api/utils/schema-util'
+import RegEx from '/imports/api/regexp'
 
 const dateFormat = {
   inputFormat: 'DD/MM/YY hh:mm',
@@ -16,7 +17,7 @@ const dateFormat = {
 
 const editSchema = new SimpleSchema({
   name: String,
-  email: SimpleSchema.RegEx.Email,
+  email: RegEx.Email,
   streetAddress: {
     type: String,
     optional: true,
@@ -36,7 +37,7 @@ const editSchema = new SimpleSchema({
     max: 4,
     optional: true,
   },
-  mobileNumber: SimpleSchema.RegEx.Phone,
+  mobileNumber: RegEx.Phone,
   pinNumber: {
     type: String,
     min: 4,
@@ -47,7 +48,7 @@ const editSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  emergencyContactMobile: SimpleSchema.RegEx.Phone,
+  emergencyContactMobile: RegEx.Phone,
 })
 
 //

@@ -115,7 +115,7 @@ export default function MainRoutes() {
         />
         {/* <Route path="/dive" element={<SecureRoute component={DivePage} />} /> */}
         <Route
-          path="/sessions"
+          path="/sessions/*"
           element={
             <SecureRoute>
               <SessionsPage />

@@ -14,6 +14,7 @@ import EmailIcon from '@mui/icons-material/Email'
 import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import RegEx from '/imports/api/regexp'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
 import CONSTANTS from '/imports/api/constants.js'
 import { convertAvatar, wordSeparator } from '/imports/api/util.js'
@@ -41,14 +42,14 @@ export const userSchema = new SimpleSchema2Bridge({
     username: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
       label: 'Email',
     },
     mobile: {
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },

@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
+import RegEx from '/imports/api/regexp'
 
 import {
   OptionalRegExId,
@@ -16,7 +17,7 @@ export const RegistrationsSchema = new SimpleSchema({
   _id: OptionalRegExId,
 
   name: String,
-  email: SimpleSchema.RegEx.Email,
+  email: RegEx.Email,
   streetAddress: {
     type: String,
     optional: true,
@@ -36,7 +37,7 @@ export const RegistrationsSchema = new SimpleSchema({
     max: 4,
     optional: true,
   },
-  mobileNumber: SimpleSchema.RegEx.Phone,
+  mobileNumber: RegEx.Phone,
   pinNumber: {
     type: String,
     min: 4,
@@ -87,7 +88,7 @@ export const RegistrationsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  emergencyContactMobile: SimpleSchema.RegEx.Phone,
+  emergencyContactMobile: RegEx.Phone,
 
   createdAt,
   updatedAt,

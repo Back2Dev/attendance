@@ -4,6 +4,7 @@ import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import { Grid, Typography, Button } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles';
+import RegEx from '/imports/api/regexp'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
@@ -17,13 +18,13 @@ let userSchema = new SimpleSchema2Bridge({
     email: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
     },
     mobile: {
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 import {
   OptionalRegExId,
@@ -12,12 +12,11 @@ import {
 
 export const Notifications = new Mongo.Collection('notifications_2')
 if (Meteor.isServer) {
-  Notifications._ensureIndex(
-    {
-      userId: 1,
-    },
-    { name: 'publish_notifications_mine' }
-  )
+  Meteor.startup(() => {
+    Notifications.rawCollection()
+      .createIndex({ userId: 1 }, { name: 'publish_notifications_mine' })
+      .catch((err) => console.error('Error creating notifications index', err))
+  })
 }
 
 export const NotificationSchema = new SimpleSchema({
@@ -40,27 +39,25 @@ Notifications.attachSchema(NotificationSchema)
 export const NotificationItems = new Mongo.Collection('notifications_items')
 if (Meteor.isServer) {
   // find recently active items by notification id
-  NotificationItems._ensureIndex(
-    {
-      notificationId: 1,
-      status: 1,
-      createdAt: -1,
-    },
-    { name: 'find_active_items_by_notificationId' }
-  )
-
-  // update notifications to prevent too many chat items.
-  // maybe we should move this to the chat schema
-  NotificationItems._ensureIndex(
-    {
-      notificationId: 1,
-      type: 1,
-      'data.conversationId': 1,
-      status: 1,
-      createdAt: 1,
-    },
-    { name: 'find_active_items_by_notificationId_and_chat_conversationId' }
-  )
+  Meteor.startup(() => {
+    const collection = NotificationItems.rawCollection()
+    Promise.all([
+      collection.createIndex(
+        { notificationId: 1, status: 1, createdAt: -1 },
+        { name: 'find_active_items_by_notificationId' }
+      ),
+      collection.createIndex(
+        {
+          notificationId: 1,
+          type: 1,
+          'data.conversationId': 1,
+          status: 1,
+          createdAt: 1,
+        },
+        { name: 'find_active_items_by_notificationId_and_chat_conversationId' }
+      ),
+    ]).catch((err) => console.error('Error creating notificationItems indexes', err))
+  })
 }
 
 export const NotificationItemSchema = new SimpleSchema({

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Container } from '@mui/material'
 
-import SessionDetails from '/imports/ui/components/session-details.js'
+import SessionDetails from '/imports/ui/components/session-details'
 
 const StyledSessionsPage = styled.div``
 

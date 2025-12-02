@@ -6,6 +6,7 @@ import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import { Grid, Typography, Link, Button } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles';
+import RegEx from '/imports/api/regexp'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
@@ -21,7 +22,7 @@ let userSchema = new SimpleSchema2Bridge({
     email: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
     },
   }),
 })
