@@ -19,15 +19,24 @@ const buildCsv = (columns, rows) => {
  * Compatibility wrapper to replace react-tabulator with MUI DataGrid.
  * Only implements the subset of APIs used in this codebase.
  */
-const MuiGrid = forwardRef(function MuiGrid({ columns = [], data = [], options = {}, cellEdited }, ref) {
+const MuiGrid = forwardRef(function MuiGrid(
+  { columns = [], data = [], options = {}, cellEdited },
+  ref
+) {
   const [filter, setFilter] = useState('')
   const [selectionModel, setSelectionModel] = useState([])
+  const [rowsState, setRowsState] = useState(data)
+
+  // Keep local state in sync with upstream data (reactive Minimongo changes)
+  React.useEffect(() => {
+    setRowsState(data)
+  }, [data])
 
   const rows = useMemo(() => {
-    if (!filter) return data
+    if (!filter) return rowsState
     const term = String(filter).toLowerCase()
-    return data.filter((row) => String(row.search || '').toLowerCase().includes(term))
-  }, [data, filter])
+    return rowsState.filter((row) => String(row.search || '').toLowerCase().includes(term))
+  }, [rowsState, filter])
 
   const gridColumns = useMemo(() => {
     return columns
@@ -70,20 +79,21 @@ const MuiGrid = forwardRef(function MuiGrid({ columns = [], data = [], options =
       })
   }, [columns])
 
+  const getId = (row) => row?._id ?? row?.id
+
   const notifySelectionChanges = (newSelection) => {
-    const toId = (row) => row?._id ?? row?.id
     const added = newSelection.filter((id) => !selectionModel.includes(id))
     const removed = selectionModel.filter((id) => !newSelection.includes(id))
 
     added.forEach((id) => {
-      const row = rows.find((r) => toId(r) === id)
+      const row = rows.find((r) => getId(r) === id)
       if (row && options.rowSelected) {
         options.rowSelected({ _row: { data: row } })
       }
     })
 
     removed.forEach((id) => {
-      const row = rows.find((r) => toId(r) === id)
+      const row = rows.find((r) => getId(r) === id)
       if (row && options.rowDeselected) {
         options.rowDeselected({ _row: { data: row } })
       }
@@ -92,13 +102,16 @@ const MuiGrid = forwardRef(function MuiGrid({ columns = [], data = [], options =
     setSelectionModel(newSelection)
   }
 
-  const onCellEditCommit = (params) => {
-    const rowData = rows.find((r) => (r._id ?? r.id) === params.id)
-    const updated = { ...rowData, [params.field]: params.value }
+  const processRowUpdate = (newRow, oldRow) => {
     const fn = options.cellEdited || cellEdited
     if (fn) {
-      fn({ _cell: { row: { data: updated } } })
+      fn({ _cell: { row: { data: newRow } } })
     }
+    // Optimistically update local state so the grid reflects the change immediately
+    setRowsState((prev) =>
+      prev.map((row) => (getId(row) === getId(oldRow) ? { ...row, ...newRow } : row))
+    )
+    return newRow
   }
 
   const onRowDoubleClick = (params) => {
@@ -120,6 +133,7 @@ const MuiGrid = forwardRef(function MuiGrid({ columns = [], data = [], options =
         link.click()
         document.body.removeChild(link)
       },
+      getSelectedIds: () => selectionModel,
     },
   }))
 
@@ -128,14 +142,19 @@ const MuiGrid = forwardRef(function MuiGrid({ columns = [], data = [], options =
       <DataGrid
         rows={rows}
         columns={gridColumns}
-        getRowId={(row) => row._id ?? row.id}
+        getRowId={(row) => getId(row)}
         checkboxSelection
         disableRowSelectionOnClick
         onRowDoubleClick={onRowDoubleClick}
-        onCellEditCommit={onCellEditCommit}
+        processRowUpdate={processRowUpdate}
+        // Support both legacy and current selection change props for compatibility
         onSelectionModelChange={notifySelectionChanges}
+        onRowSelectionModelChange={notifySelectionChanges}
+        rowSelectionModel={selectionModel}
         selectionModel={selectionModel}
         pageSizeOptions={[10, 25, 50]}
+        editMode="cell"
+        experimentalFeatures={{ newEditingApi: true }}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
         }}

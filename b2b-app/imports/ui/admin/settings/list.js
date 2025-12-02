@@ -7,13 +7,6 @@ const debug = require('debug')('app:add')
 
 const idField = '_id'
 const List = ({ items, update, remove, insert, columns, defaultObject, loading }) => {
-  const [rows, setRows] = React.useState(items)
-  const [rowsSelected, setRowsSelected] = React.useState([])
-
-  React.useEffect(() => {
-    setRows(items)
-    setRowsSelected([])
-  }, [items])
 
   const tableRef = React.useRef(null)
 
@@ -24,9 +17,16 @@ const List = ({ items, update, remove, insert, columns, defaultObject, loading }
     insert(defaultObject)
   }
 
-  const onCellEdited = (cell) => {
+  const onCellEdited = async (cell) => {
     debug('cellEdited', cell)
-    update(cell._cell.row.data)
+    const data = { ...cell._cell.row.data }
+    delete data.search
+    if (!data._id && data.id) data._id = data.id
+    if (!data._id) {
+      alert('Unable to update: missing id')
+      return
+    }
+    await update(data)
   }
 
   const tableOptions = {
@@ -35,45 +35,30 @@ const List = ({ items, update, remove, insert, columns, defaultObject, loading }
     layout: 'fitData',
     pagination: 'local', //enable local pagination.
     paginationSize: 20,
-    rowSelected: function (row) {
-      rowsSelected.push(row._row.data[idField])
-      setRowsSelected(rowsSelected)
-    },
-    rowDeselected: function (row) {
-      for (let i = 0; i < rowsSelected.length; i++) {
-        if (rowsSelected[i] === row._row.data[idField]) {
-          rowsSelected.splice(i, 1)
-          setRowsSelected(rowsSelected)
-        }
-      }
-    },
-
     downloadReady: (fileContents, blob) => blob,
   }
   if (idField === 'id') tableOptions.reactiveData = true
   const deleteRows = () => {
-    if (rowsSelected.length === 0) alert('Please select one or more items to delete')
-    rowsSelected.forEach((id) => remove(id))
-    if (idField === 'id') {
-      // Latency compensation for non-reactive database
-      const newRows = rows.filter((row) => !rowsSelected.includes(row[idField]))
-      setRows(newRows)
-      setRowsSelected([])
+    const selectedIds = tableRef.current?.table?.getSelectedIds?.() || []
+    if (selectedIds.length === 0) {
+      alert('Please select one or more items to delete')
+      return
     }
+    selectedIds.forEach((id) => remove(id))
   }
 
   const addNotification = () => {}
 
   let Contents = () => <span>Loading...</span>
   if (!loading) {
-    if (!rows || !rows.length) {
+    if (!items || !items.length) {
       Contents = () => <span>No data found</span>
     } else {
       Contents = () => (
         <MuiGrid
           ref={tableRef}
           columns={columns}
-          data={rows}
+          data={items}
           options={tableOptions}
           cellEdited={onCellEdited}
         />

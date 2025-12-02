@@ -10,8 +10,6 @@ const idField = '_id'
 const FILTER_NAME = 'app:message-templates:filter'
 
 const List = ({ items, methods, columns, defaultObject, loading }) => {
-  const [rowsSelected, setRowsSelected] = React.useState([])
-
   const tableRef = React.useRef(null)
 
   const downloadCSV = () => {
@@ -23,9 +21,16 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
     tableRef.current.table.download('csv', 'MessageTemplates.csv')
   }
 
-  const onCellEdited = (cell) => {
+  const onCellEdited = async (cell) => {
     debug('cellEdited', cell)
-    methods.update(cell._cell.row.data)
+    const data = { ...cell._cell.row.data }
+    delete data.search
+    if (!data._id && data.id) data._id = data.id
+    if (!data._id) {
+      alert('Unable to update: missing id')
+      return
+    }
+    await methods.update(data)
   }
 
   const tableOptions = {
@@ -40,19 +45,6 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
       columns: true,
     },
     persistenceID: 'app:message-templates',
-    rowSelected: function (row) {
-      rowsSelected.push(row._row.data[idField])
-      setRowsSelected(rowsSelected)
-    },
-    rowDeselected: function (row) {
-      for (let i = 0; i < rowsSelected.length; i++) {
-        if (rowsSelected[i] === row._row.data[idField]) {
-          rowsSelected.splice(i, 1)
-          setRowsSelected(rowsSelected)
-        }
-      }
-    },
-
     downloadReady: (fileContents, blob) => blob,
     rowDblClick: function (e, row) {
       //e - the click event object
@@ -62,14 +54,13 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
   }
   if (idField === 'id') tableOptions.reactiveData = true
   const deleteRows = () => {
-    if (rowsSelected.length === 0) alert('Please select one or more items to delete')
-    rowsSelected.forEach((id) => methods.remove(id))
-    if (idField === 'id') {
-      // Latency compensation for non-reactive database
-      const newRows = items.filter((row) => !rowsSelected.includes(row[idField]))
-      setRows(newRows)
-      setRowsSelected([])
+    if (!tableRef.current?.table) {
+      alert('Please select one or more items to delete')
+      return
     }
+    const selectedIds = tableRef.current.table.getSelectedIds?.() || []
+    if (selectedIds.length === 0) alert('Please select one or more items to delete')
+    selectedIds.forEach((id) => methods.remove(id))
   }
 
   const addANewRow = () => {
@@ -77,9 +68,13 @@ const List = ({ items, methods, columns, defaultObject, loading }) => {
   }
 
   const archiveData = () => {
-    console.log(rowsSelected)
-    if (rowsSelected.length === 0) alert('Please select one or more items to Archive')
-    methods.archive(rowsSelected)
+    if (!tableRef.current?.table) {
+      alert('Please select one or more items to Archive')
+      return
+    }
+    const selectedIds = tableRef.current.table.getSelectedIds?.() || []
+    if (selectedIds.length === 0) alert('Please select one or more items to Archive')
+    methods.archive(selectedIds)
   }
 
   let Contents = () => <span>Loading...</span>
