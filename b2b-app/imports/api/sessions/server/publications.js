@@ -76,7 +76,9 @@ Meteor.publish('sessions.myByIdComposite', async function (id) {
     },
   })
   publication.onStop(() => {
-    sessionsHandle.stop()
+    if (sessionsHandle && sessionsHandle.stop) {
+      sessionsHandle.stop()
+    }
   })
 
   // debug(this)

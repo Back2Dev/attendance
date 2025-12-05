@@ -19,8 +19,8 @@ function UserPage() {
       </Helmet>
       <Container maxWidth="lg">
         <Routes>
-          <Route path="/profile/:id" element={<PublicProfile />} />
-          <Route path="/profile" element={<UserPreferences />} />
+          <Route path=":id" element={<PublicProfile />} />
+          <Route index element={<UserPreferences />} />
           <Route path="*" element={<Portal />} />
         </Routes>
       </Container>

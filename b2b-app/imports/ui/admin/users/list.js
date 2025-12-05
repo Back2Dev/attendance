@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
@@ -25,19 +25,17 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ListUsers = (props) => {
-  const [users, setUsers] = useState([])
   const [selected, setSelected] = useState(null)
   const [search, setSearch] = useState('')
 
   const classes = useStyles()
 
-  useEffect(() => {
-    const results = props.userMembers?.filter((doc) => {
+  const users = useMemo(() => {
+    return (props.userMembers || []).filter((doc) => {
       const string = obj2Search(doc)
       return string.toLowerCase().includes(search.toLowerCase())
     })
-    setUsers(results)
-  }, [search])
+  }, [search, props.userMembers])
 
   const handleSearch = (e) => {
     setSearch(e.target.value)

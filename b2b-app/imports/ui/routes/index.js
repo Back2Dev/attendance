@@ -15,6 +15,7 @@ const SessionsPage = lazy(() => import('/imports/ui/pages/sessions.js'))
 const ServicesPage = lazy(() => import('/imports/ui/pages/services.js'))
 const DailyStandupPage = lazy(() => import('/imports/ui/admin/teams/daily-standup.js'))
 const UserPage = lazy(() => import('/imports/ui/pages/user.js'))
+const Portal = lazy(() => import('/imports/ui/components/portal.js'))
 const NotFoundPage = lazy(() => import('/imports/ui/pages/not-found.js'))
 const LoggedOut = lazy(() => import('/imports/ui/pages/logged-out.js'))
 const Signup = lazy(() => import('/imports/ui/pages/signup/signup.js'))
@@ -89,7 +90,7 @@ export default function MainRoutes() {
         {/* Task pages routes */}
 
         <Route
-          path="/profile"
+          path="/profile/*"
           element={
             <SecureRoute>
               <UserPage />
@@ -100,7 +101,7 @@ export default function MainRoutes() {
           path="/dashboard"
           element={
             <SecureRoute>
-              <UserPage />
+              <Portal />
             </SecureRoute>
           }
         />
