@@ -11,6 +11,9 @@ export const Meteor = {
 export const Mongo = {
   Collection: jest.fn().mockImplementation(() => ({
     _ensureIndex: (jest.fn()),
+    rawCollection: jest.fn().mockImplementation(() => ({
+      createIndex: jest.fn().mockResolvedValue(undefined)
+    })),
     attachSchema: jest.fn()
   })),
 };
