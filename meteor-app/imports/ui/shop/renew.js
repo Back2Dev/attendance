@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { cloneDeep } from 'lodash'
-import { Button, Image, Card, Segment, Grid, Header } from 'semantic-ui-react'
+import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 
 import MembershipCard from '/imports/ui/member-card/member-card'
 import { ProductCardOnly } from '/imports/ui/shop/product-card'
@@ -43,54 +43,55 @@ const Renew = props => {
   let { cart } = props
   const haveCart = cart && cart.products && cart.products.length > 0
   return (
-    <div>
-      <Header as="h1">
-        <Image src={logoFile} height="35px" /> {props.org} membership renewal
-      </Header>
-      <Segment>
-        <Grid style={{ height: '100%' }} verticalAlign="middle" centered>
-          <Grid.Column width={8}>
-            <Card.Group centered>
+    <Box>
+      <Typography variant="h4" sx={{ mb: 2 }}>
+        <Box component="img" src={logoFile} alt="Logo" sx={{ height: 35, mr: 1, verticalAlign: 'middle' }} />
+        {props.org} membership renewal
+      </Typography>
+      <Paper sx={{ p: 2 }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <MembershipCard member={props.member} />
-            </Card.Group>
-          </Grid.Column>
-          <Grid.Column width={8}>
-            <h4>Please choose a membership option </h4>
-            <Card.Group centered>
-              {haveCart && (
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                  {cart.products.map(p => (
-                    <ProductCardOnly
-                      mode="next"
-                      takeAction={next}
-                      key={p.name}
-                      {...p}
-                      onClick={() => selectOption(p)}
-                      prodQty={cart.prodqty[p._id]}
-                    />
-                  ))}
-                </div>
-              )}
-              {!(product && product.name) && (
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                  {props.products.map(p => (
-                    <ProductButton key={p.name} {...p} onClick={() => selectOption(p)} />
-                  ))}
-                </div>
-              )}
-              {!haveCart && product && product.name && (
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h6">Please choose a membership option</Typography>
+            {haveCart && (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 2 }}>
+                {cart.products.map((p) => (
+                  <ProductCardOnly
+                    mode="next"
+                    takeAction={next}
+                    key={p.name}
+                    {...p}
+                    onClick={() => selectOption(p)}
+                    prodQty={cart.prodqty[p._id]}
+                  />
+                ))}
+              </Box>
+            )}
+            {!(product && product.name) && (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 2 }}>
+                {props.products.map((p) => (
+                  <ProductButton key={p.name} {...p} onClick={() => selectOption(p)} />
+                ))}
+              </Box>
+            )}
+            {!haveCart && product && product.name && (
+              <Box sx={{ mt: 2 }}>
                 <ProductCardOnly mode="add" {...product} takeAction={add} remove={remove} />
-              )}
-              {product && product.name && (
-                <Button type="button" onClick={change} color="blue" inverted style={{ marginTop: '12px' }}>
-                  Change
-                </Button>
-              )}
-            </Card.Group>
-          </Grid.Column>
+              </Box>
+            )}
+            {product && product.name && (
+              <Button variant="outlined" onClick={change} sx={{ mt: 2 }}>
+                Change
+              </Button>
+            )}
+          </Grid>
         </Grid>
-      </Segment>
-    </div>
+      </Paper>
+    </Box>
   )
 }
 

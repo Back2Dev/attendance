@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Image, Container, Button, Segment } from 'semantic-ui-react'
+import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
 
 const AlreadyPaid = props => {
@@ -11,20 +11,25 @@ const AlreadyPaid = props => {
   }
 
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">Payment has already been completed</Header>
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <div>Transaction Date: {moment(props.cart.chargeResponse.created_at).format('DD/MM/YYYY h:mm:ss a')}</div>
-        <div>Products: {props.cart.products.map(product => product.name).join(', ')}</div>
-        <div>Amount: {'$' + props.cart.chargeAmount / 100}</div>
-        <div>Card Number: {props.cart.chargeResponse.card.display_number}</div>
-        <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Typography variant="h5">Payment has already been completed</Typography>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Typography>
+          Transaction Date: {moment(props.cart.chargeResponse.created_at).format('DD/MM/YYYY h:mm:ss a')}
+        </Typography>
+        <Typography>Products: {props.cart.products.map(product => product.name).join(', ')}</Typography>
+        <Typography>Amount: {'$' + props.cart.chargeAmount / 100}</Typography>
+        <Typography>Card Number: {props.cart.chargeResponse.card.display_number}</Typography>
+        <Button variant="contained" color="success" onClick={gotoShop} sx={{ mt: 3 }}>
           Back to the shop
         </Button>
-      </Segment>
+      </Paper>
     </Container>
   )
 }

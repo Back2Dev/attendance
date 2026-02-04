@@ -206,7 +206,7 @@ export default [
         // So I think it's ok that these fields are still shown. Ideally we should
         // have some kind of indicator to tell the user that these fields don't apply
         //
-        // Documentation reference: https://github.com/nilportugues/react-jsonschema-form-semanticui#property-dependencies
+        // Documentation reference: https://github.com/rjsf-team/react-jsonschema-form
         //
         name: {
           type: 'string'

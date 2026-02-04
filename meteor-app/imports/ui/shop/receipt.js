@@ -1,7 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Container, Segment, Table, Header, Button, Icon, Image } from 'semantic-ui-react'
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from '@mui/material'
 import { CartContext } from './cart-data'
 import Price from './price'
 
@@ -59,29 +69,32 @@ const Receipt = props => {
   }
 
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <Header as="h5">{state.settings.org}</Header>
-        <Header as="h2">Card payment receipt</Header>
-        <Table basic="very" celled collapsing>
-          <Table.Body>
-            {items.map(item => (
-              <Table.Row key={item.name}>
-                <Table.Cell valign="top">
-                  <Header as="h4">{item.name}</Header>
-                </Table.Cell>
-                <Table.Cell>{item.value}</Table.Cell>
-              </Table.Row>
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Typography variant="subtitle1">{state.settings.org}</Typography>
+        <Typography variant="h5">Card payment receipt</Typography>
+        <Table size="small" sx={{ mt: 2 }}>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.name}>
+                <TableCell sx={{ width: '35%' }}>
+                  <Typography variant="subtitle2">{item.name}</Typography>
+                </TableCell>
+                <TableCell>{item.value}</TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
+          </TableBody>
         </Table>
-        <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+        <Button variant="contained" color="success" onClick={gotoShop} sx={{ mt: 3 }}>
           Back to the shop
         </Button>
-      </Segment>
+      </Paper>
     </Container>
   )
 }

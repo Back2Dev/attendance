@@ -1,28 +1,19 @@
 import React from 'react'
 import {
-  Form,
-  Header,
-  Image,
-  Container,
+  Alert,
+  Box,
   Button,
-  Message,
-  Segment,
-} from 'semantic-ui-react'
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
 
 const debug = require('debug')('b2b:shop')
 
 const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
-const ErrMsg = (props) => (
-  <span style={{ fontSize: '9px', color: 'red' }}>
-    {props.children}
-  </span>
-)
-const Required = (props) => (
-  <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
-)
-
 const Address = (props) => {
   const { state, dispatch } = React.useContext(CartContext)
   const [a, setAddress] = React.useState(
@@ -78,134 +69,138 @@ const Address = (props) => {
   if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {
     debug('Cart is complete')
     return (
-      <Container text textAlign="center">
-        <Segment textAlign="center">
-          <Header as="h2">Payment form - your billing address</Header>
-          <Header as="h2">
-            <Image src={state.settings.logo} />
-          </Header>
-          <div>Payment has been completed</div>
+      <Container maxWidth="sm">
+        <Paper sx={{ p: 3, textAlign: 'center' }}>
+          <Typography variant="h5">
+            Payment form - your billing address
+          </Typography>
+          <Box
+            component="img"
+            src={state.settings.logo}
+            alt={`${state.settings.org} logo`}
+            sx={{ maxWidth: 200, my: 2 }}
+          />
+          <Typography variant="body1">Payment has been completed</Typography>
           <Button
-            size="mini"
-            type="button"
-            color="green"
+            variant="contained"
+            color="success"
             onClick={gotoShop}
-            style={{ marginTop: '24px' }}
+            sx={{ mt: 3 }}
           >
             Back to the shop
           </Button>
-        </Segment>
+        </Paper>
       </Container>
     )
   }
 
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">Payment form - your billing address</Header>
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <Form
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Typography variant="h5">
+          Payment form - your billing address
+        </Typography>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Box
+          component="form"
           id="address_form"
-          action=""
-          method="post"
-          size="mini"
-          style={{ textAlign: 'left' }}
+          onSubmit={submitAddress}
+          sx={{ textAlign: 'left', mt: 2 }}
         >
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('email') !== -1}
             label="Email"
             placeholder="Email"
             defaultValue={a.email}
             onChange={fieldChange}
             name="email"
-            style={{ textAlign: 'left' }}
+            margin="dense"
           />
-
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('line1') !== -1}
             label="Address"
             placeholder="Billing Address"
             defaultValue={a.address_line1}
             onChange={fieldChange}
             name="address_line1"
-            style={{ textAlign: 'left' }}
+            margin="dense"
           />
-
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('line2') !== -1}
             label="Address (Continued)"
             placeholder="Address line 2"
             defaultValue={a.address_line2}
             onChange={fieldChange}
             name="address_line2"
+            margin="dense"
           />
-
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('city') !== -1}
             label="City or suburb"
             placeholder="City"
             defaultValue={a.address_city}
             onChange={fieldChange}
             name="address_city"
+            margin="dense"
           />
-
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('state') !== -1}
             label="State or Province"
             placeholder="State/Province"
             defaultValue={a.address_state}
             onChange={fieldChange}
             name="address_state"
+            margin="dense"
           />
-
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('postcode') !== -1}
             label="Postcode or ZIP"
             placeholder="Postcode/ZIP"
             defaultValue={a.address_postcode}
             onChange={fieldChange}
             name="address_postcode"
+            margin="dense"
           />
-
-          <Form.Input
-            fluid
+          <TextField
+            fullWidth
             error={e.indexOf('country') !== -1}
             label="Country"
             placeholder="Country"
             defaultValue={a.address_country}
             onChange={fieldChange}
             name="address_country"
+            margin="dense"
           />
 
           {e.length > 0 && (
-            <Message
-              negative
-              header="Oops, your billing address isn't quite right:"
-              content={e.join(', ')}
-            />
+            <Alert severity="error" sx={{ mt: 2 }}>
+              Oops, your billing address isn't quite right: {e.join(', ')}
+            </Alert>
           )}
-        </Form>
+        </Box>
         <Button
-          size="mini"
-          type="button"
-          color="green"
+          variant="contained"
+          color="success"
           onClick={submitAddress}
-          style={{ marginTop: '24px' }}
+          sx={{ mt: 3 }}
         >
           Next
         </Button>
-        <p>
+        <Typography variant="body2" sx={{ mt: 1 }}>
           On the next page you will enter your credit card details
-        </p>
-      </Segment>
+        </Typography>
+      </Paper>
     </Container>
   )
 }

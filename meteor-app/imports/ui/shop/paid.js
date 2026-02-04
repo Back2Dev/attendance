@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Segment, Header, Button, Image } from 'semantic-ui-react'
+import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
 
 const EmailSent = ({ history, match }) => {
@@ -11,17 +11,20 @@ const EmailSent = ({ history, match }) => {
   }
 
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <Header as="h5">{state.settings.org}</Header>
-        <Header as="h2">Paid </Header>
-        <Button size="mini" type="button" color="green" onClick={gotoHome} style={{ marginTop: '24px' }}>
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Typography variant="subtitle1">{state.settings.org}</Typography>
+        <Typography variant="h5">Paid</Typography>
+        <Button variant="contained" color="success" onClick={gotoHome} sx={{ mt: 3 }}>
           Back to the checkin
         </Button>
-      </Segment>
+      </Paper>
     </Container>
   )
 }

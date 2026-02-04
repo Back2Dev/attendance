@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Icon } from 'semantic-ui-react'
+import { Box, Button, Stack, Typography } from '@mui/material'
+import CircleIcon from '@mui/icons-material/Circle'
 import CartSummary from './cart-summary'
 import GoHome from '/imports/ui/components/go-home-button'
 
@@ -11,29 +12,34 @@ const ProdTypeCard = props => {
     props.history.push(`/shop/type/${props.type}`)
   }
   return (
-    <p key={props.type}>
-      <Button id={mkid(props.name)} type="button" onClick={go} color={props.color} icon labelPosition="left">
-        <Icon name={props.icon} />
+    <Box key={props.type}>
+      <Button
+        id={mkid(props.name)}
+        type="button"
+        onClick={go}
+        variant="contained"
+        startIcon={<CircleIcon sx={{ color: props.color }} />}
+      >
         {props.name}
       </Button>
-    </p>
+    </Box>
   )
 }
 
 const ShopWindow = props => {
   const { productTypes, settings } = props
   return (
-    <div>
-      <h4>{settings.org} Shop</h4>
+    <Stack spacing={2}>
+      <Typography variant="h5">{settings.org} Shop</Typography>
       <CartSummary history={props.history} />
-      <p>{settings.tagline}</p>
-      {props.loading && <span>Loading...</span>}
+      <Typography variant="body1">{settings.tagline}</Typography>
+      {props.loading && <Typography variant="body2">Loading...</Typography>}
       {!props.loading &&
         productTypes &&
         productTypes.length &&
         productTypes.map(prodType => <ProdTypeCard key={prodType.type} history={props.history} {...prodType} />)}
       <GoHome history={props.history} />
-    </div>
+    </Stack>
   )
 }
 

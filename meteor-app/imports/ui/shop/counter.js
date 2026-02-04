@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Icon, Container } from 'semantic-ui-react'
+import { Box, Button, Paper, Stack, Typography } from '@mui/material'
+import CircleIcon from '@mui/icons-material/Circle'
 import CartButton, { CartMenuItem } from './cart-summary'
 import CustomerMenuItem from './customer'
 import ProductCard from './product-card'
@@ -17,40 +18,48 @@ const Counter = props => {
   if (loading) return <div>Loading...</div>
   if (!prodType) return <div>Product type not found</div>
   return (
-    <div>
-      <Menu>
-        <Menu.Item>
-          <h2>
-            <span style={{ color: prodType.color }}>
-              <Icon name={prodType.icon} />
-              {prodType.name} ({products.length})
-            </span>
-          </h2>
-        </Menu.Item>
-        {productTypes.map(ptype => (
-          <Menu.Item key={ptype.type} onClick={() => select(ptype.type)}>
-            <span style={{ color: ptype.color }}>
-              <Icon name={ptype.icon} />
+    <Stack spacing={2}>
+      <Paper sx={{ p: 2 }}>
+        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+          <Typography variant="h5" sx={{ color: prodType.color }}>
+            <CircleIcon sx={{ fontSize: 12, mr: 1, color: prodType.color }} />
+            {prodType.name} ({products.length})
+          </Typography>
+          {productTypes.map((ptype) => (
+            <Button
+              key={ptype.type}
+              type="button"
+              onClick={() => select(ptype.type)}
+              startIcon={<CircleIcon sx={{ fontSize: 10, color: ptype.color }} />}
+            >
               {ptype.name}
-            </span>
-          </Menu.Item>
-        ))}
-        <CustomerMenuItem />
-        <CartMenuItem history={props.history} />
-      </Menu>
+            </Button>
+          ))}
+          <Box sx={{ ml: 'auto', display: 'flex', gap: 1 }}>
+            <CustomerMenuItem />
+            <CartMenuItem history={props.history} />
+          </Box>
+        </Stack>
+      </Paper>
 
-      {prodType.description}
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {products.map(item => (
-          <ProductCard {...item} key={item._id} mode="add" color={prodType.color} prodQty={state.prodqty[item._id]} />
+      <Typography variant="body1">{prodType.description}</Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+        {products.map((item) => (
+          <ProductCard
+            {...item}
+            key={item._id}
+            mode="add"
+            color={prodType.color}
+            prodQty={state.prodqty[item._id]}
+          />
         ))}
-      </div>
+      </Box>
       {state.totalqty > 0 && (
-        <Container>
+        <Box>
           <CartButton history={props.history} />
-        </Container>
+        </Box>
       )}
-    </div>
+    </Stack>
   )
 }
 

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Image, Icon } from 'semantic-ui-react'
 import { CartContext } from './cart-data'
 import Checkout from './checkout'
 

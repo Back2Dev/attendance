@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Icon, Menu, Label } from 'semantic-ui-react'
+import React from 'react'
+import { Chip } from '@mui/material'
+import PersonIcon from '@mui/icons-material/Person'
 
 const CustomerMenuItem = props => {
   if (sessionStorage.getItem('name')) {
     return (
-      <Menu.Item position="right" color="teal">
-        <Icon name="user" /> {sessionStorage.getItem('name')}
-      </Menu.Item>
+      <Chip
+        color="info"
+        icon={<PersonIcon />}
+        label={sessionStorage.getItem('name')}
+        sx={{ ml: 1 }}
+      />
     )
   }
 
@@ -19,9 +22,7 @@ export default CustomerMenuItem
 export const CustomerLabel = ({ name }) => {
   if (name) {
     return (
-      <Label basic pointing="right">
-        <Icon name="user" /> {name}
-      </Label>
+      <Chip variant="outlined" icon={<PersonIcon />} label={name} />
     )
   }
 

@@ -1,5 +1,12 @@
 import React from 'react'
-import { Button, Modal, Header, Container, Segment } from 'semantic-ui-react'
+import {
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material'
 
 export const PrivacyText = props => (
   <div>
@@ -545,16 +552,25 @@ export const PrivacyText = props => (
   </div>
 )
 
-const PrivacyModal = props => (
-  <Modal trigger={<Button>Privacy statement</Button>} closeIcon>
-    <Modal.Content scrolling>
-      <Modal.Description>
-        <Header as="h3">Privacy Policy &amp; Collection Statement</Header>
-        <PrivacyText />
-      </Modal.Description>
-    </Modal.Content>
-  </Modal>
-)
+const PrivacyModal = props => {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Privacy statement
+      </Button>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Privacy Policy &amp; Collection Statement</DialogTitle>
+        <DialogContent dividers>
+          <PrivacyText />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}
 export default PrivacyModal
 
 export const SecurityText = props => (
@@ -636,13 +652,22 @@ export const SecurityText = props => (
   </Container>
 )
 
-export const SecurityModal = props => (
-  <Modal trigger={<Button>PCI DSS Compliance</Button>} closeIcon>
-    <Modal.Content scrolling>
-      <Modal.Description>
-        <Header as="h3">Online Payment and Security Standard Frequently Asked Questions</Header>
-        <SecurityText />
-      </Modal.Description>
-    </Modal.Content>
-  </Modal>
-)
+export const SecurityModal = props => {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        PCI DSS Compliance
+      </Button>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Online Payment and Security Standard Frequently Asked Questions</DialogTitle>
+        <DialogContent dividers>
+          <SecurityText />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}

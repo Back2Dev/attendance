@@ -1,16 +1,24 @@
 import React from 'react'
 import {
-  Card,
-  Segment,
+  Box,
   Button,
-  Menu,
-  Label,
-  Input,
-  Icon,
+  Chip,
   Grid,
-  Form,
-  Header,
-} from 'semantic-ui-react'
+  InputAdornment,
+  Paper,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
+import FlagIcon from '@mui/icons-material/Flag'
+import SearchIcon from '@mui/icons-material/Search'
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral'
 import Alert from '/imports/ui/utils/alert'
 import 'react-s-alert/dist/s-alert-default.css'
 import 'react-s-alert/dist/s-alert-css-effects/slide.css'
@@ -40,6 +48,14 @@ const Checkout = ({ history }) => {
   const [email, setEmail] = React.useState('')
   const [note, setNote] = React.useState('')
   const [discountedPrice, setDP] = React.useState(state.price / 100)
+  const promoIcon =
+    icon && icon.match(/check/)
+      ? <CheckCircleIcon color="success" />
+      : icon && icon.match(/cancel/)
+        ? <CancelIcon color="error" />
+        : icon && icon.match(/meh/)
+          ? <SentimentNeutralIcon color="error" />
+          : <SearchIcon color="action" />
 
   const adminCancel = () => {
     setPromo({ status: 'Please enter a discount code' })
@@ -153,236 +169,201 @@ const Checkout = ({ history }) => {
 
   if (!state.products || !state.products.length) {
     return (
-      <div>
-        <h4>Checkout </h4>
-        <Segment raised color="red">
-          <p>You have nothing in your shopping cart</p>
+      <Stack spacing={2}>
+        <Typography variant="h5">Checkout</Typography>
+        <Paper sx={{ p: 2, border: 1, borderColor: 'error.main' }}>
+          <Typography>You have nothing in your shopping cart</Typography>
           <Button
             id="continue"
             type="button"
-            primary
+            variant="contained"
             onClick={() => history.push('/shop')}
+            sx={{ mt: 2 }}
           >
             Continue shopping
           </Button>
-        </Segment>
-      </div>
+        </Paper>
+      </Stack>
     )
   }
   return (
-    <div>
-      <Menu>
-        <Menu.Item>
-          <h2>Checkout </h2>
-        </Menu.Item>
-        <Menu.Item>
+    <Stack spacing={2}>
+      <Paper sx={{ p: 2 }}>
+        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+          <Typography variant="h5">Checkout</Typography>
           <Privacy />
-        </Menu.Item>
-        <Menu.Item>
           <SecurityModal />
-        </Menu.Item>
-        <Menu.Item position="right">
-          <Button
-            type="button"
-            color="green"
-            floated="right"
-            id="menu_buy_now"
-            onClick={buyNow}
-          >
-            Buy now {!state._id && '!'}
-          </Button>
-        </Menu.Item>
-      </Menu>
-      <Segment>
-        <Card.Group centered>
-          {state.products.map((p) => {
-            return (
-              <ProductCard
-                {...p}
-                key={p._id}
-                mode="remove"
-                prodQty={state.prodqty[p._id]}
-              />
-            )
-          })}
-        </Card.Group>
-      </Segment>
+          <Box sx={{ ml: 'auto' }}>
+            <Button
+              type="button"
+              variant="contained"
+              color="success"
+              id="menu_buy_now"
+              onClick={buyNow}
+            >
+              Buy now {!state._id && '!'}
+            </Button>
+          </Box>
+        </Stack>
+      </Paper>
 
-      <div style={{ textAlign: 'center' }}>
+      <Paper sx={{ p: 2 }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
+          {state.products.map((p) => (
+            <ProductCard
+              {...p}
+              key={p._id}
+              mode="remove"
+              prodQty={state.prodqty[p._id]}
+            />
+          ))}
+        </Box>
+      </Paper>
+
+      <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" justifyContent="center">
         <Button
           id="continue"
           type="button"
-          primary
+          variant="contained"
           onClick={() => history.push('/shop/type/membership')}
         >
           Continue shopping
         </Button>
         <Button
           type="button"
-          color="green"
-          style={{ marginLeft: '16px' }}
+          color="success"
+          variant="contained"
           onClick={buyNow}
           id="buy_now"
         >
           Buy now {!state._id && '!'}
         </Button>
-        <Input
-          style={{ float: 'right' }}
-          action={
-            <Button
-              id="check"
-              color="teal"
-              onClick={checkPromo}
-              content="Check"
-            />
-          }
-          iconPosition="left"
-          icon={icon}
+        <TextField
+          size="small"
           placeholder="Promo code"
           onChange={(e) => setCode(e.target.value)}
-          labelPosition="right"
           name="promo"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                {promoIcon}
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <Button id="check" onClick={checkPromo}>
+                  Check
+                </Button>
+              </InputAdornment>
+            ),
+          }}
         />
-      </div>
-      <div style={{ textAlign: 'center' }} />
+      </Stack>
+
       {promo && promo.discount > 0 && !promo.admin && (
-        <Header style={{ textAlign: 'center' }}>
-          <Icon
-            name="flag checkered"
-            color="green"
-            style={{ display: 'inline' }}
-          />
+        <Typography align="center" variant="h6">
+          <FlagIcon color="success" sx={{ mr: 1 }} />
           Yay! You found...
           <br />
           {promo.description}
           <br />
           Click on "Buy Now" to make use of your discount
-        </Header>
+        </Typography>
       )}
       {promo && promo._id && promo.admin && (
-        <div style={{ textAlign: 'center' }}>
-          <Grid textAlign="center" columns={3}>
-            <Grid.Row>
-              <Grid.Column />
-              <Grid.Column>
-                <Segment raised color="green" compact>
-                  <Header as="h2" icon>
-                    <Icon name="flag checkered" color="green" />
-                    {promo.description}
-                    <Header.Subheader>
-                      Select payment method
-                    </Header.Subheader>
-                  </Header>
-                  <Form>
-                    <Form.Group grouped>
-                      <Label>Charge: ${discountedPrice}</Label>
-                      <br />
-                      <Input
-                        name="discount"
-                        onChange={changeDiscount}
-                        placeholder="Discount amount"
+        <Grid container justifyContent="center">
+          <Grid item xs={12} md={6}>
+            <Paper sx={{ p: 2, border: 1, borderColor: 'success.main' }}>
+              <Stack spacing={2} alignItems="center">
+                <FlagIcon color="success" />
+                <Typography variant="h6">{promo.description}</Typography>
+                <Typography variant="subtitle2">Select payment method</Typography>
+                <Chip label={`Charge: $${discountedPrice}`} />
+                <TextField
+                  name="discount"
+                  onChange={changeDiscount}
+                  placeholder="Discount amount"
+                  size="small"
+                />
+                <FormControl>
+                  <RadioGroup name="method" value={method} onChange={changeMethod}>
+                    {member && member.paymentCustId && (
+                      <FormControlLabel
+                        value="charge"
+                        control={<Radio />}
+                        label="Charge to credit card"
                       />
-                      {member && member.paymentCustId && (
-                        <Form.Field
-                          label="&nbsp; Charge to credit card"
-                          control="input"
-                          type="radio"
-                          name="method"
-                          value="charge"
-                          onChange={changeMethod}
-                        />
-                      )}
-                      <Form.Field
-                        label="&nbsp; Send invoice by email"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="email"
-                        onChange={changeMethod}
-                      />
-                      {method === 'email' && (
-                        <>
-                          <Form.TextArea
-                            name="note"
-                            type="note"
-                            placeholder="Note to add to email"
-                            onChange={(e) => setNote(e.target.value)}
-                          ></Form.TextArea>
-
-                          <Input
-                            name="email"
-                            type="email"
-                            placeholder="Email"
-                            defaultValue={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
-                        </>
-                      )}
-                      <Form.Field
-                        label="&nbsp; Paid via Paypal"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="paypal"
-                        onChange={changeMethod}
-                      />
-                      <Form.Field
-                        label="&nbsp; Paid in Xero"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="xero"
-                        onChange={changeMethod}
-                      />
-                      <Form.Field
-                        label="&nbsp; Paid in cash"
-                        control="input"
-                        type="radio"
-                        name="method"
-                        value="cash"
-                        onChange={changeMethod}
-                      />
-                      {showDate && (
-                        <Input
-                          name="date"
-                          placeholder="Date paid (leave blank for today)"
-                        />
-                      )}
-                    </Form.Group>
-                  </Form>
-                  <Button
-                    id="cancel"
-                    type="button"
-                    color="red"
-                    inverted
-                    onClick={adminCancel}
-                  >
+                    )}
+                    <FormControlLabel
+                      value="email"
+                      control={<Radio />}
+                      label="Send invoice by email"
+                    />
+                    <FormControlLabel
+                      value="paypal"
+                      control={<Radio />}
+                      label="Paid via Paypal"
+                    />
+                    <FormControlLabel
+                      value="xero"
+                      control={<Radio />}
+                      label="Paid in Xero"
+                    />
+                    <FormControlLabel
+                      value="cash"
+                      control={<Radio />}
+                      label="Paid in cash"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                {method === 'email' && (
+                  <>
+                    <TextField
+                      name="note"
+                      type="note"
+                      placeholder="Note to add to email"
+                      onChange={(e) => setNote(e.target.value)}
+                      multiline
+                      rows={3}
+                      fullWidth
+                    />
+                    <TextField
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      defaultValue={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      fullWidth
+                    />
+                  </>
+                )}
+                {showDate && (
+                  <TextField
+                    name="date"
+                    placeholder="Date paid (leave blank for today)"
+                    fullWidth
+                  />
+                )}
+                <Stack direction="row" spacing={1}>
+                  <Button id="cancel" type="button" color="error" variant="outlined" onClick={adminCancel}>
                     Cancel
                   </Button>
-                  <Button
-                    id="doit"
-                    type="button"
-                    color="green"
-                    inverted
-                    onClick={adminDoIt}
-                  >
+                  <Button id="doit" type="button" color="success" variant="contained" onClick={adminDoIt}>
                     Do it
                   </Button>
-                </Segment>
-              </Grid.Column>
-              <Grid.Column />
-            </Grid.Row>
+                </Stack>
+              </Stack>
+            </Paper>
           </Grid>
-        </div>
+        </Grid>
       )}
       {promo && promo.status && (
-        <Header style={{ textAlign: 'center', color: 'red' }}>
-          <Icon name="meh outline" color="red" />
-
+        <Typography align="center" color="error">
+          <SentimentNeutralIcon sx={{ mr: 1 }} />
           {promo.status}
-        </Header>
+        </Typography>
       )}
-    </div>
+    </Stack>
   )
 }
 

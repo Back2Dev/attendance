@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Header, Image, Container, Button, Message, Segment } from 'semantic-ui-react'
+import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
 
@@ -20,19 +20,26 @@ const RegisterCard = props => {
   }
 
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">{state.settings.org}</Header>
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <Header as="h2">Credit Card Registration</Header>
-        <Header as="h2">You can register your card details here.</Header>
-        <p> Click Next to continue</p>
-        <Button size="mini" type="button" color="green" onClick={submit} style={{ marginTop: '24px' }}>
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Typography variant="h5">{state.settings.org}</Typography>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Typography variant="h5">Credit Card Registration</Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>
+          You can register your card details here.
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          Click Next to continue
+        </Typography>
+        <Button variant="contained" color="success" onClick={submit} sx={{ mt: 3 }}>
           Next
         </Button>
-      </Segment>
+      </Paper>
     </Container>
   )
 }

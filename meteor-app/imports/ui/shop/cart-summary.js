@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Label, Icon, Menu } from 'semantic-ui-react'
+import { Button, Chip, Stack } from '@mui/material'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import Alert from '/imports/ui/utils/alert'
 
 import { CartContext } from './cart-data'
@@ -19,23 +20,34 @@ const Cart = props => {
   }
   const items = state.totalqty > 1 ? 'items' : 'item'
   return (
-    <Button as="div" labelPosition="left" size="large">
+    <Stack direction="row" spacing={1} alignItems="center">
       <CustomerLabel name={sessionStorage.getItem('name')} />
-      <Label basic pointing="right">
-        <Icon name="shopping cart" />
-        {!state.totalqty && <span>Cart is empty {!state._id && '!'}</span>}
-        {state.totalqty > 0 && (
-          <div>
-            {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
-          </div>
-        )}
-      </Label>
+      <Chip
+        variant="outlined"
+        icon={<ShoppingCartIcon />}
+        label={
+          !state.totalqty ? (
+            <>Cart is empty {!state._id && '!'}</>
+          ) : (
+            <>
+              {state.totalqty} {items} (<Price cents={state.price} />){' '}
+              {!state._id && '!'}
+            </>
+          )
+        }
+      />
       {state.totalqty > 0 && (
-        <Button type="button" color="green" onClick={checkout} id="checkout">
+        <Button
+          type="button"
+          variant="contained"
+          color="success"
+          onClick={checkout}
+          id="checkout"
+        >
           Go to checkout now
         </Button>
       )}
-    </Button>
+    </Stack>
   )
 }
 
@@ -55,19 +67,28 @@ export const CartMenuItem = props => {
   }
   if (!state.totalqty) {
     return (
-      <Menu.Item position="right" onClick={checkout} color="blue">
-        <Icon name="shopping cart" /> Cart is empty {!state._id && '!'}
-      </Menu.Item>
+      <Button
+        type="button"
+        variant="outlined"
+        color="primary"
+        startIcon={<ShoppingCartIcon />}
+        onClick={checkout}
+      >
+        Cart is empty {!state._id && '!'}
+      </Button>
     )
   }
 
   const items = state.totalqty > 1 ? 'items' : 'item'
   return (
-    <Menu.Item position="right" onClick={checkout} color="green">
-      <Button type="button" color="green">
-        <Icon name="shopping cart" />
-        {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
-      </Button>
-    </Menu.Item>
+    <Button
+      type="button"
+      variant="contained"
+      color="success"
+      startIcon={<ShoppingCartIcon />}
+      onClick={checkout}
+    >
+      {state.totalqty} {items} (<Price cents={state.price} />) {!state._id && '!'}
+    </Button>
   )
 }

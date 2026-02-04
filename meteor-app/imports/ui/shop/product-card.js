@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import { cloneDeep } from 'lodash'
 import { CartContext } from './cart-data'
 import Price from './price'
@@ -25,53 +25,59 @@ export const ProductCardOnly = props => {
   const img = props.image || '/images/gym.jpg'
   const { mode, takeAction, remove, color = 'green', name, description, price, code, prodQty } = props
   return (
-    <Card color={color}>
-      <Card.Content>
+    <Card sx={{ width: 260, borderTop: `4px solid ${color}` }}>
+      <CardContent>
         {mode === 'remove' && (
           <Button
-            size="mini"
-            floated="right"
+            size="small"
             type="button"
             onClick={remove}
-            color="red"
+            color="error"
             id={mkid(`rm ${code}`)}
             title="Remove this item"
           >
             X
           </Button>
         )}
-        <Image floated="left" size="mini" src={img} />
-        <Card.Header>{name}</Card.Header>
-        <Card.Description>{description}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
+        <CardMedia component="img" image={img} alt={name} sx={{ height: 80, width: 80, objectFit: 'cover' }} />
+        <Typography variant="h6" sx={{ mt: 1 }}>
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
+      </CardContent>
+      <CardActions sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {mode === 'next' && (
-          <div>
+          <Box>
             {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
-            &nbsp;
-            <Button type="button" onClick={takeAction} color={color}>
-              Next
-            </Button>
-          </div>
+          </Box>
         )}
         {mode === 'add' && (
-          <div>
+          <Box>
             <Price cents={price} />
-            &nbsp;
-            <Button id={mkid(name)} type="button" onClick={takeAction} color={color}>
-              Add to cart
-            </Button>
-          </div>
+          </Box>
         )}
         {mode === 'remove' && (
-          <div>
+          <Box>
             {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
             {/* <PayNowButton productCode={code} memberId={props.memberId} amount={(qty * price) / 100} /> */}
-          </div>
+          </Box>
         )}
-      </Card.Content>
+        {(mode === 'next' || mode === 'add') && (
+          <Button
+            id={mkid(name)}
+            type="button"
+            onClick={takeAction}
+            variant="contained"
+            sx={{ backgroundColor: color }}
+          >
+            {mode === 'next' ? 'Next' : 'Add to cart'}
+          </Button>
+        )}
+      </CardActions>
     </Card>
   )
 }

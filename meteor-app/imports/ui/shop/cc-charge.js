@@ -1,5 +1,15 @@
 import React from 'react'
-import { Container, Segment, Card, Header, Button, Image } from 'semantic-ui-react'
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Paper,
+  Typography,
+} from '@mui/material'
 import Alert from '/imports/ui/utils/alert'
 import CONSTANTS from '/imports/api/constants'
 import { CartContext } from './cart-data'
@@ -41,39 +51,51 @@ const CCCharge = props => {
     }
   }
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <Header as="h5">{state.settings.org}</Header>
-        <Header as="h2">Charge Credit Card </Header>
-        <Header as="h2">
-          <Image src="/images/cards.png" style={{ width: '10em', marginBottom: '4px' }}></Image>
-        </Header>
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Typography variant="subtitle1">{state.settings.org}</Typography>
+        <Typography variant="h5">Charge Credit Card</Typography>
+        <Box
+          component="img"
+          src="/images/cards.png"
+          alt="Accepted cards"
+          sx={{ width: 160, my: 1 }}
+        />
 
-        <Card.Group centered>
-          <Card>
-            <Card.Content>
-              <Image floated="right" size="mini" src={`/images/avatars/${state.member.avatar}`} />
-              <Card.Header>{state.member.name}</Card.Header>
-              <Card.Meta>{state.member.email}</Card.Meta>
-              <Card.Description>(Credit card details stored)</Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              <div>
-                <Button basic color="green" type="button" onClick={chargeCard}>
-                  Charge: <Price cents={state.chargeAmount}></Price>
-                </Button>
-                <Button basic color="red" type="button" onClick={gotoHome}>
-                  Cancel
-                </Button>
-              </div>
+        <Card sx={{ mt: 2 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Avatar src={`/images/avatars/${state.member.avatar}`} />
+              <Box sx={{ textAlign: 'left' }}>
+                <Typography variant="h6">{state.member.name}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {state.member.email}
+                </Typography>
+                <Typography variant="body2">(Credit card details stored)</Typography>
+              </Box>
+            </Box>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'center' }}>
+            <Button variant="contained" color="success" type="button" onClick={chargeCard}>
+              Charge: <Price cents={state.chargeAmount} />
+            </Button>
+            <Button variant="outlined" color="error" type="button" onClick={gotoHome}>
+              Cancel
+            </Button>
+          </CardActions>
+          {status && (
+            <Typography variant="body2" sx={{ pb: 2 }}>
               {status}
-            </Card.Content>
-          </Card>
-        </Card.Group>
-      </Segment>
+            </Typography>
+          )}
+        </Card>
+      </Paper>
     </Container>
   )
 }

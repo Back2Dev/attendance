@@ -1,8 +1,21 @@
 import React from 'react'
 import Alert from '/imports/ui/utils/alert'
 import HostedFields from './pin'
-import { Link } from 'react-router-dom'
-import { Form, Image, Container, Segment, Header, Button, Modal, Checkbox, Icon, Input } from 'semantic-ui-react'
+import {
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material'
+import InfoIcon from '@mui/icons-material/Info'
 import { CartContext } from './cart-data'
 import Price from './price'
 import CONSTANTS from '/imports/api/constants'
@@ -35,6 +48,7 @@ const CreditCard = props => {
   const [errors, setErrors] = React.useState({})
   const [statusMsg, setStatus] = React.useState('')
   const [keep, setKeep] = React.useState(true)
+  const [infoOpen, setInfoOpen] = React.useState(false)
   const memberId = props.match.params.id
   const codes = state.products
     .map(prod => {
@@ -259,42 +273,53 @@ const CreditCard = props => {
   if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {
     debug('Cart is complete')
     return (
-      <Container text textAlign="center">
-        <Segment textAlign="center">
-          <Header as="h2">Payment form - credit card</Header>
-          <Header as="h2">
-            <Image src={state.settings.logo} />
-          </Header>
-          <div>Payment has been completed</div>
-          <Button size="mini" type="button" color="green" onClick={gotoShop} style={{ marginTop: '24px' }}>
+      <Container maxWidth="sm">
+        <Paper sx={{ p: 3, textAlign: 'center' }}>
+          <Typography variant="h5">Payment form - credit card</Typography>
+          <Box
+            component="img"
+            src={state.settings.logo}
+            alt={`${state.settings.org} logo`}
+            sx={{ maxWidth: 200, my: 2 }}
+          />
+          <Typography variant="body1">Payment has been completed</Typography>
+          <Button variant="contained" color="success" onClick={gotoShop} sx={{ mt: 3 }}>
             Back to the shop
           </Button>
-        </Segment>
+        </Paper>
       </Container>
     )
   }
   return (
-    <Container text textAlign="center">
-      <Segment textAlign="center">
-        <Header as="h2">
+    <Container maxWidth="sm">
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <Typography variant="h5">
           Payment form - credit card <span style={{ color: 'white' }}>{cartId}</span>
-        </Header>
-        <Header as="h2">
-          <Image src={state.settings.logo} />
-        </Header>
-        <Header as="h5">
-          Cards accepted: &nbsp;&nbsp;
-          <Image src="/images/cards.png" verticalAlign="middle" verticalAlign="middle" style={{ width: '200px' }} />
-        </Header>
-        <Form id="payment_form" method="post" style={{ textAlign: 'left' }}>
-          <Header as="h2" style={{ textAlign: 'center' }}>
+        </Typography>
+        <Box
+          component="img"
+          src={state.settings.logo}
+          alt={`${state.settings.org} logo`}
+          sx={{ maxWidth: 200, my: 2 }}
+        />
+        <Typography variant="subtitle1">
+          Cards accepted:
+          <Box
+            component="img"
+            src="/images/cards.png"
+            alt="Accepted cards"
+            sx={{ width: 200, ml: 1, verticalAlign: 'middle' }}
+          />
+        </Typography>
+        <Box component="form" id="payment_form" method="post" sx={{ textAlign: 'left', mt: 2 }}>
+          <Typography variant="h6" sx={{ textAlign: 'center' }}>
             {price > 0 && (
               <>
                 Total charge for card: <Price cents={price} />
               </>
             )}
             {price === 0 && `No charge today, please provide your card details`}
-          </Header>
+          </Typography>
           <label htmlFor="name">
             Full name <Required />
             <ErrMsg id="err.name">{errors.name}</ErrMsg>
@@ -303,7 +328,7 @@ const CreditCard = props => {
           <div id="name" />
           {Meteor.settings.public.mockpinpayment && (
             <div>
-              <Input fluid id="mockName" placeholder="Fake name on card" onChange={setFake} />
+              <TextField fullWidth id="mockName" placeholder="Fake name on card" onChange={setFake} margin="dense" />
             </div>
           )}
 
@@ -315,7 +340,13 @@ const CreditCard = props => {
           <div id="number" />
           {Meteor.settings.public.mockpinpayment && (
             <div>
-              <Input fluid id="mockNumber" placeholder="Fake credit card number" onChange={setFake} />
+              <TextField
+                fullWidth
+                id="mockNumber"
+                placeholder="Fake credit card number"
+                onChange={setFake}
+                margin="dense"
+              />
             </div>
           )}
 
@@ -327,7 +358,13 @@ const CreditCard = props => {
           <div id="cvc" />
           {Meteor.settings.public.mockpinpayment && (
             <div>
-              <Input fluid id="mockCvc" placeholder="Fake CVC on back of card" onChange={setFake} />
+              <TextField
+                fullWidth
+                id="mockCvc"
+                placeholder="Fake CVC on back of card"
+                onChange={setFake}
+                margin="dense"
+              />
             </div>
           )}
 
@@ -339,58 +376,70 @@ const CreditCard = props => {
           <div id="expiry" />
           {Meteor.settings.public.mockpinpayment && (
             <div>
-              <Input fluid id="mockExpiry" placeholder="Fake expriy date" onChange={setFake} />
+              <TextField
+                fullWidth
+                id="mockExpiry"
+                placeholder="Fake expriy date"
+                onChange={setFake}
+                margin="dense"
+              />
             </div>
           )}
-        </Form>
+        </Box>
         <ErrMsg id="err.remote">{errors.remote}</ErrMsg>
         <StatusMsg id="status.msg">{statusMsg}</StatusMsg>
         <br />
-        <Button size="mini" type="button" color="green" onClick={submitForm} style={{ marginTop: '24px' }}>
+        <Button variant="contained" color="success" onClick={submitForm} sx={{ mt: 3 }}>
           {price === 0 ? 'Register card' : 'Pay'}
         </Button>
         {!memberId && price > 0 && (
           <>
-            <Checkbox
-              label="Keep my card on file for future payments"
-              name="keep"
-              id="keep"
-              checked={keep}
-              disabled={price === 0}
-              value={1}
-              onChange={e => setKeep(!keep)}
-              style={{ marginTop: '12px', marginLeft: '12px' }}
-            />
-            <Modal
-              trigger={
-                <Button size="mini" type="button" inverted color="blue" icon style={{ marginLeft: '12px' }}>
-                  <Icon name="info" />
-                  Why?
-                </Button>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="keep"
+                  id="keep"
+                  checked={keep}
+                  disabled={price === 0}
+                  value={1}
+                  onChange={() => setKeep(!keep)}
+                />
               }
-              closeIcon
+              label="Keep my card on file for future payments"
+              sx={{ mt: 2 }}
+            />
+            <Button
+              type="button"
+              variant="outlined"
+              startIcon={<InfoIcon />}
+              onClick={() => setInfoOpen(true)}
+              sx={{ ml: 2, mt: 2 }}
             >
-              <Modal.Content scrolling>
-                <Modal.Description>
-                  <a href={paymentsHomePage} target="_blank">
-                    <Header as="h2">
-                      <Image src={state.settings.logo} />
-                      <Image src="/images/pinpayments.png" style={{ width: '140px' }} />
-                    </Header>
-                  </a>
-                  <Header as="h3">Why should I save my card information?</Header>
-                  <p>
-                    We don't save your card details on our system. It is securely stored for your convenience on our
-                    payment gateway using PCI DSS standards. Saving it will make it easier for you to buy from us next
-                    time, without the need to re-enter all your details.
-                  </p>
-                  <p>You can remove your card from the system at any time.</p>
-                </Modal.Description>
-              </Modal.Content>
-            </Modal>
+              Why?
+            </Button>
+            <Dialog open={infoOpen} onClose={() => setInfoOpen(false)} maxWidth="sm" fullWidth>
+              <DialogTitle>Why should I save my card information?</DialogTitle>
+              <DialogContent dividers>
+                <a href={paymentsHomePage} target="_blank" rel="noreferrer">
+                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
+                    <Box component="img" src={state.settings.logo} alt="Logo" sx={{ height: 40 }} />
+                    <Box component="img" src="/images/pinpayments.png" alt="PinPayments" sx={{ height: 40 }} />
+                  </Box>
+                </a>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  We don't save your card details on our system. It is securely stored for your convenience on our
+                  payment gateway using PCI DSS standards. Saving it will make it easier for you to buy from us next
+                  time, without the need to re-enter all your details.
+                </Typography>
+                <Typography variant="body1">You can remove your card from the system at any time.</Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setInfoOpen(false)}>Close</Button>
+              </DialogActions>
+            </Dialog>
           </>
         )}
-      </Segment>
+      </Paper>
     </Container>
   )
 }
