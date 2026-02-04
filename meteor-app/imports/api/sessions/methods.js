@@ -4,31 +4,31 @@ import Members from '/imports/api/members/schema'
 const debug = require('debug')('target:sessions')
 
 Meteor.methods({
-  getAllSessions() {
+  getAllSessions: async function () {
     if (Meteor.isClient) return null
-    return Sessions.find({}).fetch()
+    return await Sessions.find({}).fetchAsync()
   },
-  'rm.sessions': id => {
+  'rm.sessions': async (id) => {
     try {
-      const n = Sessions.remove(id)
+      const n = await Sessions.removeAsync(id)
       return { status: 'success', message: `Removed session` }
     } catch (e) {
       return { status: 'failed', message: `Error removing session: ${e.message}` }
     }
   },
-  'update.sessions': form => {
+  'update.sessions': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Sessions.update(id, { $set: form })
+      const n = await Sessions.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} session(s)` }
     } catch (e) {
       return { status: 'failed', message: `Error updating session: ${e.message}` }
     }
   },
-  'add.sessions': form => {
+  'add.sessions': async (form) => {
     try {
-      const id = Sessions.insert(form)
+      const id = await Sessions.insertAsync(form)
       return { status: 'success', message: `Added session` }
     } catch (e) {
       return { status: 'failed', message: `Error adding session: ${e.message}` }
@@ -37,11 +37,10 @@ Meteor.methods({
 
 })
 
-Meteor.startup(() => {
-  Sessions.find({ memberName: { $exists: false } }).forEach(session => {
-    const member = Members.findOne(session.memberId)
+Meteor.startup(async () => {
+  for (const session of await Sessions.find({ memberName: { $exists: false } }).fetchAsync()) {
+    const member = await Members.findOneAsync(session.memberId)
     if (member)
-      Sessions.update(session._id, { $set: { memberName: member.name } })
-  })
+      await Sessions.updateAsync(session._id, { $set: { memberName: member.name } })
+  }
 })
-

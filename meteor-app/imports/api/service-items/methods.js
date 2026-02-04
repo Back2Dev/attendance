@@ -2,15 +2,15 @@ import { Meteor } from 'meteor/meteor'
 import ServiceItems from './schema'
 
 Meteor.methods({
-  'rm.ServiceItems': (id) => {
-    ServiceItems.remove(id)
+  'rm.ServiceItems': async (id) => {
+    await ServiceItems.removeAsync(id)
   },
-  'update.ServiceItems': (form) => {
+  'update.ServiceItems': async (form) => {
     const id = form._id
     delete form._id
-    ServiceItems.update(id, { $set: form })
+    await ServiceItems.updateAsync(id, { $set: form })
   },
-  'add.ServiceItems': (form) => {
-    ServiceItems.insert(form)
+  'add.ServiceItems': async (form) => {
+    await ServiceItems.insertAsync(form)
   },
 })

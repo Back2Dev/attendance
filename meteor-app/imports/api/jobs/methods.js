@@ -43,7 +43,7 @@ const emailReceipt = async ({ job, charge_token }) => {
       `status: ${response.status} ${response.statusText}`,
       data.response
     )
-    Jobs.update(job._id, {
+    await Jobs.updateAsync(job._id, {
       $set: {
         email: data.response.email,
         card: data.response.card,
@@ -51,7 +51,7 @@ const emailReceipt = async ({ job, charge_token }) => {
       },
     })
     const bike = `${job.bikeDetails.color} ${job.bikeDetails.make} ${job.bikeDetails.model}`
-    Meteor.call(
+    await Meteor.callAsync(
       'sendGenericInfoEmail',
       data.response.email,
       {
@@ -78,12 +78,12 @@ If you need to do an out-of-hours pickup, please call us on 0416 988 516 to arra
 
 if (Meteor.isServer) {
   Meteor.methods({
-    'job.updateJobStatus'(jobId, updatedStatus) {
+    'job.updateJobStatus': async function (jobId, updatedStatus) {
       check(jobId, String)
       check(updatedStatus, Number)
 
-      Jobs.update(jobId, { $set: { status: updatedStatus } })
-      EventLogs.insert({
+      await Jobs.updateAsync(jobId, { $set: { status: updatedStatus } })
+      await EventLogs.insertAsync({
         who: Meteor.user().username,
         objectId: jobId,
         status: updatedStatus,
@@ -91,14 +91,14 @@ if (Meteor.isServer) {
         what: `Status is now ${JOB_STATUS_READABLE[updatedStatus]}`,
       })
     },
-    'job.updatePaid'(jobId) {
+    'job.updatePaid': async function (jobId) {
       check(jobId, String)
 
-      const job = Jobs.findOne(jobId)
+      const job = await Jobs.findOneAsync(jobId)
       if (!job)
         throw new Meteor.Error('Could not find job with id ' + jobId)
-      Jobs.update(jobId, { $set: { paid: !job.paid } })
-      EventLogs.insert({
+      await Jobs.updateAsync(jobId, { $set: { paid: !job.paid } })
+      await EventLogs.insertAsync({
         who: Meteor.user().username,
         objectId: jobId,
         status: job.status,
@@ -106,11 +106,11 @@ if (Meteor.isServer) {
         what: `Payment is now ${job.paid ? UNPAID : PAID}`,
       })
     },
-    'job.completeJob'(jobId) {
+    'job.completeJob': async function (jobId) {
       check(jobId, String)
       debug(`Completing job ${jobId}`)
-      Jobs.update(jobId, { $set: { status: JOB_STATUS.PICKED_UP } })
-      EventLogs.insert({
+      await Jobs.updateAsync(jobId, { $set: { status: JOB_STATUS.PICKED_UP } })
+      await EventLogs.insertAsync({
         who: Meteor.user().username,
         objectId: jobId,
         status: JOB_STATUS.PICKED_UP,
@@ -118,19 +118,19 @@ if (Meteor.isServer) {
         what: 'Job is complete',
       })
     },
-    'job.save'(data) {
+    'job.save': async function (data) {
       data.jobNo =
-        (data.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
+        (data.isRefurbish ? 'R' : 'C') + (await Meteor.callAsync('getNextJobNo'))
       try {
         const contents = cloneDeep(data)
         const id = contents._id
         if (id) {
           delete contents._id
           debug(`Saving job id ${id}`)
-          Jobs.update(id, { $set: { ...contents } })
+          await Jobs.updateAsync(id, { $set: { ...contents } })
           return id
         } else {
-          const id = Jobs.insert(contents)
+          const id = await Jobs.insertAsync(contents)
           debug(`New job id is ${id}`)
           return id
         }
@@ -140,16 +140,16 @@ if (Meteor.isServer) {
         )
       }
     },
-    'job.updateMechanic'(job, action, who) {
+    'job.updateMechanic': async function (job, action, who) {
       const { _id, status } = job
       check(job, Object)
       check(action, String)
       check(who, String)
 
       if (action === MECHANIC_UPDATE) {
-        Jobs.update(_id, { $set: { mechanic: who } })
+        await Jobs.updateAsync(_id, { $set: { mechanic: who } })
       }
-      EventLogs.insert({
+      await EventLogs.insertAsync({
         who: Meteor.user().username,
         status,
         objectId: _id,
@@ -157,12 +157,12 @@ if (Meteor.isServer) {
         eventType: LOG_EVENT_TYPES[action], // integer
       })
     },
-    'job.updatePhone'(job, action, what) {
+    'job.updatePhone': async function (job, action, what) {
       const { _id, status } = job
       check(job, Object)
       check(action, String)
       check(what, String)
-      EventLogs.update({
+      await EventLogs.updateAsync({
         who: Meteor.user().username,
         status,
         objectId: _id,
@@ -170,12 +170,12 @@ if (Meteor.isServer) {
         eventType: LOG_EVENT_TYPES[action], // integer
       })
     },
-    'job.updateSms'(job, action, what) {
+    'job.updateSms': async function (job, action, what) {
       const { _id, status } = job
       check(job, Object)
       check(action, String)
       check(what, String)
-      EventLogs.insert({
+      await EventLogs.insertAsync({
         who: Meteor.user().username,
         status,
         objectId: _id,

@@ -99,7 +99,7 @@ Meteor.methods({
       }
       const wwccError = wwccOk ? '' : searches[index].message
       // Update the WWCC information in the member record
-      Members.update(id, {
+      await Members.updateAsync(id, {
         $set: {
           wwccOk,
           wwccError,
@@ -109,7 +109,7 @@ Meteor.methods({
         }
       })
       // Keep a record of the check for posterity...
-      Wwccs.insert({
+      await Wwccs.insertAsync({
         memberId: id,
         wwccOk,
         wwccError,
@@ -125,9 +125,9 @@ Meteor.methods({
     }
   },
 
-  'wwccs.insert'(wwcc) {
+  'wwccs.insert': async (wwcc) => {
     try {
-      return Wwccs.insert(wwcc)
+      return await Wwccs.insertAsync(wwcc)
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)

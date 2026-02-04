@@ -55,55 +55,69 @@ const unpackOrder = (text, extractors) => {
   return order
 }
 
+const readEmail = (raw) =>
+  new Promise((resolve, reject) => {
+    emlformat.read(raw, (error, data) => {
+      if (error) return reject(error)
+      resolve(data)
+    })
+  })
+
 Meteor.methods({
-  'import.emails'() {
-    OrderEmails.remove({})
+  'import.emails': async function () {
+    await OrderEmails.removeAsync({})
     // Parts.remove({})
-    Orders.remove({})
-    Meteor.call('orders.email.read.mike', testData.mailbox, 'bpw')
+    await Orders.removeAsync({})
+    await Meteor.callAsync('orders.email.read.mike', testData.mailbox, 'bpw')
   },
-  'orders.insert'(order) {
+  'orders.insert': async function (order) {
     try {
-      return Orders.insert(order)
+      return await Orders.insertAsync(order)
     } catch (e) {
       log.error(e)
       throw new Meteor.Error(500, e.message)
     }
   },
 
-  'orders.remove'(id) {
+  'orders.remove': async function (id) {
     try {
       log.info('removing order: ', id)
-      return Orders.remove({ _id: id })
+      return await Orders.removeAsync({ _id: id })
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'orders.removePart'(order, part, totalPrice) {
+  'orders.removePart': async function (order, part, totalPrice) {
     totalPrice = totalPrice - part.price * part.qty
     const id = order._id
     try {
       log.info('removing part from current order', part)
-      return Orders.update({ _id: id }, { $pull: { orderedParts: { partId: part.partId } }, $set: { totalPrice } })
+      return await Orders.updateAsync(
+        { _id: id },
+        { $pull: { orderedParts: { partId: part.partId } }, $set: { totalPrice } }
+      )
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'orders.addPart'(id, orderedPart, totalPrice) {
+  'orders.addPart': async function (id, orderedPart, totalPrice) {
     try {
       log.info('updating order: ', orderedPart)
-      return Orders.update({ _id: id }, { $push: { orderedParts: { ...orderedPart } }, $set: { totalPrice } })
+      return await Orders.updateAsync(
+        { _id: id },
+        { $push: { orderedParts: { ...orderedPart } }, $set: { totalPrice } }
+      )
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'order.updateQty'(id, orderedParts, totalPrice) {
+  'order.updateQty': async function (id, orderedParts, totalPrice) {
     try {
       log.info('updating quantity to or der ')
-      return Orders.update(
+      return await Orders.updateAsync(
         { _id: id },
         {
           $set: {
@@ -118,7 +132,7 @@ Meteor.methods({
     }
   },
 
-  'orders.email.read': function(mailbox) {
+  'orders.email.read': async function (mailbox) {
     // Extract emails from Thunderbird into OrderEmails
     let emails = mailbox.split('From ')
 
@@ -127,20 +141,22 @@ Meteor.methods({
 
       // Parse the email
       let parsedEmail
-      emlformat.read(email, function(error, data) {
-        if (error) return console.log(error)
-        parsedEmail = data
-      })
+      try {
+        parsedEmail = await readEmail(email)
+      } catch (error) {
+        console.log(error)
+        continue
+      }
 
       // Save the email to the collection
       let found = 'Unknown'
       try {
         parsedEmail.date = parsedEmail.date.toString()
-        found = OrderEmails.findOne({ date: parsedEmail.date })
+        found = await OrderEmails.findOneAsync({ date: parsedEmail.date })
 
         if (found == null && parsedEmail.subject === 'BPW Order Confirmation') {
           parsedEmail['status'] = 'unknown'
-          let _id = OrderEmails.insert(parsedEmail)
+          let _id = await OrderEmails.insertAsync(parsedEmail)
           parsedEmail['_id'] = _id
         }
       } catch (e) {
@@ -219,105 +235,103 @@ Meteor.methods({
 
         if (subtotal === totalPrice.toFixed(2) && totalQty >= 1) {
           //update good in orderemails
-          OrderEmails.update(parsedEmail, { $set: { status: 'good' } })
+          await OrderEmails.updateAsync(parsedEmail, { $set: { status: 'good' } })
 
           //add a new order to the database
           order['additionalNotes'] = parsedEmail['_id']
-          Orders.insert(order)
+          await Orders.insertAsync(order)
           //find parts
           for (let number = 0; number < parts.length; number++) {
-            const foundPart = Parts.findOne({ partNo: parts[number]['partNo'] })
+            const foundPart = await Parts.findOneAsync({ partNo: parts[number]['partNo'] })
             // TODO: put partId in partsOrdered
             if (foundPart == null) {
               //update status
               parts[number]['status'] = CONSTANTS.PART_STATUS_AUTO_CREATED
-              Parts.insert(parts[number])
+              await Parts.insertAsync(parts[number])
               log.info('A new part has been created: ', parts[number]['partNo'])
             }
           }
         } else {
           //update broken in orderemail
-          OrderEmails.update(parsedEmail, { $set: { status: 'broken' } })
+          await OrderEmails.updateAsync(parsedEmail, { $set: { status: 'broken' } })
         }
       }
     }
   },
 
-  'orders.email.read.mike': function(mailbox, supplierCode) {
+  'orders.email.read.mike': async function (mailbox, supplierCode) {
     // Extract emails from Thunderbird into OrderEmails
     let emails = mailbox.split('From ')
 
-    emails.forEach(msg => {
+    for (const msg of emails) {
       // Parse the email
       // let parsedEmail
 
       try {
-        emlformat.read(`From ${msg}`, function(error, parsedEmail) {
-          if (error) throw new Meteor.Error(error)
+        const parsedEmail = await readEmail(`From ${msg}`)
 
-          // Save the email to the collection
-          if (parsedEmail.date) {
-            parsedEmail.date = parsedEmail.date.toString()
-            const found = OrderEmails.findOne({ date: parsedEmail.date })
+        // Save the email to the collection
+        if (parsedEmail.date) {
+          parsedEmail.date = parsedEmail.date.toString()
+          const found = await OrderEmails.findOneAsync({ date: parsedEmail.date })
 
-            if (!found && parsedEmail.subject === 'BPW Order Confirmation') {
-              parsedEmail.status = 'unknown'
-              parsedEmail._id = OrderEmails.insert(parsedEmail)
+          if (!found && parsedEmail.subject === 'BPW Order Confirmation') {
+            parsedEmail.status = 'unknown'
+            parsedEmail._id = await OrderEmails.insertAsync(parsedEmail)
 
-              // Unpack the text portion of the email into a raw order object
-              const order = unpackOrder(parsedEmail.text, extractors[supplierCode])
+            // Unpack the text portion of the email into a raw order object
+            const order = unpackOrder(parsedEmail.text, extractors[supplierCode])
 
-              //
-              // Now we do a little post-processing to:
-              //   1) Check for consistency
-              //   2) Add more info
-              //
-              const total = order.orderedParts.reduce((acc, part) => (acc = acc + part.price * part.qty), 0)
-              if (total !== order.subTotal) {
-                OrderEmails.update(parsedEmail, { $set: { status: 'broken' } })
-              } else {
-                // Find partIds from DB
-                order.orderedParts.forEach(part => {
-                  const foundPart = Parts.findOne({ partNo: part.partNo })
-                  if (foundPart) {
-                    part.partId = foundPart._id
-                    part.userId = 'system'
-                    log.info(`Found part ${part.partNo} ${foundPart.wholesalePrice}/${foundPart.retailPrice}`)
-                  } else {
-                    // Create a new part with status 'auto-created'
-                    const newPart = {
-                      status: CONSTANTS.PART_STATUS_AUTO_CREATED,
-                      retailPrice: calcRetail(part.price),
-                      wholesalePrice: part.price,
-                      partNo: part.partNo,
-                      userId: 'system'
-                    }
-                    part.partId = Parts.insert(newPart)
-                    part.addedAt = new Date()
-                    part.userId = 'system'
-
-                    // name: {
-                    // partId: {
-                    // partNo: {
-                    // addedAt: {
-                    // price: {
-                    // qty: {
-                    // userId: {
-
-                    log.info(`A new part has been created: ${part.partNo}`)
+            //
+            // Now we do a little post-processing to:
+            //   1) Check for consistency
+            //   2) Add more info
+            //
+            const total = order.orderedParts.reduce((acc, part) => (acc = acc + part.price * part.qty), 0)
+            if (total !== order.subTotal) {
+              await OrderEmails.updateAsync(parsedEmail, { $set: { status: 'broken' } })
+            } else {
+              // Find partIds from DB
+              for (const part of order.orderedParts) {
+                const foundPart = await Parts.findOneAsync({ partNo: part.partNo })
+                if (foundPart) {
+                  part.partId = foundPart._id
+                  part.userId = 'system'
+                  log.info(`Found part ${part.partNo} ${foundPart.wholesalePrice}/${foundPart.retailPrice}`)
+                } else {
+                  // Create a new part with status 'auto-created'
+                  const newPart = {
+                    status: CONSTANTS.PART_STATUS_AUTO_CREATED,
+                    retailPrice: calcRetail(part.price),
+                    wholesalePrice: part.price,
+                    partNo: part.partNo,
+                    userId: 'system'
                   }
-                })
-                //TODO: MOdify the orders schema to have an optional orderEmailId
-                order['additionalNotes'] = parsedEmail._id
-                Orders.insert(order)
+                  part.partId = await Parts.insertAsync(newPart)
+                  part.addedAt = new Date()
+                  part.userId = 'system'
+
+                  // name: {
+                  // partId: {
+                  // partNo: {
+                  // addedAt: {
+                  // price: {
+                  // qty: {
+                  // userId: {
+
+                  log.info(`A new part has been created: ${part.partNo}`)
+                }
               }
+              //TODO: MOdify the orders schema to have an optional orderEmailId
+              order['additionalNotes'] = parsedEmail._id
+              await Orders.insertAsync(order)
             }
           }
-        })
+        }
       } catch (e) {
         log.error(e.message)
         // throw new Meteor.  Error(500, e.message)
       }
-    })
+    }
   }
 })

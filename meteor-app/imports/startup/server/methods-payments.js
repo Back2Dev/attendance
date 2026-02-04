@@ -48,7 +48,7 @@ Meteor.methods({
       data.response.customerToken = data.response.token
       delete data.response.token
       debug(`status: ${response.status} ${response.statusText}`, data.response)
-      Carts.update(chargeData.metadata.cartId, {
+      await Carts.updateAsync(chargeData.metadata.cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
           chargeResponse: data.response,
@@ -107,7 +107,7 @@ Meteor.methods({
         statusText: 'Created',
         customerToken: 'ch_ozlmTbMTrfaqiVEdtdgZ3w',
       }
-      Carts.update(chargeData.metadata.cartId, {
+      await Carts.updateAsync(chargeData.metadata.cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
           chargeResponse: response,
@@ -123,10 +123,10 @@ Meteor.methods({
     }
   },
 
-  createMockCustomer: function (custData, token) {
-    const cart = Carts.findOne(custData.metadata.cartId)
-    if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: token } })
-    else Members.update({ email: custData.email }, { $set: { paymentCustId: token } })
+  createMockCustomer: async function (custData, token) {
+    const cart = await Carts.findOneAsync(custData.metadata.cartId)
+    if (cart && cart.memberId) await Members.updateAsync(cart.memberId, { $set: { paymentCustId: token } })
+    else await Members.updateAsync({ email: custData.email }, { $set: { paymentCustId: token } })
     // TODO: detect an error and log it
   },
 
@@ -171,9 +171,12 @@ Meteor.methods({
       //     customerResponse: data.response
       //   }
       // })
-      const cart = Carts.findOne(custData.metadata.cartId)
-      if (cart && cart.memberId) Members.update(cart.memberId, { $set: { paymentCustId: data.response.customerToken } })
-      else Members.update({ email: custData.email }, { $set: { paymentCustId: data.response.customerToken } })
+      const cart = await Carts.findOneAsync(custData.metadata.cartId)
+      if (cart && cart.memberId) {
+        await Members.updateAsync(cart.memberId, { $set: { paymentCustId: data.response.customerToken } })
+      } else {
+        await Members.updateAsync({ email: custData.email }, { $set: { paymentCustId: data.response.customerToken } })
+      }
       return data
     } catch (error) {
       debug(error)
@@ -202,15 +205,15 @@ Meteor.methods({
         const r = await axios(request)
         const { data } = r
         debug(`status: ${r.status} ${r.statusText}`, data.pagination)
-        data.response.forEach((charge) => {
-          const c = Charges.findOne({ token: charge.token })
+        for (const charge of data.response) {
+          const c = await Charges.findOneAsync({ token: charge.token })
           if (!c) {
             charge.reconciled = false
             charge.matched = false
-            const id = Charges.insert(charge)
+            const id = await Charges.insertAsync(charge)
             if (id) n = n + 1
           }
-        })
+        }
         page = data.pagination.next
       } catch (error) {
         debug(error)
@@ -225,7 +228,7 @@ Meteor.methods({
       type: 'charge-add',
       description: `Added ${n} charges`,
     }
-    Meteor.call('insert.logs', o)
+    await Meteor.callAsync('insert.logs', o)
     return { status: 'success', message: `Added ${n} charges` }
   },
 })

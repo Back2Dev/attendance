@@ -19,41 +19,41 @@ const specialMember = casual.full_name
 debug(`The special member for ${Meteor.settings.public.org} is ${specialMember}`)
 
 Meteor.methods({
-  'import.members'(secret) {
+  'import.members': async function (secret) {
     if (secret === specialMember) {
       //
       // Clean up
       //
-      Rejects.remove({})
-      Members.remove({})
+      await Rejects.removeAsync({})
+      await Members.removeAsync({})
 
       debug('importing members....')
       const membersArray = JSON.parse(Assets.getText('members.json'))
-      membersArray.forEach(member => {
+      for (const member of membersArray) {
         try {
           member.name = `${member.firstname} ${member.lastname}`
-          const existing = Members.findOne({ email: member.email })
+          const existing = await Members.findOneAsync({ email: member.email })
           if (existing) {
             debug(`${member.name} exists already`)
             member.reason = 'Duplicate'
-            Rejects.insert(member)
+            await Rejects.insertAsync(member)
           } else {
             debug('+ ' + member.name)
-            Members.insert(member)
+            await Members.insertAsync(member)
           }
         } catch (error) {
           debug(`Error [${error.message}], Failed to import `, member)
           member.reason = error.message
-          Rejects.insert(member)
+          await Rejects.insertAsync(member)
         }
-      })
+      }
     } else {
       throw new Meteor.Error(`Members import was moved to a private repo 
         for security reasons (unless you know a secret code)`)
     }
   },
 
-  'seed.members'() {
+  'seed.members': async function () {
     const n = 10
     // seed ensures same data is generated
     casual.seed(123)
@@ -110,7 +110,10 @@ Meteor.methods({
       }
     })
 
-    const membersArray = array_of(n, () => casual.member).forEach(r => Members.insert(r))
+    const membersArray = array_of(n, () => casual.member)
+    for (const r of membersArray) {
+      await Members.insertAsync(r)
+    }
   }
 })
 

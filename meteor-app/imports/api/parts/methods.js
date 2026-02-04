@@ -34,58 +34,47 @@ export function calcRetail(price) {
   }
 }
 
-async function updatePromise(part) {
-  return new Promise(async (resolve, reject) => {
-    const { partNo, name, barcode, wholesalePrice } = part
+async function upsertPart(part) {
+  const { partNo, name, barcode, wholesalePrice } = part
 
-    debug('updatePromise: Adding Part: ', partNo)
-    await Parts.update(
-      {
-        partNo: partNo
-      },
-      {
-        $set: {
-          barcode,
-          name,
-          wholesalePrice: parseInt(wholesalePrice) * 100,
-          retailPrice: calcRetail(wholesalePrice),
-          imageUrl: '/images/logo-large.jpg'
-        }
-      },
-      {
-        upsert: true
-      },
-      (err, res) => {
-        if (res) {
-          resolve(res)
-        } else {
-          reject(err)
-        }
+  debug('updatePromise: Adding Part: ', partNo)
+  return Parts.updateAsync(
+    {
+      partNo: partNo
+    },
+    {
+      $set: {
+        barcode,
+        name,
+        wholesalePrice: parseInt(wholesalePrice) * 100,
+        retailPrice: calcRetail(wholesalePrice),
+        imageUrl: '/images/logo-large.jpg'
       }
-    )
-  })
+    },
+    {
+      upsert: true
+    }
+  )
 }
 async function updateParts(parts) {
   let count = 0
-  return new Promise(async (resolve, reject) => {
-    for (const part of parts) {
-      if (part.barcode) {
-        try {
-          await updatePromise(part)
-          count++
-        } catch (e) {
-          reject(`Couldn't add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`)
-        }
+  for (const part of parts) {
+    if (part.barcode) {
+      try {
+        await upsertPart(part)
+        count++
+      } catch (e) {
+        throw new Error(`Couldn't add: Part: ${part.partNo} \n${part.name} \n${e}\n\n`)
       }
     }
-    resolve(count)
-  })
+  }
+  return count
 }
 
 Meteor.methods({
-  'parts.insert': part => {
+  'parts.insert': async (part) => {
     try {
-      return Parts.insert(part)
+      return await Parts.insertAsync(part)
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
@@ -119,17 +108,17 @@ Meteor.methods({
     }
   },
 
-  'rm.Parts': id => {
-    Parts.remove(id)
+  'rm.Parts': async (id) => {
+    await Parts.removeAsync(id)
   },
 
-  'update.Parts': form => {
+  'update.Parts': async (form) => {
     const id = form._id
     delete form._id
-    Parts.update(id, { $set: form })
+    await Parts.updateAsync(id, { $set: form })
   },
 
-  'add.Parts': form => {
-    Parts.insert(form)
+  'add.Parts': async (form) => {
+    await Parts.insertAsync(form)
   }
 })

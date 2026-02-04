@@ -24,7 +24,7 @@ const type2code = {
 }
 
 Meteor.methods({
-  'patch.pa': function(secret) {
+  'patch.pa': async function (secret) {
     const mapping = {
       'First Name': 'firstname',
       'Last Name': 'lastname',
@@ -36,7 +36,7 @@ Meteor.methods({
       Notes: 'status'
     }
     const membersArray = JSON.parse(Assets.getText('pa.json'))
-    membersArray.forEach(member => {
+    for (const member of membersArray) {
       try {
         const sub = { price: 0 }
         Object.keys(mapping).forEach(key => {
@@ -49,19 +49,19 @@ Meteor.methods({
         sub.remaining = member.remaining || 0
         if (sub.remaining === 'N/A') sub.remaining = 0
         const existing = member.email
-          ? Members.findOne({ email: member.email })
-          : Members.findOne({ name: member.name })
+          ? await Members.findOneAsync({ email: member.email })
+          : await Members.findOneAsync({ name: member.name })
         if (existing) {
-          Purchases.update({ memberId: existing._id }, { $set: { remaining: sub.remaining } })
+          await Purchases.updateAsync({ memberId: existing._id }, { $set: { remaining: sub.remaining } })
         }
       } catch (error) {
         debug(`Error [${error.message}], Failed to fix `, member)
         member.reason = error.message
-        Rejects.insert(member)
+        await Rejects.insertAsync(member)
       }
-    })
+    }
   },
-  'import.pa': function(secret) {
+  'import.pa': async function (secret) {
     const mapping = {
       'First Name': 'firstname',
       'Last Name': 'lastname',
@@ -91,13 +91,13 @@ Meteor.methods({
       //
       // Clean up
       //
-      Rejects.remove({})
-      Members.remove({})
-      Purchases.remove({})
+      await Rejects.removeAsync({})
+      await Members.removeAsync({})
+      await Purchases.removeAsync({})
 
       debug('importing members....')
       const membersArray = JSON.parse(Assets.getText('pa.json'))
-      membersArray.forEach(member => {
+      for (const member of membersArray) {
         try {
           const sub = { price: 0 }
           Object.keys(mapping).forEach(key => {
@@ -120,7 +120,7 @@ Meteor.methods({
             sub.txnDate = moment(member['Purchase date']).toISOString()
             sub.purchaser = member.name
             sub.price = 0
-            const product = Products.findOne({ code: sub.code })
+            const product = await Products.findOneAsync({ code: sub.code })
             if (!product) {
               debug(`Could not find product with code ${sub.code}`)
             } else {
@@ -130,31 +130,31 @@ Meteor.methods({
             }
           }
           const existing = member.email
-            ? Members.findOne({ email: member.email })
-            : Members.findOne({ name: member.name })
+            ? await Members.findOneAsync({ email: member.email })
+            : await Members.findOneAsync({ name: member.name })
 
           member.avatar = getAvatar(member.firstname)
           if (existing) {
             debug(`${member.name} exists already`)
             member.reason = 'Duplicate'
-            Rejects.insert(member)
+            await Rejects.insertAsync(member)
           } else {
             debug(`+ ${member.name} ${sub.code} ${sub.remaining} $${sub.price / 100}`)
-            sub.memberId = Members.insert(member)
-            if (sub.code) Purchases.insert(sub)
+            sub.memberId = await Members.insertAsync(member)
+            if (sub.code) await Purchases.insertAsync(sub)
           }
         } catch (error) {
           debug(`Error [${error.message}], Failed to import `, member)
           member.reason = error.message
-          Rejects.insert(member)
+          await Rejects.insertAsync(member)
         }
-      })
+      }
     } else {
       throw new Meteor.Error(`Members import was moved to a private repo 
         for security reasons (unless you know a secret code)`)
     }
   },
-  'update.wix.email': (data, force) => {
+  'update.wix.email': async (data, force) => {
     // name	first	last	photo	email1type	email1	email2type	email2	phone1type	phone1	phone2type	phone2	phone3type	phone3
     let countTotal = 0
     if (Meteor.isClient) return
@@ -168,19 +168,19 @@ Meteor.methods({
             // raw: true
             // header: ['partNo', 'name', 'wholesalePrice', 'barcode']
           })
-          people.forEach(p => {
+          for (const p of people) {
             //First Name	Last Name	Email	Phone
             const r = {}
             r.name = `${p['First Name']} ${p['Last Name']}`
             r.email = p.Email
             r.mobile = p.Phone
-            if (!r.name || r.name === 'undefined undefined') return null
+            if (!r.name || r.name === 'undefined undefined') continue
             if (r.mobile && r.mobile.length === 9 && r.mobile.match(/^4/)) {
               r.mobile = `0${r.mobile}`
             }
             r.name = r.name.replace(/undefined/g, '').trim()
             const searchFor = new RegExp(r.name, 'i')
-            const m = Members.findOne({ name: searchFor })
+            const m = await Members.findOneAsync({ name: searchFor })
             if (m) {
               const details = {}
               if (r.email) details.email = r.email
@@ -194,14 +194,14 @@ Meteor.methods({
                 })
                 if (Object.keys(details).length) {
                   debug(`Updating ${m.name}`, details)
-                  Members.update(m._id, { $set: details })
+                  await Members.updateAsync(m._id, { $set: details })
                   countTotal++
                 }
               } else {
                 debug(`No mobile or email for ${m.name}`)
               }
             } else debug(`Not found: ${r.name}`)
-          })
+          }
         } catch (e) {
           console.error(`Couldn't update emails from worksheet ${s}: `, e)
         }
@@ -212,7 +212,7 @@ Meteor.methods({
       throw new Meteor.Error(500, e)
     }
   },
-  'update.email': (data, force) => {
+  'update.email': async (data, force) => {
     let countTotal = 0
     if (Meteor.isClient) return
     const getDetails = (name, r) => {
@@ -246,9 +246,9 @@ Meteor.methods({
             // raw: true
             // header: ['partNo', 'name', 'wholesalePrice', 'barcode']
           })
-          people.forEach(p => {
+          for (const p of people) {
             const searchFor = new RegExp(p.name, 'i')
-            const m = Members.findOne({ name: searchFor })
+            const m = await Members.findOneAsync({ name: searchFor })
             if (m) {
               const details = getDetails(p.name, p)
               if (details) {
@@ -260,14 +260,14 @@ Meteor.methods({
                 })
                 if (Object.keys(details).length) {
                   debug(`Updating ${m.name}`, details)
-                  Members.update(m._id, { $set: details })
+                  await Members.updateAsync(m._id, { $set: details })
                   countTotal++
                 }
               } else {
                 debug(`No mobile or email for ${m.name}`)
               }
             } else debug(`Not found: ${p.name}`)
-          })
+          }
         } catch (e) {
           console.error(`Couldn't update emails from worksheet ${s}: `, e)
         }

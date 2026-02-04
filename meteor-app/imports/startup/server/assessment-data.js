@@ -8,7 +8,7 @@ import faker from 'faker'
 const debug = require('debug')('b2b:admin')
 
 Meteor.methods({
-  'seed.services'() {
+  'seed.services': async function () {
     // CUrrently placeholder data
     const services = [
       {
@@ -80,10 +80,10 @@ Meteor.methods({
     ]
 
     for (let i = 0; i < services.length; i++) {
-      Services.insert(services[i])
+      await Services.insertAsync(services[i])
     }
   },
-  'seed.repairParts'() {
+  'seed.repairParts': async function () {
     // Currently placeholder data
     const parts = [
       {
@@ -432,11 +432,11 @@ Meteor.methods({
     ]
 
     for (let i = 0; i < parts.length; i++) {
-      ServiceItems.insert(parts[i])
+      await ServiceItems.insertAsync(parts[i])
     }
   },
 
-  'seed.assessments'() {
+  'seed.assessments': async function () {
     const n = 10
     // seed ensures same data is generated
     faker.seed(123)
@@ -449,27 +449,27 @@ Meteor.methods({
       return result
     }
 
-    array_of(n, () => fakeJob()).forEach((r) => {
-      r.jobNo = (r.customerDetails.isRefurbish ? 'R' : 'C') + Meteor.call('getNextJobNo')
-      const id = Assessments.insert(r)
+    for (const r of array_of(n, () => fakeJob())) {
+      r.jobNo = (r.customerDetails.isRefurbish ? 'R' : 'C') + (await Meteor.callAsync('getNextJobNo'))
+      const id = await Assessments.insertAsync(r)
       const logs = fakeLogs(id, r)
-      logs.forEach((l) => {
-        Logger.insert(l)
-      })
-    })
+      for (const l of logs) {
+        await Logger.insertAsync(l)
+      }
+    }
   },
 })
 
-Meteor.startup(() => {
-  if (Services.find().count() === 0) {
-    Meteor.call('seed.services')
+Meteor.startup(async () => {
+  if ((await Services.find().countAsync()) === 0) {
+    await Meteor.callAsync('seed.services')
   }
 
-  if (ServiceItems.find().count() === 0) {
-    Meteor.call('seed.repairParts')
+  if ((await ServiceItems.find().countAsync()) === 0) {
+    await Meteor.callAsync('seed.repairParts')
   }
 
-  if (Assessments.find().count() === 0) {
-    Meteor.call('seed.assessments')
+  if ((await Assessments.find().countAsync()) === 0) {
+    await Meteor.callAsync('seed.assessments')
   }
 })

@@ -12,15 +12,15 @@ import { saveToArchive } from '/imports/api/archive'
 const debug = require('debug')('b2b:server-methods')
 const fs = require('fs')
 
-const rmFighter = (name) => {
-  const member = Members.findOne({ name })
+const rmFighter = async (name) => {
+  const member = await Members.findOneAsync({ name })
   if (!member) debug(`Could not find member ${name}`)
   else {
     const memberId = member._id
-    Purchases.remove({ memberId })
-    Carts.remove({ memberId })
-    Sessions.remove({ memberId })
-    const n = Members.remove(memberId)
+    await Purchases.removeAsync({ memberId })
+    await Carts.removeAsync({ memberId })
+    await Sessions.removeAsync({ memberId })
+    const n = await Members.removeAsync(memberId)
     if (!n) throw new Meteor.Error(`Could not remove the ${name} :(`)
   }
 }
@@ -28,67 +28,67 @@ Meteor.methods({
   //
   // These first methods are for testing purposes, to add/delete data
   //
-  'members.mkFakeUser': function (username, member) {
-    const m = Members.findOne({ name: username })
+  'members.mkFakeUser': async function (username, member) {
+    const m = await Members.findOneAsync({ name: username })
     if (!m) {
       member.name = username // Override the name
       member.email = `${username.replace(
         / /g,
         '.'
       )}@${username.replace(/ /g, '-')}s.inc.inc`.toLowerCase()
-      const id = Members.insert(member)
+      const id = await Members.insertAsync(member)
       if (!id)
         throw new Meteor.Error(`Could not add a ${username} :(`)
     }
   },
-  'members.rmToughGuy': function () {
-    rmFighter('Tough Guy')
+  'members.rmToughGuy': async function () {
+    await rmFighter('Tough Guy')
   },
-  'members.rmEddie': function () {
-    rmFighter('Eddie Mercx')
+  'members.rmEddie': async function () {
+    await rmFighter('Eddie Mercx')
   },
-  'members.rmJackieChan': function () {
-    rmFighter('Jackie Chan')
+  'members.rmJackieChan': async function () {
+    await rmFighter('Jackie Chan')
   },
-  'members.rmBruceLee': function () {
-    rmFighter('Bruce Lee')
+  'members.rmBruceLee': async function () {
+    await rmFighter('Bruce Lee')
   },
-  'members.rmCathrineKing': function () {
-    rmFighter('Cathrine King')
+  'members.rmCathrineKing': async function () {
+    await rmFighter('Cathrine King')
   },
-  'members.rmRookiePaddler': function () {
-    rmFighter('Rookie Paddler')
+  'members.rmRookiePaddler': async function () {
+    await rmFighter('Rookie Paddler')
   },
-  'members.addDude': function (dude) {
-    const memberId = Members.insert(dude.member)
+  'members.addDude': async function (dude) {
+    const memberId = await Members.insertAsync(dude.member)
     if (!memberId)
       debug(`Error creating new dude ${dude.member.name}`)
     else {
-      Members.update(memberId, { $set: { sessions: dude.sessions } })
-      dude.sessions.forEach((session) => {
+      await Members.updateAsync(memberId, { $set: { sessions: dude.sessions } })
+      for (const session of dude.sessions) {
         session.memberId = memberId
         session.memberName = dude.member.name
         session.createdAt = session.timeIn
         session.updatedAt = session.timeIn
-        if (!Sessions.insert(session, { bypassCollection2: true }))
+        if (!(await Sessions.insertAsync(session, { bypassCollection2: true })))
           debug(`Error inserting session ${session.name}`)
-      })
-      dude.carts.forEach((cart) => {
+      }
+      for (const cart of dude.carts) {
         cart.memberId = memberId
-        if (!Carts.insert(cart, { bypassCollection2: true }))
+        if (!(await Carts.insertAsync(cart, { bypassCollection2: true })))
           debug(`Error inserting cart`)
-      })
-      dude.purchases.forEach((purchase) => {
+      }
+      for (const purchase of dude.purchases) {
         purchase.memberId = memberId
-        if (!Purchases.insert(purchase, { bypassCollection2: true }))
+        if (!(await Purchases.insertAsync(purchase, { bypassCollection2: true })))
           debug(`Error inserting purchase`)
-      })
+      }
     }
   },
-  'members.addCard': function (name, paymentCustId) {
+  'members.addCard': async function (name, paymentCustId) {
     try {
       log.info(`Adding card to member: ${name}`)
-      return Members.update({ name }, { $set: { paymentCustId } })
+      return await Members.updateAsync({ name }, { $set: { paymentCustId } })
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
@@ -97,47 +97,47 @@ Meteor.methods({
   //
   // Regular methods from here...
   //
-  'members.insert': function (member) {
+  'members.insert': async function (member) {
     try {
-      return Members.insert(member)
+      return await Members.insertAsync(member)
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'members.remove': function (id) {
+  'members.remove': async function (id) {
     try {
       log.info('removing member id: ', id)
       const data = {}
-      data.member = Members.findOne(id)
+      data.member = await Members.findOneAsync(id)
       if (!data.member)
         throw new Meteor.Error(`Could not find member ${id}`)
-      data.purchases = Purchases.find({ memberId: id }).fetch()
-      data.carts = Carts.find({ memberId: id }).fetch()
-      data.sessions = Sessions.find({ memberId: id }).fetch()
+      data.purchases = await Purchases.find({ memberId: id }).fetchAsync()
+      data.carts = await Carts.find({ memberId: id }).fetchAsync()
+      data.sessions = await Sessions.find({ memberId: id }).fetchAsync()
       eventLog({
         who: 'Admin',
         what: `removed member id: ${id}`,
         object: data.member,
       })
       saveToArchive('member', data)
-      Purchases.remove({ memberId: id })
-      Carts.remove({ memberId: id })
-      Sessions.remove({ memberId: id })
-      return Members.remove({ _id: id })
+      await Purchases.removeAsync({ memberId: id })
+      await Carts.removeAsync({ memberId: id })
+      await Sessions.removeAsync({ memberId: id })
+      return await Members.removeAsync({ _id: id })
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'members.removeDupe': function (id, merge) {
+  'members.removeDupe': async function (id, merge) {
     const data = { merge }
-    data.member = Members.findOne(id)
+    data.member = await Members.findOneAsync(id)
     if (!data.member)
       throw new Meteor.Error(`Could not find member ${id}`)
-    data.purchases = Purchases.find({ memberId: id }).fetch()
-    data.carts = Carts.find({ memberId: id }).fetch()
-    data.sessions = Sessions.find({ memberId: id }).fetch()
+    data.purchases = await Purchases.find({ memberId: id }).fetchAsync()
+    data.carts = await Carts.find({ memberId: id }).fetchAsync()
+    data.sessions = await Sessions.find({ memberId: id }).fetchAsync()
     eventLog({
       who: 'Admin',
       what: `removed member id: ${id}`,
@@ -145,77 +145,77 @@ Meteor.methods({
     })
     // If merging, find another member with same name for transfer
     if (merge) {
-      const members = Members.find(
+      const members = await Members.find(
         { name: data.member.name, _id: { $ne: id } },
         { sort: { sessionCount: -1 } }
-      ).fetch()
+      ).fetchAsync()
       if (members.length) {
         const memberId = members[0]._id
-        Purchases.update({ memberId: id }, { $set: { memberId } })
-        Carts.update({ memberId: id }, { $set: { memberId } })
-        Sessions.update({ memberId: id }, { $set: { memberId } })
-        const sessions = Sessions.find(
+        await Purchases.updateAsync({ memberId: id }, { $set: { memberId } })
+        await Carts.updateAsync({ memberId: id }, { $set: { memberId } })
+        await Sessions.updateAsync({ memberId: id }, { $set: { memberId } })
+        const sessions = await Sessions.find(
           { memberId },
           { sort: { createdAt: 1 } }
-        ).fetch()
-        Members.update(memberId, {
+        ).fetchAsync()
+        await Members.updateAsync(memberId, {
           $set: { sessions, sessionCount: sessions.length },
         })
       }
     } else {
-      Purchases.remove({ memberId: id })
-      Carts.remove({ memberId: id })
-      Sessions.remove({ memberId: id })
+      await Purchases.removeAsync({ memberId: id })
+      await Carts.removeAsync({ memberId: id })
+      await Sessions.removeAsync({ memberId: id })
     }
-    Dupes.remove(data.member.name) // Kill the duplicate to force a refresh
+    await Dupes.removeAsync(data.member.name) // Kill the duplicate to force a refresh
     saveToArchive('member', data)
-    Members.remove(id)
+    await Members.removeAsync(id)
   },
-  'members.setPin': function (id, pin) {
+  'members.setPin': async function (id, pin) {
     try {
       log.info('Setting pin: ', id, pin)
-      return Members.update({ _id: id }, { $set: { pin } })
+      return await Members.updateAsync({ _id: id }, { $set: { pin } })
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'members.rmPin': function (name) {
+  'members.rmPin': async function (name) {
     try {
       log.info('Removing pin: ', name)
-      return Members.update({ name }, { $unset: { pin: true } })
+      return await Members.updateAsync({ name }, { $unset: { pin: true } })
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'members.userid.update': function (id, formData) {
+  'members.userid.update': async function (id, formData) {
     try {
       log.info('updating member: ', id)
-      Members.update({ _id: id }, { $set: { ...formData } })
+      await Members.updateAsync({ _id: id }, { $set: { ...formData } })
       return 'success'
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
-  'members.update': function (id, formData) {
+  'members.update': async function (id, formData) {
     try {
       log.info('updating member: ', id)
-      return Members.update({ _id: id }, { $set: { ...formData } })
+      return await Members.updateAsync({ _id: id }, { $set: { ...formData } })
     } catch (e) {
       debug(`Error`, e.message)
       throw new Meteor.Error(500, e.message)
     }
   },
 
-  'members.forgotPin': function (id, method, to, remember) {
+  'members.forgotPin': async function (id, method, to, remember) {
     log.info(
       `sending pin for member ${id} via ${method} to ${to} ${remember}`
     )
     try {
       // make DB query and grab the pin.
-      const member = Members.findOne(id)
+      const member = await Members.findOneAsync(id)
       const pin = member.pin
       // construct message.
       let message = `
@@ -239,8 +239,8 @@ ${Meteor.settings.public.org}
       if (method == 'email') {
         debug('sending PIN reminder via email ', to)
         if (!member.email && remember)
-          Members.update(member._id, { $set: { email: to } })
-        return Meteor.call(
+          await Members.updateAsync(member._id, { $set: { email: to } })
+        return await Meteor.callAsync(
           'sendPINEmail',
           to,
           pin,
@@ -249,10 +249,10 @@ ${Meteor.settings.public.org}
         )
       } else {
         message = `Your PIN for the ${Meteor.settings.public.org} sign in app is: ${pin}`
-        Meteor.call('sendPINSms', message, to)
+        await Meteor.callAsync('sendPINSms', message, to)
         debug('sending PIN via sms.', message)
         if (!member.mobile && remember)
-          Members.update(member._id, { $set: { mobile: to } })
+          await Members.updateAsync(member._id, { $set: { mobile: to } })
       }
     } catch (e) {
       debug(`Error`, e.message)
@@ -271,7 +271,7 @@ r = function (k, vals) {
 res = db.members.mapReduce(m,r, { out : "duplicates" });
 db[res.result].find({value: {$gt: 1}});
 */
-  'members.showDupes': function () {
+  'members.showDupes': async function () {
     const m = function () {
       emit(this.name, 1)
     }
@@ -288,29 +288,29 @@ db[res.result].find({value: {$gt: 1}});
 
     // CollectionName will be overwritten after each mapReduce call
     // Reactive performance is a little better by using a second collection
-    syncMapReduce(m, r, {
+    await syncMapReduce(m, r, {
       out: 'rawdupes',
     })
 
     // Refresh the collection
-    Dupes.remove({})
-    RawDupes.find({ value: { $gt: 1 } }).forEach((rec) =>
-      Dupes.insert(rec)
-    )
+    await Dupes.removeAsync({})
+    for (const rec of await RawDupes.find({ value: { $gt: 1 } }).fetchAsync()) {
+      await Dupes.insertAsync(rec)
+    }
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)
   },
-  'member.email.invoice': function (
+  'member.email.invoice': async function (
     cartId,
     email,
     note,
     discountedPrice,
     discount
   ) {
-    const cart = Carts.findOne(cartId)
+    const cart = await Carts.findOneAsync(cartId)
     if (!cart)
       throw new Meteor.Error(`Could not find shopping cart ${cartId}`)
-    const member = Members.findOne(cart.memberId)
+    const member = await Members.findOneAsync(cart.memberId)
     debug('Emailing invoice for cart', cart)
     if (!note)
       note =
@@ -318,7 +318,7 @@ db[res.result].find({value: {$gt: 1}});
 
     const priceFormat = (price) => `${price / 100}.00`
 
-    return Meteor.call(
+    return await Meteor.callAsync(
       'sendInvoiceEmail',
       email,
       {
@@ -354,7 +354,7 @@ db[res.result].find({value: {$gt: 1}});
     )
   },
 
-  'slsa.load': function (data, season) {
+  'slsa.load': async function (data, season) {
     const autocreate = true
     const slsaMap = {
       'Member ID': 'slsaId',
@@ -394,72 +394,60 @@ db[res.result].find({value: {$gt: 1}});
             raw: true,
           })
           numRows = rows.length
-          totals = rows
-            .filter(
-              (row) =>
-                row.Status === 'Active' && row.Season === season
-            )
-            .map((row) => {
-              const newRow = {}
-              Object.keys(slsaMap).forEach((key) => {
-                if (row[key]) newRow[slsaMap[key]] = row[key]
-              })
-              const expiry =
-                row['Working with Children Registration Expiry Date']
-              newRow.name = `${newRow.first} ${newRow.last}`
-              newRow.email = newRow.email1 || newRow.email2
-              newRow.wwccSurname = newRow.last
-              isSlsa = true
-
-              // debug('wwcc', newRow.wwcc, typeof newRow.wwcc)
-              // if (newRow.wwcc && typeof newRow.wwcc === 'string') newRow.wwcc = newRow.wwcc.replace(/-.*$/, '')
-              return newRow
+          totals = { updated: 0, added: 0 }
+          const filtered = rows.filter(
+            (row) => row.Status === 'Active' && row.Season === season
+          )
+          for (const [ix, row] of filtered.entries()) {
+            const newRow = {}
+            Object.keys(slsaMap).forEach((key) => {
+              if (row[key]) newRow[slsaMap[key]] = row[key]
             })
+            const expiry =
+              row['Working with Children Registration Expiry Date']
+            newRow.name = `${newRow.first} ${newRow.last}`
+            newRow.email = newRow.email1 || newRow.email2
+            newRow.wwccSurname = newRow.last
+            isSlsa = true
 
-            .reduce(
-              (acc, m, ix) => {
-                debug(`Checking ${ix} ${m.name}`)
-                const queries = [{ name: m.name }]
-                // Don't check emails, as there can be duplicates
-                // if (m.email1 && m.email2) {
-                //   queries.push({
-                //     $or: [{ email: m.email1 }, { email: m.email2 }],
-                //   })
-                // } else {
-                //   if (m.email1) queries.push({ email: m.email1 })
-                // }
-                let member
-                let q
-                while (!member && (q = queries.pop())) {
-                  member = Members.findOne(q)
+            debug(`Checking ${ix} ${newRow.name}`)
+            const queries = [{ name: newRow.name }]
+            // Don't check emails, as there can be duplicates
+            // if (newRow.email1 && newRow.email2) {
+            //   queries.push({
+            //     $or: [{ email: newRow.email1 }, { email: newRow.email2 }],
+            //   })
+            // } else {
+            //   if (newRow.email1) queries.push({ email: newRow.email1 })
+            // }
+            let member
+            let q
+            while (!member && (q = queries.pop())) {
+              member = await Members.findOneAsync(q)
+            }
+            if (member) {
+              totals.updated =
+                totals.updated +
+                (await Members.updateAsync(member._id, {
+                  $set: { isSlsa: true, wwcc: newRow.wwcc },
+                }))
+            } else {
+              if (autocreate) {
+                try {
+                  await Members.insertAsync(newRow)
+                  totals.added = totals.added + 1
+                } catch (e) {
+                  debug(
+                    `Failed to insert member ${newRow.name}: ${e.message}`
+                  )
                 }
-                if (member) {
-                  // Members.find(member._id).map(m => debug(m.name))
-                  acc.updated =
-                    acc.updated +
-                    Members.update(member._id, {
-                      $set: { isSlsa: true, wwcc: m.wwcc },
-                    })
-                } else {
-                  if (autocreate) {
-                    try {
-                      Members.insert(m)
-                      acc.added = acc.added + 1
-                    } catch (e) {
-                      debug(
-                        `Failed to insert member ${m.name}: ${e.message}`
-                      )
-                    }
-                  } else
-                    debug(
-                      `Could not find ${m.name}/${m.email1} ${m.email2}`
-                    )
-                }
-
-                return acc
-              },
-              { updated: 0, added: 0 }
-            )
+              } else {
+                debug(
+                  `Could not find ${newRow.name}/${newRow.email1} ${newRow.email2}`
+                )
+              }
+            }
+          }
           debug(`Updated ${totals.updated}, added ${totals.added}`)
         } catch (e) {
           console.error(`Couldn't update members from csv ${s}: `, e)
@@ -473,14 +461,14 @@ db[res.result].find({value: {$gt: 1}});
       throw new Meteor.Error(500, e.message)
     }
   },
-  'members.forgetCard': function (memberId) {
+  'members.forgetCard': async function (memberId) {
     debug(`Removing credit card for ${memberId}`)
-    const member = Members.findOne(memberId)
+    const member = await Members.findOneAsync(memberId)
     if (!member)
       throw new Meteor.Error(`Could not find member ${memberId}`)
     else {
       const paymentCustId = { member }
-      Members.update(memberId, { $unset: { paymentCustId: 1 } })
+      await Members.updateAsync(memberId, { $unset: { paymentCustId: 1 } })
       eventLog({
         who: 'Admin',
         what: `Remove credit card for ${member.name} (${memberId})`,
@@ -488,13 +476,13 @@ db[res.result].find({value: {$gt: 1}});
       })
     }
   },
-  'members.updateAutoPay': function (memberId, value) {
+  'members.updateAutoPay': async function (memberId, value) {
     debug(`Setting autopay for ${memberId} to ${value}`)
-    const member = Members.findOne(memberId)
+    const member = await Members.findOneAsync(memberId)
     if (!member)
       throw new Meteor.Error(`Could not find member ${memberId}`)
     else {
-      Members.update(memberId, { $set: { autoPay: value } })
+      await Members.updateAsync(memberId, { $set: { autoPay: value } })
       eventLog({
         who: 'Admin',
         what: `Set autoPay: ${value} for ${member.name} (${memberId})`,
@@ -502,7 +490,7 @@ db[res.result].find({value: {$gt: 1}});
       })
     }
   },
-  'members.extract': function (memberId, newName, filename) {
+  'members.extract': async function (memberId, newName, filename) {
     if (memberId && newName) {
       const prefix = `const ISODate = date => date
       const NumberInt = n => n
@@ -512,14 +500,14 @@ db[res.result].find({value: {$gt: 1}});
       export default dude
       `
       const bucket = {}
-      const member = Members.findOne(memberId)
+      const member = await Members.findOneAsync(memberId)
       if (!member.email) member.email = 'nobody@none.such'
       if (!member)
         throw new Meteor.Error(`Could not find member ${memberId}`)
       bucket.member = member
-      bucket.sessions = Sessions.find({ memberId }).fetch()
-      bucket.purchases = Purchases.find({ memberId }).fetch()
-      bucket.carts = Carts.find({ memberId }).fetch()
+      bucket.sessions = await Sessions.find({ memberId }).fetchAsync()
+      bucket.purchases = await Purchases.find({ memberId }).fetchAsync()
+      bucket.carts = await Carts.find({ memberId }).fetchAsync()
       let contents = JSON.stringify(bucket, null, 2)
       contents = contents.replace(
         new RegExp(member.name, 'g'),
@@ -540,20 +528,20 @@ db[res.result].find({value: {$gt: 1}});
       )
     }
   },
-  'members.rmSessions': function (id) {
-    const member = Members.findOne(id)
+  'members.rmSessions': async function (id) {
+    const member = await Members.findOneAsync(id)
     if (!member) throw new Meteor.Error('Could not find member ' + id)
     debug(`Removing sessions for ${member.name} ${id}`)
-    Members.update(id, { $set: { sessions: [] } })
-    Sessions.remove({ memberId: id })
-    Purchases.find({ memberId: id }).forEach((purchase) => {
-      Purchases.update(id, { $set: { sessions: [] } })
-    })
+    await Members.updateAsync(id, { $set: { sessions: [] } })
+    await Sessions.removeAsync({ memberId: id })
+    for (const purchase of await Purchases.find({ memberId: id }).fetchAsync()) {
+      await Purchases.updateAsync(id, { $set: { sessions: [] } })
+    }
   },
-  'members.addPaymentEmail': function (id, email) {
-    const member = Members.findOne(id)
+  'members.addPaymentEmail': async function (id, email) {
+    const member = await Members.findOneAsync(id)
     if (!member) throw new Meteor.Error('Could not find member ' + id)
     debug(`Adding payment email for ${member.name} ${id}`)
-    Members.update(id, { $push: { paymentEmails: email } })
+    await Members.updateAsync(id, { $push: { paymentEmails: email } })
   },
 })

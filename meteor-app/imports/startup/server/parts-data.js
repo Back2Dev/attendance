@@ -3,14 +3,14 @@ import Orders from '/imports/api/orders/schema'
 import CONSTANTS from '/imports/api/constants'
 
 Meteor.methods({
-  'archive.order'(id) {
+  'archive.order': async function (id) {
     try {
       // Update the status of the existing order to sent
-      Orders.update(id, { $set: { status: CONSTANTS.ORDER_STATUS_SENT } })
+      await Orders.updateAsync(id, { $set: { status: CONSTANTS.ORDER_STATUS_SENT } })
       // const archive = Orders.findOne({_id: order._id})
 
       // Create a new order
-      Orders.insert({
+      await Orders.insertAsync({
         status: 1,
         additionalNotes: null,
         orderedParts: [],
@@ -20,10 +20,10 @@ Meteor.methods({
       console.log(e)
     }
   },
-  'seed.order'(id) {
+  'seed.order': async function (id) {
     try {
       // Create a new order
-      Orders.insert({
+      await Orders.insertAsync({
         status: 1,
         additionalNotes: null,
         orderedParts: [],
@@ -35,9 +35,9 @@ Meteor.methods({
   }
 })
 
-Meteor.startup(() => {
-  const invalid = Orders.remove({ totalPrice: { $lt: 0 } })
-  if (Orders.find().count() === 0) {
-    Meteor.call('seed.order')
+Meteor.startup(async () => {
+  const invalid = await Orders.removeAsync({ totalPrice: { $lt: 0 } })
+  if ((await Orders.find().countAsync()) === 0) {
+    await Meteor.callAsync('seed.order')
   }
 })

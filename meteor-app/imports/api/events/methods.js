@@ -2,15 +2,15 @@ import { Meteor } from 'meteor/meteor'
 import Events from './schema'
 
 Meteor.methods({
-  'rm.Events': id => {
-    Events.remove(id)
+  'rm.Events': async (id) => {
+    await Events.removeAsync(id)
   },
-  'update.Events': form => {
+  'update.Events': async (form) => {
     const id = form._id
     delete form._id
-    Events.update(id, { $set: form })
+    await Events.updateAsync(id, { $set: form })
   },
-  'add.Events': form => {
-    Events.insert(form)
+  'add.Events': async (form) => {
+    await Events.insertAsync(form)
   }
 })

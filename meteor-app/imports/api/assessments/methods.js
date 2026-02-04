@@ -43,7 +43,7 @@ const emailReceipt = async ({ job, charge_token }) => {
       `status: ${response.status} ${response.statusText}`,
       data.response
     )
-    Assessments.update(job._id, {
+    await Assessments.updateAsync(job._id, {
       $set: {
         email: data.response.email,
         card: data.response.card,
@@ -51,7 +51,7 @@ const emailReceipt = async ({ job, charge_token }) => {
       },
     })
     const bike = `${job.bikeDetails.color} ${job.bikeDetails.make} ${job.bikeDetails.model}`
-    Meteor.call(
+    await Meteor.callAsync(
       'sendGenericInfoEmail',
       data.response.email,
       {
@@ -78,36 +78,36 @@ If you need to do an out-of-hours pickup, please call us on 0416 988 516 to arra
 
 if (Meteor.isServer) {
   Meteor.methods({
-    getNextJobNo() {
+    getNextJobNo: async function () {
       return incrementCounter(Counters, 'jobs', 1)
     },
-    'assessment.insert'(form) {
+    'assessment.insert': async function (form) {
       check(form, Object)
       // Add in an auto-incrementing the job number
       form.jobNo =
         (form.customerDetails.isRefurbish ? 'R' : 'C') +
-        Meteor.call('getNextJobNo')
-      Assessments.insert(form)
-      Logger.insert({
+        (await Meteor.callAsync('getNextJobNo'))
+      await Assessments.insertAsync(form)
+      await Logger.insertAsync({
         user: form.assessor,
         status: form.status,
         aId: form._id,
         eventType: LOG_EVENT_TYPES[NEW_JOB],
       })
     },
-    'assessment.updateJobStatus'(jobId, updatedStatus) {
+    'assessment.updateJobStatus': async function (jobId, updatedStatus) {
       check(jobId, String)
       check(updatedStatus, Number)
 
-      Assessments.update(jobId, { $set: { status: updatedStatus } })
-      Logger.insert({
+      await Assessments.updateAsync(jobId, { $set: { status: updatedStatus } })
+      await Logger.insertAsync({
         user: 'Anonymous',
         aId: jobId,
         status: updatedStatus,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE],
       })
     },
-    'service.paid'(jobNo, search) {
+    'service.paid': async function (jobNo, search) {
       try {
         check(jobNo, String)
         check(search, String)
@@ -116,15 +116,15 @@ if (Meteor.isServer) {
         if (!m)
           myThrow(`Could not extract charge_token from ${search}`)
         const charge_token = m[1]
-        const job = Assessments.findOne({ jobNo })
+        const job = await Assessments.findOneAsync({ jobNo })
         if (!job) myThrow('Could not find job with jobNo ' + jobNo)
         if (job.paid && job.charge_token && job.card)
           return { status: 'success', message: 'Already paid' }
-        const n = Assessments.update(job._id, {
+        const n = await Assessments.updateAsync(job._id, {
           $set: { paid: true, charge_token },
         })
         if (n) {
-          Logger.insert({
+          await Logger.insertAsync({
             user: 'Anonymous',
             aId: job._id,
             status: job.status,
@@ -133,7 +133,7 @@ if (Meteor.isServer) {
           // Now call the pinpayments API
           // to check that the charge_token is valid, and also
           // send the customer a receipt (by email)
-          emailReceipt({ job, charge_token })
+          await emailReceipt({ job, charge_token })
         }
         const result = {
           status: 'success',
@@ -147,37 +147,37 @@ if (Meteor.isServer) {
         return result
       }
     },
-    'assessment.updatePaid'(jobId) {
+    'assessment.updatePaid': async function (jobId) {
       check(jobId, String)
 
-      const job = Assessments.findOne(jobId)
+      const job = await Assessments.findOneAsync(jobId)
       if (!job)
         throw new Meteor.Error('Could not find job with id ' + jobId)
-      Assessments.update(jobId, { $set: { paid: !job.paid } })
-      Logger.insert({
+      await Assessments.updateAsync(jobId, { $set: { paid: !job.paid } })
+      await Logger.insertAsync({
         user: 'Anonymous',
         aId: jobId,
         status: job.status,
         eventType: LOG_EVENT_TYPES[job.paid ? UNPAID : PAID],
       })
     },
-    'assessment.completeJob'(jobId) {
+    'assessment.completeJob': async function (jobId) {
       check(jobId, String)
       debug(`Completing job ${jobId}`)
-      Assessments.update(jobId, {
+      await Assessments.updateAsync(jobId, {
         $set: { status: JOB_STATUS.PICKED_UP },
       })
-      Logger.insert({
+      await Logger.insertAsync({
         user: 'Anonymous',
         aId: jobId,
         status: JOB_STATUS.PICKED_UP,
         eventType: LOG_EVENT_TYPES[STATUS_UPDATE],
       })
     },
-    'logger.insert'(log) {
+    'logger.insert': async function (log) {
       check(log, Object)
     },
-    'assessment.update'(job, action, data) {
+    'assessment.update': async function (job, action, data) {
       const { _id, status } = job
       check(job, Object)
       check(action, String)
@@ -207,15 +207,15 @@ if (Meteor.isServer) {
                 newValues.additionalFees = job.additionalFees + delta
               }
               debug('Updating assessment:', newValues)
-              Assessments.update(_id, { $set: newValues })
+              await Assessments.updateAsync(_id, { $set: newValues })
             }
           }
         }
 
         if (action === MECHANIC_UPDATE) {
-          Assessments.update(_id, { $set: { mechanic: data } })
+          await Assessments.updateAsync(_id, { $set: { mechanic: data } })
         }
-        Logger.insert({
+        await Logger.insertAsync({
           user: 'Anonymous', //!! lazy
           status,
           aId: _id,
@@ -227,10 +227,10 @@ if (Meteor.isServer) {
       }
     },
     // returns logs for requested assessment id
-    getLogs(aId) {
+    getLogs: async function (aId) {
       check(aId, String)
 
-      return Logger.find({ aId }).fetch()
+      return await Logger.find({ aId }).fetchAsync()
     },
   })
 }

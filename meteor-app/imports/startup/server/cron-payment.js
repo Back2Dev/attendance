@@ -12,7 +12,7 @@ const cron = require('node-cron')
 const debug = require('debug')('b2b:cron')
 
 Meteor.methods({
-  findMemberCart(memberId) {
+  findMemberCart: async function (memberId) {
     const monthAgo = moment()
       .subtract(30, 'day')
       .toDate()
@@ -22,15 +22,15 @@ Meteor.methods({
       price: { $gt: 0 },
       createdAt: { $gt: monthAgo }
     }
-    const carts = Carts.find(cartQuery, { sort: { createdAt: -1 } }).fetch()
+    const carts = await Carts.find(cartQuery, { sort: { createdAt: -1 } }).fetchAsync()
     if (carts.length > 0) {
       return carts[0]
     } else {
       // Couldn't find a cart - look for the last purchase and use that
-      const purchases = Purchases.find({ memberId }, { sort: { createdAt: -1 } }).fetch()
+      const purchases = await Purchases.find({ memberId }, { sort: { createdAt: -1 } }).fetchAsync()
       if (purchases.length === 0) return null
       const purchase = purchases[0] // take the most recent one
-      const product = Products.findOne(purchase.productId)
+      const product = await Products.findOneAsync(purchase.productId)
       if (product) {
         delete product.createdAt
         delete product.updatedAt
@@ -44,9 +44,10 @@ Meteor.methods({
           },
           status: 'ready'
         }
-        const cartId = Carts.insert(newCart)
-        debug(`cart found ${cartId}`, Carts.findOne(cartId))
-        return Carts.findOne(cartId)
+        const cartId = await Carts.insertAsync(newCart)
+        const createdCart = await Carts.findOneAsync(cartId)
+        debug(`cart found ${cartId}`, createdCart)
+        return createdCart
       } else {
         debug(`Could not find a previous purchase or product for ${memberId}`)
         throw new Meteor.Error('No PRODUCT ') // Like BREXIT, it's a NO DEAL CRASHOUT !!!
@@ -54,7 +55,7 @@ Meteor.methods({
     }
   },
 
-  autoPayNotice() {
+  autoPayNotice: async function () {
     // Send Advance notice of auto-payment
     const query = {
       autoPay: true,
@@ -62,16 +63,16 @@ Meteor.methods({
       paymentCustId: { $exists: true }
     }
     debug('Search for ', query)
-    Members.find(query).forEach(member => {
+    for (const member of await Members.find(query).fetchAsync()) {
       // Expiring within the next 3 days?
       const expiry = moment(member.expiry)
       debug(`${member.name} expires ${member.expiry}`)
       if (expiry.isAfter(new Date()) && expiry.subtract(3, 'day').isBefore(new Date())) {
         // Membership has expired... find/create a shopping cart for them to use
-        const cart = Meteor.call('findMemberCart', member._id)
+        const cart = await Meteor.callAsync('findMemberCart', member._id)
         const amount = `${cart.price / 100}.00`
         debug(`autoPayNotice for ${member.name} ${member.email}`)
-        Meteor.call(
+        await Meteor.callAsync(
           'sendGenericInfoEmail',
           member.email,
           {
@@ -84,12 +85,12 @@ No action is required, as you have elected to pay automatically, and we have you
           },
           Meteor.settings.private.genericInfoID
         )
-        Members.update(member._id, { $set: { autoPayNoticeDate: new Date() } })
+        await Members.updateAsync(member._id, { $set: { autoPayNoticeDate: new Date() } })
       }
-    })
+    }
   },
 
-  autoPayment() {
+  autoPayment: async function () {
     // Make auto-payments when expired, and send email
     const query = {
       autoPay: true,
@@ -97,7 +98,7 @@ No action is required, as you have elected to pay automatically, and we have you
       paymentCustId: { $exists: true },
       status: 'expired'
     }
-    Members.find(query).forEach(member => {
+    for (const member of await Members.find(query).fetchAsync()) {
       // Expiring today?
       const expiry = moment(member.expiry)
       if (expiry.isAfter(new Date())) {
@@ -109,8 +110,8 @@ No action is required, as you have elected to pay automatically, and we have you
           email,
           metadata: { cartId, codes }
         }
-        const result = Meteor.call('makePayment', packet)
-        Meteor.call(
+        const result = await Meteor.callAsync('makePayment', packet)
+        await Meteor.callAsync(
           'sendGenericInfoEmail',
           member.email,
           {
@@ -122,7 +123,7 @@ No action is required, as you have elected to pay automatically, and we have you
           Meteor.settings.private.genericInfoID
         )
       }
-    })
+    }
 
     try {
     } catch (error) {
@@ -130,7 +131,7 @@ No action is required, as you have elected to pay automatically, and we have you
     }
   },
 
-  retireOldCarts() {
+  retireOldCarts: async function () {
     const CART_RETIREMENT_AGE = 30
     try {
       const retirementDate = moment()
@@ -140,7 +141,7 @@ No action is required, as you have elected to pay automatically, and we have you
         status: 'ready',
         updatedAt: { $lt: retirementDate }
       }
-      const n = Carts.remove(cartQuery)
+      const n = await Carts.removeAsync(cartQuery)
       debug(`retired ${n} unused shopping carts older than ${CART_RETIREMENT_AGE} days`)
       return n
     } catch (error) {
@@ -150,16 +151,16 @@ No action is required, as you have elected to pay automatically, and we have you
 })
 
 // This will run daily to check for expiring subscriptions etc
-const membershipTicker = () => {
+const membershipTicker = async () => {
   // debug(`Membership ticker`)
   // Update status values
-  Meteor.call('updateMemberStatusAll')
+  await Meteor.callAsync('updateMemberStatusAll')
 
   // Update subs type for all
-  Meteor.call('updateSubsTypeAll')
+  await Meteor.callAsync('updateSubsTypeAll')
 
   // Update 'remaining visits'
-  Meteor.call('updateRemainingAll')
+  await Meteor.callAsync('updateRemainingAll')
 
   // Send out the following emails:
   // - Advance notice of auto-payment
@@ -167,13 +168,13 @@ const membershipTicker = () => {
   // - Your membership has expired - please renew
 
   // Retire old shopping carts - TESTS OK
-  Meteor.call('retireOldCarts')
+  await Meteor.callAsync('retireOldCarts')
 
   // Warn of payments within 3 days'
-  Meteor.call('autoPayNotice')
+  await Meteor.callAsync('autoPayNotice')
 
   // Auto-payment has been made'
-  Meteor.call('autoPayment')
+  await Meteor.callAsync('autoPayment')
 }
 //
 // These are cron-style time specifiers

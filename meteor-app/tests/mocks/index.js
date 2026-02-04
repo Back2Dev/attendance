@@ -14,7 +14,17 @@ export const Mongo = {
     rawCollection: jest.fn().mockImplementation(() => ({
       createIndex: jest.fn().mockResolvedValue(undefined)
     })),
-    attachSchema: jest.fn()
+    attachSchema: jest.fn(),
+    insertAsync: jest.fn().mockResolvedValue(undefined),
+    updateAsync: jest.fn().mockResolvedValue(1),
+    removeAsync: jest.fn().mockResolvedValue(1),
+    findOneAsync: jest.fn().mockResolvedValue(undefined),
+    find: jest.fn().mockImplementation(() => ({
+      fetchAsync: jest.fn().mockResolvedValue([]),
+      countAsync: jest.fn().mockResolvedValue(0),
+      fetch: jest.fn().mockReturnValue([]),
+      count: jest.fn().mockReturnValue(0)
+    }))
   })),
 };
 

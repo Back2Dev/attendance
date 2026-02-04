@@ -58,7 +58,7 @@ const genericInfoEmailSchema = new SimpleSchema({
 
 Meteor.methods({
   // Send forgotten PIN by email
-  sendPINEmail(to = DEFAULT_DESTINATION, pin, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
+  sendPINEmail: async function (to = DEFAULT_DESTINATION, pin, message = DEFAULT_MESSAGE, subject = DEFAULT_SUBJECT) {
     debug(`Sending email: ${subject} to ${to}`)
     if (Meteor.settings.private.sendgridApikey && Meteor.settings.private.forgotPINID) {
       try {
@@ -73,7 +73,7 @@ Meteor.methods({
           }
         }
         log.info(`Sending email to <${to}>`)
-        sgMail.send(options)
+        await sgMail.send(options)
       } catch (e) {
         log.error(`Error sending forgotten PIN email: ${e.message}`)
       }
@@ -93,7 +93,7 @@ Meteor.methods({
   },
 
   // Send membership expiry email
-  sendMembershipEmail(to, name, type, expiry, link, templateId) {
+  sendMembershipEmail: async function (to, name, type, expiry, link, templateId) {
     try {
       sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
       const options = {
@@ -108,14 +108,14 @@ Meteor.methods({
         }
       }
       log.info(`Sending email ${templateId} to ${name} <${to}> link: ${link}`)
-      sgMail.send(options)
+      await sgMail.send(options)
     } catch (e) {
       log.error(`Error sending membership expiry email: ${e.message}`)
     }
   },
 
   // Send 'Your pass has expired/is empty' or Casual signup email
-  sendPassEmail(to, name, expiry, link, templateId) {
+  sendPassEmail: async function (to, name, expiry, link, templateId) {
     try {
       sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
       const options = {
@@ -128,13 +128,13 @@ Meteor.methods({
           link: `${Meteor.absoluteUrl()}${link}`
         }
       }
-      sgMail.send(options)
+      await sgMail.send(options)
     } catch (e) {
       log.error(`Error sending pass email: ${e.message}`)
     }
   },
 
-  sendInvoiceEmail(to, mergeData, templateId) {
+  sendInvoiceEmail: async function (to, mergeData, templateId) {
     try {
       debug(`Sending invoice email to ${to}`, mergeData)
       sgMail.setApiKey(Meteor.settings.private.sendgridApikey)
@@ -145,13 +145,13 @@ Meteor.methods({
         templateId,
         dynamic_template_data: mergeData
       }
-      sgMail.send(options)
+      await sgMail.send(options)
     } catch (e) {
       log.error(`Error sending invoice email: ${e.message}`)
     }
   },
 
-  sendGenericActionEmail(to, mergeData, templateId) {
+  sendGenericActionEmail: async function (to, mergeData, templateId) {
     try {
       genericActionEmailSchema.validate(mergeData) // Check that we have everything we need
       debug(`Sending generic action email to ${to}`, mergeData)
@@ -162,13 +162,13 @@ Meteor.methods({
         templateId,
         dynamic_template_data: mergeData
       }
-      sgMail.send(options)
+      await sgMail.send(options)
     } catch (e) {
       log.error(`Error sending generic action email: ${e.message}`)
     }
   },
 
-  sendGenericInfoEmail(to, mergeData, templateId) {
+  sendGenericInfoEmail: async function (to, mergeData, templateId) {
     try {
       debug(`Sending generic info email to ${to}`, mergeData)
       genericInfoEmailSchema.validate(mergeData) // Check that we have everything we need
@@ -180,7 +180,7 @@ Meteor.methods({
         dynamic_template_data: mergeData
       }
       log.info(options)
-      sgMail.send(options)
+      await sgMail.send(options)
     } catch (e) {
       log.error(`Error sending generic info email: ${e.message}`)
     }

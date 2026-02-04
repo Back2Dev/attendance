@@ -35,32 +35,32 @@ const fixtures = {
 }
 
 Meteor.methods({
-  'seed.products': function (orgid, target) {
+  'seed.products': async function (orgid, target) {
     try {
       if (!orgid) throw new Meteor.Error('Orgid not supplied')
       const data = fixtures[orgid]
       if (data && data[target]) {
-        config.forEach((item) => {
+        for (const item of config) {
           if (item.element === target) {
-            data[target].forEach((record) => {
-              item.collection.insert(record)
-            })
+            for (const record of data[target]) {
+              await item.collection.insertAsync(record)
+            }
           }
-        })
+        }
       }
     } catch (e) {
       console.log(e)
     }
   },
-  'update.products': function (orgid, target) {
+  'update.products': async function (orgid, target) {
     try {
       if (!orgid) throw new Meteor.Error('Orgid not supplied')
       const data = fixtures[orgid]
       if (data && data[target]) {
-        config.forEach((item) => {
+        for (const item of config) {
           if (item.element === target) {
-            data[target].forEach((record) => {
-              const rec = item.collection.findOne({
+            for (const record of data[target]) {
+              const rec = await item.collection.findOneAsync({
                 code: record.code,
               })
               // console.log(`Checking ${target}`, rec)
@@ -68,18 +68,18 @@ Meteor.methods({
                 console.warn(
                   `Could not find record for ${record.code}, adding now`
                 )
-                item.collection.insert(record)
+                await item.collection.insertAsync(record)
               } else {
                 if (!rec.subsType) {
-                  item.collection.update(
+                  await item.collection.updateAsync(
                     { code: record.code },
                     { $set: { subsType: record.subsType } }
                   )
                 }
               }
-            })
+            }
           }
-        })
+        }
       }
     } catch (e) {
       console.log(e)
@@ -87,18 +87,18 @@ Meteor.methods({
   },
 })
 
-Meteor.startup(() => {
+Meteor.startup(async () => {
   if (!Meteor.test) {
-    config.forEach((item) => {
-      if (item.collection.find().count() === 0) {
-        Meteor.call(
+    for (const item of config) {
+      if ((await item.collection.find().countAsync()) === 0) {
+        await Meteor.callAsync(
           'seed.products',
           Meteor.settings.public.orgid,
           item.element
         )
       }
-    })
-    Meteor.call(
+    }
+    await Meteor.callAsync(
       'update.products',
       Meteor.settings.public.orgid,
       'products'

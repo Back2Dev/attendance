@@ -3,9 +3,9 @@ import Reports from './schema'
 const debug = require('debug')('b2b:reports')
 
 Meteor.methods({
-  'report.create'(report) {
+  'report.create': async function (report) {
     try {
-      const id = Reports.insert(report)
+      const id = await Reports.insertAsync(report)
       debug(`id ${id}`)
 
       return id
@@ -15,10 +15,10 @@ Meteor.methods({
     }
   },
 
-  'report.push'(id, description, object, type) {
+  'report.push': async function (id, description, object, type) {
     try {
       const event = { description, object, type, timestamp: new Date() }
-      const n = Reports.update(id, { $push: { events: event } })
+      const n = await Reports.updateAsync(id, { $push: { events: event } })
       if (n !== 1) throw new Meteor.Error('Update did not work')
     } catch (e) {
       debug(`Error`, e.message)

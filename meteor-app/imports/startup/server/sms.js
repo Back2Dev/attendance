@@ -32,10 +32,10 @@ Meteor.startup(() => {
 const SMS_URL = 'https://api.smsbroadcast.com.au/api-adv.php'
 
 Meteor.methods({
-  hello(name) {
+  hello: async function (name) {
     debug(`Hello from the server, ${name}`)
   },
-  sendPINSms(message = DEFAULT_MESSAGE, destination = DEFAULT_DESTINATION) {
+  sendPINSms: async function (message = DEFAULT_MESSAGE, destination = DEFAULT_DESTINATION) {
     if (smsSettings.enabled) {
       debug(`Sending message ${message} to ${destination}`)
 
@@ -56,29 +56,25 @@ Meteor.methods({
           url = `${url}${joiner}${item}=${body[item]}`
         })
         debug('url=' + url)
-        fetch(url, payload)
-          .then(res => res.text())
-          .then(data => {
-            debug('SMS send response', data)
-            eventLog({
-              who: destination,
-              what: `SMS message: ${message}`,
-              object: {
-                response: data
-              }
-            })
-          })
-          .catch(error => {
-            debug('Error from sms gateway', error)
-            eventLog({
-              who: destination,
-              what: `SMS message: ${message}`,
-              object: {
-                response: error
-              }
-            })
-          })
+        const res = await fetch(url, payload)
+        const data = await res.text()
+        debug('SMS send response', data)
+        eventLog({
+          who: destination,
+          what: `SMS message: ${message}`,
+          object: {
+            response: data
+          }
+        })
       } catch (error) {
+        debug('Error from sms gateway', error)
+        eventLog({
+          who: destination,
+          what: `SMS message: ${message}`,
+          object: {
+            response: error
+          }
+        })
         log.error('Error from sms gateway', error)
       }
     }
