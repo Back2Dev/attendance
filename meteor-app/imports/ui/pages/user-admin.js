@@ -176,7 +176,6 @@ export default ListUsers = (props) => {
   return (
     <div>
       <Segment>
-        <Alert stack={{ limit: 3 }} />
         Account Admin
         <span style={{ float: 'right', right: '0px' }}>
           <AddUserModal addNewUser={addNewUser} />

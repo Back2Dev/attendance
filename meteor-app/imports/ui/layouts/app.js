@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import Alert from '/imports/ui/utils/alert'
+import { AlertProvider } from '/imports/ui/utils/alert'
 import 'semantic-ui-css/semantic.css'
 import { Dimmer, Loader } from 'semantic-ui-react'
 import { Roles } from 'meteor/alanning:roles'
@@ -107,7 +107,6 @@ const App = props => {
           <Route component={NotFound} />
         </Switch>
       </div>
-      <Alert stack={{ limit: 3 }} />
     </div>
   )
 }
@@ -149,9 +148,11 @@ const AppLoader = props => {
       </div>
     )
   return (
-    <Router>
-      <App {...props} />
-    </Router>
+    <AlertProvider>
+      <Router>
+        <App {...props} />
+      </Router>
+    </AlertProvider>
   )
 }
 

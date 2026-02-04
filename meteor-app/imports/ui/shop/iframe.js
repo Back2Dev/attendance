@@ -1,19 +1,17 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import NotFound from '/imports/ui/not-found'
 import Shop from '.'
-import Alert from '/imports/ui/utils/alert'
-import 'react-s-alert/dist/s-alert-default.css'
-import { alertsConfig } from '/imports/ui/config/alerts'
+import { AlertProvider } from '/imports/ui/utils/alert'
 
 const ShopIframe = props => {
   return (
-    <div style={{ height: '100%' }}>
-      {/* <Alert {...alertsConfig} /> */}
-      <Switch>
-        <Route path="/" component={Shop} />
-      </Switch>
-    </div>
+    <AlertProvider>
+      <div style={{ height: '100%' }}>
+        <Switch>
+          <Route path="/" component={Shop} />
+        </Switch>
+      </div>
+    </AlertProvider>
   )
 }
 

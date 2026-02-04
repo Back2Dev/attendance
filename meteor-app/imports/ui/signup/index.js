@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data'
 import Members from '/imports/api/members/schema'
 import Signup from './main'
 import React from 'react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 const Loading = (props) => {
   if (props.loading) {

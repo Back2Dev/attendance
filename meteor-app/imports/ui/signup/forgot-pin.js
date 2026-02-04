@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Button, Label, Input, Checkbox, Modal } from 'semantic-ui-react'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 const fieldMap = {
   email: 'email',

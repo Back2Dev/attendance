@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Alert from "react-s-alert";
+import Alert from '/imports/ui/utils/alert'
 import { Grid } from "semantic-ui-react";
 import { Button, Form, Input, Header, Transition } from "semantic-ui-react";
 import '/imports/ui/ordering/uploadXL.css'

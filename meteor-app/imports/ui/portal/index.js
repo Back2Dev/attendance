@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 import moment from 'moment'
 import { Carts } from '/imports/api/products/schema'
 import Members from '/imports/api/members/schema'

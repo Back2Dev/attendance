@@ -1,4 +1,4 @@
-import Alert from 'react-s-alert'
+import Alert from '/imports/ui/utils/alert'
 
 /*
  Call a Meteor method and wait for the response.

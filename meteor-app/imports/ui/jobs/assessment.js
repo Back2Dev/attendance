@@ -1,8 +1,6 @@
 import { withTracker } from 'meteor/react-meteor-data'
 import { ReactiveVar } from 'meteor/reactive-var'
 import Alert from '/imports/ui/utils/alert'
-import 'react-s-alert/dist/s-alert-default.css'
-import 'react-s-alert/dist/s-alert-css-effects/slide.css'
 import Services from '/imports/api/assessments/services'
 import ServiceItems from '/imports/api/service-items/schema'
 import Members from '/imports/api/members/schema'
