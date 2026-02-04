@@ -1,11 +1,11 @@
 /*will need to make custom theme */
-.ui.card {
+.member-card {
   margin: 5px !important;
 }
 
-.ui.card:first-child {
+.member-card:first-child {
   margin-top: 5px !important;
 }
-.ui.card:last-child {
+.member-card:last-child {
   margin-bottom: 5px !important;
 }

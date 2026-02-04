@@ -1,12 +1,61 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Icon, Image, Label, Button } from 'semantic-ui-react'
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  IconButton,
+  Stack,
+  Typography
+} from '@mui/material'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import SchoolIcon from '@mui/icons-material/School'
+import StarHalfIcon from '@mui/icons-material/StarHalf'
+import StarIcon from '@mui/icons-material/Star'
 import { humaniseDate } from '/imports/helpers/dates'
 import '/imports/ui/member/member-card.css'
 
+const colorMap = {
+  orange: 'warning',
+  green: 'success',
+  blue: 'info',
+  red: 'error',
+  grey: 'default'
+}
+
+const iconMap = {
+  student: SchoolIcon,
+  trophy: EmojiEventsIcon,
+  'star half full': StarHalfIcon,
+  star: StarIcon,
+  check: CheckCircleIcon
+}
+
+const getIcon = icon => {
+  const IconComponent = iconMap[icon] || StarIcon
+  return <IconComponent fontSize="small" />
+}
+
 const MyBadge = props => {
-  if (!props.content) return <Button type="button" size="mini" icon={props.icon} color={props.color || 'orange'} />
-  return <Label size="mini" icon={props.icon} content={props.content} color={props.color || 'orange'} />
+  const color = colorMap[props.color] || 'warning'
+  if (!props.content)
+    return (
+      <IconButton size="small" color={color} aria-label={props.icon || 'badge'}>
+        {getIcon(props.icon)}
+      </IconButton>
+    )
+  return (
+    <Chip
+      size="small"
+      icon={getIcon(props.icon)}
+      label={props.content}
+      color={color}
+      variant="outlined"
+    />
+  )
 }
 const MemberCard = props => {
   const {
@@ -29,66 +78,71 @@ const MemberCard = props => {
   const rookie = sessionCount <= 5
   const isExpired = status === 'expired'
 
-  const ribbon = isSuper
-    ? {
-        color: 'orange',
-        icon: 'student',
-        ribbon: true
-      }
-    : null
-  const subsColor = isExpired ? 'red' : 'orange'
+  const subsColor = isExpired ? 'error' : 'warning'
   const togo = subsType === 'pass' ? `(${remaining})` : ''
   const expiryText = props.expiry ? moment(props.expiry).format('DD/MM/YY') : ''
   return (
-    <Card style={{ textAlign: 'center' }} className={props.className} key={_id}>
-      <Image src={'/images/avatars/' + avatar} style={{ opacity: isExpired ? '0.25' : '1' }} />
-      <Card.Content>
-        <Card.Header list={list}>
-          {isSlsa && <Image src="/images/slsa.png" width="25px" alt="Surf Life Saving" />}
-          &nbsp;
-          {name} <br></br>
-          {isExpired ? `(expired ${expiryText})` : ``}
-        </Card.Header>
-        <Card.Content>
-          {isSuper && <Label corner="left" icon="student" color="orange" />}
-          {wwccOk && (
-            <Label corner="right">
-              <Icon name="check" color="green"></Icon>
-            </Label>
+    <Card
+      className={`member-card ${props.className || ''}`}
+      key={_id}
+      sx={{ textAlign: 'center', position: 'relative' }}
+    >
+      <CardMedia
+        component="img"
+        image={`/images/avatars/${avatar}`}
+        alt={name}
+        sx={{ opacity: isExpired ? 0.25 : 1 }}
+      />
+      {isSuper && (
+        <Box sx={{ position: 'absolute', top: 8, left: 8 }}>
+          <SchoolIcon color="warning" fontSize="small" />
+        </Box>
+      )}
+      {wwccOk && (
+        <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+          <CheckCircleIcon color="success" fontSize="small" />
+        </Box>
+      )}
+      <CardContent>
+        <Typography variant="subtitle1" component="div">
+          {isSlsa && (
+            <Box
+              component="img"
+              src="/images/slsa.png"
+              alt="Surf Life Saving"
+              sx={{ width: 25, verticalAlign: 'middle', mr: 0.5 }}
+            />
           )}
-          <div
-            style={{
-              padding: '10px 0'
-            }}
-          >
-            <Label size="small" color={rookie ? 'green' : isSuper ? 'orange' : 'blue'} about={name}>
-              <Icon name={rookie ? 'star half full' : 'trophy'} />
-              {sessionCount}
-            </Label>
-            {rookie && (
-              <Label size="small" color="green">
-                rookie
-              </Label>
-            )}
-            {props.subsType && (
-              <Label size="small" color={subsColor}>
-                {props.subsType} {togo}
-              </Label>
-            )}
-            {props.badges && props.badges.map(badge => <MyBadge {...badge} />)}
-          </div>
-          <div>{props.children}</div>
-        </Card.Content>
-      </Card.Content>
-      <Card.Content extra>
-        {lastIn && (
-          <div>
-            <p>
-              {isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(lastIn)} ago{' '}
-            </p>
-          </div>
+          {name}
+        </Typography>
+        {isExpired && (
+          <Typography variant="caption" color="error">
+            (expired {expiryText})
+          </Typography>
         )}
-      </Card.Content>
+
+        <Stack direction="row" spacing={1} sx={{ py: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Chip
+            size="small"
+            color={rookie ? 'success' : isSuper ? 'warning' : 'info'}
+            icon={rookie ? <StarHalfIcon fontSize="small" /> : <EmojiEventsIcon fontSize="small" />}
+            label={sessionCount}
+          />
+          {rookie && <Chip size="small" color="success" label="rookie" />}
+          {props.subsType && (
+            <Chip size="small" color={subsColor} label={`${props.subsType} ${togo}`.trim()} />
+          )}
+          {props.badges && props.badges.map(badge => <MyBadge key={`${_id}-${badge.icon}-${badge.content || ''}`} {...badge} />)}
+        </Stack>
+        <Box>{props.children}</Box>
+      </CardContent>
+      {lastIn && (
+        <CardContent sx={{ pt: 0 }}>
+          <Typography variant="body2" color="text.secondary">
+            {isHere ? 'Arrived:' : 'Last Seen'} {humaniseDate(lastIn)} ago
+          </Typography>
+        </CardContent>
+      )}
     </Card>
   )
 }

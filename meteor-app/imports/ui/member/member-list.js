@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Header } from 'semantic-ui-react'
+import { Box } from '@mui/material'
 
 const MemberList = props => {
   const { members, Component, style, onCardClick, list } = props
 
   return (
-    <div style={style}>
+    <Box style={style}>
       {React.Children.map(props.children, child => child)}
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: 'flex',
           flexWrap: 'wrap',
           height: '100%',
@@ -21,12 +21,17 @@ const MemberList = props => {
         {!props.loading &&
           members &&
           members.map(member => (
-            <div key={member._id} onClick={() => onCardClick(member)}>
-              <Component className={props.componentClassName} list={list} {...member} style={{ padding: '5px' }} />
-            </div>
+            <Box key={member._id} onClick={() => onCardClick(member)}>
+              <Component
+                className={props.componentClassName}
+                list={list}
+                {...member}
+                style={{ padding: '5px' }}
+              />
+            </Box>
           ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

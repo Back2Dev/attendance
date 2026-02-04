@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { Grid, Button } from 'semantic-ui-react'
+import { Box, Button, Grid } from '@mui/material'
 import context from '/imports/ui/utils/nav'
 
 import MemberList from '/imports/ui/member/member-list'
@@ -30,39 +30,45 @@ const MemberMain = props => {
   }
 
   return (
-    <Grid>
-      <Grid.Row>
-        <Grid.Column width="13">
-          {props.location.pathname.match(/kiosk/) && (
-            <Button type="button" onClick={registerClick} color="orange">
-              Register
-            </Button>
-          )}
-          &nbsp;
-          <MemberSearch memberWords={memberWords} />
-          <MemberList
-            title={'Check In:'}
-            members={props.membersOut}
-            Component={MemberCard}
-            list="away"
-            componentClassName="member-card-main"
-            onCardClick={onCardClick}
-            loading={props.loading}
-            Loader={MemberCardLoading}
-          />
-        </Grid.Column>
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={9}>
+        {props.location.pathname.match(/kiosk/) && (
+          <Button
+            type="button"
+            onClick={registerClick}
+            color="warning"
+            variant="contained"
+            sx={{ mb: 1 }}
+          >
+            Register
+          </Button>
+        )}
+        &nbsp;
+        <MemberSearch memberWords={memberWords} />
+        <MemberList
+          title={'Check In:'}
+          members={props.membersOut}
+          Component={MemberCard}
+          list="away"
+          componentClassName="member-card-main"
+          onCardClick={onCardClick}
+          loading={props.loading}
+          Loader={MemberCardLoading}
+        />
+      </Grid>
 
-        <Grid.Column
-          width="3"
-          style={{
-            position: 'fixed',
-            top: '70px',
-            right: '0',
-            bottom: '0',
+      <Grid item xs={12} md={3}>
+        <Box
+          sx={{
+            position: { md: 'fixed', xs: 'relative' },
+            top: { md: 70, xs: 'auto' },
+            right: { md: 0, xs: 'auto' },
+            bottom: { md: 0, xs: 'auto' },
             textAlign: 'center',
-            padding: '20px',
+            p: 2,
             backgroundColor: 'rgb(238, 238, 238)',
-            overflowY: 'scroll'
+            overflowY: 'auto',
+            width: { md: 260 }
           }}
         >
           <MemberList
@@ -76,8 +82,8 @@ const MemberMain = props => {
           >
             <MemberCounter count={props.membersIn.length} />
           </MemberList>
-        </Grid.Column>
-      </Grid.Row>
+        </Box>
+      </Grid>
     </Grid>
   )
 }

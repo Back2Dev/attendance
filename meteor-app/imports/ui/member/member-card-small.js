@@ -1,37 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { Icon, Label, List, Image } from 'semantic-ui-react'
+import { Avatar, Box, Chip } from '@mui/material'
 
 const MemberCardSmall = props => {
-  const { _id, avatar = 'default.jpg', name, list } = props
+  const { _id, avatar = 'default.jpg', name } = props
   const shortName = (function() {
     const names = name ? name.split(' ') : ['Unknown']
     return names[1] ? `${names[0]} ${names[1][0]}` : `${names[0]}`
   })(name)
-  const color = props.status === 'expired' ? 'red' : ''
+  const color = props.status === 'expired' ? 'error' : 'default'
   return (
-    <List.Item
-      style={{
-        textAlign: 'center',
-        marginBottom: '10px',
-        width: '100%'
-      }}
-    >
-      <Image
-        size="tiny"
-        avatar
-        spaced
-        src={'/images/avatars/' + avatar}
-        style={{ border: '3px solid white' }}
-        onClick={() => props.onCardClick(props._id, props.name)}
+    <Box sx={{ textAlign: 'center', mb: 1, width: '100%' }}>
+      <Avatar
+        src={`/images/avatars/${avatar}`}
+        alt={name}
+        sx={{
+          width: 56,
+          height: 56,
+          mx: 'auto',
+          border: '3px solid white',
+          cursor: 'pointer'
+        }}
+        onClick={() => props.onCardClick && props.onCardClick(props._id, props.name)}
       />
-      <div list={list}>
-        <Label size="big" color={color}>
-          {shortName}
-        </Label>
-      </div>
-    </List.Item>
+      <Box sx={{ mt: 1 }}>
+        <Chip
+          size="medium"
+          color={color}
+          label={shortName}
+          sx={{ fontSize: '1rem', px: 1 }}
+        />
+      </Box>
+    </Box>
   )
 }
 
