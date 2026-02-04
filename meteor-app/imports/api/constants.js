@@ -14,7 +14,7 @@ const CONSTANTS = {
   // Part status values
   PART_STATUS_OK: 101,
   PART_STATUS_DELETED: 102,
-  PART_STATUS_AUTO_CREATED: 103
+  PART_STATUS_AUTO_CREATED: 103,
 }
 
 // Human readable lookup table:
@@ -24,14 +24,14 @@ CONSTANTS.ORDER_STATUS_READABLE = {
   3: 'Received',
   4: 'Reconciled',
   5: 'Queried',
-  6: 'Cancelled'
+  6: 'Cancelled',
 }
 
 // Human readable lookup table:
 CONSTANTS.PART_STATUS_READABLE = {
   101: 'OK',
   102: 'Deleted',
-  103: 'Auto created'
+  103: 'Auto created',
 }
 
 export const JOB_STATUS = {
@@ -40,7 +40,7 @@ export const JOB_STATUS = {
   QUALITY_CHECK: 3,
   READY_FOR_PICK_UP: 4,
   PICKED_UP: 5,
-  CANCELLED: 6
+  CANCELLED: 6,
 }
 
 export const JOB_STATUS_ALL = [1, 2, 3, 4]
@@ -53,7 +53,7 @@ export const JOB_STATUS_READABLE = {
   3: 'Quality Check',
   4: 'Ready for Pick Up',
   5: 'Picked Up',
-  6: 'Cancelled'
+  6: 'Cancelled',
 }
 
 export const JOB_STATUS_BUTTON = {
@@ -62,7 +62,7 @@ export const JOB_STATUS_BUTTON = {
   3: 'Quality Checked',
   4: 'Picked Up',
   5: 'Completed',
-  6: 'Re-Open'
+  6: 'Re-Open',
 }
 
 export const JOB_STATUS_STYLES = {
@@ -71,7 +71,7 @@ export const JOB_STATUS_STYLES = {
   3: { backgroundColor: '#ffffba', fontSize: '1.5em' },
   4: { backgroundColor: '#ABD3B8', fontSize: '1.5em' },
   5: { backgroundColor: '#ABD3B8', fontSize: '1.5em' },
-  6: { backgroundColor: '#ffb2b2', fontSize: '1.5em' }
+  6: { backgroundColor: '#ffb2b2', fontSize: '1.5em' },
 }
 
 export const LOG_EVENT_READABLE = {
@@ -81,7 +81,7 @@ export const LOG_EVENT_READABLE = {
   23: 'Phone call',
   24: 'SMS sent',
   26: 'Paid',
-  27: 'Unpaid'
+  27: 'Unpaid',
 }
 
 export const STATUS_UPDATE = 'STATUS_UPDATE'
@@ -99,26 +99,30 @@ export const LOG_EVENT_TYPES = {
   [PHONE_CALL]: 23,
   [SEND_SMS]: 24,
   [PAID]: 26,
-  [UNPAID]: 27
+  [UNPAID]: 27,
 }
 
 CONSTANTS.SERVICE_TYPES = {
   Major: 'Major Service',
-  Minor: 'Minor Service'
+  Minor: 'Minor Service',
 }
 
 // Product Type values
 CONSTANTS.PRODUCT_TYPES = {
   PASS: 'pass',
   COURSE: 'course',
-  MEMBERSHIP: 'membership'
+  MEMBERSHIP: 'membership',
+  MERCHANDISE: 'merchandise',
+  HIRE: 'hire',
 }
 
 // Human readable lookup table:
 CONSTANTS.PRODUCT_TYPES_READABLE = {
   pass: 'Pass',
   course: 'Course',
-  membership: 'Membership'
+  membership: 'Membership',
+  merchandise: 'Merchandise',
+  hire: 'Hire',
 }
 
 CONSTANTS.CART_STATUS = {
@@ -126,7 +130,7 @@ CONSTANTS.CART_STATUS = {
   DENIED: 'denied',
   CANCELLED: 'cancelled',
   COMPLETE: 'complete',
-  ENUM: ['ready', 'denied', 'cancelled', 'complete']
+  ENUM: ['ready', 'denied', 'cancelled', 'complete'],
 }
 
 CONSTANTS.DAYS_WEEK = [
@@ -136,9 +140,19 @@ CONSTANTS.DAYS_WEEK = [
   { id: 3, value: 'Wed' },
   { id: 4, value: 'Thu' },
   { id: 5, value: 'Fri' },
-  { id: 6, value: 'Sat' }
+  { id: 6, value: 'Sat' },
 ]
 
-CONSTANTS.ROLES = ['superadmin', 'register', 'signin', 'servicing', 'paynow', 'parts', 'admin', 'member', 'shop']
+CONSTANTS.ROLES = [
+  'superadmin',
+  'register',
+  'signin',
+  'servicing',
+  'paynow',
+  'parts',
+  'admin',
+  'member',
+  'shop',
+]
 
 export default CONSTANTS

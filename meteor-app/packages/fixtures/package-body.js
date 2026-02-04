@@ -16,7 +16,7 @@ Package.describe({
 // This is run at build time, it's purpose is to load assets
 //
 Package.onUse(function (api) {
-  api.versionsFrom('1.2.1')
+  api.versionsFrom('3.4')
   api.use('ecmascript')
 
   //

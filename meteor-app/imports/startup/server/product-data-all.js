@@ -4,6 +4,7 @@ import Products, { ProductTypes } from '/imports/api/products/schema'
 import paProducts from './product-data-pa'
 import paddleProducts from './product-data-paddle'
 import b2bProducts from './product-data-b2b'
+import muucProducts from './product-data-muuc'
 import b4hProducts from './product-data-b4h'
 import Events from '/imports/api/events/schema'
 import Promos from '/imports/api/promos/schema'
@@ -30,6 +31,7 @@ const config = [
 const fixtures = {
   pa: paProducts,
   b2b: b2bProducts,
+  muuc: muucProducts,
   b4h: b4hProducts,
   paddle: paddleProducts,
 }
@@ -37,7 +39,10 @@ const fixtures = {
 Meteor.methods({
   'seed.products': async function (orgid, target) {
     try {
-      if (!orgid) throw new Meteor.Error('Orgid not supplied')
+      if (!orgid)
+        throw new Meteor.Error(
+          'seed.products: orgid not supplied (it is a required parameter)'
+        )
       const data = fixtures[orgid]
       if (data && data[target]) {
         for (const item of config) {
