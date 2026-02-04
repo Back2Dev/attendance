@@ -4,6 +4,11 @@ Meteor.publish('getAllRoles', () => {
   return Meteor.roles.find()
 })
 
+Meteor.publish('roleAssignments', function () {
+  if (!this.userId) return this.ready()
+  return Meteor.roleAssignment.find({ 'user._id': this.userId })
+})
+
 Meteor.methods({
   addANewRole(id) {
     try {

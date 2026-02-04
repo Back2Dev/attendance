@@ -47,13 +47,8 @@ const Home = props => {
 }
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup. */
-const rolesReady =
-  Roles.subscription && typeof Roles.subscription.ready === 'function'
-    ? Roles.subscription.ready()
-    : true
-
 const App = props => {
-  if (!rolesReady) return <div>NOT READY</div>
+  if (props.loading) return <div>NOT READY</div>
   const isLogged = Meteor.userId() !== null
   const showSide =
     (!isIframe() &&
@@ -161,7 +156,8 @@ const AppLoader = props => {
 }
 
 export default withTracker(props => {
+  const rolesSub = Meteor.subscribe('roleAssignments')
   return {
-    loading: !rolesReady
+    loading: !rolesSub.ready()
   }
 })(AppLoader)

@@ -52,9 +52,43 @@ async function createUser(email, password, roles) {
   }
 }
 
+async function migrateUserRoles() {
+  const users = Meteor.users.find({
+    roles: { $exists: true, $ne: [] },
+  })
+  await users.forEachAsync(async (user) => {
+    const userRoles = Array.isArray(user.roles)
+      ? user.roles.map((r) =>
+          typeof r === 'string'
+            ? r
+            : r && typeof r === 'object'
+              ? r._id || r.name
+              : null
+        ).filter(Boolean)
+      : []
+    if (userRoles.length === 0) return
+
+    const existing = await Meteor.roleAssignment
+      .find({ 'user._id': user._id })
+      .fetchAsync()
+    const existingRoles = new Set(
+      existing.map((assignment) => assignment.role?._id).filter(Boolean)
+    )
+
+    const missing = userRoles.filter((role) => !existingRoles.has(role))
+    if (missing.length > 0) {
+      await Roles.addUsersToRolesAsync(user._id, missing)
+      console.log(
+        `Migrated roles for ${user.username || user._id}: ${missing.join(', ')}`
+      )
+    }
+  })
+}
+
 /** When running app for first time, pass a settings file to set up a default user account. */
 Meteor.startup(async () => {
   await ensureRoles()
+  await migrateUserRoles()
 
   if ((await Meteor.users.find().countAsync()) === 0) {
     if (defaultAccounts) {

@@ -237,7 +237,8 @@ NavBar.propTypes = {
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const NavBarContainer = withTracker(() => {
   const membersSub = Meteor.subscribe('all.members')
-  const loading = !membersSub.ready()
+  const rolesSub = Meteor.subscribe('roleAssignments')
+  const loading = !membersSub.ready() || !rolesSub.ready()
   const currentMember = Members.find({
     userId: Meteor.userId(),
   }).fetch()[0]
