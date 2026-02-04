@@ -1,45 +1,53 @@
+import 'meteor/aldeed:collection2/static'
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
+import ServerSchema from 'meteor/aldeed:simple-schema'
 
-import { REGEX_ID, OptionalRegExId, RegExId, createdAt, updatedAt } from '/imports/api/schema'
+import {
+  REGEX_ID,
+  OptionalRegExId,
+  RegExId,
+  createdAt,
+  updatedAt,
+} from '/imports/api/schema'
 
 const Sessions = new Mongo.Collection('sessions')
 
-export const SessionsSchema = new SimpleSchema({
+export const SessionsSchema = new ServerSchema({
   _id: OptionalRegExId,
   memberId: RegExId,
   eventId: OptionalRegExId,
   purchaseId: OptionalRegExId,
   memberName: {
     type: String,
-    label: 'Member name'
+    label: 'Member name',
   },
   name: {
     type: String,
-    label: 'Session name'
+    label: 'Session name',
   },
   duration: {
     type: Number,
     label: 'Duration in hours',
-    optional: false
+    optional: false,
   },
   timeIn: {
     type: Date,
     label: 'Visit start time',
-    optional: false
+    optional: false,
   },
   timeOut: {
     type: Date,
     label: 'Visit end time',
-    optional: false
+    optional: false,
   },
   price: {
     type: SimpleSchema.Integer,
     label: 'Session Price in cents',
-    defaultValue: 0
+    defaultValue: 0,
   },
   createdAt,
-  updatedAt
+  updatedAt,
 })
 
 Sessions.attachSchema(SessionsSchema)

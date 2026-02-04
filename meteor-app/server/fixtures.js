@@ -7,6 +7,13 @@ import Profiles from '/imports/api/members/schema'
 
 const debug = require('debug')('se:fixtures')
 
+const getCollectionByName = (name) => {
+  if (Mongo.Collection.get) return Mongo.Collection.get(name)
+  if (Mongo.Collection._collections && Mongo.Collection._collections[name])
+    return Mongo.Collection._collections[name]
+  return null
+}
+
 // Get the database definition for the target tables
 // import Workflows, { Jobs, Steps, Stages } from '/imports/api/workflows/schema'
 
@@ -29,22 +36,22 @@ const uc1 = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // S T A R T U P  Function to load up dummy data for testing
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Meteor.startup(function () {
+Meteor.startup(async function () {
   if (Meteor.settings.env.environment === 'test') {
     console.log('Cleaning up database... ')
     Meteor.users.remove({})
   }
 
-  Fixtures.loadAssets([
+  await Fixtures.loadAssets([
     ...Fixtures.config.things.map((t) => t.name),
     ...Fixtures.config.boot.map((t) => t.name),
   ])
 
-  Fixtures.loadBootThings() // Load (boot-time)  fixtures
+  await Fixtures.loadBootThings() // Load (boot-time)  fixtures
   // Fix the profiles
   // TODO: Add profiles to fixtures data and remove this
-  Meteor.users.find({}).forEach((user) => {
-    const p = Profiles.findOne({ userId: user._id })
+  await Meteor.users.find({}).forEachAsync(async (user) => {
+    const p = await Profiles.findOneAsync({ userId: user._id })
     if (!p) {
       let name = user.username
       let nickname = user.name?.split(' ')[0] || 'Hey you'
@@ -54,7 +61,7 @@ Meteor.startup(function () {
         name = [uc1(matches[1]), uc1(matches[2])].join(' ')
       }
       debug(`Adding profile for ${name} (AKA ${nickname})`)
-      Profiles.insert({
+      await Profiles.insertAsync({
         name,
         nickname,
         userId: user._id,
@@ -71,12 +78,12 @@ Meteor.methods({
   // Be aware that you can restrict which environment(s) the data
   // is loaded to using the configs above
 
-  seedFixtures() {
-    Fixtures.loadAssets([
+  async seedFixtures() {
+    await Fixtures.loadAssets([
       ...Fixtures.config.things.map((t) => t.name),
       ...Fixtures.config.boot.map((t) => t.name),
     ])
-    Fixtures.loadBootThings() // Load (boot-time) fixtures
+    await Fixtures.loadBootThings() // Load (boot-time) fixtures
     // Fix the profiles
     // TODO: Add profiles to fixtures data and remove this
     Meteor.users.find({}).forEach((user) => {
@@ -103,16 +110,16 @@ Meteor.methods({
         })
       }
     })
-    Fixtures.loadThings() // Loads (non boot-time)  fixtures
+    await Fixtures.loadThings() // Loads (non boot-time)  fixtures
   },
   'seedFixtures+test'() {
     Meteor.call('seed.members')
     // Meteor.call('seedFixtures')
     // Meteor.call('loadFixtures', 'workflows-test')
   },
-  loadFixtures(thing) {
+  async loadFixtures(thing) {
     // Must check for admin here
-    Fixtures.loadThings(thing) // Loads (non boot-time) fixtures
+    await Fixtures.loadThings(thing) // Loads (non boot-time) fixtures
   },
   resetCollections() {
     if (Meteor.settings.env.environment === 'prod') {
@@ -128,8 +135,8 @@ Meteor.methods({
     Members.remove({ userId: { $in: userIds } })
     names.forEach((collection) => {
       try {
-        // Note: Mongo.Collection access requires the dburles:mongo-collection-instances package to be installed
-        Mongo.Collection.get(collection).remove({})
+        const target = getCollectionByName(collection)
+        if (target) target.remove({})
       } catch (e) {
         debug(`Something wrong emptying ${collection}: ${e.message}`)
       }

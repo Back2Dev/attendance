@@ -1,4 +1,4 @@
-import 'meteor/aldeed:collection2'
+import 'meteor/aldeed:collection2/static'
 import { Meteor } from 'meteor/meteor'
 
 import './accounts'

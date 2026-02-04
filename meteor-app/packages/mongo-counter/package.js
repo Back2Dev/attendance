@@ -7,7 +7,7 @@ Package.describe({
 
 Package.onUse(function (api) {
   api.versionsFrom("1.2.1");
-  api.use(['ecmascript'], 'server');
+  api.use(['ecmascript', 'underscore'], 'server');
   api.addFiles('counter.js', 'server');
   if (api.export) {
     api.export('incrementCounter', 'server');

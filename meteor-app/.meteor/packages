@@ -8,42 +8,36 @@
 
 # but you can also edit it by hand.
 
-meteor-base@1.5.1 # Packages every Meteor app needs to have
-mobile-experience@1.1.1 # Packages for a great mobile UX
-mongo@1.16.10 # The database Meteor supports right now
-reactive-var@1.0.12 # Reactive variable for tracker
-jquery@1.11.10 # Helpful client-side library
-tracker@1.3.3 # Meteor's client-side reactive programming library
+meteor-base # Packages every Meteor app needs to have
+mobile-experience # Packages for a great mobile UX
+mongo@2.2.0-beta340.14 # The database Meteor supports right now
+reactive-var # Reactive variable for tracker
+jquery # Helpful client-side library
+tracker # Meteor's client-side reactive programming library
+underscore@1.6.4 # Required runtime package (Meteor 3)
 
-standard-minifier-js@2.8.1 # JS minifier run for production mode
-es5-shim@4.8.0 # ECMAScript 5 compatibility for older browsers.
-ecmascript@0.16.8 # Enable ECMAScript2015+ syntax in app code
-static-html@1.3.2
-shell-server@0.5.0
-aldeed:collection2@3.5.0
+standard-minifier-js # JS minifier run for production mode
+standard-minifier-css # CSS minifier run for production mode
+es5-shim # ECMAScript 5 compatibility for older browsers.
+ecmascript # Enable ECMAScript2015+ syntax in app code
+shell-server
+static-html # Define static page content in .html files
+aldeed:collection2 #@4.1.5
 mdg:validated-method
-react-meteor-data@0.2.16
-semantic:ui
-less@2.8.0
-juliancwirko:postcss
-practicalmeteor:mocha
-xolvio:cleaner
-practicalmeteor:chai
-session@1.2.1
-dynamic-import@0.7.3
-babel-compiler@7.10.5
-meteortesting:mocha
-dburles:factory
-random@1.2.1
-crosswalk@1.7.2
-email@2.2.6
+#semantic:ui #less@2.8.0
+#juliancwirko:postcss
+#meteortesting:mocha
+#xolvio:cleaner@0.4.0
+session
+dynamic-import
+babel-compiler
+random
+email
 grove:call-async
 momentjs:moment
 mikkelking:mongo-counter
-fentas:mapreduce
-meteorhacks:aggregate
-accounts-password@2.4.0
+accounts-password
 alanning:roles@4.0.0
 fixtures
 
-dburles:mongo-collection-instances
+react-meteor-data@4.0.1

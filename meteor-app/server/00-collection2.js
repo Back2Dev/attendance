@@ -1,2 +1,1 @@
 import 'meteor/aldeed:collection2/static'
-import '/imports/startup/client/startup'

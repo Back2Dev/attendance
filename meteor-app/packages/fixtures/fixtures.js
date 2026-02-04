@@ -1,6 +1,13 @@
 const cc = require('change-case')
 const debug = require('debug')('se:fixtures')
 
+const getCollectionByName = (name) => {
+  if (Mongo.Collection.get) return Mongo.Collection.get(name)
+  if (Mongo.Collection._collections && Mongo.Collection._collections[name])
+    return Mongo.Collection._collections[name]
+  return null
+}
+
 // Default config object - this gets overridden by the file /server/fixtures.js
 Fixtures = {
   data: {},
@@ -12,21 +19,27 @@ Fixtures = {
   },
 }
 
-Fixtures.loadAssets = function (items) {
-  items.forEach(function (thing) {
-    const jsonFile = `json/${thing}.json`
-    try {
-      Fixtures.data[thing] = JSON.parse(Assets.getText(jsonFile))
-    } catch (e) {
-      // Does it look like a plain text file?
-      const names = Assets.getText(jsonFile).split(/\n/)
-      if (names.length) {
-        Fixtures.data[thing] = names.map((name) => {
-          return { name }
-        })
-      } else console.error(`Error parsing JSON fixtures data file: ${jsonFile}\n  - error message is : '${e.message}'`)
-    }
-  })
+Fixtures.loadAssets = async function (items) {
+  await Promise.all(
+    items.map(async (thing) => {
+      const jsonFile = `json/${thing}.json`
+      try {
+        const text = await Assets.getTextAsync(jsonFile)
+        Fixtures.data[thing] = JSON.parse(text)
+      } catch (e) {
+        // Does it look like a plain text file?
+        const text = await Assets.getTextAsync(jsonFile)
+        const names = text.split(/\n/)
+        if (names.length) {
+          Fixtures.data[thing] = names.map((name) => ({ name }))
+        } else {
+          console.error(
+            `Error parsing JSON fixtures data file: ${jsonFile}\n  - error message is : '${e.message}'`
+          )
+        }
+      }
+    })
+  )
 }
 
 Fixtures.loadUsers = function () {
@@ -86,17 +99,17 @@ Fixtures.loadUsers = function () {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Fixtures.loadBootThings = function () {
-  Fixtures.loadThese('boot')
+Fixtures.loadBootThings = async function () {
+  await Fixtures.loadThese('boot')
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Fixtures.loadThings = function (which) {
-  Fixtures.loadThese('things', which)
+Fixtures.loadThings = async function (which) {
+  await Fixtures.loadThese('things', which)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Fixtures.loadThese = function (list, which) {
+Fixtures.loadThese = async function (list, which) {
   //
   // Work out what environment we are working in...
   //
@@ -118,10 +131,9 @@ Fixtures.loadThese = function (list, which) {
             ', it is missing one or more of name,key or table'
         )
       else {
-        // Note: Mongo.Collection access requires the dburles:mongo-collection-instances package to be installed
         const collection =
           typeof thing.table === 'string'
-            ? Mongo.Collection.get(thing.table)
+            ? getCollectionByName(thing.table)
             : thing.table
         // If the collection object doesn't exist here, it means that a `new Mongo.Collection('collection')` hasn't been done
         if (!collection) return
@@ -234,5 +246,5 @@ Fixtures.loadThese = function (list, which) {
     })
   // Don't auto create users unless the db is empty
   // TODO: put these under config control (ie per selected environments only)
-  if (Meteor.users.find().count() === 0) Fixtures.loadUsers()
+  if ((await Meteor.users.find().countAsync()) === 0) Fixtures.loadUsers()
 }

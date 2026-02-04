@@ -117,25 +117,37 @@ Meteor.methods({
   }
 })
 
-Meteor.startup(() => {
-  if (Members.find().count() === 0) {
-    Meteor.call('seed.members')
+Meteor.startup(async () => {
+  if ((await Members.find().countAsync()) === 0) {
+    await Meteor.callAsync('seed.members')
   }
 
   // Migration script, give all records an isSuper field
-  Members.update({ isSuper: { $exists: false } }, { $set: { isSuper: false } })
+  await Members.updateAsync(
+    { isSuper: { $exists: false } },
+    { $set: { isSuper: false } }
+  )
 
   // Migration script, Set Mark to isSuper
-  Members.update({ name: 'Mark Bradley' }, { $set: { isSuper: true } })
+  await Members.updateAsync(
+    { name: 'Mark Bradley' },
+    { $set: { isSuper: true } }
+  )
   // Migration script, give all records a default pin
   // Members.update(
   //   { "pin": { $exists: false } },
   //   { $set: { pin: '12         34' } }
   // )
-  Members.find({ email: /[A-Z]/ }).forEach(m => {
-    Members.update(m._id, { $set: { email: m.email.toLowerCase() } })
+  await Members.find({ email: /[A-Z]/ }).forEachAsync(async (m) => {
+    await Members.updateAsync(m._id, {
+      $set: { email: m.email.toLowerCase() },
+    })
   })
-  Carts.find({ 'chargeResponse.email': /[A-Z]/ }).forEach(c => {
-    Carts.update(c._id, { $set: { 'chargeResponse.email': c.chargeResponse.email.toLowerCase() } })
-  })
+  await Carts.find({ 'chargeResponse.email': /[A-Z]/ }).forEachAsync(
+    async (c) => {
+      await Carts.updateAsync(c._id, {
+        $set: { 'chargeResponse.email': c.chargeResponse.email.toLowerCase() },
+      })
+    }
+  )
 })
