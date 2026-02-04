@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import Products from '/imports/api/products/schema'
 import List from './list'
-import { dollarInput } from '/imports/ui/utils/editors'
+import moment from 'moment'
 
 const remove = id => Meteor.call('rm.Products', id)
 const update = form => Meteor.call('update.Products', form)
@@ -26,46 +25,54 @@ const typeOptions = {
 }
 
 const columns = [
-  {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
-  },
-  { field: 'name', title: 'Name', editor: true, validator: 'required' },
-  { field: 'description', title: 'Description', editor: true },
-  { field: 'code', title: 'Code', editor: true },
+  { field: 'name', headerName: 'Name', flex: 1, editable: true },
+  { field: 'description', headerName: 'Description', flex: 1, editable: true },
+  { field: 'code', headerName: 'Code', width: 110, editable: true },
   {
     field: 'type',
-    title: 'Type',
-    editor: 'select',
-    editorParams: {
-      allowEmpty: true,
-      showListOnEmpty: true,
-      values: typeOptions
-    }
+    headerName: 'Type',
+    type: 'singleSelect',
+    width: 140,
+    editable: true,
+    valueOptions: Object.keys(typeOptions)
   },
-  { field: 'subsType', title: 'Subs type', editor: true },
-  { field: 'duration', title: 'Duration(months)', editor: true, validator: ['integer'] },
+  { field: 'subsType', headerName: 'Subs type', width: 140, editable: true },
+  { field: 'duration', headerName: 'Duration(months)', type: 'number', width: 170, editable: true },
   {
     field: 'price',
-    title: 'Price',
-    editor: dollarInput,
-    mutatorEdit: value => Math.round(value * 100),
-    formatter: cell =>
-      (cell.getValue() / 100).toLocaleString('en-AU', {
+    headerName: 'Price',
+    type: 'number',
+    width: 140,
+    editable: true,
+    valueFormatter: (params) =>
+      (params.value / 100).toLocaleString('en-AU', {
         style: 'currency',
         currency: 'AUD'
-      })
+      }),
+    valueParser: (value) => Math.round(parseFloat(value || 0) * 100)
   },
-  { field: 'qty', title: 'Qty', editor: true, validator: ['required', 'integer'] },
-  { field: 'image', title: 'Image', editor: true },
-  { field: 'active', title: 'Active', editor: true, formatter: 'tickCross', align: 'center' },
-  { field: 'autoRenew', title: 'Auto renew', editor: true, formatter: 'tickCross', align: 'center' },
-  { field: 'startDate', title: 'Start date', editor: DateEditor },
-  { field: 'endDate', title: 'End date', editor: DateEditor }
+  { field: 'qty', headerName: 'Qty', type: 'number', width: 110, editable: true },
+  { field: 'image', headerName: 'Image', width: 160, editable: true },
+  { field: 'active', headerName: 'Active', type: 'boolean', width: 110, editable: true },
+  { field: 'autoRenew', headerName: 'Auto renew', type: 'boolean', width: 130, editable: true },
+  {
+    field: 'startDate',
+    headerName: 'Start date',
+    type: 'date',
+    width: 140,
+    editable: true,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY') : '')
+  },
+  {
+    field: 'endDate',
+    headerName: 'End date',
+    type: 'date',
+    width: 140,
+    editable: true,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY') : '')
+  }
 ]
 
 const Loading = props => {
@@ -81,8 +88,6 @@ export default withTracker(props => {
     insert,
     columns,
     defaultObject,
-    loading: !subsHandle.ready(),
-    columns,
-    defaultObject
+    loading: !subsHandle.ready()
   }
 })(Loading)

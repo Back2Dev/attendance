@@ -1,10 +1,8 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { Loader } from 'semantic-ui-react'
 import ServiceItems from '/imports/api/service-items/schema'
 import List from './list'
-import { dollarInput } from '/imports/ui/utils/editors'
 
 const remove = id => Meteor.call('rm.ServiceItems', id)
 const insert = form => Meteor.call('add.ServiceItems', form)
@@ -20,42 +18,27 @@ const defaultObject = {
 }
 
 const columns = [
-  {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
-  },
-  { field: 'name', title: 'Name', editor: true },
+  { field: 'name', headerName: 'Name', flex: 1, editable: true },
   {
     field: 'price',
-    title: 'Price',
-    editor: dollarInput,
-    mutatorEdit: value => Math.round(value * 100),
-    formatter: cell =>
-      (cell.getValue() / 100).toLocaleString('en-AU', {
+    headerName: 'Price',
+    type: 'number',
+    width: 140,
+    editable: true,
+    valueFormatter: (params) =>
+      (params.value / 100).toLocaleString('en-AU', {
         style: 'currency',
         currency: 'AUD'
-      })
+      }),
+    valueParser: (value) => Math.round(parseFloat(value || 0) * 100)
   },
-  { field: 'code', title: 'Code', editor: true },
-  {
-    field: 'category',
-    title: 'Category',
-    editor: true
-  },
-  { field: 'used', title: 'Used', formatter: 'tickCross', editor: true, align: 'center' }
+  { field: 'code', headerName: 'Code', width: 120, editable: true },
+  { field: 'category', headerName: 'Category', flex: 1, editable: true },
+  { field: 'used', headerName: 'Used', type: 'boolean', width: 110, editable: true }
 ]
 
 const Loading = props => {
-  if (props.loading)
-    return (
-      <Loader active inline="centered" size="massive">
-        Loading
-      </Loader>
-    )
+  if (props.loading) return <div>Loading...</div>
   return <List {...props}></List>
 }
 

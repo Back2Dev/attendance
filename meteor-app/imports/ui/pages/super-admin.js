@@ -25,37 +25,28 @@ const sendResetPasswordEmail = (id) =>
 
 const userColumns = [
   {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    width: 30,
-    cellClick: function (e, cell) {
-      cell.getRow().toggleSelect()
-    },
-  },
-  {
     field: 'username',
-    title: 'Username',
-    editor: 'input',
-    headerFilter: 'input',
+    headerName: 'Username',
+    flex: 1,
+    editable: true
   },
   {
     field: 'emails',
-    title: 'Email',
-    editor: 'input',
-    headerFilter: 'input',
+    headerName: 'Email',
+    flex: 1,
+    editable: true
   },
 ]
 
 CONSTANTS.ROLES.forEach((role) => {
   userColumns.push({
     field: role,
-    title: role,
-    formatter: 'tickCross',
-    headerVertical: 'flip',
-    editor: true,
+    headerName: role,
+    type: 'boolean',
+    editable: true,
     align: 'center',
-    width: 40,
+    headerAlign: 'center',
+    width: 110,
   })
 })
 

@@ -15,7 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 // import './commands'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import team from './test-data'
 import Picks5 from './test-data-pick5'
 const adminPassword = 'me2'
@@ -23,7 +23,7 @@ const adminUser = 'admin@back2bikes.com.au'
 import picksAll from './test-data-all-pick'
 import memberEdits from './test-data-edit-profile'
 const fakeUserData = {
-  name: () => faker.name.findName(),
+  name: () => faker.person.fullName(),
   email: () => faker.internet.email(),
   // TODO - the rest of these
   isHere: true,

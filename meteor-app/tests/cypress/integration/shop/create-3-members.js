@@ -1,5 +1,5 @@
 import moment from 'moment'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 
 Cypress.on(
   'uncaught:exception',
@@ -33,7 +33,7 @@ describe('fix bug', () => {
         .clear()
         .type(name)
       cy.get('input[id=root_email]').type(faker.internet.email())
-      cy.get('input[id=root_mobile]').type(faker.phone.phoneNumber())
+      cy.get('input[id=root_mobile]').type(faker.phone.number())
       cy.get('input[id=root_pin]').type(pin)
       cy.get('input[id=root_pinConfirm]').type(pin)
 
@@ -41,8 +41,8 @@ describe('fix bug', () => {
         .contains('Next')
         .click()
 
-      cy.get('input[id=root_emergencyContact]').type(faker.name.findName())
-      cy.get('input[id=root_emergencyPhone]').type(faker.phone.phoneNumber())
+      cy.get('input[id=root_emergencyContact]').type(faker.person.fullName())
+      cy.get('input[id=root_emergencyPhone]').type(faker.phone.number())
 
       cy.get('button')
         .contains('Next')

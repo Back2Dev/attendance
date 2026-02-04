@@ -1,5 +1,5 @@
 //
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import Members from '/imports/api/members/schema'
 
 faker.seed(111)

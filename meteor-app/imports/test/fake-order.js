@@ -1,4 +1,4 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import orderItem from './fake-order-item'
 
 faker.seed(1234)
@@ -11,7 +11,7 @@ for (let i = 0; i < 10; i++) {
 const order = {
   status: 1,
   additionalNotes: faker.lorem.sentences(),
-  totalPrice: faker.finance.amount() * 100,
+  totalPrice: parseFloat(faker.finance.amount()) * 100,
   orderedParts: orderItems,
   oldOrders: []
 }

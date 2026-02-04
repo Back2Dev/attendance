@@ -1,5 +1,5 @@
 import moment from 'moment'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 // ratPack is in cypress/support/index.js
 
 describe('Rat Pack members take it in turn to make purchases', function() {

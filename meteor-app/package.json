@@ -53,8 +53,10 @@
     "@babel/runtime": "^7.12.5",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@faker-js/faker": "^8.4.1",
     "@mui/icons-material": "^6.5.0",
     "@mui/material": "^6.5.0",
+    "@mui/x-data-grid": "^6.20.4",
     "@rjsf/core": "^5.24.10",
     "@rjsf/semantic-ui": "^5.24.10",
     "@rjsf/utils": "^6.2.5",
@@ -106,19 +108,19 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-stripe-checkout": "^2.6.3",
-    "react-tabulator": "^0.14.4",
     "react-transition-group": "^2.3.1",
     "sass": "^1.77.6",
     "semantic-ui-react": "^2.1.5",
     "set-value": "^4.0.1",
     "simpl-schema": "^1.5.5",
     "sugar": "^2.0.1",
-    "tabulator-tables": "^4.9.3",
     "utf-8-validate": "^5.0.2",
     "winston": "^2.4.2",
     "winston-loggly-bulk": "^2.0.2",
     "xlsx": "^0.17.0",
-    "yup": "^0.28.3"
+    "yup": "^0.28.3",
+    "sinon": "^5.0.7",
+    "chai": "^3.5.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
@@ -152,7 +154,6 @@
     "proxyquire": "^2.0.1",
     "regenerator-runtime": "^0.11.1",
     "require-context.macro": "^1.0.4",
-    "sinon": "^5.0.7",
     "style-loader": "^0.14.1"
   },
   "postcss": {

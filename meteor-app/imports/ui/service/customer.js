@@ -75,38 +75,43 @@ const Client = () => {
             <Grid.Column>
               <Segment>
                 <Header content="Customer Details" dividing />
-                <TextInput id="name-input" label="Name" name="name" />
+                <TextInput id="name-input" label="Name" name="name" tabIndex={20} />
                 <TextInput
                   id="email-input"
                   label="Email"
                   name="email"
+                  tabIndex={21}
                 />
                 <TextInput
                   id="phone-input"
                   label="Phone"
                   name="phone"
+                  tabIndex={22}
                 />
               </Segment>
             </Grid.Column>
             <Grid.Column>
               <Segment>
                 <Header content="Bike Details" dividing />
-                <TextInput id="make-input" label="Make" name="make" />
+                <TextInput id="make-input" label="Make" name="make" tabIndex={1} />
                 <TextInput
                   id="model-input"
                   label="Model"
                   name="model"
+                  tabIndex={2}
                 />
                 <TextInput
                   id="colour-input"
                   label="Colour"
                   name="color"
+                  tabIndex={3}
                 />
                 <TextInput
                   id="value-input"
                   label="Value"
                   name="bikeValue"
                   type="number"
+                  tabIndex={4}
                 />
               </Segment>
             </Grid.Column>
@@ -118,6 +123,7 @@ const Client = () => {
                 <DatePicker
                   selected={moment(values.pickupDate).toDate()}
                   minDate={new Date()}
+                  tabIndex={5}
                   onChange={(date) => {
                     console.log(values.pickupDate)
                     setFieldValue('pickupDate', date)
@@ -127,6 +133,7 @@ const Client = () => {
                   id="assessor"
                   label="Assessor"
                   name="assessor"
+                  tabIndex={6}
                 />
                 <br />
                 <Checkbox
@@ -134,6 +141,7 @@ const Client = () => {
                   defaultChecked={state.temporaryBike}
                   label="Temporary Bike"
                   name="temporaryBike"
+                  tabIndex={7}
                   onChange={() =>
                     setFieldValue(
                       'temporaryBike',
@@ -147,6 +155,7 @@ const Client = () => {
                   defaultChecked={state.urgent}
                   label="Urgent"
                   name="urgent"
+                  tabIndex={8}
                   onChange={() =>
                     setFieldValue('urgent', !values.urgent)
                   }
@@ -157,6 +166,7 @@ const Client = () => {
                   defaultChecked={state.sentimental}
                   label="Sentimental"
                   name="sentimental"
+                  tabIndex={9}
                   onChange={() =>
                     setFieldValue('sentimental', !values.sentimental)
                   }
@@ -167,6 +177,7 @@ const Client = () => {
                   defaultChecked={state.isRefurbish}
                   label="Refurbished"
                   name="isRefurbish"
+                  tabIndex={10}
                   onChange={() =>
                     setFieldValue('isRefurbish', !values.isRefurbish)
                   }
@@ -176,6 +187,7 @@ const Client = () => {
                   defaultChecked={state.paid}
                   label="Paid"
                   name="paid"
+                  tabIndex={11}
                   onChange={() => setFieldValue('paid', !values.paid)}
                 />
               </Segment>

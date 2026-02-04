@@ -15,7 +15,7 @@ import './email'
 import './startup'
 import '/imports/lib/validator'
 import '/imports/api/archive'
-// import './assessment-data'
+import './assessment-data'
 import { setupPaymentsApi } from '/imports/lib/server/route-payments'
 
 Meteor.startup(() => {

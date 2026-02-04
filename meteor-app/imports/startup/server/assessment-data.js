@@ -4,7 +4,7 @@ import ServiceItems from '/imports/api/service-items/schema'
 import Assessments from '/imports/api/assessments/schema'
 import Logger from '/imports/api/assessments/logger'
 import { fakeJob, fakeLogs } from '/imports/test/fake-data'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 const debug = require('debug')('b2b:admin')
 
 Meteor.methods({

@@ -1,5 +1,5 @@
 import moment from 'moment'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 
 describe('Create a Jackie Chan', function() {
   it(`Creates a Jackie`, function() {

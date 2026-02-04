@@ -32,21 +32,13 @@ const defaultObject = {
   type: 'unknown',
 }
 const columns = [
-  {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function (e, cell) {
-      cell.getRow().toggleSelect()
-    },
-  },
-  { field: 'userId', title: 'userId', editor: true },
-  { field: 'memberId', title: 'memberId', editor: true },
-  { field: 'oId', title: 'oId', editor: true },
-  { field: 'status', title: 'status', editor: true },
-  { field: 'type', title: 'type', editor: true },
-  { field: 'description', title: 'description', editor: true },
-  { field: 'eventTime', title: 'eventTime', editor: false },
+  { field: 'userId', headerName: 'userId', width: 160, editable: true },
+  { field: 'memberId', headerName: 'memberId', width: 160, editable: true },
+  { field: 'oId', headerName: 'oId', width: 160, editable: true },
+  { field: 'status', headerName: 'status', width: 120, editable: true },
+  { field: 'type', headerName: 'type', width: 120, editable: true },
+  { field: 'description', headerName: 'description', flex: 1, editable: true },
+  { field: 'eventTime', headerName: 'eventTime', width: 180, editable: false },
 ]
 const Loading = (props) => {
   if (props.loading) return <div>Loading...</div>

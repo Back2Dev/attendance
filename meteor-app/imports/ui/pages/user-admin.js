@@ -10,9 +10,7 @@ import {
   Grid,
   Divider,
 } from 'semantic-ui-react'
-import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/tabulator.min.css'
-import { ReactTabulator } from 'react-tabulator'
+import { DataGrid } from '@mui/x-data-grid'
 import CONSTANTS from '/imports/api/constants'
 import Alert from '/imports/ui/utils/alert'
 import AddUserModal from './add-user-modal'
@@ -92,33 +90,14 @@ export default ListUsers = (props) => {
     }
   }
 
-  const usersOnCellEdited = (cell) => {
-    const newUser = { ...cell._cell.row.data }
-    newUser.roles = newUser.roles.map((role) => ({
-      _id: role,
-      scope: null,
-      assigned: true,
-    }))
-    if (cell._cell.column.field === 'emails') {
-      newUser.oldValue = cell._cell.oldValue
+  const processRowUpdate = async (newRow, oldRow) => {
+    const newUser = { ...newRow }
+    if (newRow.emails !== oldRow.emails) {
+      newUser.oldValue = oldRow.emails
     }
     newUser.roles = CONSTANTS.ROLES.filter((role) => newUser[role])
-    props.updateUser(newUser)
-  }
-
-  const usersTableOptions = {
-    cellEdited: usersOnCellEdited,
-    width: 100,
-    rowSelected: function (row) {
-      usersRowsSelected.push(row._row.data._id)
-    },
-    rowDeselected: function (row) {
-      for (i = 0; i < usersRowsSelected.length; i++) {
-        if (usersRowsSelected[i] === row._row.data._id) {
-          usersRowsSelected.splice(i, 1)
-        }
-      }
-    },
+    await props.updateUser(newUser)
+    return newRow
   }
 
   let UsersContents = () => <Loader active>Getting data</Loader>
@@ -127,11 +106,24 @@ export default ListUsers = (props) => {
       UsersContents = () => <span>No data found</span>
     } else {
       UsersContents = () => (
-        <ReactTabulator
-          columns={props.userColumns}
-          data={users}
-          options={usersTableOptions}
-        />
+        <div style={{ width: '100%' }}>
+          <DataGrid
+            rows={users}
+            columns={props.userColumns}
+            checkboxSelection
+            rowSelectionModel={usersRowsSelected}
+            onRowSelectionModelChange={(model) =>
+              setUsersRowsSelected(model)
+            }
+            getRowId={(row) => row._id}
+            editMode="cell"
+            processRowUpdate={processRowUpdate}
+            onProcessRowUpdateError={(err) =>
+              Alert.error(err?.message || 'Failed to update user')
+            }
+            autoHeight
+          />
+        </div>
       )
     }
   }

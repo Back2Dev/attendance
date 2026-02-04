@@ -1,6 +1,6 @@
 import React from 'react'
 
-// Formatters suitable for use with React-tabulator
+// Formatters suitable for use with data grids/tables
 
 //
 

@@ -1,4 +1,4 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 
 faker.seed(111)
 
@@ -18,13 +18,13 @@ const imagesUrls = [
 
 const part = {
   _id: '9th4N4XhFinbivESh',
-  imageUrl: imagesUrls[faker.random.number(imagesUrls.length)],
+  imageUrl: imagesUrls[faker.number.int({ min: 0, max: Math.max(imagesUrls.length - 1, 0) })],
   name: 'Bicycle bell LG',
-  retailPrice: faker.finance.amount() * 100,
-  wholesalePrice: faker.finance.amount() * 100,
-  partNo: faker.finance.amount(),
+  retailPrice: parseFloat(faker.finance.amount()) * 100,
+  wholesalePrice: parseFloat(faker.finance.amount()) * 100,
+  partNo: parseFloat(faker.finance.amount()),
   desc: faker.lorem.sentences(),
-  barcode: faker.finance.amount(),
+  barcode: parseFloat(faker.finance.amount()),
   status: 1,
   createdAt: new Date()
 }

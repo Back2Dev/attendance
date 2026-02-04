@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import Promos from '/imports/api/promos/schema'
 import List from './list'
+import moment from 'moment'
 
 const remove = id => Meteor.call('rm.Promos', id)
 const update = form => Meteor.call('update.Promos', form)
@@ -18,20 +18,34 @@ const defaultObject = {
 }
 
 const columns = [
+  { field: 'code', headerName: 'Code', flex: 1, editable: true },
+  { field: 'description', headerName: 'Description', flex: 1, editable: true },
   {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
+    field: 'discount',
+    headerName: 'Discount(%)',
+    type: 'number',
+    width: 140,
+    editable: true
   },
-  { field: 'code', title: 'Code', editor: true },
-  { field: 'description', title: 'Description', editor: true },
-  { field: 'discount', title: 'Discount(%)', editor: true, validator: ['integer', 'min: 0', 'max:100'] },
-  { field: 'admin', title: 'Admin', editor: true },
-  { field: 'start', title: 'Start', editor: DateEditor },
-  { field: 'expires', title: 'Expires', editor: DateEditor }
+  { field: 'admin', headerName: 'Admin', type: 'boolean', width: 110, editable: true },
+  {
+    field: 'start',
+    headerName: 'Start',
+    type: 'date',
+    width: 140,
+    editable: true,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY') : '')
+  },
+  {
+    field: 'expires',
+    headerName: 'Expires',
+    type: 'date',
+    width: 140,
+    editable: true,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY') : '')
+  }
 ]
 
 export default withTracker(props => {

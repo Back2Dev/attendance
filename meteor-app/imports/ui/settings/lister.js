@@ -19,18 +19,10 @@ const defaultObject = {
   value: '1',
 }
 const columns = [
-  {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function (e, cell) {
-      cell.getRow().toggleSelect()
-    },
-  },
-  { field: 'name', title: 'name', editor: true },
-  { field: 'type', title: 'type', editor: true },
-  { field: 'key', title: 'key', editor: true },
-  { field: 'value', title: 'value', editor: true },
+  { field: 'name', headerName: 'name', flex: 1, editable: true },
+  { field: 'type', headerName: 'type', width: 120, editable: true },
+  { field: 'key', headerName: 'key', width: 160, editable: true },
+  { field: 'value', headerName: 'value', flex: 1, editable: true },
 ]
 const Loading = (props) => {
   if (props.loading) return <div>Loading...</div>

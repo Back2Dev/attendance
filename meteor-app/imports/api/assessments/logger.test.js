@@ -1,6 +1,6 @@
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import Factory from '/imports/test/factories'
 
 import Logger from '/imports/api/assessments/logger'

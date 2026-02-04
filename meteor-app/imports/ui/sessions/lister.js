@@ -1,71 +1,49 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import Alert from '/imports/ui/utils/alert'
-import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import Members from '/imports/api/members/schema'
 import Sessions from '/imports/api/sessions/schema'
 import Events from '/imports/api/events/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import List from './list'
+import moment from 'moment'
 
 const remove = (id) => meteorCall('rm.sessions', 'Deleting', id)
 const update = (form) =>
   meteorCall('update.sessions', 'Updating', form)
 const add = (form) => meteorCall('add.sessions', 'Adding', form)
 
-const dateFormat = {
-  inputFormat: 'DD/MM/YY hh:mm',
-  outputFormat: 'DD/MM/YY h:mm A',
-  invalidPlaceholder: 'Invalid Date',
-  timezone: 'America/Los_Angeles',
-}
-
 const columns = [
   {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    width: 50,
-    cellClick: function (e, cell) {
-      cell.getRow().toggleSelect()
-    },
+    field: 'memberName',
+    headerName: 'Member',
+    flex: 1,
+    renderCell: (params) => (
+      <a href={params.row.url} target="_blank" rel="noreferrer">
+        {params.value}
+      </a>
+    ),
   },
-  {
-    field: 'url',
-    title: 'Member',
-    formatter: 'link',
-    formatterParams: {
-      labelField: 'memberName',
-      target: '_blank',
-    },
-  },
-  { field: 'name', title: 'Session Name' },
+  { field: 'name', headerName: 'Session Name', flex: 1 },
   {
     field: 'timeIn',
-    title: 'Start Time',
-    editor: DateEditor,
-    formatter: 'datetime',
-    formatterParams: dateFormat,
-    sorter: 'date',
-    sorterParams: {
-      format: 'YYYY-MM-DD',
-      alignEmptyValues: 'top',
-    },
+    headerName: 'Start Time',
+    type: 'dateTime',
+    editable: true,
+    width: 180,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY h:mm A') : '')
   },
   {
     field: 'timeOut',
-    title: 'End Time',
-    editor: DateEditor,
-    formatter: 'datetime',
-    formatterParams: dateFormat,
-    sorter: 'date',
-    sorterParams: {
-      format: 'YYYY-MM-DD',
-      alignEmptyValues: 'top',
-    },
+    headerName: 'End Time',
+    type: 'dateTime',
+    editable: true,
+    width: 180,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY h:mm A') : '')
   },
-  { field: 'duration', title: 'Duration', editor: true },
+  { field: 'duration', headerName: 'Duration', type: 'number', width: 120, editable: true },
 ]
 
 Session.set('filterDate', new Date())

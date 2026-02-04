@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import Parts from '/imports/api/parts/schema'
 import List from './list'
-import { dollarInput } from '/imports/ui/utils/editors'
 
 const remove = id => Meteor.call('rm.Parts', id)
 const update = form => Meteor.call('update.Parts', form)
@@ -18,39 +17,35 @@ const defaultObject = {
 }
 
 const columns = [
-  {
-    formatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
-  },
-
-  { field: 'partNo', title: 'Part No', editor: true },
-  { field: 'name', title: 'Name', editor: 'input' },
-  { field: 'status', title: 'Status', editor: true },
-  { field: 'active', title: 'Active', formatter: 'tickCross', editor: true, align: 'center' },
+  { field: 'partNo', headerName: 'Part No', width: 120, editable: true },
+  { field: 'name', headerName: 'Name', flex: 1, editable: true },
+  { field: 'status', headerName: 'Status', width: 120, editable: true },
+  { field: 'active', headerName: 'Active', type: 'boolean', width: 110, editable: true },
   {
     field: 'retailPrice',
-    title: 'Retail Price',
-    editor: dollarInput,
-    mutatorEdit: value => Math.round(value * 100),
-    formatter: cell =>
-      (cell.getValue() / 100).toLocaleString('en-AU', {
+    headerName: 'Retail Price',
+    type: 'number',
+    width: 140,
+    editable: true,
+    valueFormatter: (params) =>
+      (params.value / 100).toLocaleString('en-AU', {
         style: 'currency',
         currency: 'AUD'
-      })
+      }),
+    valueParser: (value) => Math.round(parseFloat(value || 0) * 100)
   },
   {
     field: 'wholesalePrice',
-    title: 'Wholesale Price',
-    editor: 'number',
-    mutatorEdit: value => value * 100,
-    formatter: cell => (cell.getValue() / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
+    headerName: 'Wholesale Price',
+    type: 'number',
+    width: 160,
+    editable: true,
+    valueFormatter: (params) =>
+      (params.value / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' }),
+    valueParser: (value) => Math.round(parseFloat(value || 0) * 100)
   },
-  { field: 'barcode', title: 'Barcode', editor: true },
-  { field: 'imageUrl', title: 'Image Url', editor: true }
+  { field: 'barcode', headerName: 'Barcode', width: 150, editable: true },
+  { field: 'imageUrl', headerName: 'Image Url', flex: 1, editable: true }
 ]
 
 const Loading = props => {

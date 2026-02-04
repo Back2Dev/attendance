@@ -11,83 +11,69 @@ import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
 import { Carts } from '/imports/api/products/schema'
 import Alert from '/imports/ui/utils/alert'
-import { centFormatter } from '/imports/ui/utils/formatters'
 import CartList from './matching'
 const debug = require('debug')('b2b:admin')
 
 const columns = [
   {
-    formatter: 'rowSelection',
+    field: 'matched',
+    headerName: 'Matched',
+    type: 'boolean',
+    width: 110,
+    valueGetter: (params) => Boolean(params.row.memberId),
     align: 'center',
-    headerSort: false,
+    headerAlign: 'center'
   },
   {
-    field: 'memberId',
-    title: 'Matched',
-    formatter: 'tickCross',
-    headerVertical: 'flip',
-    align: 'center',
-    formatterParams: { allowTruthy: true },
-  },
-  {
-    title: 'Date',
+    headerName: 'Date',
     field: 'createdAt',
-    width: 80,
-    sorter: 'date',
-    sorterParams: {
-      format: 'YYYY-MM-DD',
-      alignEmptyValues: 'top',
-    },
-    formatter: 'datetime',
-    formatterParams: {
-      inputFormat: 'DD/MM/YYYY',
-      outputFormat: 'DD/MM/YY hh:mm a',
-      invalidPlaceholder: '(invalid date)',
-    },
+    type: 'dateTime',
+    width: 170,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY hh:mm a') : '')
   },
   {
-    title: 'Status',
+    headerName: 'Status',
     field: 'status',
-    headerFilter: 'input',
+    width: 120
   },
   {
-    title: 'Name',
+    headerName: 'Name',
     field: 'customerName',
-    headerFilter: 'input',
+    width: 200
   },
   {
-    title: 'Email',
+    headerName: 'Email',
     field: 'email',
-    headerFilter: 'input',
+    width: 220
   },
   {
-    title: 'Amount',
+    headerName: 'Amount',
     field: 'amount',
-    formatter: centFormatter,
-    formatterParams: { decimals: 2 },
-    headerFilter: 'input',
+    type: 'number',
+    width: 140,
+    valueFormatter: (params) =>
+      (params.value / 100).toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
   },
   {
-    title: 'Items',
-    filterable: true,
-    sortable: true,
+    headerName: 'Items',
     field: 'codes',
-    headerFilter: 'input',
+    flex: 1
   },
   {
-    title: 'Payment email',
+    headerName: 'Payment email',
     field: 'email',
-    headerFilter: 'input',
+    width: 220
   },
   {
-    title: 'Payment name',
+    headerName: 'Payment name',
     field: 'name',
-    headerFilter: 'input',
+    width: 200
   },
   {
-    title: 'payment address',
+    headerName: 'payment address',
     field: 'address',
-    headerFilter: 'input',
+    width: 220
   },
 ]
 
@@ -186,10 +172,6 @@ export default withTracker((props) => {
         })
       }
     })
-  }
-
-  const downloadCSV = () => {
-    tableRef.current.table.download('csv', 'charges.csv')
   }
 
   const extendMember = async (memberId, purchaseId) => {

@@ -1,80 +1,73 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Segment } from 'semantic-ui-react'
-import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/tabulator.min.css'
-import { ReactTabulator } from 'react-tabulator'
-
-const debug = require('debug')('manx:add')
+import { Box, Button, Stack, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
 
 const List = ({ items, update, remove, insert, columns, defaultObject, loading }) => {
-  const [rows, setRows] = React.useState(items)
   const [rowsSelected, setRowsSelected] = React.useState([])
 
   React.useEffect(() => {
-    setRows(items)
     setRowsSelected([])
   }, [items])
 
-  const onCellEdited = cell => {
-    debug('cellEdited', cell)
-    update(cell._cell.row.data)
-  }
-
-  const tableOptions = {
-    cellEdited: onCellEdited,
-    //width: 100,
-    layout: 'fitData',
-    rowSelected: function(row) {
-      rowsSelected.push(row._row.data._id)
-      setRowsSelected(rowsSelected)
-    },
-    rowDeselected: function(row) {
-      for (let i = 0; i < rowsSelected.length; i++) {
-        if (rowsSelected[i] === row._row.data._id) {
-          rowsSelected.splice(i, 1)
-          setRowsSelected(rowsSelected)
-        }
-      }
-    }
+  const processRowUpdate = async (newRow) => {
+    await update(newRow)
+    return newRow
   }
 
   const deleteRows = () => {
-    if (rowsSelected.length === 0) alert('Please select one or more items to delete')
-    rowsSelected.forEach(id => remove(id))
+    if (!rowsSelected.length) {
+      alert('Please select one or more items to delete')
+      return
+    }
+    rowsSelected.forEach((id) => remove(id))
   }
 
   const addANewRow = () => {
     insert(defaultObject)
   }
 
-  let Contents = () => <span>Loading...</span>
-  if (!loading) {
-    if (!rows.length) {
-      Contents = () => <span>No data found</span>
-    } else {
-      Contents = () => <ReactTabulator columns={columns} data={rows} options={tableOptions} cellEdited={onCellEdited} />
-    }
-  }
+  if (loading) return <Typography>Loading...</Typography>
+  if (!items.length) return <Typography>No data found</Typography>
 
   const buttons = [
-    { action: deleteRows, id: 'delete', caption: 'Delete', color: 'red' },
-    { action: addANewRow, id: 'add', caption: 'Add', color: 'black' }
+    { action: deleteRows, id: 'delete', caption: 'Delete', color: 'error' },
+    { action: addANewRow, id: 'add', caption: 'Add', color: 'inherit' }
   ]
+
   return (
-    <div>
-      <Segment>
-        Logs list
-        <span style={{ float: 'right', right: '0px' }}>
-          {buttons.map(btn => (
-            <Button id={btn.id} key={btn.id} size="mini" onClick={btn.action} color={btn.color} type="button">
+    <Box>
+      <Box sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h6">Logs list</Typography>
+        <Stack direction="row" spacing={1}>
+          {buttons.map((btn) => (
+            <Button
+              id={btn.id}
+              key={btn.id}
+              size="small"
+              onClick={btn.action}
+              color={btn.color}
+              variant="contained"
+              type="button"
+            >
               {btn.caption}
             </Button>
           ))}
-        </span>
-      </Segment>
-      <Contents />
-    </div>
+        </Stack>
+      </Box>
+      <DataGrid
+        rows={items}
+        columns={columns}
+        getRowId={(row) => row._id}
+        checkboxSelection
+        rowSelectionModel={rowsSelected}
+        onRowSelectionModelChange={(model) => setRowsSelected(model)}
+        disableRowSelectionOnClick
+        processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={(err) => console.error(err)}
+        autoHeight
+      />
+    </Box>
   )
 }
 
@@ -87,4 +80,5 @@ List.propTypes = {
   columns: PropTypes.array.isRequired,
   defaultObject: PropTypes.object.isRequired
 }
+
 export default List

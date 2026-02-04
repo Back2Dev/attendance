@@ -1,4 +1,4 @@
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
@@ -11,5 +11,5 @@ Factory.define('session', Sessions, {
   name: 'Daily volunteering',
   timeIn: new Date(),
   timeOut: new Date(),
-  duration: faker.random.number(6)
+  duration: faker.number.int({ max: 6 })
 })

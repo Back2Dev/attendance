@@ -2,7 +2,7 @@
  * test factories.
  * configure our factories here and return the Factory module.
  */
-import faker from 'faker'
+import { faker } from '@faker-js/faker'
 import { Factory } from 'meteor/dburles:factory'
 import { Random } from 'meteor/random'
 import CONSTANTS from '/imports/api/constants'
@@ -24,7 +24,7 @@ import OrderEmails from '/imports/api/orderemails/schema'
 import './generated-factories'
 
 Factory.define('member', Members, {
-  name: () => faker.name.findName(),
+  name: () => faker.person.fullName(),
   email: () => faker.internet.email(),
   // TODO - the rest of these
   isHere: true,
@@ -75,17 +75,17 @@ Factory.define('order', Orders, {
 
 Factory.define('assessment', Assessments, {
   customerDetails: {
-    name: faker.name.findName(),
-    phone: faker.phone.phoneNumber(),
+    name: faker.person.fullName(),
+    phone: faker.phone.number(),
     email: faker.internet.email(),
-    isRefurbish: faker.random.boolean(),
+    isRefurbish: faker.datatype.boolean(),
   },
   bikeDetails: {
     make: faker.commerce.productName(),
     model: 'TX-1234',
     color: faker.commerce.color(),
-    bikeValue: Math.round(faker.finance.amount()),
-    sentimentValue: faker.random.boolean(),
+    bikeValue: Math.round(parseFloat(faker.finance.amount())),
+    sentimentValue: faker.datatype.boolean(),
   },
   services: {
     serviceItem: [
@@ -119,17 +119,17 @@ Factory.define('assessment', Assessments, {
   jobNo: 'R001',
   dropoffDate: faker.date.future(),
   pickupDate: faker.date.future(),
-  urgent: faker.random.boolean(),
-  assessor: faker.name.findName(),
-  mechanic: faker.name.findName(),
+  urgent: faker.datatype.boolean(),
+  assessor: faker.person.fullName(),
+  mechanic: faker.person.fullName(),
   comment: 'Thorough cleaning of the bike is required',
-  temporaryBike: faker.random.boolean(),
+  temporaryBike: faker.datatype.boolean(),
   status: 2,
-  search: faker.name.findName(),
+  search: faker.person.fullName(),
 })
 
 Factory.define('logger', Logger, {
-  user: faker.name.findName(),
+  user: faker.person.fullName(),
   aId: '34G5785heY6262',
   status: 1,
   eventType: 2,

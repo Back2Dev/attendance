@@ -1,12 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { Loader } from 'semantic-ui-react'
 import Events, { defaultObject } from '/imports/api/events/schema'
 import List from './list'
-import DateEditor from 'react-tabulator/lib/editors/DateEditor'
 import CONSTANTS from '/imports/api/constants'
-import { dollarInput } from '/imports/ui/utils/editors'
+import moment from 'moment'
 
 const remove = id => Meteor.call('rm.Events', id)
 const update = form => {
@@ -18,55 +16,46 @@ const update = form => {
 const add = form => Meteor.call('add.Events', form)
 
 const columns = [
-  {
-    formatter: 'rowSelection',
-    titleFormatter: 'rowSelection',
-    align: 'center',
-    headerSort: false,
-    cellClick: function(e, cell) {
-      cell.getRow().toggleSelect()
-    }
-  },
-  { field: 'name', title: 'Name', editor: true, validator: 'required' },
-  { field: 'description', title: 'Description', editor: true },
-  { field: 'location', title: 'Location', editor: true },
+  { field: 'name', headerName: 'Name', flex: 1, editable: true },
+  { field: 'description', headerName: 'Description', flex: 1, editable: true },
+  { field: 'location', headerName: 'Location', flex: 1, editable: true },
   {
     field: 'when',
-    title: 'When',
-    editor: DateEditor,
-    width: 110
+    headerName: 'When',
+    type: 'date',
+    width: 140,
+    editable: true,
+    valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    valueFormatter: (params) => (params.value ? moment(params.value).format('DD/MM/YY') : '')
   },
-  { field: 'active', title: 'Active', formatter: 'tickCross', editor: true, align: 'center' },
+  { field: 'active', headerName: 'Active', type: 'boolean', width: 110, editable: true },
   {
     field: 'duration',
-    title: 'Duration(h)',
-    editor: true,
-    validator: ['required', 'integer']
+    headerName: 'Duration(h)',
+    type: 'number',
+    width: 140,
+    editable: true
   },
   {
     field: 'price',
-    title: 'Price',
-    editor: dollarInput,
-    mutatorEdit: value => Math.round(value * 100),
-    formatter: cell =>
-      (cell.getValue() / 100).toLocaleString('en-AU', {
+    headerName: 'Price',
+    type: 'number',
+    width: 140,
+    editable: true,
+    valueFormatter: (params) =>
+      (params.value / 100).toLocaleString('en-AU', {
         style: 'currency',
         currency: 'AUD'
-      })
+      }),
+    valueParser: (value) => Math.round(parseFloat(value || 0) * 100)
   },
   {
     field: 'type',
-    title: 'Type',
-    editor: 'select',
-    editorParams: {
-      allowEmpty: true,
-      showListOnEmpty: true,
-      values: {
-        day: 'day',
-        once: 'once',
-        monthly: 'monthly'
-      }
-    }
+    headerName: 'Type',
+    type: 'singleSelect',
+    width: 120,
+    editable: true,
+    valueOptions: ['day', 'once', 'monthly']
   }
 ]
 
@@ -74,21 +63,17 @@ CONSTANTS.DAYS_WEEK.forEach(day => {
   columns.push({
     field: `day${day.id}`,
     title: day.value,
-    headerVertical: 'flip',
-    formatter: 'tickCross',
-    editor: true,
+    type: 'boolean',
+    headerName: day.value,
+    editable: true,
     align: 'center',
-    width: 40
+    headerAlign: 'center',
+    width: 90
   })
 })
 
 const Loading = props => {
-  if (props.loading)
-    return (
-      <Loader active inline="centered" size="massive">
-        Loading
-      </Loader>
-    )
+  if (props.loading) return <div>Loading...</div>
   return <List {...props}></List>
 }
 
