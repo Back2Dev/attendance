@@ -272,30 +272,20 @@ res = db.members.mapReduce(m,r, { out : "duplicates" });
 db[res.result].find({value: {$gt: 1}});
 */
   'members.showDupes': async function () {
-    const m = function () {
-      emit(this.name, 1)
-    }
-    const r = function (k, vals) {
-      return Array.sum(vals)
-    }
-
-    // convert mapReduce to synchronous function
     const rawMembers = Members.rawCollection()
-    const syncMapReduce = Meteor.wrapAsync(
-      rawMembers.mapReduce,
-      rawMembers
-    )
 
-    // CollectionName will be overwritten after each mapReduce call
-    // Reactive performance is a little better by using a second collection
-    await syncMapReduce(m, r, {
-      out: 'rawdupes',
-    })
+    // Aggregate duplicates by name (replacement for mapReduce)
+    const duplicates = await rawMembers
+      .aggregate([
+        { $group: { _id: '$name', value: { $sum: 1 } } },
+        { $match: { value: { $gt: 1 } } },
+      ])
+      .toArray()
 
     // Refresh the collection
     await Dupes.removeAsync({})
-    for (const rec of await RawDupes.find({ value: { $gt: 1 } }).fetchAsync()) {
-      await Dupes.insertAsync(rec)
+    if (duplicates.length) {
+      await Dupes.rawCollection().insertMany(duplicates)
     }
     // const dupes = Dupes.find({ value: { $gt: 1 } }).fetch()
     // debug(dupes)

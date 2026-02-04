@@ -23,14 +23,17 @@ const defaultAccounts = [
 ]
 
 const defaultRoles = ['signin', 'paynow', 'servicing', 'parts', 'admin', 'superadmin', 'member']
-defaultRoles.map(name => {
-  if (!Meteor.roles.findOne({ _id: name })) {
-    console.log(`Adding role ${name}`)
-    Roles.createRole(name)
-  }
-})
 
-function createUser(email, password, roles) {
+async function ensureRoles() {
+  for (const name of defaultRoles) {
+    if (!(await Meteor.roles.findOneAsync({ _id: name }))) {
+      console.log(`Adding role ${name}`)
+      await Roles.createRoleAsync(name)
+    }
+  }
+}
+
+async function createUser(email, password, roles) {
   // console.log(`  Creating user ${email}.`)
   const id = Accounts.createUser({
     username: email,
@@ -38,26 +41,30 @@ function createUser(email, password, roles) {
     password
   })
   if (roles.length > 0) {
-    roles.forEach(role => {
-      if (!Meteor.roles.findOne(role)) {
+    for (const role of roles) {
+      if (!(await Meteor.roles.findOneAsync(role))) {
         // console.log(`Adding role  ${role}`)
-        Roles.createRole(role, { unlessExists: true })
+        await Roles.createRoleAsync(role, { unlessExists: true })
       }
-    })
+    }
     // Need _id of existing user record so this call must come after `Accounts.createUser`.
-    Roles.addUsersToRoles(id, roles)
+    await Roles.addUsersToRolesAsync(id, roles)
   }
 }
 
 /** When running app for first time, pass a settings file to set up a default user account. */
-if (Meteor.users.find().count() === 0) {
-  if (defaultAccounts) {
-    console.log('Creating the default user(s)')
-    defaultAccounts.map(({ email, password, role }) => {
-      console.log(`Adding ${email} [${role}] `)
-      createUser(email, password, role)
-    })
-  } else {
-    console.log('Cannot initialize the database!  Please invoke meteor with a settings file.')
+Meteor.startup(async () => {
+  await ensureRoles()
+
+  if ((await Meteor.users.find().countAsync()) === 0) {
+    if (defaultAccounts) {
+      console.log('Creating the default user(s)')
+      for (const { email, password, role } of defaultAccounts) {
+        console.log(`Adding ${email} [${role}] `)
+        await createUser(email, password, role)
+      }
+    } else {
+      console.log('Cannot initialize the database!  Please invoke meteor with a settings file.')
+    }
   }
-}
+})

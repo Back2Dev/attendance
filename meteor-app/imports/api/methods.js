@@ -2,6 +2,7 @@
 
 import moment from 'moment'
 import { Accounts } from 'meteor/accounts-base'
+import { Roles } from 'meteor/alanning:roles'
 import Members from '/imports/api/members/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -12,29 +13,29 @@ import { ProductTypes } from './products/schema'
 const debug = require('debug')('b2b:server-methods')
 
 Meteor.methods({
-  addNewUser({ username, email, password }) {
+  addNewUser: async function ({ username, email, password }) {
     try {
       const id = Accounts.createUser({
         email,
         username,
         password,
       })
-      Roles.addUsersToRoles(id, ['member'])
-      Members.update({ email }, { $set: { userId: id } })
+      await Roles.addUsersToRolesAsync(id, ['member'])
+      await Members.updateAsync({ email }, { $set: { userId: id } })
       return { status: 'success', message: 'Added user account', id }
     } catch (error) {
       return { status: 'failed', message: error.message }
     }
   },
 
-  addUser(email, password) {
+  addUser: async function (email, password) {
     try {
       const id = Accounts.createUser({
         email,
         username: email,
         password,
       })
-      Roles.addUsersToRoles(id, ['member'])
+      await Roles.addUsersToRolesAsync(id, ['member'])
       return { status: 'success', message: 'Added user account', id }
     } catch (error) {
       return { status: 'failed', message: error.message }

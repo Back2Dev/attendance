@@ -1,48 +1,42 @@
 // counter.js 
 // Converted from counter.coffee by konecty:mongo-counter
 //
-import _ from 'lodash'
+const getCounterCollection = (collection) => collection.rawCollection()
 
-const getCounterCollection = collection => collection.rawCollection()
-
-const callCounter = function(method, collection, ...args) {
+const _deleteCounters = async (collection) => {
   const Counters = getCounterCollection(collection)
-  return Meteor.wrapAsync(_.bind(Counters[method], Counters))(...Array.from(args || []))
+  return Counters.deleteMany({})
 }
 
-const _deleteCounters = collection => callCounter('remove', collection, {}, {safe: true})
-
-const _incrementCounter = function(collection, counterName, amount) {
+const _incrementCounter = async (collection, counterName, amount) => {
   if (amount == null) {
     amount = 1
   }
-  const newDoc = callCounter(
-    'findAndModify',
-    collection,
-    { _id: counterName },         // query
-    null,                         // sort
-    { $inc: { next_val: amount } },      // update
-    { new: true, upsert: true }   // options
-  )                               // callback added by wrapAsync
-  if (newDoc && newDoc.value && newDoc.value.next_val) {
-    return newDoc.value.next_val
+  const Counters = getCounterCollection(collection)
+  const result = await Counters.findOneAndUpdate(
+    { _id: counterName },
+    { $inc: { next_val: amount } },
+    { returnDocument: 'after', upsert: true }
+  )
+  if (result && result.value && result.value.next_val != null) {
+    return result.value.next_val
   }
   return null
 }
 
-
-const _decrementCounter = function(collection, counterName, amount) {
-  if (amount == null) { amount = 1 }
+const _decrementCounter = async (collection, counterName, amount) => {
+  if (amount == null) {
+    amount = 1
+  }
   return _incrementCounter(collection, counterName, -amount)
 }
 
-
-const _setCounter = function(collection, counterName, value) {
-  callCounter(
-    'update',
-    collection,
-    {_id: counterName},
-    {$set: {next_val: value}}
+const _setCounter = async (collection, counterName, value) => {
+  const Counters = getCounterCollection(collection)
+  return Counters.updateOne(
+    { _id: counterName },
+    { $set: { next_val: value } },
+    { upsert: true }
   )
 }
 

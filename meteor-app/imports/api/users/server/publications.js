@@ -28,14 +28,14 @@ Meteor.methods({
       return { status: 'failed', message: `Error deleting user: ${e.message}` }
     }
   },
-  updateUser(user) {
+  updateUser: async function (user) {
     try {
       Accounts.setUsername(user._id, user.username)
       if (user.oldValue) {
         Accounts.removeEmail(user._id, user.oldValue)
         Accounts.addEmail(user._id, user.emails)
       }
-      Roles.setUserRoles(user._id, user.roles)
+      await Roles.setUserRolesAsync(user._id, user.roles)
       return { status: 'success', message: `Updated user` }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }

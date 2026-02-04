@@ -79,7 +79,7 @@ If you need to do an out-of-hours pickup, please call us on 0416 988 516 to arra
 if (Meteor.isServer) {
   Meteor.methods({
     getNextJobNo: async function () {
-      return incrementCounter(Counters, 'jobs', 1)
+      return await incrementCounter(Counters, 'jobs', 1)
     },
     'assessment.insert': async function (form) {
       check(form, Object)
