@@ -1,4 +1,5 @@
 // schema.js
+import 'meteor/aldeed:collection2'
 import SimpleSchema from 'simpl-schema'
 
 export const REGEX_ID = /^[01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{17}$/
