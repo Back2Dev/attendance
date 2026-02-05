@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { TextField } from '@material-ui/core'
+import { TextField } from '@mui/material'
 import { JobsDetailsContext } from './context'
 import moment from 'moment'
 

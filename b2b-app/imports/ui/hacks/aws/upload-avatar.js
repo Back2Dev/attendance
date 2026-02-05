@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
 import { Meteor } from 'meteor/meteor'
 import ReactAvatarEditor from 'react-avatar-editor'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Typography,
   IconButton,
   Button,
   Slider,
   FormControlLabel,
-} from '@material-ui/core/'
-import RotateLeftIcon from '@material-ui/icons/RotateLeft'
-import RotateRightIcon from '@material-ui/icons/RotateRight'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+} from '@mui/material/'
+import RotateLeftIcon from '@mui/icons-material/RotateLeft'
+import RotateRightIcon from '@mui/icons-material/RotateRight'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 
 const Avatar = ({ save }) => {
@@ -142,7 +142,6 @@ const Avatar = ({ save }) => {
         label={<Typography className={classes.label}>Zoom: </Typography>}
         labelPlacement="start"
       />
-
       <div>
         <FormControlLabel
           control={
@@ -153,7 +152,7 @@ const Avatar = ({ save }) => {
                 aria-label="rotate-left"
                 component="span"
                 onClick={() => spin(-90)}
-              >
+                size="large">
                 <RotateLeftIcon />
               </IconButton>
               <IconButton
@@ -162,7 +161,7 @@ const Avatar = ({ save }) => {
                 aria-label="rotate-right"
                 component="span"
                 onClick={() => spin(90)}
-              >
+                size="large">
                 <RotateRightIcon />
               </IconButton>
             </>
@@ -180,7 +179,7 @@ const Avatar = ({ save }) => {
         Save
       </Button>
     </div>
-  )
+  );
 }
 
 export default Avatar

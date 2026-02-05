@@ -1,35 +1,36 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react'
-import { useHistory } from 'react-router-dom'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { Grid, Typography, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Typography, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import RegEx from '/imports/api/regexp'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
+import useHistory from '/imports/ui/utils/history'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: { type: String, max: 200 },
     email: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
     },
     mobile: {
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },
     },
-  })
-)
+  }),
+})
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -89,36 +90,43 @@ const InvitedSignup = (props) => {
   const { userId, invitedEmail, invitedName, invitedMobile } = state
 
   useEffect(() => {
-    Meteor.call('getUserFromToken', token, (error, result) => {
-      if (error) {
-        showError(error.message)
-        dispatch({ type: 'setLoading', payload: false })
-      }
-      if (result) {
+    let isMounted = true
+    ;(async () => {
+      try {
+        const result = await Meteor.callAsync('getUserFromToken', token)
+        if (!isMounted || !result) return
         const { status, message, userId, email, name, mobile } = result
         if (status === 'failed') {
-          return showError(message)
+          showError(message)
+          return
         }
-        return dispatch({ type: 'setData', payload: { userId, email, name, mobile } })
+        dispatch({ type: 'setData', payload: { userId, email, name, mobile } })
+      } catch (error) {
+        if (isMounted) {
+          showError(error.message || error)
+          dispatch({ type: 'setLoading', payload: false })
+        }
       }
-    })
-  }, [])
+    })()
+    return () => {
+      isMounted = false
+    }
+  }, [token])
 
-  const signup = (form) => {
+  const signup = async (form) => {
     form.invitedEmail = invitedEmail
     form.invitedName = invitedName
     Object.keys(form).map(
       (key) => (form[key] = typeof form[key] == 'string' ? form[key].trim() : form[key])
     )
     setSubmitEnabled(false)
-    Meteor.call('invitedSignup', form, userId, token, (err) => {
-      if (err) {
-        showError(err)
-        setSubmitEnabled(true)
-      } else {
-        push('/confirmation-sent', { name: form.name })
-      }
-    })
+    try {
+      await Meteor.callAsync('invitedSignup', form, userId, token)
+      push('/confirmation-sent', { name: form.name })
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const onLogout = (e) => {

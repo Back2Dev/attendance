@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useContext, useState, useEffect } from 'react'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import {
   TextField,
   Button,
@@ -8,9 +8,9 @@ import {
   Container,
   InputAdornment,
   IconButton,
-} from '@material-ui/core/'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+} from '@mui/material/'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
@@ -37,41 +37,45 @@ export default function UserPreferences() {
   const { user } = useContext(AccountContext)
 
   useEffect(() => {
-    Meteor.call('userServices', (err, res) => {
-      if (err) {
-        showError(err)
-      } else {
+    let isMounted = true
+    ;(async () => {
+      try {
+        const res = await Meteor.callAsync('userServices')
+        if (!isMounted) return
         setUserServices(res)
         if (!res.includes('password')) {
           setShowPassword(false)
         }
+      } catch (err) {
+        if (isMounted) {
+          showError(err)
+        }
       }
-    })
+    })()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
-  const changePassword = (form) => {
+  const changePassword = async (form) => {
     form.id = user._id
-    Meteor.call('setOwnPassword', { ...form, oldPassword: password }, false, function (
-      err
-    ) {
-      if (err) {
-        showError(err.message)
-      } else {
-        showSuccess('Changed password')
-        setShowPassword(true)
-      }
-    })
+    try {
+      await Meteor.callAsync('setOwnPassword', { ...form, oldPassword: password }, false)
+      showSuccess('Changed password')
+      setShowPassword(true)
+    } catch (err) {
+      showError(err.message || err)
+    }
   }
 
-  const verifyPassword = () => {
-    Meteor.call('verifyPassword', password, function (err) {
-      if (err) {
-        showError(err.message)
-      } else {
-        showSuccess('Password matched')
-        setShowPassword(false)
-      }
-    })
+  const verifyPassword = async () => {
+    try {
+      await Meteor.callAsync('verifyPassword', password)
+      showSuccess('Password matched')
+      setShowPassword(false)
+    } catch (err) {
+      showError(err.message || err)
+    }
   }
 
   const renderOldPassword = () => {
@@ -81,9 +85,8 @@ export default function UserPreferences() {
     return (
       <>
         <Typography variant="h5">Change your password</Typography>
-        <br />
-        Please enter your old password
-        <TextField
+        <br />Please enter your old password
+                <TextField
           required
           id="old-password"
           autoComplete="password"
@@ -103,7 +106,7 @@ export default function UserPreferences() {
                   onClick={() => {
                     setPasswordVisible(!passwordVisible)
                   }}
-                >
+                  size="large">
                   {passwordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
               </InputAdornment>
@@ -122,7 +125,7 @@ export default function UserPreferences() {
           Submit
         </Button>
       </>
-    )
+    );
   }
 
   const renderNewPassword = () => {

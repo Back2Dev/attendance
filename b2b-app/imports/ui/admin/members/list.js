@@ -1,19 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
-import { ReactTabulator } from 'react-tabulator'
+import MuiGrid from '/imports/ui/components/commons/mui-grid'
 import CONSTANTS from '/imports/api/constants'
 import { showSuccess, showInfo, showError } from '/imports/ui/utils/toast-alerts'
 import AddUser from '/imports/ui/components/add-user'
 import { TabAppbar } from '/imports/ui/utils/generic'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogActions from '@material-ui/core/DialogActions'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import FormControl from '@material-ui/core/FormControl'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
 
 const debug = require('debug')('app:user-admin')
 
@@ -184,7 +182,7 @@ const ListUsers = (props) => {
       <TabAppbar title="Account admin" buttons={buttons} />
       <ManagePasswordContents />
       <CreateNewUser />
-      <ReactTabulator
+      <MuiGrid
         columns={props.userColumns}
         data={props.users}
         options={usersTableOptions}

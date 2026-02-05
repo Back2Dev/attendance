@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { default as MUIButton } from '@material-ui/core/Button'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import { default as MUIFabButton } from '@material-ui/core/Fab'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import SearchIcon from '@material-ui/icons/Search'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import { withStyles, makeStyles } from '@material-ui/core/styles'
+import { default as MUIButton } from '@mui/material/Button'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import { default as MUIFabButton } from '@mui/material/Fab'
+import InputAdornment from '@mui/material/InputAdornment'
+import SearchIcon from '@mui/icons-material/Search'
+import LinearProgress from '@mui/material/LinearProgress'
+import withStyles from '@mui/styles/withStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 export const Segment = (props) => <span>{props.children}</span>
 

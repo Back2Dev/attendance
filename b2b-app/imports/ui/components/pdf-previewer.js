@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import NavigateBefore from '@material-ui/icons/NavigateBefore'
-import NavigateNext from '@material-ui/icons/NavigateNext'
+import NavigateBefore from '@mui/icons-material/NavigateBefore'
+import NavigateNext from '@mui/icons-material/NavigateNext'
 import { Document, Page, pdfjs } from 'react-pdf'
 import '/imports/ui/styles/custom-styles.css'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`

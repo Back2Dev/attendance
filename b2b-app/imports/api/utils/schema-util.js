@@ -8,7 +8,7 @@
  * and can't be updated afterwards
  */
 
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 export const REGEX_ID = /^[1234567890ABCDEFGHIJKLMNOPQRSTWXYZabcdefghijklmnopqrstuvwxyz]{17}$/
 

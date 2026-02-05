@@ -1,7 +1,10 @@
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor'  
 const cron = require('node-cron')
 const debug = require('debug')('app:server')
 
+// Ensure collection2 extends Mongo collections before schemas load
+import 'meteor/aldeed:collection2'
+import 'meteor/aldeed:collection2/main'
 //
 // Importing the data api's makes sure collections are set up properly.
 //
@@ -36,30 +39,4 @@ Meteor.startup(() => {
   })
 })
 
-// We won't log certain methods, for fear of exposing their contents and causing a security meltdown
-// const dontLog = ['login']
-Meteor.beforeAllMethods(function (...args) {
-  // The first element in the args array is the method name
-  // const [methodName, ...rest] = args
-  // if (dontLog.includes(methodName))
-  //   logger.info(
-  //     `Calling Meteor method [${methodName}]`,
-  //     ' --- === Params obscured === --- '
-  //   )
-  // else logger.info(`Calling Meteor method [${methodName}]`, rest)
-  //
-  // Do some useful things, like
-  //   1) Check permissions
-  //   2) Log the call
-  //
-
-  // if (Meteor.user() !== null) {
-  //   if (!Meteor.user().roles.some((role) => role._id === 'ADM'))
-  //     throw new Meteor.Error(403, 'Forbidden')
-  // }
-  return true
-})
-
-Meteor.afterAllMethods(function (params) {
-  // Work out how to log
-})
+// Meteor.beforeAllMethods/afterAllMethods were provided by method-hooks; after removing that package in Meteor 3 we no longer wire the hooks.

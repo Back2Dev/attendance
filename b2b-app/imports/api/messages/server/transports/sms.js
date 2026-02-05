@@ -1,4 +1,4 @@
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import { getCfgs } from '/imports/api/settings/server/helper'
 import Transporter from './index'
 import logger from '/imports/lib/log'
@@ -23,6 +23,7 @@ export class SMSTransport {
       enabled: true,
       maxRetries: undefined, // undefined mean it won't handle
     }
+    this.loadedFromCfgs = false
 
     if (settings) {
       const { enabled, maxRetries } = settings
@@ -32,20 +33,23 @@ export class SMSTransport {
       if (maxRetries !== undefined) {
         this.settings.maxRetries = maxRetries
       }
-    } else {
-      // get the config to decide which type of message is enabled
-      const cfgs = getCfgs(['smsEnabled', 'smsMaxRetries'])
-      debug({ cfgs })
-      if (cfgs) {
-        if (cfgs['smsEnabled']) {
-          this.settings.enabled = cfgs['smsEnabled'] === 'true'
-        }
-        if (cfgs['smsMaxRetries']) {
-          this.settings.maxRetries = parseInt(cfgs['smsMaxRetries'], 10)
-        }
-      }
-      // debug('settings', this.settings)
+      this.loadedFromCfgs = true
     }
+  }
+
+  async ensureSettingsFromCfgs() {
+    if (this.loadedFromCfgs) return
+    const cfgs = await getCfgs(['smsEnabled', 'smsMaxRetries'])
+    debug({ cfgs })
+    if (cfgs) {
+      if (cfgs['smsEnabled']) {
+        this.settings.enabled = cfgs['smsEnabled'] === 'true'
+      }
+      if (cfgs['smsMaxRetries']) {
+        this.settings.maxRetries = parseInt(cfgs['smsMaxRetries'], 10)
+      }
+    }
+    this.loadedFromCfgs = true
   }
 
   /**
@@ -89,6 +93,7 @@ export class SMSTransport {
    *    - { result.res.data } Object the json object (expecting)
    */
   async send(message) {
+    await this.ensureSettingsFromCfgs()
     logger.info('attempting to send sms', { to: message.to, subject: message.subject })
     // debug('send settings', this.settings)
     if (this.settings.enabled !== true) {

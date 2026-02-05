@@ -17,23 +17,23 @@ if (Meteor.isTest || Meteor.isAppTest || !process.env.MONGO_URL) {
   Meteor._sleepForMs(1000)
 }
 
-// alanning:roles v3
-Meteor.publish(null, function () {
-  if (this.userId) {
-    if (Roles.userIsInRole(this.userId, ['ADM'])) {
-      return Meteor.roleAssignment.find({})
-    }
-    return Meteor.roleAssignment.find({ 'user._id': this.userId })
-  } else {
-    this.ready()
+// alanning:roles v4 (no global Roles; must import the package)
+Meteor.publish(null, async function () {
+  if (!this.userId) {
+    return this.ready()
   }
+  // Use Roles from the package directly
+  const { Roles } = require('meteor/alanning:roles')
+  const isAdmin = await Roles.userIsInRoleAsync(this.userId, ['ADM'])
+  if (isAdmin) {
+    return Meteor.roleAssignment.find({})
+  }
+  return Meteor.roleAssignment.find({ 'user._id': this.userId })
 })
 
 Meteor.publish('currentUser', function (id) {
   return Meteor.users.find({ _id: id }, { fields: { services: 0 } })
 })
-
-// super user dashboard
 
 Meteor.publish('users.userDash', function () {
   return Meteor.users.find({}, { services: 0 })

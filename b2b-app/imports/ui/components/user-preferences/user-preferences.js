@@ -11,8 +11,8 @@ import {
   ListItemAvatar,
   Tabs,
   Tab,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import UploadAvatar from '/imports/ui/hacks/aws/upload-avatar-box.js'
 import TabPanel from '/imports/ui/components/tab-panel.js'

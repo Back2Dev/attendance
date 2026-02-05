@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Meteor } from 'meteor/meteor'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
-import { AutoForm, AutoFields, ErrorsField, SubmitField } from 'uniforms-material'
+import { Link as RouterLink } from 'react-router-dom'
+import { AutoForm, AutoFields, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { Grid, Typography, Link, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Typography, Link, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import RegEx from '/imports/api/regexp'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
@@ -13,17 +14,18 @@ import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.
 import TextDivider from '/imports/ui/components/text-divider.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: { type: String, max: 200 },
     email: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
     },
-  })
-)
+  }),
+})
 // This new code is causing errors
 // const emailCheckingTimeout = useRef(null)
 // const handleChange = (key, value) => {
@@ -67,22 +69,19 @@ const Signup = () => {
   const { push } = useHistory()
   const { user } = useContext(AccountContext)
 
-  const signup = (form) => {
+  const signup = async (form) => {
     Object.keys(form).map(
       (key) => (form[key] = typeof form[key] == 'string' ? form[key].trim() : form[key])
     )
     setSubmitEnabled(false)
-    Meteor.call('userExists', form.email, function (err) {
-      if (err) {
-        showError(err)
-        setSubmitEnabled(true)
-      }
-    })
-    Meteor.call('signup', form, (err) => {
-      if (!err) {
-        push('/confirmation-sent', { name: form.name })
-      }
-    })
+    try {
+      await Meteor.callAsync('userExists', form.email)
+      await Meteor.callAsync('signup', form)
+      push('/confirmation-sent', { name: form.name })
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const onLogout = (e) => {

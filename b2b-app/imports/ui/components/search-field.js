@@ -1,7 +1,7 @@
 import React from 'react'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import SearchIcon from '@mui/icons-material/Search'
 
 /**
  *

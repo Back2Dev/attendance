@@ -54,7 +54,7 @@ export default config = {
       { field: 'name', label: 'Name' },
     ],
   },
-  edit: { schema: new SimpleSchema2Bridge(editSchema) },
+  edit: { schema: new SimpleSchema2Bridge({ schema: editSchema }) },
   list: {
     columns: [{ field: 'name', title: 'name', editor: true , formatter: null},
   { field: 'memberName', title: 'memberName', editor: true , formatter: null},

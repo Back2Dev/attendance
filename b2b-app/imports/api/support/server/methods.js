@@ -15,7 +15,7 @@ Meteor.methods({
    * - {string} result.status - success or failed
    * - {string} result.message
    */
-  'support.create'({ subject, message }) {
+  'support.create': async function ({ subject, message }) {
     if (!Match.test(subject, String)) {
       return { status: 'failed', message: 'invalid subject' }
     }
@@ -28,13 +28,13 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
 
-    const user = Meteor.users.findOne(userId)
-    const member = Members.findOne({ userId })
+    const user = await Meteor.users.findOneAsync(userId)
+    const member = await Members.findOneAsync({ userId })
     if (!user || !member) {
       return { status: 'failed', message: 'Please login and complete your user member' }
     }
 
-    const toEmail = getCfg('support_email', 'support@mydomain.com.au')
+    const toEmail = await getCfg('support_email', 'support@mydomain.com.au')
     const fromEmail = getUserEmailAddress(user)
     const theSubject = `Support message from ${member.name || fromEmail}`
     const theMessage = `
@@ -68,7 +68,7 @@ Meteor.methods({
       },
     }
 
-    const result = Meteor.call('insert.messages', form)
+    const result = await Meteor.callAsync('insert.messages', form)
     if (result.status === 'failed') {
       return { status: 'failed', message: 'Unable to send message' }
     }

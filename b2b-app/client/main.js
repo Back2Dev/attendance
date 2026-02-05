@@ -1,13 +1,17 @@
 import { Meteor } from 'meteor/meteor'
+import 'meteor/aldeed:collection2'
+import 'meteor/aldeed:collection2/main'
 
-import { render } from 'react-dom'
 import React from 'react'
+import { createRoot } from 'react-dom/client'
 
+import '/imports/startup/patch-uniforms'
 import App from '/imports/ui/app'
 
-const Bpp = () => {
-  return <h1>Hello world</h1>
-}
 Meteor.startup(() => {
-  render(<App />, document.getElementById('root'))
+  const container = document.getElementById('root')
+  if (container) {
+    const root = createRoot(container)
+    root.render(<App />)
+  }
 })

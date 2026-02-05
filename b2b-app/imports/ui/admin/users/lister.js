@@ -1,30 +1,32 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import { useTracker } from 'meteor/react-meteor-data'
+import LinearProgress from '@mui/material/LinearProgress'
 import Members from '/imports/api/members/schema'
 import ListUsers from './list'
 
-const Loading = (props) => {
-  if (props.loading) return <LinearProgress />
-  return <ListUsers {...props}></ListUsers>
-}
-export default withTracker((props) => {
-  // Get access to Stuff documents.
-  const usersSubscription = Meteor.subscribe('getAllUsers')
-  const members = Members.find({}).fetch()
-  const userMembers = Meteor.users
-    .find({})
-    .fetch()
-    .map((user) => {
-      return {
-        ...user,
-        ...members.find((member) => member.userId === user._id),
-      }
+export default function UsersContainer() {
+  const { userMembers, loading } = useTracker(() => {
+    const usersSubscription = Meteor.subscribe('getAllUsers', {
+      onError: (err) => console.error('getAllUsers subscription error', err),
     })
+    const members = Members.find({}).fetch()
+    const users = Meteor.users.find({}).fetch()
+    const merged = users.map((user) => ({
+      ...user,
+      ...members.find((member) => member.userId === user._id),
+    }))
+    return {
+      userMembers: merged,
+      loading: !usersSubscription.ready(),
+    }
+  }, [])
 
-  return {
-    userMembers,
-    loading: !usersSubscription.ready(),
-  }
-})(Loading)
+  const memoized = useMemo(
+    () => ({ userMembers: userMembers || [], loading }),
+    [userMembers, loading]
+  )
+
+  if (memoized.loading) return <LinearProgress />
+  return <ListUsers {...memoized} />
+}

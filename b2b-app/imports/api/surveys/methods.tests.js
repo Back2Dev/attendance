@@ -1,5 +1,6 @@
 import { Random } from 'meteor/random'
 import { Meteor } from 'meteor/meteor'
+import { Promise } from 'meteor/promise'
 import { resetDatabase } from '/imports/test/util-test'
 import { expect } from 'chai'
 const debug = require('debug')('app:surveys:tests')
@@ -72,7 +73,7 @@ describe('Tests survey methods', () => {
   })
 
   it('successfully inserts a cdc survey into db', () => {
-    const result = Meteor.call('insert.surveys', survey)
+    const result = Promise.await(Meteor.callAsync('insert.surveys', survey))
     expect(result.status).to.be.equal('success')
   })
   // it('fails generates and saves pdf to s3 because form is not yet complete', () => {

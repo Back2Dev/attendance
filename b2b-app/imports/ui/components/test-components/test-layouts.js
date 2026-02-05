@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Button, Link } from "@material-ui/core";
+import { Button, Link } from "@mui/material";
 
 import { LayoutContext } from "/imports/ui/contexts/layout-context.js";
 

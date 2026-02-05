@@ -17,7 +17,7 @@ import { Notifications, NotificationItems } from '../schema'
  * @returns {string} result.notificationId - id from Notifications
  * @returns {string} result.itemId - id from NotificationItems
  */
-export const push = ({ userId, type = 'default', message, url, data }) => {
+export const push = async ({ userId, type = 'default', message, url, data }) => {
   if (!Match.test(userId, String)) {
     return {
       status: 'failed',
@@ -45,9 +45,9 @@ export const push = ({ userId, type = 'default', message, url, data }) => {
 
   // find this user's notification
   let notificationId
-  const notification = Notifications.findOne({ userId })
+  const notification = await Notifications.findOneAsync({ userId })
   if (!notification) {
-    notificationId = Notifications.insert({
+    notificationId = await Notifications.insertAsync({
       userId,
     })
   } else {
@@ -65,7 +65,7 @@ export const push = ({ userId, type = 'default', message, url, data }) => {
   if (type === 'chat') {
     // group all items since the last time user checked.
     if (notification && notification.checked) {
-      NotificationItems.update(
+      await NotificationItems.updateAsync(
         {
           notificationId,
           type,
@@ -81,7 +81,7 @@ export const push = ({ userId, type = 'default', message, url, data }) => {
   }
 
   // insert to items
-  const itemId = NotificationItems.insert({
+  const itemId = await NotificationItems.insertAsync({
     notificationId,
     type,
     message,
@@ -98,7 +98,7 @@ export const push = ({ userId, type = 'default', message, url, data }) => {
   }
 
   // update the notification
-  Notifications.update(
+  await Notifications.updateAsync(
     { _id: notificationId },
     {
       $set: { updatedAt: new Date() },

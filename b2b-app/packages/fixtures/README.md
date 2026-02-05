@@ -52,13 +52,13 @@ The line: `"key": "name",` is used to denote the primary identifier, which is li
 
 and the last step is to load your new fixtures:
 
-`Meteor.call("loadFixtures","widgets")`
+`await Meteor.callAsync("loadFixtures","widgets")`
 
 ### Reloading
 
 If you want to replace the existing data, you can re-load any individual collection by
 specifying the collection as a second parameter, eg:
 
-`Meteor.call("loadFixtures","workflows")`
+`await Meteor.callAsync("loadFixtures","workflows")`
 
 This will simply remove ALL records, and then run the fixtures

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 import {
   OptionalRegExId,
@@ -12,12 +12,11 @@ import {
 
 const Messages = new Mongo.Collection('messages')
 if (Meteor.isServer) {
-  Messages._ensureIndex(
-    {
-      status: 1,
-    },
-    { name: 'messages_status' }
-  )
+  Meteor.startup(() => {
+    Messages.rawCollection()
+      .createIndex({ status: 1 }, { name: 'messages_status' })
+      .catch((err) => console.error('Error creating messages index', err))
+  })
 }
 
 export const MessagesSchema = new SimpleSchema({

@@ -23,14 +23,14 @@ Meteor.publish('sessions.byEventId', function (eventId) {
   })
 })
 
-Meteor.publish('sessions.myByIdComposite', function (id) {
+Meteor.publish('sessions.myByIdComposite', async function (id) {
   if (!Match.test(id, String)) {
     return this.ready()
   }
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = Members.findOne({ userId: this.userId })
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
@@ -76,7 +76,9 @@ Meteor.publish('sessions.myByIdComposite', function (id) {
     },
   })
   publication.onStop(() => {
-    sessionsHandle.stop()
+    if (sessionsHandle && sessionsHandle.stop) {
+      sessionsHandle.stop()
+    }
   })
 
   // debug(this)
@@ -84,14 +86,14 @@ Meteor.publish('sessions.myByIdComposite', function (id) {
   return [sessions, courses]
 })
 
-Meteor.publish('sessions.myById', function (id) {
+Meteor.publish('sessions.myById', async function (id) {
   if (!Match.test(id, String)) {
     return this.ready()
   }
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = Members.findOne({ userId: this.userId })
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
@@ -101,14 +103,14 @@ Meteor.publish('sessions.myById', function (id) {
   })
 })
 
-Meteor.publish('sessions.myAll', function ({ limit = 20 }) {
+Meteor.publish('sessions.myAll', async function ({ limit = 20 }) {
   if (!Match.test(limit, Match.Integer)) {
     return this.ready()
   }
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = Members.findOne({ userId: this.userId })
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
@@ -125,11 +127,11 @@ Meteor.publish('sessions.myAll', function ({ limit = 20 }) {
   )
 })
 
-Meteor.publish('sessions.myUpcoming', function () {
+Meteor.publish('sessions.myUpcoming', async function () {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = Members.findOne({ userId: this.userId })
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
@@ -146,14 +148,14 @@ Meteor.publish('sessions.myUpcoming', function () {
   )
 })
 
-Meteor.publish('sessions.myRecent', function ({ limit = 20 }) {
+Meteor.publish('sessions.myRecent', async function ({ limit = 20 }) {
   if (!Match.test(limit, Match.Integer)) {
     return this.ready()
   }
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = Members.findOne({ userId: this.userId })
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
@@ -171,7 +173,7 @@ Meteor.publish('sessions.myRecent', function ({ limit = 20 }) {
   )
 })
 
-Meteor.publish('sessions.mineByEventIds', function (eventIds) {
+Meteor.publish('sessions.mineByEventIds', async function (eventIds) {
   debug({ eventIds })
   if (!Match.test(eventIds, [String])) {
     return this.ready()
@@ -179,7 +181,7 @@ Meteor.publish('sessions.mineByEventIds', function (eventIds) {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = Members.findOne({ userId: this.userId })
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
 
   return Sessions.find({
     memberId: currentMember._id,

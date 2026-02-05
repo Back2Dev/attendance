@@ -1,7 +1,7 @@
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2'
 // import { connectField } from 'uniforms'
-import { LongTextField } from 'uniforms-material'
+import { LongTextField } from 'uniforms-mui'
 
 export const SupportFormSchema = new SimpleSchema({
   subject: {
@@ -21,4 +21,4 @@ export const SupportFormSchema = new SimpleSchema({
   },
 })
 
-export const bridge = new SimpleSchema2Bridge(SupportFormSchema)
+export const bridge = new SimpleSchema2Bridge({ schema: SupportFormSchema })

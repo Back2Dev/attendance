@@ -1,14 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Meteor } from 'meteor/meteor'
 import QueryString from 'query-string'
-import { useHistory } from 'react-router-dom'
-
-import { Button, Typography } from '@material-ui/core'
+import { Button, Typography } from '@mui/material'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
 import LoginForm from './login/form.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
+import useHistory from '/imports/ui/utils/history'
 
 function Login() {
   const { push, location } = useHistory()

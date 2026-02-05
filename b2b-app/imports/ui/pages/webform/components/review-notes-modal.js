@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, List, Button } from '@material-ui/core'
+import { List, Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Modal from '/imports/ui/components/commons/modal'
 import NoteCard from '/imports/ui/components/notes/note-card'
 

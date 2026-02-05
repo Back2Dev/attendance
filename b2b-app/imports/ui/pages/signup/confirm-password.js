@@ -1,8 +1,8 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
-import { Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
+import { Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import { useNavigate, useParams } from 'react-router-dom'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
 import PasswordValidator from '/imports/ui/utils/password-validation/password-validator.js'
@@ -25,31 +25,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ConfirmPassword = (props) => {
+const ConfirmPassword = () => {
   const [submitEnabled, setSubmitEnabled] = React.useState(true)
   const classes = useStyles()
-  const { push } = useHistory()
+  const navigate = useNavigate()
+  const { userId, token } = useParams()
 
-  const userId = props.match.params.userId
-  const token = props.match.params.token
-
-  const add = (form) => {
+  const add = async (form) => {
     form.userId = userId
     form.token = token
-    Meteor.call('verifyUser', form, function (err) {
-      if (err) {
-        showError(err)
-      } else {
-        showSuccess('Added password')
-        Meteor.loginWithPassword({ id: userId }, form.password, (error) => {
-          if (error) {
-            showError(error.message)
-          } else {
-            push('/dashboard')
-          }
-        })
-      }
-    })
+    setSubmitEnabled(false)
+    try {
+      await Meteor.callAsync('verifyUser', form)
+      showSuccess('Added password')
+      Meteor.loginWithPassword({ id: userId }, form.password, (error) => {
+        if (error) {
+          showError(error.message)
+          setSubmitEnabled(true)
+        } else {
+          navigate('/dashboard')
+        }
+      })
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const renderForm = () => {

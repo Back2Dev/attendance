@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, Chip, TextField, Typography } from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import { Button, Chip, TextField, Typography } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
@@ -33,22 +33,25 @@ function Biography() {
   const [favorites, setFavorites] = useState(member?.favorites || [])
   const [loading, setloading] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setloading(true)
-    Meteor.call('members.updateBio', { bio, favorites }, (err, result) => {
-      if (!mounted) {
+    try {
+      const result = await Meteor.callAsync('members.updateBio', { bio, favorites })
+      if (!mounted.current) {
         return
       }
       setloading(false)
-      if (err) {
-        showError(err)
-      }
       if (result.status === 'failed') {
         showError(result.message)
       } else {
         showSuccess('Member updated')
       }
-    })
+    } catch (err) {
+      if (mounted.current) {
+        setloading(false)
+        showError(err)
+      }
+    }
   }
 
   return (

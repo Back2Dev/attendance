@@ -1,7 +1,7 @@
 import React from 'react'
 import { connectField } from 'uniforms'
-import MomentUtils from '@date-io/moment'
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 /*
  * * * * * * * * * * * * * PROBLEM * * * * * * * * * * * * * *
@@ -27,22 +27,26 @@ const Picker = ({ ...props }) => {
     props.onChange()
   }
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils} name={props.id}>
+    <LocalizationProvider dateAdapter={AdapterMoment} name={props.id}>
       <DatePicker
-        margin="normal"
+        slotProps={{
+          textField: {
+            margin: 'normal',
+            name: 'bills-water',
+            id: props.id,
+            InputLabelProps: { shrink: true, disableAnimation: true },
+          },
+          openPickerButton: {
+            'aria-label': 'change  date',
+          },
+        }}
         format="DD/MM/yyyy"
         views={['year', 'month', 'date']}
-        name="bills-water"
-        id={props.id}
-        labelProps={{ shrink: true, disableAnimation: true }}
-        KeyboardButtonProps={{
-          'aria-label': 'change  date',
-        }}
         {...props}
         value={new Date().toISOString()}
         onChange={(value) => dateParse(value, props.onChange)}
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   )
 }
 

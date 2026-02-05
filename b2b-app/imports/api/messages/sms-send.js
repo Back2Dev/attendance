@@ -90,8 +90,8 @@ export const sendSMSviaAWS = ({ recipient, sender, message }) => {
   }
 }
 
-export const sendSMS = ({ recipient, sender, message }) => {
-  const service = Settings.findOne({ key: 'sms-service' })?.value
+export const sendSMS = async ({ recipient, sender, message }) => {
+  const service = (await Settings.findOneAsync({ key: 'sms-service' }))?.value
   if (!service)
     logger.error(
       'Could not find settings for sms service. Please add one or reload settings fixtures'

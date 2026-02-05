@@ -1,6 +1,6 @@
 // Email message creator
 import React from 'react'
-import { AutoForm } from 'uniforms-material'
+import { AutoForm } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import {
@@ -10,10 +10,10 @@ import {
   Typography,
   CardActions,
   Button,
-} from '@material-ui/core'
+} from '@mui/material'
 import HTMLTemplate from '/imports/api/email-template'
 
-let schema = new SimpleSchema2Bridge(new SimpleSchema({ email: String }))
+let schema = new SimpleSchema2Bridge({ schema: new SimpleSchema({ email: String }) })
 
 const renderFields = (template) => {
   let fields = template.match(/([^`]+(?=`))|([^*|]+(?=\|\*))/g).reduce(
@@ -24,7 +24,7 @@ const renderFields = (template) => {
     { recipient: String }
   )
 
-  schema = new SimpleSchema2Bridge(new SimpleSchema(fields))
+  schema = new SimpleSchema2Bridge({ schema: new SimpleSchema(fields) })
 }
 
 export default function EmailCard({ name, body: template, slug, sendEmail }) {

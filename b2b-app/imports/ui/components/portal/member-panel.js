@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Paper } from '@material-ui/core'
+import { Paper } from '@mui/material'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Avatar from '/imports/ui/components/commons/avatar.js'

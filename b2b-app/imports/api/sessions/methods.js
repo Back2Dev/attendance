@@ -3,9 +3,9 @@ import Sessions from './schema'
 const debug = require('debug')('target:sessions')
 
 Meteor.methods({
-  'rm.sessions': (id) => {
+  'rm.sessions': async (id) => {
     try {
-      const n = Sessions.remove(id)
+      const n = await Sessions.removeAsync(id)
       return { status: 'success', message: `Removed session` }
     } catch (e) {
       return {
@@ -14,11 +14,11 @@ Meteor.methods({
       }
     }
   },
-  'update.sessions': (form) => {
+  'update.sessions': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Sessions.update(id, { $set: form })
+      const n = await Sessions.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} session(s)` }
     } catch (e) {
       return {
@@ -27,9 +27,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.sessions': (form) => {
+  'insert.sessions': async (form) => {
     try {
-      const id = Sessions.insert(form)
+      const id = await Sessions.insertAsync(form)
       return { status: 'success', message: `Added session` }
     } catch (e) {
       return {

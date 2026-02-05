@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
-import { Grid, Paper, Typography, Link, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Link as RouterLink } from 'react-router-dom'
+import { Grid, Paper, Typography, Link, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
 const useStyles = makeStyles((theme) => ({}))
 
@@ -15,16 +16,15 @@ const AddGoogleConfirm = () => {
   const { push } = useHistory()
   const { user } = useContext(AccountContext)
 
-  const addGoogle = (google) => {
-    Meteor.call('updateGoogle', google, function (err) {
-      if (err) {
-        showError(err)
-      } else {
-        showSuccess('Added Google to your account')
-        sessionStorage.clear()
-        push('/login')
-      }
-    })
+  const addGoogle = async (google) => {
+    try {
+      await Meteor.callAsync('updateGoogle', google)
+      showSuccess('Added Google to your account')
+      sessionStorage.clear()
+      push('/login')
+    } catch (err) {
+      showError(err)
+    }
   }
 
   const google = JSON.parse(sessionStorage.getItem('google'))

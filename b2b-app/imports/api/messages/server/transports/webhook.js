@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import { RegExId } from '/imports/api/utils/schema-util'
 import { getCfgs } from '/imports/api/settings/server/helper'
 import Transporter from './index'
@@ -28,6 +28,7 @@ export class WebhookTransport {
       enabled: true,
       maxRetries: undefined, // undefined mean it won't handle
     }
+    this.loadedFromCfgs = false
 
     if (settings) {
       const { enabled, maxRetries } = settings
@@ -37,20 +38,23 @@ export class WebhookTransport {
       if (maxRetries !== undefined) {
         this.settings.maxRetries = maxRetries
       }
-    } else {
-      // get the config to decide which type of message is enabled
-      const cfgs = getCfgs(['messages_webhook_enabled', 'messages_webhook_maxRetries'])
-      // debug({ cfgs })
-      if (cfgs) {
-        if (cfgs['messages_webhook_enabled']) {
-          this.settings.enabled = cfgs['messages_webhook_enabled'] === 'true'
-        }
-        if (cfgs['messages_webhook_maxRetries']) {
-          this.settings.maxRetries = parseInt(cfgs['messages_webhook_maxRetries'], 10)
-        }
-      }
-      // debug('settings', this.settings)
+      this.loadedFromCfgs = true
     }
+  }
+
+  async ensureSettingsFromCfgs() {
+    if (this.loadedFromCfgs) return
+    const cfgs = await getCfgs(['messages_webhook_enabled', 'messages_webhook_maxRetries'])
+    // debug({ cfgs })
+    if (cfgs) {
+      if (cfgs['messages_webhook_enabled']) {
+        this.settings.enabled = cfgs['messages_webhook_enabled'] === 'true'
+      }
+      if (cfgs['messages_webhook_maxRetries']) {
+        this.settings.maxRetries = parseInt(cfgs['messages_webhook_maxRetries'], 10)
+      }
+    }
+    this.loadedFromCfgs = true
   }
 
   /**
@@ -95,6 +99,7 @@ export class WebhookTransport {
    *    - { result.res.data } Object the json object (expecting)
    */
   async send(message) {
+    await this.ensureSettingsFromCfgs()
     logger.info('sending webhook...', message)
     // debug('send settings', this.settings)
 

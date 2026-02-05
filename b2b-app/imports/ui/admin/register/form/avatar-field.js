@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useField } from 'uniforms'
 
-import { makeStyles } from '@material-ui/core/styles'
-import { Avatar, Card, CardContent, GridList, GridListTile } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles';
+import { Avatar, Card, CardContent, ImageList, ImageListItem } from '@mui/material'
 
 import { RegisterContext } from '../context'
 import ConditionalWrap from '../conditional-wrap'
@@ -51,9 +51,9 @@ const AvatarField = (rawProps) => {
       )}
     >
       <Avatar src={getSrc(value)} alt={value} className={classes.selectedAvatar} />
-      <GridList cols={isMobile ? 4 : 6} cellHeight="auto">
+      <ImageList cols={isMobile ? 4 : 6} cellHeight="auto">
         {allowedValues.map((aValue, i) => (
-          <GridListTile key={i} onClick={() => onChange(aValue)}>
+          <ImageListItem key={i} onClick={() => onChange(aValue)}>
             <Avatar
               src={getSrc(aValue)}
               alt={aValue}
@@ -63,9 +63,9 @@ const AvatarField = (rawProps) => {
                   : classes.thumb
               }
             />
-          </GridListTile>
+          </ImageListItem>
         ))}
-      </GridList>
+      </ImageList>
     </ConditionalWrap>
   )
 }

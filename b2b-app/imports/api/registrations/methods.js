@@ -3,9 +3,9 @@ import Registrations from './schema'
 const debug = require('debug')('target:registrations')
 
 Meteor.methods({
-  'rm.registrations': (id) => {
+  'rm.registrations': async (id) => {
     try {
-      const n = Registrations.remove(id)
+      const n = await Registrations.removeAsync(id)
       return { status: 'success', message: `Removed registration` }
     } catch (e) {
       return {
@@ -14,11 +14,11 @@ Meteor.methods({
       }
     }
   },
-  'update.registrations': (form) => {
+  'update.registrations': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Registrations.update(id, { $set: form })
+      const n = await Registrations.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} registration(s)` }
     } catch (e) {
       return {
@@ -27,9 +27,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.registrations': (form) => {
+  'insert.registrations': async (form) => {
     try {
-      const id = Registrations.insert(form)
+      const id = await Registrations.insertAsync(form)
       return { status: 'success', message: `Added registration` }
     } catch (e) {
       return {

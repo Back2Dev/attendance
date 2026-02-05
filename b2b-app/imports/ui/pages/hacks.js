@@ -1,8 +1,8 @@
 import React, { useEffect, Suspense, lazy } from 'react'
 import styled from 'styled-components'
-import { Route, Switch } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 
 import Loading from '/imports/ui/components/commons/loading.js'
 
@@ -36,19 +36,19 @@ function HacksPage() {
       <Grid container>
         <Grid item xs={12}>
           <Suspense fallback={<Loading loading />}>
-            <Switch>
-              <Route path="/hacks/aws" exact component={AWS} />
-              <Route path="/hacks/transporter" exact component={Transporter} />
-              <Route path="/hacks/launch" exact component={Launch} />
-              <Route path="/hacks/notes" exact component={NotesList} />
-              <Route path="/hacks/notes/edit/:id" exact component={NotesEditor} />
-              <Route path="/hacks/notes/view/:id" exact component={NotesViewer} />
-              <Route path="/hacks/releases" exact component={Releases} />
-              <Route path="/hacks/surveys" exact component={SurveyList} />
-              <Route path="/hacks/timeline" exact component={Timeline} />
-              <Route path="/hacks/voi" exact component={VOI} />
-              <Route component={NotFoundComponent} />
-            </Switch>
+            <Routes>
+              <Route path="aws" element={<AWS />} />
+              <Route path="transporter" element={<Transporter />} />
+              <Route path="launch" element={<Launch />} />
+              <Route path="notes" element={<NotesList />} />
+              <Route path="notes/edit/:id" element={<NotesEditor />} />
+              <Route path="notes/view/:id" element={<NotesViewer />} />
+              <Route path="releases" element={<Releases />} />
+              <Route path="surveys" element={<SurveyList />} />
+              <Route path="timeline" element={<Timeline />} />
+              <Route path="voi" element={<VOI />} />
+              <Route path="*" element={<NotFoundComponent />} />
+            </Routes>
           </Suspense>
         </Grid>
       </Grid>

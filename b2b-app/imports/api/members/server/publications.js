@@ -56,19 +56,19 @@ Meteor.publish('members.byIds', function (memberIds) {
   )
 })
 
-Meteor.publish('currentMember', function () {
+Meteor.publish('currentMember', async function () {
   if (!this.userId) {
     return this.ready()
   }
   //This also contains logic to set member to online which we may or may not need for something like chat
   // const ONLINE_STATUS_DELAY_IN_SECONDS = 1
   const UsersHelper = {
-    updateOnlineStatus({ userId, online = true }) {
+    async updateOnlineStatus({ userId, online = true }) {
       const now = new Date()
       if (online === false) {
         // set user offline
         // first, update the offlineTimeoutAt value
-        Members.update(
+        await Members.updateAsync(
           {
             userId,
           },
@@ -112,7 +112,7 @@ Meteor.publish('currentMember', function () {
         // }, ONLINE_STATUS_DELAY_IN_SECONDS)
       } else {
         // set user online
-        Members.update(
+        await Members.updateAsync(
           {
             userId,
           },
@@ -139,8 +139,8 @@ Meteor.publish('currentMember', function () {
 Meteor.publish('all.members', () => {
   return Members.find({})
 })
-Meteor.publish('members.limit.role', (role) => {
-  const user = Meteor.users.findOne({ _id: Meteor.userId() })
+Meteor.publish('members.limit.role', async function (role) {
+  const user = await Meteor.users.findOneAsync({ _id: this.userId })
   if (hasRole(user, role)) {
     return Members.find({})
   } else {

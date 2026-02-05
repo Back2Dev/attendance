@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormControl, FormLabel } from '@material-ui/core'
+import { FormControl, FormLabel } from '@mui/material'
 
 // Import the Slate editor factory.
 import { createEditor } from 'slate'
@@ -55,7 +55,7 @@ const SlateEditor = ({ className, disabled = false, onChange, value = [], label 
         </Slate>
       </FormControl>
     </StyledSlateEditor>
-  )
+  );
 }
 
 SlateEditor.propTypes = {

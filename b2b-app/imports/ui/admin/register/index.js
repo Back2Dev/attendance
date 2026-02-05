@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Container,
   Stepper,
@@ -8,7 +8,7 @@ import {
   StepLabel,
   Button,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 
 import RegisterProvider, { RegisterContext } from './context'
 import StepBody from './step-body'

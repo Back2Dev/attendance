@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from 'react'
-import { Link as RouterLink, Switch, Route } from 'react-router-dom'
+import { Link as RouterLink, Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Typography, Link } from '@material-ui/core'
+import { Typography, Link } from '@mui/material'
 
 import SecureRoute from '/imports/ui/utils/secure-route.js'
 
@@ -19,7 +19,7 @@ const TestSecureRoute = lazy(() =>
   import('/imports/ui/components/test-components/test-secure-route.js')
 )
 const TestDataGrid = lazy(() =>
-  import('/imports/ui/components/test-components/react-data-grid.js')
+  import('/imports/ui/components/test-components//imports/ui/components/commons/mui-rdg.js')
 )
 const TestUseTracker = lazy(() =>
   import('/imports/ui/components/test-components/test-usetracker.js')
@@ -82,7 +82,7 @@ export default function TestPage() {
         </Link>
       </div>
       <div>
-        <Link component={RouterLink} to="/test/react-data-grid">
+        <Link component={RouterLink} to="/test//imports/ui/components/commons/mui-rdg">
           Test React Data Grid
         </Link>
       </div>
@@ -98,18 +98,25 @@ export default function TestPage() {
       </div>
       <div style={{ margin: '20px 0' }}>
         <Suspense fallback={<div>loading tests...</div>}>
-          <Switch>
-            <Route path="/test/1" component={Test1} />
-            <Route path="/test/2" component={Test2} />
-            <Route path="/test/layout" component={TestLayouts} />
-            <Route path="/test/theme" component={TestThemes} />
-            <Route path="/test/error" component={TestError} />
-            <SecureRoute path="/test/secure" component={TestSecureRoute} />
-            <Route path="/test/react-data-grid" component={TestDataGrid} />
-            <Route path="/test/usetracker" component={TestUseTracker} />
-            <Route path="/test/inline-edit" component={InlineEditTest} />
-            <Route path="/test/beautiful-dnd" component={BeautifulDnDTest} />
-          </Switch>
+          <Routes>
+            <Route path="/test/1" element={<Test1 />} />
+            <Route path="/test/2" element={<Test2 />} />
+            <Route path="/test/layout" element={<TestLayouts />} />
+            <Route path="/test/theme" element={<TestThemes />} />
+            <Route path="/test/error" element={<TestError />} />
+            <Route
+              path="/test/secure"
+              element={
+                <SecureRoute>
+                  <TestSecureRoute />
+                </SecureRoute>
+              }
+            />
+            <Route path="/test//imports/ui/components/commons/mui-rdg" element={<TestDataGrid />} />
+            <Route path="/test/usetracker" element={<TestUseTracker />} />
+            <Route path="/test/inline-edit" element={<InlineEditTest />} />
+            <Route path="/test/beautiful-dnd" element={<BeautifulDnDTest />} />
+          </Routes>
         </Suspense>
       </div>
     </StyledTestPage>

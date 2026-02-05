@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
-import { Menu, MenuItem, IconButton } from '@material-ui/core'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import { Menu, MenuItem, IconButton } from '@mui/material'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import CONSTANTS from '/imports/api/constants'
 import { showError } from '/imports/ui/utils/toast-alerts'
 
@@ -26,23 +27,22 @@ const Item = ({ item, onClick }) => {
     setAnchorEl(null)
   }
 
-  const updateItemReadStatus = (newRead) => {
-    Meteor.call(
-      'NotiMarkItemRead',
-      { itemId: item._id, read: newRead },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-        }
-        if (result.status === 'failed') {
-          showError(result.message)
-        }
-        if (result.status === 'success') {
-          // update the local item, or should we do this despite result?
-          LocalNotificationItems.update({ _id: item._id }, { $set: { read: newRead } })
-        }
+  const updateItemReadStatus = async (newRead) => {
+    try {
+      const result = await Meteor.callAsync('NotiMarkItemRead', {
+        itemId: item._id,
+        read: newRead,
+      })
+      if (result.status === 'failed') {
+        showError(result.message)
+        return
       }
-    )
+      if (result.status === 'success') {
+        LocalNotificationItems.update({ _id: item._id }, { $set: { read: newRead } })
+      }
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   const handleReadMarking = () => {
@@ -79,7 +79,9 @@ const Item = ({ item, onClick }) => {
         }}
       >
         <div className="message">
-          <ReactMarkdown source={item.message || 'N/A'} />
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {item.message || 'N/A'}
+          </ReactMarkdown>
         </div>
         <div className="info">{renderDate()}</div>
       </div>

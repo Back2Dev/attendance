@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
-import { FormControl, InputLabel, Input, InputAdornment } from '@material-ui/core'
+import { FormControl, InputLabel, Input, InputAdornment } from '@mui/material'
 
 function CostField({ onChange, value, name, label }) {
   const [newValue, setNewValue] = React.useState(value)

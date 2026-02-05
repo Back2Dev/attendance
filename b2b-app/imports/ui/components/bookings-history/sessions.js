@@ -1,12 +1,12 @@
 import React, { useContext, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-// import { Skeleton } from '@material-ui/lab'
-import { DataGrid } from '@material-ui/data-grid'
+// import { Skeleton } from '@mui/lab'
+import { DataGrid } from '@mui/x-data-grid'
 
 import Loading from '../commons/loading'
 import { BookingsHistoryContext } from './context'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledSessionsListing = styled.div``
 

@@ -60,8 +60,8 @@ Meteor.publish('id.events', function (eventId) {
 /**
  * Publish future events for booking
  */
-Meteor.publish('future.events', function () {
-  const currentMember = Members.findOne({ userId: this.userId })
+Meteor.publish('future.events', async function () {
+  const currentMember = await Members.findOneAsync({ userId: this.userId })
 
   const events = Events.find({
     status: { $in: ['active', 'cancelled'] },

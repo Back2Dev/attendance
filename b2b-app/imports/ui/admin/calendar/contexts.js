@@ -48,42 +48,42 @@ export const CalendarProvider = (props) => {
     setSelectedEvent(Events.findOne({ _id: eventId }))
   }
 
-  const storeEvent = ({ data, cb, recurring = '' }) => {
+  const storeEvent = async ({ data, cb, recurring = '' }) => {
     setLoading(true)
-    Meteor.call(
-      data?._id ? 'update.events' : 'insert.events',
-      { form: data, recurring },
-      (error, result) => {
-        if (!mounted.current) {
-          return
-        }
-        setLoading(false)
-        if (error) {
-          showError(error.message)
-        }
-        if (result?.status === 'false') {
-          showError(result?.message)
-        }
-        if (result?.status === 'success') {
-          showSuccess(data?._id ? 'Event updated' : 'Event created')
-        }
-        if (typeof cb === 'function') {
-          cb(result)
-        }
-      }
-    )
-  }
-
-  const deleteEvent = ({ id, cb, recurring = '' }) => {
-    setLoading(true)
-    Meteor.call('rm.events', { id, recurring }, (error, result) => {
+    try {
+      const result = await Meteor.callAsync(
+        data?._id ? 'update.events' : 'insert.events',
+        { form: data, recurring }
+      )
       if (!mounted.current) {
         return
       }
       setLoading(false)
-      if (error) {
+      if (result?.status === 'false') {
+        showError(result?.message)
+      }
+      if (result?.status === 'success') {
+        showSuccess(data?._id ? 'Event updated' : 'Event created')
+      }
+      if (typeof cb === 'function') {
+        cb(result)
+      }
+    } catch (error) {
+      if (mounted.current) {
+        setLoading(false)
         showError(error.message)
       }
+    }
+  }
+
+  const deleteEvent = async ({ id, cb, recurring = '' }) => {
+    setLoading(true)
+    try {
+      const result = await Meteor.callAsync('rm.events', { id, recurring })
+      if (!mounted.current) {
+        return
+      }
+      setLoading(false)
       if (result?.status === 'false') {
         showError(result?.message)
       }
@@ -93,7 +93,12 @@ export const CalendarProvider = (props) => {
       if (typeof cb === 'function') {
         cb(result)
       }
-    })
+    } catch (error) {
+      if (mounted.current) {
+        setLoading(false)
+        showError(error.message)
+      }
+    }
   }
 
   return (

@@ -1,15 +1,10 @@
 import React, { useCallback, useMemo, useState, Fragment, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Tracker } from 'meteor/tracker'
-import {
-  createStyles,
-  LinearProgress,
-  Typography,
-  withStyles,
-  Grid,
-  Button,
-} from '@material-ui/core'
-import CancelIcon from '@material-ui/icons/Cancel'
+import { LinearProgress, Typography, Grid, Button } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import withStyles from '@mui/styles/withStyles';
+import CancelIcon from '@mui/icons-material/Cancel'
 
 const baseStyle = {
   flex: 1,
@@ -60,10 +55,13 @@ export const UploadField = ({
   const [files, setFiles] = useState([])
   const uploader = new Slingshot.Upload('uploadQuestionType', { folder: 'question' })
 
-  const onDelete = (file) => {
-    Meteor.call('s3.deleteObject', { fileName: file.name }, () => {
+  const onDelete = async (file) => {
+    try {
+      await Meteor.callAsync('s3.deleteObject', { fileName: file.name })
       setFiles((current) => current.filter((f) => f.file !== file))
-    })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const onUpload = (params, setProgress) => {
@@ -175,7 +173,7 @@ export function UploadError({ file, onDelete, errors }) {
 
 export function FileHeader({ file, onDelete, error }) {
   return (
-    <Grid container justify="space-between" alignItems="center">
+    <Grid container justifyContent="space-between" alignItems="center">
       <Grid item style={{ color: error ? 'red' : 'green' }}>
         {file.name}
       </Grid>
@@ -186,7 +184,7 @@ export function FileHeader({ file, onDelete, error }) {
         </Button>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export function SingleFileUploadWithProgress({ file, onDelete, onUpload, answerIndex }) {

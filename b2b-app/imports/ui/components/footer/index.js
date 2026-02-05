@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { AppBar } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { AppBar } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import CONSTANTS from '/imports/api/constants'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Typography, Grid, Link } from '@material-ui/core'
+import { Typography, Grid, Link } from '@mui/material'
 
 const StyledNotFound = styled.div`
   text-align: center;

@@ -77,26 +77,30 @@ export function createAudit({ event, data, user }) {
   try {
     if (Meteor.isClient) return
   } catch (e) {}
-  try {
-    Audits.insert({ event, data, user })
-  } catch (e) {
-    console.error('Error creating audit entry ', e)
-  }
+  ;(async () => {
+    try {
+      await Audits.insertAsync({ event, data, user })
+    } catch (err) {
+      console.error('Error creating audit entry ', err)
+    }
+  })()
 }
 export function createLog({ type, message, data, user }) {
   try {
     if (Meteor.isClient) return
   } catch (e) {}
-  try {
-    Logs.insert({
-      level: type,
-      message: message || 'No message',
-      user: getUserId(),
-      data,
-    })
-  } catch (e) {
-    console.error('Error creating log entry ', e)
-  }
+  ;(async () => {
+    try {
+      await Logs.insertAsync({
+        level: type,
+        message: message || 'No message',
+        user: getUserId(),
+        data,
+      })
+    } catch (err) {
+      console.error('Error creating log entry ', err)
+    }
+  })()
 }
 
 export default proxy

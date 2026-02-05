@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import { AutoForm, AutoField, ErrorField, SubmitField } from 'uniforms-material'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import { AutoForm, AutoField, ErrorField, SubmitField } from 'uniforms-mui'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
 import PasswordValidator from '/imports/ui/utils/password-validation/password-validator.js'
-import VpnKeyIcon from '@material-ui/icons/VpnKey'
+import VpnKeyIcon from '@mui/icons-material/VpnKey'
 
 const passwordSchema = {
   password: { type: String, label: 'New password' },

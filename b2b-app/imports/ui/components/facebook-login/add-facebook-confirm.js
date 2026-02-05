@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
-import { Grid, Paper, Typography, Link, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Link as RouterLink } from 'react-router-dom'
+import { Grid, Paper, Typography, Link, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
 const AddFacebookConfirm = () => {
   const [submitEnabled, setSubmitEnabled] = React.useState(true)
@@ -12,19 +13,18 @@ const AddFacebookConfirm = () => {
   const { push } = useHistory()
   const { user } = useContext(AccountContext)
 
-  const addGoogle = (facebook) => {
+  const addGoogle = async (facebook) => {
     setSubmitEnabled(false)
-    Meteor.call('updateFacebook', facebook, function (err) {
-      if (err) {
-        showError(err)
-        setSubmitEnabled(true)
-      } else {
-        showSuccess('Added Facebook to your account')
-        setSubmitEnabled(true)
-        sessionStorage.clear()
-        push('/login')
-      }
-    })
+    try {
+      await Meteor.callAsync('updateFacebook', facebook)
+      showSuccess('Added Facebook to your account')
+      setSubmitEnabled(true)
+      sessionStorage.clear()
+      push('/login')
+    } catch (err) {
+      showError(err)
+      setSubmitEnabled(true)
+    }
   }
 
   const facebook = JSON.parse(sessionStorage.getItem('facebook'))

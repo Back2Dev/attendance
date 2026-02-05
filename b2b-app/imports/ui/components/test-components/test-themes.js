@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 
 import { MyThemeContext } from '/imports/ui/contexts/theme-context.js'
 

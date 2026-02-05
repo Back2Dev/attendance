@@ -1,14 +1,14 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import Button from '@material-ui/core/Button'
-import { Box, Container, Grid, Typography } from '@material-ui/core'
-import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-material'
+import Button from '@mui/material/Button'
+import { Box, Container, Grid, Typography } from '@mui/material'
+import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-mui'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import HTMLTemplate from '/imports/api/email-template'
 
 import { schemaBridge } from './edit-schema'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:edit')
 

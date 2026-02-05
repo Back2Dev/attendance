@@ -16,13 +16,13 @@ import {
   FormControlLabel,
   Link,
   IconButton,
-} from '@material-ui/core'
+} from '@mui/material'
 
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoField, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorsField } from 'uniforms-mui'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
@@ -312,26 +312,28 @@ function ContactStep() {
   const searchTimeout = useRef(null)
   const searchMember = (keyword) => {
     Meteor.clearTimeout(searchTimeout.current)
-    searchTimeout.current = Meteor.setTimeout(() => {
+    searchTimeout.current = Meteor.setTimeout(async () => {
       // only search when the keyword is long enough
       if (keyword.length < 1) {
         dispatch({ type: 'clear' })
         return
       }
       dispatch({ type: 'setSearching', payload: { searching: true, keyword } })
-      Meteor.call('members.search', { keyword }, (error, result) => {
+      try {
+        const result = await Meteor.callAsync('members.search', { keyword })
         if (!mounted.current) {
-          return
-        }
-        if (error) {
-          showError(error.message)
-          dispatch({ type: 'setSearching', payload: { searching: false, keyword } })
           return
         }
         if (result) {
           dispatch({ type: 'setMembers', payload: { members: result.members, keyword } })
         }
-      })
+      } catch (error) {
+        if (mounted.current) {
+          showError(error.message)
+          dispatch({ type: 'setSearching', payload: { searching: false, keyword } })
+        }
+        return
+      }
     }, 500)
   }
 
@@ -448,7 +450,7 @@ function ContactStep() {
         </div>
         <AutoForm
           ref={formRef}
-          schema={new SimpleSchema2Bridge(memberFormSchema)}
+          schema={new SimpleSchema2Bridge({ schema: memberFormSchema })}
           model={memberData}
           onSubmit={handleSubmit}
           onChange={(field, data) => {

@@ -51,7 +51,7 @@ export default config = {
       { field: 'description', label: 'Description', component: SlateDisplay },
     ],
   },
-  edit: { schema: new SimpleSchema2Bridge(editSchema) },
+  edit: { schema: new SimpleSchema2Bridge({ schema: editSchema }) },
   list: {
     columns: [
       { field: 'title', title: 'title', editor: true, formatter: null },

@@ -1,11 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
-import { useHistory } from 'react-router'
 import React, { useEffect, useRef, useReducer, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { TextField, Button, Typography } from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import { TextField, Button, Typography } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import { showError } from '/imports/ui/utils/toast-alerts.js'
@@ -13,6 +12,7 @@ import { ServiceContext } from './context'
 import ServiceItems from '../../../../api/service-items/schema'
 import ServiceItem from './service-item'
 import Loading from '../../commons/loading'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledServiceStep = styled.div`
   margin: 20px 0;

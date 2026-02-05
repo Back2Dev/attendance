@@ -1,15 +1,15 @@
 import React, { useContext, useState, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Random } from 'meteor/random'
-import { Grid, Typography, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { Grid, Typography, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import slingshotUpload from '/imports/ui/components/upload-function'
 import CONSTANTS from '/imports/api/constants'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:upload-step')
 

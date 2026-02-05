@@ -1,7 +1,8 @@
 import React, { createElement, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import Markdown, { getCoreProps } from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 const debug = require("debug")("app:md-loader");
 
 /* Removes YAML metadata 
@@ -95,7 +96,7 @@ const MarkdownLoader = props => {
     <>
       {!props.src && <div>Error: No src= attribute supplied</div>}
       {props.src && !markdown && <>Loading...</>}
-      {markdown && <Markdown source={markdown} />}
+      {markdown && <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>}
     </>
   );
 };

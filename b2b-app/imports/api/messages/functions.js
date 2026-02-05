@@ -39,12 +39,12 @@ export const findAndReplace = ({ data, template }) => {
   return message
 }
 
-export const getTemplate = (slug) => {
-  const template = MessageTemplates.findOne({ slug: slug })
+export const getTemplate = async (slug) => {
+  const template = await MessageTemplates.findOneAsync({ slug: slug })
   return template
 }
 
-export const createSMS = (form) => {
+export const createSMS = async (form) => {
   if (!Match.test(form, Match.ObjectIncluding({ to: String, body: String }))) {
     logger.error('Invalid form data', form)
     return { status: 'failed', message: 'Invalid form data' }
@@ -65,14 +65,14 @@ export const createSMS = (form) => {
         message: body,
       },
     }
-    return Meteor.call('insert.messages', sms)
+    return Meteor.callAsync('insert.messages', sms)
   } catch (e) {
     logger.error(`Error when creating sms: ${e.message}`)
     return { status: 'failed', message: `Failed to generate SMS because: ${e.message}` }
   }
 }
 
-export const createEmail = (form, subject) => {
+export const createEmail = async (form, subject) => {
   debug('creating email')
   if (!Match.test(form, Match.ObjectIncluding({ to: Array, body: String }))) {
     logger.error('Invalid form data', form)
@@ -112,14 +112,14 @@ export const createEmail = (form, subject) => {
       subject: subject || '',
       type: 'email',
     }
-    return Meteor.call('insert.messages', message)
+    return Meteor.callAsync('insert.messages', message)
   } catch (e) {
     logger.error(`Error when creating email: ${e.message}`)
     return { status: 'failed', message: e.message }
   }
 }
 
-export const createApp = (form, person, template, listingId, taskId) => {
+export const createApp = async (form, person, template, listingId, taskId) => {
   debug('creating in app notification')
   if (!Match.test(form, Match.ObjectIncluding({ data: Object, body: String }))) {
     logger.error('Invalid form data', form)
@@ -153,7 +153,7 @@ export const createApp = (form, person, template, listingId, taskId) => {
         })
       : null
     // send message
-    const pushMessage = push({
+    const pushMessage = await push({
       userId: person._id || person.userId,
       message: body,
       data: data,
@@ -174,7 +174,7 @@ export const createApp = (form, person, template, listingId, taskId) => {
   }
 }
 
-export const sendMessages = (type) => {
+export const sendMessages = async (type) => {
   /**
    * cronjob call this method periodically
    * it will depend on these settings
@@ -189,11 +189,11 @@ export const sendMessages = (type) => {
   const successIds = []
   const failureIds = []
   // get the config to decide which type of message is enabled
-  const cfgs = getCfgs([
+  const cfgs = (await getCfgs([
     'messages_enabled',
     'messages_maxRetries',
     'messagesMaxSend',
-  ]) || {
+  ])) || {
     messages_enabled: 'true',
     messages_maxRetries: '10',
     messagesMaxSend: '10',
@@ -217,9 +217,9 @@ export const sendMessages = (type) => {
     // just stop here
   }
   // get all messages need to be sent (status are ready and queued)
-  let messages
+  let messagesCursor
   if (!type) {
-    messages = Messages.find(
+    messagesCursor = Messages.find(
       {
         status: { $in: ['ready', 'queued'] },
         $or: [{ nextRun: null }, { nextRun: { $lt: new Date() } }],
@@ -228,7 +228,7 @@ export const sendMessages = (type) => {
     )
   } else {
     // debug(`filtering to only send ${type}`)
-    messages = Messages.find(
+    messagesCursor = Messages.find(
       {
         status: { $in: ['ready', 'queued'] },
         type: type,
@@ -238,7 +238,8 @@ export const sendMessages = (type) => {
     )
   }
 
-  if (messages.count() === 0) {
+  const messages = await messagesCursor.fetchAsync()
+  if (messages.length === 0) {
     return {
       status: 'info',
       message: 'no message to be sent',
@@ -246,10 +247,10 @@ export const sendMessages = (type) => {
   }
 
   // try to send them
-  messages.map((message) => {
+  for (const message of messages) {
     // debug({ message })
     // Set the message to 'sending' to prevent duplicates
-    Messages.update(
+    await Messages.updateAsync(
       { _id: message._id },
       {
         $set: {
@@ -258,80 +259,75 @@ export const sendMessages = (type) => {
       }
     )
 
-    Transporter.send(message).then((result) => {
-      if (result.status === 'success') {
-        // update the message mark it sent
-        Messages.update(
+    const result = await Transporter.send(message)
+    if (result.status === 'success') {
+      // update the message mark it sent
+      await Messages.updateAsync(
+        { _id: message._id },
+        {
+          $set: {
+            status: 'sent',
+            updatedAt: new Date(),
+          },
+          $push: {
+            history: {
+              message: 'sent',
+              createdAt: new Date(),
+            },
+          },
+        }
+      )
+    } else {
+      // handle the retry times. Accept the value from the transport
+      if (message.retries >= config.maxRetries) {
+        await Messages.updateAsync(
           { _id: message._id },
           {
             $set: {
-              status: 'sent',
+              status: 'failed',
               updatedAt: new Date(),
+            },
+            $inc: {
+              retries: 1,
             },
             $push: {
               history: {
-                message: 'sent',
+                message: result,
                 createdAt: new Date(),
               },
             },
           }
         )
       } else {
-        // handle the retry times. Accept the value from the transport
-        if (message.retries >= config.maxRetries) {
-          // logger.audit(
-          //   `SMS to ${data.recipient} failed after ${config.maxRetries} retries `,
-          //   message
-          // )
-          Messages.update(
-            { _id: message._id },
-            {
-              $set: {
-                status: 'failed',
-                updatedAt: new Date(),
+        // increase the retries count
+        // calculate the nextRun date
+        const nextRun = moment()
+          .add(message.retries * 2 + 1, 'minutes')
+          .toDate()
+        await Messages.updateAsync(
+          { _id: message._id },
+          {
+            $set: {
+              status: 'queued',
+              nextRun,
+              updatedAt: new Date(),
+            },
+            $inc: {
+              retries: 1,
+            },
+            $push: {
+              history: {
+                message: result,
+                createdAt: new Date(),
               },
-              $inc: {
-                retries: 1,
-              },
-              $push: {
-                history: {
-                  message: result,
-                  createdAt: new Date(),
-                },
-              },
-            }
-          )
-        } else {
-          // increase the retries count
-          // calculate the nextRun date
-          const nextRun = moment()
-            .add(message.retries * 2 + 1, 'minutes')
-            .toDate()
-          Messages.update(
-            { _id: message._id },
-            {
-              $set: {
-                status: 'queued',
-                nextRun,
-                updatedAt: new Date(),
-              },
-              $inc: {
-                retries: 1,
-              },
-              $push: {
-                history: {
-                  message: result,
-                  createdAt: new Date(),
-                },
-              },
-            }
-          )
-        }
-
-        // call transport to report sending status? maybe not necessary?
+            },
+          }
+        )
       }
-    })
-  })
+
+      // call transport to report sending status? maybe not necessary?
+    }
+  }
 
   return {
     status: 'info',

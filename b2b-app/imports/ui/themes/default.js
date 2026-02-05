@@ -1,9 +1,6 @@
-import { createTheme } from '@material-ui/core/styles'
-import createBreakpoints from '@material-ui/core/styles/createBreakpoints'
+import { createTheme } from '@mui/material/styles';
 
-const breakpoints = createBreakpoints({})
-
-export default createTheme({
+export const baseThemeOptions = {
   typography: {
     htmlFontSize: 16,
     fontSize: 14,
@@ -46,20 +43,41 @@ export default createTheme({
     },
     primary1Color: '#00acc1',
   },
-  overrides: {
+  components: {
     MuiTooltip: {
-      tooltip: {
-        fontSize: '0.85em',
-        fontFamily: 'GothamRoundedMedium',
-      },
-    },
-    MuiContainer: {
-      root: {
-        [breakpoints.down('sm')]: {
-          paddingLeft: '8px',
-          paddingRight: '8px',
+      styleOverrides: {
+        tooltip: {
+          fontSize: '0.85em',
+          fontFamily: 'GothamRoundedMedium',
         },
       },
     },
   },
-})
+};
+
+export const createAppTheme = (options = baseThemeOptions) => {
+  const theme = createTheme({ ...options });
+
+  theme.components = {
+    ...theme.components,
+    MuiContainer: {
+      ...theme.components?.MuiContainer,
+      styleOverrides: {
+        ...theme.components?.MuiContainer?.styleOverrides,
+        root: {
+          ...(theme.components?.MuiContainer?.styleOverrides?.root || {}),
+          [theme.breakpoints.down('sm')]: {
+            paddingLeft: '8px',
+            paddingRight: '8px',
+          },
+        },
+      },
+    },
+  };
+
+  return theme;
+};
+
+const defaultTheme = createAppTheme();
+
+export default defaultTheme;

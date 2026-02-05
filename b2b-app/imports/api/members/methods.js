@@ -11,7 +11,7 @@ import Jobs from '../jobs/schema'
 const debug = require('debug')('app:members')
 
 Meteor.methods({
-  'members.byRole'({ role, fields }) {
+  'members.byRole': async function ({ role, fields }) {
     if (!Match.test(role, String)) {
       return { status: 'failed', message: 'Role must be a string' }
     }
@@ -38,20 +38,20 @@ Meteor.methods({
       nickname: 1,
     }
 
-    const members = Members.find(
+    const members = await Members.find(
       { userId: { $in: userIds } },
       { fields: selectedFields }
-    ).fetch()
+    ).fetchAsync()
 
     return { status: 'success', members }
   },
-  'members.search'({ keyword }) {
+  'members.search': async function ({ keyword }) {
     if (!Match.test(keyword, String)) {
       return { status: 'failed', message: 'Keyword must be string' }
     }
     const pattern = new RegExp(keyword, 'i')
     // find the member
-    const members = Members.find(
+    const members = await Members.find(
       {
         $or: [
           {
@@ -82,33 +82,35 @@ Meteor.methods({
           score: { $meta: 'textScore' },
         },
       }
-    ).fetch()
+    ).fetchAsync()
 
-    const membersWithHistory = members.map((item) => {
-      // select jobs which are related to this member
-      const prevJobs = Jobs.find(
-        { memberId: item._id },
-        {
-          fields: {
-            bikeName: 1,
-            totalCost: 1,
-            dropoffDate: 1,
-            pickupDate: 1,
-            status: 1,
-            createdAt: 1,
-          },
-          sort: {
-            createdAt: -1,
-          },
-        }
-      ).fetch()
+    const membersWithHistory = await Promise.all(
+      members.map(async (item) => {
+        // select jobs which are related to this member
+        const prevJobs = await Jobs.find(
+          { memberId: item._id },
+          {
+            fields: {
+              bikeName: 1,
+              totalCost: 1,
+              dropoffDate: 1,
+              pickupDate: 1,
+              status: 1,
+              createdAt: 1,
+            },
+            sort: {
+              createdAt: -1,
+            },
+          }
+        ).fetchAsync()
 
-      return { ...item, history: prevJobs }
-    })
+        return { ...item, history: prevJobs }
+      })
+    )
 
     return { status: 'success', members: membersWithHistory }
   },
-  'members.updateBio'({ bio, favorites }) {
+  'members.updateBio': async function ({ bio, favorites }) {
     debug({ bio, favorites })
     if (!Match.test(bio, String)) {
       return { status: 'failed', message: 'Invalid bio' }
@@ -121,13 +123,13 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const myMember = Members.findOne({ userId: this.userId })
+    const myMember = await Members.findOneAsync({ userId: this.userId })
     if (!myMember) {
       return { status: 'failed', message: 'Member was not found' }
     }
 
     try {
-      Members.update(
+      await Members.updateAsync(
         { _id: myMember._id },
         {
           $set: { bio, favorites },
@@ -148,7 +150,7 @@ Meteor.methods({
    * @returns {String} result.status - success or failed
    * @returns {String} result.message
    */
-  'members.addBadge'({ memberId, code, overwrite = false }) {
+  'members.addBadge': async function ({ memberId, code, overwrite = false }) {
     debug({ memberId, code })
     try {
       AddBadgeParamsSchema.validate({ memberId, code })
@@ -167,7 +169,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     // check for admin role
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const isAdm = Roles.userIsInRole(me, ['ADM'])
 
     if (!isAdm) {
@@ -175,7 +177,7 @@ Meteor.methods({
     }
 
     // get the member
-    const member = Members.findOne({ _id: memberId })
+    const member = await Members.findOneAsync({ _id: memberId })
     if (!member) {
       return { status: 'failed', message: `Member was not found with id: ${memberId}` }
     }
@@ -217,7 +219,7 @@ Meteor.methods({
 
     try {
       // debug('updateData', JSON.stringify(updateData, null, 2))
-      const updateResult = Members.update(updateCondition, updateData)
+      const updateResult = await Members.updateAsync(updateCondition, updateData)
       if (!updateResult) {
         return { status: 'failed', message: 'Unable to update member' }
       }
@@ -226,10 +228,10 @@ Meteor.methods({
     }
 
     // update the members array of event
-    const updatedMember = Members.findOne({ _id: memberId })
+    const updatedMember = await Members.findOneAsync({ _id: memberId })
     if (updatedMember) {
       try {
-        Events.update(
+        await Events.updateAsync(
           {
             members: {
               $elemMatch: { _id: memberId },
@@ -252,9 +254,9 @@ Meteor.methods({
 
     return { status: 'success' }
   },
-  'rm.members': (id) => {
+  'rm.members': async (id) => {
     try {
-      Members.remove(id)
+      await Members.removeAsync(id)
       logger.audit('Removed member', { id })
       return { status: 'success', message: 'Removed member' }
     } catch (e) {
@@ -265,15 +267,15 @@ Meteor.methods({
   'id.members': (id) => {
     return [Members.find(id)]
   },
-  'update.members': (form) => {
+  'update.members': async (form) => {
     try {
       const id = form._id
       const roles = form.roles
       delete form._id
       delete form.roles
-      const n = Members.update(id, { $set: form })
-      const m = Members.findOne(id)
-      Roles.setUserRoles(m.userId, roles)
+      const n = await Members.updateAsync(id, { $set: form })
+      const m = await Members.findOneAsync(id)
+      await Roles.setUserRoles(m.userId, roles)
       logger.audit('Updated member', { id, form })
       return { status: 'success', message: `Updated ${n} member(s)` }
     } catch (e) {
@@ -281,9 +283,9 @@ Meteor.methods({
       return { status: 'failed', message: `Error updating member: ${e.message}` }
     }
   },
-  'insert.members': (form) => {
+  'insert.members': async (form) => {
     try {
-      Members.insert(form)
+      await Members.insertAsync(form)
       logger.audit('member added', form)
       return { status: 'success', message: 'Added member' }
     } catch (e) {

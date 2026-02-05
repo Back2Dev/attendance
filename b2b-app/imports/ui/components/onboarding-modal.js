@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { Grid, Card, Container, Typography } from '@material-ui/core'
-import Skeleton from '@material-ui/lab/Skeleton'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Card, Container, Typography } from '@mui/material'
+import Skeleton from '@mui/material/Skeleton'
+import makeStyles from '@mui/styles/makeStyles';
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import PropTypes from 'prop-types'
 
@@ -66,13 +66,13 @@ const OnboardingModal = ({ renderForm }) => {
         spacing={0}
         direction="column"
         alignItems="center"
-        justify="center"
+        justifyContent="center"
         className={classes.gridContainer}
       >
         <Card className={classes.card}>{loading ? loadingForm() : renderForm()}</Card>
       </Grid>
     </Container>
-  )
+  );
 }
 
 OnboardingModal.propTypes = {

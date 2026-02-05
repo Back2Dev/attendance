@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button } from '@mui/material'
 import Modal from '/imports/ui/components/commons/modal'
 
 export default function RejectModal({ handleClose, open, reject }) {

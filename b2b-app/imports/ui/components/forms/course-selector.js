@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
-import { TextField } from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import { TextField } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
 import Courses from '/imports/api/courses/schema.js'
@@ -38,7 +38,7 @@ const CoursesSelector = ({ className, disabled, onChange, value, label }) => {
       <Autocomplete
         options={items}
         getOptionLabel={(option) => `${option.title}/${option.difficulty}`}
-        getOptionSelected={(option, value) => option._id === value?._id}
+        isOptionEqualToValue={(option, value) => option._id === value?._id}
         value={selectedItem || null}
         filterSelectedOptions
         renderInput={(params) => (
@@ -52,7 +52,7 @@ const CoursesSelector = ({ className, disabled, onChange, value, label }) => {
         disabled={disabled}
         onChange={(e, value) => onChange(value?._id)}
       />
-    )
+    );
   }
 
   return <StyledCoursesSelector>{renderList()}</StyledCoursesSelector>

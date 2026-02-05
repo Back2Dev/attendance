@@ -5,9 +5,9 @@ import getSchemas from './survey-schema-simple'
 import { generateAndUpload } from '/imports/api/s3-utils'
 
 Meteor.methods({
-  'rm.surveys': (id) => {
+  'rm.surveys': async (id) => {
     try {
-      Surveys.remove(id)
+      await Surveys.removeAsync(id)
       logger.info('Removed survey', { id })
       return { status: 'success', message: 'Removed survey' }
     } catch (e) {
@@ -18,11 +18,11 @@ Meteor.methods({
       }
     }
   },
-  'update.surveys': (form) => {
+  'update.surveys': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Surveys.update(id, { $set: form })
+      const n = await Surveys.updateAsync(id, { $set: form })
       logger.info('Survey updated', form)
       return { status: 'success', message: `Updated ${n} survey(s)` }
     } catch (e) {
@@ -33,9 +33,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.surveys': (form) => {
+  'insert.surveys': async (form) => {
     try {
-      Surveys.insert(form)
+      await Surveys.insertAsync(form)
       logger.info('Inserted survey', form)
       return { status: 'success', message: 'Added survey' }
     } catch (e) {
@@ -46,9 +46,9 @@ Meteor.methods({
       }
     }
   },
-  'generate.survey.filler': (id) => {
+  'generate.survey.filler': async (id) => {
     try {
-      const survey = typeof id === 'object' ? id : Surveys.findOne(id)
+      const survey = typeof id === 'object' ? id : await Surveys.findOneAsync(id)
       if (!survey) return { status: 'failed', message: 'Not found' }
       getSchemas(survey)
       logger.info('generated survey filler', { id })

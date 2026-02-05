@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import 'react-tabulator/lib/styles.css'
-import 'react-tabulator/lib/css/materialize/tabulator_materialize.min.css'
-import { ReactTabulator } from 'react-tabulator'
+import MuiGrid from '/imports/ui/components/commons/mui-grid'
 import { TabAppbar } from '/imports/ui/utils/generic'
 
 const debug = require('debug')('app:add')
@@ -10,7 +8,6 @@ const debug = require('debug')('app:add')
 const idField = '_id'
 const FILTER_NAME = 'jobs:filter'
 const List = ({ items, methods, columns }) => {
-  const [rowsSelected, setRowsSelected] = React.useState([])
 
   const tableRef = React.useRef(null)
 
@@ -23,9 +20,16 @@ const List = ({ items, methods, columns }) => {
     tableRef.current.table.download('csv', 'Jobs.csv')
   }
 
-  const onCellEdited = (cell) => {
+  const onCellEdited = async (cell) => {
     debug('cellEdited', cell)
-    methods.update(cell._cell.row.data)
+    const data = { ...cell._cell.row.data }
+    delete data.search
+    if (!data._id && data.id) data._id = data.id
+    if (!data._id) {
+      alert('Unable to update: missing id')
+      return
+    }
+    await methods.update(data)
   }
 
   const tableOptions = {
@@ -40,19 +44,6 @@ const List = ({ items, methods, columns }) => {
       columns: true,
     },
     persistenceID: 'jobs',
-    rowSelected: function (row) {
-      rowsSelected.push(row._row.data[idField])
-      setRowsSelected(rowsSelected)
-    },
-    rowDeselected: function (row) {
-      for (let i = 0; i < rowsSelected.length; i++) {
-        if (rowsSelected[i] === row._row.data[idField]) {
-          rowsSelected.splice(i, 1)
-          setRowsSelected(rowsSelected)
-        }
-      }
-    },
-
     downloadReady: (fileContents, blob) => blob,
     rowDblClick: function (e, row) {
       //e - the click event object
@@ -62,14 +53,13 @@ const List = ({ items, methods, columns }) => {
   }
   if (idField === 'id') tableOptions.reactiveData = true
   const deleteRows = () => {
-    if (rowsSelected.length === 0) alert('Please select one or more items to delete')
-    rowsSelected.forEach((id) => methods.remove(id))
-    if (idField === 'id') {
-      // Latency compensation for non-reactive database
-      const newRows = items.filter((row) => !rowsSelected.includes(row[idField]))
-      setRows(newRows)
-      setRowsSelected([])
+    if (!tableRef.current?.table) {
+      alert('Please select one or more items to delete')
+      return
     }
+    const selectedIds = tableRef.current.table.getSelectedIds?.() || []
+    if (selectedIds.length === 0) alert('Please select one or more items to delete')
+    selectedIds.forEach((id) => methods.remove(id))
   }
 
   const addANewRow = () => {
@@ -77,16 +67,20 @@ const List = ({ items, methods, columns }) => {
   }
 
   const archiveData = () => {
-    console.log(rowsSelected)
-    if (rowsSelected.length === 0) alert('Please select one or more items to Archive')
-    methods.archive(rowsSelected)
+    if (!tableRef.current?.table) {
+      alert('Please select one or more items to Archive')
+      return
+    }
+    const selectedIds = tableRef.current.table.getSelectedIds?.() || []
+    if (selectedIds.length === 0) alert('Please select one or more items to Archive')
+    methods.archive(selectedIds)
   }
 
   if (!items.length) {
     Contents = () => <span>No data found</span>
   } else {
     Contents = () => (
-      <ReactTabulator
+      <MuiGrid
         ref={tableRef}
         columns={columns}
         data={items}

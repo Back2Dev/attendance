@@ -13,10 +13,10 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-} from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
+} from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import Draggable from 'react-draggable'
-import { AutoForm, AutoFields } from 'uniforms-material'
+import { AutoForm, AutoFields } from 'uniforms-mui'
 import { CustomAutoField } from '/imports/ui/components/forms'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
 
@@ -207,7 +207,7 @@ function EventForm() {
             {data._id ? 'Edit event' : 'Create event'}
           </div>
           {data._id && (
-            <IconButton onClick={handleDelete}>
+            <IconButton onClick={handleDelete} size="large">
               <DeleteIcon />
             </IconButton>
           )}
@@ -280,7 +280,7 @@ function EventForm() {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export default EventForm

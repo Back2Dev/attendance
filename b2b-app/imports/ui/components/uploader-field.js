@@ -8,7 +8,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDropzone } from 'react-dropzone'
-import { Button, makeStyles } from '@material-ui/core'
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import slingshotUpload from '/imports/ui/components/upload-function'
 
 const debug = require('debug')('app:upload')

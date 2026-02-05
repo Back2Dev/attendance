@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Typography, Grid } from '@material-ui/core'
+import { Typography, Grid } from '@mui/material'
 
 import { MySessionsProvider } from './portal/contexts'
 import MemberPanel from './portal/member-panel'

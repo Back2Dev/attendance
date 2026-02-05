@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Button, Fade, CircularProgress } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles';
+import { Button, Fade, CircularProgress } from '@mui/material'
 import { useForm } from 'uniforms'
 
 import { RegisterContext } from '../context'

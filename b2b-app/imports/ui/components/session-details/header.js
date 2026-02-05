@@ -2,8 +2,8 @@ import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { Typography, Grid, Link } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
+import { Typography, Grid, Link } from '@mui/material'
+import { Skeleton } from '@mui/material';
 
 import Loading from '/imports/ui/components/commons/loading.js'
 import Avatar from '/imports/ui/components/commons/avatar.js'
@@ -75,7 +75,7 @@ function DetailsHeader() {
           </Link>{' '}
         </div>
       )
-    })
+    });
   }
 
   return (

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Typography, Button, Grid } from '@material-ui/core'
+import { Typography, Button, Grid } from '@mui/material'
 import { connectField } from 'uniforms'
 import {
   AutoForm,
@@ -9,9 +8,10 @@ import {
   ErrorsField,
   SubmitField,
   ValidatedForm,
-} from 'uniforms-material'
+} from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import RegEx from '/imports/api/regexp'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
 import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.js'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
@@ -19,41 +19,40 @@ import TextDivider from '/imports/ui/components/text-divider.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import { showError } from '/imports/ui/utils/toast-alerts'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: { type: String, max: 200 },
     email: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
     },
     mobile: {
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },
     },
-  })
-)
+  }),
+})
 
 const SignupStep = ({ activeStep, setActiveStep }) => {
   const { user } = useContext(AccountContext)
 
-  const toUploadContract = (form) => {
+  const toUploadContract = async (form) => {
     Object.keys(form).map(
       (key) => (form[key] = typeof form[key] == 'string' ? form[key].trim() : form[key])
     )
-    Meteor.call('userExists', form.email, function (err) {
-      if (err) {
-        showError(err)
-      } else {
-        sessionStorage.setItem('userDetails', JSON.stringify(form))
-        setActiveStep(activeStep + 1)
-      }
-    })
+    try {
+      await Meteor.callAsync('userExists', form.email)
+      sessionStorage.setItem('userDetails', JSON.stringify(form))
+      setActiveStep(activeStep + 1)
+    } catch (err) {
+      showError(err)
+    }
   }
 
   const prefilled = sessionStorage.getItem('userDetails')

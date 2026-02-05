@@ -1,7 +1,6 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
-import { useHistory } from 'react-router-dom'
 import CONSTANTS from '/imports/api/constants'
 import { saveAs } from 'file-saver'
 import { blobToFile } from '/imports/ui/utils/files'
@@ -13,6 +12,7 @@ import Surveys from '/imports/api/surveys/schema'
 import Practices from '/imports/api/practices/schema'
 import Profiles from '/imports/api/profiles/schema'
 import WebformPage from './webform-page'
+import useHistory from '/imports/ui/utils/history'
 
 const FIELDTYPES = {
   text: 'string',
@@ -190,17 +190,16 @@ const WebformBox = withTracker((props) => {
     const canvas = sigRef.current.getCanvas()
     canvas.toBlob((blob) => {
       const uploader = new Slingshot.Upload('publicUploads', metaContext)
-      uploader.send(blob, function (error, downloadUrl) {
+      uploader.send(blob, async function (error, downloadUrl) {
         if (error) {
           showError(error)
         } else {
-          Meteor.call('uploaded.signature', { fileName, folder }, (err, res) => {
-            if (err) {
-              showError(err)
-            } else {
-              showSuccess(res.message)
-            }
-          })
+          try {
+            const res = await Meteor.callAsync('uploaded.signature', { fileName, folder })
+            showSuccess(res.message)
+          } catch (err) {
+            showError(err)
+          }
         }
       })
     })

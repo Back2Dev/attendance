@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
 import {
   OptionalString,
@@ -12,12 +12,11 @@ import {
 
 const Sessions = new Mongo.Collection('sessions')
 if (Meteor.isServer) {
-  Sessions._ensureIndex(
-    {
-      status: 1,
-    },
-    { name: 'status' }
-  )
+  Meteor.startup(() => {
+    Sessions.rawCollection()
+      .createIndex({ status: 1 }, { name: 'status' })
+      .catch((err) => console.error('Error creating sessions index', err))
+  })
 }
 
 export const SessionsSchema = new SimpleSchema({

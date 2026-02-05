@@ -1,11 +1,10 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
-
-import { Button, Paper, Typography } from '@material-ui/core'
+import { Button, Paper, Typography } from '@mui/material'
 
 import { MySessionsContext } from './contexts.js'
 import SessionItem from './item.js'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledRecentSessions = styled.div`
   .sessions-container {

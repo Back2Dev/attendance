@@ -4,9 +4,9 @@ import Cronjobs from './schema'
 const debug = require('debug')('target:cronjobs')
 
 Meteor.methods({
-  'rm.cronjobs': (id) => {
+  'rm.cronjobs': async (id) => {
     try {
-      Cronjobs.remove(id)
+      await Cronjobs.removeAsync(id)
       logger.info('Removed cronjob', { id })
       return { status: 'success', message: 'Removed cronjob' }
     } catch (e) {
@@ -17,11 +17,11 @@ Meteor.methods({
       }
     }
   },
-  'update.cronjobs': (form) => {
+  'update.cronjobs': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Cronjobs.update(id, { $set: form })
+      const n = await Cronjobs.updateAsync(id, { $set: form })
       logger.info('updated cronjob', { id, data: form })
       return { status: 'success', message: `Updated ${n} cronjob(s)` }
     } catch (e) {
@@ -32,9 +32,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.cronjobs': (form) => {
+  'insert.cronjobs': async (form) => {
     try {
-      const id = Cronjobs.insert(form)
+      const id = await Cronjobs.insertAsync(form)
       logger.info('inserted cronjob', { data: form })
       return { status: 'success', message: 'Added cronjob' }
     } catch (e) {

@@ -41,21 +41,23 @@ Meteor.methods({
    * coach: "Mike King",
    * course: "Bumble bee"})
    */
-  'create.workshop': (form) => {
+  'create.workshop': async (form) => {
     try {
-      Sessions.remove({})
+      await Sessions.removeAsync({})
       // Events.remove({})
       const { start, weeks, code, coach, course } = form
-      Events.remove({ code: `${code}-${start}` })
-      const trainer = Members.findOne({ name: coach })
-      const theCourse = Courses.findOne({ title: course })
+      await Events.removeAsync({ code: `${code}-${start}` })
+      const trainer = await Members.findOneAsync({ name: coach })
+      const theCourse = await Courses.findOneAsync({ title: course })
       let week = 0
-      weeks.split('').forEach((wk, ix) => {
+      const weekFlags = weeks.split('')
+      for (let ix = 0; ix < weekFlags.length; ix += 1) {
+        const wk = weekFlags[ix]
         if (wk.match(/y/i)) {
           const when = moment(start)
             .add(ix * 7, 'day')
             .format('YYYY-MM-DD')
-          const eventId = Events.insert({
+          const eventId = await Events.insertAsync({
             type: 'once',
             status: 'active',
             duration: 3,
@@ -65,7 +67,7 @@ Meteor.methods({
             name: unit[week].name,
             courseId: theCourse?._id,
           })
-          const sId = Sessions.insert({
+          const sId = await Sessions.insertAsync({
             memberId: trainer?._id,
             name: unit[week].name,
             memberName: coach,
@@ -75,11 +77,11 @@ Meteor.methods({
             bookedAt: new Date(),
             eventId,
           })
-          trainer.session = Sessions.findOne(sId)
-          Events.update(eventId, { $push: { members: trainer } })
+          trainer.session = await Sessions.findOneAsync(sId)
+          await Events.updateAsync(eventId, { $push: { members: trainer } })
           week = week + 1
         }
-      })
+      }
 
       return { status: 'success', message: 'Added events' }
     } catch (e) {

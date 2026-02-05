@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router'
-
-import { Typography, IconButton } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
-import EditIcon from '@material-ui/icons/Edit'
+import { Typography, IconButton } from '@mui/material'
+import { Skeleton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit'
 import numeral from 'numeral'
 
 import { JobsDetailsContext } from './context'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledJobServiceItems = styled.div`
   border: 1px solid #cccccc;

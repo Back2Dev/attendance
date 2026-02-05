@@ -1,12 +1,9 @@
-import { createTheme } from '@material-ui/core/styles'
+import { baseThemeOptions, createAppTheme } from './default';
 
-import defaultTheme from './default'
-// console.log('default', defaultTheme)
-
-export default createTheme({
-  ...defaultTheme,
+const darkThemeOptions = {
+  ...baseThemeOptions,
   palette: {
-    type: 'dark',
+    mode: 'dark',
     primary: {
       light: '#7986cb',
       main: '#9aa9ff',
@@ -35,4 +32,6 @@ export default createTheme({
   appBar: {
     color: '#00acc1',
   },
-})
+};
+
+export default createAppTheme(darkThemeOptions);

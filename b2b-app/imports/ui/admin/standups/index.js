@@ -1,6 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-
+import { Routes, Route } from 'react-router-dom'
 import Loading from '/imports/ui/components/commons/loading'
 
 import Lister from './lister'
@@ -11,13 +10,13 @@ import NotFound from '/imports/ui/components/commons/not-found'
 import Meet from '/imports/ui/admin/standup-notes/meeting-box'
 export default function Standups() {
   return (
-    <Switch>
-      <Route path="/admin/standups/edit/:id" exact component={Editor} />
-      <Route path="/admin/standups/add/" exact component={Adder} />
-      <Route path="/admin/standups/view/:id" exact component={Viewer} />
-      <Route path="/admin/standups/meet/:id" exact component={Meet} />
-      <Route path="/admin/standups" exact component={Lister} />
-      <Route component={NotFound} />
-    </Switch>
+    <Routes>
+      <Route path="edit/:id" element={<Editor />} />
+      <Route path="add/" element={<Adder />} />
+      <Route path="view/:id" element={<Viewer />} />
+      <Route path="meet/:id" element={<Meet />} />
+      <Route index element={<Lister />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }

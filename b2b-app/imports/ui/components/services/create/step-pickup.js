@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { AutoForm, AutoFields, TextField, ErrorsField } from 'uniforms-material'
+import { AutoForm, AutoFields, TextField, ErrorsField } from 'uniforms-mui'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 import { ServiceContext } from './context'
@@ -164,7 +164,7 @@ function PickupStep({ initialData }) {
         <div className="form-container">
           <AutoForm
             ref={formRef}
-            schema={new SimpleSchema2Bridge(pickupFormSchema)}
+            schema={new SimpleSchema2Bridge({ schema: pickupFormSchema })}
             model={pickup}
             onSubmit={handleSubmit}
             onChange={(field, data) => {

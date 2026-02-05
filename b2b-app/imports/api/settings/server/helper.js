@@ -11,7 +11,7 @@ const debug = require('debug')('app:settings:helper')
  * - {string} result.message
  * - {integer} result.removed - the the number of removed documents
  */
-export const rmSettings = (id, incReadonly = false) => {
+export const rmSettings = async (id, incReadonly = false) => {
   if (!Match.test(id, String)) {
     return { status: 'failed', message: `Invalid id` }
   }
@@ -26,7 +26,7 @@ export const rmSettings = (id, incReadonly = false) => {
   }
 
   try {
-    const n = Settings.remove(condition)
+    const n = await Settings.removeAsync(condition)
     return { status: 'success', message: `Removed setting`, removed: n }
   } catch (e) {
     return { status: 'failed', message: `Error removing setting: ${e.message}` }
@@ -42,7 +42,7 @@ export const rmSettings = (id, incReadonly = false) => {
  * - {string} result.message
  * - {integer} result.updated - the the number of updated documents
  */
-export const updateSettings = (form, incReadonly = false) => {
+export const updateSettings = async (form, incReadonly = false) => {
   if (!Match.test(form, Match.ObjectIncluding({ _id: String }))) {
     return { status: 'failed', message: `Invalid form data` }
   }
@@ -59,7 +59,7 @@ export const updateSettings = (form, incReadonly = false) => {
       delete condition.readonly
     }
 
-    const n = Settings.update(condition, { $set: data })
+    const n = await Settings.updateAsync(condition, { $set: data })
     // debug('update', { condition }, { data }, { n })
     return { status: 'success', message: `Updated ${n} setting(s)`, updated: n }
   } catch (e) {
@@ -74,9 +74,9 @@ export const updateSettings = (form, incReadonly = false) => {
  * - {string} result.status - the status success or failed
  * - {string} result.message
  */
-export const insertSettings = (form) => {
+export const insertSettings = async (form) => {
   try {
-    const id = Settings.insert(form)
+    const id = await Settings.insertAsync(form)
     return { status: 'success', message: `Added setting`, id }
   } catch (e) {
     return { status: 'failed', message: `Error adding setting: ${e.message}` }
@@ -89,13 +89,13 @@ export const insertSettings = (form) => {
  * @param {any} defaultValue
  * @returns {object} of setting or null
  */
-export const getSetting = ({ key, defaultValue }) => {
+export const getSetting = async ({ key, defaultValue }) => {
   // debug('get.setting key', key)
   if (!Match.test(key, String)) {
     return null
   }
 
-  const result = Settings.findOne({ key })
+  const result = await Settings.findOneAsync({ key })
   // debug('get.setting result', result)
 
   // we may want to handle the public/private flag here
@@ -115,13 +115,13 @@ export const getSetting = ({ key, defaultValue }) => {
  * @param {string[]} keys
  * @returns {object} settings, with properties are setting keys or null
  */
-export const getSettings = ({ keys }) => {
+export const getSettings = async ({ keys }) => {
   // debug('get.settings keys', keys)
   if (!Match.test(keys, [String])) {
     return null
   }
 
-  const settings = Settings.find({ key: { $in: keys } }).fetch() || []
+  const settings = (await Settings.find({ key: { $in: keys } }).fetchAsync()) || []
   // debug('get.settings', settings)
 
   if (settings.length === 0) {
@@ -142,13 +142,13 @@ export const getSettings = ({ keys }) => {
  * @param {any} defaultValue
  * @returns {string} of setting value or null
  */
-export const getCfg = (key, defaultValue) => {
+export const getCfg = async (key, defaultValue) => {
   // debug('get.setting key', key)
   if (!Match.test(key, String)) {
     return null
   }
 
-  const result = Settings.findOne({ key })
+  const result = await Settings.findOneAsync({ key })
 
   if (!result && defaultValue) {
     return defaultValue
@@ -162,13 +162,13 @@ export const getCfg = (key, defaultValue) => {
  * @param {string[]} keys
  * @returns {object} settings, with properties are setting keys or null
  */
-export const getCfgs = (keys) => {
+export const getCfgs = async (keys) => {
   // debug('get.settings keys', keys)
   if (!Match.test(keys, [String])) {
     return null
   }
 
-  const settings = Settings.find({ key: { $in: keys } }).fetch() || []
+  const settings = (await Settings.find({ key: { $in: keys } }).fetchAsync()) || []
   // debug('get.settings', settings)
 
   if (settings.length === 0) {

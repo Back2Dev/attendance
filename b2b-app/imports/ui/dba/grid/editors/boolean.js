@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Checkbox } from '@material-ui/core'
+import { Checkbox } from '@mui/material'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
 import { CollectionContext } from '../../context'

@@ -1,5 +1,6 @@
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import RegEx from '/imports/api/regexp'
 
 import AvatarField from './avatar-field'
 
@@ -66,11 +67,11 @@ const contactFormSchema = new SimpleSchema({
   name: String,
   mobileNumber: {
     type: String,
-    regEx: SimpleSchema.RegEx.Phone,
+    regEx: RegEx.Phone,
   },
   email: {
     type: String,
-    regEx: SimpleSchema.RegEx.Email,
+    regEx: RegEx.Email,
   },
   streetAddress: {
     type: String,
@@ -127,7 +128,7 @@ const emergencyFormSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  emergencyContactMobile: SimpleSchema.RegEx.Phone,
+  emergencyContactMobile: RegEx.Phone,
 })
 
 const avatarFormSchema = new SimpleSchema({
@@ -187,11 +188,11 @@ const termsFormSchema = new SimpleSchema({
   },
 })
 
-const contactFormBridge = new SimpleSchema2Bridge(contactFormSchema)
-const aboutFormBridge = new SimpleSchema2Bridge(aboutFormSchema)
-const emergencyFormBridge = new SimpleSchema2Bridge(emergencyFormSchema)
-const avatarFormBridge = new SimpleSchema2Bridge(avatarFormSchema)
-const termsFormBridge = new SimpleSchema2Bridge(termsFormSchema)
+const contactFormBridge = new SimpleSchema2Bridge({ schema: contactFormSchema })
+const aboutFormBridge = new SimpleSchema2Bridge({ schema: aboutFormSchema })
+const emergencyFormBridge = new SimpleSchema2Bridge({ schema: emergencyFormSchema })
+const avatarFormBridge = new SimpleSchema2Bridge({ schema: avatarFormSchema })
+const termsFormBridge = new SimpleSchema2Bridge({ schema: termsFormSchema })
 
 export {
   contactFormBridge,

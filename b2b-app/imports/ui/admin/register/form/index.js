@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { AutoForm, AutoField, ErrorField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorField } from 'uniforms-mui'
 import { Bridge, randomIds } from 'uniforms'
 
 import FormNav from './form-nav'

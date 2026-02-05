@@ -1,18 +1,19 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
-import { Typography, Container } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Typography, Container } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import RegEx from '/imports/api/regexp'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import GooglePlaces from '/imports/ui/components/google-places.js'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 
-let userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+let userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: {
       type: String,
     },
@@ -28,7 +29,7 @@ let userSchema = new SimpleSchema2Bridge(
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },
@@ -40,8 +41,8 @@ let userSchema = new SimpleSchema2Bridge(
         label: 'I would like to receive SMS notifications',
       },
     },
-  })
-)
+  }),
+})
 
 const useStyles = makeStyles((theme) => ({
   mobile: {
@@ -56,14 +57,13 @@ export default function UserPreferences() {
   const userMember = Object.assign({}, member, user)
   userMember.sms = userMember?.notifyBy?.includes('SMS')
 
-  const editUserMember = (form) => {
-    Meteor.call('editUserMember', form, (err) => {
-      if (err) {
-        showError(err)
-      } else {
-        showSuccess('Member updated')
-      }
-    })
+  const editUserMember = async (form) => {
+    try {
+      await Meteor.callAsync('editUserMember', form)
+      showSuccess('Member updated')
+    } catch (err) {
+      showError(err)
+    }
   }
 
   return (

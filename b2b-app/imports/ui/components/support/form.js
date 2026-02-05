@@ -1,15 +1,15 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
-import { Box, Typography, Container, Paper, Button, Grid } from '@material-ui/core'
-import { AutoForm, AutoFields, ErrorsField } from 'uniforms-material'
+import { Box, Typography, Container, Paper, Button, Grid } from '@mui/material'
+import { AutoForm, AutoFields, ErrorsField } from 'uniforms-mui'
 
 import { showSuccess, showError } from '/imports/ui/utils/toast-alerts'
 import { bridge as schema } from '/imports/api/support/schema-form.js'
 import ThankYouPage from './thank-you'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledSuportForm = styled(Container)`
   margin: 60px auto;
@@ -41,15 +41,12 @@ function SupportForm() {
 
   const formRef = useRef()
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     console.log('submit', data)
     setLoading(true)
-    Meteor.call('support.create', data, (error, result) => {
+    try {
+      const result = await Meteor.callAsync('support.create', data)
       setLoading(false)
-      if (error) {
-        showError(error.message)
-        return
-      }
       if (result?.status === 'failed') {
         showError(result?.message)
         return
@@ -60,7 +57,10 @@ function SupportForm() {
         return
       }
       showError('Unknown error!')
-    })
+    } catch (error) {
+      setLoading(false)
+      showError(error.message)
+    }
   }
 
   if (finished) {
@@ -77,7 +77,7 @@ function SupportForm() {
       </Typography>
       <Box display="flex" justifyContent="center" className="form-container">
         <Paper elevation={2} className="form-wrapper">
-          <Grid container direction="row" justify="space-evenly" alignItems="center">
+          <Grid container direction="row" justifyContent="space-evenly" alignItems="center">
             <Grid item xs={12} sm={6}>
               <AutoForm
                 ref={formRef}
@@ -119,7 +119,7 @@ function SupportForm() {
         </Paper>
       </Box>
     </StyledSuportForm>
-  )
+  );
 }
 
 export default SupportForm

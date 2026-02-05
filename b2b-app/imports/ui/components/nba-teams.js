@@ -1,11 +1,11 @@
 import React from 'react'
-import SportsBasketball from '@material-ui/icons/SportsBasketball'
-import DirectionsRun from '@material-ui/icons/DirectionsRun'
-import Accessibility from '@material-ui/icons/Accessibility'
-import SportsHandball from '@material-ui/icons/SportsHandball'
-import DirectionsWalk from '@material-ui/icons/DirectionsWalk'
-import EmojiPeople from '@material-ui/icons/EmojiPeople'
-import FlashOn from '@material-ui/icons/FlashOn'
+import SportsBasketball from '@mui/icons-material/SportsBasketball'
+import DirectionsRun from '@mui/icons-material/DirectionsRun'
+import Accessibility from '@mui/icons-material/Accessibility'
+import SportsHandball from '@mui/icons-material/SportsHandball'
+import DirectionsWalk from '@mui/icons-material/DirectionsWalk'
+import EmojiPeople from '@mui/icons-material/EmojiPeople'
+import FlashOn from '@mui/icons-material/FlashOn'
 const debug = require('debug')('app:tree-field')
 
 const icons = [
@@ -23,7 +23,7 @@ const slugify = (text) => {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/[^a-z0-9]+/g, '-');
 }
 
 const orgs = {

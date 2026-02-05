@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Route, Switch } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import DBA from '/imports/ui/dba'
 import ViewForm from '/imports/ui/dba/view-form'
 import DBAArchives from '/imports/ui/dba/archives'
@@ -18,13 +18,13 @@ const AdminPage = () => {
 
   return (
     <StyledAdminPage className="admin-page-container">
-      <Switch>
-        <Route path="/dba/archives/:collection" component={DBAArchives} />
-        <Route path="/dba/archives" component={DBAArchives} />
-        <Route exact path="/dba/:collection/add-view" component={ViewForm} />
-        <Route exact path="/dba/:collection/edit-view/:view" component={ViewForm} />
-        <Route path="/dba/:collection/:view?" component={DBA} />
-      </Switch>
+      <Routes>
+        <Route path="archives/:collection" element={<DBAArchives />} />
+        <Route path="archives" element={<DBAArchives />} />
+        <Route path=":collection/add-view" element={<ViewForm />} />
+        <Route path=":collection/edit-view/:view" element={<ViewForm />} />
+        <Route path=":collection/:view?" element={<DBA />} />
+      </Routes>
     </StyledAdminPage>
   )
 }

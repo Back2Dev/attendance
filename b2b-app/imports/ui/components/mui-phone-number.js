@@ -1,7 +1,8 @@
 import React from 'react'
-import MuiPhoneNumber from 'material-ui-phone-number'
 import { connectField } from 'uniforms'
 import PropTypes from 'prop-types'
+import PhoneInput from 'react-phone-number-input/input'
+import { TextField } from '@mui/material'
 
 function MaterialPhoneNumber({
   defaultValue,
@@ -19,16 +20,20 @@ function MaterialPhoneNumber({
   }
 
   return (
-    <MuiPhoneNumber
-      defaultCountry="au"
-      onChange={(value) => handleChange(value)}
-      helperText={error ? errorMessage : helperText}
-      value={value}
-      error={error != null}
-      // label={label}
+    <TextField
       fullWidth
       variant="outlined"
       margin="dense"
+      error={error != null}
+      helperText={error ? errorMessage : helperText}
+      InputProps={{
+        inputComponent: PhoneInput,
+        inputProps: {
+          country: 'AU',
+          value,
+          onChange: handleChange,
+        },
+      }}
     />
   )
 }

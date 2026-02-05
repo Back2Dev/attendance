@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { Typography, Link } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
+import { Typography, Link } from '@mui/material'
+import { Skeleton } from '@mui/material';
 
 import Avatar from '/imports/ui/components/commons/avatar.js'
 import Badges from '/imports/ui/components/commons/member-badges.js'
@@ -38,12 +38,12 @@ function DetailsMembers() {
     return (
       <StyledDetailsMembers>
         <div>
-          <Skeleton variant="circle" size={32} />
+          <Skeleton variant="circular" size={32} />
           <Skeleton variant="text" width={120} />
           <Skeleton variant="text" width={150} />
         </div>
       </StyledDetailsMembers>
-    )
+    );
   }
 
   if (!event || !event.members || !event.members.length) {

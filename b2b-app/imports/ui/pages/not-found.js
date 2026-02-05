@@ -1,7 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-import { Typography, Link } from "@material-ui/core";
+import { Typography, Link } from "@mui/material";
 
 export default function NotFound() {
   return (

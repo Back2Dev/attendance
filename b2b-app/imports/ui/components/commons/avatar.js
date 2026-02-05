@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { Link } from '@material-ui/core'
+import { Link } from '@mui/material'
 
 import CONSTANTS from '/imports/api/constants'
 

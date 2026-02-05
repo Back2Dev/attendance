@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import StandupNotes from '/imports/api/standup-notes/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Loader from '/imports/ui/components/commons/loading.js'
@@ -14,31 +14,34 @@ const dateFormat = {
   outputFormat: 'DD/MM/YY h:mm A',
   invalidPlaceholder: '',
 }
-let history
 
-const remove = (id) => meteorCall('rm.standupNotes', 'Deleting', id)
-const update = (id, form) => {
-  meteorCall('update.standupNotes', 'updating', form)
-  history.push('/admin/standup-notes')
-}
-const methods = { remove, update }
+const Editor = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-const Loading = (props) => {
-  if (props.loading) return <Loader loading />
-  return <Edit {...props}></Edit>
+  const { item, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('id.standupNotes', id)
+    return {
+      loading: !subsHandle.ready(),
+      item: StandupNotes.findOne(id) || {},
+    }
+  }, [id])
+
+  const methods = useMemo(
+    () => ({
+      remove: (targetId) => meteorCall('rm.standupNotes', 'Deleting', targetId),
+      update: (targetId, form) => {
+        meteorCall('update.standupNotes', 'updating', form)
+        navigate('/admin/standup-notes')
+      },
+    }),
+    [navigate]
+  )
+
+  if (loading) return <Loader loading />
+  return <Edit id={id} item={item} methods={methods} loading={loading} />
 }
-const Editor = withTracker((props) => {
-  history = props.history
-  const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.standupNotes', id)
-  const item = StandupNotes.findOne(id) || {}
-  return {
-    id,
-    item,
-    methods,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+
 export default Editor
 
 /* 
@@ -48,7 +51,7 @@ export default Editor
 // const LegacyEditor = (props) => {
 //   const [loading, setLoading] = React.useState(true)
 //   const [item, setItem] = React.useState({})
-//   const id = props.match.params.id
+//   const id = id
 //   let status
 
 //   React.useEffect(() => {

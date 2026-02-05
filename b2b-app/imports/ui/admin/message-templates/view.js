@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Container, Typography } from '@material-ui/core'
+import { Box, Container, Typography } from '@mui/material'
 import HTMLTemplate from '/imports/api/email-template'
 
 const debug = require('debug')('app:edit')

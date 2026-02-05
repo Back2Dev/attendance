@@ -1,8 +1,8 @@
 import React, { useReducer, createContext } from 'react'
 import PropTypes from 'prop-types'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
 const steps = ['Contact details', 'About you', 'Emergency contact', 'Avatar', 'Confirm']
 
@@ -77,7 +77,7 @@ const RegisterContext = createContext()
 const RegisterProvider = ({ children }) => {
   const [{ models, ui }, dispatch] = useReducer(reducer, initialState)
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const { activeStep, isEditingStep, isSubmitting } = ui
 
   return (

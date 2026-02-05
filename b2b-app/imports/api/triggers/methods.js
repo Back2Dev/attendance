@@ -12,9 +12,9 @@ import HTMLTemplate from '/imports/api/email-template'
 const debug = require('debug')('target:triggers')
 
 Meteor.methods({
-  'rm.triggers': (id) => {
+  'rm.triggers': async (id) => {
     try {
-      const n = Triggers.remove(id)
+      const n = await Triggers.removeAsync(id)
       return { status: 'success', message: 'Removed trigger' }
     } catch (e) {
       return {
@@ -23,11 +23,11 @@ Meteor.methods({
       }
     }
   },
-  'update.triggers': (form) => {
+  'update.triggers': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Triggers.update(id, { $set: form })
+      const n = await Triggers.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} trigger(s)` }
     } catch (e) {
       return {
@@ -36,9 +36,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.triggers': (form) => {
+  'insert.triggers': async (form) => {
     try {
-      const id = Triggers.insert(form)
+      const id = await Triggers.insertAsync(form)
       return { status: 'success', message: 'Added trigger' }
     } catch (e) {
       return {

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Grid, Typography } from '@material-ui/core'
-import Skeleton from '@material-ui/lab/Skeleton'
+import { Grid, Typography } from '@mui/material'
+import Skeleton from '@mui/material/Skeleton'
 
 import { PublicProfileContext } from '/imports/ui/components/user-public-profile/context.js'
 import Avatar from '/imports/ui/components/commons/avatar.js'
@@ -34,19 +34,19 @@ function Profile() {
       <StyledProfile>
         <Grid container>
           <Grid item xs={12} sm={5} md={4} className="col-1" align="center">
-            <Skeleton variant="circle" width={150} height={150} className="avatar" />
-            <Skeleton variant="rect" height={100} />
+            <Skeleton variant="circular" width={150} height={150} className="avatar" />
+            <Skeleton variant="rectangular" height={100} />
           </Grid>
           <Grid item xs={12} sm={7} md={5} className="col-2">
             <Skeleton variant="text" className="title" height={40} />
-            <Skeleton variant="rect" height={200} />
+            <Skeleton variant="rectangular" height={200} />
           </Grid>
           <Grid item xs={12} sm={12} md={3} className="col-3">
-            <Skeleton variant="rect" />
+            <Skeleton variant="rectangular" />
           </Grid>
         </Grid>
       </StyledProfile>
-    )
+    );
   }
 
   return (

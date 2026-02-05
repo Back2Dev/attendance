@@ -1,13 +1,14 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useReducer, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 
 import Jobs from '/imports/api/jobs/schema.js'
 import createJobCard from '/imports/ui/utils/job-card-pdf.js'
+import useHistory from '/imports/ui/utils/history'
 
 export const ServiceContext = React.createContext('service')
 
@@ -193,7 +194,7 @@ export const ServiceProvider = ({ children }) => {
     createJobCard({ serviceType, serviceItems, bikeDetails, contactData, assessor, jobNo: theJobNo })
   }
 
-  const createJob = (quick = false) => {
+  const createJob = async (quick = false) => {
     // check if all steps are completed
     let allDone = true
     Object.keys(state.steps).map((stepKey) => {
@@ -233,36 +234,34 @@ export const ServiceProvider = ({ children }) => {
       data.jobId = originalData._id
     }
 
-    Meteor.call(originalData ? 'jobs.update' : 'jobs.create', data, (error, result) => {
+    try {
+      const result = await Meteor.callAsync(
+        originalData ? 'jobs.update' : 'jobs.create',
+        data
+      )
       if (mounted.current) {
         dispatch({ type: 'setLoading', payload: false })
       }
-      if (error) {
-        showError(error.message)
-      }
-      if (result) {
-        if (result.status === 'success') {
-          showSuccess(`Job ${originalData ? 'updated' : 'created'} successfully`)
-          // push(`/jobs/${result.id}`)
-          // create pdf now?
-          if (quick === false) {
-            createPdf(result.jobNo)
-          }
-
-          if (originalData) {
-            // redirect to job details
-            push(`/services/${originalData._id}`)
-          } else {
-            // redirect to jobs listing
-            push('/services')
-          }
-        } else {
-          showError(
-            `Error ${originalData ? 'updating' : 'creating'} job: ${result.message}`
-          )
+      if (result?.status === 'success') {
+        showSuccess(`Job ${originalData ? 'updated' : 'created'} successfully`)
+        if (quick === false) {
+          createPdf(result.jobNo)
         }
+
+        if (originalData) {
+          push(`/services/${originalData._id}`)
+        } else {
+          push('/services')
+        }
+      } else {
+        showError(`Error ${originalData ? 'updating' : 'creating'} job: ${result?.message}`)
       }
-    })
+    } catch (error) {
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', payload: false })
+      }
+      showError(error.message)
+    }
   }
 
   return (

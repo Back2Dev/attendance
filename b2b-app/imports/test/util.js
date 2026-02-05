@@ -4,6 +4,7 @@
  */
 
 import { Meteor } from 'meteor/meteor';
+import { Promise } from 'meteor/promise';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import differenceWith from 'lodash/differenceWith';
@@ -23,7 +24,7 @@ export const callStubbed = (user, method, ...args) => {
   userIdStub.returns(user._id);
 
   try {
-    const result = Meteor.call(method, ...args);
+    const result = Promise.await(Meteor.callAsync(method, ...args));
     userStub.restore();
     userIdStub.restore();
     return result;
@@ -103,12 +104,12 @@ export const validateArguments = (methodName, validArgumentTypes, error = /Match
   const invalidArgumentSets = differenceWith(allArgumentSets, validArgumentSets, isEqual);
 
   invalidArgumentSets.forEach((invalidArgumentSet) => {
-    expect(() => Meteor.call(methodName, ...invalidArgumentSet))
+    expect(() => Promise.await(Meteor.callAsync(methodName, ...invalidArgumentSet)))
     .to.throw(error);
   });
 
   validArgumentSets.forEach((validArgumentSet) => {
-    expect(() => Meteor.call(methodName, ...validArgumentSet))
+    expect(() => Promise.await(Meteor.callAsync(methodName, ...validArgumentSet)))
     .not.to.throw(error);
   });
 };

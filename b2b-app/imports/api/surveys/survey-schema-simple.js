@@ -1,5 +1,5 @@
 import React from 'react'
-import SimpleSchema from 'simpl-schema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import LookupField from '/imports/ui/components/lookup-field'
 import TagsField from '/imports/ui/components/tags-field'
@@ -10,12 +10,13 @@ import RatingField from '/imports/ui/components/rating-field'
 import SliderField from '/imports/ui/components/slider-field'
 import GridField from '/imports/ui/components/grid-field'
 import { cloneDeep } from 'lodash'
-import { LongTextField, NumField, SelectField } from 'uniforms-material'
+import { LongTextField, NumField, SelectField } from 'uniforms-mui'
 import DateField from '/imports/ui/components/date-field'
 import PasswordField from '/imports/ui/components/password-field'
 import { UploadField } from '/imports/ui/components/upload-field'
 import TableField from '/imports/ui/components/table-field'
 import dbg from 'debug'
+import RegEx from '/imports/api/regexp'
 const debug = dbg('app:survey-schema')
 
 const LongField = (props) => (
@@ -123,7 +124,7 @@ const getAnswers = (formData, q) => {
         .flat()
         .filter(Boolean)
         .map((name, ix) => {
-          return { id: name.replace(/\W/g, '-').toLowerCase(), name }
+          return { id: name.replace(/\W/g, '-').toLowerCase(), name };
         })
       debug('Computed answers', list)
       return list
@@ -199,7 +200,7 @@ const getSchemas = (survey, currentData) => {
                   }
 
                   if (a.type === 'email')
-                    subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                    subSchema[qaId].regEx = RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
                     subSchema[qaId].optional = false
                     subSchema[qaId].uniforms.expression = a.expression
@@ -295,7 +296,7 @@ const getSchemas = (survey, currentData) => {
                   if (a.type === 'email')
                     step.schema[qaId].regEx = a.regEx
                       ? new RegExp(a.regEx)
-                      : SimpleSchema.RegEx.EmailWithTLD
+                      : RegEx.EmailWithTLD
                   step.schema[qaId].uniforms.variant = 'outlined'
 
                   if (a.type === 'calculated') {
@@ -577,7 +578,7 @@ const getSchemas = (survey, currentData) => {
                   }
 
                   if (a.type === 'email')
-                    subSchema[qaId].regEx = SimpleSchema.RegEx.EmailWithTLD
+                    subSchema[qaId].regEx = RegEx.EmailWithTLD
                   if (a.type === 'calculated') {
                     subSchema[qaId].optional = false
                     subSchema[qaId].uniforms.expression = a.expression
@@ -609,7 +610,7 @@ const getSchemas = (survey, currentData) => {
           })
         }
         debug('schema', step.schema)
-        step.bridge = new SimpleSchema2Bridge(new SimpleSchema(step.schema))
+        step.bridge = new SimpleSchema2Bridge({ schema: new SimpleSchema(step.schema) })
         return step
       })
   )

@@ -1,9 +1,9 @@
 /* eslint-disable no-use-before-define */
 import React from 'react'
-// import Chip from '@material-ui/core/Chip';
-import Autocomplete from '@material-ui/lab/Autocomplete'
-import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
+// import Chip from '@mui/material/Chip';
+import Autocomplete from '@mui/material/Autocomplete'
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from '@mui/material/TextField'
 import { FieldProps, connectField, filterDOMProps } from 'uniforms'
 
 const debug = require('debug')('app:tags-field')

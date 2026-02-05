@@ -3,9 +3,9 @@ import { Meteor } from 'meteor/meteor'
 import MessageTemplates from './schema'
 
 Meteor.methods({
-  'rm.messageTemplates': (id) => {
+  'rm.messageTemplates': async (id) => {
     try {
-      MessageTemplates.remove(id)
+      await MessageTemplates.removeAsync(id)
       logger.info('Removed message template', { id })
       return { status: 'success', message: 'Removed messagetemplate' }
     } catch (e) {
@@ -17,12 +17,12 @@ Meteor.methods({
     }
   },
 
-  'update.messageTemplates': (form) => {
+  'update.messageTemplates': async (form) => {
     try {
       const id = form._id
       delete form._id
       form.revision = form.revision ? form.revision + 1 : 1
-      const n = MessageTemplates.update(id, { $set: form })
+      const n = await MessageTemplates.updateAsync(id, { $set: form })
       logger.info(`Updated message template ${id}`, form)
       return { status: 'success', message: `Updated ${n} messagetemplate(s)` }
     } catch (e) {
@@ -33,9 +33,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.messageTemplates': (form) => {
+  'insert.messageTemplates': async (form) => {
     try {
-      MessageTemplates.insert(form)
+      await MessageTemplates.insertAsync(form)
       logger.info('Inserted new message template', form)
       return { status: 'success', message: 'Added messagetemplate' }
     } catch (e) {

@@ -1,17 +1,17 @@
 import React, { useContext, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import DataGrid from 'react-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
 import CONSTANTS from '/imports/api/constants.js'
 import SearchBox from '/imports/ui/components/commons/search-box.js'
 import { JobsListingContext } from './context'
 import moment from 'moment'
-import { useHistory } from 'react-router'
-
+import useHistory from '/imports/ui/utils/history'
 const StyledJobsListing = styled.div`
   .filter-container {
     // display: flex;
@@ -50,7 +50,7 @@ const StyledJobsListing = styled.div`
     }
   }
   ${({ theme }) => `
-    ${theme.breakpoints.down('xs')} {
+    ${theme.breakpoints.down('sm')} {
       .filter-container {
         .search-box {
           width: 100%;
@@ -168,76 +168,24 @@ function JobsListing() {
     })
   }, [jobs])
 
-  const rowKeyGetter = (row) => {
-    return row._id
-  }
-
-  const getComparator = () => {
-    // console.log(sortColumns)
-    if (!sortColumns.length) {
-      return () => 0
-    }
-    switch (sortColumns[0].columnKey) {
-      case 'createdAt':
-        return (a, b) => {
-          return a.createdAt > b.createdAt ? 1 : -1
-        }
-      case 'pickupDate':
-        return (a, b) => {
-          return a.pickupDate > b.pickupDate ? 1 : -1
-        }
-      case 'jobNo':
-        return (a, b) => {
-          return `${a.jobNo}`.localeCompare(`${b.jobNo}`)
-        }
-      case 'bike':
-        return (a, b) => {
-          return `${a.bike}`.localeCompare(`${b.bike}`)
-        }
-      case 'customer':
-        return (a, b) => {
-          return `${a.customer}`.localeCompare(`${b.customer}`)
-        }
-      case 'phone':
-        return (a, b) => {
-          return `${a.phone}`.localeCompare(`${b.phone}`)
-        }
-      case 'cost':
-        return (a, b) => {
-          return a.cost > b.cost ? 1 : -1
-        }
-      case 'status':
-        return (a, b) => {
-          return `${a.status}`.localeCompare(`${b.status}`)
-        }
-      default:
-        return () => 0
-    }
-  }
-
   const filteredRows = useMemo(() => {
     let mutableRows = [...rows]
-    // handle search
     if (filterText && filterText.length >= 2) {
       const reg = new RegExp(filterText, 'i')
       mutableRows = mutableRows.filter((row) => {
-        // return reg.test(`${row.bike} ${row.customer} ${row.cost} ${row.createdAt}`)
         const strsToSearch = Object.values(row).map((value) => {
           return `${value}` || ''
         })
-        // console.log(strsToSearch, strsToSearch.join(' '))
         return reg.test(strsToSearch.join(' '))
       })
     }
 
-    // apply date from filter
     if (dateFrom) {
       mutableRows = mutableRows.filter((row) => {
         return moment(row.createdAt).isAfter(moment(dateFrom).startOf('day'))
       })
     }
 
-    // apply date to filter
     if (dateTo) {
       mutableRows = mutableRows.filter((row) => {
         return moment(row.createdAt).isBefore(moment(dateTo).endOf('day'))
@@ -306,32 +254,40 @@ function JobsListing() {
 
   const renderDateRangeFilter = () => {
     return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
           className="date-range-picker"
-          margin="normal"
-          data-testid="dateFrom-picker-dialog"
-          label="Date from"
           format="dd/MM/yyyy"
+          label="Date from"
           value={dateFrom}
           onChange={(date) => setDateFrom(date)}
-          KeyboardButtonProps={{
-            'aria-label': 'change date from',
+          slotProps={{
+            textField: {
+              margin: 'normal',
+              'data-testid': 'dateFrom-picker-dialog',
+            },
+            openPickerButton: {
+              'aria-label': 'change date from',
+            },
           }}
         />
-        <KeyboardDatePicker
+        <DatePicker
           className="date-range-picker"
-          margin="normal"
-          data-testid="dateTo-picker-dialog"
-          label="Date to"
           format="dd/MM/yyyy"
+          label="Date to"
           value={dateTo}
           onChange={(date) => setDateTo(date)}
-          KeyboardButtonProps={{
-            'aria-label': 'change date to',
+          slotProps={{
+            textField: {
+              margin: 'normal',
+              'data-testid': 'dateTo-picker-dialog',
+            },
+            openPickerButton: {
+              'aria-label': 'change date to',
+            },
           }}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     )
   }
 

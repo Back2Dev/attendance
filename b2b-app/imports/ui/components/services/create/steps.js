@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { Stepper, Step, StepButton, StepLabel, IconButton } from '@material-ui/core'
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
+import { Stepper, Step, StepButton, StepLabel, IconButton } from '@mui/material'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 
 import { ServiceContext } from './context.js'
 
@@ -124,15 +124,15 @@ function FromSteps() {
   // find the active steps base on the key value?
   return (
     <StyledSteps>
-      <IconButton className="nav-btns" onClick={() => goBack && goBack()}>
+      <IconButton className="nav-btns" onClick={() => goBack && goBack()} size="large">
         <KeyboardArrowLeftIcon />
       </IconButton>
       {renderSteper()}
-      <IconButton className="nav-btns" onClick={() => goNext && goNext()}>
+      <IconButton className="nav-btns" onClick={() => goNext && goNext()} size="large">
         <KeyboardArrowRightIcon />
       </IconButton>
     </StyledSteps>
-  )
+  );
 }
 
 export default FromSteps

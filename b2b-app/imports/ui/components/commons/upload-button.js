@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import { ButtonBase, Button } from '@material-ui/core'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { ButtonBase, Button } from '@mui/material'
 
 import FileUploadItem from './files-upload/item'
 

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Switch } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
 
 import ServicingHome from '/imports/ui/components/services/home'
 import CreateService from '/imports/ui/components/services/create'
@@ -19,24 +19,40 @@ function ServicesPage() {
         <title>Services</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Switch>
-          <SecureRoute
-            roles={['ADM', 'GRE']}
-            path="/services/new"
-            component={CreateService}
+        <Routes>
+          <Route
+            path="new"
+            element={
+              <SecureRoute roles={['ADM', 'GRE']}>
+                <CreateService />
+              </SecureRoute>
+            }
           />
-          <SecureRoute
-            path="/services/:id/edit"
-            roles={['ADM', 'GRE']}
-            component={CreateService}
+          <Route
+            path=":id/edit"
+            element={
+              <SecureRoute roles={['ADM', 'GRE']}>
+                <CreateService />
+              </SecureRoute>
+            }
           />
-          <SecureRoute
-            path="/services/:id"
-            roles={['ADM', 'GRE']}
-            component={JobDetails}
+          <Route
+            path=":id"
+            element={
+              <SecureRoute roles={['ADM', 'GRE']}>
+                <JobDetails />
+              </SecureRoute>
+            }
           />
-          <SecureRoute roles={['ADM', 'GRE']} component={ServicingHome} />
-        </Switch>
+          <Route
+            path="*"
+            element={
+              <SecureRoute roles={['ADM', 'GRE']}>
+                <ServicingHome />
+              </SecureRoute>
+            }
+          />
+        </Routes>
       </Container>
     </StyledServicesPage>
   )

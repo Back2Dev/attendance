@@ -25,7 +25,7 @@ Meteor.methods({
    * @param {Object} params
    * @param {string} params.id - the job id
    */
-  'jobs.markAsUnPaid'({ id }) {
+  'jobs.markAsUnPaid': async function ({ id }) {
     try {
       JobMarkAsPaidParamsSchema.validate({ id })
     } catch (e) {
@@ -37,16 +37,16 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
@@ -57,7 +57,7 @@ Meteor.methods({
 
     // update the job and the history
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $set: { paid: false, paidAt: undefined },
@@ -87,7 +87,7 @@ Meteor.methods({
    * @param {Object} params
    * @param {string} params.id - the job id
    */
-  'jobs.markAsPaid'({ id }) {
+  'jobs.markAsPaid': async function ({ id }) {
     try {
       JobMarkAsPaidParamsSchema.validate({ id })
     } catch (e) {
@@ -99,16 +99,16 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
@@ -119,7 +119,7 @@ Meteor.methods({
 
     // update the job and the history
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $set: { paid: true, paidAt: new Date() },
@@ -150,7 +150,7 @@ Meteor.methods({
    * @param {string} params.id
    * @param {string} params.content
    */
-  'jobs.sendSMS'({ id, message }) {
+  'jobs.sendSMS': async function ({ id, message }) {
     try {
       JobSendSMSParamsSchema.validate({ id, message })
     } catch (e) {
@@ -162,16 +162,16 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
@@ -180,7 +180,7 @@ Meteor.methods({
 
     // update the status and the history
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $push: {
@@ -214,7 +214,7 @@ Meteor.methods({
    * @param {string} params.description
    * @param {boolean} params.contacted
    */
-  'jobs.addHistory'({ id, description, contacted = false }) {
+  'jobs.addHistory': async function ({ id, description, contacted = false }) {
     try {
       JobAddHistoryParamsSchema.validate({ id, description, contacted })
     } catch (e) {
@@ -226,23 +226,23 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
 
     // update the status and the history
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $push: {
@@ -275,7 +275,7 @@ Meteor.methods({
    * @param {string} params.id
    * @param {string} params.mechanic user id
    */
-  'jobs.updateMechanic'({ id, mechanic }) {
+  'jobs.updateMechanic': async function ({ id, mechanic }) {
     try {
       JobUpdateMechanicParamsSchema.validate({ id, mechanic: mechanic || undefined })
     } catch (e) {
@@ -287,16 +287,16 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the mechanic member
-    const mechanicMember = Members.findOne({ userId: mechanic })
+    const mechanicMember = await Members.findOneAsync({ userId: mechanic })
     if (mechanic && !mechanicMember) {
       return {
         status: 'failed',
@@ -305,7 +305,7 @@ Meteor.methods({
     }
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
@@ -316,7 +316,7 @@ Meteor.methods({
       setData.status = 'in-progress'
     }
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $set: setData,
@@ -349,7 +349,7 @@ Meteor.methods({
    * @param {string} params.id
    * @param {Date} params.date
    */
-  'jobs.setExpectedPickupDate'({ id, date }) {
+  'jobs.setExpectedPickupDate': async function ({ id, date }) {
     try {
       JobSetExpectedPickupDateParamsSchema.validate({ id, date })
     } catch (e) {
@@ -361,23 +361,23 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
 
     // update the status and the history
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $set: { pickupDate: date },
@@ -411,7 +411,7 @@ Meteor.methods({
    * @param {string} params.status
    * @param {string} params.history
    */
-  'jobs.updateStatus'({ id, status, history }) {
+  'jobs.updateStatus': async function ({ id, status, history }) {
     try {
       JobUpdateStatusParamsSchema.validate({ id, status, history })
     } catch (e) {
@@ -422,16 +422,16 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = Members.findOne({ userId: me._id })
+    const myMember = await Members.findOneAsync({ userId: me._id })
 
     // find the job
-    const job = Jobs.findOne({ _id: id })
+    const job = await Jobs.findOneAsync({ _id: id })
     if (!job) {
       return { status: 'failed', message: `Job was not found with id: ${id}` }
     }
@@ -463,7 +463,7 @@ Meteor.methods({
     })
 
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: id },
         {
           $set: { status },
@@ -487,7 +487,7 @@ Meteor.methods({
    * update job
    * @param {Object} data
    */
-  'jobs.update'(data) {
+  'jobs.update': async function (data) {
     const cleanData = JobUpdateParamsSchema.clean(data)
     debug('clean data', cleanData.serviceItems, cleanData)
     try {
@@ -501,14 +501,14 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
 
     // check for existing job
-    const existingJob = Jobs.findOne({ _id: cleanData.jobId })
+    const existingJob = await Jobs.findOneAsync({ _id: cleanData.jobId })
     if (!existingJob) {
       return {
         status: 'failed',
@@ -540,7 +540,7 @@ Meteor.methods({
 
     // update job
     try {
-      Jobs.update(
+      await Jobs.updateAsync(
         { _id: existingJob._id },
         {
           $set: jobData,
@@ -554,7 +554,7 @@ Meteor.methods({
     if (cleanData.hasMember) {
       if (cleanData.selectedMember?._id) {
         // update the member data
-        Members.update(
+        await Members.updateAsync(
           { _id: cleanData.selectedMember._id },
           {
             $set: {
@@ -568,14 +568,14 @@ Meteor.methods({
       } else {
         // create member (without creating user)
         try {
-          const insertedMemberId = Members.insert({
+          const insertedMemberId = await Members.insertAsync({
             name: cleanData.memberData.name,
             address: cleanData.memberData.address,
             mobile: cleanData.memberData.mobile,
             email: cleanData.memberData.email,
           })
           // update the job
-          Jobs.update(
+          await Jobs.updateAsync(
             { _id: existingJob._id },
             {
               $set: { memberId: insertedMemberId },
@@ -591,7 +591,7 @@ Meteor.methods({
 
     // update the service-items, increase the numbersOfUsed value
     try {
-      ServiceItems.update(
+      await ServiceItems.updateAsync(
         { _id: { $in: data.serviceItems.map((item) => item._id) } },
         { $inc: { numbersOfUsed: 1 } },
         { multi: true }
@@ -607,7 +607,7 @@ Meteor.methods({
    * create job
    * @param {Object} data
    */
-  'jobs.create'(data) {
+  'jobs.create': async function (data) {
     const cleanData = JobCreateParamsSchema.clean(data)
     debug('clean data', cleanData.serviceItems, cleanData)
     try {
@@ -621,7 +621,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const me = Meteor.users.findOne({ _id: this.userId })
+    const me = await Meteor.users.findOneAsync({ _id: this.userId })
     const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
@@ -644,7 +644,7 @@ Meteor.methods({
       dropoffDate: moment(cleanData.bikeDetails.dropoffDate).toDate(),
       pickupDate: moment(cleanData.bikeDetails.pickupDate).toDate(),
       isRefurbish: data.refurbish === true,
-      jobNo: (data.refurbish ? 'R' : 'C') + Meteor.call('getNextJobNo'),
+      jobNo: (data.refurbish ? 'R' : 'C') + (await Meteor.callAsync('getNextJobNo')),
     }
 
     if (cleanData.selectedMember?._id) {
@@ -654,7 +654,7 @@ Meteor.methods({
     // insert
     let inserted
     try {
-      inserted = Jobs.insert(jobData)
+      inserted = await Jobs.insertAsync(jobData)
     } catch (e) {
       return { status: 'failed', message: e.message }
     }
@@ -663,7 +663,7 @@ Meteor.methods({
     if (cleanData.selectedMember || cleanData.memberData) {
       if (cleanData.selectedMember?._id) {
         // update the member data
-        Members.update(
+        await Members.updateAsync(
           { _id: cleanData.selectedMember._id },
           {
             $set: {
@@ -677,14 +677,14 @@ Meteor.methods({
       } else {
         // create member (without creating user)
         try {
-          const insertedMemberId = Members.insert({
+          const insertedMemberId = await Members.insertAsync({
             name: cleanData.memberData.name,
             address: cleanData.memberData.address,
             mobile: cleanData.memberData.mobile,
             email: cleanData.memberData.email,
           })
           // update the job
-          Jobs.update(
+          await Jobs.updateAsync(
             { _id: inserted },
             {
               $set: { memberId: insertedMemberId },
@@ -700,7 +700,7 @@ Meteor.methods({
 
     // update the service-items, increase the numbersOfUsed value
     try {
-      ServiceItems.update(
+      await ServiceItems.updateAsync(
         { _id: { $in: data.serviceItems.map((item) => item._id) } },
         { $inc: { numbersOfUsed: 1 } },
         { multi: true }
@@ -711,9 +711,9 @@ Meteor.methods({
 
     return { status: 'success', id: inserted, jobNo: jobData.jobNo }
   },
-  'rm.jobs': (id) => {
+  'rm.jobs': async (id) => {
     try {
-      const n = Jobs.remove(id)
+      const n = await Jobs.removeAsync(id)
       return { status: 'success', message: 'Removed job' }
     } catch (e) {
       return {
@@ -722,11 +722,11 @@ Meteor.methods({
       }
     }
   },
-  'update.jobs': (form) => {
+  'update.jobs': async (form) => {
     try {
       const id = form._id
       delete form._id
-      const n = Jobs.update(id, { $set: form })
+      const n = await Jobs.updateAsync(id, { $set: form })
       return { status: 'success', message: `Updated ${n} job(s)` }
     } catch (e) {
       return {
@@ -735,9 +735,9 @@ Meteor.methods({
       }
     }
   },
-  'insert.jobs': (form) => {
+  'insert.jobs': async (form) => {
     try {
-      const id = Jobs.insert(form)
+      const id = await Jobs.insertAsync(form)
       return { status: 'success', message: 'Added job' }
     } catch (e) {
       return {
@@ -746,11 +746,11 @@ Meteor.methods({
       }
     }
   },
-  getNextJobNo() {
-    let c = incrementCounter(Counters, 'jobs', 1)
+  async getNextJobNo() {
+    let c = await incrementCounter(Counters, 'jobs', 1)
     if (c < 1700) {
-      setCounter(Counters, 'jobs', 1999)
-      c = incrementCounter(Counters, 'jobs', 1)
+      await setCounter(Counters, 'jobs', 1999)
+      c = await incrementCounter(Counters, 'jobs', 1)
     }
     return c
   },

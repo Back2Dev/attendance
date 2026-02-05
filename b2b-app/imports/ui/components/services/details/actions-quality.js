@@ -10,11 +10,11 @@ import {
   FormControlLabel,
   Radio,
   TextField,
-} from '@material-ui/core'
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn'
+} from '@mui/material'
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn'
 
 import { JobsDetailsContext } from './context'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import Autocomplete from '@mui/material/Autocomplete'
 
 const StyledQualityCheck = styled.div``
 const StyledModalContent = styled.div`

@@ -2,9 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
-import { useParams } from 'react-router'
-import { useHistory } from 'react-router'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { useParams } from 'react-router-dom'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 import {
   Typography,
@@ -26,10 +25,10 @@ import {
   InputLabel,
   RadioGroup,
   Radio,
-} from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import DeleteIcon from '@material-ui/icons/Delete'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
+} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 
 import { showError } from '/imports/ui/utils/toast-alerts.js'
 
@@ -38,6 +37,7 @@ import getCollection from '/imports/api/collections/binder'
 import { getFieldType } from '/imports/api/collections/utils.js'
 import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 import { useConfirm } from '/imports/ui/components/commons/confirm-box.js'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledViewForm = styled.div`
   padding: 40px 20px;
@@ -143,60 +143,54 @@ function ViewForm() {
     }
   }, [theView])
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('submit')
-    Meteor.call(
-      'collections.updateView',
-      {
+    try {
+      const result = await Meteor.callAsync('collections.updateView', {
         collectionName,
         viewSlug,
         viewName: newViewName,
         readOnly,
         columns: selectedColumns,
         sortOrder,
-      },
-      (error, result) => {
-        console.log(error, result)
+      })
+      console.log(null, result)
 
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result) {
-          if (result.status === 'failed') {
-            showError(result.message)
-            return
-          }
-
-          // go to new view
-          if (result.view?.slug) {
-            history.push(`/dba/${collectionName}/${result.view?.slug}`)
-            return
-          }
-        }
-
-        history.push(`/dba/${collectionName}`)
-      }
-    )
-  }
-
-  const handleDelete = () => {
-    Meteor.call(
-      'collections.deleteView',
-      { collectionName, viewSlug },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-          return
-        }
-        if (result?.status === 'failed') {
+      if (result) {
+        if (result.status === 'failed') {
           showError(result.message)
           return
         }
-        // redirect
-        history.push(`/dba/${collectionName}`)
+
+        // go to new view
+        if (result.view?.slug) {
+          history.push(`/dba/${collectionName}/${result.view?.slug}`)
+          return
+        }
       }
-    )
+
+      history.push(`/dba/${collectionName}`)
+    } catch (error) {
+      console.log(error, null)
+      showError(error.message)
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const result = await Meteor.callAsync('collections.deleteView', {
+        collectionName,
+        viewSlug,
+      })
+      if (result?.status === 'failed') {
+        showError(result.message)
+        return
+      }
+      // redirect
+      history.push(`/dba/${collectionName}`)
+    } catch (error) {
+      showError(error.message)
+    }
   }
 
   const onDragEnd = (result) => {
@@ -316,15 +310,15 @@ function ViewForm() {
                       selectedColumns.filter((item) => item.name !== col.name)
                     )
                   }}
-                >
+                  size="large">
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
           )}
         </Draggable>
-      )
-    })
+      );
+    });
   }
 
   const renderSortByColumn = () => {
@@ -408,7 +402,7 @@ function ViewForm() {
               onConfirm: () => handleDelete(),
             })
           }}
-        >
+          size="large">
           <DeleteIcon />
         </IconButton>
       </div>
@@ -533,7 +527,7 @@ function ViewForm() {
         </StyledModalBox>
       </Modal>
     </StyledViewForm>
-  )
+  );
 }
 
 export default ViewForm

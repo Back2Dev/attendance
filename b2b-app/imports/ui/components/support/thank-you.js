@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
-import { useHistory } from 'react-router-dom'
-
-import { Typography, Button } from '@material-ui/core'
+import { Typography, Button } from '@mui/material'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledThankYou = styled.div`
   text-align: center;

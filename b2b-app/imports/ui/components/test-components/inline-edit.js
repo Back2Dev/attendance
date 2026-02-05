@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 import InlineEdit from '/imports/ui/components/commons/inline-edit/input'
 

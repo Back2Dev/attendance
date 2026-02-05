@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import { Random } from 'meteor/random'
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useTracker } from 'meteor/react-meteor-data'
 import Tools from '/imports/api/tools/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Edit from './edit'
@@ -13,31 +13,34 @@ const dateFormat = {
   outputFormat: 'DD/MM/YY h:mm A',
   invalidPlaceholder: '',
 }
-let history
 
-const remove = (id) => meteorCall('rm.tools', 'Deleting', id)
-const update = (id, form) => {
-  meteorCall('update.tools', 'updating', form)
-  history.push('/admin/tools')
-}
-const methods = { remove, update }
+const Editor = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <Edit {...props}></Edit>
+  const { item, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('id.tools', id)
+    return {
+      loading: !subsHandle.ready(),
+      item: Tools.findOne(id) || {},
+    }
+  }, [id])
+
+  const methods = useMemo(
+    () => ({
+      remove: (targetId) => meteorCall('rm.tools', 'Deleting', targetId),
+      update: (targetId, form) => {
+        meteorCall('update.tools', 'updating', form)
+        navigate('/admin/tools')
+      },
+    }),
+    [navigate]
+  )
+
+  if (loading) return <div>Loading...</div>
+  return <Edit id={id} item={item} methods={methods} loading={loading} />
 }
-const Editor = withTracker((props) => {
-  history = props.history
-  const id = props.match.params.id
-  const subsHandle = Meteor.subscribe('id.tools', id)
-  const item = Tools.findOne(id) || {}
-  return {
-    id,
-    item,
-    methods,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+
 export default Editor
 
 /* 
@@ -47,7 +50,7 @@ export default Editor
 // const LegacyEditor = (props) => {
 //   const [loading, setLoading] = React.useState(true)
 //   const [item, setItem] = React.useState({})
-//   const id = props.match.params.id
+//   const id = id
 //   let status
 
 //   React.useEffect(() => {

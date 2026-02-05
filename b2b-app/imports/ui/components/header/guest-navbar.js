@@ -1,104 +1,30 @@
-import React, { useContext } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import AppBar from '@material-ui/core/AppBar'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import {
+  AppBar,
+  Box,
+  IconButton,
   Menu,
   MenuItem,
-  IconButton,
   Toolbar,
-  Typography,
   Tooltip,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'
-import MoreVert from '@material-ui/icons/MoreVert'
-import AddIcon from '@material-ui/icons/Add'
+  Typography,
+} from '@mui/material'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import MoreVert from '@mui/icons-material/MoreVert'
+import AddIcon from '@mui/icons-material/Add'
 import info from '/imports/api/version'
 // import Auth from '/imports/ui/components/account/auth.js'
 // import ThemeSwitcher from '/imports/ui/components/themes-switcher.js'
 
 import { guestMenu } from './links.js'
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    backgroundColor: 'black',
-    color: 'white',
-    height: '64px',
-  },
-  logo: {
-    height: 60,
-    '&:hover': {
-      filter: `brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)`,
-    },
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'inline-flex',
-      verticalAlign: 'middle',
-    },
-  },
-  icon: {
-    display: 'flex',
-    verticalAlign: 'middle',
-    alignItems: 'center',
-    justifyContent: 'center',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  links: {
-    flexGrow: 1,
-    textAlign: 'center',
-    fontSize: 14,
-  },
-  navItem: {
-    '&:hover': {
-      filter: `brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)`,
-    },
-  },
-  linkText: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'inline',
-    },
-    fontFamily: 'GothamRoundedMedium',
-    '&:hover': {
-      color: '#4794fc',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      float: 'right',
-      paddingLeft: '20px',
-      borderLeft: '1px solid white',
-    },
-  },
-  sectionMobile: {
-    display: 'inline',
-    float: 'right',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
-  rightText: {
-    fontFamily: 'GothamRoundedMedium',
-    margin: '20px',
-  },
-}))
+import useHistory from '/imports/ui/utils/history'
 
 export default function UserNavbar() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
-  const classes = useStyles()
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -124,19 +50,19 @@ export default function UserNavbar() {
       onClose={mobileMenuClose}
     >
       <MenuItem component={Link} to="/add">
-        <IconButton aria-label="logout" color="inherit">
+        <IconButton aria-label="logout" color="inherit" size="large">
           <AddIcon />
         </IconButton>
         Add property
       </MenuItem>
       <MenuItem component={Link} to="/signup">
-        <IconButton aria-label="logout" color="inherit">
+        <IconButton aria-label="logout" color="inherit" size="large">
           <PersonAddIcon />
         </IconButton>
         Sign up
       </MenuItem>
       <MenuItem component={Link} to="/login">
-        <IconButton aria-label="logout" color="inherit">
+        <IconButton aria-label="logout" color="inherit" size="large">
           <ArrowRightAltIcon />
         </IconButton>
         Log in
@@ -144,84 +70,150 @@ export default function UserNavbar() {
     </Menu>
   )
 
+  const navItemHover =
+    'brightness(0) saturate(100%) invert(69%) sepia(64%) saturate(5548%) hue-rotate(195deg) brightness(101%) contrast(98%)'
+
   return (
-    <AppBar position="static" className={classes.appBar}>
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: 'black', color: 'white', height: '64px' }}
+    >
       <Toolbar>
         <Tooltip title={`B2B version ${info?.version()}`}>
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <img className={classes.logo} src="/images/logo.png" alt="Back2bikes logo" />
+            <Box
+              component="img"
+              sx={{
+                height: 60,
+                '&:hover': { filter: navItemHover },
+              }}
+              src="/images/logo.png"
+              alt="Back2bikes logo"
+            />
           </Link>
         </Tooltip>
         {guestMenu &&
-          guestMenu.map((item, index) => {
-            return (
-              <Typography
-                key={item.display + index}
-                color="inherit"
-                className={classes.links}
-                noWrap
-              >
-                {item.external ? (
-                  <a
-                    href={item.link}
-                    style={{ color: 'white', textDecoration: 'none' }}
-                    id={item.display.toLowerCase() + '-nav-item'}
-                    className={classes.navItem}
+          guestMenu.map((item, index) => (
+            <Typography
+              key={item.display + index}
+              color="inherit"
+              sx={{ flexGrow: 1, textAlign: 'center', fontSize: 14 }}
+              noWrap
+            >
+              {item.external ? (
+                <a
+                  href={item.link}
+                  style={{ color: 'white', textDecoration: 'none' }}
+                  id={item.display.toLowerCase() + '-nav-item'}
+                >
+                  <Box
+                    component="span"
+                    sx={{
+                      display: { xs: 'flex', md: 'none' },
+                      verticalAlign: 'middle',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
                   >
-                    <span className={classes.icon}>{item.icon()}</span>
-                    <span className={classes.linkText}>{item.display}</span>
-                  </a>
-                ) : (
-                  <Link
-                    to={item.link}
-                    style={{ color: 'white', textDecoration: 'none' }}
-                    id={item.display.toLowerCase() + '-nav-item'}
-                    className={classes.navItem}
+                    {item.icon()}
+                  </Box>
+                  <Box
+                    component="span"
+                    sx={{
+                      display: { xs: 'none', md: 'inline' },
+                      fontFamily: 'GothamRoundedMedium',
+                      '&:hover': { color: '#4794fc' },
+                      '&:hover svg': { filter: navItemHover },
+                    }}
                   >
-                    <span className={classes.icon}>{item.icon()}</span>
-                    <span className={classes.linkText}>{item.display}</span>
-                  </Link>
-                )}
-              </Typography>
-            )
-          })}
-        <div className={classes.sectionDesktop}>
+                    {item.display}
+                  </Box>
+                </a>
+              ) : (
+                <Link
+                  to={item.link}
+                  style={{ color: 'white', textDecoration: 'none' }}
+                  id={item.display.toLowerCase() + '-nav-item'}
+                >
+                  <Box
+                    component="span"
+                    sx={{
+                      display: { xs: 'flex', md: 'none' },
+                      verticalAlign: 'middle',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {item.icon()}
+                  </Box>
+                  <Box
+                    component="span"
+                    sx={{
+                      display: { xs: 'none', md: 'inline' },
+                      fontFamily: 'GothamRoundedMedium',
+                      '&:hover': { color: '#4794fc' },
+                      '&:hover svg': { filter: navItemHover },
+                    }}
+                  >
+                    {item.display}
+                  </Box>
+                </Link>
+              )}
+            </Typography>
+          ))}
+        <Box
+          sx={{
+            display: { xs: 'none', md: 'flex' },
+            float: 'right',
+            pl: '20px',
+            borderLeft: '1px solid white',
+          }}
+        >
           <Link
             to="/add"
             style={{ color: 'white', textDecoration: 'none' }}
             id={'add-property-nav-item'}
-            className={classes.navItem}
           >
-            <span className={classes.rightText}>Add property</span>
+            <Box component="span" sx={{ fontFamily: 'GothamRoundedMedium', m: '20px' }}>
+              Add property
+            </Box>
           </Link>
           <Link
             to="/signup"
             style={{ color: 'white', textDecoration: 'none' }}
             id={'signup-nav-item'}
-            className={classes.navItem}
           >
-            <span className={classes.rightText}>Sign up</span>
+            <Box component="span" sx={{ fontFamily: 'GothamRoundedMedium', m: '20px' }}>
+              Sign up
+            </Box>
           </Link>
           <Link
             to="/login"
             style={{ color: 'white', textDecoration: 'none' }}
             id={'login-nav-item'}
-            className={classes.navItem}
           >
-            <span className={classes.rightText}>Log in</span>
+            <Box component="span" sx={{ fontFamily: 'GothamRoundedMedium', m: '20px' }}>
+              Log in
+            </Box>
           </Link>
-        </div>
-        <div className={classes.sectionMobile}>
+        </Box>
+        <Box
+          sx={{
+            display: { xs: 'inline', md: 'none' },
+            float: 'right',
+          }}
+        >
           <IconButton
             aria-label="show more"
             aria-controls={mobileMenuId}
             aria-haspopup="true"
             onClick={mobileMenuOpen}
             color="inherit"
+            size="large"
           >
             <MoreVert />
           </IconButton>
-        </div>
+        </Box>
         {renderMobileMenu}
       </Toolbar>
     </AppBar>

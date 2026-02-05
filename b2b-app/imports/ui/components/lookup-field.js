@@ -1,6 +1,6 @@
 import React from 'react'
-import Autocomplete from '@material-ui/lab/Autocomplete'
-import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField, { StandardTextFieldProps } from '@mui/material/TextField'
 import { FieldProps, connectField, filterDOMProps } from 'uniforms'
 
 function Lookup({

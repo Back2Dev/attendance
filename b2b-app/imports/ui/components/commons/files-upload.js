@@ -1,13 +1,13 @@
 import { Random } from 'meteor/random'
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
-import { Paper, ButtonBase } from '@material-ui/core'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { Paper, ButtonBase } from '@mui/material'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import FileUploadItem from './files-upload/item'
 import { showSuccess } from '/imports/ui/utils/toast-alerts'
+import useHistory from '/imports/ui/utils/history'
 
 const StyledFilesUpload = styled.div`
   margin-bottom: 20px;

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import DataGrid from 'react-data-grid'
+import { Button } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import DataGrid from '/imports/ui/components/commons/mui-rdg'
 
 const columns = [
   {

@@ -8,8 +8,8 @@ import {
   DialogTitle,
   Chip,
   Button,
-} from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+} from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
 import { CollectionContext } from '../../context'

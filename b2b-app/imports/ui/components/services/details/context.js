@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import React, { useReducer, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
@@ -37,19 +37,27 @@ export const JobsDetailsProvider = ({ children }) => {
 
   // load list of mechanics
   useEffect(() => {
-    Meteor.call('members.byRole', { role: 'MEC' }, (error, result) => {
-      if (error) {
-        showError(error.message)
-        return
+    let isMounted = true
+    ;(async () => {
+      try {
+        const result = await Meteor.callAsync('members.byRole', { role: 'MEC' })
+        if (!isMounted) return
+        if (result.status === 'failed') {
+          showError(result.message)
+          return
+        }
+        if (result.status === 'success') {
+          dispatch({ type: 'setMechanics', mechanics: result.members })
+        }
+      } catch (error) {
+        if (isMounted) {
+          showError(error.message)
+        }
       }
-      if (result.status === 'failed') {
-        showError(result.message)
-        return
-      }
-      if (result.status === 'success') {
-        dispatch({ type: 'setMechanics', mechanics: result.members })
-      }
-    })
+    })()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const { loading, item } = useTracker(() => {
@@ -61,106 +69,102 @@ export const JobsDetailsProvider = ({ children }) => {
     }
   }, [])
 
-  const updateJobStatus = (status, history) => {
+  const updateJobStatus = async (status, history) => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call(
-      'jobs.updateStatus',
-      { id: item._id, status, history },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-        }
-        if (result) {
-          if (result.status === 'failed') {
-            showError(result.message)
-          }
-        }
-        if (mounted.current) {
-          dispatch({ type: 'setLoading', loading: false })
-        }
+    try {
+      const result = await Meteor.callAsync('jobs.updateStatus', {
+        id: item._id,
+        status,
+        history,
+      })
+      if (result && result.status === 'failed') {
+        showError(result.message)
       }
-    )
-  }
-
-  const updateJobMechanic = (mechanic) => {
-    dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.updateMechanic', { id: item._id, mechanic }, (error, result) => {
-      if (error) {
-        showError(error.message)
-      }
-      if (result) {
-        if (result.status === 'failed') {
-          showError(result.message)
-        }
-      }
+    } catch (error) {
+      showError(error.message)
+    } finally {
       if (mounted.current) {
         dispatch({ type: 'setLoading', loading: false })
       }
-    })
+    }
   }
 
-  const markAsPaid = () => {
+  const updateJobMechanic = async (mechanic) => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.markAsPaid', { id: item._id }, (error, result) => {
-      if (error) {
-        showError(error.message)
+    try {
+      const result = await Meteor.callAsync('jobs.updateMechanic', {
+        id: item._id,
+        mechanic,
+      })
+      if (result && result.status === 'failed') {
+        showError(result.message)
       }
-      if (result) {
-        if (result.status === 'failed') {
-          showError(result.message)
-        }
-      }
+    } catch (error) {
+      showError(error.message)
+    } finally {
       if (mounted.current) {
         dispatch({ type: 'setLoading', loading: false })
       }
-    })
+    }
   }
 
-  const markAsUnPaid = () => {
+  const markAsPaid = async () => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.markAsUnPaid', { id: item._id }, (error, result) => {
-      if (error) {
-        showError(error.message)
+    try {
+      const result = await Meteor.callAsync('jobs.markAsPaid', { id: item._id })
+      if (result && result.status === 'failed') {
+        showError(result.message)
       }
-      if (result) {
-        if (result.status === 'failed') {
-          showError(result.message)
-        }
-      }
+    } catch (error) {
+      showError(error.message)
+    } finally {
       if (mounted.current) {
         dispatch({ type: 'setLoading', loading: false })
       }
-    })
+    }
   }
 
-  const addHistory = (description, contacted = false) => {
+  const markAsUnPaid = async () => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call(
-      'jobs.addHistory',
-      { id: item._id, description, contacted },
-      (error, result) => {
-        if (error) {
-          showError(error.message)
-        }
-        if (result) {
-          if (result.status === 'failed') {
-            showError(result.message)
-          }
-        }
-        if (mounted.current) {
-          dispatch({ type: 'setLoading', loading: false })
-        }
+    try {
+      const result = await Meteor.callAsync('jobs.markAsUnPaid', { id: item._id })
+      if (result && result.status === 'failed') {
+        showError(result.message)
       }
-    )
+    } catch (error) {
+      showError(error.message)
+    } finally {
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    }
   }
 
-  const sendSMS = (message) => {
+  const addHistory = async (description, contacted = false) => {
+    dispatch({ type: 'setLoading', loading: true })
+    try {
+      const result = await Meteor.callAsync('jobs.addHistory', {
+        id: item._id,
+        description,
+        contacted,
+      })
+      if (result && result.status === 'failed') {
+        showError(result.message)
+      }
+    } catch (error) {
+      showError(error.message)
+    } finally {
+      if (mounted.current) {
+        dispatch({ type: 'setLoading', loading: false })
+      }
+    }
+  }
+
+  const sendSMS = async (message) => {
     console.log('send sms', message)
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.sendSMS', { id: item._id, message }, (error, result) => {
-      if (error) {
-        showError(error.message)
-      }
+    try {
+      const result = await Meteor.callAsync('jobs.sendSMS', { id: item._id, message })
       if (result) {
         if (result.status === 'failed') {
           showError(result.message)
@@ -169,18 +173,22 @@ export const JobsDetailsProvider = ({ children }) => {
           showSuccess('SMS sent successfully')
         }
       }
+    } catch (error) {
+      showError(error.message)
+    } finally {
       if (mounted.current) {
         dispatch({ type: 'setLoading', loading: false })
       }
-    })
+    }
   }
 
-  const setExpectedPickupDate = (date) => {
+  const setExpectedPickupDate = async (date) => {
     dispatch({ type: 'setLoading', loading: true })
-    Meteor.call('jobs.setExpectedPickupDate', { id: item._id, date }, (error, result) => {
-      if (error) {
-        showError(error.message)
-      }
+    try {
+      const result = await Meteor.callAsync('jobs.setExpectedPickupDate', {
+        id: item._id,
+        date,
+      })
       if (result) {
         if (result.status === 'failed') {
           showError(result.message)
@@ -189,10 +197,13 @@ export const JobsDetailsProvider = ({ children }) => {
           showSuccess('Job updated')
         }
       }
+    } catch (error) {
+      showError(error.message)
+    } finally {
       if (mounted.current) {
         dispatch({ type: 'setLoading', loading: false })
       }
-    })
+    }
   }
   // TODO: Create the landing page for this
   const payUrl = Meteor.absoluteUrl(`/pay/${item?.jobNo}`)

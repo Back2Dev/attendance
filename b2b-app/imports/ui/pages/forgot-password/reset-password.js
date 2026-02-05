@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
-import { Grid, Paper, Typography, Link, Button, TextField } from '@material-ui/core'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
+import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom'
+import { Grid, Paper, Typography, Link, Button, TextField } from '@mui/material'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import PasswordBridge from '/imports/ui/utils/password-validation/password-bridge.js'
 import PasswordValidator from '/imports/ui/utils/password-validation/password-validator.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
@@ -18,25 +18,23 @@ const passwordSchema = {
 
 const bridge = new PasswordBridge(passwordSchema, PasswordValidator)
 
-const ResetPassword = (props) => {
-  const userId = props.match.params.userId
-  const token = props.match.params.token
+const ResetPassword = () => {
+  const { userId, token } = useParams()
   const [submitted, setSubmittted] = React.useState(false)
   const { user } = useContext(AccountContext)
 
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
-  const submit = (values) => {
+  const submit = async (values) => {
     setSubmittted(true)
-    Meteor.call('resetUserPassword', values.password, userId, token, (err, data) => {
-      if (err) {
-        setSubmittted(false)
-        showError(err)
-      } else {
-        push('/login')
-        showSuccess('Password was changed')
-      }
-    })
+    try {
+      await Meteor.callAsync('resetUserPassword', values.password, userId, token)
+      navigate('/login')
+      showSuccess('Password was changed')
+    } catch (err) {
+      setSubmittted(false)
+      showError(err)
+    }
   }
 
   const onLogout = (e) => {
@@ -45,7 +43,7 @@ const ResetPassword = (props) => {
       if (error) {
         showError(error.message)
       } else {
-        push('/logged-out')
+        navigate('/logged-out')
       }
     })
   }

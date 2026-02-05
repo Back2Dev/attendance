@@ -1,31 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DateTime } from 'luxon'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import { makeStyles } from '@material-ui/core/styles'
-import EmailIcon from '@material-ui/icons/Email'
-import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-material'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
+import makeStyles from '@mui/styles/makeStyles';
+import EmailIcon from '@mui/icons-material/Email'
+import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
+import RegEx from '/imports/api/regexp'
 import MaterialPhoneNumber from '/imports/ui/components/mui-phone-number.js'
 import CONSTANTS from '/imports/api/constants.js'
 import { convertAvatar, wordSeparator } from '/imports/api/util.js'
 import SetPassword from './set-password.js'
 import SuspendAccount from './suspend-account.js'
 import RestoreAccount from './restore-account.js'
-import FacebookIcon from '@material-ui/icons/Facebook'
-import VpnKeyIcon from '@material-ui/icons/VpnKey'
-import Icon from '@material-ui/core/Icon'
+import FacebookIcon from '@mui/icons-material/Facebook'
+import VpnKeyIcon from '@mui/icons-material/VpnKey'
+import Icon from '@mui/material/Icon'
 
-export const userSchema = new SimpleSchema2Bridge(
-  new SimpleSchema({
+export const userSchema = new SimpleSchema2Bridge({
+  schema: new SimpleSchema({
     name: {
       type: String,
       max: 200,
@@ -41,14 +42,14 @@ export const userSchema = new SimpleSchema2Bridge(
     username: {
       type: String,
       max: 200,
-      regEx: SimpleSchema.RegEx.EmailWithTLD,
+      regEx: RegEx.EmailWithTLD,
       label: 'Email',
     },
     mobile: {
       type: String,
       min: 6,
       max: 50,
-      regEx: SimpleSchema.RegEx.Phone,
+      regEx: RegEx.Phone,
       uniforms: {
         component: MaterialPhoneNumber,
       },
@@ -69,8 +70,8 @@ export const userSchema = new SimpleSchema2Bridge(
         },
       },
     },
-  })
-)
+  }),
+})
 
 const useStyles = makeStyles((theme) => ({
   topGrid: {
