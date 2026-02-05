@@ -52,28 +52,36 @@ const muucProducts = {
       type: CONSTANTS.PRODUCT_TYPES.COURSE,
       name: 'Courses',
       description:
-        'We offer official PADI and SDI courses, you can learn to dive with us',
+        'We offer official PADI, SDI and TDI courses, you can learn to dive with us, and go cave/technical if you want!',
       color: 'orange',
       icon: 'wrench',
-      image: '/images/maintenance.jpg',
+      image: '/images/course.png',
     },
     {
       type: CONSTANTS.PRODUCT_TYPES.PASS,
-      name: 'Gear hire',
-      description:
-        "We have a complete range of scuba diving gear, from masks, wetsuits, gloves, hoods, tanks, BCD's, regulators, SMB's. Just bring yourself and your bathers.",
+      name: 'Passes',
+      description: 'Passes for special events',
       color: 'lime',
       icon: 'cog',
-      image: '/images/workshop.jpg',
+      image: '/images/pass.jpg',
+    },
+    {
+      type: CONSTANTS.PRODUCT_TYPES.HIRE,
+      name: 'Gear hire',
+      description:
+        "We have a complete range of scuba diving gear, from masks, wetsuits, gloves, hoods, tanks, BCD's, regulators, SMB's. Just bring yourself and your bathers. ",
+      color: 'lime',
+      icon: 'cog',
+      image: '/images/hire.jpg',
     },
     {
       type: CONSTANTS.PRODUCT_TYPES.MEMBERSHIP,
       name: 'Memberships',
       description:
-        'Join as a member, get access to discounts and workshop time',
+        'Join as a member, get access to gear, courses, trips',
       color: 'blue',
       icon: 'cogs',
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
     },
     {
       type: CONSTANTS.PRODUCT_TYPES.MERCHANDISE,
@@ -108,7 +116,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
     },
     {
@@ -264,7 +272,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/course.jpg',
+      image: '/images/course.png',
       tags: ['course'],
     },
     {
@@ -290,7 +298,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
     },
     {
@@ -316,7 +324,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/course.jpg',
+      image: '/images/course.png',
       tags: ['course'],
     },
     {
@@ -459,7 +467,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
     },
     {
@@ -472,7 +480,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
     },
     {
@@ -485,7 +493,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
     },
     {
@@ -498,7 +506,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
       price_variants: [3000, 4000],
     },
@@ -512,7 +520,7 @@ const muucProducts = {
       subsType: '',
       active: true,
       autoRenew: false,
-      image: '/images/membership.jpg',
+      image: '/images/muuc-membership.png',
       tags: ['membership'],
     },
     {

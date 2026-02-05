@@ -43,6 +43,7 @@ Meteor.methods({
         throw new Meteor.Error(
           'seed.products: orgid not supplied (it is a required parameter)'
         )
+      console.log({ 'seed.products': { orgid, target } })
       const data = fixtures[orgid]
       if (data && data[target]) {
         for (const item of config) {
