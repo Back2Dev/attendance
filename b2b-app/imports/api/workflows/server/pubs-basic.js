@@ -1,0 +1,1 @@
+../../../../../shared/api/workflows/server/pubs-basic.js

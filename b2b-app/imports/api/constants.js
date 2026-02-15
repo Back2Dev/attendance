@@ -17,6 +17,34 @@ CONSTANTS.ROLES = {
 // Notificaton roles adds a 'USR' role, for the current user
 CONSTANTS.NOTIFY_ROLES = Object.assign({}, CONSTANTS.ROLES)
 CONSTANTS.NOTIFY_ROLES.USR = 'Current user'
+CONSTANTS.ADM_JOB_ROLES = { ...CONSTANTS.ROLES }
+
+CONSTANTS.JOB_ROLES = {}
+
+CONSTANTS.WS_ROLES = { ...CONSTANTS.ROLES }
+
+// We can remove these roles from a job
+CONSTANTS.REMOVABLE_ROLES = ['BOSS', 'PEER', 'KOI', 'EXEC', 'WSLEAD']
+
+// When removing a role, For these roles, set task status to 'removed'
+CONSTANTS.DONT_DELETE_ROLES = ['BOSS', 'PEER', 'KOI']
+
+// These roles are one per job, so adding means replacing
+CONSTANTS.REPLACEABLE_ROLES = ['EXEC', 'WSADM']
+
+// We can set these roles back to 'Unassigned'
+CONSTANTS.CAN_UNASSIGN_ROLES = ['EXEC', 'WSLEAD']
+
+CONSTANTS.USER_SWITCHABLE_ROLES = [
+  'ADM',
+  'PART',
+  'BOSS',
+  'EXEC',
+  'WSADM',
+  'WSLEAD',
+  // 'PEER',
+  // 'KOI',
+]
 
 CONSTANTS.NOTIFICATION_METHODS = {
   APP: 'Application',
@@ -46,6 +74,12 @@ CONSTANTS.TRIGGERS = {
   skip: 'Skip',
   skipall: 'Skip all',
 }
+CONSTANTS.DOCUMENT_ACTIONS = {
+  keep: 'Keep document',
+  rmDoc: 'Remove document',
+  reopen: 'Reopen',
+  block: 'Block',
+}
 
 CONSTANTS.USER_STATUS = {
   active: 'Active',
@@ -54,6 +88,11 @@ CONSTANTS.USER_STATUS = {
   deleted: 'Deleted',
 }
 
+CONSTANTS.AUDIT_STATUS = {
+  created: 'Created',
+  logged: 'Logged',
+  failed: 'Failed',
+}
 CONSTANTS.USER_STATUS_COLORS = {
   active: '#31a750',
   suspended: '#000',
@@ -70,6 +109,63 @@ CONSTANTS.EVENT_STATUS = {
   active: 'Active',
   cancelled: 'Cancelled',
   deleted: 'Deleted',
+}
+
+// These are human readable values, for display purposes
+CONSTANTS.DOC_STATUS_DISPLAY = {
+  draft: 'Draft',
+  approved: 'Approved',
+  rejected: 'Rejected',
+  cancelled: 'Cancelled',
+  requested: 'Requested',
+}
+// These are values to use in the DB
+CONSTANTS.DOC_STATUS = Object.keys(CONSTANTS.DOC_STATUS_DISPLAY)
+
+CONSTANTS.JOB_STATUS = {
+  active: 'Active',
+  hold: 'Hold',
+  cancel: 'Cancelled',
+  complete: 'Complete',
+}
+
+CONSTANTS.FORM_STATUS = {
+  ready: 'Ready',
+  progress: 'In progress',
+  complete: 'Complete',
+  cancelled: 'Cancelled',
+}
+
+CONSTANTS.STEP_TYPES = {
+  assign: 'Assign',
+  upload: 'Upload',
+  approve: 'Approve (v1)',
+  approvev2: 'Approve (v2)',
+  notification: 'Notify',
+  webform: 'Webform',
+  header: 'Header',
+  nextstage: 'Next stage',
+  sign: 'Sign (v1)',
+  signv2: 'Sign (v2)',
+  external: 'External',
+  bot: 'Robot',
+  ['set-date-time']: 'Date/time',
+  question: 'question',
+  prep: 'Prepare for signing (v1)',
+  prepv2: 'Prepare for signing (v2)',
+  multi: 'Multi-step',
+  'edit-workshop': 'Edit-Workshop',
+}
+
+CONSTANTS.STEP_STATUS = {
+  blocked: 'Pending',
+  skipped: 'Skipped',
+  ready: 'Ready',
+  rejected: 'Rejected',
+  failed: 'Failed',
+  complete: 'Complete',
+  removed: 'Removed',
+  hidden: 'Hidden',
 }
 
 // Consider to move these badges to a database collection
@@ -147,4 +243,28 @@ CONSTANTS.SERVICE_TYPES = {
   custom: 'Custom service',
 }
 
+CONSTANTS.UPLOAD_ACCEPT_FILES = {
+  'image/*': ['.heic', '.png', '.jpg', '.jpeg', '.gif', '.webp'],
+  'application/pdf': ['.pdf'],
+  'application/txt': ['.txt'],
+  'text/plain': ['.txt', '.text'],
+  'text/csv': ['.csv'],
+  'text/tsv': ['.txt', '.tsv'],
+  'text/rtf': ['.rtf'],
+  'application/rtf': ['.rtf'],
+  'application/msword': ['.doc', '.rtf'],
+  'application/doc': ['.doc', '.docx', '.rtf'],
+  'application/xls': ['.xls', '.xlsx'],
+  // TODO: Decide if zip files are supported
+  // 'application/zip': ['.zip'],
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': [
+    '.ppt',
+    '.pptx',
+  ],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
+    '.doc',
+    '.docx',
+  ],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+}
 export default CONSTANTS

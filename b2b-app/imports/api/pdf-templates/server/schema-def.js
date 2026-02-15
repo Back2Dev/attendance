@@ -1,0 +1,1 @@
+../../../../../shared/api/pdf-templates/server/schema-def.js

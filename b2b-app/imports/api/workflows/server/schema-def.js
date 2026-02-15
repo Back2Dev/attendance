@@ -1,0 +1,1 @@
+../../../../../shared/api/workflows/server/schema-def.js

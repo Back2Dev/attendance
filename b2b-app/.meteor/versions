@@ -6,7 +6,7 @@ accounts-password@3.2.2
 accounts-twitter@1.5.2
 alanning:roles@4.0.0
 aldeed:collection2@4.1.5
-aldeed:simple-schema@1.13.1
+aldeed:simple-schema@2.0.0
 allow-deny@2.1.0
 autoupdate@2.0.1
 babel-compiler@7.13.0

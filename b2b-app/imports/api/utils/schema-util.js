@@ -8,9 +8,10 @@
  * and can't be updated afterwards
  */
 
-import SimpleSchema from 'meteor/aldeed:simple-schema'
+import ServerSchema from 'meteor/aldeed:simple-schema'
 
-export const REGEX_ID = /^[1234567890ABCDEFGHIJKLMNOPQRSTWXYZabcdefghijklmnopqrstuvwxyz]{17}$/
+export const REGEX_ID =
+  /^[1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{17}$/
 
 export function createdAtAutoValue() {
   if (this.isInsert) {
@@ -35,6 +36,14 @@ export const updatedAt = {
   autoValue() {
     return new Date()
   },
+}
+
+/**
+ * updatedBy should get the userId of the user who updated the record
+ */
+export const updatedBy = {
+  type: REGEX_ID,
+  optional: true,
 }
 
 /**
@@ -91,7 +100,12 @@ export const OptionalString = {
 }
 
 export const OptionalInteger = {
-  type: SimpleSchema.Integer,
+  type: ServerSchema.Integer,
+  optional: true,
+}
+
+export const OptionalNumber = {
+  type: ServerSchema.Number,
   optional: true,
 }
 
@@ -103,5 +117,20 @@ export const Blackbox = {
 export const OptionalBlackbox = {
   type: Object,
   blackbox: true,
+  optional: true,
+}
+
+export const OptionalDate = {
+  type: Date,
+  optional: true,
+}
+
+export const OptionalArray = {
+  type: Array,
+  optional: true,
+}
+
+export const OptionalBoolean = {
+  type: Boolean,
   optional: true,
 }

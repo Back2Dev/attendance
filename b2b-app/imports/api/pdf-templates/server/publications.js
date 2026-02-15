@@ -1,0 +1,1 @@
+../../../../../shared/api/pdf-templates/server/publications.js

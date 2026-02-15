@@ -11,7 +11,7 @@ import {
 import CONSTANTS from '/imports/api/constants'
 import { ServiceItemsSchema } from '../service-items/schema'
 
-const Jobs = new Mongo.Collection('jobs')
+const Jobs = new Mongo.Collection('service-jobs')
 
 export const JobSetExpectedPickupDateParamsSchema = new SimpleSchema({
   id: String,
