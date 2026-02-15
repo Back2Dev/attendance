@@ -45,4 +45,37 @@ Meteor.methods({
       }
     }
   },
+  'run.cronjobs': async (id) => {
+    // check for permission
+    const myRoles = await getMyRoles()
+    if (
+      !canDo({
+        op: 'createAny',
+        role: myRoles,
+        resource: 'cronjob',
+        log: 'insert.cronjobs',
+      })
+    ) {
+      return { status: 'failed', message: 'Permission denied' }
+    }
+
+    try {
+      const cronjob = await Cronjobs.findOneAsync(id)
+      if (cronjob) manualRun(cronjob)
+      logger.info(`Manual run cronjob ${cronjob.type}`, { data: id })
+      return { status: 'success', message: `Running cronjob ${cronjob.type}` }
+    } catch (e) {
+      logger.error(`Error running cronjob: ${e.message}`, { data: id })
+      return {
+        status: 'failed',
+        message: `Error running cronjob: ${e.message}`,
+      }
+    }
+  },
+  'api.cronjob': async () => {
+    const type = 'bot.message.api'
+    const cronjob = await Cronjobs.findOneAsync({ type })
+    if (!cronjob) console.log(`Could not find cronjob: ${type}`)
+    else await Meteor.callAsync(cronjob._id)
+  },
 })

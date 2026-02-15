@@ -58,6 +58,48 @@ Meteor.methods({
       return { status: 'failed', message: err.message }
     }
   },
+   'upsert.slug.surveys': async (form, options) => {
+    try {
+      const rec = await Surveys.findOneAsync({ slug: form.slug })
+      let result
+      if (rec) {
+        const _id = rec._id
+        delete rec._id
+        const unset = {}
+        // Compare the old version of the record,
+        Object.keys(rec)
+          .filter((key) => !key.match(/_id|At|By$/))
+          .forEach((key) => {
+            if (!form.hasOwnProperty(key)) unset[key] = 1 // Remove keys not in the new record
+          })
+        await Surveys.updateAsync({ _id }, { $set: form, $unset: unset })
+        result = { status: 'success', message: `Updated survey ${form.slug}` }
+      } else {
+        const id = await Surveys.insertAsync(form)
+        result = { status: 'success', message: `Added survey ${form.slug}` }
+      }
+      if (options?.add) {
+        const code = await Codes.findOneAsync({ letters: form.slug })
+        if (!code) {
+          const n = await Codes.insert({
+            letters: form.slug,
+            docType: form.slug,
+            url: '/r-:responseId',
+          })
+          if (n) result.message = result.message + `, code added for ${form.slug}`
+        } else result.message = result.message + `, code for ${form.slug} already present`
+      }
+      debug({ message: result.message })
+      return result
+    } catch (e) {
+      console.error(e)
+      return {
+        status: 'failed',
+        message: `Error adding survey: ${e.message}`,
+      }
+    }
+  },
+
   // 'generate.save.survey': async (form) => {
   //   try {
   //     const { type, data } = form

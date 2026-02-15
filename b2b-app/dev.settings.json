@@ -17,6 +17,18 @@
     "S3_REGION": "ap-southeast-2",
     "S3_IDENTITY_POOL_ID": "",
     "S3_BUCKET_NAME": "",
-    "environment": "dev"
+    "environment": "dev",
+      "logo": "/images/logo-tiny.jpg",
+    "member": "Member",
+    "recruit": "mad",
+    "register": "Member",
+    "admin": 1,
+    "shop": 1,
+    "org": "MAD",
+    "orgid": "mad",
+    "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
+    "paymentTest": true,
+    "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
+    "tagline": "Mikkel's Aquatic Discovery"
   }
 }

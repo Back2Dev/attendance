@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Typography, Button } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
 import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
@@ -48,7 +48,7 @@ const Home = () => {
         <>
           <div className={classes.desktop}>
             <Typography variant="h1" color="inherit">
-              Welcome to Back2bikes
+              Welcome to {Meteor.settings.public.tagline}
             </Typography>
             <br />
             <GoogleLogin label="Sign up with Google" redirect="/dashboard" />
@@ -71,7 +71,7 @@ const Home = () => {
           </div>
           <div className={classes.mobile}>
             <Typography variant="h1" color="inherit">
-              Welcome to Back2bikes
+              Welcome to {Meteor.settings.public.tagline}
             </Typography>
             <br />
             <GoogleLogin
@@ -102,7 +102,7 @@ const Home = () => {
     return (
       <div className="signedin-home">
         <Typography variant="h1" color="inherit">
-          Welcome to Back2bikes
+          Welcome to {Meteor.settings.public.tagline}
         </Typography>
       </div>
     )

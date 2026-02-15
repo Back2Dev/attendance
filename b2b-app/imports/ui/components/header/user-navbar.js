@@ -195,7 +195,10 @@ export default function UserNavbar() {
           color="inherit"
           size="large"
         >
-          <Avatar src={convertAvatar(member?.avatar)} sx={{ width: avatarSize, height: avatarSize }} />
+          <Avatar
+            src={convertAvatar(member?.avatar)}
+            sx={{ width: avatarSize, height: avatarSize }}
+          />
         </IconButton>
         Member
       </MenuItem>
@@ -228,7 +231,12 @@ export default function UserNavbar() {
         </FormControl>
       </Collapse>
       <MenuItem onClick={onLogout} key="logout">
-        <IconButton aria-label="logout" color="inherit" data-cy="logout-icon" size="large">
+        <IconButton
+          aria-label="logout"
+          color="inherit"
+          data-cy="logout-icon"
+          size="large"
+        >
           <ExitToApp />
         </IconButton>
         Log out
@@ -240,7 +248,10 @@ export default function UserNavbar() {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: 'black', color: 'white', height: '64px' }}>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: 'black', color: 'white', height: '64px' }}
+      >
         <Toolbar>
           {isAdmin && viewas === 'ADM' ? <ADMSideDrawer /> : <OtherSideDrawer />}
           <Tooltip title={`B2B version ${info?.version()}`}>
@@ -255,8 +266,8 @@ export default function UserNavbar() {
                       "brightness(1.3) invert(0.17) saturate(2.6) sepia(0.25) url('#teal-white')",
                   },
                 }}
-                src="/images/logo.png"
-                alt="Back2bikes logo"
+                src="/images/logo-tiny.jpg"
+                alt={`${Meteor.settings.public.org} logo`}
               />
             </Link>
           </Tooltip>
@@ -343,7 +354,10 @@ export default function UserNavbar() {
                 {CONSTANTS.ROLES[viewas]}
               </Box>
               <Typography
-                sx={{ fontFamily: 'GothamRoundedMedium', display: { xs: 'block', md: 'none' } }}
+                sx={{
+                  fontFamily: 'GothamRoundedMedium',
+                  display: { xs: 'block', md: 'none' },
+                }}
               >
                 {viewas}
               </Typography>
@@ -368,7 +382,10 @@ export default function UserNavbar() {
               color="inherit"
               size="large"
             >
-              <Avatar src={convertAvatar(member?.avatar)} sx={{ width: avatarSize, height: avatarSize }} />
+              <Avatar
+                src={convertAvatar(member?.avatar)}
+                sx={{ width: avatarSize, height: avatarSize }}
+              />
             </IconButton>
           </Box>
           <Box

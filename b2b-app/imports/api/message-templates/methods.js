@@ -46,4 +46,33 @@ Meteor.methods({
       }
     }
   },
+  'upsert.slug.message-templates': async (form, unsetMissing = true) => {
+    try {
+      debug(`Upserting message-template: ${form.slug}`)
+      const rec = await MessageTemplates.findOneAsync({ slug: form.slug })
+      if (rec) {
+        const _id = rec._id
+        delete rec._id
+        const unset = {}
+        // Compare the old version of the record,
+        if (unsetMissing)
+          Object.keys(rec)
+            .filter((key) => !key.match(/_id|At|By$/))
+            .forEach((key) => {
+              if (!form.hasOwnProperty(key)) unset[key] = 1 // Remove keys not in the new record
+            })
+        await MessageTemplates.updateAsync({ _id }, { $set: form, $unset: unset })
+        return { status: 'success', message: `Updated message-template ${form.slug}` }
+      } else {
+        if (!form.name) form.name = form.slug || 'Untitled'
+        const id = await MessageTemplates.insertAsync(form)
+        return { status: 'success', message: `Added message-template ${form.slug}` }
+      }
+    } catch (e) {
+      return {
+        status: 'failed',
+        message: `Error adding message-template: ${e.message}`,
+      }
+    }
+  },
 })
