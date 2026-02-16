@@ -23,7 +23,7 @@ const slugify = (text) => {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, '-');
+    .replace(/[^a-z0-9]+/g, '-')
 }
 
 const orgs = {
@@ -126,6 +126,6 @@ const fix = (node) => {
 }
 
 fix(orgs)
-debug(JSON.stringify(orgs, null, 2))
+//debug(JSON.stringify(orgs, null, 2))
 
 export default orgs

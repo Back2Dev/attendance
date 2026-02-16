@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { Random } from 'meteor/random'
-import { withTracker } from 'meteor/react-meteor-data'
+import { withTracker, useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Settings from '/imports/api/settings/schema'
 import List from './list'
@@ -37,21 +37,22 @@ const columns = [
   { field: 'type', title: 'type', editor: true, formatter: null },
 ]
 const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
+  if (props.loading) return <div>Loading settings...</div>
   return <List {...props}></List>
 }
-const Tracker = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.settings')
-  return {
-    items: Settings.find({}).fetch(),
-    remove,
-    update,
-    insert,
-    columns,
-    defaultObject,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+
+const Live = () => {
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.settings')
+    const items = Settings.find({}).fetch()
+    return { items, loading: !subsHandle.ready() }
+  }, [])
+
+  if (loading) return <div>Loading settings...</div>
+  const props = { items, remove, update, insert, columns, defaultObject, loading }
+
+  return <List {...props}></List>
+}
 
 const Lister = () => {
   const [loading, setLoading] = React.useState(true)
@@ -68,9 +69,8 @@ const Lister = () => {
 
   const props = { items: rows, remove, update, insert, columns, defaultObject, loading }
   debug('props', props)
-  if (loading) return <div>Loading...</div>
+  if (loading) return <div>Loading settings...</div>
   return <List {...props}></List>
 }
 
-// export default Lister // Use this for SQL DB
-export default Tracker // Use this for Mongo (reactive)
+export default Live

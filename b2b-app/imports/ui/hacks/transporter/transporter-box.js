@@ -57,7 +57,7 @@ const Loading = (props) => {
   return <Transporter {...props}></Transporter>
 }
 
-const Tracker = withTracker((props) => {
+const Lister = withTracker((props) => {
   const subsHandle = Meteor.subscribe('all.messageTemplates')
   const messages = MessageTemplates.find({}, { sort: { number: 1 } }).fetch()
   return {
@@ -68,4 +68,4 @@ const Tracker = withTracker((props) => {
   }
 })(Loading)
 
-export default Tracker
+export default Lister

@@ -1,21 +1,13 @@
 import { Meteor } from 'meteor/meteor'
 import { Roles } from 'meteor/alanning:roles'
 import { DateTime } from 'luxon'
-import Profiles from '/imports/api/profiles/schema'
+// import Profiles from '/imports/api/profiles/schema'
 import { accessByPath } from '/imports/api/util'
 const debug = require('debug')('app:data-fixes')
 
 const fallbackRoles = [
   {
     username: 'mike.king@mapconsulting.com',
-    roles: ['ADM', 'WSADM'],
-  },
-  {
-    username: 'ctwebb@mapconsulting.com',
-    roles: ['ADM', 'WSADM'],
-  },
-  {
-    username: 'wwfoxhoven@mapconsulting.com',
     roles: ['ADM', 'WSADM'],
   },
   {
@@ -39,16 +31,8 @@ const fallbackRoles = [
     roles: ['BOSS'],
   },
   {
-    username: 'lee@back2.dev',
-    roles: ['EXEC'],
-  },
-  {
     username: 'super.mario@mario.com',
     roles: ['ADM', 'WSADM'],
-  },
-  {
-    username: 'dud@mapconsulting.com',
-    roles: ['PART'],
   },
 ]
 

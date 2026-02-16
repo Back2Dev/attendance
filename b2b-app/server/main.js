@@ -20,6 +20,7 @@ import './accounts'
 import './migrations'
 import './click-through'
 import './startup-checks'
+import './data-fixes'
 Meteor.startup(() => {
   if (Meteor.isServer) {
   }
