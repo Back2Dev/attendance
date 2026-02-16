@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Events from '/imports/api/events/schema'
@@ -86,25 +86,25 @@ const stdCols = [
   },
 ]
 
-const EventsWrapper = (props) => {
+const EventsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <EventsList {...props}></EventsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.events')
+    const items = Events.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const EventsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.events')
-  const items = Events.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(EventsWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <EventsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default EventsLister

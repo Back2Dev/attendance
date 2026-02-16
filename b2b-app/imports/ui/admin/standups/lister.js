@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Standups from '/imports/api/standups/schema'
@@ -87,25 +87,25 @@ const stdCols = [
   },
 ]
 
-const StandupsWrapper = (props) => {
+const StandupsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <Loader loading />
-  return <StandupsList {...props}></StandupsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.standups')
+    const items = Standups.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const StandupsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.standups')
-  const items = Standups.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(StandupsWrapper)
+
+  if (loading) return <Loader loading />
+
+  return <StandupsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default StandupsLister

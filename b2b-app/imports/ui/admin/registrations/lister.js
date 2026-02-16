@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Registrations from '/imports/api/registrations/schema'
@@ -86,25 +86,25 @@ const stdCols = [
   },
 ]
 
-const RegistrationsWrapper = (props) => {
+const RegistrationsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <RegistrationsList {...props}></RegistrationsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.registrations')
+    const items = Registrations.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const RegistrationsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.registrations')
-  const items = Registrations.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(RegistrationsWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <RegistrationsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default RegistrationsLister

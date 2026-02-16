@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Collections from '/imports/api/collections/schema'
@@ -87,25 +87,25 @@ const stdCols = [
   },
 ]
 
-const CollectionsWrapper = (props) => {
+const CollectionsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <Loader loading />
-  return <CollectionsList {...props}></CollectionsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.collections')
+    const items = Collections.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const CollectionsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.collections')
-  const items = Collections.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(CollectionsWrapper)
+
+  if (loading) return <Loader loading />
+
+  return <CollectionsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default CollectionsLister

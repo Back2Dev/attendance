@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Teams from '/imports/api/teams/schema'
@@ -87,26 +87,26 @@ const stdCols = [
   },
 ]
 
-const TeamsWrapper = (props) => {
+const TeamsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <Loader loading />
-  return <TeamsList {...props}></TeamsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.teams')
+    debug('inteamsLister', subsHandle.ready())
+    const items = Teams.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const TeamsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.teams')
-  debug('inteamsLister', subsHandle.ready())
-  const items = Teams.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(TeamsWrapper)
+
+  if (loading) return <Loader loading />
+
+  return <TeamsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default TeamsLister

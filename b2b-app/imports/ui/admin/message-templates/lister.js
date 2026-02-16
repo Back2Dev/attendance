@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import MessageTemplates from '/imports/api/message-templates/schema'
@@ -118,25 +118,24 @@ const columns = [
   { field: 'type', title: 'Type', formatter: null, headerFilter: 'input' },
   { field: 'uses', title: 'Uses', formatter: 'textarea' },
 ]
-const Loading = (props) => {
-  push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <List {...props}></List>
-}
-const MessageTemplatesLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.messageTemplates.uses')
-  const items = MessageTemplates.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
 
-  return {
-    items,
-    methods,
-    columns,
-    defaultObject,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+const MessageTemplatesLister = (props) => {
+  push = useHistory()?.push
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.messageTemplates.uses')
+    const items = MessageTemplates.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+
+  return <List {...props} items={items} methods={methods} columns={columns} defaultObject={defaultObject} />
+}
 
 export default MessageTemplatesLister

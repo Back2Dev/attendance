@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import StandupNotes from '/imports/api/standup-notes/schema'
@@ -87,25 +87,25 @@ const stdCols = [
   },
 ]
 
-const StandupNotesWrapper = (props) => {
+const StandupNotesLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <Loader loading />
-  return <StandupNotesList {...props}></StandupNotesList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.standupNotes')
+    const items = StandupNotes.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const StandupNotesLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.standupNotes')
-  const items = StandupNotes.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(StandupNotesWrapper)
+
+  if (loading) return <Loader loading />
+
+  return <StandupNotesList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default StandupNotesLister

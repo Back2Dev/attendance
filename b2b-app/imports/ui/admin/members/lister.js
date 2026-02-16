@@ -1,7 +1,7 @@
 /* global Roles */
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import ListUsers from './list'
 import CONSTANTS from '/imports/api/constants'
 import { meteorCall } from '/imports/ui/utils/meteor'
@@ -42,16 +42,10 @@ Object.keys(CONSTANTS.ROLES).forEach((role) => {
   })
 })
 
-const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <ListUsers {...props}></ListUsers>
-}
-export default withTracker((props) => {
-  // Get access to Stuff documents.
-  const usersSubscription = Meteor.subscribe('getAllUsers')
-
-  return {
-    users: Meteor.users
+const MembersLister = (props) => {
+  const { users, loading } = useTracker(() => {
+    const usersSubscription = Meteor.subscribe('getAllUsers')
+    const users = Meteor.users
       .find({})
       .fetch()
       .map((item) => {
@@ -63,12 +57,23 @@ export default withTracker((props) => {
         }
         if (accessByPath(item, 'emails.0.address')) item.emails = item.emails[0].address
         return item
-      }),
-    loading: !usersSubscription.ready(),
-    userColumns,
-    deleteUsers,
-    updateUser,
-    setPassword,
-    sendResetPasswordEmail,
-  }
-})(Loading)
+      })
+    return { users, loading: !usersSubscription.ready() }
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+
+  return (
+    <ListUsers
+      {...props}
+      users={users}
+      userColumns={userColumns}
+      deleteUsers={deleteUsers}
+      updateUser={updateUser}
+      setPassword={setPassword}
+      sendResetPasswordEmail={sendResetPasswordEmail}
+    />
+  )
+}
+
+export default MembersLister

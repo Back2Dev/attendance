@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, TextField, Typography } from '@mui/material'
 
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import Teams from '/imports/api/teams/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
@@ -77,22 +77,24 @@ const TeamsList2 = ({ items }) => {
 
   return <div>{getTableContent(items)}</div>
 }
-const TeamsWrapper = (props) => {
-  push = useHistory()?.push
-  if (props.loading) return <Loader loading />
-  return <TeamsList2 {...props}></TeamsList2>
-}
 
-const TeamsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.teams')
-  const items = Teams.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
-  return {
-    items,
-    loading: !subsHandle.ready(),
-  }
-})(TeamsWrapper)
+const TeamsLister = (props) => {
+  push = useHistory()?.push
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.teams')
+    const items = Teams.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
+
+  if (loading) return <Loader loading />
+
+  return <TeamsList2 {...props} items={items} />
+}
 
 export default TeamsLister

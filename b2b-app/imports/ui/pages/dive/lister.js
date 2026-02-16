@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Triggers from '/imports/api/triggers/schema'
 import MessageTemplates from '/imports/api/message-templates/schema'
@@ -24,27 +24,26 @@ const saveMessage = async (form, oldSlug) => {
 
 const methods = { remove, update, insert, deleteRows, saveMessage }
 
-const TriggersWrapper = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <TriggersList {...props}></TriggersList>
-}
-
-const TriggersLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.triggers')
-  const items = Triggers.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
-  const messageTemplates = MessageTemplates.find({}).fetch()
+const TriggersLister = (props) => {
+  const { items, messageTemplates, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.triggers')
+    const items = Triggers.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    const messageTemplates = MessageTemplates.find({}).fetch()
+    return {
+      items,
+      messageTemplates,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
   const { defaultObject } = config.add
-  return {
-    items,
-    methods,
-    defaultObject,
-    loading: !subsHandle.ready(),
-    messageTemplates,
-  }
-})(TriggersWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <TriggersList {...props} items={items} methods={methods} defaultObject={defaultObject} messageTemplates={messageTemplates} />
+}
 
 export default TriggersLister

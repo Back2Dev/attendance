@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Courses from '/imports/api/courses/schema'
@@ -86,25 +86,25 @@ const stdCols = [
   },
 ]
 
-const CoursesWrapper = (props) => {
+const CoursesLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <CoursesList {...props}></CoursesList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.courses')
+    const items = Courses.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const CoursesLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.courses')
-  const items = Courses.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(CoursesWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <CoursesList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default CoursesLister

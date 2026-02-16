@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Sessions from '/imports/api/sessions/schema'
@@ -86,25 +86,25 @@ const stdCols = [
   },
 ]
 
-const SessionsWrapper = (props) => {
+const SessionsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <SessionsList {...props}></SessionsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.sessions')
+    const items = Sessions.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const SessionsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.sessions')
-  const items = Sessions.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(SessionsWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <SessionsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default SessionsLister

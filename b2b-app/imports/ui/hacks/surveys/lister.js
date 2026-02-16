@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Surveys from '/imports/api/surveys/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
@@ -102,26 +102,25 @@ const columns = [
     hozAlign: 'center',
   },
 ]
-const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <List {...props}></List>
-}
-const SurveysLister = withTracker((props) => {
-  history = props.history
-  const subsHandle = Meteor.subscribe('all.surveys')
-  const items = Surveys.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
 
-  return {
-    items,
-    methods,
-    columns,
-    defaultObject,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+const SurveysLister = (props) => {
+  history = props.history
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.surveys')
+    const items = Surveys.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+
+  return <List {...props} items={items} methods={methods} columns={columns} defaultObject={defaultObject} />
+}
 
 const Lister = () => {
   const [loading, setLoading] = React.useState(true)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Transporter from './transporter'
 import MessageTemplates from '/imports/api/message-templates/schema'
@@ -52,20 +52,18 @@ const sendSMS = async (params) => {
   }
 }
 
-const Loading = (props) => {
-  if (props.loading) return <div>Loading...</div>
-  return <Transporter {...props}></Transporter>
-}
+const Lister = (props) => {
+  const { messages, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.messageTemplates')
+    const messages = MessageTemplates.find({}, { sort: { number: 1 } }).fetch()
+    return {
+      messages,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const Lister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.messageTemplates')
-  const messages = MessageTemplates.find({}, { sort: { number: 1 } }).fetch()
-  return {
-    messages,
-    sendEmail,
-    sendSMS,
-    loading: !subsHandle.ready(),
-  }
-})(Loading)
+  if (loading) return <div>Loading...</div>
+  return <Transporter {...props} messages={messages} sendEmail={sendEmail} sendSMS={sendSMS} />
+}
 
 export default Lister

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Eye from '@mui/icons-material/Visibility'
@@ -73,25 +73,25 @@ const stdCols = [
   },
 ]
 
-const ServiceItemsWrapper = (props) => {
+const ServiceItemsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <ServiceItemsList {...props}></ServiceItemsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.serviceItems')
+    const items = ServiceItems.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const ServiceItemsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.serviceItems')
-  const items = ServiceItems.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(ServiceItemsWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <ServiceItemsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default ServiceItemsLister

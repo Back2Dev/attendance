@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Jobs from '/imports/api/jobs/schema'
@@ -84,25 +84,25 @@ const stdCols = [
   },
 ]
 
-const JobsWrapper = (props) => {
+const JobsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <JobsList {...props}></JobsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.jobs')
+    const items = Jobs.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const JobsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.jobs')
-  const items = Jobs.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(JobsWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <JobsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default JobsLister

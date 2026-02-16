@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Triggers from '/imports/api/triggers/schema'
@@ -85,27 +85,26 @@ const stdCols = [
   },
 ]
 
-const TriggersWrapper = (props) => {
+const TriggersLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <TriggersList {...props}></TriggersList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.triggers')
+    const items = Triggers.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const TriggersLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.triggers')
-  const items = Triggers.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
   const { defaultObject } = config.add
-  return {
-    items,
-    methods,
-    columns,
-    defaultObject,
-    loading: !subsHandle.ready(),
-  }
-})(TriggersWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <TriggersList {...props} items={items} methods={methods} columns={columns} defaultObject={defaultObject} />
+}
 
 export default TriggersLister

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { Random } from 'meteor/random'
-import { withTracker, useTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import Settings from '/imports/api/settings/schema'
 import List from './list'

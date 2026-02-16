@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Tools from '/imports/api/tools/schema'
@@ -86,25 +86,25 @@ const stdCols = [
   },
 ]
 
-const ToolsWrapper = (props) => {
+const ToolsLister = (props) => {
   push = useHistory()?.push
-  if (props.loading) return <div>Loading...</div>
-  return <ToolsList {...props}></ToolsList>
-}
+  const { items, loading } = useTracker(() => {
+    const subsHandle = Meteor.subscribe('all.tools')
+    const items = Tools.find({}).map((row) => {
+      row.search = obj2Search(row)
+      return row
+    })
+    return {
+      items,
+      loading: !subsHandle.ready(),
+    }
+  }, [])
 
-const ToolsLister = withTracker((props) => {
-  const subsHandle = Meteor.subscribe('all.tools')
-  const items = Tools.find({}).map((row) => {
-    row.search = obj2Search(row)
-    return row
-  })
   const columns = stdCols.concat(config.list.columns)
-  return {
-    items,
-    methods,
-    columns,
-    loading: !subsHandle.ready(),
-  }
-})(ToolsWrapper)
+
+  if (loading) return <div>Loading...</div>
+
+  return <ToolsList {...props} items={items} methods={methods} columns={columns} />
+}
 
 export default ToolsLister
