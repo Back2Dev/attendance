@@ -11,7 +11,7 @@ const ManualRoutes = () => {
       {/* <Route path="register/*" element={<Register />} />
       <Route path="users/*" element={<Users />} />
       <Route path="calendar/*" element={<Calendar />} /> */}
-      <Route path="/shop" element={<Shop />} />
+      <Route path="/shop/*" element={<Shop />} />
     </Routes>
   )
 }

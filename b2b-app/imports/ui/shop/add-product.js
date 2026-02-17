@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { CartContext } from './cart-data'
 import Checkout from './checkout'
 
-const debug = require('debug')('b2b:shop')
+const debug = require('debug')('app:shop')
 
-const AddProduct = props => {
+const AddProduct = (props) => {
   const { state, dispatch } = React.useContext(CartContext)
   const { product, member, loading } = props
   if (loading) return <div>Loading...</div>

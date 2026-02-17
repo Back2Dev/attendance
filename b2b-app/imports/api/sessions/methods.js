@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Sessions from './schema'
-const debug = require('debug')('target:sessions')
+const debug = require('debug')('app:sessions')
 
 Meteor.methods({
   'rm.sessions': async (id) => {

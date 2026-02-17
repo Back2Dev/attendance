@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Alert from '/imports/ui/utils/alert'
 import { cloneDeep } from 'lodash'
 
-const debug = require('debug')('b2b:cart-data')
+const debug = require('debug')('app:cart-data')
 
 const CartContext = React.createContext()
 
@@ -13,14 +13,23 @@ const initialState = {
   products: [],
   prodqty: {},
   creditCard: {},
-  discount: 0
+  discount: 0,
 }
 
-const recalc = state => {
-  state.price = state.products.reduce((acc, product) => acc + state.prodqty[product._id] * product.price, 0)
+const recalc = (state) => {
+  state.price = state.products.reduce(
+    (acc, product) => acc + state.prodqty[product._id] * product.price,
+    0
+  )
   state.chargeAmount =
-    state.products.reduce((acc, product) => acc + state.prodqty[product._id] * product.price, 0) - state.discount
-  state.totalqty = state.products.reduce((acc, product) => acc + state.prodqty[product._id], 0)
+    state.products.reduce(
+      (acc, product) => acc + state.prodqty[product._id] * product.price,
+      0
+    ) - state.discount
+  state.totalqty = state.products.reduce(
+    (acc, product) => acc + state.prodqty[product._id],
+    0
+  )
 
   // This looks like a good moment to save the cart to the db
   if (cartUpdater) {
@@ -28,7 +37,7 @@ const recalc = state => {
   }
 }
 
-const saveCart = state => {
+const saveCart = (state) => {
   if (cartUpdater) {
     cartUpdater(state)
   }
@@ -115,7 +124,10 @@ const reducer = (state, action) => {
 }
 
 function CartContextProvider(props) {
-  const [state, dispatch] = React.useReducer(reducer, props.cart || cloneDeep(initialState))
+  const [state, dispatch] = React.useReducer(
+    reducer,
+    props.cart || cloneDeep(initialState)
+  )
   state.settings = props.settings
   state.cartUpdate = props.cartUpdate
   state.getPromo = props.getPromo
@@ -129,7 +141,7 @@ function CartContextProvider(props) {
 CartContextProvider.propTypes = {
   cartUpdate: PropTypes.func.isRequired,
   cart: PropTypes.object,
-  chargeCard: PropTypes.func.isRequired
+  chargeCard: PropTypes.func.isRequired,
 }
 
 const CartContextConsumer = CartContext.Consumer

@@ -6,7 +6,7 @@ import Add from './add'
 import config from './config'
 import useHistory from '/imports/ui/utils/history'
 
-const debug = require('debug')('target:adder')
+const debug = require('debug')('app:adder')
 let push
 
 const methods = {

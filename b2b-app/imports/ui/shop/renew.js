@@ -8,9 +8,9 @@ import { ProductCardOnly } from '/imports/ui/shop/product-card'
 import ProductButton from '/imports/ui/shop/product-button'
 import { CartContext } from './cart-data'
 
-const debug = require('debug')('b2b:renew')
+const debug = require('debug')('app:renew')
 
-const Renew = props => {
+const Renew = (props) => {
   const [product, setProduct] = React.useState(props.cart.products[0] || props.myProduct)
   const { state, dispatch } = React.useContext(CartContext)
   // With the next action, the product is in the cart already
@@ -28,8 +28,8 @@ const Renew = props => {
     props.history.push('/shop/checkout')
   }
 
-  const remove = props => {}
-  const selectOption = product => {
+  const remove = (props) => {}
+  const selectOption = (product) => {
     dispatch({ type: 'add', payload: product })
     setProduct(product)
   }
@@ -45,7 +45,12 @@ const Renew = props => {
   return (
     <Box>
       <Typography variant="h4" sx={{ mb: 2 }}>
-        <Box component="img" src={logoFile} alt="Logo" sx={{ height: 35, mr: 1, verticalAlign: 'middle' }} />
+        <Box
+          component="img"
+          src={logoFile}
+          alt="Logo"
+          sx={{ height: 35, mr: 1, verticalAlign: 'middle' }}
+        />
         {props.org} membership renewal
       </Typography>
       <Paper sx={{ p: 2 }}>
@@ -80,7 +85,12 @@ const Renew = props => {
             )}
             {!haveCart && product && product.name && (
               <Box sx={{ mt: 2 }}>
-                <ProductCardOnly mode="add" {...product} takeAction={add} remove={remove} />
+                <ProductCardOnly
+                  mode="add"
+                  {...product}
+                  takeAction={add}
+                  remove={remove}
+                />
               </Box>
             )}
             {product && product.name && (
@@ -103,6 +113,6 @@ Renew.propTypes = {
   purchases: PropTypes.array.isRequired,
   products: PropTypes.array.isRequired,
   cart: PropTypes.object.isRequired,
-  myProduct: PropTypes.object
+  myProduct: PropTypes.object,
 }
 export default Renew

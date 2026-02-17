@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Registrations from './schema'
-const debug = require('debug')('target:registrations')
+const debug = require('debug')('app:registrations')
 
 Meteor.methods({
   'rm.registrations': async (id) => {

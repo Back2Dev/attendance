@@ -9,6 +9,9 @@ import '/imports/startup/patch-uniforms'
 import App from '/imports/ui/app'
 
 Meteor.startup(() => {
+  if (module.hot) {
+    module.hot.decline()
+  }
   const container = document.getElementById('root')
   if (container) {
     const root = createRoot(container)

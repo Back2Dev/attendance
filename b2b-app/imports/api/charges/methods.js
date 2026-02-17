@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Charges from './schema'
-const debug = require('debug')('target:charges')
+const debug = require('debug')('app:charges')
 
 Meteor.methods({
   'rm.charges': async (id) => {
@@ -28,5 +28,5 @@ Meteor.methods({
     } catch (e) {
       return { status: 'failed', message: `Error adding charge: ${e.message}` }
     }
-  }
+  },
 })

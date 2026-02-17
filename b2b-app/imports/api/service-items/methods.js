@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import ServiceItems from './schema'
-const debug = require('debug')('target:serviceItems')
+const debug = require('debug')('app:serviceItems')
 
 Meteor.methods({
   'rm.serviceItems': async (id) => {

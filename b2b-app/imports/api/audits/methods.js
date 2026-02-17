@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import logger from '/imports/lib/log'
 import Audits from './schema'
-const debug = require('debug')('target:audits')
+const debug = require('debug')('app:audits')
 
 Meteor.methods({
   'rm.audits': async (id) => {

@@ -6,13 +6,13 @@ import { Carts } from '/imports/api/products/schema'
 import Members from '/imports/api/members/schema'
 import ShopFront from './shop-front'
 
-const debug = require('debug')('b2b:shop')
+const debug = require('debug')('app:shop')
 
-const getPromo = async code => {
+const getPromo = async (code) => {
   return await Meteor.callAsync('getPromo', code)
 }
 
-const cartUpdate = data => {
+const cartUpdate = (data) => {
   try {
     const contents = cloneDeep(data)
     const id = contents._id
@@ -42,11 +42,14 @@ const chargeCard = async ({ price, email, customer_token, metadata }) => {
       description: 'Purchase',
       email,
       customer_token,
-      metadata
+      metadata,
     }
 
     const result = await Meteor.callAsync('makePayment', packet)
-    if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+    if (
+      typeof result === 'string' &&
+      (result.match(/^Request failed/i) || result.match(/error/i))
+    ) {
       debug('Response', result)
       return { error: result }
     } else {
@@ -58,7 +61,7 @@ const chargeCard = async ({ price, email, customer_token, metadata }) => {
   }
 }
 
-const ShopIndex = props => {
+const ShopIndex = (props) => {
   const [cartId, setCartId] = useState(sessionStorage.getItem('mycart'))
   const [memberId, setMemberId] = useState(sessionStorage.getItem('memberId'))
 
@@ -70,18 +73,21 @@ const ShopIndex = props => {
       cart: Carts.findOne(cartId),
       member: Members.findOne(memberId),
       loading: !cartSub.ready(),
-      settings: Meteor.settings.public
+      settings: Meteor.settings.public,
     }
   }, [cartId, memberId])
 
-  const wrappedCartUpdate = useCallback(data => {
-    const result = cartUpdate(data)
-    const newCartId = sessionStorage.getItem('mycart')
-    const newMemberId = sessionStorage.getItem('memberId')
-    if (newCartId !== cartId) setCartId(newCartId)
-    if (newMemberId !== memberId) setMemberId(newMemberId)
-    return result
-  }, [cartId, memberId])
+  const wrappedCartUpdate = useCallback(
+    (data) => {
+      const result = cartUpdate(data)
+      const newCartId = sessionStorage.getItem('mycart')
+      const newMemberId = sessionStorage.getItem('memberId')
+      if (newCartId !== cartId) setCartId(newCartId)
+      if (newMemberId !== memberId) setMemberId(newMemberId)
+      return result
+    },
+    [cartId, memberId]
+  )
 
   return (
     <ShopFront

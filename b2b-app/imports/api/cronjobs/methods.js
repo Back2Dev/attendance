@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import logger from '/imports/lib/log'
 import Cronjobs from './schema'
-const debug = require('debug')('target:cronjobs')
+const debug = require('debug')('app:cronjobs')
 
 Meteor.methods({
   'rm.cronjobs': async (id) => {

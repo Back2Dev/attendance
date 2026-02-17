@@ -26,7 +26,7 @@ import ProductCard from './product-card'
 import Privacy, { SecurityModal } from './privacy'
 import CONSTANTS from '/imports/api/constants'
 
-const debug = require('debug')('b2b:checkout')
+const debug = require('debug')('app:checkout')
 const NEED_DATE = 'paypal cash xero'.split(/\s+/)
 
 const Checkout = ({ history }) => {
@@ -41,13 +41,15 @@ const Checkout = ({ history }) => {
   const [note, setNote] = React.useState('')
   const [discountedPrice, setDP] = React.useState(state.price / 100)
   const promoIcon =
-    icon && icon.match(/check/)
-      ? <CheckCircleIcon color="success" />
-      : icon && icon.match(/cancel/)
-        ? <CancelIcon color="error" />
-        : icon && icon.match(/meh/)
-          ? <SentimentNeutralIcon color="error" />
-          : <SearchIcon color="action" />
+    icon && icon.match(/check/) ? (
+      <CheckCircleIcon color="success" />
+    ) : icon && icon.match(/cancel/) ? (
+      <CancelIcon color="error" />
+    ) : icon && icon.match(/meh/) ? (
+      <SentimentNeutralIcon color="error" />
+    ) : (
+      <SearchIcon color="action" />
+    )
 
   const adminCancel = () => {
     setPromo({ status: 'Please enter a discount code' })
@@ -212,7 +214,13 @@ const Checkout = ({ history }) => {
         </Box>
       </Paper>
 
-      <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" justifyContent="center">
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        flexWrap="wrap"
+        justifyContent="center"
+      >
         <Button
           id="continue"
           type="button"
@@ -236,11 +244,7 @@ const Checkout = ({ history }) => {
           onChange={(e) => setCode(e.target.value)}
           name="promo"
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                {promoIcon}
-              </InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">{promoIcon}</InputAdornment>,
             endAdornment: (
               <InputAdornment position="end">
                 <Button id="check" onClick={checkPromo}>
@@ -337,10 +341,22 @@ const Checkout = ({ history }) => {
                   />
                 )}
                 <Stack direction="row" spacing={1}>
-                  <Button id="cancel" type="button" color="error" variant="outlined" onClick={adminCancel}>
+                  <Button
+                    id="cancel"
+                    type="button"
+                    color="error"
+                    variant="outlined"
+                    onClick={adminCancel}
+                  >
                     Cancel
                   </Button>
-                  <Button id="doit" type="button" color="success" variant="contained" onClick={adminDoIt}>
+                  <Button
+                    id="doit"
+                    type="button"
+                    color="success"
+                    variant="contained"
+                    onClick={adminDoIt}
+                  >
                     Do it
                   </Button>
                 </Stack>

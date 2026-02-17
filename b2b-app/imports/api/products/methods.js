@@ -3,7 +3,7 @@ import Members from '/imports/api/members/schema'
 import CONSTANTS from '/imports/api/constants'
 import log from '/imports/lib/server/log'
 
-const debug = require('debug')('b2b:cart')
+const debug = require('debug')('app:cart')
 
 Meteor.methods({
   'rm.Products': async (id) => {
@@ -40,13 +40,13 @@ Meteor.methods({
       await Carts.updateAsync(cartId, {
         $set: {
           status: CONSTANTS.CART_STATUS.COMPLETE,
-          paymentMethod
-        }
+          paymentMethod,
+        },
       })
       await Meteor.callAsync('acceptPayment', cartId, paymentMethod)
       return { status: 'ok' }
     } catch (e) {
       return { error: e.message }
     }
-  }
+  },
 })

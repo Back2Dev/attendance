@@ -13,7 +13,6 @@ const BuildingWrapper = (props) => {
       settings: Meteor.settings.public,
     }
   }, [])
-  return <div>Hello Building</div>
 
   return (
     <ShopWindow

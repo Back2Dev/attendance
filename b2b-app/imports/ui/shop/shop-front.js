@@ -22,7 +22,7 @@ import context from '/imports/ui/utils/nav'
 import useHistory from '/imports/ui/utils/history'
 import { HelpOutline } from '@mui/icons-material'
 
-const debug = require('debug')('b2b:shop')
+const debug = require('debug')('app:shop')
 
 const ShopFront = (props) => {
   const { location } = useHistory()
@@ -40,6 +40,7 @@ const ShopFront = (props) => {
         .split(/,/)
         .forEach((key) => (cart.member[key] = props.member[key]))
   }
+
   return (
     <CartContextProvider
       cart={cart}
@@ -49,7 +50,20 @@ const ShopFront = (props) => {
       chargeCard={props.chargeCard}
     >
       <Routes>
-        <Route path="/shop" exact component={Building} />
+        <Route path="" exact Component={Building} />
+        <Route path="/shop/add/:code/:memberId" exact Component={AddContainer} />
+        <Route path="/shop/checkout" exact Component={Checkout} />
+        <Route path="address" exact Component={Address} />
+        <Route path="/shop/credit-card" exact Component={CreditCard} />
+        <Route path="/shop/register-card/:id" exact Component={RegisterCard} />
+        <Route path="/shop/receipt" exact Component={Receipt} />
+        <Route path="/shop/type/:type" Component={Department} />
+        <Route path="/shop/renew/:id/:cartId" Component={Renewal} />
+        <Route path="/shop/registered" exact Component={CCRegistered} />
+        <Route path="/shop/charge/:memberId/:cartId" exact Component={CCCharge} />
+        <Route path="/shop/sent/:email" exact Component={EmailSent} />
+        <Route path="/shop/paid/:memberId" exact Component={Paid} />
+        <Route path="/shop/already-paid" exact Component={AlreadyPaid} />{' '}
       </Routes>
     </CartContextProvider>
   )
@@ -62,20 +76,7 @@ ShopFront.propTypes = {
 
 export default ShopFront
 
-// <Route path="/shop/add/:code/:memberId" exact component={AddContainer} />
-// <Route path="/shop/checkout" exact component={Checkout} />
-// <Route path="/shop/address" exact component={Address} />
-// <Route path="/shop/credit-card" exact component={CreditCard} />
-// <Route path="/shop/register-card/:id" exact component={RegisterCard} />
-// <Route path="/shop/receipt" exact component={Receipt} />
-// <Route path="/shop/type/:type" component={Department} />
-// <Route path="/shop/renew/:id/:cartId" component={Renewal} />
-// <Route path="/shop/registered" exact component={CCRegistered} />
-// <Route path="/shop/charge/:memberId/:cartId" exact component={CCCharge} />
-// <Route path="/shop/sent/:email" exact component={EmailSent} />
-// <Route path="/shop/paid/:memberId" exact component={Paid} />
-// <Route path="/shop/already-paid" exact component={AlreadyPaid} />
-// {/* <Route path="/kiosk/address" exact component={Address} />
-// <Route path="/kiosk/credit-card" exact component={CreditCard} />
-// <Route path="/kiosk/register-card/:id" exact component={RegisterCard} />
-// <Route path="/kiosk/registered" exact component={CCRegistered} /> */}
+// {/* <Route path="/kiosk/address" exact Component={Address} />
+// <Route path="/kiosk/credit-card" exact Component={CreditCard} />
+// <Route path="/kiosk/register-card/:id" exact Component={RegisterCard} />
+// <Route path="/kiosk/registered" exact Component={CCRegistered} /> */}

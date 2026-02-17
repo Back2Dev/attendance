@@ -38,3 +38,4 @@ grove:call-async
 session@1.2.2
 johanbrook:publication-collector
 underscore
+hot-module-replacement

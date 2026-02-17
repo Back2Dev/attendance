@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Tools from './schema'
-const debug = require('debug')('target:tools')
+const debug = require('debug')('app:tools')
 
 Meteor.methods({
   'rm.tools': async (id) => {

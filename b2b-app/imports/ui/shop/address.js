@@ -11,9 +11,10 @@ import {
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
 
-const debug = require('debug')('b2b:shop')
+const debug = require('debug')('app:shop')
 
-const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
+const emailRegex =
+  /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 const Address = (props) => {
   const { state, dispatch } = React.useContext(CartContext)
   const [a, setAddress] = React.useState(
@@ -42,9 +43,7 @@ const Address = (props) => {
 
   const submitAddress = (event) => {
     event.preventDefault()
-    const required = 'email line1 city postcode state country'.split(
-      /\s+/
-    )
+    const required = 'email line1 city postcode state country'.split(/\s+/)
     const errs = []
 
     // If we are valid...
@@ -53,8 +52,7 @@ const Address = (props) => {
         .map((field) => {
           const f = field === 'email' ? 'email' : `address_${field}`
           let isValid = a[f] && a[f] !== ''
-          if (isValid && field === 'email')
-            isValid = emailRegex.test(a.email)
+          if (isValid && field === 'email') isValid = emailRegex.test(a.email)
           if (!isValid) errs.push(field)
           debug(`${f}: ${a[f]} ${isValid}`)
           return isValid
@@ -71,9 +69,7 @@ const Address = (props) => {
     return (
       <Container maxWidth="sm">
         <Paper sx={{ p: 3, textAlign: 'center' }}>
-          <Typography variant="h5">
-            Payment form - your billing address
-          </Typography>
+          <Typography variant="h5">Payment form - your billing address</Typography>
           <Box
             component="img"
             src={state.settings.logo}
@@ -81,12 +77,7 @@ const Address = (props) => {
             sx={{ maxWidth: 200, my: 2 }}
           />
           <Typography variant="body1">Payment has been completed</Typography>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={gotoShop}
-            sx={{ mt: 3 }}
-          >
+          <Button variant="contained" color="success" onClick={gotoShop} sx={{ mt: 3 }}>
             Back to the shop
           </Button>
         </Paper>
@@ -97,9 +88,7 @@ const Address = (props) => {
   return (
     <Container maxWidth="sm">
       <Paper sx={{ p: 3, textAlign: 'center' }}>
-        <Typography variant="h5">
-          Payment form - your billing address
-        </Typography>
+        <Typography variant="h5">Payment form - your billing address</Typography>
         <Box
           component="img"
           src={state.settings.logo}

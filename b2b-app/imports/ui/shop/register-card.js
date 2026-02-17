@@ -3,18 +3,18 @@ import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
 
-const debug = require('debug')('b2b:shop')
+const debug = require('debug')('app:shop')
 
-const RegisterCard = props => {
+const RegisterCard = (props) => {
   const { state, dispatch } = React.useContext(CartContext)
 
-  const submit = event => {
+  const submit = (event) => {
     event.preventDefault()
     // Create an empty cart
     state.cartUpdate({
       prodqty: {},
       products: [],
-      memberId: props.match.params.id
+      memberId: props.match.params.id,
     })
     props.history.push('/shop/address')
   }

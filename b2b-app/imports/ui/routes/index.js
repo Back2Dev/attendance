@@ -107,7 +107,7 @@ export default function MainRoutes() {
           }
         />
 
-        <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/*" element={<Shop />} />
         <Route
           path="/bookings"
           element={

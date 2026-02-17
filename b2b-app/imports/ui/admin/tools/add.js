@@ -9,7 +9,7 @@ import config from './config'
 import useHistory from '/imports/ui/utils/history'
 
 const schemaBridge = config.edit.schema
-const debug = require('debug')('target:add')
+const debug = require('debug')('app:add')
 
 const Add = ({ item, methods }) => {
   const save = (model) => {

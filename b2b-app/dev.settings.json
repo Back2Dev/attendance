@@ -29,6 +29,10 @@
     "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
     "paymentTest": true,
     "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
-    "tagline": "Mikkel's Aquatic Discovery"
+    "tagline": "Mikkel's Aquatic Discovery",
+    "hmr": {
+      "host": "localhost",
+      "port": "3333"
+    }
   }
 }

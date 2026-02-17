@@ -20,7 +20,7 @@ import { CartContext } from './cart-data'
 import Price from './price'
 import CONSTANTS from '/imports/api/constants'
 
-const debug = require('debug')('b2b:shop')
+const debug = require('debug')('app:shop')
 
 const { paymentsHomePage, paymentTest, paymentApiKey } = Meteor.settings.public
 
@@ -28,30 +28,35 @@ const { paymentsHomePage, paymentTest, paymentApiKey } = Meteor.settings.public
 // fields object, it contains a tokenize function, which disappears on a component refresh
 let fields = {}
 
-const ErrMsg = props => (
+const ErrMsg = (props) => (
   <span style={{ fontSize: '9px', color: 'red' }} {...props}>
     {props.children}
   </span>
 )
-const StatusMsg = props => (
+const StatusMsg = (props) => (
   <span style={{ fontSize: '9px', color: 'green' }} {...props}>
     {props.children}
   </span>
 )
 
-const Required = props => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
+const Required = (props) => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
-const CreditCard = props => {
+const CreditCard = (props) => {
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
-  const [fakeState, setFakeState] = React.useState({ mockName: '', mockNumber: '', mockCvc: '', mockExpiry: '' })
+  const [fakeState, setFakeState] = React.useState({
+    mockName: '',
+    mockNumber: '',
+    mockCvc: '',
+    mockExpiry: '',
+  })
   const [errors, setErrors] = React.useState({})
   const [statusMsg, setStatus] = React.useState('')
   const [keep, setKeep] = React.useState(true)
   const [infoOpen, setInfoOpen] = React.useState(false)
   const memberId = props.match.params.id
   const codes = state.products
-    .map(prod => {
+    .map((prod) => {
       return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
     })
     .join(',')
@@ -60,7 +65,7 @@ const CreditCard = props => {
   if (!cartId && !memberId) debug('cart._id or memberId is missing from state', state)
   const { email } = state.creditCard
 
-  React.useEffect(props => {
+  React.useEffect((props) => {
     debug('useEffect', props)
     if (status === 'entry' && state.status !== CONSTANTS.CART_STATUS.COMPLETE) {
       status = 'loading'
@@ -81,31 +86,31 @@ const CreditCard = props => {
             input: {
               'font-size': '16px',
               'font-family': 'helvetica, tahoma, calibri, sans-serif',
-              color: '#3a3a3a'
+              color: '#3a3a3a',
             },
             '.hosted-fields-invalid:not(:focus)': {
-              color: 'red'
-            }
+              color: 'red',
+            },
           },
 
           fields: {
             name: {
               selector: '#name',
-              placeholder: 'Name on card'
+              placeholder: 'Name on card',
             },
             number: {
               selector: '#number',
-              placeholder: 'Credit card number'
+              placeholder: 'Credit card number',
             },
             cvc: {
               selector: '#cvc',
-              placeholder: 'CVC (on back of card)'
+              placeholder: 'CVC (on back of card)',
             },
             expiry: {
               selector: '#expiry',
-              placeholder: 'Card Expiry (MM/DD)'
-            }
-          }
+              placeholder: 'Card Expiry (MM/DD)',
+            },
+          },
         })
       }
     }
@@ -123,9 +128,9 @@ const CreditCard = props => {
       currency: 'AUD',
       description: 'Purchase',
       email,
-      metadata: { cartId, codes }
+      metadata: { cartId, codes },
     }
-    Object.keys(response).forEach(key => {
+    Object.keys(response).forEach((key) => {
       packet[mapping[key] || key] = response[key]
     })
     if (keep) {
@@ -143,7 +148,10 @@ const CreditCard = props => {
       setStatus('Transmitting')
       const result = await Meteor.callAsync('makePayment', packet)
       setStatus('')
-      if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+      if (
+        typeof result === 'string' &&
+        (result.match(/^Request failed/i) || result.match(/error/i))
+      ) {
         setErrors({ remote: result })
       } else {
         // The cart gets updated with the response on the server
@@ -162,13 +170,17 @@ const CreditCard = props => {
       currency: 'AUD',
       description: 'Purchase',
       email,
-      metadata: { cartId, codes }
+      metadata: { cartId, codes },
     }
 
     debug(`Calculated card token as ${response.token}`, response)
 
     debug('Creating customer ', packet)
-    let result = await Meteor.callAsync('createMockCustomer', packet, response.customerToken)
+    let result = await Meteor.callAsync(
+      'createMockCustomer',
+      packet,
+      response.customerToken
+    )
     debug('Customer created ok', result)
 
     debug('Making payment')
@@ -176,7 +188,10 @@ const CreditCard = props => {
     result = await Meteor.callAsync('mockMakePayment', packet, fakeState)
     setStatus('')
     state.creditCard = result.card
-    if (typeof result === 'string' && (result.match(/^Request failed/i) || result.match(/error/i))) {
+    if (
+      typeof result === 'string' &&
+      (result.match(/^Request failed/i) || result.match(/error/i))
+    ) {
       setErrors({ remote: result })
     } else {
       // The cart gets updated with the response on the server
@@ -198,7 +213,7 @@ const CreditCard = props => {
   */
     const address = Object.assign(
       {
-        publishable_api_key: paymentApiKey
+        publishable_api_key: paymentApiKey,
       },
       state.creditCard
     )
@@ -233,9 +248,10 @@ const CreditCard = props => {
     cardFormParams = 'name number cvc expiry'.split(/\s+/)
     if (err.messages) {
       errors.remote = ''
-      err.messages.forEach(errMsg => {
+      err.messages.forEach((errMsg) => {
         errors[errMsg.param] = errMsg.message
-        if (!cardFormParams.includes(errMsg.param)) errors.remote = `${errors.remote} ${errMsg.message}`
+        if (!cardFormParams.includes(errMsg.param))
+          errors.remote = `${errors.remote} ${errMsg.message}`
       })
       debug('Errors:', errors)
       setErrors(errors)
@@ -246,8 +262,7 @@ const CreditCard = props => {
     }
   }
 
-  const submitForm = e => {
-    
+  const submitForm = (e) => {
     debug('Tokenising fields')
     e.preventDefault()
     setErrors({})
@@ -265,7 +280,7 @@ const CreditCard = props => {
     setFakeState(newFake)
   }
 
-  const gotoShop = e => {
+  const gotoShop = (e) => {
     dispatch({ type: 'clear' }) // Clear the cart ??
     props.history.push('/shop')
   }
@@ -311,7 +326,12 @@ const CreditCard = props => {
             sx={{ width: 200, ml: 1, verticalAlign: 'middle' }}
           />
         </Typography>
-        <Box component="form" id="payment_form" method="post" sx={{ textAlign: 'left', mt: 2 }}>
+        <Box
+          component="form"
+          id="payment_form"
+          method="post"
+          sx={{ textAlign: 'left', mt: 2 }}
+        >
           <Typography variant="h6" sx={{ textAlign: 'center' }}>
             {price > 0 && (
               <>
@@ -328,7 +348,13 @@ const CreditCard = props => {
           <div id="name" />
           {Meteor.settings.public.mockpinpayment && (
             <div>
-              <TextField fullWidth id="mockName" placeholder="Fake name on card" onChange={setFake} margin="dense" />
+              <TextField
+                fullWidth
+                id="mockName"
+                placeholder="Fake name on card"
+                onChange={setFake}
+                margin="dense"
+              />
             </div>
           )}
 
@@ -417,21 +443,39 @@ const CreditCard = props => {
             >
               Why?
             </Button>
-            <Dialog open={infoOpen} onClose={() => setInfoOpen(false)} maxWidth="sm" fullWidth>
+            <Dialog
+              open={infoOpen}
+              onClose={() => setInfoOpen(false)}
+              maxWidth="sm"
+              fullWidth
+            >
               <DialogTitle>Why should I save my card information?</DialogTitle>
               <DialogContent dividers>
                 <a href={paymentsHomePage} target="_blank" rel="noreferrer">
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
-                    <Box component="img" src={state.settings.logo} alt="Logo" sx={{ height: 40 }} />
-                    <Box component="img" src="/images/pinpayments.png" alt="PinPayments" sx={{ height: 40 }} />
+                    <Box
+                      component="img"
+                      src={state.settings.logo}
+                      alt="Logo"
+                      sx={{ height: 40 }}
+                    />
+                    <Box
+                      component="img"
+                      src="/images/pinpayments.png"
+                      alt="PinPayments"
+                      sx={{ height: 40 }}
+                    />
                   </Box>
                 </a>
                 <Typography variant="body1" sx={{ mb: 2 }}>
-                  We don't save your card details on our system. It is securely stored for your convenience on our
-                  payment gateway using PCI DSS standards. Saving it will make it easier for you to buy from us next
-                  time, without the need to re-enter all your details.
+                  We don't save your card details on our system. It is securely stored for
+                  your convenience on our payment gateway using PCI DSS standards. Saving
+                  it will make it easier for you to buy from us next time, without the
+                  need to re-enter all your details.
                 </Typography>
-                <Typography variant="body1">You can remove your card from the system at any time.</Typography>
+                <Typography variant="body1">
+                  You can remove your card from the system at any time.
+                </Typography>
               </DialogContent>
               <DialogActions>
                 <Button onClick={() => setInfoOpen(false)}>Close</Button>

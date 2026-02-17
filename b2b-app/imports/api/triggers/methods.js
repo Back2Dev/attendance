@@ -9,7 +9,7 @@ import { convertMergeTags, convertLink } from '/imports/api/util.js'
 import { push } from '/imports/api/notifications/server/helper.js'
 import HTMLTemplate from '/imports/api/email-template'
 
-const debug = require('debug')('target:triggers')
+const debug = require('debug')('app:triggers')
 
 Meteor.methods({
   'rm.triggers': async (id) => {
