@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Segment, Button, Form, Image, Input, TextArea } from 'semantic-ui-react'
+import { Segment, Button, Form, Image, Input, TextArea } from '@mui/material'
 import Stackedit from 'stackedit-js'
 
 const debug = require('debug')('app:edit')

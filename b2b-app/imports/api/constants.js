@@ -136,6 +136,22 @@ CONSTANTS.FORM_STATUS = {
   cancelled: 'Cancelled',
 }
 
+// Product Type values
+CONSTANTS.PRODUCT_TYPES = {
+  PASS: 'pass',
+  COURSE: 'course',
+  MEMBERSHIP: 'membership',
+  MERCHANDISE: 'merchandise',
+  HIRE: 'hire',
+}
+// Human readable lookup table:
+CONSTANTS.PRODUCT_TYPES_READABLE = {
+  pass: 'Pass',
+  course: 'Course',
+  membership: 'Membership',
+  merchandise: 'Merchandise',
+  hire: 'Hire',
+}
 CONSTANTS.STEP_TYPES = {
   assign: 'Assign',
   upload: 'Upload',
@@ -156,6 +172,16 @@ CONSTANTS.STEP_TYPES = {
   multi: 'Multi-step',
   'edit-workshop': 'Edit-Workshop',
 }
+
+
+CONSTANTS.CART_STATUS = {
+  READY: 'ready',
+  DENIED: 'denied',
+  CANCELLED: 'cancelled',
+  COMPLETE: 'complete',
+  ENUM: ['ready', 'denied', 'cancelled', 'complete'],
+}
+
 
 CONSTANTS.STEP_STATUS = {
   blocked: 'Pending',

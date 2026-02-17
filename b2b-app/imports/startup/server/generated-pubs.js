@@ -30,4 +30,10 @@ import '/imports/api/collections/server/publications'
 import '/imports/api/standup-notes/server/publications'
 import '/imports/api/standups/server/publications'
 import '/imports/api/teams/server/publications'
+
+import '/imports/api/promos/server/publications'
+import '/imports/api/products/server/publications'
+
+import '/imports/api/charges/server/publications'
+
 // END GENERATED  PUBS

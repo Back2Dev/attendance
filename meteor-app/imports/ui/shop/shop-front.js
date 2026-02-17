@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { cloneDeep } from 'lodash'
 
 import AddContainer from './add-container'
 import Building from './building'
@@ -27,14 +28,15 @@ const ShopFront = props => {
   }
 
   if (props.loading) return <div>Loading ...</div>
-  if (props.cart) {
-    props.cart.member = {}
+  const cart = props.cart ? cloneDeep(props.cart) : null
+  if (cart) {
+    cart.member = {}
     if (props.member)
-      'email,name,avatar,paymentCustId,autoPay'.split(/,/).forEach(key => (props.cart.member[key] = props.member[key]))
+      'email,name,avatar,paymentCustId,autoPay'.split(/,/).forEach(key => (cart.member[key] = props.member[key]))
   }
   return (
     <CartContextProvider
-      cart={props.cart}
+      cart={cart}
       cartUpdate={props.cartUpdate}
       getPromo={props.getPromo}
       settings={props.settings}
