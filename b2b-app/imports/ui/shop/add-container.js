@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import Products from '/imports/api/products/schema'
@@ -6,7 +7,7 @@ import Members from '/imports/api/members/schema'
 import AddProduct from './add-product'
 
 const AddProductWrapper = props => {
-  const { code, memberId } = props.match.params
+  const { code, memberId } = useParams()
   const { product, member, loading } = useTracker(() => {
     const productSub = Meteor.subscribe('product.bycode', code)
     const memberSub = Meteor.subscribe('member', memberId)

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import CartSummary from './cart-summary'
-// import GoHome from '/imports/ui/components/go-home-button'
+import useHistory from '/imports/ui/utils/history'
 
 const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
 const ProdTypeCard = props => {
+  const history = useHistory()
   const go = () => {
-    props.history.push(`/shop/type/${props.type}`)
+    history.push(`/shop/type/${props.type}`)
   }
   return (
     <Box key={props.type}>
@@ -27,18 +28,19 @@ const ProdTypeCard = props => {
 }
 
 const ShopWindow = props => {
+  const history = useHistory()
   const { productTypes, settings } = props
   return (
     <Stack spacing={2}>
       <Typography variant="h5">{settings.org} Shop</Typography>
-      <CartSummary history={props.history} />
+      <CartSummary />
       <Typography variant="body1">{settings.tagline}</Typography>
       {props.loading && <Typography variant="body2">Loading...</Typography>}
       {!props.loading &&
         productTypes &&
         productTypes.length &&
         productTypes.map((prodType) => (
-          <ProdTypeCard key={prodType.type} history={props.history} {...prodType} />
+          <ProdTypeCard key={prodType.type} {...prodType} />
         ))}
       {/* <GoHome history={props.history} /> */}
     </Stack>

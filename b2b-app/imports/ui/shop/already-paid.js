@@ -1,13 +1,15 @@
 import React from 'react'
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
+import useHistory from '/imports/ui/utils/history'
 
 const AlreadyPaid = props => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
 
   const gotoShop = e => {
     dispatch({ type: 'clear' }) // Clear the cart ??
-    props.history.push('/shop')
+    history.push('/shop')
   }
 
   return (

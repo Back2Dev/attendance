@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
+import { useParams } from 'react-router-dom'
 import React from 'react'
 import Members from '/imports/api/members/schema'
 import Purchases from '/imports/api/purchases/schema'
@@ -11,7 +12,7 @@ import CONSTANTS from '/imports/api/constants'
 const debug = require('debug')('app:renew')
 
 const Loader = (props) => {
-  const { id, cartId } = props.match.params
+  const { id, cartId } = useParams()
   const { org, logo, loading, member, purchases, products, cart, myProduct } =
     useTracker(() => {
       if (cartId) sessionStorage.setItem('mycart', cartId)

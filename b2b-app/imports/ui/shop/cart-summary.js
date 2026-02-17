@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Chip, Stack } from '@mui/material'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import Alert from '/imports/ui/utils/alert'
+import useHistory from '/imports/ui/utils/history'
 
 import { CartContext } from './cart-data'
 import Price from './price'
@@ -10,10 +11,11 @@ import { CustomerLabel } from './customer'
 
 const cartStyle = { right: 10, top: 10, position: 'absolute', zIndex: 5 }
 const Cart = props => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
 
   const checkout = () => {
-    if (state.totalqty) props.history.push('/shop/checkout')
+    if (state.totalqty) history.push('/shop/checkout')
     else {
       Alert.error('You do not have any items in your cart yet, please add something before going to the checkout')
     }
@@ -51,16 +53,14 @@ const Cart = props => {
   )
 }
 
-Cart.propTypes = {
-  history: PropTypes.object
-}
 export default Cart
 
 export const CartMenuItem = props => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
 
   const checkout = () => {
-    if (state.totalqty) props.history.push('/shop/checkout')
+    if (state.totalqty) history.push('/shop/checkout')
     else {
       Alert.error('You do not have any items in your cart yet, please add something before going to the checkout')
     }

@@ -16,9 +16,11 @@ import {
   Typography,
 } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
+import { useParams } from 'react-router-dom'
 import { CartContext } from './cart-data'
 import Price from './price'
 import CONSTANTS from '/imports/api/constants'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:shop')
 
@@ -42,6 +44,8 @@ const StatusMsg = (props) => (
 const Required = (props) => <span style={{ color: 'red', paddingRight: '20px' }}>*</span>
 
 const CreditCard = (props) => {
+  const history = useHistory()
+  const { id: memberId } = useParams()
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [fakeState, setFakeState] = React.useState({
@@ -54,7 +58,6 @@ const CreditCard = (props) => {
   const [statusMsg, setStatus] = React.useState('')
   const [keep, setKeep] = React.useState(true)
   const [infoOpen, setInfoOpen] = React.useState(false)
-  const memberId = props.match.params.id
   const codes = state.products
     .map((prod) => {
       return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
@@ -142,7 +145,7 @@ const CreditCard = (props) => {
     if (price === 0) {
       state.status = CONSTANTS.CART_STATUS.COMPLETE
       dispatch({ type: 'save-cart', payload: null })
-      props.history.replace('/shop/registered')
+      history.replace('/shop/registered')
     } else {
       debug('Making payment')
       setStatus('Transmitting')
@@ -158,7 +161,7 @@ const CreditCard = (props) => {
         // So show the payment receipt now
         Alert.success('Payment completed')
         state.status = CONSTANTS.CART_STATUS.COMPLETE
-        props.history.replace('/shop/receipt')
+        history.replace('/shop/receipt')
       }
     }
   }
@@ -198,7 +201,7 @@ const CreditCard = (props) => {
       // So show the payment receipt now
       Alert.success('Payment completed')
       state.status = CONSTANTS.CART_STATUS.COMPLETE
-      props.history.replace('/shop/receipt')
+      history.replace('/shop/receipt')
     }
   }
 
@@ -282,7 +285,7 @@ const CreditCard = (props) => {
 
   const gotoShop = (e) => {
     dispatch({ type: 'clear' }) // Clear the cart ??
-    props.history.push('/shop')
+    history.push('/shop')
   }
 
   if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {

@@ -1,9 +1,13 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
+import useHistory from '/imports/ui/utils/history'
 
-const EmailSent = ({ history, match }) => {
+const EmailSent = () => {
+  const { email } = useParams()
   const { state, dispatch } = React.useContext(CartContext)
+  const history = useHistory()
 
   const gotoHome = e => {
     dispatch({ type: 'clear' }) // Clear the cart ??
@@ -20,7 +24,7 @@ const EmailSent = ({ history, match }) => {
           sx={{ maxWidth: 200, my: 2 }}
         />
         <Typography variant="subtitle1">{state.settings.org}</Typography>
-        <Typography variant="h5">Email sent to {match.params.email}</Typography>
+        <Typography variant="h5">Email sent to {email}</Typography>
         <Button variant="contained" color="success" onClick={gotoHome} sx={{ mt: 3 }}>
           Back to the checkin
         </Button>

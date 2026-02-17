@@ -14,8 +14,10 @@ import {
 import { CartContext } from './cart-data'
 import Price from './price'
 import context from '/imports/ui/utils/nav'
+import useHistory from '/imports/ui/utils/history'
 
 const CCRegistered = props => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
 
   const Address = props => (
@@ -64,7 +66,7 @@ const CCRegistered = props => {
 
   const gotoHome = e => {
     dispatch({ type: 'clear' }) // Clear the cart ??
-    props.history.push(goHome())
+    history.push(goHome())
   }
 
   return (

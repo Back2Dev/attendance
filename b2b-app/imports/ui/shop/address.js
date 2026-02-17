@@ -10,12 +10,14 @@ import {
 } from '@mui/material'
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:shop')
 
 const emailRegex =
   /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
 const Address = (props) => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
   const [a, setAddress] = React.useState(
     state.creditCard && Object.keys(state.creditCard).length
@@ -30,7 +32,7 @@ const Address = (props) => {
   debug(state, a)
   const gotoShop = (e) => {
     dispatch({ type: 'clear' }) // Clear the cart ??
-    props.history.push('/shop')
+    history.push('/shop')
   }
 
   const fieldChange = (event) => {
@@ -61,7 +63,7 @@ const Address = (props) => {
     ) {
       // Add the address to the cart
       dispatch({ type: 'save-address', payload: a })
-      props.history.push('/shop/credit-card')
+      history.push('/shop/credit-card')
     } else setError(errs)
   }
   if (state.status === CONSTANTS.CART_STATUS.COMPLETE) {

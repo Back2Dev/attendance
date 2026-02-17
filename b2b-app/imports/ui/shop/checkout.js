@@ -25,11 +25,13 @@ import { CartContext } from './cart-data'
 import ProductCard from './product-card'
 import Privacy, { SecurityModal } from './privacy'
 import CONSTANTS from '/imports/api/constants'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:checkout')
 const NEED_DATE = 'paypal cash xero'.split(/\s+/)
 
-const Checkout = ({ history }) => {
+const Checkout = () => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
   const [icon, setIcon] = React.useState('search')
   const [code, setCode] = React.useState('')

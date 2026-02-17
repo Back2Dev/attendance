@@ -7,15 +7,17 @@ import MembershipCard from '/imports/ui/member-card/member-card'
 import { ProductCardOnly } from '/imports/ui/shop/product-card'
 import ProductButton from '/imports/ui/shop/product-button'
 import { CartContext } from './cart-data'
+import useHistory from '/imports/ui/utils/history'
 
 const debug = require('debug')('app:renew')
 
 const Renew = (props) => {
+  const history = useHistory()
   const [product, setProduct] = React.useState(props.cart.products[0] || props.myProduct)
   const { state, dispatch } = React.useContext(CartContext)
   // With the next action, the product is in the cart already
   const next = () => {
-    props.history.push('/shop/checkout')
+    history.push('/shop/checkout')
   }
   // Here we have to add it into the cart
   const add = () => {
@@ -25,7 +27,7 @@ const Renew = (props) => {
     if (props.purchases && props.purchases.length) prod.expiry = props.purchases[0].expiry
     prod.qty = 0
     dispatch({ type: 'add', payload: prod })
-    props.history.push('/shop/checkout')
+    history.push('/shop/checkout')
   }
 
   const remove = (props) => {}

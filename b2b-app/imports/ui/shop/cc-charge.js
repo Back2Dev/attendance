@@ -14,14 +14,16 @@ import Alert from '/imports/ui/utils/alert'
 import CONSTANTS from '/imports/api/constants'
 import { CartContext } from './cart-data'
 import Price from './price'
+import useHistory from '/imports/ui/utils/history'
 
 const CCCharge = props => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
   const [status, setStatus] = React.useState('')
 
   const gotoHome = e => {
     dispatch({ type: 'clear' }) // Clear the cart ??
-    props.history.push('/') // Go home
+    history.push('/') // Go home
   }
 
   const chargeCard = async () => {
@@ -47,7 +49,7 @@ const CCCharge = props => {
       Alert.success('Payment completed')
       state.status = CONSTANTS.CART_STATUS.COMPLETE
       setStatus('Transaction completed')
-      props.history.replace('/shop/receipt')
+      history.replace('/shop/receipt')
     }
   }
   return (

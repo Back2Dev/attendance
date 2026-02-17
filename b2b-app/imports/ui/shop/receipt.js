@@ -14,8 +14,10 @@ import {
 } from '@mui/material'
 import { CartContext } from './cart-data'
 import Price from './price'
+import useHistory from '/imports/ui/utils/history'
 
 const Receipt = props => {
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
 
   const Address = props => (
@@ -65,7 +67,7 @@ const Receipt = props => {
 
   const gotoShop = e => {
     dispatch({ type: 'clear' }) // Clear the cart ??
-    props.history.push('/shop')
+    history.push('/shop')
   }
 
   return (
@@ -102,6 +104,5 @@ const Receipt = props => {
 Receipt.propTypes = {
   fields: PropTypes.array.isRequired,
   items: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
 }
 export default Receipt

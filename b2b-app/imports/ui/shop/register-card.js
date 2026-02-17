@@ -2,10 +2,14 @@ import React from 'react'
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
 import CONSTANTS from '/imports/api/constants'
+import useHistory from '/imports/ui/utils/history'
+import { useParams } from 'react-router-dom'
 
 const debug = require('debug')('app:shop')
 
 const RegisterCard = (props) => {
+  const { id } = useParams()
+  const history = useHistory()
   const { state, dispatch } = React.useContext(CartContext)
 
   const submit = (event) => {
@@ -14,9 +18,9 @@ const RegisterCard = (props) => {
     state.cartUpdate({
       prodqty: {},
       products: [],
-      memberId: props.match.params.id,
+      memberId: id,
     })
-    props.history.push('/shop/address')
+    history.push('/shop/address')
   }
 
   return (

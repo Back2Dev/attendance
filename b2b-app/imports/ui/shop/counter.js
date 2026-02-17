@@ -6,13 +6,15 @@ import CartButton, { CartMenuItem } from './cart-summary'
 import CustomerMenuItem from './customer'
 import ProductCard from './product-card'
 import { CartContext } from './cart-data'
+import useHistory from '/imports/ui/utils/history'
 
 const Counter = props => {
+  const history = useHistory()
   const { products, loading, prodType, productTypes } = props
   const { state, dispatch } = React.useContext(CartContext)
 
   const select = code => {
-    props.history.push(`/shop/type/${code}`)
+    history.push(`/shop/type/${code}`)
   }
 
   if (loading) return <div>Loading...</div>
@@ -37,7 +39,7 @@ const Counter = props => {
           ))}
           <Box sx={{ ml: 'auto', display: 'flex', gap: 1 }}>
             <CustomerMenuItem />
-            <CartMenuItem history={props.history} />
+            <CartMenuItem />
           </Box>
         </Stack>
       </Paper>
@@ -56,7 +58,7 @@ const Counter = props => {
       </Box>
       {state.totalqty > 0 && (
         <Box>
-          <CartButton history={props.history} />
+          <CartButton />
         </Box>
       )}
     </Stack>

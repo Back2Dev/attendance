@@ -21,6 +21,7 @@ import { CartContextProvider } from './cart-data'
 import context from '/imports/ui/utils/nav'
 import useHistory from '/imports/ui/utils/history'
 import { HelpOutline } from '@mui/icons-material'
+import NotFoundComponent from '/imports/ui/components/commons/not-found.js'
 
 const debug = require('debug')('app:shop')
 
@@ -51,19 +52,20 @@ const ShopFront = (props) => {
     >
       <Routes>
         <Route path="" exact Component={Building} />
-        <Route path="/shop/add/:code/:memberId" exact Component={AddContainer} />
-        <Route path="/shop/checkout" exact Component={Checkout} />
+        <Route path="add/:code/:memberId" exact Component={AddContainer} />
+        <Route path="checkout" exact Component={Checkout} />
         <Route path="address" exact Component={Address} />
-        <Route path="/shop/credit-card" exact Component={CreditCard} />
-        <Route path="/shop/register-card/:id" exact Component={RegisterCard} />
-        <Route path="/shop/receipt" exact Component={Receipt} />
-        <Route path="/shop/type/:type" Component={Department} />
-        <Route path="/shop/renew/:id/:cartId" Component={Renewal} />
-        <Route path="/shop/registered" exact Component={CCRegistered} />
-        <Route path="/shop/charge/:memberId/:cartId" exact Component={CCCharge} />
-        <Route path="/shop/sent/:email" exact Component={EmailSent} />
-        <Route path="/shop/paid/:memberId" exact Component={Paid} />
-        <Route path="/shop/already-paid" exact Component={AlreadyPaid} />{' '}
+        <Route path="credit-card" exact Component={CreditCard} />
+        <Route path="register-card/:id" exact Component={RegisterCard} />
+        <Route path="receipt" exact Component={Receipt} />
+        <Route path="type/:type" Component={Department} />
+        <Route path="renew/:id/:cartId" Component={Renewal} />
+        <Route path="registered" exact Component={CCRegistered} />
+        <Route path="charge/:memberId/:cartId" exact Component={CCCharge} />
+        <Route path="sent/:email" exact Component={EmailSent} />
+        <Route path="paid/:memberId" exact Component={Paid} />
+        <Route path="already-paid" exact Component={AlreadyPaid} />{' '}
+        <Route component={NotFoundComponent} />
       </Routes>
     </CartContextProvider>
   )

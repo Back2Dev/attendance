@@ -1,9 +1,11 @@
 import React from 'react'
 import { Box, Button, Container, Paper, Typography } from '@mui/material'
 import { CartContext } from './cart-data'
+import useHistory from '/imports/ui/utils/history'
 
-const EmailSent = ({ history, match }) => {
+const EmailSent = () => {
   const { state, dispatch } = React.useContext(CartContext)
+  const history = useHistory()
 
   const gotoHome = e => {
     dispatch({ type: 'clear' }) // Clear the cart ??
