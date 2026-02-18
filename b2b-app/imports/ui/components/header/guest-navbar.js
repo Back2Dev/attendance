@@ -49,12 +49,6 @@ export default function UserNavbar() {
       open={isMobileMenuOpen}
       onClose={mobileMenuClose}
     >
-      <MenuItem component={Link} to="/add">
-        <IconButton aria-label="logout" color="inherit" size="large">
-          <AddIcon />
-        </IconButton>
-        Add property
-      </MenuItem>
       <MenuItem component={Link} to="/signup">
         <IconButton aria-label="logout" color="inherit" size="large">
           <PersonAddIcon />
@@ -79,7 +73,7 @@ export default function UserNavbar() {
       sx={{ backgroundColor: 'black', color: 'white', height: '64px' }}
     >
       <Toolbar>
-        <Tooltip title={`B2B version ${info?.version()}`}>
+        <Tooltip title={`Version ${info?.version()}`}>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Box
               component="img"
@@ -87,8 +81,8 @@ export default function UserNavbar() {
                 height: 60,
                 '&:hover': { filter: navItemHover },
               }}
-              src="/images/logo.png"
-              alt="Back2bikes logo"
+              src="/images/logo-tiny.jpg"
+              alt="My logo"
             />
           </Link>
         </Tooltip>
@@ -169,15 +163,6 @@ export default function UserNavbar() {
             borderLeft: '1px solid white',
           }}
         >
-          <Link
-            to="/add"
-            style={{ color: 'white', textDecoration: 'none' }}
-            id={'add-property-nav-item'}
-          >
-            <Box component="span" sx={{ fontFamily: 'GothamRoundedMedium', m: '20px' }}>
-              Add property
-            </Box>
-          </Link>
           <Link
             to="/signup"
             style={{ color: 'white', textDecoration: 'none' }}
