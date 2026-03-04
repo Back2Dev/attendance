@@ -136,7 +136,7 @@
     "slate-history": "^0.62.0",
     "slate-react": "^0.62.0",
     "styled-components": "^6.1.19",
-    "underscore": "^1.13.7",
+    "underscore": "^1.13.8",
     "uniforms": "^4.0.0",
     "uniforms-bridge-json-schema": "^4.0.0",
     "uniforms-bridge-simple-schema-2": "^4.0.0",
