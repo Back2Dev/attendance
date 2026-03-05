@@ -87,7 +87,7 @@
     "html-react-parser": "^1.2.7",
     "image-extensions": "^1.1.0",
     "immer": "9.0.5",
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^4.3.8",
     "is-url": "^1.2.4",
     "isomorphic-ws": "^4.0.1",
     "jshint": "^2.13.0",
