@@ -64,7 +64,7 @@ Meteor.publish('future.events', async function () {
   const currentMember = await Members.findOneAsync({ userId: this.userId })
 
   const events = Events.find({
-    status: { $in: ['active', 'cancelled'] },
+    // status: { $in: ['active', 'cancelled'] },
     when: { $gt: new Date() },
   })
 
@@ -91,12 +91,11 @@ Meteor.publish('future.events', async function () {
   )
 
   // select all sessions belong this current user and related to those above events
-  const sessions = currentMember
-    ? Sessions.find({
-        memberId: currentMember._id,
-        eventId: { $in: arrEventIds },
-      })
-    : null
+  const sessions = Sessions.find({
+    memberId: currentMember?._id,
+    eventId: { $in: arrEventIds },
+  })
+  // : null
 
   return [events, coaches, sessions]
 })

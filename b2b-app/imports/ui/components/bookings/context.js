@@ -29,13 +29,13 @@ export const BookingsProvider = (props) => {
   }
 
   const { loading, events } = useTracker(() => {
-    // console.log('subscribe future.events')
+    console.log('subscribe future.events')
     const sub = Meteor.subscribe('future.events')
     return {
       loading: !sub.ready(),
       events: Events.find(
         {
-          status: 'active',
+          // status: 'active',
           when: { $gt: new Date() },
         },
         { sort: { when: 1 } }

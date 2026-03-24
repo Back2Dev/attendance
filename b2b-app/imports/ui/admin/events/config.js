@@ -9,7 +9,57 @@ import {
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants.js'
 
-import { ToolItemSchema, RepeatSchema } from '/imports/api/events/schema.js'
+import EventRepeatField from '/imports/ui/components/forms/event-repeat'
+
+const ToolItemSchema = new SimpleSchema({
+  _id: {
+    type: String,
+    optional: true,
+  },
+  name: {
+    type: String,
+  },
+  location: {
+    type: String,
+    optional: true,
+  },
+  available: {
+    type: Boolean,
+    defaultValue: true,
+    optional: true,
+  },
+})
+
+const RepeatSchema = new SimpleSchema({
+  factor: {
+    type: String,
+    allowedValues: ['day', 'week', 'month', 'year'],
+  },
+  every: {
+    type: Number,
+  },
+  dow: {
+    type: Array,
+    optional: true,
+  },
+  'dow.$': {
+    type: Number,
+    allowedValues: [0, 1, 2, 3, 4, 5, 6],
+    optional: true,
+  },
+  dom: {
+    type: Number,
+    optional: true,
+  },
+  util: {
+    type: Date,
+    optional: true,
+  },
+  ref: {
+    type: String,
+    optional: true,
+  },
+})
 
 // const dateFormat = {
 //   inputFormat: 'DD/MM/YY hh:mm',
@@ -46,6 +96,7 @@ const editSchema = new SimpleSchema({
   repeat: {
     type: RepeatSchema,
     optional: true,
+    uniforms: EventRepeatField,
   },
   status: {
     type: String,
