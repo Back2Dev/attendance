@@ -92,7 +92,7 @@
     "isomorphic-ws": "^4.0.1",
     "jshint": "^2.13.0",
     "jsonlint-mod": "^1.7.6",
-    "lodash": "^4.17.20",
+    "lodash": "^4.18.1",
     "luxon": "^2.0.2",
     "mandrill-api": "^1.0.45",
     "markdown-it": "^12.3.2",
