@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { Typography, Button } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email'
+import PoolIcon from '@mui/icons-material/Pool'
+import SignupIcon from '@mui/icons-material/SensorOccupied'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import makeStyles from '@mui/styles/makeStyles'
-import GoogleLogin from '/imports/ui/components/google-login/google-login.js'
-import FacebookLogin from '/imports/ui/components/facebook-login/facebook-login.js'
 import OnboardingModal from '/imports/ui/components/onboarding-modal.js'
 import TextDivider from '/imports/ui/components/text-divider.js'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
@@ -51,50 +52,39 @@ const Home = () => {
               Welcome to {Meteor.settings.public.tagline}
             </Typography>
             <br />
-            <GoogleLogin label="Sign up with Google" redirect="/dashboard" />
-            <br />
-            <FacebookLogin label="Sign up with Facebook" redirect="/dashboard" />
-            <br />
-            <br />
-            <TextDivider>Or</TextDivider>
-            <br />
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.button}
+              onClick={() => push('/shop')}
+              startIcon={<ShoppingCartIcon />}
+              fullWidth
+            >
+              Shop
+            </Button>
+            <br /> <br />{' '}
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.button}
+              onClick={() => push('/login')}
+              startIcon={<PoolIcon />}
+              fullWidth
+            >
+              Login
+            </Button>
+            <br /> <br />{' '}
             <Button
               variant="outlined"
               color="primary"
               className={classes.button}
               onClick={() => push('/signup')}
-              startIcon={<EmailIcon />}
+              startIcon={<SignupIcon />}
               fullWidth
             >
-              <div style={{ marginLeft: '50px' }}>Sign up with email</div>
+              Sign up
             </Button>
-          </div>
-          <div className={classes.mobile}>
-            <Typography variant="h1" color="inherit">
-              Welcome to {Meteor.settings.public.tagline}
-            </Typography>
             <br />
-            <GoogleLogin
-              label="Sign up with Google"
-              redirect="/dashboard"
-              style={{ width: '20px' }}
-            />
-            <br />
-            <FacebookLogin label="Sign up with Facebook" redirect="/dashboard" />
-            <br />
-            <br />
-            <TextDivider>Or</TextDivider>
-            <br />
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classes.button}
-              onClick={() => push('/signup')}
-              startIcon={<EmailIcon />}
-              fullWidth
-            >
-              <div style={{ marginLeft: '50px' }}>Sign up with email</div>
-            </Button>
           </div>
         </>
       )

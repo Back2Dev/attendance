@@ -18,7 +18,7 @@
     "S3_IDENTITY_POOL_ID": "",
     "S3_BUCKET_NAME": "",
     "environment": "dev",
-      "logo": "/images/logo-tiny.jpg",
+    "logo": "/images/logo-tiny.jpg",
     "member": "Member",
     "recruit": "mad",
     "admin": 1,
@@ -28,7 +28,7 @@
     "paymentApiKey": "pk_g5_qP5N35CdS37gXDZK97g",
     "paymentTest": true,
     "paymentSite": "https://pay.pinpayments.com/qrgb/test/",
-    "tagline": "Mikkel's Aquatic Discovery",
+    "tagline": "Almsford Aquatic Discovery",
     "hmr": {
       "host": "localhost",
       "port": "3333"

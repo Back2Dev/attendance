@@ -5,9 +5,9 @@ import CircleIcon from '@mui/icons-material/Circle'
 import CartSummary from './cart-summary'
 import useHistory from '/imports/ui/utils/history'
 
-const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
+const mkid = (name) => name.toLowerCase().replace(/[\W+]/g, '_')
 
-const ProdTypeCard = props => {
+const ProdTypeCard = (props) => {
   const history = useHistory()
   const go = () => {
     history.push(`/shop/type/${props.type}`)
@@ -27,7 +27,7 @@ const ProdTypeCard = props => {
   )
 }
 
-const ShopWindow = props => {
+const ShopWindow = (props) => {
   const history = useHistory()
   const { productTypes, settings } = props
   return (
