@@ -1,6 +1,6 @@
 {
   "name": "back2bikes-attendance",
-  "version": "1.2.8",
+  "version": "1.2.10",
   "private": false,
   "scripts": {
     "debug": "DEBUG=b2b:* MONGO_URL=mongodb://localhost:27017/b2b-old meteor  --exclude-archs web.cordova,web.browser.legacy --inspect --port 3030 --settings ../settings/dev.settings.json",
@@ -174,5 +174,6 @@
   "bugs": {
     "url": "https://github.com/Back2bikes/attendance-app/issues"
   },
-  "homepage": "https://github.com/Back2bikes/attendance-app#readme"
+  "homepage": "https://github.com/Back2bikes/attendance-app#readme",
+  "versionDate": "Tue 24 Mar, 2026"
 }

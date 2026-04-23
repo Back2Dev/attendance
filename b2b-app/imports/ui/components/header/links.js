@@ -35,7 +35,7 @@ export const guestMenu = [
   },
   {
     display: 'Contact',
-    link: 'https://mydomain.com.au/contact/',
+    link: '/support',
     icon: ContactMenuIcon,
     external: true,
   },
