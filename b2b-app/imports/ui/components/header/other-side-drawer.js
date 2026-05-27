@@ -19,20 +19,22 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 
+const domain = Meteor.settings.public.webdomain
+
 const menus = [
   {
     display: 'About',
-    link: 'https://mydomain.com.au/about-us/',
+    link: `${domain}/about-us/`,
     icon: <InfoIcon />,
   },
   {
     display: 'News',
-    link: 'https://mydomain.com.au/news/',
+    link: `${domain}/news/`,
     icon: <LibraryBooksIcon />,
   },
   {
     display: 'Contact us',
-    link: 'https://mydomain.com.au/contact/',
+    link: `${domain}/contact/`,
     icon: <PhoneIcon />,
   },
 ]

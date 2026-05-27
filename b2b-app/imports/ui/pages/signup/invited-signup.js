@@ -3,7 +3,7 @@ import { AutoForm, AutoField, ErrorsField, SubmitField } from 'uniforms-mui'
 import SimpleSchema from 'simpl-schema'
 import { SimpleSchema2Bridge } from 'uniforms-bridge-simple-schema-2'
 import { Grid, Typography, Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import RegEx from '/imports/api/regexp'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
@@ -160,7 +160,7 @@ const InvitedSignup = (props) => {
             <br />
             By clicking submit you are agreeing to the{' '}
             <a
-              href="https://mydomain.com.au/terms-of-use/"
+              href="/terms-of-use/"
               className={classes.link}
               target="_blank"
               rel="noreferrer"
