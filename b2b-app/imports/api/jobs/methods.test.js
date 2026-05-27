@@ -6,7 +6,7 @@ import assertArrays from 'chai-arrays'
 // import faker from 'faker'
 
 import Factory from '/imports/test/factories'
-// import Members from '/imports/api/members/schema.js'
+// import Profiles from '/imports/api/profiles/schema.js'
 import './methods'
 
 use(assertArrays)

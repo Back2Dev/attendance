@@ -304,7 +304,7 @@ EventItem.propTypes = {
         _id: PropTypes.string,
         session: PropTypes.shape({
           _id: PropTypes.string,
-          memberId: PropTypes.string,
+          profileId: PropTypes.string,
           status: PropTypes.string,
         }),
       })

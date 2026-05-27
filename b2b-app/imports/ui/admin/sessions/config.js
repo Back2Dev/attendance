@@ -16,7 +16,7 @@ const dateFormat = {
 
 const editSchema = new SimpleSchema({
   
-  "memberId": RegExId,
+  "profileId": RegExId,
   "eventId": RegExId,
   "name": String,
   "memberName": String,

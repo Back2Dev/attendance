@@ -259,11 +259,11 @@ function ContactStep() {
   useEffect(() => {
     if (originalData) {
       // console.log('originalData effect', originalData)
-      if (originalData.memberId) {
+      if (originalData.profileId) {
         dispatch({
           type: 'selectMember',
           payload: {
-            _id: originalData.memberId,
+            _id: originalData.profileId,
             name: originalData.name || '',
             mobile: originalData.phone || '',
             email: originalData.email || '',
@@ -320,7 +320,7 @@ function ContactStep() {
       }
       dispatch({ type: 'setSearching', payload: { searching: true, keyword } })
       try {
-        const result = await Meteor.callAsync('members.search', { keyword })
+        const result = await Meteor.callAsync('profiles.search', { keyword })
         if (!mounted.current) {
           return
         }

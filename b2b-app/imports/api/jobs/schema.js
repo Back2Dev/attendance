@@ -107,7 +107,7 @@ JobUpdateParamsSchema.extend(JobCreateParamsSchema)
 // Note: By default, all keys are required
 export const JobsSchema = new SimpleSchema({
   _id: RegExId,
-  memberId: OptionalRegExId,
+  profileId: OptionalRegExId,
   jobNo: { type: String, optional: true },
   name: { type: String, optional: true, label: 'Customer name' },
   phone: {
@@ -200,7 +200,7 @@ export const JobsSchema = new SimpleSchema({
   },
   'history.$': new SimpleSchema({
     userId: OptionalRegExId,
-    memberId: OptionalRegExId,
+    profileId: OptionalRegExId,
     description: String,
     statusBefore: {
       type: String,

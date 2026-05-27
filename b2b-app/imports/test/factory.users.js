@@ -6,11 +6,11 @@ import { Factory } from 'meteor/dburles:factory'
 import faker from 'faker'
 
 import CONSTANTS from '/imports/api/constants'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 
 const createMember = (doc) => {
   // create user member
-  Members.insert({
+  Profiles.insert({
     userId: doc._id,
     name: faker.name.findName(),
     mobile: faker.phone.phoneNumber(),

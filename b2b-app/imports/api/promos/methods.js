@@ -1,5 +1,5 @@
 import Promos from './schema'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('app:server-methods')
 
@@ -15,11 +15,11 @@ Meteor.methods({
   'add.Promos': async (form) => {
     await Promos.insertAsync(form)
   },
-  getPromo: async (searchStr, memberId) => {
+  getPromo: async (searchStr, profileId) => {
     debug(`Finding promo code ${searchStr}`)
     const code = searchStr.toUpperCase()
     const promo = await Promos.findOneAsync({ code })
-    const member = await Members.findOneAsync(memberId)
+    const member = await Profiles.findOneAsync(profileId)
     // debug(promo)
     return { promo, member }
   },

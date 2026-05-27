@@ -42,7 +42,7 @@ Object.keys(CONSTANTS.ROLES).forEach((role) => {
   })
 })
 
-const MembersLister = (props) => {
+const ProfilesLister = (props) => {
   const { users, loading } = useTracker(() => {
     const usersSubscription = Meteor.subscribe('getAllUsers')
     const users = Meteor.users
@@ -76,4 +76,4 @@ const MembersLister = (props) => {
   )
 }
 
-export default MembersLister
+export default ProfilesLister

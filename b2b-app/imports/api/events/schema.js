@@ -11,7 +11,7 @@ import {
 import CONSTANTS from '../constants'
 
 import { SessionsSchema } from '/imports/api/sessions/schema.js'
-import { MembersSchema } from '../members/schema'
+import { ProfilesSchema } from '../profiles/schema'
 import { CoursesSchema } from '../courses/schema'
 
 const Events = new Mongo.Collection('events')
@@ -47,7 +47,7 @@ export const CourseItemSchema = CoursesSchema.pick(
 export const MemberItemSchema = new SimpleSchema({
   session: SessionsSchema.pick(
     '_id',
-    'memberId',
+    'profileId',
     'name',
     'role',
     'status',
@@ -56,7 +56,7 @@ export const MemberItemSchema = new SimpleSchema({
     'bookedDate'
   ),
 }).extend(
-  MembersSchema.pick('_id', 'userId', 'name', 'nickname', 'avatar', 'badges', 'mobile')
+  ProfilesSchema.pick('_id', 'userId', 'name', 'nickname', 'avatar', 'badges', 'mobile')
 )
 // console.log(JSON.stringify(MemberItemSchema, null, 2))
 

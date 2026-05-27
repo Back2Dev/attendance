@@ -36,7 +36,7 @@ function Biography() {
   const handleSubmit = async () => {
     setloading(true)
     try {
-      const result = await Meteor.callAsync('members.updateBio', { bio, favorites })
+      const result = await Meteor.callAsync('profiles.updateBio', { bio, favorites })
       if (!mounted.current) {
         return
       }

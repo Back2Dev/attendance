@@ -130,7 +130,7 @@ const Checkout = () => {
       const { promo, member } = await Meteor.callAsync(
         'getPromo',
         code,
-        sessionStorage.getItem('memberId') || state.memberId
+        sessionStorage.getItem('profileId') || state.profileId
       )
       if (!promo) {
         setPromo({

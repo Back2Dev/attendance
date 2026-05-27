@@ -3,7 +3,7 @@ export default items = [
   { display: 'Cronjobs', link: '/admin/cronjobs' },
   { display: 'Triggers', link: '/admin/triggers' },
   { display: 'Message templates', link: '/admin/message-templates' },
-  { display: 'Members', link: '/admin/members' },
+  { display: 'Profiles', link: '/admin/profiles' },
   { display: 'Settings', link: '/admin/settings' },
   { display: 'Surveys', link: '/admin/surveys' },
   { display: 'Events', link: '/admin/events' },

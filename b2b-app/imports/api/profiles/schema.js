@@ -9,11 +9,11 @@ import {
   updatedAt,
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '/imports/api/constants'
-const Members = new Mongo.Collection('members')
+const Profiles = new Mongo.Collection('profiles')
 
 if (Meteor.isServer) {
   const ensureIndexes = async () => {
-    const collection = Members.rawCollection()
+    const collection = Profiles.rawCollection()
     await collection.createIndex(
       {
         _id: 'text',
@@ -30,7 +30,7 @@ if (Meteor.isServer) {
           mobile: 8,
           emergencyContact: 5,
         },
-        name: 'member_text_search',
+        name: 'profile_text_search',
       }
     )
     await collection.createIndex(
@@ -40,12 +40,12 @@ if (Meteor.isServer) {
         mobile: 1,
         address: 1,
       },
-      { name: 'member_regex_search' }
+      { name: 'profile_regex_search' }
     )
-    await collection.createIndex({ name: 1 }, { name: 'member_name' })
-    await collection.createIndex({ email: 1 }, { name: 'member_email' })
-    await collection.createIndex({ mobile: 1 }, { name: 'member_mobile' })
-    await collection.createIndex({ address: 1 }, { name: 'member_address' })
+    await collection.createIndex({ name: 1 }, { name: 'profile_name' })
+    await collection.createIndex({ email: 1 }, { name: 'profile_email' })
+    await collection.createIndex({ mobile: 1 }, { name: 'profile_mobile' })
+    await collection.createIndex({ address: 1 }, { name: 'profile_address' })
   }
 
   Meteor.startup(() => {
@@ -56,7 +56,7 @@ if (Meteor.isServer) {
 }
 
 export const AddBadgeParamsSchema = new SimpleSchema({
-  memberId: RegExId,
+  profileId: RegExId,
   code: String,
 })
 
@@ -69,7 +69,7 @@ export const BadgeItemSchema = new SimpleSchema({
   createdAt: Date,
 })
 
-export const MembersSchema = new SimpleSchema({
+export const ProfilesSchema = new SimpleSchema({
   _id: OptionalRegExId,
   userId: OptionalRegExId,
   // Combine first and last name
@@ -145,6 +145,6 @@ export const MembersSchema = new SimpleSchema({
   updatedAt,
 })
 
-Members.attachSchema(MembersSchema)
+Profiles.attachSchema(ProfilesSchema)
 
-export default Members
+export default Profiles

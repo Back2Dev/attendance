@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import Sessions from '/imports/api/sessions/schema.js'
 import Events from '../schema'
 import '../methods'
@@ -61,7 +61,7 @@ Meteor.publish('id.events', function (eventId) {
  * Publish future events for booking
  */
 Meteor.publish('future.events', async function () {
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
 
   const events = Events.find({
     // status: { $in: ['active', 'cancelled'] },
@@ -76,7 +76,7 @@ Meteor.publish('future.events', async function () {
     arrCoachIds.push(event.coachId)
   })
 
-  const coaches = Members.find(
+  const coaches = Profiles.find(
     {
       _id: { $in: arrCoachIds },
     },
@@ -92,7 +92,7 @@ Meteor.publish('future.events', async function () {
 
   // select all sessions belong this current user and related to those above events
   const sessions = Sessions.find({
-    memberId: currentMember?._id,
+    profileId: currentMember?._id,
     eventId: { $in: arrEventIds },
   })
   // : null

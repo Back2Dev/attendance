@@ -40,7 +40,7 @@ export const JobsDetailsProvider = ({ children }) => {
     let isMounted = true
     ;(async () => {
       try {
-        const result = await Meteor.callAsync('members.byRole', { role: 'MEC' })
+        const result = await Meteor.callAsync('profiles.byRole', { role: 'MEC' })
         if (!isMounted) return
         if (result.status === 'failed') {
           showError(result.message)

@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import { cloneDeep } from 'lodash'
 import { Carts } from '/imports/api/products/schema'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import ShopFront from './shop-front'
 
 const debug = require('debug')('app:shop')
@@ -63,30 +63,30 @@ const chargeCard = async ({ price, email, customer_token, metadata }) => {
 
 const ShopIndex = (props) => {
   const [cartId, setCartId] = useState(sessionStorage.getItem('mycart'))
-  const [memberId, setMemberId] = useState(sessionStorage.getItem('memberId'))
+  const [profileId, setMemberId] = useState(sessionStorage.getItem('profileId'))
 
   const { cart, member, loading, settings } = useTracker(() => {
     document.title = `${Meteor.settings.public.org} - shop`
     debug(`Cart id is ${cartId}`)
-    const cartSub = Meteor.subscribe('cart', cartId, memberId)
+    const cartSub = Meteor.subscribe('cart', cartId, profileId)
     return {
       cart: Carts.findOne(cartId),
-      member: Members.findOne(memberId),
+      member: Profiles.findOne(profileId),
       loading: !cartSub.ready(),
       settings: Meteor.settings.public,
     }
-  }, [cartId, memberId])
+  }, [cartId, profileId])
 
   const wrappedCartUpdate = useCallback(
     (data) => {
       const result = cartUpdate(data)
       const newCartId = sessionStorage.getItem('mycart')
-      const newMemberId = sessionStorage.getItem('memberId')
+      const newMemberId = sessionStorage.getItem('profileId')
       if (newCartId !== cartId) setCartId(newCartId)
-      if (newMemberId !== memberId) setMemberId(newMemberId)
+      if (newMemberId !== profileId) setMemberId(newMemberId)
       return result
     },
-    [cartId, memberId]
+    [cartId, profileId]
   )
 
   return (

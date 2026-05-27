@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
 import { getCfg } from '/imports/api/settings/server/helper.js'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import { getUserEmailAddress } from '/imports/api/users/utils.js'
 // import { push } from '/imports/api/notifications/server/helper.js'
 
@@ -29,7 +29,7 @@ Meteor.methods({
     }
 
     const user = await Meteor.users.findOneAsync(userId)
-    const member = await Members.findOneAsync({ userId })
+    const member = await Profiles.findOneAsync({ userId })
     if (!user || !member) {
       return { status: 'failed', message: 'Please login and complete your user member' }
     }

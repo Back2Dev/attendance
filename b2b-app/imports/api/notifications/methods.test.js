@@ -9,7 +9,7 @@ import './methods'
 import { push } from './server/helper'
 
 // import { notifyPayload } from './schema'
-// import Members from '/imports/api/members/schema.js'
+// import Profiles from '/imports/api/profiles/schema.js'
 // import Factory from '/imports/test/factories'
 
 use(assertArrays)

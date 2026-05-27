@@ -43,7 +43,7 @@ describe('promos', () => {
         const promo = Promos.findOne(promoId)
 
         expect(promo._id).to.equal(good._id)
-        const fields = 'memberId productId price productName'.split(/\s+/)
+        const fields = 'profileId productId price productName'.split(/\s+/)
         fields.forEach(field => {
           expect(promo[field]).to.equal(good[field])
         })

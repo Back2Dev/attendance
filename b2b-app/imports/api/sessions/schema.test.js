@@ -6,7 +6,7 @@ import Sessions from './schema'
 
 export const goodSessions = [
   {
-    memberId: Random.id(),
+    profileId: Random.id(),
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),
@@ -17,7 +17,7 @@ export const goodSessions = [
     bookedAt: new Date(),
   },
   {
-    memberId: Random.id(),
+    profileId: Random.id(),
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),
@@ -26,7 +26,7 @@ export const goodSessions = [
     toolId: Random.id(),
   },
   {
-    memberId: Random.id(),
+    profileId: Random.id(),
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),
@@ -39,7 +39,7 @@ export const badSessions = [
     // empty
   },
   {
-    // memberId: Random.id(),
+    // profileId: Random.id(),
     eventId: Random.id(),
     memberName: faker.name.findName(),
     name: faker.address.cityName(),

@@ -45,7 +45,7 @@ const Required = (props) => <span style={{ color: 'red', paddingRight: '20px' }}
 
 const CreditCard = (props) => {
   const history = useHistory()
-  const { id: memberId } = useParams()
+  const { id: profileId } = useParams()
   let status = 'entry'
   const { state, dispatch } = React.useContext(CartContext)
   const [fakeState, setFakeState] = React.useState({
@@ -65,7 +65,7 @@ const CreditCard = (props) => {
     .join(',')
 
   const { _id: cartId, price } = state
-  if (!cartId && !memberId) debug('cart._id or memberId is missing from state', state)
+  if (!cartId && !profileId) debug('cart._id or profileId is missing from state', state)
   const { email } = state.creditCard
 
   React.useEffect((props) => {
@@ -421,7 +421,7 @@ const CreditCard = (props) => {
         <Button variant="contained" color="success" onClick={submitForm} sx={{ mt: 3 }}>
           {price === 0 ? 'Register card' : 'Pay'}
         </Button>
-        {!memberId && price > 0 && (
+        {!profileId && price > 0 && (
           <>
             <FormControlLabel
               control={

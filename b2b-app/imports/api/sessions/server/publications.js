@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import Events from '/imports/api/events/schema.js'
 import Courses from '/imports/api/courses/schema.js'
 import Sessions from '../schema'
@@ -30,7 +30,7 @@ Meteor.publish('sessions.myByIdComposite', async function (id) {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
@@ -40,7 +40,7 @@ Meteor.publish('sessions.myByIdComposite', async function (id) {
   debug('test multiple cursors', { id })
   const sessions = Sessions.find({
     _id: id,
-    memberId: currentMember._id,
+    profileId: currentMember._id,
   })
 
   const findEvents = (eventId) => {
@@ -93,13 +93,13 @@ Meteor.publish('sessions.myById', async function (id) {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
   return Sessions.find({
     _id: id,
-    memberId: currentMember._id,
+    profileId: currentMember._id,
   })
 })
 
@@ -110,13 +110,13 @@ Meteor.publish('sessions.myAll', async function ({ limit = 20 }) {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
   return Sessions.find(
     {
-      memberId: currentMember._id,
+      profileId: currentMember._id,
     },
     {
       sort: {
@@ -131,13 +131,13 @@ Meteor.publish('sessions.myUpcoming', async function () {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
   return Sessions.find(
     {
-      memberId: currentMember._id,
+      profileId: currentMember._id,
       bookedDate: { $gt: new Date() },
     },
     {
@@ -155,13 +155,13 @@ Meteor.publish('sessions.myRecent', async function ({ limit = 20 }) {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
   if (!currentMember) {
     return this.ready()
   }
   return Sessions.find(
     {
-      memberId: currentMember._id,
+      profileId: currentMember._id,
       bookedDate: { $lt: new Date() },
     },
     {
@@ -181,10 +181,10 @@ Meteor.publish('sessions.mineByEventIds', async function (eventIds) {
   if (!this.userId) {
     return this.ready()
   }
-  const currentMember = await Members.findOneAsync({ userId: this.userId })
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
 
   return Sessions.find({
-    memberId: currentMember._id,
+    profileId: currentMember._id,
     eventId: { $in: eventIds },
   })
 })
@@ -197,7 +197,7 @@ Meteor.publish('id.sessions', (id) => {
   return [
     Sessions.find(id),
     /* Commented out related publications (if any) - best to add these in manually as required
-    Members.find({}),
+    Profiles.find({}),
 Events.find({}),
 Tools.find({}) 
     */

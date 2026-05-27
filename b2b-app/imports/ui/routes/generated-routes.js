@@ -11,7 +11,7 @@ const Audits = lazy(() => import('/imports/ui/admin/audits'))
 const Cronjobs = lazy(() => import('/imports/ui/admin/cronjobs/lister'))
 const Triggers = lazy(() => import('/imports/ui/admin/triggers'))
 const MessageTemplates = lazy(() => import('/imports/ui/admin/message-templates'))
-const Members = lazy(() => import('/imports/ui/admin/members'))
+const Profiles = lazy(() => import('/imports/ui/admin/profiles'))
 const Settings = lazy(() => import('/imports/ui/admin/settings'))
 const Surveys = lazy(() => import('/imports/ui/admin/surveys'))
 const Events = lazy(() => import('/imports/ui/admin/events'))
@@ -42,7 +42,7 @@ const GeneratedRoutes = () => {
         <Route path="cronjobs/*" element={<Cronjobs />} />
         <Route path="triggers/*" element={<Triggers />} />
         <Route path="message-templates/*" element={<MessageTemplates />} />
-        <Route path="members/*" element={<Members />} />
+        <Route path="profiles/*" element={<Profiles />} />
         <Route path="settings/*" element={<Settings />} />
         <Route path="surveys/*" element={<Surveys />} />
         <Route path="events/*" element={<Events />} />

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import LinearProgress from '@mui/material/LinearProgress'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import ListUsers from './list'
 
 export default function UsersContainer() {
@@ -10,7 +10,7 @@ export default function UsersContainer() {
     const usersSubscription = Meteor.subscribe('getAllUsers', {
       onError: (err) => console.error('getAllUsers subscription error', err),
     })
-    const members = Members.find({}).fetch()
+    const members = Profiles.find({}).fetch()
     const users = Meteor.users.find({}).fetch()
     const merged = users.map((user) => ({
       ...user,

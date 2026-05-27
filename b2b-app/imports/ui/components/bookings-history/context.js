@@ -5,7 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 import Sessions from '/imports/api/sessions/schema.js'
 import Courses from '/imports/api/courses/schema.js'
 
@@ -25,7 +25,7 @@ export const BookingsHistoryProvider = (props) => {
   const [courseIds, setCourseIds] = useState([])
 
   const getCoachByCoachId = (coachId) => {
-    return Members.findOne({ _id: coachId })
+    return Profiles.findOne({ _id: coachId })
   }
 
   const getCourseByCourseId = (courseId) => {
@@ -45,7 +45,7 @@ export const BookingsHistoryProvider = (props) => {
   const { loadingSessions, sessions = [] } = useTracker(() => {
     const sub = Meteor.subscribe('sessions.myAll', {})
     const sessions = Sessions.find(
-      { memberId: member._id },
+      { profileId: member._id },
       { sort: { bookedDate: -1 } }
     ).fetch()
     return {
@@ -105,7 +105,7 @@ export const BookingsHistoryProvider = (props) => {
     let coachSub
     let courseSub
     if (coachIds.length) {
-      coachSub = Meteor.subscribe('members.byIds', coachIds)
+      coachSub = Meteor.subscribe('profiles.byIds', coachIds)
     }
     if (courseIds.length) {
       courseSub = Meteor.subscribe('courses.byIds', courseIds)

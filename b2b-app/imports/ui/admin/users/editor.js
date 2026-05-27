@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import LinearProgress from '@mui/material/LinearProgress'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import Messages from '/imports/api/messages/schema'
 
 import UserEditTabs from './edit.js'
@@ -15,7 +15,7 @@ const Editor = () => {
 
   const { user, member, messages, loading } = useTracker(() => {
     const userSub = Meteor.subscribe('getUser', userId)
-    const member = Members.findOne({ userId })
+    const member = Profiles.findOne({ userId })
     const user = Meteor.users.findOne({ _id: userId })
     if (user) {
       user.roles = Roles.getRolesForUser(user)
@@ -49,7 +49,7 @@ const Editor = () => {
   }
 
   const editUser = async (form) => {
-    const { status, message } = await meteorCall('update.members', null, form)
+    const { status, message } = await meteorCall('update.profiles', null, form)
     if (status === 'success') {
       showSuccess(message)
     } else {

@@ -14,7 +14,7 @@ import Jobs, {
   JobSendSMSParamsSchema,
   JobSetExpectedPickupDateParamsSchema,
 } from './schema'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 import { hasOneOfRoles } from '/imports/api/users/utils.js'
 
 const debug = require('debug')('app:jobs')
@@ -43,7 +43,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the job
     const job = await Jobs.findOneAsync({ _id: id })
@@ -64,7 +64,7 @@ Meteor.methods({
           $push: {
             history: {
               userId: me._id,
-              memberId: myMember._id,
+              profileId: myMember._id,
               description: 'Mark the Job as NOT paid',
               statusBefore: job.status,
               statusAfter: job.status,
@@ -105,7 +105,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the job
     const job = await Jobs.findOneAsync({ _id: id })
@@ -126,7 +126,7 @@ Meteor.methods({
           $push: {
             history: {
               userId: me._id,
-              memberId: myMember._id,
+              profileId: myMember._id,
               description: 'Mark the Job as paid',
               statusBefore: job.status,
               statusAfter: job.status,
@@ -168,7 +168,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the job
     const job = await Jobs.findOneAsync({ _id: id })
@@ -186,7 +186,7 @@ Meteor.methods({
           $push: {
             history: {
               userId: me._id,
-              memberId: myMember._id,
+              profileId: myMember._id,
               description: `Sent SMS: ${message}`,
               statusBefore: job.status,
               statusAfter: job.status,
@@ -232,7 +232,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the job
     const job = await Jobs.findOneAsync({ _id: id })
@@ -248,7 +248,7 @@ Meteor.methods({
           $push: {
             history: {
               userId: me._id,
-              memberId: myMember._id,
+              profileId: myMember._id,
               description,
               statusBefore: job.status,
               statusAfter: job.status,
@@ -293,10 +293,10 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the mechanic member
-    const mechanicMember = await Members.findOneAsync({ userId: mechanic })
+    const mechanicMember = await Profiles.findOneAsync({ userId: mechanic })
     if (mechanic && !mechanicMember) {
       return {
         status: 'failed',
@@ -323,7 +323,7 @@ Meteor.methods({
           $push: {
             history: {
               userId: me._id,
-              memberId: myMember._id,
+              profileId: myMember._id,
               description: mechanic
                 ? `New mechanic: ${mechanicMember.name}`
                 : 'Deselect mechanic',
@@ -367,7 +367,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the job
     const job = await Jobs.findOneAsync({ _id: id })
@@ -384,7 +384,7 @@ Meteor.methods({
           $push: {
             history: {
               userId: me._id,
-              memberId: myMember._id,
+              profileId: myMember._id,
               description: `Set expected pickup date: ${moment(date).format(
                 'DD/MM/YYYY'
               )}`,
@@ -428,7 +428,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Permission denied' }
     }
     // get current user profile
-    const myMember = await Members.findOneAsync({ userId: me._id })
+    const myMember = await Profiles.findOneAsync({ userId: me._id })
 
     // find the job
     const job = await Jobs.findOneAsync({ _id: id })
@@ -446,7 +446,7 @@ Meteor.methods({
     if (history) {
       historyItems.push({
         userId: me._id,
-        memberId: myMember._id,
+        profileId: myMember._id,
         description: history,
         statusBefore: job.status,
         statusAfter: status,
@@ -455,7 +455,7 @@ Meteor.methods({
     }
     historyItems.push({
       userId: me._id,
-      memberId: myMember._id,
+      profileId: myMember._id,
       description: `New status: ${CONSTANTS.JOB_STATUS_READABLE[status]}`,
       statusBefore: job.status,
       statusAfter: status,
@@ -535,7 +535,7 @@ Meteor.methods({
     }
 
     if (cleanData.selectedMember?._id) {
-      jobData.memberId = cleanData.selectedMember._id
+      jobData.profileId = cleanData.selectedMember._id
     }
 
     // update job
@@ -554,7 +554,7 @@ Meteor.methods({
     if (cleanData.hasMember) {
       if (cleanData.selectedMember?._id) {
         // update the member data
-        await Members.updateAsync(
+        await Profiles.updateAsync(
           { _id: cleanData.selectedMember._id },
           {
             $set: {
@@ -568,7 +568,7 @@ Meteor.methods({
       } else {
         // create member (without creating user)
         try {
-          const insertedMemberId = await Members.insertAsync({
+          const insertedMemberId = await Profiles.insertAsync({
             name: cleanData.memberData.name,
             address: cleanData.memberData.address,
             mobile: cleanData.memberData.mobile,
@@ -578,7 +578,7 @@ Meteor.methods({
           await Jobs.updateAsync(
             { _id: existingJob._id },
             {
-              $set: { memberId: insertedMemberId },
+              $set: { profileId: insertedMemberId },
             }
           )
         } catch (e) {
@@ -648,7 +648,7 @@ Meteor.methods({
     }
 
     if (cleanData.selectedMember?._id) {
-      jobData.memberId = cleanData.selectedMember._id
+      jobData.profileId = cleanData.selectedMember._id
     }
 
     // insert
@@ -663,7 +663,7 @@ Meteor.methods({
     if (cleanData.selectedMember || cleanData.memberData) {
       if (cleanData.selectedMember?._id) {
         // update the member data
-        await Members.updateAsync(
+        await Profiles.updateAsync(
           { _id: cleanData.selectedMember._id },
           {
             $set: {
@@ -677,7 +677,7 @@ Meteor.methods({
       } else {
         // create member (without creating user)
         try {
-          const insertedMemberId = await Members.insertAsync({
+          const insertedMemberId = await Profiles.insertAsync({
             name: cleanData.memberData.name,
             address: cleanData.memberData.address,
             mobile: cleanData.memberData.mobile,
@@ -687,7 +687,7 @@ Meteor.methods({
           await Jobs.updateAsync(
             { _id: inserted },
             {
-              $set: { memberId: insertedMemberId },
+              $set: { profileId: insertedMemberId },
             }
           )
         } catch (e) {

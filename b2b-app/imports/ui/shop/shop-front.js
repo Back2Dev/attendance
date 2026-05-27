@@ -52,7 +52,7 @@ const ShopFront = (props) => {
     >
       <Routes>
         <Route path="" exact Component={Building} />
-        <Route path="add/:code/:memberId" exact Component={AddContainer} />
+        <Route path="add/:code/:profileId" exact Component={AddContainer} />
         <Route path="checkout" exact Component={Checkout} />
         <Route path="address" exact Component={Address} />
         <Route path="credit-card" exact Component={CreditCard} />
@@ -61,9 +61,9 @@ const ShopFront = (props) => {
         <Route path="type/:type" Component={Department} />
         <Route path="renew/:id/:cartId" Component={Renewal} />
         <Route path="registered" exact Component={CCRegistered} />
-        <Route path="charge/:memberId/:cartId" exact Component={CCCharge} />
+        <Route path="charge/:profileId/:cartId" exact Component={CCCharge} />
         <Route path="sent/:email" exact Component={EmailSent} />
-        <Route path="paid/:memberId" exact Component={Paid} />
+        <Route path="paid/:profileId" exact Component={Paid} />
         <Route path="already-paid" exact Component={AlreadyPaid} />{' '}
         <Route component={NotFoundComponent} />
       </Routes>

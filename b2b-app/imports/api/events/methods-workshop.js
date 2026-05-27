@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import moment from 'moment'
 import Sessions from '/imports/api/sessions/schema.js'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 import { MemberItemSchema } from '/imports/api/events/schema'
 import Courses from '/imports/api/courses/schema.js'
 import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
@@ -47,7 +47,7 @@ Meteor.methods({
       // Events.remove({})
       const { start, weeks, code, coach, course } = form
       await Events.removeAsync({ code: `${code}-${start}` })
-      const trainer = await Members.findOneAsync({ name: coach })
+      const trainer = await Profiles.findOneAsync({ name: coach })
       const theCourse = await Courses.findOneAsync({ title: course })
       let week = 0
       const weekFlags = weeks.split('')
@@ -68,7 +68,7 @@ Meteor.methods({
             courseId: theCourse?._id,
           })
           const sId = await Sessions.insertAsync({
-            memberId: trainer?._id,
+            profileId: trainer?._id,
             name: unit[week].name,
             memberName: coach,
             role: 'COA',

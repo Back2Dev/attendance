@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Products, { ProductTypes, Carts } from '../schema'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import '../methods'
 
 Meteor.publish('all.products', () => Products.find({}))
@@ -15,4 +15,4 @@ Meteor.publish('product.bycode', (code) => {
   return Products.find({ active: true, code })
 })
 // TODO: check if it is real
-Meteor.publish('cart', (id, memberId) => [Carts.find(id), Members.find(memberId)])
+Meteor.publish('cart', (id, profileId) => [Carts.find(id), Profiles.find(profileId)])

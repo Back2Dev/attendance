@@ -1,15 +1,15 @@
 import Purchases from './schema'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import log from '/imports/lib/server/log'
 const debug = require('debug')('app:server-methods')
 
 Meteor.methods({
-  'purchase.extend': async (memberId, purchaseId, newExpiry) => {
+  'purchase.extend': async (profileId, purchaseId, newExpiry) => {
     try {
       log.info(`Extending purchase id: ${purchaseId} to ${newExpiry}`)
       const purchase = await Purchases.findOneAsync(purchaseId)
       if (!purchase) throw new Meteor.Error(`Could not find purchase ${purchaseId}`)
-      await Members.updateAsync(memberId, {
+      await Profiles.updateAsync(profileId, {
         $set: { expiry: newExpiry, status: 'current' },
       })
       return await Purchases.updateAsync(purchaseId, { $set: { expiry: newExpiry } })

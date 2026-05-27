@@ -6,7 +6,7 @@ import assertArrays from 'chai-arrays'
 import faker from 'faker'
 
 import Factory from '/imports/test/factories'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 import './methods'
 
 use(assertArrays)
@@ -100,10 +100,10 @@ describe('Test cancel.events method', () => {
     const course = Factory.create('course')
     const event = Factory.create('event', { courseId: course._id })
     const user = Factory.create('user')
-    const member = Members.findOne({ userId: user._id })
+    const member = Profiles.findOne({ userId: user._id })
     const session = Factory.create('session', {
       eventId: event._id,
-      memberId: member._id,
+      profileId: member._id,
       memberName: member.name,
     })
     debug('build event', event)

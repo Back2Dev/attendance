@@ -5,7 +5,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 
 export const AccountContext = React.createContext('account')
 
@@ -27,7 +27,7 @@ export const AccountProvider = (props) => {
     const sub = Meteor.subscribe('currentMember')
     return {
       loadingMember: !sub.ready(),
-      member: Members.findOne({ userId: user._id }),
+      member: Profiles.findOne({ userId: user._id }),
     }
   }, [user])
 

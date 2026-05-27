@@ -21,7 +21,7 @@ if (Meteor.isServer) {
 
 export const SessionsSchema = new SimpleSchema({
   _id: OptionalRegExId,
-  memberId: RegExId,
+  profileId: RegExId,
   eventId: RegExId,
   // event name
   name: {

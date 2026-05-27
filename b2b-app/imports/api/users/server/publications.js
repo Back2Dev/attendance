@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import Messages from '/imports/api/messages/schema'
 import moment from 'moment'
 import '/server/methods'
@@ -36,7 +36,7 @@ const checkPassword = (...args) =>
 Meteor.publish('getAllUsers', () => {
   return [
     Meteor.users.find({}, { fields: publicFields }),
-    Members.find(
+    Profiles.find(
       {},
       {
         fields: {
@@ -56,7 +56,7 @@ Meteor.publish('getUser', (userId) => {
       { _id: userId },
       { fields: { username: 1, roles: 1, services: 1 } }
     ),
-    Members.find(
+    Profiles.find(
       { userId },
       {
         fields: {
@@ -104,7 +104,7 @@ Meteor.methods({
     if (!user) {
       return { status: 'failed', message: `Failed to find user with token${token}` }
     }
-    const member = await Members.findOneAsync(
+    const member = await Profiles.findOneAsync(
       { userId: user._id },
       { fields: { name: 1, mobile: 1 } }
     )
@@ -157,7 +157,7 @@ Meteor.methods({
           },
         }
       )
-      await Members.updateAsync({ userId }, { $set: { status: 'active' } })
+      await Profiles.updateAsync({ userId }, { $set: { status: 'active' } })
       return { status: 'success', message: 'Confirmed email and password' }
     }
   },
@@ -196,7 +196,7 @@ Meteor.methods({
       const currentUser = await Meteor.users.findOneAsync({ _id: this.userId })
       const oldEmail = currentUser?.emails
       try {
-        await Meteor.callAsync('members.update', formData._id, formData)
+        await Meteor.callAsync('profiles.update', formData._id, formData)
         await setPassword(userId, confirmPass, { logout: false })
         await setUsername(userId, formData.email)
         if (oldEmail) {
@@ -239,7 +239,7 @@ Meteor.methods({
     try {
       await setPassword(userId, password, { logout: logout })
       const refreshedUser = await Meteor.users.findOneAsync({ _id: userId })
-      const member = await Members.findOneAsync(
+      const member = await Profiles.findOneAsync(
         { userId },
         { fields: { name: 1, avatar: 1 } }
       )
@@ -285,7 +285,7 @@ Meteor.methods({
           expiryAt: moment().add(1, 'days').toDate(),
         }
         const member =
-          (await Members.findOneAsync({ userId: user._id }, { fields: { name: 1 } })) ||
+          (await Profiles.findOneAsync({ userId: user._id }, { fields: { name: 1 } })) ||
           []
         user.name = member.name || 'User'
 
@@ -321,7 +321,7 @@ Meteor.methods({
           { _id: userId },
           { $unset: { 'services.password.forgotPassToken': '' } }
         )
-        const member = await Members.findOneAsync(
+        const member = await Profiles.findOneAsync(
           { userId },
           { fields: { name: 1, avatar: 1 } }
         )
@@ -342,7 +342,7 @@ Meteor.methods({
       const userId = await createUser({ email, username: email, password })
       if (userId) {
         await Roles.addUsersToRoles(userId, roles)
-        await Members.insertAsync({
+        await Profiles.insertAsync({
           userId,
           name: name,
           nickname: name.split(' ')[0] || name,
@@ -359,7 +359,7 @@ Meteor.methods({
   async editUserMember({ name, nickname, mobile, sms }) {
     try {
       const userId = this.userId
-      const member = await Members.findOneAsync({ userId })
+      const member = await Profiles.findOneAsync({ userId })
       const newMember = {
         userId,
         name,
@@ -368,7 +368,7 @@ Meteor.methods({
         notifyBy: sms ? ['EMAIL', 'SMS'] : ['EMAIL'],
       }
       if (member) {
-        await Members.updateAsync(
+        await Profiles.updateAsync(
           { userId },
           {
             $set: newMember,
@@ -404,7 +404,7 @@ Meteor.methods({
         if (!newMember.nickname) {
           newMember.nickname = newMember.name.split(' ')[0] || newMember.name
         }
-        await Members.insertAsync(newMember)
+        await Profiles.insertAsync(newMember)
       }
       return { status: 'success', message: 'Added user account' }
     } catch (error) {
@@ -431,7 +431,7 @@ Meteor.methods({
           { $set: { 'services.email.confirmationToken': tokenRecord } }
         )
         await Roles.addUsersToRoles(userId, roles)
-        await Members.insertAsync({
+        await Profiles.insertAsync({
           userId,
           name,
           nickname: name.split(' ')[0] || name,
@@ -439,7 +439,7 @@ Meteor.methods({
           notifyBy: ['EMAIL', 'SMS'],
         })
         const user = await Meteor.users.findOneAsync({ _id: userId })
-        const member = await Members.findOneAsync({ userId })
+        const member = await Profiles.findOneAsync({ userId })
         const admins = await fetchCursor(Roles.getUsersInRole('ADM'))
 
         await Meteor.callAsync('sendTrigger', {

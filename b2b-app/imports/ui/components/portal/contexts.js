@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
 import Events from '/imports/api/events/schema.js'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 import Sessions from '/imports/api/sessions/schema.js'
 import Courses from '/imports/api/courses/schema.js'
 
@@ -20,7 +20,7 @@ export const MySessionsProvider = (props) => {
   // const [upcomingSessionsWData, setUpcomingSessionsWData] = useState([])
 
   const getCoachByCoachId = (coachId) => {
-    return Members.findOne({ _id: coachId })
+    return Profiles.findOne({ _id: coachId })
   }
 
   const getCourseByCourseId = (courseId) => {
@@ -108,7 +108,7 @@ export const MySessionsProvider = (props) => {
   }, [events.length ? events : null])
 
   const loadingCC = useTracker(() => {
-    const coachSub = Meteor.subscribe('members.byIds', coachIds)
+    const coachSub = Meteor.subscribe('profiles.byIds', coachIds)
     const courseSub = Meteor.subscribe('courses.byIds', courseIds)
     return (
       !(coachSub ? coachSub.ready() : false) || !(courseSub ? courseSub.ready() : false)

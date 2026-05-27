@@ -14,7 +14,7 @@ module.exports = [
   { id: 'message-templates', menu: 'Message templates', fixtures: 1, pubs: 1 },
   { id: 'messages', menu: '', fixtures: 0, pubs: 1 },
   { id: 'notifications', menu: '', fixtures: 0, pubs: 1 },
-  { id: 'members', menu: 'Members', fixtures: 1, pubs: 1 },
+  { id: 'profiles', menu: 'Profiles', fixtures: 1, pubs: 1 },
   { id: 'settings', menu: 'Settings', fixtures: 1, pubs: 1 },
   { id: 'surveys', menu: 'Surveys', fixtures: 1, pubs: 1 },
   { id: 'events', menu: 'Events', fixtures: 0, pubs: 1 },

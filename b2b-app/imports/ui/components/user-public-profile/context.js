@@ -6,7 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data'
 
 // import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 
 export const PublicProfileContext = React.createContext('publicprofile')
 
@@ -27,10 +27,10 @@ export const PublicProfileProvider = (props) => {
 
   // first, get the session
   const { loading, member } = useTracker(() => {
-    const sub = Meteor.subscribe('members.publicProfile', id)
+    const sub = Meteor.subscribe('profiles.publicProfile', id)
     return {
       loading: !sub.ready(),
-      member: Members.findOne({ _id: id }),
+      member: Profiles.findOne({ _id: id }),
     }
   }, [id])
 

@@ -60,7 +60,7 @@ const reducer = (state, action) => {
       // saveCart(clrS)   // There seems to be little point in saving an empty cart
       sessionStorage.removeItem('mycart')
       sessionStorage.removeItem('name')
-      sessionStorage.removeItem('memberId')
+      sessionStorage.removeItem('profileId')
       return clrS
     case 'save-cart':
       saveCart(state)
@@ -97,7 +97,7 @@ const reducer = (state, action) => {
         })
       ) {
         state.prodqty[action.payload._id] = 1
-        if (action.payload.memberId) state.memberId = action.payload.memberId
+        if (action.payload.profileId) state.profileId = action.payload.profileId
         if (action.payload.expiry) state.expiry = action.payload.expiry
         if (action.payload.email) state.email = action.payload.email
         state.products.push(action.payload)

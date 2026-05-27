@@ -7,8 +7,8 @@ import Price from './price'
 const mkid = name => name.toLowerCase().replace(/[\W+]/g, '_')
 
 const PayNowButton = props => {
-  const { productCode, memberId, amount } = props
-  const paymentUrl = `${Meteor.settings.public.paymentSite}?amount=${amount}&description=${productCode}%2F${memberId}&amount_editable=false&success_url=https%3A%2F%2Fpa.almsford.org%2Fshop%2Fpaid`
+  const { productCode, profileId, amount } = props
+  const paymentUrl = `${Meteor.settings.public.paymentSite}?amount=${amount}&description=${productCode}%2F${profileId}&amount_editable=false&success_url=https%3A%2F%2Fpa.almsford.org%2Fshop%2Fpaid`
   const options =
     'location=no,toolbar=no,footer=yes,footercolor=#cccccc,closebuttoncaption=Close,closebuttoncolor=#888888'
   const openPayment = () => {
@@ -63,7 +63,7 @@ export const ProductCardOnly = props => {
           <Box>
             {prodQty > 1 && <span>{prodQty} x </span>}
             <Price cents={price} />
-            {/* <PayNowButton productCode={code} memberId={props.memberId} amount={(qty * price) / 100} /> */}
+            {/* <PayNowButton productCode={code} profileId={props.profileId} amount={(qty * price) / 100} /> */}
           </Box>
         )}
         {(mode === 'next' || mode === 'add') && (
@@ -85,7 +85,7 @@ export const ProductCard = props => {
   const { state, dispatch } = React.useContext(CartContext)
   const add = () => {
     const product = cloneDeep(props)
-    if (sessionStorage.getItem('memberId')) product.memberId = sessionStorage.getItem('memberId')
+    if (sessionStorage.getItem('profileId')) product.profileId = sessionStorage.getItem('profileId')
     dispatch({ type: 'add', payload: product })
   }
 

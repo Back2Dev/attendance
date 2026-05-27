@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import Sessions from '/imports/api/sessions/schema.js'
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 import Courses from '/imports/api/courses/schema.js'
 import Events, {
   BookParamsSchema,
@@ -34,7 +34,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
 
-    const member = await Members.findOneAsync({ userId: this.userId })
+    const member = await Profiles.findOneAsync({ userId: this.userId })
     if (!member) {
       return {
         status: 'failed',
@@ -45,7 +45,7 @@ Meteor.methods({
     // select the session
     const session = await Sessions.findOneAsync({
       _id: sessionId,
-      memberId: member._id,
+      profileId: member._id,
       status: 'booked',
     })
     if (!session) {
@@ -140,7 +140,7 @@ Meteor.methods({
     if (!this.userId) {
       return { status: 'failed', message: 'Please login' }
     }
-    const member = await Members.findOneAsync({ userId: this.userId })
+    const member = await Profiles.findOneAsync({ userId: this.userId })
     if (!member) {
       return {
         status: 'failed',
@@ -162,7 +162,7 @@ Meteor.methods({
     let sessionId
     try {
       sessionId = await Sessions.insertAsync({
-        memberId: member._id,
+        profileId: member._id,
         eventId: eventId,
         name: sessionName,
         memberName: member.name,

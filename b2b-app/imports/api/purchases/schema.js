@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema'
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/utils/schema-util'
 import { SessionsSchema } from '/imports/api/sessions/schema'
 
-const SessionListSchema = SessionsSchema.omit('memberId', 'createdAt', 'updatedAt')
+const SessionListSchema = SessionsSchema.omit('profileId', 'createdAt', 'updatedAt')
 const Purchases = new Mongo.Collection('purchases')
 
 export const PurchasesSchema = new SimpleSchema({
@@ -13,7 +13,7 @@ export const PurchasesSchema = new SimpleSchema({
     label: 'Unique id',
     optional: false,
   },
-  memberId: {
+  profileId: {
     type: String,
     label: 'Member Id',
     optional: true,

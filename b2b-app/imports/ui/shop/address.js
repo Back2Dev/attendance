@@ -24,7 +24,7 @@ const Address = (props) => {
       ? state.creditCard
       : {
           email: state.email,
-          memberId: state.memberId,
+          profileId: state.profileId,
         }
   )
   const [e, setError] = React.useState([])

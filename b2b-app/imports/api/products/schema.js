@@ -166,7 +166,7 @@ export const PaymentResponseSchema = new SimpleSchema({
 
 export const CartsSchema = new SimpleSchema({
   _id: OptionalRegExId,
-  memberId: OptionalRegExId,
+  profileId: OptionalRegExId,
   email: OptionalString,
   customerName: OptionalString,
   userId: OptionalRegExId,

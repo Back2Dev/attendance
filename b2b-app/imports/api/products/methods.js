@@ -1,5 +1,5 @@
 import Products, { Carts } from './schema'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import CONSTANTS from '/imports/api/constants'
 import log from '/imports/lib/server/log'
 

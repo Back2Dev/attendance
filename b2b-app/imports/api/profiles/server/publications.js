@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
-import Members from '../schema'
+import Profiles from '../schema'
 import '../methods'
 import '../methods.custom'
 import { hasRole } from '/imports/api/users/utils.js'
 
-const debug = require('debug')('app:members:publications')
+const debug = require('debug')('app:profiles:publications')
 
 const publicFields = {
   name: 1,
@@ -18,14 +18,14 @@ const publicFields = {
   favorites: 1,
 }
 
-Meteor.publish('members.publicProfile', function (memberId) {
-  debug({ memberId })
-  if (!Match.test(memberId, String)) {
+Meteor.publish('profiles.publicProfile', function (profileId) {
+  debug({ profileId })
+  if (!Match.test(profileId, String)) {
     return this.ready()
   }
-  const member = Members.find(
+  const member = Profiles.find(
     {
-      _id: memberId,
+      _id: profileId,
     },
     {
       fields: {
@@ -39,12 +39,12 @@ Meteor.publish('members.publicProfile', function (memberId) {
   return [member]
 })
 
-Meteor.publish('members.byIds', function (memberIds) {
+Meteor.publish('profiles.byIds', function (memberIds) {
   debug({ memberIds })
   if (!Match.test(memberIds, [String])) {
     return this.ready()
   }
-  return Members.find(
+  return Profiles.find(
     {
       _id: { $in: memberIds },
     },
@@ -68,7 +68,7 @@ Meteor.publish('currentMember', async function () {
       if (online === false) {
         // set user offline
         // first, update the offlineTimeoutAt value
-        await Members.updateAsync(
+        await Profiles.updateAsync(
           {
             userId,
           },
@@ -80,7 +80,7 @@ Meteor.publish('currentMember', async function () {
         )
         // then delay update the online status
         // Meteor.setTimeout(() => {
-        //   const me = Members.findOne(
+        //   const me = Profiles.findOne(
         //     { userId },
         //     {
         //       fields: { onlineStatus: 1 },
@@ -93,7 +93,7 @@ Meteor.publish('currentMember', async function () {
         //       )
         //     ) {
         //       // mark user is offline
-        //       Members.update(
+        //       Profiles.update(
         //         {
         //           userId,
         //         },
@@ -112,7 +112,7 @@ Meteor.publish('currentMember', async function () {
         // }, ONLINE_STATUS_DELAY_IN_SECONDS)
       } else {
         // set user online
-        await Members.updateAsync(
+        await Profiles.updateAsync(
           {
             userId,
           },
@@ -133,23 +133,23 @@ Meteor.publish('currentMember', async function () {
     // update the user online status
     UsersHelper.updateOnlineStatus({ userId: this.userId, online: false })
   })
-  return Members.find({ userId: this.userId, status: 'active' })
+  return Profiles.find({ userId: this.userId, status: 'active' })
 })
 
-Meteor.publish('all.members', () => {
-  return Members.find({})
+Meteor.publish('all.profiles', () => {
+  return Profiles.find({})
 })
-Meteor.publish('members.limit.role', async function (role) {
+Meteor.publish('profiles.limit.role', async function (role) {
   const user = await Meteor.users.findOneAsync({ _id: this.userId })
   if (hasRole(user, role)) {
-    return Members.find({})
+    return Profiles.find({})
   } else {
     return []
   }
 })
-Meteor.publish('id.members', (id) => {
+Meteor.publish('id.profiles', (id) => {
   return [
-    Members.find(id),
+    Profiles.find(id),
     /* Commented out related publications (if any) - best to add these in manually as required
      
     */

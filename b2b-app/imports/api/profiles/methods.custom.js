@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import logger from '/imports/lib/log'
 
-import Members from '/imports/api/members/schema'
-const debug = require('debug')('app:members')
+import Profiles from '/imports/api/profiles/schema'
+const debug = require('debug')('app:profiles')
 // AWS Configs
 const aws = require('aws-sdk')
 const s3config = new aws.Config({
@@ -38,7 +38,7 @@ Meteor.methods({
         })
       }
       await uploadFile(s3params)
-      await Members.updateAsync(
+      await Profiles.updateAsync(
         { userId: user_id },
         {
           $set: {

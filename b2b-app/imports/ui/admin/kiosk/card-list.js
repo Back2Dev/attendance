@@ -28,7 +28,7 @@ const CardList = () => {
         justifyContent: 'space-between',
       }}
     >
-      <h1>Volunteer Members</h1>
+      <h1>Volunteer Profiles</h1>
       <Card className={classes.root}>
         <CardActionArea>
           <CardMedia className={classes.avatar} image="/images/avatars/1.jpg" />

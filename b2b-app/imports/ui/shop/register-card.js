@@ -18,7 +18,7 @@ const RegisterCard = (props) => {
     state.cartUpdate({
       prodqty: {},
       products: [],
-      memberId: id,
+      profileId: id,
     })
     history.push('/shop/address')
   }

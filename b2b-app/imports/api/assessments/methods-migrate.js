@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 // import { DDP } from 'meteor/ddp-client'
 import simpleDDP from 'simpleddp'
 import ws from 'isomorphic-ws'
-import Members from '../members/schema'
+import Profiles from '../profiles/schema'
 import Assessments, { Logger } from '/imports/api/assessments/schema'
 import Jobs from '/imports/api/jobs/schema'
 import ServiceItems from '/imports/api/service-items/schema'
@@ -66,18 +66,18 @@ const doMigration = async (connection, id) => {
         cust.roles = ['CUS']
         const res = await Meteor.callAsync('addNewUser', cust)
         if (res.status === 'success') {
-          const m = await Members.findOneAsync({ userId: res.userId })
-          ass.memberId = m?._id
+          const m = await Profiles.findOneAsync({ userId: res.userId })
+          ass.profileId = m?._id
           n.members = n.members + 1
           n.users = n.users + 1
         }
       } else {
-        const m = await Members.findOneAsync({ mobile: cust.mobile })
-        if (m) ass.memberId = m._id
+        const m = await Profiles.findOneAsync({ mobile: cust.mobile })
+        if (m) ass.profileId = m._id
         else {
           cust.nickname = cust.name.split(' ')[0] || cust.name
           cust.notifyBy = ['EMAIL', 'SMS']
-          ass.memberId = await Members.insertAsync(cust)
+          ass.profileId = await Profiles.insertAsync(cust)
           n.members = n.members + 1
         }
       }
@@ -165,11 +165,11 @@ Meteor.methods({
         if (id) {
           if (job) {
             await Meteor.users.removeAsync({ core: { $exists: false }, _id: job.userId })
-            await Members.removeAsync({ core: { $exists: false }, _id: job.memberId })
+            await Profiles.removeAsync({ core: { $exists: false }, _id: job.profileId })
           }
         } else {
           await Meteor.users.removeAsync({ core: { $exists: false } })
-          await Members.removeAsync({ core: { $exists: false } })
+          await Profiles.removeAsync({ core: { $exists: false } })
         }
       }
       let options = {

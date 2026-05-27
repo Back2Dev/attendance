@@ -6,7 +6,7 @@ import { ServiceConfiguration } from 'meteor/service-configuration'
 
 import log from '/imports/lib/log'
 
-import Members from '/imports/api/members/schema.js'
+import Profiles from '/imports/api/profiles/schema.js'
 
 /**
  * Lowercase and trim user email(s)
@@ -59,12 +59,12 @@ Accounts.onCreateUser(async (options, user) => {
   }
 
   // this user should not have member record at this moment, but let do a double check
-  const existingMember = await Members.findOneAsync({ userId: member.userId })
+  const existingMember = await Profiles.findOneAsync({ userId: member.userId })
   if (!existingMember && member.name) {
     // calculate the nickname
     member.nickname = member.name.split(' ')[0] || member.name
 
-    await Meteor.callAsync('insert.members', member)
+    await Meteor.callAsync('insert.profiles', member)
   }
 
   const admins = Roles.getUsersInRole('ADM').fetch()

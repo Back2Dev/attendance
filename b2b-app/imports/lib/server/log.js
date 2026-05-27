@@ -245,8 +245,8 @@ Meteor.methods({
     return true
   },
   triggerException: () => {
-    // Members is not imported, so this will  fail
-    const userMember = Members.findOne({
+    // Profiles is not imported, so this will  fail
+    const userMember = Profiles.findOne({
       userIds: getUserId(),
     })
     if (!userMember.admin) return false

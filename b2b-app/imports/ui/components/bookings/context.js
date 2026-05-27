@@ -23,7 +23,7 @@ export const BookingsProvider = (props) => {
 
   const getMySessionByEventId = (eventId) => {
     return Sessions.findOne({
-      memberId: member?._id,
+      profileId: member?._id,
       eventId,
     })
   }

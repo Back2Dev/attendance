@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/react-meteor-data'
 import { useParams } from 'react-router-dom'
 import React from 'react'
-import Members from '/imports/api/members/schema'
+import Profiles from '/imports/api/profiles/schema'
 import Purchases from '/imports/api/purchases/schema'
 import Products, { Carts } from '/imports/api/products/schema'
 import Renew from './renew'
@@ -16,16 +16,16 @@ const Loader = (props) => {
   const { org, logo, loading, member, purchases, products, cart, myProduct } =
     useTracker(() => {
       if (cartId) sessionStorage.setItem('mycart', cartId)
-      const membersHandle = Meteor.subscribe('member.renew', id, cartId)
+      const membersHandle = Meteor.subscribe('profile.renew', id, cartId)
       const loading = !membersHandle.ready()
-      const member = Members.findOne(id) || {}
+      const member = Profiles.findOne(id) || {}
       // Set up member context, then it will pick up credit card details
       if (member && member._id) {
         sessionStorage.setItem('name', member.name)
-        sessionStorage.setItem('memberId', member._id)
+        sessionStorage.setItem('profileId', member._id)
       }
       const purchases = Purchases.find(
-        { memberId: id },
+        { profileId: id },
         { sort: { createdAt: -1 } }
       ).fetch()
       const cart = Carts.findOne(cartId)

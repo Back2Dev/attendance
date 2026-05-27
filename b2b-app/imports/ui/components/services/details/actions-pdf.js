@@ -24,7 +24,7 @@ function CreatePDF() {
       note: item.note,
     }
     const contactData = {
-      memberData: item.memberId
+      memberData: item.profileId
         ? {
             name: item.name,
             email: item.email,
