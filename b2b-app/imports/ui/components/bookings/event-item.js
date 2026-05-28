@@ -130,7 +130,7 @@ function EventItem({ event }) {
   }
 
   const onCancel = () => {
-    cancel({ sessionId: session._id })
+    cancel({ bookingId: session._id })
   }
 
   const renderStatus = () => {

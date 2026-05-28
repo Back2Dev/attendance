@@ -69,8 +69,8 @@ describe('Test cancel.events method', () => {
   const theMethod = Meteor.server.method_handlers['cancel.events']
   it('cancel.events should return an object with status is failed with bad params', () => {
     const badParams = [
-      { sessionId: 'some string' }, // missing eventId
-      { someParam: 'some value' }, // sessionId is missing
+      { bookingId: 'some string' }, // missing eventId
+      { someParam: 'some value' }, // bookingId is missing
     ]
     badParams.map((item) => {
       const thisContext = {
@@ -90,7 +90,7 @@ describe('Test cancel.events method', () => {
     }
     let result
     expect(() => {
-      result = theMethod.apply(thisContext, [{ sessionId: Random.id() }])
+      result = theMethod.apply(thisContext, [{ bookingId: Random.id() }])
     }).not.to.throw()
     // debug(result)
     expect(result).to.have.property('status').which.equal('failed')
@@ -114,7 +114,7 @@ describe('Test cancel.events method', () => {
     }
     let result
     expect(() => {
-      result = theMethod.apply(thisContext, [{ sessionId: session._id }])
+      result = theMethod.apply(thisContext, [{ bookingId: session._id }])
     }).not.to.throw()
     debug({ result })
     expect(result).to.have.property('status').which.equal('success')

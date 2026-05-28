@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import Sessions from '/imports/api/sessions/schema.js'
+import Bookings from '/imports/api/bookings/schema.js'
 import Profiles from '/imports/api/profiles/schema.js'
-import Courses from '/imports/api/courses/schema.js'
+import Locations from '/imports/api/locations/schema.js'
 import Events, {
   BookParamsSchema,
   CancelBookingParamsSchema,
@@ -13,17 +13,17 @@ const debug = require('debug')('app:events')
 
 Meteor.methods({
   /**
-   * Cancel booked session
+   * Cancel booked booking
    * @param {Object} params
-   * @param {String} params.sessionId
+   * @param {String} params.bookingId
    * @returns {Object} result
    * @returns {String} result.status
    * @returns {String} result.message
    */
-  'cancel.events': async function ({ sessionId }) {
-    debug({ sessionId })
+  'cancel.events': async function ({ bookingId }) {
+    debug({ bookingId })
     try {
-      CancelBookingParamsSchema.validate({ sessionId })
+      CancelBookingParamsSchema.validate({ bookingId })
     } catch (error) {
       debug(error)
       return { status: 'failed', message: error.message }
@@ -42,21 +42,21 @@ Meteor.methods({
       }
     }
 
-    // select the session
-    const session = await Sessions.findOneAsync({
-      _id: sessionId,
+    // select the booking
+    const session = await Bookings.findOneAsync({
+      _id: bookingId,
       profileId: member._id,
       status: 'booked',
     })
     if (!session) {
       return {
         status: 'failed',
-        message: `Your session was not found with id ${sessionId}`,
+        message: `Your booking was not found with id ${bookingId}`,
       }
     }
 
     try {
-      const updated = await Sessions.updateAsync(
+      const updated = await Bookings.updateAsync(
         {
           _id: session._id,
         },
@@ -65,10 +65,10 @@ Meteor.methods({
         }
       )
       if (!updated) {
-        return { status: 'failed', message: 'Unable to update session' }
+        return { status: 'failed', message: 'Unable to update booking' }
       }
     } catch (e) {
-      return { status: 'failed', message: `Error updating session ${e.message}` }
+      return { status: 'failed', message: `Error updating booking ${e.message}` }
     }
 
     // remove the member item inside the event.members
@@ -101,7 +101,7 @@ Meteor.methods({
    * @returns {Object} result
    * @returns {String} result.status
    * @returns {String} result.message
-   * @returns {String} result.sessionId, the session id just created
+   * @returns {String} result.bookingId, the booking id just created
    */
   'book.events': async function ({ eventId, toolId }) {
     // debug({ eventId, toolId })
@@ -148,20 +148,20 @@ Meteor.methods({
       }
     }
 
-    // now everything looks good, create a new session
+    // now everything looks good, create a new booking
     let sessionName = `${event.name}`
 
     // get the course
     if (event.courseId) {
-      const course = await Courses.findOneAsync({ _id: event.courseId })
+      const course = await Locations.findOneAsync({ _id: event.courseId })
       if (course) {
         sessionName += `: ${course.title}`
       }
     }
 
-    let sessionId
+    let bookingId
     try {
-      sessionId = await Sessions.insertAsync({
+      bookingId = await Bookings.insertAsync({
         profileId: member._id,
         eventId: eventId,
         name: sessionName,
@@ -173,13 +173,13 @@ Meteor.methods({
         bookedAt: new Date(),
       })
     } catch (e) {
-      return { status: 'failed', message: `Error inserting new session ${e.message}` }
+      return { status: 'failed', message: `Error inserting new booking ${e.message}` }
     }
 
     // update the members array of event
     const memberItem = MemberItemSchema.clean({
       ...member,
-      session: await Sessions.findOneAsync({ _id: sessionId }),
+      session: await Bookings.findOneAsync({ _id: bookingId }),
     })
     debug({ memberItem })
     const updateData = {}
@@ -201,7 +201,7 @@ Meteor.methods({
       )
     }
 
-    return { status: 'success', sessionId }
+    return { status: 'success', bookingId }
   },
   'rm.events': async function ({ id, recurring }) {
     const eventToDelete = await Events.findOneAsync({ _id: id })
@@ -264,13 +264,13 @@ Meteor.methods({
       if (n) {
         const updateData = {}
         if (updateDoc.courseId) {
-          const course = await Courses.findOneAsync({ _id: updateDoc.courseId })
+          const course = await Locations.findOneAsync({ _id: updateDoc.courseId })
           if (course) {
             updateData.course = CourseItemSchema.clean(course)
           }
         }
         if (updateDoc.backupCourseId) {
-          const backupCourse = await Courses.findOneAsync({
+          const backupCourse = await Locations.findOneAsync({
             _id: updateDoc.backupCourseId,
           })
           if (backupCourse) {
@@ -361,13 +361,13 @@ Meteor.methods({
         const updateData = {}
         if (form.courseId) {
           // debug(form.courseId)
-          const course = await Courses.findOneAsync({ _id: form.courseId })
+          const course = await Locations.findOneAsync({ _id: form.courseId })
           if (course) {
             updateData.course = CourseItemSchema.clean(course)
           }
         }
         if (form.backupCourseId) {
-          const backupCourse = await Courses.findOneAsync({ _id: form.backupCourseId })
+          const backupCourse = await Locations.findOneAsync({ _id: form.backupCourseId })
           if (backupCourse) {
             updateData.backupCourse = CourseItemSchema.clean(backupCourse)
           }

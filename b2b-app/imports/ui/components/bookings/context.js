@@ -7,7 +7,7 @@ import { showError, showSuccess } from '/imports/ui/utils/toast-alerts.js'
 
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
-import Sessions from '/imports/api/sessions/schema.js'
+import Bookings from '/imports/api/bookings/schema.js'
 
 export const BookingsContext = React.createContext('bookings')
 
@@ -22,7 +22,7 @@ export const BookingsProvider = (props) => {
   // const [ids, setIds] = useState({ eventIds: [], coachIds: [], courseIds: [] })
 
   const getMySessionByEventId = (eventId) => {
-    return Sessions.findOne({
+    return Bookings.findOne({
       profileId: member?._id,
       eventId,
     })
@@ -66,10 +66,10 @@ export const BookingsProvider = (props) => {
     }
   }
   // cancel action
-  const cancel = async ({ sessionId }) => {
+  const cancel = async ({ bookingId }) => {
     setSubmiting(true)
     try {
-      const result = await Meteor.callAsync('cancel.events', { sessionId })
+      const result = await Meteor.callAsync('cancel.events', { bookingId })
       if (!mounted.current) {
         return
       }

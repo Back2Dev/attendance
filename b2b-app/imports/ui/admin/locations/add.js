@@ -1,0 +1,60 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import Button from '@mui/material/Button'
+import { Box, Container, Grid, Typography } from '@mui/material'
+import { AutoForm, AutoFields, LongTextField, SubmitField } from 'uniforms-mui'
+import { CustomAutoField } from '/imports/ui/components/forms'
+import config from './config'
+import useHistory from '/imports/ui/utils/history'
+
+const schemaBridge = config.edit.schema
+const debug = require('debug')('app:add')
+
+const Add = ({ item, methods }) => {
+  const save = (model) => {
+    try {
+      methods.save(model)
+    } catch (e) {
+      debug(`Save error ${e.message}`)
+    }
+  }
+  const [data, SetData] = React.useState({})
+  React.useEffect(() => SetData(item), [item])
+
+  const changed = (model) => {}
+
+  const { goBack } = useHistory()
+
+  const back = () => {
+    goBack()
+  }
+
+  return (
+    <Container>
+      <Box my={7}>
+        <Typography variant="h1">Locations: {item.name}</Typography>
+        <Typography color="primary" variant="h5">
+          {item.type} (Revision {item.revision}: &nbsp;
+          {moment(item.updatedAt).format('DD/MM/YY HH:mm')} )
+        </Typography>
+        <AutoForm
+          schema={schemaBridge}
+          model={item}
+          onSubmit={save}
+          autoField={CustomAutoField}
+        />
+        <Button type="button" onClick={back}>
+          Cancel
+        </Button>
+      </Box>
+    </Container>
+  )
+}
+
+Add.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  methods: PropTypes.object.isRequired,
+}
+export default Add

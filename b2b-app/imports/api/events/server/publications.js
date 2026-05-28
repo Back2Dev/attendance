@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 
 import Profiles from '/imports/api/profiles/schema'
-import Sessions from '/imports/api/sessions/schema.js'
+import Bookings from '/imports/api/bookings/schema.js'
 import Events from '../schema'
 import '../methods'
 import '../methods-workshop'
@@ -90,12 +90,12 @@ Meteor.publish('future.events', async function () {
     }
   )
 
-  // select all sessions belong this current user and related to those above events
-  const sessions = Sessions.find({
+  // select all bookings belong this current user and related to those above events
+  const bookings = Bookings.find({
     profileId: currentMember?._id,
     eventId: { $in: arrEventIds },
   })
   // : null
 
-  return [events, coaches, sessions]
+  return [events, coaches, bookings]
 })

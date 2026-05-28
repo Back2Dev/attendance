@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Typography } from '@mui/material'
 
 import { BookingsHistoryProvider } from '/imports/ui/components/bookings-history/context.js'
-import SessionsListing from '/imports/ui/components/bookings-history/sessions.js'
+import BookingsListing from '/imports/ui/components/bookings-history/bookings.js'
 
 const StyledBookings = styled.div`
   margin: 60px auto;
@@ -20,7 +20,7 @@ function BookingsHistory() {
         <Typography variant="h1" align="center">
           Bookings History
         </Typography>
-        <SessionsListing />
+        <BookingsListing />
       </BookingsHistoryProvider>
     </StyledBookings>
   )

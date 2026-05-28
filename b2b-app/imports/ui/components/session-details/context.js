@@ -8,8 +8,8 @@ import { useTracker } from 'meteor/react-meteor-data'
 
 // import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
-import Sessions from '/imports/api/sessions/schema.js'
-import Courses from '../../../api/courses/schema'
+import Bookings from '/imports/api/bookings/schema.js'
+import Locations from '../../../api/locations/schema'
 
 export const SessionDetailsContext = React.createContext('sessiondetails')
 
@@ -28,7 +28,7 @@ export const SessionDetailsProvider = (props) => {
     const sub = Meteor.subscribe('sessions.myByIdComposite', id)
     return {
       loading: !sub.ready(),
-      session: Sessions.findOne({ _id: id }),
+      session: Bookings.findOne({ _id: id }),
     }
   }, [id])
 
@@ -46,7 +46,7 @@ export const SessionDetailsProvider = (props) => {
     if (!event?.courseId) {
       return null
     }
-    return Courses.findOne({
+    return Locations.findOne({
       _id: event.courseId
     })
   },[event?.courseId])

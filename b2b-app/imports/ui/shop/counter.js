@@ -29,9 +29,9 @@ const Counter = props => {
           </Typography>
           {productTypes.map((ptype) => (
             <Button
-              key={ptype.type}
+              key={ptype.slug}
               type="button"
-              onClick={() => select(ptype.type)}
+              onClick={() => select(ptype.slug)}
               startIcon={<CircleIcon sx={{ fontSize: 10, color: ptype.color }} />}
             >
               {ptype.name}

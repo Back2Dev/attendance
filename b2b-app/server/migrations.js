@@ -51,7 +51,8 @@ const migrateToProfiles = async () => {
   }
 
   // Rename memberId → profileId in all related collections
-  const relatedCollections = ['sessions', 'purchases', 'products', 'jobs', 'events']
+  // Note: 'sessions' is listed alongside 'bookings' to cover both pre- and post-rename states
+  const relatedCollections = ['sessions', 'bookings', 'purchases', 'products', 'jobs', 'events']
   for (const collName of relatedCollections) {
     const result = await db.collection(collName).updateMany(
       { memberId: { $exists: true } },
@@ -71,3 +72,43 @@ Meteor.startup(async () => {
   }
 })
 // END MK 27/5/2026
+
+// MK 28/5/2026 - Renamed collections: tools→rentals, courses→locations, sessions→bookings
+const migrateCollectionNames = async () => {
+  const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
+
+  const renames = [
+    { from: 'tools', to: 'rentals' },
+    { from: 'courses', to: 'locations' },
+    { from: 'sessions', to: 'bookings' },
+  ]
+
+  for (const { from, to } of renames) {
+    const fromColl = new Mongo.Collection(from)
+    const toColl = new Mongo.Collection(to)
+
+    const fromCount = await fromColl.find({}).countAsync()
+    if (fromCount === 0) {
+      debug(`${from} collection has no data, skipping rename to ${to}`)
+      continue
+    }
+
+    const toCount = await toColl.find({}).countAsync()
+    if (toCount > 0) {
+      debug(`${to} already has ${toCount} documents, skipping rename from ${from}`)
+      continue
+    }
+
+    await db.collection(from).rename(to)
+    debug(`Renamed ${from} → ${to} (${fromCount} documents)`)
+  }
+}
+
+Meteor.startup(async () => {
+  if (Meteor.isServer) {
+    await migrateCollectionNames().catch((err) =>
+      console.error('Migration migrateCollectionNames failed', err)
+    )
+  }
+})
+// END MK 28/5/2026
