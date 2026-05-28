@@ -23,7 +23,7 @@ const PayNowButton = props => {
 
 export const ProductCardOnly = props => {
   const img = props.image || '/images/gym.jpg'
-  const { mode, takeAction, remove, color = 'green', name, description, price, code, prodQty } = props
+  const { mode, takeAction, remove, color = 'green', name, description, price, slug, prodQty } = props
   return (
     <Card sx={{ width: 260, borderTop: `4px solid ${color}` }}>
       <CardContent>
@@ -33,7 +33,7 @@ export const ProductCardOnly = props => {
             type="button"
             onClick={remove}
             color="error"
-            id={mkid(`rm ${code}`)}
+            id={mkid(`rm ${slug}`)}
             title="Remove this item"
           >
             X

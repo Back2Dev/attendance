@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Mongo, MongoInternals } from 'meteor/mongo'
 import MessageTemplates from '/imports/api/message-templates/schema'
 import Profiles from '/imports/api/profiles/schema'
+import Products, { ProductTypes } from '/imports/api/products/schema'
 
 const debug = require('debug')('app:migrations')
 
@@ -71,3 +72,78 @@ Meteor.startup(async () => {
   }
 })
 // END MK 27/5/2026
+
+// MK 28/5/2026 - Renamed products.code field to slug
+const migrateProductCodeToSlug = async () => {
+  // Prime the connection via Meteor's collection API before using the raw driver
+  const needsMigration = await Products.find({ code: { $exists: true } }).countAsync()
+  if (needsMigration === 0) {
+    debug('products.code → slug: nothing to migrate')
+    return
+  }
+
+  const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
+
+  // Top-level field in products collection
+  const productsResult = await db.collection('products').updateMany(
+    { code: { $exists: true } },
+    { $rename: { code: 'slug' } }
+  )
+  debug(`products.code → slug: ${productsResult.modifiedCount} product documents updated`)
+
+  // Embedded products array inside carts — $rename doesn't work on array elements,
+  // so copy via aggregation pipeline then unset the old field
+  await db.collection('carts').updateMany(
+    { 'products.code': { $exists: true } },
+    [{
+      $set: {
+        products: {
+          $map: {
+            input: '$products',
+            as: 'p',
+            in: { $mergeObjects: ['$$p', { slug: '$$p.code' }] },
+          },
+        },
+      },
+    }]
+  )
+  const cartsResult = await db.collection('carts').updateMany(
+    { 'products.code': { $exists: true } },
+    { $unset: { 'products.$[].code': '' } }
+  )
+  debug(`products.code → slug in carts: ${cartsResult.modifiedCount} cart documents updated`)
+}
+
+Meteor.startup(async () => {
+  if (Meteor.isServer) {
+    await migrateProductCodeToSlug().catch((err) =>
+      console.error('Migration migrateProductCodeToSlug failed', err)
+    )
+  }
+})
+// END MK 28/5/2026
+
+// MK 28/5/2026 - Renamed productTypes.type field to slug
+const migrateProductTypeToSlug = async () => {
+  const needsMigration = await ProductTypes.find({ type: { $exists: true } }).countAsync()
+  if (needsMigration === 0) {
+    debug('productTypes.type → slug: nothing to migrate')
+    return
+  }
+
+  const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
+  const result = await db.collection('productTypes').updateMany(
+    { type: { $exists: true } },
+    { $rename: { type: 'slug' } }
+  )
+  debug(`productTypes.type → slug: ${result.modifiedCount} documents updated`)
+}
+
+Meteor.startup(async () => {
+  if (Meteor.isServer) {
+    await migrateProductTypeToSlug().catch((err) =>
+      console.error('Migration migrateProductTypeToSlug failed', err)
+    )
+  }
+})
+// END MK 28/5/2026

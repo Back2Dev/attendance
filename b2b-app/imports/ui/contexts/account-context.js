@@ -31,6 +31,8 @@ export const AccountProvider = (props) => {
     }
   }, [user])
 
+  const viewas = useTracker(() => Session.get('viewas'), [])
+
   const account = {
     isLoggedIn: !!user,
     currentUser: user,
@@ -39,7 +41,7 @@ export const AccountProvider = (props) => {
     user,
     roles: Roles.getRolesForUser(user),
     member,
-    viewas: Session.get('viewas'),
+    viewas,
   }
 
   /**

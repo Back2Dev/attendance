@@ -52,7 +52,7 @@ const ShopFront = (props) => {
     >
       <Routes>
         <Route path="" exact Component={Building} />
-        <Route path="add/:code/:profileId" exact Component={AddContainer} />
+        <Route path="add/:slug/:profileId" exact Component={AddContainer} />
         <Route path="checkout" exact Component={Checkout} />
         <Route path="address" exact Component={Address} />
         <Route path="credit-card" exact Component={CreditCard} />

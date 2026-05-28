@@ -10,10 +10,10 @@ const mkid = (name) => name.toLowerCase().replace(/[\W+]/g, '_')
 const ProdTypeCard = (props) => {
   const history = useHistory()
   const go = () => {
-    history.push(`/shop/type/${props.type}`)
+    history.push(`/shop/type/${props.slug}`)
   }
   return (
-    <Box key={props.type}>
+    <Box key={props.slug}>
       <Button
         id={mkid(props.name)}
         type="button"
@@ -40,7 +40,7 @@ const ShopWindow = (props) => {
         productTypes &&
         productTypes.length &&
         productTypes.map((prodType) => (
-          <ProdTypeCard key={prodType.type} {...prodType} />
+          <ProdTypeCard key={prodType.slug} {...prodType} />
         ))}
       {/* <GoHome history={props.history} /> */}
     </Stack>

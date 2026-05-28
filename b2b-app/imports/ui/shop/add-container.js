@@ -7,16 +7,16 @@ import Profiles from '/imports/api/profiles/schema'
 import AddProduct from './add-product'
 
 const AddProductWrapper = props => {
-  const { code, profileId } = useParams()
+  const { slug, profileId } = useParams()
   const { product, member, loading } = useTracker(() => {
-    const productSub = Meteor.subscribe('product.bycode', code)
+    const productSub = Meteor.subscribe('product.byslug', slug)
     const memberSub = Meteor.subscribe('member', profileId)
     return {
-      product: Products.findOne({ code }),
+      product: Products.findOne({ slug }),
       member: Profiles.findOne(profileId),
       loading: !(productSub.ready() && memberSub.ready())
     }
-  }, [code, profileId])
+  }, [slug, profileId])
 
   return <AddProduct product={product} member={member} loading={loading} {...props} />
 }

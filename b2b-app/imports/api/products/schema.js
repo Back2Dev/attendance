@@ -25,7 +25,7 @@ export const ProductTypesSchema = new SimpleSchema({
     type: String,
     label: 'Product Type Description',
   },
-  type: {
+  slug: {
     type: String,
     label: 'Product Type Code',
     allowedValues: Object.keys(CONSTANTS.PRODUCT_TYPES_READABLE),
@@ -44,6 +44,8 @@ export const ProductTypesSchema = new SimpleSchema({
     label: 'Product Type Icon',
     optional: true,
   },
+  createdAt,
+  updatedAt,
 })
 
 export const ProductsSchema = new SimpleSchema({
@@ -56,7 +58,7 @@ export const ProductsSchema = new SimpleSchema({
     type: String,
     label: 'Product Description',
   },
-  code: {
+  slug: {
     type: String,
     label: 'Product code',
   },

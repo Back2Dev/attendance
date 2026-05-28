@@ -60,7 +60,7 @@ const CreditCard = (props) => {
   const [infoOpen, setInfoOpen] = React.useState(false)
   const codes = state.products
     .map((prod) => {
-      return prod.qty === 1 ? prod.code : `${prod.qty}x${prod.code}`
+      return prod.qty === 1 ? prod.slug : `${prod.qty}x${prod.slug}`
     })
     .join(',')
 
