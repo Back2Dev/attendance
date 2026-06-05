@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React from 'react'
+import React, { useMemo } from 'react'
 import Events from '/imports/api/events/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import Add from './add'
@@ -18,7 +18,12 @@ const methods = {
 
 const Adder = (props) => {
   push = useHistory()?.push
-  const defaultObject = config?.add?.defaultObject || {}
+  const defaultObject = useMemo(() => {
+    const d = new Date()
+    d.setDate(d.getDate() + 1)
+    d.setHours(9, 0, 0, 0)
+    return { ...(config?.add?.defaultObject || {}), when: d }
+  }, [])
   return <Add {...props} item={defaultObject} methods={methods} loading={false} />
 }
 export default Adder

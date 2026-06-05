@@ -11,6 +11,7 @@ import CONSTANTS from '/imports/api/constants.js'
 
 import EventRepeatField from '/imports/ui/components/forms/event-repeat'
 import DateTimeField from '/imports/ui/utils/custom-form-fields/datetimefield'
+import LocationsField from '/imports/ui/components/forms/location-selector'
 
 const ToolItemSchema = new SimpleSchema({
   _id: {
@@ -85,8 +86,8 @@ const editSchema = new SimpleSchema({
     optional: true,
   },
   'description.$': String,
-  courseId: OptionalRegExId,
-  backupCourseId: OptionalRegExId,
+  courseId: { ...OptionalRegExId, label: 'Course', uniforms: LocationsField },
+  backupCourseId: { ...OptionalRegExId, label: 'Backup Course', uniforms: LocationsField },
   location: {
     type: String,
     label: 'Location',
@@ -96,6 +97,13 @@ const editSchema = new SimpleSchema({
     type: Date,
     optional: true,
     uniforms: DateTimeField,
+  },
+  public: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true,
+    label: 'Public (visible without login)',
+    uniforms: { appearance: 'toggle' },
   },
   repeat: {
     type: RepeatSchema,

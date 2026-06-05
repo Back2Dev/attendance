@@ -26,6 +26,13 @@ const Editor = () => {
     }
   }, [id])
 
+  const defaultWhen = useMemo(() => {
+    const d = new Date()
+    d.setDate(d.getDate() + 1)
+    d.setHours(9, 0, 0, 0)
+    return d
+  }, [])
+
   const methods = useMemo(() => {
     return {
       remove: (targetId) => meteorCall('rm.events', 'Deleting', { id: targetId }),
@@ -37,7 +44,8 @@ const Editor = () => {
   }, [navigate])
 
   if (loading) return <div>Loading...</div>
-  return <Edit id={id} item={item} methods={methods} loading={loading} />
+  const itemWithWhen = item.when ? item : { ...item, when: defaultWhen }
+  return <Edit id={id} item={itemWithWhen} methods={methods} loading={loading} />
 }
 
 export default Editor
