@@ -13,6 +13,7 @@ const debug = require('debug')('app:add')
 
 const Add = ({ item, methods }) => {
   const save = (model) => {
+    debug('Saving event, model.when =', model.when, typeof model.when)
     try {
       methods.save(model)
     } catch (e) {

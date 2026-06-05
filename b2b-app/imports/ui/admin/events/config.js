@@ -10,6 +10,8 @@ import {
 import CONSTANTS from '/imports/api/constants.js'
 
 import EventRepeatField from '/imports/ui/components/forms/event-repeat'
+import DateTimeField from '/imports/ui/utils/custom-form-fields/datetimefield'
+import LocationsField from '/imports/ui/components/forms/location-selector'
 
 const ToolItemSchema = new SimpleSchema({
   _id: {
@@ -34,9 +36,11 @@ const RepeatSchema = new SimpleSchema({
   factor: {
     type: String,
     allowedValues: ['day', 'week', 'month', 'year'],
+    optional: true,
   },
   every: {
     type: Number,
+    optional: true,
   },
   dow: {
     type: Array,
@@ -82,8 +86,8 @@ const editSchema = new SimpleSchema({
     optional: true,
   },
   'description.$': String,
-  courseId: OptionalRegExId,
-  backupCourseId: OptionalRegExId,
+  courseId: { ...OptionalRegExId, label: 'Course', uniforms: LocationsField },
+  backupCourseId: { ...OptionalRegExId, label: 'Backup Course', uniforms: LocationsField },
   location: {
     type: String,
     label: 'Location',
@@ -92,6 +96,14 @@ const editSchema = new SimpleSchema({
   when: {
     type: Date,
     optional: true,
+    uniforms: DateTimeField,
+  },
+  public: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true,
+    label: 'Public (visible without login)',
+    uniforms: { appearance: 'toggle' },
   },
   repeat: {
     type: RepeatSchema,
@@ -134,7 +146,12 @@ const config = {
       { field: 'type', title: 'type', editor: true, formatter: null },
       { field: 'days', title: 'days', editor: true, formatter: null },
       { field: 'location', title: 'location', editor: true, formatter: null },
-      { field: 'when', title: 'when', editor: true, formatter: null },
+      { field: 'when', title: 'when', editor: false, formatter: (cell) => {
+        const v = cell.getValue()
+        if (!v) return ''
+        const d = v instanceof Date ? v : new Date(v)
+        return isNaN(d) ? String(v) : d.toLocaleString()
+      }},
       { field: 'active', title: 'active', editor: true, formatter: null },
       { field: 'duration', title: 'duration', editor: true, formatter: null },
       { field: 'price', title: 'price', editor: true, formatter: null },

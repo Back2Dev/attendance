@@ -42,6 +42,7 @@ const ResetPassword = lazy(() =>
 const SupportPage = lazy(() => import('/imports/ui/pages/support.js'))
 
 const TestPage = lazy(() => import('/imports/ui/pages/test.js'))
+const EventsPage = lazy(() => import('/imports/ui/pages/events.js'))
 
 export default function MainRoutes() {
   return (
@@ -107,6 +108,7 @@ export default function MainRoutes() {
           }
         />
 
+        <Route path="/events" element={<EventsPage />} />
         <Route path="/shop/*" element={<Shop />} />
         <Route
           path="/bookings"

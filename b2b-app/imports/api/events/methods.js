@@ -259,6 +259,13 @@ Meteor.methods({
 
       const updateDoc = { ...form }
       delete updateDoc._id
+      if (!updateDoc.repeat?.factor) delete updateDoc.repeat
+      // Coerce when to Date if it arrived as a string (e.g. from inline grid editor)
+      debug('update.events updateDoc.when =', updateDoc.when, typeof updateDoc.when)
+      if (updateDoc.when && !(updateDoc.when instanceof Date)) {
+        const d = new Date(updateDoc.when)
+        updateDoc.when = isNaN(d) ? undefined : d
+      }
       const n = await Events.updateAsync(id, { $set: updateDoc })
 
       if (n) {
@@ -354,6 +361,13 @@ Meteor.methods({
   },
   'insert.events': async function ({ form }) {
     try {
+      debug('insert.events form.when =', form.when, typeof form.when)
+      if (!form.repeat?.factor) delete form.repeat
+      // Coerce when to Date if it arrived as a string (e.g. from inline grid editor)
+      if (form.when && !(form.when instanceof Date)) {
+        const d = new Date(form.when)
+        form.when = isNaN(d) ? undefined : d
+      }
       const id = await Events.insertAsync(form)
 
       // we need to get the course information and update the event
