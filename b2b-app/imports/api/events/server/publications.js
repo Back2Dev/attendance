@@ -58,6 +58,49 @@ Meteor.publish('id.events', function (eventId) {
 })
 
 /**
+ * Public events page — no login required.
+ * Returns active events where public: true.
+ * showPast: true returns past events instead of future.
+ */
+Meteor.publish('events.public', function ({ showPast = false } = {}) {
+  const now = new Date()
+  const dateFilter = showPast ? { $lt: now } : { $gte: now }
+  return Events.find({
+    status: { $in: ['active', 'cancelled'] },
+    public: true,
+    when: dateFilter,
+  })
+})
+
+/**
+ * Member events page — requires login.
+ * Returns all active events + current user's bookings.
+ * showPast: true returns past events instead of future.
+ */
+Meteor.publish('events.member', async function ({ showPast = false } = {}) {
+  if (!this.userId) return this.ready()
+
+  const currentMember = await Profiles.findOneAsync({ userId: this.userId })
+  const now = new Date()
+  const dateFilter = showPast ? { $lt: now } : { $gte: now }
+
+  const events = Events.find({
+    status: { $in: ['active', 'cancelled'] },
+    when: dateFilter,
+  })
+
+  const arrEventIds = []
+  events?.forEach((event) => arrEventIds.push(event._id))
+
+  const bookings = Bookings.find({
+    profileId: currentMember?._id,
+    eventId: { $in: arrEventIds },
+  })
+
+  return [events, bookings]
+})
+
+/**
  * Publish future events for booking
  */
 Meteor.publish('future.events', async function () {

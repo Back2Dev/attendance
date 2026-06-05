@@ -11,7 +11,9 @@ const schemaBridge = config.edit.schema
 const debug = require('debug')('app:edit')
 
 const Edit = ({ id, item, methods }) => {
+  debug('Edit render, item.when =', item?.when, typeof item?.when)
   const save = (model) => {
+    debug('Edit save, model.when =', model.when, typeof model.when)
     try {
       methods.update(id, model)
     } catch (e) {

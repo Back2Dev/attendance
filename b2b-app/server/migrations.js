@@ -84,16 +84,13 @@ const migrateCollectionNames = async () => {
   ]
 
   for (const { from, to } of renames) {
-    const fromColl = new Mongo.Collection(from)
-    const toColl = new Mongo.Collection(to)
-
-    const fromCount = await fromColl.find({}).countAsync()
+    const fromCount = await db.collection(from).countDocuments()
     if (fromCount === 0) {
       debug(`${from} collection has no data, skipping rename to ${to}`)
       continue
     }
 
-    const toCount = await toColl.find({}).countAsync()
+    const toCount = await db.collection(to).countDocuments()
     if (toCount > 0) {
       debug(`${to} already has ${toCount} documents, skipping rename from ${from}`)
       continue

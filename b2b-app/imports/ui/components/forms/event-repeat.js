@@ -64,7 +64,6 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const formContext = useForm()
   // console.log('selected date', formContext.model.when, formContext.model.repeat)
 
-  console.log('value', JSON.stringify(value, null, 2))
   const [factor, setFactor] = useState(value?.factor ? value.factor : 'week')
   const [every, setEvery] = useState(value?.every || 1)
   const [dow, setDow] = useState(value?.dow || [])
@@ -75,35 +74,20 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const [endsAfter, setEndsAfter] = useState(12)
   const [enabled, setEnabled] = useState(!!value?.factor)
   const [changed, setChanged] = useState(null)
-  const [appliedValue, setAppliedValue] = useState(null)
+  const isMountedRef = useRef(false)
 
-  useEffect(() => {
-    // console.log('update by value')
-    setEnabled(!!value.factor)
-
-    setFactor(value.factor || 'week')
-    setEvery(value.every || 1)
-    setDow(value.dow || [moment(formContext.model.when).day()])
-    setDom(value.dom || moment(formContext.model.when).date())
-    setUtil(value.util || moment(formContext.model.when).add(6, 'months').toDate())
-
-    setAppliedValue(new Date())
-  }, [value])
+  const dowRef = useRef(dow)
+  dowRef.current = dow
 
   // set dow and dom when the selected date changed
   useEffect(() => {
     if (formContext.model.when) {
       setDom(moment(formContext.model.when).date())
-      if (appliedValue && dow.length === 0) {
-        // console.log(
-        //   'setDow',
-        //   formContext.model.when,
-        //   moment(formContext.model.when).day()
-        // )
+      if (dowRef.current.length === 0) {
         setDow([moment(formContext.model.when).day()])
       }
     }
-  }, [formContext.model.when, appliedValue, dow])
+  }, [formContext.model.when])
 
   // calculate util date
   useEffect(() => {
@@ -118,10 +102,14 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     }
   }, [factor, every, endsOpt, endsAfter])
 
-  // update the field value
+  // update the field value — skip on mount, only fire when user changes something
   useEffect(() => {
+    if (!isMountedRef.current) {
+      isMountedRef.current = true
+      return
+    }
     if (!enabled) {
-      onChange({})
+      onChange(undefined)
       return
     }
     onChange({

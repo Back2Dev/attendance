@@ -5,6 +5,7 @@ import {
   RegExId,
   OptionalRegExId,
   OptionalString,
+  OptionalBoolean,
   createdAt,
   updatedAt,
 } from '/imports/api/utils/schema-util'
@@ -143,6 +144,13 @@ export const EventsSchema = new SimpleSchema({
     type: SimpleSchema.Integer,
     label: 'Event Price in cents',
     defaultValue: 0,
+  },
+  imageUrl: OptionalString,
+  typeId: OptionalRegExId,
+  public: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true,
   },
   code: OptionalString,
   members: {

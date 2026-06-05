@@ -7,5 +7,5 @@ There should be 3 modes for the list, one showing event cards, one as a compact 
 These are the collections:
 
 - Events -
-- Sessions - these are basically a connection between the user and event.
-- Courses
+- Bookings - these are basically a connection between the user and event.
+- Locations - these are the locations where events are held
