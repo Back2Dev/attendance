@@ -6,7 +6,7 @@ import { MySessionsContext } from './contexts.js'
 import SessionItem from './item.js'
 import useHistory from '/imports/ui/utils/history'
 
-const StyledUpcomingSessions = styled.div`
+const StyledUpcomingBookings = styled.div`
   .sessions-container {
     margin: 20px 0;
     padding: 10px;
@@ -24,21 +24,21 @@ const StyledUpcomingSessions = styled.div`
   }
 `
 
-function UpcomingSessions() {
-  const { upcomingSessionsWData } = useContext(MySessionsContext)
-  // console.log(upcomingSessionsWData)
+function UpcomingBookings() {
+  const { upcomingBookingsWData } = useContext(MySessionsContext)
+  // console.log(upcomingBookingsWData)
 
   const { push } = useHistory()
 
-  const renderSessions = () => {
-    if (!upcomingSessionsWData?.length) {
+  const renderBookings = () => {
+    if (!upcomingBookingsWData?.length) {
       return <div className="empty">You do not have any future bookings</div>
     }
-    return upcomingSessionsWData.map((item) => <SessionItem item={item} key={item._id} />)
+    return upcomingBookingsWData.map((item) => <SessionItem item={item} key={item._id} />)
   }
 
   return (
-    <StyledUpcomingSessions>
+    <StyledUpcomingBookings>
       <div className="header-wrapper">
         <Typography variant="h2">Upcoming sessions</Typography>
         <Button
@@ -51,10 +51,10 @@ function UpcomingSessions() {
         </Button>
       </div>
       <Paper elevation={1} className="sessions-container">
-        {renderSessions()}
+        {renderBookings()}
       </Paper>
-    </StyledUpcomingSessions>
+    </StyledUpcomingBookings>
   )
 }
 
-export default UpcomingSessions
+export default UpcomingBookings

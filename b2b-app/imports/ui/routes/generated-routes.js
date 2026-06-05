@@ -15,9 +15,9 @@ const Profiles = lazy(() => import('/imports/ui/admin/profiles'))
 const Settings = lazy(() => import('/imports/ui/admin/settings'))
 const Surveys = lazy(() => import('/imports/ui/admin/surveys'))
 const Events = lazy(() => import('/imports/ui/admin/events'))
-const Courses = lazy(() => import('/imports/ui/admin/courses'))
-const Tools = lazy(() => import('/imports/ui/admin/tools'))
-const Sessions = lazy(() => import('/imports/ui/admin/sessions'))
+const Locations = lazy(() => import('/imports/ui/admin/locations'))
+const Rentals = lazy(() => import('/imports/ui/admin/rentals'))
+const AdminBookings = lazy(() => import('/imports/ui/admin/bookings'))
 const ServiceItems = lazy(() => import('/imports/ui/admin/service-items'))
 const Jobs = lazy(() => import('/imports/ui/admin/jobs'))
 const Registrations = lazy(() => import('/imports/ui/admin/registrations'))
@@ -46,9 +46,9 @@ const GeneratedRoutes = () => {
         <Route path="settings/*" element={<Settings />} />
         <Route path="surveys/*" element={<Surveys />} />
         <Route path="events/*" element={<Events />} />
-        <Route path="courses/*" element={<Courses />} />
-        <Route path="tools/*" element={<Tools />} />
-        <Route path="sessions/*" element={<Sessions />} />
+        <Route path="locations/*" element={<Locations />} />
+        <Route path="rentals/*" element={<Rentals />} />
+        <Route path="bookings/*" element={<AdminBookings />} />
         <Route path="service-items/*" element={<ServiceItems />} />
         <Route path="jobs/*" element={<Jobs />} />
         <Route path="registrations/*" element={<Registrations />} />

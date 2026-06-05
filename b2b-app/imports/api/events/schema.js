@@ -10,9 +10,9 @@ import {
 } from '/imports/api/utils/schema-util'
 import CONSTANTS from '../constants'
 
-import { SessionsSchema } from '/imports/api/sessions/schema.js'
+import { BookingsSchema } from '/imports/api/bookings/schema.js'
 import { ProfilesSchema } from '../profiles/schema'
-import { CoursesSchema } from '../courses/schema'
+import { LocationsSchema } from '../locations/schema'
 
 const Events = new Mongo.Collection('events')
 
@@ -32,10 +32,10 @@ export const BookParamsSchema = new SimpleSchema({
 })
 
 export const CancelBookingParamsSchema = new SimpleSchema({
-  sessionId: RegExId,
+  bookingId: RegExId,
 })
 
-export const CourseItemSchema = CoursesSchema.pick(
+export const CourseItemSchema = LocationsSchema.pick(
   '_id',
   'title',
   'map',
@@ -45,7 +45,7 @@ export const CourseItemSchema = CoursesSchema.pick(
 )
 
 export const MemberItemSchema = new SimpleSchema({
-  session: SessionsSchema.pick(
+  session: BookingsSchema.pick(
     '_id',
     'profileId',
     'name',
@@ -81,7 +81,7 @@ export const RepeatSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
-  util: {
+  until: {
     type: Date,
     optional: true,
   },

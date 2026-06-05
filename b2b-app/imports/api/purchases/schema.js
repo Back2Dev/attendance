@@ -1,9 +1,9 @@
 import { Mongo } from 'meteor/mongo'
 import SimpleSchema from 'simpl-schema'
 import { REGEX_ID, createdAt, updatedAt } from '/imports/api/utils/schema-util'
-import { SessionsSchema } from '/imports/api/sessions/schema'
+import { BookingsSchema } from '/imports/api/bookings/schema'
 
-const SessionListSchema = SessionsSchema.omit('profileId', 'createdAt', 'updatedAt')
+const BookingListSchema = BookingsSchema.omit('profileId', 'createdAt', 'updatedAt')
 const Purchases = new Mongo.Collection('purchases')
 
 export const PurchasesSchema = new SimpleSchema({
@@ -66,7 +66,7 @@ export const PurchasesSchema = new SimpleSchema({
     defaultValue: [],
     blackbox: true,
   },
-  'sessions.$': SessionListSchema,
+  'sessions.$': BookingListSchema,
   qty: {
     type: SimpleSchema.Integer,
     label: 'Quantity',

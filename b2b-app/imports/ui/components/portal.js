@@ -5,8 +5,8 @@ import { Typography, Grid } from '@mui/material'
 
 import { MySessionsProvider } from './portal/contexts'
 import MemberPanel from './portal/member-panel'
-import RecentSessions from './portal/recent'
-import UpcomingSessions from './portal/upcoming'
+import RecentBookings from './portal/recent'
+import UpcomingBookings from './portal/upcoming'
 
 const StyledMemberPortal = styled.div`
   margin: 60px auto;
@@ -40,10 +40,10 @@ function MemberPortal() {
       <MySessionsProvider>
         <Grid container className="sessions-wrapper">
           <Grid item xs={12} sm={6} className="recent-sessions-wrapper">
-            <UpcomingSessions />
+            <UpcomingBookings />
           </Grid>
           <Grid item xs={12} sm={6} className="upcoming-sessions-wrapper">
-            <RecentSessions />
+            <RecentBookings />
           </Grid>
         </Grid>
       </MySessionsProvider>

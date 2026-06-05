@@ -6,7 +6,7 @@ import { MySessionsContext } from './contexts.js'
 import SessionItem from './item.js'
 import useHistory from '/imports/ui/utils/history'
 
-const StyledRecentSessions = styled.div`
+const StyledRecentBookings = styled.div`
   .sessions-container {
     margin: 20px 0;
     padding: 10px;
@@ -24,17 +24,17 @@ const StyledRecentSessions = styled.div`
   }
 `
 
-function RecentSessions() {
-  const { recentSessionsWData } = useContext(MySessionsContext)
-  // console.log(recentSessionsWData)
+function RecentBookings() {
+  const { recentBookingsWData } = useContext(MySessionsContext)
+  // console.log(recentBookingsWData)
 
   const { push } = useHistory()
 
-  const renderSessions = () => {
-    if (!recentSessionsWData?.length) {
+  const renderBookings = () => {
+    if (!recentBookingsWData?.length) {
       return <div className="empty">You have no session history</div>
     }
-    return recentSessionsWData.map((item) => <SessionItem item={item} key={item._id} />)
+    return recentBookingsWData.map((item) => <SessionItem item={item} key={item._id} />)
   }
 
   const renderMoreBtn = () => {
@@ -51,16 +51,16 @@ function RecentSessions() {
   }
 
   return (
-    <StyledRecentSessions>
+    <StyledRecentBookings>
       <div className="header-wrapper">
         <Typography variant="h2">Recent sessions</Typography>
         {renderMoreBtn()}
       </div>
       <Paper elevation={1} className="sessions-container">
-        {renderSessions()}
+        {renderBookings()}
       </Paper>
-    </StyledRecentSessions>
+    </StyledRecentBookings>
   )
 }
 
-export default RecentSessions
+export default RecentBookings

@@ -52,14 +52,23 @@ const migrateToProfiles = async () => {
   }
 
   // Rename memberId → profileId in all related collections
-  const relatedCollections = ['sessions', 'purchases', 'products', 'jobs', 'events']
+  // Note: 'sessions' is listed alongside 'bookings' to cover both pre- and post-rename states
+  const relatedCollections = [
+    'sessions',
+    'bookings',
+    'purchases',
+    'products',
+    'jobs',
+    'events',
+  ]
   for (const collName of relatedCollections) {
-    const result = await db.collection(collName).updateMany(
-      { memberId: { $exists: true } },
-      { $rename: { memberId: 'profileId' } }
-    )
+    const result = await db
+      .collection(collName)
+      .updateMany({ memberId: { $exists: true } }, { $rename: { memberId: 'profileId' } })
     if (result.modifiedCount > 0) {
-      debug(`Renamed memberId → profileId in ${collName}: ${result.modifiedCount} documents updated`)
+      debug(
+        `Renamed memberId → profileId in ${collName}: ${result.modifiedCount} documents updated`
+      )
     }
   }
 }
@@ -85,17 +94,15 @@ const migrateProductCodeToSlug = async () => {
   const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
 
   // Top-level field in products collection
-  const productsResult = await db.collection('products').updateMany(
-    { code: { $exists: true } },
-    { $rename: { code: 'slug' } }
-  )
+  const productsResult = await db
+    .collection('products')
+    .updateMany({ code: { $exists: true } }, { $rename: { code: 'slug' } })
   debug(`products.code → slug: ${productsResult.modifiedCount} product documents updated`)
 
   // Embedded products array inside carts — $rename doesn't work on array elements,
   // so copy via aggregation pipeline then unset the old field
-  await db.collection('carts').updateMany(
-    { 'products.code': { $exists: true } },
-    [{
+  await db.collection('carts').updateMany({ 'products.code': { $exists: true } }, [
+    {
       $set: {
         products: {
           $map: {
@@ -105,13 +112,17 @@ const migrateProductCodeToSlug = async () => {
           },
         },
       },
-    }]
+    },
+  ])
+  const cartsResult = await db
+    .collection('carts')
+    .updateMany(
+      { 'products.code': { $exists: true } },
+      { $unset: { 'products.$[].code': '' } }
+    )
+  debug(
+    `products.code → slug in carts: ${cartsResult.modifiedCount} cart documents updated`
   )
-  const cartsResult = await db.collection('carts').updateMany(
-    { 'products.code': { $exists: true } },
-    { $unset: { 'products.$[].code': '' } }
-  )
-  debug(`products.code → slug in carts: ${cartsResult.modifiedCount} cart documents updated`)
 }
 
 Meteor.startup(async () => {
@@ -132,17 +143,51 @@ const migrateProductTypeToSlug = async () => {
   }
 
   const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
-  const result = await db.collection('productTypes').updateMany(
-    { type: { $exists: true } },
-    { $rename: { type: 'slug' } }
-  )
+  const result = await db
+    .collection('productTypes')
+    .updateMany({ type: { $exists: true } }, { $rename: { type: 'slug' } })
   debug(`productTypes.type → slug: ${result.modifiedCount} documents updated`)
+}
+// END MK 28/5/2026
+
+// MK 28/5/2026 - Renamed collections: tools→rentals, courses→locations, sessions→bookings
+const migrateCollectionNames = async () => {
+  const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
+
+  const renames = [
+    { from: 'tools', to: 'rentals' },
+    { from: 'courses', to: 'locations' },
+    { from: 'sessions', to: 'bookings' },
+  ]
+
+  for (const { from, to } of renames) {
+    const fromColl = new Mongo.Collection(from)
+    const toColl = new Mongo.Collection(to)
+
+    const fromCount = await fromColl.find({}).countAsync()
+    if (fromCount === 0) {
+      debug(`${from} collection has no data, skipping rename to ${to}`)
+      continue
+    }
+
+    const toCount = await toColl.find({}).countAsync()
+    if (toCount > 0) {
+      debug(`${to} already has ${toCount} documents, skipping rename from ${from}`)
+      continue
+    }
+
+    await db.collection(from).rename(to)
+    debug(`Renamed ${from} → ${to} (${fromCount} documents)`)
+  }
 }
 
 Meteor.startup(async () => {
   if (Meteor.isServer) {
     await migrateProductTypeToSlug().catch((err) =>
       console.error('Migration migrateProductTypeToSlug failed', err)
+    )
+    await migrateCollectionNames().catch((err) =>
+      console.error('Migration migrateCollectionNames failed', err)
     )
   }
 })

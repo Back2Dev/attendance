@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import moment from 'moment'
-import Sessions from '/imports/api/sessions/schema.js'
+import Bookings from '/imports/api/bookings/schema.js'
 import Profiles from '/imports/api/profiles/schema.js'
 import { MemberItemSchema } from '/imports/api/events/schema'
-import Courses from '/imports/api/courses/schema.js'
+import Locations from '/imports/api/locations/schema.js'
 import Events, { BookParamsSchema, CancelBookingParamsSchema } from './schema'
 const debug = require('debug')('app:events')
 
@@ -43,12 +43,12 @@ Meteor.methods({
    */
   'create.workshop': async (form) => {
     try {
-      await Sessions.removeAsync({})
+      await Bookings.removeAsync({})
       // Events.remove({})
       const { start, weeks, code, coach, course } = form
       await Events.removeAsync({ code: `${code}-${start}` })
       const trainer = await Profiles.findOneAsync({ name: coach })
-      const theCourse = await Courses.findOneAsync({ title: course })
+      const theCourse = await Locations.findOneAsync({ title: course })
       let week = 0
       const weekFlags = weeks.split('')
       for (let ix = 0; ix < weekFlags.length; ix += 1) {
@@ -67,7 +67,7 @@ Meteor.methods({
             name: unit[week].name,
             courseId: theCourse?._id,
           })
-          const sId = await Sessions.insertAsync({
+          const sId = await Bookings.insertAsync({
             profileId: trainer?._id,
             name: unit[week].name,
             memberName: coach,
@@ -77,7 +77,7 @@ Meteor.methods({
             bookedAt: new Date(),
             eventId,
           })
-          trainer.session = await Sessions.findOneAsync(sId)
+          trainer.session = await Bookings.findOneAsync(sId)
           await Events.updateAsync(eventId, { $push: { members: trainer } })
           week = week + 1
         }

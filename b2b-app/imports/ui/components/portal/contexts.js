@@ -5,8 +5,8 @@ import { useTracker } from 'meteor/react-meteor-data'
 
 import Events from '/imports/api/events/schema.js'
 import Profiles from '/imports/api/profiles/schema.js'
-import Sessions from '/imports/api/sessions/schema.js'
-import Courses from '/imports/api/courses/schema.js'
+import Bookings from '/imports/api/bookings/schema.js'
+import Locations from '/imports/api/locations/schema.js'
 
 export const MySessionsContext = React.createContext('my-sessions')
 
@@ -16,15 +16,15 @@ export const MySessionsProvider = (props) => {
   const mounted = useRef(true)
   useEffect(() => () => (mounted.current = false), [])
 
-  // const [recentSessionsWData, setRecentSessionsWData] = useState([])
-  // const [upcomingSessionsWData, setUpcomingSessionsWData] = useState([])
+  // const [recentBookingsWData, setRecentBookingsWData] = useState([])
+  // const [upcomingBookingsWData, setUpcomingBookingsWData] = useState([])
 
   const getCoachByCoachId = (coachId) => {
     return Profiles.findOne({ _id: coachId })
   }
 
   const getCourseByCourseId = (courseId) => {
-    return Courses.findOne({ _id: courseId })
+    return Locations.findOne({ _id: courseId })
   }
 
   const getEventById = (eventId) => {
@@ -37,22 +37,22 @@ export const MySessionsProvider = (props) => {
     return event
   }
 
-  const { loadingRecentSessions, recentSessions = [] } = useTracker(() => {
+  const { loadingRecentBookings, recentBookings = [] } = useTracker(() => {
     const sub = Meteor.subscribe('sessions.myRecent', {})
     return {
-      loadingRecentSessions: !sub.ready(),
-      recentSessions: Sessions.find(
+      loadingRecentBookings: !sub.ready(),
+      recentBookings: Bookings.find(
         { bookedDate: { $lt: new Date() } },
         { sort: { bookedDate: -1 } }
       ).fetch(),
     }
   }, [])
 
-  const { loadingUpcomingSessions, upcomingSessions = [] } = useTracker(() => {
+  const { loadingUpcomingBookings, upcomingBookings = [] } = useTracker(() => {
     const sub = Meteor.subscribe('sessions.myUpcoming')
     return {
-      loadingUpcomingSessions: !sub.ready(),
-      upcomingSessions: Sessions.find(
+      loadingUpcomingBookings: !sub.ready(),
+      upcomingBookings: Bookings.find(
         { bookedDate: { $gt: new Date() } },
         { sort: { bookedDate: 1 } }
       ).fetch(),
@@ -61,12 +61,12 @@ export const MySessionsProvider = (props) => {
 
   const eventIds = useMemo(() => {
     const newEventIds = []
-    recentSessions?.map((item) => {
+    recentBookings?.map((item) => {
       if (!newEventIds.includes(item.eventId)) {
         newEventIds.push(item.eventId)
       }
     })
-    upcomingSessions?.map((item) => {
+    upcomingBookings?.map((item) => {
       if (!newEventIds.includes(item.eventId)) {
         newEventIds.push(item.eventId)
       }
@@ -74,8 +74,8 @@ export const MySessionsProvider = (props) => {
     // console.log({ newEventIds })
     return newEventIds
   }, [
-    recentSessions.length ? recentSessions : null,
-    upcomingSessions.length ? upcomingSessions : null,
+    recentBookings.length ? recentBookings : null,
+    upcomingBookings.length ? upcomingBookings : null,
   ])
 
   const { loadingEvents = false, events = [] } = useTracker(() => {
@@ -115,9 +115,9 @@ export const MySessionsProvider = (props) => {
     )
   }, [coachIds.length ? coachIds : null, courseIds.length ? courseIds : null])
 
-  const recentSessionsWData = useMemo(() => {
-    // console.log('build recentSessionsWData')
-    return recentSessions?.map((item) => {
+  const recentBookingsWData = useMemo(() => {
+    // console.log('build recentBookingsWData')
+    return recentBookings?.map((item) => {
       const event = getEventById(item.eventId)
       return {
         ...item,
@@ -125,14 +125,14 @@ export const MySessionsProvider = (props) => {
       }
     })
   }, [
-    recentSessions.length ? recentSessions : null,
+    recentBookings.length ? recentBookings : null,
     events.length ? events : null,
     loadingCC,
   ])
 
-  const upcomingSessionsWData = useMemo(() => {
-    // console.log('build upcomingSessionsWData')
-    return upcomingSessions?.map((item) => {
+  const upcomingBookingsWData = useMemo(() => {
+    // console.log('build upcomingBookingsWData')
+    return upcomingBookings?.map((item) => {
       const event = getEventById(item.eventId)
       return {
         ...item,
@@ -140,7 +140,7 @@ export const MySessionsProvider = (props) => {
       }
     })
   }, [
-    upcomingSessions.length ? upcomingSessions : null,
+    upcomingBookings.length ? upcomingBookings : null,
     events.length ? events : null,
     loadingCC,
   ])
@@ -150,10 +150,10 @@ export const MySessionsProvider = (props) => {
       value={{
         loadingEvents,
         loadingCC,
-        loadingRecentSessions,
-        loadingUpcomingSessions,
-        recentSessionsWData,
-        upcomingSessionsWData,
+        loadingRecentBookings,
+        loadingUpcomingBookings,
+        recentBookingsWData,
+        upcomingBookingsWData,
         getEventById,
         getCoachByCoachId,
         getCourseByCourseId,

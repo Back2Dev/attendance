@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import PageDisplay from '/imports/ui/admin/courses/components/page-display'
+import PageDisplay from '/imports/ui/admin/locations/components/page-display'
 import { Skeleton } from '@mui/material';
 
 import { SessionDetailsContext } from './context'

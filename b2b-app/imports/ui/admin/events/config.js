@@ -51,7 +51,7 @@ const RepeatSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
-  util: {
+  until: {
     type: Date,
     optional: true,
   },

@@ -69,7 +69,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const [every, setEvery] = useState(value?.every || 1)
   const [dow, setDow] = useState(value?.dow || [])
   const [dom, setDom] = useState(value?.dom || null)
-  const [util, setUtil] = useState(value?.util || null)
+  const [until, setUntil] = useState(value?.until || null)
 
   const [endsOpt, setEndsOpt] = useState('on')
   const [endsAfter, setEndsAfter] = useState(12)
@@ -85,7 +85,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
     setEvery(value.every || 1)
     setDow(value.dow || [moment(formContext.model.when).day()])
     setDom(value.dom || moment(formContext.model.when).date())
-    setUtil(value.util || moment(formContext.model.when).add(6, 'months').toDate())
+    setUntil(value.until || moment(formContext.model.when).add(6, 'months').toDate())
 
     setAppliedValue(new Date())
   }, [value])
@@ -326,7 +326,7 @@ EventRepeat.propTypes = {
   //   every: PropTypes.number,
   //   dow: PropTypes.number,
   //   dom: PropTypes.number,
-  //   util: Date,
+  //   until: Date,
   // }),
   disabled: PropTypes.bool,
   label: PropTypes.string,

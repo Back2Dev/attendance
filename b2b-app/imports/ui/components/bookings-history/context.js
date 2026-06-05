@@ -6,8 +6,8 @@ import { useTracker } from 'meteor/react-meteor-data'
 import { AccountContext } from '/imports/ui/contexts/account-context.js'
 import Events from '/imports/api/events/schema.js'
 import Profiles from '/imports/api/profiles/schema.js'
-import Sessions from '/imports/api/sessions/schema.js'
-import Courses from '/imports/api/courses/schema.js'
+import Bookings from '/imports/api/bookings/schema.js'
+import Locations from '/imports/api/locations/schema.js'
 
 export const BookingsHistoryContext = React.createContext('bookingshistory')
 
@@ -29,7 +29,7 @@ export const BookingsHistoryProvider = (props) => {
   }
 
   const getCourseByCourseId = (courseId) => {
-    return Courses.findOne({ _id: courseId })
+    return Locations.findOne({ _id: courseId })
   }
 
   const getEventById = (eventId) => {
@@ -42,30 +42,30 @@ export const BookingsHistoryProvider = (props) => {
     return event
   }
 
-  const { loadingSessions, sessions = [] } = useTracker(() => {
+  const { loadingBookings, bookings = [] } = useTracker(() => {
     const sub = Meteor.subscribe('sessions.myAll', {})
-    const sessions = Sessions.find(
+    const bookings = Bookings.find(
       { profileId: member._id },
       { sort: { bookedDate: -1 } }
     ).fetch()
     return {
-      loadingSessions: !sub.ready(),
-      sessions,
-      // sessions: sessions.length ? session : null,
+      loadingBookings: !sub.ready(),
+      bookings,
+      // bookings: bookings.length ? booking : null,
     }
   }, [])
 
   useEffect(() => {
-    // console.log({ sessions })
+    // console.log({ bookings })
     const newEventIds = []
-    sessions.map((item) => {
+    bookings.map((item) => {
       if (!newEventIds.includes(item.eventId)) {
         newEventIds.push(item.eventId)
       }
     })
     // console.log('update eventIds')
     setEventIds(newEventIds)
-  }, [sessions.length ? sessions : null])
+  }, [bookings.length ? bookings : null])
 
   const { loadingEvents = false, events = [] } = useTracker(() => {
     // console.log({ eventIds })
@@ -120,7 +120,7 @@ export const BookingsHistoryProvider = (props) => {
     if (!events?.length) {
       return
     }
-    const newData = sessions?.map((item) => {
+    const newData = bookings?.map((item) => {
       const event = getEventById(item.eventId)
       return {
         ...item,
@@ -129,12 +129,12 @@ export const BookingsHistoryProvider = (props) => {
     })
     // console.log('update sessionsWData')
     setSessionsWData(newData)
-  }, [sessions.length ? sessions : null, events.length ? events : null, loadingCC])
+  }, [bookings.length ? bookings : null, events.length ? events : null, loadingCC])
 
   return (
     <BookingsHistoryContext.Provider
       value={{
-        loadingSessions,
+        loadingBookings,
         loadingEvents,
         sessionsWData,
       }}
