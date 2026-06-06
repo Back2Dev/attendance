@@ -1,6 +1,14 @@
 // methods.js
 import CONSTANTS from '/imports/api/constants'
 import { Meteor } from 'meteor/meteor'
+
+const clientErrorDebug = require('debug')('app:client-error')
+Meteor.methods({
+  'log.clientError'({ message, stack, url, line }) {
+    clientErrorDebug('BROWSER ERROR:', message, url ? `${url}:${line}` : '', stack || '')
+  },
+})
+
 import SimpleSchema from 'simpl-schema'
 //
 // Importing the data api's makes  sure collections are set up properly.
