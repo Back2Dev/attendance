@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {
   Card,
-  CardMedia,
   CardContent,
   CardActions,
   Typography,
@@ -11,6 +10,7 @@ import {
   Button,
   Box,
 } from '@mui/material'
+import ImageIcon from '@mui/icons-material/Image'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
@@ -23,7 +23,14 @@ const StyledCard = styled(Card)`
   height: 100%;
 `
 
-const PLACEHOLDER_IMAGE = '/placeholder-event.jpg'
+const ImagePlaceholder = styled(Box)`
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  color: #9e9e9e;
+`
 
 function formatPrice(cents) {
   if (!cents) return 'Free'
@@ -68,6 +75,26 @@ function BookingChip({ booking, isLoggedIn, onBook, onCancel, submitting, eventI
   return null
 }
 
+function EventImage({ src }) {
+  const [failed, setFailed] = useState(false)
+  if (!src || failed) {
+    return (
+      <ImagePlaceholder>
+        <ImageIcon fontSize="large" />
+      </ImagePlaceholder>
+    )
+  }
+  return (
+    <Box
+      component="img"
+      src={src}
+      alt=""
+      onError={() => setFailed(true)}
+      sx={{ width: '100%', height: 180, objectFit: 'cover', display: 'block' }}
+    />
+  )
+}
+
 function EventCard({ event }) {
   const { getBookingForEvent, getEventType, isLoggedIn, submitting, book, cancel } =
     useContext(EventsContext)
@@ -77,20 +104,10 @@ function EventCard({ event }) {
 
   return (
     <StyledCard elevation={2}>
-      <CardMedia
-        component="img"
-        height="180"
-        image={event.imageUrl || PLACEHOLDER_IMAGE}
-        alt={event.name}
-        onError={(e) => {
-          if (e.target.src !== PLACEHOLDER_IMAGE) {
-            e.target.src = PLACEHOLDER_IMAGE
-          }
-        }}
-      />
+      <EventImage src={event.imageUrl} />
       <CardContent sx={{ flexGrow: 1 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-          <Typography variant="h6" component="h2" sx={{ lineHeight: 1.2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1, minHeight: 32 }}>
+          <Typography variant="h6" component="h2" sx={{ lineHeight: 1.2, flex: 1, minWidth: 0 }}>
             {event.name}
           </Typography>
           {eventType && (

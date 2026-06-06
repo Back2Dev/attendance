@@ -47,7 +47,7 @@ function EventsList() {
     if (val) setViewMode(val)
   }
 
-  if (loading) {
+  if (loading && events.length === 0) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
         <CircularProgress />

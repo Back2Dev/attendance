@@ -40,14 +40,19 @@ export const EventsProvider = ({ children }) => {
     }
   }, [isLoggedIn, member?._id, showPast])
 
+  const bookingsRef = useRef(bookings)
+  bookingsRef.current = bookings
+  const eventTypesRef = useRef(eventTypes)
+  eventTypesRef.current = eventTypes
+
   const getBookingForEvent = useCallback(
-    (eventId) => bookings.find((b) => b.eventId === eventId && b.status !== 'cancelled'),
-    [bookings]
+    (eventId) => bookingsRef.current.find((b) => b.eventId === eventId && b.status !== 'cancelled'),
+    []
   )
 
   const getEventType = useCallback(
-    (typeId) => eventTypes.find((t) => t._id === typeId),
-    [eventTypes]
+    (typeId) => eventTypesRef.current.find((t) => t._id === typeId),
+    []
   )
 
   const [submitting, setSubmitting] = useState(false)
@@ -106,7 +111,7 @@ export const EventsProvider = ({ children }) => {
       book,
       cancel,
     }),
-    [loading, events, eventTypes, showPast, viewMode, getBookingForEvent, getEventType, isLoggedIn, submitting, book, cancel]
+    [loading, events, eventTypes, showPast, viewMode, isLoggedIn, submitting, book, cancel]
   )
 
   return (
