@@ -1,0 +1,145 @@
+- generic [ref=e2]:
+  - generic [ref=e265] [cursor=pointer]:
+    - alert [ref=e266]:
+      - img [ref=e268]
+      - generic [ref=e270]: Updated 1 event(s)
+    - button "close" [ref=e271]:
+      - img [ref=e272]
+    - progressbar "notification timer" [ref=e274]
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - button [ref=e6] [cursor=pointer]:
+          - img [ref=e7]
+        - link "B2B version 2.0.3 Tue Feb 13, 2024":
+          - /url: /
+        - paragraph [ref=e11]:
+          - link [ref=e174] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e176]
+        - paragraph [ref=e13]:
+          - link [ref=e178] [cursor=pointer]:
+            - /url: /support
+            - img [ref=e180]
+        - paragraph
+        - button "0" [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]:
+            - img [ref=e18]
+            - generic: "0"
+        - button "toggle theme" [ref=e20] [cursor=pointer]:
+          - img [ref=e21]
+        - button "show more" [ref=e183] [cursor=pointer]:
+          - img [ref=e184]
+    - generic [ref=e275]:
+      - banner [ref=e277]:
+        - generic [ref=e278]:
+          - heading [level=1]
+          - generic [ref=e280]:
+            - img [ref=e282]
+            - textbox "Search…" [ref=e284]
+            - group
+          - generic [ref=e285]:
+            - button "Download CSV" [ref=e286] [cursor=pointer]: Download CSV
+            - button "Delete" [ref=e287] [cursor=pointer]: Delete
+            - button "Add" [ref=e288] [cursor=pointer]: Add
+            - button "Archive" [ref=e289] [cursor=pointer]: Archive
+      - grid [ref=e291]:
+        - generic [ref=e292]:
+          - rowgroup [ref=e293]:
+            - row "Select all rows name tools description type days location when active duration price" [ref=e294]:
+              - columnheader "Select all rows" [ref=e295]:
+                - generic [ref=e297] [cursor=pointer]:
+                  - checkbox "Select all rows" [ref=e298]
+                  - img [ref=e299]
+              - columnheader [ref=e301] [cursor=pointer]
+              - columnheader [ref=e302] [cursor=pointer]
+              - columnheader "name" [ref=e303] [cursor=pointer]:
+                - generic [ref=e305]: name
+              - columnheader "tools" [ref=e306] [cursor=pointer]:
+                - generic [ref=e308]: tools
+              - columnheader "description" [ref=e309] [cursor=pointer]:
+                - generic [ref=e311]: description
+              - columnheader "type" [ref=e312] [cursor=pointer]:
+                - generic [ref=e314]: type
+              - columnheader "days" [ref=e315] [cursor=pointer]:
+                - generic [ref=e317]: days
+              - columnheader "location" [ref=e318] [cursor=pointer]:
+                - generic [ref=e320]: location
+              - columnheader "when" [ref=e321] [cursor=pointer]:
+                - generic [ref=e323]: when
+              - columnheader "active" [ref=e324] [cursor=pointer]:
+                - generic [ref=e326]: active
+              - columnheader "duration" [ref=e327] [cursor=pointer]:
+                - generic [ref=e329]: duration
+              - columnheader "price" [ref=e330] [cursor=pointer]:
+                - generic [ref=e332]: price
+          - rowgroup [ref=e333]:
+            - row "Select row Cottage by the Sea Sunday Location 07/06/2026, 09:00:00 0 0" [ref=e334]:
+              - cell "Select row" [ref=e335]:
+                - generic [ref=e336] [cursor=pointer]:
+                  - checkbox "Select row" [ref=e337]
+                  - img [ref=e338]
+              - cell [ref=e340]:
+                - img [ref=e342] [cursor=pointer]
+              - cell [ref=e344]:
+                - img [ref=e346] [cursor=pointer]
+              - cell "Cottage by the Sea Sunday" [ref=e348]
+              - cell [ref=e349]
+              - cell [ref=e350]
+              - cell [ref=e351]
+              - cell [ref=e352]
+              - cell "Location" [ref=e353]
+              - cell "07/06/2026, 09:00:00" [ref=e354]
+              - cell [ref=e355]
+              - cell "0" [ref=e356]
+              - cell "0" [ref=e357]
+            - row "Select row Saturday Blair Location 07/06/2026, 09:00:00 0 0" [ref=e358]:
+              - cell "Select row" [ref=e359]:
+                - generic [ref=e360] [cursor=pointer]:
+                  - checkbox "Select row" [ref=e361]
+                  - img [ref=e362]
+              - cell [ref=e364]:
+                - img [ref=e366] [cursor=pointer]
+              - cell [ref=e368]:
+                - img [ref=e370] [cursor=pointer]
+              - cell "Saturday Blair" [ref=e372]
+              - cell [ref=e373]
+              - cell [ref=e374]
+              - cell [ref=e375]
+              - cell [ref=e376]
+              - cell "Location" [ref=e377]
+              - cell "07/06/2026, 09:00:00" [ref=e378]
+              - cell [ref=e379]
+              - cell "0" [ref=e380]
+              - cell "0" [ref=e381]
+            - row "Select row Weekly Club meeting Location 11/06/2026, 09:00:00 0 0" [ref=e382]:
+              - cell "Select row" [ref=e383]:
+                - generic [ref=e384] [cursor=pointer]:
+                  - checkbox "Select row" [ref=e385]
+                  - img [ref=e386]
+              - cell [ref=e388]:
+                - img [ref=e390] [cursor=pointer]
+              - cell [ref=e392]:
+                - img [ref=e394] [cursor=pointer]
+              - cell "Weekly Club meeting" [ref=e396]
+              - cell [ref=e397]
+              - cell [ref=e398]
+              - cell [ref=e399]
+              - cell [ref=e400]
+              - cell "Location" [ref=e401]
+              - cell "11/06/2026, 09:00:00" [ref=e402]
+              - cell [ref=e403]
+              - cell "0" [ref=e404]
+              - cell "0" [ref=e405]
+        - generic [ref=e408]:
+          - paragraph [ref=e409]: "Rows per page:"
+          - generic [ref=e410]:
+            - 'combobox "Rows per page: 10" [ref=e411] [cursor=pointer]': "10"
+            - textbox: "10"
+            - img
+          - paragraph [ref=e412]: 1–3 of 3
+          - generic [ref=e413]:
+            - button "Go to previous page" [disabled]:
+              - img
+            - button "Go to next page" [disabled]:
+              - img

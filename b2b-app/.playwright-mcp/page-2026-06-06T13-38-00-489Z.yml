@@ -1,0 +1,137 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - link "B2B version 2.0.3 Tue Feb 13, 2024":
+        - /url: /
+      - paragraph [ref=e9]:
+        - link [ref=e10] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e12]
+      - paragraph [ref=e14]:
+        - link [ref=e15] [cursor=pointer]:
+          - /url: /support
+          - img [ref=e17]
+      - paragraph
+      - button "0" [ref=e20] [cursor=pointer]:
+        - generic [ref=e21]:
+          - img [ref=e22]
+          - generic: "0"
+      - button "toggle theme" [ref=e24] [cursor=pointer]:
+        - img [ref=e25]
+      - button "show more" [ref=e28] [cursor=pointer]:
+        - img [ref=e29]
+  - generic [ref=e35]:
+    - generic [ref=e36]: Edit Events - Cottage by the Sea Sunday
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - text: Event name
+          - generic [ref=e40]: "*"
+        - generic [ref=e41]:
+          - textbox "Event name" [ref=e42]: Cottage by the Sea Sunday
+          - group:
+            - generic: Event name *
+      - list [ref=e43]:
+        - listitem [ref=e44]: Tools
+      - button "+" [ref=e46] [cursor=pointer]: +
+      - list [ref=e47]:
+        - listitem [ref=e48]: Description
+      - button "+" [ref=e50] [cursor=pointer]: +
+      - generic [ref=e53]:
+        - generic [ref=e54]: Location
+        - generic [ref=e55]:
+          - combobox "Location" [ref=e56]: Cottage by the Sea/advanced
+          - button "Open" [ref=e58] [cursor=pointer]:
+            - img [ref=e59]
+      - generic [ref=e63]:
+        - generic [ref=e64]: Backup Location
+        - generic [ref=e65]:
+          - combobox "Backup Location" [ref=e66]
+          - button "Open" [ref=e68] [cursor=pointer]:
+            - img [ref=e69]
+      - generic [ref=e71]:
+        - generic [ref=e72]: Location
+        - generic [ref=e73]:
+          - textbox "Location" [ref=e74]
+          - group:
+            - generic: Location
+      - generic [ref=e75]:
+        - generic [ref=e76]: When
+        - generic [ref=e77]:
+          - textbox "When" [ref=e78]: 2026-06-07T09:00
+          - group:
+            - generic: When
+      - generic [ref=e81] [cursor=pointer]:
+        - checkbox "Public (visible without login)" [checked] [ref=e84]
+        - generic [ref=e87]: Public (visible without login)
+      - generic [ref=e88]:
+        - generic [ref=e89] [cursor=pointer]:
+          - checkbox "Repeat" [checked] [active] [ref=e92]
+          - generic [ref=e95]: Repeat
+        - generic [ref=e96]:
+          - generic [ref=e97]:
+            - text: Repeat every
+            - spinbutton [ref=e99]: "1"
+            - generic [ref=e100]:
+              - combobox [ref=e101] [cursor=pointer]: Week
+              - textbox: week
+              - img
+              - group
+          - generic [ref=e103]:
+            - button "M" [ref=e104] [cursor=pointer]: M
+            - button "T" [ref=e105] [cursor=pointer]: T
+            - button "W" [ref=e106] [cursor=pointer]: W
+            - button "T" [ref=e107] [cursor=pointer]: T
+            - button "F" [ref=e108] [cursor=pointer]: F
+            - button "S" [ref=e109] [cursor=pointer]: S
+            - button "S" [ref=e110] [cursor=pointer]: S
+          - generic [ref=e111]:
+            - generic [ref=e112]: Ends
+            - radiogroup "ends" [ref=e113]:
+              - generic [ref=e114] [cursor=pointer]:
+                - generic [ref=e115]:
+                  - radio "On 2026-12-07" [checked] [ref=e116]
+                  - generic [ref=e117]:
+                    - img [ref=e118]
+                    - img [ref=e120]
+                - generic [ref=e123]:
+                  - text: "On"
+                  - textbox [ref=e125]: 2026-12-07
+              - generic [ref=e126] [cursor=pointer]:
+                - generic [ref=e127]:
+                  - radio "After 12 occurrences" [ref=e128]
+                  - img [ref=e130]
+                - generic [ref=e133]:
+                  - text: After
+                  - spinbutton [disabled] [ref=e135]: "12"
+                  - text: occurrences
+      - generic [ref=e136]:
+        - generic [ref=e137]:
+          - text: Status
+          - generic [ref=e138]: "*"
+        - generic [ref=e139]:
+          - combobox "Status active" [ref=e140] [cursor=pointer]: active
+          - textbox: active
+          - img
+          - group:
+            - generic: Status *
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - text: Event duration (hours)
+          - generic [ref=e143]: "*"
+        - generic [ref=e144]:
+          - spinbutton "Event duration (hours)" [ref=e145]: "0"
+          - group:
+            - generic: Event duration (hours) *
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - text: Event Price in cents
+          - generic [ref=e148]: "*"
+        - generic [ref=e149]:
+          - spinbutton "Event Price in cents" [ref=e150]: "0"
+          - group:
+            - generic: Event Price in cents *
+      - button "Submit" [ref=e151] [cursor=pointer]: Submit
+    - button "Cancel" [ref=e152] [cursor=pointer]: Cancel

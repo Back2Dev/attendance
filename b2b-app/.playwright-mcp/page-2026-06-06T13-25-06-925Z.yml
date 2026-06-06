@@ -1,0 +1,99 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - link "B2B version 2.0.3 Tue Feb 13, 2024":
+        - /url: /
+      - paragraph [ref=e11]:
+        - link [ref=e174] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e176]
+      - paragraph [ref=e13]:
+        - link [ref=e178] [cursor=pointer]:
+          - /url: /support
+          - img [ref=e180]
+      - paragraph
+      - button "0" [ref=e16] [cursor=pointer]:
+        - generic [ref=e17]:
+          - img [ref=e18]
+          - generic: "0"
+      - button "toggle theme" [ref=e20] [cursor=pointer]:
+        - img [ref=e21]
+      - button "show more" [ref=e183] [cursor=pointer]:
+        - img [ref=e184]
+  - generic [ref=e186]:
+    - generic [ref=e187]: Edit Events - SUNDAY COTTAGE
+    - generic [ref=e188]:
+      - generic [ref=e189]:
+        - generic [ref=e190]:
+          - text: Event name
+          - generic [ref=e191]: "*"
+        - generic [ref=e192]:
+          - textbox "Event name" [ref=e193]: SUNDAY COTTAGE
+          - group:
+            - generic: Event name *
+      - list [ref=e194]:
+        - listitem [ref=e195]: Tools
+      - button "+" [ref=e197] [cursor=pointer]: +
+      - list [ref=e198]:
+        - listitem [ref=e199]: Description
+      - button "+" [ref=e201] [cursor=pointer]: +
+      - generic [ref=e204]:
+        - generic [ref=e205]: Location
+        - generic [ref=e206]:
+          - combobox "Location" [ref=e207]: Cottage by the Sea/advanced
+          - button "Open" [ref=e209] [cursor=pointer]:
+            - img [ref=e210]
+      - generic [ref=e214]:
+        - generic [ref=e215]: Backup Location
+        - generic [ref=e216]:
+          - combobox "Backup Location" [ref=e217]
+          - button "Open" [ref=e219] [cursor=pointer]:
+            - img [ref=e220]
+      - generic [ref=e222]:
+        - generic [ref=e223]: Location
+        - generic [ref=e224]:
+          - textbox "Location" [ref=e225]
+          - group:
+            - generic: Location
+      - generic [ref=e226]:
+        - generic [ref=e227]: When
+        - generic [ref=e228]:
+          - textbox "When" [ref=e229]: 2026-06-07T09:00
+          - group:
+            - generic: When
+      - generic [ref=e232] [cursor=pointer]:
+        - checkbox "Public (visible without login)" [checked] [ref=e235]
+        - generic [ref=e238]: Public (visible without login)
+      - generic [ref=e240] [cursor=pointer]:
+        - checkbox "Repeat" [ref=e243]
+        - generic [ref=e246]: Repeat
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - text: Status
+          - generic [ref=e249]: "*"
+        - generic [ref=e250]:
+          - combobox "Status active" [ref=e251] [cursor=pointer]: active
+          - textbox: active
+          - img
+          - group:
+            - generic: Status *
+      - generic [ref=e252]:
+        - generic [ref=e253]:
+          - text: Event duration (hours)
+          - generic [ref=e254]: "*"
+        - generic [ref=e255]:
+          - spinbutton "Event duration (hours)" [ref=e256]: "0"
+          - group:
+            - generic: Event duration (hours) *
+      - generic [ref=e257]:
+        - generic [ref=e258]:
+          - text: Event Price in cents
+          - generic [ref=e259]: "*"
+        - generic [ref=e260]:
+          - spinbutton "Event Price in cents" [ref=e261]: "0"
+          - group:
+            - generic: Event Price in cents *
+      - button "Submit" [ref=e262] [cursor=pointer]: Submit
+    - button "Cancel" [ref=e263] [cursor=pointer]: Cancel

@@ -1,0 +1,28 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Version 2.0.3 Tue Feb 13, 2024" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img "My logo" [ref=e7]
+      - paragraph [ref=e8]:
+        - link "Home" [ref=e9] [cursor=pointer]:
+          - /url: /
+      - paragraph [ref=e10]:
+        - link "Contact" [ref=e11] [cursor=pointer]:
+          - /url: /support
+      - generic [ref=e12]:
+        - link "Sign up" [ref=e13] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e14] [cursor=pointer]:
+          - /url: /login
+  - generic [ref=e19]:
+    - heading "Welcome to We have all the gear, start your scuba adventures with us" [level=1] [ref=e20]
+    - button "Shop" [ref=e21] [cursor=pointer]:
+      - img [ref=e23]
+      - text: Shop
+    - button "Login" [ref=e25] [cursor=pointer]:
+      - img [ref=e27]
+      - text: Login
+    - button "Sign up" [ref=e30] [cursor=pointer]:
+      - img [ref=e32]
+      - text: Sign up
