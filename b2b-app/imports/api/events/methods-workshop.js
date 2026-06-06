@@ -65,7 +65,7 @@ Meteor.methods({
             code: `${code}-${start}`,
             when,
             name: unit[week].name,
-            courseId: theCourse?._id,
+            locationId: theCourse?._id,
           })
           const sId = await Bookings.insertAsync({
             profileId: trainer?._id,

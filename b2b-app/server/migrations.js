@@ -178,6 +178,25 @@ const migrateCollectionNames = async () => {
   }
 }
 
+// MK 6/6/2026 - Rename courseId/backupCourseId/course/backupCourse fields in events to locationId/backupLocationId/locationDoc/backupLocationDoc
+const migrateEventCourseFieldsToLocation = async () => {
+  const db = MongoInternals.defaultRemoteCollectionDriver().mongo.db
+  const events = db.collection('events')
+
+  const count = await events.countDocuments({ $or: [{ courseId: { $exists: true } }, { backupCourseId: { $exists: true } }, { course: { $exists: true } }, { backupCourse: { $exists: true } }] })
+  if (count === 0) {
+    debug('No events with old course fields, skipping migration')
+    return
+  }
+
+  const result = await events.updateMany(
+    { $or: [{ courseId: { $exists: true } }, { backupCourseId: { $exists: true } }, { course: { $exists: true } }, { backupCourse: { $exists: true } }] },
+    { $rename: { courseId: 'locationId', backupCourseId: 'backupLocationId', course: 'locationDoc', backupCourse: 'backupLocationDoc' } }
+  )
+  debug(`Renamed course fields → location fields in ${result.modifiedCount} events`)
+}
+// END MK 6/6/2026
+
 Meteor.startup(async () => {
   if (Meteor.isServer) {
     await migrateProductTypeToSlug().catch((err) =>
@@ -185,6 +204,9 @@ Meteor.startup(async () => {
     )
     await migrateCollectionNames().catch((err) =>
       console.error('Migration migrateCollectionNames failed', err)
+    )
+    await migrateEventCourseFieldsToLocation().catch((err) =>
+      console.error('Migration migrateEventCourseFieldsToLocation failed', err)
     )
   }
 })

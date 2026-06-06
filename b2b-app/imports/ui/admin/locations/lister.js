@@ -89,7 +89,7 @@ const stdCols = [
 const LocationsLister = (props) => {
   push = useHistory()?.push
   const { items, loading } = useTracker(() => {
-    const subsHandle = Meteor.subscribe('all.courses')
+    const subsHandle = Meteor.subscribe('all.locations')
     const items = Locations.find({}).map((row) => {
       row.search = obj2Search(row)
       return row

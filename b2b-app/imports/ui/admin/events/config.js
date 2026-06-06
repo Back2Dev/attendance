@@ -86,8 +86,8 @@ const editSchema = new SimpleSchema({
     optional: true,
   },
   'description.$': String,
-  courseId: { ...OptionalRegExId, label: 'Course', uniforms: LocationsField },
-  backupCourseId: { ...OptionalRegExId, label: 'Backup Course', uniforms: LocationsField },
+  locationId: { ...OptionalRegExId, label: 'Location', uniforms: LocationsField },
+  backupLocationId: { ...OptionalRegExId, label: 'Backup Location', uniforms: LocationsField },
   location: {
     type: String,
     label: 'Location',

@@ -19,10 +19,10 @@ function DetailsMap() {
     );
   }
 
-  if (!event.courseId || !course) {
+  if (!event.locationId || !course) {
     return null
   }
-  return <StyledDetailsMap className="map" key={event.courseId}></StyledDetailsMap>
+  return <StyledDetailsMap className="map" key={event.locationId}></StyledDetailsMap>
 
   // return event.course.map.map((item) => (
   //   <StyledDetailsMap className="map" key={item.title}>

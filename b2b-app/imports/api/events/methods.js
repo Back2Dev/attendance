@@ -6,7 +6,7 @@ import Events, {
   BookParamsSchema,
   CancelBookingParamsSchema,
   MemberItemSchema,
-  CourseItemSchema,
+  LocationItemSchema,
 } from './schema'
 import moment from 'moment'
 const debug = require('debug')('app:events')
@@ -151,11 +151,11 @@ Meteor.methods({
     // now everything looks good, create a new booking
     let sessionName = `${event.name}`
 
-    // get the course
-    if (event.courseId) {
-      const course = await Locations.findOneAsync({ _id: event.courseId })
-      if (course) {
-        sessionName += `: ${course.title}`
+    // get the location
+    if (event.locationId) {
+      const loc = await Locations.findOneAsync({ _id: event.locationId })
+      if (loc) {
+        sessionName += `: ${loc.title}`
       }
     }
 
@@ -270,21 +270,21 @@ Meteor.methods({
 
       if (n) {
         const updateData = {}
-        if (updateDoc.courseId) {
-          const course = await Locations.findOneAsync({ _id: updateDoc.courseId })
-          if (course) {
-            updateData.course = CourseItemSchema.clean(course)
+        if (updateDoc.locationId) {
+          const loc = await Locations.findOneAsync({ _id: updateDoc.locationId })
+          if (loc) {
+            updateData.locationDoc = LocationItemSchema.clean(loc)
           }
         }
-        if (updateDoc.backupCourseId) {
-          const backupCourse = await Locations.findOneAsync({
-            _id: updateDoc.backupCourseId,
+        if (updateDoc.backupLocationId) {
+          const backupLoc = await Locations.findOneAsync({
+            _id: updateDoc.backupLocationId,
           })
-          if (backupCourse) {
-            updateData.backupCourse = CourseItemSchema.clean(backupCourse)
+          if (backupLoc) {
+            updateData.backupLocationDoc = LocationItemSchema.clean(backupLoc)
           }
         }
-        if (updateData.course || updateData.backupCourse) {
+        if (updateData.locationDoc || updateData.backupLocationDoc) {
           await Events.updateAsync(
             { _id: id },
             {
@@ -373,20 +373,19 @@ Meteor.methods({
       // we need to get the course information and update the event
       if (id) {
         const updateData = {}
-        if (form.courseId) {
-          // debug(form.courseId)
-          const course = await Locations.findOneAsync({ _id: form.courseId })
-          if (course) {
-            updateData.course = CourseItemSchema.clean(course)
+        if (form.locationId) {
+          const loc = await Locations.findOneAsync({ _id: form.locationId })
+          if (loc) {
+            updateData.locationDoc = LocationItemSchema.clean(loc)
           }
         }
-        if (form.backupCourseId) {
-          const backupCourse = await Locations.findOneAsync({ _id: form.backupCourseId })
-          if (backupCourse) {
-            updateData.backupCourse = CourseItemSchema.clean(backupCourse)
+        if (form.backupLocationId) {
+          const backupLoc = await Locations.findOneAsync({ _id: form.backupLocationId })
+          if (backupLoc) {
+            updateData.backupLocationDoc = LocationItemSchema.clean(backupLoc)
           }
         }
-        if (updateData.course || updateData.backupCourse) {
+        if (updateData.locationDoc || updateData.backupLocationDoc) {
           await Events.updateAsync({ _id: id }, { $set: updateData })
         }
       }

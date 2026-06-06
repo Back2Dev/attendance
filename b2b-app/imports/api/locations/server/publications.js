@@ -2,10 +2,33 @@ import { Meteor } from 'meteor/meteor'
 import { Match } from 'meteor/check'
 import Locations from '../schema'
 import '../methods'
-/* Commented out related publications (if any) - best to add these in manually as required
- 
-*/
 
+Meteor.publish('locations.byId', function (id) {
+  if (!Match.test(id, String)) {
+    return this.ready()
+  }
+  return Locations.find({ _id: id, active: true })
+})
+
+Meteor.publish('locations.byIds', function (locationIds) {
+  if (!Match.test(locationIds, [String])) {
+    return this.ready()
+  }
+  return Locations.find({ _id: { $in: locationIds }, active: true })
+})
+
+Meteor.publish('id.locations', function (id) {
+  if (!Match.test(id, String)) {
+    return this.ready()
+  }
+  return Locations.find({ _id: id, active: true })
+})
+
+Meteor.publish('all.locations', () => {
+  return Locations.find({})
+})
+
+// Backward-compat aliases for old publication names
 Meteor.publish('courses.byId', function (id) {
   if (!Match.test(id, String)) {
     return this.ready()
@@ -13,11 +36,11 @@ Meteor.publish('courses.byId', function (id) {
   return Locations.find({ _id: id, active: true })
 })
 
-Meteor.publish('courses.byIds', function (courseIds) {
-  if (!Match.test(courseIds, [String])) {
+Meteor.publish('courses.byIds', function (locationIds) {
+  if (!Match.test(locationIds, [String])) {
     return this.ready()
   }
-  return Locations.find({ _id: { $in: courseIds }, active: true })
+  return Locations.find({ _id: { $in: locationIds }, active: true })
 })
 
 Meteor.publish('id.courses', function (id) {

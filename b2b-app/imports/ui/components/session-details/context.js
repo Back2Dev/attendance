@@ -43,13 +43,13 @@ export const SessionDetailsProvider = (props) => {
   }, [session?.eventId])
 
   const course = useTracker(() => {
-    if (!event?.courseId) {
+    if (!event?.locationId) {
       return null
     }
     return Locations.findOne({
-      _id: event.courseId
+      _id: event.locationId
     })
-  },[event?.courseId])
+  },[event?.locationId])
 
   return (
     <SessionDetailsContext.Provider

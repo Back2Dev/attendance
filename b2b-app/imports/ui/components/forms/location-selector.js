@@ -7,7 +7,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import styled from 'styled-components'
 import { useTracker } from 'meteor/react-meteor-data'
 import Locations from '/imports/api/locations/schema.js'
-import { CourseItemSchema } from '/imports/api/events/schema.js'
+import { LocationItemSchema } from '/imports/api/events/schema.js'
 
 const StyledLocationsSelector = styled.div`
   margin: 10px 0;
@@ -18,12 +18,12 @@ const LocationsSelector = ({ className, disabled, onChange, value, label }) => {
   // console.log(name, label)
 
   const { loading, items } = useTracker(() => {
-    const sub = Meteor.subscribe('all.courses')
+    const sub = Meteor.subscribe('all.locations')
     return {
       loading: !sub.ready(),
       items: Locations.find({})
         .fetch()
-        .map((course) => CourseItemSchema.clean(course)),
+        .map((course) => LocationItemSchema.clean(course)),
     }
   }, [])
 

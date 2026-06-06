@@ -23,16 +23,16 @@ export const MySessionsProvider = (props) => {
     return Profiles.findOne({ _id: coachId })
   }
 
-  const getCourseByCourseId = (courseId) => {
-    return Locations.findOne({ _id: courseId })
+  const getLocationById = (locationId) => {
+    return Locations.findOne({ _id: locationId })
   }
 
   const getEventById = (eventId) => {
     const event = Events.findOne({ _id: eventId })
     if (event) {
       event.coach = getCoachByCoachId(event.coachId)
-      event.course = getCourseByCourseId(event.courseId)
-      event.backupCourse = getCourseByCourseId(event.backupCourseId)
+      event.locationDoc = getLocationById(event.locationId)
+      event.backupLocationDoc = getLocationById(event.backupLocationId)
     }
     return event
   }
@@ -89,31 +89,31 @@ export const MySessionsProvider = (props) => {
     }
   }, [eventIds.length ? eventIds : null])
 
-  const { coachIds, courseIds } = useMemo(() => {
+  const { coachIds, locationIds } = useMemo(() => {
     const newCoachIds = []
-    const newCourseIds = []
+    const newLocationIds = []
     events.map((item) => {
       if (!newCoachIds.includes(item.coachId)) {
         newCoachIds.push(item.coachId)
       }
-      if (!newCourseIds.includes(item.courseId)) {
-        newCourseIds.push(item.courseId)
+      if (!newLocationIds.includes(item.locationId)) {
+        newLocationIds.push(item.locationId)
       }
-      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
-        newCourseIds.push(item.backupCourseId)
+      if (item.backupLocationId && !newLocationIds.includes(item.backupLocationId)) {
+        newLocationIds.push(item.backupLocationId)
       }
     })
     // console.log('update ccIds')
-    return { coachIds: newCoachIds, courseIds: newCourseIds }
+    return { coachIds: newCoachIds, locationIds: newLocationIds }
   }, [events.length ? events : null])
 
   const loadingCC = useTracker(() => {
     const coachSub = Meteor.subscribe('profiles.byIds', coachIds)
-    const courseSub = Meteor.subscribe('courses.byIds', courseIds)
+    const locationSub = Meteor.subscribe('locations.byIds', locationIds)
     return (
-      !(coachSub ? coachSub.ready() : false) || !(courseSub ? courseSub.ready() : false)
+      !(coachSub ? coachSub.ready() : false) || !(locationSub ? locationSub.ready() : false)
     )
-  }, [coachIds.length ? coachIds : null, courseIds.length ? courseIds : null])
+  }, [coachIds.length ? coachIds : null, locationIds.length ? locationIds : null])
 
   const recentBookingsWData = useMemo(() => {
     // console.log('build recentBookingsWData')
@@ -156,7 +156,7 @@ export const MySessionsProvider = (props) => {
         upcomingBookingsWData,
         getEventById,
         getCoachByCoachId,
-        getCourseByCourseId,
+        getLocationById,
       }}
     >
       {children}

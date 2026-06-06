@@ -36,7 +36,7 @@ export const CancelBookingParamsSchema = new SimpleSchema({
   bookingId: RegExId,
 })
 
-export const CourseItemSchema = LocationsSchema.pick(
+export const LocationItemSchema = LocationsSchema.pick(
   '_id',
   'title',
   'map',
@@ -44,6 +44,9 @@ export const CourseItemSchema = LocationsSchema.pick(
   'difficulty',
   'active'
 )
+
+// Backward-compat alias
+export const CourseItemSchema = LocationItemSchema
 
 export const MemberItemSchema = new SimpleSchema({
   session: BookingsSchema.pick(
@@ -99,14 +102,14 @@ export const EventsSchema = new SimpleSchema({
     type: String,
     label: 'Event name',
   },
-  courseId: OptionalRegExId,
-  backupCourseId: OptionalRegExId,
-  course: {
-    type: CourseItemSchema,
+  locationId: OptionalRegExId,
+  backupLocationId: OptionalRegExId,
+  locationDoc: {
+    type: LocationItemSchema,
     optional: true,
   },
-  backupCourse: {
-    type: CourseItemSchema,
+  backupLocationDoc: {
+    type: LocationItemSchema,
     optional: true,
   },
   coachId: OptionalRegExId, // members id

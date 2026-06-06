@@ -22,22 +22,22 @@ export const BookingsHistoryProvider = (props) => {
 
   const [eventIds, setEventIds] = useState([])
   const [coachIds, setCoachIds] = useState([])
-  const [courseIds, setCourseIds] = useState([])
+  const [locationIds, setLocationIds] = useState([])
 
   const getCoachByCoachId = (coachId) => {
     return Profiles.findOne({ _id: coachId })
   }
 
-  const getCourseByCourseId = (courseId) => {
-    return Locations.findOne({ _id: courseId })
+  const getLocationById = (locationId) => {
+    return Locations.findOne({ _id: locationId })
   }
 
   const getEventById = (eventId) => {
     const event = Events.findOne({ _id: eventId })
     if (event) {
       event.coach = getCoachByCoachId(event.coachId)
-      event.course = getCourseByCourseId(event.courseId)
-      event.backupCourse = getCourseByCourseId(event.backupCourseId)
+      event.locationDoc = getLocationById(event.locationId)
+      event.backupLocationDoc = getLocationById(event.backupLocationId)
     }
     return event
   }
@@ -84,21 +84,21 @@ export const BookingsHistoryProvider = (props) => {
   useEffect(() => {
     // console.log({ events })
     const newCoachIds = []
-    const newCourseIds = []
+    const newLocationIds = []
     events?.map((item) => {
       if (!newCoachIds.includes(item.coachId)) {
         newCoachIds.push(item.coachId)
       }
-      if (!newCourseIds.includes(item.courseId)) {
-        newCourseIds.push(item.courseId)
+      if (!newLocationIds.includes(item.locationId)) {
+        newLocationIds.push(item.locationId)
       }
-      if (item.backupCourseId && !newCourseIds.includes(item.backupCourseId)) {
-        newCourseIds.push(item.backupCourseId)
+      if (item.backupLocationId && !newLocationIds.includes(item.backupLocationId)) {
+        newLocationIds.push(item.backupLocationId)
       }
     })
     // console.log('update ccIds')
     setCoachIds(newCoachIds)
-    setCourseIds(newCourseIds)
+    setLocationIds(newLocationIds)
   }, [events.length ? events : null])
 
   const loadingCC = useTracker(() => {
@@ -107,14 +107,14 @@ export const BookingsHistoryProvider = (props) => {
     if (coachIds.length) {
       coachSub = Meteor.subscribe('profiles.byIds', coachIds)
     }
-    if (courseIds.length) {
-      courseSub = Meteor.subscribe('courses.byIds', courseIds)
+    if (locationIds.length) {
+      courseSub = Meteor.subscribe('locations.byIds', locationIds)
     }
     const loadingCC =
       !(coachSub ? coachSub.ready() : false) || !(courseSub ? courseSub.ready() : false)
-    // console.log({ coachIds, courseIds, loadingCC })
+    // console.log({ coachIds, locationIds, loadingCC })
     return loadingCC
-  }, [coachIds.length ? coachIds : null, courseIds.length ? courseIds : null])
+  }, [coachIds.length ? coachIds : null, locationIds.length ? locationIds : null])
 
   useEffect(() => {
     if (!events?.length) {

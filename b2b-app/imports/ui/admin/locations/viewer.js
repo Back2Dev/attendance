@@ -14,7 +14,7 @@ const Viewer = () => {
   const navigate = useNavigate()
 
   const { item, loading } = useTracker(() => {
-    const subsHandle = Meteor.subscribe('id.courses', id)
+    const subsHandle = Meteor.subscribe('id.locations', id)
     return {
       loading: !subsHandle.ready(),
       item: Locations.findOne(id) || {},

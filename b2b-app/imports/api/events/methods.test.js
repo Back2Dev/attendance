@@ -48,8 +48,8 @@ describe('Test book.events method', () => {
   })
   it('book.events should work with valid params', () => {
     // create the event
-    const course = Factory.create('course')
-    const event = Factory.create('event', { courseId: course._id })
+    const course = Factory.create('location')
+    const event = Factory.create('event', { locationId: course._id })
     const user = Factory.create('user')
     debug('build event', event)
     debug('build user', user)
@@ -97,8 +97,8 @@ describe('Test cancel.events method', () => {
   })
   it('cancel.events should work with valid params', () => {
     // create the event
-    const course = Factory.create('course')
-    const event = Factory.create('event', { courseId: course._id })
+    const course = Factory.create('location')
+    const event = Factory.create('event', { locationId: course._id })
     const user = Factory.create('user')
     const member = Profiles.findOne({ userId: user._id })
     const session = Factory.create('session', {
@@ -123,8 +123,8 @@ describe('Test cancel.events method', () => {
 describe('Test insert.events method', () => {
   const theMethod = Meteor.server.method_handlers['insert.events']
   it('insert.events should works good params', () => {
-    const course = Factory.create('course')
-    const backupCourse = Factory.create('course')
+    const course = Factory.create('location')
+    const backupCourse = Factory.create('location')
     const goodParams = [
       {
         name: faker.address.cityName(),
@@ -139,7 +139,7 @@ describe('Test insert.events method', () => {
         type: 'once',
         status: 'active',
         duration: 3,
-        courseId: course._id,
+        locationId: course._id,
       },
       {
         name: faker.address.cityName(),
@@ -147,8 +147,8 @@ describe('Test insert.events method', () => {
         type: 'once',
         status: 'active',
         duration: 3,
-        courseId: course._id,
-        backupCourseId: backupCourse._id,
+        locationId: course._id,
+        backupLocationId: backupCourse._id,
       },
     ]
     goodParams.map((item) => {

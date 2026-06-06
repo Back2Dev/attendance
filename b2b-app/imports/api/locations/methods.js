@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import Events, { CourseItemSchema } from '../events/schema'
+import Events, { LocationItemSchema } from '../events/schema'
 import Locations from './schema'
 const debug = require('debug')('app:locations')
 
@@ -25,23 +25,23 @@ Meteor.methods({
       if (n) {
         const updatedLocation = await Locations.findOneAsync({ _id: id })
 
-        // update the Event course
+        // update the Event locationDoc
         await Events.updateAsync(
-          { 'course._id': id },
+          { 'locationDoc._id': id },
           {
             $set: {
-              course: CourseItemSchema.clean(updatedLocation),
+              locationDoc: LocationItemSchema.clean(updatedLocation),
             },
           },
           { multi: true }
         )
 
-        // update the Event backupCourse
+        // update the Event backupLocationDoc
         await Events.updateAsync(
-          { 'backupCourse._id': id },
+          { 'backupLocationDoc._id': id },
           {
             $set: {
-              backupCourse: CourseItemSchema.clean(updatedLocation),
+              backupLocationDoc: LocationItemSchema.clean(updatedLocation),
             },
           },
           { multi: true }
