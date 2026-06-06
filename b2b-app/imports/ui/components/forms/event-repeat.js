@@ -201,8 +201,8 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
         {days.map((d) => (
           <Button
             key={d.dow}
-            variant="contained"
-            color={d.selected ? 'primary' : 'default'}
+            variant={d.selected ? 'contained' : 'outlined'}
+            color="primary"
             onClick={() => {
               toggleDow(d.dow)
               setChanged(new Date())

@@ -83,7 +83,9 @@ function EventCard({ event }) {
         image={event.imageUrl || PLACEHOLDER_IMAGE}
         alt={event.name}
         onError={(e) => {
-          e.target.src = PLACEHOLDER_IMAGE
+          if (e.target.src !== PLACEHOLDER_IMAGE) {
+            e.target.src = PLACEHOLDER_IMAGE
+          }
         }}
       />
       <CardContent sx={{ flexGrow: 1 }}>

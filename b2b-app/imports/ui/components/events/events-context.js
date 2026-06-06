@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import React, { useContext, useState, useRef, useEffect } from 'react'
+import React, { useCallback, useContext, useMemo, useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTracker } from 'meteor/react-meteor-data'
 
@@ -40,14 +40,19 @@ export const EventsProvider = ({ children }) => {
     }
   }, [isLoggedIn, member?._id, showPast])
 
-  const getBookingForEvent = (eventId) =>
-    bookings.find((b) => b.eventId === eventId && b.status !== 'cancelled')
+  const getBookingForEvent = useCallback(
+    (eventId) => bookings.find((b) => b.eventId === eventId && b.status !== 'cancelled'),
+    [bookings]
+  )
 
-  const getEventType = (typeId) => eventTypes.find((t) => t._id === typeId)
+  const getEventType = useCallback(
+    (typeId) => eventTypes.find((t) => t._id === typeId),
+    [eventTypes]
+  )
 
   const [submitting, setSubmitting] = useState(false)
 
-  const book = async (eventId) => {
+  const book = useCallback(async (eventId) => {
     setSubmitting(true)
     try {
       const result = await Meteor.callAsync('book.events', { eventId })
@@ -64,9 +69,9 @@ export const EventsProvider = ({ children }) => {
         showError(err.message)
       }
     }
-  }
+  }, [])
 
-  const cancel = async (bookingId) => {
+  const cancel = useCallback(async (bookingId) => {
     setSubmitting(true)
     try {
       const result = await Meteor.callAsync('cancel.events', { bookingId })
@@ -83,26 +88,29 @@ export const EventsProvider = ({ children }) => {
         showError(err.message)
       }
     }
-  }
+  }, [])
+
+  const contextValue = useMemo(
+    () => ({
+      loading,
+      events,
+      eventTypes,
+      showPast,
+      setShowPast,
+      viewMode,
+      setViewMode,
+      getBookingForEvent,
+      getEventType,
+      isLoggedIn,
+      submitting,
+      book,
+      cancel,
+    }),
+    [loading, events, eventTypes, showPast, viewMode, getBookingForEvent, getEventType, isLoggedIn, submitting, book, cancel]
+  )
 
   return (
-    <EventsContext.Provider
-      value={{
-        loading,
-        events,
-        eventTypes,
-        showPast,
-        setShowPast,
-        viewMode,
-        setViewMode,
-        getBookingForEvent,
-        getEventType,
-        isLoggedIn,
-        submitting,
-        book,
-        cancel,
-      }}
-    >
+    <EventsContext.Provider value={contextValue}>
       {children}
     </EventsContext.Provider>
   )
