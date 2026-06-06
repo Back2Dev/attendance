@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '@mui/material/Button'
 import { AutoForm } from 'uniforms-mui'
-import { CustomAutoField } from '/imports/ui/components/forms'
 import config from './config'
 import useHistory from '/imports/ui/utils/history'
 
@@ -37,7 +36,6 @@ const Edit = ({ id, item, methods }) => {
         schema={schemaBridge}
         model={item}
         onSubmit={save}
-        autoField={CustomAutoField}
       />
       <Button type="button" onClick={back}>
         Cancel

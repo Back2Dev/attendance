@@ -75,19 +75,37 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
   const [enabled, setEnabled] = useState(!!value?.factor)
   const [changed, setChanged] = useState(null)
   const isMountedRef = useRef(false)
+  const selfChangeRef = useRef(false)
+  const prevValueRef = useRef(value)
 
   useEffect(() => {
-    // console.log('update by value')
-    setEnabled(!!value.factor)
+    if (selfChangeRef.current) {
+      selfChangeRef.current = false
+      prevValueRef.current = value
+      return
+    }
+    const prev = prevValueRef.current
+    const sameContent =
+      !!value?.factor === !!prev?.factor &&
+      value?.factor === prev?.factor &&
+      value?.every === prev?.every &&
+      JSON.stringify(value?.dow) === JSON.stringify(prev?.dow) &&
+      value?.dom === prev?.dom &&
+      (value?.until?.getTime?.() ?? null) === (prev?.until?.getTime?.() ?? null)
+    prevValueRef.current = value
+    if (sameContent) return
 
-    setFactor(value.factor || 'week')
-    setEvery(value.every || 1)
-    setDow(value.dow || [moment(formContext.model.when).day()])
-    setDom(value.dom || moment(formContext.model.when).date())
-    setUntil(value.until || moment(formContext.model.when).add(6, 'months').toDate())
+    setEnabled(!!(value?.factor))
+    setFactor(value?.factor || 'week')
+    setEvery(value?.every || 1)
+    setDow(value?.dow || [moment(formContext.model.when).day()])
+    setDom(value?.dom ?? moment(formContext.model.when).date())
+    setUntil(value?.until || moment(formContext.model.when).add(6, 'months').toDate())
   }, [value])
 
-  // set dow and dom when the selected date changed
+  // set dow and dom when the selected date changed — use timestamp to avoid
+  // firing on new Date references with the same value (AutoForm deep-clones model)
+  const whenTime = formContext.model.when instanceof Date ? formContext.model.when.getTime() : null
   useEffect(() => {
     if (formContext.model.when) {
       setDom(moment(formContext.model.when).date())
@@ -95,7 +113,8 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
         setDow([moment(formContext.model.when).day()])
       }
     }
-  }, [formContext.model.when])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [whenTime])
 
   // calculate util date
   useEffect(() => {
@@ -115,6 +134,7 @@ const EventRepeat = ({ className, disabled, onChange, value = {}, label }) => {
       isMountedRef.current = true
       return
     }
+    selfChangeRef.current = true
     if (!enabled) {
       onChange(undefined)
       return

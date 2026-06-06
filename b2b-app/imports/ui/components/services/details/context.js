@@ -233,8 +233,5 @@ JobsDetailsProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-JobsDetailsProvider.defaultProps = {
-  service: null,
-}
 
 export const JobsDetailsConsumer = JobsDetailsContext.Consumer

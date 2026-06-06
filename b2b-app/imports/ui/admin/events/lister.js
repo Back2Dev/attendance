@@ -5,7 +5,6 @@ import { reactFormatter } from '/imports/ui/components/commons/mui-grid'
 import Events from '/imports/api/events/schema'
 import { meteorCall } from '/imports/ui/utils/meteor'
 import { obj2Search } from '/imports/api/util'
-import Eye from '@mui/icons-material/Visibility'
 import PencilSquare from '@mui/icons-material/Edit'
 import EventsList from './list'
 import config from './config'
@@ -63,17 +62,6 @@ const stdCols = [
     },
   },
   {
-    formatter: reactFormatter(<Eye />),
-    headerSort: false,
-    width: 25,
-    hozAlign: 'center',
-    cellClick: (e, cell) => {
-      const id = cell.getData()[idField]
-      if (!id) alert(`Could not get id from [${idField}]`)
-      else methods.view(id)
-    },
-  },
-  {
     formatter: reactFormatter(<PencilSquare />),
     width: 25,
     headerSort: false,
@@ -104,7 +92,7 @@ const EventsLister = (props) => {
 
   if (loading) return <div>Loading...</div>
 
-  return <EventsList {...props} items={items} methods={methods} columns={columns} />
+  return <EventsList {...props} items={items} loading={loading} methods={methods} columns={columns} />
 }
 
 export default EventsLister

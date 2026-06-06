@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { LinearProgress, CircularProgress } from '@mui/material'
 import './loading.css'
 
-function Loading(props) {
-  const { delay, loading, message, component } = props
+function Loading({ delay = 200, loading = false, message = '', component = 'linear' }) {
 
   const [waiting, setWaiting] = useState(delay > 0)
 
@@ -42,11 +41,5 @@ Loading.propTypes = {
   component: PropTypes.string,
 }
 
-Loading.defaultProps = {
-  message: '',
-  loading: false,
-  delay: 200,
-  component: 'linear',
-}
 
 export default Loading

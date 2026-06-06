@@ -22,14 +22,14 @@ const StyledConfirmBox = styled.div`
 
 function ConfirmBox({
   open,
-  title,
-  message,
-  yes,
-  no,
+  title = 'Are you sure?',
+  message = '',
+  yes = 'Yes',
+  no = 'No',
   confirmCallback,
   closedCallback,
-  rejectCallback,
-  autoCloseOnConfirm,
+  rejectCallback = () => {},
+  autoCloseOnConfirm = true,
 }) {
   const handleClose = () => {
     // setSelfOpened(false);
@@ -89,14 +89,6 @@ function ConfirmBox({
   )
 }
 
-ConfirmBox.defaultProps = {
-  autoCloseOnConfirm: true,
-  rejectCallback: () => {},
-  title: 'Are you sure?',
-  message: '',
-  yes: 'Yes',
-  no: 'No',
-}
 
 ConfirmBox.propTypes = {
   open: PropTypes.bool.isRequired,

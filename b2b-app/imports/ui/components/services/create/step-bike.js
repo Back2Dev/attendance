@@ -57,7 +57,7 @@ function bikeStepReducer(state, action) {
   }
 }
 
-function BikeStep({ initialData }) {
+function BikeStep({ initialData = null }) {
   const [state, dispatch] = useReducer(bikeStepReducer, {
     details: initialData?.details || {
       dropoffDate: moment().format('YYYY-MM-DD'),
@@ -257,8 +257,5 @@ BikeStep.propTypes = {
   }),
 }
 
-BikeStep.defaultProps = {
-  initialData: null,
-}
 
 export default BikeStep

@@ -291,8 +291,5 @@ ServiceProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-ServiceProvider.defaultProps = {
-  service: null,
-}
 
 export const ServiceConsumer = ServiceContext.Consumer

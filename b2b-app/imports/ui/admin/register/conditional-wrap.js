@@ -16,7 +16,7 @@ import PropTypes from 'prop-types'
  * Here we don't want the extra margin/padding that Paper adds in mobile screen widths so it will
  * render children in a plain 'div'. Else, wrap the content in Paper.
  */
-const ConditionalWrap = ({ condition, wrapTrue, wrapFalse, children }) => {
+const ConditionalWrap = ({ condition = false, wrapTrue, wrapFalse, children }) => {
   // these checks just make it easier to consume the component. Eg. you can supply just wrapTrue
   // prop and not have to supply wrapFalse because it will just render children as is.
   if (condition && typeof wrapTrue === 'function') {
@@ -34,8 +34,5 @@ ConditionalWrap.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-ConditionalWrap.defaultProps = {
-  condition: false,
-}
 
 export default ConditionalWrap

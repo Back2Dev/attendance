@@ -16,7 +16,7 @@ window.moment = moment
 const App = () => {
   const layout = 'default'
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Plugins />
       <ErrorBoundary>
         <MyThemeProvider>

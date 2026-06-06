@@ -141,6 +141,5 @@ LoginForm.propTypes = {
   onAfterLogin: PropTypes.func.isRequired,
 }
 
-LoginForm.defaultProps = {}
 
 export default LoginForm

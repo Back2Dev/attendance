@@ -18,11 +18,11 @@ const SearchBox = forwardRef(
   (
     {
       onChange,
-      autoTrigger,
-      autoTriggerTimeout,
-      placeholder,
-      clearLabel,
-      defaultValue,
+      autoTrigger = false,
+      autoTriggerTimeout = 500,
+      placeholder = 'Search ...',
+      clearLabel = 'Clear',
+      defaultValue = '',
       variant = 'standard',
       disabled,
     },
@@ -109,12 +109,5 @@ SearchBox.propTypes = {
   disabled: PropTypes.bool,
 }
 
-SearchBox.defaultProps = {
-  autoTrigger: false,
-  autoTriggerTimeout: 500,
-  placeholder: 'Search ...',
-  clearLabel: 'Clear',
-  defaultValue: '',
-}
 
 export default SearchBox

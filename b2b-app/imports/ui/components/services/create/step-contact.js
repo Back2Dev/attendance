@@ -578,8 +578,5 @@ ContactStep.propTypes = {
   }),
 }
 
-ContactStep.defaultProps = {
-  initialData: null,
-}
 
 export default ContactStep

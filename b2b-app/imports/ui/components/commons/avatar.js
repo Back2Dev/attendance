@@ -84,12 +84,5 @@ Avatar.propTypes = {
   linkUrl: PropTypes.string,
 }
 
-Avatar.defaultProps = {
-  url: null,
-  alt: null,
-  size: 80,
-  styles: {},
-  linkUrl: null,
-}
 
 export default Avatar

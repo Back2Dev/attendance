@@ -41,7 +41,7 @@ const MuiGrid = forwardRef(function MuiGrid(
   const gridColumns = useMemo(() => {
     return columns
       .filter((c) => c.formatter !== 'rowSelection')
-      .map((c) => {
+      .map((c, index) => {
         let renderCell
         if (c.formatter && c.formatter.__reactFormatter && c.cellClick) {
           renderCell = (params) => (
@@ -68,8 +68,8 @@ const MuiGrid = forwardRef(function MuiGrid(
         }
 
         return {
-          field: c.field,
-          headerName: c.title || c.field,
+          field: c.field ?? `__col_${index}`,
+          headerName: c.title || c.field || '',
           flex: c.width ? undefined : 1,
           width: c.width,
           align: c.hozAlign === 'center' ? 'center' : undefined,

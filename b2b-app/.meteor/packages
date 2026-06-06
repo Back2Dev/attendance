@@ -18,7 +18,7 @@ typescript@5.10.0              # Enable TypeScript syntax in .ts and .tsx module
 shell-server@0.7.0            # Server-side component of the `meteor shell` command
 
 static-html@1.5.0             # Define static page content in .html files
-react-meteor-data       # React higher-order component for reactively tracking Meteor data
+react-meteor-data@4.0.1       # React higher-order component for reactively tracking Meteor data
 aldeed:collection2@4.1.4
 accounts-base@3.2.1
 mikkelking:slingshot

@@ -158,7 +158,7 @@ function serviceStepReducer(state, action) {
   }
 }
 
-function ServiceStep({ initialData }) {
+function ServiceStep({ initialData = {} }) {
   const [state, dispatch] = useReducer(serviceStepReducer, {
     serviceType: 'custom',
     currentItem: null,
@@ -510,8 +510,5 @@ ServiceStep.propTypes = {
   }),
 }
 
-ServiceStep.defaultProps = {
-  initialData: {},
-}
 
 export default ServiceStep

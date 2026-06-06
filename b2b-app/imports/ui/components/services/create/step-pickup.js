@@ -49,7 +49,7 @@ function pickupStepReducer(state, action) {
   }
 }
 
-function PickupStep({ initialData }) {
+function PickupStep({ initialData = null }) {
   const [state, dispatch] = useReducer(pickupStepReducer, {
     pickup: initialData?.pickup || {
       dropOffDate: moment().format('YYYY-MM-DD'),
@@ -203,8 +203,5 @@ PickupStep.propTypes = {
   }),
 }
 
-PickupStep.defaultProps = {
-  initialData: null,
-}
 
 export default PickupStep

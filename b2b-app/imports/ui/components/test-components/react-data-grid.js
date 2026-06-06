@@ -153,8 +153,5 @@ function TestDataGrid() {
   )
 }
 
-TestDataGrid.propTypes = {}
-
-TestDataGrid.defaultProps = {}
 
 export default TestDataGrid

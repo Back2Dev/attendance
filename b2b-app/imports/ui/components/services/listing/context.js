@@ -123,8 +123,5 @@ JobsListingProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-JobsListingProvider.defaultProps = {
-  service: null,
-}
 
 export const JobsListingConsumer = JobsListingContext.Consumer

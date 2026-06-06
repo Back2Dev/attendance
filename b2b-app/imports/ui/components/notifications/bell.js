@@ -420,8 +420,5 @@ const NotificationsIcon = () => {
   )
 }
 
-NotificationsIcon.propTypes = {}
-
-NotificationsIcon.defaultProps = {}
 
 export default NotificationsIcon

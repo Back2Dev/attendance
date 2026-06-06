@@ -12,9 +12,9 @@ const StyledPopover = styled.div`
 function PopoverUtil({
   children,
   popContent,
-  anchorOrigin,
-  transformOrigin,
-  showOnHover,
+  anchorOrigin = { vertical: 'bottom', horizontal: 'left' },
+  transformOrigin = { vertical: 'top', horizontal: 'left' },
+  showOnHover = true,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -76,16 +76,5 @@ PopoverUtil.propTypes = {
   showOnHover: PropTypes.bool,
 }
 
-PopoverUtil.defaultProps = {
-  anchorOrigin: {
-    vertical: 'bottom',
-    horizontal: 'left',
-  },
-  transformOrigin: {
-    vertical: 'top',
-    horizontal: 'left',
-  },
-  showOnHover: true,
-}
 
 export default PopoverUtil
