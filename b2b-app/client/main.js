@@ -9,6 +9,21 @@ import '/imports/startup/patch-uniforms'
 import App from '/imports/ui/app'
 
 Meteor.startup(() => {
+  window.addEventListener('error', (e) => {
+    Meteor.call('log.clientError', {
+      message: e.message,
+      stack: e.error?.stack,
+      url: e.filename,
+      line: e.lineno,
+    })
+  })
+  window.addEventListener('unhandledrejection', (e) => {
+    Meteor.call('log.clientError', {
+      message: e.reason?.message || String(e.reason),
+      stack: e.reason?.stack,
+    })
+  })
+
   if (module.hot) {
     module.hot.decline()
   }
