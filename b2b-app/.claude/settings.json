@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "mcp__playwright__browser_console_messages",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Read(//Users/mikkel/back2bikes/attendance/**)",
+      "Bash(ls /Applications/ | grep -i canary)",
+      "Read(//Applications/**)",
+      "Bash(npx @playwright/mcp@latest --help)",
+      "mcp__playwright__browser_navigate",
+      "Bash(npm run *)"
     ]
   }
 }
