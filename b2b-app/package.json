@@ -95,7 +95,7 @@
     "lodash": "^4.17.20",
     "luxon": "^2.0.2",
     "mandrill-api": "^1.0.45",
-    "markdown-it": "^12.3.2",
+    "markdown-it": "^14.2.0",
     "meteor-node-stubs": "^1.0.1",
     "moment": "^2.29.4",
     "namecase": "^1.1.2",
