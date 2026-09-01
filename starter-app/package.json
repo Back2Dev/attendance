@@ -68,7 +68,7 @@
     "pdf-lib": "^1.16.0",
     "pdfmake": "^0.1.70",
     "prismjs": "^1.27.0",
-    "query-string": "^6.13.7",
+    "query-string": "^9.5.1",
     "react": "^16.13.1",
     "react-avatar-editor": "^11.1.0",
     "react-codejar": "^1.0.2",
