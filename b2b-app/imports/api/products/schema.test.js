@@ -1,5 +1,8 @@
 import { resetDatabase } from '/imports/test/util-test'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 
 import Products, { Carts } from './schema'
 import Factory from '/imports/test/factories'
@@ -105,22 +108,23 @@ const goodProducts = [
   }
 ]
 
-goodProducts.push(Factory.build('product'))
+// 'product' factory no longer exists
+// goodProducts.push(Factory.build('product'))
 
 describe('products schema', () => {
-  beforeEach(resetDatabase)
+  beforeEach(() => resetDatabase())
 
   goodProducts.forEach((good, i) => {
     describe('ProductsSchema good products', () => {
-      it(`Succeeds on GOOD Products insert ${i + 1}`, () => {
-        expect(() => Products.insert(good)).not.to.throw()
+      it(`Succeeds on GOOD Products insert ${i + 1}`, async () => {
+        await expect(Products.insertAsync(good)).to.be.fulfilled
       })
     })
 
     describe('query database good products', () => {
-      it('success if database query matches', () => {
-        const productId = Products.insert(good)
-        const product = Products.findOne(productId)
+      it('success if database query matches', async () => {
+        const productId = await Products.insertAsync(good)
+        const product = await Products.findOneAsync(productId)
 
         'name description type duration price image active'.split(/\s+/).forEach(field => {
           expect(product[field]).to.equal(good[field])
@@ -130,8 +134,8 @@ describe('products schema', () => {
 
     badProducts.forEach((bad, i) => {
       describe('ProductsSchema bad parts', () => {
-        it(`Succeeds on BAD Products insert ${i + 1}`, () => {
-          expect(() => Products.insert(bad)).to.throw()
+        it(`Succeeds on BAD Products insert ${i + 1}`, async () => {
+          await expect(Products.insertAsync(bad)).to.be.rejected
         })
       })
     })
@@ -147,30 +151,29 @@ const badCarts = [
 ]
 
 const goodCarts = [
-  { products: [], prodqty: [] },
+  { products: [], prodqty: {} },
   {
     price: 999,
-    prodqty: goodProducts.map(prod => {
-      return { [prod._id]: 1 }
-    }),
+    // prodqty maps product id -> quantity
+    prodqty: Object.fromEntries(goodProducts.map(prod => [prod._id, 1])),
     products: goodProducts
   }
 ]
 
 describe('carts schema', () => {
-  beforeEach(resetDatabase)
+  beforeEach(() => resetDatabase())
 
   goodCarts.forEach((good, i) => {
     describe('CartsSchema good carts', () => {
-      it(`Succeeds on GOOD Carts insert ${i + 1}`, () => {
-        expect(() => Carts.insert(good)).not.to.throw()
+      it(`Succeeds on GOOD Carts insert ${i + 1}`, async () => {
+        await expect(Carts.insertAsync(good)).to.be.fulfilled
       })
     })
 
     describe('query database good carts', () => {
-      it('success if database query matches', () => {
-        const cartId = Carts.insert(good)
-        const cart = Carts.findOne(cartId)
+      it('success if database query matches', async () => {
+        const cartId = await Carts.insertAsync(good)
+        const cart = await Carts.findOneAsync(cartId)
 
         'totalqty price'.split(/\s+/).forEach(field => {
           expect(cart[field]).to.equal(good[field])
@@ -180,8 +183,8 @@ describe('carts schema', () => {
 
     badCarts.forEach((bad, i) => {
       describe('CartsSchema bad parts', () => {
-        it(`Succeeds on BAD Carts insert ${i + 1}`, () => {
-          expect(() => Carts.insert(bad)).to.throw()
+        it(`Succeeds on BAD Carts insert ${i + 1}`, async () => {
+          await expect(Carts.insertAsync(bad)).to.be.rejected
         })
       })
     })

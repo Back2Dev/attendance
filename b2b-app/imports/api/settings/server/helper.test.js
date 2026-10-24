@@ -68,81 +68,65 @@ const goodSettingKeys = goodSettings.map((item) => item.key)
 
 describe('Settings helper functions', () => {
   describe('Test inserting settings', () => {
-    it('insertSettings should work with good settings', () => {
-      goodSettings.map((setting) => {
+    it('insertSettings should work with good settings', async () => {
+      for (const setting of goodSettings) {
         let result
-        expect(() => {
-          result = insertSettings(setting)
-        }).not.to.throw()
+        result = await insertSettings(setting)
         expect(result).to.be.a('object')
         expect(result.status).equal('success')
         expect(result.id).to.be.a('string')
-      })
+      }
     })
-    it('insertSettings should not work with bad settings', () => {
-      badSettings.map((setting) => {
+    it('insertSettings should not work with bad settings', async () => {
+      for (const setting of badSettings) {
         let result
-        expect(() => {
-          result = insertSettings(setting)
-        }).not.to.throw()
+        result = await insertSettings(setting)
         expect(result).to.be.a('object')
         expect(result.status).equal('failed')
-      })
+      }
     })
   })
 
   describe('Reading setting items', () => {
-    it('getSetting should work', () => {
+    it('getSetting should work', async () => {
       let result
-      expect(() => {
-        result = getSetting({ key: goodSettings[0].key })
-      }).not.to.throw()
+      result = await getSetting({ key: goodSettings[0].key })
       expect(result).to.be.a('object')
     })
-    it('getSetting should work with default value', () => {
+    it('getSetting should work with default value', async () => {
       let result
       const defaultValue = 'default value'
-      expect(() => {
-        result = getSetting({
-          key: 'some key which does not exist',
-          defaultValue,
-        })
-      }).not.to.throw()
+      result = await getSetting({
+        key: 'some key which does not exist',
+        defaultValue,
+      })
       expect(result).to.be.a('object')
       expect(result.value).equal(defaultValue)
     })
-    it('getSettings should work', () => {
+    it('getSettings should work', async () => {
       let result
-      expect(() => {
-        result = getSettings({ keys: goodSettingKeys })
-        // debug('getSettings', result)
-      }).not.to.throw()
+      result = await getSettings({ keys: goodSettingKeys })
+      // debug('getSettings', result)
       expect(result).to.be.a('object')
       expect(result.hasOwnProperty(goodSettingKeys[0])).equal(true)
     })
   })
   describe('Reading setting values', () => {
-    it('getCfg should work', () => {
+    it('getCfg should work', async () => {
       let result
-      expect(() => {
-        result = getCfg(goodSettings[0].key)
-      }).not.to.throw()
+      result = await getCfg(goodSettings[0].key)
       expect(result).equal(goodSettings[0].value)
     })
-    it('getCfg should work with default value', () => {
+    it('getCfg should work with default value', async () => {
       let result
       const defaultValue = 'default value'
-      expect(() => {
-        result = getCfg('some key which does not exist', defaultValue)
-      }).not.to.throw()
+      result = await getCfg('some key which does not exist', defaultValue)
       expect(result).equal(defaultValue)
     })
 
-    it('getCfgs should work', () => {
+    it('getCfgs should work', async () => {
       let result
-      expect(() => {
-        result = getCfgs(goodSettingKeys)
-      }).not.to.throw()
+      result = await getCfgs(goodSettingKeys)
       expect(result).to.be.a('object')
       expect(result.hasOwnProperty(goodSettingKeys[0])).equal(true)
       expect(result[goodSettingKeys[0]]).equal(goodSettings[0].value)
@@ -151,79 +135,68 @@ describe('Settings helper functions', () => {
 
   // find a readonly setting
   describe('Updating settings', () => {
-    it('updateSettings should NOT works with invalid id', () => {
+    it('updateSettings should NOT works with invalid id', async () => {
       let result
-      expect(() => {
-        result = updateSettings({ _id: 'not_exist_id', value: 'updated value' })
-        // debug('updateSettings', result)
-      }).not.to.throw()
+      result = await updateSettings({ _id: 'not_exist_id', value: 'updated value' })
+      // debug('updateSettings', result)
       expect(result).to.be.a('object')
       expect(result.status).equal('success')
       expect(result.updated).equal(0)
     })
-    const readonlySetting = Settings.findOne({ readonly: true })
-    if (readonlySetting) {
-      it('updateSettings should NOT works with readonly setting', () => {
-        let result
-        expect(() => {
-          result = updateSettings({ _id: readonlySetting._id, value: 'updated value' })
-          // debug('updateSettings', result)
-        }).not.to.throw()
-        expect(result).to.be.a('object')
-        expect(result.status).equal('success')
-        expect(result.updated).equal(0)
-      })
-      it('updateSettings should works with readonly setting and incReadonly enable', () => {
-        let result
-        expect(() => {
-          result = updateSettings(
-            { _id: readonlySetting._id, value: 'updated value' },
-            true
-          )
-          // debug('updateSettings', result)
-        }).not.to.throw()
-        expect(result).to.be.a('object')
-        expect(result.status).equal('success')
-        expect(result.updated).equal(1)
-      })
-    }
+    let readonlySetting
+    before(async () => {
+      readonlySetting = await Settings.findOneAsync({ readonly: true })
+    })
+    it('updateSettings should NOT works with readonly setting', async () => {
+      let result
+      result = await updateSettings({ _id: readonlySetting._id, value: 'updated value' })
+      // debug('updateSettings', result)
+      expect(result).to.be.a('object')
+      expect(result.status).equal('success')
+      expect(result.updated).equal(0)
+    })
+    it('updateSettings should works with readonly setting and incReadonly enable', async () => {
+      let result
+      result = await updateSettings(
+        { _id: readonlySetting._id, value: 'updated value' },
+        true
+      )
+      // debug('updateSettings', result)
+      expect(result).to.be.a('object')
+      expect(result.status).equal('success')
+      expect(result.updated).equal(1)
+    })
   })
   describe('Removing settings', () => {
     // remove the first inserted good setting item
-    it('rmSettings should work', () => {
-      goodSettings.map((setting) => insertSettings(setting))
+    it('rmSettings should work', async () => {
+      await Promise.all(goodSettings.map((setting) => insertSettings(setting)))
       // find a setting which is not readonly
-      const tobeDeleted = Settings.findOne({ readonly: false })
+      const tobeDeleted = await Settings.findOneAsync({ readonly: false })
 
       expect(tobeDeleted).to.be.a('object')
       let result
-      expect(() => {
-        result = rmSettings(tobeDeleted._id)
-      }).not.to.throw()
+      result = await rmSettings(tobeDeleted._id)
       expect(result).to.be.a('object')
       expect(result.status).equal('success')
       expect(result.removed).equal(1)
     })
 
-    it('rmSettings should NOT be able to delete a readonly setting', () => {
-      goodSettings.map((setting) => insertSettings(setting))
+    it('rmSettings should NOT be able to delete a readonly setting', async () => {
+      await Promise.all(goodSettings.map((setting) => insertSettings(setting)))
       let result
-      const readonlySetting = Settings.findOne({ readonly: true })
-      expect(() => {
-        result = rmSettings(readonlySetting._id)
-      }).not.to.throw()
+      const readonlySetting = await Settings.findOneAsync({ readonly: true })
+      result = await rmSettings(readonlySetting._id)
       expect(result).to.be.a('object')
       expect(result.status).equal('success')
       expect(result.removed).equal(0)
     })
 
-    it('rmSettings should works with readonly one and incReadonly enable', () => {
-      goodSettings.map((setting) => insertSettings(setting))
+    it('rmSettings should works with readonly one and incReadonly enable', async () => {
+      await Promise.all(goodSettings.map((setting) => insertSettings(setting)))
       let result
-      const readonlySetting = Settings.findOne({ readonly: true })
-      expect(() => {
-        result = rmSettings(readonlySetting._id, true)
-      }).not.to.throw()
+      const readonlySetting = await Settings.findOneAsync({ readonly: true })
+      result = await rmSettings(readonlySetting._id, true)
       expect(result).to.be.a('object')
       expect(result.status).equal('success')
       expect(result.removed).equal(1)

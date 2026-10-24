@@ -1,0 +1,119 @@
+diff --git a/node_modules/@x0k/json-schema-merge/lib/array.js b/node_modules/@x0k/json-schema-merge/lib/array.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/array.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/array.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/function.js b/node_modules/@x0k/json-schema-merge/lib/function.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/function.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/function.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/math.js b/node_modules/@x0k/json-schema-merge/lib/math.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/math.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/math.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/memoize.js b/node_modules/@x0k/json-schema-merge/lib/memoize.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/memoize.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/memoize.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/object.js b/node_modules/@x0k/json-schema-merge/lib/object.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/object.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/object.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/ord.js b/node_modules/@x0k/json-schema-merge/lib/ord.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/ord.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/ord.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/traverser.js b/node_modules/@x0k/json-schema-merge/lib/traverser.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/traverser.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/lib/traverser.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/index.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/index.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/index.js
+@@ -0,0 +1 @@
++module.exports = require('../../dist/lib/json-schema/index.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/json-schema.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/json-schema.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/json-schema.js
+@@ -0,0 +1 @@
++module.exports = require('../../dist/lib/json-schema/json-schema.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/transform.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/transform.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/transform.js
+@@ -0,0 +1 @@
++module.exports = require('../../dist/lib/json-schema/transform.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/traverse.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/traverse.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/traverse.js
+@@ -0,0 +1 @@
++module.exports = require('../../dist/lib/json-schema/traverse.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/compare/index.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/compare/index.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/compare/index.js
+@@ -0,0 +1 @@
++module.exports = require('../../../dist/lib/json-schema/compare/index.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/compare/compare.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/compare/compare.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/compare/compare.js
+@@ -0,0 +1 @@
++module.exports = require('../../../dist/lib/json-schema/compare/compare.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/index.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/index.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/index.js
+@@ -0,0 +1 @@
++module.exports = require('../../../dist/lib/json-schema/merge/index.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/all-of-merge.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/all-of-merge.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/all-of-merge.js
+@@ -0,0 +1 @@
++module.exports = require('../../../dist/lib/json-schema/merge/all-of-merge.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/merge.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/merge.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/merge.js
+@@ -0,0 +1 @@
++module.exports = require('../../../dist/lib/json-schema/merge/merge.js')
+diff --git a/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/patterns.js b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/patterns.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/@x0k/json-schema-merge/lib/json-schema/merge/patterns.js
+@@ -0,0 +1 @@
++module.exports = require('../../../dist/lib/json-schema/merge/patterns.js')

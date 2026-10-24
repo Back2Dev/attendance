@@ -7,7 +7,6 @@ import { expect } from 'chai'
 
 import Workflows from './schema'
 import Factory from '/imports/test/factories'
-import '/imports/test/factory.workflows'
 
 const badWorkflows = [
   // no name
@@ -30,7 +29,7 @@ describe('workflows', () => {
         const fields =
           ['_id', 'listingId', 'customerId', 'conveyancerId', 'agentId', 'brokerId'] || []
         fields.forEach((field) => {
-          expect(thing[field]).to.equal(good[field])
+          expect(thing[field]).to.deep.equal(good[field])
         })
       })
     })

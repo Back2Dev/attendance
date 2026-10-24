@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor'
-import { Promise } from 'meteor/promise'
 import sinon from 'sinon'
 
 /**
@@ -7,7 +6,7 @@ import sinon from 'sinon'
  * @param  {Object}    user
  * @param  {String}    method
  */
-export const callStubbed = (user, method, ...args) => {
+export const callStubbed = async (user, method, ...args) => {
   if (!user && user !== null) throw new Error('stubUserCall requires object or null')
 
   const userStub = sinon.stub(Meteor, 'user')
@@ -16,7 +15,7 @@ export const callStubbed = (user, method, ...args) => {
   userIdStub.returns(user._id)
 
   try {
-    const result = Promise.await(Meteor.callAsync(method, ...args))
+    const result = await Meteor.callAsync(method, ...args)
     userStub.restore()
     userIdStub.restore()
     return result

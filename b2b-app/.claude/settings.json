@@ -8,7 +8,15 @@
       "Read(//Applications/**)",
       "Bash(npx @playwright/mcp@latest --help)",
       "mcp__playwright__browser_navigate",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(meteor npm *)",
+      "Bash(git diff *)",
+      "Read(//dev/**)",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot",
+      "Bash(xargs kill -9)",
+      "Bash(python3 -c \"import sys,json; e=json.load\\(sys.stdin\\).get\\('exports',{}\\); [print\\(k\\) for k in e.keys\\(\\)]\")",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

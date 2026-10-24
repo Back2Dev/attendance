@@ -15,14 +15,14 @@ const debug = require('debug')('app:support:test')
 const roles = ['CUS', 'CON']
 
 describe('Users send support email', () => {
-  before(function () {
-    resetDatabase()
-    roles.forEach((role) => {
-      Roles.createRole(role)
-    })
+  before(async () => {
+    await resetDatabase()
+    for (const role of roles) {
+      await Roles.createRoleAsync(role, { unlessExists: true })
+    }
   })
   const theMethod = Meteor.server.method_handlers['support.create']
-  it('should FAIL without valid params', () => {
+  it('should FAIL without valid params', async () => {
     const thisContext = {
       userId: Random.id(),
     }
@@ -32,41 +32,35 @@ describe('Users send support email', () => {
       { subject: 'some subject', message: '' }, // empty message
       { subject: ['a'], message: 5 }, // invalid message
     ]
-    badParams.map((item) => {
+    for (const item of badParams) {
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('should fail without login', () => {
+  it('should fail without login', async () => {
     const thisContext = {} // no userId
     const aGoodParam = {
       subject: 'hello',
       message: 'some message',
     }
     let result
-    expect(() => {
-      result = theMethod.apply(thisContext, [aGoodParam])
-    }).not.to.throw()
+    result = await theMethod.apply(thisContext, [aGoodParam])
     // debug(result)
     expect(result).to.have.property('status').which.equal('failed')
     expect(result).to.have.property('message').which.equal('Please login')
   })
-  it('should works with good param', () => {
+  it('should works with good param', async () => {
     // create a new Meteor user
-    const testUser = Factory.create('UserMEM')
+    const testUser = await Factory.createAsync('UserMEM')
     const thisContext = { userId: testUser._id } // no userId
     const aGoodParam = {
       subject: 'hello',
       message: 'some message',
     }
     let result
-    expect(() => {
-      result = theMethod.apply(thisContext, [aGoodParam])
-    }).not.to.throw()
+    result = await theMethod.apply(thisContext, [aGoodParam])
     // debug(result)
     expect(result).to.have.property('status').which.equal('success')
   })

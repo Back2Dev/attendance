@@ -38,7 +38,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -100,7 +100,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -163,7 +163,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -227,7 +227,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -288,7 +288,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -362,7 +362,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -423,7 +423,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -502,7 +502,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }
@@ -622,7 +622,7 @@ Meteor.methods({
       return { status: 'failed', message: 'Please login' }
     }
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const allowed = hasOneOfRoles(me, ['ADM', 'GRE'])
+    const allowed = await hasOneOfRoles(me, ['ADM', 'GRE'])
     if (!allowed) {
       return { status: 'failed', message: 'Permission denied' }
     }

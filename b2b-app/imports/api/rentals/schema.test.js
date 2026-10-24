@@ -1,4 +1,7 @@
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 import faker from 'faker'
 
 import Rentals from './schema'
@@ -43,11 +46,9 @@ export const badRentals = [
 describe('Rentals Schema', () => {
   describe('Check good rentals', () => {
     goodRentals.map((item) => {
-      it(`Should success on good rentals insert ${item.name || ''}`, () => {
+      it(`Should success on good rentals insert ${item.name || ''}`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Rentals.insert(item)
-        }).not.to.throw()
+        insertedId = await Rentals.insertAsync(item)
         if (insertedId) {
           // because of unique index, we should remove these test items
           // Rentals.remove({ _id: insertedId })
@@ -57,11 +58,9 @@ describe('Rentals Schema', () => {
   })
   describe('Check bad rentals', () => {
     badRentals.map((item) => {
-      it(`Should fail on bad rentals insert ${item.name || ''}`, () => {
+      it(`Should fail on bad rentals insert ${item.name || ''}`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Rentals.insert(item)
-        }).to.throw()
+        await expect(Rentals.insertAsync(item)).to.be.rejected
         if (insertedId) {
           debug({ insertedId })
           // because of unique index, we should remove these test items

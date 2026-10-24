@@ -1,6 +1,5 @@
 import { Random } from 'meteor/random'
 import { Meteor } from 'meteor/meteor'
-import { Promise } from 'meteor/promise'
 import { resetDatabase } from '/imports/api/cleaner'
 import { insertSettings } from '/imports/api/settings/server/helper'
 import { createTestTemplates } from '/imports/test/factory.message-templates'
@@ -134,43 +133,39 @@ const settings = [
 ]
 
 describe('Test messages methods', () => {
-  before(() => {
-    resetDatabase()
+  before(async () => {
+    await resetDatabase()
     // Add settings into mock db
-    settings.map((setting) => {
-      insertSettings(setting)
-    })
+    for (const setting of settings) {
+      await insertSettings(setting)
+    }
   })
   describe('Test with webhook transport', () => {
-    it(`insert.messages should NOT work with INVALID message`, () => {
-      badMessages.map((message) => {
+    it(`insert.messages should NOT work with INVALID message`, async () => {
+      for (const message of badMessages) {
         let result
-        expect(() => {
-          result = Promise.await(Meteor.callAsync('insert.messages', message))
-        }).not.to.throw()
+        result = await Meteor.callAsync('insert.messages', message)
         // debug(result)
         expect(result).to.have.property('status').which.equal('failed')
-      })
+      }
     })
-    it(`insert.messages should work with valid message`, () => {
-      goodMessages.map((message) => {
+    it(`insert.messages should work with valid message`, async () => {
+      for (const message of goodMessages) {
         let result
-        expect(() => {
-          result = Promise.await(Meteor.callAsync('insert.messages', message))
-        }).not.to.throw()
+        result = await Meteor.callAsync('insert.messages', message)
         // debug(result)
         expect(result).to.have.property('status').which.equal('success')
         expect(result).to.have.property('id').which.to.be.a('string')
-      })
+      }
     })
-    it(`send.messages only send emails`, () => {
-      const result = Promise.await(Meteor.callAsync('send.messages', 'email'))
+    it(`send.messages only send emails`, async () => {
+      const result = await Meteor.callAsync('send.messages', 'email')
       expect(result).to.be.a('object')
       expect(result.status).to.be.a('string')
       expect(result.message).to.be.a('string')
     })
-    it(`send.messages should work`, () => {
-      const result = Promise.await(Meteor.callAsync('send.messages'))
+    it(`send.messages should work`, async () => {
+      const result = await Meteor.callAsync('send.messages')
       debug(result)
       expect(result).to.be.a('object')
       expect(result.status).to.be.a('string')
@@ -178,28 +173,22 @@ describe('Test messages methods', () => {
     })
   })
   describe('Test message cancelling methods', () => {
-    it(`cancel.messages should not work with a invalid/not found message id`, () => {
+    it(`cancel.messages should not work with a invalid/not found message id`, async () => {
       let result
-      expect(() => {
-        result = Promise.await(Meteor.callAsync('cancel.messages', Random.id()))
-      }).not.to.throw()
+      result = await Meteor.callAsync('cancel.messages', Random.id())
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
     })
-    it(`cancel.messages should work with valid id`, () => {
+    it(`cancel.messages should work with valid id`, async () => {
       let result
       // insert the message
-      expect(() => {
-        result = Promise.await(Meteor.callAsync('insert.messages', willBeCancelled))
-      }).not.to.throw()
+      result = await Meteor.callAsync('insert.messages', willBeCancelled)
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
       expect(result).to.have.property('id').which.to.be.a('string')
       // then call cancel
       const { id } = result
-      expect(() => {
-        result = Promise.await(Meteor.callAsync('cancel.messages', id))
-      }).not.to.throw()
+      result = await Meteor.callAsync('cancel.messages', id)
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
     })

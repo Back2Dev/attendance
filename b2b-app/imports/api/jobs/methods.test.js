@@ -15,146 +15,130 @@ const debug = require('debug')('app:jobs:test')
 
 describe('Test jobs.markAsPaid method', () => {
   const theMethod = Meteor.server.method_handlers['jobs.markAsPaid']
-  it('jobs.markAsPaid should return an object with status is failed with bad params', () => {
+  it('jobs.markAsPaid should return an object with status is failed with bad params', async () => {
     const badParams = [
       { id: null }, // missing id
     ]
-    badParams.map((item) => {
+    for (const item of badParams) {
       const thisContext = {
         userId: null,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('jobs.markAsPaid should return an object with status is failed with not logged in user', () => {
+  it('jobs.markAsPaid should return an object with status is failed with not logged in user', async () => {
     const goodParams = [{ id: Random.id() }]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: null, // not logged in user
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('jobs.markAsPaid should return an object with status is failed with not found job id', () => {
-    const user = Factory.create('UserGRE')
+  it('jobs.markAsPaid should return an object with status is failed with not found job id', async () => {
+    const user = await Factory.createAsync('UserGRE')
     const goodParams = [
       {
         id: Random.id(), // unable to find this
       },
     ]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: user._id,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('jobs.markAsPaid should work with valid job id and user', () => {
-    const user = Factory.create('UserGRE')
-    const job = Factory.create('jobs')
+  it('jobs.markAsPaid should work with valid job id and user', async () => {
+    const user = await Factory.createAsync('UserGRE')
+    const job = await Factory.createAsync('jobs')
     const goodParams = [
       {
         id: job._id,
       },
     ]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: user._id,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
-    })
+    }
   })
 })
 
 describe('Test jobs.markAsUnPaid method', () => {
   const theMethod = Meteor.server.method_handlers['jobs.markAsUnPaid']
-  it('jobs.markAsUnPaid should return an object with status is failed with bad params', () => {
+  it('jobs.markAsUnPaid should return an object with status is failed with bad params', async () => {
     const badParams = [
       { id: null }, // missing id
     ]
-    badParams.map((item) => {
+    for (const item of badParams) {
       const thisContext = {
         userId: null,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('jobs.markAsUnPaid should return an object with status is failed with not logged in user', () => {
+  it('jobs.markAsUnPaid should return an object with status is failed with not logged in user', async () => {
     const goodParams = [{ id: Random.id() }]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: null, // not logged in user
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('jobs.markAsUnPaid should return an object with status is failed with not found job id', () => {
-    const user = Factory.create('UserGRE')
+  it('jobs.markAsUnPaid should return an object with status is failed with not found job id', async () => {
+    const user = await Factory.createAsync('UserGRE')
     const goodParams = [
       {
         id: Random.id(), // unable to find this
       },
     ]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: user._id,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('jobs.markAsUnPaid should work with valid job id and user', () => {
-    const user = Factory.create('UserGRE')
-    const job = Factory.create('jobs', { paid: true })
+  it('jobs.markAsUnPaid should work with valid job id and user', async () => {
+    const user = await Factory.createAsync('UserGRE')
+    const job = await Factory.createAsync('jobs', { paid: true })
     const goodParams = [
       {
         id: job._id,
       },
     ]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: user._id,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
-    })
+    }
   })
 })

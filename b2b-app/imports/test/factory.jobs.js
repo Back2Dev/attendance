@@ -9,6 +9,7 @@ console.log('Job Factory')
 // Factory.define('jobs', Jobs, {})
 
 Factory.define('jobs', Jobs, {
+  bikeName: () => faker.lorem.words(2),
   make: faker.lorem.words(2),
   model: faker.lorem.word(),
   color: faker.lorem.word(),

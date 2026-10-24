@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
+import 'meteor/aldeed:collection2/static'
 
 const PdfTemplates = new Mongo.Collection('pdfTemplates')
 

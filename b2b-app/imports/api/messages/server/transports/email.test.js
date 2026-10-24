@@ -67,7 +67,7 @@ describe('Test Email Transport', () => {
     })
   })
 
-  it(`send() should not work when it's not enabled`, () => {
+  it(`send() should not work when it's not enabled`, async () => {
     const disabledTransport = new EmailTransport({ enabled: false })
     badSendingMessages.map(async (message) => {
       const result = await disabledTransport.send(message)

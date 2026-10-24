@@ -2,6 +2,8 @@
  * schema-util.js
  * utilities & helpers for collection schemas
  */
+// Extends Mongo.Collection with attachSchema - needed in test mode, where main modules aren't loaded
+import 'meteor/aldeed:collection2/static'
 
 /**
  * createdAt timestamp gets set on insert

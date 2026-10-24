@@ -20,7 +20,8 @@ describe('changes the string to a encrypted piece of data', () => {
 
   it('fails to decrypt when passed incorrect data', () => {
     const randomString = 'sdfdsfh3423fdsfdsfsdfdsfka432hdfgf43hjhasjdhsagsgfgfdgfddhsa2'
-    expect(() => decrypt(randomString)).to.throw('Invalid IV length')
+    // Node < 24 says 'Invalid IV length', Node 24+ says 'Invalid initialization vector'
+    expect(() => decrypt(randomString)).to.throw(/Invalid (IV length|initialization vector)/)
   })
 
   it('fails to encrypt the data due to data not being a string', () => {

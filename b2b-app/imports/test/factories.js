@@ -9,6 +9,7 @@ import { Random } from 'meteor/random'
 import _ from 'lodash'
 import CONSTANTS from '/imports/api/constants'
 import './generated-factories'
+import './factory.users'
 
 // publications
 
@@ -22,7 +23,7 @@ import './generated-factories'
 // })
 
 export const createSuperAdmin = () => {
-  return Factory.create('user', {
+  return Factory.createAsync('user', {
     roles: ['ADM'],
     superadmin: true,
   })
@@ -33,7 +34,7 @@ export const createSuperAdmin = () => {
 }
 
 export const createAdmin = () => {
-  return Factory.create('user', {
+  return Factory.createAsync('user', {
     roles: ['ADM'],
   })
 }

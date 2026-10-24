@@ -5,7 +5,9 @@ import resultsCache from './results-cache'
 const debug = require('debug')('app:results-cache-test')
 
 describe('Results cache', () => {
-  resetDatabase()
+  before(async () => {
+    await resetDatabase()
+  })
   const cache = resultsCache.INIT('Result run')
   // Do something and get a value
   const v1 = '345'

@@ -3,14 +3,8 @@ import logger from '/imports/lib/log'
 
 import Profiles from '/imports/api/profiles/schema'
 const debug = require('debug')('app:profiles')
-// AWS Configs
-const aws = require('aws-sdk')
-const s3config = new aws.Config({
-  accessKeyId: Meteor.settings.private.S3_ACCESS_KEY_ID,
-  secretAccessKey: Meteor.settings.private.S3_SECRET_ACCESS_KEY,
-  region: Meteor.settings.private.S3_REGION,
-})
-const s3 = new aws.S3(s3config)
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { s3 } from '/imports/api/s3-utils'
 
 Meteor.methods({
   'upload.avatar': async (data) => {
@@ -24,18 +18,15 @@ Meteor.methods({
         CacheControl: 'max-age=0',
         ACL: 'public-read-write',
       }
-      const uploadFile = (params) => {
-        return new Promise((resolve, reject) => {
-          s3.putObject(params, function (err, data) {
-            if (err) {
-              debug(err, err.stack) // an error occurred
-              reject('Unable to upload file to S3')
-            } else {
-              debug('sucessfully replaced file in s3') // success
-              resolve(data)
-            }
-          })
-        })
+      const uploadFile = async (params) => {
+        try {
+          const data = await s3.send(new PutObjectCommand(params))
+          debug('sucessfully replaced file in s3') // success
+          return data
+        } catch (err) {
+          debug(err, err.stack) // an error occurred
+          throw 'Unable to upload file to S3'
+        }
       }
       await uploadFile(s3params)
       await Profiles.updateAsync(

@@ -3,7 +3,10 @@
 /* eslint-disable no-unused-expressions */
 
 import { resetDatabase } from '/imports/test/util-test'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 
 import Charges from './schema'
 import Factory from '/imports/test/factories'
@@ -16,19 +19,19 @@ const goodCharges = []
 goodCharges.push(Factory.build('charges'))
 
 describe('charges', () => {
-  beforeEach(resetDatabase)
+  beforeEach(() => resetDatabase())
 
   goodCharges.forEach((good, i) => {
     describe('ChargesSchema good docs', () => {
-      it(`Succeeds on GOOD Charges insert ${i + 1}`, () => {
-        expect(() => Charges.insert(good)).not.to.throw()
+      it(`Succeeds on GOOD Charges insert ${i + 1}`, async () => {
+        await expect(Charges.insertAsync(good)).to.be.fulfilled
       })
     })
 
     describe('query database good event', () => {
-      it('success if database query matches', () => {
-        const id = Charges.insert(good)
-        const thing = Charges.findOne(id)
+      it('success if database query matches', async () => {
+        const id = await Charges.insertAsync(good)
+        const thing = await Charges.findOneAsync(id)
         expect(thing._id).to.equal(good._id)
         // Templated replacement...
         const fields =
@@ -57,15 +60,15 @@ describe('charges', () => {
             // 'metadata'
           ] || []
         fields.forEach(field => {
-          expect(thing[field]).to.equal(good[field])
+          expect(thing[field]).to.deep.equal(good[field])
         })
       })
     })
 
     badCharges.forEach((bad, i) => {
       describe('ChargesSchema bad parts', () => {
-        it(`Succeeds on BAD Charges insert ${i + 1}`, () => {
-          expect(() => Charges.insert(bad)).to.throw()
+        it(`Succeeds on BAD Charges insert ${i + 1}`, async () => {
+          await expect(Charges.insertAsync(bad)).to.be.rejected
         })
       })
     })

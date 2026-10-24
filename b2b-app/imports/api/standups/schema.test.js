@@ -3,7 +3,10 @@
 /* eslint-disable no-unused-expressions */
 
 import { resetDatabase } from '/imports/test/util-test'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 
 import Standups from './schema'
 import Factory from '/imports/test/factories'
@@ -21,21 +24,21 @@ goodStandups.push(Factory.build('standups'))
 describe('standups', () => {
   goodStandups.forEach((good, i) => {
     describe('query database good standups', () => {
-      // beforeEach(resetDatabase)
-      it('success if database query matches', () => {
-        const id = Standups.insert(good)
-        const thing = Standups.findOne(id)
+      // beforeEach(() => resetDatabase())
+      it('success if database query matches', async () => {
+        const id = await Standups.insertAsync(good)
+        const thing = await Standups.findOneAsync(id)
         const fields = ["teamId","when","notes"] || []
         fields.forEach((field) => {
-          expect(thing[field]).to.equal(good[field])
+          expect(thing[field]).to.deep.equal(good[field])
         })
       })
     })
   })
   badStandups.forEach((bad, i) => {
     describe('StandupsSchema bad standups', () => {
-      it(`Succeeds on BAD Standups insert ${i + 1}`, () => {
-        expect(() => Standups.insert(bad)).to.throw()
+      it(`Succeeds on BAD Standups insert ${i + 1}`, async () => {
+        await expect(Standups.insertAsync(bad)).to.be.rejected
       })
     })
   })

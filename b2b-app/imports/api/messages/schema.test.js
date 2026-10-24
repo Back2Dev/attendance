@@ -3,7 +3,10 @@
 /* eslint-disable no-unused-expressions */
 
 import { resetDatabase } from '/imports/test/util-test'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 
 import Messages from './schema'
 import Factory from '/imports/test/factories'
@@ -21,10 +24,10 @@ goodMessages.push(Factory.build('messages'))
 describe('messages', () => {
   goodMessages.forEach((good, i) => {
     describe('query database good messages', () => {
-      //  before(resetDatabase)
-      it('success if database query matches', () => {
-        const id = Messages.insert(good)
-        const thing = Messages.findOne(id)
+      //  before(() => resetDatabase())
+      it('success if database query matches', async () => {
+        const id = await Messages.insertAsync(good)
+        const thing = await Messages.findOneAsync(id)
         const fields =
           [
             'message',
@@ -37,15 +40,15 @@ describe('messages', () => {
             'template',
           ] || []
         fields.forEach((field) => {
-          expect(thing[field]).to.equal(good[field])
+          expect(thing[field]).to.deep.equal(good[field])
         })
       })
     })
   })
   badMessages.forEach((bad, i) => {
     describe('MessagesSchema bad messages', () => {
-      it(`Succeeds on BAD Messages insert ${i + 1}`, () => {
-        expect(() => Messages.insert(bad)).to.throw()
+      it(`Succeeds on BAD Messages insert ${i + 1}`, async () => {
+        await expect(Messages.insertAsync(bad)).to.be.rejected
       })
     })
   })

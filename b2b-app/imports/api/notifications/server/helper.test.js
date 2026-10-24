@@ -37,13 +37,11 @@ const badPushData = [
 ]
 
 describe('Notifications Helper', () => {
-  // beforeEach(resetDatabase)
+  // beforeEach(() => resetDatabase())
   goodPushData.map((item) => {
-    it('push notification should work', () => {
+    it('push notification should work', async () => {
       let result
-      expect(() => {
-        result = push(item)
-      }).not.to.throw()
+      result = await push(item)
       expect(result).to.be.a('object')
       expect(result.status).equal('success')
       expect(result.itemId).to.be.a('string')
@@ -51,11 +49,9 @@ describe('Notifications Helper', () => {
     })
   })
   badPushData.map((item) => {
-    it('push notification should NOT work', () => {
+    it('push notification should NOT work', async () => {
       let result
-      expect(() => {
-        result = push(item)
-      }).not.to.throw()
+      result = await push(item)
       expect(result).to.be.a('object')
       expect(result.status).equal('failed')
       expect(result.message).to.be.a('string')

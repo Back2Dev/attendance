@@ -5,21 +5,21 @@ import { resetDatabase } from '/imports/api/cleaner'
 
 // only use if you are testing the sms service. It costs money to run this test all the time.
 describe.skip('using SMS broadcast service to send sms', () => {
-  before(function () {
-    resetDatabase()
-    Factory.create('settings', {
+  before(async () => {
+    await resetDatabase()
+    await Factory.createAsync('settings', {
       name: 'SMS service',
       key: 'sms-service',
       value: 'smsbroadcast',
     })
   })
-  it('sends a sms', () => {
+  it('sends a sms', async () => {
     const testData = {
       recipient: '61466614265',
       sender: 'Startup',
       message: 'Test SMS please ignore',
     }
 
-    sendSMS(testData)
+    await sendSMS(testData)
   })
 })

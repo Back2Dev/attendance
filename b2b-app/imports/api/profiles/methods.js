@@ -22,7 +22,7 @@ Meteor.methods({
     }
 
     // find the user
-    const users = Roles.getUsersInRole(role)
+    const users = await (await Roles.getUsersInRoleAsync(role)).fetchAsync()
 
     const userIds = users.map((user) => user._id)
     if (!userIds?.length) {
@@ -170,7 +170,7 @@ Meteor.methods({
     }
     // check for admin role
     const me = await Meteor.users.findOneAsync({ _id: this.userId })
-    const isAdm = Roles.userIsInRole(me, ['ADM'])
+    const isAdm = await Roles.userIsInRoleAsync(me, ['ADM'])
 
     if (!isAdm) {
       return { status: 'failed', message: 'Permission denied' }
@@ -275,7 +275,7 @@ Meteor.methods({
       delete form.roles
       const n = await Profiles.updateAsync(id, { $set: form })
       const m = await Profiles.findOneAsync(id)
-      await Roles.setUserRoles(m.userId, roles)
+      await Roles.setUserRolesAsync(m.userId, roles)
       logger.audit('Updated member', { id, form })
       return { status: 'success', message: `Updated ${n} member(s)` }
     } catch (e) {

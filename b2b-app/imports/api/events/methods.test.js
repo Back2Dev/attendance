@@ -15,24 +15,22 @@ const debug = require('debug')('app:events:test')
 
 describe('Test book.events method', () => {
   const theMethod = Meteor.server.method_handlers['book.events']
-  it('book.events should return an object with status is failed with bad params', () => {
+  it('book.events should return an object with status is failed with bad params', async () => {
     const badParams = [
       { toolId: 'some string' }, // missing eventId
       { eventId: 'invalid id' }, // not a valid string
     ]
-    badParams.map((item) => {
+    for (const item of badParams) {
       const thisContext = {
         userId: null,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('book.events should fail with not logged in user', () => {
+  it('book.events should fail with not logged in user', async () => {
     // create the event
     const event = Factory.build('event')
     debug('build event', event)
@@ -40,17 +38,15 @@ describe('Test book.events method', () => {
       userId: null, // not logged in
     }
     let result
-    expect(() => {
-      result = theMethod.apply(thisContext, [{ eventId: event._id }])
-    }).not.to.throw()
+    result = await theMethod.apply(thisContext, [{ eventId: event._id }])
     // debug(result)
     expect(result).to.have.property('status').which.equal('failed')
   })
-  it('book.events should work with valid params', () => {
+  it('book.events should work with valid params', async () => {
     // create the event
-    const course = Factory.create('location')
-    const event = Factory.create('event', { locationId: course._id })
-    const user = Factory.create('user')
+    const course = await Factory.createAsync('location')
+    const event = await Factory.createAsync('event', { locationId: course._id })
+    const user = await Factory.createAsync('user')
     debug('build event', event)
     debug('build user', user)
     debug('build course', course)
@@ -58,50 +54,44 @@ describe('Test book.events method', () => {
       userId: user._id, // logged in
     }
     let result
-    expect(() => {
-      result = theMethod.apply(thisContext, [{ eventId: event._id }])
-    }).not.to.throw()
+    result = await theMethod.apply(thisContext, [{ eventId: event._id }])
     debug({ result })
     expect(result).to.have.property('status').which.equal('success')
   })
 })
 describe('Test cancel.events method', () => {
   const theMethod = Meteor.server.method_handlers['cancel.events']
-  it('cancel.events should return an object with status is failed with bad params', () => {
+  it('cancel.events should return an object with status is failed with bad params', async () => {
     const badParams = [
       { bookingId: 'some string' }, // missing eventId
       { someParam: 'some value' }, // bookingId is missing
     ]
-    badParams.map((item) => {
+    for (const item of badParams) {
       const thisContext = {
         userId: null,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [item])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [item])
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
-    })
+    }
   })
-  it('cancel.events should fail with not logged in user', () => {
+  it('cancel.events should fail with not logged in user', async () => {
     const thisContext = {
       userId: null, // not logged in
     }
     let result
-    expect(() => {
-      result = theMethod.apply(thisContext, [{ bookingId: Random.id() }])
-    }).not.to.throw()
+    result = await theMethod.apply(thisContext, [{ bookingId: Random.id() }])
     // debug(result)
     expect(result).to.have.property('status').which.equal('failed')
   })
-  it('cancel.events should work with valid params', () => {
+  it('cancel.events should work with valid params', async () => {
     // create the event
-    const course = Factory.create('location')
-    const event = Factory.create('event', { locationId: course._id })
-    const user = Factory.create('user')
-    const member = Profiles.findOne({ userId: user._id })
-    const session = Factory.create('session', {
+    const course = await Factory.createAsync('location')
+    const event = await Factory.createAsync('event', { locationId: course._id })
+    const user = await Factory.createAsync('user')
+    const member = await Profiles.findOneAsync({ userId: user._id })
+    const session = await Factory.createAsync('session', {
       eventId: event._id,
       profileId: member._id,
       memberName: member.name,
@@ -113,18 +103,16 @@ describe('Test cancel.events method', () => {
       userId: user._id, // logged in
     }
     let result
-    expect(() => {
-      result = theMethod.apply(thisContext, [{ bookingId: session._id }])
-    }).not.to.throw()
+    result = await theMethod.apply(thisContext, [{ bookingId: session._id }])
     debug({ result })
     expect(result).to.have.property('status').which.equal('success')
   })
 })
 describe('Test insert.events method', () => {
   const theMethod = Meteor.server.method_handlers['insert.events']
-  it('insert.events should works good params', () => {
-    const course = Factory.create('location')
-    const backupCourse = Factory.create('location')
+  it('insert.events should works good params', async () => {
+    const course = await Factory.createAsync('location')
+    const backupCourse = await Factory.createAsync('location')
     const goodParams = [
       {
         name: faker.address.cityName(),
@@ -151,16 +139,14 @@ describe('Test insert.events method', () => {
         backupLocationId: backupCourse._id,
       },
     ]
-    goodParams.map((item) => {
+    for (const item of goodParams) {
       const thisContext = {
         userId: null,
       }
       let result
-      expect(() => {
-        result = theMethod.apply(thisContext, [{ form: item }])
-      }).not.to.throw()
+      result = await theMethod.apply(thisContext, [{ form: item }])
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
-    })
+    }
   })
 })

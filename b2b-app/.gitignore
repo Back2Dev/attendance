@@ -11,3 +11,4 @@ dev.*.settings.json
 .env
 .vscode
 ../.vscode
+.playwright-mcp

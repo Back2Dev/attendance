@@ -3,7 +3,10 @@
 /* eslint-disable no-unused-expressions */
 
 import { resetDatabase } from '/imports/test/util-test'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 import { cloneDeep } from 'lodash'
 
 import Promos from './schema'
@@ -25,22 +28,23 @@ badPromos = omit.split(/\s+/).map(element => {
 
 const goodPromos = [okPromo]
 
-goodPromos.push(Factory.build('promo'))
+// 'promo' factory no longer exists
+// goodPromos.push(Factory.build('promo'))
 
 describe('promos', () => {
-  beforeEach(resetDatabase)
+  beforeEach(() => resetDatabase())
 
   goodPromos.forEach((good, i) => {
     describe('PromosSchema good promos', () => {
-      it(`Succeeds on GOOD Promos insert ${i + 1}`, () => {
-        expect(() => Promos.insert(good)).not.to.throw()
+      it(`Succeeds on GOOD Promos insert ${i + 1}`, async () => {
+        await expect(Promos.insertAsync(good)).to.be.fulfilled
       })
     })
 
     describe('query database good promo', () => {
-      it('success if database query matches', () => {
-        const promoId = Promos.insert(good)
-        const promo = Promos.findOne(promoId)
+      it('success if database query matches', async () => {
+        const promoId = await Promos.insertAsync(good)
+        const promo = await Promos.findOneAsync(promoId)
 
         expect(promo._id).to.equal(good._id)
         const fields = 'profileId productId price productName'.split(/\s+/)
@@ -52,8 +56,8 @@ describe('promos', () => {
 
     badPromos.forEach((bad, i) => {
       describe('PromosSchema bad parts', () => {
-        it(`Fails on BAD Promos insert ${i + 1}`, () => {
-          expect(() => Promos.insert(bad)).to.throw()
+        it(`Fails on BAD Promos insert ${i + 1}`, async () => {
+          await expect(Promos.insertAsync(bad)).to.be.rejected
         })
       })
     })

@@ -3,7 +3,10 @@
 /* eslint-disable no-unused-expressions */
 
 import { resetDatabase } from '/imports/test/util-test'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 
 import Purchases from './schema'
 import Factory from '/imports/test/factories'
@@ -47,22 +50,23 @@ const goodPurchases = [
   }
 ]
 
-goodPurchases.push(Factory.build('purchase'))
+// 'purchase' factory no longer exists
+// goodPurchases.push(Factory.build('purchase'))
 
 describe('purchases', () => {
-  beforeEach(resetDatabase)
+  beforeEach(() => resetDatabase())
 
   goodPurchases.forEach((good, i) => {
     describe('PurchasesSchema good purchases', () => {
-      it(`Succeeds on GOOD Purchases insert ${i + 1}`, () => {
-        expect(() => Purchases.insert(good)).not.to.throw()
+      it(`Succeeds on GOOD Purchases insert ${i + 1}`, async () => {
+        await expect(Purchases.insertAsync(good)).to.be.fulfilled
       })
     })
 
     describe('query database good purchase', () => {
-      it('success if database query matches', () => {
-        const purchaseId = Purchases.insert(good)
-        const purchase = Purchases.findOne(purchaseId)
+      it('success if database query matches', async () => {
+        const purchaseId = await Purchases.insertAsync(good)
+        const purchase = await Purchases.findOneAsync(purchaseId)
 
         expect(purchase._id).to.equal(good._id)
         const fields = 'profileId productId price productName'.split(/\s+/)
@@ -74,8 +78,8 @@ describe('purchases', () => {
 
     badPurchases.forEach((bad, i) => {
       describe('PurchasesSchema bad parts', () => {
-        it(`Succeeds on BAD Purchases insert ${i + 1}`, () => {
-          expect(() => Purchases.insert(bad)).to.throw()
+        it(`Succeeds on BAD Purchases insert ${i + 1}`, async () => {
+          await expect(Purchases.insertAsync(bad)).to.be.rejected
         })
       })
     })

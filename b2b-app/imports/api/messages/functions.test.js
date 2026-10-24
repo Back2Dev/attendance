@@ -1,7 +1,6 @@
 import { findBykeyword, findAndReplace, sendMessages } from './functions'
 import { Random } from 'meteor/random'
 import { Meteor } from 'meteor/meteor'
-import { Promise } from 'meteor/promise'
 import { resetDatabase } from '/imports/api/cleaner'
 import { insertSettings } from '/imports/api/settings/server/helper'
 import { createTestTemplates } from '/imports/test/factory.message-templates'
@@ -217,44 +216,40 @@ const settings = [
 ]
 
 describe('Test messages functions', () => {
-  before(() => {
-    resetDatabase()
+  before(async () => {
+    await resetDatabase()
     // Add settings into mock db
-    settings.map((setting) => {
-      insertSettings(setting)
-    })
-    createTestTemplates()
+    for (const setting of settings) {
+      await insertSettings(setting)
+    }
+    await createTestTemplates()
   })
   describe('Test with webhook transport', () => {
-    it(`insert.messages should NOT work with INVALID message`, () => {
-      badMessages.map((message) => {
+    it(`insert.messages should NOT work with INVALID message`, async () => {
+      for (const message of badMessages) {
         let result
-        expect(() => {
-          result = Promise.await(Meteor.callAsync('insert.messages', message))
-        }).not.to.throw()
+        result = await Meteor.callAsync('insert.messages', message)
         // debug(result)
         expect(result).to.have.property('status').which.equal('failed')
-      })
+      }
     })
-    it(`insert.messages should work with valid message`, () => {
-      goodMessages.map((message) => {
+    it(`insert.messages should work with valid message`, async () => {
+      for (const message of goodMessages) {
         let result
-        expect(() => {
-          result = Promise.await(Meteor.callAsync('insert.messages', message))
-        }).not.to.throw()
+        result = await Meteor.callAsync('insert.messages', message)
         debug(result)
         expect(result).to.have.property('status').which.equal('success')
         expect(result).to.have.property('id').which.to.be.a('string')
-      })
+      }
     })
-    it(`send.messages only send emails`, () => {
-      const result = sendMessages('email')
+    it(`send.messages only send emails`, async () => {
+      const result = await sendMessages('email')
       expect(result).to.be.a('object')
       expect(result.status).to.be.a('string')
       expect(result.message).to.be.a('string')
     })
-    it(`send.messages only send webhook`, () => {
-      const result = sendMessages('webhook')
+    it(`send.messages only send webhook`, async () => {
+      const result = await sendMessages('webhook')
       debug(result)
       expect(result).to.be.a('object')
       expect(result.status).to.be.a('string')
@@ -262,28 +257,22 @@ describe('Test messages functions', () => {
     })
   })
   describe('Test message cancelling methods', () => {
-    it(`cancel.messages should not work with a invalid/not found message id`, () => {
+    it(`cancel.messages should not work with a invalid/not found message id`, async () => {
       let result
-      expect(() => {
-        result = Promise.await(Meteor.callAsync('cancel.messages', Random.id()))
-      }).not.to.throw()
+      result = await Meteor.callAsync('cancel.messages', Random.id())
       // debug(result)
       expect(result).to.have.property('status').which.equal('failed')
     })
-    it(`cancel.messages should work with valid id`, () => {
+    it(`cancel.messages should work with valid id`, async () => {
       let result
       // insert the message
-      expect(() => {
-        result = Promise.await(Meteor.callAsync('insert.messages', willBeCancelled))
-      }).not.to.throw()
+      result = await Meteor.callAsync('insert.messages', willBeCancelled)
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
       expect(result).to.have.property('id').which.to.be.a('string')
       // then call cancel
       const { id } = result
-      expect(() => {
-        result = Promise.await(Meteor.callAsync('cancel.messages', id))
-      }).not.to.throw()
+      result = await Meteor.callAsync('cancel.messages', id)
       // debug(result)
       expect(result).to.have.property('status').which.equal('success')
     })
@@ -291,63 +280,63 @@ describe('Test messages functions', () => {
 })
 
 describe('merge message functions', () => {
-  before(() => {
-    resetDatabase()
+  before(async () => {
+    await resetDatabase()
     // Add settings into mock db
-    settings.map((setting) => {
-      insertSettings(setting)
-    })
-    createTestTemplates()
+    for (const setting of settings) {
+      await insertSettings(setting)
+    }
+    await createTestTemplates()
   })
-  it('successfully merges email data and inserts message', () => {
+  it('successfully merges email data and inserts message', async () => {
     const form = {
       to: [{ name: 'charlie customer', email: 'test@test.com' }],
       body: 'This is a test',
     }
     const subject = 'test email merge'
-    const result = Promise.await(createEmail(form, subject))
+    const result = await createEmail(form, subject)
     expect(result).to.have.property('status').which.equal('success')
   })
-  it('fails to merge email data due to bad data', () => {
+  it('fails to merge email data due to bad data', async () => {
     const form = 'bad data'
     const subject = 'test email merge'
-    const result = Promise.await(createEmail(form, subject))
+    const result = await createEmail(form, subject)
     expect(result).to.have.property('status').which.equal('failed')
   })
-  it('Successfully merges sms data and inserts messages', () => {
+  it('Successfully merges sms data and inserts messages', async () => {
     let form = {
       to: '04123213',
       data: {},
       body: 'testing message',
       priority: 5,
     }
-    const result = Promise.await(createSMS(form))
+    const result = await createSMS(form)
     expect(result).to.have.property('status').which.equal('success')
   })
-  it('fails to merge sms data due to missing data', () => {
+  it('fails to merge sms data due to missing data', async () => {
     let form = {
       data: {},
       body: 'testing message',
       priority: 5,
     }
-    const result = createSMS(form)
+    const result = await createSMS(form)
     expect(result).to.have.property('status').which.equal('failed')
   })
-  it('successfully creates an inapp message', () => {
+  it('successfully creates an inapp message', async () => {
     const form = { data: {}, body: 'This is a test' }
     const person = { userId: 'test12345', name: 'Test' }
     const template = { url: '/approve/:taskId' }
     const listingId = 'test123456'
     const taskId = '3423432432'
-    const result = createApp(form, person, template, listingId, taskId)
+    const result = await createApp(form, person, template, listingId, taskId)
     expect(result).to.have.property('status').which.equal('success')
   })
-  it('fails to create an inapp message due to missing listingId', () => {
+  it('fails to create an inapp message due to missing listingId', async () => {
     const form = { data: {}, body: 'This is a test' }
     const person = { userId: 'test12345', name: 'Test' }
     const template = { url: '/approve/:taskId' }
 
-    const result = createApp(form, person, template)
+    const result = await createApp(form, person, template)
     expect(result).to.have.property('status').which.equal('failed')
   })
 })

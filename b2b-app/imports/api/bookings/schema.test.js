@@ -1,5 +1,8 @@
 import { Random } from 'meteor/random'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 import faker from 'faker'
 
 import Bookings from './schema'
@@ -50,11 +53,9 @@ export const badBookings = [
 describe('Bookings Schema', () => {
   describe('Check good bookings', () => {
     goodBookings.map((item) => {
-      it(`Should success on good bookings insert ${item.title || ''}`, () => {
+      it(`Should success on good bookings insert ${item.title || ''}`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Bookings.insert(item)
-        }).not.to.throw()
+        insertedId = await Bookings.insertAsync(item)
         if (insertedId) {
           // because of unique index, we should remove these test items
           // Bookings.remove({ _id: insertedId })
@@ -64,11 +65,9 @@ describe('Bookings Schema', () => {
   })
   describe('Check bad bookings', () => {
     badBookings.map((item) => {
-      it(`Should fail on bad bookings insert ${item.title || ''}`, () => {
+      it(`Should fail on bad bookings insert ${item.title || ''}`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Bookings.insert(item)
-        }).to.throw()
+        await expect(Bookings.insertAsync(item)).to.be.rejected
         if (insertedId) {
           // because of unique index, we should remove these test items
           // Bookings.remove({ _id: insertedId })

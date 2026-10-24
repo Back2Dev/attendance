@@ -1,0 +1,28 @@
+diff --git a/node_modules/markdown-to-jsx/react/index.js b/node_modules/markdown-to-jsx/react/index.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/markdown-to-jsx/react/index.js
+@@ -0,0 +1 @@
++module.exports = require('../dist/react.cjs')
+diff --git a/node_modules/markdown-to-jsx/react/package.json b/node_modules/markdown-to-jsx/react/package.json
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/markdown-to-jsx/react/package.json
+@@ -0,0 +1,4 @@
++{
++  "type": "commonjs",
++  "main": "index.js"
++}
+diff --git a/node_modules/markdown-to-jsx/entities/package.json b/node_modules/markdown-to-jsx/entities/package.json
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/node_modules/markdown-to-jsx/entities/package.json
+@@ -0,0 +1,5 @@
++{
++  "type": "commonjs",
++  "main": "../dist/entities.generated.cjs",
++  "browser": "../dist/entities.browser.cjs"
++}

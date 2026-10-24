@@ -1,5 +1,8 @@
 import { Random } from 'meteor/random'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 
 import Settings from './schema'
 
@@ -78,14 +81,12 @@ describe('Settings Schema', () => {
     goodSettings.map((setting) => {
       it(`Should success on good Settings insert ${
         setting.name || setting.key || ''
-      }`, () => {
+      }`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Settings.insert(setting)
-        }).not.to.throw()
+        insertedId = await Settings.insertAsync(setting)
         if (insertedId) {
           // because of unique index, we should remove these test items
-          Settings.remove({ _id: insertedId })
+          await Settings.removeAsync({ _id: insertedId })
         }
       })
     })
@@ -94,14 +95,12 @@ describe('Settings Schema', () => {
     badSettings.map((setting) => {
       it(`Should success on bad Settings insert ${
         setting.name || setting.key || ''
-      }`, () => {
+      }`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Settings.insert(setting)
-        }).to.throw()
+        await expect(Settings.insertAsync(setting)).to.be.rejected
         if (insertedId) {
           // because of unique index, we should remove these test items
-          Settings.remove({ _id: insertedId })
+          await Settings.removeAsync({ _id: insertedId })
         }
       })
     })

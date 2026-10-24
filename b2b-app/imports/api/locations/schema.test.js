@@ -1,4 +1,7 @@
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+
+chai.use(chaiAsPromised)
 import faker from 'faker'
 
 import Locations from './schema'
@@ -46,11 +49,9 @@ export const badLocations = [
 describe('Locations Schema', () => {
   describe('Check good locations', () => {
     goodLocations.map((item) => {
-      it(`Should success on good locations insert ${item.title || ''}`, () => {
+      it(`Should success on good locations insert ${item.title || ''}`, async () => {
         let insertedId
-        expect(() => {
-          insertedId = Locations.insert(item)
-        }).not.to.throw()
+        insertedId = await Locations.insertAsync(item)
         if (insertedId) {
           // because of unique index, we should remove these test items
           // Locations.remove({ _id: insertedId })
@@ -60,10 +61,8 @@ describe('Locations Schema', () => {
   })
   describe('Check bad locations', () => {
     badLocations.map((item) => {
-      it(`Should fail on bad locations insert ${item.title || ''}`, () => {
-        expect(() => {
-          Locations.insert(item)
-        }).to.throw()
+      it(`Should fail on bad locations insert ${item.title || ''}`, async () => {
+        await expect(Locations.insertAsync(item)).to.be.rejected
       })
     })
   })

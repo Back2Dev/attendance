@@ -55,7 +55,7 @@ describe('Test SMS Transport', () => {
       expect(() => transport.send(message)).to.not.throw()
     })
   })
-  it(`send() should not work when it's not enabled`, () => {
+  it(`send() should not work when it's not enabled`, async () => {
     const disabledTransport = new SMSTransport({ enabled: false })
     badSendingMessages.map(async (message) => {
       const result = await disabledTransport.send(message)

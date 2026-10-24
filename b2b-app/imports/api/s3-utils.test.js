@@ -48,8 +48,8 @@ const badDocument = {
 }
 
 describe('Test s3 utils', () => {
-  before(() => {
-    resetDatabase()
+  before(async () => {
+    await resetDatabase()
   })
   // it('generates a pdf and uploads it', async () => {
   //   const result = await generateAndUpload(goodDocument)

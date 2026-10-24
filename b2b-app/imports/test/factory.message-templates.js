@@ -43,8 +43,5 @@ const testTemplates = [
 
 Factory.define('testTemplates', MessageTemplates, {})
 
-export const createTestTemplates = () => {
-  testTemplates.map((template) => {
-    Factory.create('testTemplates', template)
-  })
-}
+export const createTestTemplates = () =>
+  Promise.all(testTemplates.map((template) => Factory.createAsync('testTemplates', template)))

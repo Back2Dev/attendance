@@ -8,16 +8,16 @@ import faker from 'faker'
 import CONSTANTS from '/imports/api/constants'
 import Profiles from '/imports/api/profiles/schema.js'
 
-const createMember = (doc) => {
+const createMember = async (doc) => {
   // create user member
-  Profiles.insert({
+  await Profiles.insertAsync({
     userId: doc._id,
     name: faker.name.findName(),
     mobile: faker.phone.phoneNumber(),
     nickname: faker.name.firstName(),
   })
   // set password
-  Accounts.setPassword(doc._id, doc.password)
+  await Accounts.setPasswordAsync(doc._id, doc.password)
 }
 
 Factory.define('user', Meteor.users, {
@@ -35,10 +35,10 @@ Factory.define('user', Meteor.users, {
 
 // this doesn't work
 Object.keys(CONSTANTS.ROLES).map((role) => {
-  Factory.define(`User${role}`, Meteor.users, Factory.extend('user', {})).after((doc) => {
+  Factory.define(`User${role}`, Meteor.users, Factory.extend('user', {})).after(async (doc) => {
     // try to create role
-    Roles.createRole(role, { unlessExists: true })
-    Roles.setUserRoles(doc._id, role)
-    createMember(doc)
+    await Roles.createRoleAsync(role, { unlessExists: true })
+    await Roles.setUserRolesAsync(doc._id, role)
+    await createMember(doc)
   })
 })

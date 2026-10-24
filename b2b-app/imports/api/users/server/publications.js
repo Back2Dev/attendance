@@ -163,7 +163,7 @@ Meteor.methods({
   },
   async updateUserRoles(user) {
     try {
-      await Roles.setUserRoles(user._id, user.roles)
+      await Roles.setUserRolesAsync(user._id, user.roles)
       return { status: 'success', message: 'Updated user roles' }
     } catch (e) {
       return { status: 'failed', message: `Error updating user roles: ${e.message}` }
@@ -184,7 +184,7 @@ Meteor.methods({
         await removeEmail(user._id, user.oldValue)
         await addEmail(user._id, user.emails)
       }
-      await Roles.setUserRoles(user._id, user.roles)
+      await Roles.setUserRolesAsync(user._id, user.roles)
       return { status: 'success', message: 'Updated user' }
     } catch (e) {
       return { status: 'failed', message: `Error updating user: ${e.message}` }
@@ -341,7 +341,7 @@ Meteor.methods({
       if (roles.length < 1) roles.push('CUS') // if form does have any roles attached
       const userId = await createUser({ email, username: email, password })
       if (userId) {
-        await Roles.addUsersToRoles(userId, roles)
+        await Roles.addUsersToRolesAsync(userId, roles)
         await Profiles.insertAsync({
           userId,
           name: name,
@@ -430,7 +430,7 @@ Meteor.methods({
           { _id: userId },
           { $set: { 'services.email.confirmationToken': tokenRecord } }
         )
-        await Roles.addUsersToRoles(userId, roles)
+        await Roles.addUsersToRolesAsync(userId, roles)
         await Profiles.insertAsync({
           userId,
           name,
@@ -440,7 +440,7 @@ Meteor.methods({
         })
         const user = await Meteor.users.findOneAsync({ _id: userId })
         const member = await Profiles.findOneAsync({ userId })
-        const admins = await fetchCursor(Roles.getUsersInRole('ADM'))
+        const admins = await fetchCursor(await Roles.getUsersInRoleAsync('ADM'))
 
         await Meteor.callAsync('sendTrigger', {
           member,

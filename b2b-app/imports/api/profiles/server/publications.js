@@ -141,7 +141,7 @@ Meteor.publish('all.profiles', () => {
 })
 Meteor.publish('profiles.limit.role', async function (role) {
   const user = await Meteor.users.findOneAsync({ _id: this.userId })
-  if (hasRole(user, role)) {
+  if (await hasRole(user, role)) {
     return Profiles.find({})
   } else {
     return []

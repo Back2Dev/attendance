@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk')
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 import logger from '/imports/lib/log'
 import axios from 'axios'
 import { Meteor } from 'meteor/meteor'
@@ -21,7 +21,7 @@ if (Meteor.settings.private && Meteor.settings.private.SMS) {
 }
 logger.info('SMS Sending is ' + smsSettings.enabled)
 
-AWS.config.update({
+const sns = new SNSClient({
   region: Meteor.settings.private.S3_REGION,
   credentials: {
     accessKeyId: Meteor.settings.private.S3_ACCESS_KEY_ID,
@@ -74,15 +74,9 @@ export const sendSMSviaAWS = ({ recipient, sender, message }) => {
       MessageStructure: 'string',
     }
 
-    return new Promise((resolve, reject) => {
-      const publish = new AWS.SNS().publish(params, (err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          logger.info('SMS response', data)
-          resolve(data)
-        }
-      })
+    return sns.send(new PublishCommand(params)).then((data) => {
+      logger.info('SMS response', data)
+      return data
     })
   } catch (e) {
     logger.audit(`Failed to send sms: ${e}`, { recipient, sender, message })

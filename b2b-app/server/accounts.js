@@ -35,7 +35,7 @@ Accounts.onCreateUser(async (options, user) => {
       member.name = name
       member.avatar = picture
 
-      Roles.setUserRoles(user, ['MEM'])
+      await Roles.setUserRolesAsync(user, ['MEM'])
     }
   }
   if (facebook) {
@@ -54,7 +54,7 @@ Accounts.onCreateUser(async (options, user) => {
       member.name = name
       member.avatar = picture.data.url
 
-      Roles.setUserRoles(user, ['MEM'])
+      await Roles.setUserRolesAsync(user, ['MEM'])
     }
   }
 
@@ -67,7 +67,7 @@ Accounts.onCreateUser(async (options, user) => {
     await Meteor.callAsync('insert.profiles', member)
   }
 
-  const admins = Roles.getUsersInRole('ADM').fetch()
+  const admins = await (await Roles.getUsersInRoleAsync('ADM')).fetchAsync()
 
   // TODO: Find a neater way of preventing emails going out when fixtures are inserted
   if (Meteor.settings.env.enironment === 'prod')

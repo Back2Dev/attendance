@@ -21,26 +21,26 @@ export const getUserEmailAddress = (user) => {
  * check if user has role
  * @param {Object} user
  * @param {string} role
- * @returns {boolean}
+ * @returns {Promise<boolean>}
  */
-export const hasRole = (user, role) => {
+export const hasRole = async (user, role) => {
   if (!user) {
     return false
   }
-  return Roles.userIsInRole(user, [role])
+  return Roles.userIsInRoleAsync(user, [role])
 }
 
 /**
  * check if user has role
  * @param {Object} user
  * @param {string[]} roles
- * @returns {boolean}
+ * @returns {Promise<boolean>}
  */
-export const hasOneOfRoles = (user, roles) => {
+export const hasOneOfRoles = async (user, roles) => {
   if (!user) {
     return false
   }
-  return Roles.userIsInRole(user, roles)
+  return Roles.userIsInRoleAsync(user, roles)
 }
 
 export const getUserId = () => {
